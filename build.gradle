@@ -1,0 +1,175 @@
+buildscript {
+    repositories {
+        jcenter ()
+        mavenCentral ()
+    }
+
+    dependencies {
+        classpath "org.freemarker:freemarker:$freemarkerVersion"
+        classpath "org.pegdown:pegdown:$pegdownVersion"
+        classpath "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
+        classpath "org.jbake:jbake-core:$jbakeVersion"
+        classpath "me.champeau.gradle:jbake-gradle-plugin:$jbakepluginVersion"
+
+        classpath "org.ajoberstar:gradle-git:$gradlegitVersion"
+
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
+        classpath "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    }
+}
+
+apply plugin: 'idea'
+apply plugin: 'jacoco'
+
+apply from: "$rootDir/gradle/site.gradle"
+apply from: "$rootDir/gradle/java.gradle"
+apply from: "$rootDir/gradle/kotlin.gradle"
+
+dependencies {
+    // COMPILE
+    compile group: "org.jetbrains.kotlin", name: "kotlin-reflect", version: kotlinVersion
+
+    compile ("net.jodah:lyra:$rabbitLyraVersion") { transitive = false }
+    compile "com.rabbitmq:amqp-client:$rabbitVersion"
+
+    compile "org.mongodb:mongo-java-driver:$mongodbVersion"
+
+    compile "ch.qos.logback:logback-classic:$logbackVersion"
+
+    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
+
+    compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
+
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
+    compile "com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion"
+
+    compile ("io.ratpack:ratpack-core:$ratpackVersion")
+
+    // TEST
+    testCompile "com.github.fakemongo:fongo:$fongoVersion"
+    testCompile ("io.ratpack:ratpack-test:$ratpackVersion")
+}
+
+clean << {
+    delete ".gradle"
+    delete "logs"
+    delete "$buildDir"
+}
+
+String wrapperPath = "gradle"
+String wrapperBaseFile = "$project.projectDir/$wrapperPath/wrapper"
+
+wrapper {
+    gradleVersion = wrapperGradleVersion
+    jarFile = wrapperBaseFile + ".jar"
+    scriptFile = wrapperBaseFile
+}
+
+task deleteWrapper << {
+    delete wrapperBaseFile
+    delete wrapperBaseFile + ".bat"
+    delete wrapperBaseFile + ".jar"
+    delete wrapperBaseFile + ".properties"
+}
+
+task docs (dependsOn: [ 'javadoc', 'dokka', 'jacocoTestReport', 'site' ])
+task release (dependsOn: [ 'clean', 'check', 'docs' ])
+
+Map<String, Object> rabbitConfig = [
+    rabbit_version: "3.6.0",
+    queues: [
+        [
+            name: "event_pool",
+            vhost: "/",
+            durable: false,
+            auto_delete : false,
+            arguments: {}
+        ]
+    ],
+    exchanges: [
+        [
+            name: "events",
+            vhost: "/",
+            type: "topic",
+            durable: false,
+            auto_delete: false,
+            internal: false,
+            arguments: {}
+        ]
+    ],
+    bindings: [
+        [
+            source: "events",
+            vhost: "/",
+            destination: "event_pool",
+            destination_type: "queue",
+            routing_key: "*.*.*",
+            arguments: {}
+        ]
+    ]
+]
+
+testClasses << {
+    String rabbitApi = "http://localhost:15672/api"
+
+    post httpClient ("guest", "guest"), "$rabbitApi/definitions", "application/json", rabbitConfig
+}
+
+import static okhttp3.MediaType.parse
+import static groovy.json.JsonOutput.toJson
+import static okhttp3.Credentials.basic
+import static HttpMethod.*
+
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.Request
+
+enum HttpMethod { GET, PUT, POST, DELETE }
+
+private OkHttpClient httpClient (String username = "", String password = "") {
+    username != null && !username.empty?
+        new OkHttpClient.Builder ()
+            .authenticator { route, response ->
+                response.request ().newBuilder ()
+                    .header ("Authorization", basic (username, password))
+                    .build ()
+            }
+            .build () :
+        new OkHttpClient ()
+}
+
+private void http (OkHttpClient client, HttpMethod method, String url, String type, Object content) {
+    RequestBody body = RequestBody.create(
+        parse("$type; charset=utf-8"),
+        type.contains ("json")? toJson (content) : content.toString ()
+    )
+
+    Request.Builder request = new Request.Builder().url(url)
+
+    switch (method) {
+        case POST:
+            request = request.post (body)
+            break
+        case PUT:
+            request = request.put (body)
+            break
+        case GET:
+        default:
+            request = request.get (body)
+    }
+
+    assert client.newCall(request.build ()).execute().code in 200..300
+}
+
+private void post (
+    OkHttpClient client = httpClient (), String url, String type = "text/plain", Object content) {
+
+    http (client, POST, url, type, content)
+}
+

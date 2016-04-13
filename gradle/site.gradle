@@ -1,0 +1,89 @@
+/*
+ * To apply this script, you need to add the JBake plugin manually at the top of your build script
+ * as that is not possible in included scripts like this one. These are the required lines to do so:
+ *
+ * buildscript {
+ *     repositories {
+ *         jcenter ()
+ *         mavenCentral ()
+ *     }
+ *
+ *     dependencies {
+ *         classpath "org.freemarker:freemarker:$freemarkerVersion"
+ *         classpath "org.pegdown:pegdown:$pegdownVersion"
+ *         classpath "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
+ *         classpath "org.jbake:jbake-core:$jbakeVersion"
+ *         classpath "me.champeau.gradle:jbake-gradle-plugin:$jbakepluginVersion"
+ *     }
+ * }
+ *
+ * NOTE: Site generation does not work well with Gradle daemon.
+ * execute it this way: gw --no-daemon clean site
+ *
+ * TODO Site processing will be deprecated when JBake filters content with configuration properties
+ */
+
+apply plugin: 'me.champeau.jbake'
+
+String projectSite = "site"
+
+jbake {
+    input = file("$project.projectDir/$projectSite")
+    output = file("$buildDir/$projectSite")
+
+    configuration['theme'] = bootstrapTheme
+    configuration['site.host'] = siteHost
+
+    configuration['render.index'] = false
+    configuration['render.tags'] = false
+    configuration['render.archive'] = false
+    configuration['render.feed'] = false
+    configuration['render.sitemap'] = true
+
+    // Custom properties
+    configuration['projectVersion'] = project.version // Applied in templates, not content
+    configuration['bootstrapVersion'] = bootstrapVersion
+    configuration['bootstrapcdn'] = 'http://netdna.bootstrapcdn.com'
+    configuration['cloudflare'] = 'http://cdnjs.cloudflare.com/ajax/libs'
+    configuration['googlefonts'] = 'http://fonts.googleapis.com/css?family'
+}
+
+task site (dependsOn: 'jbake') {
+    doLast {
+        file ("$buildDir/$projectSite/").renameTo (file ("$buildDir/${projectSite}.orig/"))
+        cp "$buildDir/${projectSite}.orig/", "$buildDir/$projectSite"
+        copy {
+            from "$buildDir/${projectSite}.orig/"
+            into "$buildDir/$projectSite"
+            include ('**/*.html')
+            filter {ln -> ln.replace ('${projectVersion}', project.version)}
+        }
+        delete "$buildDir/${projectSite}.orig/"
+
+        if (subprojects.empty) {
+            cp "$buildDir/dokka/$project.name/", "$buildDir/$projectSite/dokka"
+            cp "$buildDir/docs/javadoc/", "$buildDir/$projectSite/javadoc"
+            cp "$buildDir/reports/jacoco/test/html/", "$buildDir/$projectSite/jacoco"
+            cp "$buildDir/reports/tests/", "$buildDir/$projectSite/tests"
+        }
+        else {
+            subprojects.each {module ->
+                String moduleSource = "modules/$module.name"
+                String moduleDestination = "$buildDir/$projectSite/$module.name"
+
+                cp "$moduleSource/build/dokka/$module.name/", "$moduleDestination/dokka"
+                cp "$moduleSource/build/docs/javadoc/", "$moduleDestination/javadoc"
+                cp "$moduleSource/build/reports/jacoco/test/html/", "$moduleDestination/jacoco"
+                cp "$moduleSource/build/reports/tests/", "$moduleDestination/tests"
+            }
+        }
+    }
+}
+
+ext.cp = { source, destination ->
+    copy {
+        from source
+        into destination
+        include ('**')
+    }
+}

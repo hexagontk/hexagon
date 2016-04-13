@@ -1,0 +1,15 @@
+apply plugin: 'kotlin'
+apply plugin: 'org.jetbrains.dokka'
+
+repositories {
+    maven {
+        url "http://repository.jetbrains.com/spek"
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
+    testCompile group: "org.jetbrains.kotlin", name: "kotlin-test", version: kotlinVersion
+    testCompile "org.jetbrains.spek:spek:$spekVersion"
+}

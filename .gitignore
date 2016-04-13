@@ -1,0 +1,18 @@
+
+# Gradle
+.gradle/
+build/
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# Idea
+.idea/*
+
+# Runtime
+logs/
+
+# Include coding style
+!.idea/codeStyleSettings.xml
