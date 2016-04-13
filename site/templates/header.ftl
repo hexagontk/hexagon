@@ -22,7 +22,6 @@
 
   <link
     rel="shortcut icon"
-    type="image/png"
     sizes="32x32"
     href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>favicon.ico">
 </head>
