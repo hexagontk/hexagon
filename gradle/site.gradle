@@ -24,8 +24,26 @@
  */
 
 apply plugin: 'me.champeau.jbake'
+apply plugin: 'org.ajoberstar.github-pages'
 
 ext.projectSite = "site"
+
+ext.cp = { source, destination ->
+    copy {
+        from source
+        into destination
+        include ('**')
+    }
+}
+
+githubPages {
+    repoUri = githubUrl
+    pages {
+        from (file ("$buildDir/$projectSite")) {
+            into '.'
+        }
+    }
+}
 
 jbake {
     input = file("$project.projectDir/$projectSite")
@@ -75,13 +93,5 @@ task site (dependsOn: 'jbake') {
                 cp "$moduleSource/build/reports/tests/", "$moduleDestination/tests"
             }
         }
-    }
-}
-
-ext.cp = { source, destination ->
-    copy {
-        from source
-        into destination
-        include ('**')
     }
 }

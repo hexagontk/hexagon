@@ -1,0 +1,25 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Juanjo Aguililla -- @jaguililla
+
+# THANKS
+
+    To all open source coders that make the Internet possible. Specially the ones that developed
+    the libraries I use.
+
+    For the Web design, thanks to the people of http://bootswatch.com/ for their fabulous templates.
+
+# LICENSES
+
+    This product contains components and code licensed under the following licenses:
+
+        * Bootswatch Paper theme: https://opensource.org/licenses/MIT
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    jQuery, Modernizr, Bootstrap
+    Kotlin, Ratpack, Jackson, OkHttp, MongoDB, RabbitMQ

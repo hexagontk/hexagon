@@ -1,0 +1,17 @@
+#
+# Site generation does not work well with Gradle daemon. Execute it this way:
+#     gw --no-daemon clean site
+#
+
+build:
+  image: java
+  commands:
+    - gradle/wrapper check
+    - gradle/wrapper --no-daemon docs site
+
+compose:
+  mongodb:
+    image: mongo
+
+  rabbitmq:
+    image: rabbitmq:management
