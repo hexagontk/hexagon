@@ -44,6 +44,6 @@ publishing {
     }
 }
 
-String getProperty (String name, String value) {
+ext.getProperty = { String name, String value ->
     project.hasProperty (name)? project.property (name) : value
 }

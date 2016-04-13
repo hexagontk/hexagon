@@ -1,3 +1,9 @@
+/*
+ * TODO Use outputFormat in Dokka configuration to render to markdown
+ * TODO There is a bug in the tool that prevents that for working ok
+ * TODO outputFormat = 'markdown'
+ */
+
 apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.dokka'
 
@@ -5,6 +11,10 @@ repositories {
     maven {
         url "http://repository.jetbrains.com/spek"
     }
+}
+
+dokka {
+    outputDirectory = "$buildDir/$projectSite/dokka"
 }
 
 dependencies {
