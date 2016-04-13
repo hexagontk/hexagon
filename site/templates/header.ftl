@@ -2,18 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title><#if (content.title)??><#escape x as x?xml>${content.title}</#escape><#else>JBake</#if></title>
+  <title>
+    <#if (content.title)??><#escape x as x?xml>${content.title}</#escape><#else>Hexagon</#if>
+  </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="Hexagon framework web site">
+  <meta name="author" content="jamming">
+  <meta name="keywords" content="Hexagon, microservices, Java, Kotlin">
   <meta name="generator" content="JBake">
 
   <link
-    href="${config.bootstrapcdn}/bootswatch/${config.bootstrapVersion}/${config.theme}/bootstrap.min.css"
+    href=
+      "${config.bootstrapcdn}/bootswatch/${config.bootstrapVersion}/${config.theme}/bootstrap.min.css"
     rel="stylesheet">
   <link href="${config.cloudflare}/prettify/r298/prettify.min.css" rel="stylesheet">
-  <link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/base.css" rel="stylesheet">
+  <link
+    href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/base.css"
+    rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>

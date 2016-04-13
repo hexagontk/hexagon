@@ -5,7 +5,8 @@
     <div class="container">
       <p class="muted credit">
         <hr />
-        &copy; 2016 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v${config.bootstrapVersion}</a>
+        &copy; 2016
+        | Mixed with <a href="http://getbootstrap.com/">Bootstrap v${config.bootstrapVersion}</a>
         | Baked with <a href="http://jbake.org">JBake ${version}</a>
       </p>
     </div>

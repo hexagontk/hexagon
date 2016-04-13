@@ -35,6 +35,7 @@
 
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
+            <li><a href="${root}quick_start.html">Quick Start</a></li>
             <li><a href="${root}dokka/hexagon/index.html">API</a></li>
             <li><a href="${root}contribute.html">Contribute</a></li>
             <li><a href="${root}license.html">License</a></li>

@@ -7,7 +7,8 @@ build:
   image: java
   commands:
     - gradle/wrapper check
-    - gradle/wrapper --no-daemon docs site
+    - gradle/wrapper --no-daemon jacocoTestReport site dokka
+    - bash <(curl -s https://codecov.io/bash)
 
 compose:
   mongodb:
