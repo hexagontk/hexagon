@@ -78,8 +78,9 @@ task deleteWrapper << {
     delete wrapperBaseFile + ".properties"
 }
 
-task docs (dependsOn: [ 'javadoc', 'dokka', 'jacocoTestReport', 'site' ])
-task release (dependsOn: [ 'clean', 'check', 'docs' ])
+// TODO The execution order is not correct
+//task release (dependsOn: [ 'clean', 'check', 'javadoc', 'jacocoTestReport', 'site', 'dokka' ])
+//task upload (dependsOn: [ 'publish', 'publishGhPages' ])
 
 Map<String, Object> rabbitConfig = [
     rabbit_version: "3.6.0",

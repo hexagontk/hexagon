@@ -9,7 +9,6 @@
   <meta name="keywords" content="">
   <meta name="generator" content="JBake">
 
-  <!-- Lumen, United, Paper or Yeti -->
   <link
     href="${config.bootstrapcdn}/bootswatch/${config.bootstrapVersion}/${config.theme}/bootstrap.min.css"
     rel="stylesheet">
@@ -21,7 +20,11 @@
     <script src="${config.cloudflare}/html5shiv/3.7.2/html5shiv.min.js"></script>
   <![endif]-->
 
-  <link rel="shortcut icon" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>favicon.ico">
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    sizes="32x32"
+    href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>favicon.ico">
 </head>
 <body onload="prettyPrint()">
   <div id="wrap">
