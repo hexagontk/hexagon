@@ -3,6 +3,9 @@
 #     gw --no-daemon clean site
 #
 
+clone:
+  path: github.com/jamming/hexagon
+
 build:
   image: java
   commands:
