@@ -1,21 +1,21 @@
-[![Build Img]][Build Status] [![Coverage Img]][Coverage Status]
-[![Download Img]][Download Status] [![Kanban Img]][Kanban Status]
-[![Web Img]][Web Link]
+[![BuildImg]][Build] [![CoverageImg]][Coverage]
+[![DownloadImg]][Download] [![KanbanImg]][Kanban]
+[![WebImg]][Web]
 
-[Build Img]: https://travis-ci.org/jamming/hexagon.svg?branch=master
-[Build Status]: https://travis-ci.org/jamming/hexagon
+[BuildImg]: https://travis-ci.org/jamming/hexagon.svg?branch=master
+[Build]: https://travis-ci.org/jamming/hexagon
 
-[Coverage Img]: https://codecov.io/github/jamming/hexagon/coverage.svg?branch=master
-[Coverage Status]: https://codecov.io/github/jamming/hexagon?branch=master
+[CoverageImg]: https://codecov.io/github/jamming/hexagon/coverage.svg?branch=master
+[Coverage]: https://codecov.io/github/jamming/hexagon?branch=master
 
-[Download Img]: https://img.shields.io/bintray/v/jamming/maven/Hexagon.svg
-[Download Status]: https://bintray.com/jamming/maven/Hexagon/_latestVersion
+[DownloadImg]: https://img.shields.io/bintray/v/jamming/maven/Hexagon.svg
+[Download]: https://bintray.com/jamming/maven/Hexagon/_latestVersion
 
-[Kanban Img]: https://img.shields.io/badge/kanban-huboard-blue.svg
-[Kanban Status]: https://huboard.com/jamming/hexagon
+[KanbanImg]: https://img.shields.io/badge/kanban-huboard-blue.svg
+[Kanban]: https://huboard.com/jamming/hexagon
 
-[Web Img]: https://img.shields.io/badge/web-there4.co%2Fhexagon-blue.svg
-[Web Link]: http://there4.co/hexagon
+[WebImg]: https://img.shields.io/badge/web-there4.co%2Fhexagon-blue.svg
+[Web]: http://there4.co/hexagon
 
 
 HEXAGON
