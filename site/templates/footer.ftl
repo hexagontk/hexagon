@@ -1,16 +1,13 @@
     <div id="push"></div>
   </div>
 
-  <div id="footer">
-    <div class="container">
-      <p class="muted credit">
-        <hr />
-        &copy; 2016
-        | Mixed with <a href="http://getbootstrap.com/">Bootstrap v${config.bootstrapVersion}</a>
-        | Baked with <a href="http://jbake.org">JBake ${version}</a>
-      </p>
+  <footer class="footer">
+    <div id="footerContent" class="container muted credit">
+      Made with <i class="fa fa-heart heart"></i> by <a href="http://there4.co">Juanjo Aguililla</a>
+      | Mixed with <a href="http://getbootstrap.com/">Bootstrap v${config.bootstrapVersion}</a>
+      | Baked with <a href="http://jbake.org">JBake ${version}</a>
     </div>
-  </div>
+  </footer>
 
   <!-- Javascript: Placed at the end of the document so the pages load faster -->
   <script src="${config.cloudflare}/jquery/2.0.3/jquery.min.js"></script>
@@ -18,5 +15,7 @@
     src="${config.cloudflare}/twitter-bootstrap/${config.bootstrapVersion}/js/bootstrap.min.js">
   </script>
   <script src="${config.cloudflare}/prettify/r298/prettify.min.js"></script>
+  <!-- For Github links -->
+  <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

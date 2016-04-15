@@ -4,4 +4,4 @@ type=page
 status=published
 ~~~~~~
 
-${projectVersion}
+# Quick Start

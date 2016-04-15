@@ -39,7 +39,13 @@
             <li><a href="${root}dokka/hexagon/index.html">API</a></li>
             <li><a href="${root}contribute.html">Contribute</a></li>
             <li><a href="${root}license.html">License</a></li>
-            <li><a href="http://there4.co">there4.co</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://travis-ci.org/jamming/hexagon">CI</a></li>
+            <li><a href="https://codecov.io/github/jamming/hexagon?branch=master">Coverage</a></li>
+            <li><a href="https://bintray.com/jamming/maven/Hexagon/_latestVersion">Download</a></li>
+            <!--<li><a href="${root}contribute.html">Kanban</a></li>-->
           </ul>
         </div>
       </div>
