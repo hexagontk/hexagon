@@ -79,9 +79,8 @@ task deleteWrapper << {
     delete wrapperBaseFile + ".properties"
 }
 
-// TODO The execution order is not correct
-//task release (dependsOn: [ 'clean', 'check', 'javadoc', 'jacocoTestReport', 'site', 'dokka' ])
-//task upload (dependsOn: [ 'publish', 'publishGhPages' ])
+task release (dependsOn: [ 'check', 'site' ])
+task upload (dependsOn: [ 'release', 'publish', 'publishGhPages' ])
 
 Map<String, Object> rabbitConfig = [
     rabbit_version: "3.6.0",
@@ -117,6 +116,15 @@ Map<String, Object> rabbitConfig = [
     ]
 ]
 
+/* Only Linux... sorry */
+task startTestContainers(type:Exec) {
+    workingDir "$rootDir"
+
+    commandLine "bash -lc '/usr/local/bin/docker-compose -f /home/jam/Projects/jamming/hexagon/src/test/services.yml up -d'"
+}
+
+// TODO This is not working... you have to start the containers manually
+//testClasses.dependsOn = [ startTestContainers ]
 testClasses << {
     String rabbitApi = "http://localhost:15672/api"
 
