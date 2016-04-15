@@ -1,5 +1,5 @@
 [![BuildImg]][Build] [![CoverageImg]][Coverage]
-[![DownloadImg]][Download] [![KanbanImg]][Kanban]
+[![DownloadImg]][Download] <!--[![KanbanImg]][Kanban]-->
 [![WebImg]][Web]
 
 [BuildImg]: https://travis-ci.org/jamming/hexagon.svg?branch=master
