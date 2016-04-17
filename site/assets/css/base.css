@@ -5,8 +5,8 @@
   padding-left: 0;
 }
 
-#footerContent {
-  margin-top: 1em;
+footer.footer {
+  padding-top: 1em;
 }
 
 html {
