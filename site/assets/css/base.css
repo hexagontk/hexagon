@@ -1,6 +1,10 @@
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
+.navbar-right > li > a {
+  padding-left: 0;
+}
+
 #footerContent {
   margin-top: 1em;
 }

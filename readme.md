@@ -26,11 +26,9 @@ The atoms of your platform
 A micro services framework that doesn't follow the flock. It is written in [Kotlin] and based in
 [Ratpack], [Jackson], [RabbitMQ], [MongoDB]
 
-Why another web framework? It doesn't follow trends (Spring Boot).
+DISCLAIMER: The project status right now is alpha... You should not use it in production yet
 
-DISCLAIMER: The project status right now is alpha... You should not use it in production (though
-I'm going to do it anyway).
-
+## Requires Docker installed
 
 ## Arch
 
@@ -50,24 +48,6 @@ Main class package is the root, controller name is app name
 
 For code and file names, etc. Use either camel case or snake case (if possible)
 avoid `-` in file names, etc.
-
-
-CONTRIBUTE
-----------
-
-If you like it and are willing to help me develop it, we can talk ;)
-
-PRs not to master
-
-Follow conventions
-
-Cover the changes
-
-
-WORKFLOW
---------
-
-git-extras + git-flow + hub + huboard + bintray
 
 
 GETTING STARTED

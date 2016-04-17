@@ -42,10 +42,27 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://travis-ci.org/jamming/hexagon">CI</a></li>
-            <li><a href="https://codecov.io/github/jamming/hexagon?branch=master">Coverage</a></li>
-            <li><a href="https://bintray.com/jamming/maven/Hexagon/_latestVersion">Download</a></li>
-            <!--<li><a href="${root}contribute.html">Kanban</a></li>-->
+            <li>
+              <a href="https://travis-ci.org/jamming/hexagon">
+                <img
+                  src="https://travis-ci.org/jamming/hexagon.svg?branch=master"
+                  alt="BuildImg" />
+              </a>
+            </li>
+            <li>
+              <a href="https://codecov.io/github/jamming/hexagon?branch=master">
+                <img
+                  src="https://codecov.io/github/jamming/hexagon/coverage.svg?branch=master"
+                  alt="CoverageImg" />
+              </a>
+            </li>
+            <li>
+              <a href="https://bintray.com/jamming/maven/Hexagon/_latestVersion">
+                <img
+                  src="https://img.shields.io/bintray/v/jamming/maven/Hexagon.svg"
+                  alt="DownloadImg" />
+              </a>
+            </li>
           </ul>
         </div>
       </div>

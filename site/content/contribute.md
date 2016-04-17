@@ -60,3 +60,11 @@ Contribute
         And other after the first
         Then something happened
 
+
+PRs not to master
+
+Follow conventions
+
+Cover the changes
+
+git-extras + git-flow + hub + huboard + bintray

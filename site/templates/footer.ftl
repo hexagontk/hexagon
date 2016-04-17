@@ -14,7 +14,12 @@
   <script
     src="${config.cloudflare}/twitter-bootstrap/${config.bootstrapVersion}/js/bootstrap.min.js">
   </script>
-  <script src="${config.cloudflare}/prettify/r298/prettify.min.js"></script>
+  <script src="${config.cloudflare}/highlight.js/9.3.0/highlight.min.js"></script>
+  <script src="${config.cloudflare}/highlight.js/9.3.0/languages/groovy.min.js"></script>
+  <script src="${config.cloudflare}/highlight.js/9.3.0/languages/gradle.min.js"></script>
+  <script src="${config.cloudflare}/highlight.js/9.3.0/languages/xml.min.js"></script>
+  <script src="${config.cloudflare}/highlight.js/9.3.0/languages/kotlin.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
   <!-- For Github links -->
   <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 </body>
