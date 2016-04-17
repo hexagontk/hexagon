@@ -28,26 +28,14 @@ A micro services framework that doesn't follow the flock. It is written in [Kotl
 
 DISCLAIMER: The project status right now is alpha... You should not use it in production yet
 
-## Requires Docker installed
+## Setup
+
+Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
 ## Arch
 
+Default stack
 Codecs (Serializer/Deserializer), Repositories, Controllers, Views, Model
-
-
-## Conventions
-
-Main class package is the root, controller name is app name
-
-## Release
-
-    rm -rf .gradle
-    gw --no-daemon clean javadoc check jacoco site
-
-## Coding standards
-
-For code and file names, etc. Use either camel case or snake case (if possible)
-avoid `-` in file names, etc.
 
 
 GETTING STARTED
@@ -56,16 +44,12 @@ GETTING STARTED
 Hexagon is available at [JCenter]!!!
 
 ```groovy
-dependencies {
-  compile ('co.there4.hexagon:hexagon:${version}') { transitive = false }
-  // Import the backend you are going to use
-  compile 'io.undertow:undertow-servlet:1.3.19.Final'
-}
+compile ('co.there4:hexagon:${version}')
 ```
 
 ```xml
 <dependency>
-  <groupId>co.there4.hexagon</groupId>
+  <groupId>co.there4</groupId>
   <artifactId>hexagon</artifactId>
   <version>${version}</version>
 </dependency>
@@ -80,7 +64,7 @@ Getting Started
 ---------------
 
 ```java
-import co.there4.hexagon.http.*
+import co.there4.hexagon.*
 
 fun main(args: Array<String>) {
     get("/") { ok("Hello World!") }
@@ -88,11 +72,11 @@ fun main(args: Array<String>) {
 }
 ```
 
-View at: http://localhost:4321/hello
+View at: http://localhost:5050/hello
 
 You can also check out the javadoc. After getting the source from github run:
 
-    ./gradle/wrapper docs
+    ./gradle/wrapper dokka
 
 The result is put in `/build/dokka` and `/build/site`
 
@@ -105,15 +89,13 @@ order):
 
 * Simple to use
 * Easily hackable
-* Extensible to different backends
 * Be small
 
 
 IDE Settings
 ------------
 
-Take care of the output path in IntelliJ, for Gradle projects maybe the tests classes are not
-generated in the same place as Gradle itself.
+Revert codeStyle file to setup project coding standard
 
 
 Examples

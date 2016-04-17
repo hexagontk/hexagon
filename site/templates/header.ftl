@@ -32,7 +32,7 @@
   <link
     href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/base.css"
     rel="stylesheet">
-  <link href="${config.cloudflare}/highlight.js/9.3.0/styles/default.min.css" rel="stylesheet">
+  <link href="${config.cloudflare}/highlight.js/9.3.0/styles/github.min.css" rel="stylesheet">
 
   <!-- Icons -->
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">

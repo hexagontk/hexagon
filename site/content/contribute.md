@@ -68,3 +68,8 @@ Follow conventions
 Cover the changes
 
 git-extras + git-flow + hub + huboard + bintray
+
+## Coding standards
+
+For code and file names, etc. Use either camel case or snake case (if possible)
+avoid `-` in file names, etc.

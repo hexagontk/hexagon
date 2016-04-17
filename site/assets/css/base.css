@@ -1,5 +1,11 @@
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Oxygen+Mono);
+
+pre, code {
+  font-family: 'Oxygen Mono';
+  border: none;
+}
 
 .navbar-right > li > a {
   padding-left: 0;
