@@ -1,7 +1,5 @@
 package co.there4.hexagon.serialization
 
-import co.there4.hexagon.serialization.*
-import co.there4.hexagon.serialization.*
 import org.testng.annotations.Test
 import kotlin.reflect.KClass
 
