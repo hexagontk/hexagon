@@ -23,6 +23,7 @@
  * TODO Site processing will be deprecated when JBake filters content with configuration properties
  */
 
+apply plugin: 'jacoco'
 apply plugin: 'me.champeau.jbake'
 apply plugin: 'org.ajoberstar.github-pages'
 

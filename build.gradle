@@ -21,12 +21,10 @@ buildscript {
 }
 
 apply plugin: 'idea'
-apply plugin: 'jacoco'
 apply plugin: 'org.ajoberstar.grgit' // TODO Tag releases
 
 apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/bintray.gradle"
-apply from: "$rootDir/gradle/java.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
 
 dependencies {
@@ -58,12 +56,6 @@ dependencies {
     testCompile ("io.ratpack:ratpack-test:$ratpackVersion")
 }
 
-clean << {
-    delete ".gradle"
-    delete "logs"
-    delete "$buildDir"
-}
-
 String wrapperPath = "gradle"
 String wrapperBaseFile = "$project.projectDir/$wrapperPath/wrapper"
 
@@ -78,6 +70,12 @@ task deleteWrapper (description: "Delete the wrapper generated files") << {
     delete wrapperBaseFile + ".bat"
     delete wrapperBaseFile + ".jar"
     delete wrapperBaseFile + ".properties"
+}
+
+clean.doLast {
+    delete "$projectDir/.gradle"
+    delete "$projectDir/logs"
+    delete "$buildDir"
 }
 
 /* Only Linux... sorry */
