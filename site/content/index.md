@@ -5,13 +5,21 @@ status=published
 ~~~~~~
 
 
-Hexagon ${projectVersion}
+HEXAGON ${projectVersion}
 =========================
+### The atoms of your platform
 
-The atoms of your platform
+Hexagon is a micro services framework that doesn't follow the flock. It is written in [Kotlin] and
+uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 
-A micro services framework that doesn't follow the flock. It is written in [Kotlin] and uses
-[Ratpack], [Jackson], [RabbitMQ], [MongoDB]
+* rest
+* messaging
+* serialization
+* storage
+* events
+* configuration
+* logging
+* scheduling
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
@@ -19,6 +27,8 @@ The purpose of the project is to provide a micro services framework with the fol
 * Simple to use
 * Easily hackable
 * Be small
+
+DISCLAIMER: The project status right now is alpha... You should not use it in production yet
 
 
 ## Getting Started
@@ -58,3 +68,16 @@ fun main(args: Array<String>) {
 ```
 
 Launch it and view the results at: [http://localhost:5050/hello]
+
+
+## Examples
+
+Check out and try the examples in the source code.
+
+<!---
+[Code Examples][Examples]
+[Examples]: https://github.com/jamming/hexagon/tree/master/src/test/kotlin/hexagon/Examples.kt
+
+You can also check the [integration tests][tests]
+[tests]: https://github.com/jamming/hexagon/tree/master/src/test/kotlin/hexagon/it/undertow
+-->

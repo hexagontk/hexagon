@@ -20,49 +20,42 @@
 
 HEXAGON
 =======
+### The atoms of your platform
 
-The atoms of your platform
+Hexagon is a micro services framework that doesn't follow the flock. It is written in [Kotlin] and
+uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 
-A micro services framework that doesn't follow the flock. It is written in [Kotlin] and based in
-[Ratpack], [Jackson], [RabbitMQ], [MongoDB]
+* rest
+* messaging
+* serialization
+* storage
+* events
+* configuration
+* logging
+* scheduling
+
+The purpose of the project is to provide a micro services framework with the following priorities
+(in order):
+
+* Simple to use
+* Easily hackable
+* Be small
 
 DISCLAIMER: The project status right now is alpha... You should not use it in production yet
+
+## Getting started
+
+Check the project [Website](http://there4.co/hexagon)
 
 ## Setup
 
 Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
-## Reference
+You can build the project and its documentation after getting the source from github running:
 
-[GETTING STARTED](http://there4.co/hexagon)
+    ./gradle/wrapper clean check site
 
-
-## Setup
-
-You can also check out the javadoc. After getting the source from github run:
-
-    ./gradle/wrapper dokka
-
-The result is put in `/build/dokka` and `/build/site`
-
-
-## IDE Settings
-
-Revert codeStyle file to setup project coding standard
-
-
-Examples
----------
-
-Check out and try the examples in the source code.
-
-<!---
-[Code Examples][Examples]
-[Examples]: https://github.com/jamming/hexagon/tree/master/src/test/kotlin/hexagon/Examples.kt
-
-You can also check the [integration tests][tests]
-[tests]: https://github.com/jamming/hexagon/tree/master/src/test/kotlin/hexagon/it/undertow
--->
+The results are located in the `/build` directory
 
 
 LICENSE

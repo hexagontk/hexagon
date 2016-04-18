@@ -30,14 +30,15 @@ Command:
     gwnd release && \
     git flow release finish -Fp '$version'
 
-git-extras + git-flow + hub + huboard + bintray
+Tools used: git-extras + git-flow + hub + huboard + bintray
+
 
 Contribute
 ==========
 
 * The code should be formatted accordingly to the `codeStyleSettings.xml` file.
-For code and file names, etc. Use either camel case or snake case (if possible)
-avoid `-` in file names, etc.
+  For code and file names, etc. Use either camel case or snake case (if possible)
+  avoid `-` in file names, etc.
 
 * For a Pull Request to be accepted:
   * It has to pass all existing tests.
@@ -64,5 +65,4 @@ avoid `-` in file names, etc.
         And other after the first
         Then something happened
 
-
-* PRs to master
+* PRs should be done to master
