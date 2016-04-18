@@ -30,10 +30,14 @@ Command:
     gwnd release && \
     git flow release finish -Fp '$version'
 
+git-extras + git-flow + hub + huboard + bintray
+
 Contribute
 ==========
 
-* The code should be formatted accordingly to the format provided in my `dotfiles` Github project.
+* The code should be formatted accordingly to the `codeStyleSettings.xml` file.
+For code and file names, etc. Use either camel case or snake case (if possible)
+avoid `-` in file names, etc.
 
 * For a Pull Request to be accepted:
   * It has to pass all existing tests.
@@ -61,15 +65,4 @@ Contribute
         Then something happened
 
 
-PRs not to master
-
-Follow conventions
-
-Cover the changes
-
-git-extras + git-flow + hub + huboard + bintray
-
-## Coding standards
-
-For code and file names, etc. Use either camel case or snake case (if possible)
-avoid `-` in file names, etc.
+* PRs to master

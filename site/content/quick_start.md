@@ -4,4 +4,8 @@ type=page
 status=published
 ~~~~~~
 
-# Quick Start
+Quick Start
+===========
+
+Default stack
+Codecs (Serializer/Deserializer), Repositories, Controllers, Views, Model, Events

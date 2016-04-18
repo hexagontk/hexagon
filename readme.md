@@ -32,47 +32,12 @@ DISCLAIMER: The project status right now is alpha... You should not use it in pr
 
 Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
-## Arch
+## Reference
 
-Default stack
-Codecs (Serializer/Deserializer), Repositories, Controllers, Views, Model
-
-
-GETTING STARTED
-===============
-
-Hexagon is available at [JCenter]!!!
-
-```groovy
-compile ('co.there4:hexagon:${version}')
-```
-
-```xml
-<dependency>
-  <groupId>co.there4</groupId>
-  <artifactId>hexagon</artifactId>
-  <version>${version}</version>
-</dependency>
-```
-
-[API Docs](http://there4.co/hexagon/dokka/)
-
-[JCenter]: https://bintray.com/jamming/maven/Hexagon
+[GETTING STARTED](http://there4.co/hexagon)
 
 
-Getting Started
----------------
-
-```java
-import co.there4.hexagon.*
-
-fun main(args: Array<String>) {
-    get("/") { ok("Hello World!") }
-    run()
-}
-```
-
-View at: http://localhost:5050/hello
+## Setup
 
 You can also check out the javadoc. After getting the source from github run:
 
@@ -81,19 +46,7 @@ You can also check out the javadoc. After getting the source from github run:
 The result is put in `/build/dokka` and `/build/site`
 
 
-The Mission
------------
-
-The purpose of the project is to provide a micro services framework with the following priorities (in
-order):
-
-* Simple to use
-* Easily hackable
-* Be small
-
-
-IDE Settings
-------------
+## IDE Settings
 
 Revert codeStyle file to setup project coding standard
 
