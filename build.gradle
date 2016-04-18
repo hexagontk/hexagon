@@ -22,6 +22,7 @@ buildscript {
 
 apply plugin: 'idea'
 apply plugin: 'jacoco'
+apply plugin: 'org.ajoberstar.grgit' // TODO Tag releases
 
 apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/bintray.gradle"
@@ -72,17 +73,33 @@ wrapper {
     scriptFile = wrapperBaseFile
 }
 
-task deleteWrapper << {
+task deleteWrapper (description: "Delete the wrapper generated files") << {
     delete wrapperBaseFile
     delete wrapperBaseFile + ".bat"
     delete wrapperBaseFile + ".jar"
     delete wrapperBaseFile + ".properties"
 }
 
-task release (dependsOn: [ 'check', 'site' ])
-task upload (dependsOn: [ 'release', 'publish', 'publishGhPages' ])
+/* Only Linux... sorry */
+task startTestContainers(type:Exec) {
+    // TODO Not working
+    commandLine = "ls" //"docker-compose -f src/test/services.yml up -d'"
+}
 
-Map<String, Object> rabbitConfig = [
+test.dependsOn.add (startTestContainers)
+test.doFirst {
+    String rabbitApi = "http://localhost:15672/api"
+    post httpClient ("guest", "guest"), "$rabbitApi/definitions", "application/json", rabbitConfig
+}
+
+task release (dependsOn: [ 'site', 'publish', 'publishGhPages' ]) {
+    doFirst {
+        clean.execute ()
+        // TODO Bump version number
+    }
+}
+
+ext.rabbitConfig = [
     rabbit_version: "3.6.0",
     queues: [
         [
@@ -115,21 +132,6 @@ Map<String, Object> rabbitConfig = [
         ]
     ]
 ]
-
-/* Only Linux... sorry */
-task startTestContainers(type:Exec) {
-    workingDir "$rootDir"
-
-    commandLine "bash -lc '/usr/local/bin/docker-compose -f /home/jam/Projects/jamming/hexagon/src/test/services.yml up -d'"
-}
-
-// TODO This is not working... you have to start the containers manually
-//testClasses.dependsOn = [ startTestContainers ]
-testClasses << {
-    String rabbitApi = "http://localhost:15672/api"
-
-    post httpClient ("guest", "guest"), "$rabbitApi/definitions", "application/json", rabbitConfig
-}
 
 import static okhttp3.MediaType.parse
 import static groovy.json.JsonOutput.toJson
