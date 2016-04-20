@@ -51,7 +51,6 @@ dependencies {
     compile ("io.ratpack:ratpack-core:$ratpackVersion") {
         exclude module: "slf4j-api"
         exclude module: "jackson-databind"
-        exclude module: "jackson-datatype-jdk7"
         exclude module: "jackson-datatype-jdk8"
         exclude module: "jackson-datatype-jsr310"
         exclude module: "jackson-dataformat-yaml"
