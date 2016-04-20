@@ -11,17 +11,12 @@ apply plugin: 'org.jetbrains.dokka'
 repositories {
     jcenter ()
     mavenLocal()
-    maven {
-        url "http://repository.jetbrains.com/spek"
-    }
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    compile group: "org.jetbrains.kotlin", name: "kotlin-reflect", version: kotlinVersion
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
     testCompile group: "org.jetbrains.kotlin", name: "kotlin-test", version: kotlinVersion
-    testCompile "org.jetbrains.spek:spek:$spekVersion"
     testCompile "org.testng:testng:$testngVersion"
 }
 

@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import java.nio.ByteBuffer
 import java.util.*
 import kotlin.reflect.KClass
@@ -47,7 +46,6 @@ class JacksonSerializer : Serializer {
         mapper.setPropertyNamingStrategy (SNAKE_CASE)
         mapper.registerModule (Jdk8Module ())
         mapper.registerModule (JavaTimeModule ())
-        mapper.registerModule (ParameterNamesModule ())
         mapper.registerModule (KotlinModule ())
         mapper.registerModule (object : SimpleModule () {
             init {
