@@ -15,6 +15,23 @@ import java.net.URI
         }
     }
 
+    fun test_template_renderer() {
+        appFromHandlers {
+            get ("hello") {
+                template("pebble_template.html", mapOf (
+                    "title" to "Greeting",
+                    "content" to "Hello World!"
+                ))
+            }
+        }
+        .check {
+            val body = getBody("hello")
+            assert(body.contains ("<title>Greeting</title>"))
+            assert(body.contains ("<p>Hello World!</p>"))
+            assert(body.contains ("<p>english</p>"))
+        }
+    }
+
     fun test_app_from_handlers() {
         appFromHandlers {
             get ("hello") {

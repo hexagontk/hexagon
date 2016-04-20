@@ -13,10 +13,21 @@ class KChain (val delegate: Chain) : Chain by delegate {
     fun path(path: String = "", cb: Context.() -> Unit) = delegate.path (path) { it.(cb)() }
 
     @Suppress("ReplaceGetOrSet")
-    fun get(path: String = "", cb: Context.() -> Unit) = delegate.get (path) { it.(cb)() }
-    fun put(path: String = "", cb: Context.() -> Unit) = delegate.put (path) { it.(cb)() }
-    fun post(path: String = "", cb: Context.() -> Unit) = delegate.post (path) { it.(cb)() }
-    fun delete(path: String = "", cb: Context.() -> Unit) = delegate.delete (path) { it.(cb)() }
-    fun options(path: String = "", cb: Context.() -> Unit) = delegate.options (path) { it.(cb)() }
-    fun patch(path: String = "", cb: Context.() -> Unit) = delegate.patch (path) { it.(cb)() }
+    fun get(path: String = "", cb: KContext.() -> Unit) =
+        delegate.get (path) { KContext(it).(cb)() }
+
+    fun put(path: String = "", cb: KContext.() -> Unit) =
+        delegate.put (path) { KContext(it).(cb)() }
+
+    fun post(path: String = "", cb: KContext.() -> Unit) =
+        delegate.post (path) { KContext(it).(cb)() }
+
+    fun delete(path: String = "", cb: KContext.() -> Unit) =
+        delegate.delete (path) { KContext(it).(cb)() }
+
+    fun options(path: String = "", cb: KContext.() -> Unit) =
+        delegate.options (path) { KContext(it).(cb)() }
+
+    fun patch(path: String = "", cb: KContext.() -> Unit) =
+        delegate.patch (path) { KContext(it).(cb)() }
 }
