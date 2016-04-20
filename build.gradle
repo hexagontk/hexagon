@@ -79,12 +79,12 @@ clean.doLast {
 }
 
 /* Only Linux... sorry */
-task startTestContainers(type:Exec) {
-    // TODO Not working
-    commandLine = "ls" //"docker-compose -f src/test/services.yml up -d'"
-}
-
-test.dependsOn.add (startTestContainers)
+//task startTestContainers(type:Exec) {
+//    // TODO Not working
+//    commandLine = "ls" //"docker-compose -f src/test/services.yml up -d'"
+//}
+//
+//test.dependsOn.add (startTestContainers)
 test.doFirst {
     // TODO Remove when create setups programatically is developed in RabbitMQ client
     String rabbitApi = "http://localhost:15672/api"
