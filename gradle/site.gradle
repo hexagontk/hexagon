@@ -88,21 +88,26 @@ task site (dependsOn: [ 'check', 'jbake', 'jacocoTestReport', 'dokka' ]) << {
     }
     delete "$buildDir/${projectSite}.orig/"
 
-    createIco (logoNoText, "favicon.ico", 16, 32, 48, 64)
-    extendImage (logoNoText, "180x180", 180, "apple-touch-icon.png")
-    extendImage (logoNoText, "128x128", 128, "tile-small.png")
-    extendImage (logoTextBottom, "270x270", 270, "tile-medium.png")
-    extendImage (logoTextRight, "558x270", 558, "tile-wide.png")
-    extendImage (logoTextBottom, "558x558", 558, "tile-large.png")
+    try {
+        createIco (logoNoText, "favicon.ico", 16, 32, 48, 64)
+        extendImage (logoNoText, "180x180", 180, "apple-touch-icon.png")
+        extendImage (logoNoText, "128x128", 128, "tile-small.png")
+        extendImage (logoTextBottom, "270x270", 270, "tile-medium.png")
+        extendImage (logoTextRight, "558x270", 558, "tile-wide.png")
+        extendImage (logoTextBottom, "558x558", 558, "tile-large.png")
 
-    // Sanity
-    [ 16, 32, 48, 64, 128, 180, 270, 558 ].each {
-        new File ("$sitePublicDir/_${it}.png").delete ()
+        // Sanity
+        [16, 32, 48, 64, 128, 180, 270, 558].each {
+            new File ("$sitePublicDir/_${it}.png").delete ()
+        }
     }
-
-    // Copy to site
-    if (new File (projectSite).exists ())
-        cp sitePublicDir, "${rootProject.buildDir}/$projectSite"
+    catch (Exception e) {
+        println """
+            --------------------------------------------------------------------------------------
+            Icons generation does not work in TravisCI because of the lack of 'rsvg' and 'convert'
+            --------------------------------------------------------------------------------------
+            """
+    }
 }
 
 private int execute (String command) {
