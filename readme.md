@@ -53,7 +53,7 @@ Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
 You can build the project and its documentation after getting the source from github running:
 
-    ./gradle/wrapper clean check site
+    ./gradle/wrapper --no-daemon clean site
 
 The results are located in the `/build` directory
 

@@ -86,6 +86,7 @@ task startTestContainers(type:Exec) {
 
 test.dependsOn.add (startTestContainers)
 test.doFirst {
+    // TODO Remove when create setups programatically is developed in RabbitMQ client
     String rabbitApi = "http://localhost:15672/api"
     post httpClient ("guest", "guest"), "$rabbitApi/definitions", "application/json", rabbitConfig
 }

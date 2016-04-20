@@ -20,6 +20,9 @@
  * NOTE: Site generation does not work well with Gradle daemon.
  * execute it this way: gw --no-daemon clean site
  *
+ * NOTE: For image rendering you will need 'rsvg' and 'imagemagick' installed in the development
+ * machine.
+ *
  * TODO Site processing will be deprecated when JBake filters content with configuration properties
  */
 
@@ -28,6 +31,13 @@ apply plugin: 'me.champeau.jbake'
 apply plugin: 'org.ajoberstar.github-pages'
 
 ext.projectSite = "site"
+
+ext.sitePublicDir = "$buildDir/$projectSite"
+ext.siteImagesDir = "$sitePublicDir/img"
+
+ext.logoNoText = "$siteImagesDir/logo.svg"
+ext.logoTextRight = "$siteImagesDir/logo.svg"
+ext.logoTextBottom = "$siteImagesDir/logo.svg"
 
 ext.cp = { source, destination ->
     copy {
@@ -67,32 +77,61 @@ jbake {
     configuration['googlefonts'] = 'http://fonts.googleapis.com/css?family'
 }
 
-task site (dependsOn: [ 'check', 'jbake', 'javadoc', 'jacocoTestReport', 'dokka' ]) {
-    doLast {
-        file ("$buildDir/$projectSite/").renameTo (file ("$buildDir/${projectSite}.orig/"))
-        cp "$buildDir/${projectSite}.orig/", "$buildDir/$projectSite"
-        copy {
-            from "$buildDir/${projectSite}.orig/"
-            into "$buildDir/$projectSite"
-            include ('**/*.html')
-            filter {ln -> ln.replace ('${projectVersion}', project.version)}
-        }
-        delete "$buildDir/${projectSite}.orig/"
-
-        if (subprojects.empty) {
-            cp "$buildDir/docs/javadoc/", "$buildDir/$projectSite/javadoc"
-            cp "$buildDir/reports/jacoco/test/html/", "$buildDir/$projectSite/jacoco"
-            cp "$buildDir/reports/tests/", "$buildDir/$projectSite/tests"
-        }
-        else {
-            subprojects.each {module ->
-                String moduleSource = "modules/$module.name"
-                String moduleDestination = "$buildDir/$projectSite/$module.name"
-
-                cp "$moduleSource/build/docs/javadoc/", "$moduleDestination/javadoc"
-                cp "$moduleSource/build/reports/jacoco/test/html/", "$moduleDestination/jacoco"
-                cp "$moduleSource/build/reports/tests/", "$moduleDestination/tests"
-            }
-        }
+task site (dependsOn: [ 'check', 'jbake', 'jacocoTestReport', 'dokka' ]) << {
+    file ("$buildDir/$projectSite/").renameTo (file ("$buildDir/${projectSite}.orig/"))
+    cp "$buildDir/${projectSite}.orig/", "$buildDir/$projectSite"
+    copy {
+        from "$buildDir/${projectSite}.orig/"
+        into "$buildDir/$projectSite"
+        include ('**/*.html')
+        filter {ln -> ln.replace ('${projectVersion}', project.version)}
     }
+    delete "$buildDir/${projectSite}.orig/"
+
+    createIco (logoNoText, "favicon.ico", 16, 32, 48, 64)
+    extendImage (logoNoText, "180x180", 180, "apple-touch-icon.png")
+    extendImage (logoNoText, "128x128", 128, "tile-small.png")
+    extendImage (logoTextBottom, "270x270", 270, "tile-medium.png")
+    extendImage (logoTextRight, "558x270", 558, "tile-wide.png")
+    extendImage (logoTextBottom, "558x558", 558, "tile-large.png")
+
+    // Sanity
+    [ 16, 32, 48, 64, 128, 180, 270, 558 ].each {
+        new File ("$sitePublicDir/_${it}.png").delete ()
+    }
+
+    // Copy to site
+    if (new File (projectSite).exists ())
+        cp sitePublicDir, "${rootProject.buildDir}/$projectSite"
+}
+
+private int execute (String command) {
+    Process process = command.execute ()
+    int result = process.waitFor ()
+
+    if (result != 0) {
+        StringBuilder out = new StringBuilder ()
+        StringBuilder err = new StringBuilder ()
+        process.consumeProcessOutput (out, err)
+        println "$command -> [$result] $out $err"
+    }
+
+    return result
+}
+
+private void rasterSvg (String svg, int... widths) {
+    widths.each { execute "rsvg-convert -w $it -o $sitePublicDir/_${it}.png $svg" }
+}
+
+private void createIco (String svg, String ico, int... widths) {
+    widths.each { extendImage svg, "${it}x${it}", it, "_${it}.png" }
+    List<String> images = widths.collect { "$sitePublicDir/_${it}.png" }
+    execute "convert ${images.join (" ")} $sitePublicDir/$ico"
+}
+
+private void extendImage (String bg = "white", String svg, String size, int width, String file) {
+    rasterSvg svg, width
+    String input = "$sitePublicDir/_${width}.png"
+    String output = "$sitePublicDir/$file"
+    execute "convert -gravity center -background $bg -extent $size $input $output"
 }
