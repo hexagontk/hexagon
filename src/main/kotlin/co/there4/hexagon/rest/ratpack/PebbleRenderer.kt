@@ -15,7 +15,7 @@ object PebbleRenderer {
     val basePath = "templates"
     val engine = PebbleEngine.Builder().build()
 
-    fun render (template: String, context: Map<String, *>): String {
+    fun render (template: String, locale: Locale, context: Map<String, *>): String {
         val compiledTemplate = engine.getTemplate("$basePath/$template")
         val bundlePath = template.substring(0, template.lastIndexOf('.')).replace('/', '.')
         val bundle = ResourceBundle.getBundle("${basePath}.$bundlePath")
@@ -26,7 +26,7 @@ object PebbleRenderer {
             .toMap()
 
         val writer = StringWriter()
-        compiledTemplate.evaluate(writer, context + texts)
+        compiledTemplate.evaluate(writer, context + texts, locale)
         return writer.toString()
     }
 }
