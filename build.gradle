@@ -27,12 +27,6 @@ apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/bintray.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
 
-configurations {
-//    all*.exclude module: 'kotlin-stdlib'
-//    all*.exclude module: 'kotlin-reflect'
-//    all*.exclude module: 'amqp-client'
-}
-
 dependencies {
     // COMPILE
     compile ("net.jodah:lyra:$rabbitLyraVersion") { exclude module: "slf4j-api" }
