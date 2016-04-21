@@ -16,6 +16,7 @@ import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.util.EOL
 import co.there4.hexagon.util.filterVars
+import co.there4.hexagon.util.read
 import com.mongodb.MongoWriteException
 import ratpack.handling.Chain
 import ratpack.handling.Context
@@ -68,9 +69,6 @@ private fun showBanner() {
 
     RestPackage.info(banner.filterVars(variables))
 }
-
-fun read (resource: String) =
-    ClassLoader.getSystemClassLoader().getResourceAsStream(resource)?.reader()?.readText()
 
 fun appStart(cb: KServerSpec.() -> Unit): RatpackServer {
     val server = RatpackServer.start { KServerSpec(it).(cb)() }

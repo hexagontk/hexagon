@@ -1,5 +1,6 @@
 package co.there4.hexagon.util
 
+import java.lang.ClassLoader.getSystemClassLoader
 import java.lang.System.getProperty
 
 /** Runtime specific end of line. */
@@ -78,6 +79,9 @@ fun String.banner (): String {
     val separator = BANNER_DELIMITER.repeat (this.lines().map { it.length }.max() ?: 0)
     return "$separator${EOL}$this${EOL}$separator"
 }
+
+fun read (resource: String) =
+    getSystemClassLoader().getResourceAsStream(resource)?.reader()?.readText()
 
 private fun ansiCode(fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): String {
     fun fgString (color: AnsiColor?) = (color?.fg ?: "").toString()

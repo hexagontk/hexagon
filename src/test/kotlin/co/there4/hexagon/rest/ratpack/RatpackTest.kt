@@ -27,6 +27,8 @@ import java.net.URI
         .check {
             val body = getBody("hello")
             assert(body.contains ("<title>Greeting</title>"))
+            assert(body.contains ("<p>globalValue</p>"))
+            assert(body.contains ("<p>commonValue</p>"))
             assert(body.contains ("<p>Hello World!</p>"))
             assert(body.contains ("<p>english</p>"))
         }
