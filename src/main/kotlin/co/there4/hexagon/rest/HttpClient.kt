@@ -3,43 +3,50 @@ package co.there4.hexagon.rest
 import okhttp3.*
 import java.net.URL
 
-class HttpClient (val base: URL = URL ("http://localhost:8080")) {
+class HttpClient (val base: URL = URL ("http://localhost:5050")) {
     val JSON = MediaType.parse("application/json; charset=utf-8")
 
     internal val client = OkHttpClient()
 
-    fun get(url: String): Response? {
+    fun get(url: String = ""): Response? {
         val request = Request.Builder().url(base.toString() + url).get().build()
         return http(request)
     }
 
-    fun delete(url: String): Response? {
+    fun delete(url: String = ""): Response? {
         val request = Request.Builder().url(base.toString() + url).delete().build()
         return http(request)
     }
 
-    fun post(url: String, json: String): Response? {
+    fun post(url: String = "", json: String): Response? {
         val body = RequestBody.create(JSON, json)
         val request = Request.Builder().url(base.toString() + url).post(body).build()
         return http(request)
     }
 
-    fun put(url: String, json: String): Response? {
+    fun put(url: String = "", json: String): Response? {
         val body = RequestBody.create(JSON, json)
         val request = Request.Builder().url(base.toString() + url).put(body).build()
         return http(request)
     }
 
-    fun options(url: String): Response? {
+    fun options(url: String = ""): Response? {
         val request = Request.Builder().url(base.toString() + url).method("OPTIONS", null).build()
         return http(request)
     }
 
-    fun patch(url: String, json: String): Response? {
+    fun patch(url: String = "", json: String): Response? {
         val body = RequestBody.create(JSON, json)
         val request = Request.Builder().url(base.toString() + url).patch(body).build()
         return http(request)
     }
+
+    fun getBody(url: String = ""): String? = get(url)?.body()?.string()
+    fun deleteBody(url: String = ""): String? = delete(url)?.body()?.string()
+    fun postBody(url: String = "", json: String): String? = post(url, json)?.body()?.string()
+    fun putBody(url: String = "", json: String): String? = put(url, json)?.body()?.string()
+    fun optionsBody(url: String = ""): String? = options(url)?.body()?.string()
+    fun patchBody(url: String = "", json: String): String? = patch(url, json)?.body()?.string()
 
     fun http(request: Request) = client.newCall(request).execute()
 }
