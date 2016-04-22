@@ -12,7 +12,7 @@ class EventsDemo {
     private val events = EventManager()
 
     @BeforeClass fun startConsumer() {
-        events.on(TickEvent::class, "clock.tick") { a -> warn("Tick: ${a.nanos}") }
+        events.on(TickEvent::class, "clock.tick") { a -> info("Tick: ${a.nanos}") }
     }
 
     @AfterClass fun deleteTestQueue() {
