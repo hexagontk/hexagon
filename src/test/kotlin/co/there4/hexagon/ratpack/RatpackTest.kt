@@ -1,4 +1,4 @@
-package co.there4.hexagon.rest.ratpack
+package co.there4.hexagon.ratpack
 
 import org.testng.annotations.Test
 import co.there4.hexagon.rest.HttpClient

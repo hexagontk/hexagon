@@ -1,7 +1,7 @@
 package co.there4.hexagon.rest
 
 import co.there4.hexagon.repository.MongoIdRepository
-import co.there4.hexagon.rest.ratpack.KChain
+import co.there4.hexagon.ratpack.KChain
 import java.lang.Runtime.getRuntime
 import java.lang.String.format
 import java.lang.System.currentTimeMillis
@@ -10,7 +10,7 @@ import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.net.InetAddress.getLocalHost
 
-import co.there4.hexagon.rest.ratpack.KServerSpec
+import co.there4.hexagon.ratpack.KServerSpec
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.util.CompanionLogger

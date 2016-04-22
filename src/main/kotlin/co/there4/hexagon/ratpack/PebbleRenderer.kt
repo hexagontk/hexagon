@@ -1,4 +1,4 @@
-package co.there4.hexagon.rest.ratpack
+package co.there4.hexagon.ratpack
 
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.lang.ClassLoader.getSystemResourceAsStream

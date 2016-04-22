@@ -1,6 +1,5 @@
 package co.there4.hexagon.repository
 
-import co.there4.hexagon.repository.MongoIdRepository
 import kotlin.reflect.KClass
 
 abstract class IdRepositoryTest <T : Any, K : Any> (

@@ -1,4 +1,4 @@
-package co.there4.hexagon.rest.ratpack
+package co.there4.hexagon.ratpack
 
 import ratpack.registry.Registry
 import ratpack.registry.RegistrySpec
