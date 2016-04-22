@@ -1,5 +1,6 @@
 package co.there4.hexagon.rest.ratpack
 
+import ratpack.handling.ByMethodSpec
 import ratpack.handling.Context
 import java.util.*
 
@@ -7,6 +8,10 @@ import java.util.*
  * TODO Support setting content-type depending on template extension
  */
 class KContext (val delegate: Context) : Context by delegate {
+    fun byMethod (cb: ByMethodSpec.() -> Unit) {
+        delegate.byMethod { it.(cb)() }
+    }
+
     fun template (
         template: String,
         locale: Locale = Locale.getDefault(),
