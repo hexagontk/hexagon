@@ -118,7 +118,11 @@ internal abstract class DataAppender : UnsynchronizedAppenderBase<LoggingEvent>(
     private fun appendArgumentsData(loggingEvent: LoggingEvent, data: MutableMap<String, Any>) {
         val arguments = loggingEvent.argumentArray
         if (arguments != null && arguments.size == 1 && arguments[0] is Map<*, *>) {
-            @SuppressWarnings("unchecked") val map = arguments[0] as Map<String, Any>
+            val map = (arguments[0] as Map<*, *>)
+                .filter { it.value != null }
+                .mapKeys { it.key as String }
+                .mapValues { it.value ?: throw IllegalStateException ("'null' values not allowed") }
+
             data.putAll(map)
         }
     }

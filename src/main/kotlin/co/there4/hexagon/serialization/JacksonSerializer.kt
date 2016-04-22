@@ -1,15 +1,11 @@
 package co.there4.hexagon.serialization
 
-import co.there4.hexagon.serialization.SerializationFormat.*
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-import com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
@@ -19,11 +15,23 @@ import java.nio.ByteBuffer
 import java.util.*
 import kotlin.reflect.KClass
 
-class JacksonSerializer : Serializer {
-    val MAPPER = createObjectMapper ()
-    val WRITER = createObjectWriter ()
+object JacksonSerializer {
+    val mapper = createObjectMapper ()
 
-    fun createObjectMapper (): ObjectMapper {
+    /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
+    val formatList = listOf (
+        JacksonJsonFormat ()
+    )
+
+    val formats = mapOf (
+        *formatList
+            .map { it.contentType to it }
+            .toTypedArray()
+    )
+
+    val defaultFormat = formatList.first().contentType
+
+    private fun createObjectMapper (): ObjectMapper {
         val byteBufferSerializer: JsonSerializer<ByteBuffer> =
             object : JsonSerializer<ByteBuffer> () {
                 override fun serialize(
@@ -43,7 +51,6 @@ class JacksonSerializer : Serializer {
         mapper.configure (FAIL_ON_UNKNOWN_PROPERTIES, false)
         mapper.configure (FAIL_ON_EMPTY_BEANS, false)
         mapper.setSerializationInclusion (NON_EMPTY)
-        mapper.setPropertyNamingStrategy (SNAKE_CASE)
         mapper.registerModule (Jdk8Module ())
         mapper.registerModule (JavaTimeModule ())
         mapper.registerModule (KotlinModule ())
@@ -56,51 +63,21 @@ class JacksonSerializer : Serializer {
         return mapper
     }
 
-    fun createObjectWriter (): ObjectWriter {
-        val printer = DefaultPrettyPrinter ().withArrayIndenter (SYSTEM_LINEFEED_INSTANCE)
-        return MAPPER.writer (printer)
-    }
+    fun toMap(obj: Any): Map<*, *> =
+        mapper.convertValue (obj, Map::class.java) ?: throw IllegalStateException ()
 
-    override fun convertToMap(obj: Any): Map<*, *> =
-        MAPPER.convertValue (obj, Map::class.java) ?: throw IllegalStateException ()
+    fun <T : Any> toObject(obj: Map<*, *>, type: KClass<T>): T =
+        mapper.convertValue (obj, type.java)
 
-    override fun <T : Any> convertToObject(obj: Map<*, *>, type: KClass<T>): T = MAPPER.convertValue (obj, type.java)
+    private fun getSerializationFormat (contentType: String) =
+        formats[contentType] ?: throw IllegalArgumentException ("$contentType not found")
 
-    override fun serialize(format: SerializationFormat, obj: Any): String = when (format) {
-        JSON -> serializeJson (obj)
-        YAML -> serializeYaml (obj)
-        XML -> serializeXml (obj)
-    }
+    fun serialize(obj: Any, contentType: String = defaultFormat) =
+        getSerializationFormat (contentType).serialize(obj)
 
-    override fun <T : Any> parse(format: SerializationFormat, text: String, type: KClass<T>): T =
-        when (format) {
-            JSON -> parseJson (text, type)
-            YAML -> parseYaml (text, type)
-            XML -> parseXml (text, type)
-        }
+    fun <T: Any> parse(text: String, type: KClass<T>, contentType: String = defaultFormat) =
+        getSerializationFormat (contentType).parse (text, type)
 
-    override fun <T : Any> parseList(format: SerializationFormat, text: String, type: KClass<T>) =
-        when (format) {
-            JSON -> parseJsonList (text, type)
-            YAML -> parseYamlList (text, type)
-            XML -> parseXmlList (text, type)
-        }
-
-    private fun serializeJson(obj: Any): String = WRITER.writeValueAsString (obj)
-
-    private fun <T : Any> parseJson(text: String, type: KClass<T>): T =
-        MAPPER.readValue (text, type.java)
-
-    private fun <T : Any> parseJsonList(text: String, type: KClass<T>): List<T> {
-        val t = MAPPER.getTypeFactory().constructCollectionType(List::class.java, type.java)
-        return MAPPER.readValue (text, t)
-    }
-
-    private fun serializeXml(obj: Any): String = TODO()
-    private fun <T: Any> parseXml(text: String, type: KClass<T>): T = TODO()
-    private fun <T: Any> parseXmlList(text: String, type: KClass<T>): List<T> = TODO()
-
-    private fun serializeYaml(obj: Any): String = TODO()
-    private fun <T: Any> parseYaml(text: String, type: KClass<T>): T = TODO()
-    private fun <T: Any> parseYamlList(text: String, type: KClass<T>): List<T> = TODO()
+    fun <T: Any> parseList(text: String, type: KClass<T>, contentType: String = defaultFormat) =
+        getSerializationFormat (contentType).parseList (text, type)
 }

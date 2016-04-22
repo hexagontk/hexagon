@@ -12,6 +12,6 @@ import java.net.URL
         }
 
         val client = HttpClient (URL ("http://localhost:5050"))
-        assert (client.get("/hi") == "Hello World")
+        assert (client.get("/hi")?.body()?.string() == "Hello World")
     }
 }

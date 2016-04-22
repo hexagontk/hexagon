@@ -8,9 +8,9 @@ import kotlin.reflect.KClass
 
     fun object_is_mapped_and_parsed_back_without_error () {
         testObjects.forEach {
-            val map = it.toMap ()
+            val map = it.convertToMap ()
 
-            val object2 = map.toObject (type)
+            val object2 = map.convertToObject (type)
             assert (it.equals (object2))
 
             val modelString = it.serialize ()

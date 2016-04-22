@@ -23,6 +23,10 @@ import ratpack.handling.Context
 import ratpack.server.RatpackServer
 import java.net.UnknownHostException
 
+/*
+ * TODO Add base class for Application (setup locales, etc.) for web applications
+ * TODO Add base class for Services  (the setup for applications is not needed here)
+ */
 object RestPackage : CompanionLogger (RestPackage::class)
 
 val information = """

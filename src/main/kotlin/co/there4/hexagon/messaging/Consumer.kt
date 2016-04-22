@@ -10,5 +10,6 @@ class Consumer<T : Any> (
     type: KClass<T>,
     val handler: (T) -> Unit) : Handler<T> (channel, executor, type) {
 
-    override fun handleMessage(input: T, replyTo: String?, correlationId: String?) = handler (input)
+    override fun handleMessage(message: T, replyTo: String?, correlationId: String?) =
+        handler (message)
 }

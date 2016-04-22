@@ -1,7 +1,7 @@
 package co.there4.hexagon.repository
 
-import co.there4.hexagon.serialization.serializer
-import co.there4.hexagon.serialization.serializer
+import co.there4.hexagon.serialization.convertToMap
+import co.there4.hexagon.serialization.convertToObject
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoIterable
 import com.mongodb.client.model.FindOneAndReplaceOptions
@@ -52,7 +52,7 @@ open class MongoRepository <T : Any> (val type: KClass<T>, collection: MongoColl
     fun deleteAll (): DeleteResult = deleteMany (Document ())
 
     private fun map (document: T): Document {
-        return Document (serializer.convertToMap (document).mapKeys {
+        return Document (document.convertToMap ().mapKeys {
             val key = it.key ?: throw IllegalStateException ("Key can not be 'null'")
             if (key is String)
                 key
@@ -63,5 +63,5 @@ open class MongoRepository <T : Any> (val type: KClass<T>, collection: MongoColl
 
     private fun map (documents: List<T>): List<Document> = documents.map { map(it) }
 
-    private fun unmap (document: Document): T = serializer.convertToObject (document, type)
+    private fun unmap (document: Document): T = document.convertToObject (type)
 }

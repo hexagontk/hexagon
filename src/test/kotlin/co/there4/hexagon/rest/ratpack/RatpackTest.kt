@@ -1,9 +1,10 @@
 package co.there4.hexagon.rest.ratpack
 
 import org.testng.annotations.Test
+import co.there4.hexagon.rest.HttpClient
 import ratpack.registry.Registry
 import ratpack.server.*
-import java.net.URI
+import java.net.URL
 
 @Test class RatpackTest {
     fun test_app_from_handler() {
@@ -51,6 +52,9 @@ import java.net.URI
 
     fun test_app_from_server() {
         val server = serverOf {
+            serverConfig {
+                port(0)
+            }
             handlers {
                 get ("hello") {
                     render("Hello World!")
@@ -68,18 +72,45 @@ import java.net.URI
     }
 
     fun test_server_start() {
+        fun KContext.renderMethod() { render("${request.method} ${pathTokens["name"]}") }
+
         val server = serverStart {
             serverConfig {
-                port(5050)
+                port(0)
                 baseDir(BaseDir.find("logback-test.xml"))
-                publicAddress(URI("http://company.org"))
             }
             registry { add("World!") }
             handlers {
                 get { render("Hello " + get(String::class.java)) }
-                get(":name") { render("Hello ${pathTokens["name"]}!") }
+
+                get("get/:name") { renderMethod() }
+                put("put/:name") { renderMethod() }
+                post("post/:name") { renderMethod() }
+                delete("delete/:name") { renderMethod() }
+                options("options/:name") { renderMethod() }
+                patch("patch/:name") { renderMethod() }
+
+                path ("path/:name") {
+                    byMethod {
+                        get { renderMethod() }
+                        put { renderMethod() }
+                        post { renderMethod() }
+                        delete { renderMethod() }
+                        options { renderMethod() }
+                        patch { renderMethod() }
+                    }
+                }
             }
         }
+
+        val client = HttpClient (URL ("http://${server.bindHost}:${server.bindPort}/"))
+
+        assert (client.get("get/john")?.body()?.string() == "GET john")
+        assert (client.put("put/john", "body")?.code() == 200)
+        assert (client.post("post/john", "body")?.body()?.string() == "POST john")
+        assert (client.delete("delete/john")?.body()?.string() == "DELETE john")
+        assert (client.options("options/john")?.body()?.string() == "OPTIONS john")
+        assert (client.patch("patch/john", "body")?.body()?.string() == "PATCH john")
 
         server.stop()
     }

@@ -1,7 +1,6 @@
 package co.there4.hexagon.rest.ratpack
 
 import ratpack.handling.Chain
-import ratpack.handling.Context
 
 class KChain (val delegate: Chain) : Chain by delegate {
     fun fileSystem(path: String = "", cb: KChain.() -> Unit) =
@@ -9,8 +8,10 @@ class KChain (val delegate: Chain) : Chain by delegate {
     fun prefix(path: String = "", cb: KChain.() -> Unit) =
         delegate.prefix (path) { KChain(it).(cb)() }
 
-    fun all(cb: Context.() -> Unit) = delegate.all { it.(cb)() }
-    fun path(path: String = "", cb: Context.() -> Unit) = delegate.path (path) { it.(cb)() }
+    fun all(cb: KContext.() -> Unit) =
+        delegate.all { KContext(it).(cb)() }
+    fun path(path: String = "", cb: KContext.() -> Unit) =
+        delegate.path (path) { KContext(it).(cb)() }
 
     @Suppress("ReplaceGetOrSet")
     fun get(path: String = "", cb: KContext.() -> Unit) =
