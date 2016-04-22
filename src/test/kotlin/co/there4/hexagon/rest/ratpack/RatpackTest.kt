@@ -24,6 +24,9 @@ import java.net.URL
                     "content" to "Hello World!"
                 ))
             }
+            get ("no_localized") {
+                template ("no_localized.txt")
+            }
         }
         .check {
             val body = getBody("hello")
@@ -32,6 +35,7 @@ import java.net.URL
             assert(body.contains ("<p>commonValue</p>"))
             assert(body.contains ("<p>Hello World!</p>"))
             assert(body.contains ("<p>english</p>"))
+            assert(getBody("no_localized")?.trim () == "no localized")
         }
     }
 
@@ -100,17 +104,32 @@ import java.net.URL
                         patch { renderMethod() }
                     }
                 }
+
+                fileSystem {
+                    files { it.dir("public") }
+                }
             }
         }
 
         val client = HttpClient (URL ("http://${server.bindHost}:${server.bindPort}/"))
 
-        assert (client.get("get/john")?.body()?.string() == "GET john")
-        assert (client.put("put/john", "body")?.code() == 200)
-        assert (client.post("post/john", "body")?.body()?.string() == "POST john")
-        assert (client.delete("delete/john")?.body()?.string() == "DELETE john")
-        assert (client.options("options/john")?.body()?.string() == "OPTIONS john")
-        assert (client.patch("patch/john", "body")?.body()?.string() == "PATCH john")
+        assert (client.getBody() == "Hello World!")
+
+        assert (client.getBody("get/john") == "GET john")
+        assert (client.putBody("put/john", "body") == "PUT john")
+        assert (client.postBody("post/john", "body") == "POST john")
+        assert (client.deleteBody("delete/john") == "DELETE john")
+        assert (client.optionsBody("options/john") == "OPTIONS john")
+        assert (client.patchBody("patch/john", "body") == "PATCH john")
+
+        assert (client.getBody("path/john") == "GET john")
+        assert (client.putBody("path/john", "body") == "PUT john")
+        assert (client.postBody("path/john", "body") == "POST john")
+        assert (client.deleteBody("path/john") == "DELETE john")
+        assert (client.optionsBody("path/john") == "OPTIONS john")
+        assert (client.patchBody("path/john", "body") == "PATCH john")
+
+        assert (client.getBody("file.txt")?.trim() == "file content")
 
         server.stop()
     }
