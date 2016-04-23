@@ -3,6 +3,7 @@ package co.there4.hexagon.util
 import org.testng.annotations.Test
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.test.fail
 
 @Test class UtilPackageTest {
     fun time_nanos_gets_the_elapsed_nanoseconds () {
@@ -43,5 +44,23 @@ import java.util.*
         val trace = e.toText ()
         assert (trace.startsWith ("java.lang.RuntimeException"))
         assert (trace.contains ("\tat ${UtilPackageTest::class.java.name}"))
+    }
+
+    fun multiple_retry_errors_throw_an_exception () {
+        val retries = 3
+        try {
+            retry(retries, 1, { throw RuntimeException ("Retry error") })
+        }
+        catch (e: ProgramException) {
+            assert (e.causes.size == retries)
+        }
+    }
+
+    fun setting_context_values_for_threads_works_correctly () {
+        Context["Number"] = 9
+        Context["Text"] = "Text"
+
+        assert (Context["Number"] == 9)
+        assert (Context["Text"] == "Text")
     }
 }

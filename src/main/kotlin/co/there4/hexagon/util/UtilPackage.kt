@@ -66,7 +66,7 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
     require (delay >= 0)
 
     val exceptions = mutableListOf<Exception>()
-    for (ii in 0 .. times) {
+    for (ii in 1 .. times) {
         try {
             return func ()
         }
@@ -83,29 +83,13 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
  * Networking
  */
 
-/**
- * Shortcut to get a network address.
- */
-fun inetAddress(host: String) = InetAddress.getByName (host)
-
 /** Unknown host name. */
 val UNKNOWN_LOCALHOST = "UNKNOWN_LOCALHOST"
 
 /** The hostname of the machine running this program. */
-val hostname = localHost()?.getHostName() ?: UNKNOWN_LOCALHOST
+val hostname = getLocalHost()?.getHostName() ?: UNKNOWN_LOCALHOST
 /** The IP address of the machine running this program. */
-val ip = localHost()?.getHostAddress() ?: UNKNOWN_LOCALHOST
-
-/**
- * Get the local host address.
- */
-fun localHost() =
-    try {
-        getLocalHost()
-    }
-    catch (e: Exception) {
-        null
-    }
+val ip = getLocalHost()?.getHostAddress() ?: UNKNOWN_LOCALHOST
 
 /*
  * Error handling
