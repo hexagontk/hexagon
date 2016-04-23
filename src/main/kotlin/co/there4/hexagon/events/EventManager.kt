@@ -5,10 +5,8 @@ import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.util.CompanionLogger
 import kotlin.reflect.KClass
 
-class EventManager {
-    companion object : CompanionLogger (EventManager::class) {
-        val EXCHANGE = "events"
-    }
+object EventManager : CompanionLogger (EventManager::class) {
+    val EXCHANGE = "events"
 
     val client = RabbitClient ("amqp://guest:guest@localhost")
 
