@@ -2,6 +2,7 @@
  * TODO Use outputFormat in Dokka configuration to render to markdown
  * TODO There is a bug in the tool that prevents that for working ok
  * TODO outputFormat = 'markdown'
+ * TODO native-to-ascii transform processing resources
  */
 
 apply plugin: 'kotlin'
