@@ -8,36 +8,38 @@ class HttpClient (val base: URL = URL ("http://localhost:5050")) {
 
     internal val client = OkHttpClient()
 
+    private fun buildUrl(url: String) = Request.Builder().url(base.toString() + url)
+
     fun get(url: String = ""): Response? {
-        val request = Request.Builder().url(base.toString() + url).get().build()
+        val request = buildUrl(url).get().build()
         return http(request)
     }
 
     fun delete(url: String = ""): Response? {
-        val request = Request.Builder().url(base.toString() + url).delete().build()
+        val request = buildUrl(url).delete().build()
         return http(request)
     }
 
     fun post(url: String = "", json: String): Response? {
         val body = RequestBody.create(JSON, json)
-        val request = Request.Builder().url(base.toString() + url).post(body).build()
+        val request = buildUrl(url).post(body).build()
         return http(request)
     }
 
     fun put(url: String = "", json: String): Response? {
         val body = RequestBody.create(JSON, json)
-        val request = Request.Builder().url(base.toString() + url).put(body).build()
+        val request = buildUrl(url).put(body).build()
         return http(request)
     }
 
     fun options(url: String = ""): Response? {
-        val request = Request.Builder().url(base.toString() + url).method("OPTIONS", null).build()
+        val request = buildUrl(url).method("OPTIONS", null).build()
         return http(request)
     }
 
     fun patch(url: String = "", json: String): Response? {
         val body = RequestBody.create(JSON, json)
-        val request = Request.Builder().url(base.toString() + url).patch(body).build()
+        val request = buildUrl(url).patch(body).build()
         return http(request)
     }
 
