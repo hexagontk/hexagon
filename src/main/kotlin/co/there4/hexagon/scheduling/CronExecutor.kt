@@ -1,33 +1,44 @@
 package co.there4.hexagon.scheduling
 
 import co.there4.hexagon.util.CompanionLogger
-import com.cronutils.model.CronType
-import com.cronutils.model.definition.CronDefinitionBuilder
+import com.cronutils.model.CronType.QUARTZ
+import com.cronutils.model.definition.CronDefinitionBuilder.instanceDefinitionFor as cronDefinition
+import com.cronutils.model.time.ExecutionTime
 import com.cronutils.parser.CronParser
-import java.lang.Thread.sleep
+import org.joda.time.DateTime
+import java.lang.Runtime.getRuntime
 import java.util.concurrent.ScheduledThreadPoolExecutor
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeUnit.SECONDS
 
-class CronExecutor {
+class CronExecutor (threads: Int = getRuntime().availableProcessors()) {
     companion object : CompanionLogger (CronExecutor::class)
 
-    internal val s = ScheduledThreadPoolExecutor(8)
+    private val scheduler = ScheduledThreadPoolExecutor(threads)
+    private val cronParser = CronParser(cronDefinition (QUARTZ))
 
-    init {
-        val cronDefinition =
-        CronDefinitionBuilder.instanceDefinitionFor (CronType.UNIX)
+    fun schedule (cronExpression: String, callback: () -> Unit) {
+        val cron = cronParser.parse (cronExpression)
+        val cronExecution = ExecutionTime.forCron(cron)
+        val nextExecution = cronExecution.timeToNextExecution(DateTime.now ())
+        val nextExecutionSeconds = nextExecution.standardSeconds
 
-        //create a parser based on provided definition
-        val parser = CronParser(cronDefinition)
-        val quartzCron = parser.parse ("0 23 ? * * 1-5 *")
+        scheduler.schedule ({ function (callback, cronExecution) }, nextExecutionSeconds, SECONDS)
+    }
 
-        info ("start")
-        s.scheduleAtFixedRate (
-            {
-                info ("Begin Execution")
-                sleep (1000)
-                info ("End Execution")
-            },
-            2, 5, TimeUnit.SECONDS)
+    fun shutdown () { scheduler.shutdown() }
+
+    private fun function(callback: () -> Unit, cronExecution: ExecutionTime) {
+        try {
+            callback()
+        }
+        catch (e: Exception) {
+            // TODO Fire an event
+            error ("Error executing cron job", e)
+        }
+
+        val nextExecution = cronExecution.timeToNextExecution(DateTime.now ())
+        val nextExecutionSeconds = nextExecution.standardSeconds
+
+        scheduler.schedule ({ function (callback, cronExecution) }, nextExecutionSeconds, SECONDS)
     }
 }
