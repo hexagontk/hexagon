@@ -47,6 +47,8 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, val 
         request.body.then {
             val obj = it.text.parse(repository.type)
             repository.replaceObject(obj)
+            response.status(200) // Created
+            response.send()
         }
     }
 

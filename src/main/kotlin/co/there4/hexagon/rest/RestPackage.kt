@@ -62,7 +62,7 @@ private fun showBanner() {
     RestPackage.info(banner.filterVars(variables))
 }
 
-fun appStart(cb: KServerSpec.() -> Unit): RatpackServer {
+fun applicationStart(cb: KServerSpec.() -> Unit): RatpackServer {
     val server = RatpackServer.start { KServerSpec(it).(cb)() }
 
     // TODO Setup metrics
