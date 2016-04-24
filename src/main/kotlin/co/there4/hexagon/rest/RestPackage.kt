@@ -76,3 +76,6 @@ fun <T : Any, K : Any> KChain.crud (repository: MongoIdRepository<T, K>): KChain
     return this
 }
 
+// TODO Add initialization for applications and services
+//class RestService
+//class RestApplication

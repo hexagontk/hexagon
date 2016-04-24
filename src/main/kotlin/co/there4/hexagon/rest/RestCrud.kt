@@ -63,10 +63,14 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, val 
         val key = parseKey(repository, this)
         val obj = repository.find(key)
 
-        if (obj == null)
+        if (obj == null) {
             response.status(404)//NOT_FOUND)
-        else
+            response.send()
+        }
+        else {
+            response.status(200)
             response.send(obj.serialize())
+        }
     }
 
     private fun <K : Any, T : Any> parseKey(
@@ -81,6 +85,7 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, val 
 
     private fun <T : Any, K : Any> KContext.findAll (repository: MongoIdRepository<T, K>) {
         val objects = repository.findObjects().toList()
+        response.status(200)
         response.send(objects.serialize())
     }
 }
