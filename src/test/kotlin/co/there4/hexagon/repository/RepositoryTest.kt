@@ -12,7 +12,12 @@ import com.mongodb.client.model.UpdateOptions
 import java.lang.System.*
 import kotlin.reflect.KClass
 import com.mongodb.client.model.Filters.*
+import com.mongodb.client.result.DeleteResult
+import org.bson.Document
 
+/**
+ * TODO Check events
+ */
 abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: String) :
     SerializationTest<T> (type) {
 
@@ -40,7 +45,7 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
     fun <T : Any> createCollection (type: KClass<T>): MongoRepository<T> {
         val database = createDatabase (type)
         val collection = database.getCollection(type.simpleName)
-        val repository = MongoRepository (type, collection)
+        val repository = MongoRepository (type, collection, true)
         setupCollection(repository)
         return repository
     }
@@ -54,28 +59,30 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
 
     protected fun createObjects() = (0..9).map { setObjectKey (createObject(), it) }
 
+    protected fun deleteAll (): DeleteResult = collection.deleteMany (Document ())
+
     fun one_object_is_stored_and_loaded_without_error() {
         testObjects.forEach {
-            collection.deleteAll()
+            deleteAll()
             collection.insertOneObject(it)
             var result: T = collection.findObjects().first()
 
             assert(result == it)
 
-            collection.deleteAll()
+            deleteAll()
             val object2 = changeObject(it)
             collection.insertOneObject(object2, InsertOneOptions())
             assert(collection.count() == 1L)
             result = collection.findObjects().first()
             assert(result == object2)
 
-            collection.deleteAll()
+            deleteAll()
         }
     }
 
     fun many_objects_are_stored_and_loaded_without_error() {
         testObjects.forEach {
-            collection.deleteAll()
+            deleteAll()
             val objects = createObjects ()
 
             try {
@@ -89,18 +96,18 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
             val obj = collection.findObjects(eq<K>(idField, getObjectKey(firstObject))).first()
             assert(obj == firstObject)
 
-            collection.deleteAll()
+            deleteAll()
 
             collection.insertManyObjects(objects, InsertManyOptions().ordered(false))
             assert(collection.count() == 10L)
 
-            collection.deleteAll()
+            deleteAll()
         }
     }
 
     fun replace_object_stores_modified_data_in_db() {
         testObjects.forEach {
-            collection.deleteAll()
+            deleteAll()
             val entity = createObject()
             val replacement = changeObject(entity)
             val query = eq<K>(idField, getObjectKey(entity))
@@ -116,13 +123,13 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
 
             assert(collection.findObjects(query).first() == entity)
 
-            collection.deleteAll()
+            deleteAll()
         }
     }
 
     fun find_and_replace_object_stores_modified_data_in_db() {
         testObjects.forEach {
-            collection.deleteAll()
+            deleteAll()
             var t = nanoTime()
             val entity = createObject()
             val replacement = changeObject(entity)
@@ -146,7 +153,7 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
 
             assert(replacement == result)
 
-            collection.deleteAll()
+            deleteAll()
             trace("Delete all records: " + (nanoTime() - t))
         }
     }
