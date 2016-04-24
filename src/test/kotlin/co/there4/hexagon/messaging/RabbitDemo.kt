@@ -29,7 +29,6 @@ import java.lang.System.currentTimeMillis
         consumer?.deleteQueue (QUEUE)
     }
 
-    @Test (threadPoolSize = 8, invocationCount = 50)
     fun call_return_expected_results () {
         val ts = currentTimeMillis ().toString ()
         assert (client?.call (QUEUE, ts).equals (ts + SUFFIX))
