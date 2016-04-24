@@ -8,20 +8,14 @@ import java.lang.System.currentTimeMillis
 import java.lang.System.getProperty
 import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
-import java.net.InetAddress.getLocalHost
 
 import co.there4.hexagon.ratpack.KServerSpec
-import co.there4.hexagon.serialization.parse
-import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.util.EOL
 import co.there4.hexagon.util.filterVars
 import co.there4.hexagon.util.read
-import com.mongodb.MongoWriteException
-import ratpack.handling.Chain
-import ratpack.handling.Context
+import co.there4.hexagon.util.hostname
 import ratpack.server.RatpackServer
-import java.net.UnknownHostException
 
 /*
  * TODO Add base class for Application (setup locales, etc.) for web applications
@@ -47,12 +41,6 @@ private fun showBanner() {
         getProperty("user.country"),
         getProperty("file.encoding")
     )
-    val hostName = try {
-        getLocalHost().getCanonicalHostName()
-    }
-    catch (e: UnknownHostException) {
-        "UNKNOWN"
-    }
 
     val variables = mapOf (
         "application.locale" to locale,
@@ -63,7 +51,7 @@ private fun showBanner() {
         "application.jvm.version" to getRuntimeMXBean().getSpecVersion(),
         "application.boot.time" to format("%01.3f", bootTime / 1000f),
         "application.used.memory" to format("%,d", heap.getUsed() / 1024),
-        "application.host" to hostName
+        "application.host" to hostname
     )
 
     val banner = EOL + EOL + (read ("banner.txt") ?: "") + information
@@ -83,51 +71,8 @@ fun appStart(cb: KServerSpec.() -> Unit): RatpackServer {
     return server
 }
 
-fun <T : Any, K : Any> KChain.crud (repository: MongoIdRepository<T, K>): Chain {
-    val collectionName = repository.namespace.collectionName
-
-    delegate.post (collectionName) { insert (repository, it) }
-    delegate.put (collectionName) { replace (repository, it) }
-    delegate.delete (collectionName + ":id") { delete (repository, it) }
-    delegate.get (collectionName + ":id") { find (repository, it) }
-    return delegate.get (collectionName) { findAll (repository, it) }
+fun <T : Any, K : Any> KChain.crud (repository: MongoIdRepository<T, K>): KChain {
+    RestCrud (repository, this)
+    return this
 }
 
-private fun <T : Any, K : Any> insert (repository: MongoIdRepository<T, K>, handler: Context) {
-    val obj = handler.request.body.toString().parse(repository.type)
-    try {
-        repository.insertOneObject(obj)
-        handler.response.status(201) // Created
-    }
-    catch (e: MongoWriteException) {
-        if (e.error.code == 11000)
-            handler.response.status(500)//(UNPROCESSABLE_ENTITY)
-        else
-            throw e
-    }
-}
-
-private fun <T : Any, K : Any> replace (repository: MongoIdRepository<T, K>, handler: Context) {
-    val obj = handler.request.body.toString ().parse(repository.type)
-    repository.replaceObject(obj)
-}
-
-private fun <T : Any, K : Any> delete (repository: MongoIdRepository<T, K>, handler: Context) {
-    val key = handler.pathTokens["id"]?.parse (repository.keyType) ?: throw IllegalStateException ()
-    repository.deleteId(key)
-}
-
-private fun <T : Any, K : Any> find (repository: MongoIdRepository<T, K>, handler: Context) {
-    val key: K = handler.pathTokens["id"]?.parse(repository.keyType) ?: throw IllegalStateException ()
-    val obj = repository.find(key)
-
-    if (obj == null)
-        handler.response.status(404)//NOT_FOUND)
-    else
-        handler.response.send(obj.serialize())
-}
-
-private fun <T : Any, K : Any> findAll (repository: MongoIdRepository<T, K>, handler: Context) {
-    val objects = repository.findObjects().toList()
-    handler.response.send(objects.serialize())
-}
