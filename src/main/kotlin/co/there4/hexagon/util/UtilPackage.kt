@@ -1,7 +1,6 @@
 package co.there4.hexagon.util
 
 import java.lang.System.*
-import java.net.InetAddress
 import java.lang.ThreadLocal.withInitial
 import java.net.InetAddress.getLocalHost
 import java.time.LocalDateTime

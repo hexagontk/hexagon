@@ -7,21 +7,21 @@ import java.lang.System.getProperty
 val EOL = getProperty("line.separator")
 
 /** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
-val VARIABLE_PREFIX = "#{"
+private val VARIABLE_PREFIX = "#{"
 /** Variable sufix for string filtering. */
-val VARIABLE_SUFFIX = "}"
+private val VARIABLE_SUFFIX = "}"
 /** Delimiter char for banners. */
-val BANNER_DELIMITER = "*"
+private val BANNER_DELIMITER = "*"
 
 /** Start of ANSI sequence. */
-val ANSI_PREFIX = "\u001B["
+private val ANSI_PREFIX = "\u001B["
 /** End of ANSI sequence. */
-val ANSI_END = "m"
+private val ANSI_END = "m"
 
 /** Separator for commands inside a single ANSI sequence. */
-val ANSI_SEPARATOR = ";"
+private val ANSI_SEPARATOR = ";"
 /** ANSI command to reset all attributes. */
-val ANSI_RESET = "0"
+private val ANSI_RESET = "0"
 
 /** ANSI foreground color base. */
 val FOREGROUND = 30
