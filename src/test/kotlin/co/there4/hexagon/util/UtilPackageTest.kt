@@ -3,7 +3,7 @@ package co.there4.hexagon.util
 import org.testng.annotations.Test
 import java.time.LocalDateTime
 import java.util.*
-import kotlin.test.fail
+import kotlin.test.assertFailsWith
 
 @Test class UtilPackageTest {
     fun time_nanos_gets_the_elapsed_nanoseconds () {
@@ -39,7 +39,19 @@ import kotlin.test.fail
         }
     }
 
+    fun hostname_and_ip_contains_valid_values () {
+        assert(hostname != UNKNOWN_LOCALHOST)
+        assert(ip != UNKNOWN_LOCALHOST)
+    }
+
     fun printing_an_exception_returns_its_stack_trace_in_the_string () {
+        val e = RuntimeException ("Runtime error")
+        val trace = e.toText ()
+        assert (trace.startsWith ("java.lang.RuntimeException"))
+        assert (trace.contains ("\tat ${UtilPackageTest::class.java.name}"))
+    }
+
+    fun printing_an_exception_with_a_cause_returns_its_stack_trace_in_the_string () {
         val e = RuntimeException ("Runtime error", IllegalStateException ("invalid state"))
         val trace = e.toText ()
         assert (trace.startsWith ("java.lang.RuntimeException"))
@@ -54,6 +66,12 @@ import kotlin.test.fail
         catch (e: ProgramException) {
             assert (e.causes.size == retries)
         }
+    }
+
+    fun retry_does_not_allow_invalid_parameters () {
+        assertFailsWith<IllegalArgumentException> { retry(0, 1, { }) }
+        assertFailsWith<IllegalArgumentException> { retry(1, -1, { }) }
+        retry(1, 0, { }) // Ok case
     }
 
     fun setting_context_values_for_threads_works_correctly () {
