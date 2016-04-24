@@ -18,7 +18,7 @@ import java.util.*
  *
  * @author juanjoaguililla
  */
-internal abstract class DataAppender : UnsynchronizedAppenderBase<LoggingEvent>() {
+abstract class DataAppender : UnsynchronizedAppenderBase<LoggingEvent>() {
 
     /**
      * Generates location information (class, method, etc.) for this appender. This will have a

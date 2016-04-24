@@ -12,8 +12,13 @@
     </encoder>
   </appender>
 
+  <appender name="data" class="co.there4.hexagon.logging.TestAppender">
+    <findCaller>true</findCaller>
+  </appender>
+
   <root>
     <level value="info" />
     <appender-ref ref="console" />
+    <appender-ref ref="data" />
   </root>
 </configuration>
