@@ -19,17 +19,17 @@ object JacksonSerializer {
     val mapper = createObjectMapper ()
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
-    val formatList = listOf (
+    private val formatList = listOf (
         JacksonJsonFormat ()
     )
 
-    val formats = mapOf (
+    private val formats = mapOf (
         *formatList
             .map { it.contentType to it }
             .toTypedArray()
     )
 
-    val defaultFormat = formatList.first().contentType
+    private val defaultFormat = formatList.first().contentType
 
     private fun createObjectMapper (): ObjectMapper {
         val byteBufferSerializer: JsonSerializer<ByteBuffer> =

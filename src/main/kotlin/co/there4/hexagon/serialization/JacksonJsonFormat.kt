@@ -10,16 +10,17 @@ import kotlin.reflect.KClass
 class JacksonJsonFormat : SerializationFormat {
     override val contentType = "application/json"
 
-    val WRITER = createObjectWriter ()
+    private val writer = createObjectWriter ()
 
     fun createObjectWriter (): ObjectWriter {
         val printer = DefaultPrettyPrinter ().withArrayIndenter (SYSTEM_LINEFEED_INSTANCE)
         return mapper.writer (printer)
     }
 
-    override fun serialize(obj: Any) = WRITER.writeValueAsString (obj)
+    override fun serialize(obj: Any) = writer.writeValueAsString (obj)
 
-    override fun <T : Any> parse(text: String, type: KClass<T>) = mapper.readValue (text, type.java)
+    override fun <T : Any> parse(text: String, type: KClass<T>) =
+        mapper.readValue (text, type.java)
 
     override fun <T : Any> parseList(text: String, type: KClass<T>): List<T> {
         val listType = mapper.getTypeFactory().constructCollectionType(List::class.java, type.java)
