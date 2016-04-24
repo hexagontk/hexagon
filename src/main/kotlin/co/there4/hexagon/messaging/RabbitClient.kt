@@ -217,14 +217,9 @@ class RabbitClient (
 
             var result: String? = null
             while (result == null) {
-                try {
-                    val delivery = consumer.nextDelivery(20000)
-                    if (delivery != null && delivery.properties.correlationId == correlationId)
-                        result = String(delivery.body)
-                }
-                catch (e: Exception) {
-                    throw RuntimeException("Timeout listening queue", e)
-                }
+                val delivery = consumer.nextDelivery(20000)
+                if (delivery != null && delivery.properties.correlationId == correlationId)
+                    result = String(delivery.body)
             }
             result
         }
