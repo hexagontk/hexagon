@@ -2,8 +2,6 @@
 
 package co.there4.hexagon.ratpack
 
-import co.there4.hexagon.ratpack.KChain
-import co.there4.hexagon.ratpack.KContext
 import ratpack.server.RatpackServer
 import ratpack.test.embed.EmbeddedApp
 import ratpack.test.embed.EmbeddedApp.*

@@ -53,7 +53,10 @@ import kotlin.reflect.KClass
             { it.name }
         )
 
-        applicationStart {
+        val server = applicationStart {
+            serverConfig {
+                port(0)
+            }
             handlers {
                 crud(repo)
             }
@@ -61,7 +64,7 @@ import kotlin.reflect.KClass
 
         fun param (json: String?) = json?.parse (Parameter::class) ?: error ("")
         fun paramList (json: String?) = json?.parseList (Parameter::class) ?: error ("")
-        val client = HttpClient (URL ("http://localhost:5050"))
+        val client = HttpClient (URL ("http://localhost:${server.bindPort}"))
         val parameter = Parameter("a", "b")
         val modifiedParameter = parameter.copy(value = "c")
 
@@ -75,5 +78,7 @@ import kotlin.reflect.KClass
         assert (client.delete("/Parameter/${parameter.name}")?.code() == 200)
         assert (client.get("/Parameter/${parameter.name}")?.code() == 404)
         assert (client.getBody("/Parameter") == "[ ]")
+
+        server.stop()
     }
 }
