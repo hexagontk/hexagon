@@ -1,4 +1,4 @@
-package co.there4.hexagon.scheduling
+package co.there4.hexagon.scheduler
 
 import co.there4.hexagon.util.CompanionLogger
 import com.cronutils.model.CronType.QUARTZ

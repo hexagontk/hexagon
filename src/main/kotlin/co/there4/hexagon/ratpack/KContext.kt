@@ -1,5 +1,6 @@
 package co.there4.hexagon.ratpack
 
+import co.there4.hexagon.template.PebbleRenderer
 import ratpack.handling.ByMethodSpec
 import ratpack.handling.Context
 import java.util.*

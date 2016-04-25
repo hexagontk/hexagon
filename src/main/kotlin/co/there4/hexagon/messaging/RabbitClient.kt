@@ -24,8 +24,8 @@ import kotlin.reflect.KClass
  * @author jam
  */
 class RabbitClient (
-    val connectionFactory: ConnectionFactory,
-    val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
+    private val connectionFactory: ConnectionFactory,
+    private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
 
     companion object : CompanionLogger (RabbitClient::class) {
         internal fun parseQueryParameters(query: String): Map<String, String> =

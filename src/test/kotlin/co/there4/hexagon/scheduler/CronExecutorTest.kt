@@ -1,4 +1,4 @@
-package co.there4.hexagon.scheduling
+package co.there4.hexagon.scheduler
 
 import org.testng.annotations.Test
 import java.lang.Thread.sleep

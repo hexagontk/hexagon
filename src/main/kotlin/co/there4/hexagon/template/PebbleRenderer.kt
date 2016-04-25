@@ -1,4 +1,4 @@
-package co.there4.hexagon.ratpack
+package co.there4.hexagon.template
 
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.lang.ClassLoader.getSystemResourceAsStream
@@ -41,7 +41,7 @@ object PebbleRenderer {
             }
         }
 
-        val compiledTemplate = engine.getTemplate("$basePath/$template")
+        val compiledTemplate = engine.getTemplate("${basePath}/$template")
         val bundlePath = template.substring(0, template.lastIndexOf('.')).replace('/', '.')
 
         val texts = loadBundle (bundlePath)

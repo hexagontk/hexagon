@@ -1,4 +1,4 @@
-package co.there4.hexagon.logging
+package co.there4.hexagon.log
 
 import ch.qos.logback.classic.spi.LoggingEvent
 import ch.qos.logback.classic.spi.ThrowableProxyUtil
@@ -56,13 +56,8 @@ abstract class DataAppender : UnsynchronizedAppenderBase<LoggingEvent>() {
      * It is overriden to make sure `super.start ()` is called.
      */
     override fun start() {
-        try {
-            super.start() // It is *IMPORTANT* to call super.start in first place
-            open()
-        }
-        catch (e: Exception) {
-            throw RuntimeException("Error opening event appender", e)
-        }
+        super.start() // It is *IMPORTANT* to call super.start in first place
+        open()
     }
 
     /**
@@ -71,9 +66,6 @@ abstract class DataAppender : UnsynchronizedAppenderBase<LoggingEvent>() {
     override fun stop() {
         try {
             close()
-        }
-        catch (e: Exception) {
-            throw RuntimeException("Error closing event appender", e)
         }
         finally {
             super.stop()
@@ -87,26 +79,21 @@ abstract class DataAppender : UnsynchronizedAppenderBase<LoggingEvent>() {
      * @param loggingEvent The SLF4J framework log event.
      */
     override fun append(loggingEvent: LoggingEvent) {
-        try {
-            val data = LinkedHashMap<String, Any>()
+        val data = LinkedHashMap<String, Any>()
 
-            appendCommonData(loggingEvent, data)
-            appendErrorData(loggingEvent, data)
-            appendArgumentsData(loggingEvent, data)
-            appendCallerData(loggingEvent, data)
+        appendCommonData(loggingEvent, data)
+        appendErrorData(loggingEvent, data)
+        appendArgumentsData(loggingEvent, data)
+        appendCallerData(loggingEvent, data)
 
-            data.putAll(loggingEvent.mdcPropertyMap)
-            data.putAll(Context.entries()
-                .filter { it.key is String }
-                .map { it.key as String to it.value }
-            )
+        data.putAll(loggingEvent.mdcPropertyMap)
+        data.putAll(Context.entries()
+            .filter { it.key is String }
+            .map { it.key as String to it.value }
+        )
 
-            // Call subclass write logic with all gathered information (removing 'null' values)
-            write(data)
-        }
-        catch (e: Exception) {
-            throw RuntimeException("Error appending event", e)
-        }
+        // Call subclass write logic with all gathered information (removing 'null' values)
+        write(data)
     }
 
     /**

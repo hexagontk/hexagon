@@ -12,7 +12,7 @@
     </encoder>
   </appender>
 
-  <appender name="data" class="co.there4.hexagon.logging.TestAppender">
+  <appender name="data" class="co.there4.hexagon.log.TestAppender">
     <findCaller>true</findCaller>
   </appender>
 

@@ -1,4 +1,4 @@
-package co.there4.hexagon.logging
+package co.there4.hexagon.log
 
 /**
  * TODO Add assertions.
