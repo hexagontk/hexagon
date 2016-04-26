@@ -11,12 +11,23 @@ open class CompanionLogger(clazz: KClass<out Any>){
 
     private val logger = getLogger(clazz.java)
 
-    fun trace (message: String) = logger.trace(message)
-    fun debug (message: String) = logger.debug(message)
-    fun info (message: String) = logger.info(message)
-    fun warn (message: String) = logger.warn(message)
-    fun error (message: String) = logger.error(message)
+    fun trace (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+        logger.trace(message, arguments)
+
+    fun debug (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+        logger.debug(message, arguments)
+
+    fun info (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+        logger.info(message, arguments)
+
+    fun warn (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+        logger.warn(message, arguments)
+
+    fun error (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+        logger.error(message, arguments)
+
     fun warn (message: String, exception: Throwable) = logger.warn(message, exception)
+
     fun error (message: String, exception: Throwable) = logger.error(message, exception)
 
     fun flare (message: String = "") = logger.trace("${FLARE_PREFIX} $message")
