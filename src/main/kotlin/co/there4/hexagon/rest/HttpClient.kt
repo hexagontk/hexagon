@@ -10,45 +10,45 @@ class HttpClient (val base: URL = URL ("http://localhost:5050")) {
 
     private fun buildUrl(url: String) = Request.Builder().url(base.toString() + url)
 
-    fun get(url: String = ""): Response? {
+    fun get(url: String = ""): Response {
         val request = buildUrl(url).get().build()
         return http(request)
     }
 
-    fun delete(url: String = ""): Response? {
+    fun delete(url: String = ""): Response {
         val request = buildUrl(url).delete().build()
         return http(request)
     }
 
-    fun post(url: String = "", json: String): Response? {
+    fun post(url: String = "", json: String): Response {
         val body = RequestBody.create(JSON, json)
         val request = buildUrl(url).post(body).build()
         return http(request)
     }
 
-    fun put(url: String = "", json: String): Response? {
+    fun put(url: String = "", json: String): Response {
         val body = RequestBody.create(JSON, json)
         val request = buildUrl(url).put(body).build()
         return http(request)
     }
 
-    fun options(url: String = ""): Response? {
+    fun options(url: String = ""): Response {
         val request = buildUrl(url).method("OPTIONS", null).build()
         return http(request)
     }
 
-    fun patch(url: String = "", json: String): Response? {
+    fun patch(url: String = "", json: String): Response {
         val body = RequestBody.create(JSON, json)
         val request = buildUrl(url).patch(body).build()
         return http(request)
     }
 
-    fun getBody(url: String = ""): String? = get(url)?.body()?.string()
-    fun deleteBody(url: String = ""): String? = delete(url)?.body()?.string()
-    fun postBody(url: String = "", json: String): String? = post(url, json)?.body()?.string()
-    fun putBody(url: String = "", json: String): String? = put(url, json)?.body()?.string()
-    fun optionsBody(url: String = ""): String? = options(url)?.body()?.string()
-    fun patchBody(url: String = "", json: String): String? = patch(url, json)?.body()?.string()
+    fun getBody(url: String = ""): String? = get(url).body().string()
+    fun deleteBody(url: String = ""): String? = delete(url).body().string()
+    fun postBody(url: String = "", json: String): String? = post(url, json).body().string()
+    fun putBody(url: String = "", json: String): String? = put(url, json).body().string()
+    fun optionsBody(url: String = ""): String? = options(url).body().string()
+    fun patchBody(url: String = "", json: String): String? = patch(url, json).body().string()
 
     fun http(request: Request) = client.newCall(request).execute()
 }
