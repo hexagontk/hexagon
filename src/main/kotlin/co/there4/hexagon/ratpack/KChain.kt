@@ -2,7 +2,7 @@ package co.there4.hexagon.ratpack
 
 import ratpack.handling.Chain
 
-class KChain (val delegate: Chain) : Chain by delegate {
+class KChain (private val delegate: Chain) : Chain by delegate {
     fun fileSystem(path: String = "", cb: KChain.() -> Unit) =
         delegate.fileSystem (path) { KChain(it).(cb)() }
     fun prefix(path: String = "", cb: KChain.() -> Unit) =

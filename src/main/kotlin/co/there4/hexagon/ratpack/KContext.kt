@@ -8,7 +8,7 @@ import java.util.*
 /**
  * TODO Support setting content-type depending on template extension
  */
-class KContext (val delegate: Context) : Context by delegate {
+class KContext (private val delegate: Context) : Context by delegate {
     fun byMethod (cb: ByMethodSpec.() -> Unit) {
         delegate.byMethod { it.(cb)() }
     }
