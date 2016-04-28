@@ -106,7 +106,7 @@ import java.net.URL
                 }
 
                 fileSystem {
-                    files { it.dir("public") }
+                    files { dir("public") }
                 }
             }
         }
