@@ -1,8 +1,11 @@
 package co.there4.hexagon.ratpack
 
+import ratpack.file.FileHandlerSpec
 import ratpack.handling.Chain
 
 class KChain (private val delegate: Chain) : Chain by delegate {
+    fun files(cb: FileHandlerSpec.() -> Unit) =
+        delegate.files { it.(cb)() }
     fun fileSystem(path: String = "", cb: KChain.() -> Unit) =
         delegate.fileSystem (path) { KChain(it).(cb)() }
     fun prefix(path: String = "", cb: KChain.() -> Unit) =
