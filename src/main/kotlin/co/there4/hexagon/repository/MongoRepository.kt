@@ -6,6 +6,7 @@ import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.convertToObject
 import co.there4.hexagon.util.CompanionLogger
 import com.mongodb.client.MongoCollection
+import com.mongodb.client.MongoDatabase
 import com.mongodb.client.MongoIterable
 import com.mongodb.client.model.FindOneAndReplaceOptions
 import com.mongodb.client.model.InsertManyOptions
@@ -23,6 +24,14 @@ open class MongoRepository <T : Any> (
     MongoCollection<Document> by collection {
 
     companion object : CompanionLogger (MongoRepository::class)
+
+    constructor (type: KClass<T>, database: MongoDatabase, publishEvents: Boolean = false) :
+        this (
+            type,
+            mongoCollection(type.simpleName ?: throw IllegalArgumentException (), database),
+            publishEvents
+        )
+
 
     protected fun publish (source: T, action: RepositoryEventAction) {
         if (publishEvents)
