@@ -30,7 +30,7 @@ class KContext (private val delegate: Context) : Context by delegate {
         if (body == "")
             response.send()
         else
-            response.send(body, contentType)
+            response.send(contentType, body)
     }
 
     fun ok (body: String = "", contentType: String = "text/plain", status: Int = 200) =
