@@ -5,6 +5,7 @@ import co.there4.hexagon.repository.RepositoryEventAction.DELETED
 import com.mongodb.client.model.Filters.*
 import com.mongodb.client.model.Filters.`in` as _in
 import com.mongodb.client.MongoCollection
+import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.IndexOptions
 import org.bson.Document
 import kotlin.reflect.KClass
@@ -18,6 +19,24 @@ class MongoIdRepository<T : Any, K : Any> (
     publishEvents: Boolean = false,
     indexOrder: Int = 1) :
     MongoRepository<T> (type, collection, publishEvents) {
+
+    constructor (
+        type: KClass<T>,
+        database: MongoDatabase,
+        keyName: String,
+        keyType: KClass<K>,
+        keySupplier: (T) -> K,
+        publishEvents: Boolean = false,
+        indexOrder: Int = 1) :
+        this (
+            type,
+            mongoCollection(type.simpleName ?: throw IllegalArgumentException (), database),
+            keyName,
+            keyType,
+            keySupplier,
+            publishEvents,
+            indexOrder
+        )
 
     init {
         val indexOptions = IndexOptions ().unique (true).background (true)
