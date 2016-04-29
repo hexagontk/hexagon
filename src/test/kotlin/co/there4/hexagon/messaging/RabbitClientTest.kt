@@ -39,9 +39,8 @@ import kotlin.test.assertFailsWith
     }
 
     fun create_a_connection_factory_with_all_parameters_succeed() {
-        val opt1 = "channelCacheSize=50&heartbeat=25&automaticRecovery=true&recoveryInterval=5"
-        val opt2 = "topologyRecovery=false"
-        val uri = "amqp://user:pass@localhost:12345?$opt1&$opt2"
+        val opt = "channelCacheSize=50&heartbeat=25&automaticRecovery=true&recoveryInterval=5"
+        val uri = "amqp://user:pass@localhost:12345?$opt"
         val cf = createConnectionFactory(uri)
         assert (cf.host == "localhost")
         assert (cf.port == 12345)

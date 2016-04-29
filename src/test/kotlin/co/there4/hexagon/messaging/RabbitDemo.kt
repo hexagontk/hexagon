@@ -9,6 +9,7 @@ import kotlin.test.assertFailsWith
 @Test class RabbitDemo {
     private val URI = "amqp://guest:guest@localhost"
     private val QUEUE = "test"
+    private val QUEUE_ERROR = "error"
     private val SUFFIX = "DONE"
     private val DELAY = 10L
 
@@ -18,9 +19,14 @@ import kotlin.test.assertFailsWith
     @BeforeClass fun startConsumer () {
         consumer = RabbitClient (URI)
         consumer?.declareQueue (QUEUE)
-        consumer?.reply (QUEUE, String::class) { a ->
+        consumer?.consume (QUEUE, String::class) { a ->
             Thread.sleep (DELAY)
             a + SUFFIX
+        }
+
+        consumer?.declareQueue (QUEUE_ERROR)
+        consumer?.consume (QUEUE_ERROR, String::class) { a ->
+            throw RuntimeException("Error with: $a")
         }
 
         client = RabbitClient (URI)
@@ -28,6 +34,7 @@ import kotlin.test.assertFailsWith
 
     @AfterClass fun deleteTestQueue () {
         consumer?.deleteQueue (QUEUE)
+        consumer?.deleteQueue (QUEUE_ERROR)
         assertFailsWith<IllegalStateException> {
             consumer?.close()
         }
@@ -36,5 +43,7 @@ import kotlin.test.assertFailsWith
     fun call_return_expected_results () {
         val ts = currentTimeMillis ().toString ()
         assert (client?.call (QUEUE, ts).equals (ts + SUFFIX))
+        val result = client?.call (QUEUE_ERROR, ts) ?: ""
+        assert (result.contains (ts.toString()) && result.contains ("Error with: $ts"))
     }
 }
