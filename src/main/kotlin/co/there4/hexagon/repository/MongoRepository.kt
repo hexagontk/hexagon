@@ -43,13 +43,11 @@ open class MongoRepository <T : Any> (
             sources.forEach { publish(it, action) }
     }
 
+    /**
+     * TODO Publish error event (try-catch with throw)
+     */
     fun insertOneObject (document: T) {
-        try {
-            insertOne (map (document))
-        }
-        catch (e: Exception) {
-            error (">>>", e)
-        }
+        insertOne (map (document))
         publish(document, INSERTED)
     }
 
