@@ -36,6 +36,10 @@ class KContext (private val delegate: Context) : Context by delegate {
     fun ok (body: String = "", contentType: String = "text/plain", status: Int = 200) =
         send (body, contentType, status)
 
+    fun ok (status: Int = 200) = ok("", "", status)
+
     fun halt (body: String = "", contentType: String = "text/plain", status: Int = 500) =
         send (body, contentType, status)
+
+    fun halt (status: Int = 500) = halt("", "", status)
 }

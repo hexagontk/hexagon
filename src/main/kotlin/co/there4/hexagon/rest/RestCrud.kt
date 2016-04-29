@@ -31,12 +31,11 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, val 
             val obj = it.text.parse(repository.type)
             try {
                 repository.insertOneObject(obj)
-                response.status(201) // Created
-                response.send()
+                ok(201) // Created
             }
             catch (e: MongoWriteException) {
                 if (e.error.code == 11000)
-                    response.status(500)//(UNPROCESSABLE_ENTITY)
+                    halt(500)//(UNPROCESSABLE_ENTITY)
                 else
                     throw e
             }
@@ -47,16 +46,14 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, val 
         request.body.then {
             val obj = it.text.parse(repository.type)
             repository.replaceObject(obj)
-            response.status(200) // Created
-            response.send()
+            ok(200) // Created
         }
     }
 
     private fun <T : Any, K : Any> KContext.delete (repository: MongoIdRepository<T, K>) {
         val key = parseKey(repository, this)
         repository.deleteId(key)
-        response.status(200)
-        response.send()
+        ok(200)
     }
 
     private fun <T : Any, K : Any> KContext.find (repository: MongoIdRepository<T, K>) {
@@ -64,12 +61,10 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, val 
         val obj = repository.find(key)
 
         if (obj == null) {
-            response.status(404)//NOT_FOUND)
-            response.send()
+            halt(404)//NOT_FOUND)
         }
         else {
-            response.status(200)
-            response.send(obj.serialize())
+            ok(obj.serialize())
         }
     }
 
@@ -85,7 +80,6 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, val 
 
     private fun <T : Any, K : Any> KContext.findAll (repository: MongoIdRepository<T, K>) {
         val objects = repository.findObjects().toList()
-        response.status(200)
-        response.send(objects.serialize())
+        ok(objects.serialize())
     }
 }
