@@ -4,7 +4,6 @@ import co.there4.hexagon.serialization.SerializationTest
 import co.there4.hexagon.util.CompanionLogger
 import com.github.fakemongo.Fongo
 import com.mongodb.MongoBulkWriteException
-import com.mongodb.MongoClient
 import com.mongodb.client.model.FindOneAndReplaceOptions
 import com.mongodb.client.model.InsertManyOptions
 import com.mongodb.client.model.InsertOneOptions
@@ -23,29 +22,10 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
 
     companion object : CompanionLogger (RepositoryTest::class)
 
-    val USE_REAL_MONGO_DB = getProperty ("useRealMongoDb") != null
     protected val collection: MongoRepository<T> = createCollection(type)
 
-    fun createDatabase (type: KClass<*>) =
-        try {
-            if (USE_REAL_MONGO_DB) {
-                val mongoClient = MongoClient ()
-                mongoClient.getDatabase (RepositoryTest::class.simpleName)
-            }
-            else {
-                val fongoClient = Fongo (type.simpleName)
-                fongoClient.getDatabase (RepositoryTest::class.simpleName)
-            }
-        }
-        catch (e: Exception) {
-            val fongoClient = Fongo (type.simpleName)
-            fongoClient.getDatabase (RepositoryTest::class.simpleName)
-        }
-
     fun <T : Any> createCollection (type: KClass<T>): MongoRepository<T> {
-        val database = createDatabase (type)
-        val collection = database.getCollection(type.simpleName)
-        val repository = MongoRepository (type, collection, true)
+        val repository = MongoRepository (type, mongoDatabase (), true)
         setupCollection(repository)
         return repository
     }

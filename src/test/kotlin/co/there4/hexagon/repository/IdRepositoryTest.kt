@@ -9,19 +9,8 @@ abstract class IdRepositoryTest <T : Any, K : Any> (
     type: KClass<T>, idField: String, keyType: KClass<K>, keySupplier: (T) -> K) :
     RepositoryTest<T, K>(type, idField) {
 
-    fun <T : Any, K : Any> createCollection (
-        type: KClass<T>,
-        keyName: String,
-        keyType: KClass<K>,
-        keySupplier: (T) -> K) : MongoIdRepository<T, K> {
-
-        val database = createDatabase (type)
-        val collection = database.getCollection(type.simpleName)
-        return MongoIdRepository(type, collection, keyName, keyType, keySupplier, true)
-    }
-
     val idCollection: MongoIdRepository<T, K> =
-        createCollection (type, idField, keyType, keySupplier)
+        MongoIdRepository(type, mongoDatabase(), idField, keyType, keySupplier, true)
 
     override fun getObjectKey (obj: T) = idCollection.getKey (obj)
 
