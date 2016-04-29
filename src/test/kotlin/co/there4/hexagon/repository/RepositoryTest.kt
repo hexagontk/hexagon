@@ -2,7 +2,6 @@ package co.there4.hexagon.repository
 
 import co.there4.hexagon.serialization.SerializationTest
 import co.there4.hexagon.util.CompanionLogger
-import com.github.fakemongo.Fongo
 import com.mongodb.MongoBulkWriteException
 import com.mongodb.client.model.FindOneAndReplaceOptions
 import com.mongodb.client.model.InsertManyOptions
