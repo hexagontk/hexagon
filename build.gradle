@@ -59,7 +59,6 @@ dependencies {
     compile ("com.mitchellbosecke:pebble:$pebbleVersion")
 
     // TEST
-    testCompile ("com.github.fakemongo:fongo:$fongoVersion")
     testCompile ("io.ratpack:ratpack-test:$ratpackVersion")
 }
 
