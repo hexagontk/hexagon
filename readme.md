@@ -5,8 +5,8 @@
 [BuildImg]: https://travis-ci.org/jamming/hexagon.svg?branch=master
 [Build]: https://travis-ci.org/jamming/hexagon
 
-[CoverageImg]: https://codecov.io/github/jamming/hexagon/coverage.svg?branch=master
-[Coverage]: https://codecov.io/github/jamming/hexagon?branch=master
+[CoverageImg]: https://codecov.io/gh/jamming/hexagon/branch/master/graph/badge.svg
+[Coverage]: https://codecov.io/gh/jamming/hexagon
 
 [DownloadImg]: https://img.shields.io/bintray/v/jamming/maven/Hexagon.svg
 [Download]: https://bintray.com/jamming/maven/Hexagon/_latestVersion
@@ -17,7 +17,6 @@
 [WebImg]: https://img.shields.io/badge/web-there4.co%2Fhexagon-blue.svg
 [Web]: http://there4.co/hexagon
 
-
 HEXAGON
 =======
 ### The atoms of your platform
@@ -25,37 +24,85 @@ HEXAGON
 Hexagon is a micro services framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 
-* rest
-* messaging
-* serialization
-* storage
-* events
-* configuration
-* logging
-* scheduling
+* [rest](http://there4.co/hexagon/rest.html)
+* [messaging](http://there4.co/hexagon/messaging.html)
+* [serialization](http://there4.co/hexagon/serialization.html)
+* [storage](http://there4.co/hexagon/storage.html)
+* [events](http://there4.co/hexagon/events.html)
+* [configuration](http://there4.co/hexagon/configuration.html)
+* [logging](http://there4.co/hexagon/logging.html)
+* [scheduling](http://there4.co/hexagon/scheduling.html)
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
 
-* Simple to use
-* Easily hackable
-* Be small
+1. Simple to use
+2. Easily hackable
+3. Be small
 
-DISCLAIMER: The project status right now is alpha... You should not use it in production yet
+The name and logo are an hexagon because it is the usual way of representing a microservice in a
+diagram.
+
+DISCLAIMER: The project status right now is beta. Use it at your own risk
+
+[Kotlin]: http://kotlinlang.org
+[Ratpack]: http://ratpack.io
+[Jackson]: http://wiki.fasterxml.com/JacksonHome
+[RabbitMQ]: http://www.rabbitmq.com
+[MongoDB]: https://www.mongodb.com
 
 ## Getting started
 
-Check the project [Website](http://there4.co/hexagon)
+Get the dependency from [JCenter] (you need to setup de repository first):
 
-## Setup
+Gradle:
+
+```groovy
+compile ('co.there4:hexagon:${version}')
+```
+
+Maven:
+
+```xml
+<dependency>
+  <groupId>co.there4</groupId>
+  <artifactId>hexagon</artifactId>
+  <version>${version}</version>
+</dependency>
+```
+
+[JCenter]: https://bintray.com/jamming/maven/Hexagon
+
+Write the code:
+
+```java
+import co.there4.hexagon.rest.*
+
+fun main(args: Array<String>) {
+    applicationStart {
+        handlers {
+            get("hello/:name") { ok("Hello ${pathTokens["name"]}!") }
+        }
+    }
+}
+```
+
+Launch it and view the results at: [http://localhost:5050/hello]
+
+For more details, check the project [Website](http://there4.co/hexagon)
+
+## Build and Contribute
 
 Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
 You can build the project and its documentation after getting the source from github running:
 
+    docker-compose -f src/test/services.yaml up -d
     ./gradle/wrapper --no-daemon clean site
 
 The results are located in the `/build` directory
+
+![coverage](https://codecov.io/gh/jamming/hexagon/commit/ccd225876f745c240db924f388ed481d8c8c7661/graphs/tree.svg)
 
 
 LICENSE

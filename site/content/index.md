@@ -24,16 +24,18 @@ uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
 
-* Simple to use
-* Easily hackable
-* Be small
+1. Simple to use
+2. Easily hackable
+3. Be small
 
-DISCLAIMER: The project status right now is alpha... You should not use it in production yet
+DISCLAIMER: The project status right now is alpha. You should not use it in production yet
 
 
 ## Getting Started
 
-Get the dependency from [JCenter] (you need to setup de repository first):
+Get the dependency from [JCenter] (you need to [setup the repository] first):
+
+[setup the repository]: https://bintray.com/bintray/jcenter
 
 Gradle:
 
@@ -56,18 +58,18 @@ Maven:
 Write the code:
 
 ```java
-import co.there4.hexagon.rest.ratpack.*
+import co.there4.hexagon.rest.*
 
 fun main(args: Array<String>) {
-    serverStart {
+    applicationStart {
         handlers {
-            get("hello/:name") { render("Hello ${pathTokens["name"]}!") }
+            get("hello/:name") { ok("Hello ${pathTokens["name"]}!") }
         }
     }
 }
 ```
 
-Launch it and view the results at: [http://localhost:5050/hello]
+Launch it and view the results at: [http://localhost:5050/hello](http://localhost:5050/hello)
 
 
 ## Examples
