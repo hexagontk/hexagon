@@ -1,17 +1,19 @@
 package co.there4.hexagon.messaging
 
 import co.there4.hexagon.serialization.parse
+import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.util.*
-import com.rabbitmq.client.AMQP
-import com.rabbitmq.client.Channel
-import com.rabbitmq.client.DefaultConsumer
-import com.rabbitmq.client.Envelope
+import com.rabbitmq.client.*
 import java.nio.charset.Charset
 import java.util.concurrent.ExecutorService
 import kotlin.reflect.KClass
 
-abstract class Handler<T : Any> (
-    channel: Channel, val executor: ExecutorService, val type: KClass<T>):
+class Handler<T : Any, R : Any> (
+    connectionFactory: ConnectionFactory,
+    channel: Channel,
+    private val executor: ExecutorService,
+    val type: KClass<T>,
+    private val handler: (T) -> R):
     DefaultConsumer (channel) {
 
     companion object : CompanionLogger (Handler::class) {
@@ -19,25 +21,24 @@ abstract class Handler<T : Any> (
         val DELAY = 50L
     }
 
+    private val client: RabbitClient = RabbitClient (connectionFactory)
+
     override fun handleDelivery(
-        consumerTag: String?,
-        envelope: Envelope?,
-        properties: AMQP.BasicProperties?,
-        body: ByteArray?) {
+        consumerTag: String,
+        envelope: Envelope,
+        properties: AMQP.BasicProperties,
+        body: ByteArray) {
 
         executor.execute {
             pushTime ()
 
-            val encoding = Charset.forName(properties?.contentEncoding) ?: Charset.defaultCharset()
-            val correlationId = properties?.correlationId
-            val replyTo = properties?.replyTo
+            val encoding = Charset.forName(properties.contentEncoding) ?: Charset.defaultCharset()
+            val correlationId = properties.correlationId
+            val replyTo = properties.replyTo
 
             var request: String? = null
 
             try {
-                if (body == null)
-                    throw IllegalStateException ("'Null' body")
-
                 request = String(body, encoding)
                 val input = request.parse(type)
                 handleMessage(input, replyTo, correlationId)
@@ -47,9 +48,7 @@ abstract class Handler<T : Any> (
                 handleError(ex, replyTo, correlationId)
             }
             finally {
-                val deliveryTag =
-                    envelope?.deliveryTag ?: throw IllegalStateException ("No delivery tag")
-                retry (RETRIES, DELAY) { channel.basicAck (deliveryTag, false) }
+                retry (RETRIES, DELAY) { channel.basicAck (envelope.deliveryTag, false) }
                 trace (
                     """
                     ENCODING: ${encoding.name()} CORRELATION ID: $correlationId
@@ -60,9 +59,22 @@ abstract class Handler<T : Any> (
         }
     }
 
-    protected abstract fun handleMessage(message: T, replyTo: String?, correlationId: String?)
+    private fun handleMessage(message: T, replyTo: String?, correlationId: String?) {
+        val response = handler(message)
 
-    protected open fun handleError(exception: Exception, replyTo: String?, correlationId: String?) {
-        // Empty error handler
+        val output = when (response) {
+            is String -> response
+            is Int -> response.toString()
+            is Long -> response.toString()
+            else -> response.serialize()
+        }
+
+        if (replyTo != null && correlationId != null)
+            client.publish("", replyTo, output, correlationId)
+    }
+
+    private fun handleError(exception: Exception, replyTo: String?, correlationId: String?) {
+        if (replyTo != null && correlationId != null)
+            client.publish("", replyTo, exception.message ?: exception.javaClass.name, correlationId)
     }
 }

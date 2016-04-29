@@ -54,7 +54,6 @@ class RabbitClient (
             setVar(params["automaticRecovery"]?.toBoolean()) { cf.isAutomaticRecoveryEnabled = it }
             setVar(params["recoveryInterval"]?.toLong()) { cf.networkRecoveryInterval = it }
             setVar(params["shutdownTimeout"]?.toInt()) { cf.shutdownTimeout = it }
-            setVar(params["topologyRecovery"]?.toBoolean()) { cf.isTopologyRecoveryEnabled = it }
             setVar(params["heartbeat"]?.toInt()) { cf.requestedHeartbeat = it }
 
             return cf
@@ -73,18 +72,13 @@ class RabbitClient (
 
         this.connection = Connections.create(connectionFactory, config)
 
-        val topologyRecoveryEnabled =
-            if (connectionFactory.isTopologyRecoveryEnabled) "TOPOLOGY RECOVERY"
-            else "NO TOPOLOGY RECOVERY"
-
         info("""
             RabbitMQ Client connected to:
             ${connectionFactory.host}
             ${connectionFactory.port}
             ${connectionFactory.virtualHost}
             ${connectionFactory.username}
-            ${connectionFactory.password}
-            ${topologyRecoveryEnabled}""".trimIndent()
+            ${connectionFactory.password}""".trimIndent()
         )
     }
 
@@ -116,16 +110,9 @@ class RabbitClient (
         consume(routingKey, type, handler)
     }
 
-    fun <T : Any> consume(queueName: String, type: KClass<T>, handler: (T) -> Unit) {
+    fun <T : Any, R : Any> consume(queueName: String, type: KClass<T>, handler: (T) -> R) {
         val channel = createChannel()
-        val callback = Consumer(channel, threadPool, type, handler)
-        channel.basicConsume(queueName, false, callback)
-        info("Consuming messages in $queueName")
-    }
-
-    fun <T : Any, R : Any> reply(queueName: String, type: KClass<T>, handler: (T) -> R) {
-        val channel = createChannel()
-        val callback = Replier(connectionFactory, channel, threadPool, type, handler)
+        val callback = Handler(connectionFactory, channel, threadPool, type, handler)
         channel.basicConsume(queueName, false, callback)
         info("Consuming messages in $queueName")
     }
