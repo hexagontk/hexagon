@@ -27,8 +27,8 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, val 
     }
 
     private fun <T : Any, K : Any> KContext.insert (repository: MongoIdRepository<T, K>) {
-        request.body.then {
-            val obj = it.text.parse(repository.type)
+        withBody {
+            val obj = text.parse(repository.type)
             try {
                 repository.insertOneObject(obj)
                 ok(201) // Created
@@ -43,8 +43,8 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, val 
     }
 
     private fun <T : Any, K : Any> KContext.replace (repository: MongoIdRepository<T, K>) {
-        request.body.then {
-            val obj = it.text.parse(repository.type)
+        withBody {
+            val obj = text.parse(repository.type)
             repository.replaceObject(obj)
             ok(200) // Created
         }
