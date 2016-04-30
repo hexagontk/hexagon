@@ -8,6 +8,7 @@ import java.util.*
 /**
  * TODO Support different engines by subdir. Ie:
  * TODO Extract templates to different package (useful outside REST module)
+ * TODO Add code to test templates (check unresolved variables in bundles, multilanguage, etc.)
  *
  * templates/pebble/file
  * templates/freemarker/file

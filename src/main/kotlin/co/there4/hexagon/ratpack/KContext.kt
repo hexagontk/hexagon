@@ -2,8 +2,10 @@ package co.there4.hexagon.ratpack
 
 import co.there4.hexagon.template.PebbleRenderer
 import ratpack.file.MimeTypes
+import ratpack.form.Form
 import ratpack.handling.ByMethodSpec
 import ratpack.handling.Context
+import ratpack.http.TypedData
 import java.util.*
 
 class KContext (private val delegate: Context) : Context by delegate {
@@ -31,6 +33,14 @@ class KContext (private val delegate: Context) : Context by delegate {
             response.send()
         else
             response.send(contentType, body)
+    }
+
+    fun withBody(callback: TypedData.() -> Unit) {
+        request.body.then { it.(callback)() }
+    }
+
+    fun withForm(callback: Form.() -> Unit) {
+        context.parse(Form::class.java).then { it.(callback)() }
     }
 
     fun ok (body: String = "", contentType: String = "text/plain", status: Int = 200) =
