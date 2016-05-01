@@ -31,6 +31,7 @@ uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 * [events](http://there4.co/hexagon/events.html)
 * [configuration](http://there4.co/hexagon/configuration.html)
 * [logging](http://there4.co/hexagon/logging.html)
+* [templates](http://there4.co/hexagon/templates.html)
 * [scheduling](http://there4.co/hexagon/scheduling.html)
 
 The purpose of the project is to provide a micro services framework with the following priorities
