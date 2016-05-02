@@ -25,14 +25,14 @@ Hexagon is a micro services framework that doesn't follow the flock. It is writt
 uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 
 * [rest](http://there4.co/hexagon/rest.html)
-* [messaging](http://there4.co/hexagon/messaging.html)
-* [serialization](http://there4.co/hexagon/serialization.html)
-* [storage](http://there4.co/hexagon/storage.html)
-* [events](http://there4.co/hexagon/events.html)
-* [configuration](http://there4.co/hexagon/configuration.html)
-* [logging](http://there4.co/hexagon/logging.html)
-* [templates](http://there4.co/hexagon/templates.html)
-* [scheduling](http://there4.co/hexagon/scheduling.html)
+* [messaging](http://there4.co/hexagon/messaging.html) (TODO)
+* [serialization](http://there4.co/hexagon/serialization.html) (TODO)
+* [storage](http://there4.co/hexagon/storage.html) (TODO)
+* [events](http://there4.co/hexagon/events.html) (TODO)
+* [configuration](http://there4.co/hexagon/configuration.html) (TODO)
+* [logging](http://there4.co/hexagon/logging.html) (TODO)
+* [templates](http://there4.co/hexagon/templates.html) (TODO)
+* [scheduling](http://there4.co/hexagon/scheduling.html) (TODO)
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
