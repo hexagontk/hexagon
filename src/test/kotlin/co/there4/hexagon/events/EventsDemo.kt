@@ -7,6 +7,8 @@ import org.testng.annotations.Test
 import java.lang.System.nanoTime
 
 @Test class EventsDemo {
+    class TickEvent (val nanos: Long) : Event ("clock.tick")
+
     companion object : CompanionLogger(EventsDemo::class)
 
     @BeforeClass fun startConsumer() {
