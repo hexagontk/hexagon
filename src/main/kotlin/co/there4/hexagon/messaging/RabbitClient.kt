@@ -3,10 +3,10 @@ package co.there4.hexagon.messaging
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.util.retry
 import com.rabbitmq.client.*
-import net.jodah.lyra.Connections
-import net.jodah.lyra.config.Config
-import net.jodah.lyra.config.RecoveryPolicy
-import net.jodah.lyra.util.Duration
+//import net.jodah.lyra.Connections
+//import net.jodah.lyra.config.Config
+//import net.jodah.lyra.config.RecoveryPolicy
+//import net.jodah.lyra.util.Duration
 import java.io.Closeable
 import java.lang.Runtime.getRuntime
 import java.net.URI
@@ -65,12 +65,14 @@ class RabbitClient (
     private var connection: Connection? = null
 
     init {
-        val config = Config()
-            .withRecoveryPolicy(RecoveryPolicy()
-            .withBackoff(Duration.seconds(1), Duration.seconds(30))
-            .withMaxAttempts(20))
+//        val config = Config()
+//            .withRecoveryPolicy(RecoveryPolicy()
+//            .withBackoff(Duration.seconds(1), Duration.seconds(30))
+//            .withMaxAttempts(20))
+//
+//        this.connection = Connections.create(connectionFactory, config)
 
-        this.connection = Connections.create(connectionFactory, config)
+        this.connection = connectionFactory.newConnection()
 
         info("""
             RabbitMQ Client connected to:
@@ -98,6 +100,19 @@ class RabbitClient (
 
     fun deleteQueue(name: String) {
         withChannel { it.queueDelete(name) }
+    }
+
+    fun bindExchange (exchange: String, exchangeType: String, routingKey: String, queue: String) {
+        withChannel {
+            it.queueDeclare(queue, false, false, false, null)
+            it.exchangeDeclare(exchange, exchangeType, false, false, false, null)
+            try {
+                it.exchangeBind(exchange, queue, routingKey)
+            }
+            catch (e: Exception) {
+                println (e)
+            }
+        }
     }
 
     fun <T : Any> consume(

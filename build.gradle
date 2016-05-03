@@ -15,8 +15,6 @@ buildscript {
 
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-
-        classpath "com.squareup.okhttp3:okhttp:$okhttpVersion"
     }
 }
 
@@ -84,109 +82,9 @@ clean.doLast {
     delete "$buildDir"
 }
 
-/* Only Linux... sorry */
-//task startTestContainers(type:Exec) {
-//    // TODO Not working
-//    commandLine = "ls" //"docker-compose -f src/test/services.yml up -d'"
-//}
-//
-//test.dependsOn.add (startTestContainers)
-test.doFirst {
-    // TODO Remove when create setups programatically is developed in RabbitMQ client
-    String rabbitApi = "http://localhost:15672/api"
-    post httpClient ("guest", "guest"), "$rabbitApi/definitions", "application/json", rabbitConfig
-}
-
 task release (dependsOn: [ 'site', 'publish', 'publishGhPages' ]) {
     doFirst {
         clean.execute ()
         // TODO Bump version number
     }
 }
-
-ext.rabbitConfig = [
-    rabbit_version: "3.6.0",
-    queues: [
-        [
-            name: "event_pool",
-            vhost: "/",
-            durable: false,
-            auto_delete : false,
-            arguments: {}
-        ]
-    ],
-    exchanges: [
-        [
-            name: "events",
-            vhost: "/",
-            type: "topic",
-            durable: false,
-            auto_delete: false,
-            internal: false,
-            arguments: {}
-        ]
-    ],
-    bindings: [
-        [
-            source: "events",
-            vhost: "/",
-            destination: "event_pool",
-            destination_type: "queue",
-            routing_key: "*.*.*",
-            arguments: {}
-        ]
-    ]
-]
-
-import static okhttp3.MediaType.parse
-import static groovy.json.JsonOutput.toJson
-import static okhttp3.Credentials.basic
-import static HttpMethod.*
-
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
-import okhttp3.Request
-
-enum HttpMethod { GET, PUT, POST, DELETE }
-
-private OkHttpClient httpClient (String username = "", String password = "") {
-    username != null && !username.empty?
-        new OkHttpClient.Builder ()
-            .authenticator { route, response ->
-                response.request ().newBuilder ()
-                    .header ("Authorization", basic (username, password))
-                    .build ()
-            }
-            .build () :
-        new OkHttpClient ()
-}
-
-private void http (OkHttpClient client, HttpMethod method, String url, String type, Object content) {
-    RequestBody body = RequestBody.create(
-        parse("$type; charset=utf-8"),
-        type.contains ("json")? toJson (content) : content.toString ()
-    )
-
-    Request.Builder request = new Request.Builder().url(url)
-
-    switch (method) {
-        case POST:
-            request = request.post (body)
-            break
-        case PUT:
-            request = request.put (body)
-            break
-        case GET:
-        default:
-            request = request.get (body)
-    }
-
-    assert client.newCall(request.build ()).execute().code in 200..300
-}
-
-private void post (
-    OkHttpClient client = httpClient (), String url, String type = "text/plain", Object content) {
-
-    http (client, POST, url, type, content)
-}
-

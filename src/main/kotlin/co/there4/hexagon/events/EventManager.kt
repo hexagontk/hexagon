@@ -10,6 +10,10 @@ object EventManager : CompanionLogger (EventManager::class) {
 
     val client = RabbitClient ("amqp://guest:guest@localhost")
 
+    init {
+        client.bindExchange("events", "topic", "*.*.*", "event_pool")
+    }
+
     fun <T : Event> on(type: KClass<T>, event: String, consumer: (T) -> Unit) {
         client.consume(exchange, event, type) { consumer(it) }
     }
