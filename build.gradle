@@ -27,7 +27,6 @@ apply from: "$rootDir/gradle/kotlin.gradle"
 
 dependencies {
     // COMPILE
-    compile ("net.jodah:lyra:$rabbitLyraVersion") { exclude module: "slf4j-api" }
     compile "com.rabbitmq:amqp-client:$rabbitVersion"
 
     compile "org.mongodb:mongo-java-driver:$mongodbVersion"
