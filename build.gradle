@@ -57,6 +57,10 @@ dependencies {
 
     // TEST
     testCompile ("io.ratpack:ratpack-test:$ratpackVersion")
+    testCompile ("org.apache.qpid:qpid-broker:0.28") {
+        exclude module: "slf4j-log4j12"
+        exclude module: "slf4j-api"
+    }
 }
 
 String wrapperPath = "gradle"
@@ -76,9 +80,10 @@ task deleteWrapper (description: "Delete the wrapper generated files") << {
 }
 
 clean.doLast {
-    delete "$projectDir/.gradle"
-    delete "$projectDir/logs"
     delete "$buildDir"
+    delete "$rootDir/logs"
+    delete "$rootDir/derby.log" // TODO Fix to work with wildcards (*.log)
+    delete "$rootDir/.gradle"
 }
 
 task release (dependsOn: [ 'site', 'publish', 'publishGhPages' ]) {
