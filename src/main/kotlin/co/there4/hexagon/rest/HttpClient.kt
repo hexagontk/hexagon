@@ -26,6 +26,13 @@ class HttpClient (val base: URL = URL ("http://localhost:5050")) {
         return http(request)
     }
 
+    fun postForm(url: String = "", vararg pair: Pair<String, String>): Response {
+        val body = FormBody.Builder()
+        pair.forEach { body.add(it.first, it.second) }
+        val request = buildUrl(url).post(body.build()).build()
+        return http(request)
+    }
+
     fun put(url: String = "", json: String): Response {
         val body = RequestBody.create(JSON, json)
         val request = buildUrl(url).put(body).build()

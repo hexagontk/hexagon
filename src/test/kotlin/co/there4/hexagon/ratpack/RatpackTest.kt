@@ -16,6 +16,28 @@ import java.net.URL
         }
     }
 
+    fun test_multipart_parsing() {
+        val server = serverStart {
+            serverConfig {
+                port(0)
+                baseDir(BaseDir.find("logback-test.xml"))
+            }
+
+            handlers {
+                post("form") {
+                    withForm {
+                        ok(get("field").toString())
+                    }
+                }
+            }
+        }
+
+        val client = HttpClient(URL("http://localhost:${server.bindPort}"))
+        assert(client.postForm("/form", "field" to "value").body().string() == "value")
+
+        server.stop()
+    }
+
     fun test_template_renderer() {
         appFromHandlers {
             get ("hello") {
