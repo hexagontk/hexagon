@@ -11,7 +11,9 @@ import org.testng.annotations.Test;
  * Write article about stress test with TestNG (scenarios, combine different tests in scenarios,
  * adding random pauses...)
  */
-@Test public final class ApplicationTest {
+@Test (enabled = false, threadPoolSize = 16, invocationCount = 75)
+public final class ApplicationTest {
+    private static final int WARM_UP = 10;
     private static final String ENDPOINT = "http://localhost:5050";
     private static final ObjectMapper GSON = new ObjectMapper ();
 
@@ -21,6 +23,34 @@ import org.testng.annotations.Test;
         application = new Application ();
     }
 
+//    @BeforeClass public void setup () throws IOException {
+//        tests.setup ();
+//
+//        for (int ii = 0; ii < WARM_UP; ii++) {
+//            json ();
+//            plaintext ();
+//            no_query_parameter ();
+//            empty_query_parameter ();
+//            text_query_parameter ();
+//            zero_queries ();
+//            one_thousand_queries ();
+//            one_query ();
+//            ten_queries ();
+//            one_hundred_queries ();
+//            five_hundred_queries ();
+//            fortunes ();
+//            no_updates_parameter ();
+//            empty_updates_parameter ();
+//            text_updates_parameter ();
+//            zero_updates ();
+//            one_thousand_updates ();
+//            one_update ();
+//            ten_updates ();
+//            one_hundred_updates ();
+//            five_hundred_updates ();
+//        }
+//    }
+//
 //    @AfterClass public void close () {
 //        application.stop ();
 //    }

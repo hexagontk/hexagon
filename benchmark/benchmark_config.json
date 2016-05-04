@@ -22,7 +22,7 @@
                 "webserver" : "None",
                 "os" : "Linux",
                 "database_os" : "Linux",
-                "display_name" : "Hexagon Undertow MongoDB",
+                "display_name" : "Hexagon MongoDB",
                 "notes" : "",
                 "versus" : "servlet"
             }

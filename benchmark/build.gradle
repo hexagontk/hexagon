@@ -10,7 +10,7 @@ mainClassName = "hexagon.benchmark.Application"
 processResources {
     filesMatching('**/*.properties') {
         filter {
-            it.replace('${db.host}', 'localhost')
+            it.replace('${db.host}', System.getenv("DBHOST") ?: "localhost")
         }
     }
 }
