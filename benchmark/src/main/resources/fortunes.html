@@ -9,12 +9,12 @@
         <th>id</th>
         <th>message</th>
     </tr>
-    {{#.}}
+    {% for fortune in fortunes %}
     <tr>
-        <td>{{id}}</td>
-        <td>{{message}}</td>
+        <td>{{ fortune.id }}</td>
+        <td>{{ fortune.message }}</td>
     </tr>
-    {{/.}}
+    {% endfor %}
 </table>
 </body>
 </html>

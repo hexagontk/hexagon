@@ -1,10 +1,51 @@
 package hexagon.benchmark
 
+import java.util.*
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.reflect.KClass
+
 import co.there4.hexagon.ratpack.KContext
 import co.there4.hexagon.rest.applicationStart
 import co.there4.hexagon.serialization.serialize
+import co.there4.hexagon.repository.MongoIdRepository
+import co.there4.hexagon.repository.mongoDatabase
+
+import com.mongodb.client.model.Filters.eq
 import ratpack.server.BaseDir
-import java.util.Properties;
+
+import hexagon.benchmark.Application.Companion.DB_ROWS
+
+internal class MongoDbRepository (settings: Properties) {
+    val DATABASE = settings.getProperty ("mongodb.url")
+    val WORLD = settings.getProperty ("mongodb.world.collection")
+    val FORTUNE = settings.getProperty ("mongodb.fortune.collection")
+
+    val database = mongoDatabase(DATABASE)
+    val worldRepository = idRepository(World::class, Int::class, { it.id })
+    val fortuneRepository = idRepository(Fortune::class, Int::class, { it.id })
+
+    val random = ThreadLocalRandom.current ()
+
+    fun <T : Any, K : Any> idRepository (
+        type: KClass<T>, keyType: KClass<K>, keySupplier: (T) -> K) =
+        MongoIdRepository(type, database, "_id", keyType, keySupplier)
+
+    fun getFortunes (): List<Fortune> = fortuneRepository.findObjects ().toList()
+
+    fun getWorlds (queries: Int, update: Boolean): Array<World> =
+        Array(queries) {
+            val id = random.nextInt (DB_ROWS) + 1
+            if (update) updateWorld (id, random.nextInt (DB_ROWS) + 1) else findWorld (id)
+        }
+
+    private fun findWorld (id: Int) = worldRepository.find(id)
+
+    private fun updateWorld (id: Int, random: Int): World {
+        val newWorld = World (id, random)
+        worldRepository.replaceOneObject (eq ("_id", id), newWorld)
+        return newWorld
+    }
+}
 
 internal data class Message (val message: String = "Hello, World!")
 internal data class Fortune (val id: Int, val message: String)
@@ -34,95 +75,94 @@ internal class Application {
         }
     }
 
-//    private fun KContext.getDb () {
-//        try {
-//            val worlds = repository.getWorlds (getQueries (), false)
-//            response.contentType (CONTENT_TYPE_JSON)
-//            ok ((if (request.queryParams [QUERIES_PARAM] == null) worlds[0] else worlds).serialize())
-//        }
-//        catch (e: Exception) {
-//            e.printStackTrace ()
-//            halt (e.message ?: "")
-//        }
+    private fun KContext.getDb () {
+        try {
+            val worlds = repository.getWorlds (getQueries (), false)
+            response.contentType (CONTENT_TYPE_JSON)
+            ok ((if (request.queryParams [QUERIES_PARAM] == null) worlds[0] else worlds).serialize())
+        }
+        catch (e: Exception) {
+            e.printStackTrace ()
+            halt (e.message ?: "")
+        }
+    }
+
+    private fun KContext.getFortunes () {
+        try {
+            val fortune = Fortune (0, "Additional fortune added at request time.")
+            val fortunes:List<Fortune> = repository.getFortunes () + fortune
+            fortunes.sortedBy { it.message }
+
+            response.contentType ("text/html; charset=utf-8")
+            template ("fortunes.html", mapOf ("fortunes" to fortunes))
+        }
+        catch (e: Exception) {
+            halt (e.message ?: "")
+        }
+    }
+
+    private fun KContext.getUpdates () {
+        try {
+            val worlds = repository.getWorlds (getQueries (), true)
+            response.contentType (CONTENT_TYPE_JSON)
+            ok((if (request.queryParams [QUERIES_PARAM] == null) worlds[0] else worlds).serialize())
+        }
+        catch (e: Exception) {
+            e.printStackTrace ()
+            halt(e.message ?: "")
+        }
+    }
+
+    private fun KContext.getQueries (): Int {
+        try {
+            val parameter = request.queryParams [QUERIES_PARAM]
+            if (parameter == null)
+                return 1
+
+            val queries = parameter.toInt()
+            if (queries < 1)
+                return 1
+            if (queries > 500)
+                return 500
+
+            return queries
+        }
+        catch (ex: NumberFormatException) {
+            return 1
+        }
+    }
+
+    private fun KContext.getPlaintext () {
+        response.contentType (CONTENT_TYPE_TEXT)
+        ok(MESSAGE)
+    }
+
+    private fun KContext.getJson () {
+        response.contentType (CONTENT_TYPE_JSON)
+        ok(Message ().serialize())
+    }
+
+//    private fun KContext.addCommonHeaders () {
+//        response.headers ["Server"] = "Undertow/1.1.2"
+//        response.addDateHeader ("Date", Date ().getTime ())
 //    }
 
-//    private fun KContext.getFortunes (): Object {
-//        try {
-//            List<Fortune> fortunes = repository.getFortunes ()
-//            fortunes.add (new Fortune (0, "Additional fortune added at request time."))
-//            fortunes.sort ((a, b) -> a.message.compareTo (b.message))
-//
-//            it.response.type ("text/html; charset=utf-8")
-//            return renderMustache ("fortunes.html", fortunes)
-//        }
-//        catch (e: Exception) {
-//            e.printStackTrace ()
-//            return e.getMessage ()
-//        }
-//    }
-//
-//    private fun KContext.getUpdates (): Object {
-//        try {
-//            World[] worlds = repository.getWorlds (getQueries (it), true)
-//            it.response.type (CONTENT_TYPE_JSON)
-//            return toJson (it.queryParams (QUERIES_PARAM) == null? worlds[0] : worlds)
-//        }
-//        catch (e: Exception) {
-//            e.printStackTrace ()
-//            return e.getMessage ()
-//        }
-//    }
-
-//    private fun KContext.getQueries (): Object {
-//        try {
-//            val parameter = request.queryParams (QUERIES_PARAM)
-//            if (parameter == null)
-//                return 1
-//
-//            int queries = parseInt (parameter);
-//            if (queries < 1)
-//                return 1
-//            if (queries > 500)
-//                return 500
-//
-//            return queries
-//        }
-//        catch (NumberFormatException ex) {
-//            return 1
-//        }
-//    }
-
-//    private KContext.getPlaintext (): Object {
-//        it.response.type (CONTENT_TYPE_TEXT)
-//        return MESSAGE
-//    }
-//
-//    private KContext.getJson (): Object {
-//        it.response.type (CONTENT_TYPE_JSON)
-//        return toJson (new Message ())
-//    }
-//
-//    private void addCommonHeaders () {
-//        it.header ("Server", "Undertow/1.1.2")
-//        it.response.addDateHeader ("Date", new Date ().getTime ())
-//    }
-//
     init {
         applicationStart {
             serverConfig {
                 val settings = loadConfiguration ()
                 port(settings.getProperty ("web.port").toInt())
 //                bind (settings.getProperty ("web.host"))
-                baseDir(BaseDir.find("logback-test.xml"))
+                baseDir(BaseDir.find("fortunes.html"))
             }
 
             handlers {
-                get ("/json") {}//, this::getJson)
-                get ("/db") {}//, this::getDb)
-                get ("/query") {}//, this::getDb)
-                get ("/fortune") {}//, this::getFortunes)
-                get ("/update") {}//, this::getUpdates)
-                get ("/plaintext") {}//, this::getPlaintext)
+                get ("/json") { getJson() }
+                get ("/db") { getDb() }
+                get ("/query") { getDb() }
+                get ("/fortune") { getFortunes() }
+                get ("/update") { getUpdates() }
+                get ("/plaintext") { getPlaintext() }
                 //        after (this::addCommonHeaders);
             }
         }
