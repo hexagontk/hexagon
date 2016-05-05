@@ -29,6 +29,8 @@ dependencies {
 }
 
 test {
+    useTestNG ()
+
     testLogging {
         events "skipped", "failed", "standardOut", "standardError"
     }

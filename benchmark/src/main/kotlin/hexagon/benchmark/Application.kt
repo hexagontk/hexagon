@@ -8,9 +8,9 @@ import co.there4.hexagon.ratpack.KContext
 import co.there4.hexagon.rest.applicationStart
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.repository.MongoIdRepository
+import co.there4.hexagon.repository.mongoCollection
 import co.there4.hexagon.repository.mongoDatabase
 
-import com.mongodb.client.model.Filters.eq
 import ratpack.server.BaseDir
 
 import hexagon.benchmark.Application.Companion.DB_ROWS
@@ -21,14 +21,20 @@ internal class MongoDbRepository (settings: Properties) {
     val FORTUNE = settings.getProperty ("mongodb.fortune.collection")
 
     val database = mongoDatabase(DATABASE)
-    val worldRepository = idRepository(World::class, Int::class, { it.id })
-    val fortuneRepository = idRepository(Fortune::class, Int::class, { it.id })
+    val worldRepository = idRepository(World::class, WORLD, Int::class, { it.id })
+    val fortuneRepository = idRepository(Fortune::class, FORTUNE, Int::class, { it.id })
 
     val random = ThreadLocalRandom.current ()
 
     fun <T : Any, K : Any> idRepository (
-        type: KClass<T>, keyType: KClass<K>, keySupplier: (T) -> K) =
-        MongoIdRepository(type, database, "_id", keyType, keySupplier)
+        type: KClass<T>, collectionName: String, keyType: KClass<K>, keySupplier: (T) -> K) =
+            MongoIdRepository(
+                type,
+                mongoCollection (collectionName, database),
+                "_id",
+                keyType,
+                keySupplier
+            )
 
     fun getFortunes (): List<Fortune> = fortuneRepository.findObjects ().toList()
 
@@ -42,7 +48,7 @@ internal class MongoDbRepository (settings: Properties) {
 
     private fun updateWorld (id: Int, random: Int): World {
         val newWorld = World (id, random)
-        worldRepository.replaceOneObject (eq ("_id", id), newWorld)
+        worldRepository.replaceObject (newWorld)
         return newWorld
     }
 }
@@ -157,13 +163,13 @@ internal class Application {
             }
 
             handlers {
-                get ("/json") { getJson() }
-                get ("/db") { getDb() }
-                get ("/query") { getDb() }
-                get ("/fortune") { getFortunes() }
-                get ("/update") { getUpdates() }
-                get ("/plaintext") { getPlaintext() }
-                //        after (this::addCommonHeaders);
+                get ("json") { getJson() }
+                get ("db") { getDb() }
+                get ("query") { getDb() }
+                get ("fortune") { getFortunes() }
+                get ("update") { getUpdates() }
+                get ("plaintext") { getPlaintext() }
+//                after (this::addCommonHeaders);
             }
         }
     }
