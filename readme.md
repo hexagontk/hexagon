@@ -29,9 +29,9 @@ uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 * [serialization](http://there4.co/hexagon/serialization.html) (TODO Write documentation)
 * [storage](http://there4.co/hexagon/storage.html) (TODO Write documentation)
 * [events](http://there4.co/hexagon/events.html) (TODO Write documentation)
-* [configuration](http://there4.co/hexagon/configuration.html) (TODO Write documentation)
+* [configuration](http://there4.co/hexagon/configuration.html) (TODO Not implemented)
 * [logging](http://there4.co/hexagon/logging.html) (TODO Write documentation)
-* [templates](http://there4.co/hexagon/templates.html) (TODO Write documentation)
+* [templates](http://there4.co/hexagon/templates.html) (TODO Partial implementation)
 * [scheduling](http://there4.co/hexagon/scheduling.html) (TODO Write documentation)
 
 The purpose of the project is to provide a micro services framework with the following priorities
@@ -107,6 +107,7 @@ typing:
 The results are located in the `/build` directory
 
 Code coverage grid:
+
 ![coverage](https://codecov.io/gh/jamming/hexagon/commit/ccd225876f745c240db924f388ed481d8c8c7661/graphs/tree.svg)
 
 
