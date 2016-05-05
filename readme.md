@@ -54,7 +54,7 @@ DISCLAIMER: The project status right now is beta. Use it at your own risk
 
 ## Getting started
 
-Get the dependency from [JCenter] (you need to setup de repository first):
+Get the dependency from [JCenter][JCenter] (you need to setup de repository first):
 
 Gradle:
 
