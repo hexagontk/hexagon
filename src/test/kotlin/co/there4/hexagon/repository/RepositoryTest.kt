@@ -42,8 +42,15 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
 
     fun one_object_is_stored_and_loaded_without_error() {
         testObjects.forEach {
+            var reacted = false
+            on (it.javaClass.kotlin, RepositoryEventAction.INSERTED) {
+                reacted = true
+            }
+
             deleteAll()
             collection.insertOneObject(it)
+            while (!reacted) Thread.`yield`()
+            assert(reacted)
             var result: T = collection.findObjects().first()
 
             assert(result == it)

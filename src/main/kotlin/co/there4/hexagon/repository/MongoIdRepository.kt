@@ -82,9 +82,8 @@ class MongoIdRepository<T : Any, K : Any> (
         publish(documentIds, DELETED)
     }
 
-    fun replaceObject (document: T) {
+    fun replaceObject (document: T) =
         replaceOneObject (eq (keyName, keySupplier (document)), document)
-    }
 
     fun replaceObjects (vararg document: T) {
         replaceObjects (document.toList())
