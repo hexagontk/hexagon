@@ -5,14 +5,20 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.lang.System.nanoTime
+import java.lang.Thread.`yield` as threadYield
 
 @Test class EventsDemo {
     class TickEvent (val nanos: Long) : Event ("clock.tick")
 
     companion object : CompanionLogger(EventsDemo::class)
 
+    private var tick: Long = 0
+
     @BeforeClass fun startConsumer() {
-        EventManager.on(TickEvent::class, "clock.tick") { a -> info("Tick: ${a.nanos}") }
+        EventManager.on(TickEvent::class, "clock.tick") {
+            info("Tick: ${it.nanos}")
+            tick = it.nanos
+        }
     }
 
     @AfterClass fun deleteTestQueue() {
@@ -20,6 +26,10 @@ import java.lang.System.nanoTime
     }
 
     fun events_are_published_properly() {
-        EventManager.publish(TickEvent(nanoTime()))
+        val nanos = nanoTime()
+        EventManager.publish(TickEvent(nanos))
+        while (tick == 0L)
+            threadYield()
+        assert(tick == nanos)
     }
 }
