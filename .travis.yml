@@ -19,7 +19,7 @@ services:
 
 before_script:
   - tar -Jxvf ${TRAVIS_BUILD_DIR}/benchmark/db.txz
-  - mongorestore ${TRAVIS_BUILD_DIR}/benchmark/dump/
+  - mongorestore ${TRAVIS_BUILD_DIR}/dump/
 
 script:
   - gradle/wrapper --info --stacktrace check
