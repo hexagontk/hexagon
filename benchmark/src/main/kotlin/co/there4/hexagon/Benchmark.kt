@@ -1,4 +1,4 @@
-package hexagon.benchmark
+package co.there4.hexagon
 
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
@@ -13,7 +13,8 @@ import co.there4.hexagon.repository.mongoDatabase
 
 import ratpack.server.BaseDir
 
-import hexagon.benchmark.Application.Companion.DB_ROWS
+import co.there4.hexagon.Benchmark.Companion.DB_ROWS
+import java.time.LocalDateTime.now
 
 internal class MongoDbRepository (settings: Properties) {
     val DATABASE = settings.getProperty ("mongodb.url")
@@ -36,12 +37,14 @@ internal class MongoDbRepository (settings: Properties) {
                 keySupplier
             )
 
+    fun rnd () = random.nextInt (DB_ROWS) + 1
+
     fun getFortunes (): List<Fortune> = fortuneRepository.findObjects ().toList()
 
     fun getWorlds (queries: Int, update: Boolean): Array<World> =
         Array(queries) {
-            val id = random.nextInt (DB_ROWS) + 1
-            if (update) updateWorld (id, random.nextInt (DB_ROWS) + 1) else findWorld (id)
+            val id = rnd ()
+            if (update) updateWorld (id, rnd()) else findWorld (id)
         }
 
     private fun findWorld (id: Int) = worldRepository.find(id)
@@ -57,9 +60,9 @@ internal data class Message (val message: String = "Hello, World!")
 internal data class Fortune (val id: Int, val message: String)
 internal data class World (val id: Int, val randomNumber: Int)
 
-internal class Application {
+internal class Benchmark {
     companion object {
-        val SETTINGS_RESOURCE = "/server.properties"
+        val SETTINGS_RESOURCE = "/benchmark.properties"
         val DB_ROWS = 10000
 
         val MESSAGE = "Hello, World!"
@@ -72,7 +75,7 @@ internal class Application {
         fun loadConfiguration (): Properties {
             try {
                 val settings = Properties ()
-                settings.load (Application::class.java.getResourceAsStream (SETTINGS_RESOURCE))
+                settings.load (Benchmark::class.java.getResourceAsStream (SETTINGS_RESOURCE))
                 return settings
             }
             catch (ex: Exception) {
@@ -148,33 +151,36 @@ internal class Application {
         ok(Message ().serialize())
     }
 
-//    private fun KContext.addCommonHeaders () {
-//        response.headers ["Server"] = "Undertow/1.1.2"
-//        response.addDateHeader ("Date", Date ().getTime ())
-//    }
+    private fun KContext.addCommonHeaders () {
+        response.headers ["Server"] = "Ratpack/1.3"
+        response.headers ["Date"] = httpDate (now())
+    }
 
     init {
         applicationStart {
             serverConfig {
                 val settings = loadConfiguration ()
                 port(settings.getProperty ("web.port").toInt())
-//                bind (settings.getProperty ("web.host"))
+//                address(InetAddress.getByName(settings.getProperty ("web.host")))
                 baseDir(BaseDir.find("fortunes.html"))
             }
 
             handlers {
+                all {
+                    addCommonHeaders()
+                    next()
+                }
                 get ("json") { getJson() }
                 get ("db") { getDb() }
                 get ("query") { getDb() }
                 get ("fortune") { getFortunes() }
                 get ("update") { getUpdates() }
                 get ("plaintext") { getPlaintext() }
-//                after (this::addCommonHeaders);
             }
         }
     }
 }
 
 fun main (args: Array<String>) {
-    Application ()
+    Benchmark ()
 }

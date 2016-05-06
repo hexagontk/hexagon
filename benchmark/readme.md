@@ -2,15 +2,10 @@
 # Hexagon Benchmarking Test
 
 This is the Hexagon portion of a [benchmarking test suite](../) comparing a variety of web
-development platforms. The test utilizes Hexagon routes, Gson for JSON serialization and a custom
-OSIV pattern created with Hexagon filters.
+development platforms. The test utilizes Hexagon routes and serialization.
 
 
 ## Local setup
-
-### MySql
-
-    mysql -u root -p <db.sql
     
 ### MongoDB
 
@@ -21,20 +16,12 @@ OSIV pattern created with Hexagon filters.
 
 ## Tests
 
-* [Hexagon application](/src/main/java/hexagon/benchmark/Application.java)
+* [Hexagon application](/src/main/java/co/there4/hexagon/Benchmark.java)
 
 
 ## Infrastructure Software Versions
 
 * [Hexagon 1.1.1](http://there4.co/hexagon)
-
-
-## Different test setups
-
-* Local environment with Hexagon's built in embedded Jetty (port=8080, context=/)
- * Start application from [Application](/src/main/java/hexagon/benchmark/Application.java)'s main method
-* Local environment with Hexagon's built in embedded Undertow (port=8080, context=/)
- * Start application from [Application](/src/main/java/hexagon/benchmark/Application.java)'s main method
 
 
 ## Test URLs

@@ -4,8 +4,9 @@ apply plugin: 'application'
 
 defaultTasks 'check'
 
+version = "1.0.0"
 description = "Hexagon web framework's benchmark"
-mainClassName = "hexagon.benchmark.Application"
+mainClassName = "co.there4.hexagon.Benchmark"
 
 processResources {
     filesMatching('**/*.properties') {
