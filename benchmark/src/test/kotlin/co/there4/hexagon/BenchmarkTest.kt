@@ -25,27 +25,27 @@ class BenchmarkTest {
         application = Benchmark ()
 
         (1..WARM_UP).forEach {
-//            json ()
-//            plaintext ()
-//            no_query_parameter ()
-//            empty_query_parameter ()
-//            text_query_parameter ()
-//            zero_queries ()
-//            one_thousand_queries ()
-//            one_query ()
-//            ten_queries ()
-//            one_hundred_queries ()
-//            five_hundred_queries ()
-//            fortunes ()
-//            no_updates_parameter ()
-//            empty_updates_parameter ()
-//            text_updates_parameter ()
-//            zero_updates ()
-//            one_thousand_updates ()
-//            one_update ()
-//            ten_updates ()
-//            one_hundred_updates ()
-//            five_hundred_updates ()
+            json ()
+            plaintext ()
+            no_query_parameter ()
+            empty_query_parameter ()
+            text_query_parameter ()
+            zero_queries ()
+            one_thousand_queries ()
+            one_query ()
+            ten_queries ()
+            one_hundred_queries ()
+            five_hundred_queries ()
+            fortunes ()
+            no_updates_parameter ()
+            empty_updates_parameter ()
+            text_updates_parameter ()
+            zero_updates ()
+            one_thousand_updates ()
+            one_update ()
+            ten_updates ()
+            one_hundred_updates ()
+            five_hundred_updates ()
         }
     }
 
@@ -82,90 +82,90 @@ class BenchmarkTest {
         assert (resultsMap.containsKey ("id") && resultsMap.containsKey ("randomNumber"))
     }
 
-//    fun empty_query_parameter () {
-//        checkDbRequest ("/query?queries", 1)
-//    }
-//
-//    fun text_query_parameter () {
-//        checkDbRequest ("/query?queries=text", 1)
-//    }
-//
-//    fun zero_queries () {
-//        checkDbRequest ("/query?queries=0", 1)
-//    }
-//
-//    fun one_thousand_queries () {
-//        checkDbRequest ("/query?queries=1000", 500)
-//    }
-//
-//    fun one_query () {
-//        checkDbRequest ("/query?queries=1", 1)
-//    }
-//
-//    fun ten_queries () {
-//        checkDbRequest ("/query?queries=10", 10)
-//    }
-//
-//    fun one_hundred_queries () {
-//        checkDbRequest ("/query?queries=100", 100)
-//    }
-//
-//    fun five_hundred_queries () {
-//        checkDbRequest ("/query?queries=500", 500)
-//    }
-//
-//    fun fortunes () {
-//        val response = get ("/fortune")
-//        val content = getContent (response)
-//        val contentType = response.getEntity ().getContentType ().getValue ()
-//
-//        assert response.getFirstHeader ("Server") != null
-//        assert response.getFirstHeader ("Date") != null
-//        assert content.contains ("&lt;script&gt;alert(&quot;This should not be displayed")
-//        assert content.contains ("フレームワークのベンチマーク")
-//        assert "text/html; charset=utf-8".equals (contentType.toLowerCase ())
-//    }
-//
-//    fun no_updates_parameter () {
-//        val response = get ("/update")
-//        val content = getContent (response)
-//
-//        checkResponse (response, content, "application/json")
-//        val resultsMap = parse(content)
-//        assert resultsMap.containsKey ("id") && resultsMap.containsKey ("randomNumber")
-//    }
-//
-//    fun empty_updates_parameter () {
-//        checkDbRequest ("/update?queries", 1)
-//    }
-//
-//    fun text_updates_parameter () {
-//        checkDbRequest ("/update?queries=text", 1)
-//    }
-//
-//    fun zero_updates () {
-//        checkDbRequest ("/update?queries=0", 1)
-//    }
-//
-//    fun one_thousand_updates () {
-//        checkDbRequest ("/update?queries=1000", 500)
-//    }
-//
-//    fun one_update () {
-//        checkDbRequest ("/update?queries=1", 1)
-//    }
-//
-//    fun ten_updates () {
-//        checkDbRequest ("/update?queries=10", 10)
-//    }
-//
-//    fun one_hundred_updates () {
-//        checkDbRequest ("/update?queries=100", 100)
-//    }
-//
-//    fun five_hundred_updates () {
-//        checkDbRequest ("/update?queries=500", 500)
-//    }
+    fun empty_query_parameter () {
+        checkDbRequest ("/query?queries", 1)
+    }
+
+    fun text_query_parameter () {
+        checkDbRequest ("/query?queries=text", 1)
+    }
+
+    fun zero_queries () {
+        checkDbRequest ("/query?queries=0", 1)
+    }
+
+    fun one_thousand_queries () {
+        checkDbRequest ("/query?queries=1000", 500)
+    }
+
+    fun one_query () {
+        checkDbRequest ("/query?queries=1", 1)
+    }
+
+    fun ten_queries () {
+        checkDbRequest ("/query?queries=10", 10)
+    }
+
+    fun one_hundred_queries () {
+        checkDbRequest ("/query?queries=100", 100)
+    }
+
+    fun five_hundred_queries () {
+        checkDbRequest ("/query?queries=500", 500)
+    }
+
+    fun fortunes () {
+        val response = get ("/fortune")
+        val content = getContent (response)
+        val contentType = response.header ("Content-Type")
+
+        assert (response.header ("Server") != null)
+        assert (response.header ("Date") != null)
+        assert (content.contains ("&lt;script&gt;alert(&quot;This should not be displayed"))
+        assert (content.contains ("フレームワークのベンチマーク"))
+        assert (contentType.toLowerCase ().contains ("text/html"))
+    }
+
+    fun no_updates_parameter () {
+        val response = get ("/update")
+        val content = getContent (response)
+
+        checkResponse (response, content, "application/json")
+        val resultsMap = parse(content)
+        assert (resultsMap.containsKey ("id") && resultsMap.containsKey ("randomNumber"))
+    }
+
+    fun empty_updates_parameter () {
+        checkDbRequest ("/update?queries", 1)
+    }
+
+    fun text_updates_parameter () {
+        checkDbRequest ("/update?queries=text", 1)
+    }
+
+    fun zero_updates () {
+        checkDbRequest ("/update?queries=0", 1)
+    }
+
+    fun one_thousand_updates () {
+        checkDbRequest ("/update?queries=1000", 500)
+    }
+
+    fun one_update () {
+        checkDbRequest ("/update?queries=1", 1)
+    }
+
+    fun ten_updates () {
+        checkDbRequest ("/update?queries=10", 10)
+    }
+
+    fun one_hundred_updates () {
+        checkDbRequest ("/update?queries=100", 100)
+    }
+
+    fun five_hundred_updates () {
+        checkDbRequest ("/update?queries=500", 500)
+    }
 
     private fun checkDbRequest (path: String, itemsCount: Int) {
         val response = client.get (path)

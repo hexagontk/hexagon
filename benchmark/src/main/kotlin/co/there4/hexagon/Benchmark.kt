@@ -14,8 +14,12 @@ import co.there4.hexagon.repository.mongoDatabase
 import ratpack.server.BaseDir
 
 import co.there4.hexagon.Benchmark.Companion.DB_ROWS
+import java.net.InetAddress
 import java.time.LocalDateTime.now
 
+/*
+ * TODO Use framework ConfigManager
+ */
 internal class MongoDbRepository (settings: Properties) {
     val DATABASE = settings.getProperty ("mongodb.url")
     val WORLD = settings.getProperty ("mongodb.world.collection")
@@ -39,15 +43,11 @@ internal class MongoDbRepository (settings: Properties) {
 
     fun rnd () = random.nextInt (DB_ROWS) + 1
 
-    fun getFortunes (): List<Fortune> = fortuneRepository.findObjects ().toList()
-
     fun getWorlds (queries: Int, update: Boolean): Array<World> =
         Array(queries) {
             val id = rnd ()
-            if (update) updateWorld (id, rnd()) else findWorld (id)
+            if (update) updateWorld (id, rnd()) else worldRepository.find(id)
         }
-
-    private fun findWorld (id: Int) = worldRepository.find(id)
 
     private fun updateWorld (id: Int, random: Int): World {
         val newWorld = World (id, random)
@@ -73,52 +73,45 @@ internal class Benchmark {
         val repository = MongoDbRepository (loadConfiguration ())
 
         fun loadConfiguration (): Properties {
-            try {
-                val settings = Properties ()
-                settings.load (Benchmark::class.java.getResourceAsStream (SETTINGS_RESOURCE))
-                return settings
-            }
-            catch (ex: Exception) {
-                throw RuntimeException (ex)
-            }
+            val settings = Properties ()
+            settings.load (Benchmark::class.java.getResourceAsStream (SETTINGS_RESOURCE))
+            return settings
         }
     }
 
-    private fun KContext.getDb () {
+    private fun KContext.handle (callback: KContext.() -> Unit) {
         try {
-            val worlds = repository.getWorlds (getQueries (), false)
-            response.contentType (CONTENT_TYPE_JSON)
-            ok ((if (request.queryParams [QUERIES_PARAM] == null) worlds[0] else worlds).serialize())
+            callback()
         }
         catch (e: Exception) {
-            e.printStackTrace ()
             halt (e.message ?: "")
         }
     }
 
+    private fun KContext.getDb () {
+        handle {
+            val worlds = repository.getWorlds (getQueries (), false)
+            response.contentType (CONTENT_TYPE_JSON)
+            ok ((if (request.queryParams [QUERIES_PARAM] == null) worlds[0] else worlds).serialize())
+        }
+    }
+
     private fun KContext.getFortunes () {
-        try {
+        handle {
             val fortune = Fortune (0, "Additional fortune added at request time.")
-            val fortunes:List<Fortune> = repository.getFortunes () + fortune
+            val fortunes:List<Fortune> = repository.fortuneRepository.findObjects ().toList() + fortune
             fortunes.sortedBy { it.message }
 
             response.contentType ("text/html; charset=utf-8")
             template ("fortunes.html", mapOf ("fortunes" to fortunes))
         }
-        catch (e: Exception) {
-            halt (e.message ?: "")
-        }
     }
 
     private fun KContext.getUpdates () {
-        try {
+        handle {
             val worlds = repository.getWorlds (getQueries (), true)
             response.contentType (CONTENT_TYPE_JSON)
             ok((if (request.queryParams [QUERIES_PARAM] == null) worlds[0] else worlds).serialize())
-        }
-        catch (e: Exception) {
-            e.printStackTrace ()
-            halt(e.message ?: "")
         }
     }
 
@@ -161,8 +154,8 @@ internal class Benchmark {
             serverConfig {
                 val settings = loadConfiguration ()
                 port(settings.getProperty ("web.port").toInt())
-//                address(InetAddress.getByName(settings.getProperty ("web.host")))
-                baseDir(BaseDir.find("fortunes.html"))
+                address(InetAddress.getByName(settings.getProperty ("web.host")))
+                baseDir(BaseDir.find("benchmark.properties"))
             }
 
             handlers {
@@ -179,8 +172,4 @@ internal class Benchmark {
             }
         }
     }
-}
-
-fun main (args: Array<String>) {
-    Benchmark ()
 }
