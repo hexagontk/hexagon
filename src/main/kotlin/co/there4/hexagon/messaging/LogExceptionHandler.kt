@@ -10,31 +10,22 @@ import com.rabbitmq.client.impl.DefaultExceptionHandler
 class LogExceptionHandler : DefaultExceptionHandler () {
     companion object : CompanionLogger (LogExceptionHandler::class)
 
-    private fun logError(error: String, con: Connection?, ex: Throwable?) {
-        if (con == null)
-            throw IllegalArgumentException ()
-
+    private fun logError(error: String, con: Connection, ex: Throwable) {
         error("%s in connection to: %s".format(ex, error, con.address.canonicalHostName))
     }
 
-    private fun logError(error: String, ch: Channel?, ex: Throwable?) {
-        if (ch == null || ex == null)
-            throw IllegalArgumentException ()
-
+    private fun logError(error: String, ch: Channel, ex: Throwable) {
         error("%s in channel: %s".format(ex, error, ch.channelNumber))
     }
 
-    private fun logError(error: String, con: Connection?, ch: Channel?, ex: Throwable?) {
-        if (con == null || ch == null || ex == null)
-            throw IllegalArgumentException ()
-
+    private fun logError(error: String, con: Connection, ch: Channel, ex: Throwable) {
         val message = "%s in connection to: %s in channel: %s"
             .format(error, con.address.canonicalHostName, ch.channelNumber)
 
         error(message, ex)
     }
 
-    override fun handleUnexpectedConnectionDriverException(con: Connection?, ex: Throwable?) {
+    override fun handleUnexpectedConnectionDriverException(con: Connection, ex: Throwable) {
         super.handleUnexpectedConnectionDriverException(con, ex)
         logError("UnexpectedConnectionDriverException", con, ex)
     }
@@ -60,7 +51,7 @@ class LogExceptionHandler : DefaultExceptionHandler () {
     }
 
     override fun handleConsumerException(
-        ch: Channel, ex: Throwable, consumer: Consumer?, consumerTag: String?, methodName: String?) {
+        ch: Channel, ex: Throwable, consumer: Consumer, consumerTag: String?, methodName: String?) {
 
         super.handleConsumerException(ch, ex, consumer, consumerTag, methodName)
 
@@ -70,7 +61,7 @@ class LogExceptionHandler : DefaultExceptionHandler () {
         error(message, ex)
     }
 
-    override fun handleConnectionRecoveryException(con: Connection?, ex: Throwable) {
+    override fun handleConnectionRecoveryException(con: Connection, ex: Throwable) {
         super.handleConnectionRecoveryException(con, ex)
         logError("ConnectionRecoveryException", con, ex)
     }
@@ -81,7 +72,7 @@ class LogExceptionHandler : DefaultExceptionHandler () {
     }
 
     override fun handleTopologyRecoveryException(
-        con: Connection?, ch: Channel?, ex: TopologyRecoveryException) {
+        con: Connection, ch: Channel, ex: TopologyRecoveryException) {
 
         super.handleTopologyRecoveryException(con, ch, ex)
         logError("TopologyRecoveryException", con, ch, ex)
