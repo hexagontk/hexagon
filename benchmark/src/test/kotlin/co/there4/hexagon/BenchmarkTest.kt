@@ -12,7 +12,7 @@ import java.net.URL
  * Write article about stress test with TestNG (scenarios, combine different tests in scenarios,
  * adding random pauses...)
  */
-@Test (threadPoolSize = 4, invocationCount = 25)
+@Test (threadPoolSize = 4, invocationCount = 8)
 class BenchmarkTest {
     private val WARM_UP = 10
     private val ENDPOINT = "http://localhost:5050"
