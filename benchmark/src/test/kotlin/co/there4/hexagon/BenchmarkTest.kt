@@ -3,7 +3,6 @@ package co.there4.hexagon
 import co.there4.hexagon.rest.HttpClient
 import co.there4.hexagon.serialization.parse
 import okhttp3.Response
-import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.net.URL
@@ -47,10 +46,6 @@ class BenchmarkTest {
             one_hundred_updates ()
             five_hundred_updates ()
         }
-    }
-
-    @AfterClass fun close () {
-//        application.stop ()
     }
 
     fun get (url: String) = client.get(url)
