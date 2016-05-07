@@ -28,11 +28,12 @@ uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 * [messaging](http://there4.co/hexagon/messaging.html) (TODO Write documentation)
 * [serialization](http://there4.co/hexagon/serialization.html) (TODO Write documentation)
 * [storage](http://there4.co/hexagon/storage.html) (TODO Write documentation)
-* [events](http://there4.co/hexagon/events.html) (TODO Write documentation)
+* [events](http://there4.co/hexagon/events.html)
 * [configuration](http://there4.co/hexagon/configuration.html) (TODO Not implemented)
 * [logging](http://there4.co/hexagon/logging.html) (TODO Write documentation)
 * [templates](http://there4.co/hexagon/templates.html) (TODO Partial implementation)
 * [scheduling](http://there4.co/hexagon/scheduling.html) (TODO Write documentation)
+* [testing](http://there4.co/hexagon/testing.html) (TODO Write documentation)
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
