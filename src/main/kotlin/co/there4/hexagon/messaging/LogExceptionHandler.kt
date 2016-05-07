@@ -51,7 +51,11 @@ class LogExceptionHandler : DefaultExceptionHandler () {
     }
 
     override fun handleConsumerException(
-        ch: Channel, ex: Throwable, consumer: Consumer, consumerTag: String?, methodName: String?) {
+        ch: Channel,
+        ex: Throwable,
+        consumer: Consumer?,
+        consumerTag: String?,
+        methodName: String?) {
 
         super.handleConsumerException(ch, ex, consumer, consumerTag, methodName)
 
