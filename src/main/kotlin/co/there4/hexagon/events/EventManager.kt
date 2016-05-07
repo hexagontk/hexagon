@@ -18,6 +18,10 @@ object EventManager : CompanionLogger (EventManager::class) {
         client.consume(exchange, event, type) { consumer(it) }
     }
 
+    fun <T : Event> on(type: KClass<T>, consumer: (T) -> Unit) {
+        on(type, type.java.name, consumer)
+    }
+
     fun publish(event: Event) {
         client.publish(exchange, event.action, event.serialize())
     }
