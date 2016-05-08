@@ -46,3 +46,7 @@ http://localhost:5050/fortune
 
 http://localhost:5050/update
 
+# Copy to TFB
+
+    gradle wrapper --gradle-version 2.13
+    rm -f db.txz

@@ -7,11 +7,6 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.net.URL
 
-/**
- * <p>TODO
- * Write article about stress test with TestNG (scenarios, combine different tests in scenarios,
- * adding random pauses...)
- */
 @Test (threadPoolSize = 4, invocationCount = 8)
 class BenchmarkTest {
     private val WARM_UP = 10
@@ -178,12 +173,12 @@ class BenchmarkTest {
     }
 
     private fun checkResultItems (result: String, size: Int) {
-//        val resultsList = GSON.fromJson (result, List.class)
-//        assert size == resultsList.size ()
-//
-//        for (int ii = 0; ii < size; ii++) {
-//            val r = (Map)resultsList.get (ii)
-//            assert r.containsKey ("id") && r.containsKey ("randomNumber")
-//        }
+        val resultsList = result.parse(List::class)
+        assert (size == resultsList.size)
+
+        (1..size).forEach {
+            val r = resultsList[it - 1] as Map<*, *>
+            assert (r.containsKey ("id") && r.containsKey ("randomNumber"))
+        }
     }
 }

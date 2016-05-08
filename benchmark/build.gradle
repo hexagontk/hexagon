@@ -1,8 +1,17 @@
 
+buildscript {
+    repositories {
+        jcenter ()
+        mavenCentral ()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.+"
+    }
+}
+
 apply plugin: 'kotlin'
 apply plugin: 'application'
-
-defaultTasks 'check'
 
 version = "1.0.0"
 description = "Hexagon web framework's benchmark"
@@ -22,65 +31,13 @@ repositories {
 }
 
 dependencies {
-    compile rootProject
+    compile "co.there4:hexagon:0.1.+"
 
-    testCompile rootProject.sourceSets.test.output
-    testCompile "org.testng:testng:$testngVersion"
-    testCompile ("io.ratpack:ratpack-test:$ratpackVersion")
+    testCompile "co.there4:hexagon:0.1.+:test"
+    testCompile "org.testng:testng:6.9.+"
+    testCompile "io.ratpack:ratpack-test:1.3.+"
 }
 
 test {
     useTestNG ()
-
-    testLogging {
-        events "skipped", "failed", "standardOut", "standardError"
-    }
-}
-
-check << {
-    stressTestReport ()
-}
-
-def stressTestReport () {
-    def file = "$buildDir/test-results/TEST-hexagon.benchmark.ApplicationStressTest.xml"
-    if (!new File (file).exists ())
-        return
-
-    def parser = new groovy.util.XmlSlurper()
-    def testsuite = parser.parse (file)
-
-    printf ("\n\t%s - %s%n")
-
-    testsuite.testcase
-        .collect {                                        // Collect values
-        [
-            it.@classname.text() + '  ' + it.@name.text(),
-            it.@time.text() as double
-        ]
-    }
-    .groupBy { it[0] }                                    // Group by test name
-        .collect {
-        [
-            it.key,
-            it.value.collect { it[1] }
-        ]
-    }
-    .collect {
-        [
-            it[0],
-            it[1].size (),
-            it[1].max (),
-            it[1].min (),
-            it[1].sum (),
-            it[1].sum () / it[1].size (),
-            1 / (it[1].sum () / it[1].size ())
-        ]
-    }
-    .each {
-        printf (
-            "\t%-70s : %4d  %1.3f  %1.3f  %6.3f  %6.3f  %7.3f%n",
-            it[0], it[1], it[2], it[3], it[4], it[5], it[6]
-        )
-    }
-    println ()
 }

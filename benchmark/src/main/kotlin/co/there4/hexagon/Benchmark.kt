@@ -92,7 +92,10 @@ internal class Benchmark {
         handle {
             val worlds = repository.getWorlds (getQueries (), false)
             response.contentType (CONTENT_TYPE_JSON)
-            ok ((if (request.queryParams [QUERIES_PARAM] == null) worlds[0] else worlds).serialize())
+            ok (
+                if (request.queryParams [QUERIES_PARAM] == null) worlds[0].serialize()
+                else worlds.serialize()
+            )
         }
     }
 
@@ -111,7 +114,10 @@ internal class Benchmark {
         handle {
             val worlds = repository.getWorlds (getQueries (), true)
             response.contentType (CONTENT_TYPE_JSON)
-            ok((if (request.queryParams [QUERIES_PARAM] == null) worlds[0] else worlds).serialize())
+            ok (
+                if (request.queryParams [QUERIES_PARAM] == null) worlds[0].serialize()
+                else worlds.serialize()
+            )
         }
     }
 
