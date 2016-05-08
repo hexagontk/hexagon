@@ -7,8 +7,6 @@ status=published
 Events
 ======
 
-    package co.there4.hexagon.events
-
     import co.there4.hexagon.util.CompanionLogger
     import org.testng.annotations.AfterClass
     import org.testng.annotations.BeforeClass
