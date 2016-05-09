@@ -19,6 +19,8 @@ class KContext (private val delegate: Context) : Context by delegate {
     fun httpDate (date: Date) =
         httpDate(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
 
+    fun httpDate (date: Long) = httpDate(Date(date))
+
     fun byMethod (cb: ByMethodSpec.() -> Unit) {
         delegate.byMethod { it.(cb)() }
     }

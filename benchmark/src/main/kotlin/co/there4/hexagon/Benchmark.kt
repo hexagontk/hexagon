@@ -161,7 +161,7 @@ internal class Benchmark {
                 all {
                     response.headers ["Server"] = "Ratpack/1.3"
                     response.headers ["Transfer-Encoding"] = "chunked"
-                    response.headers ["Date"] = httpDate (Date())
+                    response.headers ["Date"] = httpDate (System.currentTimeMillis())
                     next()
                 }
                 get ("json") { getJson() }

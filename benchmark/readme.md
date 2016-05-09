@@ -50,3 +50,10 @@ http://localhost:5050/update
 
     gradle wrapper --gradle-version 2.13
     rm -f db.txz
+    
+# Run inside vagrant
+
+    toolset/run-tests.py --install server --mode verify --test hexagon
+    
+# Clear
+    
