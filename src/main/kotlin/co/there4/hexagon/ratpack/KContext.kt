@@ -16,6 +16,9 @@ class KContext (private val delegate: Context) : Context by delegate {
     fun httpDate (date: LocalDateTime) =
         RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
 
+    fun httpDate (date: Date) =
+        httpDate(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+
     fun byMethod (cb: ByMethodSpec.() -> Unit) {
         delegate.byMethod { it.(cb)() }
     }
