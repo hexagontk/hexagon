@@ -14,6 +14,7 @@ import co.there4.hexagon.repository.mongoDatabase
 import ratpack.server.BaseDir
 
 import co.there4.hexagon.Benchmark.Companion.DB_ROWS
+import java.lang.System.getenv
 import java.net.InetAddress
 import java.time.LocalDateTime.now
 
@@ -21,11 +22,11 @@ import java.time.LocalDateTime.now
  * TODO Use framework ConfigManager
  */
 internal class MongoDbRepository (settings: Properties) {
-    val DATABASE = settings.getProperty ("mongodb.url")
+    val DATABASE = settings.getProperty ("mongodb.database")
     val WORLD = settings.getProperty ("mongodb.world.collection")
     val FORTUNE = settings.getProperty ("mongodb.fortune.collection")
 
-    val database = mongoDatabase(DATABASE)
+    val database = mongoDatabase("mongodb://${getenv("DBHOST") ?: "localhost"}/$DATABASE")
     val worldRepository = idRepository(World::class, WORLD, Int::class, { it.id })
     val fortuneRepository = idRepository(Fortune::class, FORTUNE, Int::class, { it.id })
 
@@ -43,16 +44,15 @@ internal class MongoDbRepository (settings: Properties) {
 
     fun rnd () = random.nextInt (DB_ROWS) + 1
 
-    fun getWorlds (queries: Int, update: Boolean): Array<World> =
-        Array(queries) {
-            val id = rnd ()
-            if (update) updateWorld (id, rnd()) else worldRepository.find(id)
+    fun getWorlds (queries: Int, update: Boolean) = (1..queries).map {
+        if (update) {
+            val newWorld = World (rnd (), rnd())
+            worldRepository.replaceObject (newWorld)
+            newWorld
         }
-
-    private fun updateWorld (id: Int, random: Int): World {
-        val newWorld = World (id, random)
-        worldRepository.replaceObject (newWorld)
-        return newWorld
+        else {
+            worldRepository.find(rnd ())
+        }
     }
 }
 
@@ -150,11 +150,6 @@ internal class Benchmark {
         ok(Message ().serialize())
     }
 
-    private fun KContext.addCommonHeaders () {
-        response.headers ["Server"] = "Ratpack/1.3"
-        response.headers ["Date"] = httpDate (now())
-    }
-
     init {
         applicationStart {
             serverConfig {
@@ -162,11 +157,14 @@ internal class Benchmark {
                 port(settings.getProperty ("web.port").toInt())
                 address(InetAddress.getByName(settings.getProperty ("web.host")))
                 baseDir(BaseDir.find("benchmark.properties"))
+                development(false)
             }
 
             handlers {
                 all {
-                    addCommonHeaders()
+                    response.headers ["Server"] = "Ratpack/1.3"
+                    response.headers ["Transfer-Encoding"] = "chunked"
+                    response.headers ["Date"] = httpDate (now())
                     next()
                 }
                 get ("json") { getJson() }
@@ -178,4 +176,8 @@ internal class Benchmark {
             }
         }
     }
+}
+
+fun main(args: Array<String>) {
+    Benchmark()
 }

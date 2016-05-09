@@ -1,3 +1,5 @@
-./hexagon/src/main/java/hexagon/benchmark/Application.kt
-./hexagon/src/main/resources/fortunes.html
-./hexagon/src/main/resources/server.properties
+./hexagon/src/main/kotlin/co/there4/hexagon/Benchmark.kt
+./hexagon/src/main/resources/templates/fortunes.html
+./hexagon/src/main/resources/benchmark.properties
+./hexagon/src/main/resources/logback.xml
+./hexagon/src/test/kotlin/co/there4/hexagon/BenchmarkTest.kt

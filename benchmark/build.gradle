@@ -15,19 +15,22 @@ apply plugin: 'application'
 
 version = "1.0.0"
 description = "Hexagon web framework's benchmark"
-mainClassName = "co.there4.hexagon.Benchmark"
+mainClassName = "co.there4.hexagon.BenchmarkKt"
 
-processResources {
-    filesMatching('**/*.properties') {
-        filter {
-            it.replace('${db.host}', System.getenv("DBHOST") ?: "localhost")
-        }
-    }
-}
+defaultTasks 'clean', 'check', 'installDist'
+
+applicationDefaultJvmArgs = [
+    '-Xms128M',
+    '-Xmx128M',
+    '-server',
+    '-XX:+UseNUMA',
+    '-XX:+UseParallelGC',
+    '-XX:+AggressiveOpts'
+]
 
 repositories {
     jcenter ()
-    mavenLocal()
+    mavenLocal ()
 }
 
 dependencies {

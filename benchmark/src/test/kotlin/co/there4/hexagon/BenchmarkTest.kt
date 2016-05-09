@@ -167,8 +167,7 @@ class BenchmarkTest {
 
     private fun checkResponse (res: Response, content: String, contentType: String) {
         assert(res.header ("Server") != null)
-        assert(res.header ("Date") != null)
-//        assert(content.length == res.header ("Content-Length").toInt())
+        assert(res.header ("Transfer-Encoding") != null)
         assert(res.header ("Content-Type").contains (contentType))
     }
 
