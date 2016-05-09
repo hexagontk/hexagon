@@ -19,7 +19,7 @@ services:
 
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y imagemagick rsvg-convert
+  - sudo apt-get install -y imagemagick librsvg2-bin
 
 before_script:
   - tar -Jxvf ${TRAVIS_BUILD_DIR}/benchmark/db.txz
