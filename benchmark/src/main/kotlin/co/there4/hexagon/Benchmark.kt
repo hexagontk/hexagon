@@ -16,6 +16,7 @@ import ratpack.server.BaseDir
 import co.there4.hexagon.Benchmark.Companion.DB_ROWS
 import java.lang.System.getenv
 import java.net.InetAddress
+import java.time.LocalDateTime
 
 /*
  * TODO Use framework ConfigManager
@@ -161,7 +162,7 @@ internal class Benchmark {
                 all {
                     response.headers ["Server"] = "Ratpack/1.3"
                     response.headers ["Transfer-Encoding"] = "chunked"
-                    response.headers ["Date"] = httpDateJ7 (Date())
+                    response.headers ["Date"] = httpDate (LocalDateTime.now())
                     next()
                 }
                 get ("json") { getJson() }
