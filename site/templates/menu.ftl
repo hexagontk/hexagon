@@ -43,9 +43,9 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="https://travis-ci.org/jamming/hexagon">
+              <a href="https://travis-ci.org/jaguililla/hexagon">
                 <img
-                  src="https://travis-ci.org/jamming/hexagon.svg?branch=master"
+                  src="https://travis-ci.org/jaguililla/hexagon.svg?branch=master"
                   alt="BuildImg" />
               </a>
             </li>

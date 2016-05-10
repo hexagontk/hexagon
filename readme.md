@@ -2,8 +2,8 @@
 [![DownloadImg]][Download] [![KanbanImg]][Kanban]
 [![WebImg]][Web]
 
-[BuildImg]: https://travis-ci.org/jamming/hexagon.svg?branch=master
-[Build]: https://travis-ci.org/jamming/hexagon
+[BuildImg]: https://travis-ci.org/jaguililla/hexagon.svg?branch=master
+[Build]: https://travis-ci.org/jaguililla/hexagon
 
 [CoverageImg]: https://codecov.io/gh/jaguililla/hexagon/branch/master/graph/badge.svg
 [Coverage]: https://codecov.io/gh/jaguililla/hexagon
