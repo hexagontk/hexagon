@@ -109,7 +109,7 @@ The results are located in the `/build` directory
 
 Code coverage grid:
 
-![coverage](https://codecov.io/gh/jaguililla/hexagon/commit/ccd225876f745c240db924f388ed481d8c8c7661/graphs/tree.svg)
+![coverage](https://codecov.io/gh/jaguililla/hexagon/branch/master/graphs/tree.svg)
 
 
 LICENSE
