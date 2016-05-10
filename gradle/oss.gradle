@@ -10,6 +10,7 @@
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
+apply plugin: 'org.ajoberstar.github-pages'
 
 ext.getProperty = { String name, String value ->
     project.hasProperty (name)? project.property (name) : value
@@ -28,6 +29,15 @@ task sourceJar (type: Jar) {
 
 task packageTest (type: Jar) {
     from sourceSets.test.output
+}
+
+githubPages {
+    repoUri = githubUrl
+    pages {
+        from (file ("$buildDir/$projectSite")) {
+            into '.'
+        }
+    }
 }
 
 publishing {
