@@ -1,8 +1,11 @@
 /*
+ * Kotlin development
+ * For parallel test execution you need to define a property called 'testsConcurrency' with
+ * parallelization type (check Gradle's parallel property)
+ *
  * TODO Use outputFormat in Dokka configuration to render to markdown
  * TODO There is a bug in the tool that prevents that for working ok
  * TODO outputFormat = 'markdown'
- * TODO native-to-ascii transform processing resources
  */
 
 apply plugin: 'kotlin'
@@ -30,16 +33,30 @@ clean.doLast {
 
 processResources {
     filterPatterns.split(",").each {pattern ->
-        filesMatching (pattern.trim ()) {
+        filesMatching ("**/" + pattern.trim ()) {
             filter {
-                it.replace ('${project.version}', project.version)
+                it
+                    .replace ('${projectVersion}', project.version)
+                    .replace ('${projectName}', project.name)
+                    .replace ('${bootstrapVersion}', bootstrapVersion)
             }
         }
     }
-}
 
-dokka {
-    outputDirectory = "$buildDir/$projectSite/dokka"
+    doLast {
+        if (file (processResources.destinationDir).exists()) {
+            ant.native2ascii (
+                src: "${processResources.destinationDir}",
+                dest: "${processResources.destinationDir}/../ascii",
+                includes: '**/*.properties',
+            )
+
+            copy {
+                from "${processResources.destinationDir}/../ascii"
+                into processResources.destinationDir
+            }
+        }
+    }
 }
 
 test {
@@ -57,6 +74,10 @@ test {
         options.parallel = testsConcurrency
         options.threadCount = Runtime.runtime.availableProcessors ()
     }
+}
+
+dokka {
+    outputDirectory = "${rootProject.buildDir}/$projectSite/dokka"
 }
 
 jacocoTestReport {
