@@ -1,18 +1,18 @@
-[![BuildImg]][Build]
+[![BuildImg]][Build] [![CoverageImg]][Coverage]
 [![DownloadImg]][Download] [![KanbanImg]][Kanban]
 [![WebImg]][Web]
 
 [BuildImg]: https://travis-ci.org/jamming/hexagon.svg?branch=master
 [Build]: https://travis-ci.org/jamming/hexagon
 
-[CoverageImg]: https://codecov.io/gh/jamming/hexagon/branch/master/graph/badge.svg
-[Coverage]: https://codecov.io/gh/jamming/hexagon
+[CoverageImg]: https://codecov.io/gh/jaguililla/hexagon/branch/master/graph/badge.svg
+[Coverage]: https://codecov.io/gh/jaguililla/hexagon
 
 [DownloadImg]: https://img.shields.io/bintray/v/jamming/maven/Hexagon.svg
 [Download]: https://bintray.com/jamming/maven/Hexagon/_latestVersion
 
 [KanbanImg]: https://img.shields.io/badge/kanban-huboard-blue.svg
-[Kanban]: https://huboard.com/jamming/hexagon
+[Kanban]: https://huboard.com/jaguililla/hexagon
 
 [WebImg]: https://img.shields.io/badge/web-there4.co%2Fhexagon-blue.svg
 [Web]: http://there4.co/hexagon
@@ -100,7 +100,7 @@ Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 You can build the project, generate the documentation and install it in your local repository
 typing:
 
-    git clone https://github.com/jamming/hexagon.git
+    git clone https://github.com/jaguililla/hexagon.git
     cd hexagon
     docker-compose -f src/test/services.yml up -d
     ./gradle/wrapper --no-daemon clean site publishToMavenLocal
@@ -109,7 +109,7 @@ The results are located in the `/build` directory
 
 Code coverage grid:
 
-![coverage](https://codecov.io/gh/jamming/hexagon/commit/ccd225876f745c240db924f388ed481d8c8c7661/graphs/tree.svg)
+![coverage](https://codecov.io/gh/jaguililla/hexagon/commit/ccd225876f745c240db924f388ed481d8c8c7661/graphs/tree.svg)
 
 
 LICENSE

@@ -7,7 +7,7 @@
 
     <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <a href="https://github.com/jamming/hexagon" class="hidden-sm hidden-xs">
+      <a href="https://github.com/jaguililla/hexagon" class="hidden-sm hidden-xs">
         <img
           style="position: absolute; top: 0; right: 0; border: 0;"
           src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"
@@ -50,9 +50,9 @@
               </a>
             </li>
             <li>
-              <a href="https://codecov.io/github/jamming/hexagon?branch=master">
+              <a href="https://codecov.io/github/jaguililla/hexagon?branch=master">
                 <img
-                  src="https://codecov.io/github/jamming/hexagon/coverage.svg?branch=master"
+                  src="https://codecov.io/github/jaguililla/hexagon/coverage.svg?branch=master"
                   alt="CoverageImg" />
               </a>
             </li>

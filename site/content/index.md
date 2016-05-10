@@ -78,8 +78,8 @@ Check out and try the examples in the source code.
 
 <!---
 [Code Examples][Examples]
-[Examples]: https://github.com/jamming/hexagon/tree/master/src/test/kotlin/hexagon/Examples.kt
+[Examples]: https://github.com/jaguililla/hexagon/tree/master/src/test/kotlin/hexagon/Examples.kt
 
 You can also check the [integration tests][tests]
-[tests]: https://github.com/jamming/hexagon/tree/master/src/test/kotlin/hexagon/it/undertow
+[tests]: https://github.com/jaguililla/hexagon/tree/master/src/test/kotlin/hexagon/it/undertow
 -->
