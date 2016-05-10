@@ -26,9 +26,15 @@ dependencies {
 
 // TODO It is not working (try to have it only in kotlin.gradle)
 clean.doLast {
-    delete "$projectDir/logs"
-    delete "$projectDir/.gradle"
+    delete "$rootProject.buildDir"
+    delete "$rootDir/logs"
+    delete "$rootDir/*.log"
+    delete "$rootDir/.gradle"
+
     delete "$buildDir"
+    delete "$projectDir/logs"
+    delete "$projectDir/*.log"
+    delete "$projectDir/.gradle"
 }
 
 processResources {
