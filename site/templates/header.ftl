@@ -23,11 +23,11 @@
 
   <link
     href=
-      "${config.bootstrapcdn}/bootswatch/${config.bootstrapVersion}/${config.theme}/bootstrap.min.css"
+      "${config.cloudflare}/bootswatch/${config.bootstrapVersion}/${config.theme}/bootstrap.min.css"
     rel="stylesheet">
   <link
     rel="stylesheet"
-    href="${config.bootstrapcdn}/font-awesome/4.5.0/css/font-awesome.min.css"
+    href="${config.cloudflare}/font-awesome/4.6.2/css/font-awesome.min.css"
     type="text/css">
   <link
     href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/base.css"
