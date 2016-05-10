@@ -1,4 +1,4 @@
-[![BuildImg]][Build] [![CoverageImg]][Coverage]
+[![BuildImg]][Build]
 [![DownloadImg]][Download] [![KanbanImg]][Kanban]
 [![WebImg]][Web]
 
