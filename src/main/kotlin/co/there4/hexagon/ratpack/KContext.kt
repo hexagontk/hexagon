@@ -27,7 +27,7 @@ class KContext (private val delegate: Context) : Context by delegate {
         context: Map<String, *> = mapOf<String, Any> ()) {
 
         val contentType = get(MimeTypes::class.java).getContentType(template) ?: "text/html"
-        response.headers["Content-Type"] = "$contentType; charset=${defaultCharset().name()}"
+        response.contentTypeIfNotSet("$contentType; charset=${defaultCharset().name()}")
         render (PebbleRenderer.render (template, locale, context))
     }
 
