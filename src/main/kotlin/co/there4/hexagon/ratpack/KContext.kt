@@ -6,6 +6,7 @@ import ratpack.form.Form
 import ratpack.handling.ByMethodSpec
 import ratpack.handling.Context
 import ratpack.http.TypedData
+import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -26,7 +27,7 @@ class KContext (private val delegate: Context) : Context by delegate {
         context: Map<String, *> = mapOf<String, Any> ()) {
 
         val contentType = get(MimeTypes::class.java).getContentType(template) ?: "text/html"
-        response.headers["Content-Type"] = contentType
+        response.headers["Content-Type"] = "$contentType; charset=${defaultCharset().name()}"
         render (PebbleRenderer.render (template, locale, context))
     }
 

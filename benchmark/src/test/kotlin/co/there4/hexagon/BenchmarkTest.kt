@@ -51,7 +51,7 @@ class BenchmarkTest {
         val response = get ("/json")
         val content = getContent(response)
 
-        checkResponse (response, content, "application/json")
+        checkResponse (response, "application/json")
         assert ("Hello, World!" == parse(content)["message"])
     }
 
@@ -59,7 +59,7 @@ class BenchmarkTest {
         val response = get ("/plaintext")
         val content = getContent (response)
 
-        checkResponse (response, content, "text/plain")
+        checkResponse (response, "text/plain")
         assert ("Hello, World!" == content)
     }
 
@@ -67,7 +67,7 @@ class BenchmarkTest {
         val response = get ("/db")
         val content = getContent (response)
 
-        checkResponse (response, content, "application/json")
+        checkResponse (response, "application/json")
         val resultsMap = parse(content)
         assert (resultsMap.containsKey ("id") && resultsMap.containsKey ("randomNumber"))
     }
@@ -120,7 +120,7 @@ class BenchmarkTest {
         val response = get ("/update")
         val content = getContent (response)
 
-        checkResponse (response, content, "application/json")
+        checkResponse (response, "application/json")
         val resultsMap = parse(content)
         assert (resultsMap.containsKey ("id") && resultsMap.containsKey ("randomNumber"))
     }
@@ -161,11 +161,11 @@ class BenchmarkTest {
         val response = client.get (path)
         val content = response.body().string()
 
-        checkResponse (response, content, "application/json")
+        checkResponse (response, "application/json")
         checkResultItems (content, itemsCount)
     }
 
-    private fun checkResponse (res: Response, content: String, contentType: String) {
+    private fun checkResponse (res: Response, contentType: String) {
         assert(res.header ("Server") != null)
         assert(res.header ("Transfer-Encoding") != null)
         assert(res.header ("Content-Type").contains (contentType))
