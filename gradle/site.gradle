@@ -26,17 +26,16 @@
  * TODO Site processing will be deprecated when JBake filters content with configuration properties
  */
 
-apply plugin: 'jacoco'
 apply plugin: 'me.champeau.jbake'
 
 ext.projectSite = "site"
 
-ext.sitePublicDir = "$buildDir/$projectSite"
+ext.sitePublicDir = "${rootProject.buildDir}/$projectSite"
 ext.siteImagesDir = "$sitePublicDir/img"
 
-ext.logoNoText = "$siteImagesDir/logo.svg"
-ext.logoTextRight = "$siteImagesDir/logo.svg"
-ext.logoTextBottom = "$siteImagesDir/logo.svg"
+ext.logoSmall = "$siteImagesDir/logo.svg"
+ext.logoWide = "$siteImagesDir/logo.svg"
+ext.logoLarge = "$siteImagesDir/logo.svg"
 
 ext.cp = { source, destination ->
     copy {
@@ -66,7 +65,7 @@ jbake {
     configuration['googlefonts'] = 'http://fonts.googleapis.com/css?family'
 }
 
-task site (dependsOn: [ 'check', 'jbake', 'jacocoTestReport', 'dokka' ]) << {
+task site (dependsOn: [ 'jbake' ]) << {
     file ("$buildDir/$projectSite/").renameTo (file ("$buildDir/${projectSite}.orig/"))
     cp "$buildDir/${projectSite}.orig/", "$buildDir/$projectSite"
     copy {
@@ -78,12 +77,12 @@ task site (dependsOn: [ 'check', 'jbake', 'jacocoTestReport', 'dokka' ]) << {
     delete "$buildDir/${projectSite}.orig/"
 
     try {
-        createIco (logoNoText, "favicon.ico", 16, 32, 48, 64)
-        extendImage (logoNoText, "180x180", 180, "apple-touch-icon.png")
-        extendImage (logoNoText, "128x128", 128, "tile-small.png")
-        extendImage (logoTextBottom, "270x270", 270, "tile-medium.png")
-        extendImage (logoTextRight, "558x270", 558, "tile-wide.png")
-        extendImage (logoTextBottom, "558x558", 558, "tile-large.png")
+        createIco (logoSmall, "favicon.ico", 16, 32, 48, 64)
+        extendImage (logoSmall, "180x180", 180, "apple-touch-icon.png")
+        extendImage (logoSmall, "128x128", 128, "tile-small.png")
+        extendImage (logoLarge, "270x270", 270, "tile-medium.png")
+        extendImage (logoWide, "558x270", 558, "tile-wide.png")
+        extendImage (logoLarge, "558x558", 558, "tile-large.png")
 
         // Sanity
         [16, 32, 48, 64, 128, 180, 270, 558].each {
@@ -96,6 +95,25 @@ task site (dependsOn: [ 'check', 'jbake', 'jacocoTestReport', 'dokka' ]) << {
             Icons generation does not work in TravisCI because of the lack of 'rsvg' and 'convert'
             --------------------------------------------------------------------------------------
             """
+    }
+}
+
+task icons () << {
+    if (System.getenv("BUILD_NUMBER") != null) // Ignore in CI environment
+        return
+
+    file(sitePublicDir).mkdirs()
+
+    createIco (logoNoText, "favicon.ico", 16, 32, 48, 64)
+    extendImage (logoNoText, "180x180", 180, "apple-touch-icon.png")
+    extendImage (logoNoText, "128x128", 128, "tile-small.png")
+    extendImage (logoTextBottom, "270x270", 270, "tile-medium.png")
+    extendImage (logoTextRight, "558x270", 558, "tile-wide.png")
+    extendImage (logoTextBottom, "558x558", 558, "tile-large.png")
+
+    // Sanity
+    [ 16, 32, 48, 64, 128, 180, 270, 558 ].each {
+        new File ("$sitePublicDir/_${it}.png").delete ()
     }
 }
 

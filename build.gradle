@@ -81,9 +81,8 @@ task deleteWrapper (description: "Delete the wrapper generated files") << {
     delete wrapperBaseFile + ".properties"
 }
 
-task release (dependsOn: [ 'site', 'publish', 'publishGhPages' ]) {
+task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ]) {
     doFirst {
-        clean.execute ()
         // TODO Bump version number
     }
 }
