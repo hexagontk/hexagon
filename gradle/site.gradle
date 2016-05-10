@@ -72,7 +72,6 @@ jbake {
     // Custom properties
     configuration['projectVersion'] = project.version // Applied in templates, not content
     configuration['bootstrapVersion'] = bootstrapVersion
-    configuration['bootstrapcdn'] = 'http://netdna.bootstrapcdn.com'
     configuration['cloudflare'] = 'http://cdnjs.cloudflare.com/ajax/libs'
     configuration['googlefonts'] = 'http://fonts.googleapis.com/css?family'
 }
