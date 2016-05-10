@@ -1,3 +1,4 @@
+
 buildscript {
     repositories {
         jcenter ()
@@ -22,7 +23,7 @@ apply plugin: 'idea'
 apply plugin: 'org.ajoberstar.grgit' // TODO Tag releases
 
 apply from: "$rootDir/gradle/site.gradle"
-apply from: "$rootDir/gradle/bintray.gradle"
+apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
 
 dependencies {
@@ -78,13 +79,6 @@ task deleteWrapper (description: "Delete the wrapper generated files") << {
     delete wrapperBaseFile + ".bat"
     delete wrapperBaseFile + ".jar"
     delete wrapperBaseFile + ".properties"
-}
-
-clean.doLast {
-    delete "$buildDir"
-    delete "$rootDir/logs"
-    delete "$rootDir/derby.log" // TODO Fix to work with wildcards (*.log)
-    delete "$rootDir/.gradle"
 }
 
 task release (dependsOn: [ 'site', 'publish', 'publishGhPages' ]) {
