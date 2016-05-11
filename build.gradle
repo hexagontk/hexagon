@@ -21,8 +21,6 @@ buildscript {
     }
 }
 
-apply plugin: 'idea'
-
 apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
@@ -80,6 +78,12 @@ task deleteWrapper (description: "Delete the wrapper generated files") << {
     delete wrapperBaseFile + ".bat"
     delete wrapperBaseFile + ".jar"
     delete wrapperBaseFile + ".properties"
+}
+
+clean {
+    delete fileTree(dir: rootDir , include: "*.log")
+    delete "$rootProject.buildDir"
+    delete "$rootDir/logs"
 }
 
 task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ])
