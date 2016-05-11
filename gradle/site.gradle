@@ -28,8 +28,6 @@
 
 apply plugin: 'me.champeau.jbake'
 
-ext.projectSite = "site"
-
 ext.sitePublicDir = "${rootProject.buildDir}/$projectSite"
 ext.siteImagesDir = "$sitePublicDir/img"
 
