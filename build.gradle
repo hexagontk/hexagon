@@ -127,9 +127,14 @@ private void postrel (String type) {
     }
 
     copy {
-        from "gradle.properties"
-        into "gradle.properties"
+        from "$rootDir/gradle.properties"
+        into "$buildDir"
         filter { it.replace ("version=$version", "version=$newVersion") }
+    }
+
+    copy {
+        from "$buildDir/gradle.properties"
+        into "$rootDir"
     }
 
     // TODO Commit version change
