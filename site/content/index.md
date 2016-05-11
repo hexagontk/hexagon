@@ -12,14 +12,16 @@ HEXAGON ${projectVersion}
 Hexagon is a micro services framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 
-* rest
-* messaging
-* serialization
-* storage
-* events
-* configuration
-* logging
-* scheduling
+* [rest](rest.html)
+* [messaging](messaging.html) (TODO Write documentation)
+* [serialization](serialization.html) (TODO Write documentation)
+* [storage](storage.html) (TODO Write documentation)
+* [events](events.html)
+* [configuration](configuration.html) (TODO Not implemented)
+* [logging](logging.html) (TODO Write documentation)
+* [templates](templates.html) (TODO Partial implementation)
+* [scheduling](scheduling.html) (TODO Write documentation)
+* [testing](testing.html) (TODO Write documentation)
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
@@ -28,7 +30,16 @@ The purpose of the project is to provide a micro services framework with the fol
 2. Easily hackable
 3. Be small
 
-DISCLAIMER: The project status right now is alpha. You should not use it in production yet
+The name and logo are an hexagon because it is the usual way of representing a microservice in a
+diagram.
+
+DISCLAIMER: The project status right now is beta. Use it at your own risk
+
+[Kotlin]: http://kotlinlang.org
+[Ratpack]: http://ratpack.io
+[Jackson]: http://wiki.fasterxml.com/JacksonHome
+[RabbitMQ]: http://www.rabbitmq.com
+[MongoDB]: https://www.mongodb.com
 
 
 ## Getting Started
@@ -72,14 +83,6 @@ fun main(args: Array<String>) {
 Launch it and view the results at: [http://localhost:5050/hello](http://localhost:5050/hello)
 
 
-## Examples
+## Build and Contribute
 
-Check out and try the examples in the source code.
-
-<!---
-[Code Examples][Examples]
-[Examples]: https://github.com/jaguililla/hexagon/tree/master/src/test/kotlin/hexagon/Examples.kt
-
-You can also check the [integration tests][tests]
-[tests]: https://github.com/jaguililla/hexagon/tree/master/src/test/kotlin/hexagon/it/undertow
--->
+Check the [Github's readme file](https://github.com/jaguililla/hexagon)

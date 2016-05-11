@@ -91,7 +91,6 @@ fun main(args: Array<String>) {
 
 Launch it and view the results at: [http://localhost:5050/hello]
 
-For more details, check the project [Website](http://there4.co/hexagon)
 
 ## Build and Contribute
 
@@ -103,7 +102,7 @@ typing:
     git clone https://github.com/jaguililla/hexagon.git
     cd hexagon
     docker-compose -f src/test/services.yml up -d
-    ./gradle/wrapper --no-daemon clean site publishToMavenLocal
+    ./gradle/wrapper --no-daemon clean docs site publishToMavenLocal
 
 The results are located in the `/build` directory
 
