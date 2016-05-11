@@ -102,14 +102,36 @@ private void prerel () {
 
 private void postrel (String type) {
     Version v = Version.valueOf (version)
-    def repo = Grgit.open(project.file('.'))
-//    repo.tag.add {
-//        name = version
-//        message = "$version Release"
-//    }
 
-    version = v.incrementPatchVersion ("SNAPSHOT")
-    // Change gradle.properties
-    // Commit version change
+    // TODO Assure everything is comitted
+
+    Grgit repo = Grgit.open(file('.'))
+    repo.tag.add {
+        name = version
+        message = "$version Release"
+    }
+
+    String newVersion = null
+    switch (type) {
+        case "major":
+            newVersion = v.incrementMajorVersion ("SNAPSHOT")
+            break
+        case "minor":
+            newVersion = v.incrementMinorVersion ("SNAPSHOT")
+            break
+        case "patch":
+            newVersion = v.incrementPatchVersion ("SNAPSHOT")
+            break
+        default:
+            throw RuntimeException ("Unsupported version change: $type")
+    }
+
+    copy {
+        from "gradle.properties"
+        into "gradle.properties"
+        filter { it.replace ("version=$version", "version=$newVersion") }
+    }
+
+    // TODO Commit version change
     // TODO Confirm in bintray
 }
