@@ -114,13 +114,13 @@ private void postrel (String type) {
     String newVersion = null
     switch (type) {
         case "major":
-            newVersion = v.incrementMajorVersion ("SNAPSHOT")
+            newVersion = v.incrementMajorVersion ()
             break
         case "minor":
-            newVersion = v.incrementMinorVersion ("SNAPSHOT")
+            newVersion = v.incrementMinorVersion ()
             break
         case "patch":
-            newVersion = v.incrementPatchVersion ("SNAPSHOT")
+            newVersion = v.incrementPatchVersion ()
             break
         default:
             throw RuntimeException ("Unsupported version change: $type")
