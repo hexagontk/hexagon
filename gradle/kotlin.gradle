@@ -24,17 +24,10 @@ dependencies {
     testCompile "org.testng:testng:$testngVersion"
 }
 
-// TODO It is not working (try to have it only in kotlin.gradle)
-clean.doLast {
-    delete "$rootProject.buildDir"
-    delete "$rootDir/logs"
-    delete "$rootDir/*.log"
-    delete "$rootDir/.gradle"
-
-    delete "$buildDir"
+clean {
+    delete fileTree(dir: projectDir , include: "*.log")
     delete "$projectDir/logs"
-    delete "$projectDir/*.log"
-    delete "$projectDir/.gradle"
+    delete "$buildDir"
 }
 
 processResources {
