@@ -18,6 +18,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
+
+        classpath "com.squareup.okhttp3:okhttp:$okhttpVersion"
     }
 }
 
@@ -98,14 +100,31 @@ import org.ajoberstar.grgit.*
 private void prerel () {
     Version v = Version.valueOf (version)
     version = v.normalVersion
+
+    Grgit repo = Grgit.open(file('.'))
+
+    Status status = repo.status()
+    if (!status.clean)
+        throw new GradleException ("Repo not clean")
+
+    repo.pull(remote: "origin", branch: "master")
+//    try {
+    repo.pull (remote: "upstream", branch: "master")
+//    }
+//    catch (Exception e) {
+//        e.printStackTrace ()
+//    }
+
+    status = repo.status()
+    if (!status.clean)
+        throw new GradleException ("Repo not clean")
 }
 
 private void postrel (String type) {
     Version v = Version.valueOf (version)
 
-    // TODO Assure everything is comitted
-
     Grgit repo = Grgit.open(file('.'))
+
     repo.tag.add {
         name = version
         message = "$version Release"
@@ -137,6 +156,77 @@ private void postrel (String type) {
         into "$rootDir"
     }
 
-    // TODO Commit version change
-    // TODO Confirm in bintray
+    repo.add(patterns: [ 'gradle.properties' ])
+    repo.commit(message: "New development version: $newVersion")
+    repo.push(remote: "origin", tags: true)
+
+    String bintrayApi = "https://api.bintray.com/content"
+    post (
+        httpClient (bintrayUser, bintrayKey),
+        "$bintrayApi/jamming/maven/Hexagon/$version/publish",
+        "application/json"
+    )
+}
+
+import static okhttp3.MediaType.parse
+import static groovy.json.JsonOutput.toJson
+import static okhttp3.Credentials.basic
+import static HttpMethod.*
+
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.Request
+
+enum HttpMethod { GET, PUT, POST, DELETE }
+
+private OkHttpClient httpClient (String username = "", String password = "") {
+    username != null && !username.empty?
+        new OkHttpClient.Builder ()
+            .authenticator { route, response ->
+                response.request ().newBuilder ()
+                    .header ("Authorization", basic (username, password))
+                    .build ()
+            }
+            .build () :
+        new OkHttpClient ()
+}
+
+private void http (
+    OkHttpClient client, HttpMethod method, String url, String type, Object content) {
+
+    RequestBody body = RequestBody.create(
+        parse("$type; charset=utf-8"),
+        type.contains ("json")? toJson (content) : content.toString ()
+    )
+
+    Request.Builder request = new Request.Builder().url(url)
+
+    switch (method) {
+        case POST:
+            request = request.post (body)
+            break
+        case PUT:
+            request = request.put (body)
+            break
+        case GET:
+        default:
+            request = request.get (body)
+    }
+
+    assert client.newCall(request.build ()).execute().code in 200..300
+}
+
+private void post (
+    OkHttpClient client = httpClient (),
+    String url,
+    String type = "text/plain",
+    Object content = "") {
+
+    http (client, POST, url, type, content)
+}
+
+private void put (
+    OkHttpClient client = httpClient (), String url, String type = "text/plain", Object content) {
+
+    http (client, PUT, url, type, content)
 }
