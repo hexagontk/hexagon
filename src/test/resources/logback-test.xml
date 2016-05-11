@@ -17,7 +17,7 @@
   </appender>
 
   <root>
-    <level value="warn" />
+    <level value="off" />
     <appender-ref ref="console" />
     <appender-ref ref="data" />
   </root>
