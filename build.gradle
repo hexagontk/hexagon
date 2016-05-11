@@ -108,12 +108,12 @@ private void prerel () {
         throw new GradleException ("Repo not clean")
 
     repo.pull(remote: "origin", branch: "master")
-//    try {
-    repo.pull (remote: "upstream", branch: "master")
-//    }
-//    catch (Exception e) {
-//        e.printStackTrace ()
-//    }
+    try {
+        repo.pull (remote: "upstream", branch: "master")
+    }
+    catch (Exception e) {
+        e.printStackTrace ()
+    }
 
     status = repo.status()
     if (!status.clean)
