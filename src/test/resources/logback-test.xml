@@ -18,7 +18,11 @@
 
   <root>
     <level value="off" />
+  </root>
+
+  <!-- Enable logging for Appender tests -->
+  <logger name="co.there4.hexagon.log" level="info">
     <appender-ref ref="console" />
     <appender-ref ref="data" />
-  </root>
+  </logger>
 </configuration>
