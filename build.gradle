@@ -88,34 +88,26 @@ clean {
     delete "$rootDir/logs"
 }
 
-task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ]) {
+ext.repo = Grgit.open(file('.'))
+
+task prepareRelease (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ]) {
     doFirst {
         Version v = Version.valueOf (version)
         version = v.normalVersion
 
-        Grgit repo = Grgit.open(file('.'))
-
-        Status status = repo.status()
-        if (!status.clean)
+        if (!repo.status().clean)
             throw new GradleException ("Repo not clean")
 
         repo.pull(remote: "origin", branch: "master")
-        try {
-            repo.pull (remote: "upstream", branch: "master")
-        }
-        catch (Exception e) {
-            e.printStackTrace ()
-        }
 
-        status = repo.status()
-        if (!status.clean)
+        if (!repo.status().clean)
             throw new GradleException ("Repo not clean")
     }
 }
 
-task majorRelease (dependsOn: 'release') << { postrel ("major") }
-task minorRelease (dependsOn: 'release') << { postrel ("minor") }
-task patchRelease (dependsOn: 'release') << { postrel ("patch") }
+task majorRelease (dependsOn: 'prepareRelease') << { postrel ("major") }
+task minorRelease (dependsOn: 'prepareRelease') << { postrel ("minor") }
+task patchRelease (dependsOn: 'prepareRelease') << { postrel ("patch") }
 
 import com.github.zafarkhaja.semver.Version
 import org.ajoberstar.grgit.*
@@ -123,11 +115,9 @@ import org.ajoberstar.grgit.*
 private void postrel (String type) {
     Version v = Version.valueOf (version)
 
-    Grgit repo = Grgit.open(file('.'))
-
     repo.tag.add {
         name = version
-        message = "$version Release"
+        message = "Release $version"
     }
 
     String newVersion = null
