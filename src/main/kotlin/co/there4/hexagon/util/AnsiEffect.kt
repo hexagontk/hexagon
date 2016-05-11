@@ -1,10 +1,5 @@
 package co.there4.hexagon.util
 
-/**
- * TODO .
- *
- * @author jam
- */
 enum class AnsiEffect (code: Int, on: Boolean) {
     BOLD (1, true),
     UNDERLINE (4, true),

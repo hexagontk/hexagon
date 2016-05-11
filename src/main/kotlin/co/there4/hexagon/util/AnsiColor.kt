@@ -1,10 +1,5 @@
 package co.there4.hexagon.util
 
-/**
- * TODO .
- *
- * @author jam
- */
 enum class AnsiColor (
     code: Int,
     val fg: Int = FOREGROUND + code,

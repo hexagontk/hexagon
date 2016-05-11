@@ -1,7 +1,8 @@
 package co.there4.hexagon.util
 
 /**
- * TODO .
+ * Exception with a code and a list of causes.
+ *
  * To pass a list of causes
  * CodedException (500, "Error", *list)
  *
