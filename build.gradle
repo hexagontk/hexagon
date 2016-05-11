@@ -16,11 +16,12 @@ buildscript {
 
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
+        classpath "com.github.zafarkhaja:java-semver:$semverVersion"
     }
 }
 
 apply plugin: 'idea'
-apply plugin: 'org.ajoberstar.grgit' // TODO Tag releases
 
 apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/oss.gradle"
@@ -81,8 +82,30 @@ task deleteWrapper (description: "Delete the wrapper generated files") << {
     delete wrapperBaseFile + ".properties"
 }
 
-task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ]) {
-    doFirst {
-        // TODO Bump version number
-    }
+task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ])
+
+task majorRelease (dependsOn: 'release') { prerel (); doLast { postrel ("major") } }
+task minorRelease (dependsOn: 'release') { prerel (); doLast { postrel ("minor") } }
+task patchRelease (dependsOn: 'release') { prerel (); doLast { postrel ("patch") } }
+
+import com.github.zafarkhaja.semver.Version
+import org.ajoberstar.grgit.*
+
+private void prerel () {
+    Version v = Version.valueOf (version)
+    version = v.normalVersion
+}
+
+private void postrel (String type) {
+    Version v = Version.valueOf (version)
+    def repo = Grgit.open(project.file('.'))
+//    repo.tag.add {
+//        name = version
+//        message = "$version Release"
+//    }
+
+    version = v.incrementPatchVersion ("SNAPSHOT")
+    // Change gradle.properties
+    // Commit version change
+    // TODO Confirm in bintray
 }
