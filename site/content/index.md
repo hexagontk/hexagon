@@ -20,7 +20,7 @@ uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 * [configuration](configuration.html) (TODO Not implemented)
 * [logging](logging.html) (TODO Write documentation)
 * [templates](templates.html) (TODO Partial implementation)
-* [scheduling](scheduling.html) (TODO Write documentation)
+* [scheduling](scheduling.html)
 * [testing](testing.html) (TODO Write documentation)
 
 The purpose of the project is to provide a micro services framework with the following priorities

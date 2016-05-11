@@ -32,7 +32,7 @@ uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 * [configuration](http://there4.co/hexagon/configuration.html) (TODO Not implemented)
 * [logging](http://there4.co/hexagon/logging.html) (TODO Write documentation)
 * [templates](http://there4.co/hexagon/templates.html) (TODO Partial implementation)
-* [scheduling](http://there4.co/hexagon/scheduling.html) (TODO Write documentation)
+* [scheduling](http://there4.co/hexagon/scheduling.html)
 * [testing](http://there4.co/hexagon/testing.html) (TODO Write documentation)
 
 The purpose of the project is to provide a micro services framework with the following priorities
