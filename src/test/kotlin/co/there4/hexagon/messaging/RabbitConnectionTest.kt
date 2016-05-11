@@ -1,5 +1,6 @@
 package co.there4.hexagon.messaging
 
+import co.there4.hexagon.util.CompanionLogger
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -7,6 +8,8 @@ import java.lang.System.currentTimeMillis
 import kotlin.test.assertFailsWith
 
 @Test class RabbitConnectionTest {
+    companion object : CompanionLogger(RabbitConnectionTest::class)
+
     private val broker = EmbeddedAMQPBroker()
 
     private val URI = "amqp://guest:guest@localhost:5673"
@@ -57,7 +60,7 @@ import kotlin.test.assertFailsWith
             client?.call (QUEUE_ERROR, ts)
         }
         catch (e: Exception) {
-            e.printStackTrace()
+            error("Consumer error", e)
         }
 
         startConsumer()

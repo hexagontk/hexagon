@@ -80,35 +80,6 @@ import org.testng.annotations.Test
         assert (ansi (RED, BLACK, BLINK, INVERSE).equals ("\u001B[31;40;5;7m"))
     }
 
-    @Test (description = "Only to show the output in a console and check visually")
-    fun rainbow_table_is_printed_nicely () {
-        println (" %8s | %-8s".format("FORE", "BACK"))
-
-        AnsiColor.values ().forEach { bg ->
-            AnsiColor.values ().forEach { fg ->
-                print (" %s%8s | %-8s%s".format (ansi (fg, bg), fg, bg, ansi ()))
-            }
-            println ()
-        }
-
-        println ("Back to normal")
-    }
-
-    @Test (description = "Only to show the output in a console and check visually")
-    fun effects_and_foreground_color_table () {
-        println (" %14s | %-14s".format ("FOREGROUND", "EFFECT"))
-
-        AnsiColor.values ().forEach { fg ->
-            print (" %s%14s | %-14s%s".format(ansi (fg), fg, "NONE", ansi ()))
-            EnumSet.of (BOLD, UNDERLINE, BLINK, INVERSE).forEach { fx ->
-                print (" %s%14s | %-14s%s".format (ansi (fg, fx), fg, fx, ansi ()))
-            }
-            println ()
-        }
-
-        println ("Back to normal")
-    }
-
     fun banner_logs_the_proper_message() {
         var banner = "alfa line".banner()
         assert(banner.contains("alfa line"))
@@ -127,5 +98,34 @@ import org.testng.annotations.Test
         assert(banner.contains("tango"))
         assert(banner.contains("looong line"))
         assert(banner.contains("***********"))
+    }
+
+    @Test (enabled = false, description = "Only to show the output in a console and check visually")
+    fun rainbow_table_is_printed_nicely () {
+        println (" %8s | %-8s".format("FORE", "BACK"))
+
+        AnsiColor.values ().forEach { bg ->
+            AnsiColor.values ().forEach { fg ->
+                print (" %s%8s | %-8s%s".format (ansi (fg, bg), fg, bg, ansi ()))
+            }
+            println ()
+        }
+
+        println ("Back to normal")
+    }
+
+    @Test (enabled = false, description = "Only to show the output in a console and check visually")
+    fun effects_and_foreground_color_table () {
+        println (" %14s | %-14s".format ("FOREGROUND", "EFFECT"))
+
+        AnsiColor.values ().forEach { fg ->
+            print (" %s%14s | %-14s%s".format(ansi (fg), fg, "NONE", ansi ()))
+            EnumSet.of (BOLD, UNDERLINE, BLINK, INVERSE).forEach { fx ->
+                print (" %s%14s | %-14s%s".format (ansi (fg, fx), fg, fx, ansi ()))
+            }
+            println ()
+        }
+
+        println ("Back to normal")
     }
 }
