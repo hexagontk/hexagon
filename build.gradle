@@ -88,37 +88,37 @@ clean {
     delete "$rootDir/logs"
 }
 
-task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ])
+task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ]) {
+    doFirst {
+        Version v = Version.valueOf (version)
+        version = v.normalVersion
 
-task majorRelease (dependsOn: 'release') { prerel (); doLast { postrel ("major") } }
-task minorRelease (dependsOn: 'release') { prerel (); doLast { postrel ("minor") } }
-task patchRelease (dependsOn: 'release') { prerel (); doLast { postrel ("patch") } }
+        Grgit repo = Grgit.open(file('.'))
+
+        Status status = repo.status()
+        if (!status.clean)
+            throw new GradleException ("Repo not clean")
+
+        repo.pull(remote: "origin", branch: "master")
+        try {
+            repo.pull (remote: "upstream", branch: "master")
+        }
+        catch (Exception e) {
+            e.printStackTrace ()
+        }
+
+        status = repo.status()
+        if (!status.clean)
+            throw new GradleException ("Repo not clean")
+    }
+}
+
+task majorRelease (dependsOn: 'release') << { postrel ("major") }
+task minorRelease (dependsOn: 'release') << { postrel ("minor") }
+task patchRelease (dependsOn: 'release') << { postrel ("patch") }
 
 import com.github.zafarkhaja.semver.Version
 import org.ajoberstar.grgit.*
-
-private void prerel () {
-    Version v = Version.valueOf (version)
-    version = v.normalVersion
-
-    Grgit repo = Grgit.open(file('.'))
-
-    Status status = repo.status()
-    if (!status.clean)
-        throw new GradleException ("Repo not clean")
-
-    repo.pull(remote: "origin", branch: "master")
-    try {
-        repo.pull (remote: "upstream", branch: "master")
-    }
-    catch (Exception e) {
-        e.printStackTrace ()
-    }
-
-    status = repo.status()
-    if (!status.clean)
-        throw new GradleException ("Repo not clean")
-}
 
 private void postrel (String type) {
     Version v = Version.valueOf (version)
