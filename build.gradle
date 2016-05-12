@@ -92,9 +92,6 @@ ext.repo = Grgit.open(file('.'))
 
 task prepareRelease (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ]) {
     doFirst {
-        Version v = Version.valueOf (version)
-        version = v.normalVersion
-
         if (!repo.status().clean)
             throw new GradleException ("Repo not clean")
 
@@ -102,6 +99,32 @@ task prepareRelease (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ])
 
         if (!repo.status().clean)
             throw new GradleException ("Repo not clean")
+
+        String oldVersion = version
+        Version v = Version.valueOf (version)
+
+        switch (type) {
+            case "major":
+                version = v.incrementMajorVersion ()
+                break
+            case "minor":
+                version = v.incrementMinorVersion ()
+                break
+            case "patch":
+                version = v.incrementPatchVersion ()
+                break
+            default:
+                throw RuntimeException ("Unsupported version change: $type")
+        }
+
+        copy {
+            from "$rootDir/gradle.properties"
+            into "$buildDir"
+            filter { it.replace ("version=$oldVersion", "version=$version") }
+        }
+
+        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
+        throw new GradleException()
     }
 }
 
@@ -115,39 +138,17 @@ import org.ajoberstar.grgit.*
 private void postrel (String type) {
     Version v = Version.valueOf (version)
 
-    repo.tag.add {
-        name = version
-        message = "Release $version"
-    }
-
-    String newVersion = null
-    switch (type) {
-        case "major":
-            newVersion = v.incrementMajorVersion ()
-            break
-        case "minor":
-            newVersion = v.incrementMinorVersion ()
-            break
-        case "patch":
-            newVersion = v.incrementPatchVersion ()
-            break
-        default:
-            throw RuntimeException ("Unsupported version change: $type")
-    }
-
-    copy {
-        from "$rootDir/gradle.properties"
-        into "$buildDir"
-        filter { it.replace ("version=$version", "version=$newVersion") }
-    }
-
     copy {
         from "$buildDir/gradle.properties"
         into "$rootDir"
     }
 
     repo.add(patterns: [ 'gradle.properties' ])
-    repo.commit(message: "New development version: $newVersion")
+    repo.commit(message: "Update version to: $newVersion")
+    repo.tag.add {
+        name = version
+        message = "Release $version"
+    }
     repo.push(remote: "origin", tags: true)
 
     String bintrayApi = "https://api.bintray.com/content"
