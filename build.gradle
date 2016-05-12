@@ -130,8 +130,7 @@ private void prerel (String type) {
         filter { it.replace ("version=$oldVersion", "version=$version") }
     }
 
-    println ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    throw new GradleException()
+    release.execute()
 
     copy {
         from "$buildDir/gradle.properties"
@@ -139,7 +138,7 @@ private void prerel (String type) {
     }
 
     repo.add(patterns: [ 'gradle.properties' ])
-    repo.commit(message: "Update version to: $newVersion")
+    repo.commit(message: "Version $newVersion released")
     repo.tag.add {
         name = version
         message = "Release $version"
