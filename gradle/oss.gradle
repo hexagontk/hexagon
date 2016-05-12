@@ -7,17 +7,6 @@
  * NOTE: For the package to be accepted in JCenter, you need to include sources (sourceJar task).
  */
 
-buildscript {
-    repositories {
-        jcenter ()
-    }
-
-    dependencies {
-        classpath group: 'org.ajoberstar', name: 'gradle-git', version: gradlegitVersion
-        classpath group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
-    }
-}
-
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'org.ajoberstar.github-pages'
@@ -74,82 +63,4 @@ publishing {
             }
         }
     }
-}
-
-publish.doLast {
-    String bintrayApi = 'https://api.bintray.com/content'
-    post (
-        httpClient (bintrayUser, bintrayKey),
-        "$bintrayApi/jamming/maven/Hexagon/$version/publish",
-        'application/json'
-    )
-
-    org.ajoberstar.grgit.Grgit repo = org.ajoberstar.grgit.Grgit.open (file ('.'))
-    repo.tag.add {
-        name = version
-        message = "Release $version"
-    }
-}
-
-import static okhttp3.MediaType.parse
-import static groovy.json.JsonOutput.toJson
-import static okhttp3.Credentials.basic
-import static HttpMethod.*
-
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
-import okhttp3.Request
-
-enum HttpMethod { GET, PUT, POST, DELETE }
-
-private OkHttpClient httpClient (String username = "", String password = "") {
-    username != null && !username.empty?
-        new OkHttpClient.Builder ()
-            .authenticator { route, response ->
-                response.request ().newBuilder ()
-                    .header ('Authorization', basic (username, password))
-                    .build ()
-            }
-            .build () :
-        new OkHttpClient ()
-}
-
-private void http (
-    OkHttpClient client, HttpMethod method, String url, String type, Object content) {
-
-    RequestBody body = RequestBody.create(
-        parse("$type; charset=utf-8"),
-        type.contains ('json')? toJson (content) : content.toString ()
-    )
-
-    Request.Builder request = new Request.Builder().url(url)
-
-    switch (method) {
-        case POST:
-            request = request.post (body)
-            break
-        case PUT:
-            request = request.put (body)
-            break
-        case GET:
-        default:
-            request = request.get (body)
-    }
-
-    assert client.newCall(request.build ()).execute().code in 200..300
-}
-
-private void post (
-    OkHttpClient client = httpClient (),
-    String url,
-    String type = 'text/plain',
-    Object content = '') {
-
-    http (client, POST, url, type, content)
-}
-
-private void put (
-    OkHttpClient client = httpClient (), String url, String type = 'text/plain', Object content) {
-
-    http (client, PUT, url, type, content)
 }
