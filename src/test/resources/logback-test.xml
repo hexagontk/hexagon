@@ -21,7 +21,7 @@
   </root>
 
   <!-- Enable logging for Appender tests -->
-  <logger name="co.there4.hexagon.log" level="info">
+  <logger name="co.there4.hexagon.log" level="debug">
     <appender-ref ref="data" />
   </logger>
 </configuration>
