@@ -4,8 +4,7 @@
  *
  * You should also set 'bintrayUrl' in the project's 'gradle.properties' file.
  *
- * NOTE: For the package to be accepted in JCenter, you need to include sources
- * (sourceJar task).
+ * NOTE: For the package to be accepted in JCenter, you need to include sources (sourceJar task).
  */
 
 buildscript {
@@ -14,8 +13,8 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.ajoberstar:gradle-git:$gradlegitVersion"
-        classpath "com.squareup.okhttp3:okhttp:$okhttpVersion"
+        classpath group: 'org.ajoberstar', name: 'gradle-git', version: gradlegitVersion
+        classpath group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
     }
 }
 
@@ -27,8 +26,8 @@ ext.getProperty = { String name, String value ->
     project.hasProperty (name)? project.property (name) : value
 }
 
-ext.bintrayUser = getProperty ("bintrayUser", "anonymous")
-ext.bintrayKey = getProperty ("${project.name}BintrayKey", "anonymous")
+ext.bintrayUser = getProperty ('bintrayUser', 'anonymous')
+ext.bintrayKey = getProperty ("${project.name}BintrayKey", 'anonymous')
 
 configurations {
     deployerJars
@@ -79,25 +78,25 @@ publishing {
 
 publish.dependsOn 'checkRepository'
 
-task checkRepository () {
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
-
-    if (!repository.status ().clean)
-        throw new GradleException ("Repository not clean")
-
-    repository.pull (remote: "origin", branch: "master")
-
-    if (!repository.status ().clean)
-        throw new GradleException ("Repository not clean")
-}
-
 publish.doLast {
-    String bintrayApi = "https://api.bintray.com/content"
+    String bintrayApi = 'https://api.bintray.com/content'
     post (
         httpClient (bintrayUser, bintrayKey),
         "$bintrayApi/jamming/maven/Hexagon/$version/publish",
-        "application/json"
+        'application/json'
     )
+}
+
+task checkRepository () << {
+    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
+
+    if (!repository.status ().clean)
+        throw new GradleException ('Repository not clean')
+
+    repository.pull (remote: 'origin', branch: 'master')
+
+    if (!repository.status ().clean)
+        throw new GradleException ('Repository not clean')
 }
 
 import static okhttp3.MediaType.parse
@@ -116,7 +115,7 @@ private OkHttpClient httpClient (String username = "", String password = "") {
         new OkHttpClient.Builder ()
             .authenticator { route, response ->
                 response.request ().newBuilder ()
-                    .header ("Authorization", basic (username, password))
+                    .header ('Authorization', basic (username, password))
                     .build ()
             }
             .build () :
@@ -128,7 +127,7 @@ private void http (
 
     RequestBody body = RequestBody.create(
         parse("$type; charset=utf-8"),
-        type.contains ("json")? toJson (content) : content.toString ()
+        type.contains ('json')? toJson (content) : content.toString ()
     )
 
     Request.Builder request = new Request.Builder().url(url)
@@ -151,14 +150,14 @@ private void http (
 private void post (
     OkHttpClient client = httpClient (),
     String url,
-    String type = "text/plain",
-    Object content = "") {
+    String type = 'text/plain',
+    Object content = '') {
 
     http (client, POST, url, type, content)
 }
 
 private void put (
-    OkHttpClient client = httpClient (), String url, String type = "text/plain", Object content) {
+    OkHttpClient client = httpClient (), String url, String type = 'text/plain', Object content) {
 
     http (client, PUT, url, type, content)
 }

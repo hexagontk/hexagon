@@ -2,37 +2,34 @@
  * Kotlin development
  * For parallel test execution you need to define a property called 'testsConcurrency' with
  * parallelization type (check Gradle's parallel property)
- *
- * TODO Use outputFormat in Dokka configuration to render to markdown
- * TODO There is a bug in the tool that prevents that for working ok
- * TODO outputFormat = 'markdown'
  */
 
 apply plugin: 'kotlin'
 apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.dokka'
 
+String rootBuildDir = rootProject.buildDir
+
 repositories {
     jcenter ()
-    mavenLocal()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlinVersion
 
-    testCompile group: "org.jetbrains.kotlin", name: "kotlin-test", version: kotlinVersion
-    testCompile "org.testng:testng:$testngVersion"
+    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: kotlinVersion
+    testCompile group: 'org.testng', name: 'testng', version: testngVersion
 }
 
 clean {
-    delete fileTree(dir: projectDir , include: "*.log")
+    delete fileTree (dir: projectDir , include: '*.log')
     delete "$projectDir/logs"
-    delete "$buildDir"
+    delete buildDir
 }
 
 processResources {
-    filterPatterns.split(",").each {pattern ->
-        filesMatching ("**/" + pattern.trim ()) {
+    filterPatterns.split(',').each {pattern ->
+        filesMatching ('**/' + pattern.trim ()) {
             filter {
                 it
                     .replace ('${projectVersion}', project.version)
@@ -44,15 +41,16 @@ processResources {
 
     doLast {
         if (file (processResources.destinationDir).exists()) {
+            String resourcesDestinationDir = processResources.destinationDir
             ant.native2ascii (
-                src: "${processResources.destinationDir}",
-                dest: "${processResources.destinationDir}/../ascii",
+                src: resourcesDestinationDir,
+                dest: "$resourcesDestinationDir/../ascii",
                 includes: '**/*.properties',
             )
 
             copy {
-                from "${processResources.destinationDir}/../ascii"
-                into processResources.destinationDir
+                from "$resourcesDestinationDir/../ascii"
+                into resourcesDestinationDir
             }
         }
     }
@@ -62,11 +60,14 @@ test {
     useTestNG ()
 
     reports {
-        html.destination = file ("${rootProject.buildDir}/$projectSite/testng/$project.name")
+        html.destination = file ("$rootBuildDir/$projectSite/testng/$project.name")
     }
 
     testLogging {
-        events "skipped", "failed", "standardOut", "standardError"
+        if (System.getProperty ('showOutput') != null)
+            events 'skipped', 'failed', 'standardOut', 'standardError'
+        else
+            events 'skipped', 'failed'
     }
 
     if (project.ext.has ('testsConcurrency')) {
@@ -76,15 +77,16 @@ test {
 }
 
 dokka {
-    outputDirectory = "${rootProject.buildDir}/$projectSite/dokka"
+    outputDirectory = "$rootBuildDir/$projectSite/dokka"
+//    outputFormat = 'markdown' // TODO There is a bug in the tool that prevents this for working ok
 }
 
 jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
-        html.destination = "${rootProject.buildDir}/$projectSite/jacoco/$project.name"
+        html.destination = "$rootBuildDir/$projectSite/jacoco/$project.name"
     }
 }
 
-task docs (dependsOn: [ 'check', 'jacocoTestReport', 'dokka' ])
+task reports (dependsOn: [ 'check', 'jacocoTestReport', 'dokka' ])

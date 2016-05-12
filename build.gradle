@@ -93,7 +93,6 @@ task publishCode () << {
         name = version
         message = "Release $version"
     }
-    repo.push(remote: "origin", tags: true)
 }
 
 private void executeRelease (String type) {
