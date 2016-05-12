@@ -91,14 +91,14 @@ ext.repo = Grgit.open(file('.'))
 
 task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ])
 
-task releaseMajor () << { prerel ("major") }
-task releaseMinor () << { prerel ("minor") }
-task releasePatch () << { prerel ("patch") }
+task releaseMajor () << { executeRelease ("major") }
+task releaseMinor () << { executeRelease ("minor") }
+task releasePatch () << { executeRelease ("patch") }
 
 import com.github.zafarkhaja.semver.Version
 import org.ajoberstar.grgit.*
 
-private void prerel (String type) {
+private void executeRelease (String type) {
     if (!repo.status().clean)
         throw new GradleException ("Repo not clean")
 
@@ -124,13 +124,13 @@ private void prerel (String type) {
             throw RuntimeException ("Unsupported version change: $type")
     }
 
+    release.execute()
+
     copy {
         from "$rootDir/gradle.properties"
         into "$buildDir"
         filter { it.replace ("version=$oldVersion", "version=$version") }
     }
-
-    release.execute()
 
     copy {
         from "$buildDir/gradle.properties"
