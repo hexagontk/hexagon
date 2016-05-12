@@ -85,6 +85,12 @@ publish.doLast {
         "$bintrayApi/jamming/maven/Hexagon/$version/publish",
         'application/json'
     )
+
+    org.ajoberstar.grgit.Grgit repo = org.ajoberstar.grgit.Grgit.open (file ('.'))
+    repo.tag.add {
+        name = version
+        message = "Release $version"
+    }
 }
 
 task checkRepository () << {

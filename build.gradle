@@ -85,15 +85,7 @@ clean {
     delete "$rootDir/logs"
 }
 
-task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages', 'publishCode' ])
-
-task publishCode () << {
-    org.ajoberstar.grgit.Grgit repo = org.ajoberstar.grgit.Grgit.open (file ('.'))
-    repo.tag.add {
-        name = version
-        message = "Release $version"
-    }
-}
+task release (dependsOn: [ 'reports', 'site', 'publish', 'publishGhPages' ])
 
 private void executeRelease (String type) {
     def v = com.github.zafarkhaja.semver.Version.valueOf (version)
