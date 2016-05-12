@@ -87,24 +87,24 @@ clean {
     delete "$rootDir/logs"
 }
 
-ext.repo = Grgit.open(file('.'))
+task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ]) << { postrel () }
 
-task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ])
-
-task releaseMajor () << { executeRelease ("major") }
-task releaseMinor () << { executeRelease ("minor") }
-task releasePatch () << { executeRelease ("patch") }
+task major () << { executeRelease ("major") }
+task minor () << { executeRelease ("minor") }
+task patch () << { executeRelease ("patch") }
 
 import com.github.zafarkhaja.semver.Version
 import org.ajoberstar.grgit.*
 
 private void executeRelease (String type) {
-    if (!repo.status().clean)
+    Grgit repo = Grgit.open (file ('.'))
+
+    if (!repo.status ().clean)
         throw new GradleException ("Repo not clean")
 
-    repo.pull(remote: "origin", branch: "master")
+    repo.pull (remote: "origin", branch: "master")
 
-    if (!repo.status().clean)
+    if (!repo.status ().clean)
         throw new GradleException ("Repo not clean")
 
     String oldVersion = version
@@ -123,9 +123,9 @@ private void executeRelease (String type) {
         default:
             throw RuntimeException ("Unsupported version change: $type")
     }
+}
 
-    release.execute()
-
+private void postrel () {
     copy {
         from "$rootDir/gradle.properties"
         into "$buildDir"
@@ -138,7 +138,7 @@ private void executeRelease (String type) {
     }
 
     repo.add(patterns: [ 'gradle.properties' ])
-    repo.commit(message: "Version $newVersion released")
+    repo.commit(message: "Version $version released")
     repo.tag.add {
         name = version
         message = "Release $version"
