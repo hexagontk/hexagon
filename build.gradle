@@ -108,7 +108,7 @@ private void prerel (String type) {
         throw new GradleException ("Repo not clean")
 
     String oldVersion = version
-    Version v = com.sun.security.ntlm.Version.valueOf (version)
+    Version v = Version.valueOf (version)
 
     switch (type) {
         case "major":
