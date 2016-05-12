@@ -72,20 +72,26 @@ wrapper {
     scriptFile = wrapperBaseFile
 }
 
-task deleteWrapper (description: "Delete the wrapper generated files") << {
-    delete wrapperBaseFile
-    delete wrapperBaseFile + ".bat"
-    delete wrapperBaseFile + ".jar"
-    delete wrapperBaseFile + ".properties"
-}
-
 clean {
     delete fileTree(dir: rootDir , include: "*.log")
     delete "$rootProject.buildDir"
     delete "$rootDir/logs"
 }
 
-task release (dependsOn: [ 'reports', 'site', 'publish', 'publishGhPages' ])
+//site.dependsOn 'check', 'jacocoTestReport', 'dokka'
+task release (dependsOn: [ 'checkRepository', 'clean', 'site', 'publishGhPages', 'publish' ])
+
+task checkRepository () << {
+    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
+
+    if (!repository.status ().clean)
+        throw new GradleException ('Repository not clean')
+
+    repository.pull (remote: 'origin', branch: 'master')
+
+    if (!repository.status ().clean)
+        throw new GradleException ('Repository not clean')
+}
 
 private void executeRelease (String type) {
     def v = com.github.zafarkhaja.semver.Version.valueOf (version)
@@ -115,6 +121,7 @@ private void executeRelease (String type) {
         into "$rootDir"
     }
 
+    org.ajoberstar.grgit.Grgit repo = org.ajoberstar.grgit.Grgit.open (file ('.'))
     repo.add(patterns: [ 'gradle.properties' ])
     repo.commit(message: "Version $version released")
 }

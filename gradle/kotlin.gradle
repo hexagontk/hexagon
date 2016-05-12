@@ -88,5 +88,3 @@ jacocoTestReport {
         html.destination = "$rootBuildDir/$projectSite/jacoco/$project.name"
     }
 }
-
-task reports (dependsOn: [ 'check', 'jacocoTestReport', 'dokka' ])

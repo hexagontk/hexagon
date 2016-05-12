@@ -76,8 +76,6 @@ publishing {
     }
 }
 
-publish.dependsOn 'checkRepository'
-
 publish.doLast {
     String bintrayApi = 'https://api.bintray.com/content'
     post (
@@ -91,18 +89,6 @@ publish.doLast {
         name = version
         message = "Release $version"
     }
-}
-
-task checkRepository () << {
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
-
-    if (!repository.status ().clean)
-        throw new GradleException ('Repository not clean')
-
-    repository.pull (remote: 'origin', branch: 'master')
-
-    if (!repository.status ().clean)
-        throw new GradleException ('Repository not clean')
 }
 
 import static okhttp3.MediaType.parse
