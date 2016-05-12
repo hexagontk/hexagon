@@ -1,4 +1,3 @@
-
 buildscript {
     repositories {
         jcenter ()
@@ -90,53 +89,49 @@ clean {
 
 ext.repo = Grgit.open(file('.'))
 
-task prepareRelease (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ]) {
-    doFirst {
-        if (!repo.status().clean)
-            throw new GradleException ("Repo not clean")
+task release (dependsOn: [ 'docs', 'site', 'publish', 'publishGhPages' ])
 
-        repo.pull(remote: "origin", branch: "master")
-
-        if (!repo.status().clean)
-            throw new GradleException ("Repo not clean")
-
-        String oldVersion = version
-        Version v = Version.valueOf (version)
-
-        switch (type) {
-            case "major":
-                version = v.incrementMajorVersion ()
-                break
-            case "minor":
-                version = v.incrementMinorVersion ()
-                break
-            case "patch":
-                version = v.incrementPatchVersion ()
-                break
-            default:
-                throw RuntimeException ("Unsupported version change: $type")
-        }
-
-        copy {
-            from "$rootDir/gradle.properties"
-            into "$buildDir"
-            filter { it.replace ("version=$oldVersion", "version=$version") }
-        }
-
-        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
-        throw new GradleException()
-    }
-}
-
-task majorRelease (dependsOn: 'prepareRelease') << { postrel ("major") }
-task minorRelease (dependsOn: 'prepareRelease') << { postrel ("minor") }
-task patchRelease (dependsOn: 'prepareRelease') << { postrel ("patch") }
+task releaseMajor () << { prerel ("major") }
+task releaseMinor () << { prerel ("minor") }
+task releasePatch () << { prerel ("patch") }
 
 import com.github.zafarkhaja.semver.Version
 import org.ajoberstar.grgit.*
 
-private void postrel (String type) {
-    Version v = Version.valueOf (version)
+private void prerel (String type) {
+    if (!repo.status().clean)
+        throw new GradleException ("Repo not clean")
+
+    repo.pull(remote: "origin", branch: "master")
+
+    if (!repo.status().clean)
+        throw new GradleException ("Repo not clean")
+
+    String oldVersion = version
+    Version v = com.sun.security.ntlm.Version.valueOf (version)
+
+    switch (type) {
+        case "major":
+            version = v.incrementMajorVersion ()
+            break
+        case "minor":
+            version = v.incrementMinorVersion ()
+            break
+        case "patch":
+            version = v.incrementPatchVersion ()
+            break
+        default:
+            throw RuntimeException ("Unsupported version change: $type")
+    }
+
+    copy {
+        from "$rootDir/gradle.properties"
+        into "$buildDir"
+        filter { it.replace ("version=$oldVersion", "version=$version") }
+    }
+
+    println ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    throw new GradleException()
 
     copy {
         from "$buildDir/gradle.properties"
