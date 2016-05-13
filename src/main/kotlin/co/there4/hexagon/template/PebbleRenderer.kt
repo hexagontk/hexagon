@@ -31,11 +31,7 @@ object PebbleRenderer {
         fun loadBundle (path: String): Map<String, *> {
             try {
                 val bundle = ResourceBundle.getBundle("${basePath}.$path", locale)
-                return bundle.keys.toList()
-                    .map { it to bundle.getObject(it) }
-                    .filter { it.first is String }
-                    .filter { it.second is String }
-                    .toMap ()
+                return bundle.keys.toList().map { it to bundle.getObject(it) }.toMap ()
             }
             catch (e: Exception) {
                 return mapOf<String, Any> ()

@@ -27,14 +27,17 @@ import org.testng.annotations.Test
                     Context["foo"] = "bar"
                     MDC.put("var", "val")
                     info ("info", mapOf ("param" to "value"))
+                    error("error", RuntimeException("runtime error"))
 
                     appender.stop()
                     appender.isFindCaller = false
                     appender.start()
 
                     Context["foo"] = "bar"
+                    Context[0] = "str"
                     MDC.put("var", "val")
                     info ("info", mapOf ("param" to "value"))
+                    error("error", RuntimeException("runtime error"))
                 }
                 catch (e: Exception) {
                     throw RuntimeException(e)

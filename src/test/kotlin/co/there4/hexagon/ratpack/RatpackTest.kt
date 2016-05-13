@@ -46,6 +46,12 @@ import java.net.URL
                     "content" to "Hello World!"
                 ))
             }
+            get ("nested") {
+                template("nested/template.html", mapOf (
+                    "title" to "Greeting nested",
+                    "content" to "Hello nested World!"
+                ))
+            }
             get ("no_localized") {
                 template ("no_localized.txt")
             }
@@ -57,6 +63,14 @@ import java.net.URL
             assert(body.contains ("<p>commonValue</p>"))
             assert(body.contains ("<p>Hello World!</p>"))
             assert(body.contains ("<p>english</p>"))
+
+            val nestedBody = getBody("nested")
+            assert(nestedBody.contains ("<title>Greeting nested</title>"))
+            assert(nestedBody.contains ("<p>globalValue</p>"))
+            assert(nestedBody.contains ("<p>commonValue</p>"))
+            assert(nestedBody.contains ("<p>Hello nested World!</p>"))
+            assert(nestedBody.contains ("<p>english nested</p>"))
+
             assert(getBody("no_localized")?.trim () == "no localized")
         }
     }
