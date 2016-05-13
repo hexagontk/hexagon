@@ -76,8 +76,7 @@ clean {
 }
 
 site.dependsOn 'check', 'dokka', 'jacocoTestReport'
-publishGhPages.dependsOn 'site'
-publish.dependsOn 'checkGitStatus', 'publishGhPages'
+publish.dependsOn 'checkGitStatus', 'site' // TODO Publish site
 
 publish.doLast {
     String bintrayApi = 'https://api.bintray.com/content'
@@ -90,6 +89,8 @@ publish.doLast {
         message = "Release $version"
     }
 }
+
+task release (dependsOn: 'publish', 'publishGhPages')
 
 task checkGitStatus () << {
     org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
