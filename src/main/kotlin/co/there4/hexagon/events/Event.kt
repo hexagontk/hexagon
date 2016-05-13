@@ -19,7 +19,7 @@ open class Event (
     val thread: String = currentThread ().name,
     val location: String = currentThread ().stackTrace[3].toString (),
     val context: Map<String, Any> = Context.entries()
-        .filter { it.value is String }
+        .filter { it.key is String && it.value is String }
         .map { it.key as String to it.value }
         .toMap()
 )
