@@ -25,6 +25,8 @@ apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
 
+defaultTasks 'clean', 'check'
+
 dependencies {
     // COMPILE
     compile "com.rabbitmq:amqp-client:$rabbitVersion"
@@ -125,13 +127,13 @@ task executeRelease () << {
 
     copy {
         from "$rootDir/gradle.properties"
-        into "$buildDir"
+        into buildDir
         filter { it.replaceAll (/^version=.*$/, "version=$version") }
     }
 
     copy {
         from "$buildDir/gradle.properties"
-        into "$rootDir"
+        into rootDir
     }
 
     org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
