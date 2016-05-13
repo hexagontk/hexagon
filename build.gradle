@@ -75,9 +75,23 @@ clean {
     delete "$rootDir/logs"
 }
 
-task release (dependsOn: [ 'checkRepository', 'clean', 'site', 'publishGhPages', 'publish' ])
+site.dependsOn 'check', 'dokka', 'jacocoTestReport'
+publishGhPages.dependsOn 'site'
+publish.dependsOn 'checkGitStatus', 'publishGhPages'
 
-task checkRepository () << {
+publish.doLast {
+    String bintrayApi = 'https://api.bintray.com/content'
+    OkHttpClient client = httpClient (bintrayUser, bintrayKey)
+    post (client, "$bintrayApi/jamming/maven/Hexagon/$version/publish")
+
+    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
+    repository.tag.add {
+        name = version
+        message = "Release $version"
+    }
+}
+
+task checkGitStatus () << {
     org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
 
     if (!repository.status ().clean)
@@ -89,6 +103,7 @@ task checkRepository () << {
         throw new GradleException ('Repository not clean')
 }
 
+// TODO Use task name as type
 task executeRelease () << {
     def v = com.github.zafarkhaja.semver.Version.valueOf (version)
 
@@ -118,29 +133,12 @@ task executeRelease () << {
         into "$rootDir"
     }
 
-    org.ajoberstar.grgit.Grgit repo = org.ajoberstar.grgit.Grgit.open (file ('.'))
-    repo.add(patterns: [ 'gradle.properties' ])
-    repo.commit(message: "Version $version released")
-}
-
-task confirm () << {
-    String bintrayApi = 'https://api.bintray.com/content'
-    post (
-        httpClient (bintrayUser, bintrayKey),
-        "$bintrayApi/jamming/maven/Hexagon/$version/publish",
-        'application/json',
-        ''
-    )
-
-    org.ajoberstar.grgit.Grgit repo = org.ajoberstar.grgit.Grgit.open (file ('.'))
-    repo.tag.add {
-        name = version
-        message = "Release $version"
-    }
+    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
+    repository.add(patterns: [ 'gradle.properties' ])
+    repository.commit(message: "Version $version released")
 }
 
 import static okhttp3.MediaType.parse
-import static groovy.json.JsonOutput.toJson
 import static okhttp3.Credentials.basic
 import static HttpMethod.*
 
@@ -154,22 +152,18 @@ private OkHttpClient httpClient (String username = "", String password = "") {
     username != null && !username.empty?
         new OkHttpClient.Builder ()
             .authenticator { route, response ->
-            response.request ().newBuilder ()
-                .header ('Authorization', basic (username, password))
-                .build ()
-        }
-        .build () :
+                response.request ().newBuilder ()
+                    .header ('Authorization', basic (username, password))
+                    .build ()
+            }
+            .build () :
         new OkHttpClient ()
 }
 
 private void http (
-    OkHttpClient client, HttpMethod method, String url, String type, Object content) {
+    OkHttpClient client, HttpMethod method, String url, String type, String content) {
 
-    RequestBody body = RequestBody.create(
-        parse("$type; charset=utf-8"),
-        type.contains ('json')? toJson (content) : content.toString ()
-    )
-
+    RequestBody body = RequestBody.create(parse("$type; charset=utf-8"), content)
     Request.Builder request = new Request.Builder().url(url)
 
     switch (method) {
@@ -181,24 +175,15 @@ private void http (
             break
         case GET:
         default:
-            request = request.get (body)
+            request = request.get ()
     }
 
-    assert client.newCall(request.build ()).execute().code in 200..300
+    assert client.newCall(request.build ()).execute().code() in 200..300
 }
 
 private void post (
-    OkHttpClient client,
-    String url,
-    String type = 'text/plain',
-    Object content) {
+    OkHttpClient client, String url, String type = 'text/plain', String content = '') {
 
     http (client, POST, url, type, content)
-}
-
-private void put (
-    OkHttpClient client = httpClient (), String url, String type = 'text/plain', Object content) {
-
-    http (client, PUT, url, type, content)
 }
 
