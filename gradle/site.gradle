@@ -90,7 +90,7 @@ private void icons () {
         }
     }
     catch (Exception e) {
-        e.printStackTrace ()
+        logger.error (e.message)
     }
 }
 

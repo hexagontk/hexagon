@@ -61,7 +61,7 @@ dependencies {
 }
 
 String wrapperPath = "gradle"
-String wrapperBaseFile = "$project.projectDir/$wrapperPath/wrapper"
+String wrapperBaseFile = "$projectDir/$wrapperPath/wrapper"
 
 wrapper {
     gradleVersion = wrapperGradleVersion
