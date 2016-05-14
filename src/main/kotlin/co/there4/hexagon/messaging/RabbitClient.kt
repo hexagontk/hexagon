@@ -75,8 +75,10 @@ class RabbitClient (
 
     constructor (uri: String): this(createConnectionFactory(uri))
 
+    val connected: Boolean get() = connection?.isOpen() ?: false
+
     override fun close() {
-        if (connection == null || connection?.isOpen() ?: false)
+        if (!connected)
             throw IllegalStateException("Connection already closed")
 
         connection?.close()

@@ -35,9 +35,7 @@ import kotlin.test.assertFailsWith
     @AfterClass fun deleteTestQueue () {
         consumer?.deleteQueue (QUEUE)
         consumer?.deleteQueue (QUEUE_ERROR)
-        assertFailsWith<IllegalStateException> {
-            consumer?.close()
-        }
+        consumer?.close()
     }
 
     fun call_return_expected_results () {

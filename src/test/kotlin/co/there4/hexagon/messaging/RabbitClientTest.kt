@@ -45,4 +45,14 @@ import kotlin.test.assertFailsWith
         assert (cf.host == "localhost")
         assert (cf.port == 12345)
     }
+
+    @Test fun rabbit_client_disconnects_properly () {
+        val client = RabbitClient("amqp://guest:guest@localhost")
+        assert (client.connected)
+        client.close()
+        assert (!client.connected)
+        assertFailsWith<IllegalStateException> {
+            client.close()
+        }
+    }
 }
