@@ -11,19 +11,19 @@ open class CompanionLogger(clazz: KClass<out Any>){
 
     private val logger = getLogger(clazz.java)
 
-    fun trace (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+    fun trace (message: String, arguments: Map<String, *> = mapOf<String, Any>()) =
         logger.trace(message, arguments)
 
-    fun debug (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+    fun debug (message: String, arguments: Map<String, *> = mapOf<String, Any>()) =
         logger.debug(message, arguments)
 
-    fun info (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+    fun info (message: String, arguments: Map<String, *> = mapOf<String, Any>()) =
         logger.info(message, arguments)
 
-    fun warn (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+    fun warn (message: String, arguments: Map<String, *> = mapOf<String, Any>()) =
         logger.warn(message, arguments)
 
-    fun error (message: String, arguments: Map<*, *> = mapOf<Any, Any>()) =
+    fun error (message: String, arguments: Map<String, *> = mapOf<String, Any>()) =
         logger.error(message, arguments)
 
     fun warn (message: String, exception: Throwable) = logger.warn(message, exception)

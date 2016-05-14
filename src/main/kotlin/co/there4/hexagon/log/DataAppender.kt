@@ -103,7 +103,7 @@ abstract class DataAppender : UnsynchronizedAppenderBase<LoggingEvent>() {
      * @param data Event parameters.
      */
     private fun appendArgumentsData(loggingEvent: LoggingEvent, data: MutableMap<String, Any>) {
-        val arguments = loggingEvent.argumentArray[0] ?: mapOf<Any, Any>()
+        val arguments = loggingEvent.argumentArray[0] ?: mapOf<String, Any>()
         if (arguments is Map<*, *>) {
             val map = arguments
                 .filter { it.value != null }
