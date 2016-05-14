@@ -5,6 +5,7 @@ import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.util.*
 import com.rabbitmq.client.*
 import java.nio.charset.Charset
+import java.nio.charset.Charset.defaultCharset
 import java.util.concurrent.ExecutorService
 import kotlin.reflect.KClass
 
@@ -32,14 +33,14 @@ class Handler<T : Any, R : Any> (
         executor.execute {
             pushTime ()
 
-            val encoding = Charset.forName(properties.contentEncoding) ?: Charset.defaultCharset()
+            val charset = properties.contentEncoding ?: defaultCharset().name()
             val correlationId = properties.correlationId
             val replyTo = properties.replyTo
 
             var request: String? = null
 
             try {
-                request = String(body, encoding)
+                request = String(body, Charset.forName(charset))
                 val input = request.parse(type)
                 handleMessage(input, replyTo, correlationId)
             }
@@ -51,7 +52,7 @@ class Handler<T : Any, R : Any> (
                 retry (RETRIES, DELAY) { channel.basicAck (envelope.deliveryTag, false) }
                 trace (
                     """
-                    ENCODING: ${encoding.name()} CORRELATION ID: $correlationId
+                    ENCODING: $charset CORRELATION ID: $correlationId
                     TIME: ${formatTime(popTime())}
                     BODY: $request"""
                 )

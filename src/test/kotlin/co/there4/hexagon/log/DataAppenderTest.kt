@@ -3,7 +3,6 @@ package co.there4.hexagon.log
 import ch.qos.logback.classic.LoggerContext
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.util.Context
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getILoggerFactory
 import org.slf4j.LoggerFactory.getLogger
 import org.slf4j.MDC

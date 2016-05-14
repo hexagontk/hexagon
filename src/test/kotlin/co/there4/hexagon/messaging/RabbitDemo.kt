@@ -4,7 +4,6 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.lang.System.currentTimeMillis
-import kotlin.test.assertFailsWith
 
 @Test class RabbitDemo {
     private val URI = "amqp://guest:guest@localhost"

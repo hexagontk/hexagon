@@ -147,12 +147,16 @@ class RabbitClient (
         }
     }
 
+    fun publish(queue: String, message: String) = publish("", queue, message)
+
     fun publish(
-        exchange: String, routingKey: String, message: String, correlationId: String? = null) {
+        exchange: String,
+        routingKey: String,
+        message: String,
+        correlationId: String? = null) {
 
         withChannel { channel ->
-            val charset = defaultCharset().name()
-            publish(channel, exchange, routingKey, charset, message, correlationId, null)
+            publish(channel, exchange, routingKey, null, message, correlationId, null)
         }
     }
 
@@ -160,24 +164,26 @@ class RabbitClient (
         channel: Channel,
         exchange: String,
         routingKey: String,
-        encoding: String,
+        encoding: String?,
         message: String,
         correlationId: String?,
         replyQueueName: String?) {
 
         val builder = AMQP.BasicProperties.Builder()
 
-        if (correlationId != null && !correlationId.isEmpty())
+        if (!correlationId.isNullOrBlank())
             builder.correlationId(correlationId)
 
-        if (replyQueueName != null && !replyQueueName.isEmpty())
+        if (!replyQueueName.isNullOrBlank())
             builder.replyTo(replyQueueName)
 
-        builder.contentEncoding(encoding)
+        if (!encoding.isNullOrBlank())
+            builder.contentEncoding(encoding)
 
         val props = builder.build()
 
-        channel.basicPublish(exchange, routingKey, props, message.toByteArray(charset(encoding)))
+        val charset = if (encoding == null) defaultCharset() else charset(encoding)
+        channel.basicPublish(exchange, routingKey, props, message.toByteArray(charset))
 
         debug(
             """
