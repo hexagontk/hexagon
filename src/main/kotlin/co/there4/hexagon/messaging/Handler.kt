@@ -70,12 +70,15 @@ class Handler<T : Any, R : Any> (
             else -> response.serialize()
         }
 
-        if (replyTo != null && correlationId != null)
+        if (replyTo != null)
             client.publish("", replyTo, output, correlationId)
     }
 
     private fun handleError(exception: Exception, replyTo: String?, correlationId: String?) {
-        if (replyTo != null && correlationId != null)
-            client.publish("", replyTo, exception.message ?: exception.javaClass.name, correlationId)
+        if (replyTo != null) {
+            val message = exception.message ?: ""
+            val errorMessage = if (message.isBlank()) exception.javaClass.name else message
+            client.publish("", replyTo, errorMessage, correlationId)
+        }
     }
 }

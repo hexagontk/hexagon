@@ -83,11 +83,13 @@ import kotlin.test.assertFailsWith
         consumer.declareQueue("exception_handler")
         consumer.consume("int_handler", String::class) { info(it) }
         consumer.consume("long_handler", String::class) { info(it) }
-        consumer.consume("exception_handler", String::class) { throw RuntimeException() }
+        consumer.consume("exception_handler", String::class) { throw RuntimeException(it) }
 
         val client = RabbitClient("amqp://guest:guest@localhost")
         client.publish("int_handler", "123")
         client.publish("long_handler", "456")
+        client.publish("exception_handler", "error")
+        client.publish("exception_handler", "")
 
         client.close()
         consumer.deleteQueue("int_handler")
