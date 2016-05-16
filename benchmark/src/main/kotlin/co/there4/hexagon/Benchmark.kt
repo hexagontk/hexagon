@@ -13,7 +13,7 @@ import co.there4.hexagon.repository.mongoDatabase
 
 import ratpack.server.BaseDir
 
-import co.there4.hexagon.Benchmark.Companion.DB_ROWS
+import co.there4.hexagon.Benchmark.DB_ROWS
 import java.lang.System.getenv
 import java.net.InetAddress
 import java.time.LocalDateTime
@@ -60,23 +60,21 @@ internal data class Message (val message: String = "Hello, World!")
 internal data class Fortune (val _id: Int, val message: String)
 internal data class World (val id: Int, val randomNumber: Int)
 
-internal class Benchmark {
-    companion object {
-        val SETTINGS_RESOURCE = "/benchmark.properties"
-        val DB_ROWS = 10000
+internal object Benchmark {
+    val SETTINGS_RESOURCE = "/benchmark.properties"
+    val DB_ROWS = 10000
 
-        val MESSAGE = "Hello, World!"
-        val CONTENT_TYPE_TEXT = "text/plain"
-        val CONTENT_TYPE_JSON = "application/json"
-        val QUERIES_PARAM = "queries"
+    val MESSAGE = "Hello, World!"
+    val CONTENT_TYPE_TEXT = "text/plain"
+    val CONTENT_TYPE_JSON = "application/json"
+    val QUERIES_PARAM = "queries"
 
-        val repository = MongoDbRepository (loadConfiguration ())
+    val repository = MongoDbRepository (loadConfiguration ())
 
-        fun loadConfiguration (): Properties {
-            val settings = Properties ()
-            settings.load (Benchmark::class.java.getResourceAsStream (SETTINGS_RESOURCE))
-            return settings
-        }
+    private fun loadConfiguration (): Properties {
+        val settings = Properties ()
+        settings.load (Benchmark::class.java.getResourceAsStream (SETTINGS_RESOURCE))
+        return settings
     }
 
     private fun KContext.handle (callback: KContext.() -> Unit) {
@@ -147,7 +145,7 @@ internal class Benchmark {
         ok(Message ().serialize())
     }
 
-    init {
+    fun start() {
         applicationStart {
             serverConfig {
                 val settings = loadConfiguration ()
@@ -176,5 +174,5 @@ internal class Benchmark {
 }
 
 fun main(args: Array<String>) {
-    Benchmark()
+    Benchmark.start()
 }

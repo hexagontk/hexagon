@@ -12,11 +12,10 @@ class BenchmarkTest {
     private val WARM_UP = 10
     private val ENDPOINT = "http://localhost:5050"
 
-    private var application: Benchmark? = null
     private val client = HttpClient(URL(ENDPOINT))
 
     @BeforeClass fun setup () {
-        application = Benchmark ()
+        Benchmark.start ()
 
         (1..WARM_UP).forEach {
             json ()
