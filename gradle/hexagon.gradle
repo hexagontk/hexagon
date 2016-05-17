@@ -32,7 +32,7 @@ ext.serviceScript = """
 SERVICE_NAME="${project.name}"
 SERVICE_VERSION="${project.version}"
 SERVICE_PATH=\$(dirname \$0)
-SERVICE_PID="/tmp/.\$SERVICE_NAME-\$SERVICE_VERSION.pid"
+SERVICE_PID="/tmp/.\${SERVICE_NAME}_\$SERVICE_VERSION.pid"
 
 log () {
   echo "\$SERVICE_NAME (\$SERVICE_VERSION) \$1"
@@ -71,7 +71,17 @@ case \$1 in
 esac
 """
 
-installShadowApp.destinationDir = file ("$buildDir/${project.name}-$version")
+installShadowApp.destinationDir = file ("$buildDir/${project.name}_$version")
 installShadowApp.doLast {
     file("${installShadowApp.destinationDir}/service") << serviceScript
 }
+
+compileKotlin2Js {
+    kotlinOptions.outputFile = "$buildDir/js/app.js"
+    kotlinOptions.suppressWarnings = true
+    kotlinOptions.verbose = true
+    kotlinOptions.version = true
+    kotlinOptions.sourceMap = true
+}
+
+copyKotlinJs.into "$buildDir/js/lib"
