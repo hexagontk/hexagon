@@ -8,7 +8,15 @@ apply plugin: 'kotlin'
 apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.dokka'
 
-String rootBuildDir = rootProject.buildDir
+ext.getProperty = { String name, String value ->
+    project.hasProperty (name)? project.property (name) : value
+}
+
+ext.testngVersion = getProperty ('testngVersion', '6.9.+')
+ext.mockitoVersion = getProperty ('mockitoVersion', '1.10.+')
+
+ext.filterPatterns = getProperty ('filterPatterns', '*.properties, *.txt, *.xml')
+ext.rootBuildDir = rootProject.buildDir
 
 repositories {
     jcenter ()
@@ -19,6 +27,7 @@ dependencies {
 
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: kotlinVersion
     testCompile group: 'org.testng', name: 'testng', version: testngVersion
+    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
 }
 
 clean {
