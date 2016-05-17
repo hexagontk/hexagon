@@ -10,6 +10,7 @@ dependencies {
 
     testCompile "co.there4:hexagon:$hexagonVersion:test"
     testCompile "io.ratpack:ratpack-test:$ratpackVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
 }
 
 ext.serviceScript = """
