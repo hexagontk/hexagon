@@ -6,18 +6,14 @@ buildscript {
     }
 
     dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.+"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.+"
     }
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'application'
+apply from: "$gradleScripts/hexagon.gradle"
 
-version = "1.0.0"
-description = "Hexagon web framework's benchmark"
-mainClassName = "co.there4.hexagon.BenchmarkKt"
-
-defaultTasks 'installDist'
+defaultTasks 'installShadowApp'
 
 applicationDefaultJvmArgs = [
     '-Xms128M',
@@ -27,20 +23,3 @@ applicationDefaultJvmArgs = [
     '-XX:+UseParallelGC',
     '-XX:+AggressiveOpts'
 ]
-
-repositories {
-    jcenter ()
-    mavenLocal ()
-}
-
-dependencies {
-    compile "co.there4:hexagon:0.1.+"
-
-    testCompile "co.there4:hexagon:0.1.+:test"
-    testCompile "org.testng:testng:6.9.+"
-    testCompile "io.ratpack:ratpack-test:1.3.+"
-}
-
-test {
-    useTestNG ()
-}
