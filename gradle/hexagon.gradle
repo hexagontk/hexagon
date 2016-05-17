@@ -15,7 +15,7 @@ ext.gradleScripts = getProperty (
 
 apply from: "$gradleScripts/kotlin.gradle"
 
-apply plugin: 'kotlin2js'
+//apply plugin: 'kotlin2js'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
@@ -76,12 +76,12 @@ installShadowApp.doLast {
     file("${installShadowApp.destinationDir}/service") << serviceScript
 }
 
-compileKotlin2Js {
-    kotlinOptions.outputFile = "$buildDir/js/app.js"
-    kotlinOptions.suppressWarnings = true
-    kotlinOptions.verbose = true
-    kotlinOptions.version = true
-    kotlinOptions.sourceMap = true
-}
+//compileKotlin2Js {
+//    kotlinOptions.outputFile = "$buildDir/js/app.js"
+//    kotlinOptions.suppressWarnings = true
+//    kotlinOptions.verbose = true
+//    kotlinOptions.version = true
+//    kotlinOptions.sourceMap = true
+//}
 
-copyKotlinJs.into "$buildDir/js/lib"
+//copyKotlinJs.into "$buildDir/js/lib"
