@@ -11,10 +11,11 @@ buildscript {
     }
 }
 
-apply from: "$gradleScripts/hexagon.gradle"
+apply from: "https://raw.githubusercontent.com/jaguililla/hexagon/master/gradle/hexagon.gradle"
 
 defaultTasks 'installShadowApp'
 
+mainClassName = "co.there4.hexagon.BenchmarkKt"
 applicationDefaultJvmArgs = [
     '-Xms128M',
     '-Xmx128M',

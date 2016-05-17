@@ -18,7 +18,7 @@
                 "framework" : "Hexagon",
                 "language" : "Kotlin",
                 "orm" : "Raw",
-                "platform" : "Servlet",
+                "platform" : "Netty",
                 "webserver" : "None",
                 "os" : "Linux",
                 "database_os" : "Linux",
