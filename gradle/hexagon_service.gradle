@@ -1,5 +1,5 @@
 
-apply from: "$gradleScripts/hexagon_libraryy.gradle"
+apply from: "$gradleScripts/hexagon_library.gradle"
 
 //apply plugin: 'kotlin2js'
 apply plugin: 'application'
