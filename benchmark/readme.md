@@ -56,3 +56,10 @@ http://localhost:5050/update
     
 # Clear
     
+
+# TODO
+
+Remove `benchmark_config` optional parameters. Check:
+http://frameworkbenchmarks.readthedocs.io/en/latest/Codebase/Framework-Files/#benchmark-config-file
+
+Add common commands to test the framework inside Vagrant's development machine
