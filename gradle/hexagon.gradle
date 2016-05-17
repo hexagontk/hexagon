@@ -1,0 +1,63 @@
+
+apply from: "$gradleScripts/kotlin.gradle"
+
+apply plugin: 'kotlin2js'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+installShadowApp.destinationDir = file ("$buildDir/${project.name}-$version")
+installShadowApp.doLast {
+    file("${installShadowApp.destinationDir}/service") << serviceScript
+}
+
+dependencies {
+    compile project (":modules:basesite")
+
+    compile "com.sun.mail:javax.mail:1.5.+"
+    compile "co.there4:hexagon:$hexagonVersion"
+}
+
+String serviceScript = """
+#!/usr/bin/env bash
+
+SERVICE_NAME="${project.name}"
+SERVICE_VERSION="${project.version}"
+SERVICE_PATH=\$(dirname \$0)
+SERVICE_PID="/tmp/.\$SERVICE_NAME-\$SERVICE_VERSION.pid"
+
+log () {
+  echo "\$SERVICE_NAME (\$SERVICE_VERSION) \$1"
+}
+
+case \$1 in
+  start)
+    if [ ! -f \$SERVICE_PID ]; then
+      log "starting..."
+      nohup \$SERVICE_PATH/bin/\$SERVICE_NAME 2>> /dev/null >> /dev/null &
+      echo \$! > \$SERVICE_PID
+      log "started"
+    else
+      log "is already running"
+    fi
+  ;;
+  stop)
+    if [ -f \$SERVICE_PID ]; then
+      log "stopping..."
+      PID=\$(cat \$SERVICE_PID)
+      kill \$PID
+      log "stopped"
+      rm \$SERVICE_PID
+    else
+      log "is not running"
+    fi
+  ;;
+  restart)
+    if [ -f \$SERVICE_PID ]; then
+      \$SERVICE_PATH/service stop
+      \$SERVICE_PATH/service start
+    else
+      log "is not running"
+    fi
+  ;;
+esac
+"""
