@@ -6,10 +6,10 @@ apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 dependencies {
-    compile project (":modules:basesite")
-
-    compile "com.sun.mail:javax.mail:1.5.+"
     compile "co.there4:hexagon:$hexagonVersion"
+
+    testCompile "co.there4:hexagon:$hexagonVersion:test"
+    testCompile "io.ratpack:ratpack-test:$ratpackVersion"
 }
 
 ext.serviceScript = """
