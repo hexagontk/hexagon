@@ -1,0 +1,34 @@
+<!--
+ | Logback configuration
+ |
+ | Relays in 'applicationDir' and 'applicationPackage' variables
+ !-->
+<configuration>
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <Pattern>
+        %d{HH:mm:ss.SSS} %highlight(%-5p) %magenta([%-10thread]) %-30logger{0} | %m%n
+      </Pattern>
+    </encoder>
+  </appender>
+
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${applicationDir}/logs/${projectName}-%d{yyMMdd}.log</FileNamePattern>
+      <MaxHistory>5</MaxHistory>
+    </rollingPolicy>
+    <encoder>
+      <Pattern>%d{HH:mm:ss.SSS} %-5p [%-10thread] %-30logger{0} | %m%n</Pattern>
+    </encoder>
+  </appender>
+
+  <root>
+    <level value="info" />
+    <appender-ref ref="file" />
+  </root>
+
+  <logger name="co.azampar" level="debug">
+    <appender-ref ref="console" />
+    <appender-ref ref="file" />
+  </logger>
+</configuration>

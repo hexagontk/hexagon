@@ -1,5 +1,5 @@
 <!--
- | Logback configuration for tests
+ | Logback configuration
  |
  | All output is ignored by default, to enable logs change root logger level.
  !-->
