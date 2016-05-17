@@ -17,7 +17,7 @@ dependencies {
     compile "co.there4:hexagon:$hexagonVersion"
 }
 
-String serviceScript = """
+ext.serviceScript = """
 #!/usr/bin/env bash
 
 SERVICE_NAME="${project.name}"
