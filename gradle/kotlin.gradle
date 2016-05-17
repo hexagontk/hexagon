@@ -87,7 +87,7 @@ test {
 
 dokka {
     outputDirectory = "$rootBuildDir/$projectSite/dokka"
-//    outputFormat = 'markdown' // TODO There is a bug in the tool that prevents this for working ok
+    outputFormat = 'javadoc'
 }
 
 jacocoTestReport {
