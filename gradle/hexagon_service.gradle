@@ -1,30 +1,9 @@
 
-ext.getProperty = { String name, String value ->
-    project.hasProperty (name)? project.property (name) : value
-}
-
-ext.dokkaVersion = getProperty ('dokkaVersion', '0.9.+')
-ext.kotlinVersion = getProperty ('kotlinVersion', '1.0.+')
-ext.ratpackVersion = getProperty ('ratpackVersion', '1.3.+')
-ext.wrapperGradleVersion = getProperty ('wrapperGradleVersion', '2.13')
-ext.hexagonVersion = getProperty ('hexagonVersion', '0.2.+')
-ext.gradleScripts = getProperty (
-    'gradleScripts',
-    'https://raw.githubusercontent.com/jaguililla/hexagon/master/gradle'
-)
-
-apply from: "$gradleScripts/kotlin.gradle"
+apply from: "$gradleScripts/hexagon_libraryy.gradle"
 
 //apply plugin: 'kotlin2js'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
-
-dependencies {
-    compile "co.there4:hexagon:$hexagonVersion"
-
-    testCompile "co.there4:hexagon:$hexagonVersion:test"
-    testCompile "io.ratpack:ratpack-test:$ratpackVersion"
-}
 
 ext.serviceScript = """
 #!/usr/bin/env bash
