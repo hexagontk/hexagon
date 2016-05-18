@@ -5,8 +5,6 @@ apply from: "$gradleScripts/hexagon_library.gradle"
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-task install (dependsOn: 'installShadowApp')
-
 ext.serviceScript = """
 #!/usr/bin/env bash
 
@@ -56,6 +54,8 @@ installShadowApp.destinationDir = file ("$buildDir/${project.name}_$version")
 installShadowApp.doLast {
     file("${installShadowApp.destinationDir}/service") << serviceScript
 }
+
+task install (dependsOn: 'installShadowApp')
 
 //compileKotlin2Js {
 //    kotlinOptions.outputFile = "$buildDir/js/app.js"
