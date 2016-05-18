@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-apply from: "https://raw.githubusercontent.com/jaguililla/hexagon/master/gradle/hexagon.gradle"
+apply from: "$gradleScripts/hexagon_service.gradle"
 
 defaultTasks 'installShadowApp'
 
