@@ -70,8 +70,6 @@ installShadowApp.doLast {
     script.executable = true
 }
 
-task install (dependsOn: 'installShadowApp')
-
 //compileKotlin2Js {
 //    kotlinOptions.outputFile = "$buildDir/js/app.js"
 //    kotlinOptions.suppressWarnings = true
