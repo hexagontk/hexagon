@@ -19,7 +19,7 @@ import java.util.*
 object ConfigManager {
     val mainClass = getServiceClass()
     val jarDir = File (mainClass.protectionDomain.codeSource.location.toURI())
-    val serviceDir = jarDir.parent
+    val serviceDir = if (jarDir.isDirectory) jarDir.parentFile.parent else jarDir.parent
     val servicePackage = mainClass.`package`.name
     val serviceName = mainClass.simpleName.camelToSnake().removeSuffix("_kt")
 

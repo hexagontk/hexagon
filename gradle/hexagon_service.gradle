@@ -1,5 +1,6 @@
 
-apply from: "$gradleScripts/hexagon_library.gradle"
+//apply from: "$gradleScripts/hexagon_library.gradle"
+apply from: "$rootDir/gradle/hexagon_library.gradle"
 
 //apply plugin: 'kotlin2js'
 apply plugin: 'application'
@@ -22,7 +23,7 @@ case \$1 in
     if [ ! -f \$SERVICE_PID ]; then
       log "starting..."
       cd \$SERVICE_PATH
-      nohup bin/\$SERVICE_NAME -DserviceDir=\${SERVICE_PATH} "\$@" 2>> /dev/null >> /dev/null &
+      nohup bin/\$SERVICE_NAME "\$@" 2>> /dev/null >> /dev/null &
       cd \$OLDPWD
       echo \$! > \$SERVICE_PID
       log "started"
@@ -63,7 +64,7 @@ case \$1 in
 esac
 """
 
-installShadowApp.destinationDir = file ("$buildDir/${project.name}_$version")
+installShadowApp.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
 installShadowApp.doLast {
     File script = file("${installShadowApp.destinationDir}/service")
     script << serviceScript
