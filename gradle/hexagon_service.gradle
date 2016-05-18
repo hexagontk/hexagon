@@ -5,6 +5,10 @@ apply from: "$gradleScripts/hexagon_library.gradle"
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
+dependencies {
+    compile "co.there4:hexagon:$hexagonVersion"
+}
+
 ext.serviceScript = """
 #!/usr/bin/env bash
 
