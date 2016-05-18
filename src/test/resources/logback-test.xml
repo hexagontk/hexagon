@@ -12,16 +12,8 @@
     </encoder>
   </appender>
 
-  <appender name="data" class="co.there4.hexagon.log.TestAppender">
-    <findCaller>true</findCaller>
-  </appender>
-
   <root>
     <level value="off" />
+    <appender-ref ref="console" />
   </root>
-
-  <!-- Enable logging for Appender tests -->
-  <logger name="co.there4.hexagon.log" level="debug">
-    <appender-ref ref="data" />
-  </logger>
 </configuration>
