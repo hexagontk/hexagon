@@ -1,5 +1,6 @@
 package co.there4.hexagon.rest
 
+import co.there4.hexagon.configuration.ConfigManager
 import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.ratpack.KChain
 import java.lang.Runtime.getRuntime
@@ -19,11 +20,16 @@ import ratpack.server.RatpackServer
 
 /*
  * TODO Add base class for Application (setup locales, etc.) for web applications
- * TODO Add base class for Services  (the setup for applications is not needed here)
+ * TODO Add base class for Services (the setup for applications is not needed here)
  */
 object RestPackage : CompanionLogger (RestPackage::class)
 
 val information = """
+    SERVICE:     #{service.name}
+    PACKAGE:     #{service.package}
+    DIRECTORY:   #{service.dir}
+    ENVIRONMENT: #{environment}
+
     Running in '#{application.host}' with #{application.cpus} CPUs #{application.jvm.memory} KB
     Java #{application.jvm.version} [#{application.jvm}]
     Locale #{application.locale} Timezone #{application.timezone}
@@ -43,6 +49,10 @@ private fun showBanner() {
     )
 
     val variables = mapOf (
+        "service.name" to ConfigManager.serviceName,
+        "service.dir" to ConfigManager.serviceDir,
+        "service.package" to ConfigManager.servicePackage,
+        "environment" to (ConfigManager.environment ?: "N/A"),
         "application.locale" to locale,
         "application.timezone" to getProperty("user.timezone"),
         "application.cpus" to runtime.availableProcessors(),
@@ -63,6 +73,7 @@ private fun showBanner() {
 }
 
 fun applicationStart(cb: KServerSpec.() -> Unit): RatpackServer {
+    ConfigManager.setupLogging()
     val server = RatpackServer.start { KServerSpec(it).(cb)() }
 
     // TODO Setup metrics

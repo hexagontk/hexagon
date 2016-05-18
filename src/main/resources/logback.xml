@@ -7,28 +7,26 @@
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <Pattern>
-        %d{HH:mm:ss.SSS} %highlight(%-5p) %magenta([%-10thread]) %-30logger{0} | %m%n
+        %d{HH:mm:ss.SSS} %highlight(%-5p) %magenta([%-15.15thread]) %-30logger{30} | %m%n
       </Pattern>
     </encoder>
   </appender>
 
   <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <FileNamePattern>${applicationDir}/logs/${projectName}-%d{yyMMdd}.log</FileNamePattern>
+      <FileNamePattern>${serviceDir}/logs/${serviceName}-%d{yyMMdd}.log</FileNamePattern>
       <MaxHistory>5</MaxHistory>
     </rollingPolicy>
     <encoder>
-      <Pattern>%d{HH:mm:ss.SSS} %-5p [%-10thread] %-30logger{0} | %m%n</Pattern>
+      <Pattern>%d{HH:mm:ss.SSS} %-5p [%-15.15thread] %-30logger{30} | %m%n</Pattern>
     </encoder>
   </appender>
 
   <root>
     <level value="info" />
     <appender-ref ref="file" />
+    <appender-ref ref="console" />
   </root>
 
-  <logger name="co.azampar" level="debug">
-    <appender-ref ref="console" />
-    <appender-ref ref="file" />
-  </logger>
+  <logger name="${servicePackage}" level="debug" />
 </configuration>
