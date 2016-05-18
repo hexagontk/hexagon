@@ -1,6 +1,6 @@
 
-//apply from: "$gradleScripts/hexagon_library.gradle"
-apply from: "$rootDir/gradle/hexagon_library.gradle"
+apply from: "$gradleScripts/hexagon_library.gradle"
+//apply from: "$rootDir/gradle/hexagon_library.gradle"
 
 //apply plugin: 'kotlin2js'
 apply plugin: 'application'

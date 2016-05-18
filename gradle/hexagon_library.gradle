@@ -14,17 +14,17 @@ ext.gradleScripts = getProperty (
 
 apply from: "$gradleScripts/kotlin.gradle"
 
-//dependencies {
-//    compile "co.there4:hexagon:$hexagonVersion"
-//
-//    testCompile "co.there4:hexagon:$hexagonVersion:test"
-//    testCompile "io.ratpack:ratpack-test:$ratpackVersion"
-//}
+dependencies {
+    compile "co.there4:hexagon:$hexagonVersion"
+
+    testCompile "co.there4:hexagon:$hexagonVersion:test"
+    testCompile "io.ratpack:ratpack-test:$ratpackVersion"
+}
 
 // TESTING
-dependencies {
-    compile rootProject
-
-    testCompile rootProject.sourceSets.test.output
-    testCompile ("io.ratpack:ratpack-test:1.3.+")
-}
+//dependencies {
+//    compile rootProject
+//
+//    testCompile rootProject.sourceSets.test.output
+//    testCompile ("io.ratpack:ratpack-test:1.3.+")
+//}
