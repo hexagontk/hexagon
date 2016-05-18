@@ -15,7 +15,7 @@ ext.gradleScripts = getProperty (
 apply from: "$gradleScripts/kotlin.gradle"
 
 dependencies {
-    compileOnly "co.there4:hexagon:$hexagonVersion"
+    compile "co.there4:hexagon:$hexagonVersion"
 
     testCompile "co.there4:hexagon:$hexagonVersion:test"
     testCompile "io.ratpack:ratpack-test:$ratpackVersion"

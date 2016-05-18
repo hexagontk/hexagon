@@ -10,10 +10,19 @@ buildscript {
     }
 }
 
-//apply from: "$gradleScripts/hexagon_service.gradle"
-apply from: "$gradleScripts/kotlin.gradle"
-apply plugin: 'application'
-apply plugin: 'com.github.johnrengelman.shadow'
+apply from: "$gradleScripts/hexagon_service.gradle"
+
+// CODE FOR TESTING
+//apply from: "$gradleScripts/kotlin.gradle"
+//apply plugin: 'application'
+//apply plugin: 'com.github.johnrengelman.shadow'
+//
+//dependencies {
+//    compile rootProject
+//
+//    testCompile rootProject.sourceSets.test.output
+//    testCompile ("io.ratpack:ratpack-test:1.3.+")
+//}
 
 defaultTasks 'installShadowApp'
 
@@ -26,11 +35,3 @@ applicationDefaultJvmArgs = [
     '-XX:+UseParallelGC',
     '-XX:+AggressiveOpts'
 ]
-
-// TODO REMOVE
-dependencies {
-    compile rootProject
-
-    testCompile rootProject.sourceSets.test.output
-    testCompile ("io.ratpack:ratpack-test:1.3.+")
-}
