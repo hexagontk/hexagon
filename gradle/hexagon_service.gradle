@@ -64,8 +64,8 @@ esac
 installShadowApp.destinationDir = file ("$buildDir/${project.name}_$version")
 installShadowApp.doLast {
     File script = file("${installShadowApp.destinationDir}/service")
-    script.executable = true
     script << serviceScript
+    script.executable = true
 }
 
 task install (dependsOn: 'installShadowApp')
