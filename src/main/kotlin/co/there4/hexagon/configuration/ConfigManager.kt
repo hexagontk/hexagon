@@ -9,26 +9,29 @@ import java.util.*
 
 /**
  * Reads:
- * - application.properties (resource)
  * - <project>.properties (resource)
  * - <project>_<environment>.properties (resource)
  * - <project>.properties (file)
  * - <project>_<environment>.properties (file)
- * - System properties
  */
 object ConfigManager {
     val mainClass = getServiceClass()
-    val jarDir = File (mainClass.protectionDomain.codeSource.location.toURI())
-    val serviceDir = if (jarDir.isDirectory) jarDir.parentFile.parent else jarDir.parent
+    val jarPath = File (mainClass.protectionDomain.codeSource.location.toURI())
+    val serviceDir = if (jarPath.isFile) jarPath.parentFile.parent else jarPath.parent
     val servicePackage = mainClass.`package`.name
     val serviceName = mainClass.simpleName.camelToSnake().removeSuffix("_kt")
 
-    private var parameters: Map<String, *> = loadProps ("application.properties")
+    private val parameters: Map<String, *> = loadParameters()
 
-    val environment: String? = getenv(parameters["environmentVariable"]?.toString() ?: "ENVIRONMENT")
+    val environment: String? = getenv("ENVIRONMENT")
 
-    init {
-        parameters = parameters + loadProps("${serviceName}.properties")
+    private fun loadParameters (): Map<String, *> {
+        var params = loadProps("${serviceName}.properties")
+
+        if (environment != null)
+            params = params + loadProps("${serviceName}_${environment}.properties")
+
+        return params
     }
 
     private fun getServiceClass (): Class<*> {
