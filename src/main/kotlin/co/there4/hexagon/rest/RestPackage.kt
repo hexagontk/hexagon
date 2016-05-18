@@ -73,7 +73,6 @@ private fun showBanner() {
 }
 
 fun applicationStart(cb: KServerSpec.() -> Unit): RatpackServer {
-    ConfigManager.setupLogging()
     val server = RatpackServer.start { KServerSpec(it).(cb)() }
 
     // TODO Setup metrics
