@@ -15,7 +15,7 @@ class BenchmarkTest {
     private val client = HttpClient(URL(ENDPOINT))
 
     @BeforeClass fun setup () {
-        Benchmark.start ()
+        main(arrayOf())
 
         (1..WARM_UP).forEach {
             json ()

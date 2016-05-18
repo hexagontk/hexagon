@@ -1,6 +1,5 @@
 package co.there4.hexagon
 
-import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.reflect.KClass
 
@@ -13,36 +12,43 @@ import co.there4.hexagon.repository.mongoDatabase
 
 import ratpack.server.BaseDir
 
-import co.there4.hexagon.Benchmark.DB_ROWS
+import co.there4.hexagon.configuration.ConfigManager
 import java.lang.System.getenv
 import java.net.InetAddress
 import java.time.LocalDateTime
 
-/*
- * TODO Use framework ConfigManager
- */
-internal class MongoDbRepository (settings: Properties) {
-    val DATABASE = settings.getProperty ("mongodb.database")
-    val WORLD = settings.getProperty ("mongodb.world.collection")
-    val FORTUNE = settings.getProperty ("mongodb.fortune.collection")
+internal data class Message (val message: String = "Hello, World!")
+internal data class Fortune (val _id: Int, val message: String)
+internal data class World (val id: Int, val randomNumber: Int)
 
-    val database = mongoDatabase("mongodb://${getenv("DBHOST") ?: "localhost"}/$DATABASE")
-    val worldRepository = idRepository(World::class, WORLD, Int::class, { it.id })
-    val fortuneRepository = idRepository(Fortune::class, FORTUNE, Int::class, { it._id })
+internal object Benchmark {
+    private val DB_ROWS = 10000
+    private val MESSAGE = "Hello, World!"
+    private val CONTENT_TYPE_TEXT = "text/plain"
+    private val CONTENT_TYPE_JSON = "application/json"
+    private val QUERIES_PARAM = "queries"
 
-    val random = ThreadLocalRandom.current ()
+    private val DATABASE = ConfigManager["mongodb.database"] as String
+    private val WORLD = ConfigManager["mongodb.world.collection"] as String
+    private val FORTUNE = ConfigManager["mongodb.fortune.collection"] as String
 
-    fun <T : Any, K : Any> idRepository (
+    private val database = mongoDatabase("mongodb://${getenv("DBHOST") ?: "localhost"}/$DATABASE")
+    private val worldRepository = idRepository(World::class, WORLD, Int::class, { it.id })
+    private val fortuneRepository = idRepository(Fortune::class, FORTUNE, Int::class, { it._id })
+
+    private val random = ThreadLocalRandom.current ()
+
+    private fun <T : Any, K : Any> idRepository (
         type: KClass<T>, collectionName: String, keyType: KClass<K>, keySupplier: (T) -> K) =
-            MongoIdRepository(
-                type,
-                mongoCollection (collectionName, database),
-                "_id",
-                keyType,
-                keySupplier
-            )
+        MongoIdRepository(
+            type,
+            mongoCollection (collectionName, database),
+            "_id",
+            keyType,
+            keySupplier
+        )
 
-    fun rnd () = random.nextInt (DB_ROWS) + 1
+    private fun rnd () = random.nextInt (DB_ROWS) + 1
 
     fun getWorlds (queries: Int, update: Boolean) = (1..queries).map {
         if (update) {
@@ -54,68 +60,31 @@ internal class MongoDbRepository (settings: Properties) {
             worldRepository.find(rnd ())
         }
     }
-}
-
-internal data class Message (val message: String = "Hello, World!")
-internal data class Fortune (val _id: Int, val message: String)
-internal data class World (val id: Int, val randomNumber: Int)
-
-internal object Benchmark {
-    val SETTINGS_RESOURCE = "/benchmark.properties"
-    val DB_ROWS = 10000
-
-    val MESSAGE = "Hello, World!"
-    val CONTENT_TYPE_TEXT = "text/plain"
-    val CONTENT_TYPE_JSON = "application/json"
-    val QUERIES_PARAM = "queries"
-
-    val repository = MongoDbRepository (loadConfiguration ())
-
-    private fun loadConfiguration (): Properties {
-        val settings = Properties ()
-        settings.load (Benchmark::class.java.getResourceAsStream (SETTINGS_RESOURCE))
-        return settings
-    }
-
-    private fun KContext.handle (callback: KContext.() -> Unit) {
-        try {
-            callback()
-        }
-        catch (e: Exception) {
-            halt (e.message ?: "")
-        }
-    }
 
     private fun KContext.getDb () {
-        handle {
-            val worlds = repository.getWorlds (getQueries (), false)
-            response.contentType (CONTENT_TYPE_JSON)
-            ok (
-                if (request.queryParams [QUERIES_PARAM] == null) worlds[0].serialize()
-                else worlds.serialize()
-            )
-        }
+        val worlds = getWorlds (getQueries (), false)
+        response.contentType (CONTENT_TYPE_JSON)
+        ok (
+            if (request.queryParams [QUERIES_PARAM] == null) worlds[0].serialize()
+            else worlds.serialize()
+        )
     }
 
     private fun KContext.getFortunes () {
-        handle {
-            val fortune = Fortune (0, "Additional fortune added at request time.")
-            val fortunes = repository.fortuneRepository.findObjects ().toList() + fortune
+        val fortune = Fortune (0, "Additional fortune added at request time.")
+        val fortunes = fortuneRepository.findObjects ().toList() + fortune
 
-            response.contentType ("text/html; charset=utf-8")
-            template ("fortunes.html", mapOf ("fortunes" to fortunes.sortedBy { it.message }))
-        }
+        response.contentType ("text/html; charset=utf-8")
+        template ("fortunes.html", mapOf ("fortunes" to fortunes.sortedBy { it.message }))
     }
 
     private fun KContext.getUpdates () {
-        handle {
-            val worlds = repository.getWorlds (getQueries (), true)
-            response.contentType (CONTENT_TYPE_JSON)
-            ok (
-                if (request.queryParams [QUERIES_PARAM] == null) worlds[0].serialize()
-                else worlds.serialize()
-            )
-        }
+        val worlds = getWorlds (getQueries (), true)
+        response.contentType (CONTENT_TYPE_JSON)
+        ok (
+            if (request.queryParams [QUERIES_PARAM] == null) worlds[0].serialize()
+            else worlds.serialize()
+        )
     }
 
     private fun KContext.getQueries (): Int {
@@ -148,9 +117,8 @@ internal object Benchmark {
     fun start() {
         applicationStart {
             serverConfig {
-                val settings = loadConfiguration ()
-                port(settings.getProperty ("web.port").toInt())
-                address(InetAddress.getByName(settings.getProperty ("web.host")))
+                port((ConfigManager["web.port"] as String).toInt())
+                address(InetAddress.getByName(ConfigManager["web.host"] as String))
                 baseDir(BaseDir.find("benchmark.properties"))
                 development(false)
             }

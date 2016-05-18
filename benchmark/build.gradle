@@ -2,7 +2,6 @@
 buildscript {
     repositories {
         jcenter ()
-        mavenCentral ()
     }
 
     dependencies {
@@ -11,7 +10,10 @@ buildscript {
     }
 }
 
-apply from: "$gradleScripts/hexagon_service.gradle"
+//apply from: "$gradleScripts/hexagon_service.gradle"
+apply from: "$gradleScripts/kotlin.gradle"
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 defaultTasks 'installShadowApp'
 
@@ -24,3 +26,11 @@ applicationDefaultJvmArgs = [
     '-XX:+UseParallelGC',
     '-XX:+AggressiveOpts'
 ]
+
+// TODO REMOVE
+dependencies {
+    compile rootProject
+
+    testCompile rootProject.sourceSets.test.output
+    testCompile ("io.ratpack:ratpack-test:1.3.+")
+}
