@@ -47,12 +47,25 @@ case \$1 in
       log "is not running"
     fi
   ;;
+  status)
+    if [ -f \$SERVICE_PID ]; then
+      log "RUNNING"
+    else
+      log "STOPPED"
+    fi
+  ;;
+  *)
+    echo \$"Usage: \$0 {start|stop|restart|status}"
+    exit 1
+  ;;
 esac
 """
 
 installShadowApp.destinationDir = file ("$buildDir/${project.name}_$version")
 installShadowApp.doLast {
-    file("${installShadowApp.destinationDir}/service") << serviceScript
+    File script = file("${installShadowApp.destinationDir}/service")
+    script.executable = true
+    script << serviceScript
 }
 
 task install (dependsOn: 'installShadowApp')
