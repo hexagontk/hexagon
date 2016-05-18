@@ -18,7 +18,6 @@ uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 * [storage](storage.html) (TODO Write documentation)
 * [events](events.html)
 * [configuration](configuration.html) (TODO Not implemented)
-* [logging](logging.html) (TODO Write documentation)
 * [templates](templates.html) (TODO Partial implementation)
 * [scheduling](scheduling.html)
 * [testing](testing.html) (TODO Write documentation)
