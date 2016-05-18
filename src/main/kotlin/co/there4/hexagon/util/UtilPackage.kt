@@ -58,7 +58,7 @@ object Context {
  * @param times Number of times to try to execute the callback. Must be greater than 0.
  * @param delay Milliseconds to wait to next execution if there was an error. Must be 0 or greater.
  * @return The callback result if succeed.
- * @throws [ProgramException] if the callback didn't succeed in the given times.
+ * @throws [ServiceException] if the callback didn't succeed in the given times.
  */
 fun <T> retry (times: Int, delay: Long, func: () -> T): T {
     require (times > 0)
@@ -75,7 +75,7 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
         }
     }
 
-    throw ProgramException(0, "Error retrying $times times ($delay ms)", *exceptions.toTypedArray())
+    throw ServiceException(0, "Error retrying $times times ($delay ms)", *exceptions.toTypedArray())
 }
 
 /*
