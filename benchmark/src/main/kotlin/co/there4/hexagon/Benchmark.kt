@@ -11,9 +11,9 @@ import co.there4.hexagon.repository.mongoDatabase
 
 import ratpack.server.BaseDir
 
-import co.there4.hexagon.configuration.ConfigManager
+import co.there4.hexagon.configuration.ConfigManager as Config
 import java.lang.System.getenv
-import java.net.InetAddress
+import java.net.InetAddress.getByName as ip
 import java.time.LocalDateTime
 
 internal data class Message (val message: String = "Hello, World!")
@@ -25,9 +25,9 @@ internal object Benchmark {
     private val CONTENT_TYPE_JSON = "application/json"
     private val QUERIES_PARAM = "queries"
 
-    private val DB = getenv("OPENSHIFT_APP_NAME") ?: ConfigManager["database"] as String
-    private val WORLD = ConfigManager["worldCollection"] as String
-    private val FORTUNE = ConfigManager["fortuneCollection"] as String
+    private val DB = getenv("OPENSHIFT_APP_NAME") ?: Config["database"] as String
+    private val WORLD = Config["worldCollection"] as String
+    private val FORTUNE = Config["fortuneCollection"] as String
 
     private val DB_HOST = getenv("DBHOST") ?: "localhost"
     private val DB_PORT = getenv("OPENSHIFT_MONGODB_DB_PORT") ?: 27017
@@ -106,8 +106,11 @@ internal object Benchmark {
     fun start() {
         applicationStart {
             serverConfig {
-                port((ConfigManager["bindPort"] as String).toInt())
-                address(InetAddress.getByName(ConfigManager["bindAddress"] as String))
+                val ip = ip(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"] as String)
+                val port = (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"] as String).toInt()
+
+                address(ip)
+                port(port)
                 baseDir(BaseDir.find("benchmark.properties"))
                 development(false)
             }
