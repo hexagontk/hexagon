@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -x
+if [ ! -d $OPENSHIFT_DATA_DIR/gradle-2.13 ]
+then
+    cd $OPENSHIFT_DATA_DIR
+    mkdir gradle
+    wget http://services.gradle.org/distributions/gradle-2.13-bin.zip
+    unzip gradle-2.13-bin.zip
+    rm -f gradle-2.13-bin.zip
+fi
+
+# Load DB
+tar -Jxvf $OPENSHIFT_REPO_DIR/benchmark/db.txz
+
+mongorestore \
+  --host $OPENSHIFT_MONGODB_DB_HOST \
+  --port $OPENSHIFT_MONGODB_DB_PORT \
+  --username $OPENSHIFT_MONGODB_DB_USERNAME \
+  --password $OPENSHIFT_MONGODB_DB_PASSWORD \
+  dump/
+
+rm -rf dump
