@@ -64,11 +64,15 @@ case \$1 in
 esac
 """
 
-installApp.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
-installApp.doLast {
-    File script = file("${installShadowApp.destinationDir}/service")
-    script << serviceScript
-    script.executable = true
+[ installDist, installShadowDist].forEach {
+    it.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
+}
+[ installDist, installShadowDist].forEach {
+    it.doLast {
+        File script = file("${it.destinationDir}/service")
+        script << serviceScript
+        script.executable = true
+    }
 }
 
 //compileKotlin2Js {
