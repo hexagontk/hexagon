@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$OPENSHIFT_HOMEDIR/build/benchmark_1.0.0/service stop
