@@ -9,7 +9,7 @@ mongorestore \
   --db $OPENSHIFT_APP_NAME \
   --username $OPENSHIFT_MONGODB_DB_USERNAME \
   --password $OPENSHIFT_MONGODB_DB_PASSWORD \
-  dump/
+  dump/hello_world
 
 rm -rf dump
 
