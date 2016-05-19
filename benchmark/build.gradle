@@ -11,14 +11,13 @@ buildscript {
 }
 
 apply from: "$gradleScripts/hexagon_service.gradle"
-//apply from: "$rootDir/gradle/hexagon_service.gradle"
 
-defaultTasks 'install'
+defaultTasks 'installShadowApp'
 
 mainClassName = "co.there4.hexagon.BenchmarkKt"
 applicationDefaultJvmArgs = [
-    '-Xms128M',
-    '-Xmx128M',
+    '-Xms64M',
+    '-Xmx64M',
     '-server',
     '-XX:+UseNUMA',
     '-XX:+UseParallelGC',

@@ -1,7 +1,6 @@
 package co.there4.hexagon
 
 import java.util.concurrent.ThreadLocalRandom
-import kotlin.reflect.KClass
 
 import co.there4.hexagon.ratpack.KContext
 import co.there4.hexagon.rest.applicationStart
@@ -23,51 +22,33 @@ internal data class World (val id: Int, val randomNumber: Int)
 
 internal object Benchmark {
     private val DB_ROWS = 10000
-    private val MESSAGE = "Hello, World!"
-    private val CONTENT_TYPE_TEXT = "text/plain"
     private val CONTENT_TYPE_JSON = "application/json"
     private val QUERIES_PARAM = "queries"
 
-    private val DATABASE = ConfigManager["mongodb.database"] as String
-    private val WORLD = ConfigManager["mongodb.world.collection"] as String
-    private val FORTUNE = ConfigManager["mongodb.fortune.collection"] as String
+    private val DATABASE = ConfigManager["database"] as String
+    private val WORLD = ConfigManager["worldCollection"] as String
+    private val FORTUNE = ConfigManager["fortuneCollection"] as String
+    private val DATABASE_HOST = getenv("DBHOST") ?: "localhost"
 
-    private val database = mongoDatabase("mongodb://${getenv("DBHOST") ?: "localhost"}/$DATABASE")
-    private val worldRepository = idRepository(World::class, WORLD, Int::class, { it.id })
-    private val fortuneRepository = idRepository(Fortune::class, FORTUNE, Int::class, { it._id })
+    private val database = mongoDatabase("mongodb://$DATABASE_HOST/$DATABASE")
 
-    private val random = ThreadLocalRandom.current ()
+    private val worldRepository = MongoIdRepository(
+        World::class, mongoCollection (WORLD, database), "_id", Int::class, { it.id }
+    )
 
-    private fun <T : Any, K : Any> idRepository (
-        type: KClass<T>, collectionName: String, keyType: KClass<K>, keySupplier: (T) -> K) =
-        MongoIdRepository(
-            type,
-            mongoCollection (collectionName, database),
-            "_id",
-            keyType,
-            keySupplier
-        )
+    private val fortuneRepository = MongoIdRepository(
+        Fortune::class, mongoCollection (FORTUNE, database), "_id", Int::class, { it._id }
+    )
 
-    private fun rnd () = random.nextInt (DB_ROWS) + 1
+    private fun rnd () = ThreadLocalRandom.current ().nextInt (DB_ROWS) + 1
 
-    fun getWorlds (queries: Int, update: Boolean) = (1..queries).map {
-        if (update) {
-            val newWorld = World (rnd (), rnd())
-            worldRepository.replaceObject (newWorld)
-            newWorld
-        }
-        else {
-            worldRepository.find(rnd ())
-        }
-    }
+    private fun KContext.hasQueryCount() = request.queryParams [QUERIES_PARAM] == null
 
     private fun KContext.getDb () {
-        val worlds = getWorlds (getQueries (), false)
+        val worlds = (1..getQueries()).map { worldRepository.find(rnd ()) }
+
         response.contentType (CONTENT_TYPE_JSON)
-        ok (
-            if (request.queryParams [QUERIES_PARAM] == null) worlds[0].serialize()
-            else worlds.serialize()
-        )
+        ok (if (hasQueryCount()) worlds[0].serialize() else worlds.serialize())
     }
 
     private fun KContext.getFortunes () {
@@ -79,12 +60,14 @@ internal object Benchmark {
     }
 
     private fun KContext.getUpdates () {
-        val worlds = getWorlds (getQueries (), true)
+        val worlds =  (1..getQueries()).map {
+            val newWorld = World (rnd (), rnd())
+            worldRepository.replaceObject (newWorld)
+            newWorld
+        }
+
         response.contentType (CONTENT_TYPE_JSON)
-        ok (
-            if (request.queryParams [QUERIES_PARAM] == null) worlds[0].serialize()
-            else worlds.serialize()
-        )
+        ok (if (hasQueryCount()) worlds[0].serialize() else worlds.serialize())
     }
 
     private fun KContext.getQueries (): Int {
@@ -105,8 +88,8 @@ internal object Benchmark {
     }
 
     private fun KContext.getPlaintext () {
-        response.contentType (CONTENT_TYPE_TEXT)
-        ok(MESSAGE)
+        response.contentType ("text/plain")
+        ok("Hello, World!")
     }
 
     private fun KContext.getJson () {
@@ -117,8 +100,8 @@ internal object Benchmark {
     fun start() {
         applicationStart {
             serverConfig {
-                port((ConfigManager["web.port"] as String).toInt())
-                address(InetAddress.getByName(ConfigManager["web.host"] as String))
+                port((ConfigManager["bindPort"] as String).toInt())
+                address(InetAddress.getByName(ConfigManager["bindAddress"] as String))
                 baseDir(BaseDir.find("benchmark.properties"))
                 development(false)
             }
@@ -141,6 +124,4 @@ internal object Benchmark {
     }
 }
 
-fun main(args: Array<String>) {
-    Benchmark.start()
-}
+fun main(args: Array<String>) = Benchmark.start()
