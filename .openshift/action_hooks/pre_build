@@ -9,16 +9,3 @@ then
     unzip gradle-2.13-bin.zip
     rm -f gradle-2.13-bin.zip
 fi
-
-# Load DB
-tar -Jxvf $OPENSHIFT_REPO_DIR/benchmark/db.txz
-
-mongorestore \
-  --host $OPENSHIFT_MONGODB_DB_HOST \
-  --port $OPENSHIFT_MONGODB_DB_PORT \
-  --db $OPENSHIFT_APP_NAME \
-  --username $OPENSHIFT_MONGODB_DB_USERNAME \
-  --password $OPENSHIFT_MONGODB_DB_PASSWORD \
-  dump/
-
-rm -rf dump
