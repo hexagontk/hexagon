@@ -14,4 +14,6 @@ mongorestore \
 rm -rf dump
 
 # Run
+export JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
+export PATH=$JAVA_HOME/bin:$PATH
 #$OPENSHIFT_REPO_DIR/build/benchmark_1.0.0/service start
