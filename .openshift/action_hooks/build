@@ -6,4 +6,17 @@ export GRADLE_USER_HOME=$OPENSHIFT_DATA_DIR/gradle
 export GRADLE_HOME=$OPENSHIFT_DATA_DIR/gradle-2.13
 export PATH=$GRADLE_HOME/bin:$PATH
 
-gradle installShadowApp
+# Load DB
+tar -Jxvf $OPENSHIFT_REPO_DIR/benchmark/db.txz
+
+mongorestore \
+  --host $OPENSHIFT_MONGODB_DB_HOST \
+  --port $OPENSHIFT_MONGODB_DB_PORT \
+  --db $OPENSHIFT_APP_NAME \
+  --username $OPENSHIFT_MONGODB_DB_USERNAME \
+  --password $OPENSHIFT_MONGODB_DB_PASSWORD \
+  dump/hello_world
+
+rm -rf dump
+
+gradle --no-daemon installShadowApp

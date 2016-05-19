@@ -30,6 +30,11 @@ development platforms. The test utilizes Hexagon routes, serialization and datab
 * Fortunes: http://localhost:5050/fortune 
 * Database updates: http://localhost:5050/update
 
+## Run on OpenShift
+
+https://blog.openshift.com/run-gradle-builds-on-openshift/
+
+
 ## Copy to TFB
 
     rm -f db.txz
