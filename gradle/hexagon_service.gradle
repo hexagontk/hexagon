@@ -64,10 +64,10 @@ case \$1 in
 esac
 """
 
-[ installDist, installShadowDist].forEach {
+[ installDist, installShadowApp].forEach {
     it.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
 }
-[ installDist, installShadowDist].forEach {
+[ installDist, installShadowApp].forEach {
     it.doLast {
         File script = file("${it.destinationDir}/service")
         script << serviceScript
