@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Load DB
-tar -Jxvf $OPENSHIFT_HOMEDIR/benchmark/db.txz
+tar -Jxvf $OPENSHIFT_REPO_DIR/benchmark/db.txz
 
 mongorestore \
   --host $OPENSHIFT_MONGODB_DB_HOST \
@@ -14,7 +14,7 @@ mongorestore \
 rm -rf dump
 
 # Build
-$OPENSHIFT_HOMEDIR/wrapper installShadowApp
+$OPENSHIFT_REPO_DIR/wrapper installShadowApp
 
 # Run
-$OPENSHIFT_HOMEDIR/build/benchmark_1.0.0/service start
+$OPENSHIFT_REPO_DIR/build/benchmark_1.0.0/service start
