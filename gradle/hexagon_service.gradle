@@ -64,8 +64,8 @@ case \$1 in
 esac
 """
 
-installShadowApp.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
-installShadowApp.doLast {
+installApp.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
+installApp.doLast {
     File script = file("${installShadowApp.destinationDir}/service")
     script << serviceScript
     script.executable = true
