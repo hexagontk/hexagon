@@ -1,4 +1,5 @@
 #!/bin/bash
 
 # Stop service
+#
 #$OPENSHIFT_REPO_DIR/build/benchmark_1.0.0/service stop
