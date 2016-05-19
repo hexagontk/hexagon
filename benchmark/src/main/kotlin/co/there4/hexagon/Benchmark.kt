@@ -25,12 +25,18 @@ internal object Benchmark {
     private val CONTENT_TYPE_JSON = "application/json"
     private val QUERIES_PARAM = "queries"
 
-    private val DATABASE = ConfigManager["database"] as String
+    private val DB = getenv("OPENSHIFT_APP_NAME") ?: ConfigManager["database"] as String
     private val WORLD = ConfigManager["worldCollection"] as String
     private val FORTUNE = ConfigManager["fortuneCollection"] as String
-    private val DATABASE_HOST = getenv("DBHOST") ?: "localhost"
 
-    private val database = mongoDatabase("mongodb://$DATABASE_HOST/$DATABASE")
+    private val DB_HOST = getenv("DBHOST") ?: "localhost"
+    private val DB_PORT = getenv("OPENSHIFT_MONGODB_DB_PORT") ?: 27017
+    private val DB_USER = getenv("OPENSHIFT_MONGODB_DB_USERNAME")
+    private val DB_PASS = getenv("OPENSHIFT_MONGODB_DB_PASSWORD")
+
+    private val database =
+        if (DB_USER == null) mongoDatabase("mongodb://$DB_HOST:$DB_PORT/$DB")
+        else mongoDatabase("mongodb://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB")
 
     private val worldRepository = MongoIdRepository(
         World::class, mongoCollection (WORLD, database), "_id", Int::class, { it.id }
