@@ -17,4 +17,4 @@ rm -rf dump
 $OPENSHIFT_REPO_DIR/wrapper installShadowApp
 
 # Run
-$OPENSHIFT_REPO_DIR/build/benchmark_1.0.0/service start
+#$OPENSHIFT_REPO_DIR/build/benchmark_1.0.0/service start
