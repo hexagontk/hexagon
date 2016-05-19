@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Install Gradle
 set -x
 if [ ! -d $OPENSHIFT_DATA_DIR/gradle-2.13 ]
 then
