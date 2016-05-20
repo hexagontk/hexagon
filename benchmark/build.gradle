@@ -12,7 +12,7 @@ buildscript {
 
 apply from: "$gradleScripts/hexagon_service.gradle"
 
-defaultTasks 'installShadowApp'
+defaultTasks 'installDist'
 
 mainClassName = "co.there4.hexagon.BenchmarkKt"
 applicationDefaultJvmArgs = [
@@ -23,3 +23,7 @@ applicationDefaultJvmArgs = [
     '-XX:+UseParallelGC',
     '-XX:+AggressiveOpts'
 ]
+
+startScripts {
+    file("$buildDir/s") << unixStartScriptGenerator.template.asString()
+}
