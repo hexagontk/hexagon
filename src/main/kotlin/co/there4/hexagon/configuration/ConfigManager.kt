@@ -7,7 +7,11 @@ import java.lang.System.getenv
 import java.lang.Thread.currentThread
 import java.util.*
 
+enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
+
 /**
+ * TODO Use JSON
+ *
  * Reads:
  * - <project>.properties (resource)
  * - <project>_<environment>.properties (resource)
@@ -54,5 +58,6 @@ object ConfigManager {
         }
     }
 
-    operator fun get (key: String) = parameters[key]
+    @Suppress("UNCHECKED_CAST")
+    operator fun <T> get (key: String): T = parameters[key] as T
 }
