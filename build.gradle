@@ -25,7 +25,7 @@ apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
 
-defaultTasks 'clean', 'build'
+defaultTasks 'clean', 'build', 'installDist'
 
 dependencies {
     // COMPILE
@@ -73,7 +73,7 @@ wrapper {
 
 clean {
     delete fileTree(dir: rootDir , include: "*.log")
-    delete "$rootProject.buildDir"
+    delete rootProject.buildDir
     delete "$rootDir/logs"
 }
 
