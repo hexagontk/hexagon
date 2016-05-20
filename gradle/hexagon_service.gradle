@@ -1,10 +1,7 @@
 
 apply from: "$gradleScripts/hexagon_library.gradle"
-//apply from: "$rootDir/gradle/hexagon_library.gradle"
 
-//apply plugin: 'kotlin2js'
 apply plugin: 'application'
-apply plugin: 'com.github.johnrengelman.shadow'
 
 ext.serviceScript = """
 #!/usr/bin/env bash
@@ -64,23 +61,9 @@ case \$1 in
 esac
 """
 
-[ installDist, installShadowApp].forEach {
-    it.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
+installDist.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
+installDist.doLast {
+    File script = file("${it.destinationDir}/service")
+    script << serviceScript
+    script.executable = true
 }
-[ installDist, installShadowApp].forEach {
-    it.doLast {
-        File script = file("${it.destinationDir}/service")
-        script << serviceScript
-        script.executable = true
-    }
-}
-
-//compileKotlin2Js {
-//    kotlinOptions.outputFile = "$buildDir/js/app.js"
-//    kotlinOptions.suppressWarnings = true
-//    kotlinOptions.verbose = true
-//    kotlinOptions.version = true
-//    kotlinOptions.sourceMap = true
-//}
-
-//copyKotlinJs.into "$buildDir/js/lib"

@@ -20,11 +20,3 @@ dependencies {
     testCompile "co.there4:hexagon:$hexagonVersion:test"
     testCompile "io.ratpack:ratpack-test:$ratpackVersion"
 }
-
-// TESTING
-//dependencies {
-//    compile rootProject
-//
-//    testCompile rootProject.sourceSets.test.output
-//    testCompile ("io.ratpack:ratpack-test:1.3.+")
-//}
