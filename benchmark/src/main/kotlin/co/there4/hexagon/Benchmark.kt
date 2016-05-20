@@ -9,8 +9,6 @@ import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.repository.mongoCollection
 import co.there4.hexagon.repository.mongoDatabase
 
-import ratpack.server.BaseDir
-
 import co.there4.hexagon.configuration.ConfigManager as Config
 import java.lang.System.getenv
 import java.net.InetAddress.getByName as ip
@@ -25,9 +23,9 @@ internal object Benchmark {
     private val CONTENT_TYPE_JSON = "application/json"
     private val QUERIES_PARAM = "queries"
 
-    private val DB = getenv("OPENSHIFT_APP_NAME") ?: Config["database"] as String
-    private val WORLD = Config["worldCollection"] as String
-    private val FORTUNE = Config["fortuneCollection"] as String
+    private val DB: String = getenv("OPENSHIFT_APP_NAME") ?: Config["database"]
+    private val WORLD: String = Config["worldCollection"]
+    private val FORTUNE: String = Config["fortuneCollection"]
 
     private val DB_HOST = getenv("DBHOST") ?: "localhost"
     private val DB_PORT = getenv("OPENSHIFT_MONGODB_DB_PORT") ?: 27017
@@ -103,15 +101,26 @@ internal object Benchmark {
         ok(Message ().serialize())
     }
 
+    /*
+     * TODO 'before' and 'after' methods
+     * all {
+     *      // Before...
+     *      next()
+     *      // After...
+     * }
+     *
+     * TODO Set development() depending on environment
+     * TODO Set address and port from config
+     * TODO Set basedir in application
+     */
     fun start() {
         applicationStart {
             serverConfig {
-                val ip = ip(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"] as String)
-                val port = (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"] as String).toInt()
+                val ip = ip(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"])
+                val port = (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"]).toInt()
 
                 address(ip)
                 port(port)
-                baseDir(BaseDir.find("benchmark.properties"))
                 development(false)
             }
 
