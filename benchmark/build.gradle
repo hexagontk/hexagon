@@ -23,7 +23,3 @@ applicationDefaultJvmArgs = [
     '-XX:+UseParallelGC',
     '-XX:+AggressiveOpts'
 ]
-
-startScripts {
-    file("$buildDir/s") << unixStartScriptGenerator.template.asString()
-}

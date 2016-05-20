@@ -1,69 +1,18 @@
 
 apply from: "$gradleScripts/hexagon_library.gradle"
-
 apply plugin: 'application'
 
-ext.serviceScript = """
-#!/usr/bin/env bash
-
-SERVICE_NAME="${project.name}"
-SERVICE_VERSION="${project.version}"
-SERVICE_PATH=\$(dirname \$0)
-SERVICE_PID="/tmp/.\${SERVICE_NAME}_\$SERVICE_VERSION.pid"
-
-log () {
-  echo "\$SERVICE_NAME (\$SERVICE_VERSION) \$1"
+startScripts {
+    unixStartScriptGenerator.template = resources.text.fromFile ("$rootDir/gradle/startScript")
 }
-
-case \$1 in
-  start)
-    if [ ! -f \$SERVICE_PID ]; then
-      log "starting..."
-      cd \$SERVICE_PATH
-      nohup bin/\$SERVICE_NAME "\$@" 2>> /dev/null >> /dev/null &
-      cd \$OLDPWD
-      echo \$! > \$SERVICE_PID
-      log "started"
-    else
-      log "is already running"
-    fi
-  ;;
-  stop)
-    if [ -f \$SERVICE_PID ]; then
-      log "stopping..."
-      PID=\$(cat \$SERVICE_PID)
-      kill \$PID
-      log "stopped"
-      rm \$SERVICE_PID
-    else
-      log "is not running"
-    fi
-  ;;
-  restart)
-    if [ -f \$SERVICE_PID ]; then
-      \$SERVICE_PATH/service stop
-      \$SERVICE_PATH/service start
-    else
-      log "is not running"
-    fi
-  ;;
-  status)
-    if [ -f \$SERVICE_PID ]; then
-      log "RUNNING"
-    else
-      log "STOPPED"
-    fi
-  ;;
-  *)
-    echo \$"Usage: \$0 {start|stop|restart|status}"
-    exit 1
-  ;;
-esac
-"""
 
 installDist.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
 installDist.doLast {
     File script = file("${it.destinationDir}/service")
-    script << serviceScript
+    String template = file ("$rootDir/gradle/serviceScript").text
+    String scriptContent = template
+        .replace ("#{projectName}", project.name)
+        .replace ("#{projectVersion}", project.version)
+    script << scriptContent
     script.executable = true
 }

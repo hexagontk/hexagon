@@ -20,6 +20,8 @@ ext.rootBuildDir = rootProject.buildDir
 
 repositories {
     jcenter ()
+    mavenCentral ()
+    mavenLocal ()
 }
 
 dependencies {
