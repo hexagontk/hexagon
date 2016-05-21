@@ -3,13 +3,14 @@ apply from: "$gradleScripts/hexagon_library.gradle"
 apply plugin: 'application'
 
 startScripts {
-    unixStartScriptGenerator.template = resources.text.fromFile ("$rootDir/gradle/startScript")
+    String template = new URL ("$rootDir/gradle/startScript").text
+    unixStartScriptGenerator.template = resources.text.fromString (template)
 }
 
 installDist.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
 installDist.doLast {
     File script = file("${it.destinationDir}/service")
-    String template = file ("$rootDir/gradle/serviceScript").text
+    String template = new URL ("$gradleScripts/serviceScript").text
     String scriptContent = template
         .replace ("#{projectName}", project.name)
         .replace ("#{projectVersion}", project.version)
