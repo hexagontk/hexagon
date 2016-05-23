@@ -1,10 +1,14 @@
 package co.there4.hexagon.configuration
 
 import co.there4.hexagon.util.camelToSnake
+import co.there4.hexagon.util.hostname
+import co.there4.hexagon.util.ip
+import org.slf4j.MDC
 import java.io.File
 import java.lang.ClassLoader.getSystemClassLoader
 import java.lang.System.getenv
 import java.lang.Thread.currentThread
+import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.util.*
 
 enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
@@ -24,10 +28,17 @@ object ConfigManager {
     val serviceDir = if (jarPath.isFile) jarPath.parentFile.parent else jarPath.parent
     val servicePackage = mainClass.`package`.name
     val serviceName = mainClass.simpleName.camelToSnake().removeSuffix("_kt")
+    val jvmId = getRuntimeMXBean().name
 
     private val parameters: Map<String, *> = loadParameters()
 
     val environment: String? = getenv("ENVIRONMENT")
+
+    init {
+        MDC.put("jvmId", jvmId)
+        MDC.put("hostname", hostname)
+        MDC.put("ip", ip)
+    }
 
     private fun loadParameters (): Map<String, *> {
         var params = loadProps("${serviceName}.properties")
