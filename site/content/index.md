@@ -17,10 +17,11 @@ uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 * [serialization](serialization.html) (TODO Write documentation)
 * [storage](storage.html) (TODO Write documentation)
 * [events](events.html)
-* [configuration](configuration.html) (TODO Not implemented)
+* [configuration](configuration.html) (TODO Partial implementation)
 * [templates](templates.html) (TODO Partial implementation)
 * [scheduling](scheduling.html)
 * [testing](testing.html) (TODO Write documentation)
+* [builds](builds.html) (TODO Write documentation)
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
