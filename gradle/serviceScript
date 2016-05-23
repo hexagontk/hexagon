@@ -32,12 +32,8 @@ case $1 in
     fi
   ;;
   restart)
-    if [ -f $SERVICE_PID ]; then
-      $SERVICE_PATH/service stop
-      $SERVICE_PATH/service start
-    else
-      log "is not running"
-    fi
+    $SERVICE_PATH/service stop
+    $SERVICE_PATH/service start
   ;;
   status)
     if [ -f $SERVICE_PID ]; then
