@@ -4,6 +4,7 @@ import org.testng.annotations.Test
 import co.there4.hexagon.rest.HttpClient
 import ratpack.registry.Registry
 import ratpack.server.*
+import java.net.InetAddress.getByName as inetAddress
 import java.net.URL
 
 @Test class RatpackTest {
@@ -19,8 +20,10 @@ import java.net.URL
     fun test_multipart_parsing() {
         val server = serverStart {
             serverConfig {
-                port(0)
-                baseDir(BaseDir.find("logback-test.xml"))
+                assert(baseDir == null)
+                port = 0
+                address = inetAddress("localhost")
+                baseDir = BaseDir.find("logback-test.xml")
             }
 
             handlers {
@@ -93,7 +96,8 @@ import java.net.URL
     fun test_app_from_server() {
         val server = serverOf {
             serverConfig {
-                port(0)
+                port = 0
+                address = inetAddress("localhost")
             }
             handlers {
                 get ("hello") {
@@ -116,7 +120,8 @@ import java.net.URL
 
         val server = serverStart {
             serverConfig {
-                port(0)
+                port = 0
+                address = inetAddress("localhost")
                 baseDir(BaseDir.find("logback-test.xml"))
             }
             registry { add("World!") }

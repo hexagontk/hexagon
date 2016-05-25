@@ -116,11 +116,8 @@ internal object Benchmark {
     fun start() {
         applicationStart {
             serverConfig {
-                val ip = ip(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"])
-                val port = (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"]).toInt()
-
-                address(ip)
-                port(port)
+                address = ip(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"])
+                port = (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"]).toInt()
                 development(false)
             }
 
