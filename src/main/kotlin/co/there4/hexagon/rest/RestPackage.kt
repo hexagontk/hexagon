@@ -73,7 +73,10 @@ private fun showBanner() {
 }
 
 fun applicationStart(cb: KServerSpec.() -> Unit): RatpackServer {
-    val server = RatpackServer.start { KServerSpec(it).(cb)() }
+    val server = RatpackServer.start {
+        val port: String? = ConfigManager["bindPort"]
+        KServerSpec(it, port?.toInt(), ConfigManager["bindAddress"]).(cb)()
+    }
 
     // TODO Setup metrics
     showBanner ()

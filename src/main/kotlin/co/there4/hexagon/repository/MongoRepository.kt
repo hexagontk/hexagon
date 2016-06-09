@@ -8,10 +8,7 @@ import co.there4.hexagon.util.CompanionLogger
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.MongoIterable
-import com.mongodb.client.model.FindOneAndReplaceOptions
-import com.mongodb.client.model.InsertManyOptions
-import com.mongodb.client.model.InsertOneOptions
-import com.mongodb.client.model.UpdateOptions
+import com.mongodb.client.model.*
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.bson.conversions.Bson
@@ -95,6 +92,15 @@ open class MongoRepository <T : Any> (
     fun findObjects (): MongoIterable<T> = find ().map { unmap(it) }
 
     fun findObjects (filter: Bson): MongoIterable<T> = find (filter).map { unmap(it) }
+
+    fun createIndex(
+        name: String,
+        order: Int = 1,
+        options: IndexOptions = IndexOptions().background(true)): String =
+            createIndex(Document(name, order), options)
+
+    fun createUniqueIndex(name: String, order: Int = 1): String =
+        createIndex(Document(name, order), IndexOptions().unique(true).background(true))
 
     private fun map (document: T): Document {
         return Document (document.convertToMap ().mapKeys {

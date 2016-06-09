@@ -1,5 +1,6 @@
 package co.there4.hexagon.repository
 
+import co.there4.hexagon.configuration.ConfigManager
 import co.there4.hexagon.events.EventManager
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
@@ -8,7 +9,9 @@ import com.mongodb.client.MongoDatabase
 import org.bson.Document
 import kotlin.reflect.KClass
 
-fun mongoDatabase (uri: String = "mongodb://localhost/test"): MongoDatabase =
+val mongodbUrl = ConfigManager["mongodbUrl"] ?: "mongodb://localhost/test"
+
+fun mongoDatabase (uri: String = mongodbUrl): MongoDatabase =
     MongoClient(MongoClientURI(uri)).getDatabase(MongoClientURI(uri).database) ?:
         error ("Error connecting to MongoDB at: $uri")
 

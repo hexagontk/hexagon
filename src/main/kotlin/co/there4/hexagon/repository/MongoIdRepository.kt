@@ -22,7 +22,7 @@ class MongoIdRepository<T : Any, K : Any> (
 
     constructor (
         type: KClass<T>,
-        database: MongoDatabase,
+        database: MongoDatabase = mongoDatabase(),
         keyName: String,
         keyType: KClass<K>,
         keySupplier: (T) -> K,
@@ -37,6 +37,23 @@ class MongoIdRepository<T : Any, K : Any> (
             publishEvents,
             indexOrder
         )
+
+    constructor (
+        type: KClass<T>,
+        keyName: String,
+        keyType: KClass<K>,
+        keySupplier: (T) -> K,
+        publishEvents: Boolean = false,
+        indexOrder: Int = 1) :
+    this (
+        type,
+        mongoDatabase(),
+        keyName,
+        keyType,
+        keySupplier,
+        publishEvents,
+        indexOrder
+    )
 
     init {
         val indexOptions = IndexOptions ().unique (true).background (true)
