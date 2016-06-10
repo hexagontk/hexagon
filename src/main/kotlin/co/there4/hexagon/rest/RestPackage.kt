@@ -9,13 +9,10 @@ import java.lang.System.currentTimeMillis
 import java.lang.System.getProperty
 import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
+import java.net.InetAddress.getByName as address
 
 import co.there4.hexagon.ratpack.KServerSpec
-import co.there4.hexagon.util.CompanionLogger
-import co.there4.hexagon.util.EOL
-import co.there4.hexagon.util.filterVars
-import co.there4.hexagon.util.read
-import co.there4.hexagon.util.hostname
+import co.there4.hexagon.util.*
 import ratpack.server.RatpackServer
 
 /*
@@ -75,7 +72,7 @@ private fun showBanner() {
 fun applicationStart(cb: KServerSpec.() -> Unit): RatpackServer {
     val server = RatpackServer.start {
         val port: String? = ConfigManager["bindPort"]
-        KServerSpec(it, port?.toInt(), ConfigManager["bindAddress"]).(cb)()
+        KServerSpec(it, port?.toInt(), address(ConfigManager["bindAddress"])).(cb)()
     }
 
     // TODO Setup metrics
