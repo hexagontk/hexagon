@@ -11,7 +11,7 @@ import co.there4.hexagon.repository.mongoDatabase
 
 import co.there4.hexagon.configuration.ConfigManager as Config
 import java.lang.System.getenv
-import java.net.InetAddress.getByName as ip
+import java.net.InetAddress.getByName as address
 import java.time.LocalDateTime
 
 internal data class Message (val message: String = "Hello, World!")
@@ -23,9 +23,9 @@ internal object Benchmark {
     private val CONTENT_TYPE_JSON = "application/json"
     private val QUERIES_PARAM = "queries"
 
-    private val DB: String = getenv("OPENSHIFT_APP_NAME") ?: Config["database"]
-    private val WORLD: String = Config["worldCollection"]
-    private val FORTUNE: String = Config["fortuneCollection"]
+    private val DB: String = getenv("OPENSHIFT_APP_NAME") ?: Config["database"] ?: "hello_world"
+    private val WORLD: String = Config["worldCollection"] ?: "world"
+    private val FORTUNE: String = Config["fortuneCollection"] ?: "fortune"
 
     private val DB_HOST = getenv("DBHOST") ?: "localhost"
     private val DB_PORT = getenv("OPENSHIFT_MONGODB_DB_PORT") ?: 27017
@@ -116,7 +116,7 @@ internal object Benchmark {
     fun start() {
         applicationStart {
             serverConfig {
-                address = ip(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"])
+                address = address(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"])
                 port = (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"]).toInt()
                 development(false)
             }
