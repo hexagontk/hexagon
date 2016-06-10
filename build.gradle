@@ -35,6 +35,9 @@ dependencies {
     compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
 
+    compile group: "org.eclipse.jetty", name: "jetty-webapp", version: jettyVersion
+    compile "org.asynchttpclient:async-http-client:2.0.+"
+
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")

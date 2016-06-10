@@ -51,6 +51,16 @@ fun String.filterVars(parameters: Map<*, *>) =
 
 fun String.filterVars(vararg parameters: Pair<*, *>) = this.filterVars (mapOf (*parameters))
 
+fun String.filter(prefix: String, suffix: String, vararg parameters: Pair<String, String>) =
+    parameters.fold(this, { result, pair -> result.replace (prefix + pair.first + suffix, pair.second) })
+
+fun String.filter(vararg parameters: Pair<String, String>) = this.filter("", "", *parameters)
+
+fun Regex.findGroups (str: String): List<MatchGroup> =
+    (this.find (str)?.groups ?: listOf<MatchGroup> ())
+        .map { it ?: throw IllegalArgumentException () }
+        .drop(1)
+
 /**
  * Transforms the target string from snake case to camel case.
  */
