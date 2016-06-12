@@ -21,11 +21,11 @@ class Client (val endpointUrl: URL, val useCookies: Boolean = true) {
     /**
      * Synchronous execution.
      */
-    fun send (method: HttpMethod, url: String = "/", body: AsyncHttpPart? = null): Response {
+    fun send (method: HttpMethod, url: String = "/", body: String? = null): Response {
         val request = createRequest(method, url)
 
         if (body != null)
-            request.addBodyPart(body)
+            request.setBody(body)
 
         if (useCookies)
             cookies.forEach { request.addCookie(it.value) }
@@ -44,14 +44,14 @@ class Client (val endpointUrl: URL, val useCookies: Boolean = true) {
         return response
     }
 
-    fun get (url: String = "/", body: AsyncHttpPart? = null) = send (GET, url, body)
-    fun head (url: String = "/", body: AsyncHttpPart? = null) = send (HEAD, url, body)
-    fun post (url: String = "/", body: AsyncHttpPart? = null) = send (POST, url, body)
-    fun put (url: String = "/", body: AsyncHttpPart? = null) = send (PUT, url, body)
-    fun delete (url: String = "/", body: AsyncHttpPart? = null) = send (DELETE, url, body)
-    fun trace (url: String = "/", body: AsyncHttpPart? = null) = send (TRACE, url, body)
-    fun options (url: String = "/", body: AsyncHttpPart? = null) = send (OPTIONS, url, body)
-    fun patch (url: String = "/", body: AsyncHttpPart? = null) = send (PATCH, url, body)
+    fun get (url: String = "/", body: String? = null) = send (GET, url, body)
+    fun head (url: String = "/", body: String? = null) = send (HEAD, url, body)
+    fun post (url: String = "/", body: String? = null) = send (POST, url, body)
+    fun put (url: String = "/", body: String? = null) = send (PUT, url, body)
+    fun delete (url: String = "/", body: String? = null) = send (DELETE, url, body)
+    fun trace (url: String = "/", body: String? = null) = send (TRACE, url, body)
+    fun options (url: String = "/", body: String? = null) = send (OPTIONS, url, body)
+    fun patch (url: String = "/", body: String? = null) = send (PATCH, url, body)
 
     private fun createRequest(method: HttpMethod, url: String): BoundRequestBuilder {
         val requestUrl = endpoint + url

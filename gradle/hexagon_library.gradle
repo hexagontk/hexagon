@@ -18,5 +18,4 @@ dependencies {
     compile "co.there4:hexagon:$hexagonVersion"
 
     testCompile "co.there4:hexagon:$hexagonVersion:test"
-    testCompile "io.ratpack:ratpack-test:$ratpackVersion"
 }

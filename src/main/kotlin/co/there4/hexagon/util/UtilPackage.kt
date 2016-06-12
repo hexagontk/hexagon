@@ -90,6 +90,17 @@ val hostname = getLocalHost()?.getHostName() ?: UNKNOWN_LOCALHOST
 /** The IP address of the machine running this program. */
 val ip = getLocalHost()?.getHostAddress() ?: UNKNOWN_LOCALHOST
 
+fun parseQueryParameters(query: String): Map<String, String> =
+    if (query.isEmpty())
+        mapOf()
+    else
+        query.split("&".toRegex())
+            .map {
+                val kv = it.split("=")
+                kv[0].trim () to (if (kv.size == 2) kv[1].trim() else "")
+            }
+            .toMap(LinkedHashMap<String, String>())
+
 /*
  * Error handling
  */

@@ -11,7 +11,7 @@ import java.net.HttpCookie
 interface Response {
     var body: Any
     var status: Int
-    var type: String
+    var contentType: String
     val cookies: MutableMap<String, HttpCookie>
 
     fun addHeader (name: String, value: String)

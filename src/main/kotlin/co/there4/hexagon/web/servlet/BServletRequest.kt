@@ -1,5 +1,6 @@
 package co.there4.hexagon.web.servlet
 
+import co.there4.hexagon.util.parseQueryParameters
 import co.there4.hexagon.web.HttpMethod
 import co.there4.hexagon.web.Part
 import co.there4.hexagon.web.Path
@@ -30,9 +31,9 @@ class BServletRequest(val req: HttpServletRequest, var actionPath: Path? = null)
     override val preferredType: String by lazy { throw UnsupportedOperationException ()  }
 
     override val parameters: Map<String, List<String>> get() =
-        (actionPath?.extractParameters(req.servletPath)?:mapOf()).mapValues { listOf(it.value) } + req.parameterMap.map {
-            it.key as String to it.value.toList()
-        }.toMap()
+        (actionPath?.extractParameters(req.servletPath)?:mapOf()).mapValues { listOf(it.value) } +
+        req.parameterMap.map { it.key as String to it.value.toList() }.toMap() +
+        parseQueryParameters(req.queryString ?: "").mapValues { listOf(it.value) }
 
     override val headers: Map<String, List<String>> by lazy {
         req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()

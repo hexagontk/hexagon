@@ -1,5 +1,6 @@
 package co.there4.hexagon.web.servlet
 
+import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.FilterOrder.*
 import co.there4.hexagon.web.Filter as BlacksheepFilter
@@ -16,6 +17,8 @@ class ServletFilter (
     val filters: MutableMap<BlacksheepFilter, Exchange.() -> Unit> = server.filters,
     val routes: MutableMap<Route, Exchange.() -> Unit> = server.routes
 ) : Filter {
+
+    companion object : CompanionLogger(ServletFilter::class)
 
     private val routesByMethod: Map<HttpMethod, List<Pair<Route, Exchange.() -> Unit>>> =
         routes.entries.map { it.key to it.value }.groupBy { it.first.method }
@@ -51,7 +54,7 @@ class ServletFilter (
                 handled = true
             }
             else if (methodRoutes.isEmpty()) {
-                val stream = javaClass.getResourceAsStream(req.servletPath)
+                val stream = javaClass.getResourceAsStream("/public" + req.servletPath)
                 if (stream != null) {
                     response.outputStream.write(stream.readBytes())
                     response.outputStream.flush()

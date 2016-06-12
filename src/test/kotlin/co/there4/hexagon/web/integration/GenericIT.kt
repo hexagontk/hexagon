@@ -162,22 +162,22 @@ class GenericIT : ItTest () {
 
     fun postOk() {
         withClients {
-            val response = post ("/poster", StringPart ("body", "Fo shizzy"))
+            val response = post ("/poster", "Fo shizzy")
             assertResponseContains(response, 201, "Fo shizzy")
         }
     }
 
     fun patchOk() {
         withClients {
-            val response = patch ("/patcher", StringPart ("body", "Fo shizzy"))
+            val response = patch ("/patcher", "Fo shizzy")
             assertResponseContains(response, 200, "Fo shizzy")
         }
     }
 
     fun staticFile() {
         withClients {
-            val response = get ("/css/style.css")
-            assertResponseEquals(response, 200, "/*\n * Content of css file\n */\n")
+            val response = get ("/file.txt")
+            assertResponseEquals(response, 200, "file content\n")
         }
     }
 

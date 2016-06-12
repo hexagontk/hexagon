@@ -13,7 +13,7 @@ class BServletResponse(val req: HttpServletRequest, val resp: HttpServletRespons
         get() = resp.status
         set(value) { resp.status = value }
 
-    override var type: String
+    override var contentType: String
         get() = resp.contentType
         set(value) { resp.contentType = value }
 

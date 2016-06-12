@@ -1,15 +1,15 @@
 package co.there4.hexagon
 
-import co.there4.hexagon.rest.HttpClient
 import co.there4.hexagon.serialization.parse
-import okhttp3.Response
+import co.there4.hexagon.web.Client
+import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.net.URL
 
-@Test (threadPoolSize = 8, invocationCount = 8)
+@Test (threadPoolSize = 8, invocationCount = 1)
 class BenchmarkTest {
-    private val client = HttpClient(URL("http://localhost:5050"))
+    private val client = Client(URL("http://localhost:5050"))
 
     @BeforeClass fun warmup() {
         main(arrayOf())
@@ -41,7 +41,7 @@ class BenchmarkTest {
 
     fun json () {
         val response = client.get ("/json")
-        val content = response.body().string()
+        val content = response.responseBody
 
         checkResponse (response, "application/json")
         assert ("Hello, World!" == content.parse(Map::class)["message"])
@@ -49,7 +49,7 @@ class BenchmarkTest {
 
     fun plaintext () {
         val response = client.get ("/plaintext")
-        val content = response.body().string()
+        val content = response.responseBody
 
         checkResponse (response, "text/plain")
         assert ("Hello, World!" == content)
@@ -57,7 +57,7 @@ class BenchmarkTest {
 
     fun no_query_parameter () {
         val response = client.get ("/db")
-        val content = response.body().string()
+        val content = response.responseBody
 
         checkResponse (response, "application/json")
         val resultsMap = content.parse(Map::class)
@@ -66,11 +66,11 @@ class BenchmarkTest {
 
     fun fortunes () {
         val response = client.get ("/fortune")
-        val content = response.body().string()
-        val contentType = response.header ("Content-Type")
+        val content = response.responseBody
+        val contentType = response.headers ["Content-Type"]
 
-        assert (response.header ("Server") != null)
-        assert (response.header ("Date") != null)
+        assert (response.headers ["Server"] != null)
+        assert (response.headers ["Date"] != null)
         assert (content.contains ("&lt;script&gt;alert(&quot;This should not be displayed"))
         assert (content.contains ("フレームワークのベンチマーク"))
         assert (contentType.toLowerCase ().contains ("text/html"))
@@ -78,7 +78,7 @@ class BenchmarkTest {
 
     fun no_updates_parameter () {
         val response = client.get ("/update")
-        val content = response.body().string()
+        val content = response.responseBody
 
         checkResponse (response, "application/json")
         val resultsMap = content.parse(Map::class)
@@ -105,16 +105,16 @@ class BenchmarkTest {
 
     private fun checkDbRequest (path: String, itemsCount: Int) {
         val response = client.get (path)
-        val content = response.body().string()
+        val content = response.responseBody
 
         checkResponse (response, "application/json")
         checkResultItems (content, itemsCount)
     }
 
     private fun checkResponse (res: Response, contentType: String) {
-        assert(res.header ("Server") != null)
-        assert(res.header ("Transfer-Encoding") != null)
-        assert(res.header ("Content-Type").contains (contentType))
+        assert(res.headers ["Server"] != null)
+        assert(res.headers ["Transfer-Encoding"] != null)
+        assert(res.headers ["Content-Type"].contains (contentType))
     }
 
     private fun checkResultItems (result: String, size: Int) {

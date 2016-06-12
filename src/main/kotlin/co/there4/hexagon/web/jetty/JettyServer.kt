@@ -17,15 +17,15 @@ import java.net.InetAddress.getByName as address
  * @author jam
  */
 class JettyServer (
-    bind: InetAddress = address ("localhost"),
-    port: Int = 4321,
+    bindAddress: InetAddress = address ("localhost"),
+    bindPort: Int = 4321,
     keystore: String? = null,
     keystorePassword: String? = null,
     truststore: String? = null,
     truststorePassword: String? = null): ServletServer (
-        bind, port, keystore, keystorePassword, truststore, truststorePassword) {
+    bindAddress, bindPort, keystore, keystorePassword, truststore, truststorePassword) {
 
-    val jettyServer = JettyServletServer(InetSocketAddress(bind, port))
+    val jettyServer = JettyServletServer(InetSocketAddress(bindAddress, bindPort))
 
     override fun init() { /* Do nothing */ }
 

@@ -15,15 +15,15 @@ import javax.servlet.ServletContext
  * TODO Take care of wildcards (review servlet specs) to group routes in servlets
  */
 abstract class ServletServer (
-    bind: InetAddress = InetAddress.getLocalHost(),
-    port: Int = 4321,
+    bindAddress: InetAddress = InetAddress.getLocalHost(),
+    bindPort: Int = 4321,
     keystore: String? = null,
     keystorePassword: String? = null,
     truststore: String? = null,
     truststorePassword: String? = null):
         Server (
-            bind,
-            port,
+            bindAddress,
+            bindPort,
             keystore,
             keystorePassword,
             truststore,

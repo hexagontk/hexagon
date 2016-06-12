@@ -11,12 +11,12 @@ import org.testng.annotations.BeforeClass
 import java.net.URL
 import java.net.InetAddress.getByName as address
 
-@Test(enabled = false, threadPoolSize = 4, invocationCount = 1) abstract class ItTest {
+@Test(threadPoolSize = 1, invocationCount = 1) abstract class ItTest {
     val servers = listOf (
-        JettyServer (bind = address("localhost"), port = 5050)
+        JettyServer (bindAddress = address("localhost"), bindPort = 5060)
     )
 
-    val clients = servers.map { Client (URL ("http://localhost:${it.port}")) }
+    val clients = servers.map { Client (URL ("http://localhost:${it.bindPort}")) }
 
     protected abstract fun initialize (server: Server)
 

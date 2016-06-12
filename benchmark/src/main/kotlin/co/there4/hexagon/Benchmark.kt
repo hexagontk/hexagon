@@ -2,17 +2,17 @@ package co.there4.hexagon
 
 import java.util.concurrent.ThreadLocalRandom
 
-import co.there4.hexagon.ratpack.KContext
-import co.there4.hexagon.rest.applicationStart
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.repository.mongoCollection
 import co.there4.hexagon.repository.mongoDatabase
+import co.there4.hexagon.web.*
+import co.there4.hexagon.web.jetty.JettyServer
 
 import co.there4.hexagon.configuration.ConfigManager as Config
 import java.lang.System.getenv
 import java.net.InetAddress.getByName as address
-import java.time.LocalDateTime
+import java.time.LocalDateTime.now
 
 internal data class Message (val message: String = "Hello, World!")
 internal data class Fortune (val _id: Int, val message: String)
@@ -23,9 +23,9 @@ internal object Benchmark {
     private val CONTENT_TYPE_JSON = "application/json"
     private val QUERIES_PARAM = "queries"
 
-    private val DB: String = getenv("OPENSHIFT_APP_NAME") ?: Config["database"] ?: "hello_world"
-    private val WORLD: String = Config["worldCollection"] ?: "world"
-    private val FORTUNE: String = Config["fortuneCollection"] ?: "fortune"
+    private val DB: String = getenv("OPENSHIFT_APP_NAME") ?: Config["database"] as String? ?: "hello_world"
+    private val WORLD: String = Config["worldCollection"] as String? ?: "world"
+    private val FORTUNE: String = Config["fortuneCollection"] as String? ?: "fortune"
 
     private val DB_HOST = getenv("DBHOST") ?: "localhost"
     private val DB_PORT = getenv("OPENSHIFT_MONGODB_DB_PORT") ?: 27017
@@ -46,37 +46,37 @@ internal object Benchmark {
 
     private fun rnd () = ThreadLocalRandom.current ().nextInt (DB_ROWS) + 1
 
-    private fun KContext.hasQueryCount() = request.queryParams [QUERIES_PARAM] == null
+    private fun Exchange.hasQueryCount() = request.parameters [QUERIES_PARAM] == null
 
-    private fun KContext.getDb () {
+    private fun Exchange.getDb () {
         val worlds = (1..getQueries()).map { worldRepository.find(rnd ()) }
 
-        response.contentType (CONTENT_TYPE_JSON)
+        response.contentType = CONTENT_TYPE_JSON
         ok (if (hasQueryCount()) worlds[0].serialize() else worlds.serialize())
     }
 
-    private fun KContext.getFortunes () {
+    private fun Exchange.getFortunes () {
         val fortune = Fortune (0, "Additional fortune added at request time.")
         val fortunes = fortuneRepository.findObjects ().toList() + fortune
 
-        response.contentType ("text/html; charset=utf-8")
+        response.contentType = "text/html; charset=utf-8"
         template ("fortunes.html", mapOf ("fortunes" to fortunes.sortedBy { it.message }))
     }
 
-    private fun KContext.getUpdates () {
+    private fun Exchange.getUpdates () {
         val worlds =  (1..getQueries()).map {
             val newWorld = World (rnd (), rnd())
             worldRepository.replaceObject (newWorld)
             newWorld
         }
 
-        response.contentType (CONTENT_TYPE_JSON)
+        response.contentType = CONTENT_TYPE_JSON
         ok (if (hasQueryCount()) worlds[0].serialize() else worlds.serialize())
     }
 
-    private fun KContext.getQueries (): Int {
+    private fun Exchange.getQueries (): Int {
         try {
-            val parameter = request.queryParams [QUERIES_PARAM] ?: return 1
+            val parameter = request.parameters[QUERIES_PARAM]?.first() ?: return 1
 
             val queries = parameter.toInt()
             if (queries < 1)
@@ -91,51 +91,36 @@ internal object Benchmark {
         }
     }
 
-    private fun KContext.getPlaintext () {
-        response.contentType ("text/plain")
+    private fun Exchange.getPlaintext () {
+        response.contentType = "text/plain"
         ok("Hello, World!")
     }
 
-    private fun KContext.getJson () {
-        response.contentType (CONTENT_TYPE_JSON)
+    private fun Exchange.getJson () {
+        response.contentType = CONTENT_TYPE_JSON
         ok(Message ().serialize())
     }
 
-    /*
-     * TODO 'before' and 'after' methods
-     * all {
-     *      // Before...
-     *      next()
-     *      // After...
-     * }
-     *
-     * TODO Set development() depending on environment
-     * TODO Set address and port from config
-     * TODO Set basedir in application
-     */
     fun start() {
-        applicationStart {
-            serverConfig {
-                address = address(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"])
-                port = (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"]).toInt()
-                development(false)
-            }
+        blacksheep = JettyServer (
+            bindAddress = address(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"] as String? ?: "localhost"),
+            bindPort = (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"] as String? ?: "5050").toInt()
+        )
 
-            handlers {
-                all {
-                    response.headers ["Server"] = "Ratpack/1.3"
-                    response.headers ["Transfer-Encoding"] = "chunked"
-                    response.headers ["Date"] = httpDate (LocalDateTime.now())
-                    next()
-                }
-                get ("json") { getJson() }
-                get ("db") { getDb() }
-                get ("query") { getDb() }
-                get ("fortune") { getFortunes() }
-                get ("update") { getUpdates() }
-                get ("plaintext") { getPlaintext() }
-            }
+        before {
+            response.addHeader("Server", "Ratpack/1.3")
+            response.addHeader("Transfer-Encoding", "chunked")
+            response.addHeader("Date", httpDate (now()))
         }
+
+        get ("/json") { getJson() }
+        get ("/db") { getDb() }
+        get ("/query") { getDb() }
+        get ("/fortune") { getFortunes() }
+        get ("/update") { getUpdates() }
+        get ("/plaintext") { getPlaintext() }
+
+        run ()
     }
 }
 

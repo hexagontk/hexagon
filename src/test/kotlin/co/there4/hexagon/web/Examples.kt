@@ -101,8 +101,8 @@ fun main(args: Array<String>) {
     val secure = args.contains("secure")
 
     blacksheep = JettyServer (
-        bind = address ("localhost"),
-        port = 8080,
+        bindAddress = address ("localhost"),
+        bindPort = 8080,
         keystore = if (secure) "src/test/resources/keystore.jks" else null,
         keystorePassword = if (secure) "" else null
     )

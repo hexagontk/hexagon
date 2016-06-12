@@ -22,7 +22,7 @@ HEXAGON
 ### The atoms of your platform
 
 Hexagon is a micro services framework that doesn't follow the flock. It is written in [Kotlin] and
-uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
+uses [RabbitMQ] and [MongoDB]. It takes care of:
 
 * [rest](http://there4.co/hexagon/rest.html)
 * [messaging](http://there4.co/hexagon/messaging.html) (TODO Write documentation)

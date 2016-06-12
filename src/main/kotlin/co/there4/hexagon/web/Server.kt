@@ -13,8 +13,8 @@ import java.util.*
 import kotlin.reflect.KClass
 
 abstract class Server (
-    val bind: InetAddress = InetAddress.getLocalHost(),
-    val port: Int = 4321,
+    val bindAddress: InetAddress = InetAddress.getLocalHost(),
+    val bindPort: Int = 4321,
 
     val keystore: String? = null,
     val keystorePassword: String? = null,
@@ -67,7 +67,7 @@ abstract class Server (
                     }
                     */
                 },
-                "shutdown-${bind.hostName}-$port"
+                "shutdown-${bindAddress.hostName}-$bindPort"
             )
         )
 
@@ -88,8 +88,8 @@ abstract class Server (
 
         return bannerTemplate.filter("\${", "}",
             Pair ("blacksheep.backend", javaClass.simpleName),
-            Pair ("blacksheep.bind", bind.hostName),
-            Pair ("blacksheep.port", port.toString ()),
+            Pair ("blacksheep.bind", bindAddress.hostName),
+            Pair ("blacksheep.port", bindPort.toString ()),
             Pair ("blacksheep.keystore.file", keystore ?: ""),
             Pair ("blacksheep.truststore.file", truststore ?: ""),
             Pair ("blacksheep.host", host),
