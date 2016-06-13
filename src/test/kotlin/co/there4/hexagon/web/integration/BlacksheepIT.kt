@@ -9,11 +9,11 @@ import org.asynchttpclient.Response
 import java.net.URL
 
 @Test class BlacksheepIT {
-    val client = Client (URL ("http://localhost:4321"))
+    val client: Client by lazy { Client (URL ("http://localhost:${blacksheep.localPort}")) }
 
     @BeforeClass fun startServers () {
         stop()
-        blacksheep = JettyServer()
+        blacksheep = JettyServer(bindPort = 8888)
 
         get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")
@@ -27,6 +27,7 @@ import java.net.URL
         }
 
         run()
+        Thread.sleep(1000)
     }
 
     @AfterClass fun stopServers () {

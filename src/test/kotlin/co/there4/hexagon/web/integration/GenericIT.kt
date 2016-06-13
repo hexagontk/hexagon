@@ -242,7 +242,10 @@ class GenericIT : ItTest () {
 
     private fun checkMethod (client: Client, methodName: String, headerName: String? = null) {
         val res = client.send(HttpMethod.valueOf (methodName), "/method")
-//        assert (if (headerName == null) res.body else res.headers.get(headerName) == methodName)
+        assert (
+            if (headerName == null) res.responseBody != null
+            else res.headers.get(headerName) == methodName
+        )
         assert (200 == res.statusCode)
     }
 }

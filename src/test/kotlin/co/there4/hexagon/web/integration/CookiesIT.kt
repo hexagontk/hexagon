@@ -45,8 +45,8 @@ class CookiesIT : ItTest () {
             val cookieValue = "testCookieValue"
             val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
 
-            var result = post("/setCookie?$cookie")
-            result = post("/assertHasCookie?$cookie")
+            post("/setCookie?$cookie")
+            var result = post("/assertHasCookie?$cookie")
             assert (this.cookies.size == 1)
             assert (result.statusCode == 200)
         }

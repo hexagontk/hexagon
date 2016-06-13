@@ -8,6 +8,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.util.component.LifeCycle
 
 import co.there4.hexagon.web.servlet.ServletServer
+import org.eclipse.jetty.server.ServerConnector
 
 import java.net.InetAddress
 import java.net.InetSocketAddress
@@ -26,6 +27,8 @@ class JettyServer (
     bindAddress, bindPort, keystore, keystorePassword, truststore, truststorePassword) {
 
     val jettyServer = JettyServletServer(InetSocketAddress(bindAddress, bindPort))
+
+    override val localPort: Int get() = (jettyServer.connectors[0] as ServerConnector).port
 
     override fun init() { /* Do nothing */ }
 

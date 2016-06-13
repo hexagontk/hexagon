@@ -5,6 +5,7 @@ import java.lang.System.*
 import java.lang.Runtime.*
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.util.filter
+import org.eclipse.jetty.server.ServerConnector
 import java.io.File
 import java.lang.Thread.currentThread
 import java.lang.management.ManagementFactory.*
@@ -24,6 +25,8 @@ abstract class Server (
     companion object : CompanionLogger (Server::class) {
         val BASE_DIR = File (Server::class.java.protectionDomain.codeSource.location.toURI())
     }
+
+    open val localPort: Int get() = bindPort
 
     val assets: MutableList<String> = ArrayList ()
     val errors: MutableMap<Class<out Exception>, Exchange.(e: Exception) -> Unit> = LinkedHashMap ()
