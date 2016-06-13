@@ -19,8 +19,8 @@ import kotlin.test.assertFailsWith
         before () {}
         assert (blacksheep.filters.containsKey(Filter(Path ("/after"), AFTER)))
         assert (blacksheep.filters.containsKey(Filter(Path ("/before"), BEFORE)))
-        assert (blacksheep.filters.containsKey(Filter(Path ("/"), AFTER)))
-        assert (blacksheep.filters.containsKey(Filter(Path ("/"), BEFORE)))
+        assert (blacksheep.filters.containsKey(Filter(Path ("/*"), AFTER)))
+        assert (blacksheep.filters.containsKey(Filter(Path ("/*"), BEFORE)))
 
         get ("/get") {}
         head ("/head") {}
