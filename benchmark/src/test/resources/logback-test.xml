@@ -1,7 +1,5 @@
 <!--
  | Logback configuration for tests
- |
- | All output is ignored by default, to enable logs change root logger level.
  !-->
 <configuration>
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -23,7 +21,13 @@
   </appender>
 
   <root>
-    <level value="trace" />
+    <level value="debug" />
+    <appender-ref ref="console" />
+    <appender-ref ref="file" />
+  </root>
+
+  <root>
+    <level value="debug" />
     <appender-ref ref="console" />
     <appender-ref ref="file" />
   </root>
