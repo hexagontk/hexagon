@@ -32,6 +32,7 @@ data class Exchange (
         locale: Locale = Locale.getDefault(),
         context: Map<String, *> = mapOf<String, Any> ()) {
 
+        // TODO Content type handling
 //        val contentType = get(MimeTypes::class.java).getContentType(template) ?: "text/html"
 //        response.contentTypeIfNotSet("$contentType; charset=${defaultCharset().name()}")
         ok (render (template, locale, context + ("lang" to locale.language)))
