@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-apply from: "$gradleScripts/hexagon_service.gradle"
+apply from: "$rootDir/gradle/hexagon_service.gradle"
 
 defaultTasks 'installDist'
 

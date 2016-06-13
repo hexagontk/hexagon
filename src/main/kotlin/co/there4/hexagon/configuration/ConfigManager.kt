@@ -69,6 +69,5 @@ object ConfigManager {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
-    operator fun <T> get (key: String): T = parameters[key] as T
+    operator fun get (key: String): Any? = parameters[key]
 }

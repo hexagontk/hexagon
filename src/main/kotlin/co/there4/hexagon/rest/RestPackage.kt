@@ -2,7 +2,6 @@ package co.there4.hexagon.rest
 
 import co.there4.hexagon.configuration.ConfigManager
 import co.there4.hexagon.repository.MongoIdRepository
-import co.there4.hexagon.ratpack.KChain
 import java.lang.Runtime.getRuntime
 import java.lang.String.format
 import java.lang.System.currentTimeMillis
@@ -11,9 +10,10 @@ import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.net.InetAddress.getByName as address
 
-import co.there4.hexagon.ratpack.KServerSpec
 import co.there4.hexagon.util.*
-import ratpack.server.RatpackServer
+import co.there4.hexagon.web.Server
+import co.there4.hexagon.web.blacksheep
+import co.there4.hexagon.web.jetty.JettyServer
 
 /*
  * TODO Add base class for Application (setup locales, etc.) for web applications
@@ -69,11 +69,17 @@ private fun showBanner() {
     RestPackage.info(banner.filterVars(variables))
 }
 
-fun applicationStart(cb: KServerSpec.() -> Unit): RatpackServer {
-    val server = RatpackServer.start {
-        val port: String? = ConfigManager["bindPort"]
-        KServerSpec(it, port?.toInt(), address(ConfigManager["bindAddress"])).(cb)()
-    }
+fun applicationStart(cb: Server.() -> Unit): Server {
+    val bindPort = ConfigManager["bindPort"] as Int? ?: 5050
+    val bindAddress = address(ConfigManager["bindAddress"] as String? ?: "127.0.0.1")
+
+    val server = JettyServer (
+        bindPort = bindPort,
+        bindAddress = bindAddress
+    )
+
+    server.(cb)()
+    server.run()
 
     // TODO Setup metrics
     showBanner ()
@@ -81,9 +87,12 @@ fun applicationStart(cb: KServerSpec.() -> Unit): RatpackServer {
     return server
 }
 
-fun <T : Any, K : Any> KChain.crud (repository: MongoIdRepository<T, K>): KChain {
+fun <T : Any, K : Any> Server.crud (repository: MongoIdRepository<T, K>) {
     RestCrud (repository, this)
-    return this
+}
+
+fun <T : Any, K : Any> crud (repository: MongoIdRepository<T, K>) {
+    blacksheep.crud (repository)
 }
 
 // TODO Add initialization for applications and services

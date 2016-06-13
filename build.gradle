@@ -17,6 +17,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
+        // TODO Replace with AsyncHttpClient
         classpath group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
     }
 }
@@ -32,8 +33,10 @@ dependencies {
     compile "com.rabbitmq:amqp-client:$rabbitVersion"
     compile "org.mongodb:mongo-java-driver:$mongodbVersion"
     compile "ch.qos.logback:logback-classic:$logbackVersion"
-    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
+
+    compile group: "org.eclipse.jetty", name: "jetty-webapp", version: jettyVersion
+    compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
 
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
@@ -43,19 +46,10 @@ dependencies {
         exclude module: "kotlin-reflect"
     }
 
-    compile ("io.ratpack:ratpack-core:$ratpackVersion") {
-        exclude module: "slf4j-api"
-        exclude module: "jackson-databind"
-        exclude module: "jackson-datatype-jdk8"
-        exclude module: "jackson-datatype-jsr310"
-        exclude module: "jackson-dataformat-yaml"
-    }
-
     compile ("com.mitchellbosecke:pebble:$pebbleVersion")
 
     // TEST
     testCompile ("org.mockito:mockito-core:$mockitoVersion")
-    testCompile ("io.ratpack:ratpack-test:$ratpackVersion")
     testCompile ("org.apache.qpid:qpid-broker:0.28") {
         exclude module: "slf4j-log4j12"
         exclude module: "slf4j-api"
@@ -74,7 +68,7 @@ wrapper {
 clean {
     delete fileTree(dir: rootDir , include: "*.log")
     delete rootProject.buildDir
-    delete "$rootDir/logs"
+    delete "$rootDir/log"
 }
 
 site.dependsOn 'check', 'dokka', 'jacocoTestReport'

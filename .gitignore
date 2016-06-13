@@ -13,7 +13,7 @@ build/
 
 # Runtime
 *.log
-logs/
+log/
 
 # Include coding style
 !.idea/codeStyleSettings.xml

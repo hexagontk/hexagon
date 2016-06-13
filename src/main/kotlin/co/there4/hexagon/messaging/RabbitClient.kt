@@ -1,6 +1,7 @@
 package co.there4.hexagon.messaging
 
 import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.parseQueryParameters
 import co.there4.hexagon.util.retry
 import com.rabbitmq.client.*
 import java.io.Closeable
@@ -24,14 +25,6 @@ class RabbitClient (
     private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
 
     companion object : CompanionLogger (RabbitClient::class) {
-        internal fun parseQueryParameters(query: String): Map<String, String> =
-            if (query.isEmpty())
-                mapOf()
-            else
-                query.split("&".toRegex())
-                    .map { it.split("=") }
-                    .map { it[0].trim () to it[1].trim() }
-                    .toMap(LinkedHashMap<String, String>())
 
         fun createConnectionFactory(uri: String): ConnectionFactory {
             fun <T> setVar(value: T?, setter: (T) -> Unit) {

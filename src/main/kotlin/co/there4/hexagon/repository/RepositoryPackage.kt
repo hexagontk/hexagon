@@ -9,7 +9,7 @@ import com.mongodb.client.MongoDatabase
 import org.bson.Document
 import kotlin.reflect.KClass
 
-val mongodbUrl = ConfigManager["mongodbUrl"] ?: "mongodb://localhost/test"
+val mongodbUrl = ConfigManager["mongodbUrl"] as String? ?: "mongodb://localhost/test"
 
 fun mongoDatabase (uri: String = mongodbUrl): MongoDatabase =
     MongoClient(MongoClientURI(uri)).getDatabase(MongoClientURI(uri).database) ?:
