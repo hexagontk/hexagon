@@ -15,8 +15,8 @@ open class Router(
 
     companion object : CompanionLogger (Router::class)
 
-    fun after(path: String = "/", block: Exchange.() -> Unit) = addFilter(path, AFTER, block)
-    fun before(path: String = "/", block: Exchange.() -> Unit) = addFilter (path, BEFORE, block)
+    fun after(path: String = "/*", block: Exchange.() -> Unit) = addFilter(path, AFTER, block)
+    fun before(path: String = "/*", block: Exchange.() -> Unit) = addFilter (path, BEFORE, block)
 
     fun get(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, GET, block)
     fun head(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, HEAD, block)

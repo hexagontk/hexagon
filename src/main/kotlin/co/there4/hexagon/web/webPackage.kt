@@ -22,9 +22,9 @@ fun stop() = blacksheep.stop()
 fun assets (path: String) = blacksheep.assets (path)
 
 /** @see Router.after */
-fun after (path: String = "/", block: Exchange.() -> Unit) = blacksheep.after (path, block)
+fun after (path: String = "/*", block: Exchange.() -> Unit) = blacksheep.after (path, block)
 /** @see Router.before */
-fun before (path: String = "/", block: Exchange.() -> Unit) = blacksheep.before (path, block)
+fun before (path: String = "/*", block: Exchange.() -> Unit) = blacksheep.before (path, block)
 
 /** @see Router.get */
 fun get (path: String = "/", block: Exchange.() -> Unit) = blacksheep.get (path, block)
