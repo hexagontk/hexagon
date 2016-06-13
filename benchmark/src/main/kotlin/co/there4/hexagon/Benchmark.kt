@@ -19,11 +19,17 @@ internal data class Fortune (val _id: Int, val message: String)
 internal data class World (val id: Int, val randomNumber: Int)
 
 internal object Benchmark {
+    private val BIND_ADDRESS =
+        address(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"] as String? ?: "localhost")
+    val BIND_PORT =
+        (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"] as String? ?: "5050").toInt()
+
     private val DB_ROWS = 10000
     private val CONTENT_TYPE_JSON = "application/json"
     private val QUERIES_PARAM = "queries"
 
-    private val DB: String = getenv("OPENSHIFT_APP_NAME") ?: Config["database"] as String? ?: "hello_world"
+    private val DB: String =
+        getenv("OPENSHIFT_APP_NAME") ?: Config["database"] as String? ?: "hello_world"
     private val WORLD: String = Config["worldCollection"] as String? ?: "world"
     private val FORTUNE: String = Config["fortuneCollection"] as String? ?: "fortune"
 
@@ -102,13 +108,10 @@ internal object Benchmark {
     }
 
     fun start() {
-        blacksheep = JettyServer (
-            bindAddress = address(getenv("OPENSHIFT_DIY_IP") ?: Config["bindAddress"] as String? ?: "localhost"),
-            bindPort = (getenv("OPENSHIFT_DIY_PORT") ?: Config["bindPort"] as String? ?: "5050").toInt()
-        )
+        blacksheep = JettyServer (bindAddress = BIND_ADDRESS, bindPort = BIND_PORT)
 
         before {
-            response.addHeader("Server", "Ratpack/1.3")
+            response.addHeader("Server", "Servlet/3.1")
             response.addHeader("Transfer-Encoding", "chunked")
             response.addHeader("Date", httpDate (now()))
         }
