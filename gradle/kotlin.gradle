@@ -8,14 +8,10 @@ apply plugin: 'kotlin'
 apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.dokka'
 
-ext.getProperty = { String name, String value ->
-    project.hasProperty (name)? project.property (name) : value
-}
+ext.testngVersion = findProperty ('testngVersion') ?: '6.9.+'
+ext.mockitoVersion = findProperty ('mockitoVersion') ?: '1.10.+'
 
-ext.testngVersion = getProperty ('testngVersion', '6.9.+')
-ext.mockitoVersion = getProperty ('mockitoVersion', '1.10.+')
-
-ext.filterPatterns = getProperty ('filterPatterns', '*.properties, *.txt, *.xml')
+ext.filterPatterns = findProperty ('filterPatterns') ?: '*.properties, *.txt, *.xml'
 ext.rootBuildDir = rootProject.buildDir
 
 repositories {

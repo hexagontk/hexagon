@@ -11,12 +11,8 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'org.ajoberstar.github-pages'
 
-ext.getProperty = { String name, String value ->
-    project.hasProperty (name)? project.property (name) : value
-}
-
-ext.bintrayUser = getProperty ('bintrayUser', 'anonymous')
-ext.bintrayKey = getProperty ("${project.name}BintrayKey", 'anonymous')
+ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
+ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
 
 configurations {
     deployerJars
