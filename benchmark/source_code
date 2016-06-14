@@ -1,7 +1,8 @@
 ./hexagon/src/main/kotlin/co/there4/hexagon/Benchmark.kt
 ./hexagon/src/main/resources/templates/fortunes.html
 ./hexagon/src/main/resources/benchmark.properties
+./hexagon/src/main/resources/logback.xml
 ./hexagon/src/test/kotlin/co/there4/hexagon/BenchmarkTest.kt
+./hexagon/src/test/resources/logback-test.xml
 ./hexagon/build.gradle
 ./hexagon/gradle.properties
-

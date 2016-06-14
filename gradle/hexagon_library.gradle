@@ -1,15 +1,9 @@
 
-ext.getProperty = { String name, String value ->
-    project.hasProperty (name)? project.property (name) : value
-}
-
-ext.dokkaVersion = getProperty ('dokkaVersion', '0.9.+')
-ext.kotlinVersion = getProperty ('kotlinVersion', '1.0.+')
-ext.hexagonVersion = getProperty ('hexagonVersion', '0.5.+')
-ext.gradleScripts = getProperty (
-    'gradleScripts',
+ext.dokkaVersion = findProperty ('dokkaVersion') ?: '0.9.+'
+ext.kotlinVersion = findProperty ('kotlinVersion') ?: '1.0.+'
+ext.hexagonVersion = findProperty ('hexagonVersion') ?: '0.5.+'
+ext.gradleScripts = findProperty ('gradleScripts') ?:
     'https://raw.githubusercontent.com/jaguililla/hexagon/master/gradle'
-)
 
 apply from: "$gradleScripts/kotlin.gradle"
 

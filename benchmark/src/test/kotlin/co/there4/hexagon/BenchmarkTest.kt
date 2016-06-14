@@ -1,7 +1,5 @@
 package co.there4.hexagon
 
-import co.there4.hexagon.BenchmarkTest.Companion.TIMES
-import co.there4.hexagon.BenchmarkTest.Companion.THREADS
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.web.Client
 import org.asynchttpclient.Response
@@ -9,13 +7,11 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.net.URL
 
+internal const val THREADS = 1
+internal const val TIMES = 10
+
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 class BenchmarkTest {
-    companion object {
-        internal const val THREADS = 1
-        internal const val TIMES = 10
-    }
-
     private val client = Client(URL("http://localhost:5050"))
 
     @BeforeClass fun warmup() {

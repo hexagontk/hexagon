@@ -23,8 +23,8 @@
                 "os" : "Linux",
                 "database_os" : "Linux",
                 "display_name" : "Hexagon MongoDB",
-                "notes" : "",
-                "versus" : "netty"
+                "notes" : "http://there4.co/hexagon",
+                "versus" : "servlet"
             }
         }
     ]

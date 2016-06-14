@@ -34,6 +34,7 @@ object ConfigManager {
 
     val environment: String? = getenv("ENVIRONMENT")
 
+    /** TODO This could be reset at the end of requests, maybe need to be moved to utils or log */
     init {
         MDC.put("jvmId", jvmId)
         MDC.put("hostname", hostname)
@@ -70,4 +71,19 @@ object ConfigManager {
     }
 
     operator fun get (key: String): Any? = parameters[key]
+
+    fun stringParam(key: String): String? = get(key)?.let {
+        when (it) {
+            is String -> it
+            else -> it.toString()
+        }
+    }
+
+    fun intParam(key: String): Int? = get(key)?.let {
+        when (it) {
+            is String -> it.toInt()
+            is Int -> it
+            else -> error("Invalid type (${it.javaClass.name}) for ($key) parameter")
+        }
+    }
 }
