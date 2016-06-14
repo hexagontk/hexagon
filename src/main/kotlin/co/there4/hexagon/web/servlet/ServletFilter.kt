@@ -48,24 +48,41 @@ class ServletFilter (
                 handled = true
             }
 
-            if (methodRoutes == null) {
-                bResponse.status = 405
-                bResponse.body = "Invalid method '${req.method}'"
+            val stream = javaClass.getResourceAsStream("/public" + req.servletPath)
+            if (bRequest.method == HttpMethod.GET &&
+                !req.servletPath.endsWith("/") && // Reading a folder as resource gets all files
+                stream != null) {
+
+                response.outputStream.write(stream.readBytes())
+                response.outputStream.flush()
                 handled = true
             }
-            else if (methodRoutes.isEmpty()) {
-                val stream = javaClass.getResourceAsStream("/public" + req.servletPath)
-                if (stream != null) {
-                    response.outputStream.write(stream.readBytes())
-                    response.outputStream.flush()
+            else {
+
+                if (methodRoutes == null) {
+                    bResponse.status = 405
+                    bResponse.body = "Invalid method '${req.method}'"
                     handled = true
                 }
-            }
-            else {
-                methodRoutes.forEach {
-                    bRequest.actionPath = it.first.path
-                    exchange.(it.second)()
-                    handled = true
+                else if (methodRoutes.isEmpty()) {
+                    if (stream != null) {
+                        response.outputStream.write(stream.readBytes())
+                        response.outputStream.flush()
+                        handled = true
+                    }
+                }
+                else {
+                    for (r in methodRoutes) {
+                        try {
+                            bRequest.actionPath = r.first.path
+                            exchange.(r.second)()
+                            handled = true
+                            break;
+                        }
+                        catch (e: PassException) {
+                            continue;
+                        }
+                    }
                 }
             }
 
@@ -79,6 +96,7 @@ class ServletFilter (
             handled = true
         }
         catch (e: Exception) {
+            error ("Error processing request", e)
             server.handleException(e, exchange)
         }
         finally {

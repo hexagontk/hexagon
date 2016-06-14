@@ -15,14 +15,14 @@ import kotlin.text.Regex
  */
 data class Path (val path: String) {
     companion object : CompanionLogger (Path::class) {
-        val PARAMETER_PREFIX = "{"
-        val PARAMETER_SUFFIX = "}"
+        internal val PARAMETER_PREFIX = "{"
+        internal val PARAMETER_SUFFIX = "}"
 
-        val WILDCARD = "*"
+        internal val WILDCARD = "*"
 
-        val WILDCARD_REGEX = Regex ("\\$WILDCARD")
-        val PARAMETER_REGEX = Regex ("\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
-        val PLACEHOLDER_REGEX = Regex ("\\$WILDCARD|\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
+        internal val WILDCARD_REGEX = Regex ("\\$WILDCARD")
+        internal val PARAMETER_REGEX = Regex ("\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
+        internal val PLACEHOLDER_REGEX = Regex ("\\$WILDCARD|\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
     }
 
     val hasWildcards = WILDCARD_REGEX in path
@@ -46,9 +46,9 @@ data class Path (val path: String) {
 
     val regex: Regex? = when (Pair (hasWildcards, hasParameters)) {
         Pair (true, true) ->
-            Regex (path.replace (WILDCARD, "(.*)").replace (PARAMETER_REGEX, "(.*)"))
+            Regex (path.replace (WILDCARD, "(.*)").replace (PARAMETER_REGEX, "(.+)"))
         Pair (true, false) -> Regex (path.replace (WILDCARD, "(.*)"))
-        Pair (false, true) -> Regex (path.replace (PARAMETER_REGEX, "(.*)"))
+        Pair (false, true) -> Regex (path.replace (PARAMETER_REGEX, "(.+)"))
         else -> null
     }
 

@@ -17,3 +17,20 @@ installDist.doLast {
     script << scriptContent
     script.executable = true
 }
+
+task deployIntegration (dependsOn: 'installDist') << {
+    ssh.run {
+        integrationHosts.forEach {
+            String runtimeDir = "$deployDir/${project.name}_$version"
+            session (remotes [it]) {
+                put from: installDist.destinationDir, into: deployDir
+                execute ("chmod +x $runtimeDir/service $runtimeDir/bin/*")
+                execute ("$runtimeDir/service restart")
+            }
+        }
+    }
+}
+
+task runScript(dependsOn: 'installDist', type:Exec) {
+    commandLine "${rootProject.buildDir}/${project.name}_$version/service", "restart"
+}

@@ -4,6 +4,10 @@ import co.there4.hexagon.web.Path
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 
+/**
+ * TODO Check that URLs with blank parameters are not matched.
+ * TODO Ie: /alfa/{param}/bravo is not matched by /alfa//bravo
+ */
 @Test class PathTest {
     fun a_path_without_parameters_do_not_have_regex_neither_params_table () {
         val pathWithoutData = Path("/alfa/bravo/tango")
@@ -36,12 +40,12 @@ import kotlin.test.assertFailsWith
         val pathWith1Parameter = Path("/alfa/{param}/tango")
         assert (pathWith1Parameter.path == "/alfa/{param}/tango")
         assert (pathWith1Parameter.hasParameters)
-        assert (pathWith1Parameter.regex?.pattern == "/alfa/(.*)/tango")
+        assert (pathWith1Parameter.regex?.pattern == "/alfa/(.+)/tango")
         assert (pathWith1Parameter.parameterIndex == listOf ("param"))
 
         assert (pathWith1Parameter.matches ("/alfa/a/tango"))
         assert (pathWith1Parameter.matches ("/alfa/abc/tango"))
-        assert (pathWith1Parameter.matches ("/alfa//tango"))
+        assert (!pathWith1Parameter.matches ("/alfa//tango"))
         assert (!pathWith1Parameter.matches ("/alfa/tango"))
         assert (!pathWith1Parameter.matches ("/alfa/a/tango/zulu"))
         assert (!pathWith1Parameter.matches ("zulu/alfa/abc/tango"))
@@ -51,7 +55,7 @@ import kotlin.test.assertFailsWith
         val pathWith2Parameters = Path("/alfa/{param}/tango/{arg}")
         assert (pathWith2Parameters.path == "/alfa/{param}/tango/{arg}")
         assert (pathWith2Parameters.hasParameters)
-        assert (pathWith2Parameters.regex?.pattern == "/alfa/(.*)/tango/(.*)")
+        assert (pathWith2Parameters.regex?.pattern == "/alfa/(.+)/tango/(.+)")
         assert (pathWith2Parameters.parameterIndex == listOf ("param", "arg"))
     }
 
@@ -59,13 +63,13 @@ import kotlin.test.assertFailsWith
         val pathWith1Parameter = Path("/alfa/*/{param}/tango")
         assert (pathWith1Parameter.path == "/alfa/*/{param}/tango")
         assert (pathWith1Parameter.hasParameters)
-        assert (pathWith1Parameter.regex?.pattern == "/alfa/(.*)/(.*)/tango")
+        assert (pathWith1Parameter.regex?.pattern == "/alfa/(.*)/(.+)/tango")
         assert (pathWith1Parameter.parameterIndex == listOf ("", "param"))
 
         val pathWith2Parameters = Path("/alfa/{param}/tango/{arg}/*")
         assert (pathWith2Parameters.path == "/alfa/{param}/tango/{arg}/*")
         assert (pathWith2Parameters.hasParameters)
-        assert (pathWith2Parameters.regex?.pattern == "/alfa/(.*)/tango/(.*)/(.*)")
+        assert (pathWith2Parameters.regex?.pattern == "/alfa/(.+)/tango/(.+)/(.*)")
         assert (pathWith2Parameters.parameterIndex == listOf ("param", "arg", ""))
     }
 
@@ -73,13 +77,13 @@ import kotlin.test.assertFailsWith
         val pathWith1Parameter = Path("*/alfa/*/{param}/tango")
         assert (pathWith1Parameter.path == "*/alfa/*/{param}/tango")
         assert (pathWith1Parameter.hasParameters)
-        assert (pathWith1Parameter.regex?.pattern == "(.*)/alfa/(.*)/(.*)/tango")
+        assert (pathWith1Parameter.regex?.pattern == "(.*)/alfa/(.*)/(.+)/tango")
         assert (pathWith1Parameter.parameterIndex == listOf ("", "", "param"))
 
         val pathWith2Parameters = Path("/alfa/*/{param}/tango/{arg}/*")
         assert (pathWith2Parameters.path == "/alfa/*/{param}/tango/{arg}/*")
         assert (pathWith2Parameters.hasParameters)
-        assert (pathWith2Parameters.regex?.pattern == "/alfa/(.*)/(.*)/tango/(.*)/(.*)")
+        assert (pathWith2Parameters.regex?.pattern == "/alfa/(.*)/(.+)/tango/(.+)/(.*)")
         assert (pathWith2Parameters.parameterIndex == listOf ("", "param", "arg", ""))
     }
 
