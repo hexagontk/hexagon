@@ -6,6 +6,7 @@ import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.parseList
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.Client
+import co.there4.hexagon.web.applicationStart
 import co.there4.hexagon.web.jetty.JettyServer
 import org.testng.annotations.Test
 import java.net.URL

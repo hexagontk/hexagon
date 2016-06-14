@@ -108,7 +108,7 @@ internal object Benchmark {
     }
 
     fun start() {
-        blacksheep = JettyServer (bindAddress = BIND_ADDRESS, bindPort = BIND_PORT)
+        server = JettyServer (bindAddress = BIND_ADDRESS, bindPort = BIND_PORT)
 
         before {
             response.addHeader("Server", "Servlet/3.1")

@@ -100,7 +100,7 @@ fun sessionExample(context: String = "session") {
 fun main(args: Array<String>) {
     val secure = args.contains("secure")
 
-    blacksheep = JettyServer (
+    server = JettyServer (
         bindAddress = address ("localhost"),
         bindPort = 8080,
         keystore = if (secure) "src/test/resources/keystore.jks" else null,
@@ -112,5 +112,5 @@ fun main(args: Array<String>) {
     simpleExample()
     sessionExample()
 
-    blacksheep.run ()
+    server.run ()
 }

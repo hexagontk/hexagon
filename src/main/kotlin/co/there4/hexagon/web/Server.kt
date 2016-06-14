@@ -1,15 +1,12 @@
 package co.there4.hexagon.web
 
+import co.there4.hexagon.configuration.ConfigManager
+import co.there4.hexagon.util.*
 import java.net.InetAddress
 import java.lang.System.*
 import java.lang.Runtime.*
-import co.there4.hexagon.util.CompanionLogger
-import co.there4.hexagon.util.filter
-import org.eclipse.jetty.server.ServerConnector
 import java.io.File
-import java.lang.Thread.currentThread
 import java.lang.management.ManagementFactory.*
-import java.net.UnknownHostException
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -78,33 +75,6 @@ abstract class Server (
         info ("$name started${createBanner()}")
     }
 
-    private fun createBanner(): String {
-        val bannerResource = currentThread().contextClassLoader.getResourceAsStream("banner.txt")
-        val bannerTemplate = bannerResource?.reader()?.readText() ?: ""
-
-        val rt = getRuntime ()
-        val heap = getMemoryMXBean ().heapMemoryUsage
-        val bootTime = currentTimeMillis () - getRuntimeMXBean ().startTime
-        val host =
-            try { InetAddress.getLocalHost ().canonicalHostName }
-            catch (e: UnknownHostException) { "UNKNOWN" }
-
-        return bannerTemplate.filter("\${", "}",
-            Pair ("blacksheep.backend", javaClass.simpleName),
-            Pair ("blacksheep.bind", bindAddress.hostName),
-            Pair ("blacksheep.port", bindPort.toString ()),
-            Pair ("blacksheep.keystore.file", keystore ?: ""),
-            Pair ("blacksheep.truststore.file", truststore ?: ""),
-            Pair ("blacksheep.host", host),
-            Pair ("blacksheep.cpus", rt.availableProcessors ().toString ()),
-            Pair ("blacksheep.jvm.memory", "%,d".format (heap.init shr 10)),
-            Pair ("blacksheep.jvm", getRuntimeMXBean ().vmName),
-            Pair ("blacksheep.jvm.version", getRuntimeMXBean ().specVersion),
-            Pair ("blacksheep.boot.time", "%01.3f".format (bootTime / 1000f)),
-            Pair ("blacksheep.used.memory", "%,d".format (heap.used shr 10))
-        )
-    }
-
     fun stop() {
         shutdown ()
         info ("$name stopped")
@@ -119,4 +89,50 @@ abstract class Server (
      * Stops the instance of the backend.
      */
     protected abstract fun shutdown()
+
+    private fun createBanner(): String {
+        val runtime = getRuntime()
+        val heap = getMemoryMXBean().heapMemoryUsage
+        val bootTime = currentTimeMillis() - getRuntimeMXBean().startTime
+
+        val locale = "%s_%s.%s".format(
+            getProperty("user.language"),
+            getProperty("user.country"),
+            getProperty("file.encoding")
+        )
+
+        val serviceName = ConfigManager.serviceName
+        val serviceDir = ConfigManager.serviceDir
+        val servicePackage = ConfigManager.servicePackage
+        val environment = (ConfigManager.environment ?: "N/A")
+        val applicationLocale = locale
+        val applicationTimezone = getProperty("user.timezone")
+        val applicationCpus = runtime.availableProcessors()
+        val applicationJvmMemory = String.format("%,d", heap.init / 1024)
+        val applicationJvm = getRuntimeMXBean().vmName
+        val applicationJvmVersion = getRuntimeMXBean().specVersion
+        val applicationBootTime = String.format("%01.3f", bootTime / 1000f)
+        val applicationUsedMemory = String.format("%,d", heap.used / 1024)
+        val applicationHost = hostname
+
+        val information = """
+            SERVICE:     $serviceName
+            PACKAGE:     $servicePackage
+            DIRECTORY:   $serviceDir
+            ENVIRONMENT: $environment
+
+            Running in '$applicationHost' with $applicationCpus CPUs $applicationJvmMemory KB
+            Java $applicationJvmVersion [$applicationJvm]
+            Locale $applicationLocale Timezone $applicationTimezone
+
+            Started in $applicationBootTime s using $applicationUsedMemory KB
+        """
+
+        val banner = EOL + EOL + (read ("banner.txt") ?: "") + information
+            .replaceIndent(" ".repeat(4)).lines()
+            .map { if (it.isBlank()) it.trim() else it }
+            .joinToString(EOL) + EOL
+
+        return banner
+    }
 }

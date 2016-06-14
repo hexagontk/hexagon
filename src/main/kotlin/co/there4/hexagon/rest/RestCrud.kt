@@ -4,21 +4,22 @@ import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.*
+import co.there4.hexagon.web.server
 import com.mongodb.MongoWriteException
 
 class RestCrud <T : Any, K : Any> (
     val repository: MongoIdRepository<T, K>,
-    val server: Server = blacksheep) {
+    val crudServer: Server = server) {
 
     init {
         val collectionName = repository.namespace.collectionName
 
-        server.post("/$collectionName") { insert (repository, this) }
-        server.put("/$collectionName") { replace (repository, this) }
-        server.get("/$collectionName") { findAll (repository, this) }
+        crudServer.post("/$collectionName") { insert (repository, this) }
+        crudServer.put("/$collectionName") { replace (repository, this) }
+        crudServer.get("/$collectionName") { findAll (repository, this) }
 
-        server.delete("/$collectionName/{id}") { delete (repository, this) }
-        server.get("/$collectionName/{id}") { find (repository, this) }
+        crudServer.delete("/$collectionName/{id}") { delete (repository, this) }
+        crudServer.get("/$collectionName/{id}") { find (repository, this) }
     }
 
     private fun <T : Any, K : Any> insert (

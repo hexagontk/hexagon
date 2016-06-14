@@ -1,10 +1,19 @@
 package co.there4.hexagon.web
 
+import co.there4.hexagon.configuration.ConfigManager
 import co.there4.hexagon.web.jetty.JettyServer
+import java.net.InetAddress
 import kotlin.reflect.KClass
 
+import java.net.InetAddress.getByName as address
+
+/** Port from config. */
+val bindPort = (ConfigManager["bindPort"] as String?)?.toInt() ?: 5050
+/** Address from config. */
+val bindAddress = InetAddress.getByName(ConfigManager["bindAddress"] as String? ?: "127.0.0.1")
+
 /** Default server. Used by package methods. */
-var blacksheep: Server = JettyServer ()
+var server: Server = JettyServer (bindPort = bindPort, bindAddress = bindAddress)
     get () = field
     set (server) {
         if (field.started ())
@@ -14,39 +23,54 @@ var blacksheep: Server = JettyServer ()
     }
 
 /** @see Server.run */
-fun run() = blacksheep.run()
+fun run() = server.run()
 /** @see Server.stop */
-fun stop() = blacksheep.stop()
+fun stop() = server.stop()
 
 /** @see Router.assets */
-fun assets (path: String) = blacksheep.assets (path)
+fun assets (path: String) = server.assets (path)
 
 /** @see Router.after */
-fun after (path: String = "/*", block: Exchange.() -> Unit) = blacksheep.after (path, block)
+fun after (path: String = "/*", block: Exchange.() -> Unit) = server.after (path, block)
 /** @see Router.before */
-fun before (path: String = "/*", block: Exchange.() -> Unit) = blacksheep.before (path, block)
+fun before (path: String = "/*", block: Exchange.() -> Unit) = server.before (path, block)
 
 /** @see Router.get */
-fun get (path: String = "/", block: Exchange.() -> Unit) = blacksheep.get (path, block)
+fun get (path: String = "/", block: Exchange.() -> Unit) = server.get (path, block)
 /** @see Router.head */
-fun head (path: String = "/", block: Exchange.() -> Unit) = blacksheep.head (path, block)
+fun head (path: String = "/", block: Exchange.() -> Unit) = server.head (path, block)
 /** @see Router.post */
-fun post (path: String = "/", block: Exchange.() -> Unit) = blacksheep.post (path, block)
+fun post (path: String = "/", block: Exchange.() -> Unit) = server.post (path, block)
 /** @see Router.put */
-fun put (path: String = "/", block: Exchange.() -> Unit) = blacksheep.put (path, block)
+fun put (path: String = "/", block: Exchange.() -> Unit) = server.put (path, block)
 /** @see Router.delete */
-fun delete (path: String = "/", block: Exchange.() -> Unit) = blacksheep.delete (path, block)
+fun delete (path: String = "/", block: Exchange.() -> Unit) = server.delete (path, block)
 /** @see Router.trace */
-fun trace (path: String = "/", block: Exchange.() -> Unit) = blacksheep.trace (path, block)
+fun trace (path: String = "/", block: Exchange.() -> Unit) = server.trace (path, block)
 /** @see Router.options */
-fun options (path: String = "/", block: Exchange.() -> Unit) = blacksheep.options (path, block)
+fun options (path: String = "/", block: Exchange.() -> Unit) = server.options (path, block)
 /** @see Router.patch */
-fun patch (path: String = "/", block: Exchange.() -> Unit) = blacksheep.patch (path, block)
+fun patch (path: String = "/", block: Exchange.() -> Unit) = server.patch (path, block)
 
 /** @see Router.error */
 fun error(exception: Class<out Exception>, block: Exchange.(e: Exception) -> Unit) =
-    blacksheep.error (exception, block)
+    server.error (exception, block)
 
 /** @see Router.error */
 fun error(exception: KClass<out Exception>, block: Exchange.(e: Exception) -> Unit) =
-    blacksheep.error (exception, block)
+    server.error (exception, block)
+
+/*
+ * TODO Add base class for Application (setup locales, etc.) for web applications
+ * TODO Add base class for Services (the setup for applications is not needed here)
+ * TODO Add initialization for applications and services
+ * TODO Setup metrics
+ */
+fun applicationStart(cb: Server.() -> Unit): Server {
+    val server = JettyServer (bindPort = bindPort, bindAddress = bindAddress)
+
+    server.(cb)()
+    server.run()
+
+    return server
+}
