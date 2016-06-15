@@ -12,7 +12,6 @@ interface Response {
     var body: Any
     var status: Int
     var contentType: String
-    val cookies: MutableMap<String, HttpCookie>
 
     fun addHeader (name: String, value: String)
 

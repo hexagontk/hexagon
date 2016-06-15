@@ -36,9 +36,6 @@ class BServletResponse(val req: HttpServletRequest, val resp: HttpServletRespons
         }
     }
 
-    override val cookies: MutableMap<String, HttpCookie>
-        get() = throw NotImplementedError()
-
     override fun redirect(url: String) {
         resp.sendRedirect(url)
     }

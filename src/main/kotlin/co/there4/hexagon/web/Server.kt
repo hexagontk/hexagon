@@ -1,55 +1,36 @@
 package co.there4.hexagon.web
 
+import co.there4.hexagon.configuration.ConfigManager.serviceName
 import co.there4.hexagon.configuration.ConfigManager
 import co.there4.hexagon.util.*
 import java.net.InetAddress
 import java.lang.System.*
 import java.lang.Runtime.*
-import java.io.File
 import java.lang.management.ManagementFactory.*
-import java.util.*
-import kotlin.reflect.KClass
 
 abstract class Server (
     val bindAddress: InetAddress = InetAddress.getLocalHost(),
     val bindPort: Int = 4321,
-
     val keystore: String? = null,
     val keystorePassword: String? = null,
     val truststore: String? = null,
     val truststorePassword: String? = null) : Router() {
 
-    companion object : CompanionLogger (Server::class) {
-        val BASE_DIR = File (Server::class.java.protectionDomain.codeSource.location.toURI())
-    }
+    companion object : CompanionLogger (Server::class)
 
     open val localPort: Int get() = bindPort
 
-    val assets: MutableList<String> = ArrayList ()
-    val errors: MutableMap<Class<out Exception>, Exchange.(e: Exception) -> Unit> = LinkedHashMap ()
-
-    /** Name of the application. Used for logging and configuration. */
-    private val packageName = javaClass.`package`.name
-    val name =
-        if (packageName.startsWith("co.there4.hexagon.http")) "Blacksheep"
-        else javaClass.simpleName
-
     abstract fun started (): Boolean
 
-    fun handleException (exception: Exception, exchange: Exchange) =
-            exchange.(errors[exception.javaClass] ?: { throw exception })(exception)
+    /**
+     * Builds a server of a certain backend from a server definition and runs it.
+     */
+    protected abstract fun startup()
 
-    fun assets (path: String) = assets.add (path)
-
-    fun error(exception: Class<out Exception>, callback: Exchange.(e: Exception) -> Unit) =
-            errors.put (exception, callback)
-
-    fun error(exception: KClass<out Exception>, callback: Exchange.(e: Exception) -> Unit) =
-            error (exception.java, callback)
-
-    fun notFound () {}
-    fun internalError (callback: Exchange.(e: Exception) -> Unit) =
-        error (Exception::class, callback)
+    /**
+     * Stops the instance of the backend.
+     */
+    protected abstract fun shutdown()
 
     fun run() {
         getRuntime().addShutdownHook(
@@ -72,23 +53,13 @@ abstract class Server (
         )
 
         startup ()
-        info ("$name started${createBanner()}")
+        info ("$serviceName started${createBanner()}")
     }
 
     fun stop() {
         shutdown ()
-        info ("$name stopped")
+        info ("$serviceName stopped")
     }
-
-    /**
-     * Builds a server of a certain backend from a server definition and runs it.
-     */
-    protected abstract fun startup()
-
-    /**
-     * Stops the instance of the backend.
-     */
-    protected abstract fun shutdown()
 
     private fun createBanner(): String {
         val runtime = getRuntime()

@@ -13,15 +13,12 @@ import javax.servlet.http.HttpServletResponse
  * @author jam
  */
 class ServletFilter (
-    val server: Server,
-    val filters: MutableMap<BlacksheepFilter, Exchange.() -> Unit> = server.filters,
-    val routes: MutableMap<Route, Exchange.() -> Unit> = server.routes
-) : Filter {
+    private val router: Router) : Filter {
 
     companion object : CompanionLogger(ServletFilter::class)
 
     private val routesByMethod: Map<HttpMethod, List<Pair<Route, Exchange.() -> Unit>>> =
-        routes.entries.map { it.key to it.value }.groupBy { it.first.method }
+        router.routes.entries.map { it.key to it.value }.groupBy { it.first.method }
 
     override fun init(filterConfig: FilterConfig) { /* Not implemented */ }
     override fun destroy() { /* Not implemented */ }
@@ -29,7 +26,7 @@ class ServletFilter (
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         val req = request as HttpServletRequest
         val res = response as HttpServletResponse
-        val fs = filters.filter { it.key.path.matches(req.servletPath) }
+        val fs = router.filters.filter { it.key.path.matches(req.servletPath) }
         val methodRoutes = routesByMethod[HttpMethod.valueOf (req.method)]?.filter {
             it.first.path.matches(req.servletPath)
         }
@@ -97,7 +94,7 @@ class ServletFilter (
         }
         catch (e: Exception) {
             error ("Error processing request", e)
-            server.handleException(e, exchange)
+            router.handleException(e, exchange)
         }
         finally {
             if (handled)

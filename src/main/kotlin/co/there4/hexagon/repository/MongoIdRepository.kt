@@ -22,7 +22,7 @@ class MongoIdRepository<T : Any, K : Any> (
 
     constructor (
         type: KClass<T>,
-        database: MongoDatabase = mongoDatabase(),
+        database: MongoDatabase,
         keyName: String,
         keyType: KClass<K>,
         keySupplier: (T) -> K,

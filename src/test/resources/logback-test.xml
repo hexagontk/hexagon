@@ -23,7 +23,7 @@
   </appender>
 
   <root>
-    <level value="off" />
+    <level value="debug" />
     <appender-ref ref="console" />
     <appender-ref ref="file" />
   </root>

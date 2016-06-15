@@ -10,7 +10,7 @@ abstract class IdRepositoryTest <T : Any, K : Any> (
     RepositoryTest<T, K>(type, idField) {
 
     val idCollection: MongoIdRepository<T, K> =
-        MongoIdRepository(type, mongoDatabase(), idField, keyType, keySupplier, true)
+        MongoIdRepository(type, idField, keyType, keySupplier, true)
 
     override fun getObjectKey (obj: T) = idCollection.getKey (obj)
 

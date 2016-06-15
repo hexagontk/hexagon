@@ -99,9 +99,6 @@ open class MongoRepository <T : Any> (
         options: IndexOptions = IndexOptions().background(true)): String =
             createIndex(Document(name, order), options)
 
-    fun createUniqueIndex(name: String, order: Int = 1): String =
-        createIndex(Document(name, order), IndexOptions().unique(true).background(true))
-
     private fun map (document: T): Document {
         return Document (document.convertToMap ().mapKeys {
             val key = it.key ?: throw IllegalStateException ("Key can not be 'null'")

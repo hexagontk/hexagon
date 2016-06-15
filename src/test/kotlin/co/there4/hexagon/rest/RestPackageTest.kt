@@ -6,8 +6,10 @@ import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.parseList
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.Client
-import co.there4.hexagon.web.applicationStart
 import co.there4.hexagon.web.jetty.JettyServer
+import co.there4.hexagon.web.server
+import co.there4.hexagon.web.stop
+import co.there4.hexagon.web.run
 import org.testng.annotations.Test
 import java.net.URL
 import kotlin.reflect.KClass
@@ -70,9 +72,10 @@ import kotlin.reflect.KClass
             { it.name }
         )
 
-        val server = applicationStart {
-            crud(repo)
-        }
+        stop()
+        server = JettyServer()
+        crud(repo)
+        run()
 
         fun param (json: String?) = json?.parse (Parameter::class) ?: error ("")
         fun paramList (json: String?) = json?.parseList (Parameter::class) ?: error ("")
@@ -91,6 +94,6 @@ import kotlin.reflect.KClass
         assert (client.get("/Parameter/${parameter.name}").statusCode == 404)
         assert (client.get("/Parameter").responseBody == "[ ]")
 
-        server.stop()
+        stop()
     }
 }
