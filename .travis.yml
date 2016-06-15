@@ -26,6 +26,7 @@ before_script:
   - mongorestore ${TRAVIS_BUILD_DIR}/dump/
 
 script:
+  - gradle/wrapper --info --stacktrace -x test publishToMavenLocal
   - gradle/wrapper --info --stacktrace check
   - gradle/wrapper --no-daemon --info --stacktrace javadoc jacocoTestReport site dokka
 
