@@ -26,6 +26,7 @@ dependencies {
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: kotlinVersion
     testCompile group: 'org.testng', name: 'testng', version: testngVersion
     testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
+    testCompile group: 'org.powermock', name: 'powermock', version: powermockVersion
 }
 
 clean {
