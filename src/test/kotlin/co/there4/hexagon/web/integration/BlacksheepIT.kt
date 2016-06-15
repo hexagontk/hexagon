@@ -9,7 +9,7 @@ import org.asynchttpclient.Response
 import java.net.URL
 
 @Test class BlacksheepIT {
-    val client: Client by lazy { Client (URL ("http://localhost:${server.localPort}")) }
+    val client: Client by lazy { Client (URL ("http://localhost:${server.bindPort}")) }
 
     @BeforeClass fun startServers () {
         stop()

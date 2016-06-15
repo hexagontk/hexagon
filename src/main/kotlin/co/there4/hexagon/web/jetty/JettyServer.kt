@@ -20,24 +20,10 @@ import java.net.InetAddress.getByName as address
 /**
  * @author jam
  */
-class JettyServer (
-    bindAddress: InetAddress = address ("localhost"),
-    bindPort: Int = 4321,
-    keystore: String? = null,
-    keystorePassword: String? = null,
-    truststore: String? = null,
-    truststorePassword: String? = null):
-        Server (
-            bindAddress,
-            bindPort,
-            keystore,
-            keystorePassword,
-            truststore,
-            truststorePassword) {
+class JettyServer (bindAddress: InetAddress = address ("localhost"), bindPort: Int = 5050):
+    Server (bindAddress, bindPort) {
 
     val jettyServer = JettyServletServer(InetSocketAddress(bindAddress, bindPort))
-
-    override val localPort: Int get() = (jettyServer.connectors[0] as ServerConnector).port
 
     override fun started() = jettyServer.isStarted
 

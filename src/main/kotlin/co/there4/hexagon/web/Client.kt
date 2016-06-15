@@ -30,11 +30,11 @@ class Client (val endpointUrl: URL, val useCookies: Boolean = true) {
         if (useCookies)
             cookies.forEach { request.addCookie(it.value) }
 
-        val response = request.execute().get() ?: throw RuntimeException("'null' http response")
+        val response = request.execute().get()
 
         if (useCookies) {
             response.cookies.forEach {
-                if (it.value == "" && it.path == "/")
+                if (it.value == "")
                     cookies.remove(it.name)
                 else
                     cookies[it.name] = it

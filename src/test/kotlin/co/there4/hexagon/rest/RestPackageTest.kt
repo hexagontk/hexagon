@@ -44,9 +44,10 @@ import kotlin.reflect.KClass
 
         fun param (json: String?) = json?.parse (Country::class) ?: error ("")
         fun paramList (json: String?) = json?.parseList (Country::class) ?: error ("")
-        val client = Client (URL ("http://${server.bindAddress.hostAddress}:${server.bindPort}"))
+        val url = "http://${server.bindAddress.hostAddress}:${server.bindPort}"
+        val client = Client (URL (url), false)
         val parameter = Country(34, "es")
-        val modifiedParameter = parameter.copy(code = "fr")
+        val changedParameter = parameter.copy(code = "fr")
 
         assert (client.delete("/Country/${parameter.id}").statusCode == 200)
         assert (client.get("/Country").responseBody == "[ ]")
@@ -54,8 +55,9 @@ import kotlin.reflect.KClass
         assert (client.post("/Country", parameter.serialize()).statusCode == 500)
         assert (paramList(client.get("/Country").responseBody) == listOf (parameter))
         assert (param(client.get("/Country/${parameter.id}").responseBody) == parameter)
-        assert (client.put("/Country", modifiedParameter.serialize()).statusCode == 200)
-        assert (param(client.get("/Country/${modifiedParameter.id}").responseBody) == modifiedParameter)
+        assert (client.put("/Country", changedParameter.serialize()).statusCode == 200)
+        val changedParameterId = changedParameter.id
+        assert (param(client.get("/Country/$changedParameterId").responseBody) == changedParameter)
         assert (client.delete("/Country/${parameter.id}").statusCode == 200)
         assert (client.get("/Country/${parameter.id}").statusCode == 404)
         assert (client.get("/Country").responseBody == "[ ]")
@@ -79,7 +81,7 @@ import kotlin.reflect.KClass
 
         fun param (json: String?) = json?.parse (Parameter::class) ?: error ("")
         fun paramList (json: String?) = json?.parseList (Parameter::class) ?: error ("")
-        val client = Client (URL ("http://localhost:${server.bindPort}"))
+        val client = Client (URL ("http://localhost:${server.bindPort}"), false)
         val parameter = Parameter("a", "b")
         val modifiedParameter = parameter.copy(value = "c")
 

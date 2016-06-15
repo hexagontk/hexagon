@@ -7,6 +7,13 @@ import kotlin.reflect.KClass
 
 import java.net.InetAddress.getByName as address
 
+/*
+ * TODO Add base class for Application (setup locales, etc.) for web applications
+ * TODO Add base class for Services (the setup for applications is not needed here)
+ * TODO Add initialization for applications and services
+ * TODO Setup metrics
+ */
+
 /** Port from config. */
 val bindPort = (ConfigManager["bindPort"] as String?)?.toInt() ?: 5050
 /** Address from config. */
@@ -59,18 +66,3 @@ fun error(exception: Class<out Exception>, block: Exchange.(e: Exception) -> Uni
 /** @see Router.error */
 fun error(exception: KClass<out Exception>, block: Exchange.(e: Exception) -> Unit) =
     server.error (exception, block)
-
-/*
- * TODO Add base class for Application (setup locales, etc.) for web applications
- * TODO Add base class for Services (the setup for applications is not needed here)
- * TODO Add initialization for applications and services
- * TODO Setup metrics
- */
-fun applicationStart(cb: Server.() -> Unit): Server {
-    val server = JettyServer (bindPort = bindPort, bindAddress = bindAddress)
-
-    server.(cb)()
-    server.run()
-
-    return server
-}

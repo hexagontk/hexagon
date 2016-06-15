@@ -98,14 +98,7 @@ fun sessionExample(context: String = "session") {
 }
 
 fun main(args: Array<String>) {
-    val secure = args.contains("secure")
-
-    server = JettyServer (
-        bindAddress = address ("localhost"),
-        bindPort = 8080,
-        keystore = if (secure) "src/test/resources/keystore.jks" else null,
-        keystorePassword = if (secure) "" else null
-    )
+    server = JettyServer (bindAddress = address ("localhost"), bindPort = 8080)
 
     filterExample ()
     helloWorld()

@@ -64,18 +64,6 @@ class CookiesIT : ItTest () {
         }
     }
 
-    private fun Client.get(url: String, sessionid: String) =
-        client.prepareGet(endpoint + url).addHeader("Cookie", sessionid).execute().get()
-
-    private fun Client.put(url: String, sessionid: String) =
-        client.preparePut(endpoint + url).addHeader("Cookie", sessionid).execute().get()
-
-    private fun Client.delete(url: String, sessionid: String) =
-        client.prepareDelete(endpoint + url).addHeader("Cookie", sessionid).execute().get()
-
-    private fun Client.post(url: String, sessionid: String) =
-        client.preparePost(endpoint + url).addHeader("Cookie", sessionid).execute().get()
-
     private fun Exchange.checkCookie(cookieName: String?) {
         val cookieValue = request.cookies[cookieName]?.value
         if (request["cookieValue"] != cookieValue)

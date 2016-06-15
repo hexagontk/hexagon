@@ -10,15 +10,10 @@ import java.lang.management.ManagementFactory.*
 
 abstract class Server (
     val bindAddress: InetAddress = InetAddress.getLocalHost(),
-    val bindPort: Int = 4321,
-    val keystore: String? = null,
-    val keystorePassword: String? = null,
-    val truststore: String? = null,
-    val truststorePassword: String? = null) : Router() {
+    val bindPort: Int = 4321) : Router() {
 
     companion object : CompanionLogger (Server::class)
 
-    open val localPort: Int get() = bindPort
 
     abstract fun started (): Boolean
 
@@ -38,15 +33,6 @@ abstract class Server (
                 {
                     if (started ())
                         shutdown ()
-                    /*
-                    try {
-                        if (started)
-                            stop ()
-                    }
-                    catch (e: Exception) {
-                        // It could be trying to stop an already closed server (TODO FIX)
-                    }
-                    */
                 },
                 "shutdown-${bindAddress.hostName}-$bindPort"
             )
