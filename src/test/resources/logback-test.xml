@@ -23,8 +23,12 @@
   </appender>
 
   <root>
-    <level value="off" />
+    <level value="info" />
     <appender-ref ref="console" />
     <appender-ref ref="file" />
   </root>
+
+  <logger name="co.there4.hexagon">
+    <level value="trace" />
+  </logger>
 </configuration>

@@ -23,12 +23,12 @@ open class CompanionLogger(clazz: KClass<out Any>){
     fun warn (message: String, arguments: Map<String, *> = mapOf<String, Any>()) =
         logger.warn(message, arguments)
 
-    fun error (message: String, arguments: Map<String, *> = mapOf<String, Any>()) =
+    fun err(message: String, arguments: Map<String, *> = mapOf<String, Any>()) =
         logger.error(message, arguments)
 
     fun warn (message: String, exception: Throwable) = logger.warn(message, exception)
 
-    fun error (message: String, exception: Throwable) = logger.error(message, exception)
+    fun err(message: String, exception: Throwable) = logger.error(message, exception)
 
     fun flare (message: String = "") = logger.trace("${FLARE_PREFIX} $message")
 }

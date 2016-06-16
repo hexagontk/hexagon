@@ -14,9 +14,9 @@ import org.testng.annotations.Test
         debug ("message")
         info ("message")
         warn ("message")
-        error ("message")
+        err ("message")
         warn ("message", RuntimeException ())
-        error ("message", RuntimeException ())
+        err ("message", RuntimeException ())
         flare ("message")
     }
 }

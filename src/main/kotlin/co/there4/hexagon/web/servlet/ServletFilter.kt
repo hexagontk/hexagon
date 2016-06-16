@@ -93,7 +93,7 @@ class ServletFilter (
             handled = true
         }
         catch (e: Exception) {
-            error ("Error processing request", e)
+            err ("Error processing request", e)
             router.handleException(e, exchange)
         }
         finally {

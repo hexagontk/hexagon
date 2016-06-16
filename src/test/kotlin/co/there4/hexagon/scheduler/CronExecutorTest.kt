@@ -9,7 +9,7 @@ import java.lang.Thread.sleep
         val times = 1
         var count = 0
 
-        cron.schedule("0/1 * * * * *") { count++ }
+        cron.schedule("0/1 * * * * ?") { count++ }
 
         sleep ((times * 1000) + 100L)
         cron.shutdown()
@@ -21,7 +21,7 @@ import java.lang.Thread.sleep
         val times = 2
         var count = 0
 
-        cron.schedule("0/1 * * * * *") {
+        cron.schedule("0/1 * * * * ?") {
             count++
             throw RuntimeException ("Error in cron job")
         }

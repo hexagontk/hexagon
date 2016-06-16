@@ -11,18 +11,18 @@ class LogExceptionHandler : DefaultExceptionHandler () {
     companion object : CompanionLogger (LogExceptionHandler::class)
 
     private fun logError(error: String, con: Connection, ex: Throwable) {
-        error("%s in connection to: %s".format(ex, error, con.address.canonicalHostName))
+        err("%s in connection to: %s".format(ex, error, con.address.canonicalHostName))
     }
 
     private fun logError(error: String, ch: Channel, ex: Throwable) {
-        error("%s in channel: %s".format(ex, error, ch.channelNumber))
+        err("%s in channel: %s".format(ex, error, ch.channelNumber))
     }
 
     private fun logError(error: String, con: Connection, ch: Channel, ex: Throwable) {
         val message = "%s in connection to: %s in channel: %s"
             .format(error, con.address.canonicalHostName, ch.channelNumber)
 
-        error(message, ex)
+        err(message, ex)
     }
 
     override fun handleUnexpectedConnectionDriverException(con: Connection, ex: Throwable) {
@@ -62,7 +62,7 @@ class LogExceptionHandler : DefaultExceptionHandler () {
         val message = "ConsumerException in channel: %s consumer: %s method: %s"
             .format(ch.channelNumber, consumerTag, methodName)
 
-        error(message, ex)
+        err(message, ex)
     }
 
     override fun handleConnectionRecoveryException(con: Connection, ex: Throwable) {

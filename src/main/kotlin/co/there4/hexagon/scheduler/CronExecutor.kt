@@ -33,7 +33,7 @@ class CronExecutor (threads: Int = getRuntime().availableProcessors()) {
         }
         catch (e: Exception) {
             // TODO Fire an event
-            error ("Error executing cron job", e)
+            err ("Error executing cron job", e)
         }
 
         val nextExecution = cronExecution.timeToNextExecution(DateTime.now ())

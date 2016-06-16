@@ -59,10 +59,10 @@ fun options (path: String = "/", block: Exchange.() -> Unit) = server.options (p
 /** @see Router.patch */
 fun patch (path: String = "/", block: Exchange.() -> Unit) = server.patch (path, block)
 
-/** @see Router.error */
+/** @see Router.err */
 fun error(exception: Class<out Exception>, block: Exchange.(e: Exception) -> Unit) =
     server.error (exception, block)
 
-/** @see Router.error */
+/** @see Router.err */
 fun error(exception: KClass<out Exception>, block: Exchange.(e: Exception) -> Unit) =
     server.error (exception, block)

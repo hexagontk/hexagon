@@ -89,6 +89,8 @@ publish.doLast {
 
 task release (dependsOn: [ 'publish', 'publishGhPages' ])
 
+task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
+
 task checkGitStatus () << {
     org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
 

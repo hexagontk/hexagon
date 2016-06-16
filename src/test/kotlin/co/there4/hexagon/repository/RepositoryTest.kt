@@ -74,7 +74,7 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
             try {
                 collection.insertManyObjects(objects)
             } catch (e: MongoBulkWriteException) {
-                error("Repository error", e)
+                err("Repository error", e)
             }
 
             assert(collection.count() == 10L)

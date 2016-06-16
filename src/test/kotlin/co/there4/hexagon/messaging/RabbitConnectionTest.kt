@@ -58,7 +58,7 @@ import kotlin.test.assertFailsWith
             client?.call (QUEUE_ERROR, ts)
         }
         catch (e: Exception) {
-            error("Consumer error", e)
+            err("Consumer error", e)
         }
 
         startConsumer()
