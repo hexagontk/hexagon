@@ -13,10 +13,11 @@ class BServletResponse(val req: HttpServletRequest, val resp: HttpServletRespons
         get() = resp.status
         set(value) { resp.status = value }
 
-    override var contentType: String
+    override var contentType: String?
         get() = resp.contentType
         set(value) { resp.contentType = value }
 
+    override fun getMimeType (file: String) = req.servletContext.getMimeType(file)
 
     override fun addHeader (name: String, value: String) {
         resp.addHeader(name, value)

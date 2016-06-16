@@ -1,6 +1,9 @@
 package co.there4.hexagon.web
 
 import co.there4.hexagon.template.PebbleRenderer.render
+import org.eclipse.jetty.http.MimeTypes
+import java.nio.charset.Charset
+import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -32,9 +35,10 @@ data class Exchange (
         locale: Locale = Locale.getDefault(),
         context: Map<String, *> = mapOf<String, Any> ()) {
 
-        // TODO Content type handling
-//        val contentType = get(MimeTypes::class.java).getContentType(template) ?: "text/html"
-//        response.contentTypeIfNotSet("$contentType; charset=${defaultCharset().name()}")
+        val contentType = response.getMimeType(template)
+
+        if (response.contentType == null)
+            response.contentType = "$contentType; charset=${defaultCharset().name()}"
         ok (render (template, locale, context + ("lang" to locale.language)))
     }
 

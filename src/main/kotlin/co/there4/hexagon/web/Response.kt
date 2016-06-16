@@ -11,8 +11,9 @@ import java.net.HttpCookie
 interface Response {
     var body: Any
     var status: Int
-    var contentType: String
+    var contentType: String?
 
+    fun getMimeType (file: String): String
     fun addHeader (name: String, value: String)
 
     fun addCookie (cookie: HttpCookie)

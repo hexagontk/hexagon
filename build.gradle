@@ -36,8 +36,10 @@ dependencies {
     compile "ch.qos.logback:logback-classic:$logbackVersion"
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
 
-    compile group: "org.eclipse.jetty", name: "jetty-webapp", version: jettyVersion
     compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
+    compile (group: "org.eclipse.jetty", name: "jetty-webapp", version: jettyVersion) {
+        exclude module: "slf4j-api"
+    }
 
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")

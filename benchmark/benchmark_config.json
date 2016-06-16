@@ -10,7 +10,7 @@
                 "update_url" : "/update?queries=",
                 "plaintext_url" : "/plaintext",
 
-                "port" : 5050,
+                "port" : 9090,
                 "setup_file" : "setup",
                 "approach" : "Realistic",
                 "classification" : "Micro",

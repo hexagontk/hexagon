@@ -22,7 +22,7 @@ internal data class World (val id: Int, val randomNumber: Int)
 
 private val BIND = getenv("OPENSHIFT_DIY_IP") ?: stringParam("bindAddress") ?: "localhost"
 private val BIND_ADDRESS = address(BIND)
-private val BIND_PORT = getenv("OPENSHIFT_DIY_PORT")?.toInt() ?: intParam("bindPort") ?: 5050
+private val BIND_PORT = getenv("OPENSHIFT_DIY_PORT")?.toInt() ?: intParam("bindPort") ?: 9090
 
 private val DB_ROWS = 10000
 private val CONTENT_TYPE_JSON = "application/json"
