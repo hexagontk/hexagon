@@ -27,7 +27,7 @@ before_script:
 
 script:
   - gradle/wrapper --info --stacktrace -x test publishToMavenLocal
-  - gradle/wrapper --info --stacktrace check
-  - gradle/wrapper --no-daemon --info --stacktrace javadoc jacocoTestReport site dokka
+  - gradle/wrapper --info --stacktrace build
+  - gradle/wrapper --no-daemon --info --stacktrace site
 
 after_success: bash <(curl -s https://codecov.io/bash)

@@ -6,7 +6,6 @@ import javax.servlet.ServletContextListener
 
 import java.util.*
 import javax.servlet.DispatcherType
-import javax.servlet.ServletContext
 
 /**
  * Not a standard backend as it is not started/stopped

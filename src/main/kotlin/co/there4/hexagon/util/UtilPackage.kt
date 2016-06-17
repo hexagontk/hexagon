@@ -5,6 +5,7 @@ import java.lang.ThreadLocal.withInitial
 import java.net.InetAddress.getLocalHost
 import java.time.LocalDateTime
 import java.util.*
+import java.lang.management.ManagementFactory.getRuntimeMXBean
 
 /*
  * Timing
@@ -124,4 +125,12 @@ fun Throwable.toText (prefix: String = ""): String =
             ""
         else
             "${EOL}Caused by: " + (this.cause as Throwable).toText (prefix)
+
+/*
+ * Logging
+ */
+
+internal val flarePrefix = getProperty ("CompanionLogger.flarePrefix", ">>>>>>>>")
+val jvmId = getRuntimeMXBean().name
+
 

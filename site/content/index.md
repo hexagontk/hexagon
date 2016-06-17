@@ -10,7 +10,7 @@ HEXAGON ${projectVersion}
 ### The atoms of your platform
 
 Hexagon is a micro services framework that doesn't follow the flock. It is written in [Kotlin] and
-uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
+uses [RabbitMQ] and [MongoDB]. It takes care of:
 
 * [rest](rest.html)
 * [messaging](messaging.html) (TODO Write documentation)
@@ -21,7 +21,7 @@ uses [Ratpack], [Jackson], [RabbitMQ] and [MongoDB]. It takes care of:
 * [templates](templates.html) (TODO Partial implementation)
 * [scheduling](scheduling.html)
 * [testing](testing.html) (TODO Write documentation)
-* [builds](builds.html) (TODO Write documentation)
+* [builds](builds.html)
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
@@ -33,11 +33,9 @@ The purpose of the project is to provide a micro services framework with the fol
 The name and logo are an hexagon because it is the usual way of representing a microservice in a
 diagram.
 
-DISCLAIMER: The project status right now is beta. Use it at your own risk
+**DISCLAIMER** The project status right now is beta. Use it at your own risk
 
 [Kotlin]: http://kotlinlang.org
-[Ratpack]: http://ratpack.io
-[Jackson]: http://wiki.fasterxml.com/JacksonHome
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com
 

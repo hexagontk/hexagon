@@ -1,6 +1,6 @@
 package co.there4.hexagon.repository
 
-import co.there4.hexagon.configuration.ConfigManager
+import co.there4.hexagon.configuration.SettingsManager
 import co.there4.hexagon.events.EventManager
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
@@ -9,7 +9,7 @@ import com.mongodb.client.MongoDatabase
 import org.bson.Document
 import kotlin.reflect.KClass
 
-val mongodbUrl = ConfigManager["mongodbUrl"] as String? ?: "mongodb://localhost/test"
+val mongodbUrl = SettingsManager["mongodbUrl"] as String? ?: "mongodb://localhost/test"
 
 fun mongoDatabase (uri: String = mongodbUrl): MongoDatabase =
     MongoClient(MongoClientURI(uri)).getDatabase(MongoClientURI(uri).database) ?:

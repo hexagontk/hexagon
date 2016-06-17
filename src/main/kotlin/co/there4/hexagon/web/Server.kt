@@ -1,6 +1,6 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.configuration.ConfigManager
+import co.there4.hexagon.configuration.SettingsManager
 import co.there4.hexagon.util.*
 import java.net.InetAddress
 import java.lang.System.*
@@ -13,7 +13,7 @@ abstract class Server (
 
     companion object : CompanionLogger (Server::class)
 
-    val serviceName = ConfigManager["serviceName"] ?: "Hexagon"
+    val serviceName = SettingsManager["serviceName"] ?: "Hexagon"
 
     abstract fun started (): Boolean
 
@@ -58,7 +58,7 @@ abstract class Server (
             getProperty("file.encoding")
         )
 
-        val environment = (ConfigManager.environment ?: "N/A")
+        val environment = (SettingsManager.environment ?: "N/A")
         val applicationLocale = locale
         val applicationTimezone = getProperty("user.timezone")
         val applicationCpus = runtime.availableProcessors()

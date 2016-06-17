@@ -24,13 +24,9 @@ class BServletSession(val req: HttpServletRequest) : Session {
         get() = session (req)?.maxInactiveInterval ?: 0
         set(value) { }
 
-    override fun invalidate() {
-        throw UnsupportedOperationException()
-    }
+    override fun invalidate() = req.session.invalidate()
 
-    override fun isNew(): Boolean {
-        throw UnsupportedOperationException()
-    }
+    override fun isNew() = req.session.isNew
 
     private fun session (req: HttpServletRequest): HttpSession? = req.getSession(false)
 }

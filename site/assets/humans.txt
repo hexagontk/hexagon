@@ -3,7 +3,7 @@
 
 # TEAM
 
-    Juanjo Aguililla -- @jaguililla
+    Juanjo Aguililla - @jaguililla - Developer
 
 # THANKS
 
@@ -22,4 +22,4 @@
 
     HTML5, CSS3
     jQuery, Modernizr, Bootstrap
-    Kotlin, Ratpack, Jackson, OkHttp, MongoDB, RabbitMQ
+    Kotlin, MongoDB, RabbitMQ

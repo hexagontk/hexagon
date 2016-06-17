@@ -33,7 +33,7 @@ uses [RabbitMQ] and [MongoDB]. It takes care of:
 * [templates](http://there4.co/hexagon/templates.html) (TODO Partial implementation)
 * [scheduling](http://there4.co/hexagon/scheduling.html)
 * [testing](http://there4.co/hexagon/testing.html) (TODO Write documentation)
-* [builds](http://there4.co/hexagon/builds.html) (TODO Write documentation)
+* [builds](http://there4.co/hexagon/builds.html)
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
@@ -48,8 +48,6 @@ diagram.
 DISCLAIMER: The project status right now is beta. Use it at your own risk
 
 [Kotlin]: http://kotlinlang.org
-[Ratpack]: http://ratpack.io
-[Jackson]: http://wiki.fasterxml.com/JacksonHome
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com
 
@@ -78,14 +76,11 @@ Maven:
 Write the code:
 
 ```java
-import co.there4.hexagon.rest.*
+import co.there4.hexagon.web.*
 
 fun main(args: Array<String>) {
-    applicationStart {
-        handlers {
-            get("hello/:name") { ok("Hello ${pathTokens["name"]}!") }
-        }
-    }
+    get("hello/:name") { ok("Hello ${pathTokens["name"]}!") }
+    run()
 }
 ```
 

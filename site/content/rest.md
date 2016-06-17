@@ -28,14 +28,8 @@ REST
         )
 
         fun crud_handles_entities_nicely () {
-            val server = applicationStart {
-                serverConfig {
-                    port(0)
-                }
-                handlers {
-                    crud(parametersRepository)
-                }
-            }
+            crud(parametersRepository)
+            run()
 
             val client = HttpClient (URL ("http://localhost:${server.bindPort}"))
 

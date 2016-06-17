@@ -3,7 +3,7 @@ package co.there4.hexagon.web.servlet
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.FilterOrder.*
-import co.there4.hexagon.web.Filter as BlacksheepFilter
+import co.there4.hexagon.web.Filter as HexagonFilter
 import javax.servlet.*
 import javax.servlet.Filter
 import javax.servlet.http.HttpServletRequest
@@ -12,42 +12,54 @@ import javax.servlet.http.HttpServletResponse
 /**
  * @author jam
  */
-class ServletFilter (
-    private val router: Router) : Filter {
-
+class ServletFilter (private val router: Router) : Filter {
     companion object : CompanionLogger(ServletFilter::class)
 
     private val routesByMethod: Map<HttpMethod, List<Pair<Route, Exchange.() -> Unit>>> =
         router.routes.entries.map { it.key to it.value }.groupBy { it.first.method }
 
+    private fun filter(
+        request: BServletRequest,
+        exchange: Exchange,
+        filterOrder: FilterOrder,
+        filters: Map<HexagonFilter, Exchange.() -> Unit>): Boolean {
+
+        var handled = false
+
+        filters
+            .filter { it.key.order == filterOrder }.entries.map {
+            request.actionPath = it.key.path
+            exchange.(it.value)()
+            handled = true
+        }
+
+        return handled
+    }
+
     override fun init(filterConfig: FilterConfig) { /* Not implemented */ }
     override fun destroy() { /* Not implemented */ }
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-        val req = request as HttpServletRequest
-        val res = response as HttpServletResponse
-        val fs = router.filters.filter { it.key.path.matches(req.servletPath) }
-        val methodRoutes = routesByMethod[HttpMethod.valueOf (req.method)]?.filter {
-            it.first.path.matches(req.servletPath)
+        if (!(request is HttpServletRequest) || !(response is HttpServletResponse))
+            throw IllegalStateException("Invalid request/response parmeters")
+
+        val filters = router.filters.filter { it.key.path.matches(request.servletPath) }
+        val methodRoutes = routesByMethod[HttpMethod.valueOf (request.method)]?.filter {
+            it.first.path.matches(request.servletPath)
         }
 
-        val bRequest = BServletRequest (req)
-        val bResponse = BServletResponse (req, res)
-        val bSession = BServletSession (req)
-
-        val exchange = Exchange ( bRequest, bResponse, bSession )
+        val bRequest = BServletRequest (request)
+        val bResponse = BServletResponse (request, response)
+        val bSession = BServletSession (request)
+        val exchange = Exchange(bRequest, bResponse, bSession)
         var handled = false
 
         try {
-            fs.filter { it.key.order == BEFORE }.forEach {
-                bRequest.actionPath = it.key.path
-                exchange.(it.value)()
-                handled = true
-            }
+            handled = filter(bRequest, exchange, BEFORE, filters)
 
-            val stream = javaClass.getResourceAsStream("/public" + req.servletPath)
+            val stream = javaClass.getResourceAsStream("/public" + request.servletPath)
             if (bRequest.method == HttpMethod.GET &&
-                !req.servletPath.endsWith("/") && // Reading a folder as resource gets all files
+                !request.servletPath.endsWith("/") && // Reading a folder as resource gets all files
                 stream != null) {
 
                 response.outputStream.write(stream.readBytes())
@@ -55,18 +67,10 @@ class ServletFilter (
                 handled = true
             }
             else {
-
                 if (methodRoutes == null) {
                     bResponse.status = 405
-                    bResponse.body = "Invalid method '${req.method}'"
+                    bResponse.body = "Invalid method '${request.method}'"
                     handled = true
-                }
-                else if (methodRoutes.isEmpty()) {
-                    if (stream != null) {
-                        response.outputStream.write(stream.readBytes())
-                        response.outputStream.flush()
-                        handled = true
-                    }
                 }
                 else {
                     for (r in methodRoutes) {
@@ -83,11 +87,7 @@ class ServletFilter (
                 }
             }
 
-            fs.filter { it.key.order == AFTER }.forEach {
-                bRequest.actionPath = it.key.path
-                exchange.(it.value)()
-                handled = true
-            }
+            handled = filter(bRequest, exchange, AFTER, filters) || handled // Order matters!!!
         }
         catch (e: EndException) {
             handled = true
@@ -95,20 +95,12 @@ class ServletFilter (
         catch (e: Exception) {
             err ("Error processing request", e)
             router.handleException(e, exchange)
+            handled = true
         }
         finally {
-            if (handled)
-                response.status = exchange.response.status
-            else
-                response.status = 404
-
-            try {
-                response.writer?.write(exchange.response.body.toString())
-                response.writer?.flush()
-            }
-            catch (e: Exception) {
-                // TODO Handle
-            }
+            response.status = if (handled) exchange.response.status else 404
+            response.outputStream.write(exchange.response.body.toString().toByteArray())
+            response.outputStream.flush()
         }
     }
 }

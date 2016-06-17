@@ -4,6 +4,7 @@ import java.util.*
 import co.there4.hexagon.web.HttpMethod.*
 import co.there4.hexagon.web.FilterOrder.*
 import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.toText
 import kotlin.reflect.KClass
 
 /**
@@ -31,8 +32,14 @@ open class Router(
     fun options(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, OPTIONS, block)
     fun patch(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, PATCH, block)
 
-    fun handleException (exception: Exception, exchange: Exchange) =
-        exchange.(errors[exception.javaClass] ?: { throw exception })(exception)
+    fun handleException (exception: Exception, exchange: Exchange) {
+        val handler = errors[exception.javaClass]
+
+        if (handler != null)
+            exchange.(handler)(exception)
+        else
+            exchange.error(500, exception.toText())
+    }
 
     fun assets (path: String) = assets.add (path)
 

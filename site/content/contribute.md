@@ -13,10 +13,7 @@ Steps:
 * Commit and push all changes
 * Change version in gradle.properties
 * Build and deploy (binary and documentation)
-* Commit and tag the release
-* Update version in gradle.properties
-* Commit and push
-* Confirm publishing of artifacts within Bintray (this is a manual step)
+* Push changes
 
 Used aliases:
 
@@ -25,12 +22,9 @@ Used aliases:
 
 Command:
 
-    git flow release start -F '$version' && \
-    sed -i "s/^version=.*$/version=$version/" gradle.properties && \
-    gwnd release && \
-    git flow release finish -Fp '$version'
+    gwnd release && git push
 
-Tools used: git-extras + git-flow + hub + huboard + bintray
+Tools used: git-extras + huboard + bintray
 
 
 Contribute
@@ -42,7 +36,7 @@ Contribute
 
 * For a Pull Request to be accepted:
   * It has to pass all existing tests.
-  * The coverage of the new code should be at least 70%
+  * The coverage of the new code should be at least 90%
   * All public and protected methods and field must be documented using Dokka
 
 * Commit format: the preferred commit format would have:

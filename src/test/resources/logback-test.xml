@@ -7,7 +7,7 @@
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <Pattern>
-        %d{HH:mm:ss.SSS} %highlight(%-5p) %magenta([%-10thread]) %-30logger{0} | %m%n
+        %d{HH:mm:ss.SSS} %highlight(%-5p) %magenta([%-15.15thread]) %-30logger{30} %cyan(%X{jvmId}) | %m%n
       </Pattern>
     </encoder>
   </appender>
@@ -18,7 +18,7 @@
       <MaxHistory>5</MaxHistory>
     </rollingPolicy>
     <encoder>
-      <Pattern>%d{HH:mm:ss.SSS} %-5p [%-15.15thread] %-30logger{30} | %m%n</Pattern>
+      <Pattern>%d{HH:mm:ss.SSS} %-5p [%-15.15thread] %-30logger{30} %X{jvmId} | %m%n</Pattern>
     </encoder>
   </appender>
 
