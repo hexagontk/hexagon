@@ -4,8 +4,7 @@ import co.there4.hexagon.configuration.SettingsManager.setting
 import org.testng.annotations.Test
 
 /**
- * Must be the first to be run. If not, settings will be already loaded and will fail. Check
- * `gradle.build` to see the related files creation
+ * Check `gradle.build` to see the related files creation.
  */
 @Test class SettingsManagerTest {
     fun get_configuration_properties() {

@@ -22,7 +22,7 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
     private val mapper = ObjectMapper(YAMLFactory())
 
     val environment: Environment? = if (environmentFile.exists() && environmentFile.isFile) {
-        val environmentContent = environmentFile.readText()
+        val environmentContent = environmentFile.readText().trim()
         info("Loading '$environmentContent' environment from '${environmentFile.absolutePath}'")
         Environment.valueOf(environmentContent.toUpperCase())
     }
@@ -53,7 +53,14 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
     @Suppress("UNCHECKED_CAST")
     private fun loadProps (resName: String): Map<String, *> =
         systemClassLoader.getResourceAsStream(resName).let {
-            if (it == null) mapOf<String, Any>()
-            else mapper.readValue(it, Map::class.java) as Map<String, *>
+            if (it == null) {
+                warn("Settings  '$resName' but not found")
+                mapOf<String, Any>()
+            }
+            else {
+                val props = mapper.readValue(it, Map::class.java) as Map<String, *>
+                info("Settings loaded from '$resName'")
+                props
+            }
         }
 }

@@ -77,7 +77,7 @@ clean {
 test.doFirst {
     File environmentFile = new File("${System.getProperty("user.home")}/.environment")
     if (!environmentFile.exists())
-        environmentFile.write("DEVELOPMENT")
+        environmentFile.write("DEVELOPMENT\n")
 }
 
 site.dependsOn 'check', 'dokka', 'jacocoTestReport'
