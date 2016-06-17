@@ -3,14 +3,13 @@ package co.there4.hexagon.configuration
 import co.there4.hexagon.util.CompanionLogger
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import java.io.File
 import java.lang.ClassLoader.getSystemClassLoader
-import java.lang.System.getenv
+import java.lang.System.getProperty
 
 enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
 
 /**
- * TODO Change environment config for a file (~/.environment) instead an environment variable
- *
  * Reads:
  * - service.yaml (resource)
  * - <environment>.yaml (resource)
@@ -18,25 +17,35 @@ enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
  * - <environment>.yaml (file)
  */
 object SettingsManager : CompanionLogger(SettingsManager::class) {
+    private val environmentFile = File("${getProperty("user.home")}/.environment")
     private val systemClassLoader = getSystemClassLoader()
     private val mapper = ObjectMapper(YAMLFactory())
-    private val parameters: Map<String, *> = loadParameters()
 
-    val environment: Environment? = getenv("ENVIRONMENT").let {
-        if (it == null) {
-            warn ("Environment not set")
-            null
-        }
-        else {
-            Environment.valueOf(it)
-        }
+    val environment: Environment? = if (environmentFile.exists() && environmentFile.isFile) {
+        val environmentContent = environmentFile.readText()
+        info("Loading '$environmentContent' environment from '${environmentFile.absolutePath}'")
+        Environment.valueOf(environmentContent.toUpperCase())
     }
+    else {
+        warn ("Environment not set")
+        null
+    }
+
+    val parameters: Map<String, *> = loadParameters()
+
+    /*
+     * TODO Handle nested keys!
+     */
+    operator fun get (vararg key: String): Any? = parameters[key.first()]
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> setting(vararg key: String): T? = get(*key) as T?
 
     private fun loadParameters (): Map<String, *> {
         var params = loadProps("service.yaml")
 
         if (environment != null)
-            params += loadProps("${environment}.properties")
+            params += loadProps("${environment.toString().toLowerCase()}.yaml")
 
         return params
     }
@@ -47,12 +56,4 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
             if (it == null) mapOf<String, Any>()
             else mapper.readValue(it, Map::class.java) as Map<String, *>
         }
-
-    /*
-     * TODO Handle nested keys!
-     */
-    operator fun get (vararg key: String): Any? = parameters[key.first()]
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T> setting(vararg key: String): T? = get(*key) as T?
 }
