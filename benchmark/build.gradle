@@ -22,10 +22,3 @@ applicationDefaultJvmArgs = [
     '-XX:+UseParallelGC',
     '-XX:+AggressiveOpts'
 ]
-
-/*
- * TODO Remove for TFB
- */
-dependencies {
-    compile rootProject
-}

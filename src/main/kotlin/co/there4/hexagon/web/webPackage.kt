@@ -1,8 +1,7 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.configuration.SettingsManager
+import co.there4.hexagon.configuration.SettingsManager.setting
 import co.there4.hexagon.web.jetty.JettyServer
-import java.net.InetAddress
 import kotlin.reflect.KClass
 
 import java.net.InetAddress.getByName as address
@@ -15,9 +14,9 @@ import java.net.InetAddress.getByName as address
  */
 
 /** Port from config. */
-val bindPort = (SettingsManager["bindPort"] as String?)?.toInt() ?: 5050
+val bindPort = setting<Int>("bindPort") ?: 5050
 /** Address from config. */
-val bindAddress = InetAddress.getByName(SettingsManager["bindAddress"] as String? ?: "127.0.0.1")
+val bindAddress = address(setting<String>("bindAddress") ?: "127.0.0.1")
 
 /** Default server. Used by package methods. */
 var server: Server = JettyServer (bindPort = bindPort, bindAddress = bindAddress)
