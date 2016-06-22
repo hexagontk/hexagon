@@ -1,0 +1,30 @@
+package co.there4.hexagon.serialization
+
+import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
+
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
+import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import kotlin.reflect.KClass
+
+class JacksonYamlFormat : SerializationFormat {
+    override val contentType = "application/yaml"
+
+    private val writer = createObjectWriter ()
+    private val mapper = ObjectMapper(YAMLFactory())
+
+    fun createObjectWriter (): ObjectWriter {
+        val printer = DefaultPrettyPrinter ().withArrayIndenter (SYSTEM_LINEFEED_INSTANCE)
+        return mapper.writer (printer)
+    }
+
+    override fun serialize(obj: Any) = writer.writeValueAsString (obj)
+
+    override fun <T : Any> parse(text: String, type: KClass<T>) =
+        mapper.readValue (text, type.java)
+
+    override fun <T : Any> parseList(text: String, type: KClass<T>): List<T> {
+        val listType = mapper.getTypeFactory().constructCollectionType(List::class.java, type.java)
+        return mapper.readValue (text, listType)
+    }
+}

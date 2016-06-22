@@ -20,7 +20,8 @@ object JacksonSerializer {
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     private val formatList = listOf (
-        JacksonJsonFormat ()
+        JacksonJsonFormat ()//,
+//        JacksonYamlFormat ()
     )
 
     private val formats = mapOf (
