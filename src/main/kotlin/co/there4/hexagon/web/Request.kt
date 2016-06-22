@@ -36,8 +36,9 @@ interface Request {
     val cookies: Map<String, HttpCookie>      // hash of browser cookies
     val parts: Map<String, Part>              // hash of multipart parts
 
+    operator fun get(name: String) = parameters[name]?.first()
+
     fun accept () = headers["Accept"] ?: listOf ()
 
-    operator fun get(name: String) =
-        parameters[name]?.first() ?: throw IllegalArgumentException ("'$name' parameter not found")
+    fun parameter(name: String) = get(name) ?: error ("'$name' parameter not found")
 }

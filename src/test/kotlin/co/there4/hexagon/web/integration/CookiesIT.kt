@@ -27,7 +27,7 @@ class CookiesIT : ItTest () {
         }
 
         server.post("/removeCookie") {
-            val cookieName = request ["cookieName"]
+            val cookieName = request.parameter("cookieName")
             checkCookie(cookieName)
             response.removeCookie(cookieName)
         }

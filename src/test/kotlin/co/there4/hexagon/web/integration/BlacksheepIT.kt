@@ -22,12 +22,11 @@ import java.net.URL
         trace ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
         patch ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
         head ("/books/{id}/{title}") {
-            response.addHeader("id", request["id"])
-            response.addHeader("title", request["title"])
+            response.addHeader("id", request.parameter("id"))
+            response.addHeader("title", request.parameter("title"))
         }
 
         run()
-        Thread.sleep(1000)
     }
 
     @AfterClass fun stopServers () {

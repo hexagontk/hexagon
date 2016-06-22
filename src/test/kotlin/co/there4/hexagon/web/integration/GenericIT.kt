@@ -36,6 +36,7 @@ class GenericIT : ItTest () {
             response.addHeader("error", it.message ?: it.javaClass.name)
         }
 
+        server.get("/*") { pass() }
         server.get("/exception") { throw UnsupportedOperationException("error message") }
         server.get("/hi") { ok ("Hello World!") }
         server.get("/param/{param}") { ok ("echo: ${request ["param"]}") }

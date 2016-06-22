@@ -70,7 +70,7 @@ class RestCrud <T : Any, K : Any> (
     private fun <K : Any, T : Any> parseKey(
         repository: MongoIdRepository<T, K>, exchange: Exchange): K {
 
-        val id: String = exchange.request["id"]
+        val id: String = exchange.request.parameter("id")
         return when (repository.keyType) {
             String::class -> """"$id""""
             else -> id

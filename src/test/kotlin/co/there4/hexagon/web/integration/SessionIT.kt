@@ -6,15 +6,15 @@ import co.there4.hexagon.web.Server
 class SessionIT : ItTest () {
     override fun initialize(server: Server) {
         server.put("/session/{key}/{value}") {
-            session [request ["key"]] = request ["value"]
+            session [request.parameter("key")] = request.parameter("value")
         }
 
         server.get("/session/{key}") {
-            ok (session [request ["key"]].toString())
+            ok (session [request.parameter("key")].toString())
         }
 
         server.delete("/session/{key}") {
-            session.remove(request ["key"])
+            session.remove(request.parameter("key"))
         }
 
         server.get("/session") {

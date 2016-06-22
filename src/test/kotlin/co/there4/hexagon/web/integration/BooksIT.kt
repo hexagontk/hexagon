@@ -22,12 +22,12 @@ class BooksIT : ItTest () {
 
     override fun initialize(server: Server) {
         server.post ("/books") {
-            books [id] = Book (request ["author"], request ["title"])
+            books [id] = Book (request.parameter("author"), request.parameter("title"))
             ok (201, (id++).toString ())
         }
 
         server.get ("/books/{id}") {
-            val bookId = request ["id"].toInt()
+            val bookId = request.parameter("id").toInt()
             val book = books [bookId]
             if (book != null)
                 ok ("Title: ${book.title}, Author: ${book.author}")
@@ -36,7 +36,7 @@ class BooksIT : ItTest () {
         }
 
         server.put ("/books/{id}") {
-            val bookId = request ["id"].toInt()
+            val bookId = request.parameter("id").toInt()
             val book = books[bookId]
             if (book != null) {
                 books.put(
@@ -55,7 +55,7 @@ class BooksIT : ItTest () {
         }
 
         server.delete ("/books/{id}") {
-            val bookId = request ["id"].toInt()
+            val bookId = request.parameter("id").toInt()
             val book = books.remove (bookId)
             if (book != null)
                 ok ("Book with id '$bookId' deleted")
