@@ -1,8 +1,6 @@
 package co.there4.hexagon.web
 
 import co.there4.hexagon.template.PebbleRenderer.render
-import org.eclipse.jetty.http.MimeTypes
-import java.nio.charset.Charset
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -29,6 +27,8 @@ data class Exchange (
         send (code, content)
         throw EndException ()
     }
+
+    fun pass() { throw PassException() }
 
     fun template (
         template: String,
