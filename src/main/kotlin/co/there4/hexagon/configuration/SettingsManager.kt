@@ -54,7 +54,7 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
     private fun loadProps (resName: String): Map<String, *> =
         systemClassLoader.getResourceAsStream(resName).let {
             if (it == null) {
-                warn("Settings  '$resName' but not found")
+                info("No environment settings found '$resName'")
                 mapOf<String, Any>()
             }
             else {
