@@ -1,13 +1,9 @@
 package co.there4.hexagon.web.integration
 
-import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.Exchange
 import co.there4.hexagon.web.Server
 import java.net.HttpCookie
 
-/**
- * TODO This test smells... it should fail
- */
 @Suppress("unused") // Test methods are flagged as unused
 class CookiesIT : ItTest () {
     override fun initialize(server: Server) {
