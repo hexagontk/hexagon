@@ -7,8 +7,8 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.net.URL
 
-internal const val THREADS = 1
-internal const val TIMES = 1
+internal const val THREADS = 4
+internal const val TIMES = 16
 
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 class BenchmarkTest {
