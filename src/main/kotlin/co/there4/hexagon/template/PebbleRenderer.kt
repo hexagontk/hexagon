@@ -1,13 +1,13 @@
 package co.there4.hexagon.template
 
+import co.there4.hexagon.serialization.parse
 import com.mitchellbosecke.pebble.PebbleEngine
-import java.lang.ClassLoader.getSystemResourceAsStream
+import java.lang.ClassLoader.getSystemResourceAsStream as resourceAsStream
 import java.io.StringWriter
 import java.util.*
 
 /**
  * TODO Support different engines by subdir. Ie:
- * TODO Extract templates to different package (useful outside REST module)
  * TODO Add code to test templates (check unresolved variables in bundles, multilanguage, etc.)
  *
  * templates/pebble/file
@@ -17,29 +17,23 @@ import java.util.*
 object PebbleRenderer {
     val basePath = "templates"
     val engine = PebbleEngine.Builder().build()
-    val global = loadProps ("$basePath/global.properties")
+    val global = loadProps ("global")
 
-    private fun loadProps (path: String): Map<String, *> {
-        val p = Properties()
-        val resourceAsStream = getSystemResourceAsStream(path)
-        if (resourceAsStream != null)
-            p.load (resourceAsStream)
-        return p.mapKeys { it.key.toString() }
+    private fun loadProps (path: String) = resourceAsStream("$basePath/$path.yaml").let {
+        @Suppress("UNCHECKED_CAST")
+        if (it != null) it.parse (Map::class, "application/yaml") as Map<String, Any>
+        else mapOf<String, Any>()
     }
 
     fun render (template: String, locale: Locale, context: Map<String, *>): String {
-        fun loadBundle (path: String): Map<String, *> {
-            try {
-                val bundle = ResourceBundle.getBundle("${basePath}.$path", locale)
-                return bundle.keys.toList().map { it to bundle.getObject(it) }.toMap ()
-            }
-            catch (e: Exception) {
-                return mapOf<String, Any> ()
-            }
+        @Suppress("UNCHECKED_CAST")
+        fun loadBundle (path: String): Map<String, *> = loadProps(path).let {
+            (it[locale.language] ?: if (it.size > 0) it.entries.first().value else it)
+                as Map<String, *>
         }
 
-        val compiledTemplate = engine.getTemplate("${basePath}/$template")
-        val bundlePath = template.substring(0, template.lastIndexOf('.')).replace('/', '.')
+        val compiledTemplate = engine.getTemplate("$basePath/$template")
+        val bundlePath = template.substring(0, template.lastIndexOf('.'))
 
         val texts = loadBundle (bundlePath)
         val common = loadBundle ("common")
