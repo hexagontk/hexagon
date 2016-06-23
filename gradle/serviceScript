@@ -24,7 +24,7 @@ case $1 in
     if [ -f $SERVICE_PID ]; then
       log "stopping..."
       PID=$(cat $SERVICE_PID)
-      kill $PID
+      pkill -P $PID
       log "stopped"
       rm $SERVICE_PID
     else

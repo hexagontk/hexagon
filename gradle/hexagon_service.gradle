@@ -7,9 +7,9 @@ startScripts {
     unixStartScriptGenerator.template = resources.text.fromString (template)
 }
 
-installDist.destinationDir = file ("$rootProject.buildDir/${project.name}_$version")
+installDist.destinationDir = file ("$rootProject.buildDir/$project.name")
 installDist.doLast {
-    File script = file("${it.destinationDir}/service")
+    File script = file("$it.destinationDir/service")
     String template = new URL ("$gradleScripts/serviceScript").text
     String scriptContent = template
         .replace ("#{projectName}", project.name)
@@ -21,7 +21,7 @@ installDist.doLast {
 task deployIntegration (dependsOn: 'installDist') << {
     ssh.run {
         integrationHosts.forEach {
-            String runtimeDir = "$deployDir/${project.name}_$version"
+            String runtimeDir = "$deployDir/$project.name"
             session (remotes [it]) {
                 put from: installDist.destinationDir, into: deployDir
                 execute ("chmod +x $runtimeDir/service $runtimeDir/bin/*")
@@ -32,5 +32,5 @@ task deployIntegration (dependsOn: 'installDist') << {
 }
 
 task runScript(dependsOn: 'installDist', type:Exec) {
-    commandLine "${rootProject.buildDir}/${project.name}_$version/service", "restart"
+    commandLine "$rootProject.buildDir/$project.name/service", "restart"
 }

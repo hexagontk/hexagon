@@ -80,7 +80,7 @@ test.doFirst {
         environmentFile.write("DEVELOPMENT\n")
 }
 
-site.dependsOn 'check', 'dokka', 'jacocoTestReport'
+site.dependsOn 'build', 'dokka', 'jacocoTestReport'
 publish.dependsOn 'checkGitStatus', 'site' // TODO Publish site
 
 publish.doLast {

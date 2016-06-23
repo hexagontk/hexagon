@@ -12,6 +12,7 @@ build/
 .idea/*
 
 # Runtime
+**/*.class
 *.log
 log/
 
