@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.io.InputStream
 import java.nio.ByteBuffer
 import java.util.*
 import kotlin.reflect.KClass
@@ -20,8 +21,8 @@ object JacksonSerializer {
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     private val formatList = listOf (
-        JacksonJsonFormat ()//,
-//        JacksonYamlFormat ()
+        JacksonJsonFormat (),
+        JacksonYamlFormat ()
     )
 
     private val formats = mapOf (
@@ -30,7 +31,7 @@ object JacksonSerializer {
             .toTypedArray()
     )
 
-    private val defaultFormat = formatList.first().contentType
+    val contentTypes = formatList.map { it.contentType }
 
     private fun createObjectMapper (): ObjectMapper {
         val byteBufferSerializer: JsonSerializer<ByteBuffer> =
@@ -81,4 +82,10 @@ object JacksonSerializer {
 
     fun <T: Any> parseList(text: String, type: KClass<T>, contentType: String = defaultFormat) =
         getSerializationFormat (contentType).parseList (text, type)
+
+    fun <T: Any> parse(input: InputStream, type: KClass<T>, contentType: String = defaultFormat) =
+        getSerializationFormat (contentType).parse (input, type)
+
+    fun <T: Any> parseList(input: InputStream, type: KClass<T>, contentType: String = defaultFormat) =
+        getSerializationFormat (contentType).parseList (input, type)
 }
