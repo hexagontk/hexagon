@@ -10,6 +10,7 @@ import kotlin.reflect.KClass
 /**
  * TODO Compose routers with a map of context to router (children)
  * TODO val children: MutableMap<String, Router> = LinkedHashMap()
+ * TODO Add warning in Hexagon when paths DO NOT start with '/' or contains ':' (bad formats)
  */
 open class Router(
     val filters: MutableMap<Filter, Exchange.() -> Unit> = LinkedHashMap (),
@@ -69,5 +70,12 @@ open class Router(
         info ("$method $path Route ADDED")
 
         return route
+    }
+
+    fun reset() {
+        filters.clear()
+        routes.clear()
+        assets.clear()
+        errors.clear()
     }
 }

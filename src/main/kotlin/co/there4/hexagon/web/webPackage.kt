@@ -65,3 +65,6 @@ fun error(exception: Class<out Exception>, block: Exchange.(e: Exception) -> Uni
 /** @see Router.err */
 fun error(exception: KClass<out Exception>, block: Exchange.(e: Exception) -> Unit) =
     server.error (exception, block)
+
+/** @see Router.reset */
+fun reset() = server.reset()
