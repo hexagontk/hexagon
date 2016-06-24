@@ -3,4 +3,4 @@
 fw_depends java
 
 ./gradlew
-build/install/hexagon/service start
+nohup build/install/hexagon/bin/hexagon &

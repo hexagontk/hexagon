@@ -2,6 +2,10 @@
 apply from: "$gradleScripts/hexagon_library.gradle"
 apply plugin: 'application'
 
+ext.deployDir = findProperty ('deployDir') ?: '/opt'
+ext.serviceUser = findProperty ('serviceUser') ?: 'root'
+ext.serviceGroup = findProperty ('serviceGroup') ?: 'root'
+
 startScripts {
     String template = new URL ("$gradleScripts/startScript").text
     unixStartScriptGenerator.template = resources.text.fromString (template)
@@ -9,11 +13,15 @@ startScripts {
 
 installDist.destinationDir = file ("$rootProject.buildDir/$project.name")
 installDist.doLast {
-    File script = file("$it.destinationDir/service")
+    File script = file("$it.destinationDir/bin/${project.name}.service")
     String template = new URL ("$gradleScripts/serviceScript").text
     String scriptContent = template
-        .replace ("#{projectName}", project.name)
-        .replace ("#{projectVersion}", project.version)
+        .replace ("\${projectName}", project.name)
+        .replace ("\${projectVersion}", project.version)
+        .replace ("\${projectDescription}", project.description)
+        .replace ("\${deployDir}", deployDir)
+        .replace ("\${serviceUser}", serviceUser)
+        .replace ("\${serviceGroup}", serviceGroup)
     script << scriptContent
     script.executable = true
 }
