@@ -50,7 +50,7 @@ private val fortuneRepository =
 
 private fun rnd () = ThreadLocalRandom.current ().nextInt (DB_ROWS) + 1
 
-private fun Exchange.hasQueryCount() = request.parameters [QUERIES_PARAM] == null
+private fun Exchange.hasQueryCount() = request[QUERIES_PARAM] == null
 
 private fun Exchange.getDb () {
     val worlds = (1..getQueries()).map { worldRepository.find(rnd ()) }
@@ -78,22 +78,18 @@ private fun Exchange.getUpdates () {
     ok (if (hasQueryCount()) worlds[0].serialize() else worlds.serialize())
 }
 
-private fun Exchange.getQueries (): Int {
+private fun Exchange.getQueries () =
     try {
-        val parameter = request.parameters[QUERIES_PARAM]?.first() ?: return 1
-
-        val queries = parameter.toInt()
-        if (queries < 1)
-            return 1
-        if (queries > 500)
-            return 500
-
-        return queries
+        val queries = request[QUERIES_PARAM]?.toInt() ?: 1
+        when {
+            queries < 1 -> 1
+            queries > 500 -> 500
+            else -> queries
+        }
     }
     catch (ex: NumberFormatException) {
-        return 1
+        1
     }
-}
 
 private fun Exchange.getPlaintext () {
     response.contentType = "text/plain"
