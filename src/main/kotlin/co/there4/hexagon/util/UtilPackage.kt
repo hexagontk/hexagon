@@ -132,5 +132,3 @@ fun Throwable.toText (prefix: String = ""): String =
 
 internal val flarePrefix = getProperty ("CompanionLogger.flarePrefix", ">>>>>>>>")
 val jvmId = getRuntimeMXBean().name
-
-

@@ -16,13 +16,13 @@ abstract class IdRepositoryTest <T : Any, K : Any> (
 
     fun performing_crud_operations_with_lists_of_objects_behaves_as_expected () {
         val objects = createObjects ()
-        @Suppress("CAST_NEVER_SUCCEEDS") // It seems the only way to convert to generic array
+        @Suppress("UNCHECKED_CAST") // It seems the only way to convert to generic array
         val objectsArray = createObjects ().toTypedArray<Any>() as Array<T>
         val changedObjects = objects.map { this.changeObject(it) }
-        @Suppress("CAST_NEVER_SUCCEEDS") // It seems the only way to convert to generic array
+        @Suppress("UNCHECKED_CAST") // It seems the only way to convert to generic array
         val changedObjectsArray = changedObjects.toTypedArray<Any>() as Array<T>
         val ids = objects.map { idCollection.getKey(it) }
-        @Suppress("CAST_NEVER_SUCCEEDS") // It seems the only way to convert to generic array
+        @Suppress("UNCHECKED_CAST") // It seems the only way to convert to generic array
         val idsArray: Array<K> = ids.toTypedArray<Any>() as Array<K>
 
         assert (ids.all { it.javaClass == idCollection.keyType.java })

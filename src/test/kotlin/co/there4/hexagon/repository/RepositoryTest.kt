@@ -1,5 +1,6 @@
 package co.there4.hexagon.repository
 
+import co.there4.hexagon.repository.RepositoryEventAction.INSERTED
 import co.there4.hexagon.serialization.SerializationTest
 import co.there4.hexagon.util.CompanionLogger
 import com.mongodb.MongoBulkWriteException
@@ -43,7 +44,7 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
     fun one_object_is_stored_and_loaded_without_error() {
         testObjects.forEach {
             var reacted = false
-            on (it.javaClass.kotlin, RepositoryEventAction.INSERTED) {
+            on (it.javaClass.kotlin, INSERTED) {
                 reacted = true
             }
 
