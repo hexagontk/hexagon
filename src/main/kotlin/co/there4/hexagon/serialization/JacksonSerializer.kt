@@ -1,6 +1,6 @@
 package co.there4.hexagon.serialization
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
+import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
@@ -52,7 +52,7 @@ object JacksonSerializer {
         val mapper = ObjectMapper ()
         mapper.configure (FAIL_ON_UNKNOWN_PROPERTIES, false)
         mapper.configure (FAIL_ON_EMPTY_BEANS, false)
-        mapper.setSerializationInclusion (NON_EMPTY)
+        mapper.setSerializationInclusion (NON_NULL)
         mapper.registerModule (Jdk8Module ())
         mapper.registerModule (JavaTimeModule ())
         mapper.registerModule (KotlinModule ())
