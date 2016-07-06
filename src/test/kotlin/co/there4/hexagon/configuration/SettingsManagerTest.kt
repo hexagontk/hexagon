@@ -12,5 +12,6 @@ import org.testng.annotations.Test
         assert(setting<String>("property") == "changed")
         assert(setting<Int>("intProperty") == 42)
         assert(setting<String>("foo") == "bar")
+        assert(setting<String>("parent", "key") == "val")
     }
 }
