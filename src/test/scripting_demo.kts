@@ -1,3 +1,8 @@
 #!/usr/bin/kotlinc -script
 
-println ("Hi")
+/*
+ * TODO Missing classpath handling
+ */
+
+get { ok ("ok computer") }
+run()
