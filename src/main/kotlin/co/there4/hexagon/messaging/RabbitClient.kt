@@ -1,6 +1,6 @@
 package co.there4.hexagon.messaging
 
-import co.there4.hexagon.configuration.SettingsManager
+import co.there4.hexagon.configuration.SettingsManager.setting
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.util.parseQueryParameters
 import co.there4.hexagon.util.retry
@@ -26,11 +26,9 @@ class RabbitClient (
     private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
 
     companion object : CompanionLogger (RabbitClient::class) {
-        val rabbitmqUrl = SettingsManager.setting<String>("rabbitmqUrl")
+        val rabbitmqUrl = setting<String>("rabbitmqUrl") ?: "amqp://guest:guest@localhost"
 
-        fun createConnectionFactory(
-            uri: String = rabbitmqUrl ?: error ("Missing RabbitMQ URL")): ConnectionFactory {
-
+        fun createConnectionFactory(uri: String = rabbitmqUrl): ConnectionFactory {
             fun <T> setVar(value: T?, setter: (T) -> Unit) {
                 if (value != null)
                     setter (value)
@@ -70,7 +68,7 @@ class RabbitClient (
         )
     }
 
-    constructor (uri: String): this(createConnectionFactory(uri))
+    constructor (uri: String = rabbitmqUrl): this(createConnectionFactory(uri))
 
     val connected: Boolean get() = connection?.isOpen() ?: false
 
