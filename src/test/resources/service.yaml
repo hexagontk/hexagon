@@ -1,3 +1,6 @@
 
 property: value
 intProperty: 42
+
+parent:
+  key: val

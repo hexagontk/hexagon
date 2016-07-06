@@ -33,13 +33,17 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
         if (environment != null) loadProps("${environment.toString().toLowerCase()}.yaml")
         else mapOf<String, Any>()
 
-    /*
-     * TODO Handle nested keys!
-     */
-    operator fun get (vararg key: String): Any? = parameters[key.first()]
+    operator fun get (vararg key: String): Any? = key
+        .dropLast(1)
+        .fold(parameters) { result, element ->
+            @Suppress("UNCHECKED_CAST")
+            (result[element] as Map<String, *>)
+        }[key.last()]
 
     @Suppress("UNCHECKED_CAST")
     fun <T> setting(vararg key: String): T? = get(*key) as T?
+    fun <T> requireSetting(vararg key: String): T =
+        setting<T>(*key) ?: error ("Missing setting: $key")
 
     @Suppress("UNCHECKED_CAST")
     private fun loadProps (resName: String): Map<String, *> =
