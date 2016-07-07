@@ -9,13 +9,16 @@ import org.asynchttpclient.cookie.Cookie
 
 import co.there4.hexagon.web.HttpMethod.*
 import org.asynchttpclient.BoundRequestBuilder
+import org.asynchttpclient.DefaultAsyncHttpClientConfig
 
 /**
  * Client to use other REST services (like the ones created with Blacksheep).
  */
 class Client (val endpointUrl: URL, val useCookies: Boolean = true) {
     val endpoint = endpointUrl.toString()
-    val client = DefaultAsyncHttpClient()
+    val client = DefaultAsyncHttpClient(DefaultAsyncHttpClientConfig.Builder()
+        .setConnectTimeout(5000)
+        .build())
     val cookies: MutableMap<String, Cookie> = mutableMapOf()
 
     /**
