@@ -8,7 +8,7 @@ import java.lang.Runtime.*
 import java.lang.management.ManagementFactory.*
 
 abstract class Server (
-    val bindAddress: InetAddress = InetAddress.getLocalHost(),
+    val bindAddress: InetAddress = InetAddress.getByName("localhost"),
     val bindPort: Int = 4321) : Router() {
 
     companion object : CompanionLogger (Server::class)

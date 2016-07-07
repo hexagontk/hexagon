@@ -16,7 +16,7 @@ import java.net.InetAddress.getByName as address
 /** Port from config. */
 val bindPort = setting<Int>("bindPort") ?: 5050
 /** Address from config. */
-val bindAddress = address(setting<String>("bindAddress") ?: "127.0.0.1")
+val bindAddress = address(setting<String>("bindAddress") ?: "localhost")
 
 /** Default server. Used by package methods. */
 var server: Server = JettyServer (bindPort = bindPort, bindAddress = bindAddress)
