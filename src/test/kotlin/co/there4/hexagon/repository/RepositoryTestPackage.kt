@@ -11,10 +11,10 @@ data class Person(val name: String)
 data class Company(
     val id: String,
     val web: URL?,
-    val clients: List<URL>,
-    val logo: ByteBuffer?,
-    val notes: String?,
+    val clients: List<URL> = listOf(),
+    val logo: ByteBuffer? = null,
+    val notes: String? = null,
     val people: Set<Person>,
-    val departments: Set<Department>,
-    val creationDate: LocalDateTime
+    val departments: Set<Department> = setOf(),
+    val creationDate: LocalDateTime = LocalDateTime.now()
 )

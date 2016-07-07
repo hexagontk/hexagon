@@ -23,6 +23,14 @@ class CompanyTest :
             ),
             departments = setOf (DESIGN, DEVELOPMENT),
             creationDate = LocalDateTime.of (2016, 1, 1, 0, 0, 0)
+        ),
+        Company(
+            id = "id1",
+            web = URL("http://example.org"),
+            people = setOf(
+                Person(name = "John"),
+                Person(name = "Mike")
+            )
         )
     )
 
