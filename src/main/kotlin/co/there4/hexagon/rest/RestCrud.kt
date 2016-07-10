@@ -1,6 +1,7 @@
 package co.there4.hexagon.rest
 
 import co.there4.hexagon.repository.MongoIdRepository
+import co.there4.hexagon.repository.MongoRepository
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.*
@@ -8,7 +9,7 @@ import com.mongodb.MongoWriteException
 
 class RestCrud <T : Any, K : Any> (
     val repository: MongoIdRepository<T, K>,
-    private val server: Server) {
+    server: Server) {
 
     init {
         val collectionName = repository.namespace.collectionName
@@ -21,9 +22,7 @@ class RestCrud <T : Any, K : Any> (
         server.get("/$collectionName/{id}") { find (repository, this) }
     }
 
-    private fun <T : Any, K : Any> insert (
-        repository: MongoIdRepository<T, K>, exchange: Exchange) {
-
+    private fun <T : Any> insert (repository: MongoRepository<T>, exchange: Exchange) {
         val obj = exchange.request.body.parse(repository.type)
         try {
             repository.insertOneObject(obj)
@@ -77,9 +76,7 @@ class RestCrud <T : Any, K : Any> (
         }.parse(repository.keyType)
     }
 
-    private fun <T : Any, K : Any> findAll (
-        repository: MongoIdRepository<T, K>, exchange: Exchange) {
-
+    private fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
         val objects = repository.findObjects().toList()
         exchange.ok(objects.serialize())
     }

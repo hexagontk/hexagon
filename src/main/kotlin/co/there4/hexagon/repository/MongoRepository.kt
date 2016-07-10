@@ -22,7 +22,10 @@ open class MongoRepository <T : Any> (
 
     companion object : CompanionLogger (MongoRepository::class)
 
-    constructor (type: KClass<T>, database: MongoDatabase, publishEvents: Boolean = false) :
+    constructor (
+        type: KClass<T>,
+        database: MongoDatabase = mongoDatabase(),
+        publishEvents: Boolean = false) :
         this (
             type,
             mongoCollection(type.simpleName ?: throw IllegalArgumentException (), database),

@@ -7,7 +7,10 @@ import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import org.bson.Document
+import org.bson.conversions.Bson
 import kotlin.reflect.KClass
+import com.mongodb.client.model.Filters.eq as mEq
+import com.mongodb.client.model.Filters.`in` as mIn
 
 val mongodbUrl = SettingsManager["mongodbUrl"] as String? ?: "mongodb://localhost/test"
 
@@ -18,6 +21,9 @@ fun mongoDatabase (uri: String = mongodbUrl): MongoDatabase =
 fun mongoCollection (
     name: String, database: MongoDatabase = mongoDatabase()) : MongoCollection<Document> =
         database.getCollection(name) ?: error ("Error getting '$name' collection")
+
+infix fun <T> String.eq(value: T): Bson = mEq(this, value)
+infix fun <T> String.isIn(value: List<T>): Bson = mIn(this, value)
 
 fun <T : Any> on (
     entity: KClass<T>, action: RepositoryEventAction, callback: (RepositoryEvent<T>) -> Unit) {
