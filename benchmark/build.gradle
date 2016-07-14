@@ -9,9 +9,23 @@ buildscript {
     }
 }
 
-apply from: "$rootDir/gradle/hexagon_service.gradle"
+ext.dokkaVersion = findProperty ('dokkaVersion') ?: '0.9.+'
+
+apply from: "$rootDir/gradle/kotlin.gradle"
+apply plugin: 'application'
 
 defaultTasks 'installDist'
+
+dependencies {
+    compile rootProject
+    testCompile rootProject.sourceSets.test.output
+}
+
+clean {
+    delete "$projectDir/log"
+}
+
+installDist.destinationDir = file ("$rootProject.buildDir/$project.name")
 
 mainClassName = "co.there4.hexagon.BenchmarkKt"
 applicationDefaultJvmArgs = [

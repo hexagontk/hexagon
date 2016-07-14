@@ -52,3 +52,31 @@ https://blog.openshift.com/run-gradle-builds-on-openshift/
   //frameworkbenchmarks.readthedocs.io/en/latest/Codebase/Framework-Files/#benchmark-config-file
 
 * Document common commands to test the framework inside Vagrant's development machine
+
+
+## TechEmpower Benchmark buildfile
+
+    buildscript {
+        repositories {
+            jcenter ()
+        }
+
+        dependencies {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        }
+    }
+
+    apply from: "$rootDir/gradle/hexagon_service.gradle"
+
+    defaultTasks 'installDist'
+
+    mainClassName = "co.there4.hexagon.BenchmarkKt"
+    applicationDefaultJvmArgs = [
+        '-Xms64M',
+        '-Xmx64M',
+        '-server',
+        '-XX:+UseNUMA',
+        '-XX:+UseParallelGC',
+        '-XX:+AggressiveOpts'
+    ]
+
