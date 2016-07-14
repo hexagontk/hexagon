@@ -13,6 +13,7 @@ import co.there4.hexagon.web.jetty.JettyServer
 import java.lang.System.getenv
 import java.net.InetAddress.getByName as address
 import java.time.LocalDateTime.now
+import kotlin.reflect.KClass
 
 internal data class Message (val message: String = "Hello, World!")
 internal data class Fortune (val _id: Int, val message: String)
@@ -39,14 +40,11 @@ private val database =
     if (DB_USER == null) mongoDatabase("mongodb://$DB_HOST:$DB_PORT/$DB")
     else mongoDatabase("mongodb://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB")
 
-private val worldCollection = mongoCollection (WORLD, database)
-private val fortuneCollection = mongoCollection (FORTUNE, database)
+private val worldRepository = repository(World::class, WORLD, { it.id })
+private val fortuneRepository = repository(Fortune::class, FORTUNE, { it._id })
 
-private val worldRepository =
-    MongoIdRepository(World::class, worldCollection, "_id", Int::class, { it.id })
-
-private val fortuneRepository =
-    MongoIdRepository(Fortune::class, fortuneCollection, "_id", Int::class, { it._id })
+private fun <T : Any> repository(type: KClass<T>, name: String, keySupplier: (T) -> Int) =
+    MongoIdRepository(type, mongoCollection(name, database), keySupplier, Int::class, "_id")
 
 private fun rnd () = ThreadLocalRandom.current ().nextInt (DB_ROWS) + 1
 
