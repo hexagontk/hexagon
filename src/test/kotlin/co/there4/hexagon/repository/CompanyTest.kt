@@ -36,7 +36,7 @@ class CompanyTest :
 
     override fun setObjectKey(obj: Company, id: Int) = obj.copy (id = id.toString ())
 
-    override fun changeObject(source: Company) = source.copy (notes = source.notes + "_modified")
+    override fun changeObject(obj: Company) = obj.copy (notes = obj.notes + "_modified")
 
     override fun createObject() = Company (
         id = "id",

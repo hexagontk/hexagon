@@ -102,7 +102,7 @@ open class MongoRepository <T : Any> (
         options: IndexOptions = IndexOptions().background(true)): String =
             createIndex(Document(name, order), options)
 
-    private fun map (document: T): Document {
+    protected open fun map (document: T): Document {
         return Document (document.convertToMap ().mapKeys {
             val key = it.key ?: throw IllegalStateException ("Key can not be 'null'")
             if (key is String)
@@ -112,7 +112,7 @@ open class MongoRepository <T : Any> (
         })
     }
 
-    private fun map (documents: List<T>): List<Document> = documents.map { map(it) }
+    protected open fun map (documents: List<T>): List<Document> = documents.map { map(it) }
 
-    private fun unmap (document: Document): T = document.convertToObject (type)
+    protected open fun unmap (document: Document): T = document.convertToObject (type)
 }

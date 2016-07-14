@@ -18,3 +18,8 @@ data class Company(
     val departments: Set<Department> = setOf(),
     val creationDate: LocalDateTime = LocalDateTime.now()
 )
+
+data class Tag(
+    val id: String = mongoId(),
+    val name: String
+)

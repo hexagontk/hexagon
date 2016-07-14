@@ -8,53 +8,59 @@ import com.mongodb.client.model.IndexOptions
 import org.bson.Document
 import kotlin.reflect.KClass
 
-class MongoIdRepository<T : Any, K : Any> (
+open class MongoIdRepository<T : Any, K : Any> (
     type: KClass<T>,
     collection: MongoCollection<Document>,
-    private val keyName: String,
-    val keyType: KClass<K>,
     private val keySupplier: (T) -> K,
+    val keyType: KClass<K>,
+    protected val keyName: String = "id",
     publishEvents: Boolean = false,
-    indexOrder: Int = 1) :
+    indexOrder: Int = 1,
+    createIndex: Boolean = true) :
     MongoRepository<T> (type, collection, publishEvents) {
 
     constructor (
         type: KClass<T>,
         database: MongoDatabase,
-        keyName: String,
-        keyType: KClass<K>,
         keySupplier: (T) -> K,
+        keyType: KClass<K>,
+        keyName: String = "id",
         publishEvents: Boolean = false,
-        indexOrder: Int = 1) :
+        indexOrder: Int = 1,
+        createIndex: Boolean = true) :
         this (
             type,
             mongoCollection(type.simpleName ?: error("Error getting type name"), database),
-            keyName,
-            keyType,
             keySupplier,
+            keyType,
+            keyName,
             publishEvents,
-            indexOrder
+            indexOrder,
+            createIndex
         )
 
     constructor (
         type: KClass<T>,
-        keyName: String,
-        keyType: KClass<K>,
         keySupplier: (T) -> K,
+        keyType: KClass<K>,
+        keyName: String = "id",
         publishEvents: Boolean = false,
-        indexOrder: Int = 1) :
+        indexOrder: Int = 1,
+        createIndex: Boolean = true) :
         this (
             type,
             mongoDatabase(),
-            keyName,
-            keyType,
             keySupplier,
+            keyType,
+            keyName,
             publishEvents,
-            indexOrder
+            indexOrder,
+            createIndex
         )
 
     init {
-        createIndex (keyName, indexOrder, IndexOptions().unique(true).background(true))
+        if (createIndex)
+            createIndex (keyName, indexOrder, IndexOptions().unique(true).background(true))
     }
 
     protected fun publishKey (source: K, action: RepositoryEventAction) {
@@ -67,8 +73,11 @@ class MongoIdRepository<T : Any, K : Any> (
             sources.forEach { publishKey(it, action) }
     }
 
+    protected open fun convertKeyName(keyName: String): String = keyName
+    protected open fun convertId(id: K): Any = id
+
     fun deleteId (documentId: K) {
-        deleteOne (keyName eq documentId)
+        deleteOne (convertKeyName(keyName) eq convertId(documentId))
         publishKey(documentId, DELETED)
     }
 
@@ -77,12 +86,12 @@ class MongoIdRepository<T : Any, K : Any> (
     }
 
     fun deleteIds (documentIds: List<K>) {
-        deleteMany (keyName isIn documentIds)
+        deleteMany (convertKeyName(keyName) isIn documentIds.map { convertId(it) })
         publishKey(documentIds, DELETED)
     }
 
     fun deleteObject (documentId: T) {
-        deleteOne (keyName eq keySupplier(documentId))
+        deleteOne (convertKeyName(keyName) eq convertId(keySupplier(documentId)))
         publish(documentId, DELETED)
     }
 
@@ -91,13 +100,13 @@ class MongoIdRepository<T : Any, K : Any> (
     }
 
     fun deleteObjects (documentIds: List<T>) {
-        val ids = documentIds.map { keySupplier(it) }
-        deleteMany (keyName isIn ids)
+        val ids = documentIds.map { convertId(keySupplier(it)) }
+        deleteMany (convertKeyName(keyName) isIn ids)
         publish(documentIds, DELETED)
     }
 
     fun replaceObject (document: T) =
-        replaceOneObject (keyName eq keySupplier (document), document)
+        replaceOneObject (convertKeyName(keyName) eq convertId(keySupplier (document)), document)
 
     fun replaceObjects (vararg document: T) {
         replaceObjects (document.toList())
@@ -110,9 +119,9 @@ class MongoIdRepository<T : Any, K : Any> (
     fun find (vararg documentId: K) = find (documentId.toList ())
 
     fun find (documentId: List<K>) =
-        findObjects (keyName isIn documentId).toList()
+        findObjects (convertKeyName(keyName) isIn documentId.map { convertId(it) }).toList()
 
-    fun find (documentId: K) = findObjects (keyName eq documentId).first ()
+    fun find (documentId: K) = findObjects (convertKeyName(keyName) eq convertId(documentId)).first ()
 
     fun getKey (obj: T): K = keySupplier(obj)
 }

@@ -26,15 +26,15 @@ import kotlin.reflect.KClass
         keyName: String,
         keyType: KClass<K>,
         keySupplier: (T) -> K) : MongoIdRepository<T, K> =
-            MongoIdRepository(type, mongoDatabase(), keyName, keyType, keySupplier, true)
+            MongoIdRepository(type, mongoDatabase(), keySupplier, keyType, keyName, true)
 
     fun int_keyed_repositories_are_handled_properly () {
         val repo = MongoIdRepository (
             Country::class,
             countries,
-            "id",
+            { it.id },
             Int::class,
-            { it.id }
+            "id"
         )
 
         val server = JettyServer (bindPort = 5020)
@@ -69,9 +69,9 @@ import kotlin.reflect.KClass
         val repo = MongoIdRepository (
             Parameter::class,
             parameters,
-            "name",
+            { it.name },
             String::class,
-            { it.name }
+            "name"
         )
 
         stop()

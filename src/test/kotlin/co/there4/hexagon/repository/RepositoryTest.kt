@@ -35,9 +35,9 @@ abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: S
     protected abstract fun setObjectKey (obj: T, id: Int): T
     protected abstract fun getObjectKey (obj: T): K
     protected abstract fun createObject(): T
-    protected abstract fun changeObject(source: T): T
+    protected abstract fun changeObject(obj: T): T
 
-    protected fun createObjects() = (0..9).map { setObjectKey (createObject(), it) }
+    protected open fun createObjects() = (0..9).map { setObjectKey (createObject(), it) }
 
     protected fun deleteAll (): DeleteResult = collection.deleteMany (Document ())
 
