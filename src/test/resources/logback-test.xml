@@ -25,7 +25,6 @@
   <root>
     <level value="off" />
     <appender-ref ref="console" />
-    <appender-ref ref="file" />
   </root>
 
   <logger name="co.there4.hexagon">
