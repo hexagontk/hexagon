@@ -12,6 +12,7 @@
     </encoder>
   </appender>
 
+  <!--
   <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <FileNamePattern>log/%d{yyyy-MM-dd}.log</FileNamePattern>
@@ -21,6 +22,7 @@
       <Pattern>%d{HH:mm:ss.SSS} %-5p [%-15.15thread] %-30logger{30} %X{jvmId} | %m%n</Pattern>
     </encoder>
   </appender>
+  -->
 
   <root>
     <level value="off" />

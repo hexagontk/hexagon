@@ -74,10 +74,13 @@ clean {
     delete "$rootDir/log"
 }
 
-test.doFirst {
-    File environmentFile = new File("${System.getProperty("user.home")}/.environment")
-    if (!environmentFile.exists())
-        environmentFile.write("DEVELOPMENT\n")
+test {
+    systemProperties['derby.stream.error.file'] = '/dev/null'
+    doFirst {
+        File environmentFile = new File("${System.getProperty("user.home")}/.environment")
+        if (!environmentFile.exists())
+            environmentFile.write("DEVELOPMENT\n")
+    }
 }
 
 site.dependsOn 'dokka', 'jacocoTestReport'
