@@ -1,3 +1,7 @@
+#
+# Site generation does not work well with Gradle daemon. Execute it this way:
+#     gw --no-daemon site
+#
 
 language: java
 jdk: oraclejdk8
@@ -22,6 +26,6 @@ before_script:
   - mongorestore ${TRAVIS_BUILD_DIR}/dump/
 
 script:
-  - gradle/wrapper --stacktrace site
+  - gradle/wrapper --no-daemon --stacktrace site
 
 after_success: bash <(curl -s https://codecov.io/bash)

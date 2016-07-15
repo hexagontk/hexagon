@@ -9,7 +9,7 @@ buildscript {
         classpath "org.freemarker:freemarker:$freemarkerVersion"
         classpath "org.pegdown:pegdown:$pegdownVersion"
         classpath "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
-        classpath "co.there4.jbake:jbake-core:$jbakeVersion"
+        classpath "org.jbake:jbake-core:$jbakeVersion"
         classpath "me.champeau.gradle:jbake-gradle-plugin:$jbakepluginVersion"
 
         classpath "org.ajoberstar:gradle-git:$gradlegitVersion"
@@ -27,7 +27,7 @@ apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
 
-defaultTasks 'clean', 'publishLocal'
+defaultTasks 'publishLocal'
 
 dependencies {
     // COMPILE
@@ -80,7 +80,7 @@ test.doFirst {
         environmentFile.write("DEVELOPMENT\n")
 }
 
-site.dependsOn 'build', 'dokka', 'jacocoTestReport'
+site.dependsOn 'dokka', 'jacocoTestReport'
 publish.dependsOn 'checkGitStatus', 'site' // TODO Publish site
 
 publish.doLast {
