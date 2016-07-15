@@ -1,7 +1,3 @@
-#
-# Site generation does not work well with Gradle daemon. Execute it this way:
-#     gw --no-daemon site
-#
 
 language: java
 jdk: oraclejdk8
@@ -24,11 +20,9 @@ before_install:
 before_script:
   - tar -Jxvf ${TRAVIS_BUILD_DIR}/src/test/db.txz
   - mongorestore ${TRAVIS_BUILD_DIR}/dump/
-  - ln --symbolic ${TRAVIS_BUILD_DIR}/gradle/wrapper ${TRAVIS_BUILD_DIR}/gradlew
+#  - ln --symbolic ${TRAVIS_BUILD_DIR}/gradle/wrapper ${TRAVIS_BUILD_DIR}/gradlew
 
 script:
-  - gradle/wrapper --info --stacktrace -x test publishToMavenLocal
-  - gradle/wrapper --info --stacktrace build
-  - gradle/wrapper --no-daemon --info --stacktrace site
+  - gradle/wrapper --info --stacktrace site
 
 after_success: bash <(curl -s https://codecov.io/bash)

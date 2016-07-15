@@ -12,13 +12,10 @@
  *         classpath "org.freemarker:freemarker:$freemarkerVersion"
  *         classpath "org.pegdown:pegdown:$pegdownVersion"
  *         classpath "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
- *         classpath "org.jbake:jbake-core:$jbakeVersion"
+ *         classpath "co.there4.jbake:jbake-core:$jbakeVersion"
  *         classpath "me.champeau.gradle:jbake-gradle-plugin:$jbakepluginVersion"
  *     }
  * }
- *
- * NOTE: Site generation does not work well with Gradle daemon.
- * execute it this way: gw --no-daemon clean site
  *
  * NOTE: For image rendering you will need 'rsvg' and 'imagemagick' installed in the development
  * machine.
