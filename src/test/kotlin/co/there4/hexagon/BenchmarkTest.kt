@@ -8,7 +8,7 @@ import org.testng.annotations.Test
 import java.net.URL
 
 internal const val THREADS = 4
-internal const val TIMES = 16
+internal const val TIMES = 4
 
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 class BenchmarkTest {
@@ -17,7 +17,7 @@ class BenchmarkTest {
     @BeforeClass fun warmup() {
         main(arrayOf())
 
-        val warmupRounds = if (THREADS > 1) 5 else 0
+        val warmupRounds = if (THREADS > 1) 2 else 0
         (1 ..warmupRounds).forEach {
             json ()
             plaintext ()

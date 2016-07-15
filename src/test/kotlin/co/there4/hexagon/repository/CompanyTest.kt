@@ -8,22 +8,7 @@ import java.time.LocalDateTime
 class CompanyTest :
     IdRepositoryTest<Company, String> (Company::class, "id", String::class, { it.id }) {
     override val testObjects: List<Company> = listOf (
-        Company (
-            id = "id",
-            web = URL ("http://example.org"),
-            clients = listOf (
-                URL ("http://c1.example.org"),
-                URL ("http://c2.example.org")
-            ),
-            logo = ByteBuffer.wrap (byteArrayOf (0, 1, 2)),
-            notes = "notes",
-            people = setOf (
-                Person (name = "John"),
-                Person (name = "Mike")
-            ),
-            departments = setOf (DESIGN, DEVELOPMENT),
-            creationDate = LocalDateTime.of (2016, 1, 1, 0, 0, 0)
-        ),
+        createObject(),
         Company(
             id = "id1",
             web = URL("http://example.org"),
