@@ -93,7 +93,7 @@ Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
 Prior to running the tests you need to import sample data with the following commands:
 
-    tar -Jxvf db.txz && \
+    tar -Jxvf src/test/db.txz && \
     mongorestore dump/ && \
     rm -rf dump
 
