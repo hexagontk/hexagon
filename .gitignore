@@ -16,5 +16,8 @@ build/
 *.log
 log/
 
+# Setup
+dump/
+
 # Include coding style
 !.idea/codeStyleSettings.xml

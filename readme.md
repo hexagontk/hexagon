@@ -94,7 +94,7 @@ Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 Prior to running the tests you need to import sample data with the following commands:
 
     tar -Jxvf src/test/db.txz && \
-    mongorestore dump/ && \
+    mongorestore dump/hello_world/ --db hello_world && \
     rm -rf dump
 
 You can build the project, generate the documentation and install it in your local repository

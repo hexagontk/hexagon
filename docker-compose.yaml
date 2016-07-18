@@ -1,5 +1,5 @@
 #
-# Services needed for tests
+# Services needed for testing
 #
 
 mongodb:
