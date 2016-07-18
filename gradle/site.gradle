@@ -20,8 +20,8 @@
  * NOTE: Site generation does not work well with Gradle daemon.
  * execute it this way: gw --no-daemon clean site
  *
- * NOTE: For image rendering you will need 'rsvg' and 'imagemagick' installed in the development
- * machine.
+ * NOTE: For image rendering you will need 'rsvg' (librsvg2-bin) and 'imagemagick' installed in the
+ * development machine.
  *
  * TODO Site processing will be deprecated when JBake filters content with configuration properties
  */

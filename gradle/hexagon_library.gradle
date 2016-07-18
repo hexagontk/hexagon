@@ -1,6 +1,6 @@
 
 // TODO Remove when IntelliJ support Gradle 2.13
-ext.findProperty = { Object key -> hasProperty(key) ? getProperty(key) : null }
+//ext.findProperty = { Object key -> hasProperty(key) ? getProperty(key) : null }
 
 ext.dokkaVersion = findProperty ('dokkaVersion') ?: '0.9.+'
 ext.kotlinVersion = findProperty ('kotlinVersion') ?: '1.0.+'
@@ -19,4 +19,3 @@ dependencies {
 clean {
     delete "$projectDir/log"
 }
-
