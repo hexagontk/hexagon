@@ -11,9 +11,6 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'org.ajoberstar.github-pages'
 
-// TODO Remove when IntelliJ support Gradle 2.13
-ext.findProperty = { Object key -> hasProperty(key) ? getProperty(key) : null }
-
 ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
 ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
 
