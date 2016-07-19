@@ -37,7 +37,6 @@ task deployIntegration (dependsOn: 'install') << {
             String runtimeDir = "$deployDir/$project.name"
             session (remotes [it]) {
                 put from: installDist.destinationDir, into: deployDir
-                execute ("chmod +x $runtimeDir/bin/*")
             }
         }
     }
@@ -49,7 +48,6 @@ task deployProduction (dependsOn: 'install') << {
             String runtimeDir = "$deployDir/$project.name"
             session (remotes [it]) {
                 put from: installDist.destinationDir, into: deployDir
-                execute ("chmod +x $runtimeDir/bin/*")
             }
         }
     }
