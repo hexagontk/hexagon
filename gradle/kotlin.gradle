@@ -85,11 +85,12 @@ test {
 }
 
 dokka {
-    outputDirectory = "$rootBuildDir/$projectSite/dokka"
+    outputDirectory = "$rootBuildDir/$projectSite/dokka/$projectName"
     outputFormat = 'javadoc'
 }
 
 jacocoTestReport {
+    dependsOn "test"
     reports {
         xml.enabled = true
         html.enabled = true
