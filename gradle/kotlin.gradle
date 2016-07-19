@@ -85,7 +85,7 @@ test {
 }
 
 dokka {
-    outputDirectory = "$rootBuildDir/$projectSite/dokka/$projectName"
+    outputDirectory = "$rootBuildDir/$projectSite/dokka/$project.name"
     outputFormat = 'javadoc'
 }
 
