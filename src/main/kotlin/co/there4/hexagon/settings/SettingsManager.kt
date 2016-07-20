@@ -29,13 +29,11 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
         null
     }
 
-    var parameters: Map<String, *> = loadSettings()
+    val parameters: Map<String, *> = loadSettings()
 
     private fun loadSettings() = loadProps("service.yaml") +
         if (environment != null) loadProps("${environment.toString().toLowerCase()}.yaml")
         else mapOf<String, Any>()
-
-    fun reload() { parameters = loadSettings() }
 
     operator fun get (vararg key: String): Any? = key
         .dropLast(1)
