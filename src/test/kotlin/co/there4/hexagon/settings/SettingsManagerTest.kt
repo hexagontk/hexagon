@@ -1,6 +1,6 @@
-package co.there4.hexagon.configuration
+package co.there4.hexagon.settings
 
-import co.there4.hexagon.configuration.SettingsManager.setting
+import co.there4.hexagon.settings.SettingsManager.setting
 import org.testng.annotations.Test
 
 /**

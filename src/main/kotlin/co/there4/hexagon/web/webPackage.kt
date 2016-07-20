@@ -1,6 +1,6 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.configuration.SettingsManager.setting
+import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.web.jetty.JettyServer
 import kotlin.reflect.KClass
 

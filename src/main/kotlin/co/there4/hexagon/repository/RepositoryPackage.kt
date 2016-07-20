@@ -1,6 +1,6 @@
 package co.there4.hexagon.repository
 
-import co.there4.hexagon.configuration.SettingsManager
+import co.there4.hexagon.settings.SettingsManager
 import co.there4.hexagon.events.EventManager
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI

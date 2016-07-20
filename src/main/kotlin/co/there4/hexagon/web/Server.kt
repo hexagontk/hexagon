@@ -1,6 +1,6 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.configuration.SettingsManager
+import co.there4.hexagon.settings.SettingsManager
 import co.there4.hexagon.util.*
 import java.net.InetAddress
 import java.lang.System.*

@@ -1,6 +1,6 @@
 package co.there4.hexagon.messaging
 
-import co.there4.hexagon.configuration.SettingsManager.setting
+import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.util.parseQueryParameters
 import co.there4.hexagon.util.retry

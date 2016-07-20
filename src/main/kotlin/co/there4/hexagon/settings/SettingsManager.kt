@@ -1,4 +1,4 @@
-package co.there4.hexagon.configuration
+package co.there4.hexagon.settings
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.util.CompanionLogger
@@ -29,9 +29,13 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
         null
     }
 
-    val parameters: Map<String, *> = loadProps("service.yaml") +
+    var parameters: Map<String, *> = loadSettings()
+
+    private fun loadSettings() = loadProps("service.yaml") +
         if (environment != null) loadProps("${environment.toString().toLowerCase()}.yaml")
         else mapOf<String, Any>()
+
+    fun reload() { parameters = loadSettings() }
 
     operator fun get (vararg key: String): Any? = key
         .dropLast(1)

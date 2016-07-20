@@ -1,6 +1,6 @@
 package co.there4.hexagon
 
-import co.there4.hexagon.configuration.SettingsManager.setting
+import co.there4.hexagon.settings.SettingsManager.setting
 import java.util.concurrent.ThreadLocalRandom
 
 import co.there4.hexagon.serialization.serialize
