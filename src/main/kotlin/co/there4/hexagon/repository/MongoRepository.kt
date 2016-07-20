@@ -43,6 +43,9 @@ open class MongoRepository <T : Any> (
             sources.forEach { publish(it, action) }
     }
 
+    // TODO Apply to the other MongoCollection's methods to support maps directly
+    fun insertOne (document: Map<String, *>) { insertOne(Document(document)) }
+
     /**
      * TODO Publish error event (try-catch with throw)
      */
