@@ -8,10 +8,11 @@ import java.net.URL
 
 @Test class ClientTest {
     val srv = JettyServer(bindPort = 5099)
-    val client = Client(URL("http://localhost:5099"))
+    val client = Client(URL("http://localhost:5099"), "application/json")
 
     @BeforeClass fun startup() {
         srv.post { ok(request.body) }
+        srv.get { ok(request.body) }
         srv.run()
     }
 
@@ -20,9 +21,15 @@ import java.net.URL
     }
 
     fun json_requests_works_as_expected() {
-        val body = client.post("/", "application/json", mapOf ("foo" to "fighters")).responseBody.trim()
         val expectedBody = "{\n  \"foo\" : \"fighters\"\n}"
 
-        assert(body == expectedBody)
+        val body = client.post("/", "application/json", mapOf ("foo" to "fighters")).responseBody
+        assert(body.trim() == expectedBody)
+
+        val body2 = client.post("/", body = mapOf ("foo" to "fighters")).responseBody
+        assert(body2.trim() == expectedBody)
+
+        client.get("/", "application/json") { "foo" }
+        client.get("/") { "foo" }
     }
 }

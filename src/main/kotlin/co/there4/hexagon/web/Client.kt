@@ -1,6 +1,5 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.serialization.defaultFormat
 import co.there4.hexagon.serialization.serialize
 import java.net.URL
 
@@ -15,7 +14,11 @@ import org.asynchttpclient.DefaultAsyncHttpClientConfig
 /**
  * Client to use other REST services (like the ones created with Blacksheep).
  */
-class Client (val endpointUrl: URL, val useCookies: Boolean = true) {
+class Client (
+    val endpointUrl: URL,
+    val contentType: String? = null,
+    val useCookies: Boolean = true) {
+
     val endpoint = endpointUrl.toString()
     val client = DefaultAsyncHttpClient(DefaultAsyncHttpClientConfig.Builder()
         .setConnectTimeout(5000)
@@ -29,7 +32,7 @@ class Client (val endpointUrl: URL, val useCookies: Boolean = true) {
         method: HttpMethod,
         url: String = "/",
         body: String? = null,
-        contentType: String? = null): Response {
+        contentType: String? = this.contentType): Response {
 
         val request = createRequest(method, url, contentType)
 
@@ -53,8 +56,14 @@ class Client (val endpointUrl: URL, val useCookies: Boolean = true) {
         return response
     }
 
-    fun sendData(method: HttpMethod, url: String, contentType: String, body: Any) =
-        send(method, url, body.serialize(contentType), contentType)
+    fun sendObject(
+        method: HttpMethod,
+        url: String,
+        contentType: String = requireContentType(),
+        body: Any) =
+            send(method, url, body.serialize(contentType), contentType)
+
+    private fun requireContentType() = this.contentType ?: error("Missing content type")
 
     fun get (url: String, body: String? = null) = send (GET, url, body)
     fun head (url: String, body: String? = null) = send (HEAD, url, body)
@@ -65,29 +74,53 @@ class Client (val endpointUrl: URL, val useCookies: Boolean = true) {
     fun options (url: String, body: String? = null) = send (OPTIONS, url, body)
     fun patch (url: String, body: String? = null) = send (PATCH, url, body)
 
-    fun get (url: String, contentType: String, body: Any) =
-        sendData (GET, url, contentType, body)
+    fun get (url: String, contentType: String = requireContentType(), body: Any) =
+        sendObject(GET, url, contentType, body)
 
-    fun head (url: String, contentType: String, body: Any) =
-        sendData (HEAD, url, contentType, body)
+    fun get (url: String, contentType: String = requireContentType(), body: () -> Any) =
+        get(url, contentType, body())
 
-    fun post (url: String, contentType: String, body: Any) =
-        sendData (POST, url, contentType, body)
+    fun head (url: String, contentType: String = requireContentType(), body: Any) =
+        sendObject(HEAD, url, contentType, body)
 
-    fun put (url: String, contentType: String, body: Any) =
-        sendData (PUT, url, contentType, body)
+    fun head (url: String, contentType: String = requireContentType(), body: () -> Any) =
+        head(url, contentType, body())
 
-    fun delete (url: String, contentType: String, body: Any) =
-        sendData (DELETE, url, contentType, body)
+    fun post (url: String, contentType: String = requireContentType(), body: Any) =
+        sendObject(POST, url, contentType, body)
 
-    fun trace (url: String, contentType: String, body: Any) =
-        sendData (TRACE, url, contentType, body)
+    fun post (url: String, contentType: String = requireContentType(), body: () -> Any) =
+        post(url, contentType, body())
 
-    fun options (url: String, contentType: String, body: Any) =
-        sendData (OPTIONS, url, contentType, body)
+    fun put (url: String, contentType: String = requireContentType(), body: Any) =
+        sendObject(PUT, url, contentType, body)
 
-    fun patch (url: String, contentType: String, body: Any) =
-        sendData (PATCH, url, contentType, body)
+    fun put (url: String, contentType: String = requireContentType(), body: () -> Any) =
+        put(url, contentType, body())
+
+    fun delete (url: String, contentType: String = requireContentType(), body: Any) =
+        sendObject(DELETE, url, contentType, body)
+
+    fun delete (url: String, contentType: String = requireContentType(), body: () -> Any) =
+        delete(url, contentType, body())
+
+    fun trace (url: String, contentType: String = requireContentType(), body: Any) =
+        sendObject(TRACE, url, contentType, body)
+
+    fun trace (url: String, contentType: String = requireContentType(), body: () -> Any) =
+        trace(url, contentType, body())
+
+    fun options (url: String, contentType: String = requireContentType(), body: Any) =
+        sendObject(OPTIONS, url, contentType, body)
+
+    fun options (url: String, contentType: String = requireContentType(), body: () -> Any) =
+        options(url, contentType, body())
+
+    fun patch (url: String, contentType: String = requireContentType(), body: Any) =
+        sendObject(PATCH, url, contentType, body)
+
+    fun patch (url: String, contentType: String = requireContentType(), body: () -> Any) =
+        patch(url, contentType, body())
 
     private fun createRequest(method: HttpMethod, url: String, contentType: String? = null) =
         (endpoint + url).let {
