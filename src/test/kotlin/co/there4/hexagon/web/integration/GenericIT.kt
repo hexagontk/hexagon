@@ -182,6 +182,14 @@ class GenericIT : ItTest () {
         }
     }
 
+    fun fileContentType() {
+        withClients {
+            val response = get ("/file.css")
+            assert(response.contentType.contains("css"))
+            assertResponseEquals(response, 200, "/* css */\n")
+        }
+    }
+
     fun halt() {
         withClients {
             val response = get ("/halt")
