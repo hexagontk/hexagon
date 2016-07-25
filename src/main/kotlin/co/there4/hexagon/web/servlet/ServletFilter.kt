@@ -1,5 +1,6 @@
 package co.there4.hexagon.web.servlet
 
+import java.nio.charset.Charset.defaultCharset
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.FilterOrder.*
@@ -62,8 +63,15 @@ class ServletFilter (private val router: Router) : Filter {
                 !request.servletPath.endsWith("/") && // Reading a folder as resource gets all files
                 stream != null) {
 
+                val contentType = bResponse.getMimeType(request.servletPath)
+
+                // Should be done BEFORE flushing the stream (if not content type is ignored)
+                if (response.contentType == null)
+                    response.contentType = "$contentType; charset=${defaultCharset().name()}"
+
                 response.outputStream.write(stream.readBytes())
                 response.outputStream.flush()
+
                 handled = true
             }
             else {
