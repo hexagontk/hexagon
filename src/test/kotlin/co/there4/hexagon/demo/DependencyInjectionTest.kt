@@ -9,9 +9,7 @@ object Foo3 : Foo
 interface Bar { val foo: Foo }
 class Bar1(override val foo: Foo) : Bar
 
-var registry : Map<KClass<*>, () -> Any> = mapOf (
-    Foo::class to ::Foo1
-)
+var registry : Map<KClass<*>, () -> Any> = mapOf()
 
 fun <T : Any> register(type: KClass<T>, provider: () -> T) {
     registry += type to provider
@@ -22,6 +20,8 @@ operator fun <T : Any> KClass<T>.invoke (): T = registry[this]?.invoke() as T
 
 @Test class DiPoC {
     fun di_just_works() {
+        register (Foo::class, ::Foo1)
+
         val foo1 = (Foo::class)()
         assert(foo1.javaClass == Foo1::class.java)
 
