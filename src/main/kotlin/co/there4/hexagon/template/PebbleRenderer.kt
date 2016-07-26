@@ -4,6 +4,7 @@ import co.there4.hexagon.serialization.parse
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.lang.ClassLoader.getSystemResourceAsStream as resourceAsStream
 import java.io.StringWriter
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -29,7 +30,7 @@ object PebbleRenderer {
         @Suppress("UNCHECKED_CAST")
         fun loadBundle (path: String): Map<String, *> = loadProps(path).let {
             (it[locale.language] ?: if (it.size > 0) it.entries.first().value else it)
-                as Map<String, *>
+                as Map<String, *> + (it["data"] ?: mapOf<String, Any>()) as Map<String, *>
         }
 
         val compiledTemplate = engine.getTemplate("$basePath/$template")
@@ -39,7 +40,17 @@ object PebbleRenderer {
         val common = loadBundle ("common")
 
         val writer = StringWriter()
-        compiledTemplate.evaluate(writer, global + common + texts + context, locale)
+        val now = LocalDateTime.now()
+        val defaultProperties = mapOf(
+            "_template_" to template,
+            "_year_" to now.year,
+            "_month_" to now.monthValue,
+            "_day_" to now.dayOfMonth,
+            "_hour_" to now.hour,
+            "_minutes_" to now.minute
+        )
+        val context = global + common + texts + context + defaultProperties
+        compiledTemplate.evaluate(writer, context, locale)
         return writer.toString()
     }
 }
