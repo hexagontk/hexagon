@@ -20,12 +20,16 @@ buildscript {
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
         // TODO Replace with AsyncHttpClient
         classpath group: 'com.squareup.okhttp3', name: 'okhttp', version: okhttpVersion
+
+        classpath "com.github.jengelman.gradle.plugins:shadow:$shadowpluginVersion"
     }
 }
 
 apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
+
+apply plugin: "com.github.johnrengelman.shadow"
 
 defaultTasks 'publishLocal'
 
@@ -83,6 +87,7 @@ test {
     }
 }
 
+build.dependsOn 'shadowJar'
 site.dependsOn 'dokka', 'jacocoTestReport'
 publish.dependsOn 'checkGitStatus', 'site' // TODO Publish site
 

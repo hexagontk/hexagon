@@ -1,0 +1,3 @@
+#!/bin/sh
+
+$KOTLIN_HOME/kotlinc/bin/kotlinc -script -classpath $@

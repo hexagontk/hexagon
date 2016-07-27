@@ -22,7 +22,7 @@ before_install:
   - sudo apt-get install -y imagemagick librsvg2-bin
 
 before_script:
-  - tar -Jxvf ${TRAVIS_BUILD_DIR}/src/test/db.txz
+  - tar -Jxvf ${TRAVIS_BUILD_DIR}/db.txz
   - mongorestore ${TRAVIS_BUILD_DIR}/dump/
 
 script:

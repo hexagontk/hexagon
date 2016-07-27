@@ -49,8 +49,8 @@ object PebbleRenderer {
             "_hour_" to now.hour,
             "_minutes_" to now.minute
         )
-        val context = global + common + texts + context + defaultProperties
-        compiledTemplate.evaluate(writer, context, locale)
+        val completeContext = global + common + texts + context + defaultProperties
+        compiledTemplate.evaluate(writer, completeContext, locale)
         return writer.toString()
     }
 }
