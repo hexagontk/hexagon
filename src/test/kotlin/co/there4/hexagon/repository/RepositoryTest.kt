@@ -17,7 +17,7 @@ import org.bson.Document
 /**
  * TODO Check events
  */
-abstract class RepositoryTest<T : Any, K : Any> (type: KClass<T>, val idField: String) :
+abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val idField: String) :
     SerializationTest<T> (type) {
 
     companion object : CompanionLogger (RepositoryTest::class)
