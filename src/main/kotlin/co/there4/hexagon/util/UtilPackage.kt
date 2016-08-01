@@ -6,9 +6,13 @@ import java.net.InetAddress.getLocalHost
 import java.time.LocalDateTime
 import java.util.*
 import java.lang.management.ManagementFactory.getRuntimeMXBean
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneOffset.UTC
 
 /*
  * Timing
+ * TODO Use Kotlin's kotlin.system.measureTimeMillis and remove these
  */
 
 private val times = withInitial { LinkedList<Long> () }
@@ -40,6 +44,14 @@ fun LocalDateTime.asInt () =
     (this.hour       * 1e4.toLong()) +
     (this.minute     * 1e2.toLong()) +
     this.second
+
+fun LocalDateTime.toDate(): Date = Date.from(this.toInstant(UTC))
+fun LocalDate.toDate(): Date = this.atStartOfDay().toDate()
+
+fun Date.toLocalDateTime(): LocalDateTime =
+    LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), UTC)
+
+fun Date.toLocalDate(): LocalDate = this.toLocalDateTime().toLocalDate()
 
 /*
  * Threading
@@ -132,3 +144,24 @@ fun Throwable.toText (prefix: String = ""): String =
 
 internal val flarePrefix = getProperty ("CompanionLogger.flarePrefix", ">>>>>>>>")
 val jvmId = getRuntimeMXBean().name
+
+/*
+ * Map operations
+ */
+
+@Suppress("UNCHECKED_CAST")
+operator fun Map<*, *>.get(vararg keys: Any): Any? =
+    if (keys.size > 1)
+        keys
+            .dropLast(1)
+            .fold(this) { result, element ->
+                val r = result as Map<Any, Any>
+                val value = r.getOrElse<Any, Any>(element, { mapOf<Any, Any>() })
+                when (value) {
+                    is Map<*, *> -> value
+                    is List<*> -> value.mapIndexed { ii, item -> ii to item  }.toMap()
+                    else -> mapOf<Any, Any>()
+                }
+            }[keys.last()]
+    else
+        (this as Map<Any, Any>).getOrElse(keys.first()) { null }

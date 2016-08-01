@@ -1,6 +1,7 @@
 package co.there4.hexagon.template
 
 import co.there4.hexagon.serialization.parse
+import co.there4.hexagon.util.toDate
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.lang.ClassLoader.getSystemResourceAsStream as resourceAsStream
 import java.io.StringWriter
@@ -50,7 +51,12 @@ object PebbleRenderer {
             "_minutes_" to now.minute
         )
         val completeContext = global + common + texts + context + defaultProperties
-        compiledTemplate.evaluate(writer, completeContext, locale)
+        val contextEntries = completeContext.map {
+            it.key to
+                if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()
+                else it.value
+        }
+        compiledTemplate.evaluate(writer, contextEntries.toMap(), locale)
         return writer.toString()
     }
 }
