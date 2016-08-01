@@ -52,13 +52,7 @@ class MongoObjectIdRepository<T : Any>(
         )
 
     override fun map (document: T): Document {
-        val doc = Document(document.convertToMap ().mapKeys {
-            val key = it.key ?: throw IllegalStateException ("Key can not be 'null'")
-            if (key is String)
-                key
-            else
-                throw IllegalStateException ("Key must be 'String' not '${key.javaClass.name}'")
-        })
+        val doc = super.map(document)
         doc["_id"] = ObjectId(doc[keyName].toString())
         doc.remove(keyName)
         return doc
@@ -67,7 +61,7 @@ class MongoObjectIdRepository<T : Any>(
     override fun unmap (document: Document): T {
         document[keyName] = (document["_id"] as ObjectId).toHexString()
         document.remove("_id")
-        return document.convertToObject (type)
+        return super.unmap(document)
     }
 
     override fun convertId(id: String): Any = ObjectId(id)
