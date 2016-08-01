@@ -12,7 +12,7 @@ ext.projectSite = findProperty ('projectSite') ?: 'site'
 
 ext.testngVersion = findProperty ('testngVersion') ?: '6.9.11' // Fixed because .12 bug in IntelliJ
 ext.mockitoVersion = findProperty ('mockitoVersion') ?: '1.10.+'
-ext.powermockVersion = findProperty ('dokkaVersion') ?: '1.6.+'
+ext.powermockVersion = findProperty ('powermockVersion') ?: '1.6.+'
 
 ext.filterPatterns = findProperty ('filterPatterns') ?: '*.properties, *.txt, *.xml'
 ext.rootBuildDir = rootProject.buildDir
