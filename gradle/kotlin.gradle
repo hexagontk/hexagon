@@ -8,7 +8,8 @@ apply plugin: 'kotlin'
 apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.dokka'
 
-ext.dokkaVersion = findProperty ('dokkaVersion') ?: '0.9.+'
+ext.projectSite = findProperty ('projectSite') ?: 'site'
+
 ext.testngVersion = findProperty ('testngVersion') ?: '6.9.11' // Fixed because .12 bug in IntelliJ
 ext.mockitoVersion = findProperty ('mockitoVersion') ?: '1.10.+'
 ext.powermockVersion = findProperty ('dokkaVersion') ?: '1.6.+'
