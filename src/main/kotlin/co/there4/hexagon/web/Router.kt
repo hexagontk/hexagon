@@ -21,6 +21,11 @@ open class Router(
 
     companion object : CompanionLogger (Router::class)
 
+    var notFoundHandler: Exchange.() -> Unit = { error(404, request.url + " not found") }
+        private set
+
+    private var errorHandler: Exchange.(e: Exception) -> Unit = { e -> error(500, e.toText()) }
+
     fun after(path: String = "/*", block: Exchange.() -> Unit) = addFilter(path, AFTER, block)
     fun before(path: String = "/*", block: Exchange.() -> Unit) = addFilter (path, BEFORE, block)
 
@@ -33,13 +38,16 @@ open class Router(
     fun options(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, OPTIONS, block)
     fun patch(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, PATCH, block)
 
+    fun notFound(block: Exchange.() -> Unit) { notFoundHandler = block }
+    fun internalError(block: Exchange.(e: Exception) -> Unit) { errorHandler = block }
+
     fun handleException (exception: Exception, exchange: Exchange) {
         val handler = errors[exception.javaClass]
 
         if (handler != null)
             exchange.(handler)(exception)
         else
-            exchange.error(500, exception.toText())
+            exchange.errorHandler(exception)
     }
 
     fun assets (path: String) = assets.add (path)

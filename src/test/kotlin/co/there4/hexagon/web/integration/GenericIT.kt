@@ -4,7 +4,8 @@ import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.Exchange
 import co.there4.hexagon.web.HttpMethod
 import co.there4.hexagon.web.Server
-import org.asynchttpclient.request.body.multipart.StringPart
+import java.time.LocalDateTime
+import java.util.Locale.getDefault as defaultLocale
 
 import kotlin.test.assertTrue
 
@@ -54,6 +55,9 @@ class GenericIT : ItTest () {
         server.head ("/method") { response.addHeader ("header", request.method.toString()) }
         server.get("/halt") { halt("halted") }
         server.get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
+        server.get("/template") {
+            template("pebble_template.html", defaultLocale(), mapOf("date" to LocalDateTime.now()))
+        }
 
         server.get("/tworoutes/${part.toUpperCase()}/{param}") {
             ok ("${part.toUpperCase()} route: ${request ["param"]}")
@@ -88,6 +92,13 @@ class GenericIT : ItTest () {
         withClients {
             val response = head("/hi")
             assertResponseEquals(response, 200, "")
+        }
+    }
+
+    fun template() {
+        withClients {
+            val response = get("/template")
+            assert(response.statusCode == 200)
         }
     }
 
@@ -157,7 +168,7 @@ class GenericIT : ItTest () {
     fun notFound() {
         withClients {
             val response = get ("/no/resource")
-            assert(response.statusCode == 404)
+            assertResponseEquals(response, 404, "http://localhost:5060/no/resource not found")
         }
     }
 
