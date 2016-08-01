@@ -45,23 +45,6 @@ processResources {
                 it
                     .replace ('${projectVersion}', project.version)
                     .replace ('${projectName}', project.name)
-                    .replace ('${bootstrapVersion}', bootstrapVersion)
-            }
-        }
-    }
-
-    doLast {
-        if (file (processResources.destinationDir).exists()) {
-            String resourcesDestinationDir = processResources.destinationDir
-            ant.native2ascii (
-                src: resourcesDestinationDir,
-                dest: "$resourcesDestinationDir/../ascii",
-                includes: '**/*.properties',
-            )
-
-            copy {
-                from "$resourcesDestinationDir/../ascii"
-                into resourcesDestinationDir
             }
         }
     }
