@@ -46,7 +46,7 @@ object JacksonSerializer {
         val byteBufferDeserializer: JsonDeserializer<ByteBuffer> =
             object : JsonDeserializer<ByteBuffer> () {
                 override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ByteBuffer =
-                    ByteBuffer.wrap (Base64.getDecoder ().decode (p.getText ()))
+                    ByteBuffer.wrap (Base64.getDecoder ().decode (p.text))
             }
 
         val mapper = ObjectMapper ()
