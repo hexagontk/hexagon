@@ -65,7 +65,7 @@ abstract class Server (
         val applicationJvmMemory = String.format("%,d", heap.init / 1024)
         val applicationJvm = getRuntimeMXBean().vmName
         val applicationJvmVersion = getRuntimeMXBean().specVersion
-        val applicationBootTime = String.format("%01.3f", bootTime / 1000f)
+        val applicationBootTime = String.format("%01.3f", bootTime / 1e3)
         val applicationUsedMemory = String.format("%,d", heap.used / 1024)
         val applicationHost = hostname
 
@@ -78,6 +78,7 @@ abstract class Server (
             Locale $applicationLocale Timezone $applicationTimezone
 
             Started in $applicationBootTime s using $applicationUsedMemory KB
+            Served at http://$bindAddress:$bindPort
         """
 
         val banner = EOL + EOL + (read ("banner.txt") ?: "") + information

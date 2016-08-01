@@ -86,10 +86,10 @@ class ServletFilter (private val router: Router) : Filter {
                             bRequest.actionPath = r.first.path
                             exchange.(r.second)()
                             handled = true
-                            break;
+                            break
                         }
                         catch (e: PassException) {
-                            continue;
+                            continue
                         }
                     }
                 }
@@ -106,7 +106,10 @@ class ServletFilter (private val router: Router) : Filter {
             handled = true
         }
         finally {
-            response.status = if (handled) exchange.response.status else 404
+            if (!handled)
+                exchange.(router.notFoundHandler)()
+
+            response.status = exchange.response.status
             response.outputStream.write(exchange.response.body.toString().toByteArray())
             response.outputStream.flush()
         }
