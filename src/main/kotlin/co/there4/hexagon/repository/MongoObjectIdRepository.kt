@@ -1,7 +1,5 @@
 package co.there4.hexagon.repository
 
-import co.there4.hexagon.serialization.convertToMap
-import co.there4.hexagon.serialization.convertToObject
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import org.bson.Document
@@ -13,7 +11,9 @@ class MongoObjectIdRepository<T : Any>(
     collection: MongoCollection<Document>,
     keySupplier: (T) -> String,
     keyName: String = "id",
-    publishEvents: Boolean = false) :
+    publishEvents: Boolean = false,
+    onStore: (Document) -> Document = { it },
+    onLoad: (Document) -> Document = { it }) :
     MongoIdRepository<T, String> (
         type,
         collection,
@@ -22,33 +22,43 @@ class MongoObjectIdRepository<T : Any>(
         keyName,
         publishEvents,
         1,
-        false) {
+        false,
+        onStore,
+        onLoad) {
 
     constructor (
         type: KClass<T>,
         database: MongoDatabase,
         keySupplier: (T) -> String,
         keyName: String = "id",
-        publishEvents: Boolean = false) :
+        publishEvents: Boolean = false,
+        onStore: (Document) -> Document = { it },
+        onLoad: (Document) -> Document = { it }) :
         this (
             type,
             mongoCollection(type.simpleName ?: error("Error getting type name"), database),
             keySupplier,
             keyName,
-            publishEvents
+            publishEvents,
+            onStore,
+            onLoad
         )
 
     constructor (
         type: KClass<T>,
         keySupplier: (T) -> String,
         keyName: String = "id",
-        publishEvents: Boolean = false) :
+        publishEvents: Boolean = false,
+        onStore: (Document) -> Document = { it },
+        onLoad: (Document) -> Document = { it }) :
         this (
             type,
             mongoDatabase(),
             keySupplier,
             keyName,
-            publishEvents
+            publishEvents,
+            onStore,
+            onLoad
         )
 
     override fun map (document: T): Document {

@@ -17,8 +17,10 @@ import kotlin.reflect.KClass
 open class MongoRepository <T : Any> (
     val type: KClass<T>,
     collection: MongoCollection<Document>,
-    protected val publishEvents: Boolean = false) :
-    MongoCollection<Document> by collection {
+    protected val publishEvents: Boolean = false,
+    protected val onStore: (Document) -> Document = { it },
+    protected val onLoad: (Document) -> Document = { it }
+    ) : com.mongodb.client.MongoCollection<Document> by collection {
 
     companion object : CompanionLogger (MongoRepository::class)
 
@@ -106,16 +108,18 @@ open class MongoRepository <T : Any> (
             createIndex(Document(name, order), options)
 
     protected open fun map (document: T): Document {
-        return Document (document.convertToMap ().mapKeys {
-            val key = it.key ?: throw IllegalStateException ("Key can not be 'null'")
-            if (key is String)
-                key
-            else
-                throw IllegalStateException ("Key must be 'String' not '${key.javaClass.name}'")
-        })
+        return onStore (
+            Document (document.convertToMap ().mapKeys {
+                val key = it.key ?: throw IllegalStateException ("Key can not be 'null'")
+                if (key is String)
+                    key
+                else
+                    throw IllegalStateException ("Key must be 'String' not '${key.javaClass.name}'")
+            })
+        )
     }
 
     protected open fun map (documents: List<T>): List<Document> = documents.map { map(it) }
 
-    protected open fun unmap (document: Document): T = document.convertToObject (type)
+    protected open fun unmap (document: Document): T = onLoad(document).convertToObject (type)
 }

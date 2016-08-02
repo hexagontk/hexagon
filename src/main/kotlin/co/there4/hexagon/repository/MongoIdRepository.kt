@@ -16,8 +16,10 @@ open class MongoIdRepository<T : Any, K : Any> (
     protected val keyName: String = "id",
     publishEvents: Boolean = false,
     indexOrder: Int = 1,
-    createIndex: Boolean = true) :
-    MongoRepository<T> (type, collection, publishEvents) {
+    createIndex: Boolean = true,
+    onStore: (Document) -> Document = { it },
+    onLoad: (Document) -> Document = { it }) :
+        MongoRepository<T> (type, collection, publishEvents, onStore, onLoad) {
 
     constructor (
         type: KClass<T>,
@@ -27,7 +29,9 @@ open class MongoIdRepository<T : Any, K : Any> (
         keyName: String = "id",
         publishEvents: Boolean = false,
         indexOrder: Int = 1,
-        createIndex: Boolean = true) :
+        createIndex: Boolean = true,
+        onStore: (Document) -> Document = { it },
+        onLoad: (Document) -> Document = { it }) :
         this (
             type,
             mongoCollection(type.simpleName ?: error("Error getting type name"), database),
@@ -36,7 +40,9 @@ open class MongoIdRepository<T : Any, K : Any> (
             keyName,
             publishEvents,
             indexOrder,
-            createIndex
+            createIndex,
+            onStore,
+            onLoad
         )
 
     constructor (
@@ -46,7 +52,10 @@ open class MongoIdRepository<T : Any, K : Any> (
         keyName: String = "id",
         publishEvents: Boolean = false,
         indexOrder: Int = 1,
-        createIndex: Boolean = true) :
+        createIndex: Boolean = true,
+        onStore: (Document) -> Document = { it },
+        onLoad: (Document) -> Document = { it }
+        ) :
         this (
             type,
             mongoDatabase(),
@@ -55,7 +64,9 @@ open class MongoIdRepository<T : Any, K : Any> (
             keyName,
             publishEvents,
             indexOrder,
-            createIndex
+            createIndex,
+            onStore,
+            onLoad
         )
 
     init {
