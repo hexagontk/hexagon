@@ -3,7 +3,9 @@ package co.there4.hexagon.repository
 import co.there4.hexagon.repository.Department.*
 import java.net.URL
 import java.nio.ByteBuffer
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 class CompanyTest :
     IdRepositoryTest<Company, String> (Company::class, "id", String::class, { it.id }) {
@@ -11,6 +13,8 @@ class CompanyTest :
         createObject(),
         Company(
             id = "id1",
+            foundation = LocalDate.of (2014, 1, 25),
+            openTime = LocalTime.of(8, 30),
             web = URL("http://example.org"),
             people = setOf(
                 Person(name = "John"),
@@ -25,6 +29,8 @@ class CompanyTest :
 
     override fun createObject() = Company (
         id = "id",
+        foundation = LocalDate.of (2014, 1, 25),
+        openTime = LocalTime.of(8, 30),
         web = URL ("http://example.org"),
         clients = listOf (
             URL ("http://c1.example.org"),

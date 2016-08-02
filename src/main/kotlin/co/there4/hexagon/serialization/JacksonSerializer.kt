@@ -3,6 +3,8 @@ package co.there4.hexagon.serialization
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.JsonToken
+import com.fasterxml.jackson.core.JsonToken.START_ARRAY
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 
@@ -13,6 +15,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.io.InputStream
 import java.nio.ByteBuffer
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -49,6 +53,60 @@ object JacksonSerializer {
                     ByteBuffer.wrap (Base64.getDecoder ().decode (p.text))
             }
 
+        val localTimeSerializer: JsonSerializer<LocalTime> =
+            object : JsonSerializer<LocalTime> () {
+                override fun serialize(
+                    value: LocalTime, gen: JsonGenerator, serializers: SerializerProvider) {
+
+                    gen.writeStartArray()
+                    gen.writeNumber(value.hour)
+                    gen.writeNumber(value.minute)
+                    gen.writeNumber(value.second)
+                    gen.writeNumber(value.nano)
+                    gen.writeEndArray()
+                }
+            }
+
+        val localTimeDeserializer: JsonDeserializer<LocalTime> =
+            object : JsonDeserializer<LocalTime> () {
+                override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalTime {
+                    val result = LocalTime.of(
+                        p.nextIntValue(0),
+                        p.nextIntValue(0),
+                        p.nextIntValue(0),
+                        p.nextIntValue(0)
+                    )
+                    p.nextToken()
+                    return result
+                }
+            }
+
+        val localDateSerializer: JsonSerializer<LocalDate> =
+            object : JsonSerializer<LocalDate> () {
+                override fun serialize(
+                    value: LocalDate, gen: JsonGenerator, serializers: SerializerProvider) {
+
+                    gen.writeStartArray()
+                    gen.writeNumber(value.year)
+                    gen.writeNumber(value.monthValue)
+                    gen.writeNumber(value.dayOfMonth)
+                    gen.writeEndArray()
+                }
+            }
+
+        val localDateDeserializer: JsonDeserializer<LocalDate> =
+            object : JsonDeserializer<LocalDate> () {
+                override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDate {
+                    val result = LocalDate.of(
+                        p.nextIntValue(0),
+                        p.nextIntValue(0),
+                        p.nextIntValue(0)
+                    )
+                    p.nextToken()
+                    return result
+                }
+            }
+
         val mapper = ObjectMapper ()
         mapper.configure (FAIL_ON_UNKNOWN_PROPERTIES, false)
         mapper.configure (FAIL_ON_EMPTY_BEANS, false)
@@ -60,6 +118,10 @@ object JacksonSerializer {
             init {
                 addSerializer (ByteBuffer::class.java, byteBufferSerializer)
                 addDeserializer (ByteBuffer::class.java, byteBufferDeserializer)
+                addSerializer (LocalTime::class.java, localTimeSerializer)
+                addDeserializer (LocalTime::class.java, localTimeDeserializer)
+                addSerializer (LocalDate::class.java, localDateSerializer)
+                addDeserializer (LocalDate::class.java, localDateDeserializer)
             }
         })
         return mapper
