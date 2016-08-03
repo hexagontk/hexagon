@@ -14,7 +14,8 @@ class CompanyTest :
         Company(
             id = "id1",
             foundation = LocalDate.of (2014, 1, 25),
-            openTime = LocalTime.of(8, 30),
+            closeTime = LocalTime.of(11, 42),
+            openTime = LocalTime.of(8, 30) .. LocalTime.of(14, 36),
             web = URL("http://example.org"),
             people = setOf(
                 Person(name = "John"),
@@ -30,7 +31,8 @@ class CompanyTest :
     override fun createObject() = Company (
         id = "id",
         foundation = LocalDate.of (2014, 1, 25),
-        openTime = LocalTime.of(8, 30),
+        closeTime = LocalTime.of(11, 42),
+        openTime = LocalTime.of(8, 30) .. LocalTime.of(14, 51),
         web = URL ("http://example.org"),
         clients = listOf (
             URL ("http://c1.example.org"),

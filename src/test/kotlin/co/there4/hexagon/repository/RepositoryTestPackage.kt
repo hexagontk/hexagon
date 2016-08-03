@@ -13,7 +13,8 @@ data class Person(val name: String)
 data class Company(
     val id: String,
     val foundation: LocalDate,
-    val openTime: LocalTime,
+    val closeTime: LocalTime,
+    val openTime: ClosedRange<LocalTime>,
     val web: URL?,
     val clients: List<URL> = listOf(),
     val logo: ByteBuffer? = null,

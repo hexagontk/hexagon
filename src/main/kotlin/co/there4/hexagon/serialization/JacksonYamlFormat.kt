@@ -11,8 +11,8 @@ import kotlin.reflect.KClass
 class JacksonYamlFormat : SerializationFormat {
     override val contentType = "application/yaml"
 
-    private val mapper = ObjectMapper(YAMLFactory())
-    private val writer = createObjectWriter ()
+    private val mapper = createObjectMapper(YAMLFactory())
+    private val writer = createObjectWriter()
 
     fun createObjectWriter (): ObjectWriter {
         val printer = DefaultPrettyPrinter ().withArrayIndenter (SYSTEM_LINEFEED_INSTANCE)
