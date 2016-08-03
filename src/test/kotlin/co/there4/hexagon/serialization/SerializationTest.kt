@@ -15,7 +15,6 @@ import kotlin.reflect.KClass
                 assert (it.equals (object2))
 
                 val modelString = it.serialize(contentType)
-                println(modelString)
                 val object3 = modelString.parse(type, contentType)
                 assert (it.equals (object3))
             }
