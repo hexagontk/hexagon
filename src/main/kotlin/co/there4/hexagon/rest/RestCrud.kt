@@ -2,6 +2,7 @@ package co.there4.hexagon.rest
 
 import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.repository.MongoRepository
+import co.there4.hexagon.serialization.defaultFormat
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.*
@@ -22,8 +23,16 @@ class RestCrud <T : Any, K : Any> (
         server.get("/$collectionName/{id}") { find (repository, this) }
     }
 
+    private fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat
+    private fun accept (exchange: Exchange) = exchange.request.accept()?.first().let {
+        when (it) {
+            "*/*", null -> defaultFormat
+            else -> it
+        }
+    }
+
     private fun <T : Any> insert (repository: MongoRepository<T>, exchange: Exchange) {
-        val obj = exchange.request.body.parse(repository.type)
+        val obj = exchange.request.body.parse(repository.type, contentType(exchange))
         try {
             repository.insertOneObject(obj)
             exchange.ok(201) // Created
@@ -39,7 +48,7 @@ class RestCrud <T : Any, K : Any> (
     private fun <T : Any, K : Any> replace (
         repository: MongoIdRepository<T, K>, exchange: Exchange) {
 
-        val obj = exchange.request.body.parse(repository.type)
+        val obj = exchange.request.body.parse(repository.type, contentType(exchange))
         repository.replaceObject(obj)
         exchange.ok(200) // Created
     }
@@ -62,7 +71,7 @@ class RestCrud <T : Any, K : Any> (
             exchange.halt(404)//NOT_FOUND)
         }
         else {
-            exchange.ok(obj.serialize())
+            exchange.ok(obj.serialize(accept(exchange)))
         }
     }
 
@@ -73,11 +82,11 @@ class RestCrud <T : Any, K : Any> (
         return when (repository.keyType) {
             String::class -> """"$id""""
             else -> id
-        }.parse(repository.keyType)
+        }.parse(repository.keyType, contentType(exchange))
     }
 
     private fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
         val objects = repository.findObjects().toList()
-        exchange.ok(objects.serialize())
+        exchange.ok(objects.serialize(accept(exchange)))
     }
 }

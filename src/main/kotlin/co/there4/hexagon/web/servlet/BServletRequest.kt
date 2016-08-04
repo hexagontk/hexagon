@@ -19,7 +19,7 @@ class BServletRequest(val req: HttpServletRequest, var actionPath: Path? = null)
     override val method: HttpMethod by lazy { HttpMethod.valueOf (req.method) }
     override val queryString: String by lazy { req.queryString }
     override val contentLength: Long by lazy { req.contentLength.toLong() }
-    override val contentType: String by lazy { req.contentType }
+    override val contentType: String? by lazy { req.contentType }
     override val host: String by lazy { req.remoteHost }
     override val userAgent: String by lazy { headers["User-Agent"]?.first() ?: "UNKNOWN" }
     override val url: String by lazy { req.requestURL.toString() }

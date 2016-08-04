@@ -20,7 +20,7 @@ interface Request {
     val method: HttpMethod                 // "GET"
     val queryString: String                // ""
     val contentLength: Long                // length of request.body
-    val contentType: String                // media type of request.body
+    val contentType: String?               // media type of request.body
     val host: String                       // "example.com"
     val userAgent: String                  // user agent (used by :agent condition)
     val url: String                        // "http://example.com/example/foo"
@@ -38,7 +38,7 @@ interface Request {
 
     operator fun get(name: String) = parameters[name]?.first()
 
-    fun accept () = headers["Accept"] ?: listOf ()
+    fun accept () = headers["Accept"]
 
     fun parameter(name: String) = get(name) ?: error ("'$name' parameter not found")
 }

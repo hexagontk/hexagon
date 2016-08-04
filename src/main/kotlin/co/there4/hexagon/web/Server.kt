@@ -78,7 +78,7 @@ abstract class Server (
             Locale $applicationLocale Timezone $applicationTimezone
 
             Started in $applicationBootTime s using $applicationUsedMemory KB
-            Served at http://$bindAddress:$bindPort
+            Served at http://${bindAddress.canonicalHostName}:$bindPort
         """
 
         val banner = EOL + EOL + (read ("banner.txt") ?: "") + information
