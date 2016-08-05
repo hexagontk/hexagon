@@ -1,5 +1,6 @@
 package co.there4.hexagon.util
 
+import java.io.InputStream
 import java.lang.System.*
 import java.lang.ThreadLocal.withInitial
 import java.net.InetAddress.getLocalHost
@@ -9,6 +10,7 @@ import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset.UTC
+import java.lang.ClassLoader.getSystemClassLoader
 
 /*
  * Timing
@@ -165,3 +167,10 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
             }[keys.last()]
     else
         (this as Map<Any, Any>).getOrElse(keys.first()) { null }
+
+/*
+ * I/O
+ */
+val systemClassLoader: ClassLoader = getSystemClassLoader() ?: error("Error getting class loader")
+
+fun resourceAsStream(resName: String): InputStream? = systemClassLoader.getResourceAsStream(resName)

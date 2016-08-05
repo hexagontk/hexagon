@@ -2,8 +2,8 @@ package co.there4.hexagon.settings
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.resourceAsStream
 import java.io.File
-import java.lang.ClassLoader.getSystemClassLoader
 import java.lang.System.getProperty
 
 enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
@@ -17,7 +17,6 @@ enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
  */
 object SettingsManager : CompanionLogger(SettingsManager::class) {
     private val environmentFile = File("${getProperty("user.home")}/.environment")
-    private val systemClassLoader = getSystemClassLoader()
 
     val environment: Environment? = if (environmentFile.exists() && environmentFile.isFile) {
         val environmentContent = environmentFile.readText().trim()
@@ -49,7 +48,7 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
 
     @Suppress("UNCHECKED_CAST")
     private fun loadProps (resName: String): Map<String, *> =
-        systemClassLoader.getResourceAsStream(resName).let {
+        resourceAsStream(resName).let {
             if (it == null) {
                 info("No environment settings found '$resName'")
                 mapOf<String, Any>()
