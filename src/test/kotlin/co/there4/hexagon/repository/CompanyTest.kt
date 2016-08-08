@@ -1,14 +1,15 @@
 package co.there4.hexagon.repository
 
 import co.there4.hexagon.repository.Department.*
+import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class CompanyTest :
-    IdRepositoryTest<Company, String> (Company::class, "id", String::class, { it.id }) {
+@Test
+class CompanyTest : IdRepositoryTest<Company, String> (Company::class, { it.id }, String::class) {
     override val testObjects: List<Company> = listOf (
         createObject(),
         Company(

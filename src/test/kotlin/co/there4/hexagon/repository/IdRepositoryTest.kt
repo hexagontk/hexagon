@@ -6,14 +6,18 @@ import kotlin.reflect.KClass
  * TODO Check events
  */
 abstract class IdRepositoryTest <T : Any, K : Any> (
-    type: KClass<T>, idField: String, keyType: KClass<K>, keySupplier: (T) -> K) :
-    RepositoryTest<T, K>(type, idField) {
+    type: KClass<T>,
+    keySupplier: (T) -> K,
+    keyType: KClass<K>,
+    idField: String = "id") :
+        RepositoryTest<T, K>(type, idField) {
 
     val idCollection: MongoIdRepository<T, K> =
         MongoIdRepository(type, keySupplier, keyType, idField, true)
 
     override fun getObjectKey (obj: T) = idCollection.getKey (obj)
 
+    @Suppress("unused")
     fun performing_crud_operations_with_lists_of_objects_behaves_as_expected () {
         val objects = createObjects ()
         @Suppress("UNCHECKED_CAST") // It seems the only way to convert to generic array

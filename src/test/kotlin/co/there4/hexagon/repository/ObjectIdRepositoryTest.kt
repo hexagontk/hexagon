@@ -19,6 +19,7 @@ abstract class ObjectIdRepositoryTest <T : Any> (
 
     override fun createObjects() = (0..9).map { changeObject(createObject()) }
 
+    @Suppress("unused")
     fun performing_crud_operations_with_lists_of_objects_behaves_as_expected () {
         val objects: List<T> = createObjects ()
         @Suppress("UNCHECKED_CAST") // It seems the only way to convert to generic array
@@ -28,7 +29,7 @@ abstract class ObjectIdRepositoryTest <T : Any> (
         val changedObjectsArray = changedObjects.toTypedArray<Any>() as Array<T>
         val ids = objects.map { oidCollection.getKey(it) }
         @Suppress("UNCHECKED_CAST") // It seems the only way to convert to generic array
-        val idsArray: Array<String> = ids.toTypedArray<String>()
+        val idsArray: Array<String> = ids.toTypedArray()
 
         assert (ids.all { it.javaClass == oidCollection.keyType.java })
 
