@@ -1,5 +1,6 @@
 package co.there4.hexagon.web
 
+import java.io.OutputStream
 import java.net.HttpCookie
 
 /**
@@ -12,6 +13,8 @@ interface Response {
     var body: Any
     var status: Int
     var contentType: String?
+
+    val outputStream: OutputStream
 
     fun getMimeType (file: String): String
     fun addHeader (name: String, value: String)

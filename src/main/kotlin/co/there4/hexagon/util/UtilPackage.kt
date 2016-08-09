@@ -158,7 +158,7 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
             .dropLast(1)
             .fold(this) { result, element ->
                 val r = result as Map<Any, Any>
-                val value = r.getOrElse<Any, Any>(element, { mapOf<Any, Any>() })
+                val value = r.getOrElse(element, { mapOf<Any, Any>() })
                 when (value) {
                     is Map<*, *> -> value
                     is List<*> -> value.mapIndexed { ii, item -> ii to item  }.toMap()

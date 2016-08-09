@@ -1,6 +1,7 @@
 package co.there4.hexagon.web.servlet
 
 import co.there4.hexagon.web.Response
+import java.io.OutputStream
 import java.net.HttpCookie
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
@@ -17,7 +18,9 @@ class BServletResponse(val req: HttpServletRequest, val resp: HttpServletRespons
         get() = resp.contentType
         set(value) { resp.contentType = value }
 
-    override fun getMimeType (file: String) = req.servletContext.getMimeType(file)
+    override val outputStream: OutputStream = resp.outputStream
+
+    override fun getMimeType (file: String): String = req.servletContext.getMimeType(file)
 
     override fun addHeader (name: String, value: String) {
         resp.addHeader(name, value)
