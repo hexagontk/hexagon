@@ -81,4 +81,20 @@ import kotlin.test.assertFailsWith
         assert (Context["Number"] == 9)
         assert (Context["Text"] == "Text")
     }
+
+    fun testGet() {
+        val m = mapOf(
+            "alpha" to "bravo",
+            "tango" to 0,
+            "nested" to mapOf(
+                "zulu" to "charlie"
+            ),
+            0 to 1
+        )
+        assert(m["nested", "zulu"] == "charlie")
+        assert(m["nested", "zulu", "tango"] == null)
+        assert(m["nested", "empty"] == null)
+        assert(m["empty"] == null)
+        assert(m[0] == 1)
+    }
 }
