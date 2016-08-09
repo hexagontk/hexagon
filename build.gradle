@@ -87,6 +87,15 @@ test {
     }
 }
 
+packageTest {
+    exclude('/public')
+    exclude('/templates')
+    exclude('/*.yaml')
+    exclude('/*.xml')
+    exclude('/*.json')
+    exclude('/*.txt')
+}
+
 build.dependsOn 'shadowJar'
 site.dependsOn 'dokka', 'jacocoTestReport'
 publish.dependsOn 'checkGitStatus', 'site' // TODO Publish site
