@@ -2,6 +2,7 @@ package co.there4.hexagon.settings
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.EOL
 import co.there4.hexagon.util.resourceAsStream
 import java.io.File
 import java.lang.System.getProperty
@@ -16,6 +17,7 @@ enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
  * - <environment>.yaml (file)
  */
 object SettingsManager : CompanionLogger(SettingsManager::class) {
+    private val prefix = getProperty("settings.prefix") ?: ""
     private val environmentFile = File("${getProperty("user.home")}/.environment")
 
     val environment: Environment? = if (environmentFile.exists() && environmentFile.isFile) {
@@ -30,8 +32,8 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
 
     val parameters: Map<String, *> = loadSettings()
 
-    private fun loadSettings() = loadProps("service.yaml") +
-        if (environment != null) loadProps("${environment.toString().toLowerCase()}.yaml")
+    private fun loadSettings() = loadProps("${prefix}service.yaml") +
+        if (environment != null) loadProps("$prefix${environment.toString().toLowerCase()}.yaml")
         else mapOf<String, Any>()
 
     operator fun get (vararg key: String): Any? = key
@@ -55,7 +57,10 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
             }
             else {
                 val props = it.parse(Map::class, "application/yaml") as Map<String, *>
-                info("Settings loaded from '$resName'")
+                val separator = EOL + " ".repeat(4)
+                info("Settings loaded from '$resName':" +
+                    props.map { it.key + " : " + it.value }.joinToString(separator, separator, EOL)
+                )
                 props
             }
         }
