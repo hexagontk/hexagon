@@ -10,6 +10,7 @@ import org.asynchttpclient.cookie.Cookie
 
 import co.there4.hexagon.web.HttpMethod.*
 import org.asynchttpclient.DefaultAsyncHttpClientConfig
+import java.nio.charset.Charset
 
 /**
  * Client to use other REST services (like the ones created with Blacksheep).
@@ -135,6 +136,7 @@ class Client (
                 PATCH -> client.preparePatch (it)
             }
 
+            request.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?
             if (contentType != null) request.addHeader("Content-Type", contentType)
             else request
         }

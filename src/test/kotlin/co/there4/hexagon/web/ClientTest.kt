@@ -11,8 +11,13 @@ import java.net.URL
     val client = Client(URL("http://localhost:5099"), "application/json")
 
     @BeforeClass fun startup() {
-        srv.post { ok(request.body) }
-        srv.get { ok(request.body) }
+        srv.post {
+            response.contentType = "application/json; charset=utf-8"
+            ok(request.body)
+        }
+        srv.get {
+            ok(request.body)
+        }
         srv.run()
     }
 
@@ -21,12 +26,13 @@ import java.net.URL
     }
 
     fun json_requests_works_as_expected() {
-        val expectedBody = "{\n  \"foo\" : \"fighters\"\n}"
+        val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
+        val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
-        val body = client.post("/", "application/json", mapOf ("foo" to "fighters")).responseBody
+        val body = client.post("/", "application/json", requestBody).responseBody
         assert(body.trim() == expectedBody)
 
-        val body2 = client.post("/", body = mapOf ("foo" to "fighters")).responseBody
+        val body2 = client.post("/", body = requestBody).responseBody
         assert(body2.trim() == expectedBody)
 
         client.get("/", "application/json") { "foo" }
