@@ -148,7 +148,7 @@ object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
 }
 
 object ClosedRangeDeserializer: JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
-    private var valueType: ThreadLocal<JavaType?> = ThreadLocal.withInitial { null }
+    private val valueType: ThreadLocal<JavaType?> = ThreadLocal.withInitial { null }
 
     override fun createContextual(
         ctxt: DeserializationContext, property: BeanProperty): JsonDeserializer<*> {
@@ -171,4 +171,3 @@ object ClosedRangeDeserializer: JsonDeserializer<ClosedRange<*>> (), ContextualD
         return start .. end
     }
 }
-
