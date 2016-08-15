@@ -1,7 +1,8 @@
 package co.there4.hexagon.util
 
-import java.lang.ClassLoader.getSystemClassLoader
 import java.lang.System.getProperty
+import java.text.Normalizer.Form.NFD
+import java.text.Normalizer.normalize
 
 /** Runtime specific end of line. */
 val EOL = getProperty("line.separator")
@@ -88,8 +89,9 @@ fun String.banner (): String {
     return "$separator${EOL}$this${EOL}$separator"
 }
 
-fun read (resource: String) =
-    getSystemClassLoader().getResourceAsStream(resource)?.reader()?.readText()
+fun String.stripAccents() = normalize(this, NFD).replace("\\p{M}".toRegex(), "")
+
+fun readResource(resource: String) = resourceAsStream(resource)?.reader()?.readText()
 
 private fun ansiCode(fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): String {
     fun fgString (color: AnsiColor?) = (color?.fg ?: "").toString()
@@ -115,4 +117,3 @@ private fun ansiCode(fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): St
 fun ansi(fg: AnsiColor, bg: AnsiColor, vararg fxs: AnsiEffect) = ansiCode (fg, bg, *fxs)
 fun ansi(fg: AnsiColor, vararg fxs: AnsiEffect) = ansiCode (fg, null, *fxs)
 fun ansi(vararg fxs: AnsiEffect) = ansiCode (null, null, *fxs)
-

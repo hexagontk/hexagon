@@ -81,7 +81,7 @@ abstract class Server (
             Served at http://${bindAddress.canonicalHostName}:$bindPort
         """
 
-        val banner = EOL + EOL + (read ("banner.txt") ?: "") + information
+        val banner = EOL + EOL + (readResource("banner.txt") ?: "") + information
             .replaceIndent(" ".repeat(4)).lines()
             .map { if (it.isBlank()) it.trim() else it }
             .joinToString(EOL) + EOL

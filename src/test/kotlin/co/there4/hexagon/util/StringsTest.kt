@@ -115,7 +115,7 @@ import org.testng.annotations.Test
     }
 
     @Test (enabled = false, description = "Only to show the output in a console and check visually")
-    fun effects_and_foreground_color_table () {
+    fun effects_and_foreground_color_table() {
         println (" %14s | %-14s".format ("FOREGROUND", "EFFECT"))
 
         AnsiColor.values ().forEach { fg ->
@@ -127,5 +127,10 @@ import org.testng.annotations.Test
         }
 
         println ("Back to normal")
+    }
+
+    fun normalize_works_as_expected() {
+        val striped = "áéíóúñçÁÉÍÓÚÑÇ".stripAccents()
+        assert(striped == "aeiouncAEIOUNC")
     }
 }
