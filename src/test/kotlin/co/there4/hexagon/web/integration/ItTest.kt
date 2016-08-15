@@ -8,7 +8,6 @@ import co.there4.hexagon.web.jetty.JettyServer
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
-import java.net.URL
 import java.net.InetAddress.getByName as address
 
 internal const val THREADS = 1
@@ -23,7 +22,7 @@ abstract class ItTest {
         JettyServer (bindAddress = address("localhost"), bindPort = 5060)
     )
 
-    val clients = servers.map { Client (URL ("http://localhost:${it.bindPort}")) }
+    val clients = servers.map { Client ("http://localhost:${it.bindPort}") }
 
     protected abstract fun initialize (server: Server)
 

@@ -6,10 +6,9 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import org.asynchttpclient.Response
-import java.net.URL
 
-@Test class BlacksheepIT {
-    val client: Client by lazy { Client (URL ("http://localhost:${server.bindPort}")) }
+@Test class HexagonIT {
+    val client: Client by lazy { Client ("http://localhost:${server.bindPort}") }
 
     @BeforeClass fun startServers () {
         stop()

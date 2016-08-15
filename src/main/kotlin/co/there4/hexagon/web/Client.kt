@@ -20,6 +20,9 @@ class Client (
     val contentType: String? = null,
     val useCookies: Boolean = true) {
 
+    constructor(endpointUrl: String, contentType: String? = null, useCookies: Boolean = true):
+        this(URL(endpointUrl), contentType, useCookies)
+
     val endpoint = endpointUrl.toString()
     val client = DefaultAsyncHttpClient(DefaultAsyncHttpClientConfig.Builder()
         .setConnectTimeout(5000)

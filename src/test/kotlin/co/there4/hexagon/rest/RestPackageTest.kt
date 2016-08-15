@@ -11,7 +11,6 @@ import co.there4.hexagon.web.server
 import co.there4.hexagon.web.stop
 import co.there4.hexagon.web.run
 import org.testng.annotations.Test
-import java.net.URL
 import kotlin.reflect.KClass
 
 @Test class RestPackageTest {
@@ -45,7 +44,7 @@ import kotlin.reflect.KClass
         fun param (json: String?) = json?.parse (Country::class) ?: error ("")
         fun paramList (json: String?) = json?.parseList (Country::class) ?: error ("")
         val url = "http://${server.bindAddress.hostAddress}:${server.bindPort}"
-        val client = Client (URL (url), useCookies = false)
+        val client = Client (url, useCookies = false)
         val parameter = Country(34, "es")
         val changedParameter = parameter.copy(code = "fr")
 
@@ -81,7 +80,7 @@ import kotlin.reflect.KClass
 
         fun param (json: String?) = json?.parse (Parameter::class) ?: error ("")
         fun paramList (json: String?) = json?.parseList (Parameter::class) ?: error ("")
-        val client = Client (URL ("http://localhost:${server.bindPort}"), useCookies = false)
+        val client = Client("http://localhost:${server.bindPort}", useCookies = false)
         val parameter = Parameter("a", "b")
         val modifiedParameter = parameter.copy(value = "c")
 

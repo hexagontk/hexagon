@@ -37,6 +37,13 @@ fun <T : Any> InputStream.parse (type: KClass<T>, contentType: String = defaultF
 fun <T : Any> InputStream.parseList (type: KClass<T>, contentType: String = defaultFormat) =
     JacksonSerializer.parseList (this, type, contentType)
 
+fun String.parse (contentType: String = defaultFormat) = this.parse (Map::class, contentType)
+fun String.parseList(contentType: String = defaultFormat) = this.parseList (Map::class, contentType)
+
+fun InputStream.parse (contentType: String = defaultFormat) = this.parse (Map::class, contentType)
+fun InputStream.parseList (contentType: String = defaultFormat) =
+    this.parseList (Map::class, contentType)
+
 fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper {
     val mapper = ObjectMapper (mapperFactory)
     mapper.configure (FAIL_ON_UNKNOWN_PROPERTIES, false)

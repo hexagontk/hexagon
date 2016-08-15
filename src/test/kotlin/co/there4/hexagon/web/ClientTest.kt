@@ -4,11 +4,10 @@ import co.there4.hexagon.web.jetty.JettyServer
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
-import java.net.URL
 
 @Test class ClientTest {
     val srv = JettyServer(bindPort = 5099)
-    val client = Client(URL("http://localhost:5099"), "application/json")
+    val client = Client("http://localhost:5099", "application/json")
 
     @BeforeClass fun startup() {
         srv.post {

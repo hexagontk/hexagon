@@ -5,14 +5,13 @@ import co.there4.hexagon.web.Client
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
-import java.net.URL
 
 internal const val THREADS = 4
 internal const val TIMES = 4
 
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 class BenchmarkTest {
-    private val client = Client(URL("http://localhost:9090"))
+    private val client = Client("http://localhost:9090")
 
     @BeforeClass fun warmup() {
         main(arrayOf())

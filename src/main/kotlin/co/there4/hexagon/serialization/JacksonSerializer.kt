@@ -41,6 +41,19 @@ object JacksonSerializer {
     fun <T: Any> parse(input: InputStream, type: KClass<T>, contentType: String = defaultFormat) =
         getSerializationFormat (contentType).parse (input, type)
 
-    fun <T: Any> parseList(input: InputStream, type: KClass<T>, contentType: String = defaultFormat) =
-        getSerializationFormat (contentType).parseList (input, type)
+    fun <T: Any> parseList(
+        input: InputStream, type: KClass<T>, contentType: String = defaultFormat) =
+            getSerializationFormat (contentType).parseList (input, type)
+
+    fun parse(text: String, contentType: String = defaultFormat) =
+        parse (text, Map::class, contentType)
+
+    fun parseList(text: String, contentType: String = defaultFormat) =
+        parseList (text, Map::class, contentType)
+
+    fun parse(input: InputStream, contentType: String = defaultFormat) =
+        parse (input, Map::class, contentType)
+
+    fun parseList(input: InputStream, contentType: String = defaultFormat) =
+        parseList (input, Map::class, contentType)
 }
