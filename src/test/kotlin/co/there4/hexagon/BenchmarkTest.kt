@@ -48,7 +48,7 @@ class BenchmarkTest {
         val content = response.responseBody
 
         checkResponse (response, "application/json")
-        assert ("Hello, World!" == content.parse(Map::class)["message"])
+        assert ("Hello, World!" == content.parse(Message::class).message)
     }
 
     fun plaintext () {
