@@ -5,7 +5,7 @@ import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
 
 /** Runtime specific end of line. */
-val EOL = getProperty("line.separator")
+val EOL = getProperty("line.separator") ?: error("'line.separator' not found in system properties")
 
 /** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
 private val VARIABLE_PREFIX = "#{"
@@ -47,7 +47,7 @@ fun String.filterVars(parameters: Map<*, *>) =
         .fold(this) { result, pair ->
             val key = pair.key.toString()
             val value = pair.value.toString()
-            result.replace ("${VARIABLE_PREFIX}$key${VARIABLE_SUFFIX}", value)
+            result.replace ("$VARIABLE_PREFIX$key$VARIABLE_SUFFIX", value)
         }
 
 fun String.filterVars(vararg parameters: Pair<*, *>) = this.filterVars (mapOf (*parameters))
@@ -86,7 +86,7 @@ fun String.camelToSnake () =
  */
 fun String.banner (): String {
     val separator = BANNER_DELIMITER.repeat (this.lines().map { it.length }.max() ?: 0)
-    return "$separator${EOL}$this${EOL}$separator"
+    return "$separator$EOL$this$EOL$separator"
 }
 
 fun String.stripAccents() = normalize(this, NFD).replace("\\p{M}".toRegex(), "")
