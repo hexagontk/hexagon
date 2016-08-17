@@ -4,6 +4,8 @@ import co.there4.hexagon.events.EventManager
 import co.there4.hexagon.repository.RepositoryEventAction.*
 import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.convertToObject
+import co.there4.hexagon.serialization.parseList
+import co.there4.hexagon.serialization.resourceParseList
 import co.there4.hexagon.util.CompanionLogger
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
@@ -12,6 +14,7 @@ import com.mongodb.client.model.*
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.bson.conversions.Bson
+import java.io.File
 import kotlin.reflect.KClass
 
 open class MongoRepository <T : Any> (
@@ -106,6 +109,10 @@ open class MongoRepository <T : Any> (
         order: Int = 1,
         options: IndexOptions = IndexOptions().background(true)): String =
             createIndex(Document(name, order), options)
+
+    // TODO Test this!
+    fun importFile(input: File) { insertManyObjects(input.parseList(type)) }
+    fun importResource(input: String) { insertManyObjects(resourceParseList(input, type)) }
 
     protected open fun map (document: T): Document {
         return onStore (

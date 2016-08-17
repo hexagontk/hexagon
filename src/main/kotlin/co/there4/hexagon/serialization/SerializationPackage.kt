@@ -1,5 +1,6 @@
 package co.there4.hexagon.serialization
 
+import co.there4.hexagon.util.resourceAsStream
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.fasterxml.jackson.core.*
 import com.fasterxml.jackson.core.JsonToken.START_OBJECT
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.io.File
 
 import java.io.InputStream
 import java.nio.ByteBuffer
@@ -43,6 +45,23 @@ fun String.parseList(contentType: String = defaultFormat) = this.parseList (Map:
 fun InputStream.parse (contentType: String = defaultFormat) = this.parse (Map::class, contentType)
 fun InputStream.parseList (contentType: String = defaultFormat) =
     this.parseList (Map::class, contentType)
+
+// TODO Cover these functions with tests!
+fun <T : Any> File.parse (type: KClass<T>) =
+    this.inputStream().parse (type, "application/" + this.extension)
+fun <T : Any> File.parseList (type: KClass<T>): List<T> =
+    this.inputStream().parseList (type, "application/" + this.extension)
+
+fun File.parse () = this.parse (Map::class)
+fun File.parseList () = this.parseList (Map::class)
+
+fun <T : Any> resourceParse (path: String, type: KClass<T>) =
+    resourceAsStream(path)?.parse (type, path.substringAfter(".", "application/json")) ?: error("")
+fun <T : Any> resourceParseList (path: String, type: KClass<T>) =
+    resourceAsStream(path)?.parseList (type, path.substringAfter(".", "application/json")) ?: error("")
+
+fun resourceParse (path: String) = resourceParse(path, Map::class)
+fun resourceParseList (path: String) = resourceParseList(path, Map::class)
 
 fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper {
     val mapper = ObjectMapper (mapperFactory)
