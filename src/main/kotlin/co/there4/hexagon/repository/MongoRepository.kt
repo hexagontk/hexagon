@@ -16,6 +16,7 @@ import org.bson.Document
 import org.bson.conversions.Bson
 import java.io.File
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 
 open class MongoRepository <T : Any> (
     val type: KClass<T>,
@@ -109,6 +110,18 @@ open class MongoRepository <T : Any> (
         order: Int = 1,
         options: IndexOptions = IndexOptions().background(true)): String =
             createIndex(Document(name, order), options)
+
+    fun createFieldNamesIndex(options: IndexOptions, vararg fields: Pair<String, *>): String =
+        createIndex(Document(fields.toMap()), options)
+
+    fun createFieldNamesIndex(vararg fields: Pair<String, *>): String =
+        createFieldNamesIndex(IndexOptions().background(true), *fields)
+
+    fun createFieldsIndex(options: IndexOptions, vararg fields: Pair<KProperty<*>, *>): String =
+        createFieldNamesIndex(options, *fields.map { it.first.name to it.second }.toTypedArray())
+
+    fun createFieldsIndex(vararg fields: Pair<KProperty<*>, *>): String =
+        createFieldsIndex(IndexOptions().background(true), *fields)
 
     // TODO Test this!
     fun importFile(input: File) { insertManyObjects(input.parseList(type)) }

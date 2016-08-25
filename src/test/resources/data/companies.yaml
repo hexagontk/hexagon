@@ -1,0 +1,73 @@
+---
+- id: "id"
+  foundation:
+  - 2014
+  - 1
+  - 25
+  closeTime:
+  - 11
+  - 42
+  - 0
+  - 0
+  openTime:
+    start:
+    - 8
+    - 30
+    - 0
+    - 0
+    endInclusive:
+    - 14
+    - 51
+    - 0
+    - 0
+  web: "http://example.org"
+  clients:
+  - "http://c1.example.org"
+  - "http://c2.example.org"
+  logo: "AAEC"
+  notes: "notes"
+  people:
+  - name: "John"
+  - name: "Mike"
+  departments:
+  - "DESIGN"
+  - "DEVELOPMENT"
+  creationDate:
+  - 2016
+  - 1
+  - 1
+  - 0
+  - 0
+- id: "id1"
+  foundation:
+  - 2014
+  - 1
+  - 25
+  closeTime:
+  - 11
+  - 42
+  - 0
+  - 0
+  openTime:
+    start:
+    - 8
+    - 30
+    - 0
+    - 0
+    endInclusive:
+    - 14
+    - 36
+    - 0
+    - 0
+  web: "http://example.org"
+  people:
+  - name: "John"
+  - name: "Mike"
+  creationDate:
+  - 2016
+  - 8
+  - 25
+  - 17
+  - 17
+  - 4
+  - 21000000

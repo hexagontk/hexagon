@@ -12,13 +12,32 @@ import kotlin.reflect.KClass
                 val map = it.convertToMap ()
 
                 val object2 = map.convertToObject (type)
-                assert (it.equals (object2))
+                assert(it.equals (object2))
 
-                val modelString = it.serialize(contentType)
+                val modelString = it.serialize(contentType).trim().removePrefix("---")
                 val object3 = modelString.parse(type, contentType)
-                assert (it.equals (object3))
+                assert(it.equals (object3))
+
+                assert(modelString.parse(contentType) == map)
+
+                val tempFile = createTempFile(suffix = contentType.replace('/', '.'))
+                tempFile.deleteOnExit()
+                tempFile.writeText(modelString)
+
+                assert(tempFile.parse() == map)
             }
+
+            val serializedObjects = testObjects.serialize(contentType).trim().removePrefix("---")
+            val tempFile = createTempFile(suffix = contentType.replace('/', '.'))
+            tempFile.deleteOnExit()
+            tempFile.writeText(serializedObjects)
+            val testMaps = testObjects.map { it.convertToMap() }
+
+            assert(tempFile.parseList() == testMaps)
+            assert(testMaps == serializedObjects.parseList(contentType))
+            assert(testObjects == testMaps.convertToObject(type))
         }
+
 
         val modelListString = testObjects.serialize()
         assert (modelListString.parseList(type).size == testObjects.size)

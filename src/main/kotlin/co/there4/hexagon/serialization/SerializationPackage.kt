@@ -24,7 +24,9 @@ import kotlin.reflect.KClass
 val defaultFormat = JacksonSerializer.contentTypes.first()
 
 fun Any.convertToMap(): Map<*, *> = JacksonSerializer.toMap (this)
-fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>) = JacksonSerializer.toObject(this, type)
+fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = JacksonSerializer.toObject(this, type)
+fun <T : Any> List<Map<*, *>>.convertToObject(type: KClass<T>): List<T> =
+    this.map { it: Map<*, *> -> it.convertToObject(type) }
 
 fun Any.serialize (contentType: String = defaultFormat) =
     JacksonSerializer.serialize(this, contentType)
@@ -46,7 +48,6 @@ fun InputStream.parse (contentType: String = defaultFormat) = this.parse (Map::c
 fun InputStream.parseList (contentType: String = defaultFormat) =
     this.parseList (Map::class, contentType)
 
-// TODO Cover these functions with tests!
 fun <T : Any> File.parse (type: KClass<T>) =
     this.inputStream().parse (type, "application/" + this.extension)
 fun <T : Any> File.parseList (type: KClass<T>): List<T> =
@@ -56,9 +57,9 @@ fun File.parse () = this.parse (Map::class)
 fun File.parseList () = this.parseList (Map::class)
 
 fun <T : Any> resourceParse (path: String, type: KClass<T>) =
-    resourceAsStream(path)?.parse (type, path.substringAfter(".", "application/json")) ?: error("")
+    resourceAsStream(path)?.parse (type, "application/" + path.substringAfter(".", "json")) ?: error("")
 fun <T : Any> resourceParseList (path: String, type: KClass<T>) =
-    resourceAsStream(path)?.parseList (type, path.substringAfter(".", "application/json")) ?: error("")
+    resourceAsStream(path)?.parseList (type, "application/" + path.substringAfter(".", "json")) ?: error("")
 
 fun resourceParse (path: String) = resourceParse(path, Map::class)
 fun resourceParseList (path: String) = resourceParseList(path, Map::class)
