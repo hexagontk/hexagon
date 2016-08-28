@@ -39,7 +39,7 @@ data class Exchange (
 
         if (response.contentType == null)
             response.contentType = "$contentType; charset=${defaultCharset().name()}"
-        ok (render (template, locale, context + session.attributes + ("lang" to locale.language)))
+        ok (render (template, locale, context + session.attributes + ("pathInfo" to request.pathInfo) + ("lang" to locale.language)))
     }
 
     fun template (template: String, context: Map<String, *> = mapOf<String, Any> ()) {
