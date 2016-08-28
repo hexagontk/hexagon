@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
                 val object2 = map.convertToObject (type)
                 assert(it.equals (object2))
 
-                val modelString = it.serialize(contentType).trim().removePrefix("---")
+                val modelString = it.serialize(contentType)
                 val object3 = modelString.parse(type, contentType)
                 assert(it.equals (object3))
 
@@ -27,7 +27,7 @@ import kotlin.reflect.KClass
                 assert(tempFile.parse() == map)
             }
 
-            val serializedObjects = testObjects.serialize(contentType).trim().removePrefix("---")
+            val serializedObjects = testObjects.serialize(contentType)
             val tempFile = createTempFile(suffix = contentType.replace('/', '.'))
             tempFile.deleteOnExit()
             tempFile.writeText(serializedObjects)
