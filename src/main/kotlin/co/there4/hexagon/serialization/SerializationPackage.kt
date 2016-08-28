@@ -64,7 +64,7 @@ fun <T : Any> resourceParseList (path: String, type: KClass<T>) =
 fun resourceParse (path: String) = resourceParse(path, Map::class)
 fun resourceParseList (path: String) = resourceParseList(path, Map::class)
 
-fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper {
+internal fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper {
     val mapper = ObjectMapper (mapperFactory)
     mapper.configure (FAIL_ON_UNKNOWN_PROPERTIES, false)
     mapper.configure (FAIL_ON_EMPTY_BEANS, false)
@@ -87,18 +87,18 @@ fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): Objec
     return mapper
 }
 
-object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
+internal object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
     override fun serialize(value: ByteBuffer, gen: JsonGenerator, serializers: SerializerProvider) {
         gen.writeString (Base64.getEncoder ().encodeToString (value.array()))
     }
 }
 
-object ByteBufferDeserializer: JsonDeserializer<ByteBuffer>() {
+internal object ByteBufferDeserializer: JsonDeserializer<ByteBuffer>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ByteBuffer =
         ByteBuffer.wrap (Base64.getDecoder ().decode (p.text))
 }
 
-object LocalTimeSerializer: JsonSerializer<LocalTime> () {
+internal object LocalTimeSerializer: JsonSerializer<LocalTime> () {
     override fun serialize(
         value: LocalTime, gen: JsonGenerator, serializers: SerializerProvider) {
 
@@ -111,7 +111,7 @@ object LocalTimeSerializer: JsonSerializer<LocalTime> () {
     }
 }
 
-object LocalTimeDeserializer: JsonDeserializer<LocalTime> () {
+internal object LocalTimeDeserializer: JsonDeserializer<LocalTime> () {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalTime {
         if (p.currentToken != JsonToken.START_ARRAY)
             error ("Local time should start with an array")
@@ -127,7 +127,7 @@ object LocalTimeDeserializer: JsonDeserializer<LocalTime> () {
     }
 }
 
-object LocalDateSerializer: JsonSerializer<LocalDate> () {
+internal object LocalDateSerializer: JsonSerializer<LocalDate> () {
     override fun serialize(
         value: LocalDate, gen: JsonGenerator, serializers: SerializerProvider) {
 
@@ -139,7 +139,7 @@ object LocalDateSerializer: JsonSerializer<LocalDate> () {
     }
 }
 
-object LocalDateDeserializer: JsonDeserializer<LocalDate> () {
+internal object LocalDateDeserializer: JsonDeserializer<LocalDate> () {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDate {
         if (p.currentToken != JsonToken.START_ARRAY)
             error ("Local date should start with an array")
@@ -154,7 +154,7 @@ object LocalDateDeserializer: JsonDeserializer<LocalDate> () {
     }
 }
 
-object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
+internal object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
     override fun serialize(
         value: ClosedRange<*>, gen: JsonGenerator, serializers: SerializerProvider) {
 
@@ -174,7 +174,7 @@ object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
     }
 }
 
-object ClosedRangeDeserializer: JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
+internal object ClosedRangeDeserializer: JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
     private val valueType: ThreadLocal<JavaType?> = ThreadLocal.withInitial { null }
 
     override fun createContextual(

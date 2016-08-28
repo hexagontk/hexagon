@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.*
 import java.io.InputStream
 import kotlin.reflect.KClass
 
-class JacksonJsonFormat : SerializationFormat {
+internal class JacksonJsonFormat : SerializationFormat {
     override val contentType = "application/json"
 
     private val writer = createObjectWriter ()
@@ -18,9 +18,9 @@ class JacksonJsonFormat : SerializationFormat {
         return mapper.writer (printer)
     }
 
-    override fun serialize(obj: Any) = writer.writeValueAsString (obj)
+    override fun serialize(obj: Any): String = writer.writeValueAsString (obj)
 
-    override fun <T : Any> parse(text: String, type: KClass<T>) =
+    override fun <T : Any> parse(text: String, type: KClass<T>): T =
         mapper.readValue (text, type.java)
 
     override fun <T : Any> parseList(text: String, type: KClass<T>): List<T> {
@@ -28,7 +28,7 @@ class JacksonJsonFormat : SerializationFormat {
         return mapper.readValue (text, listType)
     }
 
-    override fun <T : Any> parse(input: InputStream, type: KClass<T>) =
+    override fun <T : Any> parse(input: InputStream, type: KClass<T>): T =
         mapper.readValue (input, type.java)
 
     override fun <T : Any> parseList(input: InputStream, type: KClass<T>): List<T> {

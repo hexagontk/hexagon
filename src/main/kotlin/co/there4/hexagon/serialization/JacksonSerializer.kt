@@ -3,7 +3,7 @@ package co.there4.hexagon.serialization
 import java.io.InputStream
 import kotlin.reflect.KClass
 
-object JacksonSerializer {
+internal object JacksonSerializer {
     val mapper = createObjectMapper ()
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */

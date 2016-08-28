@@ -3,7 +3,7 @@ package co.there4.hexagon.serialization
 import java.io.InputStream
 import kotlin.reflect.KClass
 
-interface SerializationFormat {
+internal interface SerializationFormat {
     val contentType: String
 
     fun serialize(obj: Any): String
