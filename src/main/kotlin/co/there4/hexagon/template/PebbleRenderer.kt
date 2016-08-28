@@ -18,7 +18,7 @@ import java.util.*
  */
 object PebbleRenderer {
     val basePath = "templates"
-    val engine = PebbleEngine.Builder().build()
+    val engine: PebbleEngine = PebbleEngine.Builder().build() ?: error("Error setting up Pebble")
     val global = loadProps ("global")
 
     private fun loadProps (path: String) = resourceAsStream("$basePath/$path.yaml").let {
