@@ -14,7 +14,6 @@ startScripts {
 }
 
 installDist.destinationDir = file ("$rootProject.buildDir/$project.name")
-//installDist.dependsOn "check"
 installDist.doLast {
     File script = file("$it.destinationDir/bin/${project.name}.service")
     String template = new URL ("$gradleScripts/serviceScript").text
