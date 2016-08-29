@@ -1,6 +1,7 @@
 package co.there4.hexagon.template
 
 import co.there4.hexagon.serialization.parse
+import co.there4.hexagon.settings.SettingsManager
 import co.there4.hexagon.util.toDate
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.lang.ClassLoader.getSystemResourceAsStream as resourceAsStream
@@ -19,13 +20,9 @@ import java.util.*
 object PebbleRenderer {
     val basePath = "templates"
     val engine: PebbleEngine = PebbleEngine.Builder().build() ?: error("Error setting up Pebble")
-    val global = loadProps ("global")
 
-    private fun loadProps (path: String) = resourceAsStream("$basePath/$path.yaml").let {
-        @Suppress("UNCHECKED_CAST")
-        if (it != null) it.parse (Map::class, "application/yaml") as Map<String, Any>
-        else mapOf<String, Any>()
-    }
+    private fun loadProps (path: String) =
+        resourceAsStream("$basePath/$path.yaml")?.parse ("application/yaml") ?: mapOf<String, Any>()
 
     fun render (template: String, locale: Locale, context: Map<String, *>): String {
         @Suppress("UNCHECKED_CAST")
@@ -35,22 +32,16 @@ object PebbleRenderer {
         }
 
         val compiledTemplate = engine.getTemplate("$basePath/$template")
-        val bundlePath = template.substring(0, template.lastIndexOf('.'))
+        val bundlePath = template.substringBeforeLast('.')
 
         val texts = loadBundle (bundlePath)
         val common = loadBundle ("common")
 
         val writer = StringWriter()
-        val now = LocalDateTime.now()
-        val defaultProperties = mapOf(
-            "_template_" to template,
-            "_year_" to now.year,
-            "_month_" to now.monthValue,
-            "_day_" to now.dayOfMonth,
-            "_hour_" to now.hour,
-            "_minutes_" to now.minute
-        )
-        val completeContext = global + common + texts + context + defaultProperties
+        val now = LocalDateTime.now().toDate()
+        val defaultProperties = mapOf("_template_" to template, "_now_" to now)
+        val settings = SettingsManager.parameters
+        val completeContext = settings + common + texts + context + defaultProperties
         val contextEntries = completeContext.map {
             it.key to
                 if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()

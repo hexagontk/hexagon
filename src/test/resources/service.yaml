@@ -11,3 +11,5 @@ intProperty: 42
 
 parent:
   key: val
+
+global : globalValue
