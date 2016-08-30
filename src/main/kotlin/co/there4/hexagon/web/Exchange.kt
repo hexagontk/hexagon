@@ -46,7 +46,7 @@ data class Exchange (
         template (template, Locale.getDefault(), context)
     }
 
-    fun httpDate (date: LocalDateTime) =
+    fun httpDate (date: LocalDateTime): String =
         RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
 
     private fun send(code: Int, content: Any) {

@@ -36,7 +36,7 @@ interface Request {
     val cookies: Map<String, HttpCookie>      // hash of browser cookies
     val parts: Map<String, Part>              // hash of multipart parts
 
-    operator fun get(name: String) = parameters[name]?.first()
+    operator fun get(name: String): String? = parameters[name]?.first()
 
     fun accept () = headers["Accept"]
 
