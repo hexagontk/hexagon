@@ -21,7 +21,8 @@ import java.time.LocalTime
 import java.util.*
 import kotlin.reflect.KClass
 
-val defaultFormat = JacksonSerializer.contentTypes.first()
+val contentTypes = JacksonSerializer.contentTypes
+val defaultFormat = contentTypes.first()
 
 fun Any.convertToMap(): Map<*, *> = JacksonSerializer.toMap (this)
 fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = JacksonSerializer.toObject(this, type)

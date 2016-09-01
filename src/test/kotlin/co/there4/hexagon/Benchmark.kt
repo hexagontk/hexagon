@@ -51,7 +51,7 @@ private fun rnd () = ThreadLocalRandom.current ().nextInt (DB_ROWS) + 1
 private fun Exchange.hasQueryCount() = request[QUERIES_PARAM] == null
 
 private fun Exchange.getDb () {
-    val worlds = (1..getQueries()).map { worldRepository.find(rnd ()) }
+    val worlds = (1..getQueries()).map { worldRepository.find(rnd ()) }.filterNotNull()
 
     response.contentType = CONTENT_TYPE_JSON
     ok (if (hasQueryCount()) worlds[0].serialize() else worlds.serialize())

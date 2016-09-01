@@ -12,6 +12,7 @@ import org.bson.types.ObjectId
 import kotlin.reflect.KClass
 import com.mongodb.client.model.Filters.eq as mEq
 import com.mongodb.client.model.Filters.or as mOr
+import com.mongodb.client.model.Filters.and as mAnd
 import com.mongodb.client.model.Filters.`in` as mIn
 
 val mongodbUrl = SettingsManager["mongodbUrl"] as String? ?: "mongodb://localhost/test"
@@ -27,6 +28,7 @@ fun mongoCollection (
 fun mongoId(): String = ObjectId().toHexString()
 
 infix fun Bson.or(value: Bson): Bson = mOr(this, value)
+infix fun Bson.and(value: Bson): Bson = mAnd(this, value)
 infix fun <T> String.eq(value: T): Bson = mEq(this, value)
 infix fun <T> String.isIn(value: List<T>): Bson = mIn(this, value)
 

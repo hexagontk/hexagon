@@ -127,12 +127,13 @@ open class MongoIdRepository<T : Any, K : Any> (
         document.forEach { replaceObject(it) }
     }
 
-    fun find (vararg documentId: K) = find (documentId.toList ())
+    fun find (vararg documentId: K): List<T> = find (documentId.toList ())
 
-    fun find (documentId: List<K>) =
+    fun find (documentId: List<K>): List<T> =
         findObjects (convertKeyName(keyName) isIn documentId.map { convertId(it) }).toList()
 
-    fun find (documentId: K) = findObjects (convertKeyName(keyName) eq convertId(documentId)).first ()
+    fun find (documentId: K): T? =
+        findObjects (convertKeyName(keyName) eq convertId(documentId)).first ()
 
     fun getKey (obj: T): K = keySupplier(obj)
 }

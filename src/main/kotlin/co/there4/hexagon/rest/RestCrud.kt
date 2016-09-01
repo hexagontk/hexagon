@@ -2,11 +2,13 @@ package co.there4.hexagon.rest
 
 import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.repository.MongoRepository
+import co.there4.hexagon.serialization.contentTypes
 import co.there4.hexagon.serialization.defaultFormat
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.*
 import com.mongodb.MongoWriteException
+import java.nio.charset.Charset.defaultCharset
 
 class RestCrud <T : Any, K : Any> (
     val repository: MongoIdRepository<T, K>,
@@ -25,8 +27,9 @@ class RestCrud <T : Any, K : Any> (
 
     private fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat
     private fun accept (exchange: Exchange) = exchange.request.accept()?.first().let {
-        when (it) {
-            "*/*", null -> defaultFormat
+        when {
+            it != null && contentTypes.contains(it) -> it
+            it == "*/*" || it == null -> defaultFormat
             else -> it
         }
     }
@@ -71,7 +74,9 @@ class RestCrud <T : Any, K : Any> (
             exchange.halt(404)//NOT_FOUND)
         }
         else {
-            exchange.ok(obj.serialize(accept(exchange)))
+            val contentType = accept(exchange)
+            exchange.response.contentType = contentType + "; charset=${defaultCharset().name()}"
+            exchange.ok(obj.serialize(contentType))
         }
     }
 
@@ -87,6 +92,8 @@ class RestCrud <T : Any, K : Any> (
 
     private fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
         val objects = repository.findObjects().toList()
-        exchange.ok(objects.serialize(accept(exchange)))
+        val contentType = accept(exchange)
+        exchange.response.contentType = contentType + "; charset=${defaultCharset().name()}"
+        exchange.ok(objects.serialize(contentType))
     }
 }

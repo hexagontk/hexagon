@@ -7,6 +7,8 @@ import co.there4.hexagon.serialization.convertToObject
 import co.there4.hexagon.serialization.parseList
 import co.there4.hexagon.serialization.resourceParseList
 import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.resourceAsStream
+import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.MongoIterable
@@ -103,7 +105,11 @@ open class MongoRepository <T : Any> (
 
     fun findObjects (): MongoIterable<T> = find ().map { unmap(it) }
 
-    fun findObjects (filter: Bson): MongoIterable<T> = find (filter).map { unmap(it) }
+    fun findObjects (filter: Bson, setup: FindIterable<*>.() -> Unit = {}): MongoIterable<T> =
+        find (filter).let {
+            it.setup()
+            it.map { unmap(it) }
+        }
 
     fun createIndex(
         name: String,
@@ -126,6 +132,24 @@ open class MongoRepository <T : Any> (
     // TODO Test this!
     fun importFile(input: File) { insertManyObjects(input.parseList(type)) }
     fun importResource(input: String) { insertManyObjects(resourceParseList(input, type)) }
+
+    /**
+     * Load a file with DB data serialized to a repository.
+     * @param file .
+     */
+    fun loadData(file: String) {
+        val resourceAsStream = resourceAsStream("data/$file")
+        val extension = file.substringAfterLast('.')
+        val objects = resourceAsStream?.parseList(type, "application/$extension") ?: listOf()
+        objects.forEach {
+            try {
+                this.insertOneObject(it)
+            }
+            catch (e: Exception) {
+                warn("$it already inserted")
+            }
+        }
+    }
 
     protected open fun map (document: T): Document {
         return onStore (
