@@ -11,6 +11,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset.UTC
 import java.lang.ClassLoader.getSystemClassLoader
+import java.net.URL
 
 /*
  * Timing
@@ -174,3 +175,7 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
 val systemClassLoader: ClassLoader = getSystemClassLoader() ?: error("Error getting class loader")
 
 fun resourceAsStream(resName: String): InputStream? = systemClassLoader.getResourceAsStream(resName)
+fun resource(resName: String): URL? = systemClassLoader.getResource(resName)
+fun requireResource(resName: String): URL = resource(resName) ?: error("$resName not found")
+fun resources(resName: String): List<URL> =
+    systemClassLoader.getResources(resName).toList().filterNotNull()

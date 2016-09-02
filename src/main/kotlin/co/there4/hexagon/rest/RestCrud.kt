@@ -27,11 +27,8 @@ class RestCrud <T : Any, K : Any> (
 
     private fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat
     private fun accept (exchange: Exchange) = exchange.request.accept()?.first().let {
-        when {
-            it != null && contentTypes.contains(it) -> it
-            it == "*/*" || it == null -> defaultFormat
-            else -> it
-        }
+        if (it != null && contentTypes.contains(it)) it
+        else defaultFormat
     }
 
     private fun <T : Any> insert (repository: MongoRepository<T>, exchange: Exchange) {

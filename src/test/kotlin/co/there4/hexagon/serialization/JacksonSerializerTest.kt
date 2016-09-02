@@ -1,5 +1,6 @@
 package co.there4.hexagon.serialization
 
+import co.there4.hexagon.util.requireResource
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 
@@ -11,14 +12,14 @@ import kotlin.test.assertFailsWith
     }
 
     fun parse_resource_works_ok() {
-        assert(resourceParseList("data/companies.json").isNotEmpty())
-        assert(resourceParseList("data/tags.json").isNotEmpty())
-        assert(resourceParseList("data/companies.yaml").isNotEmpty())
-        assert(resourceParseList("data/tags.yaml").isNotEmpty())
+        assert(requireResource("data/companies.json").parseList().isNotEmpty())
+        assert(requireResource("data/tags.json").parseList().isNotEmpty())
+        assert(requireResource("data/companies.yaml").parseList().isNotEmpty())
+        assert(requireResource("data/tags.yaml").parseList().isNotEmpty())
 
-        assert(resourceParse("data/company.json").isNotEmpty())
-        assert(resourceParse("data/tag.json").isNotEmpty())
-        assert(resourceParse("data/company.yaml").isNotEmpty())
-        assert(resourceParse("data/tag.yaml").isNotEmpty())
+        assert(requireResource("data/company.json").parse().isNotEmpty())
+        assert(requireResource("data/tag.json").parse().isNotEmpty())
+        assert(requireResource("data/company.yaml").parse().isNotEmpty())
+        assert(requireResource("data/tag.yaml").parse().isNotEmpty())
     }
 }

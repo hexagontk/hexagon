@@ -1,16 +1,15 @@
 package co.there4.hexagon.serialization
 
-enum class Type {
-
-}
-
 data class MediaType (
-    val type: String,
+    val type: Type,
     val subtype: String,
-    val parameters: Map<String,String>) {
+    val parameters: Map<String, String>) {
+
+    enum class Type {
+
+    }
 
     init {
-        require(type.isNotBlank())
         require(subtype.isNotBlank())
     }
 

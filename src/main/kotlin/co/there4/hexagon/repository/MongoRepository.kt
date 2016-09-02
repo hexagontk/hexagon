@@ -2,11 +2,10 @@ package co.there4.hexagon.repository
 
 import co.there4.hexagon.events.EventManager
 import co.there4.hexagon.repository.RepositoryEventAction.*
-import co.there4.hexagon.serialization.convertToMap
-import co.there4.hexagon.serialization.convertToObject
-import co.there4.hexagon.serialization.parseList
-import co.there4.hexagon.serialization.resourceParseList
+import co.there4.hexagon.serialization.*
 import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.requireResource
+import co.there4.hexagon.util.resource
 import co.there4.hexagon.util.resourceAsStream
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
@@ -131,7 +130,7 @@ open class MongoRepository <T : Any> (
 
     // TODO Test this!
     fun importFile(input: File) { insertManyObjects(input.parseList(type)) }
-    fun importResource(input: String) { insertManyObjects(resourceParseList(input, type)) }
+    fun importResource(input: String) { insertManyObjects(requireResource(input).parseList(type)) }
 
     /**
      * Load a file with DB data serialized to a repository.

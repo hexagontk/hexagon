@@ -8,9 +8,6 @@ internal interface SerializationFormat {
 
     fun serialize(obj: Any): String
 
-    fun <T: Any> parse(text: String, type: KClass<T>): T
-    fun <T: Any> parseList(text: String, type: KClass<T>): List<T>
-
     fun <T: Any> parse(input: InputStream, type: KClass<T>): T
     fun <T: Any> parseList(input: InputStream, type: KClass<T>): List<T>
 }

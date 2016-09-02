@@ -7,8 +7,6 @@ import co.there4.hexagon.util.resourceAsStream
 import java.io.File
 import java.lang.System.getProperty
 
-enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
-
 /**
  * Reads:
  * - service.yaml (resource)
@@ -17,6 +15,8 @@ enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
  * - <environment>.yaml (file)
  */
 object SettingsManager : CompanionLogger(SettingsManager::class) {
+    enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
+
     private val prefix = getProperty("settings.prefix") ?: ""
     private val environmentFile = File("${getProperty("user.home")}/.environment")
 

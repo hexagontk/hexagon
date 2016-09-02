@@ -1,6 +1,5 @@
 package co.there4.hexagon.serialization
 
-import co.there4.hexagon.util.resourceAsStream
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.fasterxml.jackson.core.*
 import com.fasterxml.jackson.core.JsonToken.START_OBJECT
@@ -12,10 +11,13 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.io.ByteArrayInputStream
 import java.io.File
 
 import java.io.InputStream
+import java.net.URL
 import java.nio.ByteBuffer
+import java.nio.charset.StandardCharsets.UTF_8
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
@@ -32,38 +34,36 @@ fun <T : Any> List<Map<*, *>>.convertToObject(type: KClass<T>): List<T> =
 fun Any.serialize (contentType: String = defaultFormat) =
     JacksonSerializer.serialize(this, contentType)
 
-fun <T : Any> String.parse (type: KClass<T>, contentType: String = defaultFormat) =
-    JacksonSerializer.parse (this, type, contentType)
-fun <T : Any> String.parseList (type: KClass<T>, contentType: String = defaultFormat) =
-    JacksonSerializer.parseList (this, type, contentType)
-
 fun <T : Any> InputStream.parse (type: KClass<T>, contentType: String = defaultFormat) =
     JacksonSerializer.parse (this, type, contentType)
+fun InputStream.parse (contentType: String = defaultFormat) = this.parse (Map::class, contentType)
 fun <T : Any> InputStream.parseList (type: KClass<T>, contentType: String = defaultFormat) =
     JacksonSerializer.parseList (this, type, contentType)
-
-fun String.parse (contentType: String = defaultFormat) = this.parse (Map::class, contentType)
-fun String.parseList(contentType: String = defaultFormat) = this.parseList (Map::class, contentType)
-
-fun InputStream.parse (contentType: String = defaultFormat) = this.parse (Map::class, contentType)
 fun InputStream.parseList (contentType: String = defaultFormat) =
     this.parseList (Map::class, contentType)
 
+fun <T : Any> String.parse (type: KClass<T>, contentType: String = defaultFormat) =
+    toStream(this).parse (type, contentType)
+fun String.parse (contentType: String = defaultFormat) = this.parse (Map::class, contentType)
+fun <T : Any> String.parseList (type: KClass<T>, contentType: String = defaultFormat) =
+    toStream(this).parseList (type, contentType)
+fun String.parseList(contentType: String = defaultFormat) = this.parseList (Map::class, contentType)
+
 fun <T : Any> File.parse (type: KClass<T>) =
     this.inputStream().parse (type, "application/" + this.extension)
+fun File.parse () = this.parse (Map::class)
 fun <T : Any> File.parseList (type: KClass<T>): List<T> =
     this.inputStream().parseList (type, "application/" + this.extension)
-
-fun File.parse () = this.parse (Map::class)
 fun File.parseList () = this.parseList (Map::class)
 
-fun <T : Any> resourceParse (path: String, type: KClass<T>) =
-    resourceAsStream(path)?.parse (type, "application/" + path.substringAfter(".", "json")) ?: error("")
-fun <T : Any> resourceParseList (path: String, type: KClass<T>) =
-    resourceAsStream(path)?.parseList (type, "application/" + path.substringAfter(".", "json")) ?: error("")
+fun <T : Any> URL.parse (type: KClass<T>) =
+    this.openStream().parse (type, "application/" + this.file.substringAfterLast('.'))
+fun URL.parse () = this.parse (Map::class)
+fun <T : Any> URL.parseList (type: KClass<T>): List<T> =
+    this.openStream().parseList (type, "application/" + this.file.substringAfterLast('.'))
+fun URL.parseList () = this.parseList (Map::class)
 
-fun resourceParse (path: String) = resourceParse(path, Map::class)
-fun resourceParseList (path: String) = resourceParseList(path, Map::class)
+private fun toStream(text: String) = ByteArrayInputStream(text.toByteArray(UTF_8))
 
 internal fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper {
     val mapper = ObjectMapper (mapperFactory)

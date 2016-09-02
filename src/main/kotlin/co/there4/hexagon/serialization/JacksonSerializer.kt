@@ -1,15 +1,19 @@
 package co.there4.hexagon.serialization
 
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import java.io.InputStream
 import kotlin.reflect.KClass
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
 
 object JacksonSerializer {
     val mapper = createObjectMapper ()
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     private val formatList = listOf (
-        JacksonJsonFormat (),
-        JacksonYamlFormat ()
+        JacksonSerializationFormat("json"),
+        JacksonSerializationFormat("yaml") {
+            with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) }
+        }
     )
 
     private val formats = mapOf (
@@ -31,12 +35,6 @@ object JacksonSerializer {
 
     fun serialize(obj: Any, contentType: String = defaultFormat) =
         getSerializationFormat (contentType).serialize(obj)
-
-    fun <T: Any> parse(text: String, type: KClass<T>, contentType: String = defaultFormat) =
-        getSerializationFormat (contentType).parse (text, type)
-
-    fun <T: Any> parseList(text: String, type: KClass<T>, contentType: String = defaultFormat) =
-        getSerializationFormat (contentType).parseList (text, type)
 
     fun <T: Any> parse(input: InputStream, type: KClass<T>, contentType: String = defaultFormat) =
         getSerializationFormat (contentType).parse (input, type)
