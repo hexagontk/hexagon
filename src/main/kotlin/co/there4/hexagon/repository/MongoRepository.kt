@@ -23,8 +23,8 @@ open class MongoRepository <T : Any> (
     collection: MongoCollection<Document>,
     protected val publishEvents: Boolean = false,
     protected val onStore: (Document) -> Document = { it },
-    protected val onLoad: (Document) -> Document = { it }
-    ) : com.mongodb.client.MongoCollection<Document> by collection {
+    protected val onLoad: (Document) -> Document = { it }) :
+        MongoCollection<Document> by collection {
 
     companion object : CompanionLogger (MongoRepository::class)
 
@@ -32,12 +32,7 @@ open class MongoRepository <T : Any> (
         type: KClass<T>,
         database: MongoDatabase = mongoDatabase(),
         publishEvents: Boolean = false) :
-        this (
-            type,
-            mongoCollection(type.simpleName ?: throw IllegalArgumentException (), database),
-            publishEvents
-        )
-
+            this(type, mongoCollection(type.simpleName ?: error(""), database), publishEvents)
 
     protected fun publish (source: T, action: RepositoryEventAction) {
         if (publishEvents)

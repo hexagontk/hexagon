@@ -12,29 +12,20 @@ import co.there4.hexagon.web.stop
 import co.there4.hexagon.web.run
 import org.testng.annotations.Test
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 
 @Test class RestPackageTest {
     data class Parameter (val name: String, val value: String)
     data class Country (val id: Int, val code: String)
 
-    private val parameters = createCollection(Parameter::class, "name", String::class) { it.name }
-    private val countries = createCollection(Country::class, "id", Int::class) { it.id }
+    private val parameters = createCollection(Parameter::class, Parameter::name)
+    private val countries = createCollection(Country::class, Country::id)
 
-    private fun <T : Any, K : Any> createCollection (
-        type: KClass<T>,
-        keyName: String,
-        keyType: KClass<K>,
-        keySupplier: (T) -> K) : MongoIdRepository<T, K> =
-            MongoIdRepository(type, mongoDatabase(), keySupplier, keyType, keyName, true)
+    private fun <T : Any, K : Any> createCollection (type: KClass<T>, key: KProperty1<T, K>) =
+        MongoIdRepository(type, mongoDatabase(), key, true)
 
     fun int_keyed_repositories_are_handled_properly () {
-        val repo = MongoIdRepository (
-            Country::class,
-            countries,
-            { it.id },
-            Int::class,
-            "id"
-        )
+        val repo = MongoIdRepository (Country::class, countries, Country::id)
 
         val server = JettyServer (bindPort = 5020)
 
@@ -65,13 +56,7 @@ import kotlin.reflect.KClass
     }
 
     fun rest_application_starts_correctly () {
-        val repo = MongoIdRepository (
-            Parameter::class,
-            parameters,
-            { it.name },
-            String::class,
-            "name"
-        )
+        val repo = MongoIdRepository (Parameter::class, parameters, Parameter::name)
 
         stop()
         server = JettyServer()

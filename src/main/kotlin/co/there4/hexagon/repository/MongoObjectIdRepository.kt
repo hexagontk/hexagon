@@ -5,21 +5,19 @@ import com.mongodb.client.MongoDatabase
 import org.bson.Document
 import org.bson.types.ObjectId
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 
 class MongoObjectIdRepository<T : Any>(
     type: KClass<T>,
     collection: MongoCollection<Document>,
-    keySupplier: (T) -> String,
-    keyName: String = "id",
+    key: KProperty1<T, String>,
     publishEvents: Boolean = false,
     onStore: (Document) -> Document = { it },
     onLoad: (Document) -> Document = { it }) :
     MongoIdRepository<T, String> (
         type,
         collection,
-        keySupplier,
-        String::class,
-        keyName,
+        key,
         publishEvents,
         1,
         false,
@@ -29,16 +27,14 @@ class MongoObjectIdRepository<T : Any>(
     constructor (
         type: KClass<T>,
         database: MongoDatabase,
-        keySupplier: (T) -> String,
-        keyName: String = "id",
+        key: KProperty1<T, String>,
         publishEvents: Boolean = false,
         onStore: (Document) -> Document = { it },
         onLoad: (Document) -> Document = { it }) :
         this (
             type,
             mongoCollection(type.simpleName ?: error("Error getting type name"), database),
-            keySupplier,
-            keyName,
+            key,
             publishEvents,
             onStore,
             onLoad
@@ -46,16 +42,14 @@ class MongoObjectIdRepository<T : Any>(
 
     constructor (
         type: KClass<T>,
-        keySupplier: (T) -> String,
-        keyName: String = "id",
+        key: KProperty1<T, String>,
         publishEvents: Boolean = false,
         onStore: (Document) -> Document = { it },
         onLoad: (Document) -> Document = { it }) :
         this (
             type,
             mongoDatabase(),
-            keySupplier,
-            keyName,
+            key,
             publishEvents,
             onStore,
             onLoad
@@ -63,13 +57,13 @@ class MongoObjectIdRepository<T : Any>(
 
     override fun map (document: T): Document {
         val doc = super.map(document)
-        doc["_id"] = ObjectId(doc[keyName].toString())
-        doc.remove(keyName)
+        doc["_id"] = ObjectId(doc[key.name].toString())
+        doc.remove(key.name)
         return doc
     }
 
     override fun unmap (document: Document): T {
-        document[keyName] = (document["_id"] as ObjectId).toHexString()
+        document[key.name] = (document["_id"] as ObjectId).toHexString()
         document.remove("_id")
         return super.unmap(document)
     }

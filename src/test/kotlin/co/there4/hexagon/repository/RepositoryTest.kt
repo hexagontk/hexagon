@@ -13,11 +13,12 @@ import kotlin.reflect.KClass
 import com.mongodb.client.model.Filters.*
 import com.mongodb.client.result.DeleteResult
 import org.bson.Document
+import kotlin.reflect.KProperty1
 
 /**
  * TODO Check events
  */
-abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val idField: String) :
+abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: KProperty1<T, K>) :
     SerializationTest<T> (type) {
 
     companion object : CompanionLogger (RepositoryTest::class)
@@ -25,7 +26,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val idFiel
     protected val collection: MongoRepository<T> = createCollection(type)
 
     fun <T : Any> createCollection (type: KClass<T>): MongoRepository<T> {
-        val repository = MongoRepository (type, mongoDatabase (), true)
+        val repository = MongoRepository(type, mongoDatabase(), true)
         setupCollection(repository)
         return repository
     }
@@ -41,6 +42,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val idFiel
 
     protected fun deleteAll (): DeleteResult = collection.deleteMany (Document ())
 
+    @Suppress("unused")
     fun one_object_is_stored_and_loaded_without_error() {
         testObjects.forEach {
             var eventCount = 0
@@ -66,6 +68,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val idFiel
         }
     }
 
+    @Suppress("unused")
     fun many_objects_are_stored_and_loaded_without_error() {
         testObjects.forEach {
             deleteAll()
@@ -79,7 +82,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val idFiel
 
             assert(collection.count() == 10L)
             val firstObject = objects[0]
-            val obj = collection.findObjects(eq<K>(idField, getObjectKey(firstObject))).first()
+            val obj = collection.findObjects(eq<K>(key.name, getObjectKey(firstObject))).first()
             assert(obj == firstObject)
 
             deleteAll()
@@ -91,12 +94,13 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val idFiel
         }
     }
 
+    @Suppress("unused")
     fun replace_object_stores_modified_data_in_db() {
         testObjects.forEach {
             deleteAll()
             val entity = createObject()
             val replacement = changeObject(entity)
-            val query = eq<K>(idField, getObjectKey(entity))
+            val query = eq<K>(key.name, getObjectKey(entity))
 
             collection.insertOneObject(entity)
             var result = collection.replaceOneObject(query, replacement)
@@ -113,13 +117,14 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val idFiel
         }
     }
 
+    @Suppress("unused")
     fun find_and_replace_object_stores_modified_data_in_db() {
         testObjects.forEach {
             deleteAll()
             var t = nanoTime()
             val entity = createObject()
             val replacement = changeObject(entity)
-            val query = eq<K>(idField, getObjectKey(entity))
+            val query = eq<K>(key.name, getObjectKey(entity))
             trace("Test setup: " + (nanoTime() - t))
 
             t = nanoTime()

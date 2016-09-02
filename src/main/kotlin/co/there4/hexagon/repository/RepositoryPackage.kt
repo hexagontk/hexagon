@@ -10,6 +10,7 @@ import org.bson.Document
 import org.bson.conversions.Bson
 import org.bson.types.ObjectId
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 import com.mongodb.client.model.Filters.eq as mEq
 import com.mongodb.client.model.Filters.or as mOr
 import com.mongodb.client.model.Filters.and as mAnd
@@ -26,6 +27,32 @@ fun mongoCollection (
         database.getCollection(name) ?: error ("Error getting '$name' collection")
 
 fun mongoId(): String = ObjectId().toHexString()
+
+inline fun <reified T : Any> mongoRepository(
+    database: MongoDatabase = mongoDatabase(), publishEvents: Boolean = false) =
+        MongoRepository(T::class, mongoCollection(T::class.simpleName ?: error(""), database), publishEvents )
+
+inline fun <reified T : Any, reified K : Any> mongoIdRepository(
+    database: MongoDatabase,
+    key: KProperty1<T, K>,
+    publishEvents: Boolean = false,
+    indexOrder: Int = 1,
+    createIndex: Boolean = true) =
+    MongoIdRepository (
+        T::class,
+        mongoCollection(T::class.simpleName ?: error("Error getting type name"), database),
+        key,
+        publishEvents,
+        indexOrder,
+        createIndex
+    )
+
+inline fun <reified T : Any, reified K : Any> mongoIdRepository(
+    key: KProperty1<T, K>,
+    publishEvents: Boolean = false,
+    indexOrder: Int = 1,
+    createIndex: Boolean = true) =
+        mongoIdRepository ( mongoDatabase(), key, publishEvents, indexOrder, createIndex)
 
 infix fun Bson.or(value: Bson): Bson = mOr(this, value)
 infix fun Bson.and(value: Bson): Bson = mAnd(this, value)

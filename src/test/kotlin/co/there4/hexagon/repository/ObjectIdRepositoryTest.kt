@@ -1,18 +1,15 @@
 package co.there4.hexagon.repository
 
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 
 /**
  * TODO Check events
  */
-abstract class ObjectIdRepositoryTest <T : Any> (
-    type: KClass<T>,
-    keySupplier: (T) -> String,
-    idField: String = "id") :
-        RepositoryTest<T, String>(type, idField) {
+abstract class ObjectIdRepositoryTest <T : Any> (type: KClass<T>, key: KProperty1<T, String>) :
+    RepositoryTest<T, String>(type, key) {
 
-    val oidCollection: MongoObjectIdRepository<T> =
-        MongoObjectIdRepository(type, keySupplier, idField, true)
+    val oidCollection: MongoObjectIdRepository<T> = MongoObjectIdRepository(type, key, true)
 
     override fun setObjectKey (obj: T, id: Int): T = throw IllegalStateException()
     override fun getObjectKey (obj: T) = oidCollection.getKey (obj)

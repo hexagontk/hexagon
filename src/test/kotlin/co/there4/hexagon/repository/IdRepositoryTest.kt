@@ -1,19 +1,15 @@
 package co.there4.hexagon.repository
 
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 
 /**
  * TODO Check events
  */
-abstract class IdRepositoryTest <T : Any, K : Any> (
-    type: KClass<T>,
-    keySupplier: (T) -> K,
-    keyType: KClass<K>,
-    idField: String = "id") :
-        RepositoryTest<T, K>(type, idField) {
+abstract class IdRepositoryTest <T : Any, K : Any> (type: KClass<T>, key: KProperty1<T, K>) :
+    RepositoryTest<T, K>(type, key) {
 
-    val idCollection: MongoIdRepository<T, K> =
-        MongoIdRepository(type, keySupplier, keyType, idField, true)
+    val idCollection: MongoIdRepository<T, K> = MongoIdRepository(type, key, true)
 
     override fun getObjectKey (obj: T) = idCollection.getKey (obj)
 

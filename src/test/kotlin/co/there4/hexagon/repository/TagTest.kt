@@ -3,7 +3,7 @@ package co.there4.hexagon.repository
 import org.testng.annotations.Test
 import java.lang.System.currentTimeMillis
 
-@Test class TagTest : ObjectIdRepositoryTest<Tag>(Tag::class, { it.id }){
+@Test class TagTest : ObjectIdRepositoryTest<Tag>(Tag::class, Tag::id) {
     override fun createObject() = Tag(name = "Tag")
     override fun changeObject(obj: Tag) = obj.copy(name = "${obj.name} ${currentTimeMillis()}")
 

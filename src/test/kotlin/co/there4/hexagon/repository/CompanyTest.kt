@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Test
-class CompanyTest : IdRepositoryTest<Company, String> (Company::class, { it.id }, String::class) {
+class CompanyTest : IdRepositoryTest<Company, String> (Company::class, Company::id) {
     override val testObjects: List<Company> = listOf (
         createObject(),
         Company(
