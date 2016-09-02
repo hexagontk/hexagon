@@ -13,12 +13,11 @@ import co.there4.hexagon.web.jetty.JettyServer
 import java.lang.System.getenv
 import java.net.InetAddress.getByName as address
 import java.time.LocalDateTime.now
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
 internal data class Message (val message: String = "Hello, World!")
 internal data class Fortune (val _id: Int, val message: String)
-internal data class World (val id: Int, val randomNumber: Int)
+internal data class World (val _id: Int, val randomNumber: Int)
 
 private val BIND = getenv("OPENSHIFT_DIY_IP") ?: setting<String>("bindAddress") ?: "localhost"
 private val BIND_ADDRESS = address(BIND)
@@ -41,11 +40,11 @@ private val database =
     if (DB_USER == null) mongoDatabase("mongodb://$DB_HOST:$DB_PORT/$DB")
     else mongoDatabase("mongodb://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB")
 
-private val worldRepository = repository(World::class, WORLD, World::id)
-private val fortuneRepository = repository(Fortune::class, FORTUNE, Fortune::_id)
+private val worldRepository = repository(WORLD, World::_id)
+private val fortuneRepository = repository(FORTUNE, Fortune::_id)
 
-private fun <T : Any> repository(type: KClass<T>, name: String, key: KProperty1<T, Int>) =
-    MongoIdRepository(type, mongoCollection(name, database), key)
+private inline fun <reified T : Any> repository(name: String, key: KProperty1<T, Int>) =
+    MongoIdRepository(T::class, mongoCollection(name, database), key)
 
 private fun rnd () = ThreadLocalRandom.current ().nextInt (DB_ROWS) + 1
 

@@ -60,11 +60,12 @@ class BenchmarkTest {
 
     fun no_query_parameter () {
         val response = client.get ("/db")
-        val content = response.responseBody
+        val body = response.responseBody
 
         checkResponse (response, "application/json")
-        val resultsMap = content.parse(Map::class)
-        assert (resultsMap.containsKey ("id") && resultsMap.containsKey ("randomNumber"))
+        val bodyMap = body.parse(Map::class)
+        assert(bodyMap.containsKey (World::_id.name))
+        assert(bodyMap.containsKey (World::randomNumber.name))
     }
 
     fun fortunes () {
@@ -81,11 +82,12 @@ class BenchmarkTest {
 
     fun no_updates_parameter () {
         val response = client.get ("/update")
-        val content = response.responseBody
+        val body = response.responseBody
 
         checkResponse (response, "application/json")
-        val resultsMap = content.parse(Map::class)
-        assert (resultsMap.containsKey ("id") && resultsMap.containsKey ("randomNumber"))
+        val bodyMap = body.parse(Map::class)
+        assert(bodyMap.containsKey (World::_id.name))
+        assert(bodyMap.containsKey (World::randomNumber.name))
     }
 
     fun empty_query_parameter () = checkDbRequest ("/query?queries", 1)
@@ -126,7 +128,7 @@ class BenchmarkTest {
 
         (1..size).forEach {
             val r = resultsList[it - 1] as Map<*, *>
-            assert (r.containsKey ("id") && r.containsKey ("randomNumber"))
+            assert (r.containsKey (World::_id.name) && r.containsKey (World::randomNumber.name))
         }
     }
 }
