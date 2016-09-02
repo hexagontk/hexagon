@@ -28,7 +28,10 @@ val contentTypes = JacksonSerializer.contentTypes
 val defaultFormat = contentTypes.first()
 
 fun Any.convertToMap(): Map<*, *> = JacksonSerializer.toMap (this)
-fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = JacksonSerializer.toObject(this, type)
+
+fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T =
+    JacksonSerializer.toObject(this, type)
+
 fun <T : Any> List<Map<*, *>>.convertToObjects(type: KClass<T>): List<T> =
     this.map { it: Map<*, *> -> it.convertToObject(type) }
 

@@ -5,7 +5,6 @@ import co.there4.hexagon.repository.RepositoryEventAction.*
 import co.there4.hexagon.serialization.*
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.util.requireResource
-import co.there4.hexagon.util.resource
 import co.there4.hexagon.util.resourceAsStream
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
@@ -164,5 +163,5 @@ open class MongoRepository <T : Any> (
 
     protected open fun map (documents: List<T>): List<Document> = documents.map { map(it) }
 
-    protected open fun unmap (document: Document): T = onLoad(document).convertToObject (type)
+    protected open fun unmap (document: Document): T = onLoad(document).convertToObject(type)
 }
