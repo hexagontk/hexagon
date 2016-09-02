@@ -35,7 +35,7 @@ import kotlin.reflect.KClass
 
             assert(tempFile.parseList() == testMaps)
             assert(testMaps == serializedObjects.parseList(contentType))
-            assert(testObjects == testMaps.convertToObject(type))
+            assert(testObjects == testMaps.convertToObjects(type))
         }
 
 

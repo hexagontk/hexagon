@@ -2,7 +2,7 @@ package co.there4.hexagon.serialization
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.fasterxml.jackson.core.*
-import com.fasterxml.jackson.core.JsonToken.START_OBJECT
+import com.fasterxml.jackson.core.JsonToken.*
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 import com.fasterxml.jackson.databind.*
@@ -11,9 +11,9 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+
 import java.io.ByteArrayInputStream
 import java.io.File
-
 import java.io.InputStream
 import java.net.URL
 import java.nio.ByteBuffer
@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets.UTF_8
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
+
 import kotlin.reflect.KClass
 
 val contentTypes = JacksonSerializer.contentTypes
@@ -28,7 +29,7 @@ val defaultFormat = contentTypes.first()
 
 fun Any.convertToMap(): Map<*, *> = JacksonSerializer.toMap (this)
 fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = JacksonSerializer.toObject(this, type)
-fun <T : Any> List<Map<*, *>>.convertToObject(type: KClass<T>): List<T> =
+fun <T : Any> List<Map<*, *>>.convertToObjects(type: KClass<T>): List<T> =
     this.map { it: Map<*, *> -> it.convertToObject(type) }
 
 fun Any.serialize (contentType: String = defaultFormat) =
@@ -65,6 +66,16 @@ fun URL.parseList () = this.parseList (Map::class)
 
 private fun toStream(text: String) = ByteArrayInputStream(text.toByteArray(UTF_8))
 
+private fun JsonGenerator.writeNumbers(vararg numbers: Int) {
+    writeStartArray()
+    numbers.forEach { writeNumber(it) }
+    writeEndArray()
+}
+
+private fun JsonToken.checkIs(expected: JsonToken) {
+    check (this == expected) { "${this.name} should be: ${expected.name}" }
+}
+
 internal fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper {
     val mapper = ObjectMapper (mapperFactory)
     mapper.configure (FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -100,57 +111,40 @@ internal object ByteBufferDeserializer: JsonDeserializer<ByteBuffer>() {
 }
 
 internal object LocalTimeSerializer: JsonSerializer<LocalTime> () {
-    override fun serialize(
-        value: LocalTime, gen: JsonGenerator, serializers: SerializerProvider) {
-
-        gen.writeStartArray()
-        gen.writeNumber(value.hour)
-        gen.writeNumber(value.minute)
-        gen.writeNumber(value.second)
-        gen.writeNumber(value.nano)
-        gen.writeEndArray()
+    override fun serialize(value: LocalTime, gen: JsonGenerator, serializers: SerializerProvider) {
+        gen.writeNumbers(value.hour, value.minute, value.second, value.nano)
     }
 }
 
 internal object LocalTimeDeserializer: JsonDeserializer<LocalTime> () {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalTime {
-        if (p.currentToken != JsonToken.START_ARRAY)
-            error ("Local time should start with an array")
+        p.currentToken.checkIs(START_ARRAY)
         val result = LocalTime.of(
             p.nextIntValue(0),
             p.nextIntValue(0),
             p.nextIntValue(0),
             p.nextIntValue(0)
         )
-        if (p.nextToken() != JsonToken.END_ARRAY)
-            error ("Local time should end with an array")
+        p.nextToken().checkIs(END_ARRAY)
         return result
     }
 }
 
 internal object LocalDateSerializer: JsonSerializer<LocalDate> () {
-    override fun serialize(
-        value: LocalDate, gen: JsonGenerator, serializers: SerializerProvider) {
-
-        gen.writeStartArray()
-        gen.writeNumber(value.year)
-        gen.writeNumber(value.monthValue)
-        gen.writeNumber(value.dayOfMonth)
-        gen.writeEndArray()
+    override fun serialize(value: LocalDate, gen: JsonGenerator, serializers: SerializerProvider) {
+        gen.writeNumbers(value.year, value.monthValue, value.dayOfMonth)
     }
 }
 
 internal object LocalDateDeserializer: JsonDeserializer<LocalDate> () {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDate {
-        if (p.currentToken != JsonToken.START_ARRAY)
-            error ("Local date should start with an array")
+        p.currentToken.checkIs(JsonToken.START_ARRAY)
         val result = LocalDate.of(
             p.nextIntValue(0),
             p.nextIntValue(0),
             p.nextIntValue(0)
         )
-        if (p.nextToken() != JsonToken.END_ARRAY)
-            error ("Local date should end with an array")
+        p.nextToken().checkIs(END_ARRAY)
         return result
     }
 }
@@ -186,8 +180,7 @@ internal object ClosedRangeDeserializer: JsonDeserializer<ClosedRange<*>> (), Co
     }
 
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ClosedRange<*> {
-        if (p.currentToken != START_OBJECT)
-            error ("Closed range should be an object")
+        p.currentToken.checkIs(START_OBJECT)
         check(p.nextFieldName() == "start") { "Ranges should start with 'start' field" }
         p.nextToken() // Start object
         val type = valueType.get()

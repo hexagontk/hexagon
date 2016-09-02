@@ -16,22 +16,18 @@ object JacksonSerializer {
         }
     )
 
-    private val formats = mapOf (
-        *formatList
-            .map { it.contentType to it }
-            .toTypedArray()
-    )
+    private val formats = mapOf (*formatList.map { it.contentType to it }.toTypedArray())
 
     val contentTypes = formatList.map { it.contentType }
 
     fun toMap(obj: Any): Map<*, *> =
-        mapper.convertValue (obj, Map::class.java) ?: throw IllegalStateException ()
+        mapper.convertValue (obj, Map::class.java) ?: error("Error mapping object")
 
     fun <T : Any> toObject(obj: Map<*, *>, type: KClass<T>): T =
         mapper.convertValue (obj, type.java)
 
     private fun getSerializationFormat (contentType: String) =
-        formats[contentType] ?: throw IllegalArgumentException ("$contentType not found")
+        formats[contentType] ?: error("$contentType not found")
 
     fun serialize(obj: Any, contentType: String = defaultFormat) =
         getSerializationFormat (contentType).serialize(obj)
