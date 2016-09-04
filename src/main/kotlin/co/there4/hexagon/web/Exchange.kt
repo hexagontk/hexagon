@@ -7,6 +7,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
 import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
+import java.util.Locale.forLanguageTag as localeFor
 
 /**
  * HTTP request context. It holds client supplied data and methods to change the response.
@@ -14,36 +15,60 @@ import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 data class Exchange (
     val request: Request,
     val response: Response,
-    val session: Session) {
+    val session: Session,
+    /** Exchange attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
+    val attributes: MutableMap<String, Any> = mutableMapOf<String, Any>()) {
 
-    fun redirect (url: String) = response.redirect(url)
+    fun redirect(url: String) = response.redirect(url)
 
-    fun ok(content: Any) = send (200, content)
-    fun ok(code: Int = 200, content: Any = "") = send (code, content)
-    fun error(code: Int = 500, content: Any = "") = send (code, content)
+    fun ok(content: Any) = send(200, content)
+    fun ok(code: Int = 200, content: Any = "") = send(code, content)
+    fun error(code: Int = 500, content: Any = "") = send(code, content)
 
-    fun halt(content: Any) = halt (500, content)
+    fun halt(content: Any) = halt(500, content)
     fun halt(code: Int = 500, content: Any = "") {
-        send (code, content)
-        throw EndException ()
+        send(code, content)
+        throw EndException()
     }
 
-    fun pass() { throw PassException() }
+    fun pass() {
+        throw PassException()
+    }
 
-    fun template (
+    fun template(
         template: String,
-        locale: Locale = Locale.getDefault(),
-        context: Map<String, *> = mapOf<String, Any> ()) {
+        locale: Locale = obtainLocale(),
+        context: Map<String, *> = mapOf<String, Any>()) {
 
         val contentType = response.getMimeType(template)
 
         if (response.contentType == null)
             response.contentType = "$contentType; charset=${defaultCharset().name()}"
-        ok (render (template, locale, context + session.attributes + ("pathInfo" to request.pathInfo) + ("lang" to locale.language)))
+
+        val extraParameters = mapOf(
+            "pathInfo" to request.pathInfo,
+            "lang" to locale.language
+        )
+
+        ok(render(template, locale, context + session.attributes + extraParameters))
     }
 
-    fun template (template: String, context: Map<String, *> = mapOf<String, Any> ()) {
-        template (template, Locale.getDefault(), context)
+    fun template(template: String, context: Map<String, *> = mapOf<String, Any>()) {
+        template(template, obtainLocale(), context)
+    }
+
+    /**
+     * TODO Review order precedence and complete code (now only taking request attribute)
+     *
+     * 1. Request
+     * 2. Session
+     * 3. Cookie
+     * 4. Accept-language
+     * 5. Server default locale
+     */
+    private fun obtainLocale() = when {
+        attributes["lang"] as? String != null -> localeFor(attributes["lang"] as String)
+        else -> Locale.getDefault()
     }
 
     fun httpDate (date: LocalDateTime): String =
