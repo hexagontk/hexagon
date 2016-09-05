@@ -7,24 +7,13 @@ import kotlin.test.assertFailsWith
 
 @Test class UtilPackageTest {
     fun time_nanos_gets_the_elapsed_nanoseconds () {
-        val millisDelay = 45L
-        val millisThreshold = 5L
-
-        resetTimes()
-        pushTime()
-        Thread.sleep (millisDelay)
-        val nanos = popTime()
-        pushTime()
-        val timeNanos = formatTime(nanos)
-
-        val ceil = (millisDelay + millisThreshold) * 1e6
-        val floor = millisDelay * 1e6
-        assert (nanos > floor && nanos < ceil)
+        val nanos = System.nanoTime()
+        val timeNanos = formatNanos(nanos)
         assert (timeNanos.endsWith("ms") && timeNanos.contains("."))
     }
 
     fun a_local_date_time_returns_a_valid_int_timestamp () {
-        assert (LocalDateTime.of (2015, 12, 31, 23, 59, 59).asInt() == 20151231235959)
+        assert (LocalDateTime.of (2015, 12, 31, 23, 59, 59).asLong() == 20151231235959)
     }
 
     fun filtering_an_exception_with_an_empty_string_do_not_change_the_stack () {
@@ -80,6 +69,11 @@ import kotlin.test.assertFailsWith
 
         assert (Context["Number"] == 9)
         assert (Context["Text"] == "Text")
+    }
+
+    fun dates_are_parsed_from_ints() {
+        assert(20160905174559.toLocalDateTime() == LocalDateTime.of(2016, 9, 5, 17, 45, 59))
+        assert(20160905174558.toLocalDateTime() != LocalDateTime.of(2016, 9, 5, 17, 45, 59))
     }
 
     fun testGet() {

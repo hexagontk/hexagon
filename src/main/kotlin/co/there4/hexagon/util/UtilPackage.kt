@@ -16,32 +16,17 @@ import java.net.URL
 
 /*
  * Timing
- * TODO Use Kotlin's kotlin.system.measureTimeMillis and remove these
  */
 
-private val times = withInitial { LinkedList<Long> () }
-
-/**
- * Store a timestamp in nanoseconds in the thread's times stack.
- */
-fun resetTimes() = times.get ().clear()
-/**
- * Store a timestamp in nanoseconds in the thread's times stack.
- */
-fun pushTime() = times.get ().push(nanoTime())
-/**
- * Pop latest timestamp in the nanos times stack and returns the difference with current one.
- */
-fun popTime() = nanoTime() - times.get().pop()
 /**
  * Returns a time difference in nanoseconds formatted as a string.
  */
-fun formatTime(timestamp: Long) = "%1.3f ms".format (timestamp / 1e6)
+fun formatNanos(timestamp: Long) = "%1.3f ms".format (timestamp / 1e6)
 
 /**
  * Formats a date as a formatted integer with this format: `YYYYMMDDHHmmss`.
  */
-fun LocalDateTime.asInt () =
+fun LocalDateTime.asLong(): Long =
     (this.year       * 1e10.toLong()) +
     (this.monthValue * 1e8.toLong()) +
     (this.dayOfMonth * 1e6.toLong()) +
@@ -49,14 +34,16 @@ fun LocalDateTime.asInt () =
     (this.minute     * 1e2.toLong()) +
     this.second
 
-/** 201609051745 */
-fun toLocalDate(number: Int) = LocalDateTime.of(
-    (number / 1e10).toInt(),
-    ((number % 1e10) / 1e8).toInt(),
-    ((number % 1e8) / 1e6).toInt(),
-    ((number % 1e6) / 1e4).toInt(),
-    ((number % 1e4) / 1e2).toInt(),
-    (number % 1e2).toInt()
+/**
+ * Parses a date from a formatted integer with this format: `YYYYMMDDHHmmss`.
+ */
+fun Long.toLocalDateTime(): LocalDateTime = LocalDateTime.of(
+    (this / 1e10).toInt(),
+    ((this % 1e10) / 1e8).toInt(),
+    ((this % 1e8) / 1e6).toInt(),
+    ((this % 1e6) / 1e4).toInt(),
+    ((this % 1e4) / 1e2).toInt(),
+    (this % 1e2).toInt()
 )
 
 fun LocalDateTime.toDate(): Date = Date.from(this.toInstant(UTC))

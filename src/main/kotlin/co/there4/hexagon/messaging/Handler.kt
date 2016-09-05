@@ -8,21 +8,21 @@ import java.nio.charset.Charset
 import java.nio.charset.Charset.defaultCharset
 import java.util.concurrent.ExecutorService
 import kotlin.reflect.KClass
+import kotlin.system.measureNanoTime
 
 class Handler<T : Any, R : Any> (
     connectionFactory: ConnectionFactory,
     channel: Channel,
     private val executor: ExecutorService,
     val type: KClass<T>,
-    private val handler: (T) -> R):
-    DefaultConsumer (channel) {
+    private val handler: (T) -> R): DefaultConsumer(channel) {
 
-    companion object : CompanionLogger (Handler::class) {
+    companion object : CompanionLogger(Handler::class) {
         val RETRIES = 5
         val DELAY = 50L
     }
 
-    private val client: RabbitClient = RabbitClient (connectionFactory)
+    private val client: RabbitClient = RabbitClient(connectionFactory)
 
     override fun handleDelivery(
         consumerTag: String,
@@ -31,32 +31,31 @@ class Handler<T : Any, R : Any> (
         body: ByteArray) {
 
         executor.execute {
-            pushTime ()
+            val t = measureNanoTime {
+                val charset = properties.contentEncoding ?: defaultCharset().name()
+                val correlationId = properties.correlationId
+                val replyTo = properties.replyTo
 
-            val charset = properties.contentEncoding ?: defaultCharset().name()
-            val correlationId = properties.correlationId
-            val replyTo = properties.replyTo
+                var request: String? = null
 
-            var request: String? = null
-
-            try {
-                request = String(body, Charset.forName(charset))
-                val input = request.parse(type)
-                handleMessage(input, replyTo, correlationId)
+                try {
+                    request = String(body, Charset.forName(charset))
+                    val input = request.parse(type)
+                    handleMessage(input, replyTo, correlationId)
+                }
+                catch (ex: Exception) {
+                    warn("Error processing message", ex)
+                    handleError(ex, replyTo, correlationId)
+                }
+                finally {
+                    retry (RETRIES, DELAY) { channel.basicAck (envelope.deliveryTag, false) }
+                    trace (
+                        """ENCODING: $charset CORRELATION ID: $correlationId
+                        BODY: $request"""
+                    )
+                }
             }
-            catch (ex: Exception) {
-                warn("Error processing message", ex)
-                handleError(ex, replyTo, correlationId)
-            }
-            finally {
-                retry (RETRIES, DELAY) { channel.basicAck (envelope.deliveryTag, false) }
-                trace (
-                    """
-                    ENCODING: $charset CORRELATION ID: $correlationId
-                    TIME: ${formatTime(popTime())}
-                    BODY: $request"""
-                )
-            }
+            trace ("TIME: ${formatNanos(t)}")
         }
     }
 
