@@ -1,5 +1,9 @@
 package co.there4.hexagon.serialization
 
+import co.there4.hexagon.util.asNumber
+import co.there4.hexagon.util.toLocalDate
+import co.there4.hexagon.util.toLocalDateTime
+import co.there4.hexagon.util.toLocalTime
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.fasterxml.jackson.core.*
 import com.fasterxml.jackson.core.JsonToken.*
@@ -19,6 +23,7 @@ import java.net.URL
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets.UTF_8
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.*
 
@@ -69,12 +74,6 @@ fun URL.parseList () = this.parseList (Map::class)
 
 private fun toStream(text: String) = ByteArrayInputStream(text.toByteArray(UTF_8))
 
-private fun JsonGenerator.writeNumbers(vararg numbers: Int) {
-    writeStartArray()
-    numbers.forEach { writeNumber(it) }
-    writeEndArray()
-}
-
 private fun JsonToken.checkIs(expected: JsonToken) {
     check (this == expected) { "${this.name} should be: ${expected.name}" }
 }
@@ -95,6 +94,8 @@ internal fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory(
             addDeserializer (LocalTime::class.java, LocalTimeDeserializer)
             addSerializer (LocalDate::class.java, LocalDateSerializer)
             addDeserializer (LocalDate::class.java, LocalDateDeserializer)
+            addSerializer (LocalDateTime::class.java, LocalDateTimeSerializer)
+            addDeserializer (LocalDateTime::class.java, LocalDateTimeDeserializer)
             addSerializer (ClosedRange::class.java, ClosedRangeSerializer)
             addDeserializer (ClosedRange::class.java, ClosedRangeDeserializer)
         }
@@ -115,41 +116,35 @@ internal object ByteBufferDeserializer: JsonDeserializer<ByteBuffer>() {
 
 internal object LocalTimeSerializer: JsonSerializer<LocalTime> () {
     override fun serialize(value: LocalTime, gen: JsonGenerator, serializers: SerializerProvider) {
-        gen.writeNumbers(value.hour, value.minute, value.second, value.nano)
+        gen.writeNumber(value.asNumber())
     }
 }
 
 internal object LocalTimeDeserializer: JsonDeserializer<LocalTime> () {
-    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalTime {
-        p.currentToken.checkIs(START_ARRAY)
-        val result = LocalTime.of(
-            p.nextIntValue(0),
-            p.nextIntValue(0),
-            p.nextIntValue(0),
-            p.nextIntValue(0)
-        )
-        p.nextToken().checkIs(END_ARRAY)
-        return result
-    }
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalTime =
+        p.intValue.toLocalTime()
 }
 
 internal object LocalDateSerializer: JsonSerializer<LocalDate> () {
     override fun serialize(value: LocalDate, gen: JsonGenerator, serializers: SerializerProvider) {
-        gen.writeNumbers(value.year, value.monthValue, value.dayOfMonth)
+        gen.writeNumber(value.asNumber())
     }
 }
 
 internal object LocalDateDeserializer: JsonDeserializer<LocalDate> () {
-    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDate {
-        p.currentToken.checkIs(JsonToken.START_ARRAY)
-        val result = LocalDate.of(
-            p.nextIntValue(0),
-            p.nextIntValue(0),
-            p.nextIntValue(0)
-        )
-        p.nextToken().checkIs(END_ARRAY)
-        return result
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDate =
+        p.intValue.toLocalDate()
+}
+
+internal object LocalDateTimeSerializer: JsonSerializer<LocalDateTime> () {
+    override fun serialize(value: LocalDateTime, gen: JsonGenerator, serializers: SerializerProvider) {
+        gen.writeNumber(value.asNumber())
     }
+}
+
+internal object LocalDateTimeDeserializer: JsonDeserializer<LocalDateTime> () {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDateTime =
+        p.longValue.toLocalDateTime()
 }
 
 internal object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {

@@ -13,7 +13,9 @@ import kotlin.test.assertFailsWith
     }
 
     fun a_local_date_time_returns_a_valid_int_timestamp () {
-        assert (LocalDateTime.of (2015, 12, 31, 23, 59, 59).asLong() == 20151231235959)
+        assert(LocalDateTime.of (2015, 12, 31, 23, 59, 59).asNumber() == 20151231235959000)
+        assert(LocalDateTime.of (2015, 12, 31, 23, 59, 59, 101000000).asNumber() == 20151231235959101)
+        assert(LocalDateTime.of (2015, 12, 31, 23, 59, 59, 101000000).asNumber() != 20151231235959100)
     }
 
     fun filtering_an_exception_with_an_empty_string_do_not_change_the_stack () {
@@ -72,8 +74,8 @@ import kotlin.test.assertFailsWith
     }
 
     fun dates_are_parsed_from_ints() {
-        assert(20160905174559.toLocalDateTime() == LocalDateTime.of(2016, 9, 5, 17, 45, 59))
-        assert(20160905174558.toLocalDateTime() != LocalDateTime.of(2016, 9, 5, 17, 45, 59))
+        assert(20160905174559101.toLocalDateTime() == LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101000000))
+        assert(20160905174558101.toLocalDateTime() != LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101000000))
     }
 
     fun testGet() {

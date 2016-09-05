@@ -1,29 +1,10 @@
 {
     "id" : "id1",
-    "foundation" : [
-        2014,
-        1,
-        25
-    ],
-    "closeTime" : [
-        11,
-        42,
-        0,
-        0
-    ],
+    "foundation" : 20140125,
+    "closeTime" : 114200000,
     "openTime" : {
-        "start" : [
-            8,
-            30,
-            0,
-            0
-        ],
-        "endInclusive" : [
-            14,
-            36,
-            0,
-            0
-        ]
+        "start" : 83000000,
+        "endInclusive" : 143600000
     },
     "web" : "http://example.org",
     "people" : [
@@ -34,13 +15,5 @@
             "name" : "Mike"
         }
     ],
-    "creationDate" : [
-        2016,
-        8,
-        25,
-        17,
-        17,
-        4,
-        21000000
-    ]
+    "creationDate" : 20160825171704210
 }

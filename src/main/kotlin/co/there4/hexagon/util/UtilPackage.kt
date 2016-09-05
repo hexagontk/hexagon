@@ -13,6 +13,7 @@ import java.time.LocalDate
 import java.time.ZoneOffset.UTC
 import java.lang.ClassLoader.getSystemClassLoader
 import java.net.URL
+import java.time.LocalTime
 
 /*
  * Timing
@@ -26,24 +27,39 @@ fun formatNanos(timestamp: Long) = "%1.3f ms".format (timestamp / 1e6)
 /**
  * Formats a date as a formatted integer with this format: `YYYYMMDDHHmmss`.
  */
-fun LocalDateTime.asLong(): Long =
-    (this.year       * 1e10.toLong()) +
-    (this.monthValue * 1e8.toLong()) +
-    (this.dayOfMonth * 1e6.toLong()) +
-    (this.hour       * 1e4.toLong()) +
-    (this.minute     * 1e2.toLong()) +
-    this.second
+fun LocalDateTime.asNumber(): Long =
+    (this.toLocalDate().asNumber() * 1e9.toLong()) +
+    this.toLocalTime().asNumber()
+
+fun LocalDate.asNumber(): Int =
+    (this.year       * 1e4.toInt()) +
+    (this.monthValue * 1e2.toInt()) +
+    this.dayOfMonth
+
+fun LocalTime.asNumber(): Int =
+    (this.hour       * 1e7.toInt()) +
+    (this.minute     * 1e5.toInt()) +
+    (this.second     * 1e3.toInt()) +
+    (this.nano / 1e6.toInt()) // Nanos to millis
 
 /**
  * Parses a date from a formatted integer with this format: `YYYYMMDDHHmmss`.
  */
-fun Long.toLocalDateTime(): LocalDateTime = LocalDateTime.of(
-    (this / 1e10).toInt(),
-    ((this % 1e10) / 1e8).toInt(),
-    ((this % 1e8) / 1e6).toInt(),
-    ((this % 1e6) / 1e4).toInt(),
-    ((this % 1e4) / 1e2).toInt(),
-    (this % 1e2).toInt()
+fun Long.toLocalDateTime(): LocalDateTime = (this / 1e9).toInt()
+    .toLocalDate()
+    .atTime((this % 1e9.toLong()).toInt().toLocalTime())
+
+fun Int.toLocalDate(): LocalDate = LocalDate.of(
+    this / 1e4.toInt(),
+    (this % 1e4.toInt()) / 1e2.toInt(),
+    this % 1e2.toInt()
+)
+
+fun Int.toLocalTime(): LocalTime = LocalTime.of(
+    (this / 1e7.toInt()),
+    ((this % 1e7.toInt()) / 1e5.toInt()),
+    ((this % 1e5.toInt()) / 1e3.toInt()),
+    ((this % 1e3.toInt()) * 1e6.toInt()) // Millis to nanos
 )
 
 fun LocalDateTime.toDate(): Date = Date.from(this.toInstant(UTC))
