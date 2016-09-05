@@ -9,7 +9,6 @@ import java.io.Closeable
 import java.lang.Runtime.getRuntime
 import java.net.URI
 import java.nio.charset.Charset.defaultCharset
-import java.util.*
 import java.util.UUID.randomUUID
 import java.util.concurrent.Executors.newFixedThreadPool
 import kotlin.reflect.KClass
@@ -70,11 +69,10 @@ class RabbitClient (
 
     constructor (uri: String = rabbitmqUrl): this(createConnectionFactory(uri))
 
-    val connected: Boolean get() = connection?.isOpen() ?: false
+    val connected: Boolean get() = connection?.isOpen ?: false
 
     override fun close() {
-        if (!connected)
-            throw IllegalStateException("Connection already closed")
+        if (!connected) error("Connection already closed")
 
         connection?.close()
         info("RabbitMQ client closed")
@@ -191,7 +189,7 @@ class RabbitClient (
     fun call(requestQueue: String, message: String): String =
         withChannel {
             val correlationId = randomUUID().toString()
-            val replyQueueName = it.queueDeclare().getQueue()
+            val replyQueueName = it.queueDeclare().queue
             val charset = defaultCharset().name()
 
             publish(it, "", requestQueue, charset, message, correlationId, replyQueueName)

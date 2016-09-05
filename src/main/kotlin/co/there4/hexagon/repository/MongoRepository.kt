@@ -3,9 +3,7 @@ package co.there4.hexagon.repository
 import co.there4.hexagon.events.EventManager
 import co.there4.hexagon.repository.RepositoryEventAction.*
 import co.there4.hexagon.serialization.*
-import co.there4.hexagon.util.CompanionLogger
-import co.there4.hexagon.util.requireResource
-import co.there4.hexagon.util.resourceAsStream
+import co.there4.hexagon.util.*
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
@@ -131,7 +129,7 @@ open class MongoRepository <T : Any> (
      * @param file .
      */
     fun loadData(file: String) {
-        val resourceAsStream = resourceAsStream("data/$file")
+        val resourceAsStream = resourceAsStream(file)
         val extension = file.substringAfterLast('.')
         val objects = resourceAsStream?.parseList(type, "application/$extension") ?: listOf()
         objects.forEach {
@@ -147,11 +145,8 @@ open class MongoRepository <T : Any> (
     protected open fun map (document: T): Document {
         return onStore (
             Document (document.convertToMap ().mapKeys {
-                val key = it.key ?: throw IllegalStateException ("Key can not be 'null'")
-                if (key is String)
-                    key
-                else
-                    throw IllegalStateException ("Key must be 'String' not '${key.javaClass.name}'")
+                val key = it.key ?: error("Key can not be 'null'")
+                key as? String ?: error("Key must be 'String' not '${key.javaClass.name}'")
             })
         )
     }

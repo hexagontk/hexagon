@@ -41,8 +41,8 @@ class ServletFilter (private val router: Router) : Filter {
     override fun destroy() { /* Not implemented */ }
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-        if (!(request is HttpServletRequest) || !(response is HttpServletResponse))
-            throw IllegalStateException("Invalid request/response parmeters")
+        if (request !is HttpServletRequest || response !is HttpServletResponse)
+            error("Invalid request/response parmeters")
 
         val filters = router.filters.filter { it.key.path.matches(request.servletPath) }
         val methodRoutes = routesByMethod[HttpMethod.valueOf (request.method)]?.filter {

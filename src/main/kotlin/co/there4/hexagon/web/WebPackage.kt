@@ -23,7 +23,7 @@ var server: Server = JettyServer (bindPort = bindPort, bindAddress = bindAddress
     get () = field
     set (server) {
         if (field.started ())
-            throw IllegalStateException ("A default server is already started")
+            error("A default server is already started")
 
         field = server
     }

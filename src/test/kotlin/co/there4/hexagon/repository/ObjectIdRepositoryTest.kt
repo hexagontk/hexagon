@@ -11,7 +11,7 @@ abstract class ObjectIdRepositoryTest <T : Any> (type: KClass<T>, key: KProperty
 
     val oidCollection: MongoObjectIdRepository<T> = MongoObjectIdRepository(type, key, true)
 
-    override fun setObjectKey (obj: T, id: Int): T = throw IllegalStateException()
+    override fun setObjectKey (obj: T, id: Int): T = error("ObjectId should not be changed in test")
     override fun getObjectKey (obj: T) = oidCollection.getKey (obj)
 
     override fun createObjects() = (0..9).map { changeObject(createObject()) }

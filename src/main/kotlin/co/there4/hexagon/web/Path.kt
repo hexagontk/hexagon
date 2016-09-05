@@ -70,7 +70,9 @@ data class Path (val path: String) {
 
     fun create(vararg parameters: Pair<String, Any>) =
         if (hasWildcards || parameters.size != parameterIndex.size) {
-            throw IllegalStateException ("")
+            val expectedParams = parameterIndex.size
+            val paramCount = parameters.size
+            error("Path has wildcards or different parameters: $expectedParams/$paramCount")
         }
         else {
             val map = parameters.map { it.first to it.second.toString() }
