@@ -1,7 +1,7 @@
 package co.there4.hexagon.events
 
 import co.there4.hexagon.util.Context
-import co.there4.hexagon.util.asInt
+import co.there4.hexagon.util.asLong
 import co.there4.hexagon.util.jvmId as utilJvmId
 import co.there4.hexagon.util.hostname as utilHostname
 import co.there4.hexagon.util.ip as utilIp
@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 open class Event (
     val action: String,
     val timestamp: Long = currentTimeMillis (),
-    val dateTime: Long = LocalDateTime.now().asInt(),
+    val dateTime: Long = LocalDateTime.now().asLong(),
     val hostname: String = utilHostname,
     val ip: String = utilIp,
     val jvmid: String = utilJvmId,

@@ -6,11 +6,10 @@ import co.there4.hexagon.util.CompanionLogger
 
 object EventManager : CompanionLogger (EventManager::class) {
     val exchange = "events"
-
     val client = RabbitClient ()
 
     init {
-        client.bindExchange("events", "topic", "*.*.*", "event_pool")
+        client.bindExchange(exchange, "topic", "*.*.*", "event_pool")
     }
 
     inline fun <reified T : Event> on(event: String, crossinline consumer: (T) -> Unit) {

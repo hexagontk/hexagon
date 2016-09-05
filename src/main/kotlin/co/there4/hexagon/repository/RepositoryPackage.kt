@@ -29,8 +29,13 @@ fun mongoCollection (
 fun mongoId(): String = ObjectId().toHexString()
 
 inline fun <reified T : Any> mongoRepository(
-    database: MongoDatabase = mongoDatabase(), publishEvents: Boolean = false) =
-        MongoRepository(T::class, mongoCollection(T::class.simpleName ?: error(""), database), publishEvents )
+    database: MongoDatabase = mongoDatabase(),
+    publishEvents: Boolean = false) =
+        MongoRepository(
+            T::class,
+            mongoCollection(T::class.simpleName ?: error(""), database),
+            publishEvents
+        )
 
 inline fun <reified T : Any, reified K : Any> mongoIdRepository(
     database: MongoDatabase,
@@ -38,14 +43,14 @@ inline fun <reified T : Any, reified K : Any> mongoIdRepository(
     publishEvents: Boolean = false,
     indexOrder: Int = 1,
     createIndex: Boolean = true) =
-    MongoIdRepository (
-        T::class,
-        mongoCollection(T::class.simpleName ?: error("Error getting type name"), database),
-        key,
-        publishEvents,
-        indexOrder,
-        createIndex
-    )
+        MongoIdRepository (
+            T::class,
+            mongoCollection(T::class.simpleName ?: error("Error getting type name"), database),
+            key,
+            publishEvents,
+            indexOrder,
+            createIndex
+        )
 
 inline fun <reified T : Any, reified K : Any> mongoIdRepository(
     key: KProperty1<T, K>,
