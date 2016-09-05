@@ -1,5 +1,6 @@
 package co.there4.hexagon.util
 
+import co.there4.hexagon.settings.SettingsManager
 import java.io.InputStream
 import java.lang.System.*
 import java.lang.ThreadLocal.withInitial
@@ -47,6 +48,16 @@ fun LocalDateTime.asInt () =
     (this.hour       * 1e4.toLong()) +
     (this.minute     * 1e2.toLong()) +
     this.second
+
+/** 201609051745 */
+fun toLocalDate(number: Int) = LocalDateTime.of(
+    (number / 1e10).toInt(),
+    ((number % 1e10) / 1e8).toInt(),
+    ((number % 1e8) / 1e6).toInt(),
+    ((number % 1e6) / 1e4).toInt(),
+    ((number % 1e4) / 1e2).toInt(),
+    (number % 1e2).toInt()
+)
 
 fun LocalDateTime.toDate(): Date = Date.from(this.toInstant(UTC))
 fun LocalDate.toDate(): Date = this.atStartOfDay().toDate()
@@ -102,9 +113,9 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
 val UNKNOWN_LOCALHOST = "UNKNOWN_LOCALHOST"
 
 /** The hostname of the machine running this program. */
-val hostname = getLocalHost()?.getHostName() ?: UNKNOWN_LOCALHOST
+val hostname = getLocalHost()?.hostName ?: UNKNOWN_LOCALHOST
 /** The IP address of the machine running this program. */
-val ip = getLocalHost()?.getHostAddress() ?: UNKNOWN_LOCALHOST
+val ip = getLocalHost()?.hostAddress ?: UNKNOWN_LOCALHOST
 
 fun parseQueryParameters(query: String): Map<String, String> =
     if (query.isEmpty())
@@ -146,7 +157,7 @@ fun Throwable.toText (prefix: String = ""): String =
  */
 
 internal val flarePrefix = getProperty ("CompanionLogger.flarePrefix", ">>>>>>>>")
-val jvmId = getRuntimeMXBean().name
+val jvmId: String = getRuntimeMXBean().name
 
 /*
  * Map operations
@@ -173,7 +184,15 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
  * I/O
  */
 val systemClassLoader: ClassLoader = getSystemClassLoader() ?: error("Error getting class loader")
+val contextClassLoader: ClassLoader = Thread.currentThread().contextClassLoader
+val hexagonClassLoader: ClassLoader = SettingsManager::class.java.classLoader
 
+/**
+ * TODO Fix class loader issues, use thread class loader or whatever
+ * http://www.javaworld.com/article/2077344/core-java/find-a-way-out-of-the-classloader-maze.html
+ */
+fun resourceAsStream__(resName: String): InputStream? = hexagonClassLoader.getResourceAsStream(resName)
+fun resourceAsStream_(resName: String): InputStream? = contextClassLoader.getResourceAsStream(resName)
 fun resourceAsStream(resName: String): InputStream? = systemClassLoader.getResourceAsStream(resName)
 fun resource(resName: String): URL? = systemClassLoader.getResource(resName)
 fun requireResource(resName: String): URL = resource(resName) ?: error("$resName not found")
