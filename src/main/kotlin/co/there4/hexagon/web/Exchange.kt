@@ -46,7 +46,7 @@ data class Exchange (
             response.contentType = "$contentType; charset=${defaultCharset().name()}"
 
         val extraParameters = mapOf(
-            "pathInfo" to request.pathInfo,
+            "pathInfo" to request.pathInfo.removeSuffix("/"), // Do not allow trailing slash
             "lang" to locale.language
         )
 
