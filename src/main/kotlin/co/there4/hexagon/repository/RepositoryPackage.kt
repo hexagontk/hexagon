@@ -62,8 +62,7 @@ infix fun <T> String.isIn(value: List<T>): Bson = mIn(this, value)
 fun <T : Any> on (
     entity: KClass<T>, action: RepositoryEventAction, callback: (RepositoryEvent<T>) -> Unit) {
     @Suppress("UNCHECKED_CAST")
-    EventManager.on (
-        RepositoryEvent::class,
+    EventManager.on(
         entity.simpleName + "." + action.toString(),
         callback as (RepositoryEvent<*>) -> Unit
     )

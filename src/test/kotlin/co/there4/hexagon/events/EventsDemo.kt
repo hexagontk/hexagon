@@ -15,7 +15,7 @@ import java.lang.Thread.`yield` as threadYield
     private var tick: Long = 0
 
     @BeforeClass fun startConsumer() {
-        EventManager.on(TickEvent::class) {
+        EventManager.on<TickEvent> {
             info("Tick: ${it.nanos}")
             tick = it.nanos
         }
