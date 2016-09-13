@@ -24,7 +24,7 @@ fun filterExample(context: String = "filter") {
 
     get ("/$context/hello") { ok ("Hello World!") }
 
-    after ("/$context/hello") { response.addHeader ("blacksheep", "added by after-filter") }
+    after ("/$context/hello") { response.addHeader ("hexagon", "added by after-filter") }
 }
 
 fun helloWorld(context: String = "hello") {

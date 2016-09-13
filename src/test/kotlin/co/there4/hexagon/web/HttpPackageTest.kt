@@ -1,6 +1,5 @@
-package co.there4.blacksheep.web
+package co.there4.hexagon.web
 
-import co.there4.hexagon.web.*
 import co.there4.hexagon.web.HttpMethod.*
 import co.there4.hexagon.web.FilterOrder.*
 import co.there4.hexagon.web.jetty.JettyServer
