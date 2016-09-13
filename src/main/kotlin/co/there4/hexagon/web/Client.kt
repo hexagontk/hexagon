@@ -1,16 +1,18 @@
 package co.there4.hexagon.web
 
 import co.there4.hexagon.serialization.serialize
-import java.net.URL
-
-import org.asynchttpclient.request.body.multipart.Part as AsyncHttpPart
+import co.there4.hexagon.web.HttpMethod.*
+import io.netty.handler.ssl.SslContextBuilder
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory
 import org.asynchttpclient.DefaultAsyncHttpClient
+import org.asynchttpclient.DefaultAsyncHttpClientConfig
 import org.asynchttpclient.Response
 import org.asynchttpclient.cookie.Cookie
-
-import co.there4.hexagon.web.HttpMethod.*
-import org.asynchttpclient.DefaultAsyncHttpClientConfig
+import java.net.URL
 import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets.UTF_8
+import java.util.*
+import org.asynchttpclient.request.body.multipart.Part as AsyncHttpPart
 
 /**
  * Client to use other REST services (like the ones created with Blacksheep).
@@ -18,16 +20,33 @@ import java.nio.charset.Charset
 class Client (
     val endpointUrl: URL,
     val contentType: String? = null,
-    val useCookies: Boolean = true) {
+    val useCookies: Boolean = true,
+    val user: String? = null,
+    password: String? = null,
+    insecure: Boolean = false) {
 
-    constructor(endpointUrl: String, contentType: String? = null, useCookies: Boolean = true):
-        this(URL(endpointUrl), contentType, useCookies)
+    val base64encoder: Base64.Encoder = Base64.getEncoder()
+    val authorization: String? =
+        if (user != null)
+        base64encoder.encodeToString("$user:$password".toByteArray(UTF_8))
+        else null
 
     val endpoint = endpointUrl.toString()
     val client = DefaultAsyncHttpClient(DefaultAsyncHttpClientConfig.Builder()
         .setConnectTimeout(5000)
+        .setSslContext(
+            if (insecure)
+                SslContextBuilder
+                    .forClient()
+                    .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                    .build()
+            else SslContextBuilder.forClient().build()
+        )
         .build())
     val cookies: MutableMap<String, Cookie> = mutableMapOf()
+
+    constructor(endpointUrl: String, contentType: String? = null, useCookies: Boolean = true):
+        this(URL(endpointUrl), contentType, useCookies)
 
     /**
      * Synchronous execution.
@@ -140,7 +159,13 @@ class Client (
             }
 
             request.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?
-            if (contentType != null) request.addHeader("Content-Type", contentType)
-            else request
+
+            if (contentType != null)
+                request.addHeader("Content-Type", contentType)
+
+            if (authorization != null)
+                request.addHeader("Authorization", "Basic $authorization")
+
+            request
         }
 }
