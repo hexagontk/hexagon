@@ -46,9 +46,9 @@ data class Path (val path: String) {
 
     val regex: Regex? = when (Pair (hasWildcards, hasParameters)) {
         Pair (true, true) ->
-            Regex (path.replace (WILDCARD, "(.*)").replace (PARAMETER_REGEX, "(.+)"))
-        Pair (true, false) -> Regex (path.replace (WILDCARD, "(.*)"))
-        Pair (false, true) -> Regex (path.replace (PARAMETER_REGEX, "(.+)"))
+            Regex (path.replace (WILDCARD, "(.*?)").replace (PARAMETER_REGEX, "(.+?)") + "$")
+        Pair (true, false) -> Regex (path.replace (WILDCARD, "(.*?)") + "$")
+        Pair (false, true) -> Regex (path.replace (PARAMETER_REGEX, "(.+?)") + "$")
         else -> null
     }
 
@@ -62,7 +62,7 @@ data class Path (val path: String) {
             throw IllegalArgumentException ("URL '$requestUrl' does not match path")
         else if (hasParameters && regex != null)
             regex.findGroups (requestUrl)
-                .mapIndexed { idx, match -> Pair (parameterIndex[idx], match.value) }
+                .mapIndexed { idx, match -> parameterIndex[idx] to match.value }
                 .filter { pair -> pair.first != "" }
                 .toMap ()
         else
