@@ -13,7 +13,7 @@ startScripts {
     unixStartScriptGenerator.template = resources.text.fromString (template)
 }
 
-String destinationDir = file ("$rootProject.buildDir/$project.name")
+String destinationDir = "$rootProject.buildDir/$project.name"
 
 build.doLast {
     File script = file("$destinationDir/bin/${project.name}.service")
