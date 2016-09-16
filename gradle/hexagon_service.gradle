@@ -29,7 +29,7 @@ build.doLast {
     script.executable = true
 }
 
-installDist.destinationDir = destinationDir
+installDist.destinationDir = file(destinationDir)
 
 task install {
     dependsOn 'check', 'installDist'
