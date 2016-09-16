@@ -2,7 +2,7 @@
 apply from: "$gradleScripts/hexagon_library.gradle"
 apply plugin: 'application'
 
-defaultTasks 'build', 'install'
+defaultTasks 'install'
 
 ext.deployDir = findProperty ('deployDir') ?: '/opt'
 ext.serviceUser = findProperty ('serviceUser') ?: 'root'
