@@ -2,20 +2,20 @@
 apply from: "$gradleScripts/hexagon_library.gradle"
 apply plugin: 'application'
 
-defaultTasks 'install'
+defaultTasks 'build', 'install'
 
 ext.deployDir = findProperty ('deployDir') ?: '/opt'
 ext.serviceUser = findProperty ('serviceUser') ?: 'root'
 ext.serviceGroup = findProperty ('serviceGroup') ?: 'root'
+
+File projectDestinationDir = file("$rootProject.buildDir/$project.name")
 
 startScripts {
     String template = new URL ("$gradleScripts/startScript").text
     unixStartScriptGenerator.template = resources.text.fromString (template)
 }
 
-File projectDestinationDir = file("$rootProject.buildDir/$project.name")
-
-build.doLast {
+startScripts.doLast {
     File script = file("$projectDestinationDir/bin/${project.name}.service")
     String template = new URL ("$gradleScripts/serviceScript").text
     String scriptContent = template
