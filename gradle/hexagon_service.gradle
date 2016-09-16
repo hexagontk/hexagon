@@ -13,7 +13,7 @@ startScripts {
     unixStartScriptGenerator.template = resources.text.fromString (template)
 }
 
-String destinationDir = "$rootProject.buildDir/$project.name"
+String destinationDir = file("$rootProject.buildDir/$project.name")
 
 build.doLast {
     File script = file("$destinationDir/bin/${project.name}.service")
@@ -29,7 +29,7 @@ build.doLast {
     script.executable = true
 }
 
-installDist.destinationDir = file(destinationDir)
+installDist.destinationDir = destinationDir
 
 task install {
     dependsOn 'check', 'installDist'
