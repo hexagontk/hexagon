@@ -6,8 +6,6 @@ ext.deployDir = findProperty ('deployDir') ?: '/opt'
 ext.serviceUser = findProperty ('serviceUser') ?: 'root'
 ext.serviceGroup = findProperty ('serviceGroup') ?: 'root'
 
-defaultTasks 'install'
-
 startScripts {
     String template = new URL ("$gradleScripts/startScript").text
     unixStartScriptGenerator.template = resources.text.fromString (template)
