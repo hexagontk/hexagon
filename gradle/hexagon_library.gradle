@@ -5,7 +5,7 @@ ext.gradleScripts = findProperty ('gradleScripts') ?:
 
 apply from: "$gradleScripts/kotlin.gradle"
 
-defaultTasks 'install'
+defaultTasks 'build'
 
 dependencies {
     compile "co.there4:hexagon:$hexagonVersion"
