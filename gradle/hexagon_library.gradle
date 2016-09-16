@@ -12,5 +12,6 @@ dependencies {
 }
 
 clean {
+    delete fileTree (dir: projectDir , include: '*.class')
     delete "$projectDir/log"
 }
