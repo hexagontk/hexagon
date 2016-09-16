@@ -15,7 +15,7 @@ startScripts {
     unixStartScriptGenerator.template = resources.text.fromString (template)
 }
 
-startScripts.doLast {
+installDist.doLast {
     File script = file("$projectDestinationDir/bin/${project.name}.service")
     String template = new URL ("$gradleScripts/serviceScript").text
     String scriptContent = template
