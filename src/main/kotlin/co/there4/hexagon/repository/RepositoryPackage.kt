@@ -62,7 +62,10 @@ inline fun <reified T : Any, reified K : Any> mongoIdRepository(
 infix fun Bson.or(value: Bson): Bson = mOr(this, value)
 infix fun Bson.and(value: Bson): Bson = mAnd(this, value)
 infix fun <T> String.eq(value: T): Bson = mEq(this, value)
-infix fun <T> String.isIn(value: List<T>): Bson = mIn(this, value)
+infix fun <T> String.isIn(value: Collection<T>): Bson = mIn(this, value)
+
+infix fun <T> KProperty1<*, *>.eq(value: T): Bson = this.name eq value
+infix fun <T> KProperty1<*, *>.isIn(value: Collection<T>): Bson = this.name isIn value
 
 fun <T : Any> on (
     entity: KClass<T>, action: RepositoryEventAction, callback: (RepositoryEvent<T>) -> Unit) {

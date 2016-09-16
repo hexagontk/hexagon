@@ -13,9 +13,10 @@ startScripts {
     unixStartScriptGenerator.template = resources.text.fromString (template)
 }
 
-installDist.destinationDir = file ("$rootProject.buildDir/$project.name")
+String destinationDir = file ("$rootProject.buildDir/$project.name")
+
 build.doLast {
-    File script = file("$it.destinationDir/bin/${project.name}.service")
+    File script = file("$destinationDir/bin/${project.name}.service")
     String template = new URL ("$gradleScripts/serviceScript").text
     String scriptContent = template
         .replace ("\${projectName}", project.name)
@@ -27,6 +28,8 @@ build.doLast {
     script << scriptContent
     script.executable = true
 }
+
+installDist.destinationDir = destinationDir
 
 task install {
     dependsOn 'check', 'installDist'

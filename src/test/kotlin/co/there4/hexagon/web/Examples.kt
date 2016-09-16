@@ -6,8 +6,8 @@ import java.net.InetAddress.getByName as address
 val SESSION_NAME = "username"
 
 val usernamePasswords = mapOf (
-    Pair ("foo", "bar"),
-    Pair ("admin", "admin")
+    "foo" to "bar",
+    "admin" to "admin"
 )
 
 fun filterExample(context: String = "filter") {

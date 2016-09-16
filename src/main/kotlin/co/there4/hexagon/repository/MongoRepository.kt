@@ -102,6 +102,9 @@ open class MongoRepository <T : Any> (
             it.map { unmap(it) }
         }
 
+    fun findOneObject (filter: Bson, setup: FindIterable<*>.() -> Unit = {}): T? =
+        findObjects(filter, setup).firstOrNull()
+
     fun createIndex(
         name: String,
         order: Int = 1,
