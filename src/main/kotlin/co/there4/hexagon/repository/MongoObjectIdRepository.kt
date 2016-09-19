@@ -19,8 +19,7 @@ class MongoObjectIdRepository<T : Any>(
         collection,
         key,
         publishEvents,
-        1,
-        false,
+        null,
         onStore,
         onLoad) {
 

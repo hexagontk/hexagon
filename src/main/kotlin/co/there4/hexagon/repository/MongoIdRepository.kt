@@ -4,7 +4,9 @@ import co.there4.hexagon.events.EventManager
 import co.there4.hexagon.repository.RepositoryEventAction.DELETED
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
-import com.mongodb.client.model.IndexOptions
+import com.mongodb.client.model.Indexes.*
+import com.mongodb.client.model.UpdateOptions
+import kotlinx.html.dom.document
 import org.bson.Document
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -16,8 +18,7 @@ open class MongoIdRepository<T : Any, K : Any> (
     collection: MongoCollection<Document>,
     protected val key: KProperty1<T, K>,
     publishEvents: Boolean = false,
-    indexOrder: Int = 1,
-    createIndex: Boolean = true,
+    indexOrder: Int? = 1,
     onStore: (Document) -> Document = { it },
     onLoad: (Document) -> Document = { it }) :
         MongoRepository<T> (type, collection, publishEvents, onStore, onLoad) {
@@ -30,8 +31,7 @@ open class MongoIdRepository<T : Any, K : Any> (
         database: MongoDatabase,
         key: KProperty1<T, K>,
         publishEvents: Boolean = false,
-        indexOrder: Int = 1,
-        createIndex: Boolean = true,
+        indexOrder: Int? = 1,
         onStore: (Document) -> Document = { it },
         onLoad: (Document) -> Document = { it }) :
             this (
@@ -40,7 +40,6 @@ open class MongoIdRepository<T : Any, K : Any> (
                 key,
                 publishEvents,
                 indexOrder,
-                createIndex,
                 onStore,
                 onLoad
             )
@@ -49,8 +48,7 @@ open class MongoIdRepository<T : Any, K : Any> (
         type: KClass<T>,
         key: KProperty1<T, K>,
         publishEvents: Boolean = false,
-        indexOrder: Int = 1,
-        createIndex: Boolean = true,
+        indexOrder: Int? = 1,
         onStore: (Document) -> Document = { it },
         onLoad: (Document) -> Document = { it }) :
             this (
@@ -59,14 +57,13 @@ open class MongoIdRepository<T : Any, K : Any> (
                 key,
                 publishEvents,
                 indexOrder,
-                createIndex,
                 onStore,
                 onLoad
             )
 
     init {
-        if (createIndex)
-            createIndex (key.name, indexOrder, IndexOptions().unique(true).background(true))
+        if (indexOrder != null)
+            createIndex (if(indexOrder == 1) ascending(key.name) else descending(key.name), true)
     }
 
     protected fun publishKey (source: K, action: RepositoryEventAction) {
@@ -111,15 +108,19 @@ open class MongoIdRepository<T : Any, K : Any> (
         publish(documentIds, DELETED)
     }
 
-    fun replaceObject (document: T) =
-        replaceOneObject (convertKeyName(key.name) eq convertId((key.getter)(document)), document)
+    fun replaceObject (document: T, upsert: Boolean = false) =
+        replaceOneObject (
+            convertKeyName(key.name) eq convertId((key.getter)(document)),
+            document,
+            if (upsert) UpdateOptions().upsert(true) else UpdateOptions()
+        )
 
-    fun replaceObjects (vararg document: T) {
-        replaceObjects (document.toList())
+    fun replaceObjects (vararg document: T, upsert: Boolean = false) {
+        replaceObjects (document.toList(), upsert)
     }
 
-    fun replaceObjects (document: List<T>) {
-        document.forEach { replaceObject(it) }
+    fun replaceObjects (document: List<T>, upsert: Boolean = false) {
+        document.forEach { replaceObject(it, upsert) }
     }
 
     fun find (vararg documentId: K): List<T> = find (documentId.toList ())

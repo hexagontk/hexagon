@@ -6,6 +6,7 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Indexes.*
 import org.bson.Document
 import org.bson.conversions.Bson
 import org.bson.types.ObjectId
@@ -37,27 +38,43 @@ inline fun <reified T : Any> mongoRepository(
             publishEvents
         )
 
-inline fun <reified T : Any, reified K : Any> mongoIdRepository(
-    database: MongoDatabase,
-    key: KProperty1<T, K>,
+inline fun <reified T : Any> mongoRepository(
+    database: MongoDatabase = mongoDatabase(),
     publishEvents: Boolean = false,
-    indexOrder: Int = 1,
-    createIndex: Boolean = true) =
+    setup: MongoRepository<T>.() -> Unit): MongoRepository<T> =
+        mongoRepository<T>(database, publishEvents).let {
+            it.setup()
+            it
+        }
+
+inline fun <reified T : Any, reified K : Any> mongoIdRepository(
+    key: KProperty1<T, K>,
+    database: MongoDatabase = mongoDatabase(),
+    publishEvents: Boolean = false,
+    indexOrder: Int? = 1) =
         MongoIdRepository (
             T::class,
             mongoCollection(T::class.simpleName ?: error("Error getting type name"), database),
             key,
             publishEvents,
-            indexOrder,
-            createIndex
+            indexOrder
         )
 
 inline fun <reified T : Any, reified K : Any> mongoIdRepository(
     key: KProperty1<T, K>,
+    database: MongoDatabase = mongoDatabase(),
     publishEvents: Boolean = false,
-    indexOrder: Int = 1,
-    createIndex: Boolean = true) =
-        mongoIdRepository ( mongoDatabase(), key, publishEvents, indexOrder, createIndex)
+    indexOrder: Int? = 1,
+    setup: MongoIdRepository<T, K>.() -> Unit) =
+        mongoIdRepository (key, database, publishEvents, indexOrder).let {
+            it.setup()
+            it
+        }
+
+inline fun <reified T : Any> mongoObjectIdRepository(
+    key: KProperty1<T, String>,
+    publishEvents: Boolean = false) =
+        MongoObjectIdRepository (T::class, mongoDatabase(), key, publishEvents)
 
 infix fun Bson.or(value: Bson): Bson = mOr(this, value)
 infix fun Bson.and(value: Bson): Bson = mAnd(this, value)
@@ -66,6 +83,9 @@ infix fun <T> String.isIn(value: Collection<T>): Bson = mIn(this, value)
 
 infix fun <T> KProperty1<*, *>.eq(value: T): Bson = this.name eq value
 infix fun <T> KProperty1<*, *>.isIn(value: Collection<T>): Bson = this.name isIn value
+
+fun ascending(vararg fields: KProperty1<*, *>) = ascending(fields.map { it.name })
+fun descending(vararg fields: KProperty1<*, *>) = descending(fields.map { it.name })
 
 fun <T : Any> on (
     entity: KClass<T>, action: RepositoryEventAction, callback: (RepositoryEvent<T>) -> Unit) {

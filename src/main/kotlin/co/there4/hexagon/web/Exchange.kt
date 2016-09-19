@@ -1,5 +1,7 @@
 package co.there4.hexagon.web
 
+import co.there4.hexagon.repository.FileRepository
+import co.there4.hexagon.repository.FileRepository.load
 import co.there4.hexagon.template.PebbleRenderer.render
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
@@ -55,6 +57,13 @@ data class Exchange (
 
     fun template(template: String, context: Map<String, *> = mapOf<String, Any>()) {
         template(template, obtainLocale(), context)
+    }
+
+    fun file(name: String) {
+        val meta = load(name, response.outputStream)
+        response.contentType = meta["Content-Type"].toString()
+        response.outputStream.flush()
+        response.status = 200
     }
 
     /**

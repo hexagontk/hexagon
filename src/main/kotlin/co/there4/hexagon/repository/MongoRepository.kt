@@ -14,7 +14,7 @@ import org.bson.Document
 import org.bson.conversions.Bson
 import java.io.File
 import kotlin.reflect.KClass
-import kotlin.reflect.KProperty
+import kotlin.reflect.KProperty1
 
 open class MongoRepository <T : Any> (
     val type: KClass<T>,
@@ -30,7 +30,11 @@ open class MongoRepository <T : Any> (
         type: KClass<T>,
         database: MongoDatabase = mongoDatabase(),
         publishEvents: Boolean = false) :
-            this(type, mongoCollection(type.simpleName ?: error(""), database), publishEvents)
+            this(
+                type,
+                mongoCollection(type.simpleName ?: error("Error getting type name"), database),
+                publishEvents
+            )
 
     protected fun publish (source: T, action: RepositoryEventAction) {
         if (publishEvents)
@@ -105,23 +109,16 @@ open class MongoRepository <T : Any> (
     fun findOneObject (filter: Bson, setup: FindIterable<*>.() -> Unit = {}): T? =
         findObjects(filter, setup).firstOrNull()
 
-    fun createIndex(
-        name: String,
-        order: Int = 1,
-        options: IndexOptions = IndexOptions().background(true)): String =
-            createIndex(Document(name, order), options)
+    fun exists (filter: Bson): Boolean = findOneObject(filter) != null
 
-    fun createFieldNamesIndex(options: IndexOptions, vararg fields: Pair<String, *>): String =
-        createIndex(Document(fields.toMap()), options)
+    fun createIndex(keys: Bson, unique: Boolean = false, background: Boolean = true): String =
+        createIndex(keys, IndexOptions().unique(unique).background(background))
 
-    fun createFieldNamesIndex(vararg fields: Pair<String, *>): String =
-        createFieldNamesIndex(IndexOptions().background(true), *fields)
+    fun createUniqueIndex(keys: Bson, background: Boolean = true): String =
+        createIndex(keys, true, background)
 
-    fun createFieldsIndex(options: IndexOptions, vararg fields: Pair<KProperty<*>, *>): String =
-        createFieldNamesIndex(options, *fields.map { it.first.name to it.second }.toTypedArray())
-
-    fun createFieldsIndex(vararg fields: Pair<KProperty<*>, *>): String =
-        createFieldsIndex(IndexOptions().background(true), *fields)
+    fun createIndex(vararg fields: KProperty1<*, *>): String = createIndex(ascending(*fields))
+    fun createUniqueIndex(vararg fields: KProperty1<*, *>) = createUniqueIndex(ascending(*fields))
 
     // TODO Test this!
     fun importFile(input: File) { insertManyObjects(input.parseList(type)) }
