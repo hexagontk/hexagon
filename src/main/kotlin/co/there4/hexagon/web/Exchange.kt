@@ -27,15 +27,13 @@ data class Exchange (
     fun ok(code: Int = 200, content: Any = "") = send(code, content)
     fun error(code: Int = 500, content: Any = "") = send(code, content)
 
-    fun halt(content: Any) = halt(500, content)
-    fun halt(code: Int = 500, content: Any = "") {
+    fun halt(content: Any): Nothing = halt(500, content)
+    fun halt(code: Int = 500, content: Any = ""): Nothing {
         send(code, content)
         throw EndException()
     }
 
-    fun pass() {
-        throw PassException()
-    }
+    fun pass(): Nothing = throw PassException()
 
     fun template(
         template: String,
@@ -58,6 +56,9 @@ data class Exchange (
     fun template(template: String, context: Map<String, *> = mapOf<String, Any>()) {
         template(template, obtainLocale(), context)
     }
+
+    fun template(template: String, vararg context: Pair<String, *>) =
+        template(template, context.toMap())
 
     fun file(name: String) {
         val meta = load(name, response.outputStream)
