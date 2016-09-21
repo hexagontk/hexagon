@@ -6,13 +6,16 @@
 language: java
 jdk: oraclejdk8
 
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
-  - $HOME/.gradle/wrapper
-  - $HOME/.gradle/native
-  - $HOME/.gradle/daemon
-  - $HOME/.gradle/caches/jars-1
-  - $HOME/.gradle/caches/3.0
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/daemon/
+  - $HOME/.gradle/native/
+  - $HOME/.gradle/wrapper/
 
 services:
   - mongodb
