@@ -131,6 +131,8 @@ open class MongoIdRepository<T : Any, K : Any> (
     fun find (documentId: K): T? =
         findObjects (convertKeyName(key.name) eq convertId(documentId)).first ()
 
+    fun isEmpty() = count() == 0L
+
     fun getKey (obj: T): K = (key.getter)(obj)
 
     private fun KType.kclass(): KClass<*> = when (this.javaType.typeName) {

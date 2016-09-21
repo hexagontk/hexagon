@@ -14,9 +14,10 @@ import kotlin.reflect.KProperty1
 
 internal data class Message(val message: String = "Hello, World!")
 internal data class Fortune(val _id: Int, val message: String)
-internal data class World(val _id: Int, val id: Int, val randomNumber: Int)
+internal data class World(val _id: Int, val id: Int, val randomNumber: Int = rnd())
 
-private val DB_ROWS = 10000
+internal val DB_ROWS = 10000
+
 private val CONTENT_TYPE_JSON = "application/json"
 private val QUERIES_PARAM = "queries"
 
@@ -26,8 +27,9 @@ private val WORLD: String = setting<String>("worldCollection") ?: "world"
 private val FORTUNE: String = setting<String>("fortuneCollection") ?: "fortune"
 
 private val database = mongoDatabase("mongodb://$DB_HOST/$DB")
-private val worldRepository = repository(WORLD, World::_id)
-private val fortuneRepository = repository(FORTUNE, Fortune::_id)
+
+internal val worldRepository = repository(WORLD, World::_id)
+internal val fortuneRepository = repository(FORTUNE, Fortune::_id)
 
 private inline fun <reified T : Any> repository(name: String, key: KProperty1<T, Int>) =
     MongoIdRepository(T::class, mongoCollection(name, database), key)
@@ -53,7 +55,7 @@ private fun Exchange.getFortunes() {
 private fun Exchange.getUpdates() {
     val worlds = (1..getQueries()).map {
         val id = rnd()
-        val newWorld = World(id, id, rnd())
+        val newWorld = World(id, id)
         worldRepository.replaceObject(newWorld)
         newWorld
     }

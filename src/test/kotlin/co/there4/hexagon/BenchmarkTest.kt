@@ -9,11 +9,36 @@ import org.testng.annotations.Test
 internal const val THREADS = 4
 internal const val TIMES = 4
 
+internal val FORTUNE_MESSAGES = setOf(
+    "fortune: No such file or directory",
+    "A computer scientist is someone who fixes things that aren't broken.",
+    "After enough decimal places, nobody gives a damn.",
+    "A bad random number generator: 1, 1, 1, 1, 1, 4.33e+67, 1, 1, 1",
+    "A computer program does what you tell it to do, not what you want it to do.",
+    "Emacs is a nice operating system, but I prefer UNIX. — Tom Christaensen",
+    "Any program that runs right is obsolete.",
+    "A list is only as strong as its weakest link. — Donald Knuth",
+    "Feature: A bug with seniority.",
+    "Computers make very fast, very accurate mistakes.",
+    "<script>alert(\"This should not be displayed in a browser alert box.\");</script>",
+    "フレームワークのベンチマーク"
+)
+
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 class BenchmarkTest {
     private val client = Client("http://localhost:9090")
 
     @BeforeClass fun warmup() {
+        if (fortuneRepository.isEmpty()) {
+            val fortunes = FORTUNE_MESSAGES.mapIndexed { ii, fortune -> Fortune(ii + 1, fortune) }
+            fortuneRepository.insertManyObjects(fortunes)
+        }
+
+        if (worldRepository.isEmpty()) {
+            val world = (1..DB_ROWS).map { World(it, it) }
+            worldRepository.insertManyObjects(world)
+        }
+
         main(arrayOf())
 
         val warmupRounds = if (THREADS > 1) 2 else 0

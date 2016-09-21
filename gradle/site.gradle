@@ -28,16 +28,8 @@
 
 apply plugin: 'me.champeau.jbake'
 
-ext.sitePublicDir = "${rootProject.buildDir}/$projectSite"
-ext.siteImagesDir = "$sitePublicDir/img"
-
-ext.cp = { source, destination ->
-    copy {
-        from source
-        into destination
-        include ('**')
-    }
-}
+ext.sitePublicDir = findProperty ('sitePublicDir') ?: "${rootProject.buildDir}/$projectSite"
+ext.siteImagesDir = findProperty ('siteImagesDir') ?: "$sitePublicDir/img"
 
 jbake {
     input = file("$project.projectDir/$projectSite")
@@ -60,15 +52,12 @@ jbake {
 }
 
 task site (dependsOn: 'jbake') << {
-    file ("$buildDir/$projectSite/").renameTo (file ("$buildDir/${projectSite}.orig/"))
-    cp "$buildDir/${projectSite}.orig/", "$buildDir/$projectSite"
-    copy {
-        from "$buildDir/${projectSite}.orig/"
-        into "$buildDir/$projectSite"
-        include ('**/*.html')
-        filter {ln -> ln.replace ('${projectVersion}', project.version)}
+    file ("$buildDir/$projectSite/").traverse(nameFilter: ~/.+\.(html|xml)$/) {
+        String text = it.getText ()
+            .replace ('${projectVersion}', project.version)
+            .replace ('${siteColor}', siteColor)
+        it.write (text)
     }
-    delete "$buildDir/${projectSite}.orig/"
 
     icons ()
 }
