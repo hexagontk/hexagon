@@ -99,7 +99,10 @@ private int execute (String command) {
 }
 
 private void rasterSvg (String svg, int... widths) {
-    widths.each { execute "rsvg-convert -w $it -o $sitePublicDir/_${it}.png $svg" }
+//    widths.each { execute "rsvg-convert -w $it -o $sitePublicDir/_${it}.png $svg" }
+    widths.each {
+
+    }
 }
 
 private void createIco (String svg, String ico, int... widths) {
