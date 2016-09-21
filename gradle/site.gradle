@@ -61,11 +61,9 @@ task site (dependsOn: 'jbake') << {
             .replace ('${siteColor}', siteColor)
         it.write (text)
     }
-
-    icons ()
 }
 
-private void icons () {
+task icons (dependsOn: 'jbake') << {
     try {
         file(sitePublicDir).mkdirs()
 

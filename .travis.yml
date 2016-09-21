@@ -4,9 +4,6 @@
 #
 
 language: java
-jdk: oraclejdk8
-
-sudo: required
 
 cache:
   directories:
@@ -16,10 +13,6 @@ cache:
 services:
   - mongodb
   - rabbitmq
-
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y imagemagick librsvg2-bin
 
 script:
   - gradle/wrapper --no-daemon --stacktrace site
