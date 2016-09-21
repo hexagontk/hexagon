@@ -8,8 +8,11 @@ jdk: oraclejdk8
 
 cache:
   directories:
-  - .gradle
-  - $HOME/.gradle
+  - $HOME/.gradle/wrapper
+  - $HOME/.gradle/native
+  - $HOME/.gradle/daemon
+  - $HOME/.gradle/caches/jars-1
+  - $HOME/.gradle/caches/3.0
 
 services:
   - mongodb
