@@ -1,6 +1,6 @@
 #
-# Site generation does not work well with Gradle daemon. Execute it this way:
-#     gw --no-daemon site
+# TODO Caching is slower than sudo: required
+# TODO Generate site and deploy from Travis CI
 #
 
 language: java
@@ -23,6 +23,6 @@ services:
   - rabbitmq
 
 script:
-  - gradle/wrapper --no-daemon --stacktrace site
+  - gradle/wrapper --stacktrace build
 
 after_success: bash <(curl -s https://codecov.io/bash)
