@@ -28,6 +28,9 @@
 
 apply plugin: 'me.champeau.jbake'
 
+// TODO Remove when TravisCI supports Gradle 2.13
+ext.findProperty = { Object key -> hasProperty(key) ? getProperty(key) : null }
+
 ext.sitePublicDir = findProperty ('sitePublicDir') ?: "${rootProject.buildDir}/$projectSite"
 ext.siteImagesDir = findProperty ('siteImagesDir') ?: "$sitePublicDir/img"
 

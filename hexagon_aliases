@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 alias hx='cd ~/Projects/hexagon'
-alias hxloc='hx && gw publishLocal' 
+alias hxloc='hx && gw publishLocal'
+alias hxall='hx && gw clean site build'
 alias hxrel='hx && gw clean site build release'
-
