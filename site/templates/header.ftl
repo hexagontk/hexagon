@@ -17,9 +17,9 @@
   <meta name="keywords" content="Hexagon, microservices, Java, Kotlin">
   <meta name="generator" content="JBake">
 
-  <meta name="theme-color" content="#88AA00">
-  <meta name="msapplication-navbutton-color" content="#88AA00">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#88AA00">
+  <meta name="theme-color" content="#${config.siteColor}">
+  <meta name="msapplication-navbutton-color" content="#${config.siteColor}">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#${config.siteColor}">
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">

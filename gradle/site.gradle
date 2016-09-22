@@ -52,6 +52,7 @@ jbake {
     configuration['bootstrapVersion'] = bootstrapVersion
     configuration['cloudflare'] = 'http://cdnjs.cloudflare.com/ajax/libs'
     configuration['googlefonts'] = 'http://fonts.googleapis.com/css?family'
+    configuration['siteColor'] = siteColor
 }
 
 task site (dependsOn: 'jbake') << {
