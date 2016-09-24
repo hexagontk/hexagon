@@ -35,6 +35,7 @@ dependencies {
 clean {
     delete fileTree (dir: projectDir , include: '*.log')
     delete "$projectDir/logs"
+    delete buildDir
 }
 
 processResources {
