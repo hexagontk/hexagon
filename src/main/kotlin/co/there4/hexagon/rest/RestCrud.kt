@@ -79,18 +79,18 @@ class RestCrud <T : Any, K : Any> (
     private fun <T : Any, K : Any> deleteList (
         repository: MongoIdRepository<T, K>, exchange: Exchange) {
 
-        val key = parseKey(repository, exchange)
-        repository.deleteId(key)
+        val key = parseKeys(repository, exchange)
+        repository.deleteIds(key)
         exchange.ok(200)
     }
 
     private fun <T : Any, K : Any> findList (
         repository: MongoIdRepository<T, K>, exchange: Exchange) {
 
-        val key = parseKey(repository, exchange)
+        val key = parseKeys(repository, exchange)
         val obj = repository.find(key)
 
-        if (obj == null) {
+        if (obj.isEmpty()) {
             exchange.halt(404)//NOT_FOUND)
         }
         else {
@@ -133,6 +133,16 @@ class RestCrud <T : Any, K : Any> (
             else -> id
         }.parse(repository.keyType, contentType(exchange))
     }
+
+    private fun <K : Any, T : Any> parseKeys(
+        repository: MongoIdRepository<T, K>, exchange: Exchange): List<K> =
+
+        exchange.request.pathInfo.split(",").map { it.trim() }.map {
+            when (repository.keyType) {
+                String::class -> """"$it""""
+                else -> it
+            }.parse(repository.keyType, contentType(exchange))
+        }
 
     private fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
         val objects = repository.findObjects().toList()
