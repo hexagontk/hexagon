@@ -32,12 +32,6 @@ dependencies {
     testCompile group: 'org.powermock', name: 'powermock', version: powermockVersion
 }
 
-clean {
-    delete fileTree (dir: projectDir , include: '*.log')
-    delete "$projectDir/logs"
-    delete buildDir
-}
-
 processResources {
     filterPatterns.split(',').each {pattern ->
         filesMatching ('**/' + pattern.trim ()) {

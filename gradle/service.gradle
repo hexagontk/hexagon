@@ -1,0 +1,61 @@
+/*
+ * TODO Remove 'hexagon_library' and 'hexagon_service' after fixing hexagon_benchmark project
+ */
+
+apply plugin: 'application'
+
+defaultTasks 'install'
+
+ext.deployDir = findProperty ('deployDir') ?: '/opt'
+ext.serviceUser = findProperty ('serviceUser') ?: 'root'
+ext.serviceGroup = findProperty ('serviceGroup') ?: 'root'
+
+File projectDestinationDir = file("$rootProject.buildDir/$project.name")
+
+startScripts {
+    String template = new URL ("$gradleScripts/startScript").text
+    unixStartScriptGenerator.template = resources.text.fromString (template)
+}
+
+installDist.destinationDir = projectDestinationDir
+installDist.doLast {
+    File script = file("$projectDestinationDir/bin/${project.name}.service")
+    String template = new URL ("$gradleScripts/serviceScript").text
+    String scriptContent = template
+        .replace ("\${projectName}", project.name)
+        .replace ("\${projectVersion}", project.version)
+        .replace ("\${projectDescription}", project.description)
+        .replace ("\${deployDir}", deployDir)
+        .replace ("\${serviceUser}", serviceUser)
+        .replace ("\${serviceGroup}", serviceGroup)
+    script << scriptContent
+    script.executable = true
+}
+
+task install {
+    dependsOn 'check', 'installDist'
+}
+
+task deployIntegration (dependsOn: 'install') << {
+    ssh.run {
+        integrationHosts.forEach {
+            String runtimeDir = "$deployDir/$project.name"
+            session (remotes [it]) {
+                put from: installDist.destinationDir, into: deployDir
+                execute ("chmod +x $runtimeDir/bin/*")
+            }
+        }
+    }
+}
+
+task deployProduction (dependsOn: 'install') << {
+    ssh.run {
+        productionHosts.forEach {
+            String runtimeDir = "$deployDir/$project.name"
+            session (remotes [it]) {
+                put from: installDist.destinationDir, into: deployDir
+                execute ("chmod +x $runtimeDir/bin/*")
+            }
+        }
+    }
+}
