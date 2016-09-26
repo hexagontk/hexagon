@@ -35,27 +35,3 @@ installDist.doLast {
 task install {
     dependsOn 'check', 'installDist'
 }
-
-task deployIntegration (dependsOn: 'install') << {
-    ssh.run {
-        integrationHosts.forEach {
-            String runtimeDir = "$deployDir/$project.name"
-            session (remotes [it]) {
-                put from: installDist.destinationDir, into: deployDir
-                execute ("chmod +x $runtimeDir/bin/*")
-            }
-        }
-    }
-}
-
-task deployProduction (dependsOn: 'install') << {
-    ssh.run {
-        productionHosts.forEach {
-            String runtimeDir = "$deployDir/$project.name"
-            session (remotes [it]) {
-                put from: installDist.destinationDir, into: deployDir
-                execute ("chmod +x $runtimeDir/bin/*")
-            }
-        }
-    }
-}
