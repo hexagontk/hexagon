@@ -19,18 +19,17 @@ buildscript {
 
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
         classpath "com.squareup.okhttp3:okhttp:$okhttpVersion"
-
-        classpath "com.github.jengelman.gradle.plugins:shadow:$shadowpluginVersion"
     }
 }
+
+// TODO Remove when TravisCI supports Gradle 2.13
+ext.findProperty = { Object key -> hasProperty(key) ? getProperty(key) : null }
 
 apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
 
-apply plugin: "com.github.johnrengelman.shadow"
-
-defaultTasks 'publishLocal'
+defaultTasks 'build'
 
 dependencies {
     // COMPILE
@@ -74,6 +73,7 @@ wrapper {
 
 clean {
     delete fileTree(dir: rootDir , include: "*.log")
+    delete fileTree(dir: rootDir , include: '*.class')
     delete rootProject.buildDir
     delete "$rootDir/log"
 }
@@ -96,7 +96,6 @@ packageTest {
     exclude('/*.txt')
 }
 
-build.dependsOn 'shadowJar'
 site.dependsOn 'dokka', 'jacocoTestReport'
 publish.dependsOn 'checkGitStatus', 'site'
 
@@ -110,6 +109,11 @@ publish.doLast {
         name = version
         message = "Release $version"
     }
+}
+
+task script(dependsOn: 'build', type: Copy) {
+    into "$buildDir/libs"
+    from configurations.runtime
 }
 
 task release (dependsOn: [ 'publish', 'publishGhPages' ])

@@ -1,6 +1,9 @@
-#!/usr/bin/kotlins build/libs/hexagon-*-all.jar
+#!/usr/bin/kotlins build/libs
 
 import co.there4.hexagon.web.*
 
-get { ok("ok computer") }
+get {
+    ok("ok computer")
+}
+
 run()
