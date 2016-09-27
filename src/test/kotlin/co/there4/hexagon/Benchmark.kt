@@ -87,7 +87,7 @@ private fun Exchange.getJson() {
     ok(Message().serialize())
 }
 
-fun main(args: Array<String>) {
+fun benchmarkRoutes() {
     before {
         response.addHeader("Server", "Servlet/3.1")
         response.addHeader("Transfer-Encoding", "chunked")
@@ -100,6 +100,9 @@ fun main(args: Array<String>) {
     get("/fortune") { getFortunes() }
     get("/update") { getUpdates() }
     get("/plaintext") { getPlaintext() }
+}
 
+fun main(args: Array<String>) {
+    benchmarkRoutes()
     run()
 }

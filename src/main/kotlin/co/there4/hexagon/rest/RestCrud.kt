@@ -7,10 +7,7 @@ import co.there4.hexagon.web.*
 import com.mongodb.MongoWriteException
 import java.nio.charset.Charset.defaultCharset
 
-class RestCrud <T : Any, K : Any> (
-    val repository: MongoIdRepository<T, K>,
-    server: Server) {
-
+class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, server: Server) {
     init {
         val collectionName = repository.namespace.collectionName
 
