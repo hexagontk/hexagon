@@ -1,8 +1,9 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.repository.FileRepository
 import co.there4.hexagon.repository.FileRepository.load
 import co.there4.hexagon.template.PebbleRenderer.render
+import kotlinx.html.TagConsumer
+import kotlinx.html.stream.createHTML
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -23,8 +24,9 @@ data class Exchange (
 
     fun redirect(url: String) = response.redirect(url)
 
-    fun ok(content: Any) = send(200, content)
-    fun ok(code: Int = 200, content: Any = "") = send(code, content)
+    fun ok(content: Any, type: String? = null) = send(200, content, type)
+    fun created(content: Any, type: String? = null) = send(201, content, type)
+    fun ok(code: Int = 200, content: Any = "", type: String? = null) = send(code, content, type)
     fun error(code: Int = 500, content: Any = "") = send(code, content)
 
     fun halt(content: Any): Nothing = halt(500, content)
@@ -60,6 +62,12 @@ data class Exchange (
     fun template(template: String, vararg context: Pair<String, *>) =
         template(template, context.toMap())
 
+    fun page(callback: TagConsumer<String>.() -> String) {
+        val html = createHTML().callback()
+        response.contentType = "text/html; charset=${defaultCharset().name()}"
+        ok("<!DOCTYPE html>\n\n$html")
+    }
+
     fun file(name: String) {
         val meta = load(name, response.outputStream)
         response.contentType = meta["Content-Type"].toString()
@@ -84,8 +92,13 @@ data class Exchange (
     fun httpDate (date: LocalDateTime): String =
         RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
 
-    private fun send(code: Int, content: Any) {
+    private fun send(code: Int, content: Any, contentType: String? = null) {
         response.status = code
         response.body = content
+
+        if (contentType != null)
+            response.contentType =
+                if(contentType.contains("charset")) contentType
+                else "$contentType; charset=${defaultCharset().name()}"
     }
 }

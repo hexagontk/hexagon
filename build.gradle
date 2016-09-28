@@ -75,6 +75,8 @@ clean {
     delete fileTree(dir: rootDir , include: "*.log")
     delete fileTree(dir: rootDir , include: '*.class')
     delete rootProject.buildDir
+    delete "build"
+    delete "build/"
     delete "$rootDir/log"
 }
 

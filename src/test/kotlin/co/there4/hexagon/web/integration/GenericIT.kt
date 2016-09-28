@@ -42,8 +42,8 @@ class GenericIT : ItTest () {
         server.get("/hi") { ok ("Hello World!") }
         server.get("/param/{param}") { ok ("echo: ${request ["param"]}") }
         server.get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request ["paramWithMaj"]}") }
-        server.get("/") { ok ("Hello Root!") }
-        server.post("/poster") { ok (201, "Body was: ${request.body}") }
+        server.get("/") { ok("Hello Root!") }
+        server.post("/poster") { created("Body was: ${request.body}") }
         server.patch("/patcher") { ok ("Body was: ${request.body}") }
         server.delete ("/method") { okRequestMethod () }
         server.options ("/method") { okRequestMethod () }

@@ -23,7 +23,7 @@ class BooksIT : ItTest () {
     override fun initialize(server: Server) {
         server.post ("/books") {
             books [id] = Book (request.parameter("author"), request.parameter("title"))
-            ok (201, (id++).toString ())
+            created ((id++).toString ())
         }
 
         server.get ("/books/{id}") {

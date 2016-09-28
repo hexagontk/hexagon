@@ -55,6 +55,7 @@ class BenchmarkTest {
             one_hundred_queries ()
             five_hundred_queries ()
             fortunes ()
+            fortune_page()
             no_updates_parameter ()
             empty_updates_parameter ()
             text_updates_parameter ()
@@ -93,17 +94,8 @@ class BenchmarkTest {
         assert(bodyMap.containsKey (World::randomNumber.name))
     }
 
-    fun fortunes () {
-        val response = client.get ("/fortune")
-        val content = response.responseBody
-        val contentType = response.headers ["Content-Type"]
-
-        assert (response.headers ["Server"] != null)
-        assert (response.headers ["Date"] != null)
-        assert (content.contains ("&lt;script&gt;alert(&quot;This should not be displayed"))
-        assert (content.contains ("フレームワークのベンチマーク"))
-        assert (contentType.toLowerCase ().contains ("text/html"))
-    }
+    fun fortunes () = fortuneCheck("/fortune")
+    fun fortune_page() = fortuneCheck("/fortune_page")
 
     fun no_updates_parameter () {
         val response = client.get ("/update")
@@ -155,5 +147,17 @@ class BenchmarkTest {
             val r = resultsList[it - 1] as Map<*, *>
             assert (r.containsKey (World::_id.name) && r.containsKey (World::randomNumber.name))
         }
+    }
+
+    private fun fortuneCheck (url: String) {
+        val response = client.get (url)
+        val content = response.responseBody
+        val contentType = response.headers ["Content-Type"]
+
+        assert (response.headers ["Server"] != null)
+        assert (response.headers ["Date"] != null)
+        assert (content.contains ("&lt;script&gt;alert(&quot;This should not be displayed"))
+        assert (content.contains ("フレームワークのベンチマーク"))
+        assert (contentType.toLowerCase ().contains ("text/html"))
     }
 }
