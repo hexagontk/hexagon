@@ -6,7 +6,6 @@ import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.Indexes.*
 import com.mongodb.client.model.UpdateOptions
-import kotlinx.html.dom.document
 import org.bson.Document
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
