@@ -10,9 +10,9 @@ apply plugin: 'org.jetbrains.dokka'
 
 ext.projectSite = findProperty ('projectSite') ?: 'site'
 
-ext.testngVersion = findProperty ('testngVersion') ?: '6.9.11' // Fixed because .12 bug in IntelliJ
-ext.mockitoVersion = findProperty ('mockitoVersion') ?: '1.10.+'
-ext.powermockVersion = findProperty ('powermockVersion') ?: '1.6.+'
+ext.testngVersion = findProperty ('testngVersion') ?: '6.9.13.6'
+ext.mockitoVersion = findProperty ('mockitoVersion') ?: '1.10.19'
+ext.powermockVersion = findProperty ('powermockVersion') ?: '1.6.5'
 
 ext.filterPatterns = findProperty ('filterPatterns') ?: '*.properties, *.txt, *.xml'
 ext.rootBuildDir = rootProject.buildDir
@@ -24,12 +24,12 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlinVersion
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
-    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: kotlinVersion
-    testCompile group: 'org.testng', name: 'testng', version: testngVersion
-    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
-    testCompile group: 'org.powermock', name: 'powermock', version: powermockVersion
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    testCompile "org.testng:testng:$testngVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.powermock:powermock:$powermockVersion"
 }
 
 processResources {

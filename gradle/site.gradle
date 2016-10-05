@@ -45,7 +45,9 @@ jbake {
     configuration['render.sitemap'] = true
 
     // Custom properties
-    configuration['projectVersion'] = project.version // Applied in templates, not content
+    configuration['projectName'] = project.name // Applied in templates, not content
+    configuration['projectDescription'] = project.description
+    configuration['projectVersion'] = project.version
     configuration['bootstrapVersion'] = bootstrapVersion
     configuration['cloudflare'] = 'http://cdnjs.cloudflare.com/ajax/libs'
     configuration['googlefonts'] = 'http://fonts.googleapis.com/css?family'
@@ -53,11 +55,11 @@ jbake {
 }
 
 task site (dependsOn: 'jbake') << {
-    file ("$buildDir/$projectSite/").traverse(nameFilter: ~/.+\.(html|xml)$/) {
-        String text = it.getText ()
+    file ("$buildDir/$projectSite/").traverse(nameFilter: ~/.+\.(html|xml|css)$/) {
+        it.write (it.getText ()
             .replace ('${projectVersion}', project.version)
             .replace ('${siteColor}', siteColor)
-        it.write (text)
+        )
     }
 }
 

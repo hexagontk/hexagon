@@ -95,10 +95,11 @@ open class MongoRepository <T : Any> (
         return result
     }
 
-    fun findObjects (): MongoIterable<T> = find ().map { unmap(it) }
+    fun findObjects (setup: FindIterable<*>.() -> Unit = {}) = fo(null, setup)
+    fun findObjects (filter: Bson, setup: FindIterable<*>.() -> Unit = {}) = fo(filter, setup)
 
-    fun findObjects (filter: Bson, setup: FindIterable<*>.() -> Unit = {}): MongoIterable<T> =
-        find (filter).let {
+    private fun fo (filter: Bson?, setup: FindIterable<*>.() -> Unit = {}): MongoIterable<T> =
+        (if (filter == null) find() else find (filter)).let {
             it.setup()
             it.map { unmap(it) }
         }

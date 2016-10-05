@@ -1,6 +1,7 @@
 package co.there4.hexagon.repository
 
 import co.there4.hexagon.repository.Department.*
+import co.there4.hexagon.rest.CrudTest
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer
@@ -9,7 +10,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Test
-class CompanyTest : IdRepositoryTest<Company, String> (Company::class, Company::id) {
+class CompanyTest : CrudTest<Company, String>(Company::class, Company::id) {
     override val testObjects: List<Company> = listOf (
         createObject(),
         Company(

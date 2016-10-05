@@ -5,8 +5,13 @@ import co.there4.hexagon.repository.MongoRepository
 import co.there4.hexagon.serialization.*
 import co.there4.hexagon.web.*
 import com.mongodb.MongoWriteException
+import com.mongodb.client.FindIterable
 import java.nio.charset.Charset.defaultCharset
 
+/**
+ * TODO Support paging (limit and skip query parameters) in all methods
+ * TODO implement GET /<Class>/ids properly
+ */
 class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, server: Server) {
     init {
         val collectionName = repository.namespace.collectionName
@@ -16,6 +21,8 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, serv
         server.post("/$collectionName") { insert (repository, this) }
         server.put("/$collectionName") { replace (repository, this) }
         server.get("/$collectionName") { findAll (repository, this) }
+        server.get("/$collectionName/count") { ok(repository.count()) }
+        server.get("/$collectionName/ids") { ok(repository.find().toList().serialize()) }
 
         server.delete("/$collectionName/*,*") { deleteList (repository, this) }
         server.get("/$collectionName/*,*") { findList (repository, this) }
@@ -47,7 +54,7 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, serv
         repository: MongoIdRepository<T, K>, exchange: Exchange) {
 
         val obj = exchange.request.body.parseList(repository.type, contentType(exchange))
-        repository.replaceObjects(obj)
+        repository.replaceObjects(obj, exchange.request.parameters.containsKey("upsert"))
         exchange.ok(200) // Created
     }
 
@@ -69,7 +76,7 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, serv
         repository: MongoIdRepository<T, K>, exchange: Exchange) {
 
         val obj = exchange.request.body.parse(repository.type, contentType(exchange))
-        repository.replaceObject(obj)
+        repository.replaceObject(obj, exchange.request.parameters.containsKey("upsert"))
         exchange.ok(200) // Created
     }
 
@@ -136,15 +143,24 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, serv
 
         exchange.request.pathInfo.split(",").map { it.trim() }.map {
             when (repository.keyType) {
-                String::class -> """"$it""""
+                String::class -> "$it"
                 else -> it
             }.parse(repository.keyType, contentType(exchange))
         }
 
     private fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
-        val objects = repository.findObjects().toList()
+        val objects = repository.findObjects() { pageResults(exchange) }.toList()
         val contentType = accept(exchange)
         exchange.response.contentType = contentType + "; charset=${defaultCharset().name()}"
         exchange.ok(objects.serialize(contentType))
+    }
+
+    private fun FindIterable<*>.pageResults(exchange: Exchange) {
+        val limit = exchange.request["limit"]
+        if (limit != null)
+            limit(limit.toInt())
+        val skip = exchange.request["skip"]
+        if (skip != null)
+            skip(skip.toInt())
     }
 }

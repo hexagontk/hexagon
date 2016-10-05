@@ -8,12 +8,10 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  <meta name="application-name" content="hexagon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="application-name" content="${config.projectName}" />
   <meta name="author" content="Juanjo Aguililla">
-  <meta name="description" content="Hexagon framework web site">
+  <meta name="description" content="${config.projectDescription}">
   <meta name="keywords" content="Hexagon, microservices, Java, Kotlin">
   <meta name="generator" content="JBake">
 
@@ -41,8 +39,6 @@
     rel="stylesheet">
   <link href="${config.cloudflare}/highlight.js/9.3.0/styles/github.min.css" rel="stylesheet">
 
-  <!-- Icons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link
     rel="apple-touch-icon"
     sizes="180x180"
@@ -54,8 +50,6 @@
 
   <link rel="author" href="/humans.txt" />
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
     <script src="${config.cloudflare}/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="${config.cloudflare}/respond.js/1.4.2/respond.min.js"></script>

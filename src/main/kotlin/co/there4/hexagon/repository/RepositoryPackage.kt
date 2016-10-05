@@ -84,8 +84,8 @@ infix fun <T> String.isIn(value: Collection<T>): Bson = mIn(this, value)
 infix fun <T> KProperty1<*, *>.eq(value: T): Bson = this.name eq value
 infix fun <T> KProperty1<*, *>.isIn(value: Collection<T>): Bson = this.name isIn value
 
-fun ascending(vararg fields: KProperty1<*, *>) = ascending(fields.map { it.name })
-fun descending(vararg fields: KProperty1<*, *>) = descending(fields.map { it.name })
+fun ascending(vararg fields: KProperty1<*, *>): Bson = ascending(fields.map { it.name })
+fun descending(vararg fields: KProperty1<*, *>): Bson = descending(fields.map { it.name })
 
 fun <T : Any> on (
     entity: KClass<T>, action: RepositoryEventAction, callback: (RepositoryEvent<T>) -> Unit) {

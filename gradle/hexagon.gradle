@@ -1,6 +1,3 @@
-/*
- * TODO Remove 'hexagon_library' and 'hexagon_service' after fixing hexagon_benchmark project
- */
 
 ext.hexagonVersion = findProperty ('hexagonVersion') ?: '0.+'
 ext.gradleScripts = findProperty ('gradleScripts') ?:

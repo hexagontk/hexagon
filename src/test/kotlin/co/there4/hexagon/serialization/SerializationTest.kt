@@ -12,11 +12,11 @@ import kotlin.reflect.KClass
                 val map = it.convertToMap ()
 
                 val object2 = map.convertToObject (type)
-                assert(it.equals (object2))
+                assert(it == object2)
 
                 val modelString = it.serialize(contentType)
                 val object3 = modelString.parse(type, contentType)
-                assert(it.equals (object3))
+                assert(it == object3)
 
                 assert(modelString.parse(contentType) == map)
 
