@@ -66,7 +66,7 @@ class ServletFilter (private val router: Router) : Filter {
                 val contentType = bResponse.getMimeType(request.servletPath)
 
                 // Should be done BEFORE flushing the stream (if not content type is ignored)
-                if (response.contentType == null)
+                if (response.contentType == null && contentType != null)
                     response.contentType = "$contentType; charset=${defaultCharset().name()}"
 
                 response.outputStream.write(stream.readBytes())

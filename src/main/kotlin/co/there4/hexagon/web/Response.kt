@@ -16,7 +16,7 @@ interface Response {
 
     val outputStream: OutputStream
 
-    fun getMimeType (file: String): String
+    fun getMimeType (file: String): String?
     fun addHeader (name: String, value: String)
 
     fun addCookie (cookie: HttpCookie)

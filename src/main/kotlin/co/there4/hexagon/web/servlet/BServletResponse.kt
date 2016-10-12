@@ -20,7 +20,7 @@ class BServletResponse(val req: HttpServletRequest, val resp: HttpServletRespons
 
     override val outputStream: OutputStream = resp.outputStream
 
-    override fun getMimeType (file: String): String = req.servletContext.getMimeType(file)
+    override fun getMimeType (file: String): String? = req.servletContext.getMimeType(file)
 
     override fun addHeader (name: String, value: String) {
         resp.addHeader(name, value)
