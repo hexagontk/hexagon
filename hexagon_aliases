@@ -2,5 +2,5 @@
 
 alias hx='cd ~/Projects/hexagon'
 alias hxloc='hx && gw publishLocal'
-alias hxall='hx && gwnd clean icons site build script'
+alias hxall='hx && gw clean icons site build script'
 alias hxrel='hxall && gw release'
