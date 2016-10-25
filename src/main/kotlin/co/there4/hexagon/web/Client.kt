@@ -8,6 +8,7 @@ import org.asynchttpclient.DefaultAsyncHttpClient
 import org.asynchttpclient.DefaultAsyncHttpClientConfig
 import org.asynchttpclient.Response
 import org.asynchttpclient.cookie.Cookie
+import java.io.File
 import java.net.URL
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
@@ -83,8 +84,10 @@ class Client (
         method: HttpMethod,
         url: String,
         contentType: String = requireContentType(),
-        body: Any) =
-            send(method, url, body.serialize(contentType), contentType)
+        body: Any) = when (body) {
+            is File -> send(method, url, Base64.getEncoder().encodeToString(body.readBytes()), contentType)
+            else -> send(method, url, body.serialize(contentType), contentType)
+        }
 
     private fun requireContentType() = this.contentType ?: error("Missing content type")
 
