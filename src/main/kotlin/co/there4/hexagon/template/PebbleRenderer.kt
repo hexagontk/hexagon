@@ -2,6 +2,8 @@ package co.there4.hexagon.template
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.settings.SettingsManager
+import co.there4.hexagon.settings.SettingsManager.Environment.DEVELOPMENT
+import co.there4.hexagon.settings.SettingsManager.environment
 import co.there4.hexagon.util.toDate
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.lang.ClassLoader.getSystemResourceAsStream as resourceAsStream
@@ -19,7 +21,9 @@ import java.util.*
  */
 object PebbleRenderer {
     val basePath = "templates"
-    val engine: PebbleEngine = PebbleEngine.Builder().build() ?: error("Error setting up Pebble")
+    val engine: PebbleEngine = PebbleEngine.Builder()
+        .cacheActive(environment != DEVELOPMENT)
+        .build() ?: error("Error setting up Pebble")
 
     private fun loadProps (path: String) =
         resourceAsStream("$basePath/$path.yaml")?.parse ("application/yaml") ?: mapOf<String, Any>()
