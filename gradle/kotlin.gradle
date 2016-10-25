@@ -11,7 +11,7 @@ apply plugin: 'org.jetbrains.dokka'
 ext.projectSite = findProperty ('projectSite') ?: 'site'
 
 ext.testngVersion = findProperty ('testngVersion') ?: '6.9.13.6'
-ext.mockitoVersion = findProperty ('mockitoVersion') ?: '1.10.19'
+ext.mockitoVersion = findProperty ('mockitoVersion') ?: '2.2.8'
 ext.powermockVersion = findProperty ('powermockVersion') ?: '1.6.5'
 
 ext.filterPatterns = findProperty ('filterPatterns') ?: '*.properties, *.txt, *.xml'
