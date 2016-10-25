@@ -62,8 +62,6 @@ task site (dependsOn: 'jbake') << {
 
 task icons (dependsOn: 'jbake') << {
     try {
-        file(sitePublicDir).mkdirs()
-
         createIco ("$siteImagesDir/$logoSmall", "favicon.ico", 16, 32, 48, 64)
         extendImage ("$siteImagesDir/$logoSmall", "180x180", 180, "apple-touch-icon.png")
         extendImage ("$siteImagesDir/$logoSmall", "128x128", 128, "tile-small.png")
