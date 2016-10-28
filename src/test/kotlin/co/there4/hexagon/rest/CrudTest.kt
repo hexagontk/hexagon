@@ -12,8 +12,8 @@ import kotlin.reflect.KProperty1
 @Test abstract class CrudTest <T : Any, K : Any> (type: KClass<T>, key: KProperty1<T, K>) :
     IdRepositoryTest<T, K>(type, key) {
 
-    val server = JettyServer(bindPort = 5099)
-    val client = Client("http://localhost:5099")
+    val server = JettyServer(bindPort = 2070)
+    val client = Client("http://${server.bindAddress.hostAddress}:${server.bindPort}")
 
     @BeforeClass fun startServer() {
         server.crud(idCollection)

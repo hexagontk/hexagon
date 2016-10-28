@@ -6,8 +6,8 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
 @Test class ClientTest {
-    val srv = JettyServer(bindPort = 5099)
-    val client = Client("http://localhost:5099", "application/json")
+    val srv = JettyServer(bindPort = 2070)
+    val client = Client("http://${srv.bindAddress.hostAddress}:${srv.bindPort}", "application/json")
 
     @BeforeClass fun startup() {
         srv.post {

@@ -168,7 +168,7 @@ class GenericIT : ItTest () {
     fun notFound() {
         withClients {
             val response = get ("/no/resource")
-            assertResponseEquals(response, 404, "http://localhost:5060/no/resource not found")
+            assertResponseEquals(response, 404, "http://localhost:2090/no/resource not found")
         }
     }
 

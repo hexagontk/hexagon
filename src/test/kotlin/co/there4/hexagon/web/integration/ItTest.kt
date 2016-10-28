@@ -19,7 +19,7 @@ internal const val TIMES = 1
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 abstract class ItTest {
     val servers = listOf (
-        JettyServer (bindAddress = address("localhost"), bindPort = 5060)
+        JettyServer (bindAddress = address("localhost"), bindPort = 2090)
     )
 
     val clients = servers.map { Client ("http://localhost:${it.bindPort}") }

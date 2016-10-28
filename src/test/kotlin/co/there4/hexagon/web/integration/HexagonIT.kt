@@ -12,7 +12,7 @@ import org.asynchttpclient.Response
 
     @BeforeClass fun startServers () {
         stop()
-        server = JettyServer(bindPort = 8888)
+        server = JettyServer(bindPort = 2080)
 
         get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")

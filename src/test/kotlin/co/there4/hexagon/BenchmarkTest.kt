@@ -26,7 +26,7 @@ internal val FORTUNE_MESSAGES = setOf(
 
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 class BenchmarkTest {
-    private val client = Client("http://localhost:9090")
+    private val client = Client("http://localhost:2060")
 
     @BeforeClass fun warmup() {
         if (fortuneRepository.isEmpty()) {
