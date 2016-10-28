@@ -27,7 +27,7 @@ import kotlin.reflect.KProperty1
     fun int_keyed_repositories_are_handled_properly () {
         val repo = MongoIdRepository (Country::class, countries, Country::id)
 
-        val server = JettyServer (bindPort = 5020)
+        val server = JettyServer (bindPort = 2010)
 
         server.crud(repo)
         server.run()
