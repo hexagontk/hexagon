@@ -9,6 +9,17 @@ ext.serviceGroup = findProperty ('serviceGroup') ?: 'root'
 
 File projectDestinationDir = file("$rootProject.buildDir/$project.name")
 
+jar {
+    manifest {
+        attributes(
+            "hexagon": "service",
+            "project": rootProject.name,
+            "module": project.name,
+            "version": project.version
+        )
+    }
+}
+
 startScripts {
     String template = new URL ("$gradleScripts/startScript").text
     unixStartScriptGenerator.template = resources.text.fromString (template)
