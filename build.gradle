@@ -122,7 +122,7 @@ task release (dependsOn: [ 'publish', 'publishGhPages' ])
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 
 task checkGitStatus () << {
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
+    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
 
     if (!repository.status ().clean)
         throw new GradleException ('Repository not clean')
@@ -163,7 +163,7 @@ task executeRelease () << {
         into rootDir
     }
 
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
+    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
     repository.add(patterns: [ 'gradle.properties' ])
     repository.commit(message: "Version $version released")
 }
