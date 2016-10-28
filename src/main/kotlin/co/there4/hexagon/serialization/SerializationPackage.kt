@@ -1,5 +1,6 @@
 package co.there4.hexagon.serialization
 
+import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.util.asNumber
 import co.there4.hexagon.util.toLocalDate
 import co.there4.hexagon.util.toLocalDateTime
@@ -30,7 +31,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 val contentTypes = JacksonSerializer.contentTypes
-val defaultFormat = contentTypes.first()
+val defaultFormat = setting<String>("contentType") ?: contentTypes.first()
 
 fun Any.convertToMap(): Map<*, *> = JacksonSerializer.toMap (this)
 
