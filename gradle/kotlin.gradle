@@ -29,7 +29,8 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
     testCompile "org.testng:testng:$testngVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
-    testCompile "org.powermock:powermock:$powermockVersion"
+    testCompile "org.powermock:powermock-module-testng:$powermockVersion"
+    testCompile "org.powermock:powermock-module-test-mockito-testng:$powermockVersion"
 }
 
 processResources {
