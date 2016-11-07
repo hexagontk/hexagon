@@ -9,8 +9,6 @@ import org.eclipse.jetty.server.session.SessionHandler
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.util.component.LifeCycle
 
-import org.eclipse.jetty.server.ServerConnector
-
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.util.*
@@ -20,7 +18,7 @@ import java.net.InetAddress.getByName as address
 /**
  * @author jam
  */
-class JettyServer (bindAddress: InetAddress = address ("localhost"), bindPort: Int = 5050):
+class JettyServer (bindAddress: InetAddress = address ("localhost"), bindPort: Int = 2010):
     Server (bindAddress, bindPort) {
 
     val jettyServer = JettyServletServer(InetSocketAddress(bindAddress, bindPort))

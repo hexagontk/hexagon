@@ -44,7 +44,7 @@ object SettingsManager : CompanionLogger(SettingsManager::class) {
         }[key.last()]
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> setting(vararg key: String): T? = get(*key) as T?
+    fun <T> setting(vararg key: String): T? = get(*key) as? T?
     fun <T> requireSetting(vararg key: String): T =
         setting<T>(*key) ?: error ("Missing setting: $key")
 

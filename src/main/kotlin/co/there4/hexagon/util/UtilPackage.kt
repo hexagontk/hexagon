@@ -155,6 +155,9 @@ fun Throwable.toText (prefix: String = ""): String =
         else
             "${EOL}Caused by: " + (this.cause as Throwable).toText (prefix)
 
+fun error(): Nothing = error("Invalid state")
+val err: Nothing get() = error()
+
 /*
  * Logging
  */

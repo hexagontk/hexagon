@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+alias hx='cd ~/Projects/hexagon'
+alias hxloc='hx && gw publishLocal'
+alias hxall='hx && gw clean site build script'
+alias hxrel='hxall && gw release'

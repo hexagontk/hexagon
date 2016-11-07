@@ -33,19 +33,16 @@ defaultTasks 'build'
 
 dependencies {
     // COMPILE
-    compile "com.rabbitmq:amqp-client:$rabbitVersion"
-    compile "org.mongodb:mongo-java-driver:$mongodbVersion"
-    compile "ch.qos.logback:logback-classic:$logbackVersion"
+    compile ("com.rabbitmq:amqp-client:$rabbitVersion")
+    compile ("org.mongodb:mongo-java-driver:$mongodbVersion")
+    compile ("ch.qos.logback:logback-classic:$logbackVersion")
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
 
     compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
-    compile (group: "org.eclipse.jetty", name: "jetty-webapp", version: jettyVersion) {
-        exclude module: "slf4j-api"
-    }
+    compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-    compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
     compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
         exclude module: "kotlin-reflect"
@@ -56,6 +53,8 @@ dependencies {
 
     // TEST
     testCompile ("org.mockito:mockito-core:$mockitoVersion")
+
+    // Version *MUST BE* 0.28 for the tests to work
     testCompile ("org.apache.qpid:qpid-broker:0.28") {
         exclude module: "slf4j-log4j12"
         exclude module: "slf4j-api"
@@ -76,18 +75,20 @@ clean {
     delete fileTree(dir: rootDir , include: '*.class')
     delete rootProject.buildDir
     delete "$rootDir/log"
+    delete "build"
 }
 
 test {
     systemProperties['derby.stream.error.file'] = '/dev/null'
     doFirst {
-        File environmentFile = new File("${System.getProperty("user.home")}/.environment")
+        File environmentFile = file("${System.getProperty("user.home")}/.environment")
         if (!environmentFile.exists())
             environmentFile.write("DEVELOPMENT\n")
     }
 }
 
 packageTest {
+    exclude('/data')
     exclude('/public')
     exclude('/templates')
     exclude('/*.yaml')
@@ -104,7 +105,7 @@ publish.doLast {
     OkHttpClient client = httpClient (bintrayUser, bintrayKey)
     post (client, "$bintrayApi/jamming/maven/Hexagon/$version/publish")
 
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
+    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
     repository.tag.add {
         name = version
         message = "Release $version"
@@ -121,7 +122,7 @@ task release (dependsOn: [ 'publish', 'publishGhPages' ])
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 
 task checkGitStatus () << {
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
+    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
 
     if (!repository.status ().clean)
         throw new GradleException ('Repository not clean')
@@ -162,7 +163,7 @@ task executeRelease () << {
         into rootDir
     }
 
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open (file ('.'))
+    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
     repository.add(patterns: [ 'gradle.properties' ])
     repository.commit(message: "Version $version released")
 }

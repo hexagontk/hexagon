@@ -20,6 +20,6 @@ Scripts:
 
   * Changes to `startScript`: passes the application directory to the application, and adds
     application directory to the classpath.
-  * `serviceScript`: script that support start/stop/status
+  * `systemdScript`: script that support start/stop/status
   
 **TODO Complete documentation**

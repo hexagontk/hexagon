@@ -78,7 +78,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-Launch it and view the results at: [http://localhost:5050/hello](http://localhost:5050/hello)
+Launch it and view the results at: [http://localhost:2010/hello](http://localhost:2010/hello)
 
 
 ## Build and Contribute

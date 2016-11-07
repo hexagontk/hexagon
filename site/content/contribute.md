@@ -18,11 +18,10 @@ Steps:
 Used aliases:
 
     alias gw='gradle/wrapper'
-    alias gwnd='gw --no-daemon'
 
 Command:
 
-    gwnd release && git push
+    gw release && git push
 
 Tools used: git-extras + huboard + bintray
 

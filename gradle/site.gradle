@@ -17,12 +17,6 @@
  *     }
  * }
  *
- * NOTE: Site generation does not work well with Gradle daemon.
- * execute it this way: gw --no-daemon clean site
- *
- * NOTE: For image rendering you will need 'rsvg' (librsvg2-bin) and 'imagemagick' installed in the
- * development machine.
- *
  * TODO Site processing will be deprecated when JBake filters content with configuration properties
  */
 
@@ -45,7 +39,9 @@ jbake {
     configuration['render.sitemap'] = true
 
     // Custom properties
-    configuration['projectVersion'] = project.version // Applied in templates, not content
+    configuration['projectName'] = project.name // Applied in templates, not content
+    configuration['projectDescription'] = project.description
+    configuration['projectVersion'] = project.version
     configuration['bootstrapVersion'] = bootstrapVersion
     configuration['cloudflare'] = 'http://cdnjs.cloudflare.com/ajax/libs'
     configuration['googlefonts'] = 'http://fonts.googleapis.com/css?family'
@@ -53,62 +49,10 @@ jbake {
 }
 
 task site (dependsOn: 'jbake') << {
-    file ("$buildDir/$projectSite/").traverse(nameFilter: ~/.+\.(html|xml)$/) {
-        String text = it.getText ()
+    file ("$buildDir/$projectSite/").traverse(nameFilter: ~/.+\.(html|xml|css)$/) {
+        it.write (it.getText ()
             .replace ('${projectVersion}', project.version)
             .replace ('${siteColor}', siteColor)
-        it.write (text)
+        )
     }
-}
-
-task icons (dependsOn: 'jbake') << {
-    try {
-        file(sitePublicDir).mkdirs()
-
-        createIco ("$siteImagesDir/$logoSmall", "favicon.ico", 16, 32, 48, 64)
-        extendImage ("$siteImagesDir/$logoSmall", "180x180", 180, "apple-touch-icon.png")
-        extendImage ("$siteImagesDir/$logoSmall", "128x128", 128, "tile-small.png")
-        extendImage ("$siteImagesDir/$logoLarge", "270x270", 270, "tile-medium.png")
-        extendImage ("$siteImagesDir/$logoWide", "558x270", 558, "tile-wide.png")
-        extendImage ("$siteImagesDir/$logoLarge", "558x558", 558, "tile-large.png")
-
-        // Sanity
-        [ 16, 32, 48, 64, 128, 180, 270, 558 ].each {
-            new File ("$sitePublicDir/_${it}.png").delete ()
-        }
-    }
-    catch (Exception e) {
-        logger.error (e.message)
-    }
-}
-
-private int execute (String command) {
-    Process process = command.execute ()
-    int result = process.waitFor ()
-
-    if (result != 0) {
-        StringBuilder out = new StringBuilder ()
-        StringBuilder err = new StringBuilder ()
-        process.consumeProcessOutput (out, err)
-        println "$command -> [$result] $out $err"
-    }
-
-    return result
-}
-
-private void rasterSvg (String svg, int... widths) {
-    widths.each { execute "rsvg-convert -w $it -o $sitePublicDir/_${it}.png $svg" }
-}
-
-private void createIco (String svg, String ico, int... widths) {
-    widths.each { extendImage svg, "${it}x${it}", it, "_${it}.png" }
-    List<String> images = widths.collect { "$sitePublicDir/_${it}.png" }
-    execute "convert ${images.join (" ")} $sitePublicDir/$ico"
-}
-
-private void extendImage (String bg = "white", String svg, String size, int width, String file) {
-    rasterSvg svg, width
-    String input = "$sitePublicDir/_${width}.png"
-    String output = "$sitePublicDir/$file"
-    execute "convert -gravity center -background $bg -extent $size $input $output"
 }

@@ -98,7 +98,7 @@ fun sessionExample(context: String = "session") {
 }
 
 fun main(args: Array<String>) {
-    server = JettyServer (bindAddress = address ("localhost"), bindPort = 8080)
+    server = JettyServer (bindAddress = address ("localhost"), bindPort = 2050)
 
     filterExample ()
     helloWorld()

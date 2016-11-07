@@ -4,6 +4,7 @@ import co.there4.hexagon.repository.*
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.web.*
+import kotlinx.html.*
 
 import java.lang.System.getenv
 import java.net.InetAddress.getByName as address
@@ -31,6 +32,8 @@ private val database = mongoDatabase("mongodb://$DB_HOST/$DB")
 internal val worldRepository = repository(WORLD, World::_id)
 internal val fortuneRepository = repository(FORTUNE, Fortune::_id)
 
+private val fortune = Fortune(0, "Additional fortune added at request time.")
+
 private inline fun <reified T : Any> repository(name: String, key: KProperty1<T, Int>) =
     MongoIdRepository(T::class, mongoCollection(name, database), key)
 
@@ -41,16 +44,11 @@ private fun Exchange.hasQueryCount() = request[QUERIES_PARAM] == null
 private fun Exchange.getDb() {
     val worlds = (1..getQueries()).map { worldRepository.find(rnd()) }.filterNotNull()
 
-    response.contentType = CONTENT_TYPE_JSON
-    ok(if (hasQueryCount()) worlds[0].serialize() else worlds.serialize())
+    ok(if (hasQueryCount()) worlds[0].serialize() else worlds.serialize(), CONTENT_TYPE_JSON)
 }
 
-private fun Exchange.getFortunes() {
-    val fortune = Fortune(0, "Additional fortune added at request time.")
-    val fortunes = fortuneRepository.findObjects().toList() + fortune
-
-    template("fortunes.html", mapOf("fortunes" to fortunes.sortedBy { it.message }))
-}
+private fun findFortune() =
+    (fortuneRepository.findObjects().toList() + fortune).sortedBy { it.message }
 
 private fun Exchange.getUpdates() {
     val worlds = (1..getQueries()).map {
@@ -60,8 +58,7 @@ private fun Exchange.getUpdates() {
         newWorld
     }
 
-    response.contentType = CONTENT_TYPE_JSON
-    ok(if (hasQueryCount()) worlds[0].serialize() else worlds.serialize())
+    ok(if (hasQueryCount()) worlds[0].serialize() else worlds.serialize(), CONTENT_TYPE_JSON)
 }
 
 private fun Exchange.getQueries() =
@@ -77,29 +74,47 @@ private fun Exchange.getQueries() =
         1
     }
 
-private fun Exchange.getPlaintext() {
-    response.contentType = "text/plain"
-    ok("Hello, World!")
-}
-
-private fun Exchange.getJson() {
-    response.contentType = CONTENT_TYPE_JSON
-    ok(Message().serialize())
-}
-
-fun main(args: Array<String>) {
+fun benchmarkRoutes() {
     before {
         response.addHeader("Server", "Servlet/3.1")
         response.addHeader("Transfer-Encoding", "chunked")
         response.addHeader("Date", httpDate(now()))
     }
 
-    get("/json") { getJson() }
+    get("/plaintext") { ok("Hello, World!", "text/plain") }
+    get("/json") { ok(Message().serialize(), CONTENT_TYPE_JSON) }
+    get("/fortune") { template("fortunes.html", "fortunes" to findFortune()) }
     get("/db") { getDb() }
     get("/query") { getDb() }
-    get("/fortune") { getFortunes() }
     get("/update") { getUpdates() }
-    get("/plaintext") { getPlaintext() }
+}
+
+fun main(args: Array<String>) {
+    benchmarkRoutes()
+
+    get("/fortune_page") {
+        page {
+            html {
+                head {
+                    title { +"Fortunes" }
+                }
+                body {
+                    table {
+                        tr {
+                            th { +"id" }
+                            th { +"message" }
+                        }
+                        findFortune().forEach {
+                            tr {
+                                td { +it._id }
+                                td { +it.message }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     run()
 }

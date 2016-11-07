@@ -14,7 +14,7 @@ import java.net.InetAddress.getByName as address
  */
 
 /** Port from config. */
-val bindPort = setting<Int>("bindPort") ?: 5050
+val bindPort = setting<Int>("bindPort") ?: 2010
 /** Address from config. */
 val bindAddress = address(setting<String>("bindAddress") ?: "localhost")
 

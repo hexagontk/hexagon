@@ -1,15 +1,20 @@
 package co.there4.hexagon.serialization
 
+import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.util.asNumber
 import co.there4.hexagon.util.toLocalDate
 import co.there4.hexagon.util.toLocalDateTime
 import co.there4.hexagon.util.toLocalTime
+
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
-import com.fasterxml.jackson.core.*
-import com.fasterxml.jackson.core.JsonToken.*
+import com.fasterxml.jackson.core.JsonFactory
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.JsonToken
+import com.fasterxml.jackson.core.JsonToken.START_OBJECT
+import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
-import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
@@ -30,7 +35,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 val contentTypes = JacksonSerializer.contentTypes
-val defaultFormat = contentTypes.first()
+val defaultFormat by lazy { setting<String>("contentType") ?: contentTypes.first() }
 
 fun Any.convertToMap(): Map<*, *> = JacksonSerializer.toMap (this)
 

@@ -1,6 +1,3 @@
-/*
- * TODO Remove 'hexagon_library' and 'hexagon_service' after fixing hexagon_benchmark project
- */
 
 apply plugin: 'application'
 
@@ -12,6 +9,17 @@ ext.serviceGroup = findProperty ('serviceGroup') ?: 'root'
 
 File projectDestinationDir = file("$rootProject.buildDir/$project.name")
 
+jar {
+    manifest {
+        attributes(
+            "hexagon": "service",
+            "project": rootProject.name,
+            "module": project.name,
+            "version": project.version
+        )
+    }
+}
+
 startScripts {
     String template = new URL ("$gradleScripts/startScript").text
     unixStartScriptGenerator.template = resources.text.fromString (template)
@@ -20,7 +28,7 @@ startScripts {
 installDist.destinationDir = projectDestinationDir
 installDist.doLast {
     File script = file("$projectDestinationDir/bin/${project.name}.service")
-    String template = new URL ("$gradleScripts/serviceScript").text
+    String template = new URL ("$gradleScripts/systemdScript").text
     String scriptContent = template
         .replace ("\${projectName}", project.name)
         .replace ("\${projectVersion}", project.version)

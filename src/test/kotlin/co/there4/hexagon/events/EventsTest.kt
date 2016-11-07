@@ -1,5 +1,7 @@
 package co.there4.hexagon.events
 
+import co.there4.hexagon.events.EventManager.on
+import co.there4.hexagon.events.EventManager.publish
 import co.there4.hexagon.util.CompanionLogger
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -7,15 +9,15 @@ import org.testng.annotations.Test
 import java.lang.System.nanoTime
 import java.lang.Thread.`yield` as threadYield
 
-@Test class EventsDemo {
+@Test class EventsTest {
     class TickEvent (val nanos: Long) : Event (TickEvent::class.java.name)
 
-    companion object : CompanionLogger(EventsDemo::class)
+    companion object : CompanionLogger(EventsTest::class)
 
     private var tick: Long = 0
 
     @BeforeClass fun startConsumer() {
-        EventManager.on<TickEvent> {
+        on<TickEvent> {
             info("Tick: ${it.nanos}")
             tick = it.nanos
         }
@@ -27,7 +29,7 @@ import java.lang.Thread.`yield` as threadYield
 
     fun events_are_published_properly() {
         val nanos = nanoTime()
-        EventManager.publish(TickEvent(nanos))
+        publish(TickEvent(nanos))
 
         // Wait for the consumer to handle the event
         while (tick == 0L)

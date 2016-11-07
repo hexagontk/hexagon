@@ -4,10 +4,7 @@ import co.there4.hexagon.events.EventManager
 import co.there4.hexagon.repository.RepositoryEventAction.*
 import co.there4.hexagon.serialization.*
 import co.there4.hexagon.util.*
-import com.mongodb.client.FindIterable
-import com.mongodb.client.MongoCollection
-import com.mongodb.client.MongoDatabase
-import com.mongodb.client.MongoIterable
+import com.mongodb.client.*
 import com.mongodb.client.model.*
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
@@ -98,10 +95,11 @@ open class MongoRepository <T : Any> (
         return result
     }
 
-    fun findObjects (): MongoIterable<T> = find ().map { unmap(it) }
+    fun findObjects (setup: FindIterable<*>.() -> Unit = {}) = fo(null, setup)
+    fun findObjects (filter: Bson, setup: FindIterable<*>.() -> Unit = {}) = fo(filter, setup)
 
-    fun findObjects (filter: Bson, setup: FindIterable<*>.() -> Unit = {}): MongoIterable<T> =
-        find (filter).let {
+    private fun fo (filter: Bson?, setup: FindIterable<*>.() -> Unit = {}): MongoIterable<T> =
+        (if (filter == null) find() else find (filter)).let {
             it.setup()
             it.map { unmap(it) }
         }
@@ -119,6 +117,9 @@ open class MongoRepository <T : Any> (
 
     fun createIndex(vararg fields: KProperty1<*, *>): String = createIndex(ascending(*fields))
     fun createUniqueIndex(vararg fields: KProperty1<*, *>) = createUniqueIndex(ascending(*fields))
+
+    fun aggregate(vararg bson: Map<String, *>): AggregateIterable<Document>? =
+        aggregate(bson.map(::Document))
 
     // TODO Test this!
     fun importFile(input: File) { insertManyObjects(input.parseList(type)) }
