@@ -11,23 +11,30 @@ import java.nio.charset.Charset.defaultCharset
 /**
  * TODO Support paging (limit and skip query parameters) in all methods
  * TODO implement GET /<Class>/ids properly
+ * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)
+ * TODO Make implementation for MongoRepository (without IDs)
  */
-class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, server: Server) {
+class RestCrud <T : Any, K : Any> (
+    val repository: MongoIdRepository<T, K>, server: Server, readOnly: Boolean = false) {
     init {
         val collectionName = repository.namespace.collectionName
 
-        server.post("/$collectionName/list") { insertList (repository, this) }
-        server.put("/$collectionName/list") { replaceList (repository, this) }
-        server.post("/$collectionName") { insert (repository, this) }
-        server.put("/$collectionName") { replace (repository, this) }
         server.get("/$collectionName") { findAll (repository, this) }
         server.get("/$collectionName/count") { ok(repository.count()) }
         server.get("/$collectionName/ids") { ok(repository.find().toList().serialize()) }
 
-        server.delete("/$collectionName/*,*") { deleteList (repository, this) }
         server.get("/$collectionName/*,*") { findList (repository, this) }
-        server.delete("/$collectionName/{id}") { delete (repository, this) }
         server.get("/$collectionName/{id}") { find (repository, this) }
+
+        if (!readOnly) {
+            server.post("/$collectionName/list") { insertList (repository, this) }
+            server.put("/$collectionName/list") { replaceList (repository, this) }
+            server.post("/$collectionName") { insert (repository, this) }
+            server.put("/$collectionName") { replace (repository, this) }
+
+            server.delete("/$collectionName/*,*") { deleteList (repository, this) }
+            server.delete("/$collectionName/{id}") { delete (repository, this) }
+        }
     }
 
     private fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat
@@ -91,8 +98,8 @@ class RestCrud <T : Any, K : Any> (val repository: MongoIdRepository<T, K>, serv
     private fun <T : Any, K : Any> findList (
         repository: MongoIdRepository<T, K>, exchange: Exchange) {
 
-        val key = parseKeys(repository, exchange)
-        val obj = repository.find(key)
+        val keys = parseKeys(repository, exchange)
+        val obj = repository.find(keys)
 
         if (obj.isEmpty()) {
             exchange.halt(404)//NOT_FOUND)

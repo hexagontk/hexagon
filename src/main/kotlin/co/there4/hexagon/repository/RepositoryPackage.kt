@@ -34,7 +34,7 @@ inline fun <reified T : Any> mongoRepository(
     publishEvents: Boolean = false) =
         MongoRepository(
             T::class,
-            mongoCollection(T::class.simpleName ?: error(""), database),
+            mongoCollection(T::class.simpleName ?: error("Error fetching class name"), database),
             publishEvents
         )
 

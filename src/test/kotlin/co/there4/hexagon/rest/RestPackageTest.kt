@@ -5,6 +5,7 @@ import co.there4.hexagon.repository.mongoDatabase
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.parseList
 import co.there4.hexagon.serialization.serialize
+import co.there4.hexagon.util.err
 import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.jetty.JettyServer
 import co.there4.hexagon.web.server
@@ -32,8 +33,8 @@ import kotlin.reflect.KProperty1
         server.crud(repo)
         server.run()
 
-        fun param (json: String?) = json?.parse (Country::class) ?: error ("")
-        fun paramList (json: String?) = json?.parseList (Country::class) ?: error ("")
+        fun param (json: String?) = json?.parse (Country::class) ?: err
+        fun paramList (json: String?) = json?.parseList (Country::class) ?: err
         val url = "http://${server.bindAddress.hostAddress}:${server.bindPort}"
         val client = Client (url, useCookies = false)
         val parameter = Country(34, "es")
@@ -63,8 +64,8 @@ import kotlin.reflect.KProperty1
         crud(repo)
         run()
 
-        fun param (json: String?) = json?.parse (Parameter::class) ?: error ("")
-        fun paramList (json: String?) = json?.parseList (Parameter::class) ?: error ("")
+        fun param (json: String?) = json?.parse (Parameter::class) ?: err
+        fun paramList (json: String?) = json?.parseList (Parameter::class) ?: err
         val client = Client("http://localhost:${server.bindPort}", useCookies = false)
         val parameter = Parameter("a", "b")
         val modifiedParameter = parameter.copy(value = "c")
