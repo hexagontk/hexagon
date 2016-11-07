@@ -28,7 +28,7 @@ startScripts {
 installDist.destinationDir = projectDestinationDir
 installDist.doLast {
     File script = file("$projectDestinationDir/bin/${project.name}.service")
-    String template = new URL ("$gradleScripts/serviceScript").text
+    String template = new URL ("$gradleScripts/systemdScript").text
     String scriptContent = template
         .replace ("\${projectName}", project.name)
         .replace ("\${projectVersion}", project.version)
