@@ -14,14 +14,16 @@ import java.nio.charset.Charset.defaultCharset
  * TODO Implement pattern delete with filters made from query strings (see above)
  * TODO Make implementation for MongoRepository (without IDs)
  */
-class RestBaseCrud <T : Any> (
-    val repository: MongoRepository<T>, server: Server, readOnly: Boolean = false) {
-    init {
+open class RestBaseCrud <T : Any> (
+    open val repository: MongoRepository<T>,
+    open val server: Server,
+    open val readOnly: Boolean = false) {
+
+    open fun install() {
         val collectionName = repository.namespace.collectionName
 
         server.get("/$collectionName") { findAll (repository, this) }
         server.get("/$collectionName/count") { ok(repository.count()) }
-        server.get("/$collectionName/ids") { ok(repository.find().toList().serialize()) }
 
         if (!readOnly) {
             server.post("/$collectionName/list") { insertList (repository, this) }
@@ -29,13 +31,13 @@ class RestBaseCrud <T : Any> (
         }
     }
 
-    private fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat
-    private fun accept (exchange: Exchange) = exchange.request.accept()?.first().let {
+    protected fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat
+    protected fun accept (exchange: Exchange) = exchange.request.accept()?.first().let {
         if (it != null && contentTypes.contains(it)) it
         else defaultFormat
     }
 
-    private fun <T : Any> insertList (repository: MongoRepository<T>, exchange: Exchange) {
+    protected fun <T : Any> insertList (repository: MongoRepository<T>, exchange: Exchange) {
         val obj = exchange.request.body.parseList(repository.type, contentType(exchange))
         try {
             repository.insertManyObjects(obj)
@@ -49,7 +51,7 @@ class RestBaseCrud <T : Any> (
         }
     }
 
-    private fun <T : Any> insert (repository: MongoRepository<T>, exchange: Exchange) {
+    protected fun <T : Any> insert (repository: MongoRepository<T>, exchange: Exchange) {
         val obj = exchange.request.body.parse(repository.type, contentType(exchange))
         try {
             repository.insertOneObject(obj)
@@ -63,14 +65,14 @@ class RestBaseCrud <T : Any> (
         }
     }
 
-    private fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
+    protected fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
         val objects = repository.findObjects() { pageResults(exchange) }.toList()
         val contentType = accept(exchange)
         exchange.response.contentType = contentType + "; charset=${defaultCharset().name()}"
         exchange.ok(objects.serialize(contentType))
     }
 
-    private fun FindIterable<*>.pageResults(exchange: Exchange) {
+    protected fun FindIterable<*>.pageResults(exchange: Exchange) {
         val limit = exchange.request["limit"]
         if (limit != null)
             limit(limit.toInt())
