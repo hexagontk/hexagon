@@ -1,0 +1,14 @@
+
+ext.hexagonVersion = findProperty ('hexagonVersion') ?: '0.+'
+ext.gradleScripts = findProperty ('gradleScripts') ?:
+    'https://raw.githubusercontent.com/jaguililla/hexagon/master/gradle'
+
+apply from: "$gradleScripts/kotlin.gradle"
+
+defaultTasks 'build'
+
+dependencies {
+    compile "co.there4:hexagon:$hexagonVersion"
+
+    testCompile "co.there4:hexagon:$hexagonVersion:test"
+}
