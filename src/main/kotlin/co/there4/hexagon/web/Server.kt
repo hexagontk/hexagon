@@ -15,6 +15,8 @@ abstract class Server (
 
     val serviceName = SettingsManager["serviceName"] ?: "Hexagon"
 
+open val runtimePort = bindPort
+
     abstract fun started (): Boolean
 
     /**
@@ -78,7 +80,7 @@ abstract class Server (
             Locale $applicationLocale Timezone $applicationTimezone
 
             Started in $applicationBootTime s using $applicationUsedMemory KB
-            Served at http://${bindAddress.canonicalHostName}:$bindPort
+            Served at http://${bindAddress.canonicalHostName}:$runtimePort
         """
 
         val banner = EOL + EOL + (readResource("banner.txt") ?: "") + information

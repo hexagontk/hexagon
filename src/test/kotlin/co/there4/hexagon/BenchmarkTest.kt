@@ -2,6 +2,7 @@ package co.there4.hexagon
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.web.Client
+import co.there4.hexagon.web.server
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -26,7 +27,7 @@ internal val FORTUNE_MESSAGES = setOf(
 
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 class BenchmarkTest {
-    private val client = Client("http://localhost:2060")
+    private val client by lazy { Client("http://localhost:${server.runtimePort}") }
 
     @BeforeClass fun warmup() {
         if (fortuneRepository.isEmpty()) {

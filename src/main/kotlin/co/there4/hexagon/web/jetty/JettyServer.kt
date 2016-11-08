@@ -2,6 +2,7 @@ package co.there4.hexagon.web.jetty
 
 import co.there4.hexagon.web.Server
 import co.there4.hexagon.web.servlet.ServletFilter
+import org.eclipse.jetty.server.ServerConnector
 import org.eclipse.jetty.server.Server as JettyServletServer
 import org.eclipse.jetty.server.session.HashSessionIdManager
 import org.eclipse.jetty.server.session.HashSessionManager
@@ -22,6 +23,12 @@ class JettyServer (bindAddress: InetAddress = address ("localhost"), bindPort: I
     Server (bindAddress, bindPort) {
 
     val jettyServer = JettyServletServer(InetSocketAddress(bindAddress, bindPort))
+
+    override val runtimePort: Int
+        get() = (jettyServer.connectors[0] as ServerConnector).localPort.let {
+            if (it == -1) error("Jetty port uninitialized. Use lazy evaluation for HTTP client ;)")
+            else it
+        }
 
     override fun started() = jettyServer.isStarted
 
