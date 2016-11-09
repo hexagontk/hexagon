@@ -17,8 +17,8 @@ class EmbeddedAMQPBroker {
     init {
         brokerOptions.setConfigProperty("qpid.amqp_port", BROKER_PORT.toString())
         brokerOptions.setConfigProperty("qpid.pass_file", "$dir/passwd.txt")
-        brokerOptions.setConfigProperty("qpid.work_dir", Files.createTempDir().getAbsolutePath())
-        brokerOptions.setInitialConfigurationLocation("$dir/qpid.json")
+        brokerOptions.setConfigProperty("qpid.work_dir", Files.createTempDir().absolutePath)
+        brokerOptions.initialConfigurationLocation = "$dir/qpid.json"
     }
 
     fun startup() { broker.startup(brokerOptions) }

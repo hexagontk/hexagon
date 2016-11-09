@@ -1,6 +1,5 @@
 package co.there4.hexagon.util
 
-import co.there4.hexagon.util.*
 import co.there4.hexagon.util.AnsiEffect.*
 import co.there4.hexagon.util.AnsiColor.*
 import java.util.*
@@ -10,22 +9,22 @@ import org.testng.annotations.Test
     fun filter_returns_the_given_string_if_no_parameters_are_set () {
         val template = "User #{user}"
 
-        assert (template.filterVars(mapOf<Any, Any> ()).equals (template))
-        assert (template.filterVars().equals (template))
+        assert (template.filterVars(mapOf<Any, Any> ()) == template)
+        assert (template.filterVars() == template)
     }
 
     fun filter_returns_the_same_string_if_no_variables_are_defined_in_it () {
         val template = "User no vars"
 
-        assert (template.filterVars ().equals (template))
-        assert (template.filterVars ("vars" to "value").equals (template))
-        assert (template.filterVars (mapOf<Any, Any> ()).equals (template))
+        assert (template.filterVars () == template)
+        assert (template.filterVars ("vars" to "value") == template)
+        assert (template.filterVars (mapOf<Any, Any> ()) == template)
     }
 
     fun filter_returns_the_same_string_if_variable_values_are_not_found () {
         val template = "User #{user}"
 
-        assert (template.filterVars ("key" to "value").equals (template))
+        assert (template.filterVars ("key" to "value") == template)
     }
 
     fun filter_ignores_empty_parameters () {
@@ -63,21 +62,21 @@ import org.testng.annotations.Test
     }
 
     fun ansi_code_with_a_single_effect_has_the_proper_format () {
-        assert (ansi (BOLD).equals ("\u001B[1m"))
-        assert (ansi (BOLD_OFF).equals ("\u001B[21m"))
+        assert (ansi (BOLD) == "\u001B[1m")
+        assert (ansi (BOLD_OFF) == "\u001B[21m")
     }
 
     fun ansi_code_with_two_effects_has_the_proper_format () {
-        assert (ansi (BOLD, UNDERLINE_OFF).equals ("\u001B[1;24m"))
-        assert (ansi (BLINK_OFF, INVERSE_OFF).equals ("\u001B[25;27m"))
+        assert (ansi (BOLD, UNDERLINE_OFF) == "\u001B[1;24m")
+        assert (ansi (BLINK_OFF, INVERSE_OFF) == "\u001B[25;27m")
     }
 
     fun ansi_code_with_foreground_and_effects_returns_the_correct_code () {
-        assert (ansi (RED, BOLD, UNDERLINE).equals ("\u001B[31;1;4m"))
+        assert (ansi (RED, BOLD, UNDERLINE) == "\u001B[31;1;4m")
     }
 
     fun ansi_code_with_foreground_background_and_effects_returns_the_correct_code () {
-        assert (ansi (RED, BLACK, BLINK, INVERSE).equals ("\u001B[31;40;5;7m"))
+        assert (ansi (RED, BLACK, BLINK, INVERSE) == "\u001B[31;40;5;7m")
     }
 
     fun banner_logs_the_proper_message() {
