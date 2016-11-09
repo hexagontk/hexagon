@@ -1,13 +1,11 @@
 package co.there4.hexagon.rest
 
-import co.there4.hexagon.repository.FileRepository
 import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.repository.MongoRepository
 import co.there4.hexagon.web.Exchange
-import java.net.InetAddress.getByName as address
-
 import co.there4.hexagon.web.Server
 import co.there4.hexagon.web.server
+import java.net.InetAddress.getByName as address
 
 fun <T : Any, K : Any> Server.crud(repository: MongoIdRepository<T, K>, readOnly: Boolean = false) {
     RestCrud (repository, this, readOnly).install()

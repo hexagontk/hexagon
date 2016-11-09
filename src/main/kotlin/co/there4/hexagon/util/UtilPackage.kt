@@ -149,7 +149,7 @@ fun Throwable.filterStackTrace (prefix: String) =
  */
 fun Throwable.toText (prefix: String = ""): String =
     "${this.javaClass.name}: ${this.message}" +
-        this.filterStackTrace(prefix).map { "\tat ${it.toString()}" }.joinToString(EOL, EOL) +
+        this.filterStackTrace(prefix).map { "\tat $it" }.joinToString(EOL, EOL) +
         if (this.cause == null)
             ""
         else

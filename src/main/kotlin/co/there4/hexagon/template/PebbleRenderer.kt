@@ -31,7 +31,7 @@ object PebbleRenderer {
     fun render (template: String, locale: Locale, context: Map<String, *>): String {
         @Suppress("UNCHECKED_CAST")
         fun loadBundle (path: String): Map<String, *> = loadProps(path).let {
-            (it[locale.language] ?: if (it.size > 0) it.entries.first().value else it)
+            (it[locale.language] ?: if (it.isNotEmpty()) it.entries.first().value else it)
                 as Map<String, *> + (it["data"] ?: mapOf<String, Any>()) as Map<String, *>
         }
 

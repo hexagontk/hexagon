@@ -2,13 +2,12 @@ package co.there4.hexagon.events
 
 import co.there4.hexagon.util.Context
 import co.there4.hexagon.util.asNumber
-import co.there4.hexagon.util.asNumber
-import co.there4.hexagon.util.jvmId as utilJvmId
-import co.there4.hexagon.util.hostname as utilHostname
-import co.there4.hexagon.util.ip as utilIp
 import java.lang.System.currentTimeMillis
 import java.lang.Thread.currentThread
 import java.time.LocalDateTime
+import co.there4.hexagon.util.hostname as utilHostname
+import co.there4.hexagon.util.ip as utilIp
+import co.there4.hexagon.util.jvmId as utilJvmId
 
 open class Event (
     val action: String,

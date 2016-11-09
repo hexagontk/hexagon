@@ -5,9 +5,7 @@ data class MediaType (
     val subtype: String,
     val parameters: Map<String, String>) {
 
-    enum class Type {
-
-    }
+    enum class Type
 
     init {
         require(subtype.isNotBlank())
