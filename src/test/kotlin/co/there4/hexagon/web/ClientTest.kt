@@ -6,22 +6,24 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
 @Test class ClientTest {
-    val srv = JettyServer(bindPort = 2070)
-    val client = Client("http://${srv.bindAddress.hostAddress}:${srv.bindPort}", "application/json")
+    val server = JettyServer()
+    val client by lazy {
+        Client("http://${server.bindAddress.hostAddress}:${server.runtimePort}", "application/json")
+    }
 
     @BeforeClass fun startup() {
-        srv.post {
+        server.post {
             response.contentType = "application/json; charset=utf-8"
             ok(request.body)
         }
-        srv.get {
+        server.get {
             ok(request.body)
         }
-        srv.run()
+        server.run()
     }
 
     @AfterClass fun shutdown() {
-        srv.stop()
+        server.stop()
     }
 
     fun json_requests_works_as_expected() {

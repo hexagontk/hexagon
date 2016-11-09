@@ -12,7 +12,7 @@ import kotlin.reflect.KProperty1
 @Test abstract class CrudTest <T : Any, K : Any> (type: KClass<T>, key: KProperty1<T, K>) :
     IdRepositoryTest<T, K>(type, key) {
 
-    val server = JettyServer(bindPort = 0)
+    val server = JettyServer()
     val client by lazy { Client("http://${server.bindAddress.hostAddress}:${server.runtimePort}") }
 
     @BeforeClass fun startServer() {
@@ -29,32 +29,6 @@ import kotlin.reflect.KProperty1
         val changedObjects = objects.map { this.changeObject(it) }
         val ids = objects.map { idCollection.getKey(it) }
 
-//        assert (ids.all { it.javaClass == idCollection.keyType.java })
-//
-//        idCollection.insertManyObjects(objects)
-//        assert(ids.map { idCollection.find(it) } == objects)
-//        assert(idCollection.find(*idsArray) == objects)
-//        ids.forEach { idCollection.deleteId(it) }
-//        assert(idCollection.find(*idsArray).isEmpty())
-//
-//        idCollection.insertManyObjects(objects)
-//        assert(idCollection.find(*idsArray) == objects)
-//        objects.forEach { idCollection.deleteObject(it) }
-//        assert(idCollection.find(*idsArray).isEmpty())
-//
-//        idCollection.insertManyObjects(objects)
-//        assert(idCollection.find(*idsArray) == objects)
-//        idCollection.deleteIds(*idsArray)
-//        assert(idCollection.find(*idsArray).isEmpty())
-//
-//        idCollection.insertManyObjects(objects)
-//        assert(idCollection.find(*idsArray) == objects)
-//        idCollection.deleteObjects(*objectsArray)
-//        assert(idCollection.find(*idsArray).isEmpty())
-//
-//        idCollection.insertManyObjects(objects)
-//        assert(idCollection.find(*idsArray).size == objects.size)
-//        idCollection.replaceObjects(*changedObjectsArray)
-//        assert(idCollection.find(*idsArray) == changedObjects)
+//        client.post("/")
     }
 }

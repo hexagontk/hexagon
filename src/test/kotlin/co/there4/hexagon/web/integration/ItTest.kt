@@ -18,11 +18,9 @@ internal const val TIMES = 1
  */
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 abstract class ItTest {
-    val servers = listOf (
-        JettyServer (bindAddress = address("localhost"), bindPort = 2090)
+    val servers = listOf(
+        JettyServer()
     )
-
-    val clients = servers.map { Client ("http://localhost:${it.bindPort}") }
 
     protected abstract fun initialize (server: Server)
 
@@ -38,9 +36,10 @@ abstract class ItTest {
     }
 
     protected fun withClients(lambda: Client.() -> Unit) {
-        clients.forEach {
-            it.cookies.clear()
-            it.(lambda) ()
+        servers.forEach {
+            val client = Client ("http://localhost:${it.runtimePort}")
+            client.cookies.clear()
+            client.(lambda) ()
         }
     }
 

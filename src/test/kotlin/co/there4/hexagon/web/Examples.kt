@@ -1,6 +1,5 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.web.jetty.JettyServer
 import java.net.InetAddress.getByName as address
 
 val SESSION_NAME = "username"
@@ -98,12 +97,10 @@ fun sessionExample(context: String = "session") {
 }
 
 fun main(args: Array<String>) {
-    server = JettyServer (bindAddress = address ("localhost"), bindPort = 2050)
-
     filterExample ()
     helloWorld()
     simpleExample()
     sessionExample()
 
-    server.run ()
+    run ()
 }

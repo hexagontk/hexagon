@@ -28,14 +28,14 @@ import kotlin.reflect.KProperty1
     fun int_keyed_repositories_are_handled_properly () {
         val repo = MongoIdRepository (Country::class, countries, Country::id)
 
-        val server = JettyServer (bindPort = 2030)
+        val server = JettyServer(bindPort = 0)
 
         server.crud(repo)
         server.run()
 
         fun param (json: String?) = json?.parse (Country::class) ?: err
         fun paramList (json: String?) = json?.parseList (Country::class) ?: err
-        val url = "http://${server.bindAddress.hostAddress}:${server.bindPort}"
+        val url = "http://${server.bindAddress.hostAddress}:${server.runtimePort}"
         val client = Client (url, useCookies = false)
         val parameter = Country(34, "es")
         val changedParameter = parameter.copy(code = "fr")
@@ -66,7 +66,7 @@ import kotlin.reflect.KProperty1
 
         fun param (json: String?) = json?.parse (Parameter::class) ?: err
         fun paramList (json: String?) = json?.parseList (Parameter::class) ?: err
-        val client = Client("http://localhost:${server.bindPort}", useCookies = false)
+        val client = Client("http://localhost:${server.runtimePort}", useCookies = false)
         val parameter = Parameter("a", "b")
         val modifiedParameter = parameter.copy(value = "c")
 

@@ -1,18 +1,16 @@
 package co.there4.hexagon.web.integration
 
 import co.there4.hexagon.web.*
-import co.there4.hexagon.web.jetty.JettyServer
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import org.asynchttpclient.Response
 
 @Test class HexagonIT {
-    val client: Client by lazy { Client ("http://localhost:${server.bindPort}") }
+    val client: Client by lazy { Client ("http://localhost:${server.runtimePort}") }
 
     @BeforeClass fun startServers () {
         stop()
-        server = JettyServer(bindPort = 2080)
 
         get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")
