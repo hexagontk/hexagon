@@ -1,6 +1,7 @@
 package co.there4.hexagon
 
 import co.there4.hexagon.repository.*
+import co.there4.hexagon.rest.crud
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.web.*
@@ -83,7 +84,7 @@ fun benchmarkRoutes() {
 
     get("/plaintext") { ok("Hello, World!", "text/plain") }
     get("/json") { ok(Message().serialize(), CONTENT_TYPE_JSON) }
-    get("/fortune") { template("fortunes.html", "fortunes" to findFortune()) }
+    get("/fortunes") { template("fortunes.html", "fortunes" to findFortune()) }
     get("/db") { getDb() }
     get("/query") { getDb() }
     get("/update") { getUpdates() }
@@ -92,7 +93,10 @@ fun benchmarkRoutes() {
 fun main(args: Array<String>) {
     benchmarkRoutes()
 
-    get("/fortune_page") {
+    crud(worldRepository)
+    crud(fortuneRepository)
+
+    get("/fortunes_page") {
         page {
             html {
                 head {

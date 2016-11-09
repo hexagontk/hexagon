@@ -8,11 +8,8 @@ import com.mongodb.client.FindIterable
 import java.nio.charset.Charset.defaultCharset
 
 /**
- * TODO Support paging (limit and skip query parameters) in all methods
- * TODO implement GET /<Class>/ids properly
  * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)
  * TODO Implement pattern delete with filters made from query strings (see above)
- * TODO Make implementation for MongoRepository (without IDs)
  */
 open class RestBaseCrud <T : Any> (
     open val repository: MongoRepository<T>,
@@ -66,18 +63,20 @@ open class RestBaseCrud <T : Any> (
     }
 
     protected fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
-        val objects = repository.findObjects() { pageResults(exchange) }.toList()
+        val objects = repository.findObjects { pageResults(exchange) }.toList()
         val contentType = accept(exchange)
         exchange.response.contentType = contentType + "; charset=${defaultCharset().name()}"
         exchange.ok(objects.serialize(contentType))
     }
 
-    protected fun FindIterable<*>.pageResults(exchange: Exchange) {
+    protected fun FindIterable<*>.pageResults(exchange: Exchange): FindIterable<*> {
         val limit = exchange.request["limit"]
         if (limit != null)
             limit(limit.toInt())
         val skip = exchange.request["skip"]
         if (skip != null)
             skip(skip.toInt())
+
+        return this
     }
 }

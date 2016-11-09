@@ -1,5 +1,6 @@
 package co.there4.hexagon.rest
 
+import co.there4.hexagon.repository.FileRepository
 import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.repository.MongoRepository
 import co.there4.hexagon.web.Exchange
@@ -24,9 +25,9 @@ fun <T : Any> crud(repository: MongoRepository<T>, readOnly: Boolean = false) {
     server.crud (repository, readOnly)
 }
 
-fun Server.files(path: String = "/files", fileName: Exchange.() -> String) {
-    get(path) { }
+fun Server.files(path: String = "/file", fileName: Exchange.() -> String = { request.pathInfo }) {
+    get(path) { file(fileName()) }
     put(path) { }
     post(path) { }
-    delete(path) { }
+//    delete(path) { FileRepository.gridfs.delete(fileName()) }
 }

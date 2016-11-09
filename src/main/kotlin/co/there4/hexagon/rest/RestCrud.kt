@@ -6,13 +6,12 @@ import co.there4.hexagon.serialization.*
 import co.there4.hexagon.web.*
 import com.mongodb.MongoWriteException
 import com.mongodb.client.FindIterable
+import com.mongodb.client.model.Projections
+import com.mongodb.client.model.Projections.include
 import java.nio.charset.Charset.defaultCharset
 
 /**
- * TODO Support paging (limit and skip query parameters) in all methods
- * TODO implement GET /<Class>/ids properly
  * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)
- * TODO Make implementation for MongoRepository (without IDs)
  */
 class RestCrud <T : Any, K : Any> (
     override val repository: MongoIdRepository<T, K>,
@@ -25,7 +24,7 @@ class RestCrud <T : Any, K : Any> (
 
         val collectionName = repository.namespace.collectionName
 
-        server.get("/$collectionName/ids") { ok(repository.find().toList().serialize()) }
+        server.get("/$collectionName/ids") { findIds(repository, this) }
         server.get("/$collectionName/*,*") { findList (repository, this) }
         server.get("/$collectionName/{id}") { find (repository, this) }
 
@@ -36,6 +35,14 @@ class RestCrud <T : Any, K : Any> (
             server.delete("/$collectionName/*,*") { deleteList (repository, this) }
             server.delete("/$collectionName/{id}") { delete (repository, this) }
         }
+    }
+
+    private fun findIds(repository: MongoIdRepository<T, K>, exchange: Exchange) {
+        val keyName = repository.key.name
+        val projection = include(keyName)
+        val ids = repository.find().projection(projection)
+        val idValues = ids.pageResults(exchange).map { (it as Map<*, *>)[keyName] }
+        exchange.ok(idValues.toList().serialize())
     }
 
     private fun <T : Any, K : Any> replaceList (
@@ -65,8 +72,8 @@ class RestCrud <T : Any, K : Any> (
     private fun <T : Any, K : Any> findList (
         repository: MongoIdRepository<T, K>, exchange: Exchange) {
 
-        val keys = parseKeys(repository, exchange)
-        val obj = repository.find(keys)
+        val keys: List<K> = parseKeys(repository, exchange)
+        val obj = repository.find(keys) { pageResults(exchange) }.toList()
 
         if (obj.isEmpty()) {
             exchange.halt(404)//NOT_FOUND)
@@ -115,10 +122,12 @@ class RestCrud <T : Any, K : Any> (
     private fun <K : Any, T : Any> parseKeys(
         repository: MongoIdRepository<T, K>, exchange: Exchange): List<K> =
 
-        exchange.request.pathInfo.split(",").map { it.trim() }.map {
+        exchange.request.pathInfo.substringAfterLast("/").split(",").map { it.trim() }.map {
+            @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
             when (repository.keyType) {
                 String::class -> "$it"
+                Int::class -> it.toInt()
                 else -> it
-            }.parse(repository.keyType, contentType(exchange))
+            } as K
         }
 }

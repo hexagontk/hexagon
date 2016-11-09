@@ -2,6 +2,7 @@ package co.there4.hexagon.repository
 
 import co.there4.hexagon.events.EventManager
 import co.there4.hexagon.repository.RepositoryEventAction.DELETED
+import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.Indexes.*
@@ -15,7 +16,7 @@ import kotlin.reflect.jvm.javaType
 open class MongoIdRepository<T : Any, K : Any> (
     type: KClass<T>,
     collection: MongoCollection<Document>,
-    protected val key: KProperty1<T, K>,
+    val key: KProperty1<T, K>,
     publishEvents: Boolean = false,
     indexOrder: Int? = 1,
     onStore: (Document) -> Document = { it },
@@ -124,8 +125,10 @@ open class MongoIdRepository<T : Any, K : Any> (
 
     fun find (vararg documentId: K): List<T> = find (documentId.toList ())
 
-    fun find (documentId: List<K>): List<T> =
-        findObjects (convertKeyName(key.name) isIn documentId.map { convertId(it) }).toList()
+    fun find (documentId: List<K>, setup: FindIterable<*>.() -> Unit = {}): List<T> =
+        findObjects (convertKeyName(key.name) isIn documentId.map { convertId(it) }) {
+            setup()
+        }.toList()
 
     fun find (documentId: K): T? =
         findObjects (convertKeyName(key.name) eq convertId(documentId)).first ()
