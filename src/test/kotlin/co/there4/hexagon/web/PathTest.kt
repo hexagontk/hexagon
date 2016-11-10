@@ -13,13 +13,13 @@ import kotlin.test.assertFailsWith
         assert (pathWithoutData.path == "/alfa/bravo/tango")
         assert (!pathWithoutData.hasParameters)
         assert (pathWithoutData.regex == null)
-        assert (pathWithoutData.parameterIndex.size == 0)
+        assert (pathWithoutData.parameterIndex.isEmpty())
 
         assert (pathWithoutData.matches ("/alfa/bravo/tango"))
         assert (!pathWithoutData.matches ("/alfa/bravo/tango/zulu"))
         assert (!pathWithoutData.matches ("/zulu/alfa/bravo/tango"))
 
-        assert (pathWithoutData.extractParameters ("/alfa/bravo/tango").size == 0)
+        assert (pathWithoutData.extractParameters("/alfa/bravo/tango").isEmpty())
     }
 
 
@@ -31,7 +31,7 @@ import kotlin.test.assertFailsWith
 
         val pathWith1Parameter = Path("/alfa/{param}/tango")
         assertFailsWith<IllegalArgumentException> ("URL 'zulu/alfa/abc/tango' does not match path") {
-            assert (pathWith1Parameter.extractParameters ("zulu/alfa/abc/tango").size == 0)
+            assert (pathWith1Parameter.extractParameters("zulu/alfa/abc/tango").isEmpty())
         }
     }
 

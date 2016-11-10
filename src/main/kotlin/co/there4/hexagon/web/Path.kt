@@ -54,8 +54,7 @@ data class Path (val path: String) {
 
     val segments by lazy { path.split(PLACEHOLDER_REGEX) }
 
-    fun matches (requestUrl: String) =
-        if (regex != null) regex.matches(requestUrl) else path == requestUrl
+    fun matches (requestUrl: String) = regex?.matches(requestUrl) ?: (path == requestUrl)
 
     fun extractParameters (requestUrl: String): Map<String, String> =
         if (!matches (requestUrl))

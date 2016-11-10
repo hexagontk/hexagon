@@ -1,8 +1,9 @@
 package co.there4.hexagon.test
 
 import co.there4.hexagon.util.EOL
+import co.there4.hexagon.util.err
 
-fun StringBuilder.appendLn(line: String = "") = this.append(line).append(EOL)
+fun StringBuilder.appendLn(line: String = ""): StringBuilder = this.append(line).append(EOL) ?: err
 
 abstract class Feature {
     protected open fun tags(): List<String> = listOf ()

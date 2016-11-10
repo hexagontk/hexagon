@@ -1,6 +1,5 @@
 package co.there4.hexagon.util
 
-import co.there4.hexagon.util.ServiceException
 import org.testng.annotations.Test
 
 @Test class ProgramExceptionTest {

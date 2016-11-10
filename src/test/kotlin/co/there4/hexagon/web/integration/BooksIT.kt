@@ -64,7 +64,7 @@ class BooksIT : ItTest () {
         }
 
         server.get ("/books") {
-            ok (books.keys.map { it.toString() }.joinToString(" "))
+            ok (books.keys.map(Int::toString).joinToString(" "))
         }
     }
 

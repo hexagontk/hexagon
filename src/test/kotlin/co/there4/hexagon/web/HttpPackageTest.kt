@@ -14,8 +14,8 @@ import kotlin.test.assertFailsWith
 
         after ("/after") {}
         before ("/before") {}
-        after () {}
-        before () {}
+        after {}
+        before {}
         assert (server.filters.containsKey(Filter(Path ("/after"), AFTER)))
         assert (server.filters.containsKey(Filter(Path ("/before"), BEFORE)))
         assert (server.filters.containsKey(Filter(Path ("/*"), AFTER)))

@@ -41,6 +41,6 @@ import java.lang.System.currentTimeMillis
         val ts = currentTimeMillis ().toString ()
         assert (client?.call (QUEUE, ts).equals (ts + SUFFIX))
         val result = client?.call (QUEUE_ERROR, ts) ?: ""
-        assert (result.contains (ts.toString()) && result.contains ("Error with: $ts"))
+        assert (result.contains (ts) && result.contains ("Error with: $ts"))
     }
 }

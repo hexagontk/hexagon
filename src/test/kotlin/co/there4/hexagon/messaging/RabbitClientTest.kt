@@ -63,8 +63,8 @@ import kotlin.test.assertFailsWith
         val consumer = RabbitClient("amqp://guest:guest@localhost")
         consumer.declareQueue("int_op")
         consumer.declareQueue("long_op")
-        consumer.consume("int_op", String::class) { it.toInt() }
-        consumer.consume("long_op", String::class) { it.toLong() }
+        consumer.consume("int_op", String::class, String::toInt)
+        consumer.consume("long_op", String::class, String::toLong)
 
         val client = RabbitClient("amqp://guest:guest@localhost")
         assert(client.call("int_op", "123") == "123")

@@ -5,7 +5,6 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.lang.System.currentTimeMillis
-import kotlin.test.assertFailsWith
 
 @Test class RabbitConnectionTest {
     companion object : CompanionLogger(RabbitConnectionTest::class)
@@ -51,7 +50,7 @@ import kotlin.test.assertFailsWith
         val ts = currentTimeMillis ().toString ()
         assert (client?.call (QUEUE, ts).equals (ts + SUFFIX))
         val result = client?.call (QUEUE_ERROR, ts) ?: ""
-        assert (result.contains (ts.toString()) && result.contains ("Error with: $ts"))
+        assert (result.contains (ts) && result.contains ("Error with: $ts"))
 
         broker.shutdown()
         try {
@@ -65,7 +64,7 @@ import kotlin.test.assertFailsWith
         val ts2 = currentTimeMillis ().toString ()
         assert (client?.call (QUEUE, ts2).equals (ts2 + SUFFIX))
         val result2 = client?.call (QUEUE_ERROR, ts2) ?: ""
-        assert (result2.contains (ts2.toString()) && result2.contains ("Error with: $ts2"))
+        assert (result2.contains (ts2) && result2.contains ("Error with: $ts2"))
     }
 
 }

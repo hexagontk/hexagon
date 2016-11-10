@@ -65,8 +65,8 @@ fun Regex.findGroups (str: String): List<MatchGroup> =
  */
 fun String.snakeToCamel () =
     this.split ("_")
-        .filter { it.isNotEmpty () }
-        .map { it.capitalize () }
+        .filter(String::isNotEmpty)
+        .map(String::capitalize)
         .joinToString("")
         .decapitalize ()
 
@@ -75,8 +75,8 @@ fun String.snakeToCamel () =
  */
 fun String.camelToSnake () =
     this.split ("(?=\\p{Upper}\\p{Lower})".toRegex())
-        .filter { it.isNotEmpty () }
-        .map { it.toLowerCase () }
+        .filter(String::isNotEmpty)
+        .map(String::toLowerCase)
         .joinToString ("_")
         .decapitalize ()
 
@@ -99,7 +99,7 @@ private fun ansiCode(fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): St
 
     val colors = listOf (fgString(fg), bgString(bg))
     val elements = colors + fxs.map { it.code.toString() }
-    val body = elements.filter { it.isNotEmpty() }.joinToString (ANSI_SEPARATOR)
+    val body = elements.filter(String::isNotEmpty).joinToString (ANSI_SEPARATOR)
 
     return ANSI_PREFIX + (if (body.isEmpty()) ANSI_RESET else body) + ANSI_END
 }

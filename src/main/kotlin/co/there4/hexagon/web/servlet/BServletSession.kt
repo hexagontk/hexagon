@@ -1,12 +1,13 @@
 package co.there4.hexagon.web.servlet
 
+import co.there4.hexagon.util.err
 import co.there4.hexagon.web.Session
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
 class BServletSession(val req: HttpServletRequest) : Session {
 
-    override fun get(name: String) = req.session.getAttribute(name)
+    override fun get(name: String): Any = req.session.getAttribute(name) ?: err
 
     override fun set(name: String, value: Any) { req.session.setAttribute(name, value) }
 
