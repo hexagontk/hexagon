@@ -2,6 +2,7 @@ package co.there4.hexagon.util
 
 import org.slf4j.LoggerFactory.getLogger
 import org.slf4j.MDC
+import java.lang.System.nanoTime
 import kotlin.reflect.KClass
 
 open class CompanionLogger(clazz: KClass<out Any>){
@@ -27,6 +28,20 @@ open class CompanionLogger(clazz: KClass<out Any>){
     fun err(message: String, exception: Throwable) = wrapLog { logger.error(message, exception) }
 
     fun flare (message: String = "") = wrapLog { logger.trace("$flarePrefix $message") }
+
+    fun time (startNanos: Long, message: String?) = printNanos(message) { nanoTime() - startNanos }
+
+    fun <T> time (message: String? = null, block: () -> T): T {
+        val start = nanoTime()
+        val result = block()
+        time (start, message)
+        return result
+    }
+
+    private fun printNanos(message: String? = null, lambda: () -> Long): Long = lambda().let {
+        logger.trace((if (message != null) message + " : " else "TIME : ") + formatNanos(it))
+        it
+    }
 
     private fun wrapLog(log: () -> Unit) {
         MDC.put("jvmId", jvmId)
