@@ -18,5 +18,5 @@ interface Session {
     operator fun set(name: String, value: Any)
 
     fun remove(name: String)
-    val attributes: Map<String, Any>
+    val attributes: Map<String, Any?>
 }
