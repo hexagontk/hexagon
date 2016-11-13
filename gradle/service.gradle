@@ -27,19 +27,40 @@ startScripts {
 
 installDist.destinationDir = projectDestinationDir
 installDist.doLast {
-    File script = file("$projectDestinationDir/bin/${project.name}.service")
-    String template = new URL ("$gradleScripts/systemdScript").text
-    String scriptContent = template
-        .replace ("\${projectName}", project.name)
-        .replace ("\${projectVersion}", project.version)
-        .replace ("\${projectDescription}", project.description)
-        .replace ("\${deployDir}", deployDir)
-        .replace ("\${serviceUser}", serviceUser)
-        .replace ("\${serviceGroup}", serviceGroup)
-    script << scriptContent
-    script.executable = true
+    addScript ("${project.name}.service", "systemdScript", [
+        projectName : project.name,
+        projectVersion : project.version.toString(),
+        projectDescription : project.description,
+        deployDir : deployDir,
+        serviceUser : serviceUser,
+        serviceGroup : serviceGroup
+    ])
+
+    addScript ("service", "serviceScript", [
+        projectName : project.name,
+        projectVersion : project.version.toString()
+    ])
 }
 
 task install {
     dependsOn 'check', 'installDist'
+}
+
+task runService {
+    dependsOn 'processResources', 'install'
+    doLast {
+        exec {
+            workingDir installDist.destinationDir
+            commandLine "$installDist.destinationDir/bin/service", "restart"
+        }
+    }
+}
+
+private void addScript (String name, String template, Map<String, String> variables) {
+    String content = new URL ("$gradleScripts/$template").text
+    variables.each { content = content.replace ('${' + it.key + '}', it.value) }
+
+    File script = file ("$installDist.destinationDir/bin/$name")
+    script << content
+    script.executable = true
 }
