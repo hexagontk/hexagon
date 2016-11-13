@@ -163,5 +163,5 @@ eval splitJvmOpts \$DEFAULT_JVM_OPTS \$JAVA_OPTS \$${optsEnvironmentVar}
 CLASSPATH=\$APP_HOME:\$CLASSPATH
 PROJECT_OPTS="-DserviceDir=\$APP_HOME"
 cd \$APP_HOME
-exec "\$JAVACMD" \$PROJECT_OPTS "\${JVM_OPTS[@]}" -classpath "\$CLASSPATH" ${mainClassName} "\$@"
+exec "\$JAVACMD" \$DEBUG_OPTS \$PROJECT_OPTS "\${JVM_OPTS[@]}" -classpath "\$CLASSPATH" ${mainClassName} "\$@"
 cd \$OLDPWD

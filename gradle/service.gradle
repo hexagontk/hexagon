@@ -6,6 +6,7 @@ defaultTasks 'install'
 ext.deployDir = findProperty ('deployDir') ?: '/opt'
 ext.serviceUser = findProperty ('serviceUser') ?: 'root'
 ext.serviceGroup = findProperty ('serviceGroup') ?: 'root'
+ext.debugOptions = findProperty ('debugOptions') ?: ''
 
 File projectDestinationDir = file("$rootProject.buildDir/$project.name")
 
@@ -38,7 +39,8 @@ installDist.doLast {
 
     addScript ("service", "serviceScript", [
         projectName : project.name,
-        projectVersion : project.version.toString()
+        projectVersion : project.version.toString(),
+        debugOptions : debugOptions
     ])
 }
 
