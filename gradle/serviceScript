@@ -14,7 +14,7 @@ case $1 in
     if [ ! -f ${SERVICE_PID} ]; then
       log "starting..."
       shift
-      DEBUG_OPTS='${debugOptions}' nohup ${SERVICE_PATH}/bin/${SERVICE_NAME} "$@" &>> /dev/null &
+      DEBUG_OPTS='${debugOptions}' nohup ${SERVICE_PATH}/bin/${SERVICE_NAME} "$@" &> /dev/null &
       echo $! > ${SERVICE_PID}
       log "started"
     else
