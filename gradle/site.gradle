@@ -48,11 +48,13 @@ jbake {
     configuration['siteColor'] = siteColor
 }
 
-task site (dependsOn: 'jbake') << {
-    file ("$buildDir/$projectSite/").traverse(nameFilter: ~/.+\.(html|xml|css)$/) {
-        it.write (it.getText ()
-            .replace ('${projectVersion}', project.version)
-            .replace ('${siteColor}', siteColor)
-        )
+task site (dependsOn: 'jbake') {
+    doLast {
+        file ("$buildDir/$projectSite/").traverse (nameFilter: ~/.+\.(html|xml|css)$/) {
+            it.write (it.getText ()
+                .replace ('${projectVersion}', project.version)
+                .replace ('${siteColor}', siteColor)
+            )
+        }
     }
 }

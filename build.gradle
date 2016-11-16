@@ -124,51 +124,55 @@ task release (dependsOn: [ 'publish', 'publishGhPages' ])
 
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 
-task checkGitStatus () << {
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
+task checkGitStatus () {
+    doLast {
+        org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
 
-    if (!repository.status ().clean)
-        throw new GradleException ('Repository not clean')
+        if (!repository.status ().clean)
+            throw new GradleException ('Repository not clean')
 
-    repository.pull (remote: 'origin', branch: 'master')
+        repository.pull (remote: 'origin', branch: 'master')
 
-    if (!repository.status ().clean)
-        throw new GradleException ('Repository not clean')
+        if (!repository.status ().clean)
+            throw new GradleException ('Repository not clean')
+    }
 }
 
 // TODO Use task name as type
-task executeRelease () << {
-    def v = com.github.zafarkhaja.semver.Version.valueOf (version)
+task executeRelease () {
+    doLast {
+        def v = com.github.zafarkhaja.semver.Version.valueOf (version)
 
-    String type = ""
-    switch (type) {
-        case "major":
-            version = v.incrementMajorVersion ()
-            break
-        case "minor":
-            version = v.incrementMinorVersion ()
-            break
-        case "patch":
-            version = v.incrementPatchVersion ()
-            break
-        default:
-            throw RuntimeException ("Unsupported version change: $type")
+        String type = ""
+        switch (type) {
+            case "major":
+                version = v.incrementMajorVersion ()
+                break
+            case "minor":
+                version = v.incrementMinorVersion ()
+                break
+            case "patch":
+                version = v.incrementPatchVersion ()
+                break
+            default:
+                throw RuntimeException ("Unsupported version change: $type")
+        }
+
+        copy {
+            from "$rootDir/gradle.properties"
+            into buildDir
+            filter {it.replaceAll (/^version=.*$/, "version=$version")}
+        }
+
+        copy {
+            from "$buildDir/gradle.properties"
+            into rootDir
+        }
+
+        org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
+        repository.add (patterns: ['gradle.properties'])
+        repository.commit (message: "Version $version released")
     }
-
-    copy {
-        from "$rootDir/gradle.properties"
-        into buildDir
-        filter { it.replaceAll (/^version=.*$/, "version=$version") }
-    }
-
-    copy {
-        from "$buildDir/gradle.properties"
-        into rootDir
-    }
-
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
-    repository.add(patterns: [ 'gradle.properties' ])
-    repository.commit(message: "Version $version released")
 }
 
 import static okhttp3.MediaType.parse
