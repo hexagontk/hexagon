@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+#
+# Disable default shared folder and shares project root.
+#
+# WARN: Install Vagrant from HashiCorp's packages, Linux distributions' ones can be broken
+#
+# To setup SSHFS you need to install the following software:
+#     sudo apt-get install openssh-server
+#     vagrant plugin install vagrant-sshfs
+#
+# For a complete reference, please see the online documentation at: https://docs.vagrantup.com
+#
+Vagrant.configure(2) do |config|
+  hostname = 'hexagon'
+
+  config.vm.box = 'centos_java'
+  config.vm.synced_folder '.', '/home/vagrant/sync', disabled: true
+  config.vm.hostname = hostname
+  config.vm.network 'private_network', ip: '192.168.0.210'
+  config.vm.post_up_message = "<#{hostname}> UP"
+
+  config.vm.provider 'virtualbox' do |vb|
+    vb.name = hostname
+    vb.cpus = 4
+    vb.memory = 1024
+    vb.customize ['modifyvm', :id, '--paravirtprovider', 'kvm']
+    vb.customize ['modifyvm', :id, '--cpuexecutioncap', '90']
+  end
+
+  config.vm.provision :file, source: '../build/libs', destination: '~'
+  config.vm.provision :docker, images: %w(mongo mysql) do |d|
+    d.run 'mongo', image: 'mongo'
+    d.run 'mysql', image: 'mysql', args: '-e MYSQL_ALLOW_EMPTY_PASSWORD'
+  end
+end
