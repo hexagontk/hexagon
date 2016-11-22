@@ -39,8 +39,7 @@ installDist.doLast {
 
     addScript ("service", "serviceScript", [
         projectName : project.name,
-        projectVersion : project.version.toString(),
-        debugOptions : debugOptions
+        projectVersion : project.version.toString()
     ])
 }
 
