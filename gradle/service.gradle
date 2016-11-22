@@ -6,7 +6,6 @@ defaultTasks 'install'
 ext.deployDir = findProperty ('deployDir') ?: '/opt'
 ext.serviceUser = findProperty ('serviceUser') ?: 'root'
 ext.serviceGroup = findProperty ('serviceGroup') ?: 'root'
-ext.debugOptions = findProperty ('debugOptions') ?: ''
 
 File projectDestinationDir = file("$rootProject.buildDir/$project.name")
 
@@ -23,6 +22,7 @@ jar {
 
 startScripts {
     String template = new URL ("$gradleScripts/startScript").text
+    println unixStartScriptGenerator.template // TODO Print start script
     unixStartScriptGenerator.template = resources.text.fromString (template)
 }
 

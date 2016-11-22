@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Extra options can be passed to the JVM with 'OPTS' variable (before nohup, or with export)
+
 SERVICE_NAME='${projectName}'
 SERVICE_VERSION='${projectVersion}'
 SERVICE_PATH="$(dirname $0)/.."
@@ -14,7 +16,7 @@ case $1 in
     if [ ! -f ${SERVICE_PID} ]; then
       log "starting..."
       shift
-      DEBUG_OPTS='${debugOptions}' nohup ${SERVICE_PATH}/bin/${SERVICE_NAME} "$@" &> /dev/null &
+      nohup ${SERVICE_PATH}/bin/${SERVICE_NAME} "$@" &> /dev/null &
       echo $! > ${SERVICE_PID}
       log "started"
     else
