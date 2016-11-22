@@ -115,7 +115,7 @@ publish.doLast {
     }
 }
 
-task script(dependsOn: 'build', type: Copy) {
+task libraries(dependsOn: 'build', type: Copy) {
     into "$buildDir/libs"
     from configurations.runtime
 }

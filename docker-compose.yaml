@@ -7,6 +7,13 @@ mongodb:
   ports:
     - 27017:27017
 
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=true
+  ports:
+    - 3306:3306
+
 rabbitmq:
   image: rabbitmq:management
   ports:
