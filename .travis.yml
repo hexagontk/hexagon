@@ -1,6 +1,6 @@
 #
 # TODO Caching is slower than sudo: required
-# TODO Generate site and deploy from Travis CI
+# TODO Generate site and deploy from Travis CI (use `deploy` option to deploy on `master` push)
 #
 
 language: java
