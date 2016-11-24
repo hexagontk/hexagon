@@ -3,7 +3,7 @@
 # TODO Generate site and deploy from Travis CI (use `deploy` option to deploy on `master` push)
 #
 
-language: java
+language: groovy
 jdk: oraclejdk8
 sudo: required
 
@@ -25,5 +25,5 @@ services:
 script:
   - gradle/wrapper --stacktrace build
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+# TODO Fix codecov (coverage reports not found)
+after_success: bash <(curl -s https://codecov.io/bash)
