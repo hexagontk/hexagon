@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileRepository.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.repository</a> &gt; <span class="el_source">FileRepository.kt</span></div><h1>FileRepository.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.repository
+
+import com.mongodb.client.gridfs.GridFSBucket
+import com.mongodb.client.gridfs.GridFSBuckets
+import com.mongodb.client.gridfs.model.GridFSUploadOptions
+import org.bson.Document
+import org.bson.types.ObjectId
+import java.io.InputStream
+import java.io.OutputStream
+import java.util.Base64.getDecoder as base64Decoder
+
+/**
+ * .
+ */
+<span class="nc" id="L15">object FileRepository {</span>
+    /** . */
+<span class="nc" id="L17">    val gridfs: GridFSBucket = GridFSBuckets.create(mongoDatabase())</span>
+
+<span class="nc" id="L19">    private val decoder = base64Decoder()</span>
+
+<span class="nc" id="L21">    private fun meta(metadata: Map&lt;String, *&gt;) = GridFSUploadOptions().metadata(Document(metadata))</span>
+
+    /**
+     * .
+     *
+     * @param name .
+     * @param input .
+     * @param metadata .
+     * @return .
+     */
+    fun store(
+        name: String,
+        input: InputStream,
+        metadata: Map&lt;String, *&gt; = mapOf&lt;String, Any&gt;(),
+        base64: Boolean = false): ObjectId? =
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            gridfs.uploadFromStream(name, if(base64) decoder.wrap(input) else input, meta(metadata))</span>
+
+    /**
+     * .
+     *
+     * @param name .
+     * @param output .
+     * @return .
+     */
+    fun load(name: String, output: OutputStream): Map&lt;String, *&gt; {
+<span class="nc" id="L46">        gridfs.downloadToStreamByName(name, output)</span>
+<span class="nc" id="L47">        return gridfs.find(&quot;filename&quot; eq name).first().metadata</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BServletResponse.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.web.servlet</a> &gt; <span class="el_source">BServletResponse.kt</span></div><h1>BServletResponse.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.web.servlet
+
+import co.there4.hexagon.web.Response
+import java.io.OutputStream
+import java.net.HttpCookie
+import javax.servlet.http.Cookie
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
+<span class="pc" id="L10">class BServletResponse(val req: HttpServletRequest, val resp: HttpServletResponse) : Response {</span>
+<span class="fc" id="L11">    override var body: Any = &quot;&quot;</span>
+
+    override var status: Int
+<span class="fc" id="L14">        get() = resp.status</span>
+<span class="fc" id="L15">        set(value) { resp.status = value }</span>
+
+    override var contentType: String?
+<span class="fc" id="L18">        get() = resp.contentType</span>
+<span class="fc" id="L19">        set(value) { resp.contentType = value }</span>
+
+<span class="pc" id="L21">    override val outputStream: OutputStream = resp.outputStream</span>
+
+<span class="fc" id="L23">    override fun getMimeType (file: String): String? = req.servletContext.getMimeType(file)</span>
+
+    override fun addHeader (name: String, value: String) {
+<span class="fc" id="L26">        resp.addHeader(name, value)</span>
+<span class="fc" id="L27">    }</span>
+
+    override fun addCookie (cookie: HttpCookie) {
+<span class="fc" id="L30">        resp.addCookie(Cookie(cookie.name, cookie.value))</span>
+<span class="fc" id="L31">    }</span>
+
+    override fun removeCookie (name: String) {
+<span class="pc bpc" id="L34" title="2 of 4 branches missed.">        val cookie = req.cookies.find { it.name == name }</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (cookie != null) {</span>
+<span class="fc" id="L36">            cookie.value = &quot;&quot;</span>
+<span class="fc" id="L37">            cookie.path = &quot;/&quot;</span>
+<span class="fc" id="L38">            cookie.maxAge = 0</span>
+<span class="fc" id="L39">            resp.addCookie(cookie)</span>
+        }
+<span class="fc" id="L41">    }</span>
+
+    override fun redirect(url: String) {
+<span class="fc" id="L44">        resp.sendRedirect(url)</span>
+<span class="fc" id="L45">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

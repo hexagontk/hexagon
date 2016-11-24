@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Strings.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.util</a> &gt; <span class="el_source">Strings.kt</span></div><h1>Strings.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.util
+
+import java.lang.System.getProperty
+import java.text.Normalizer.Form.NFD
+import java.text.Normalizer.normalize
+
+/** Runtime specific end of line. */
+<span class="pc bpc" id="L8" title="1 of 2 branches missed.">val EOL = getProperty(&quot;line.separator&quot;) ?: error(&quot;'line.separator' not found in system properties&quot;)</span>
+
+/** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
+<span class="fc" id="L11">private val VARIABLE_PREFIX = &quot;#{&quot;</span>
+/** Variable sufix for string filtering. */
+<span class="fc" id="L13">private val VARIABLE_SUFFIX = &quot;}&quot;</span>
+/** Delimiter char for banners. */
+<span class="fc" id="L15">private val BANNER_DELIMITER = &quot;*&quot;</span>
+
+/** Start of ANSI sequence. */
+<span class="fc" id="L18">private val ANSI_PREFIX = &quot;\u001B[&quot;</span>
+/** End of ANSI sequence. */
+<span class="fc" id="L20">private val ANSI_END = &quot;m&quot;</span>
+
+/** Separator for commands inside a single ANSI sequence. */
+<span class="fc" id="L23">private val ANSI_SEPARATOR = &quot;;&quot;</span>
+/** ANSI command to reset all attributes. */
+<span class="fc" id="L25">private val ANSI_RESET = &quot;0&quot;</span>
+
+/** ANSI foreground color base. */
+<span class="fc" id="L28">val FOREGROUND = 30</span>
+/** ANSI background color base. */
+<span class="fc" id="L30">val BACKGROUND = 40</span>
+
+/** ANSI modifier to switch and effect (add to enable substract todisable). */
+<span class="fc" id="L33">val SWITCH_EFFECT = 20</span>
+
+/**
+ * Filters the target string substituting each key by its value. The keys format is:
+ * `#{key}` and all occurrences are replaced by the supplied value.
+ *
+ * If a variable does not have a parameter, it is left as it is.
+ *
+ * @param parameters The map with the list of key/value tuples.
+ * @return The filtered text or the same string if no values are passed or found in the text.
+ */
+fun String.filterVars(parameters: Map&lt;*, *&gt;) =
+<span class="fc" id="L45">    parameters.entries</span>
+<span class="fc bfc" id="L46" title="All 4 branches covered.">        .filter { it.key.toString().isNotEmpty() }</span>
+<span class="fc" id="L47">        .fold(this) { result, pair -&gt;</span>
+<span class="fc" id="L48">            val key = pair.key.toString()</span>
+<span class="fc" id="L49">            val value = pair.value.toString()</span>
+<span class="fc" id="L50">            result.replace (&quot;$VARIABLE_PREFIX$key$VARIABLE_SUFFIX&quot;, value)</span>
+<span class="fc" id="L51">        }</span>
+
+<span class="fc" id="L53">fun String.filterVars(vararg parameters: Pair&lt;*, *&gt;) = this.filterVars (mapOf (*parameters))</span>
+
+fun String.filter(prefix: String, suffix: String, vararg parameters: Pair&lt;String, String&gt;) =
+<span class="fc" id="L56">    parameters.fold(this, { result, pair -&gt; result.replace (prefix + pair.first + suffix, pair.second) })</span>
+
+fun Regex.findGroups (str: String): List&lt;MatchGroup&gt; =
+<span class="pc bpc" id="L59" title="2 of 4 branches missed.">    (this.find (str)?.groups ?: listOf&lt;MatchGroup&gt; ())</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        .map { it ?: throw IllegalArgumentException () }</span>
+<span class="fc" id="L61">        .drop(1)</span>
+
+/**
+ * Transforms the target string from snake case to camel case.
+ */
+fun String.snakeToCamel () =
+<span class="fc" id="L67">    this.split (&quot;_&quot;)</span>
+<span class="fc bfc" id="L68" title="All 4 branches covered.">        .filter(String::isNotEmpty)</span>
+<span class="fc" id="L69">        .map(String::capitalize)</span>
+<span class="fc" id="L70">        .joinToString(&quot;&quot;)</span>
+<span class="fc" id="L71">        .decapitalize ()</span>
+
+/**
+ * Transforms the target string from camel case to snake case.
+ */
+fun String.camelToSnake () =
+<span class="pc bpc" id="L77" title="2 of 4 branches missed.">    this.split (&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex())</span>
+<span class="pc bpc" id="L78" title="2 of 4 branches missed.">        .filter(String::isNotEmpty)</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        .map(String::toLowerCase)</span>
+<span class="fc" id="L80">        .joinToString (&quot;_&quot;)</span>
+<span class="fc" id="L81">        .decapitalize ()</span>
+
+/**
+ * Formats the string as a banner with a delimiter above and below text. The character used to
+ * render the delimiter is defined [here][BANNER_DELIMITER]
+ */
+fun String.banner (): String {
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">    val separator = BANNER_DELIMITER.repeat (this.lines().map { it.length }.max() ?: 0)</span>
+<span class="fc" id="L89">    return &quot;$separator$EOL$this$EOL$separator&quot;</span>
+}
+
+<span class="fc" id="L92">fun String.stripAccents() = normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
+
+<span class="pc bpc" id="L94" title="5 of 6 branches missed.">fun readResource(resource: String) = resourceAsStream(resource)?.reader()?.readText()</span>
+
+private fun ansiCode(fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): String {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">    fun fgString (color: AnsiColor?) = (color?.fg ?: &quot;&quot;).toString()</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">    fun bgString (color: AnsiColor?) = (color?.bg ?: &quot;&quot;).toString()</span>
+
+<span class="fc" id="L100">    val colors = listOf (fgString(fg), bgString(bg))</span>
+<span class="fc" id="L101">    val elements = colors + fxs.map { it.code.toString() }</span>
+<span class="fc bfc" id="L102" title="All 4 branches covered.">    val body = elements.filter(String::isNotEmpty).joinToString (ANSI_SEPARATOR)</span>
+
+<span class="fc bfc" id="L104" title="All 4 branches covered.">    return ANSI_PREFIX + (if (body.isEmpty()) ANSI_RESET else body) + ANSI_END</span>
+}
+
+/**
+ * Creates an ANSI sequence composed by a list of commands (colors, effects, etc.).
+ *
+ * A call with no effect neither color generates an ANSI reset.
+ *
+ * @param fg Foreground color.
+ * @param bg Background color.
+ * @param fxs List of affects
+ * @return The ANSI sequence
+ */
+<span class="fc" id="L117">fun ansi(fg: AnsiColor, bg: AnsiColor, vararg fxs: AnsiEffect) = ansiCode (fg, bg, *fxs)</span>
+<span class="fc" id="L118">fun ansi(fg: AnsiColor, vararg fxs: AnsiEffect) = ansiCode (fg, null, *fxs)</span>
+<span class="fc" id="L119">fun ansi(vararg fxs: AnsiEffect) = ansiCode (null, null, *fxs)</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

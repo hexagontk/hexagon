@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogExceptionHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.messaging</a> &gt; <span class="el_source">LogExceptionHandler.kt</span></div><h1>LogExceptionHandler.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.messaging
+
+import co.there4.hexagon.util.CompanionLogger
+import com.rabbitmq.client.Channel
+import com.rabbitmq.client.Connection
+import com.rabbitmq.client.Consumer
+import com.rabbitmq.client.TopologyRecoveryException
+import com.rabbitmq.client.impl.DefaultExceptionHandler
+
+<span class="fc" id="L10">class LogExceptionHandler : DefaultExceptionHandler () {</span>
+<span class="fc" id="L11">    companion object : CompanionLogger (LogExceptionHandler::class)</span>
+
+    private fun logError(error: String, con: Connection, ex: Throwable) {
+<span class="fc" id="L14">        err(&quot;%s in connection to: %s&quot;.format(ex, error, con.address.canonicalHostName))</span>
+<span class="fc" id="L15">    }</span>
+
+    private fun logError(error: String, ch: Channel, ex: Throwable) {
+<span class="fc" id="L18">        err(&quot;%s in channel: %s&quot;.format(ex, error, ch.channelNumber))</span>
+<span class="fc" id="L19">    }</span>
+
+    private fun logError(error: String, con: Connection, ch: Channel, ex: Throwable) {
+<span class="fc" id="L22">        val message = &quot;%s in connection to: %s in channel: %s&quot;</span>
+<span class="fc" id="L23">            .format(error, con.address.canonicalHostName, ch.channelNumber)</span>
+
+<span class="fc" id="L25">        err(message, ex)</span>
+<span class="fc" id="L26">    }</span>
+
+    override fun handleUnexpectedConnectionDriverException(con: Connection, ex: Throwable) {
+<span class="fc" id="L29">        super.handleUnexpectedConnectionDriverException(con, ex)</span>
+<span class="fc" id="L30">        logError(&quot;UnexpectedConnectionDriverException&quot;, con, ex)</span>
+<span class="fc" id="L31">    }</span>
+
+    override fun handleReturnListenerException(ch: Channel, ex: Throwable) {
+<span class="fc" id="L34">        super.handleReturnListenerException(ch, ex)</span>
+<span class="fc" id="L35">        logError(&quot;ReturnListenerException&quot;, ch, ex)</span>
+<span class="fc" id="L36">    }</span>
+
+    override fun handleFlowListenerException(ch: Channel, ex: Throwable) {
+<span class="fc" id="L39">        super.handleFlowListenerException(ch, ex)</span>
+<span class="fc" id="L40">        logError(&quot;FlowListenerException&quot;, ch, ex)</span>
+<span class="fc" id="L41">    }</span>
+
+    override fun handleConfirmListenerException(ch: Channel, ex: Throwable) {
+<span class="fc" id="L44">        super.handleConfirmListenerException(ch, ex)</span>
+<span class="fc" id="L45">        logError(&quot;ConfirmListenerException&quot;, ch, ex)</span>
+<span class="fc" id="L46">    }</span>
+
+    override fun handleBlockedListenerException(con: Connection, ex: Throwable) {
+<span class="fc" id="L49">        super.handleBlockedListenerException(con, ex)</span>
+<span class="fc" id="L50">        logError(&quot;BlockedListenerException&quot;, con, ex)</span>
+<span class="fc" id="L51">    }</span>
+
+    override fun handleConsumerException(
+        ch: Channel,
+        ex: Throwable,
+        consumer: Consumer?,
+        consumerTag: String?,
+        methodName: String?) {
+
+<span class="fc" id="L60">        super.handleConsumerException(ch, ex, consumer, consumerTag, methodName)</span>
+
+<span class="fc" id="L62">        val message = &quot;ConsumerException in channel: %s consumer: %s method: %s&quot;</span>
+<span class="fc" id="L63">            .format(ch.channelNumber, consumerTag, methodName)</span>
+
+<span class="fc" id="L65">        err(message, ex)</span>
+<span class="fc" id="L66">    }</span>
+
+    override fun handleConnectionRecoveryException(con: Connection, ex: Throwable) {
+<span class="fc" id="L69">        super.handleConnectionRecoveryException(con, ex)</span>
+<span class="fc" id="L70">        logError(&quot;ConnectionRecoveryException&quot;, con, ex)</span>
+<span class="fc" id="L71">    }</span>
+
+    override fun handleChannelRecoveryException(ch: Channel, ex: Throwable) {
+<span class="fc" id="L74">        super.handleChannelRecoveryException(ch, ex)</span>
+<span class="fc" id="L75">        logError(&quot;ChannelRecoveryException&quot;, ch, ex)</span>
+<span class="fc" id="L76">    }</span>
+
+    override fun handleTopologyRecoveryException(
+        con: Connection, ch: Channel, ex: TopologyRecoveryException) {
+
+<span class="fc" id="L81">        super.handleTopologyRecoveryException(con, ch, ex)</span>
+<span class="fc" id="L82">        logError(&quot;TopologyRecoveryException&quot;, con, ch, ex)</span>
+<span class="fc" id="L83">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

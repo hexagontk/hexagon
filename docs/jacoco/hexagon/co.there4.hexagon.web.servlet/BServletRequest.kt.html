@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BServletRequest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.web.servlet</a> &gt; <span class="el_source">BServletRequest.kt</span></div><h1>BServletRequest.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.web.servlet
+
+import co.there4.hexagon.util.parseQueryParameters
+import co.there4.hexagon.web.HttpMethod
+import co.there4.hexagon.web.Part
+import co.there4.hexagon.web.Path
+import co.there4.hexagon.web.Request
+import java.io.InputStreamReader
+import java.net.HttpCookie
+import javax.servlet.http.HttpServletRequest
+
+<span class="pc" id="L12">class BServletRequest(val req: HttpServletRequest, var actionPath: Path? = null) : Request {</span>
+<span class="pc bpc" id="L13" title="1 of 2 branches missed.">    override val scriptName: String = req.pathInfo ?: req.servletPath</span>
+<span class="fc" id="L14">    override val pathInfo: String = scriptName</span>
+<span class="pc" id="L15">    override val path: String = scriptName</span>
+<span class="fc" id="L16">    override val body: String by lazy { InputStreamReader(req.inputStream).readText() }</span>
+<span class="fc" id="L17">    override val scheme: String by lazy { req.scheme }</span>
+<span class="fc" id="L18">    override val port: Int by lazy { req.serverPort }</span>
+<span class="fc" id="L19">    override val method: HttpMethod by lazy { HttpMethod.valueOf (req.method) }</span>
+<span class="fc" id="L20">    override val queryString: String by lazy { req.queryString }</span>
+<span class="pc" id="L21">    override val contentLength: Long by lazy { req.contentLength.toLong() }</span>
+<span class="fc" id="L22">    override val contentType: String? by lazy { req.contentType }</span>
+<span class="fc" id="L23">    override val host: String by lazy { req.remoteHost }</span>
+<span class="pc bpc" id="L24" title="2 of 4 branches missed.">    override val userAgent: String by lazy { headers[&quot;User-Agent&quot;]?.first() ?: &quot;UNKNOWN&quot; }</span>
+<span class="fc" id="L25">    override val url: String by lazy { req.requestURL.toString() }</span>
+<span class="pc" id="L26">    override val ip: String by lazy { req.remoteAddr }</span>
+<span class="pc" id="L27">    override val referrer: String by lazy { throw UnsupportedOperationException ()  }</span>
+<span class="pc" id="L28">    override val secure: Boolean by lazy { throw UnsupportedOperationException ()  }</span>
+<span class="pc" id="L29">    override val forwarded: Boolean by lazy { throw UnsupportedOperationException ()  }</span>
+<span class="pc" id="L30">    override val xhr: Boolean by lazy { throw UnsupportedOperationException ()  }</span>
+<span class="pc" id="L31">    override val preferredType: String by lazy { throw UnsupportedOperationException ()  }</span>
+
+    override val parameters: Map&lt;String, List&lt;String&gt;&gt; get() =
+<span class="pc bpc" id="L34" title="2 of 6 branches missed.">        (actionPath?.extractParameters(req.servletPath)?:mapOf()).mapValues { listOf(it.value) } +</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap() +</span>
+<span class="fc" id="L36">        parseQueryParameters(req.queryString ?: &quot;&quot;).mapValues { listOf(it.value) }</span>
+
+<span class="fc" id="L38">    override val headers: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
+<span class="fc" id="L39">        req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()</span>
+    }
+
+    override val cookies: Map&lt;String, HttpCookie&gt; get() {
+<span class="fc" id="L43">        try {</span>
+<span class="fc" id="L44">            val map = req.cookies.map { HttpCookie(it.name, it.value) }.map { it.name to it }</span>
+<span class="fc" id="L45">            return map.toMap()</span>
+        }
+<span class="fc" id="L47">        catch (e: Exception) {</span>
+<span class="fc" id="L48">            return mapOf()</span>
+        }
+    }
+
+<span class="pc" id="L52">    override val parts: Map&lt;String, Part&gt; by lazy { throw UnsupportedOperationException ()  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

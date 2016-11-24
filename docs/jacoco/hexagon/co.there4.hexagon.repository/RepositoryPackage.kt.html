@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RepositoryPackage.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.repository</a> &gt; <span class="el_source">RepositoryPackage.kt</span></div><h1>RepositoryPackage.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.repository
+
+import co.there4.hexagon.settings.SettingsManager
+import co.there4.hexagon.events.EventManager
+import com.mongodb.MongoClient
+import com.mongodb.MongoClientURI
+import com.mongodb.client.MongoCollection
+import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Indexes.*
+import org.bson.Document
+import org.bson.conversions.Bson
+import org.bson.types.ObjectId
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
+import com.mongodb.client.model.Filters.eq as mEq
+import com.mongodb.client.model.Filters.or as mOr
+import com.mongodb.client.model.Filters.and as mAnd
+import com.mongodb.client.model.Filters.`in` as mIn
+
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">val mongodbUrl = SettingsManager[&quot;mongodbUrl&quot;] as String? ?: &quot;mongodb://localhost/test&quot;</span>
+
+fun mongoDatabase (uri: String = mongodbUrl): MongoDatabase =
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">    MongoClient(MongoClientURI(uri)).getDatabase(MongoClientURI(uri).database) ?:</span>
+<span class="pc" id="L24">        error (&quot;Error connecting to MongoDB at: $uri&quot;)</span>
+
+fun mongoCollection (
+    name: String, database: MongoDatabase = mongoDatabase()) : MongoCollection&lt;Document&gt; =
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        database.getCollection(name) ?: error (&quot;Error getting '$name' collection&quot;)</span>
+
+<span class="fc" id="L30">fun mongoId(): String = ObjectId().toHexString()</span>
+
+inline fun &lt;reified T : Any&gt; mongoRepository(
+    database: MongoDatabase = mongoDatabase(),
+    publishEvents: Boolean = false) =
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        MongoRepository(</span>
+            T::class,
+            mongoCollection(T::class.simpleName ?: error(&quot;Error fetching class name&quot;), database),
+            publishEvents
+<span class="nc" id="L39">        )</span>
+
+inline fun &lt;reified T : Any&gt; mongoRepository(
+    database: MongoDatabase = mongoDatabase(),
+    publishEvents: Boolean = false,
+    setup: MongoRepository&lt;T&gt;.() -&gt; Unit): MongoRepository&lt;T&gt; =
+<span class="nc" id="L45">        mongoRepository&lt;T&gt;(database, publishEvents).let {</span>
+<span class="nc" id="L46">            it.setup()</span>
+<span class="nc" id="L47">            it</span>
+<span class="nc" id="L48">        }</span>
+
+inline fun &lt;reified T : Any, reified K : Any&gt; mongoIdRepository(
+    key: KProperty1&lt;T, K&gt;,
+    database: MongoDatabase = mongoDatabase(),
+    publishEvents: Boolean = false,
+    indexOrder: Int? = 1) =
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        MongoIdRepository (</span>
+            T::class,
+            mongoCollection(T::class.simpleName ?: error(&quot;Error getting type name&quot;), database),
+            key,
+            publishEvents,
+            indexOrder
+<span class="nc" id="L61">        )</span>
+
+inline fun &lt;reified T : Any, reified K : Any&gt; mongoIdRepository(
+    key: KProperty1&lt;T, K&gt;,
+    database: MongoDatabase = mongoDatabase(),
+    publishEvents: Boolean = false,
+    indexOrder: Int? = 1,
+    setup: MongoIdRepository&lt;T, K&gt;.() -&gt; Unit) =
+<span class="nc" id="L69">        mongoIdRepository (key, database, publishEvents, indexOrder).let {</span>
+<span class="nc" id="L70">            it.setup()</span>
+<span class="nc" id="L71">            it</span>
+<span class="nc" id="L72">        }</span>
+
+inline fun &lt;reified T : Any&gt; mongoObjectIdRepository(
+    key: KProperty1&lt;T, String&gt;,
+    publishEvents: Boolean = false) =
+<span class="nc" id="L77">        MongoObjectIdRepository (T::class, mongoDatabase(), key, publishEvents)</span>
+
+<span class="nc" id="L79">infix fun Bson.or(value: Bson): Bson = mOr(this, value)</span>
+<span class="nc" id="L80">infix fun Bson.and(value: Bson): Bson = mAnd(this, value)</span>
+<span class="fc" id="L81">infix fun &lt;T&gt; String.eq(value: T): Bson = mEq(this, value)</span>
+<span class="fc" id="L82">infix fun &lt;T&gt; String.isIn(value: Collection&lt;T&gt;): Bson = mIn(this, value)</span>
+
+<span class="nc" id="L84">infix fun &lt;T&gt; KProperty1&lt;*, *&gt;.eq(value: T): Bson = this.name eq value</span>
+<span class="nc" id="L85">infix fun &lt;T&gt; KProperty1&lt;*, *&gt;.isIn(value: Collection&lt;T&gt;): Bson = this.name isIn value</span>
+
+<span class="nc" id="L87">fun ascending(vararg fields: KProperty1&lt;*, *&gt;): Bson = ascending(fields.map { it.name })</span>
+<span class="nc" id="L88">fun descending(vararg fields: KProperty1&lt;*, *&gt;): Bson = descending(fields.map { it.name })</span>
+
+fun &lt;T : Any&gt; on (
+    entity: KClass&lt;T&gt;, action: RepositoryEventAction, callback: (RepositoryEvent&lt;T&gt;) -&gt; Unit) {
+    @Suppress(&quot;UNCHECKED_CAST&quot;)
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">    EventManager.on(</span>
+        entity.simpleName + &quot;.&quot; + action.toString(),
+        callback as (RepositoryEvent&lt;*&gt;) -&gt; Unit
+    )
+<span class="fc" id="L97">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

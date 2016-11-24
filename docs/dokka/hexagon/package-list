@@ -1,0 +1,12 @@
+co.there4.hexagon.events
+co.there4.hexagon.messaging
+co.there4.hexagon.repository
+co.there4.hexagon.rest
+co.there4.hexagon.scheduler
+co.there4.hexagon.serialization
+co.there4.hexagon.settings
+co.there4.hexagon.template
+co.there4.hexagon.util
+co.there4.hexagon.web
+co.there4.hexagon.web.jetty
+co.there4.hexagon.web.servlet

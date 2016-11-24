@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CompanionLogger.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.util</a> &gt; <span class="el_source">CompanionLogger.kt</span></div><h1>CompanionLogger.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.util
+
+import org.slf4j.LoggerFactory.getLogger
+import org.slf4j.MDC
+import java.lang.System.nanoTime
+import kotlin.reflect.KClass
+
+<span class="fc" id="L8">open class CompanionLogger(clazz: KClass&lt;out Any&gt;){</span>
+<span class="fc" id="L9">    private val logger = getLogger(clazz.java)</span>
+
+    fun trace (message: String, arguments: Map&lt;String, *&gt; = mapOf&lt;String, Any&gt;()) =
+<span class="fc" id="L12">        wrapLog { logger.trace(message, arguments) }</span>
+
+    fun debug (message: String, arguments: Map&lt;String, *&gt; = mapOf&lt;String, Any&gt;()) =
+<span class="fc" id="L15">        wrapLog { logger.debug(message, arguments) }</span>
+
+    fun info (message: String, arguments: Map&lt;String, *&gt; = mapOf&lt;String, Any&gt;()) =
+<span class="fc" id="L18">        wrapLog { logger.info(message, arguments) }</span>
+
+    fun warn (message: String, arguments: Map&lt;String, *&gt; = mapOf&lt;String, Any&gt;()) =
+<span class="fc" id="L21">        wrapLog { logger.warn(message, arguments) }</span>
+
+    fun err(message: String, arguments: Map&lt;String, *&gt; = mapOf&lt;String, Any&gt;()) =
+<span class="fc" id="L24">        wrapLog { logger.error(message, arguments) }</span>
+
+<span class="fc" id="L26">    fun warn (message: String, exception: Throwable) = wrapLog { logger.warn(message, exception) }</span>
+
+<span class="fc" id="L28">    fun err(message: String, exception: Throwable) = wrapLog { logger.error(message, exception) }</span>
+
+<span class="fc" id="L30">    fun flare (message: String = &quot;&quot;) = wrapLog { logger.trace(&quot;$flarePrefix $message&quot;) }</span>
+
+<span class="nc" id="L32">    fun time (startNanos: Long, message: String?) = printNanos(message) { nanoTime() - startNanos }</span>
+
+    fun &lt;T&gt; time (message: String? = null, block: () -&gt; T): T {
+<span class="nc" id="L35">        val start = nanoTime()</span>
+<span class="nc" id="L36">        val result = block()</span>
+<span class="nc" id="L37">        time (start, message)</span>
+<span class="nc" id="L38">        return result</span>
+    }
+
+<span class="nc" id="L41">    private fun printNanos(message: String? = null, lambda: () -&gt; Long): Long = lambda().let {</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        logger.trace((if (message != null) message + &quot; : &quot; else &quot;TIME : &quot;) + formatNanos(it))</span>
+<span class="nc" id="L43">        it</span>
+<span class="nc" id="L44">    }</span>
+
+    private fun wrapLog(log: () -&gt; Unit) {
+<span class="fc" id="L47">        MDC.put(&quot;jvmId&quot;, jvmId)</span>
+<span class="fc" id="L48">        MDC.put(&quot;hostname&quot;, hostname)</span>
+<span class="fc" id="L49">        MDC.put(&quot;ip&quot;, ip)</span>
+<span class="fc" id="L50">        log()</span>
+<span class="fc" id="L51">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

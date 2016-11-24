@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestBaseCrud.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.rest</a> &gt; <span class="el_source">RestBaseCrud.kt</span></div><h1>RestBaseCrud.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.rest
+
+import co.there4.hexagon.repository.MongoRepository
+import co.there4.hexagon.serialization.*
+import co.there4.hexagon.web.*
+import com.mongodb.MongoWriteException
+import com.mongodb.client.FindIterable
+import java.nio.charset.Charset.defaultCharset
+
+/**
+ * TODO Implement pattern find with filters made from query strings (?&lt;fieldName&gt;=&lt;val1&gt;,&lt;val2&gt;...&amp;)
+ * TODO Implement pattern delete with filters made from query strings (see above)
+ */
+<span class="fc" id="L14">open class RestBaseCrud &lt;T : Any&gt; (</span>
+<span class="nc" id="L15">    open val repository: MongoRepository&lt;T&gt;,</span>
+<span class="nc" id="L16">    open val server: Server,</span>
+<span class="nc" id="L17">    open val readOnly: Boolean = false) {</span>
+
+    open fun install() {
+<span class="fc" id="L20">        val collectionName = repository.namespace.collectionName</span>
+
+<span class="fc" id="L22">        server.get(&quot;/$collectionName&quot;) { findAll (repository, this) }</span>
+<span class="pc" id="L23">        server.get(&quot;/$collectionName/count&quot;) { ok(repository.count()) }</span>
+
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        if (!readOnly) {</span>
+<span class="pc" id="L26">            server.post(&quot;/$collectionName/list&quot;) { insertList (repository, this) }</span>
+<span class="fc" id="L27">            server.post(&quot;/$collectionName&quot;) { insert (repository, this) }</span>
+        }
+<span class="fc" id="L29">    }</span>
+
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">    protected fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">    protected fun accept (exchange: Exchange) = exchange.request.accept()?.first().let {</span>
+<span class="pc bpc" id="L33" title="2 of 4 branches missed.">        if (it != null &amp;&amp; contentTypes.contains(it)) it</span>
+<span class="fc" id="L34">        else defaultFormat</span>
+<span class="fc" id="L35">    }</span>
+
+    protected fun &lt;T : Any&gt; insertList (repository: MongoRepository&lt;T&gt;, exchange: Exchange) {
+<span class="nc" id="L38">        val obj = exchange.request.body.parseList(repository.type, contentType(exchange))</span>
+<span class="nc" id="L39">        try {</span>
+<span class="nc" id="L40">            repository.insertManyObjects(obj)</span>
+<span class="nc" id="L41">            exchange.ok(201) // Created</span>
+        }
+<span class="nc" id="L43">        catch (e: MongoWriteException) {</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            if (e.error.code == 11000)</span>
+<span class="nc" id="L45">                exchange.halt(500)//(UNPROCESSABLE_ENTITY)</span>
+            else
+<span class="nc" id="L47">                throw e</span>
+        }
+<span class="nc" id="L49">    }</span>
+
+    protected fun &lt;T : Any&gt; insert (repository: MongoRepository&lt;T&gt;, exchange: Exchange) {
+<span class="fc" id="L52">        val obj = exchange.request.body.parse(repository.type, contentType(exchange))</span>
+<span class="fc" id="L53">        try {</span>
+<span class="fc" id="L54">            repository.insertOneObject(obj)</span>
+<span class="fc" id="L55">            exchange.ok(201) // Created</span>
+        }
+<span class="fc" id="L57">        catch (e: MongoWriteException) {</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">            if (e.error.code == 11000)</span>
+<span class="nc" id="L59">                exchange.halt(500)//(UNPROCESSABLE_ENTITY)</span>
+            else
+<span class="nc" id="L61">                throw e</span>
+        }
+<span class="fc" id="L63">    }</span>
+
+    protected fun &lt;T : Any&gt; findAll (repository: MongoRepository&lt;T&gt;, exchange: Exchange) {
+<span class="fc" id="L66">        val objects = repository.findObjects { pageResults(exchange) }.toList()</span>
+<span class="fc" id="L67">        val contentType = accept(exchange)</span>
+<span class="fc" id="L68">        exchange.response.contentType = contentType + &quot;; charset=${defaultCharset().name()}&quot;</span>
+<span class="fc" id="L69">        exchange.ok(objects.serialize(contentType))</span>
+<span class="fc" id="L70">    }</span>
+
+    protected fun FindIterable&lt;*&gt;.pageResults(exchange: Exchange): FindIterable&lt;*&gt; {
+<span class="fc" id="L73">        val limit = exchange.request[&quot;limit&quot;]</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (limit != null)</span>
+<span class="nc" id="L75">            limit(limit.toInt())</span>
+<span class="fc" id="L76">        val skip = exchange.request[&quot;skip&quot;]</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (skip != null)</span>
+<span class="nc" id="L78">            skip(skip.toInt())</span>
+
+<span class="fc" id="L80">        return this</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

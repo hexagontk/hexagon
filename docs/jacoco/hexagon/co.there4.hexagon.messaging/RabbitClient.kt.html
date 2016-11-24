@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RabbitClient.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.messaging</a> &gt; <span class="el_source">RabbitClient.kt</span></div><h1>RabbitClient.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.messaging
+
+import co.there4.hexagon.settings.SettingsManager.setting
+import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.parseQueryParameters
+import co.there4.hexagon.util.retry
+import com.rabbitmq.client.*
+import java.io.Closeable
+import java.lang.Runtime.getRuntime
+import java.net.URI
+import java.nio.charset.Charset.defaultCharset
+import java.util.UUID.randomUUID
+import java.util.concurrent.Executors.newFixedThreadPool
+import kotlin.reflect.KClass
+
+/**
+ * Rabbit client.
+ * TODO Add metrics
+ * TODO Ordered shutdown
+ *
+ * @author jam
+ */
+<span class="fc" id="L23">class RabbitClient (</span>
+    private val connectionFactory: ConnectionFactory,
+    private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
+
+<span class="fc" id="L27">    companion object : CompanionLogger (RabbitClient::class) {</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        val rabbitmqUrl = setting&lt;String&gt;(&quot;rabbitmqUrl&quot;) ?: &quot;amqp://guest:guest@localhost&quot;</span>
+
+        fun createConnectionFactory(uri: String = rabbitmqUrl): ConnectionFactory {
+<span class="fc" id="L31">            fun &lt;T&gt; setVar(value: T?, setter: (T) -&gt; Unit) {</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">                if (value != null)</span>
+<span class="fc" id="L33">                    setter (value)</span>
+<span class="fc" id="L34">            }</span>
+
+<span class="fc bfc" id="L36" title="All 6 branches covered.">            require(!uri.isEmpty())</span>
+
+<span class="fc" id="L38">            val rabbitUri = URI(uri)</span>
+<span class="fc" id="L39">            val cf = ConnectionFactory()</span>
+<span class="fc" id="L40">            cf.setUri(rabbitUri)</span>
+<span class="fc" id="L41">            cf.exceptionHandler = LogExceptionHandler()</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            val params = parseQueryParameters(rabbitUri.query ?: &quot;&quot;)</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            setVar(params[&quot;automaticRecovery&quot;]?.toBoolean()) { cf.isAutomaticRecoveryEnabled = it }</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            setVar(params[&quot;recoveryInterval&quot;]?.toLong()) { cf.networkRecoveryInterval = it }</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">            setVar(params[&quot;shutdownTimeout&quot;]?.toInt()) { cf.shutdownTimeout = it }</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">            setVar(params[&quot;heartbeat&quot;]?.toInt()) { cf.requestedHeartbeat = it }</span>
+
+<span class="fc" id="L49">            return cf</span>
+        }
+    }
+
+    @Volatile private var count: Int = 0
+<span class="fc" id="L54">    private val threadPool = newFixedThreadPool(poolSize, { Thread(it, &quot;rabbitmq-&quot; + count++) })</span>
+    private var connection: Connection? = null
+
+    init {
+<span class="fc" id="L58">        this.connection = connectionFactory.newConnection()</span>
+
+<span class="fc" id="L60">        info(&quot;&quot;&quot;</span>
+            RabbitMQ Client connected to:
+            ${connectionFactory.host}
+            ${connectionFactory.port}
+            ${connectionFactory.virtualHost}
+            ${connectionFactory.username}
+            ${connectionFactory.password}&quot;&quot;&quot;.trimIndent()
+        )
+    }
+
+<span class="fc" id="L70">    constructor (uri: String = rabbitmqUrl): this(createConnectionFactory(uri))</span>
+
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">    val connected: Boolean get() = connection?.isOpen ?: false</span>
+
+    override fun close() {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (!connected) error(&quot;Connection already closed&quot;)</span>
+
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        connection?.close()</span>
+<span class="fc" id="L78">        info(&quot;RabbitMQ client closed&quot;)</span>
+<span class="fc" id="L79">    }</span>
+
+    fun declareQueue(name: String) {
+<span class="fc" id="L82">        withChannel { it.queueDeclare(name, false, false, false, null) }</span>
+<span class="fc" id="L83">    }</span>
+
+    fun deleteQueue(name: String) {
+<span class="fc" id="L86">        withChannel { it.queueDelete(name) }</span>
+<span class="fc" id="L87">    }</span>
+
+    fun bindExchange (exchange: String, exchangeType: String, routingKey: String, queue: String) {
+<span class="fc" id="L90">        withChannel {</span>
+<span class="fc" id="L91">            it.queueDeclare(queue, false, false, false, null)</span>
+<span class="fc" id="L92">            it.exchangeDeclare(exchange, exchangeType, false, false, false, null)</span>
+<span class="fc" id="L93">            it.queueBind(queue, exchange, routingKey)</span>
+        }
+<span class="fc" id="L95">    }</span>
+
+    fun &lt;T : Any&gt; consume(
+        exchange: String, routingKey: String, type: KClass&lt;T&gt;, handler: (T) -&gt; Unit) {
+
+<span class="fc" id="L100">        withChannel {</span>
+<span class="fc" id="L101">            it.queueDeclare(routingKey, false, false, false, null)</span>
+<span class="fc" id="L102">            it.queueBind(routingKey, exchange, routingKey)</span>
+        }
+<span class="fc" id="L104">        consume(routingKey, type, handler)</span>
+<span class="fc" id="L105">    }</span>
+
+    fun &lt;T : Any, R : Any&gt; consume(queueName: String, type: KClass&lt;T&gt;, handler: (T) -&gt; R) {
+<span class="fc" id="L108">        val channel = createChannel()</span>
+<span class="fc" id="L109">        val callback = Handler(connectionFactory, channel, threadPool, type, handler)</span>
+<span class="fc" id="L110">        channel.basicConsume(queueName, false, callback)</span>
+<span class="fc" id="L111">        info(&quot;Consuming messages in $queueName&quot;)</span>
+<span class="fc" id="L112">    }</span>
+
+    /**
+     * Tries to get a channel for five times. If it do not succeed it throws an
+     * IllegalStateException.
+     *
+     * @return A new channel.
+     */
+    private fun createChannel(): Channel =
+<span class="fc" id="L121">        retry (times = 3, delay = 50) {</span>
+<span class="pc bpc" id="L122" title="1 of 4 branches missed.">            if (!(connection?.isOpen ?: false)) {</span>
+<span class="nc" id="L123">                connection = connectionFactory.newConnection()</span>
+<span class="nc" id="L124">                warn(&quot;Rabbit connection RESTORED&quot;)</span>
+            }
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">            val channel = connection!!.createChannel()</span>
+<span class="fc" id="L127">            channel.basicQos(poolSize)</span>
+<span class="fc" id="L128">            channel</span>
+<span class="fc" id="L129">        }</span>
+
+    private fun &lt;T&gt; withChannel(callback: (Channel) -&gt; T): T {
+<span class="fc" id="L132">        var channel: Channel? = null</span>
+<span class="fc" id="L133">        try {</span>
+<span class="fc" id="L134">            channel = createChannel()</span>
+<span class="fc" id="L135">            return callback(channel)</span>
+        }
+        finally {
+<span class="pc bpc" id="L138" title="5 of 8 branches missed.">            if (channel != null &amp;&amp; channel.isOpen)</span>
+<span class="pc" id="L139">                channel.close()</span>
+        }
+    }
+
+<span class="fc" id="L143">    fun publish(queue: String, message: String) = publish(&quot;&quot;, queue, message)</span>
+
+    fun publish(
+        exchange: String,
+        routingKey: String,
+        message: String,
+        correlationId: String? = null) {
+
+<span class="fc" id="L151">        withChannel { channel -&gt;</span>
+<span class="fc" id="L152">            publish(channel, exchange, routingKey, null, message, correlationId, null)</span>
+<span class="fc" id="L153">        }</span>
+<span class="fc" id="L154">    }</span>
+
+    internal fun publish(
+        channel: Channel,
+        exchange: String,
+        routingKey: String,
+        encoding: String?,
+        message: String,
+        correlationId: String?,
+        replyQueueName: String?) {
+
+<span class="fc" id="L165">        val builder = AMQP.BasicProperties.Builder()</span>
+
+<span class="pc bpc" id="L167" title="1 of 6 branches missed.">        if (!correlationId.isNullOrBlank())</span>
+<span class="fc" id="L168">            builder.correlationId(correlationId)</span>
+
+<span class="pc bpc" id="L170" title="1 of 6 branches missed.">        if (!replyQueueName.isNullOrBlank())</span>
+<span class="fc" id="L171">            builder.replyTo(replyQueueName)</span>
+
+<span class="pc bpc" id="L173" title="1 of 6 branches missed.">        if (!encoding.isNullOrBlank())</span>
+<span class="fc" id="L174">            builder.contentEncoding(encoding)</span>
+
+<span class="fc" id="L176">        val props = builder.build()</span>
+
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        val charset = if (encoding == null) defaultCharset() else charset(encoding)</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">        channel.basicPublish(exchange, routingKey, props, message.toByteArray(charset))</span>
+
+<span class="fc" id="L181">        debug(</span>
+            &quot;&quot;&quot;
+            EXCHANGE: $exchange ROUTING KEY: $routingKey
+            REPLY TO: $replyQueueName CORRELATION ID: $correlationId
+            BODY:
+            $message&quot;&quot;&quot;.trimIndent())
+<span class="fc" id="L187">    }</span>
+
+    fun call(requestQueue: String, message: String): String =
+<span class="fc" id="L190">        withChannel {</span>
+<span class="fc" id="L191">            val correlationId = randomUUID().toString()</span>
+<span class="fc" id="L192">            val replyQueueName = it.queueDeclare().queue</span>
+<span class="fc" id="L193">            val charset = defaultCharset().name()</span>
+
+<span class="fc" id="L195">            publish(it, &quot;&quot;, requestQueue, charset, message, correlationId, replyQueueName)</span>
+
+<span class="fc" id="L197">            val consumer = QueueingConsumer(it)</span>
+<span class="fc" id="L198">            it.basicConsume(replyQueueName, true, consumer)</span>
+
+<span class="fc" id="L200">            var result: String? = null</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">            while (result == null) {</span>
+<span class="fc" id="L202">                val delivery = consumer.nextDelivery(20000)</span>
+<span class="pc bpc" id="L203" title="2 of 4 branches missed.">                if (delivery != null &amp;&amp; delivery.properties.correlationId == correlationId)</span>
+<span class="fc" id="L204">                    result = String(delivery.body)</span>
+            }
+<span class="fc" id="L206">            result</span>
+<span class="fc" id="L207">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

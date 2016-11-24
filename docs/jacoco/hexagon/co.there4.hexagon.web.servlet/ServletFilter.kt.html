@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletFilter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.web.servlet</a> &gt; <span class="el_source">ServletFilter.kt</span></div><h1>ServletFilter.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.web.servlet
+
+import java.nio.charset.Charset.defaultCharset
+import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.web.*
+import co.there4.hexagon.web.FilterOrder.*
+import co.there4.hexagon.web.Filter as HexagonFilter
+import javax.servlet.*
+import javax.servlet.Filter
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
+/**
+ * @author jam
+ */
+<span class="fc" id="L16">class ServletFilter (private val router: Router) : Filter {</span>
+<span class="fc" id="L17">    companion object : CompanionLogger(ServletFilter::class)</span>
+
+    private val routesByMethod: Map&lt;HttpMethod, List&lt;Pair&lt;Route, Exchange.() -&gt; Unit&gt;&gt;&gt; =
+<span class="fc" id="L20">        router.routes.entries.map { it.key to it.value }.groupBy { it.first.method }</span>
+
+    private fun filter(
+        request: BServletRequest,
+        exchange: Exchange,
+        filterOrder: FilterOrder,
+        filters: Map&lt;HexagonFilter, Exchange.() -&gt; Unit&gt;): Boolean {
+
+<span class="fc" id="L28">        var handled = false</span>
+
+<span class="fc" id="L30">        filters</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">            .filter { it.key.order == filterOrder }.entries.map {</span>
+<span class="fc" id="L32">            request.actionPath = it.key.path</span>
+<span class="fc" id="L33">            exchange.(it.value)()</span>
+<span class="fc" id="L34">            handled = true</span>
+<span class="fc" id="L35">        }</span>
+
+<span class="fc" id="L37">        return handled</span>
+    }
+
+<span class="fc" id="L40">    override fun init(filterConfig: FilterConfig) { /* Not implemented */ }</span>
+<span class="fc" id="L41">    override fun destroy() { /* Not implemented */ }</span>
+
+    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">        if (request !is HttpServletRequest || response !is HttpServletResponse)</span>
+<span class="nc" id="L45">            error(&quot;Invalid request/response parmeters&quot;)</span>
+
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        val filters = router.filters.filter { it.key.path.matches(request.servletPath) }</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        val methodRoutes = routesByMethod[HttpMethod.valueOf (request.method)]?.filter {</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">            it.first.path.matches(request.servletPath)</span>
+        }
+
+<span class="fc" id="L52">        val bRequest = BServletRequest (request)</span>
+<span class="fc" id="L53">        val bResponse = BServletResponse (request, response)</span>
+<span class="fc" id="L54">        val bSession = BServletSession (request)</span>
+<span class="fc" id="L55">        val exchange = Exchange(bRequest, bResponse, bSession)</span>
+<span class="fc" id="L56">        var handled = false</span>
+
+<span class="fc" id="L58">        try {</span>
+<span class="fc" id="L59">            handled = filter(bRequest, exchange, BEFORE, filters)</span>
+
+<span class="fc" id="L61">            val stream = javaClass.getResourceAsStream(&quot;/public&quot; + request.servletPath)</span>
+            if (bRequest.method == HttpMethod.GET &amp;&amp;
+<span class="fc bfc" id="L63" title="All 4 branches covered.">                !request.servletPath.endsWith(&quot;/&quot;) &amp;&amp; // Reading a folder as resource gets all files</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">                stream != null) {</span>
+
+<span class="fc" id="L66">                val contentType = bResponse.getMimeType(request.servletPath)</span>
+
+                // Should be done BEFORE flushing the stream (if not content type is ignored)
+<span class="pc bpc" id="L69" title="2 of 4 branches missed.">                if (response.contentType == null &amp;&amp; contentType != null)</span>
+<span class="fc" id="L70">                    response.contentType = &quot;$contentType; charset=${defaultCharset().name()}&quot;</span>
+
+<span class="fc" id="L72">                response.outputStream.write(stream.readBytes())</span>
+<span class="fc" id="L73">                response.outputStream.flush()</span>
+
+<span class="fc" id="L75">                handled = true</span>
+            }
+            else {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                if (methodRoutes == null) {</span>
+<span class="fc" id="L79">                    bResponse.status = 405</span>
+<span class="fc" id="L80">                    bResponse.body = &quot;Invalid method '${request.method}'&quot;</span>
+<span class="fc" id="L81">                    handled = true</span>
+                }
+                else {
+<span class="fc bfc" id="L84" title="All 2 branches covered.">                    for (r in methodRoutes) {</span>
+<span class="fc" id="L85">                        try {</span>
+<span class="fc" id="L86">                            bRequest.actionPath = r.first.path</span>
+<span class="fc" id="L87">                            exchange.(r.second)()</span>
+<span class="fc" id="L88">                            handled = true</span>
+<span class="fc" id="L89">                            break</span>
+                        }
+<span class="fc" id="L91">                        catch (e: PassException) {</span>
+                            continue
+                        }
+                    }
+                }
+            }
+
+<span class="fc bfc" id="L98" title="All 4 branches covered.">            handled = filter(bRequest, exchange, AFTER, filters) || handled // Order matters!!!</span>
+        }
+<span class="fc" id="L100">        catch (e: EndException) {</span>
+<span class="fc" id="L101">            handled = true</span>
+        }
+<span class="fc" id="L103">        catch (e: Exception) {</span>
+<span class="fc" id="L104">            err (&quot;Error processing request&quot;, e)</span>
+<span class="fc" id="L105">            router.handleException(e, exchange)</span>
+<span class="fc" id="L106">            handled = true</span>
+        }
+        finally {
+<span class="pc bpc" id="L109" title="4 of 8 branches missed.">            if (!handled)</span>
+<span class="pc" id="L110">                exchange.(router.notFoundHandler)()</span>
+
+<span class="pc" id="L112">            response.status = exchange.response.status</span>
+<span class="pc bpc" id="L113" title="15 of 24 branches missed.">            response.outputStream.write(exchange.response.body.toString().toByteArray())</span>
+<span class="pc" id="L114">            response.outputStream.flush()</span>
+        }
+<span class="fc" id="L116">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

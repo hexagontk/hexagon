@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+    http://www.sitemaps.org/schemas/sitemap/0.9
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <url>
+    <loc>http://there4.co/hexagon/builds.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/configuration.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/contribute.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/events.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/index.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/license.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/messaging.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/quick_start.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/rest.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/scheduling.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/serialization.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/storage.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/templates.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+  <url>
+    <loc>http://there4.co/hexagon/testing.html</loc>
+    <lastmod>2016-04-13</lastmod>
+  </url>
+
+</urlset>
