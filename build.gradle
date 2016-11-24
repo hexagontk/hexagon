@@ -12,10 +12,9 @@ buildscript {
         classpath "org.jbake:jbake-core:$jbakeVersion"
         classpath "me.champeau.gradle:jbake-gradle-plugin:$jbakepluginVersion"
 
-        classpath "org.ajoberstar:gradle-git:$gradlegitVersion"
-
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
 
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
         classpath "com.squareup.okhttp3:okhttp:$okhttpVersion"
@@ -101,18 +100,12 @@ packageTest {
 }
 
 site.dependsOn 'dokka', 'jacocoTestReport'
-publish.dependsOn 'checkGitStatus', 'site'
+publish.dependsOn 'site'
 
 publish.doLast {
     String bintrayApi = 'https://api.bintray.com/content'
     OkHttpClient client = httpClient (bintrayUser, bintrayKey)
     post (client, "$bintrayApi/jamming/maven/Hexagon/$version/publish")
-
-    org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
-    repository.tag.add {
-        name = version
-        message = "Release $version"
-    }
 }
 
 task libraries(dependsOn: 'build', type: Copy) {
@@ -120,23 +113,9 @@ task libraries(dependsOn: 'build', type: Copy) {
     from configurations.runtime
 }
 
-task release (dependsOn: [ 'publish', 'publishGhPages' ])
+task release (dependsOn: 'publish')
 
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
-
-task checkGitStatus () {
-    doLast {
-        org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
-
-        if (!repository.status ().clean)
-            throw new GradleException ('Repository not clean')
-
-        repository.pull (remote: 'origin', branch: 'master')
-
-        if (!repository.status ().clean)
-            throw new GradleException ('Repository not clean')
-    }
-}
 
 // TODO Use task name as type
 task executeRelease () {
@@ -168,10 +147,6 @@ task executeRelease () {
             from "$buildDir/gradle.properties"
             into rootDir
         }
-
-        org.ajoberstar.grgit.Grgit repository = org.ajoberstar.grgit.Grgit.open ()
-        repository.add (patterns: ['gradle.properties'])
-        repository.commit (message: "Version $version released")
     }
 }
 
