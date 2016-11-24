@@ -27,7 +27,7 @@ ext.siteImagesDir = findProperty ('siteImagesDir') ?: "$sitePublicDir/img"
 
 jbake {
     input = file("$project.projectDir/$projectSite")
-    output = file("$buildDir/$projectSite")
+    output = file(sitePublicDir)
 
     configuration['theme'] = bootstrapTheme
     configuration['site.host'] = siteHost
@@ -50,7 +50,7 @@ jbake {
 
 task site (dependsOn: 'jbake') {
     doLast {
-        file ("$buildDir/$projectSite/").traverse (nameFilter: ~/.+\.(html|xml|css)$/) {
+        file (sitePublicDir).traverse (nameFilter: ~/.+\.(html|xml|css)$/) {
             it.write (it.getText ()
                 .replace ('${projectVersion}', project.version)
                 .replace ('${siteColor}', siteColor)

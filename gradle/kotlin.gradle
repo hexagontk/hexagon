@@ -49,7 +49,7 @@ test {
     useTestNG ()
 
     reports {
-        html.destination = file ("$rootBuildDir/$projectSite/testng/$project.name")
+        html.destination = file ("$sitePublicDir/testng/$project.name")
     }
 
     testLogging {
@@ -66,7 +66,7 @@ test {
 }
 
 dokka {
-    outputDirectory = "$rootBuildDir/$projectSite/dokka/$project.name"
+    outputDirectory = "$sitePublicDir/dokka/$project.name"
     outputFormat = 'javadoc'
 }
 
@@ -75,6 +75,6 @@ jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
-        html.destination = "$rootBuildDir/$projectSite/jacoco/$project.name"
+        html.destination = "$sitePublicDir/jacoco/$project.name"
     }
 }
