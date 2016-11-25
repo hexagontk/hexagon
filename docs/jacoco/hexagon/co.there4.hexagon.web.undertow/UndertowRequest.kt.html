@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UndertowRequest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.web.undertow</a> &gt; <span class="el_source">UndertowRequest.kt</span></div><h1>UndertowRequest.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.web.undertow
+
+import co.there4.hexagon.web.HttpMethod
+import co.there4.hexagon.web.Part
+import io.undertow.server.HttpServerExchange
+
+import co.there4.hexagon.web.Request
+import co.there4.hexagon.web.Route
+import java.net.HttpCookie
+
+<span class="nc" id="L11">class UndertowRequest(val e: HttpServerExchange, val route: Route) : Request {</span>
+<span class="nc" id="L12">    override val path: String = pathInfo</span>
+<span class="nc" id="L13">    override val contentType: String? get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L14">    override val pathInfo: String get() = e.requestPath</span>
+<span class="nc" id="L15">    override val body: String get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L16">    override val scheme: String get() = e.requestScheme</span>
+<span class="nc" id="L17">    override val port: Int get() = e.hostPort</span>
+<span class="nc" id="L18">    override val method: HttpMethod by lazy { HttpMethod.valueOf (e.requestMethod.toString()) }</span>
+<span class="nc" id="L19">    override val queryString: String get() = e.queryString</span>
+<span class="nc" id="L20">    override val contentLength: Long get() = e.requestContentLength</span>
+<span class="nc" id="L21">    override val host: String get() = e.hostName</span>
+
+    override val parameters: Map&lt;String, List&lt;String&gt;&gt;
+<span class="nc" id="L24">        get() = (e.pathParameters + e.queryParameters).mapValues { it.value.toList() }</span>
+
+    override val headers: Map&lt;String, List&lt;String&gt;&gt; get() =
+<span class="nc" id="L27">        e.requestHeaders.map { it.headerName.toString() to it }.toMap()</span>
+
+<span class="nc" id="L29">    override val userAgent: String get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L30">    override val url: String get() = e.requestURL</span>
+<span class="nc" id="L31">    override val ip: String get() = e.hostName</span>
+<span class="nc" id="L32">    override val cookies: MutableMap&lt;String, HttpCookie&gt; get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L33">    override val parts: Map&lt;String, Part&gt; get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L34">    override val scriptName: String get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L35">    override val referrer: String get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L36">    override val secure: Boolean get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L37">    override val forwarded: Boolean get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L38">    override val xhr: Boolean get() = throw UnsupportedOperationException()</span>
+<span class="nc" id="L39">    override val preferredType: String get() = throw UnsupportedOperationException()</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

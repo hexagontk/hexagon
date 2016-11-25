@@ -10,3 +10,4 @@ co.there4.hexagon.util
 co.there4.hexagon.web
 co.there4.hexagon.web.jetty
 co.there4.hexagon.web.servlet
+co.there4.hexagon.web.undertow

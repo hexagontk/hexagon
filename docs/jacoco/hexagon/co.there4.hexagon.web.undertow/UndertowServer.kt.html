@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UndertowServer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon</a> &gt; <a href="index.source.html" class="el_package">co.there4.hexagon.web.undertow</a> &gt; <span class="el_source">UndertowServer.kt</span></div><h1>UndertowServer.kt</h1><pre class="source lang-java linenums">package co.there4.hexagon.web.undertow
+
+import co.there4.hexagon.web.EndException
+import co.there4.hexagon.web.Exchange
+import co.there4.hexagon.web.FilterOrder.*
+import co.there4.hexagon.web.Server
+import io.undertow.Undertow
+import io.undertow.Handlers.*
+import java.net.InetAddress
+
+<span class="nc" id="L11">class UndertowServer(</span>
+<span class="nc" id="L12">    bind: InetAddress = InetAddress.getByName(&quot;localhost&quot;), port: Int = 4321): Server(bind, port) {</span>
+
+<span class="nc" id="L14">    var builder: Undertow.Builder = Undertow.builder()</span>
+<span class="nc" id="L15">    var undertow: Undertow? = null</span>
+
+    private var started = false
+<span class="nc" id="L18">    override fun started() = started</span>
+
+    fun build() {
+<span class="nc" id="L21">        val root = routing()</span>
+
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        for ((route, callbacks) in routes) {</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">            val routeFilters = filters.filterKeys { route.path.path.startsWith(it.path.path) }</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">            val beforeCallbacks = routeFilters.filter { it.key.order == BEFORE }.map { it.value }</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">            val afterCallbacks = routeFilters.filter { it.key.order == AFTER }.map { it.value }</span>
+
+<span class="nc" id="L28">            root.add(route.method.toString (), route.path.path, {</span>
+<span class="nc" id="L29">                val undertowExchange = Exchange (</span>
+                    UndertowRequest (it, route),
+                    UndertowResponse (it),
+                    UndertowSession (it)
+                )
+
+<span class="nc" id="L35">                try {</span>
+<span class="nc" id="L36">                    beforeCallbacks.forEach { undertowExchange.(it) () }</span>
+<span class="nc" id="L37">                    undertowExchange.(callbacks) ()</span>
+<span class="nc" id="L38">                    afterCallbacks.forEach { undertowExchange.(it) () }</span>
+                }
+<span class="nc" id="L40">                catch (e: EndException) {</span>
+                    // Just aborts the handler
+                }
+<span class="nc" id="L43">                catch (e: Exception) {</span>
+<span class="nc" id="L44">                    handleException (e, undertowExchange)</span>
+                }
+                finally {
+<span class="nc" id="L47">                    it.statusCode = undertowExchange.response.status</span>
+<span class="nc" id="L48">                    it.responseSender.send (undertowExchange.response.body.toString())</span>
+<span class="nc" id="L49">                    it.responseSender.close()</span>
+                }
+<span class="nc" id="L51">            })</span>
+        }
+
+<span class="nc" id="L54">        val gracefulShutdown = gracefulShutdown (root)</span>
+
+<span class="nc" id="L56">        builder = builder.addHttpListener(bindPort, bindAddress.hostName, gracefulShutdown)</span>
+
+<span class="nc" id="L58">        undertow = builder.build()</span>
+<span class="nc" id="L59">    }</span>
+
+    override fun startup() {
+<span class="nc" id="L62">        build ()</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if (!started)</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            undertow?.start ()</span>
+<span class="nc" id="L65">        started = true</span>
+<span class="nc" id="L66">    }</span>
+
+    override fun shutdown() {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (started)</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            undertow?.stop ()</span>
+<span class="nc" id="L71">        started = false</span>
+<span class="nc" id="L72">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
