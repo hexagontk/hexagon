@@ -40,6 +40,7 @@ dependencies {
 
     compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
     compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
+    compile ("io.undertow:undertow-core:1.4.6.Final")
 
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
