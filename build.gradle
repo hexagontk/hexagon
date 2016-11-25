@@ -15,7 +15,6 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
-
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
         classpath "com.squareup.okhttp3:okhttp:$okhttpVersion"
     }
@@ -108,16 +107,20 @@ publish.doLast {
     post (client, "$bintrayApi/jamming/maven/Hexagon/$version/publish")
 }
 
-task libraries(dependsOn: 'build', type: Copy) {
+task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
     into "$buildDir/libs"
     from configurations.runtime
 }
 
-task release (dependsOn: 'publish')
+task release (dependsOn: 'publish') {
+    doFirst { println ("TODO Check files not committed") }
+    doLast { println ("Last") }
+}
 
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 
 // TODO Use task name as type
+// TODO Upgrade version, Commit, tag and push (with `exec` task)
 task executeRelease () {
     doLast {
         def v = com.github.zafarkhaja.semver.Version.valueOf (version)

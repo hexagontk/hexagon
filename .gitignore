@@ -9,7 +9,7 @@ build/
 .classpath
 
 # Idea
-.idea
+.idea/
 
 # Runtime
 **/*.class

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class Gradle Test Executor 1</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class Gradle Test Executor 1</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/default-package.html">default-package</a> &gt; Gradle Test Executor 1</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">1</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">32.705s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Failed tests</a>
+</li>
+<li>
+<a href="#tab1">Tests</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="execution failure"></a>
+<h3 class="failures">execution failure</h3>
+<span class="code">
+<pre>org.gradle.api.internal.tasks.testing.TestSuiteExecutionException: Could not complete execution for Gradle Test Executor 1.
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:63)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
+	at com.sun.proxy.$Proxy2.stop(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.stop(TestWorker.java:120)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:377)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
+	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.testng.TestNGException: 
+Cannot instantiate class co.there4.hexagon.rest.RestPackageTest
+	at org.testng.internal.ObjectFactoryImpl.newInstance(ObjectFactoryImpl.java:40)
+	at org.powermock.modules.testng.PowerMockObjectFactory.newInstance(PowerMockObjectFactory.java:46)
+	at org.testng.internal.ClassHelper.createInstance1(ClassHelper.java:373)
+	at org.testng.internal.ClassHelper.createInstance(ClassHelper.java:285)
+	at org.testng.internal.ClassImpl.getDefaultInstance(ClassImpl.java:126)
+	at org.testng.internal.ClassImpl.getInstances(ClassImpl.java:191)
+	at org.testng.TestClass.getInstances(TestClass.java:104)
+	at org.testng.TestClass.initTestClassesAndInstances(TestClass.java:90)
+	at org.testng.TestClass.init(TestClass.java:82)
+	at org.testng.TestClass.&lt;init&gt;(TestClass.java:45)
+	at org.testng.TestRunner.initMethods(TestRunner.java:422)
+	at org.testng.TestRunner.init(TestRunner.java:252)
+	at org.testng.TestRunner.init(TestRunner.java:222)
+	at org.testng.TestRunner.&lt;init&gt;(TestRunner.java:163)
+	at org.testng.SuiteRunner$DefaultTestRunnerFactory.newTestRunner(SuiteRunner.java:566)
+	at org.testng.SuiteRunner.init(SuiteRunner.java:170)
+	at org.testng.SuiteRunner.&lt;init&gt;(SuiteRunner.java:117)
+	at org.testng.TestNG.createSuiteRunner(TestNG.java:1359)
+	at org.testng.TestNG.createSuiteRunners(TestNG.java:1346)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1200)
+	at org.testng.TestNG.runSuites(TestNG.java:1124)
+	at org.testng.TestNG.run(TestNG.java:1096)
+	at org.gradle.api.internal.tasks.testing.testng.TestNGTestClassProcessor.runTests(TestNGTestClassProcessor.java:129)
+	at org.gradle.api.internal.tasks.testing.testng.TestNGTestClassProcessor.stop(TestNGTestClassProcessor.java:88)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.stop(SuiteTestClassProcessor.java:61)
+	... 22 more
+Caused by: java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.testng.internal.ObjectFactoryImpl.newInstance(ObjectFactoryImpl.java:29)
+	... 46 more
+Caused by: com.mongodb.MongoTimeoutException: Timed out after 30000 ms while waiting for a server that matches WritableServerSelector. Client view of cluster state is {type=UNKNOWN, servers=[{address=localhost:27017, type=UNKNOWN, state=CONNECTING, exception={com.mongodb.MongoSocketOpenException: Exception opening socket}, caused by {java.net.ConnectException: Connection refused (Connection refused)}}]
+	at com.mongodb.connection.BaseCluster.createTimeoutException(BaseCluster.java:375)
+	at com.mongodb.connection.BaseCluster.selectServer(BaseCluster.java:104)
+	at com.mongodb.binding.ClusterBinding$ClusterBindingConnectionSource.&lt;init&gt;(ClusterBinding.java:75)
+	at com.mongodb.binding.ClusterBinding$ClusterBindingConnectionSource.&lt;init&gt;(ClusterBinding.java:71)
+	at com.mongodb.binding.ClusterBinding.getWriteConnectionSource(ClusterBinding.java:68)
+	at com.mongodb.operation.OperationHelper.withConnection(OperationHelper.java:221)
+	at com.mongodb.operation.CreateIndexesOperation.execute(CreateIndexesOperation.java:112)
+	at com.mongodb.operation.CreateIndexesOperation.execute(CreateIndexesOperation.java:67)
+	at com.mongodb.Mongo.execute(Mongo.java:827)
+	at com.mongodb.Mongo$2.execute(Mongo.java:810)
+	at com.mongodb.MongoCollectionImpl.createIndexes(MongoCollectionImpl.java:458)
+	at com.mongodb.MongoCollectionImpl.createIndex(MongoCollectionImpl.java:429)
+	at co.there4.hexagon.repository.MongoRepository.createIndex(MongoRepository.kt)
+	at co.there4.hexagon.repository.MongoRepository.createIndex(MongoRepository.kt:113)
+	at co.there4.hexagon.repository.MongoRepository.createIndex$default(MongoRepository.kt:112)
+	at co.there4.hexagon.repository.MongoIdRepository.&lt;init&gt;(MongoIdRepository.kt:66)
+	at co.there4.hexagon.repository.MongoIdRepository.&lt;init&gt;(MongoIdRepository.kt:37)
+	at co.there4.hexagon.repository.MongoIdRepository.&lt;init&gt;(MongoIdRepository.kt:36)
+	at co.there4.hexagon.rest.RestPackageTest.createCollection(RestPackageTest.kt:26)
+	at co.there4.hexagon.rest.RestPackageTest.&lt;init&gt;(RestPackageTest.kt:22)
+	... 51 more
+</pre>
+</span>
+</div>
+</div>
+<div id="tab1" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">execution failure</td>
+<td>32.705s</td>
+<td class="failures">failed</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 3.2</a> at Nov 25, 2016 1:58:55 PM</p>
+</div>
+</div>
+</body>
+</html>
