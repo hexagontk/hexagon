@@ -3,20 +3,17 @@ buildscript {
     repositories {
         jcenter ()
         mavenCentral ()
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
 
     dependencies {
-        classpath "org.freemarker:freemarker:$freemarkerVersion"
-        classpath "org.pegdown:pegdown:$pegdownVersion"
-        classpath "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
-        classpath "org.jbake:jbake-core:$jbakeVersion"
-        classpath "me.champeau.gradle:jbake-gradle-plugin:$jbakepluginVersion"
-
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
         classpath "com.squareup.okhttp3:okhttp:$okhttpVersion"
+
+        classpath "gradle.plugin.org.xbib.gradle.plugin:gradle-plugin-jbake:$jbakepluginVersion"
     }
 }
 

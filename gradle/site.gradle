@@ -20,14 +20,14 @@
  * TODO Site processing will be deprecated when JBake filters content with configuration properties
  */
 
-apply plugin: 'me.champeau.jbake'
+apply plugin: 'org.xbib.gradle.plugin.jbake'
 
-ext.sitePublicDir = findProperty ('sitePublicDir') ?: "${rootProject.buildDir}/$projectSite"
+ext.sitePublicDir = findProperty ('sitePublicDir') ?: "build/$projectSite"
 ext.siteImagesDir = findProperty ('siteImagesDir') ?: "$sitePublicDir/img"
 
 jbake {
-    input = file("$project.projectDir/$projectSite")
-    output = file(sitePublicDir)
+    srcDirName = projectSite
+    destDirName = "../$sitePublicDir" // It is relative to `buildDir`
 
     configuration['theme'] = bootstrapTheme
     configuration['site.host'] = siteHost
@@ -57,4 +57,12 @@ task site (dependsOn: 'jbake') {
             )
         }
     }
+}
+
+task cleanSite(type: Delete) {
+    delete("$sitePublicDir/dokka")
+    delete("$sitePublicDir/jacoco")
+    delete("$sitePublicDir/testng")
+
+    delete fileTree(dir: sitePublicDir , include: "*.html")
 }
