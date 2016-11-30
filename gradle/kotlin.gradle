@@ -9,6 +9,7 @@ apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.dokka'
 
 ext.projectSite = findProperty ('projectSite') ?: 'site'
+ext.sitePublicDir = findProperty ('sitePublicDir') ?: "$buildDir/$projectSite"
 
 ext.testngVersion = findProperty ('testngVersion') ?: '6.9.13.6'
 ext.mockitoVersion = findProperty ('mockitoVersion') ?: '2.2.8'
