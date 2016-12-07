@@ -5,7 +5,7 @@ defaultTasks 'install'
 
 ext.deployDir = findProperty ('deployDir') ?: '/opt'
 ext.serviceUser = findProperty ('serviceUser') ?: 'root'
-ext.serviceGroup = findProperty ('serviceGroup') ?: 'root'
+ext.serviceGroup = findProperty ('serviceGroup') ?: serviceUser
 
 File projectDestinationDir = file("$rootProject.buildDir/$project.name")
 

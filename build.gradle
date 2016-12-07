@@ -70,11 +70,10 @@ wrapper {
 }
 
 clean {
+    delete "build", "log", ".gradle"
+
     delete fileTree(dir: rootDir , include: "*.log")
     delete fileTree(dir: rootDir , include: '*.class')
-    delete rootProject.buildDir
-    delete "$rootDir/log"
-    delete "build"
 }
 
 test {

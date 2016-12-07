@@ -43,7 +43,7 @@ object FileRepository {
      * @return .
      */
     fun load(name: String, output: OutputStream): Map<String, *> {
-        gridfs.downloadToStreamByName(name, output)
+        gridfs.downloadToStream(name, output)
         return gridfs.find("filename" eq name).first().metadata
     }
 }
