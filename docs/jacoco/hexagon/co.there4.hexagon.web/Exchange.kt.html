@@ -97,9 +97,7 @@ import java.util.Locale.forLanguageTag as localeFor
 <span class="fc" id="L97">        response.body = content</span>
 
 <span class="fc bfc" id="L99" title="All 2 branches covered.">        if (contentType != null)</span>
-            response.contentType =
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                if(contentType.contains(&quot;charset&quot;)) contentType</span>
-<span class="fc" id="L102">                else &quot;$contentType; charset=${defaultCharset().name()}&quot;</span>
-<span class="fc" id="L103">    }</span>
+<span class="fc" id="L100">            response.contentType = contentType</span>
+<span class="fc" id="L101">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
