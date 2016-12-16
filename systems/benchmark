@@ -1,5 +1,0 @@
-#!/bin/sh
-
-CP=$(find ~/libs -name "*.jar"|tr '\n' ':')
-echo 'development' >~/.environment
-java -classpath $CP co.there4.hexagon.BenchmarkKt $@
