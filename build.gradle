@@ -60,20 +60,20 @@ dependencies {
     }
 }
 
-String wrapperPath = "gradle"
-String wrapperBaseFile = "$projectDir/$wrapperPath/wrapper"
-
 wrapper {
+    String wrapperBaseFile = "$projectDir/gradle/wrapper"
+
     gradleVersion = wrapperGradleVersion
     jarFile = wrapperBaseFile + ".jar"
     scriptFile = wrapperBaseFile
+    distributionType = 'all'
 }
 
 clean {
     delete "build", "log", ".gradle"
 
-    delete fileTree(dir: rootDir , include: "*.log")
-    delete fileTree(dir: rootDir , include: '*.class')
+    delete fileTree(rootDir) { include '**/*.log' }
+    delete fileTree(rootDir) { include '**/*.class' }
 }
 
 test {

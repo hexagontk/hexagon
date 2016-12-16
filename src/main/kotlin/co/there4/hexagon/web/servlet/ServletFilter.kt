@@ -67,7 +67,7 @@ class ServletFilter (private val router: Router) : Filter {
 
                 // Should be done BEFORE flushing the stream (if not content type is ignored)
                 if (response.contentType == null && contentType != null)
-                    response.contentType = "$contentType; charset=${defaultCharset().name()}"
+                    response.contentType = contentType
 
                 response.outputStream.write(stream.readBytes())
                 response.outputStream.flush()

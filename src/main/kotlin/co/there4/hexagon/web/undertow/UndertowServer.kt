@@ -7,9 +7,10 @@ import co.there4.hexagon.web.Server
 import io.undertow.Undertow
 import io.undertow.Handlers.*
 import java.net.InetAddress
+import java.net.InetAddress.getByName as address
 
-class UndertowServer(
-    bind: InetAddress = InetAddress.getByName("localhost"), port: Int = 4321): Server(bind, port) {
+class UndertowServer(bindAddress: InetAddress = address("localhost"), bindPort: Int = 2010):
+    Server(bindAddress, bindPort) {
 
     var builder: Undertow.Builder = Undertow.builder()
     var undertow: Undertow? = null
