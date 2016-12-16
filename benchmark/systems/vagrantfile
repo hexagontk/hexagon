@@ -1,0 +1,62 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'yaml'
+
+projectName = 'hexagon_benchmark' # TODO Take project's directory name or 'gradle.properties' name
+
+#
+# Disable default shared folder.
+#
+# WARN: Install Vagrant from HashiCorp's packages, Linux distributions' ones can be broken
+#
+# sudo vagrant plugin install vagrant-digitalocean
+# vagrant plugin install vagrant-digitalocean
+#
+# For a complete reference, please see the online documentation at: https://docs.vagrantup.com
+#
+Vagrant.configure(2) do |config|
+  config.vm.box = 'jamming/centos_java'
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.hostname = projectName.tr('_', '-')
+  config.vm.post_up_message = "<#{projectName}> UP"
+
+  config.vm.provider :digital_ocean do |provider, override|
+    digitalOceanSettings = YAML::load_file('/home/jam/.vagrant.d/digitalOcean.yaml')
+
+    override.ssh.private_key_path = "~/.ssh/#{digitalOceanSettings['sshKey']}"
+
+    override.vm.box = 'digital_ocean'
+    override.vm.box_url =
+      'https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box'
+
+    provider.ssh_key_name = digitalOceanSettings['sshKey']
+    provider.token = digitalOceanSettings['apiKey']
+    provider.image = 'centos-7-2-x64'
+    provider.region = 'lon1'
+    provider.size = '8gb'
+  end
+
+  config.vm.provision :docker, images: %w(mongo mysql) do |d|
+    d.run 'mongo', image: 'mongo', args: '-p 27017:27017'
+    d.run 'mysql', image: 'mysql', args: '-p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
+  end
+
+  config.vm.provision :file, source: "../build/#{projectName}", destination: '~'
+
+  inline_shell config, 'sudo yum -q -y install wget java-1.8.0-openjdk-devel'
+  inline_shell config, 'sudo systemctl enable firewalld'
+  inline_shell config, 'sudo systemctl start firewalld'
+  inline_shell config, 'sudo firewall-cmd --permanent --add-port=9090/tcp'
+  inline_shell config, 'sudo firewall-cmd --reload'
+
+  serviceFile = "/opt/#{projectName}/bin/#{projectName}.service"
+  inline_shell config, "sudo mv -f /root/#{projectName} /opt"
+  inline_shell config, "sudo mv -f #{serviceFile} /etc/systemd/system"
+  inline_shell config, "sudo systemctl enable #{projectName}"
+  inline_shell config, "sudo systemctl start #{projectName}"
+end
+
+def inline_shell(config, command)
+  config.vm.provision :shell, inline: command
+end

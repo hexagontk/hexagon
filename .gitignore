@@ -16,6 +16,4 @@ build/
 *.log
 .vagrant/
 log/
-
-# Setup
-dump/
+benchmark/systems/load_test.jtl

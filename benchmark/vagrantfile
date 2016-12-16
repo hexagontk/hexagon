@@ -1,0 +1,58 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+project_name = 'hexagon_benchmark' # TODO Take directory name or 'gradle.properties' name
+
+#
+# Disable default shared folder.
+#
+# WARN: Install Vagrant from HashiCorp's packages, Linux distributions' ones can be broken
+#
+# sudo vagrant plugin install vagrant-digitalocean
+# vagrant plugin install vagrant-digitalocean
+#
+# For a complete reference, please see the online documentation at: https://docs.vagrantup.com
+#
+Vagrant.configure(2) do |config|
+  config.vm.box = 'jamming/centos_java'
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.network :private_network, ip: '192.168.0.10'
+  config.vm.hostname = project_name.tr('_', '-')
+  config.vm.post_up_message = "<#{project_name}> UP"
+
+  config.vm.provider :virtualbox do |vb|
+    vb.name = project_name
+    vb.cpus = 4
+    vb.memory = 1024
+    vb.customize [:modifyvm, :id, '--paravirtprovider', 'kvm']
+    vb.customize [:modifyvm, :id, '--cpuexecutioncap', '90']
+  end
+
+  config.vm.provision :docker, images: %w(mongo mysql) do |d|
+    d.run 'mongo', image: 'mongo', args: '-p 27017:27017'
+    d.run 'mysql', image: 'mysql', args: '-p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
+  end
+
+  config.vm.provision :file, source: "build/#{project_name}", destination: '~'
+  config.vm.provision :file, source: 'build/libs/ROOT.war', destination: '~/ROOT.war'
+
+  resinUrl = 'http://www.caucho.com/download/rpm-6.8/4.0.49/x86_64/resin-4.0.49-1.x86_64.rpm'
+  inline_shell config, "yum -q -y install #{resinUrl} || true"
+  inline_shell config, 'rm -rf /var/resin/webapps/ROOT'
+  inline_shell config, 'mv -f /home/vagrant/ROOT.war /var/resin/webapps'
+  inline_shell config, 'systemctl start resin'
+  inline_shell config, 'systemctl enable resin'
+  inline_shell config, 'firewall-cmd --permanent --add-port=9090/tcp'
+  inline_shell config, 'firewall-cmd --permanent --add-port=8080/tcp'
+  inline_shell config, 'firewall-cmd --reload'
+
+  serviceFile = "/opt/#{project_name}/bin/#{project_name}.service"
+  inline_shell config, "mv -f /home/vagrant/#{project_name} /opt || true"
+  inline_shell config, "mv -f #{serviceFile} /etc/systemd/system || true"
+  inline_shell config, "systemctl start #{project_name}"
+  inline_shell config, "systemctl enable #{project_name}"
+end
+
+def inline_shell(config, command)
+  config.vm.provision :shell, inline: command
+end

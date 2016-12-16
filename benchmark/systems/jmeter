@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+JMETER_HOME=/opt/jmeter_3_1
+$JMETER_HOME/bin/jmeter -n -t load_test.jmx -l load_test.jtl
+
