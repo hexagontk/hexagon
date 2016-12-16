@@ -67,7 +67,7 @@ import javax.servlet.http.HttpServletResponse
 
                 // Should be done BEFORE flushing the stream (if not content type is ignored)
 <span class="pc bpc" id="L69" title="2 of 4 branches missed.">                if (response.contentType == null &amp;&amp; contentType != null)</span>
-<span class="fc" id="L70">                    response.contentType = &quot;$contentType; charset=${defaultCharset().name()}&quot;</span>
+<span class="fc" id="L70">                    response.contentType = contentType</span>
 
 <span class="fc" id="L72">                response.outputStream.write(stream.readBytes())</span>
 <span class="fc" id="L73">                response.outputStream.flush()</span>

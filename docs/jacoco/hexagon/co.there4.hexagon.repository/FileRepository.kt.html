@@ -43,7 +43,7 @@ import java.util.Base64.getDecoder as base64Decoder
      * @return .
      */
     fun load(name: String, output: OutputStream): Map&lt;String, *&gt; {
-<span class="nc" id="L46">        gridfs.downloadToStreamByName(name, output)</span>
+<span class="nc" id="L46">        gridfs.downloadToStream(name, output)</span>
 <span class="nc" id="L47">        return gridfs.find(&quot;filename&quot; eq name).first().metadata</span>
     }
 }
