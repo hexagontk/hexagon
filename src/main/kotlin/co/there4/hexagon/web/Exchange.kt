@@ -97,8 +97,6 @@ data class Exchange (
         response.body = content
 
         if (contentType != null)
-            response.contentType =
-                if(contentType.contains("charset")) contentType
-                else "$contentType; charset=${defaultCharset().name()}"
+            response.contentType = contentType
     }
 }
