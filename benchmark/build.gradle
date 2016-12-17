@@ -25,10 +25,7 @@ applicationDefaultJvmArgs = [
 ]
 
 clean {
-    delete "build", "log", ".gradle", "systems/load_test.jtl", "systems/jmeter.log"
-
-    delete fileTree(rootDir) { include '**/*.log' }
-    delete fileTree(rootDir) { include '**/*.class' }
+    delete "systems/load_test.jtl", "systems/jmeter.log"
 }
 
 war {

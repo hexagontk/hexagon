@@ -71,7 +71,7 @@ class BenchmarkTest {
 
         checkResponse(response, "application/json")
         val bodyMap = body.parse(Map::class)
-        assert(bodyMap.containsKey(World::_id.name))
+        assert(bodyMap.containsKey(World::id.name))
         assert(bodyMap.containsKey(World::randomNumber.name))
     }
 
@@ -81,7 +81,7 @@ class BenchmarkTest {
 
         checkResponse(response, "application/json")
         val bodyMap = body.parse(Map::class)
-        assert(bodyMap.containsKey(World::_id.name))
+        assert(bodyMap.containsKey(World::id.name))
         assert(bodyMap.containsKey(World::randomNumber.name))
     }
 
@@ -108,16 +108,15 @@ class BenchmarkTest {
         val content = response.responseBody
 
         checkResponse(response, "application/json")
-        checkResultItems(content, itemsCount)
-    }
 
-    private fun checkResultItems(result: String, size: Int) {
-        val resultsList = result.parse(List::class)
-        assert(size == resultsList.size)
+        val resultsList = content.parse(List::class)
+        assert(itemsCount == resultsList.size)
 
-        (1..size).forEach {
+        (1..itemsCount).forEach {
             val r = resultsList[it - 1] as Map<*, *>
-            assert(r.containsKey(World::_id.name) && r.containsKey(World::randomNumber.name))
+            assert(r.containsKey(World::id.name) && r.containsKey(World::randomNumber.name))
+            assert(!r.containsKey(World::_id.name))
+            assert((r[World::id.name] as Int) in 1..10000)
         }
     }
 

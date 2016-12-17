@@ -22,7 +22,7 @@ jar {
 
 startScripts {
     String template = new URL ("$gradleScripts/startScript").text
-    println unixStartScriptGenerator.template // TODO Print start script
+//    println unixStartScriptGenerator.template // TODO Print start script
     unixStartScriptGenerator.template = resources.text.fromString (template)
 }
 

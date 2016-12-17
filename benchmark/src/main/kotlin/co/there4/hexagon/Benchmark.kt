@@ -1,6 +1,7 @@
 package co.there4.hexagon
 
 import co.there4.hexagon.rest.crud
+import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.servlet.ServletServer
@@ -14,7 +15,7 @@ import javax.servlet.annotation.WebListener
 // DATA CLASSES
 internal data class Message(val message: String = "Hello, World!")
 internal data class Fortune(val _id: Int, val message: String)
-internal data class World(val _id: Int, val randomNumber: Int = rnd())
+internal data class World(val _id: Int, val id: Int = _id, val randomNumber: Int = rnd())
 
 // CONSTANTS
 private val CONTENT_TYPE_JSON = "application/json"
@@ -25,12 +26,16 @@ private val fortune = Fortune(0, "Additional fortune added at request time.")
 // UTILITIES
 internal fun rnd() = ThreadLocalRandom.current().nextInt(DB_ROWS) + 1
 
+private fun World.strip(): Map<*, *> = this.convertToMap().filterKeys { it != "_id" }
+private fun World.toJson(): String = this.strip().serialize()
+private fun List<World>.toJson(): String = this.map(World::strip).serialize()
+
 private fun Exchange.hasQueryCount() = request[QUERIES_PARAM] == null
 
 private fun Exchange.getDb() {
     val worlds = (1..getQueries()).map { findWorld() }.filterNotNull()
 
-    ok(if (hasQueryCount()) worlds[0].serialize() else worlds.serialize(), CONTENT_TYPE_JSON)
+    ok(if (hasQueryCount()) worlds[0].toJson() else worlds.toJson(), CONTENT_TYPE_JSON)
 }
 
 private fun listFortunes() = (findFortunes() + fortune).sortedBy { it.message }
@@ -44,7 +49,7 @@ private fun Exchange.getUpdates() {
         newWorld
     }
 
-    ok(if (hasQueryCount()) worlds[0].serialize() else worlds.serialize(), CONTENT_TYPE_JSON)
+    ok(if (hasQueryCount()) worlds[0].toJson() else worlds.toJson(), CONTENT_TYPE_JSON)
 }
 
 private fun Exchange.getQueries() =
