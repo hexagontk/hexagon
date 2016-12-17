@@ -1,7 +1,11 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require_relative 'systems/vagrant.rb'
+
 project_name = 'hexagon_benchmark' # TODO Take directory name or 'gradle.properties' name
+resin_url = 'http://www.caucho.com/download/rpm-6.8'
+resin_version = '4.0.49'
 
 #
 # Disable default shared folder.
@@ -33,26 +37,22 @@ Vagrant.configure(2) do |config|
     d.run 'mysql', image: 'mysql', args: '-p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
   end
 
-  config.vm.provision :file, source: "build/#{project_name}", destination: '~'
-  config.vm.provision :file, source: 'build/libs/ROOT.war', destination: '~/ROOT.war'
+  # noinspection RubyLiteralArrayInspection
+  upload config, [ "build/#{project_name}", '~' ], [ 'build/libs/ROOT.war', '~/ROOT.war' ]
 
-  resinUrl = 'http://www.caucho.com/download/rpm-6.8/4.0.49/x86_64/resin-4.0.49-1.x86_64.rpm'
-  inline_shell config, "yum -q -y install #{resinUrl} || true"
-  inline_shell config, 'rm -rf /var/resin/webapps/ROOT'
-  inline_shell config, 'mv -f /home/vagrant/ROOT.war /var/resin/webapps'
-  inline_shell config, 'systemctl start resin'
-  inline_shell config, 'systemctl enable resin'
-  inline_shell config, 'firewall-cmd --permanent --add-port=9090/tcp'
-  inline_shell config, 'firewall-cmd --permanent --add-port=8080/tcp'
-  inline_shell config, 'firewall-cmd --reload'
+  command config,
+    "yum -qy install #{resin_url}/#{resin_version}/x86_64/resin-#{resin_version}-1.x86_64.rpm",
+    'rm -rf /var/resin/webapps/ROOT',
+    'mv -f /home/vagrant/ROOT.war /var/resin/webapps',
+    'systemctl start resin',
+    'systemctl enable resin',
+    'firewall-cmd --permanent --add-port=9090/tcp',
+    'firewall-cmd --permanent --add-port=8080/tcp',
+    'firewall-cmd --reload'
 
-  serviceFile = "/opt/#{project_name}/bin/#{project_name}.service"
-  inline_shell config, "mv -f /home/vagrant/#{project_name} /opt || true"
-  inline_shell config, "mv -f #{serviceFile} /etc/systemd/system || true"
-  inline_shell config, "systemctl start #{project_name}"
-  inline_shell config, "systemctl enable #{project_name}"
-end
-
-def inline_shell(config, command)
-  config.vm.provision :shell, inline: command
+  command config,
+    "mv -f /home/vagrant/#{project_name} /opt || true",
+    "mv -f /opt/#{project_name}/bin/#{project_name}.service /etc/systemd/system || true",
+    "systemctl start #{project_name}",
+    "systemctl enable #{project_name}"
 end
