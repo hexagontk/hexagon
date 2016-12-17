@@ -2,8 +2,7 @@
 # vi: set ft=ruby :
 
 require 'yaml'
-
-projectName = 'hexagon_benchmark' # TODO Take project's directory name or 'gradle.properties' name
+require_relative 'vagrant.rb'
 
 #
 # Disable default shared folder.
@@ -18,8 +17,8 @@ projectName = 'hexagon_benchmark' # TODO Take project's directory name or 'gradl
 Vagrant.configure(2) do |config|
   config.vm.box = 'jamming/centos_java'
   config.vm.synced_folder '.', '/vagrant', disabled: true
-  config.vm.hostname = projectName.tr('_', '-')
-  config.vm.post_up_message = "<#{projectName}> UP"
+  config.vm.hostname = $project_name
+  config.vm.post_up_message = "<#{$project_name}> UP"
 
   config.vm.provider :digital_ocean do |provider, override|
     digitalOceanSettings = YAML::load_file('/home/jam/.vagrant.d/digitalOcean.yaml')
@@ -37,26 +36,20 @@ Vagrant.configure(2) do |config|
     provider.size = '8gb'
   end
 
-  config.vm.provision :docker, images: %w(mongo mysql) do |d|
-    d.run 'mongo', image: 'mongo', args: '-p 27017:27017'
-    d.run 'mysql', image: 'mysql', args: '-p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-  end
+  installDbs config
 
-  config.vm.provision :file, source: "../build/#{projectName}", destination: '~'
+  upload config, [ "../build/#{$project_name}", '~' ]
 
-  inline_shell config, 'sudo yum -q -y install wget java-1.8.0-openjdk-devel'
-  inline_shell config, 'sudo systemctl enable firewalld'
-  inline_shell config, 'sudo systemctl start firewalld'
-  inline_shell config, 'sudo firewall-cmd --permanent --add-port=9090/tcp'
-  inline_shell config, 'sudo firewall-cmd --reload'
+  command config,
+    'sudo yum -q -y install wget java-1.8.0-openjdk-devel',
+    'sudo systemctl enable firewalld',
+    'sudo systemctl start firewalld',
+    'sudo firewall-cmd --permanent --add-port=9090/tcp',
+    'sudo firewall-cmd --reload'
 
-  serviceFile = "/opt/#{projectName}/bin/#{projectName}.service"
-  inline_shell config, "sudo mv -f /root/#{projectName} /opt"
-  inline_shell config, "sudo mv -f #{serviceFile} /etc/systemd/system"
-  inline_shell config, "sudo systemctl enable #{projectName}"
-  inline_shell config, "sudo systemctl start #{projectName}"
-end
-
-def inline_shell(config, command)
-  config.vm.provision :shell, inline: command
+  command config,
+    "sudo mv -f /root/#{$project_name} /opt",
+    "sudo mv -f /opt/#{$project_name}/bin/#{$project_name}.service /etc/systemd/system",
+    "sudo systemctl enable #{$project_name}",
+    "sudo systemctl start #{$project_name}"
 end

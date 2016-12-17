@@ -3,10 +3,6 @@
 
 require_relative 'systems/vagrant.rb'
 
-project_name = 'hexagon_benchmark' # TODO Take directory name or 'gradle.properties' name
-resin_url = 'http://www.caucho.com/download/rpm-6.8'
-resin_version = '4.0.49'
-
 #
 # Disable default shared folder.
 #
@@ -21,27 +17,24 @@ Vagrant.configure(2) do |config|
   config.vm.box = 'jamming/centos_java'
   config.vm.synced_folder '.', '/vagrant', disabled: true
   config.vm.network :private_network, ip: '192.168.0.10'
-  config.vm.hostname = project_name.tr('_', '-')
-  config.vm.post_up_message = "<#{project_name}> UP"
+  config.vm.hostname = $project_name
+  config.vm.post_up_message = "<#{$project_name}> UP"
 
   config.vm.provider :virtualbox do |vb|
-    vb.name = project_name
+    vb.name = $project_name
     vb.cpus = 4
     vb.memory = 1024
     vb.customize [:modifyvm, :id, '--paravirtprovider', 'kvm']
     vb.customize [:modifyvm, :id, '--cpuexecutioncap', '90']
   end
 
-  config.vm.provision :docker, images: %w(mongo mysql) do |d|
-    d.run 'mongo', image: 'mongo', args: '-p 27017:27017'
-    d.run 'mysql', image: 'mysql', args: '-p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes'
-  end
+  installDbs config
 
   # noinspection RubyLiteralArrayInspection
-  upload config, [ "build/#{project_name}", '~' ], [ 'build/libs/ROOT.war', '~/ROOT.war' ]
+  upload config, [ "build/#{$project_name}", '~' ], [ 'build/libs/ROOT.war', '~/ROOT.war' ]
 
   command config,
-    "yum -qy install #{resin_url}/#{resin_version}/x86_64/resin-#{resin_version}-1.x86_64.rpm",
+    "yum -qy install #{$resin_url}/#{$resin_version}/x86_64/resin-#{$resin_version}-1.x86_64.rpm",
     'rm -rf /var/resin/webapps/ROOT',
     'mv -f /home/vagrant/ROOT.war /var/resin/webapps',
     'systemctl start resin',
@@ -51,8 +44,8 @@ Vagrant.configure(2) do |config|
     'firewall-cmd --reload'
 
   command config,
-    "mv -f /home/vagrant/#{project_name} /opt || true",
-    "mv -f /opt/#{project_name}/bin/#{project_name}.service /etc/systemd/system || true",
-    "systemctl start #{project_name}",
-    "systemctl enable #{project_name}"
+    "mv -f /home/vagrant/#{$project_name} /opt || true",
+    "mv -f /opt/#{$project_name}/bin/#{$project_name}.service /etc/systemd/system || true",
+    "systemctl start #{$project_name}",
+    "systemctl enable #{$project_name}"
 end
