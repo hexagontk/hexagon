@@ -38,18 +38,27 @@ Vagrant.configure(2) do |config|
 
   installDbs config
 
-  upload config, [ "../build/#{$project_name}", '~' ]
+  # noinspection RubyLiteralArrayInspection
+  upload config,
+    [ "../build/#{$project_name}", '~' ],
+    [ '../benchmark/build/libs/ROOT.war', '~/ROOT.war' ]
 
+  resin = "#{$resin_url}/#{$resin_version}/x86_64/resin-#{$resin_version}-1.x86_64.rpm"
   command config,
-    'sudo yum -q -y install wget java-1.8.0-openjdk-devel',
+    "yum -q -y install wget java-1.8.0-openjdk-devel #{resin} || true",
+    'sudo rm -rf /var/resin/webapps/ROOT',
+    'sudo mv -f /root/ROOT.war /var/resin/webapps',
+    'sudo systemctl start resin',
+    'sudo systemctl enable resin',
     'sudo systemctl enable firewalld',
     'sudo systemctl start firewalld',
     'sudo firewall-cmd --permanent --add-port=9090/tcp',
+    'sudo firewall-cmd --permanent --add-port=8080/tcp',
     'sudo firewall-cmd --reload'
 
   command config,
-    "sudo mv -f /root/#{$project_name} /opt",
-    "sudo mv -f /opt/#{$project_name}/bin/#{$project_name}.service /etc/systemd/system",
+    "sudo mv -f /root/#{$project_name} /opt || true",
+    "sudo mv -f /opt/#{$project_name}/bin/#{$project_name}.service /etc/systemd/system || true",
     "sudo systemctl enable #{$project_name}",
     "sudo systemctl start #{$project_name}"
 end
