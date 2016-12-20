@@ -4,6 +4,7 @@ buildscript {
         jcenter ()
         mavenCentral ()
         maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url "http://dl.bintray.com/pledbrook/plugins" }
     }
 
     dependencies {
@@ -14,6 +15,8 @@ buildscript {
         classpath "com.squareup.okhttp3:okhttp:$okhttpVersion"
 
         classpath "gradle.plugin.org.xbib.gradle.plugin:gradle-plugin-jbake:$jbakepluginVersion"
+
+        classpath "uk.co.cacoethes:lazybones-gradle:1.2.4"
     }
 }
 
@@ -23,6 +26,8 @@ ext.findProperty = { Object key -> hasProperty(key) ? getProperty(key) : null }
 apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
+
+apply plugin: "uk.co.cacoethes.lazybones-templates"
 
 defaultTasks 'build'
 
@@ -93,6 +98,16 @@ packageTest {
     exclude('/*.xml')
     exclude('/*.json')
     exclude('/*.txt')
+}
+
+lazybones {
+    repositoryName = "jamming/hexagon"
+
+    repositoryUsername = "your_bintray_username"
+    repositoryApiKey = "your_bintray_api_key"
+
+    licenses = [ "MIT" ]
+    vcsUrl = "https://github.com/jaguililla/hexagon"
 }
 
 site.dependsOn 'dokka', 'jacocoTestReport'

@@ -1,0 +1,19 @@
+
+# Gradle
+.gradle/
+build/
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# Idea
+.idea/
+
+# Runtime
+**/*.class
+*.log
+.vagrant/
+log/
+benchmark/systems/load_test.jtl
