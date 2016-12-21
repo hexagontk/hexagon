@@ -24,12 +24,4 @@ applicationDefaultJvmArgs = [
     '-XX:+AggressiveOpts'
 ]
 
-clean {
-    delete "systems/load_test.jtl", "systems/jmeter.log"
-}
-
-war {
-    archiveName = "ROOT.war"
-}
-
 installDist.dependsOn 'war'

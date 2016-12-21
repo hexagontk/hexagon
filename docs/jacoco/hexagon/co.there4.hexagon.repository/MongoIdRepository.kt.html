@@ -133,7 +133,7 @@ import kotlin.reflect.jvm.javaType
     fun find (documentId: K): T? =
 <span class="fc" id="L134">        findObjects (convertKeyName(key.name) eq convertId(documentId)).first ()</span>
 
-<span class="pc bpc" id="L136" title="1 of 2 branches missed.">    fun isEmpty() = count() == 0L</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">    fun isEmpty() = count() == 0L</span>
 
 <span class="fc" id="L138">    fun getKey (obj: T): K = (key.getter)(obj)</span>
 

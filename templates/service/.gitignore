@@ -14,6 +14,4 @@ build/
 # Runtime
 **/*.class
 *.log
-.vagrant/
 log/
-benchmark/systems/load_test.jtl

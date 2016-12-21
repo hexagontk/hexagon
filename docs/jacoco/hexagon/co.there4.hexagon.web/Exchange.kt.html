@@ -56,17 +56,17 @@ import java.util.Locale.forLanguageTag as localeFor
 <span class="fc" id="L56">    }</span>
 
     fun template(template: String, context: Map&lt;String, *&gt; = mapOf&lt;String, Any&gt;()) {
-<span class="fc" id="L59">        template(template, obtainLocale(), context)</span>
-<span class="fc" id="L60">    }</span>
+<span class="nc" id="L59">        template(template, obtainLocale(), context)</span>
+<span class="nc" id="L60">    }</span>
 
     fun template(template: String, vararg context: Pair&lt;String, *&gt;) =
-<span class="fc" id="L63">        template(template, context.toMap())</span>
+<span class="nc" id="L63">        template(template, context.toMap())</span>
 
     fun page(callback: TagConsumer&lt;String&gt;.() -&gt; String) {
-<span class="fc" id="L66">        val html = createHTML().callback()</span>
-<span class="fc" id="L67">        response.contentType = &quot;text/html; charset=${defaultCharset().name()}&quot;</span>
-<span class="fc" id="L68">        ok(&quot;&lt;!DOCTYPE html&gt;\n\n$html&quot;)</span>
-<span class="fc" id="L69">    }</span>
+<span class="nc" id="L66">        val html = createHTML().callback()</span>
+<span class="nc" id="L67">        response.contentType = &quot;text/html; charset=${defaultCharset().name()}&quot;</span>
+<span class="nc" id="L68">        ok(&quot;&lt;!DOCTYPE html&gt;\n\n$html&quot;)</span>
+<span class="nc" id="L69">    }</span>
 
     fun file(name: String) {
 <span class="nc" id="L72">        val meta = load(name, response.outputStream)</span>
@@ -85,19 +85,19 @@ import java.util.Locale.forLanguageTag as localeFor
      * 5. Server default locale
      */
     private fun obtainLocale() = when {
-<span class="pc bpc" id="L88" title="4 of 6 branches missed.">        attributes[&quot;lang&quot;] as? String != null -&gt; localeFor(attributes[&quot;lang&quot;] as String)</span>
-<span class="fc" id="L89">        else -&gt; Locale.getDefault()</span>
-<span class="fc" id="L90">    }</span>
+<span class="nc bnc" id="L88" title="All 6 branches missed.">        attributes[&quot;lang&quot;] as? String != null -&gt; localeFor(attributes[&quot;lang&quot;] as String)</span>
+<span class="nc" id="L89">        else -&gt; Locale.getDefault()</span>
+<span class="nc" id="L90">    }</span>
 
     fun httpDate (date: LocalDateTime): String =
-<span class="fc" id="L93">        RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of(&quot;GMT&quot;)))</span>
+<span class="nc" id="L93">        RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of(&quot;GMT&quot;)))</span>
 
     private fun send(code: Int, content: Any, contentType: String? = null) {
 <span class="fc" id="L96">        response.status = code</span>
 <span class="fc" id="L97">        response.body = content</span>
 
-<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (contentType != null)</span>
-<span class="fc" id="L100">            response.contentType = contentType</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if (contentType != null)</span>
+<span class="nc" id="L100">            response.contentType = contentType</span>
 <span class="fc" id="L101">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

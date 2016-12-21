@@ -127,7 +127,7 @@ fun parseQueryParameters(query: String): Map&lt;String, String&gt; =
 <span class="pc bpc" id="L127" title="2 of 4 branches missed.">        query.split(&quot;&amp;&quot;.toRegex())</span>
 <span class="fc" id="L128">            .map {</span>
 <span class="fc" id="L129">                val kv = it.split(&quot;=&quot;)</span>
-<span class="pc bpc" id="L130" title="2 of 6 branches missed.">                kv[0].trim () to (if (kv.size == 2) kv[1].trim() else &quot;&quot;)</span>
+<span class="pc bpc" id="L130" title="3 of 6 branches missed.">                kv[0].trim () to (if (kv.size == 2) kv[1].trim() else &quot;&quot;)</span>
             }
 <span class="fc" id="L132">            .toMap(LinkedHashMap&lt;String, String&gt;())</span>
 

@@ -16,7 +16,7 @@ require_relative 'systems/vagrant.rb'
 Vagrant.configure(2) do |config|
   config.vm.box = 'jamming/centos_java'
   config.vm.synced_folder '.', '/vagrant', disabled: true
-  config.vm.network :private_network, ip: '10.0.1.10'
+  config.vm.network :private_network, ip: '10.1.1.1'
   config.vm.hostname = $project_name
   config.vm.post_up_message = "<#{$project_name}> UP"
 

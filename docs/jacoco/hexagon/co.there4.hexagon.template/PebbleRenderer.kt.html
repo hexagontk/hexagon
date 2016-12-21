@@ -26,12 +26,12 @@ import java.util.*
 <span class="pc bpc" id="L26" title="1 of 2 branches missed.">        .build() ?: error(&quot;Error setting up Pebble&quot;)</span>
 
     private fun loadProps (path: String) =
-<span class="pc bpc" id="L29" title="1 of 4 branches missed.">        resourceAsStream(&quot;$basePath/$path.yaml&quot;)?.parse (&quot;application/yaml&quot;) ?: mapOf&lt;String, Any&gt;()</span>
+<span class="pc bpc" id="L29" title="2 of 4 branches missed.">        resourceAsStream(&quot;$basePath/$path.yaml&quot;)?.parse (&quot;application/yaml&quot;) ?: mapOf&lt;String, Any&gt;()</span>
 
     fun render (template: String, locale: Locale, context: Map&lt;String, *&gt;): String {
         @Suppress(&quot;UNCHECKED_CAST&quot;)
 <span class="fc" id="L33">        fun loadBundle (path: String): Map&lt;String, *&gt; = loadProps(path).let {</span>
-<span class="pc bpc" id="L34" title="7 of 16 branches missed.">            (it[locale.language] ?: if (it.isNotEmpty()) it.entries.first().value else it)</span>
+<span class="pc bpc" id="L34" title="10 of 16 branches missed.">            (it[locale.language] ?: if (it.isNotEmpty()) it.entries.first().value else it)</span>
 <span class="fc" id="L35">                as Map&lt;String, *&gt; + (it[&quot;data&quot;] ?: mapOf&lt;String, Any&gt;()) as Map&lt;String, *&gt;</span>
 <span class="fc" id="L36">        }</span>
 
