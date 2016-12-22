@@ -6,14 +6,11 @@
  *     repositories {
  *         jcenter ()
  *         mavenCentral ()
+ *         maven { url 'https://plugins.gradle.org/m2/' }
  *     }
  *
  *     dependencies {
- *         classpath "org.freemarker:freemarker:$freemarkerVersion"
- *         classpath "org.pegdown:pegdown:$pegdownVersion"
- *         classpath "org.asciidoctor:asciidoctorj:$asciidoctorjVersion"
- *         classpath "co.there4.jbake:jbake-core:$jbakeVersion"
- *         classpath "me.champeau.gradle:jbake-gradle-plugin:$jbakepluginVersion"
+ *         classpath "gradle.plugin.org.xbib.gradle.plugin:gradle-plugin-jbake:$jbakepluginVersion"
  *     }
  * }
  *
@@ -57,12 +54,4 @@ task site (dependsOn: 'jbake') {
             )
         }
     }
-}
-
-task cleanSite(type: Delete) {
-    delete("$sitePublicDir/dokka")
-    delete("$sitePublicDir/jacoco")
-    delete("$sitePublicDir/testng")
-
-    delete fileTree(dir: sitePublicDir , include: "*.html")
 }

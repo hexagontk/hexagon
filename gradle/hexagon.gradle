@@ -1,7 +1,5 @@
 
 ext.hexagonVersion = findProperty ('hexagonVersion') ?: '0.9.11'
-ext.gradleScripts = findProperty ('gradleScripts') ?:
-    'https://raw.githubusercontent.com/jaguililla/hexagon/master/gradle'
 
 apply from: "$gradleScripts/kotlin.gradle"
 
