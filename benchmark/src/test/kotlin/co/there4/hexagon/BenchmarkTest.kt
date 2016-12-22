@@ -2,6 +2,7 @@ package co.there4.hexagon
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.web.Client
+import co.there4.hexagon.web.HttpMethod.GET
 import co.there4.hexagon.web.server
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
@@ -44,6 +45,23 @@ class BenchmarkTest {
             one_hundred_updates()
             five_hundred_updates()
         }
+    }
+
+    fun web() {
+        val web = Web()
+        web.init()
+
+        val webRoutes = web.routes.map { it.key.method to it.key.path.path }
+        val benchmarkRoutes = listOf(
+            GET to "/plaintext",
+            GET to "/json",
+            GET to "/fortunes",
+            GET to "/db",
+            GET to "/query",
+            GET to "/update"
+        )
+
+        assert(webRoutes.containsAll(benchmarkRoutes))
     }
 
     fun json() {
@@ -125,7 +143,8 @@ class BenchmarkTest {
         val content = response.responseBody
 
         checkResponse(response, "text/html;charset=utf-8")
-        assert(content.contains("<td>&lt;script&gt;alert(&quot;This should not be displayed in a browser alert box.&quot;);&lt;/script&gt;</td>"))
+        assert(content.contains("<td>&lt;script&gt;alert(&quot;This should not be "))
+        assert(content.contains(" displayed in a browser alert box.&quot;);&lt;/script&gt;</td>"))
         assert(content.contains("<td>フレームワークのベンチマーク</td>"))
     }
 

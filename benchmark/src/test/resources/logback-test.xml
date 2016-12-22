@@ -14,8 +14,4 @@
     <level value="off" />
     <appender-ref ref="console" />
   </root>
-
-  <logger name="co.there4.hexagon">
-    <level value="off" />
-  </logger>
 </configuration>

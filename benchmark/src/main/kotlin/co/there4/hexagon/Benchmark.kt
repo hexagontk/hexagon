@@ -1,6 +1,5 @@
 package co.there4.hexagon
 
-import co.there4.hexagon.rest.crud
 import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.*
@@ -21,26 +20,30 @@ internal data class World(val _id: Int, val id: Int = _id, val randomNumber: Int
 private val CONTENT_TYPE_JSON = "application/json"
 private val QUERIES_PARAM = "queries"
 
-private val fortune = Fortune(0, "Additional fortune added at request time.")
-
 // UTILITIES
 internal fun rnd() = ThreadLocalRandom.current().nextInt(DB_ROWS) + 1
 
-private fun World.strip(): Map<*, *> = this.convertToMap().filterKeys { it != "_id" }
-private fun World.toJson(): String = this.strip().serialize()
-private fun List<World>.toJson(): String = this.map(World::strip).serialize()
+private fun Exchange.returnWorlds(worlds: List<World>) {
+    fun World.strip(): Map<*, *> = this.convertToMap().filterKeys { it != "_id" }
 
-private fun Exchange.hasQueryCount() = request[QUERIES_PARAM] == null
+    val result =
+        if (request[QUERIES_PARAM] == null) worlds[0].strip().serialize()
+        else worlds.map(World::strip).serialize()
 
+    ok(result, CONTENT_TYPE_JSON)
+}
+
+private fun listFortunes() =
+    (findFortunes() + Fortune(0, "Additional fortune added at request time."))
+        .sortedBy { it.message }
+
+// HANDLERS
 private fun Exchange.getDb() {
     val worlds = (1..getQueries()).map { findWorld() }.filterNotNull()
 
-    ok(if (hasQueryCount()) worlds[0].toJson() else worlds.toJson(), CONTENT_TYPE_JSON)
+    returnWorlds(worlds)
 }
 
-private fun listFortunes() = (findFortunes() + fortune).sortedBy { it.message }
-
-// HANDLERS
 private fun Exchange.getUpdates() {
     val worlds = (1..getQueries()).map {
         val id = rnd()
@@ -49,7 +52,7 @@ private fun Exchange.getUpdates() {
         newWorld
     }
 
-    ok(if (hasQueryCount()) worlds[0].toJson() else worlds.toJson(), CONTENT_TYPE_JSON)
+    returnWorlds(worlds)
 }
 
 private fun Exchange.getQueries() =
@@ -89,9 +92,6 @@ fun benchmarkRoutes(srv: Router = server) {
 fun main(args: Array<String>) {
     initialize()
     benchmarkRoutes()
-
-    crud(worldRepository)
-    crud(fortuneRepository)
 
     get("/fortunes_page") {
         page {

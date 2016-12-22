@@ -40,11 +40,13 @@ private inline fun <reified T : Any> repository(name: String, key: KProperty1<T,
     MongoIdRepository(T::class, mongoCollection(name, database), key, indexOrder = null)
 
 internal fun initialize() {
+    fortuneRepository.drop()
     if (fortuneRepository.isEmpty()) {
         val fortunes = FORTUNE_MESSAGES.mapIndexed { ii, fortune -> Fortune(ii + 1, fortune) }
         fortuneRepository.insertManyObjects(fortunes)
     }
 
+    worldRepository.drop()
     if (worldRepository.isEmpty()) {
         val world = (1..DB_ROWS).map { World(it, it) }
         worldRepository.insertManyObjects(world)
