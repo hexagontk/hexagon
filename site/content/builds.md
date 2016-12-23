@@ -9,17 +9,25 @@ Builds
 
 Templates:
 
-  * `hexagon_library.gradle`: use this Gradle's script as a base for a library.
-  * `hexagon_service.gradle`: Gradle's base script for a service or application.
+  * `hexagon.gradle`: use this Gradle's script for any Hexagon component (library or service).
+  * `service.gradle`: Gradle's script for a service or application.
   
 Features:
 
   * `site.gradle`: Adds support for site generation (with API documentation and reports).
+  * `kotlin.gradle`: Sets up Kotlin's Gradle plugin.
 
 Scripts:
 
-  * Changes to `startScript`: passes the application directory to the application, and adds
-    application directory to the classpath.
   * `systemdScript`: script that support start/stop/status
   
+Templates:
+
+  * TODO Document Lazybones templates.
+  
+Goodies:
+
+  * Continuous run (AKA "Watch")
+  * Deployment structure
+
 **TODO Complete documentation**

@@ -23,7 +23,7 @@ Command:
 
     gw release && git push
 
-Tools used: git-extras + huboard + bintray
+Tools used: git-extras + bintray
 
 
 Contribute
