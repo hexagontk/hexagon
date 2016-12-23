@@ -14,6 +14,8 @@ apply from: "$gradleScripts/hexagon.gradle"
 apply from: "$gradleScripts/service.gradle"
 apply plugin: 'war'
 
+defaultTasks 'install', 'war'
+
 mainClassName = "co.there4.hexagon.BenchmarkKt"
 applicationDefaultJvmArgs = [
     '-Xms512M',
@@ -28,4 +30,4 @@ war {
     archiveName = "ROOT.war"
 }
 
-installDist.dependsOn 'war'
+install.dependsOn 'war'
