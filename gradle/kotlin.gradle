@@ -8,14 +8,14 @@ apply plugin: 'kotlin'
 apply plugin: 'jacoco'
 apply plugin: 'org.jetbrains.dokka'
 
-ext.projectSite = findProperty ('projectSite') ?: 'site'
-ext.sitePublicDir = findProperty ('sitePublicDir') ?: "build/$projectSite"
+ext.siteSource = findProperty ('siteSource') ?: 'site'
+ext.siteTarget = findProperty ('siteTarget') ?: "build/$siteSource"
 
-ext.testngVersion = findProperty ('testngVersion') ?: '6.9.13.6'
-ext.mockitoVersion = findProperty ('mockitoVersion') ?: '2.2.8'
-ext.powermockVersion = findProperty ('powermockVersion') ?: '1.6.5'
+ext.testngVersion = findProperty ('testngVersion') ?: '6.10'
+ext.mockitoVersion = findProperty ('mockitoVersion') ?: '2.3.11'
+ext.powermockVersion = findProperty ('powermockVersion') ?: '1.6.6'
 
-ext.filterPatterns = findProperty ('filterPatterns') ?: '*.properties, *.txt, *.xml'
+ext.filterPatterns = findProperty ('filterPatterns') ?: '*.properties, *.txt, *.xml, *.json, *.yaml'
 ext.rootBuildDir = rootProject.buildDir
 
 repositories {
@@ -35,7 +35,7 @@ dependencies {
 }
 
 processResources {
-    filterPatterns.split(',').each {pattern ->
+    filterPatterns.split(',').each { String pattern ->
         filesMatching ('**/' + pattern.trim ()) {
             filter {
                 it
@@ -46,7 +46,15 @@ processResources {
     }
 }
 
-String reportsDir = "$project.rootDir/$sitePublicDir"
+clean {
+    delete "build", ".gradle"
+
+    delete fileTree(rootDir) { include '**/*.log' }
+    delete fileTree(rootDir) { include '**/*.class' }
+}
+
+// TODO Change reports dir only if site is enabled (do it in site?)
+String reportsDir = "$project.rootDir/$siteTarget"
 
 test {
     useTestNG ()

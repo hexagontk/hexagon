@@ -21,6 +21,7 @@ buildscript {
 }
 
 // TODO Remove when TravisCI supports Gradle 2.13
+// TODO Check if Travis image can be changed for a newer one
 ext.findProperty = { Object key -> hasProperty(key) ? getProperty(key) : null }
 
 apply from: "$rootDir/gradle/site.gradle"
@@ -65,21 +66,8 @@ dependencies {
     }
 }
 
-wrapper {
-    String wrapperBaseFile = "$projectDir/gradle/wrapper"
-
-    gradleVersion = wrapperGradleVersion
-    jarFile = wrapperBaseFile + ".jar"
-    scriptFile = wrapperBaseFile
-    distributionType = 'all'
-}
-
 clean {
-    delete "build", "log", ".gradle"
     delete "systems/load_test.jtl", "systems/jmeter.log"
-
-    delete fileTree(rootDir) { include '**/*.log' }
-    delete fileTree(rootDir) { include '**/*.class' }
 }
 
 test {
@@ -136,7 +124,7 @@ task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 // TODO Upgrade version, Commit, tag and push (with `exec` task)
 task executeRelease () {
     doLast {
-        def v = com.github.zafarkhaja.semver.Version.valueOf (version)
+        def v = Version.valueOf (version.toString ())
 
         String type = ""
         switch (type) {
@@ -150,7 +138,7 @@ task executeRelease () {
                 version = v.incrementPatchVersion ()
                 break
             default:
-                throw RuntimeException ("Unsupported version change: $type")
+                throw new GradleException ("Unsupported version change: $type")
         }
 
         copy {
@@ -170,13 +158,15 @@ import static okhttp3.MediaType.parse
 import static okhttp3.Credentials.basic
 import static HttpMethod.*
 
+import com.github.zafarkhaja.semver.Version
+
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.Request
 
 enum HttpMethod { GET, PUT, POST, DELETE }
 
-private OkHttpClient httpClient (String username = "", String password = "") {
+private static OkHttpClient httpClient (String username = "", String password = "") {
     username != null && !username.empty?
         new OkHttpClient.Builder ()
             .authenticator { route, response ->
@@ -188,7 +178,7 @@ private OkHttpClient httpClient (String username = "", String password = "") {
         new OkHttpClient ()
 }
 
-private void http (
+private static void http (
     OkHttpClient client, HttpMethod method, String url, String type, String content) {
 
     RequestBody body = RequestBody.create(parse("$type; charset=utf-8"), content)
@@ -209,7 +199,7 @@ private void http (
     assert client.newCall(request.build ()).execute().code() in 200..300
 }
 
-private void post (
+private static void post (
     OkHttpClient client, String url, String type = 'text/plain', String content = '') {
 
     http (client, POST, url, type, content)

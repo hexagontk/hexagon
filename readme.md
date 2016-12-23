@@ -112,8 +112,7 @@ Code coverage grid:
 ![coverage](https://codecov.io/gh/jaguililla/hexagon/branch/master/graphs/tree.svg)
 
 
-Lazybones template project
---------------------------
+## Lazybones template project
 
 You have just created a simple project for managing your own Lazybones project
 templates. You get a build file (`build.gradle`) and a directory for putting
@@ -137,6 +136,30 @@ You can find out more about creating templates on [the GitHub wiki][1].
 
 [1]: https://github.com/pledbrook/lazybones/wiki/Template-developers-guide
 
+## Gradle wrapper setup
+
+You can change Gradle version in `gradle/wrapper.properties`, but if you need to regenerate the
+wrapper, follow the next steps:
+
+1. Add this to `build.gradle`:
+
+```groovy
+    import static org.gradle.api.tasks.wrapper.Wrapper.DistributionType.*
+
+    wrapper {
+        String wrapperBaseFile = "$projectDir/gradle/wrapper"
+
+        gradleVersion = '3.2.1'
+        jarFile = wrapperBaseFile + ".jar"
+        scriptFile = wrapperBaseFile
+        distributionType = ALL
+    }
+```
+
+2. Execute `gradle wrapper`
+
+3. Remove the lines added in point 1 as they may cause problems in continuous integration
+   environments
 
 LICENSE
 -------

@@ -18,7 +18,6 @@ jar {
     }
 }
 
-installDist.destinationDir = file("$rootProject.buildDir/$project.name")
 installDist.doLast {
     String content = new URL ("$gradleScripts/systemdScript").text
 

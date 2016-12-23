@@ -44,12 +44,30 @@ https://blog.openshift.com/run-gradle-builds-on-openshift/
     toolset/run-tests.py --install server --mode verify --test hexagon
     
 ## Clear
-    
 
-## TODO
 
-* Remove `benchmark_config` optional parameters. Check:
-  //frameworkbenchmarks.readthedocs.io/en/latest/Codebase/Framework-Files/#benchmark-config-file
+## Gradle wrapper setup
 
-* Document common commands to test the framework inside Vagrant's development machine
+You can change Gradle version in `gradle/wrapper.properties`, but if you need to regenerate the
+wrapper, follow the next steps:
+
+1. Add this to `build.gradle`:
+
+```groovy
+    import static org.gradle.api.tasks.wrapper.Wrapper.DistributionType.*
+
+    wrapper {
+        String wrapperBaseFile = "$projectDir/gradle/wrapper"
+
+        gradleVersion = '3.2.1'
+        jarFile = wrapperBaseFile + ".jar"
+        scriptFile = wrapperBaseFile
+        distributionType = ALL
+    }
+```
+
+2. Execute `gradle wrapper`
+
+3. Remove the lines added in point 1 as they may cause problems in continuous integration
+   environments
 
