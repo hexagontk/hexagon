@@ -18,26 +18,26 @@ jar {
     }
 }
 
-installDist.doLast {
-    String content = new URL ("$gradleScripts/systemdScript").text
+task install(dependsOn: [ 'check', 'installDist' ]) {
+    doLast {
+        String content = new URL ("$gradleScripts/systemdScript").text
 
-    Map<String, String> parameters = [
-        projectName : project.name,
-        projectVersion : project.version.toString(),
-        projectDescription : project.description,
-        deployDir : deployDir,
-        serviceUser : serviceUser,
-        serviceGroup : serviceGroup
-    ]
+        Map<String, String> parameters = [
+            projectName : project.name,
+            projectVersion : project.version.toString(),
+            projectDescription : project.description,
+            deployDir : deployDir,
+            serviceUser : serviceUser,
+            serviceGroup : serviceGroup
+        ]
 
-    parameters.each { content = content.replace ('${' + it.key + '}', it.value) }
+        parameters.each { content = content.replace ('${' + it.key + '}', it.value) }
 
-    File script = file ("$destinationDir/bin/${project.name}.service")
-    script << content
-    script.executable = true
+        File script = file ("$destinationDir/bin/${project.name}.service")
+        script << content
+        script.executable = true
+    }
 }
-
-task install(dependsOn: [ 'check', 'installDist' ])
 
 task runService(dependsOn: 'classes') {
     doLast {
