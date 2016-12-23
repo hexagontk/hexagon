@@ -29,7 +29,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="pull-left" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>">
-            <img id="logo" src="img/logo.svg"></img>
+            <img id="logo" src="img/logo.svg">
           </a>
         </div>
 

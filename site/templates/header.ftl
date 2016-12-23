@@ -15,9 +15,9 @@
   <meta name="keywords" content="Hexagon, microservices, Java, Kotlin">
   <meta name="generator" content="JBake">
 
-  <meta name="theme-color" content="#${config.siteColor}">
-  <meta name="msapplication-navbutton-color" content="#${config.siteColor}">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#${config.siteColor}">
+  <meta name="theme-color" content="${config.siteColor}">
+  <meta name="msapplication-navbutton-color" content="${config.siteColor}">
+  <meta name="apple-mobile-web-app-status-bar-style" content="${config.siteColor}">
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
@@ -26,18 +26,21 @@
     <#if (content.title)??><#escape x as x?xml>${content.title}</#escape><#else>Hexagon</#if>
   </title>
 
+  <#assign bootstrapVersion = "3.3.7">
+  <#assign theme = "paper">
+  <#assign cloudflare = "http://cdnjs.cloudflare.com/ajax/libs">
+
   <link
-    href=
-      "${config.cloudflare}/bootswatch/${config.bootstrapVersion}/${config.theme}/bootstrap.min.css"
+    href="${cloudflare}/bootswatch/${bootstrapVersion}/${theme}/bootstrap.min.css"
     rel="stylesheet">
   <link
     rel="stylesheet"
-    href="${config.cloudflare}/font-awesome/4.6.2/css/font-awesome.min.css"
+    href="${cloudflare}/font-awesome/4.6.2/css/font-awesome.min.css"
     type="text/css">
   <link
     href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/base.css"
     rel="stylesheet">
-  <link href="${config.cloudflare}/highlight.js/9.3.0/styles/github.min.css" rel="stylesheet">
+  <link href="${cloudflare}/highlight.js/9.3.0/styles/github.min.css" rel="stylesheet">
 
   <link
     rel="apple-touch-icon"
@@ -51,8 +54,8 @@
   <link rel="author" href="/humans.txt" />
 
   <!--[if lt IE 9]>
-    <script src="${config.cloudflare}/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="${config.cloudflare}/respond.js/1.4.2/respond.min.js"></script>
+    <script src="${cloudflare}/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="${cloudflare}/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
 

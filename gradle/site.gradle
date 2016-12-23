@@ -13,20 +13,17 @@
  *         classpath "gradle.plugin.org.xbib.gradle.plugin:gradle-plugin-jbake:$jbakepluginVersion"
  *     }
  * }
- *
- * TODO Site processing will be deprecated when JBake filters content with configuration properties
  */
 
 apply plugin: 'org.xbib.gradle.plugin.jbake'
 
-ext.sitePublicDir = findProperty ('sitePublicDir') ?: "build/$projectSite"
-ext.siteImagesDir = findProperty ('siteImagesDir') ?: "$sitePublicDir/img"
+ext.siteSource = findProperty ('siteSource') ?: 'site'
+ext.siteTarget = findProperty ('siteTarget') ?: "build/$siteSource"
 
 jbake {
-    srcDirName = projectSite
-    destDirName = "../$sitePublicDir" // It is relative to `buildDir`
+    srcDirName = siteSource
+    destDirName = "../$siteTarget" // It is relative to `buildDir`
 
-    configuration['theme'] = bootstrapTheme
     configuration['site.host'] = siteHost
 
     configuration['render.index'] = false
@@ -39,18 +36,16 @@ jbake {
     configuration['projectName'] = project.name // Applied in templates, not content
     configuration['projectDescription'] = project.description
     configuration['projectVersion'] = project.version
-    configuration['bootstrapVersion'] = bootstrapVersion
-    configuration['cloudflare'] = 'http://cdnjs.cloudflare.com/ajax/libs'
-    configuration['googlefonts'] = 'http://fonts.googleapis.com/css?family'
     configuration['siteColor'] = siteColor
 }
 
+// Site processing is required because JBake does not filter content with configuration properties
 task site (dependsOn: 'jbake') {
     doLast {
-        file (sitePublicDir).traverse (nameFilter: ~/.+\.(html|xml|css)$/) {
+        file (siteTarget).traverse (nameFilter: ~/.+\.(html|xml|css)$/) {
             it.write (it.getText ()
-                .replace ('${projectVersion}', project.version)
-                .replace ('${siteColor}', siteColor)
+                .replace ('${projectVersion}', project.version.toString ())
+                .replace ('${siteColor}', siteColor.toString())
             )
         }
     }
