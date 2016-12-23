@@ -1,9 +1,11 @@
 
+/*noinspection CssUnknownTarget*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
+/*noinspection CssUnknownTarget*/
 @import url(https://fonts.googleapis.com/css?family=Oxygen+Mono);
 
 pre, code {
-  font-family: 'Oxygen Mono';
+  font-family: 'Oxygen Mono', monospace;
   border: none;
 }
 
@@ -39,11 +41,11 @@ body {
 }
 
 body, h1, h2, h3, h4 {
-  font-family: Montserrat, helvetica;
+  font-family: Montserrat, helvetica, sans-serif;
 }
 
 body {
-  font-weight: light;
+  font-weight: 300;
   font-size: 16px;
 }
 
