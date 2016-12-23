@@ -21,7 +21,6 @@ buildscript {
 }
 
 // TODO Remove when TravisCI supports Gradle 2.13
-// TODO Check if Travis image can be changed for a newer one
 ext.findProperty = { Object key -> hasProperty(key) ? getProperty(key) : null }
 
 apply from: "$rootDir/gradle/site.gradle"
