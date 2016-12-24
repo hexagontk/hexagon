@@ -36,7 +36,7 @@ data class Tag(
  * TODO Finish this
  */
 @Test(enabled = false, description = "TODO Compare both filters") class RepositoryPackageTest {
-    private fun equalFilter(a: Bson, b: Bson) = false
+    private fun equalFilter(a: Bson, b: Bson) = a == b
 
     fun eq_filter_work_as_expected() {
         val hexagonFilter = "foo" eq "bar"
