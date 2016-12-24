@@ -22,7 +22,7 @@ services:
   - mongodb
   - rabbitmq
 
-before_script: ln -s gradle/wrapper gradlew
+install: ln -s gradle/wrapper gradlew
 
 script: gradle/wrapper --stacktrace build
 
