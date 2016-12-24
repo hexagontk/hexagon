@@ -20,9 +20,6 @@ buildscript {
     }
 }
 
-// TODO Remove when TravisCI supports Gradle 2.13
-ext.findProperty = { Object key -> hasProperty(key) ? getProperty(key) : null }
-
 apply from: "$rootDir/gradle/site.gradle"
 apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
