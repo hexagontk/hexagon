@@ -26,5 +26,4 @@ install: ln -s gradle/wrapper gradlew
 
 script: gradle/wrapper --stacktrace build site
 
-# TODO Fix codecov (coverage reports not found)
 after_success: bash <(curl -s https://codecov.io/bash)
