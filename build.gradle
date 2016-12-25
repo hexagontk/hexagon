@@ -1,3 +1,11 @@
+/*
+ * To deploy on Bintray you need to set 'bintrayUser' and 'bintrayKey' in
+ * '~/.gradle/gradle.properties'.
+ *
+ * You should also set 'bintrayUrl' in the project's 'gradle.properties' file.
+ *
+ * NOTE: For the package to be accepted in JCenter, you need to include sources (sourceJar task).
+ */
 
 buildscript {
     repositories {
@@ -16,17 +24,20 @@ buildscript {
 
         classpath "gradle.plugin.org.xbib.gradle.plugin:gradle-plugin-jbake:$jbakepluginVersion"
 
-        classpath "uk.co.cacoethes:lazybones-gradle:1.2.4"
+        classpath "uk.co.cacoethes:lazybones-gradle:$lazybonesVersion"
     }
 }
 
 apply from: "$rootDir/gradle/site.gradle"
-apply from: "$rootDir/gradle/oss.gradle"
 apply from: "$rootDir/gradle/kotlin.gradle"
 
+apply plugin: 'maven-publish'
 apply plugin: "uk.co.cacoethes.lazybones-templates"
 
 defaultTasks 'build'
+
+ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
+ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
 
 dependencies {
     // COMPILE
@@ -39,7 +50,7 @@ dependencies {
 
     compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
     compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
-    compile ("io.undertow:undertow-core:1.4.6.Final")
+    compile ("io.undertow:undertow-core:$undertowVersion")
 
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
@@ -52,8 +63,6 @@ dependencies {
     compile ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
 
     // TEST
-    testCompile ("org.mockito:mockito-core:$mockitoVersion")
-
     // Version *MUST BE* 0.28 for the tests to work
     testCompile ("org.apache.qpid:qpid-broker:0.28") {
         exclude module: "commons-logging"
@@ -75,7 +84,17 @@ test {
     }
 }
 
-packageTest {
+configurations {
+    deployerJars
+}
+
+task sourceJar (type: Jar) {
+    from sourceSets.main.allJava
+}
+
+task packageTest (type: Jar) {
+    from sourceSets.test.output
+
     exclude('/data')
     exclude('/public')
     exclude('/templates')
@@ -83,6 +102,32 @@ packageTest {
     exclude('/*.xml')
     exclude('/*.json')
     exclude('/*.txt')
+}
+
+publishing {
+    publications {
+        mavenJava (MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier 'sources'
+            }
+
+            artifact packageTest {
+                classifier 'test'
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url bintrayUrl
+            credentials {
+                username bintrayUser
+                password bintrayKey
+            }
+        }
+    }
 }
 
 lazybones {
