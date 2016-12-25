@@ -6,23 +6,23 @@ import java.net.HttpCookie
 
 @Suppress("unused") // Test methods are flagged as unused
 class CookiesIT : ItTest () {
-    override fun initialize(server: Server) {
-        server.post("/assertNoCookies") {
+    override fun initialize(srv: Server) {
+        srv.post("/assertNoCookies") {
             if (!request.cookies.isEmpty())
                 halt(500)
         }
 
-        server.post("/setCookie") {
+        srv.post("/setCookie") {
             val name = request ["cookieName"]
             val value = request ["cookieValue"]
             response.addCookie (HttpCookie (name, value))
         }
 
-        server.post("/assertHasCookie") {
+        srv.post("/assertHasCookie") {
             checkCookie(request ["cookieName"])
         }
 
-        server.post("/removeCookie") {
+        srv.post("/removeCookie") {
             val cookieName = request.parameter("cookieName")
             checkCookie(cookieName)
             response.removeCookie(cookieName)

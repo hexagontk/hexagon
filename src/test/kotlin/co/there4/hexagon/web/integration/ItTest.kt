@@ -18,21 +18,22 @@ internal const val TIMES = 1
  */
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 abstract class ItTest {
-    val servers = listOf(
+    open val servers: List<Server> = listOf(
         JettyServer()
     )
 
-    protected abstract fun initialize (server: Server)
+    protected abstract fun initialize (srv: Server)
 
     @BeforeClass fun startServers () {
         servers.forEach {
+            it.stop()
             initialize (it)
             it.run ()
         }
     }
 
     @AfterClass fun stopServers () {
-        servers.forEach { it.stop () }
+        servers.forEach(Server::stop)
     }
 
     protected fun withClients(lambda: Client.() -> Unit) {

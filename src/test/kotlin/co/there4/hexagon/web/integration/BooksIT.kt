@@ -1,6 +1,7 @@
 package co.there4.hexagon.web.integration
 
 import co.there4.hexagon.web.Server
+import co.there4.hexagon.web.undertow.UndertowServer
 import org.testng.annotations.BeforeTest
 import java.util.*
 import java.util.Collections.synchronizedMap
@@ -8,6 +9,8 @@ import java.util.Collections.synchronizedMap
 @Suppress("unused") // Test methods are flagged as unused
 class BooksIT : ItTest () {
     data class Book (val author: String, val title: String)
+
+    override val servers = super.servers + UndertowServer(bindPort = 5099)
 
     private var id = 1
     private var books: MutableMap<Int, Book> = LinkedHashMap ()
@@ -20,13 +23,13 @@ class BooksIT : ItTest () {
         )))
     }
 
-    override fun initialize(server: Server) {
-        server.post ("/books") {
+    override fun initialize(srv: Server) {
+        srv.post ("/books") {
             books [id] = Book (request.parameter("author"), request.parameter("title"))
             created ((id++).toString ())
         }
 
-        server.get ("/books/{id}") {
+        srv.get ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books [bookId]
             if (book != null)
@@ -35,7 +38,7 @@ class BooksIT : ItTest () {
                 error (404, "Book not found")
         }
 
-        server.put ("/books/{id}") {
+        srv.put ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books[bookId]
             if (book != null) {
@@ -54,7 +57,7 @@ class BooksIT : ItTest () {
             }
         }
 
-        server.delete ("/books/{id}") {
+        srv.delete ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books.remove (bookId)
             if (book != null)
@@ -63,7 +66,7 @@ class BooksIT : ItTest () {
                 error (404, "Book not found")
         }
 
-        server.get ("/books") {
+        srv.get ("/books") {
             ok (books.keys.map(Int::toString).joinToString(" "))
         }
     }

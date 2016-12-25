@@ -4,20 +4,20 @@ import co.there4.hexagon.web.Server
 
 @Suppress("unused") // Test methods are flagged as unused
 class SessionIT : ItTest () {
-    override fun initialize(server: Server) {
-        server.put("/session/{key}/{value}") {
+    override fun initialize(srv: Server) {
+        srv.put("/session/{key}/{value}") {
             session [request.parameter("key")] = request.parameter("value")
         }
 
-        server.get("/session/{key}") {
+        srv.get("/session/{key}") {
             ok (session [request.parameter("key")].toString())
         }
 
-        server.delete("/session/{key}") {
+        srv.delete("/session/{key}") {
             session.remove(request.parameter("key"))
         }
 
-        server.get("/session") {
+        srv.get("/session") {
             val attributeTexts = session.attributes.entries.map { it.key + " : " + it.value }
 
             response.addHeader ("attributes", attributeTexts.joinToString(", "))

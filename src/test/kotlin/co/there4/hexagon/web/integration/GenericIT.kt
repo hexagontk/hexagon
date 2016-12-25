@@ -13,10 +13,10 @@ import kotlin.test.assertTrue
 class GenericIT : ItTest () {
     private val part = "param"
 
-    override fun initialize(server: Server) {
-        server.before("/protected/*") { halt(401, "Go Away!") }
+    override fun initialize(srv: Server) {
+        srv.before("/protected/*") { halt(401, "Go Away!") }
 
-        server.get("/request/data") {
+        srv.get("/request/data") {
             response.body = request.url
 
             request.cookies["method"]?.value = request.method.toString()
@@ -33,41 +33,41 @@ class GenericIT : ItTest () {
             ok ("${response.body}!!!")
         }
 
-        server.error(UnsupportedOperationException::class) {
+        srv.error(UnsupportedOperationException::class) {
             response.addHeader("error", it.message ?: it.javaClass.name)
         }
 
-        server.get("/*") { pass() }
-        server.get("/exception") { throw UnsupportedOperationException("error message") }
-        server.get("/hi") { ok ("Hello World!") }
-        server.get("/param/{param}") { ok ("echo: ${request ["param"]}") }
-        server.get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request ["paramWithMaj"]}") }
-        server.get("/") { ok("Hello Root!") }
-        server.post("/poster") { created("Body was: ${request.body}") }
-        server.patch("/patcher") { ok ("Body was: ${request.body}") }
-        server.delete ("/method") { okRequestMethod () }
-        server.options ("/method") { okRequestMethod () }
-        server.get ("/method") { okRequestMethod () }
-        server.patch ("/method") { okRequestMethod () }
-        server.post ("/method") { okRequestMethod () }
-        server.put ("/method") { okRequestMethod () }
-        server.trace ("/method") { okRequestMethod () }
-        server.head ("/method") { response.addHeader ("header", request.method.toString()) }
-        server.get("/halt") { halt("halted") }
-        server.get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
-        server.get("/template") {
+        srv.get("/*") { pass() }
+        srv.get("/exception") { throw UnsupportedOperationException("error message") }
+        srv.get("/hi") { ok ("Hello World!") }
+        srv.get("/param/{param}") { ok ("echo: ${request ["param"]}") }
+        srv.get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request ["paramWithMaj"]}") }
+        srv.get("/") { ok("Hello Root!") }
+        srv.post("/poster") { created("Body was: ${request.body}") }
+        srv.patch("/patcher") { ok ("Body was: ${request.body}") }
+        srv.delete ("/method") { okRequestMethod () }
+        srv.options ("/method") { okRequestMethod () }
+        srv.get ("/method") { okRequestMethod () }
+        srv.patch ("/method") { okRequestMethod () }
+        srv.post ("/method") { okRequestMethod () }
+        srv.put ("/method") { okRequestMethod () }
+        srv.trace ("/method") { okRequestMethod () }
+        srv.head ("/method") { response.addHeader ("header", request.method.toString()) }
+        srv.get("/halt") { halt("halted") }
+        srv.get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
+        srv.get("/template") {
             template("pebble_template.html", defaultLocale(), mapOf("date" to LocalDateTime.now()))
         }
 
-        server.get("/tworoutes/${part.toUpperCase()}/{param}") {
+        srv.get("/tworoutes/${part.toUpperCase()}/{param}") {
             ok ("${part.toUpperCase()} route: ${request ["param"]}")
         }
 
-        server.get("/reqres") { ok (request.method) }
+        srv.get("/reqres") { ok (request.method) }
 
-        server.get("/redirect") { redirect("http://example.com") }
+        srv.get("/redirect") { redirect("http://example.com") }
 
-        server.after("/hi") {
+        srv.after("/hi") {
             response.addHeader ("after", "foobar")
         }
     }
