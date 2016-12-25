@@ -14,9 +14,7 @@ import java.lang.System.getProperty
  * - service.yaml (file)
  * - <environment>.yaml (file)
  */
-object SettingsManager : CompanionLogger(SettingsManager::class) {
-    enum class Environment { PRODUCTION, INTEGRATION, DEVELOPMENT }
-
+open class Settings : CompanionLogger(SettingsManager::class) {
     private val prefix = getProperty("settings.prefix") ?: ""
     private val environmentFile = File("${getProperty("user.home")}/.environment")
 
