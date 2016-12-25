@@ -204,3 +204,8 @@ fun resource(resName: String): URL? = systemClassLoader.getResource(resName)
 fun requireResource(resName: String): URL = resource(resName) ?: error("$resName not found")
 fun resources(resName: String): List<URL> =
     systemClassLoader.getResources(resName).toList().filterNotNull()
+
+/*
+ * Logging
+ */
+object Log : CompanionLogger(Log::class)
