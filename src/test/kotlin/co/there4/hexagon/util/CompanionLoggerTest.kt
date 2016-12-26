@@ -2,13 +2,13 @@ package co.there4.hexagon.util
 
 import org.testng.annotations.Test
 
+/**
+ * As the logger is only a facade and it is hard to check outputs, the only check is that
+ * no exceptions are thrown.
+ */
 @Test class CompanionLoggerTest {
     companion object : CompanionLogger (CompanionLoggerTest::class)
 
-    /**
-     * As the logger is only a facade and it is hard to check outputs, the only check is that
-     * no exceptions are thrown.
-     */
     fun messages_are_logged_without_errors () {
         trace ("message")
         debug ("message")
@@ -18,5 +18,16 @@ import org.testng.annotations.Test
         warn ("message", RuntimeException ())
         err ("message", RuntimeException ())
         flare ("message")
+    }
+
+    fun general_purpose_messages_are_logged_without_errors () {
+        Log.trace ("message")
+        Log.debug ("message")
+        Log.info ("message")
+        Log.warn ("message")
+        Log.err ("message")
+        Log.warn ("message", RuntimeException ())
+        Log.err ("message", RuntimeException ())
+        Log.flare ("message")
     }
 }

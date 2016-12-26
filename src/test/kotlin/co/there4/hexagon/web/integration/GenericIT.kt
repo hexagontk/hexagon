@@ -4,6 +4,7 @@ import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.Exchange
 import co.there4.hexagon.web.HttpMethod
 import co.there4.hexagon.web.Server
+import kotlinx.html.*
 import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
 
@@ -12,6 +13,21 @@ import kotlin.test.assertTrue
 @Suppress("unused") // Test methods are flagged as unused
 class GenericIT : ItTest () {
     private val part = "param"
+
+    private val FORTUNE_MESSAGES = setOf(
+        "fortune: No such file or directory",
+        "A computer scientist is someone who fixes things that aren't broken.",
+        "After enough decimal places, nobody gives a damn.",
+        "A bad random number generator: 1, 1, 1, 1, 1, 4.33e+67, 1, 1, 1",
+        "A computer program does what you tell it to do, not what you want it to do.",
+        "Emacs is a nice operating system, but I prefer UNIX. — Tom Christaensen",
+        "Any program that runs right is obsolete.",
+        "A list is only as strong as its weakest link. — Donald Knuth",
+        "Feature: A bug with seniority.",
+        "Computers make very fast, very accurate mistakes.",
+        "<script>alert(\"This should not be displayed in a browser alert box.\");</script>",
+        "フレームワークのベンチマーク"
+    )
 
     override fun initialize(srv: Server) {
         srv.before("/protected/*") { halt(401, "Go Away!") }
@@ -69,6 +85,30 @@ class GenericIT : ItTest () {
 
         srv.after("/hi") {
             response.addHeader ("after", "foobar")
+        }
+
+        srv.get("/fortunes") {
+            page {
+                html {
+                    head {
+                        title { +"Fortunes" }
+                    }
+                    body {
+                        table {
+                            tr {
+                                th { +"id" }
+                                th { +"message" }
+                            }
+                            FORTUNE_MESSAGES.forEachIndexed { index, fortune ->
+                                tr {
+                                    td { +index }
+                                    td { +fortune }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -267,6 +307,22 @@ class GenericIT : ItTest () {
             else res.headers.get(headerName) == methodName
         )
         assert (200 == res.statusCode)
+    }
+
+    fun fortunes() {
+        withClients {
+            val response = get("/fortunes")
+            val content = response.responseBody
+
+            assert(response.headers ["Date"] != null)
+            assert(response.headers ["Server"] != null)
+            assert(response.headers ["Transfer-Encoding"] != null)
+            assert(response.headers ["Content-Type"] == "text/html;charset=utf-8")
+
+            assert(content.contains("<td>&lt;script&gt;alert(&quot;This should not be "))
+            assert(content.contains(" displayed in a browser alert box.&quot;);&lt;/script&gt;</td>"))
+            assert(content.contains("<td>フレームワークのベンチマーク</td>"))
+        }
     }
 }
 
