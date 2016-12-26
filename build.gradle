@@ -41,16 +41,17 @@ ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
 
 dependencies {
     // COMPILE
-    compile ("com.rabbitmq:amqp-client:$rabbitVersion")
-    compile ("org.mongodb:mongodb-driver:$mongodbVersion")
+    compile ("com.rabbitmq:amqp-client:$rabbitVersion") // TODO Set as 'compileOnly'
+    compile ("org.mongodb:mongodb-driver:$mongodbVersion") // TODO Set as 'compileOnly'
     compile ("ch.qos.logback:logback-classic:$logbackVersion")
     compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     compile ("org.slf4j:jul-to-slf4j:$slf4jVersion")
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
 
     compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
+    // TODO Set Jetty as 'compileOnly'
     compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
-    compile ("io.undertow:undertow-core:$undertowVersion")
+    compileOnly ("io.undertow:undertow-core:$undertowVersion")
 
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
@@ -59,12 +60,13 @@ dependencies {
         exclude module: "kotlin-reflect"
     }
 
-    compile ("com.mitchellbosecke:pebble:$pebbleVersion")
-    compile ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
+    compile ("com.mitchellbosecke:pebble:$pebbleVersion") // TODO Set as 'compileOnly'
+    compileOnly ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
 
     // TEST
-    // Version *MUST BE* 0.28 for the tests to work
-    testCompile ("org.apache.qpid:qpid-broker:0.28") {
+    testCompile ("io.undertow:undertow-core:$undertowVersion")
+    testCompile ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
+    testCompile ("org.apache.qpid:qpid-broker:0.28") { // Version *MUST BE* 0.28 for tests to work
         exclude module: "commons-logging"
         exclude module: "slf4j-log4j12"
         exclude module: "slf4j-api"
@@ -138,6 +140,26 @@ lazybones {
 
     licenses = [ "MIT" ]
     vcsUrl = "https://github.com/jaguililla/hexagon"
+}
+
+allprojects {
+    String reportsDir = "$project.rootDir/$siteTarget"
+
+    test {
+        reports {
+            html.destination = "$reportsDir/testng/$project.name"
+        }
+    }
+
+    dokka {
+        outputDirectory = "$reportsDir/dokka/$project.name"
+    }
+
+    jacocoTestReport {
+        reports {
+            html.destination = "$reportsDir/jacoco/$project.name"
+        }
+    }
 }
 
 site.dependsOn 'dokka', 'jacocoTestReport'
