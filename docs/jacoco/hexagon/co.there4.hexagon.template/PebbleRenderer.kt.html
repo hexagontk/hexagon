@@ -2,7 +2,7 @@
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.settings.SettingsManager
-import co.there4.hexagon.settings.SettingsManager.Environment.DEVELOPMENT
+import co.there4.hexagon.settings.Environment.DEVELOPMENT
 import co.there4.hexagon.settings.SettingsManager.environment
 import co.there4.hexagon.util.toDate
 import com.mitchellbosecke.pebble.PebbleEngine
@@ -19,7 +19,7 @@ import java.util.*
  * templates/freemarker/file
  * ...
  */
-<span class="fc" id="L22">object PebbleRenderer {</span>
+<span class="fc" id="L22">internal object PebbleRenderer {</span>
 <span class="pc" id="L23">    val basePath = &quot;templates&quot;</span>
 <span class="pc" id="L24">    val engine: PebbleEngine = PebbleEngine.Builder()</span>
 <span class="fc" id="L25">        .cacheActive(environment != DEVELOPMENT)</span>

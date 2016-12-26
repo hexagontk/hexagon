@@ -6,7 +6,7 @@ import co.there4.hexagon.util.CompanionLogger
 
 <span class="fc" id="L7">object EventManager : CompanionLogger (EventManager::class) {</span>
 <span class="fc" id="L8">    val exchange = &quot;events&quot;</span>
-<span class="fc" id="L9">    val client = RabbitClient ()</span>
+<span class="fc" id="L9">    val client by lazy { RabbitClient () }</span>
 
     init {
 <span class="fc" id="L12">        client.bindExchange(exchange, &quot;topic&quot;, &quot;*.*.*&quot;, &quot;event_pool&quot;)</span>

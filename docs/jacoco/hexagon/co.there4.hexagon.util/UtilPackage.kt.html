@@ -204,4 +204,9 @@ operator fun Map&lt;*, *&gt;.get(vararg keys: Any): Any? =
 <span class="pc bpc" id="L204" title="1 of 2 branches missed.">fun requireResource(resName: String): URL = resource(resName) ?: error(&quot;$resName not found&quot;)</span>
 fun resources(resName: String): List&lt;URL&gt; =
 <span class="nc" id="L206">    systemClassLoader.getResources(resName).toList().filterNotNull()</span>
+
+/*
+ * Logging
+ */
+<span class="fc" id="L211">object Log : CompanionLogger(Log::class)</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

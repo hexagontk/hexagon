@@ -3,7 +3,7 @@
 import io.undertow.server.HttpServerExchange
 import co.there4.hexagon.web.Session
 
-<span class="nc" id="L6">class UndertowSession(exchange: HttpServerExchange) : Session {</span>
+<span class="fc" id="L6">class UndertowSession(exchange: HttpServerExchange) : Session {</span>
     override fun get(name: String): Any? {
 <span class="nc" id="L8">        throw UnsupportedOperationException(&quot;not implemented&quot;) //To change body of created functions use File | Settings | File Templates.</span>
     }
@@ -16,7 +16,7 @@ import co.there4.hexagon.web.Session
 <span class="nc" id="L16">        throw UnsupportedOperationException(&quot;not implemented&quot;) //To change body of created functions use File | Settings | File Templates.</span>
     }
 
-<span class="nc" id="L19">    val e: HttpServerExchange = exchange</span>
+<span class="pc" id="L19">    val e: HttpServerExchange = exchange</span>
 
     override val attributes: MutableMap&lt;String, Any&gt;
 <span class="nc" id="L22">        get() = mutableMapOf()</span>

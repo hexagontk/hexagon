@@ -9,7 +9,7 @@ import java.io.InputStreamReader
 import java.net.HttpCookie
 import javax.servlet.http.HttpServletRequest
 
-<span class="pc" id="L12">class BServletRequest(val req: HttpServletRequest, var actionPath: Path? = null) : Request {</span>
+<span class="fc" id="L12">class BServletRequest(val req: HttpServletRequest, var actionPath: Path? = null) : Request {</span>
 <span class="pc bpc" id="L13" title="1 of 2 branches missed.">    override val scriptName: String = req.pathInfo ?: req.servletPath</span>
 <span class="fc" id="L14">    override val pathInfo: String = scriptName</span>
 <span class="pc" id="L15">    override val path: String = scriptName</span>
@@ -30,25 +30,26 @@ import javax.servlet.http.HttpServletRequest
 <span class="pc" id="L30">    override val xhr: Boolean by lazy { throw UnsupportedOperationException ()  }</span>
 <span class="pc" id="L31">    override val preferredType: String by lazy { throw UnsupportedOperationException ()  }</span>
 
-    override val parameters: Map&lt;String, List&lt;String&gt;&gt; get() =
+<span class="fc" id="L33">    override val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
 <span class="pc bpc" id="L34" title="2 of 6 branches missed.">        (actionPath?.extractParameters(req.servletPath)?:mapOf()).mapValues { listOf(it.value) } +</span>
 <span class="pc bpc" id="L35" title="1 of 2 branches missed.">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap() +</span>
 <span class="fc" id="L36">        parseQueryParameters(req.queryString ?: &quot;&quot;).mapValues { listOf(it.value) }</span>
+    }
 
-<span class="fc" id="L38">    override val headers: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
-<span class="fc" id="L39">        req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()</span>
+<span class="fc" id="L39">    override val headers: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
+<span class="fc" id="L40">        req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()</span>
     }
 
     override val cookies: Map&lt;String, HttpCookie&gt; get() {
-<span class="fc" id="L43">        try {</span>
-<span class="fc" id="L44">            val map = req.cookies.map { HttpCookie(it.name, it.value) }.map { it.name to it }</span>
-<span class="fc" id="L45">            return map.toMap()</span>
+<span class="fc" id="L44">        try {</span>
+<span class="fc" id="L45">            val map = req.cookies.map { HttpCookie(it.name, it.value) }.map { it.name to it }</span>
+<span class="fc" id="L46">            return map.toMap()</span>
         }
-<span class="fc" id="L47">        catch (e: Exception) {</span>
-<span class="fc" id="L48">            return mapOf()</span>
+<span class="fc" id="L48">        catch (e: Exception) {</span>
+<span class="fc" id="L49">            return mapOf()</span>
         }
     }
 
-<span class="pc" id="L52">    override val parts: Map&lt;String, Part&gt; by lazy { throw UnsupportedOperationException ()  }</span>
+<span class="pc" id="L53">    override val parts: Map&lt;String, Part&gt; by lazy { throw UnsupportedOperationException ()  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

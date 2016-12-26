@@ -6,7 +6,7 @@ import io.undertow.util.HttpString
 import java.io.OutputStream
 import java.net.HttpCookie
 
-<span class="nc" id="L9">class UndertowResponse(exchange: HttpServerExchange) : Response {</span>
+<span class="fc" id="L9">class UndertowResponse(exchange: HttpServerExchange) : Response {</span>
     override var contentType: String?
 <span class="nc" id="L11">        get() = throw UnsupportedOperationException()</span>
         set(value) {
@@ -31,14 +31,14 @@ import java.net.HttpCookie
 <span class="nc" id="L31">        throw UnsupportedOperationException(&quot;not implemented&quot;) //To change body of created functions use File | Settings | File Templates.</span>
     }
 
-<span class="nc" id="L34">    val e: HttpServerExchange = exchange</span>
+<span class="pc" id="L34">    val e: HttpServerExchange = exchange</span>
 
-<span class="nc" id="L36">    override var body: Any = &quot;&quot;</span>
-<span class="nc" id="L37">        get() = field</span>
-<span class="nc" id="L38">        set(value) { field = value }</span>
+<span class="fc" id="L36">    override var body: Any = &quot;&quot;</span>
+<span class="fc" id="L37">        get() = field</span>
+<span class="fc" id="L38">        set(value) { field = value }</span>
     override var status: Int
-<span class="nc" id="L40">        get() = e.statusCode</span>
-<span class="nc" id="L41">        set(value) { e.setStatusCode(value) }</span>
+<span class="fc" id="L40">        get() = e.statusCode</span>
+<span class="fc" id="L41">        set(value) { e.setStatusCode(value) }</span>
 
     override fun redirect(url: String) {
 <span class="nc" id="L44">        throw UnsupportedOperationException()</span>

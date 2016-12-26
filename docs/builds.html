@@ -91,7 +91,7 @@
 
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="quick_start.html">Quick Start</a></li>
+            <li><a href="index.html">Quick Start</a></li>
             <li><a href="dokka/hexagon/index.html">API</a></li>
             <li><a href="contribute.html">Contribute</a></li>
             <li><a href="license.html">License</a></li>
@@ -129,17 +129,26 @@
 <h1>Builds</h1>
 <p>Templates:</p>
 <ul>
-  <li><code>hexagon_library.gradle</code>: use this Gradle's script as a base for a library.</li>
-  <li><code>hexagon_service.gradle</code>: Gradle's base script for a service or application.</li>
+  <li><code>hexagon.gradle</code>: use this Gradle's script for any Hexagon component (library or service).</li>
+  <li><code>service.gradle</code>: Gradle's script for a service or application.</li>
 </ul>
 <p>Features:</p>
 <ul>
   <li><code>site.gradle</code>: Adds support for site generation (with API documentation and reports).</li>
+  <li><code>kotlin.gradle</code>: Sets up Kotlin's Gradle plugin.</li>
 </ul>
 <p>Scripts:</p>
 <ul>
-  <li>Changes to <code>startScript</code>: passes the application directory to the application, and adds<br/>application directory to the classpath.</li>
   <li><code>systemdScript</code>: script that support start/stop/status</li>
+</ul>
+<p>Templates:</p>
+<ul>
+  <li>TODO Document Lazybones templates.</li>
+</ul>
+<p>Goodies:</p>
+<ul>
+  <li>Continuous run (AKA "Watch")</li>
+  <li>Deployment structure</li>
 </ul>
 <p><strong>TODO Complete documentation</strong></p>
 

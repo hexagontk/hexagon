@@ -9,34 +9,34 @@ import io.undertow.Handlers.*
 import java.net.InetAddress
 import java.net.InetAddress.getByName as address
 
-<span class="nc" id="L12">class UndertowServer(bindAddress: InetAddress = address(&quot;localhost&quot;), bindPort: Int = 2010):</span>
-<span class="nc" id="L13">    Server(bindAddress, bindPort) {</span>
+<span class="fc" id="L12">class UndertowServer(bindAddress: InetAddress = address(&quot;localhost&quot;), bindPort: Int = 2010):</span>
+<span class="fc" id="L13">    Server(bindAddress, bindPort) {</span>
 
-<span class="nc" id="L15">    var builder: Undertow.Builder = Undertow.builder()</span>
+<span class="pc" id="L15">    var builder: Undertow.Builder = Undertow.builder()</span>
 <span class="nc" id="L16">    var undertow: Undertow? = null</span>
 
     private var started = false
-<span class="nc" id="L19">    override fun started() = started</span>
+<span class="fc" id="L19">    override fun started() = started</span>
 
     fun build() {
-<span class="nc" id="L22">        val root = routing()</span>
+<span class="fc" id="L22">        val root = routing()</span>
 
-<span class="nc bnc" id="L24" title="All 2 branches missed.">        for ((route, callbacks) in routes) {</span>
-<span class="nc bnc" id="L25" title="All 2 branches missed.">            val routeFilters = filters.filterKeys { route.path.path.startsWith(it.path.path) }</span>
-<span class="nc bnc" id="L26" title="All 2 branches missed.">            val beforeCallbacks = routeFilters.filter { it.key.order == BEFORE }.map { it.value }</span>
-<span class="nc bnc" id="L27" title="All 2 branches missed.">            val afterCallbacks = routeFilters.filter { it.key.order == AFTER }.map { it.value }</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        for ((route, callbacks) in routes) {</span>
+<span class="pc bnc" id="L25" title="All 2 branches missed.">            val routeFilters = filters.filterKeys { route.path.path.startsWith(it.path.path) }</span>
+<span class="pc bnc" id="L26" title="All 2 branches missed.">            val beforeCallbacks = routeFilters.filter { it.key.order == BEFORE }.map { it.value }</span>
+<span class="pc bnc" id="L27" title="All 2 branches missed.">            val afterCallbacks = routeFilters.filter { it.key.order == AFTER }.map { it.value }</span>
 
-<span class="nc" id="L29">            root.add(route.method.toString (), route.path.path, {</span>
-<span class="nc" id="L30">                val undertowExchange = Exchange (</span>
+<span class="fc" id="L29">            root.add(route.method.toString (), route.path.path, {</span>
+<span class="fc" id="L30">                val undertowExchange = Exchange (</span>
                     UndertowRequest (it, route),
                     UndertowResponse (it),
                     UndertowSession (it)
                 )
 
-<span class="nc" id="L36">                try {</span>
-<span class="nc" id="L37">                    beforeCallbacks.forEach { undertowExchange.(it) () }</span>
-<span class="nc" id="L38">                    undertowExchange.(callbacks) ()</span>
-<span class="nc" id="L39">                    afterCallbacks.forEach { undertowExchange.(it) () }</span>
+<span class="fc" id="L36">                try {</span>
+<span class="pc" id="L37">                    beforeCallbacks.forEach { undertowExchange.(it) () }</span>
+<span class="fc" id="L38">                    undertowExchange.(callbacks) ()</span>
+<span class="pc" id="L39">                    afterCallbacks.forEach { undertowExchange.(it) () }</span>
                 }
 <span class="nc" id="L41">                catch (e: EndException) {</span>
                     // Just aborts the handler
@@ -45,32 +45,32 @@ import java.net.InetAddress.getByName as address
 <span class="nc" id="L45">                    handleException (e, undertowExchange)</span>
                 }
                 finally {
-<span class="nc" id="L48">                    it.statusCode = undertowExchange.response.status</span>
-<span class="nc" id="L49">                    it.responseSender.send (undertowExchange.response.body.toString())</span>
-<span class="nc" id="L50">                    it.responseSender.close()</span>
+<span class="pc" id="L48">                    it.statusCode = undertowExchange.response.status</span>
+<span class="pc" id="L49">                    it.responseSender.send (undertowExchange.response.body.toString())</span>
+<span class="pc" id="L50">                    it.responseSender.close()</span>
                 }
-<span class="nc" id="L52">            })</span>
+<span class="fc" id="L52">            })</span>
         }
 
-<span class="nc" id="L55">        val gracefulShutdown = gracefulShutdown (root)</span>
+<span class="fc" id="L55">        val gracefulShutdown = gracefulShutdown (root)</span>
 
-<span class="nc" id="L57">        builder = builder.addHttpListener(bindPort, bindAddress.hostName, gracefulShutdown)</span>
+<span class="fc" id="L57">        builder = builder.addHttpListener(bindPort, bindAddress.hostName, gracefulShutdown)</span>
 
-<span class="nc" id="L59">        undertow = builder.build()</span>
-<span class="nc" id="L60">    }</span>
+<span class="fc" id="L59">        undertow = builder.build()</span>
+<span class="fc" id="L60">    }</span>
 
     override fun startup() {
-<span class="nc" id="L63">        build ()</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (!started)</span>
-<span class="nc bnc" id="L65" title="All 2 branches missed.">            undertow?.start ()</span>
-<span class="nc" id="L66">        started = true</span>
-<span class="nc" id="L67">    }</span>
+<span class="fc" id="L63">        build ()</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (!started)</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            undertow?.start ()</span>
+<span class="fc" id="L66">        started = true</span>
+<span class="fc" id="L67">    }</span>
 
     override fun shutdown() {
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (started)</span>
-<span class="nc bnc" id="L71" title="All 2 branches missed.">            undertow?.stop ()</span>
-<span class="nc" id="L72">        started = false</span>
-<span class="nc" id="L73">    }</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (started)</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">            undertow?.stop ()</span>
+<span class="fc" id="L72">        started = false</span>
+<span class="fc" id="L73">    }</span>
 }
 
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

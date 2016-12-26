@@ -63,10 +63,10 @@ import java.util.Locale.forLanguageTag as localeFor
 <span class="nc" id="L63">        template(template, context.toMap())</span>
 
     fun page(callback: TagConsumer&lt;String&gt;.() -&gt; String) {
-<span class="nc" id="L66">        val html = createHTML().callback()</span>
-<span class="nc" id="L67">        response.contentType = &quot;text/html; charset=${defaultCharset().name()}&quot;</span>
-<span class="nc" id="L68">        ok(&quot;&lt;!DOCTYPE html&gt;\n\n$html&quot;)</span>
-<span class="nc" id="L69">    }</span>
+<span class="fc" id="L66">        val html = createHTML().callback()</span>
+<span class="fc" id="L67">        response.contentType = &quot;text/html; charset=${defaultCharset().name()}&quot;</span>
+<span class="fc" id="L68">        ok(&quot;&lt;!DOCTYPE html&gt;\n\n$html&quot;)</span>
+<span class="fc" id="L69">    }</span>
 
     fun file(name: String) {
 <span class="nc" id="L72">        val meta = load(name, response.outputStream)</span>

@@ -9,13 +9,13 @@ import java.lang.management.ManagementFactory.*
 
 <span class="fc" id="L10">abstract class Server (</span>
 <span class="fc" id="L11">    val bindAddress: InetAddress = InetAddress.getByName(&quot;localhost&quot;),</span>
-<span class="pc" id="L12">    val bindPort: Int = 2010) : Router() {</span>
+<span class="fc" id="L12">    val bindPort: Int = 2010) : Router() {</span>
 
 <span class="fc" id="L14">    companion object : CompanionLogger (Server::class)</span>
 
 <span class="pc bpc" id="L16" title="1 of 2 branches missed.">    val serviceName = SettingsManager[&quot;serviceName&quot;] ?: &quot;Hexagon&quot;</span>
 
-<span class="pc" id="L18">open val runtimePort = bindPort</span>
+<span class="fc" id="L18">open val runtimePort = bindPort</span>
 
     abstract fun started (): Boolean
 

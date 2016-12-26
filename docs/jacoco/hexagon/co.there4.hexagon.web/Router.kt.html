@@ -11,80 +11,81 @@ import kotlin.reflect.KClass
  * TODO Compose routers with a map of context to router (children)
  * TODO val children: MutableMap&lt;String, Router&gt; = LinkedHashMap()
  * TODO Add warning in Hexagon when paths DO NOT start with '/' or contains ':' (bad formats)
+ * TODO Add get&lt;Request, Response&gt;(&quot;/path&quot;) {} (for all methods)
  */
-<span class="fc" id="L15">open class Router(</span>
-<span class="fc" id="L16">    val filters: MutableMap&lt;Filter, Exchange.() -&gt; Unit&gt; = LinkedHashMap (),</span>
-<span class="fc" id="L17">    val routes: MutableMap&lt;Route, Exchange.() -&gt; Unit&gt; = LinkedHashMap (),</span>
-<span class="fc" id="L18">    val assets: MutableList&lt;String&gt; = ArrayList (),</span>
-<span class="fc" id="L19">    val errors: MutableMap&lt;Class&lt;out Exception&gt;, Exchange.(e: Exception) -&gt; Unit&gt; = LinkedHashMap ()</span>
+<span class="fc" id="L16">open class Router(</span>
+<span class="fc" id="L17">    val filters: MutableMap&lt;Filter, Exchange.() -&gt; Unit&gt; = LinkedHashMap (),</span>
+<span class="fc" id="L18">    val routes: MutableMap&lt;Route, Exchange.() -&gt; Unit&gt; = LinkedHashMap (),</span>
+<span class="fc" id="L19">    val assets: MutableList&lt;String&gt; = ArrayList (),</span>
+<span class="fc" id="L20">    val errors: MutableMap&lt;Class&lt;out Exception&gt;, Exchange.(e: Exception) -&gt; Unit&gt; = LinkedHashMap ()</span>
     ) {
 
-<span class="fc" id="L22">    companion object : CompanionLogger (Router::class)</span>
+<span class="fc" id="L23">    companion object : CompanionLogger (Router::class)</span>
 
-<span class="pc" id="L24">    var notFoundHandler: Exchange.() -&gt; Unit = { error(404, request.url + &quot; not found&quot;) }</span>
+<span class="pc" id="L25">    var notFoundHandler: Exchange.() -&gt; Unit = { error(404, request.url + &quot; not found&quot;) }</span>
         private set
 
-<span class="pc" id="L27">    private var errorHandler: Exchange.(e: Exception) -&gt; Unit = { e -&gt; error(500, e.toText()) }</span>
+<span class="pc" id="L28">    private var errorHandler: Exchange.(e: Exception) -&gt; Unit = { e -&gt; error(500, e.toText()) }</span>
 
-<span class="fc" id="L29">    fun after(path: String = &quot;/*&quot;, block: Exchange.() -&gt; Unit) = addFilter(path, AFTER, block)</span>
-<span class="fc" id="L30">    fun before(path: String = &quot;/*&quot;, block: Exchange.() -&gt; Unit) = addFilter (path, BEFORE, block)</span>
+<span class="fc" id="L30">    fun after(path: String = &quot;/*&quot;, block: Exchange.() -&gt; Unit) = addFilter(path, AFTER, block)</span>
+<span class="fc" id="L31">    fun before(path: String = &quot;/*&quot;, block: Exchange.() -&gt; Unit) = addFilter (path, BEFORE, block)</span>
 
-<span class="fc" id="L32">    fun get(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, GET, block)</span>
-<span class="fc" id="L33">    fun head(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, HEAD, block)</span>
-<span class="fc" id="L34">    fun post(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, POST, block)</span>
-<span class="fc" id="L35">    fun put(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, PUT, block)</span>
-<span class="fc" id="L36">    fun delete(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, DELETE, block)</span>
-<span class="fc" id="L37">    fun trace(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, TRACE, block)</span>
-<span class="fc" id="L38">    fun options(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, OPTIONS, block)</span>
-<span class="fc" id="L39">    fun patch(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, PATCH, block)</span>
+<span class="fc" id="L33">    fun get(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, GET, block)</span>
+<span class="fc" id="L34">    fun head(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, HEAD, block)</span>
+<span class="fc" id="L35">    fun post(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, POST, block)</span>
+<span class="fc" id="L36">    fun put(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, PUT, block)</span>
+<span class="fc" id="L37">    fun delete(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, DELETE, block)</span>
+<span class="fc" id="L38">    fun trace(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, TRACE, block)</span>
+<span class="fc" id="L39">    fun options(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, OPTIONS, block)</span>
+<span class="fc" id="L40">    fun patch(path: String = &quot;/&quot;, block: Exchange.() -&gt; Unit) = addRoute(path, PATCH, block)</span>
 
-<span class="nc" id="L41">    fun notFound(block: Exchange.() -&gt; Unit) { notFoundHandler = block }</span>
-<span class="nc" id="L42">    fun internalError(block: Exchange.(e: Exception) -&gt; Unit) { errorHandler = block }</span>
+<span class="nc" id="L42">    fun notFound(block: Exchange.() -&gt; Unit) { notFoundHandler = block }</span>
+<span class="nc" id="L43">    fun internalError(block: Exchange.(e: Exception) -&gt; Unit) { errorHandler = block }</span>
 
     fun handleException (exception: Exception, exchange: Exchange) {
-<span class="fc" id="L45">        val handler = errors[exception.javaClass]</span>
+<span class="fc" id="L46">        val handler = errors[exception.javaClass]</span>
 
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if (handler != null)</span>
-<span class="fc" id="L48">            exchange.(handler)(exception)</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (handler != null)</span>
+<span class="fc" id="L49">            exchange.(handler)(exception)</span>
         else
-<span class="nc" id="L50">            exchange.errorHandler(exception)</span>
-<span class="fc" id="L51">    }</span>
+<span class="nc" id="L51">            exchange.errorHandler(exception)</span>
+<span class="fc" id="L52">    }</span>
 
-<span class="fc" id="L53">    fun assets (path: String) = assets.add (path)</span>
+<span class="fc" id="L54">    fun assets (path: String) = assets.add (path)</span>
 
     fun error(exception: Class&lt;out Exception&gt;, callback: Exchange.(e: Exception) -&gt; Unit) =
-<span class="fc" id="L56">        errors.put (exception, callback)</span>
+<span class="fc" id="L57">        errors.put (exception, callback)</span>
 
     fun error(exception: KClass&lt;out Exception&gt;, callback: Exchange.(e: Exception) -&gt; Unit) =
-<span class="fc" id="L59">        error (exception.java, callback)</span>
+<span class="fc" id="L60">        error (exception.java, callback)</span>
 
     private fun addFilter(path: String, order: FilterOrder, block: Exchange.() -&gt; Unit) {
-<span class="fc" id="L62">        val filter = Filter (Path (path), order)</span>
+<span class="fc" id="L63">        val filter = Filter (Path (path), order)</span>
 
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (filters.containsKey(filter))</span>
-<span class="nc" id="L65">            throw IllegalArgumentException (&quot;$order $path Filter is already added&quot;)</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if (filters.containsKey(filter))</span>
+<span class="nc" id="L66">            throw IllegalArgumentException (&quot;$order $path Filter is already added&quot;)</span>
 
-<span class="fc" id="L67">        filters.put (filter, block)</span>
-<span class="fc" id="L68">        info (&quot;$order $path Filter ADDED&quot;)</span>
-<span class="fc" id="L69">    }</span>
+<span class="fc" id="L68">        filters.put (filter, block)</span>
+<span class="fc" id="L69">        info (&quot;$order $path Filter ADDED&quot;)</span>
+<span class="fc" id="L70">    }</span>
 
     private fun addRoute(path: String, method: HttpMethod, block: Exchange.() -&gt; Unit): Route {
-<span class="fc" id="L72">        val route = Route (Path (path), method)</span>
+<span class="fc" id="L73">        val route = Route (Path (path), method)</span>
 
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (routes.containsKey(route))</span>
-<span class="nc" id="L75">            throw IllegalArgumentException (&quot;$method $path Route is already added&quot;)</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if (routes.containsKey(route))</span>
+<span class="nc" id="L76">            throw IllegalArgumentException (&quot;$method $path Route is already added&quot;)</span>
 
-<span class="fc" id="L77">        routes.put (route, block)</span>
-<span class="fc" id="L78">        info (&quot;$method $path Route ADDED&quot;)</span>
+<span class="fc" id="L78">        routes.put (route, block)</span>
+<span class="fc" id="L79">        info (&quot;$method $path Route ADDED&quot;)</span>
 
-<span class="fc" id="L80">        return route</span>
+<span class="fc" id="L81">        return route</span>
     }
 
     fun reset() {
-<span class="nc" id="L84">        filters.clear()</span>
-<span class="nc" id="L85">        routes.clear()</span>
-<span class="nc" id="L86">        assets.clear()</span>
-<span class="nc" id="L87">        errors.clear()</span>
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L85">        filters.clear()</span>
+<span class="nc" id="L86">        routes.clear()</span>
+<span class="nc" id="L87">        assets.clear()</span>
+<span class="nc" id="L88">        errors.clear()</span>
+<span class="nc" id="L89">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

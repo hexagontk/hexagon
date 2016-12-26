@@ -8,20 +8,20 @@ import co.there4.hexagon.web.Request
 import co.there4.hexagon.web.Route
 import java.net.HttpCookie
 
-<span class="nc" id="L11">class UndertowRequest(val e: HttpServerExchange, val route: Route) : Request {</span>
-<span class="nc" id="L12">    override val path: String = pathInfo</span>
+<span class="pc" id="L11">class UndertowRequest(val e: HttpServerExchange, val route: Route) : Request {</span>
+<span class="pc" id="L12">    override val path: String = pathInfo</span>
 <span class="nc" id="L13">    override val contentType: String? get() = throw UnsupportedOperationException()</span>
-<span class="nc" id="L14">    override val pathInfo: String get() = e.requestPath</span>
+<span class="fc" id="L14">    override val pathInfo: String get() = e.requestPath</span>
 <span class="nc" id="L15">    override val body: String get() = throw UnsupportedOperationException()</span>
 <span class="nc" id="L16">    override val scheme: String get() = e.requestScheme</span>
 <span class="nc" id="L17">    override val port: Int get() = e.hostPort</span>
-<span class="nc" id="L18">    override val method: HttpMethod by lazy { HttpMethod.valueOf (e.requestMethod.toString()) }</span>
+<span class="pc" id="L18">    override val method: HttpMethod by lazy { HttpMethod.valueOf (e.requestMethod.toString()) }</span>
 <span class="nc" id="L19">    override val queryString: String get() = e.queryString</span>
 <span class="nc" id="L20">    override val contentLength: Long get() = e.requestContentLength</span>
 <span class="nc" id="L21">    override val host: String get() = e.hostName</span>
 
     override val parameters: Map&lt;String, List&lt;String&gt;&gt;
-<span class="nc" id="L24">        get() = (e.pathParameters + e.queryParameters).mapValues { it.value.toList() }</span>
+<span class="fc" id="L24">        get() = (e.pathParameters + e.queryParameters).mapValues { it.value.toList() }</span>
 
     override val headers: Map&lt;String, List&lt;String&gt;&gt; get() =
 <span class="nc" id="L27">        e.requestHeaders.map { it.headerName.toString() to it }.toMap()</span>
