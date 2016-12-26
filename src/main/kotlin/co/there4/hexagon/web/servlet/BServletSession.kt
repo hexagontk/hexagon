@@ -1,6 +1,5 @@
 package co.there4.hexagon.web.servlet
 
-import co.there4.hexagon.util.err
 import co.there4.hexagon.web.Session
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
@@ -16,8 +15,8 @@ class BServletSession(val req: HttpServletRequest) : Session {
     override val attributes: Map<String, Any?>
         get() = req.session.attributeNames.toList().map { it to this[it] }.toMap()
 
-    override val creationTime: Long get () = session (req)?.creationTime ?: 0L
-    override val lastAccessedTime: Long get() = session (req)?.lastAccessedTime ?: 0L
+    override val creationTime: Long by lazy { session (req)?.creationTime ?: 0L }
+    override val lastAccessedTime: Long by lazy { session (req)?.lastAccessedTime ?: 0L }
     override var id: String
         get() = session (req)?.id ?: ""
         set(value) { }

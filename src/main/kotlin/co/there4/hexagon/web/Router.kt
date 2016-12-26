@@ -11,6 +11,7 @@ import kotlin.reflect.KClass
  * TODO Compose routers with a map of context to router (children)
  * TODO val children: MutableMap<String, Router> = LinkedHashMap()
  * TODO Add warning in Hexagon when paths DO NOT start with '/' or contains ':' (bad formats)
+ * TODO Add get<Request, Response>("/path") {} (for all methods)
  */
 open class Router(
     val filters: MutableMap<Filter, Exchange.() -> Unit> = LinkedHashMap (),
