@@ -10,6 +10,7 @@ After=network.target
 
 [Service]
 Type=simple
+WorkingDirectory=${deployDir}/${projectName}
 ExecStart=${deployDir}/${projectName}/bin/${projectName}
 User=${serviceUser}
 Group=${serviceGroup}
