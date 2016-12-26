@@ -34,7 +34,6 @@ class BenchmarkTest {
             one_hundred_queries()
             five_hundred_queries()
             fortunes()
-            fortune_page()
             no_updates_parameter()
             empty_updates_parameter()
             text_updates_parameter()
@@ -80,8 +79,15 @@ class BenchmarkTest {
         assert("Hello, World!" == content)
     }
 
-    fun fortunes() = fortunesCheck("/fortunes")
-    fun fortune_page() = fortunesCheck("/fortunes_page")
+    fun fortunes() {
+        val response = client.get("/fortunes")
+        val content = response.responseBody
+
+        checkResponse(response, "text/html;charset=utf-8")
+        assert(content.contains("<td>&lt;script&gt;alert(&quot;This should not be "))
+        assert(content.contains(" displayed in a browser alert box.&quot;);&lt;/script&gt;</td>"))
+        assert(content.contains("<td>フレームワークのベンチマーク</td>"))
+    }
 
     fun no_query_parameter() {
         val response = client.get("/db")
@@ -136,16 +142,6 @@ class BenchmarkTest {
             assert(!r.containsKey(World::_id.name))
             assert((r[World::id.name] as Int) in 1..10000)
         }
-    }
-
-    private fun fortunesCheck(url: String) {
-        val response = client.get(url)
-        val content = response.responseBody
-
-        checkResponse(response, "text/html;charset=utf-8")
-        assert(content.contains("<td>&lt;script&gt;alert(&quot;This should not be "))
-        assert(content.contains(" displayed in a browser alert box.&quot;);&lt;/script&gt;</td>"))
-        assert(content.contains("<td>フレームワークのベンチマーク</td>"))
     }
 
     private fun checkResponse(res: Response, contentType: String) {

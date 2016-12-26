@@ -4,7 +4,6 @@ import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.servlet.ServletServer
-import kotlinx.html.*
 
 import java.net.InetAddress.getByName as address
 import java.time.LocalDateTime.now
@@ -33,11 +32,13 @@ private fun Exchange.returnWorlds(worlds: List<World>) {
     ok(result, CONTENT_TYPE_JSON)
 }
 
-private fun listFortunes() =
-    (findFortunes() + Fortune(0, "Additional fortune added at request time."))
-        .sortedBy { it.message }
-
 // HANDLERS
+private fun Exchange.listFortunes() {
+    val fortunes = findFortunes() + Fortune(0, "Additional fortune added at request time.")
+
+    template("fortunes.html", "fortunes" to fortunes.sortedBy { it.message })
+}
+
 private fun Exchange.getDb() {
     val worlds = (1..getQueries()).map { findWorld() }.filterNotNull()
 
@@ -77,7 +78,7 @@ fun benchmarkRoutes(srv: Router = server) {
 
     srv.get("/plaintext") { ok("Hello, World!", "text/plain") }
     srv.get("/json") { ok(Message().serialize(), CONTENT_TYPE_JSON) }
-    srv.get("/fortunes") { template("fortunes.html", "fortunes" to listFortunes()) }
+    srv.get("/fortunes") { listFortunes() }
     srv.get("/db") { getDb() }
     srv.get("/query") { getDb() }
     srv.get("/update") { getUpdates() }
@@ -92,30 +93,5 @@ fun benchmarkRoutes(srv: Router = server) {
 fun main(args: Array<String>) {
     initialize()
     benchmarkRoutes()
-
-    get("/fortunes_page") {
-        page {
-            html {
-                head {
-                    title { +"Fortunes" }
-                }
-                body {
-                    table {
-                        tr {
-                            th { +"id" }
-                            th { +"message" }
-                        }
-                        listFortunes().forEach {
-                            tr {
-                                td { +it._id }
-                                td { +it.message }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     run()
 }
