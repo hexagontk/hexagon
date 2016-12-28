@@ -6,7 +6,18 @@ import java.lang.System.getenv
 
 import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.repository.mongoDatabase
+import co.there4.hexagon.settings.SettingsManager.requireSetting
+import co.there4.hexagon.util.err
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
+import java.io.Closeable
 import kotlin.reflect.KProperty1
+import java.sql.BatchUpdateException
+import java.sql.Connection
+import java.sql.PreparedStatement
+import java.util.concurrent.ThreadLocalRandom
+import javax.sql.DataSource
+
 
 internal val FORTUNE_MESSAGES = setOf(
     "fortune: No such file or directory",
@@ -59,4 +70,102 @@ internal fun findWorld() = worldRepository.find(rnd())
 
 internal fun replaceWorld(newWorld: World) {
     worldRepository.replaceObject(newWorld)
+}
+
+internal interface Repository {
+    fun findFortunes(): List<Fortune>
+    fun accessWorlds(queries: Int, update: Boolean): List<World>
+
+    fun findWorlds(queries: Int): List<World> = accessWorlds(queries, false)
+    fun updateWorlds(queries: Int): List<World> = accessWorlds(queries, true)
+}
+
+internal class MySqlRepository : Repository {
+    private val AUTOCOMMIT = System.getProperty("sabina.benchmark.autocommit") != null
+    private val SELECT_WORLD = "select * from world where id = ?"
+    private val UPDATE_WORLD = "update world set randomNumber = ? where id = ?"
+    private val SELECT_FORTUNES = "select * from fortune"
+
+    private val DATA_SOURCE: DataSource
+
+    init {
+        val config = HikariConfig()
+        config.jdbcUrl = requireSetting<String>("mysql.uri")
+        config.maximumPoolSize = 256
+        DATA_SOURCE = HikariDataSource(config)
+    }
+
+    private fun commitUpdate(con: Connection, stmtUpdate: PreparedStatement) {
+        var count = 0
+        var retrying: Boolean
+
+        do {
+            try {
+                stmtUpdate.executeBatch()
+                retrying = false
+            }
+            catch (e: BatchUpdateException) {
+                retrying = true
+            }
+        }
+        while (count++ < 10 && retrying)
+
+        con.commit()
+    }
+
+    private fun updateWorld(world: World, stmtUpdate: PreparedStatement) {
+        stmtUpdate.setInt(1, world.randomNumber)
+        stmtUpdate.setInt(2, world.id)
+
+        if (AUTOCOMMIT)
+            stmtUpdate.executeUpdate()
+        else
+            stmtUpdate.addBatch()
+    }
+
+    override fun findFortunes(): List<Fortune> {
+        var fortunes = listOf<Fortune>()
+
+        val connection = KConnection(DATA_SOURCE.connection ?: err)
+        connection.use { con: Connection ->
+            val rs = con.prepareStatement(SELECT_FORTUNES).executeQuery()
+            while (rs.next())
+                fortunes += Fortune(rs.getInt(1), rs.getString(2))
+        }
+
+        return fortunes
+    }
+
+    class KConnection(conn: Connection) : Connection by conn, Closeable
+
+    override fun accessWorlds(queries: Int, update: Boolean): List<World> {
+        val worlds: MutableList<World> = mutableListOf()
+
+        KConnection(DATA_SOURCE.connection).use { con: Connection ->
+            if (update)
+                con.autoCommit = AUTOCOMMIT
+
+            val random = ThreadLocalRandom.current()
+            val stmtSelect = con.prepareStatement(SELECT_WORLD)
+            val stmtUpdate = if (update) con.prepareStatement(UPDATE_WORLD) else null
+
+            for (ii in 0..queries - 1) {
+                stmtSelect.setInt(1, random.nextInt(DB_ROWS) + 1)
+                val rs = stmtSelect.executeQuery()
+                while (rs.next()) {
+                    worlds[ii] = World(rs.getInt(1), rs.getInt(2))
+
+                    if (stmtUpdate != null) {
+                        worlds[ii] = World(worlds[ii].id, random.nextInt(DB_ROWS) + 1)
+                        updateWorld(worlds[ii], stmtUpdate)
+                    }
+                }
+            }
+
+            if (stmtUpdate != null && !AUTOCOMMIT)
+                commitUpdate(con, stmtUpdate)
+        }
+
+        return worlds
+    }
 }
