@@ -1,6 +1,5 @@
 [![BuildImg]][Build] [![CoverageImg]][Coverage]
-[![DownloadImg]][Download] [![KanbanImg]][Kanban]
-[![WebImg]][Web]
+[![DownloadImg]][Download] [![WebImg]][Web]
 
 [BuildImg]: https://travis-ci.org/jaguililla/hexagon.svg?branch=master
 [Build]: https://travis-ci.org/jaguililla/hexagon
