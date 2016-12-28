@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-apply from: "$gradleScripts/hexagon.gradle"
+apply from: "$gradleScripts/kotlin.gradle"
 apply from: "$gradleScripts/service.gradle"
 apply plugin: 'war'
 
@@ -29,3 +29,12 @@ war {
 }
 
 install.dependsOn 'war'
+
+dependencies {
+    compile "co.there4:hexagon:$hexagonVersion"
+
+    compile 'com.zaxxer:HikariCP:2.5.1'
+    compile 'mysql:mysql-connector-java:6.0.5'
+
+    testCompile "co.there4:hexagon:$hexagonVersion:test"
+}

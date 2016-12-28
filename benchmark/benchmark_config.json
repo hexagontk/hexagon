@@ -22,7 +22,7 @@
                 "webserver" : "None",
                 "os" : "Linux",
                 "database_os" : "Linux",
-                "display_name" : "Hexagon MongoDB",
+                "display_name" : "Hexagon Jetty MongoDB",
                 "notes" : "http://there4.co/hexagon",
 
                 "setup_file" : "setup",
@@ -48,7 +48,7 @@
                 "webserver" : "Resin",
                 "os" : "Linux",
                 "database_os" : "Linux",
-                "display_name" : "Hexagon Resin",
+                "display_name" : "Hexagon Resin MongoDB",
                 "notes" : "http://there4.co/hexagon",
 
                 "setup_file" : "setup_resin",
