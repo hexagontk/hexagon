@@ -190,15 +190,11 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
  * I/O
  */
 val systemClassLoader: ClassLoader = getSystemClassLoader() ?: error("Error getting class loader")
-val contextClassLoader: ClassLoader = Thread.currentThread().contextClassLoader
-val hexagonClassLoader: ClassLoader = SettingsManager::class.java.classLoader
 
 /**
  * TODO Fix class loader issues, use thread class loader or whatever
  * http://www.javaworld.com/article/2077344/core-java/find-a-way-out-of-the-classloader-maze.html
  */
-fun resourceAsStream__(resName: String): InputStream? = hexagonClassLoader.getResourceAsStream(resName)
-fun resourceAsStream_(resName: String): InputStream? = contextClassLoader.getResourceAsStream(resName)
 fun resourceAsStream(resName: String): InputStream? = systemClassLoader.getResourceAsStream(resName)
 fun resource(resName: String): URL? = systemClassLoader.getResource(resName)
 fun requireResource(resName: String): URL = resource(resName) ?: error("$resName not found")
