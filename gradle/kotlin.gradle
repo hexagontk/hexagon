@@ -15,6 +15,8 @@ ext.powermockVersion = findProperty ('powermockVersion') ?: '1.6.6'
 ext.filterPatterns = findProperty ('filterPatterns') ?: '*.properties, *.txt, *.xml, *.json, *.yaml'
 ext.rootBuildDir = rootProject.buildDir
 
+defaultTasks 'build'
+
 repositories {
     jcenter ()
     mavenCentral ()
@@ -38,6 +40,8 @@ processResources {
                 it
                     .replace ('${projectVersion}', project.version)
                     .replace ('${projectName}', project.name)
+                    .replace ('${projectGroup}', project.group)
+                    .replace ('${projectDescription}', project.description)
             }
         }
     }
@@ -47,6 +51,7 @@ clean {
     delete "build", ".gradle"
 
     delete fileTree(rootDir) { include '**/*.log' }
+    delete fileTree(rootDir) { include '**/*.hprof' }
     delete fileTree(rootDir) { include '**/*.class' }
 }
 

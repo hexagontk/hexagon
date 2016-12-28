@@ -10,10 +10,12 @@ ext.serviceGroup = findProperty ('serviceGroup') ?: serviceUser
 jar {
     manifest {
         attributes(
-            "hexagon": "service",
-            "project": rootProject.name,
-            "module": project.name,
-            "version": project.version
+            hexagon: "service",
+            project: rootProject.name,
+            module: project.name,
+            version: project.version,
+            group: project.group,
+            description: project.description
         )
     }
 }
@@ -25,6 +27,7 @@ task install(dependsOn: [ 'check', 'installDist' ]) {
         Map<String, String> parameters = [
             projectName : project.name,
             projectVersion : project.version.toString(),
+            projectGroup : project.group.toString (),
             projectDescription : project.description,
             deployDir : deployDir,
             serviceUser : serviceUser,

@@ -46,6 +46,8 @@ task site (dependsOn: 'jbake') {
             it.write (it.getText ()
                 .replace ('${projectVersion}', project.version.toString ())
                 .replace ('${siteColor}', siteColor.toString())
+                .replace ('${projectGroup}', project.group.toString ())
+                .replace ('${projectDescription}', project.description)
             )
         }
     }
