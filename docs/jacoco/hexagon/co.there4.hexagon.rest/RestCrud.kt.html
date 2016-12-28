@@ -24,7 +24,7 @@ import java.nio.charset.Charset.defaultCharset
 
 <span class="fc" id="L25">        val collectionName = repository.namespace.collectionName</span>
 
-<span class="pc" id="L27">        server.get(&quot;/$collectionName/ids&quot;) { findIds(repository, this) }</span>
+<span class="fc" id="L27">        server.get(&quot;/$collectionName/ids&quot;) { findIds(repository, this) }</span>
 <span class="pc" id="L28">        server.get(&quot;/$collectionName/*,*&quot;) { findList (repository, this) }</span>
 <span class="fc" id="L29">        server.get(&quot;/$collectionName/{id}&quot;) { find (repository, this) }</span>
 
@@ -32,18 +32,18 @@ import java.nio.charset.Charset.defaultCharset
 <span class="pc" id="L32">            server.put(&quot;/$collectionName/list&quot;) { replaceList (repository, this) }</span>
 <span class="fc" id="L33">            server.put(&quot;/$collectionName&quot;) { replace (repository, this) }</span>
 
-<span class="pc" id="L35">            server.delete(&quot;/$collectionName/*,*&quot;) { deleteList (repository, this) }</span>
+<span class="fc" id="L35">            server.delete(&quot;/$collectionName/*,*&quot;) { deleteList (repository, this) }</span>
 <span class="fc" id="L36">            server.delete(&quot;/$collectionName/{id}&quot;) { delete (repository, this) }</span>
         }
 <span class="fc" id="L38">    }</span>
 
     private fun findIds(repository: MongoIdRepository&lt;T, K&gt;, exchange: Exchange) {
-<span class="nc" id="L41">        val keyName = repository.key.name</span>
-<span class="nc" id="L42">        val projection = include(keyName)</span>
-<span class="nc" id="L43">        val ids = repository.find().projection(projection)</span>
-<span class="nc bnc" id="L44" title="All 4 branches missed.">        val idValues = ids.pageResults(exchange).map { (it as Map&lt;*, *&gt;)[keyName] }</span>
-<span class="nc" id="L45">        exchange.ok(idValues.toList().serialize())</span>
-<span class="nc" id="L46">    }</span>
+<span class="fc" id="L41">        val keyName = repository.key.name</span>
+<span class="fc" id="L42">        val projection = include(keyName)</span>
+<span class="fc" id="L43">        val ids = repository.find().projection(projection)</span>
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">        val idValues = ids.pageResults(exchange).map { (it as Map&lt;*, *&gt;)[keyName] }</span>
+<span class="fc" id="L45">        exchange.ok(idValues.toList().serialize())</span>
+<span class="fc" id="L46">    }</span>
 
     private fun &lt;T : Any, K : Any&gt; replaceList (
         repository: MongoIdRepository&lt;T, K&gt;, exchange: Exchange) {
@@ -64,10 +64,10 @@ import java.nio.charset.Charset.defaultCharset
     private fun &lt;T : Any, K : Any&gt; deleteList (
         repository: MongoIdRepository&lt;T, K&gt;, exchange: Exchange) {
 
-<span class="nc" id="L67">        val key = parseKeys(repository, exchange)</span>
-<span class="nc" id="L68">        repository.deleteIds(key)</span>
-<span class="nc" id="L69">        exchange.ok(200)</span>
-<span class="nc" id="L70">    }</span>
+<span class="fc" id="L67">        val key = parseKeys(repository, exchange)</span>
+<span class="fc" id="L68">        repository.deleteIds(key)</span>
+<span class="fc" id="L69">        exchange.ok(200)</span>
+<span class="fc" id="L70">    }</span>
 
     private fun &lt;T : Any, K : Any&gt; findList (
         repository: MongoIdRepository&lt;T, K&gt;, exchange: Exchange) {
@@ -122,13 +122,13 @@ import java.nio.charset.Charset.defaultCharset
     private fun &lt;K : Any, T : Any&gt; parseKeys(
         repository: MongoIdRepository&lt;T, K&gt;, exchange: Exchange): List&lt;K&gt; =
 
-<span class="nc bnc" id="L125" title="All 2 branches missed.">        exchange.request.pathInfo.substringAfterLast(&quot;/&quot;).split(&quot;,&quot;).map { it.trim() }.map {</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">        exchange.request.pathInfo.substringAfterLast(&quot;/&quot;).split(&quot;,&quot;).map { it.trim() }.map {</span>
             @Suppress(&quot;UNCHECKED_CAST&quot;, &quot;IMPLICIT_CAST_TO_ANY&quot;)
-<span class="nc bnc" id="L127" title="All 2 branches missed.">            when (repository.keyType) {</span>
-<span class="nc bnc" id="L128" title="All 2 branches missed.">                String::class -&gt; &quot;$it&quot;</span>
-<span class="nc bnc" id="L129" title="All 2 branches missed.">                Int::class -&gt; it.toInt()</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">            when (repository.keyType) {</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">                String::class -&gt; &quot;$it&quot;</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">                Int::class -&gt; it.toInt()</span>
 <span class="nc" id="L130">                else -&gt; it</span>
-<span class="nc" id="L131">            } as K</span>
-<span class="nc" id="L132">        }</span>
+<span class="fc" id="L131">            } as K</span>
+<span class="fc" id="L132">        }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

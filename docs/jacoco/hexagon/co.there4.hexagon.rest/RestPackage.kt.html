@@ -16,12 +16,12 @@ fun &lt;T : Any, K : Any&gt; crud(repository: MongoIdRepository&lt;T, K&gt;, rea
 <span class="fc" id="L16">}</span>
 
 fun &lt;T : Any&gt; Server.crud(repository: MongoRepository&lt;T&gt;, readOnly: Boolean = false) {
-<span class="nc" id="L19">    RestBaseCrud (repository, this, readOnly).install()</span>
-<span class="nc" id="L20">}</span>
+<span class="fc" id="L19">    RestBaseCrud (repository, this, readOnly).install()</span>
+<span class="fc" id="L20">}</span>
 
 fun &lt;T : Any&gt; crud(repository: MongoRepository&lt;T&gt;, readOnly: Boolean = false) {
-<span class="nc" id="L23">    server.crud (repository, readOnly)</span>
-<span class="nc" id="L24">}</span>
+<span class="fc" id="L23">    server.crud (repository, readOnly)</span>
+<span class="fc" id="L24">}</span>
 
 <span class="nc" id="L26">fun Server.files(path: String = &quot;/file&quot;, fileName: Exchange.() -&gt; String = { request.pathInfo }) {</span>
 <span class="nc" id="L27">    get(path) { file(fileName()) }</span>
