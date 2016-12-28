@@ -2,6 +2,7 @@ package co.there4.hexagon.rest
 
 import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.repository.mongoDatabase
+import co.there4.hexagon.repository.mongoRepository
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.parseList
 import co.there4.hexagon.serialization.serialize
@@ -18,6 +19,7 @@ import kotlin.reflect.KProperty1
 @Test class RestPackageTest {
     data class Parameter (val name: String, val value: String)
     data class Country (val id: Int, val code: String)
+    data class Address (val street: String, val number: Int, val postcode: String)
 
     private val parameters = createCollection(Parameter::class, Parameter::name)
     private val countries = createCollection(Country::class, Country::id)
@@ -53,6 +55,12 @@ import kotlin.reflect.KProperty1
         assert (client.get("/Country/${parameter.id}").statusCode == 404)
         assert (client.get("/Country").responseBody == "[ ]")
 
+        val countryList = listOf(parameter, Country(1, "us"))
+        assert(client.post("/Country/list", countryList.serialize()).statusCode == 201)
+        assert(client.get("/Country/ids").responseBody.parseList(Int::class) == listOf(34, 1))
+        assert(client.delete("/Country/34,1").statusCode == 200)
+        assert (client.get("/Country").responseBody == "[ ]")
+
         server.stop()
     }
 
@@ -80,6 +88,44 @@ import kotlin.reflect.KProperty1
         assert (client.delete("/Parameter/${parameter.name}").statusCode == 200)
         assert (client.get("/Parameter/${parameter.name}").statusCode == 404)
         assert (client.get("/Parameter").responseBody == "[ ]")
+
+        stop()
+    }
+
+    fun simple_crud_starts_correctly () {
+        val addresses = mongoRepository<Address>()
+
+        stop()
+        server = JettyServer(bindPort = 0)
+        crud(addresses)
+        run()
+
+        fun param (json: String?) = json?.parse (Address::class) ?: err
+        fun paramList (json: String?) = json?.parseList (Address::class) ?: err
+
+        val client = Client("http://localhost:${server.runtimePort}", useCookies = false)
+
+        val parameter = Address("a", 0, "b")
+        val modifiedParameter = parameter.copy(postcode = "c")
+
+        assert (client.delete("/Address?postcode=${parameter.postcode}").statusCode == 200)
+        assert (client.get("/Address").responseBody == "[ ]")
+        assert (client.post("/Address", parameter.serialize()).statusCode == 201)
+        assert (paramList(client.get("/Address").responseBody) == listOf (parameter))
+        assert (paramList(client.get("/Address?postcode=${parameter.postcode}").responseBody) == listOf(parameter))
+        assert (client.delete("/Address?postcode=${parameter.postcode}").statusCode == 200)
+        assert (client.get("/Address").responseBody == "[ ]")
+
+        val addressList = listOf(parameter, modifiedParameter)
+        assert (client.post("/Address/list", addressList.serialize()).statusCode == 201)
+        assert (client.get("/Address/count").responseBody == "2")
+
+        assert (client.delete("/Address").statusCode == 400)
+
+        assert (paramList(client.get("/Address?limit=1&skip=1").responseBody) == listOf(modifiedParameter))
+
+        assert (client.delete("/Address?postcode=b,c").statusCode == 200)
+        assert (client.get("/Address/count").responseBody == "0")
 
         stop()
     }

@@ -1,11 +1,16 @@
 package co.there4.hexagon.rest
 
 import co.there4.hexagon.repository.MongoRepository
+import co.there4.hexagon.repository.eq
+import co.there4.hexagon.repository.isIn
 import co.there4.hexagon.serialization.*
 import co.there4.hexagon.web.*
 import com.mongodb.MongoWriteException
 import com.mongodb.client.FindIterable
+import com.mongodb.client.model.Filters
+import org.bson.conversions.Bson
 import java.nio.charset.Charset.defaultCharset
+import kotlin.reflect.declaredMemberProperties
 
 /**
  * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)
@@ -25,6 +30,7 @@ open class RestBaseCrud <T : Any> (
         if (!readOnly) {
             server.post("/$collectionName/list") { insertList (repository, this) }
             server.post("/$collectionName") { insert (repository, this) }
+            server.delete("/$collectionName") { deleteByExample (repository, this) }
         }
     }
 
@@ -63,10 +69,39 @@ open class RestBaseCrud <T : Any> (
     }
 
     protected fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
-        val objects = repository.findObjects { pageResults(exchange) }.toList()
+        val exampleFilter = filterByExample(exchange)
+        val objects =
+            if (exampleFilter == null) repository.findObjects { pageResults(exchange) }.toList()
+            else repository.findObjects (exampleFilter) { pageResults(exchange) }.toList()
         val contentType = accept(exchange)
         exchange.response.contentType = contentType + "; charset=${defaultCharset().name()}"
         exchange.ok(objects.serialize(contentType))
+    }
+
+    private fun deleteByExample(repository: MongoRepository<T>, exchange: Exchange) {
+        val exampleFilter = filterByExample(exchange)
+        if (exampleFilter == null)
+            exchange.error(400, "A filter is required")
+        else
+            repository.deleteMany(exampleFilter)
+    }
+
+    protected fun filterByExample(exchange: Exchange): Bson? {
+        val parameters = exchange.request.parameters
+        val filters = parameters
+            .filterKeys { it in repository.type.declaredMemberProperties.map { it.name } }
+
+        return if (filters.isNotEmpty())
+            Filters.and(
+                filters.map {
+                    val value = it.value.first()
+                    if (value.contains(','))
+                        it.key isIn value.split(',')
+                    else
+                        it.key eq value
+                }
+            )
+        else null
     }
 
     protected fun FindIterable<*>.pageResults(exchange: Exchange): FindIterable<*> {
