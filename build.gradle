@@ -28,8 +28,8 @@ buildscript {
     }
 }
 
-apply from: "$rootDir/gradle/site.gradle"
-apply from: "$rootDir/gradle/kotlin.gradle"
+apply from: "gradle/site.gradle"
+apply from: "gradle/kotlin.gradle"
 
 apply plugin: 'maven-publish'
 apply plugin: "uk.co.cacoethes.lazybones-templates"

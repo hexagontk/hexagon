@@ -11,9 +11,6 @@
 [DownloadImg]: https://img.shields.io/bintray/v/jamming/maven/Hexagon.svg
 [Download]: https://bintray.com/jamming/maven/Hexagon/_latestVersion
 
-[KanbanImg]: https://img.shields.io/badge/kanban-huboard-blue.svg
-[Kanban]: https://huboard.com/jaguililla/hexagon
-
 [WebImg]: https://img.shields.io/badge/web-there4.co%2Fhexagon-blue.svg
 [Web]: http://there4.co/hexagon
 
