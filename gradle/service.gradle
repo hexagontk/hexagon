@@ -13,7 +13,7 @@ jar {
             hexagon: "service",
             project: rootProject.name,
             module: project.name,
-            version: project.version,
+            version: project.version.toString(),
             group: project.group,
             description: project.description
         )
