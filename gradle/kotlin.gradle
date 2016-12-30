@@ -38,7 +38,7 @@ processResources {
         filesMatching ('**/' + pattern.trim ()) {
             filter {
                 it
-                    .replace ('${projectVersion}', project.version)
+                    .replace ('${projectVersion}', project.version.toString())
                     .replace ('${projectName}', project.name)
                     .replace ('${projectGroup}', project.group)
                     .replace ('${projectDescription}', project.description)

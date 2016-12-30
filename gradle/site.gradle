@@ -35,7 +35,7 @@ jbake {
     // Custom properties
     configuration['projectName'] = project.name // Applied in templates, not content
     configuration['projectDescription'] = project.description
-    configuration['projectVersion'] = project.version
+    configuration['projectVersion'] = project.version.toString()
     configuration['siteColor'] = siteColor
 }
 

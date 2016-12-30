@@ -1,22 +1,27 @@
 #
-# TODO Caching is slower than sudo: required
 # TODO Generate site and deploy from Travis CI (use `deploy` option to deploy on `master` push)
 #
 
 language: java
 jdk: oraclejdk8
-sudo: required
+sudo: required # Container build is slower than sudo
+
+branches:
+  only:
+    - master
+    - develop
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -rf $HOME/.gradle/caches/*/scripts/
+  - rm -rf $HOME/.gradle/caches/3.2.1/scripts*/
 
 cache:
   directories:
-  - $HOME/.gradle/caches/
-  - $HOME/.gradle/daemon/
-  - $HOME/.gradle/native/
-  - $HOME/.gradle/wrapper/
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/native/
+    - $HOME/.gradle/wrapper/
 
 services:
   - mongodb
@@ -24,6 +29,6 @@ services:
 
 install: ln -s gradle/wrapper gradlew
 
-script: gradle/wrapper --stacktrace build site
+script: gradle/wrapper --no-daemon --stacktrace build site
 
 after_success: bash <(curl -s https://codecov.io/bash)
