@@ -179,35 +179,28 @@ task checkGitStatus () {
     }
 }
 
-// TODO Use task name as type
-task executeRelease () {
-    doLast {
-        def v = com.github.zafarkhaja.semver.Version.valueOf (version)
+task major { doLast { version "major" } }
+task minor { doLast { version "minor" } }
+task patch { doLast { version "patch" } }
 
-        String type = ""
-        switch (type) {
-            case "major":
-                version = v.incrementMajorVersion ()
-                break
-            case "minor":
-                version = v.incrementMinorVersion ()
-                break
-            case "patch":
-                version = v.incrementPatchVersion ()
-                break
-            default:
-                throw RuntimeException ("Unsupported version change: $type")
-        }
+import static com.github.zafarkhaja.semver.Version.valueOf as versionOf
 
-        copy {
-            from "$rootDir/gradle.properties"
-            into buildDir
-            filter {it.replaceAll (/^version=.*$/, "version=$version")}
-        }
-
-        copy {
-            from "$buildDir/gradle.properties"
-            into rootDir
-        }
+void version(String type) {
+    switch (type) {
+        case "major":
+            version = versionOf(version.toString ()).incrementMajorVersion ()
+            break
+        case "minor":
+            version = versionOf(version.toString ()).incrementMinorVersion ()
+            break
+        case "patch":
+            version = versionOf(version.toString ()).incrementPatchVersion ()
+            break
+        default:
+            throw new RuntimeException ("Unsupported version change: $type")
     }
+
+    File properties = file ("$rootDir/gradle.properties")
+    String version = "version=${version.toString()}"
+    properties.write(properties.getText().replaceAll(/(?m)version=.*/, version))
 }
