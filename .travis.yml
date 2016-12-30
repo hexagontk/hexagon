@@ -20,7 +20,6 @@ before_cache:
 cache:
   directories:
     - $HOME/.gradle/caches/
-    - $HOME/.gradle/daemon/
     - $HOME/.gradle/native/
     - $HOME/.gradle/wrapper/
 
