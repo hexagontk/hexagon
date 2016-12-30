@@ -163,7 +163,7 @@ task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
 site.dependsOn 'dokka', 'jacocoTestReport'
 publish.dependsOn 'site'
 
-task release(dependsOn: 'publish', 'publishGhPages') {
+task release(dependsOn: [ 'publish', 'publishGhPages', 'libraries' ]) {
     doLast {
         println ">>> check status"
         println ">>> tag"
