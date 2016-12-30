@@ -32,6 +32,8 @@ install.dependsOn 'war'
 
 dependencies {
     compile "co.there4:hexagon:$hexagonVersion"
+    compile "com.mitchellbosecke:pebble:$pebbleVersion"
+    compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
     compile 'com.zaxxer:HikariCP:2.5.1'
     compile 'mysql:mysql-connector-java:6.0.5'
