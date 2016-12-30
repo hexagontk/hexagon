@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 alias hx='cd ~/Projects/hexagon'
+
 alias hxloc='hx && gw publishLocal'
 alias hxall='hx && gw clean site install libraries'
-alias hxrel='hxall && gw release'
+
+alias hxrel='hxall && gw release -Prelease.scope='
