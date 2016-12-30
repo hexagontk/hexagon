@@ -161,7 +161,9 @@ task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
 }
 
 site.dependsOn 'dokka', 'jacocoTestReport'
-publish.dependsOn 'site'
+publishGhPages.dependsOn 'site'
+bintrayUpload.dependsOn 'build', 'install'
+publish.dependsOn 'publishGhPages', 'bintrayUpload'
 
 task release(dependsOn: [ 'publish', 'publishGhPages', 'libraries' ]) {
     doLast {
