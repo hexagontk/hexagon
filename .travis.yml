@@ -5,7 +5,12 @@
 
 language: java
 jdk: oraclejdk8
-sudo: required
+#sudo: required
+
+branches:
+  only:
+    - master
+    - develop
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -13,10 +18,10 @@ before_cache:
 
 cache:
   directories:
-  - $HOME/.gradle/caches/
-  - $HOME/.gradle/daemon/
-  - $HOME/.gradle/native/
-  - $HOME/.gradle/wrapper/
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/daemon/
+    - $HOME/.gradle/native/
+    - $HOME/.gradle/wrapper/
 
 services:
   - mongodb
