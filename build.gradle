@@ -47,18 +47,13 @@ bintray {
     user = bintrayUser
     key = bintrayKey
     publications = [ 'mavenJava' ]
+    publish = true
 
     pkg {
         repo = 'maven'
         name = 'Hexagon'
         licenses = [ 'MIT' ]
         vcsUrl = 'https://github.com/jaguililla/hexagon.git'
-    }
-
-    version {
-        name = project.version.toString ()
-        released  = new Date()
-        vcsTag = project.version.toString ()
     }
 }
 
@@ -121,13 +116,7 @@ task sourceJar (type: Jar) {
 task packageTest (type: Jar) {
     from sourceSets.test.output
 
-    exclude('/data')
-    exclude('/public')
-    exclude('/templates')
-    exclude('/*.yaml')
-    exclude('/*.xml')
-    exclude('/*.json')
-    exclude('/*.txt')
+    exclude '/data', '/public', '/templates', '/*.yaml', '/*.xml', '/*.json', '/*.txt'
 }
 
 publishing {
@@ -162,15 +151,63 @@ task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
 
 site.dependsOn 'dokka', 'jacocoTestReport'
 publishGhPages.dependsOn 'site'
-bintrayUpload.dependsOn 'build', 'install'
+bintrayUpload.dependsOn 'build'
 publish.dependsOn 'publishGhPages', 'bintrayUpload'
 
-task release(dependsOn: [ 'publish', 'publishGhPages', 'libraries' ]) {
+task release(dependsOn: [ 'checkGitStatus', 'publish', 'libraries' ]) {
     doLast {
-        println ">>> check status"
-        println ">>> tag"
-        println ">>> push"
+        grgit.tag.add {
+            name = version
+            message = "Release $version"
+        }
+
+        grgit.push()
     }
 }
 
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
+
+task checkGitStatus () {
+    doLast {
+        if (!grgit.status ().clean)
+            throw new GradleException ('Repository not clean')
+
+        grgit.pull (remote: 'origin', branch: 'master')
+
+        if (!grgit.status ().clean)
+            throw new GradleException ('Repository not clean')
+    }
+}
+
+// TODO Use task name as type
+task executeRelease () {
+    doLast {
+        def v = com.github.zafarkhaja.semver.Version.valueOf (version)
+
+        String type = ""
+        switch (type) {
+            case "major":
+                version = v.incrementMajorVersion ()
+                break
+            case "minor":
+                version = v.incrementMinorVersion ()
+                break
+            case "patch":
+                version = v.incrementPatchVersion ()
+                break
+            default:
+                throw RuntimeException ("Unsupported version change: $type")
+        }
+
+        copy {
+            from "$rootDir/gradle.properties"
+            into buildDir
+            filter {it.replaceAll (/^version=.*$/, "version=$version")}
+        }
+
+        copy {
+            from "$buildDir/gradle.properties"
+            into rootDir
+        }
+    }
+}
