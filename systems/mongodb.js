@@ -1,4 +1,4 @@
-use hello_world
+db = db.getSiblingDB('hello_world');
 db.world.drop()
 for (var i = 1; i <= 10000; i++) {
   db.world.save( { _id: i, id: i, randomNumber: (Math.floor(Math.random() * 10000) + 1) })
@@ -26,7 +26,7 @@ db.fortune.ensureIndex({_id: 1})
 
 
 // Capitalization matters apparently
-use hello_world
+db = db.getSiblingDB('hello_world');
 db.World.drop()
 for (var i = 1; i <= 10000; i++) {
   db.World.save( { _id: i, id: i, randomNumber: (Math.floor(Math.random() * 10000) + 1) })
