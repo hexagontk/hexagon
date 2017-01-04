@@ -3,22 +3,28 @@ package co.there4.hexagon
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.HttpMethod.GET
+import co.there4.hexagon.web.reset
 import co.there4.hexagon.web.server
+import co.there4.hexagon.web.stop
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
+import kotlin.test.assertFailsWith
 
 internal const val THREADS = 4
 internal const val TIMES = 4
 
+class BenchmarkMySqlTest : BenchmarkTest("mysql")
+class BenchmarkMongoDbTest : BenchmarkTest("mongodb")
+
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
-class BenchmarkTest {
+abstract class BenchmarkTest(val databaseEngine: String) {
     private val client by lazy { Client("http://localhost:${server.runtimePort}") }
 
     @BeforeClass fun warmup() {
-        initialize()
-
-        main(arrayOf())
+        stop()
+        reset()
+        main(arrayOf(databaseEngine))
 
         val warmupRounds = if (THREADS > 1) 2 else 0
         (1..warmupRounds).forEach {
@@ -43,6 +49,12 @@ class BenchmarkTest {
             ten_updates()
             one_hundred_updates()
             five_hundred_updates()
+        }
+    }
+
+    fun store() {
+        assertFailsWith<IllegalStateException> {
+            createStore("invalid")
         }
     }
 

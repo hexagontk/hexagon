@@ -32,30 +32,6 @@ private fun Exchange.returnWorlds(worlds: List<World>) {
     ok(result, CONTENT_TYPE_JSON)
 }
 
-// HANDLERS
-private fun Exchange.listFortunes() {
-    val fortunes = findFortunes() + Fortune(0, "Additional fortune added at request time.")
-
-    template("fortunes.html", "fortunes" to fortunes.sortedBy { it.message })
-}
-
-private fun Exchange.getDb() {
-    val worlds = (1..getQueries()).map { findWorld() }.filterNotNull()
-
-    returnWorlds(worlds)
-}
-
-private fun Exchange.getUpdates() {
-    val worlds = (1..getQueries()).map {
-        val id = rnd()
-        val newWorld = World(id, id)
-        replaceWorld(newWorld)
-        newWorld
-    }
-
-    returnWorlds(worlds)
-}
-
 private fun Exchange.getQueries() =
     try {
         val queries = request[QUERIES_PARAM]?.toInt() ?: 1
@@ -69,7 +45,13 @@ private fun Exchange.getQueries() =
         1
     }
 
-fun benchmarkRoutes(srv: Router = server) {
+// HANDLERS
+private fun Exchange.listFortunes(store: Repository) {
+    val fortunes = store.findFortunes() + Fortune(0, "Additional fortune added at request time.")
+    template("fortunes.html", "fortunes" to fortunes.sortedBy { it.message })
+}
+
+private fun benchmarkRoutes(store: Repository, srv: Router = server) {
     srv.before {
         response.addHeader("Server", "Servlet/3.1")
         response.addHeader("Transfer-Encoding", "chunked")
@@ -78,20 +60,20 @@ fun benchmarkRoutes(srv: Router = server) {
 
     srv.get("/plaintext") { ok("Hello, World!", "text/plain") }
     srv.get("/json") { ok(Message().serialize(), CONTENT_TYPE_JSON) }
-    srv.get("/fortunes") { listFortunes() }
-    srv.get("/db") { getDb() }
-    srv.get("/query") { getDb() }
-    srv.get("/update") { getUpdates() }
+    srv.get("/fortunes") { listFortunes(store) }
+    srv.get("/db") { returnWorlds(store.findWorlds(getQueries())) }
+    srv.get("/query") { returnWorlds(store.findWorlds(getQueries())) }
+    srv.get("/update") { returnWorlds(store.replaceWorlds(getQueries())) }
 }
 
 @WebListener class Web : ServletServer () {
     override fun init() {
-        benchmarkRoutes(this)
+        benchmarkRoutes(createStore("mongodb"), this)
     }
 }
 
 fun main(args: Array<String>) {
-    initialize()
-    benchmarkRoutes()
+    val store = createStore(if (args.isEmpty()) "mongodb" else args[0])
+    benchmarkRoutes(store)
     run()
 }
