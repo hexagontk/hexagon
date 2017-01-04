@@ -18,11 +18,11 @@
 apply plugin: 'org.xbib.gradle.plugin.jbake'
 
 ext.siteSource = findProperty ('siteSource') ?: 'site'
-ext.siteTarget = findProperty ('siteTarget') ?: "build/$siteSource"
+ext.siteTarget = findProperty ('siteTarget') ?: siteSource
 
 jbake {
     srcDirName = siteSource
-    destDirName = "../$siteTarget" // It is relative to `buildDir`
+    destDirName = siteTarget // It is relative to `buildDir`
 
     configuration['site.host'] = siteHost
 

@@ -22,7 +22,14 @@ jar {
 
 task install(dependsOn: [ 'check', 'installDist' ]) {
     doLast {
-        String content = new URL ("$gradleScripts/systemdScript").text
+        String content = ""
+
+        try {
+            content = new URL("$gradleScripts/systemdScript").text
+        }
+        catch (Exception ignored) {
+            content = file("$gradleScripts/systemdScript").text
+        }
 
         Map<String, String> parameters = [
             projectName : project.name,

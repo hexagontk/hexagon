@@ -48,7 +48,7 @@ processResources {
 }
 
 clean {
-    delete "build", ".gradle"
+    delete "build", ".gradle", "log"
 
     delete fileTree(rootDir) { include '**/*.log' }
     delete fileTree(rootDir) { include '**/*.hprof' }
@@ -69,10 +69,6 @@ test {
         options.parallel = testsConcurrency
         options.threadCount = Runtime.runtime.availableProcessors ()
     }
-}
-
-dokka {
-    outputFormat = 'javadoc'
 }
 
 jacocoTestReport {
