@@ -29,33 +29,10 @@ plugins {
 
 apply from: 'gradle/site.gradle'
 apply from: 'gradle/kotlin.gradle'
-
 apply plugin: 'maven-publish'
-
-defaultTasks 'build'
 
 ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
 ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
-
-githubPages {
-    pages {
-        from siteTarget
-    }
-}
-
-bintray {
-    user = bintrayUser
-    key = bintrayKey
-    publications = [ 'mavenJava' ]
-    publish = true
-
-    pkg {
-        repo = 'maven'
-        name = 'Hexagon'
-        licenses = [ 'MIT' ]
-        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
-    }
-}
 
 dependencies {
     // COMPILE
@@ -135,6 +112,26 @@ publishing {
     }
 }
 
+githubPages {
+    pages {
+        from siteTarget
+    }
+}
+
+bintray {
+    user = bintrayUser
+    key = bintrayKey
+    publications = [ 'mavenJava' ]
+    publish = true
+
+    pkg {
+        repo = 'maven'
+        name = 'Hexagon'
+        licenses = [ 'MIT' ]
+        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
+    }
+}
+
 lazybones {
     repositoryName = "$bintrayUser/maven/Hexagon"
 
@@ -169,13 +166,9 @@ task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 
 task checkGitStatus () {
     doLast {
-        if (!grgit.status ().clean)
-            throw new GradleException ('Repository not clean')
-
+        checkCleanRepository()
         grgit.pull (remote: 'origin', branch: 'master')
-
-        if (!grgit.status ().clean)
-            throw new GradleException ('Repository not clean')
+        checkCleanRepository()
     }
 }
 
@@ -184,6 +177,11 @@ task minor { doLast { version "minor" } }
 task patch { doLast { version "patch" } }
 
 import static com.github.zafarkhaja.semver.Version.valueOf as versionOf
+
+void checkCleanRepository() {
+    if (!grgit.status ().clean)
+        throw new GradleException ('Repository not clean')
+}
 
 void version(String type) {
     switch (type) {
@@ -203,4 +201,6 @@ void version(String type) {
     File properties = file ("$rootDir/gradle.properties")
     String version = "version=${version.toString()}"
     properties.write(properties.getText().replaceAll(/(?m)version=.*/, version))
+
+    // TODO Commit change
 }
