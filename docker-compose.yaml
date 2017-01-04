@@ -2,8 +2,21 @@
 # Services needed for testing
 #
 
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  volumes:
+    - ./systems/benchmark.cnf:/etc/mysql/conf.d/config-file.cnf:ro
+    - ./systems/benchmark.sql:/docker-entrypoint-initdb.d/benchmark.sql:ro
+  ports:
+    - 3306:3306
+
+# docker exec -it hexagon_mongodb_1 mongo /mongodb.js
 mongodb:
   image: mongo
+  volumes:
+    - ./systems/mongodb.js:/mongodb.js:ro
   ports:
     - 27017:27017
 

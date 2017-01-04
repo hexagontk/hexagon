@@ -32,13 +32,13 @@ Vagrant.configure(2) do |config|
 
   # noinspection RubyLiteralArrayInspection
   upload config,
-    [ "benchmark/build/install/#{$project_name}", '~' ],
+    [ 'benchmark/build/install/benchmark', '~' ],
     [ 'benchmark/build/libs/ROOT.war', '~/ROOT.war' ]
 
   resin = "#{$resin_url}/#{$resin_version}/x86_64/resin-#{$resin_version}-1.x86_64.rpm"
   command config,
     "yum -q -y install #{resin} || true",
-    'sudo rm -rf /var/resin/webapps/ROOT',
+    'sudo rm -rf /var/resin/webapps/*',
     'sudo mv -f /home/vagrant/ROOT.war /var/resin/webapps',
     'sudo systemctl start resin',
     'sudo systemctl enable resin',
@@ -47,8 +47,9 @@ Vagrant.configure(2) do |config|
     'sudo firewall-cmd --reload'
 
   command config,
-    "sudo mv -f /home/vagrant/#{$project_name} /opt || true",
-    "sudo mv -f /opt/#{$project_name}/bin/#{$project_name}.service /etc/systemd/system || true",
-    "sudo systemctl start #{$project_name}",
-    "sudo systemctl enable #{$project_name}"
+    'sudo mv -f /home/vagrant/benchmark /opt || true',
+    'sudo rm -f /etc/systemd/system/benchmark.service',
+    'sudo mv -f /opt/benchmark/bin/benchmark.service /etc/systemd/system || true',
+    'sudo systemctl start benchmark',
+    'sudo systemctl enable benchmark'
 end

@@ -46,7 +46,7 @@ Vagrant.configure(2) do |config|
   resin = "#{$resin_url}/#{$resin_version}/x86_64/resin-#{$resin_version}-1.x86_64.rpm"
   command config,
     "yum -q -y install wget java-1.8.0-openjdk-devel #{resin} || true",
-    'sudo rm -rf /var/resin/webapps/ROOT',
+    'sudo rm -rf /var/resin/webapps/*',
     'sudo mv -f /root/ROOT.war /var/resin/webapps',
     'sudo systemctl start resin',
     'sudo systemctl enable resin',
