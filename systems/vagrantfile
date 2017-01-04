@@ -17,8 +17,8 @@ require_relative 'vagrant.rb'
 Vagrant.configure(2) do |config|
   config.vm.box = 'jamming/centos_java'
   config.vm.synced_folder '.', '/vagrant', disabled: true
-  config.vm.hostname = $project_name
-  config.vm.post_up_message = "<#{$project_name}> UP"
+  config.vm.hostname = 'benchmark'
+  config.vm.post_up_message = "#{config.vm.hostname} UP"
 
   config.vm.provider :digital_ocean do |provider, override|
     digitalOceanSettings = YAML::load_file('/home/jam/.vagrant.d/digitalOcean.yaml')
@@ -36,29 +36,15 @@ Vagrant.configure(2) do |config|
     provider.size = '8gb'
   end
 
-  installDbs config
+  upload config, '../benchmark/build/install/benchmark', '~'
+  upload config, '../benchmark/build/libs/ROOT.war', '~/ROOT.war'
 
-  # noinspection RubyLiteralArrayInspection
-  upload config,
-    [ "../benchmark/build/install/#{$project_name}", '~' ],
-    [ '../benchmark/build/libs/ROOT.war', '~/ROOT.war' ]
-
-  resin = "#{$resin_url}/#{$resin_version}/x86_64/resin-#{$resin_version}-1.x86_64.rpm"
-  command config,
-    "yum -q -y install wget java-1.8.0-openjdk-devel #{resin} || true",
-    'sudo rm -rf /var/resin/webapps/*',
-    'sudo mv -f /root/ROOT.war /var/resin/webapps',
-    'sudo systemctl start resin',
-    'sudo systemctl enable resin',
-    'sudo systemctl enable firewalld',
-    'sudo systemctl start firewalld',
-    'sudo firewall-cmd --permanent --add-port=9090/tcp',
-    'sudo firewall-cmd --permanent --add-port=8080/tcp',
-    'sudo firewall-cmd --reload'
+  install_dbs config
+  install_resin config
 
   command config,
-    "sudo mv -f /root/#{$project_name} /opt || true",
-    "sudo mv -f /opt/#{$project_name}/bin/#{$project_name}.service /etc/systemd/system || true",
-    "sudo systemctl enable #{$project_name}",
-    "sudo systemctl start #{$project_name}"
+    'sudo mv -f /root/benchmark /opt || true',
+    'sudo mv -f /opt/benchmark/bin/benchmark.service /etc/systemd/system || true',
+    'sudo systemctl enable benchmark',
+    'sudo systemctl start benchmark'
 end
