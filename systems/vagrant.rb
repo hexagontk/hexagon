@@ -8,12 +8,12 @@ def install_dbs(config)
     cnf_volume = "-v #{base_path}/benchmark.cnf:/etc/mysql/conf.d/config-file.cnf"
     sql_volume = "-v #{base_path}/benchmark.sql:/docker-entrypoint-initdb.d/benchmark.sql"
     mysql_args = "-p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes #{cnf_volume} #{sql_volume}"
-    mongo_args = "-p 27017:27017 -v #{base_path}/mongodb.js:/mongodb.js:ro"
+    mongo_args = '-p 27017:27017 -v /home/vagrant/benchmark.js:/benchmark.js:ro'
 
     d.run 'mysql', image: 'mysql', args: mysql_args
     d.run 'mongo', image: 'mongo', args: mongo_args
   end
-  command config, 'docker exec -it mongo mongo /mongodb.js'
+  command config, 'docker exec mongo mongo /benchmark.js'
 end
 
 def install_resin(config)
