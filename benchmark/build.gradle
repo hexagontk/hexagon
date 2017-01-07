@@ -16,7 +16,7 @@ apply plugin: 'war'
 
 mainClassName = "co.there4.hexagon.BenchmarkKt"
 applicationDefaultJvmArgs = [
-    '-Xms1G',
+    '-Xms64M',
     '-Xmx2G',
     '-XX:+UseNUMA',
     '-XX:+UseParallelGC',
@@ -30,12 +30,17 @@ war {
 install.dependsOn 'war'
 
 dependencies {
-    compile "co.there4:hexagon:${version.toString()}"
-    compile "com.mitchellbosecke:pebble:$pebbleVersion"
-    compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
+//    compile ("co.there4:hexagon:$hexagonVersion")
+    compile rootProject
+    compile ("com.mitchellbosecke:pebble:$pebbleVersion")
 
-    compile 'com.zaxxer:HikariCP:2.5.1'
-    compile 'mysql:mysql-connector-java:6.0.5'
+    // providedCompile excludes the dependency only in the WAR, not in the distribution
+    providedCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
+    providedCompile ("io.undertow:undertow-servlet:$undertowVersion")
 
-    testCompile "co.there4:hexagon:${version.toString()}:test"
+    compile ('com.zaxxer:HikariCP:2.5.1')
+    compile ('mysql:mysql-connector-java:6.0.5')
+
+    testCompile ("co.there4:hexagon:${version.toString()}:test")
+//    testCompile ("co.there4:hexagon:$hexagonVersion:test")
 }

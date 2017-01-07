@@ -14,7 +14,6 @@ import kotlin.reflect.KProperty1
 import java.sql.Connection
 import java.sql.ResultSet.CONCUR_READ_ONLY
 import java.sql.ResultSet.TYPE_FORWARD_ONLY
-import java.util.concurrent.ThreadLocalRandom
 import javax.sql.DataSource
 
 internal val DB_ROWS = 10000
@@ -92,14 +91,13 @@ internal class MySqlRepository : Repository {
         var worlds: List<World> = listOf()
 
         KConnection(DATA_SOURCE.connection).use { con: Connection ->
-            val random = ThreadLocalRandom.current()
             val stmtSelect = con.prepareStatement(SELECT_WORLD)
 
             for (ii in 0..queries - 1) {
-                stmtSelect.setInt(1, random.nextInt(DB_ROWS) + 1)
+                stmtSelect.setInt(1, rnd())
                 val rs = stmtSelect.executeQuery()
-                while (rs.next())
-                    worlds += World(rs.getInt(1), rs.getInt(2))
+                rs.next()
+                worlds += World(rs.getInt(1), rs.getInt(2))
             }
         }
 
@@ -110,23 +108,27 @@ internal class MySqlRepository : Repository {
         var worlds: List<World> = listOf()
 
         KConnection(DATA_SOURCE.connection).use { con: Connection ->
-            val random = ThreadLocalRandom.current()
+            con.autoCommit = false
+
             val stmtSelect = con.prepareStatement(SELECT_WORLD, TYPE_FORWARD_ONLY, CONCUR_READ_ONLY)
             val stmtUpdate = con.prepareStatement(UPDATE_WORLD)
 
             for (ii in 0..queries - 1) {
-                stmtSelect.setInt(1, random.nextInt(DB_ROWS) + 1)
+                stmtSelect.setInt(1, rnd())
                 val rs = stmtSelect.executeQuery()
-                while (rs.next()) {
-                    val world = World(rs.getInt(1), rs.getInt(2))
-                        .copy(randomNumber = random.nextInt(DB_ROWS) + 1)
+                rs.next()
 
-                    worlds += world
-                    stmtUpdate.setInt(1, world.randomNumber)
-                    stmtUpdate.setInt(2, world.id)
-                    stmtUpdate.execute()
-                }
+                val world = World(rs.getInt(1), rs.getInt(2)).copy(randomNumber = rnd())
+                worlds += world
+                stmtUpdate.setInt(1, world.randomNumber)
+                stmtUpdate.setInt(2, world.id)
+                stmtUpdate.addBatch()
+
+                if (ii % 75 == 0)
+                    con.commit()
             }
+
+            con.commit()
         }
 
         return worlds
