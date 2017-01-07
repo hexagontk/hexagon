@@ -21,6 +21,7 @@ Vagrant.configure(2) do |config|
   config.vm.post_up_message = "#{config.vm.hostname} UP"
 
   config.vm.provider :virtualbox do |vb|
+    vb.linked_clone = true
     vb.name = config.vm.hostname
     vb.cpus = 4
     vb.memory = 2048
@@ -28,6 +29,7 @@ Vagrant.configure(2) do |config|
     vb.customize [:modifyvm, :id, '--cpuexecutioncap', '90']
   end
 
+  upload config, 'systems/benchmark.js', '~/benchmark.js'
   upload config, 'benchmark/build/install/benchmark', '~'
   upload config, 'benchmark/build/libs/ROOT.war', '~/ROOT.war'
 
@@ -35,8 +37,9 @@ Vagrant.configure(2) do |config|
   install_resin config
 
   command config,
+    'sudo rm -rf /opt/benchmark || true',
+    'sudo rm -f /etc/systemd/system/benchmark.service || true',
     'sudo mv -f /home/vagrant/benchmark /opt || true',
-    'sudo rm -f /etc/systemd/system/benchmark.service',
     'sudo mv -f /opt/benchmark/bin/benchmark.service /etc/systemd/system || true',
     'sudo systemctl start benchmark',
     'sudo systemctl enable benchmark'
