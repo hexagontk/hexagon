@@ -12,11 +12,11 @@ mysql:
   ports:
     - 3306:3306
 
-# docker exec -it hexagon_mongodb_1 mongo /mongodb.js
+# docker exec -it hexagon_mongodb_1 mongo /benchmark.js
 mongodb:
   image: mongo
   volumes:
-    - ./systems/mongodb.js:/mongodb.js:ro
+    - ./systems/benchmark.js:/benchmark.js:ro
   ports:
     - 27017:27017
 
