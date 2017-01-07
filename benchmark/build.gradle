@@ -41,6 +41,6 @@ dependencies {
     compile ('com.zaxxer:HikariCP:2.5.1')
     compile ('mysql:mysql-connector-java:6.0.5')
 
-    testCompile ("co.there4:hexagon:${version.toString()}:test")
-//    testCompile ("co.there4:hexagon:$hexagonVersion:test")
+//    testCompile ("co.there4:hexagon:${version.toString()}:test")
+    testCompile ("co.there4:hexagon:$hexagonVersion:test")
 }
