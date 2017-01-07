@@ -194,7 +194,7 @@ class RabbitClient (
 
             publish(it, "", requestQueue, charset, message, correlationId, replyQueueName)
 
-            val consumer = QueueingConsumer(it)
+            val consumer = DefaultConsumer(it)
             it.basicConsume(replyQueueName, true, consumer)
 
             var result: String? = null

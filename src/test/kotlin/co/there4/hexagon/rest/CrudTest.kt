@@ -25,10 +25,10 @@ import kotlin.reflect.KProperty1
     }
 
     fun crud_operations_behave_properly() {
-        val objects = createObjects ()
-        val changedObjects = objects.map { this.changeObject(it) }
-        val ids = objects.map { idCollection.getKey(it) }
-
+//        val objects = createObjects ()
+//        val changedObjects = objects.map { this.changeObject(it) }
+//        val ids = objects.map { idCollection.getKey(it) }
+//
 //        client.post("/")
     }
 }
