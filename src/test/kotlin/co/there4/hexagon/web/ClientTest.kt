@@ -1,12 +1,12 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.web.jetty.JettyServer
+import co.there4.hexagon.web.servlet.JettyServletServer
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
 @Test class ClientTest {
-    val server = JettyServer()
+    val server = JettyServletServer()
     val client by lazy {
         Client("http://${server.bindAddress.hostAddress}:${server.runtimePort}", "application/json")
     }

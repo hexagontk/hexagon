@@ -1,9 +1,8 @@
-package co.there4.hexagon.web.jetty
+package co.there4.hexagon.web.servlet
 
 import co.there4.hexagon.web.Server
-import co.there4.hexagon.web.servlet.ServletFilter
 import org.eclipse.jetty.server.ServerConnector
-import org.eclipse.jetty.server.Server as JettyServletServer
+import org.eclipse.jetty.server.Server as JettyServer
 import org.eclipse.jetty.server.session.HashSessionIdManager
 import org.eclipse.jetty.server.session.HashSessionManager
 import org.eclipse.jetty.server.session.SessionHandler
@@ -19,10 +18,10 @@ import java.net.InetAddress.getByName as address
 /**
  * @author jam
  */
-class JettyServer (bindAddress: InetAddress = address ("localhost"), bindPort: Int = 2010):
-    Server (bindAddress, bindPort) {
+class JettyServletServer(bindAddress: InetAddress = address ("localhost"), bindPort: Int = 2010):
+    Server(bindAddress, bindPort) {
 
-    val jettyServer = JettyServletServer(InetSocketAddress(bindAddress, bindPort))
+    private val jettyServer = JettyServer(InetSocketAddress(bindAddress, bindPort))
 
     override val runtimePort: Int
         get() = (jettyServer.connectors[0] as ServerConnector).localPort.let {
@@ -46,7 +45,7 @@ class JettyServer (bindAddress: InetAddress = address ("localhost"), bindPort: I
             override fun lifeCycleFailure(event: LifeCycle?, cause: Throwable?) { /* Do nothing */ }
 
             override fun lifeCycleStarting(event: LifeCycle?) {
-                val filter = ServletFilter (this@JettyServer)
+                val filter = ServletFilter (this@JettyServletServer)
                 context.servletContext.addFilter("filters", filter)
                     .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")
             }

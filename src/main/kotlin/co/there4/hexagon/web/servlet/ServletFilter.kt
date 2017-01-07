@@ -1,5 +1,6 @@
 package co.there4.hexagon.web.servlet
 
+import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.FilterOrder.*
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 /**
  * @author jam
  */
-class ServletFilter (private val router: Router) : CompanionLogger(ServletFilter::class), Filter {
+internal class ServletFilter (private val router: Router) : CompanionLogger(ServletFilter::class), Filter {
     companion object : CompanionLogger(ServletFilter::class)
 
     private val routesByMethod: Map<HttpMethod, List<Pair<Route, Exchange.() -> Unit>>> =
@@ -25,6 +26,9 @@ class ServletFilter (private val router: Router) : CompanionLogger(ServletFilter
 
     private val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
     private val afterFilters = filtersByOrder[AFTER] ?: listOf()
+
+    // TODO Change for 'resourcesFolder' and if 'null' do not process them
+    private val processResources = !(setting<Boolean>("ignoreResources") ?: false)
 
     /**
      * TODO Take care of filters that throw exceptions
@@ -64,7 +68,8 @@ class ServletFilter (private val router: Router) : CompanionLogger(ServletFilter
             handled = filter(request, exchange, beforeFilters)
             var resource = false
 
-            if (bRequest.method == GET &&
+            if (processResources &&
+                bRequest.method == GET &&
                 !request.servletPath.endsWith("/")) { // Reading a folder as resource gets all files
 
                 resource = returnResource(bResponse, request, response)

@@ -9,7 +9,9 @@ import java.io.InputStreamReader
 import java.net.HttpCookie
 import javax.servlet.http.HttpServletRequest
 
-class BServletRequest(val req: HttpServletRequest, var actionPath: Path? = null) : Request {
+internal class BServletRequest(val req: HttpServletRequest, var actionPath: Path? = null) :
+    Request {
+
     override val scriptName: String = req.pathInfo ?: req.servletPath
     override val pathInfo: String = scriptName
     override val path: String = scriptName
