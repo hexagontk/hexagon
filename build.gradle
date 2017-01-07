@@ -154,7 +154,7 @@ publishGhPages.dependsOn 'site'
 bintrayUpload.dependsOn 'build'
 publish.dependsOn 'publishGhPages', 'bintrayUpload'
 
-task release(dependsOn: [ 'checkGitStatus', 'publish', 'libraries' ]) {
+task release(dependsOn: [ 'checkGitStatus', 'publish', 'libraries', 'installAllTemplates' ]) {
     doLast {
         grgit.tag.add {
             name = version

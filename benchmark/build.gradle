@@ -36,11 +36,10 @@ dependencies {
 
     // providedCompile excludes the dependency only in the WAR, not in the distribution
     providedCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
-    providedCompile ("io.undertow:undertow-servlet:$undertowVersion")
 
     compile ('com.zaxxer:HikariCP:2.5.1')
     compile ('mysql:mysql-connector-java:6.0.5')
 
-//    testCompile ("co.there4:hexagon:${version.toString()}:test")
-    testCompile ("co.there4:hexagon:$hexagonVersion:test")
+    testCompile rootProject.sourceSets.test.output
+//    testCompile ("co.there4:hexagon:$hexagonVersion:test")
 }
