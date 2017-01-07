@@ -44,6 +44,7 @@ task install(dependsOn: [ 'check', 'installDist' ]) {
         parameters.each { content = content.replace ('${' + it.key + '}', it.value) }
 
         File script = file ("${tasks.installDist.destinationDir}/bin/${project.name}.service")
+        script.delete ()
         script << content
         script.executable = true
     }
