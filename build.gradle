@@ -36,16 +36,18 @@ ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
 
 dependencies {
     // COMPILE
-    compile ("com.rabbitmq:amqp-client:$rabbitVersion") // TODO Set as 'compileOnly'
-    compile ("org.mongodb:mongodb-driver:$mongodbVersion") // TODO Set as 'compileOnly'
     compile ("ch.qos.logback:logback-classic:$logbackVersion")
     compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     compile ("org.slf4j:jul-to-slf4j:$slf4jVersion")
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
 
+    compileOnly ("com.rabbitmq:amqp-client:$rabbitVersion")
+    compile ("org.mongodb:mongodb-driver:$mongodbVersion") // TODO Set as 'compileOnly'
+
     compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
     compileOnly ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
     compileOnly ("io.undertow:undertow-core:$undertowVersion")
+    compileOnly ("io.undertow:undertow-servlet:$undertowVersion")
 
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
@@ -58,6 +60,7 @@ dependencies {
     compileOnly ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
 
     // TEST
+    testCompile ("com.rabbitmq:amqp-client:$rabbitVersion")
     testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
     testCompile ("com.mitchellbosecke:pebble:$pebbleVersion")
     testCompile ("io.undertow:undertow-core:$undertowVersion")
