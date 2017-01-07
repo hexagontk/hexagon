@@ -15,6 +15,10 @@
     <appender-ref ref="console" />
   </root>
 
+  <logger name="${group}">
+    <level value="off" />
+  </logger>
+
   <logger name="co.there4.hexagon">
     <level value="off" />
   </logger>

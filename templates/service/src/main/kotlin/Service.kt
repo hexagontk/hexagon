@@ -1,3 +1,4 @@
+package ${group}
 
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.servlet.ServletServer

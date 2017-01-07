@@ -5,23 +5,37 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:\$dokkaVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:\$kotlinVersion"
     }
 }
 
-apply from: "$gradleScripts/hexagon.gradle"
-apply from: "$gradleScripts/service.gradle"
+apply from: "\$gradleScripts/kotlin.gradle"
+apply from: "\$gradleScripts/service.gradle"
 apply plugin: 'war'
 
-mainClassName = "co.there4.hexagon.BenchmarkKt"
+mainClassName = '${group}.${className}Kt'
 applicationDefaultJvmArgs = [
-    '-Xms512M',
-    '-Xmx512M',
-    '-server',
+    '-Xms64M',
+    '-Xmx2G',
     '-XX:+UseNUMA',
     '-XX:+UseParallelGC',
     '-XX:+AggressiveOpts'
 ]
 
 installDist.dependsOn 'war'
+
+dependencies {
+    compile ("co.there4:hexagon:\$hexagonVersion")
+
+    // Optional dependencies. Can be removed if not used
+    compile ("com.mitchellbosecke:pebble:\$pebbleVersion")
+    compile ("org.jetbrains.kotlinx:kotlinx.html.jvm:\$kotlinxHtmlVersion")
+
+    // providedCompile excludes the dependency only in the WAR, not in the distribution
+    providedCompile ("org.eclipse.jetty:jetty-webapp:\$jettyVersion") {
+        exclude module: "slf4j-api"
+    }
+
+    testCompile ("co.there4:hexagon:\$hexagonVersion:test")
+}

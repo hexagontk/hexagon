@@ -1,20 +1,13 @@
 
-# Hexagon Benchmarking Test
+# Hexagon Service
 
-This is the Hexagon portion of a [benchmarking test suite](../) comparing a variety of web
-development platforms. The test utilizes Hexagon routes, serialization and database access.
+This is an Hexagon template.
 
 
 ## Local setup
 
-    tar -Jxvf db.txz && \
-    mongorestore dump/ && \
-    rm -rf dump
-
 
 ## Tests
-
-* [Hexagon application](/src/main/java/co/there4/hexagon/Benchmark.kt)
 
 
 ## Infrastructure Software Versions
@@ -22,28 +15,19 @@ development platforms. The test utilizes Hexagon routes, serialization and datab
 * [Hexagon 0.3.2](http://there4.co/hexagon)
 
 
-## Test URLs
-
-* JSON Encoding Test: http://localhost:5050/json
-* Data-Store/Database Mapping Test: http://localhost:5050/db?queries=5 
-* Plain Text Test: http://localhost:5050/plaintext 
-* Fortunes: http://localhost:5050/fortune 
-* Database updates: http://localhost:5050/update
-
-## Run on OpenShift
+## Run on Systemd
 
 https://blog.openshift.com/run-gradle-builds-on-openshift/
 
 
-## Copy to TFB
+## Run on Servlet engine
 
     rm -f db.txz
     
-## Run inside vagrant
+## Run in development
 
     toolset/run-tests.py --install server --mode verify --test hexagon
     
-## Clear
 
 
 ## Gradle wrapper setup
@@ -59,7 +43,7 @@ wrapper, follow the next steps:
     wrapper {
         String wrapperBaseFile = "$projectDir/gradle/wrapper"
 
-        gradleVersion = '3.2.1'
+        gradleVersion = '3.3'
         jarFile = wrapperBaseFile + ".jar"
         scriptFile = wrapperBaseFile
         distributionType = ALL
