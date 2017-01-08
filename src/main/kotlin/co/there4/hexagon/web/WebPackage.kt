@@ -2,7 +2,7 @@ package co.there4.hexagon.web
 
 import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.util.err
-import co.there4.hexagon.web.jetty.JettyServer
+import co.there4.hexagon.web.servlet.JettyServletServer
 import java.net.InetAddress
 import kotlin.reflect.KClass
 
@@ -21,7 +21,7 @@ val bindPort = setting<Int>("bindPort") ?: 2010
 val bindAddress: InetAddress = address(setting<String>("bindAddress") ?: "localhost") ?: err
 
 /** Default server. Used by package methods. */
-var server: Server = JettyServer (bindPort = bindPort, bindAddress = bindAddress)
+var server: Server = JettyServletServer(bindPort = bindPort, bindAddress = bindAddress)
     get () = field
     set (server) {
         if (field.started ())

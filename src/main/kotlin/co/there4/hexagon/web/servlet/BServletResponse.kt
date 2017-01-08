@@ -7,7 +7,9 @@ import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class BServletResponse(val req: HttpServletRequest, val resp: HttpServletResponse) : Response {
+internal class BServletResponse(val req: HttpServletRequest, val resp: HttpServletResponse) :
+    Response {
+
     override var body: Any = ""
 
     override var status: Int

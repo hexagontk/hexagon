@@ -3,6 +3,6 @@
 alias hx='cd ~/Projects/hexagon'
 
 alias hxloc='hx && gw publishLocal'
-alias hxall='hx && gw clean site install libraries'
+alias hxall='hx && gw clean site install libraries installAllTemplates'
 
-alias hxrel='hx && gw clean release -Prelease.scope='
+alias hxrel='hx && gw clean release'

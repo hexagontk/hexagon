@@ -14,8 +14,7 @@ branches:
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
-  - rm -rf $HOME/.gradle/caches/*/scripts/
-  - rm -rf $HOME/.gradle/caches/3.2.1/scripts*/
+  - rm -rf $HOME/.gradle/caches/*/scripts*/
 
 cache:
   directories:
@@ -27,8 +26,11 @@ services:
   - mongodb
   - rabbitmq
 
-install: ln -s gradle/wrapper gradlew
+install:
+  - ln -s gradle/wrapper gradlew
+  - mongo systems/benchmark.js
+  - mysql --user=root < systems/benchmark.sql
 
-script: gradle/wrapper --no-daemon --stacktrace build site
+script: gradle/wrapper --no-daemon --full-stacktrace build site
 
 after_success: bash <(curl -s https://codecov.io/bash)

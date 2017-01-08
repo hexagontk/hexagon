@@ -8,7 +8,7 @@ import co.there4.hexagon.serialization.parseList
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.util.err
 import co.there4.hexagon.web.Client
-import co.there4.hexagon.web.jetty.JettyServer
+import co.there4.hexagon.web.servlet.JettyServletServer
 import co.there4.hexagon.web.server
 import co.there4.hexagon.web.stop
 import co.there4.hexagon.web.run
@@ -30,7 +30,7 @@ import kotlin.reflect.KProperty1
     fun int_keyed_repositories_are_handled_properly () {
         val repo = MongoIdRepository (Country::class, countries, Country::id)
 
-        val server = JettyServer(bindPort = 0)
+        val server = JettyServletServer(bindPort = 0)
 
         server.crud(repo)
         server.run()
@@ -68,7 +68,7 @@ import kotlin.reflect.KProperty1
         val repo = MongoIdRepository (Parameter::class, parameters, Parameter::name)
 
         stop()
-        server = JettyServer()
+        server = JettyServletServer(bindPort = 0)
         crud(repo)
         run()
 
@@ -96,7 +96,7 @@ import kotlin.reflect.KProperty1
         val addresses = mongoRepository<Address>()
 
         stop()
-        server = JettyServer(bindPort = 0)
+        server = JettyServletServer(bindPort = 0)
         crud(addresses)
         run()
 

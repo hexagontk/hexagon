@@ -17,38 +17,30 @@ Vagrant.configure(2) do |config|
   config.vm.box = 'jamming/centos_java'
   config.vm.synced_folder '.', '/vagrant', disabled: true
   config.vm.network :private_network, ip: '10.1.1.10'
-  config.vm.hostname = $project_name
-  config.vm.post_up_message = "<#{$project_name}> UP"
+  config.vm.hostname = 'benchmark'
+  config.vm.post_up_message = "#{config.vm.hostname} UP"
 
   config.vm.provider :virtualbox do |vb|
-    vb.name = $project_name
+    vb.linked_clone = true
+    vb.name = config.vm.hostname
     vb.cpus = 4
     vb.memory = 2048
     vb.customize [:modifyvm, :id, '--paravirtprovider', 'kvm']
     vb.customize [:modifyvm, :id, '--cpuexecutioncap', '90']
   end
 
-  installDbs config
+  upload config, 'systems/benchmark.js', '~/benchmark.js'
+  upload config, 'benchmark/build/install/benchmark', '~'
+  upload config, 'benchmark/build/libs/ROOT.war', '~/ROOT.war'
 
-  # noinspection RubyLiteralArrayInspection
-  upload config,
-    [ "benchmark/build/install/#{$project_name}", '~' ],
-    [ 'benchmark/build/libs/ROOT.war', '~/ROOT.war' ]
-
-  resin = "#{$resin_url}/#{$resin_version}/x86_64/resin-#{$resin_version}-1.x86_64.rpm"
-  command config,
-    "yum -q -y install #{resin} || true",
-    'sudo rm -rf /var/resin/webapps/ROOT',
-    'sudo mv -f /home/vagrant/ROOT.war /var/resin/webapps',
-    'sudo systemctl start resin',
-    'sudo systemctl enable resin',
-    'sudo firewall-cmd --permanent --add-port=9090/tcp',
-    'sudo firewall-cmd --permanent --add-port=8080/tcp',
-    'sudo firewall-cmd --reload'
+  install_dbs config
+  install_resin config
 
   command config,
-    "sudo mv -f /home/vagrant/#{$project_name} /opt || true",
-    "sudo mv -f /opt/#{$project_name}/bin/#{$project_name}.service /etc/systemd/system || true",
-    "sudo systemctl start #{$project_name}",
-    "sudo systemctl enable #{$project_name}"
+    'sudo rm -rf /opt/benchmark || true',
+    'sudo rm -f /etc/systemd/system/benchmark.service || true',
+    'sudo mv -f /home/vagrant/benchmark /opt || true',
+    'sudo mv -f /opt/benchmark/bin/benchmark.service /etc/systemd/system || true',
+    'sudo systemctl start benchmark',
+    'sudo systemctl enable benchmark'
 end

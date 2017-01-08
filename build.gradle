@@ -29,46 +29,25 @@ plugins {
 
 apply from: 'gradle/site.gradle'
 apply from: 'gradle/kotlin.gradle'
-
 apply plugin: 'maven-publish'
-
-defaultTasks 'build'
 
 ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
 ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
 
-githubPages {
-    pages {
-        from siteTarget
-    }
-}
-
-bintray {
-    user = bintrayUser
-    key = bintrayKey
-    publications = [ 'mavenJava' ]
-    publish = true
-
-    pkg {
-        repo = 'maven'
-        name = 'Hexagon'
-        licenses = [ 'MIT' ]
-        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
-    }
-}
-
 dependencies {
     // COMPILE
-    compile ("com.rabbitmq:amqp-client:$rabbitVersion") // TODO Set as 'compileOnly'
-    compile ("org.mongodb:mongodb-driver:$mongodbVersion") // TODO Set as 'compileOnly'
     compile ("ch.qos.logback:logback-classic:$logbackVersion")
     compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     compile ("org.slf4j:jul-to-slf4j:$slf4jVersion")
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
 
+    compileOnly ("com.rabbitmq:amqp-client:$rabbitVersion")
+    compile ("org.mongodb:mongodb-driver:$mongodbVersion") // TODO Set as 'compileOnly'
+
     compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
     compileOnly ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
     compileOnly ("io.undertow:undertow-core:$undertowVersion")
+    compileOnly ("io.undertow:undertow-servlet:$undertowVersion")
 
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
@@ -81,10 +60,13 @@ dependencies {
     compileOnly ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
 
     // TEST
+    testCompile ("com.rabbitmq:amqp-client:$rabbitVersion")
     testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
     testCompile ("com.mitchellbosecke:pebble:$pebbleVersion")
     testCompile ("io.undertow:undertow-core:$undertowVersion")
     testCompile ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
+    testCompile ('com.zaxxer:HikariCP:2.5.1')
+    testCompile ('mysql:mysql-connector-java:6.0.5')
     testCompile ("org.apache.qpid:qpid-broker:0.28") { // Version *MUST BE* 0.28 for tests to work
         exclude module: "commons-logging"
         exclude module: "slf4j-log4j12"
@@ -135,6 +117,26 @@ publishing {
     }
 }
 
+githubPages {
+    pages {
+        from "$buildDir/$siteTarget"
+    }
+}
+
+bintray {
+    user = bintrayUser
+    key = bintrayKey
+    publications = [ 'mavenJava' ]
+    publish = true
+
+    pkg {
+        repo = 'maven'
+        name = 'Hexagon'
+        licenses = [ 'MIT' ]
+        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
+    }
+}
+
 lazybones {
     repositoryName = "$bintrayUser/maven/Hexagon"
 
@@ -154,7 +156,7 @@ publishGhPages.dependsOn 'site'
 bintrayUpload.dependsOn 'build'
 publish.dependsOn 'publishGhPages', 'bintrayUpload'
 
-task release(dependsOn: [ 'checkGitStatus', 'publish', 'libraries' ]) {
+task release(dependsOn: [ 'checkGitStatus', 'publish', 'libraries', 'installAllTemplates' ]) {
     doLast {
         grgit.tag.add {
             name = version
@@ -169,13 +171,9 @@ task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 
 task checkGitStatus () {
     doLast {
-        if (!grgit.status ().clean)
-            throw new GradleException ('Repository not clean')
-
+        checkCleanRepository()
         grgit.pull (remote: 'origin', branch: 'master')
-
-        if (!grgit.status ().clean)
-            throw new GradleException ('Repository not clean')
+        checkCleanRepository()
     }
 }
 
@@ -184,6 +182,11 @@ task minor { doLast { version "minor" } }
 task patch { doLast { version "patch" } }
 
 import static com.github.zafarkhaja.semver.Version.valueOf as versionOf
+
+void checkCleanRepository() {
+    if (!grgit.status ().clean)
+        throw new GradleException ('Repository not clean')
+}
 
 void version(String type) {
     switch (type) {
@@ -203,4 +206,6 @@ void version(String type) {
     File properties = file ("$rootDir/gradle.properties")
     String version = "version=${version.toString()}"
     properties.write(properties.getText().replaceAll(/(?m)version=.*/, version))
+
+    // TODO Commit change
 }
