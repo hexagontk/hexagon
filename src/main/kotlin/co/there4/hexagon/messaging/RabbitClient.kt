@@ -5,8 +5,10 @@ import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.util.parseQueryParameters
 import co.there4.hexagon.util.retry
 import com.rabbitmq.client.*
+import com.rabbitmq.client.AMQP.BasicProperties
 import java.io.Closeable
 import java.lang.Runtime.getRuntime
+import java.lang.Thread.sleep
 import java.net.URI
 import java.nio.charset.Charset.defaultCharset
 import java.util.UUID.randomUUID
@@ -162,7 +164,7 @@ class RabbitClient (
         correlationId: String?,
         replyQueueName: String?) {
 
-        val builder = AMQP.BasicProperties.Builder()
+        val builder = BasicProperties.Builder()
 
         if (!correlationId.isNullOrBlank())
             builder.correlationId(correlationId)
@@ -194,15 +196,21 @@ class RabbitClient (
 
             publish(it, "", requestQueue, charset, message, correlationId, replyQueueName)
 
-            val consumer = QueueingConsumer(it)
-            it.basicConsume(replyQueueName, true, consumer)
-
             var result: String? = null
-            while (result == null) {
-                val delivery = consumer.nextDelivery(20000)
-                if (delivery != null && delivery.properties.correlationId == correlationId)
-                    result = String(delivery.body)
+            val consumer = object : DefaultConsumer(it) {
+                override fun handleDelivery(
+                    consumerTag: String?,
+                    envelope: Envelope?,
+                    properties: BasicProperties?,
+                    body: ByteArray?) {
+
+                    if (properties?.correlationId == correlationId)
+                        result = String(body ?: byteArrayOf())
+                }
             }
-            result
+
+            it.basicConsume(replyQueueName, true, consumer)
+            while(result == null) { sleep(5) } // Wait until callback is called
+            result ?: ""
         }
 }
