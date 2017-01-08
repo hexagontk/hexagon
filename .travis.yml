@@ -29,7 +29,7 @@ services:
 install:
   - ln -s gradle/wrapper gradlew
   - mongo systems/benchmark.js
-  - mysql < systems/benchmark.sql
+  - mysql --user=root < systems/benchmark.sql
 
 script: gradle/wrapper --no-daemon --full-stacktrace build site
 
