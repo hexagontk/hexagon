@@ -124,7 +124,7 @@ internal class MySqlRepository : Repository {
                 stmtUpdate.setInt(2, world.id)
                 stmtUpdate.addBatch()
 
-                if (ii % 75 == 0)
+                if (ii % 10 == 0)
                     con.commit()
             }
 
