@@ -65,6 +65,8 @@ dependencies {
     testCompile ("com.mitchellbosecke:pebble:$pebbleVersion")
     testCompile ("io.undertow:undertow-core:$undertowVersion")
     testCompile ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
+    testCompile ('com.zaxxer:HikariCP:2.5.1')
+    testCompile ('mysql:mysql-connector-java:6.0.5')
     testCompile ("org.apache.qpid:qpid-broker:0.28") { // Version *MUST BE* 0.28 for tests to work
         exclude module: "commons-logging"
         exclude module: "slf4j-log4j12"

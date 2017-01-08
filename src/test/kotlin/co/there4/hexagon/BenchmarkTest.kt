@@ -14,40 +14,7 @@ import kotlin.test.assertFailsWith
 internal const val THREADS = 4
 internal const val TIMES = 4
 
-class BenchmarkMySqlTest : BenchmarkTest("mysql") {
-
-    override fun warmup() {
-        stop()
-        reset()
-        main(arrayOf(databaseEngine))
-
-        val warmupRounds = if (THREADS > 1) 2 else 0
-        (1..warmupRounds).forEach {
-            json()
-            plaintext()
-            no_query_parameter()
-            empty_query_parameter()
-            text_query_parameter()
-            zero_queries()
-            one_thousand_queries()
-            one_query()
-            ten_queries()
-            one_hundred_queries()
-            five_hundred_queries()
-            fortunes()
-            no_updates_parameter()
-            empty_updates_parameter()
-            text_updates_parameter()
-            zero_updates()
-            one_update()
-            ten_updates()
-            one_hundred_updates()
-            five_hundred_updates()
-        }
-    }
-    /** Test ignored because it is failing in Travis (I do not know why ???) */
-    override fun one_thousand_updates() { assert(true) }
-}
+class BenchmarkMySqlTest : BenchmarkTest("mysql")
 
 class BenchmarkMongoDbTest : BenchmarkTest("mongodb")
 
