@@ -42,7 +42,7 @@ jbake {
 // Site processing is required because JBake does not filter content with configuration properties
 task site (dependsOn: 'jbake') {
     doLast {
-        file (siteTarget).traverse (nameFilter: ~/.+\.(html|xml|css)$/) {
+        file ("$buildDir/${jbake.destDirName}").traverse (nameFilter: ~/.+\.(html|xml|css)$/) {
             it.write (it.getText ()
                 .replace ('${projectVersion}', project.version.toString ())
                 .replace ('${siteColor}', siteColor.toString())

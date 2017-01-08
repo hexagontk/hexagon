@@ -117,7 +117,7 @@ publishing {
 
 githubPages {
     pages {
-        from siteTarget
+        from "$buildDir/$siteTarget"
     }
 }
 
