@@ -1,12 +1,9 @@
 package co.there4.hexagon.web.integration
 
 import co.there4.hexagon.web.*
-import co.there4.hexagon.web.undertow.UndertowServer
 import org.testng.annotations.Test
 
 @Test class HexagonIT : ItTest() {
-    override val servers = super.servers //+ listOf( UndertowServer(bindPort = 5088))
-
     override fun initialize(srv: Server) {
         srv.get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")

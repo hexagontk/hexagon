@@ -65,6 +65,11 @@ import kotlin.test.assertFailsWith
         retry(1, 0, { }) // Ok case
     }
 
+    fun error_utilities_work_as_expected () {
+        assertFailsWith<IllegalStateException> { error() }
+        assertFailsWith<IllegalStateException> { err }
+    }
+
     fun setting_context_values_for_threads_works_correctly () {
         Context["Number"] = 9
         Context["Text"] = "Text"

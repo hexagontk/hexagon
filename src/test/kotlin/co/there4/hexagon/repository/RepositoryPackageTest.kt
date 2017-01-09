@@ -36,18 +36,29 @@ data class Tag(
  * TODO Finish this
  */
 @Test(enabled = false, description = "TODO Compare both filters") class RepositoryPackageTest {
-    private fun equalFilter(a: Bson, b: Bson) = a == b
+    data class Example(val foo: String)
 
     fun eq_filter_work_as_expected() {
         val hexagonFilter = "foo" eq "bar"
         val driverFilter = eq("foo", "bar")
 
-        assert(equalFilter(hexagonFilter, driverFilter))
+        assert(hexagonFilter == driverFilter)
     }
 
     fun or_filter_work_as_expected() {
-        val hexagonFilter = ("foo" eq "bar") or ("foo" eq true) or ("foo" eq 1)
+        val hexagonFilter = (Example::foo eq "bar") or ("foo" eq true) or ("foo" eq 1)
         val driverFilter = or(
+            eq("foo", "bar"),
+            eq("foo", true),
+            eq("foo", 1)
+        )
+
+        assert(hexagonFilter == driverFilter)
+    }
+
+    fun and_filter_work_as_expected() {
+        val hexagonFilter = (Example::foo eq "bar") and ("foo" eq true) and ("foo" eq 1)
+        val driverFilter = and(
             eq("foo", "bar"),
             eq("foo", true),
             eq("foo", 1)

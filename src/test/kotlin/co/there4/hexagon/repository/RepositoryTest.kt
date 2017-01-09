@@ -2,6 +2,7 @@ package co.there4.hexagon.repository
 
 import co.there4.hexagon.repository.RepositoryEventAction.INSERTED
 import co.there4.hexagon.serialization.SerializationTest
+import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.util.CompanionLogger
 import com.mongodb.MongoBulkWriteException
 import com.mongodb.client.model.FindOneAndReplaceOptions
@@ -62,6 +63,12 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: K
             assert(collection.count() == 1L)
             result = collection.findObjects().first()
             assert(result == object2)
+
+            deleteAll()
+            collection.insertOne(it.convertToMap().mapKeys { it.key.toString() })
+            result = collection.findObjects().first()
+
+            assert(result == it)
 
             deleteAll()
 //            assert(eventCount > 0) // TODO Check event count
