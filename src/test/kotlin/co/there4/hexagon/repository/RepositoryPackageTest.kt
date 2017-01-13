@@ -1,7 +1,6 @@
 package co.there4.hexagon.repository
 
 import com.mongodb.client.model.Filters.*
-import org.bson.conversions.Bson
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer

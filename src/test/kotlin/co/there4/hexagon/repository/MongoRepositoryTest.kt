@@ -6,6 +6,9 @@ import org.testng.annotations.Test
     val repository = mongoIdRepository(Company::id)
 
     fun resources_are_loaded() {
+        repository.loadData("data/companies.json")
+        repository.delete()
         repository.importResource("data/companies.json")
+        repository.delete()
     }
 }
