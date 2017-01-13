@@ -35,12 +35,12 @@
     rel="stylesheet">
   <link
     rel="stylesheet"
-    href="${cloudflare}/font-awesome/4.6.2/css/font-awesome.min.css"
+    href="${cloudflare}/font-awesome/4.7.0/css/font-awesome.min.css"
     type="text/css">
   <link
     href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/base.css"
     rel="stylesheet">
-  <link href="${cloudflare}/highlight.js/9.3.0/styles/github.min.css" rel="stylesheet">
+  <link href="${cloudflare}/highlight.js/9.9.0/styles/github.min.css" rel="stylesheet">
 
   <link
     rel="apple-touch-icon"
@@ -54,7 +54,7 @@
   <link rel="author" href="/humans.txt" />
 
   <!--[if lt IE 9]>
-    <script src="${cloudflare}/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="${cloudflare}/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="${cloudflare}/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
