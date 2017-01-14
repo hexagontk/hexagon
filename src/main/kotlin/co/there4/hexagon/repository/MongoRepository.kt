@@ -6,6 +6,7 @@ import co.there4.hexagon.serialization.*
 import co.there4.hexagon.util.*
 import com.mongodb.client.*
 import com.mongodb.client.model.*
+import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.bson.conversions.Bson
@@ -124,6 +125,8 @@ open class MongoRepository <T : Any> (
     // TODO Test this!
     fun importFile(input: File) { insertManyObjects(input.parseList(type)) }
     fun importResource(input: String) { insertManyObjects(requireResource(input).parseList(type)) }
+
+    fun delete(): DeleteResult = deleteMany(Document())
 
     /**
      * Load a file with DB data serialized to a repository.

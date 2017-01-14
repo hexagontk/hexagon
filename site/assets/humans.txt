@@ -7,8 +7,7 @@
 
 # THANKS
 
-    To all open source coders that make the Internet possible. Specially the ones that developed
-    the libraries I use.
+    To all open source coders that make the Internet possible.
 
     For the Web design, thanks to the people of http://bootswatch.com/ for their fabulous templates.
 

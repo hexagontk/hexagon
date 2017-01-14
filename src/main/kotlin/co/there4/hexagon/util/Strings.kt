@@ -11,8 +11,6 @@ val EOL = getProperty("line.separator") ?: error("'line.separator' not found in 
 private val VARIABLE_PREFIX = "#{"
 /** Variable sufix for string filtering. */
 private val VARIABLE_SUFFIX = "}"
-/** Delimiter char for banners. */
-private val BANNER_DELIMITER = "*"
 
 /** Start of ANSI sequence. */
 private val ANSI_PREFIX = "\u001B["
@@ -82,10 +80,12 @@ fun String.camelToSnake () =
 
 /**
  * Formats the string as a banner with a delimiter above and below text. The character used to
- * render the delimiter is defined [here][BANNER_DELIMITER]
+ * render the delimiter is defined.
+ *
+ * @param bannerDelimiter Delimiter char for banners.
  */
-fun String.banner (): String {
-    val separator = BANNER_DELIMITER.repeat (this.lines().map { it.length }.max() ?: 0)
+fun String.banner (bannerDelimiter: String = "*"): String {
+    val separator = bannerDelimiter.repeat (this.lines().map { it.length }.max() ?: 0)
     return "$separator$EOL$this$EOL$separator"
 }
 

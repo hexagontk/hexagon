@@ -30,6 +30,7 @@ plugins {
 apply from: 'gradle/site.gradle'
 apply from: 'gradle/kotlin.gradle'
 apply plugin: 'maven-publish'
+apply plugin: 'org.jetbrains.dokka'
 
 ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
 ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
@@ -60,6 +61,8 @@ dependencies {
     compileOnly ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
 
     // TEST
+    testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("org.mockito:mockito-core:$mockitoVersion")
     testCompile ("com.rabbitmq:amqp-client:$rabbitVersion")
     testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
     testCompile ("com.mitchellbosecke:pebble:$pebbleVersion")
@@ -74,11 +77,9 @@ dependencies {
     }
 }
 
-clean {
-    delete "systems/load_test.jtl", "systems/jmeter.log"
-}
-
 test {
+    useTestNG ()
+
     systemProperties['derby.stream.error.file'] = '/dev/null'
     doFirst {
         File environmentFile = file("${System.getProperty("user.home")}/.environment")
@@ -119,7 +120,7 @@ publishing {
 
 githubPages {
     pages {
-        from "$buildDir/$siteTarget"
+        from "$buildDir/site"
     }
 }
 
@@ -154,7 +155,7 @@ task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
 site.dependsOn 'dokka', 'jacocoTestReport'
 publishGhPages.dependsOn 'site'
 bintrayUpload.dependsOn 'build'
-publish.dependsOn 'publishGhPages', 'bintrayUpload'
+publish.dependsOn 'publishGhPages', 'bintrayUpload' // TODO Add publishAllTemplates
 
 task release(dependsOn: [ 'checkGitStatus', 'publish', 'libraries', 'installAllTemplates' ]) {
     doLast {

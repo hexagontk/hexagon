@@ -1,7 +1,6 @@
 package co.there4.hexagon.web.integration
 
 import co.there4.hexagon.web.Server
-import co.there4.hexagon.web.undertow.UndertowServer
 import org.testng.annotations.BeforeTest
 import java.util.*
 import java.util.Collections.synchronizedMap
@@ -9,8 +8,6 @@ import java.util.Collections.synchronizedMap
 @Suppress("unused") // Test methods are flagged as unused
 class BooksIT : ItTest () {
     data class Book (val author: String, val title: String)
-
-    override val servers = super.servers + UndertowServer(bindPort = 5099)
 
     private var id = 1
     private var books: MutableMap<Int, Book> = LinkedHashMap ()
