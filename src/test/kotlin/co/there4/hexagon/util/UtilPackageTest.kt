@@ -98,4 +98,11 @@ import kotlin.test.assertFailsWith
         assert(m["empty"] == null)
         assert(m[0] == 1)
     }
+
+    fun require_resource() {
+        assert(requireResource("passwd.txt").file == resource("passwd.txt")?.file)
+        assertFailsWith<IllegalStateException>("foo.txt not found") {
+            requireResource("foo.txt")
+        }
+    }
 }
