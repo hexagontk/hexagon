@@ -3,7 +3,6 @@ package co.there4.hexagon.web.servlet
 import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.bindAddress
 import org.eclipse.jetty.server.Server as JettyServer
-import org.eclipse.jetty.server.session.HashSessionIdManager
 import org.eclipse.jetty.server.session.HashSessionManager
 import org.eclipse.jetty.server.session.SessionHandler
 import org.eclipse.jetty.webapp.WebAppContext
