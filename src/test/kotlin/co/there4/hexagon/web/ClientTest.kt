@@ -1,6 +1,6 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.rest.files
+//import co.there4.hexagon.rest.files
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.web.servlet.JettyServletServer
 import org.asynchttpclient.Response
@@ -15,7 +15,7 @@ import org.testng.annotations.Test
     }
 
     @BeforeClass fun startup() {
-        server.files()
+//        server.files()
 
         server.post {
             response.contentType = "application/json; charset=utf-8"
