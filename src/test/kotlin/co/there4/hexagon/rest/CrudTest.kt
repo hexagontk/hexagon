@@ -5,11 +5,10 @@ import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.servlet.JettyServletServer
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
-import org.testng.annotations.Test
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-@Test abstract class CrudTest <T : Any, K : Any> (type: KClass<T>, key: KProperty1<T, K>) :
+abstract class CrudTest <T : Any, K : Any> (type: KClass<T>, key: KProperty1<T, K>) :
     IdRepositoryTest<T, K>(type, key) {
 
     val server = JettyServletServer()

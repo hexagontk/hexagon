@@ -8,6 +8,9 @@ import java.io.File
 import java.lang.System.getProperty
 
 /**
+ * 1. Takes project and module name from META-INF/manifest.mf
+ * 2. Load environment
+ *
  * Reads:
  * - service.yaml (resource)
  * - <environment>.yaml (resource)

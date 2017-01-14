@@ -10,8 +10,8 @@ Release process
 
 Steps:
 
-* Commit and push all changes
 * Change version in gradle.properties
+* Commit and push all changes
 * Build and deploy (binary and documentation)
 * Push changes
 
@@ -28,6 +28,8 @@ Tools used: git-extras + bintray
 
 Contribute
 ==========
+
+* gw clean site install libraries installAllTemplates should work ok.
 
 * The code should be formatted accordingly to the `codeStyleSettings.xml` file.
   For code and file names, etc. Use either camel case or snake case (if possible)

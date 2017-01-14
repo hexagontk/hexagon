@@ -17,4 +17,3 @@ build/
 *.hprof
 .vagrant/
 log/
-benchmark/systems/load_test.jtl

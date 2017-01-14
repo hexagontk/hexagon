@@ -9,8 +9,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@Test
-class CompanyTest : CrudTest<Company, String>(Company::class, Company::id) {
+@Test class CompanyTest : CrudTest<Company, String>(Company::class, Company::id) {
     override val testObjects: List<Company> = listOf (
         createObject(),
         Company(
