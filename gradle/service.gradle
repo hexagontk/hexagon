@@ -3,10 +3,6 @@ apply plugin: 'application'
 
 defaultTasks 'install'
 
-ext.deployDir = findProperty ('deployDir') ?: '/opt'
-ext.serviceUser = findProperty ('serviceUser') ?: 'root'
-ext.serviceGroup = findProperty ('serviceGroup') ?: serviceUser
-
 jar {
     manifest {
         attributes(
@@ -20,16 +16,28 @@ jar {
     }
 }
 
-task install(dependsOn: [ 'check', 'installDist' ]) {
-    doLast {
-        String content = ""
+processResources.dependsOn 'buildInfo'
 
-        try {
-            content = new URL("$gradleScripts/systemdScript").text
-        }
-        catch (Exception ignored) {
-            content = file("$gradleScripts/systemdScript").text
-        }
+task buildInfo {
+    doLast {
+        file ("$buildDir/resources/main").mkdirs ()
+        file ("$buildDir/resources/main/service.properties").write """
+        project=$rootProject.name
+        module=$project.name
+        version=${project.version.toString()}
+        group=$project.group
+        description=$project.description
+        """.stripIndent ()
+    }
+}
+
+task install(dependsOn: 'installDist') {
+    doLast {
+        String deployDir = findProperty ('deployDir') ?: '/opt'
+        String serviceUser = findProperty ('serviceUser') ?: 'root'
+        String serviceGroup = findProperty ('serviceGroup') ?: serviceUser
+
+        String content = new URL("$gradleScripts/systemdScript").text
 
         Map<String, String> parameters = [
             projectName : project.name,
@@ -44,8 +52,7 @@ task install(dependsOn: [ 'check', 'installDist' ]) {
         parameters.each { content = content.replace ('${' + it.key + '}', it.value) }
 
         File script = file ("${tasks.installDist.destinationDir}/bin/${project.name}.service")
-        script.delete ()
-        script << content
+        script.write content
         script.executable = true
     }
 }
