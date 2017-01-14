@@ -1,26 +1,33 @@
 package co.there4.hexagon.messaging
 
-import com.google.common.io.Files
 import org.apache.qpid.server.Broker
 import org.apache.qpid.server.BrokerOptions
-import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
 
 /**
  * Check: https://dzone.com/articles/mocking-rabbitmq-for-integration-tests
  */
 class EmbeddedAMQPBroker {
-    private val dir = File(".").absolutePath + "/src/test/resources"
-    private val BROKER_PORT = 5673
-    private val broker = Broker()
-    private val brokerOptions = BrokerOptions()
+    private var broker: Broker? = null
 
-    init {
-        brokerOptions.setConfigProperty("qpid.amqp_port", BROKER_PORT.toString())
+    fun startup() {
+        val dir = Paths.get("src/test/resources").toAbsolutePath().toFile().absolutePath
+        val workDir = Files.createTempDirectory("derby")
+        val brokerOptions = BrokerOptions()
+
+        Files.copy(
+            Paths.get("src/test/resources/qpid.json"),
+            workDir.resolve("config.json"))
+
+        brokerOptions.setConfigProperty("qpid.amqp_port", "5673")
         brokerOptions.setConfigProperty("qpid.pass_file", "$dir/passwd.txt")
-        brokerOptions.setConfigProperty("qpid.work_dir", Files.createTempDir().absolutePath)
+        brokerOptions.setConfigProperty("qpid.work_dir", workDir.toFile().absolutePath)
         brokerOptions.initialConfigurationLocation = "$dir/qpid.json"
+        brokerOptions.logConfigFileLocation = "$dir/log4j.xml"
+        broker = Broker()
+        broker?.startup(brokerOptions)
     }
 
-    fun startup() { broker.startup(brokerOptions) }
-    fun shutdown() { broker.shutdown() }
+    fun shutdown() { broker?.shutdown() }
 }

@@ -1,5 +1,6 @@
 package co.there4.hexagon.repository
 
+import org.bson.Document
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -52,5 +53,8 @@ abstract class IdRepositoryTest <T : Any, K : Any> (type: KClass<T>, key: KPrope
         assert(idCollection.find(*idsArray).size == objects.size)
         idCollection.replaceObjects(*changedObjectsArray)
         assert(idCollection.find(*idsArray) == changedObjects)
+
+        idCollection.deleteMany(Document())
+        assert(idCollection.isEmpty())
     }
 }

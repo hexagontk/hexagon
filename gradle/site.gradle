@@ -2,27 +2,14 @@
  * To apply this script, you need to add the JBake plugin manually at the top of your build script
  * as that is not possible in included scripts like this one. These are the required lines to do so:
  *
- * buildscript {
- *     repositories {
- *         jcenter ()
- *         mavenCentral ()
- *         maven { url 'https://plugins.gradle.org/m2/' }
- *     }
- *
- *     dependencies {
- *         classpath "gradle.plugin.org.xbib.gradle.plugin:gradle-plugin-jbake:$jbakepluginVersion"
- *     }
+ * plugins {
+ *     id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
  * }
  */
 
-apply plugin: 'org.xbib.gradle.plugin.jbake'
-
-ext.siteSource = findProperty ('siteSource') ?: 'site'
-ext.siteTarget = findProperty ('siteTarget') ?: siteSource
-
 jbake {
-    srcDirName = siteSource
-    destDirName = siteTarget // It is relative to `buildDir`
+    srcDirName = findProperty ('siteSource') ?: 'site'
+    destDirName = findProperty ('siteTarget') ?: srcDirName // It is relative to `buildDir`
 
     configuration['site.host'] = siteHost
 
@@ -42,12 +29,13 @@ jbake {
 // Site processing is required because JBake does not filter content with configuration properties
 task site (dependsOn: 'jbake') {
     doLast {
-        file ("$buildDir/${jbake.destDirName}").traverse (nameFilter: ~/.+\.(html|xml|css)$/) {
+        file ("$buildDir/$jbake.destDirName").traverse (nameFilter: ~/.+\.(html|xml|css|svg)$/) {
             it.write (it.getText ()
                 .replace ('${projectVersion}', project.version.toString ())
-                .replace ('${siteColor}', siteColor.toString())
+                .replace ('${projectName}', project.name)
                 .replace ('${projectGroup}', project.group.toString ())
                 .replace ('${projectDescription}', project.description)
+                .replace ('${siteColor}', siteColor.toString())
             )
         }
     }

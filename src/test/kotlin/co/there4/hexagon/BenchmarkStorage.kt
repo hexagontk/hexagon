@@ -120,8 +120,8 @@ internal class MySqlRepository : Repository {
 
                 val world = World(rs.getInt(1), rs.getInt(2)).copy(randomNumber = rnd())
                 worlds += world
-                stmtUpdate.setInt(1, world.randomNumber)
-                stmtUpdate.setInt(2, world.id)
+                stmtUpdate.setInt(1, world.id)
+                stmtUpdate.setInt(2, world.randomNumber)
                 stmtUpdate.addBatch()
 
                 if (ii % 10 == 0)
