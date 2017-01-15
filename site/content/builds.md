@@ -4,30 +4,31 @@ type=page
 status=published
 ~~~~~~
 
+
 Builds
 ======
 
-Templates:
+Build scripts:
 
-  * `hexagon.gradle`: use this Gradle's script for any Hexagon component (library or service).
-  * `service.gradle`: Gradle's script for a service or application.
-  
-Features:
-
-  * `site.gradle`: Adds support for site generation (with API documentation and reports).
   * `kotlin.gradle`: Sets up Kotlin's Gradle plugin.
-
-Scripts:
-
-  * `systemdScript`: script that support start/stop/status
+    - kotlinVersion:
+  * `service.gradle`: Gradle's script for a service or application.
+    - Continuous run (AKA "Watch")
+    - deployDir
+    - serviceUser
+    - serviceGroup
+    - `systemdScript`: script that support start/stop/status
+  * `site.gradle`: Adds support for site generation (with API documentation and reports).
+    - siteSource
+    - siteTarget
   
 Templates:
 
-  * TODO Document Lazybones templates.
+  * curl -s "https://get.sdkman.io" | bash
+  * source "$HOME/.sdkman/bin/sdkman-init.sh"
+  * sdk i lazybones
+  * lazybones config set bintrayRepositories "pledbrook/lazybones-templates" "jamming/maven"
+  * lazybones create hexagon-service service
   
-Goodies:
-
-  * Continuous run (AKA "Watch")
-  * Deployment structure
 
 **TODO Complete documentation**

@@ -1,20 +1,20 @@
+/*
+ * Tasks:
+ *
+ * - runService
+ * - install
+ * - buildInfo / processResources
+ *
+ * Variables:
+ *
+ * - deployDir
+ * - serviceUser
+ * - serviceGroup
+ */
 
 apply plugin: 'application'
 
 defaultTasks 'install'
-
-jar {
-    manifest {
-        attributes(
-            hexagon: "service",
-            project: rootProject.name,
-            module: project.name,
-            version: project.version.toString(),
-            group: project.group,
-            description: project.description
-        )
-    }
-}
 
 processResources.dependsOn 'buildInfo'
 

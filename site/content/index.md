@@ -13,7 +13,6 @@ Hexagon is a micro services framework that doesn't follow the flock. It is writt
 uses [RabbitMQ] and [MongoDB]. It takes care of:
 
 * [rest](rest.html)
-* [messaging](messaging.html) (TODO Write documentation)
 * [serialization](serialization.html) (TODO Write documentation)
 * [storage](storage.html) (TODO Write documentation)
 * [events](events.html)
@@ -33,12 +32,11 @@ The purpose of the project is to provide a micro services framework with the fol
 The name and logo are an hexagon because it is the usual way of representing a microservice in a
 diagram.
 
-**DISCLAIMER** The project status right now is beta. Use it at your own risk
+DISCLAIMER: The project status right now is beta. Use it at your own risk
 
 [Kotlin]: http://kotlinlang.org
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com
-
 
 ## Getting Started
 
@@ -66,21 +64,17 @@ Maven:
 
 Write the code:
 
-```java
-import co.there4.hexagon.rest.*
+```kotlin
+import co.there4.hexagon.web.*
 
 fun main(args: Array<String>) {
-    applicationStart {
-        handlers {
-            get("hello/:name") { ok("Hello ${pathTokens["name"]}!") }
-        }
-    }
+    get("/hello/{name}") { ok("Hello ${request["name"]}!") }
+    run()
 }
 ```
 
-Launch it and view the results at: [http://localhost:2010/hello](http://localhost:2010/hello)
-
+Launch it and view the results at: [http://localhost:2010/hello]
 
 ## Build and Contribute
 
-Check the [Github's readme file](https://github.com/jaguililla/hexagon)
+Check the [Github's readme file](https://github.com/jaguililla/hexagon#build-and-contribute)

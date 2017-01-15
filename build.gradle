@@ -9,12 +9,12 @@
 buildscript {
     repositories {
         jcenter ()
-        mavenCentral ()
     }
 
     dependencies {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "uk.co.cacoethes:lazybones-gradle:$lazybonesVersion"
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
     }
 }
@@ -24,13 +24,13 @@ plugins {
     id 'org.ajoberstar.github-pages' version '1.6.0'
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
     id 'com.jfrog.bintray' version '1.7.3'
-    id 'uk.co.cacoethes.lazybones-templates' version '1.2.3'
 }
 
 apply from: 'gradle/site.gradle'
 apply from: 'gradle/kotlin.gradle'
 apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.dokka'
+apply plugin: 'uk.co.cacoethes.lazybones-templates'
 
 ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
 ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
@@ -139,12 +139,14 @@ bintray {
 }
 
 lazybones {
-    repositoryName = "$bintrayUser/maven/Hexagon"
+    repositoryName = "$bintrayUser/maven"
+    publish = true
 
     repositoryUsername = bintrayUser
     repositoryApiKey = bintrayKey
 
     licenses = [ 'MIT' ]
+    vcsUrl = 'https://github.com/jaguililla/hexagon.git'
 }
 
 task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
@@ -155,7 +157,7 @@ task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
 site.dependsOn 'dokka', 'jacocoTestReport'
 publishGhPages.dependsOn 'site'
 bintrayUpload.dependsOn 'build'
-publish.dependsOn 'publishGhPages', 'bintrayUpload' // TODO Add publishAllTemplates
+publish.dependsOn 'publishGhPages', 'bintrayUpload', 'publishAllTemplates'
 
 task release(dependsOn: [ 'checkGitStatus', 'publish', 'libraries', 'installAllTemplates' ]) {
     doLast {
