@@ -1,11 +1,8 @@
 /*
- * To deploy on Bintray you need to set 'bintrayUser' and 'bintrayKey' in
- * '~/.gradle/gradle.properties'.
- *
- * You should also set 'bintrayUrl' in the project's 'gradle.properties' file.
- *
- * NOTE: For the package to be accepted in JCenter, you need to include sources (sourceJar task).
+ * For details on how to build and publish and release the project, check the
+ * `site/content/contribute.md` file.
  */
+
 buildscript {
     repositories {
         jcenter ()
@@ -32,23 +29,13 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'uk.co.cacoethes.lazybones-templates'
 
-ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
-ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
-
 dependencies {
     // COMPILE
     compile ("ch.qos.logback:logback-classic:$logbackVersion")
     compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     compile ("org.slf4j:jul-to-slf4j:$slf4jVersion")
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
-
-    compileOnly ("com.rabbitmq:amqp-client:$rabbitVersion")
-    compile ("org.mongodb:mongodb-driver:$mongodbVersion") // TODO Set as 'compileOnly'
-
     compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
-    compileOnly ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
-    compileOnly ("io.undertow:undertow-core:$undertowVersion")
-    compileOnly ("io.undertow:undertow-servlet:$undertowVersion")
 
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
@@ -57,12 +44,18 @@ dependencies {
         exclude module: "kotlin-reflect"
     }
 
+    compileOnly ("com.rabbitmq:amqp-client:$rabbitVersion")
+    compileOnly ("org.mongodb:mongodb-driver:$mongodbVersion")
+
+    compileOnly ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
+
     compileOnly ("com.mitchellbosecke:pebble:$pebbleVersion")
     compileOnly ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
 
     // TEST
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("org.mockito:mockito-core:$mockitoVersion")
+    testCompile ("org.mongodb:mongodb-driver:$mongodbVersion")
     testCompile ("com.rabbitmq:amqp-client:$rabbitVersion")
     testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
     testCompile ("com.mitchellbosecke:pebble:$pebbleVersion")
@@ -80,7 +73,6 @@ dependencies {
 test {
     useTestNG ()
 
-    systemProperties['derby.stream.error.file'] = '/dev/null'
     doFirst {
         File environmentFile = file("${System.getProperty("user.home")}/.environment")
         if (!environmentFile.exists())
@@ -124,6 +116,10 @@ githubPages {
     }
 }
 
+// TODO Use `bintray.user/key` in lazybones, instead `ext` variables (move this to bintray block)
+ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
+ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
+
 bintray {
     user = bintrayUser
     key = bintrayKey
@@ -151,7 +147,7 @@ lazybones {
 
 task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
     into "$buildDir/libs"
-    from configurations.runtime
+    from configurations.compileOnly
 }
 
 site.dependsOn 'dokka', 'jacocoTestReport'
@@ -180,11 +176,9 @@ task checkGitStatus () {
     }
 }
 
-task major { doLast { version "major" } }
-task minor { doLast { version "minor" } }
-task patch { doLast { version "patch" } }
-
-import static com.github.zafarkhaja.semver.Version.valueOf as versionOf
+task major (dependsOn: 'checkGitStatus') { doLast { version "major" } }
+task minor (dependsOn: 'checkGitStatus') { doLast { version "minor" } }
+task patch (dependsOn: 'checkGitStatus') { doLast { version "patch" } }
 
 void checkCleanRepository() {
     if (!grgit.status ().clean)
@@ -192,15 +186,18 @@ void checkCleanRepository() {
 }
 
 void version(String type) {
+    //noinspection UnnecessaryQualifiedReference
+    def semver = com.github.zafarkhaja.semver.Version.valueOf (version.toString())
+
     switch (type) {
         case "major":
-            version = versionOf(version.toString ()).incrementMajorVersion ()
+            version = semver.incrementMajorVersion ()
             break
         case "minor":
-            version = versionOf(version.toString ()).incrementMinorVersion ()
+            version = semver.incrementMinorVersion ()
             break
         case "patch":
-            version = versionOf(version.toString ()).incrementPatchVersion ()
+            version = semver.incrementPatchVersion ()
             break
         default:
             throw new RuntimeException ("Unsupported version change: $type")
