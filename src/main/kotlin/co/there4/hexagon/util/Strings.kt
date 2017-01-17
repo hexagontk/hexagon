@@ -93,6 +93,8 @@ fun String.stripAccents() = normalize(this, NFD).replace("\\p{M}".toRegex(), "")
 
 fun readResource(resource: String) = resourceAsStream(resource)?.reader()?.readText()
 
+fun utf8(vararg bytes: Int) = String(bytes.map(Int::toByte).toByteArray())
+
 private fun ansiCode(fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): String {
     fun fgString (color: AnsiColor?) = (color?.fg ?: "").toString()
     fun bgString (color: AnsiColor?) = (color?.bg ?: "").toString()
