@@ -59,7 +59,7 @@
             <li>
               <a href="https://bintray.com/jamming/maven/Hexagon/_latestVersion">
                 <img
-                  src="https://img.shields.io/bintray/v/jamming/maven/Hexagon.svg"
+                  src="https://api.bintray.com/packages/jamming/maven/Hexagon/images/download.svg"
                   alt="DownloadImg" />
               </a>
             </li>

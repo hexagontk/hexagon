@@ -28,6 +28,11 @@ Tools used: git-extras + bintray
 
 Build
 =====
+ 
+To deploy on Bintray you need to set `bintrayUser` and `bintrayKey` in
+`~/.gradle/gradle.properties`.
+
+NOTE: For the package to be accepted in JCenter, you need to include sources (sourceJar task).
 
 Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 

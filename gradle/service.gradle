@@ -1,15 +1,5 @@
 /*
- * Tasks:
- *
- * - runService
- * - install
- * - buildInfo / processResources
- *
- * Variables:
- *
- * - deployDir
- * - serviceUser
- * - serviceGroup
+ * For more details about this build script, check the `site/content/builds.md` file.
  */
 
 apply plugin: 'application'

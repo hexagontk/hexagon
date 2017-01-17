@@ -1,24 +1,5 @@
 /*
- * Setup Kotlin for a Gradle project.
- *
- * This scripts:
- *
- * - Adds Kotlin libraries
- * - Setup code coverage report
- * - Filter project resources with Gradle build variables
- * - Apply better defaults for running tests and cleaning the project
- *
- * You need to add the `kotlinVersion` variable to `gradle.properties` to use this script.
- *
- * buildscript {
- *     repositories {
- *         jcenter ()
- *     }
- *
- *     dependencies {
- *         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
- *     }
- * }
+ * For more details about this build script, check the `site/content/builds.md` file.
  */
 
 apply plugin: 'kotlin'

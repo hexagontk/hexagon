@@ -42,12 +42,22 @@ DISCLAIMER: The project status right now is beta. Use it at your own risk
 
 Get the dependency from [JCenter] (you need to [setup the repository] first):
 
-[setup the repository]: https://bintray.com/bintray/jcenter
-
-Gradle:
+Minimal `build.gradle` example:
 
 ```groovy
-compile ('co.there4:hexagon:${version}')
+buildscript {
+    repositories { jcenter () }
+    dependencies { classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6" }
+}
+
+apply plugin: "kotlin"
+
+repositories { jcenter () }
+
+dependencies {
+    compile ("co.there4:hexagon:0.10.3")
+    compile ("org.eclipse.jetty:jetty-webapp:9.3.14.v20161028")
+}
 ```
 
 Maven:
@@ -61,6 +71,7 @@ Maven:
 ```
 
 [JCenter]: https://bintray.com/jamming/maven/Hexagon
+[setup the repository]: https://bintray.com/bintray/jcenter
 
 Write the code:
 
