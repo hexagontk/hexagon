@@ -1,8 +1,12 @@
 package co.there4.hexagon.util
 
 import org.testng.annotations.Test
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 import java.util.*
+import java.util.Calendar.MILLISECOND
 import kotlin.test.assertFailsWith
 
 @Test class UtilPackageTest {
@@ -97,6 +101,71 @@ import kotlin.test.assertFailsWith
         assert(m["nested", "empty"] == null)
         assert(m["empty"] == null)
         assert(m[0] == 1)
+    }
+
+    fun date_conversion() {
+        val cal = Calendar.getInstance()
+        cal.set(2017, 11, 31, 0, 0, 0)
+        cal.set(MILLISECOND, 0)
+        val d = cal.time
+        val ld = LocalDate.of(2017, 12, 31)
+
+        assert(ld.toDate() == d)
+        assert(ld == d.toLocalDate())
+    }
+
+    fun format_date() {
+        val now = LocalDateTime.now()
+        assert(now.formatToIso() == now.format(ISO_DATE_TIME))
+    }
+
+    fun zoned_date() {
+        val now = LocalDateTime.now()
+        assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
+    }
+
+    fun filtered_maps() {
+        assert(
+            fmapOf(
+                "a" to "b",
+                "b" to null,
+                "c" to 1,
+                "d" to listOf(1, 2),
+                "e" to listOf<String>(),
+                "f" to mapOf(0 to 1),
+                "g" to mapOf<String, Int>(),
+                "h" to fmapOf("a" to true, "b" to null),
+                "i" to fmapOf("a" to listOf<Int>())
+            ) ==
+            mapOf(
+                "a" to "b",
+                "c" to 1,
+                "d" to listOf(1, 2),
+                "f" to mapOf(0 to 1),
+                "h" to mapOf("a" to true)
+            )
+        )
+    }
+
+    fun filtered_lists() {
+        assert(
+            flistOf(
+                "a",
+                null,
+                listOf(1, 2),
+                listOf<String>(),
+                mapOf(0 to 1),
+                mapOf<String, Int>(),
+                fmapOf("a" to true, "b" to null),
+                fmapOf("a" to listOf<Int>())
+            ) ==
+            listOf(
+                "a",
+                listOf(1, 2),
+                mapOf(0 to 1),
+                mapOf("a" to true)
+            )
+        )
     }
 
     fun require_resource() {
