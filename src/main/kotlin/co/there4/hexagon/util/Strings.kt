@@ -5,7 +5,7 @@ import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
 
 /** Runtime specific end of line. */
-val EOL = getProperty("line.separator") ?: error("'line.separator' not found in system properties")
+val EOL: String = getProperty("line.separator")
 
 /** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
 private val VARIABLE_PREFIX = "#{"

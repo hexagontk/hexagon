@@ -5,6 +5,24 @@ import co.there4.hexagon.web.Server
 @Suppress("unused") // Test methods are flagged as unused
 class SessionIT : ItTest () {
     override fun initialize(srv: Server) {
+        srv.get("/session/id") {
+            ok(session.id ?: "null")
+        }
+
+        srv.get("/session/new") {
+            try {
+                ok(session.isNew())
+            }
+            catch(e: Exception) {
+                halt("Session error")
+            }
+        }
+
+        srv.get("/session/inactive") { ok(session.maxInactiveInterval ?: "null") }
+        srv.get("/session/creation") { ok(session.creationTime ?: "null") }
+
+        srv.post("/session/invalidate") { session.invalidate() }
+
         srv.put("/session/{key}/{value}") {
             session [request.parameter("key")] = request.parameter("value")
         }
@@ -25,7 +43,7 @@ class SessionIT : ItTest () {
             response.addHeader ("attribute names", session.attributes.keys.joinToString(", "))
 
             response.addHeader ("creation",  session.creationTime.toString())
-            response.addHeader ("id",  session.id)
+            response.addHeader ("id",  session.id ?: "")
             response.addHeader ("last access", session.lastAccessedTime.toString())
         }
     }
@@ -39,6 +57,11 @@ class SessionIT : ItTest () {
 
     fun sessionLifecycle() {
         withClients {
+            assert(get("/session/id").responseBody == "null")
+            assert(get("/session/inactive").responseBody == "null")
+            assert(get("/session/creation").responseBody == "null")
+            assert(get("/session/new").responseBody == "true")
+
             assert(put("/session/foo/bar").statusCode == 200)
             assert(put("/session/foo/bazz").statusCode == 200)
             assert(put("/session/temporal/_").statusCode == 200)
@@ -46,6 +69,17 @@ class SessionIT : ItTest () {
 
             assert(get("/session").statusCode == 200)
             assertResponseEquals(get("/session/foo"), 200, "bazz")
+
+            assert(get("/session/id").responseBody != "null")
+            assert(get("/session/inactive").responseBody != "null")
+            assert(get("/session/creation").responseBody != "null")
+            assert(get("/session/new").responseBody == "false")
+
+            post("/session/invalidate")
+
+            assert(get("/session/id").responseBody == "null")
+            assert(get("/session/inactive").responseBody == "null")
+            assert(get("/session/creation").responseBody == "null")
         }
     }
 }

@@ -214,7 +214,7 @@ fun <T : Any> flistOf(vararg pairs: T?): List<T> = listOf<T?>(*pairs)
 /*
  * I/O
  */
-val systemClassLoader: ClassLoader = getSystemClassLoader() ?: error("Error getting class loader")
+val systemClassLoader: ClassLoader = getSystemClassLoader()
 
 /**
  * TODO Fix class loader issues, use thread class loader or whatever

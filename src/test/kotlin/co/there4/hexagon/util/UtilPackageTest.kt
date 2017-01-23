@@ -124,6 +124,10 @@ import kotlin.test.assertFailsWith
         assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
     }
 
+    fun error_utilities() {
+        assertFailsWith<IllegalStateException>("Invalid state") { err }
+    }
+
     fun filtered_maps() {
         assert(
             fmapOf(

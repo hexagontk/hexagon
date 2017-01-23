@@ -12,21 +12,23 @@ internal class BServletSession(val req: HttpServletRequest) : Session {
 
     override fun remove(name: String) { req.session.removeAttribute(name) }
 
-    override val attributes: Map<String, Any?>
-        get() = req.session.attributeNames.toList().map { it to this[it] }.toMap()
+    override val attributeNames: List<String> get() = req.session.attributeNames.toList()
 
-    override val creationTime: Long by lazy { session (req)?.creationTime ?: 0L }
-    override val lastAccessedTime: Long by lazy { session (req)?.lastAccessedTime ?: 0L }
-    override var id: String
-        get() = session (req)?.id ?: ""
+    override val creationTime: Long? by lazy { session (req)?.creationTime }
+    override val lastAccessedTime: Long? by lazy { session (req)?.lastAccessedTime }
+
+    override var id: String?
+        get() = session (req)?.id
         set(value) { }
-    override var maxInactiveInterval: Int
-        get() = session (req)?.maxInactiveInterval ?: 0
+
+    override var maxInactiveInterval: Int?
+        get() = session (req)?.maxInactiveInterval
         set(value) { }
 
     override fun invalidate() = req.session.invalidate()
 
     override fun isNew() = req.session.isNew
 
-    private fun session (req: HttpServletRequest): HttpSession? = req.getSession(false)
+    private fun session (req: HttpServletRequest, create: Boolean = false): HttpSession? =
+        req.getSession(create)
 }
