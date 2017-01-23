@@ -5,8 +5,32 @@ status=published
 ~~~~~~
 
 
-Builds
-======
+Service Lifecycle
+=================
+
+Create a service
+----------------
+
+To build Hexagon services you have some Gradle helpers that you can use on your own project. To
+use them, you can use the online versions, or copy them to your `gradle` directory.
+
+Directory structure: standard Gradle structure. Gradle wrapper changed
+
+Configuration files: service.yaml (see configuration.md) and logback.xml
+
+Templates: Pebble (optional dependencies)
+
+Create from template
+--------------------
+
+
+Running and Testing
+-------------------
+
+Docker compose
+
+Packaging and Deployment
+------------------------
 
 Build scripts:
 
@@ -58,9 +82,9 @@ Build scripts:
 
 
 #
-# Copy this file to '/etc/systemd/system' and run:
-# sudo systemctl start ${projectName}
-# sudo systemctl enable ${projectName}
+# Copy this file to '/etc/systemd/system' and then:
+#   - To start the service execute: sudo systemctl start ${projectName}
+#   - To run the service at boot type: sudo systemctl enable ${projectName}
 #
 
 

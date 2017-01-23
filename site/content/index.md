@@ -12,15 +12,15 @@ HEXAGON ${projectVersion}
 Hexagon is a micro services framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [RabbitMQ] and [MongoDB]. It takes care of:
 
-* [rest](rest.html)
-* [serialization](serialization.html) (TODO Write documentation)
-* [storage](storage.html) (TODO Write documentation)
-* [events](events.html)
-* [configuration](configuration.html) (TODO Partial implementation)
-* [templates](templates.html) (TODO Partial implementation)
-* [scheduling](scheduling.html)
-* [testing](testing.html) (TODO Write documentation)
-* [builds](builds.html)
+* [Service Life Cycle]: provide helpers to build, run, package and deploy your service.
+* [rest]
+* [serialization]: TODO Write documentation
+* [storage]: TODO Write documentation
+* [events]
+* [configuration]: TODO Partial implementation
+* [templates]: TODO Partial implementation
+* [scheduling]
+* [testing]: TODO Write documentation
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
@@ -37,6 +37,16 @@ DISCLAIMER: The project status right now is beta. Use it at your own risk
 [Kotlin]: http://kotlinlang.org
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com
+
+[Service Life Cycle]: life_cycle.html
+[rest]: rest.html
+[serialization]: serialization.html
+[storage]: storage.html
+[events]: events.html
+[configuration]: configuration.html
+[templates]: templates.html
+[scheduling]: scheduling.html
+[testing]: testing.html
 
 ## Getting Started
 

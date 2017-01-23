@@ -1,5 +1,5 @@
 /*
- * For more details about this build script, check the `site/content/builds.md` file.
+ * For more details about this build script, check the `site/content/life_cycle.md` file.
  */
 
 apply plugin: 'kotlin'
@@ -18,6 +18,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
 }
 
+// Replace build variables in resource files
 processResources {
     [ 'properties', 'ini', 'cfg', 'txt', 'html', 'xml', 'json', 'yaml' ].each { String ext ->
         filesMatching ("**/*.$ext") {
@@ -32,6 +33,7 @@ processResources {
     }
 }
 
+// Clean the project taking care of logs and runtime files
 clean {
     delete "build", ".gradle", "log"
 
@@ -40,12 +42,14 @@ clean {
     delete fileTree(rootDir) { include '**/*.class' }
 }
 
+// Show useful testing information while running tests
 test {
     testLogging {
         events 'skipped', 'failed', 'standardOut', 'standardError'
     }
 }
 
+// Generate coverage reports properly
 jacocoTestReport {
     dependsOn 'test'
     reports {

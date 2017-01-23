@@ -1,7 +1,8 @@
 /*
- * For more details about this build script, check the `site/content/builds.md` file.
+ * For more details about this build script, check the `site/content/life_cycle.md` file.
  */
 
+// Generate service documentation site
 jbake {
     srcDirName = findProperty ('siteSource') ?: 'site'
     destDirName = findProperty ('siteTarget') ?: srcDirName // It is relative to `buildDir`

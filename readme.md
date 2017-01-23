@@ -13,18 +13,18 @@ HEXAGON
 =======
 ### The atoms of your platform
 
-Hexagon is a micro services framework that doesn't follow the flock. It is written in [Kotlin] and
+Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [RabbitMQ] and [MongoDB]. It takes care of:
 
-* [rest](http://there4.co/hexagon/rest.html)
-* [serialization](http://there4.co/hexagon/serialization.html) (TODO Write documentation)
-* [storage](http://there4.co/hexagon/storage.html) (TODO Write documentation)
-* [events](http://there4.co/hexagon/events.html)
-* [configuration](http://there4.co/hexagon/configuration.html) (TODO Partial implementation)
-* [templates](http://there4.co/hexagon/templates.html) (TODO Partial implementation)
-* [scheduling](http://there4.co/hexagon/scheduling.html)
-* [testing](http://there4.co/hexagon/testing.html) (TODO Write documentation)
-* [builds](http://there4.co/hexagon/builds.html)
+* [Service Life Cycle]: provide helpers to build, run, package and deploy your service.
+* [rest]
+* [serialization]: TODO Write documentation
+* [storage]: TODO Write documentation
+* [events]
+* [configuration]: TODO Partial implementation
+* [templates]: TODO Partial implementation
+* [scheduling]
+* [testing]: TODO Write documentation
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
@@ -42,7 +42,20 @@ DISCLAIMER: The project status right now is beta. Use it at your own risk
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com
 
+[Service Life Cycle]: http://there4.co/hexagon/life_cycle.html
+[rest]: http://there4.co/hexagon/rest.html
+[serialization]: http://there4.co/hexagon/serialization.html
+[storage]: http://there4.co/hexagon/storage.html
+[events]: http://there4.co/hexagon/events.html
+[configuration]: http://there4.co/hexagon/configuration.html
+[templates]: http://there4.co/hexagon/templates.html
+[scheduling]: http://there4.co/hexagon/scheduling.html
+[testing]: http://there4.co/hexagon/testing.html
+
 ## Getting started
+
+You can create a service from a [Lazybones] template. Or writing a [Gradle] script. Check the
+[Service Life Cycle] for more information.
 
 Get the dependency from [JCenter] (you need to [setup the repository] first):
 
