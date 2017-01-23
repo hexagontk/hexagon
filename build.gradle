@@ -59,7 +59,6 @@ dependencies {
     testCompile ("com.rabbitmq:amqp-client:$rabbitVersion")
     testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
     testCompile ("com.mitchellbosecke:pebble:$pebbleVersion")
-    testCompile ("io.undertow:undertow-core:$undertowVersion")
     testCompile ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
     testCompile ('com.zaxxer:HikariCP:2.5.1')
     testCompile ('mysql:mysql-connector-java:6.0.5')
