@@ -1,5 +1,6 @@
 package co.there4.hexagon.web.integration
 
+import co.there4.hexagon.template.KotlinxHtmlRenderer.page
 import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.Exchange
 import co.there4.hexagon.web.HttpMethod

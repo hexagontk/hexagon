@@ -1,23 +1,14 @@
+/*
+ * For more details about this build script, check the `site/content/life_cycle.md` file.
+ */
 
 apply plugin: 'application'
 
 defaultTasks 'install'
 
-jar {
-    manifest {
-        attributes(
-            hexagon: "service",
-            project: rootProject.name,
-            module: project.name,
-            version: project.version.toString(),
-            group: project.group,
-            description: project.description
-        )
-    }
-}
-
 processResources.dependsOn 'buildInfo'
 
+// Add configuration file with build variables to the package
 task buildInfo {
     doLast {
         file ("$buildDir/resources/main").mkdirs ()
@@ -31,6 +22,7 @@ task buildInfo {
     }
 }
 
+// Include 'Systemd' script to execute the service as an UNIX service
 task install(dependsOn: 'installDist') {
     doLast {
         String deployDir = findProperty ('deployDir') ?: '/opt'
@@ -57,6 +49,7 @@ task install(dependsOn: 'installDist') {
     }
 }
 
+// Run the service in another thread. This allow the possibility to 'watch' source changes
 task runService(dependsOn: 'classes') {
     doLast {
         // NOTE: these two statements are required to load classpath and main class

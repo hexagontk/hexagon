@@ -1,4 +1,4 @@
-#!/usr/bin/kotlins ../build/libs
+#!/usr/local/bin/kotlins build/libs
 
 import co.there4.hexagon.web.*
 

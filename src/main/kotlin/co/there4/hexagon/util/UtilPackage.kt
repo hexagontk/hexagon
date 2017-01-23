@@ -1,23 +1,21 @@
 package co.there4.hexagon.util
 
-import co.there4.hexagon.settings.SettingsManager
 import java.io.InputStream
 import java.lang.System.*
 import java.lang.ThreadLocal.withInitial
 import java.net.InetAddress.getLocalHost
-import java.time.LocalDateTime
 import java.util.*
 import java.lang.management.ManagementFactory.getRuntimeMXBean
-import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneOffset.UTC
 import java.lang.ClassLoader.getSystemClassLoader
 import java.net.URL
-import java.time.LocalTime
+import java.time.*
+import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 
 /*
  * Timing
  */
+
+val timeZone: TimeZone = TimeZone.getDefault()
 
 /**
  * Returns a time difference in nanoseconds formatted as a string.
@@ -42,6 +40,10 @@ fun LocalTime.asNumber(): Int =
     (this.second     * 1e3.toInt()) +
     (this.nano / 1e6.toInt()) // Nanos to millis
 
+fun LocalDateTime.formatToIso(): String = this.format(ISO_DATE_TIME)
+fun LocalDateTime.withZone(zoneId: ZoneId = timeZone.toZoneId()): ZonedDateTime =
+    ZonedDateTime.of(this, zoneId)
+
 /**
  * Parses a date from a formatted integer with this format: `YYYYMMDDHHmmss`.
  */
@@ -62,11 +64,12 @@ fun Int.toLocalTime(): LocalTime = LocalTime.of(
     ((this % 1e3.toInt()) * 1e6.toInt()) // Millis to nanos
 )
 
-fun LocalDateTime.toDate(): Date = Date.from(this.toInstant(UTC))
-fun LocalDate.toDate(): Date = this.atStartOfDay().toDate()
+fun ZonedDateTime.toDate(): Date = Date.from(this.toInstant())
+fun LocalDateTime.toDate(): Date = this.atZone(timeZone.toZoneId()).toDate()
+fun LocalDate.toDate(): Date = this.atStartOfDay(timeZone.toZoneId()).toDate()
 
 fun Date.toLocalDateTime(): LocalDateTime =
-    LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), UTC)
+    LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), ZoneId.systemDefault())
 
 fun Date.toLocalDate(): LocalDate = this.toLocalDateTime().toLocalDate()
 
@@ -186,10 +189,32 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
     else
         (this as Map<Any, Any>).getOrElse(keys.first()) { null }
 
+fun <K : Any, V : Any> fmapOf(vararg pairs: Pair<K, V?>): Map<K, V> = mapOf(*pairs)
+    .filterValues {
+        when (it) {
+            null -> false
+            is List<*> -> it.isNotEmpty()
+            is Map<*, *> -> it.isNotEmpty()
+            else -> true
+        }
+    }
+    .mapValues { it.value ?: err }
+
+fun <T : Any> flistOf(vararg pairs: T?): List<T> = listOf<T?>(*pairs)
+    .filter {
+        when (it) {
+            null -> false
+            is List<*> -> it.isNotEmpty()
+            is Map<*, *> -> it.isNotEmpty()
+            else -> true
+        }
+    }
+    .map { it ?: err }
+
 /*
  * I/O
  */
-val systemClassLoader: ClassLoader = getSystemClassLoader() ?: error("Error getting class loader")
+val systemClassLoader: ClassLoader = getSystemClassLoader()
 
 /**
  * TODO Fix class loader issues, use thread class loader or whatever

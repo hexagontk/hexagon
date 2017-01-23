@@ -18,6 +18,8 @@ import org.testng.annotations.Test
         warn ("message", RuntimeException ())
         err ("message", RuntimeException ())
         flare ("message")
+        time ("message") {}
+        time {}
     }
 
     fun general_purpose_messages_are_logged_without_errors () {
@@ -29,5 +31,7 @@ import org.testng.annotations.Test
         Log.warn ("message", RuntimeException ())
         Log.err ("message", RuntimeException ())
         Log.flare ("message")
+        Log.time ("message") {}
+        Log.time {}
     }
 }

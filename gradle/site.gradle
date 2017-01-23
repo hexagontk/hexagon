@@ -1,12 +1,8 @@
 /*
- * To apply this script, you need to add the JBake plugin manually at the top of your build script
- * as that is not possible in included scripts like this one. These are the required lines to do so:
- *
- * plugins {
- *     id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
- * }
+ * For more details about this build script, check the `site/content/life_cycle.md` file.
  */
 
+// Generate service documentation site
 jbake {
     srcDirName = findProperty ('siteSource') ?: 'site'
     destDirName = findProperty ('siteTarget') ?: srcDirName // It is relative to `buildDir`

@@ -12,16 +12,15 @@ HEXAGON ${projectVersion}
 Hexagon is a micro services framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [RabbitMQ] and [MongoDB]. It takes care of:
 
-* [rest](rest.html)
-* [messaging](messaging.html) (TODO Write documentation)
-* [serialization](serialization.html) (TODO Write documentation)
-* [storage](storage.html) (TODO Write documentation)
-* [events](events.html)
-* [configuration](configuration.html) (TODO Partial implementation)
-* [templates](templates.html) (TODO Partial implementation)
-* [scheduling](scheduling.html)
-* [testing](testing.html) (TODO Write documentation)
-* [builds](builds.html)
+* [Service Life Cycle]: provide helpers to build, run, package and deploy your service.
+* [rest]
+* [serialization]: TODO Write documentation
+* [storage]: TODO Write documentation
+* [events]
+* [configuration]: TODO Partial implementation
+* [templates]: TODO Partial implementation
+* [scheduling]
+* [testing]: TODO Write documentation
 
 The purpose of the project is to provide a micro services framework with the following priorities
 (in order):
@@ -33,23 +32,42 @@ The purpose of the project is to provide a micro services framework with the fol
 The name and logo are an hexagon because it is the usual way of representing a microservice in a
 diagram.
 
-**DISCLAIMER** The project status right now is beta. Use it at your own risk
+DISCLAIMER: The project status right now is beta. Use it at your own risk
 
 [Kotlin]: http://kotlinlang.org
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com
 
+[Service Life Cycle]: life_cycle.html
+[rest]: rest.html
+[serialization]: serialization.html
+[storage]: storage.html
+[events]: events.html
+[configuration]: configuration.html
+[templates]: templates.html
+[scheduling]: scheduling.html
+[testing]: testing.html
 
 ## Getting Started
 
 Get the dependency from [JCenter] (you need to [setup the repository] first):
 
-[setup the repository]: https://bintray.com/bintray/jcenter
-
-Gradle:
+Minimal `build.gradle` example:
 
 ```groovy
-compile ('co.there4:hexagon:${version}')
+buildscript {
+    repositories { jcenter () }
+    dependencies { classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6" }
+}
+
+apply plugin: "kotlin"
+
+repositories { jcenter () }
+
+dependencies {
+    compile ("co.there4:hexagon:0.10.3")
+    compile ("org.eclipse.jetty:jetty-webapp:9.3.14.v20161028")
+}
 ```
 
 Maven:
@@ -63,24 +81,21 @@ Maven:
 ```
 
 [JCenter]: https://bintray.com/jamming/maven/Hexagon
+[setup the repository]: https://bintray.com/bintray/jcenter
 
 Write the code:
 
-```java
-import co.there4.hexagon.rest.*
+```kotlin
+import co.there4.hexagon.web.*
 
 fun main(args: Array<String>) {
-    applicationStart {
-        handlers {
-            get("hello/:name") { ok("Hello ${pathTokens["name"]}!") }
-        }
-    }
+    get("/hello/{name}") { ok("Hello ${request["name"]}!") }
+    run()
 }
 ```
 
-Launch it and view the results at: [http://localhost:2010/hello](http://localhost:2010/hello)
-
+Launch it and view the results at: [http://localhost:2010/hello]
 
 ## Build and Contribute
 
-Check the [Github's readme file](https://github.com/jaguililla/hexagon)
+Check the [Github's readme file](https://github.com/jaguililla/hexagon#build-and-contribute)

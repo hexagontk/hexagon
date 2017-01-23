@@ -1,7 +1,7 @@
 #
-# Copy this file to '/etc/systemd/system' and run:
-# sudo systemctl start ${projectName}
-# sudo systemctl enable ${projectName}
+# Copy this file to '/etc/systemd/system' and then:
+#   - To start the service execute: sudo systemctl start ${projectName}
+#   - To run the service at boot type: sudo systemctl enable ${projectName}
 #
 
 [Unit]

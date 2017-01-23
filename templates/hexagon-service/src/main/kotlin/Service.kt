@@ -1,22 +1,27 @@
 package ${group}
 
-import co.there4.hexagon.web.*
-import co.there4.hexagon.web.servlet.ServletServer
-import kotlinx.html.*
-
 import java.time.LocalDateTime.now
 import javax.servlet.annotation.WebListener
 
-fun routes(srv: Router = server) {
-    srv.before {
+import kotlinx.html.*
+import co.there4.hexagon.web.*
+import co.there4.hexagon.web.servlet.ServletServer
+
+/**
+ * Routes setup. It is in its own method to be able to call it for the Webapp and from the Service.
+ *
+ * @receiver The router to be configured.
+ */
+fun Router.routes() {
+    before {
         response.addHeader("Server", "Servlet/3.1")
         response.addHeader("Transfer-Encoding", "chunked")
         response.addHeader("Date", httpDate(now()))
     }
 
-    srv.get("/text") { ok("Hello, World!", "text/plain") }
+    get("/text") { ok("Hello, World!", "text/plain") }
 
-    srv.get("/page") {
+    get("/page") {
         page {
             html {
                 head {
@@ -27,17 +32,22 @@ fun routes(srv: Router = server) {
         }
     }
 
-    srv.get("/template") {
-    }
+    get("/template") { template("page.html") }
 }
 
+/**
+ * Main Webapp class.
+ */
 @WebListener class Web : ServletServer () {
     override fun init() {
-        routes(this)
+        this.routes()
     }
 }
 
+/**
+ * Start the service from the command line.
+ */
 fun main(args: Array<String>) {
-    routes()
+    server.routes()
     run()
 }

@@ -6,16 +6,13 @@ import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes.*
 import org.bson.Document
 import org.bson.conversions.Bson
 import org.bson.types.ObjectId
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
-import com.mongodb.client.model.Filters.eq as mEq
-import com.mongodb.client.model.Filters.or as mOr
-import com.mongodb.client.model.Filters.and as mAnd
-import com.mongodb.client.model.Filters.`in` as mIn
 
 val mongodbUrl = SettingsManager["mongodbUrl"] as String? ?: "mongodb://localhost/test"
 
@@ -76,13 +73,21 @@ inline fun <reified T : Any> mongoObjectIdRepository(
     publishEvents: Boolean = false) =
         MongoObjectIdRepository (T::class, mongoDatabase(), key, publishEvents)
 
-infix fun Bson.or(value: Bson): Bson = mOr(this, value)
-infix fun Bson.and(value: Bson): Bson = mAnd(this, value)
-infix fun <T> String.eq(value: T): Bson = mEq(this, value)
-infix fun <T> String.isIn(value: Collection<T>): Bson = mIn(this, value)
+infix fun <T> String.eq(value: T): Bson = Filters.eq(this, value)
+infix fun <T> String.isIn(value: Collection<T>): Bson = Filters.`in`(this, value)
+
+infix fun <T> String.gte(value: T): Bson = Filters.gte(this, value)
+infix fun <T> String.gt(value: T): Bson = Filters.gt(this, value)
+infix fun <T> String.lte(value: T): Bson = Filters.lte(this, value)
+infix fun <T> String.lt(value: T): Bson = Filters.lt(this, value)
 
 infix fun <T> KProperty1<*, *>.eq(value: T): Bson = this.name eq value
 infix fun <T> KProperty1<*, *>.isIn(value: Collection<T>): Bson = this.name isIn value
+
+infix fun <T> KProperty1<*, *>.gte(value: T): Bson = this.name gte value
+infix fun <T> KProperty1<*, *>.gt(value: T): Bson = this.name gt value
+infix fun <T> KProperty1<*, *>.lte(value: T): Bson = this.name lte value
+infix fun <T> KProperty1<*, *>.lt(value: T): Bson = this.name lt value
 
 fun ascending(vararg fields: KProperty1<*, *>): Bson = ascending(fields.map { it.name })
 fun descending(vararg fields: KProperty1<*, *>): Bson = descending(fields.map { it.name })

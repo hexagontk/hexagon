@@ -132,4 +132,9 @@ import org.testng.annotations.Test
         val striped = "áéíóúñçÁÉÍÓÚÑÇ".stripAccents()
         assert(striped == "aeiouncAEIOUNC")
     }
+
+    fun utf8_returns_proper_characters() {
+        assert(utf8(0xF0, 0x9F, 0x91, 0x8D) == "👍")
+        assert(utf8(0xF0, 0x9F, 0x91, 0x8E) == "👎")
+    }
 }

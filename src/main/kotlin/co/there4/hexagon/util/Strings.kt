@@ -5,7 +5,7 @@ import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
 
 /** Runtime specific end of line. */
-val EOL = getProperty("line.separator") ?: error("'line.separator' not found in system properties")
+val EOL: String = getProperty("line.separator")
 
 /** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
 private val VARIABLE_PREFIX = "#{"
@@ -92,6 +92,8 @@ fun String.banner (bannerDelimiter: String = "*"): String {
 fun String.stripAccents() = normalize(this, NFD).replace("\\p{M}".toRegex(), "")
 
 fun readResource(resource: String) = resourceAsStream(resource)?.reader()?.readText()
+
+fun utf8(vararg bytes: Int) = String(bytes.map(Int::toByte).toByteArray())
 
 private fun ansiCode(fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): String {
     fun fgString (color: AnsiColor?) = (color?.fg ?: "").toString()

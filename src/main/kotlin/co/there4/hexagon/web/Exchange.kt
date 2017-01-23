@@ -2,8 +2,6 @@ package co.there4.hexagon.web
 
 import co.there4.hexagon.repository.FileRepository.load
 import co.there4.hexagon.template.PebbleRenderer.render
-import kotlinx.html.TagConsumer
-import kotlinx.html.stream.createHTML
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -61,12 +59,6 @@ data class Exchange (
 
     fun template(template: String, vararg context: Pair<String, *>) =
         template(template, context.toMap())
-
-    fun page(callback: TagConsumer<String>.() -> String) {
-        val html = createHTML().callback()
-        response.contentType = "text/html; charset=${defaultCharset().name()}"
-        ok("<!DOCTYPE html>\n\n$html")
-    }
 
     fun file(name: String) {
         val meta = load(name, response.outputStream)

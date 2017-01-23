@@ -1,5 +1,8 @@
 #
-# Services needed for testing
+# Services needed for testing. To setup them it is necessary to execute the following command after
+# starting the containers (check `site/content/contribute.md`):
+#
+#     docker exec hexagon_mongodb_1 mongo /benchmark.js
 #
 
 mysql:
@@ -12,7 +15,6 @@ mysql:
   ports:
     - 3306:3306
 
-# docker exec -it hexagon_mongodb_1 mongo /benchmark.js
 mongodb:
   image: mongo
   volumes:
