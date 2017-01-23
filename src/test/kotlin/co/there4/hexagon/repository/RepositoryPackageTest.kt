@@ -1,6 +1,8 @@
 package co.there4.hexagon.repository
 
+import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters.*
+import org.bson.conversions.Bson
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer
@@ -31,38 +33,17 @@ data class Tag(
     val name: String
 )
 
-/**
- * TODO Finish this
- */
-@Test(enabled = false, description = "TODO Compare both filters") class RepositoryPackageTest {
-    data class Example(val foo: String)
+@Test class RepositoryPackageTest {
+    data class Example(val foo: String, var bar: Int)
 
-    fun eq_filter_work_as_expected() {
-        val hexagonFilter = "foo" eq "bar"
-        val driverFilter = eq("foo", "bar")
+    private infix fun Bson.sameAs(other: Bson) = this.toString() == other.toString()
 
-        assert(hexagonFilter == driverFilter)
-    }
-
-    fun or_filter_work_as_expected() {
-        val hexagonFilter = (Example::foo eq "bar") or ("foo" eq true) or ("foo" eq 1)
-        val driverFilter = or(
-            eq("foo", "bar"),
-            eq("foo", true),
-            eq("foo", 1)
-        )
-
-        assert(hexagonFilter == driverFilter)
-    }
-
-    fun and_filter_work_as_expected() {
-        val hexagonFilter = (Example::foo eq "bar") and ("foo" eq true) and ("foo" eq 1)
-        val driverFilter = and(
-            eq("foo", "bar"),
-            eq("foo", true),
-            eq("foo", 1)
-        )
-
-        assert(hexagonFilter == driverFilter)
+    fun comparison_filters_work_as_expected() {
+        assert(Example::foo eq "bar" sameAs eq("foo", "bar"))
+        assert(Example::bar gte 1 sameAs gte("bar", 1))
+        assert(Example::bar gt 1 sameAs gt("bar", 1))
+        assert(Example::bar lte 1 sameAs lte("bar", 1))
+        assert(Example::bar lt 1 sameAs lt("bar", 1))
+        assert(Example::bar isIn listOf(1, 2) sameAs Filters.`in`("bar", listOf(1, 2)))
     }
 }
