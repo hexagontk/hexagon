@@ -6,8 +6,13 @@ import co.there4.hexagon.web.Server
 class SessionIT : ItTest () {
     override fun initialize(srv: Server) {
         srv.get("/session/id") {
-            ok(session.id ?: "null")
+            val id: String = session.id ?: "null"
+            session.id = "sessionId"
+            assert(id == session.id ?: "null")
+            ok(id)
         }
+
+        srv.get("/session/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
 
         srv.get("/session/new") {
             try {
@@ -18,7 +23,13 @@ class SessionIT : ItTest () {
             }
         }
 
-        srv.get("/session/inactive") { ok(session.maxInactiveInterval ?: "null") }
+        srv.get("/session/inactive") {
+            val inactiveInterval = session.maxInactiveInterval ?: "null"
+            session.maxInactiveInterval = 999
+            assert(inactiveInterval == session.maxInactiveInterval ?: "null")
+            ok(inactiveInterval)
+        }
+
         srv.get("/session/creation") { ok(session.creationTime ?: "null") }
 
         srv.post("/session/invalidate") { session.invalidate() }
@@ -60,6 +71,7 @@ class SessionIT : ItTest () {
             assert(get("/session/id").responseBody == "null")
             assert(get("/session/inactive").responseBody == "null")
             assert(get("/session/creation").responseBody == "null")
+            assert(get("/session/access").responseBody == "null")
             assert(get("/session/new").responseBody == "true")
 
             assert(put("/session/foo/bar").statusCode == 200)
@@ -73,6 +85,7 @@ class SessionIT : ItTest () {
             assert(get("/session/id").responseBody != "null")
             assert(get("/session/inactive").responseBody != "null")
             assert(get("/session/creation").responseBody != "null")
+            assert(get("/session/access").responseBody != "null")
             assert(get("/session/new").responseBody == "false")
 
             post("/session/invalidate")
@@ -80,6 +93,7 @@ class SessionIT : ItTest () {
             assert(get("/session/id").responseBody == "null")
             assert(get("/session/inactive").responseBody == "null")
             assert(get("/session/creation").responseBody == "null")
+            assert(get("/session/access").responseBody == "null")
         }
     }
 }

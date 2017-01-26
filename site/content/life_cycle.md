@@ -103,10 +103,9 @@ Build scripts:
   
 Templates:
 
-  * curl -s "https://get.sdkman.io" | bash
-  * source "$HOME/.sdkman/bin/sdkman-init.sh"
+  * curl -s get.sdkman.io | bash && source ~/.sdkman/bin/sdkman-init.sh
   * sdk i lazybones
-  * lazybones config set bintrayRepositories "pledbrook/lazybones-templates" "jamming/maven"
+  * lazybones config set bintrayRepositories pledbrook/lazybones-templates jamming/maven
   * lazybones create hexagon-service service
   
 

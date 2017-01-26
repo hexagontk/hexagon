@@ -29,8 +29,6 @@ task install(dependsOn: 'installDist') {
         String serviceUser = findProperty ('serviceUser') ?: 'root'
         String serviceGroup = findProperty ('serviceGroup') ?: serviceUser
 
-        String content = new URL("$gradleScripts/systemdScript").text
-
         Map<String, String> parameters = [
             projectName : project.name,
             projectVersion : project.version.toString(),
@@ -41,11 +39,10 @@ task install(dependsOn: 'installDist') {
             serviceGroup : serviceGroup
         ]
 
+        String content = new URL("$gradleScripts/systemdService").text
         parameters.each { content = content.replace ('${' + it.key + '}', it.value) }
-
         File script = file ("${tasks.installDist.destinationDir}/bin/${project.name}.service")
         script.write content
-        script.executable = true
     }
 }
 

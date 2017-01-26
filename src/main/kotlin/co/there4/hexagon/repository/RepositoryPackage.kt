@@ -73,6 +73,7 @@ inline fun <reified T : Any> mongoObjectIdRepository(
     publishEvents: Boolean = false) =
         MongoObjectIdRepository (T::class, mongoDatabase(), key, publishEvents)
 
+// TODO Check that parameter is simple type... Ie: fails with LocalDate
 infix fun <T> String.eq(value: T): Bson = Filters.eq(this, value)
 infix fun <T> String.isIn(value: Collection<T>): Bson = Filters.`in`(this, value)
 
