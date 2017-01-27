@@ -2,7 +2,7 @@ title=Contribute
 date=2016-04-13
 type=page
 status=published
-~~~~~~
+#~~~~~~
 
 
 Release process
@@ -23,7 +23,7 @@ Command:
 
     gw release && git push
 
-Tools used: git-extras + bintray
+Tools used: git-extras and bintray
 
 
 Build

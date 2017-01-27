@@ -2,7 +2,7 @@ title=Hexagon
 date=2016-04-13
 type=page
 status=published
-~~~~~~
+#~~~~~~
 
 
 Service Lifecycle
@@ -22,7 +22,16 @@ Templates: Pebble (optional dependencies)
 
 Create from template
 --------------------
+  
+Templates:
 
+```bash
+curl -s get.sdkman.io | bash && source ~/.sdkman/bin/sdkman-init.sh
+sdk i lazybones
+lazybones config set bintrayRepositories pledbrook/lazybones-templates jamming/maven
+lazybones create hexagon-service service
+gradle/wrapper
+```
 
 Running and Testing
 -------------------
@@ -34,52 +43,40 @@ Packaging and Deployment
 
 Build scripts:
 
-  * `kotlin.gradle`: Sets up Kotlin's Gradle plugin.
-    - kotlinVersion:
+  * `kotlin.gradle`: Sets up Kotlin's Gradle plugin: Adds Kotlin libraries, setup coverage report,
+    filter project resources with build variables. To use it you need to:
+
+    - Define the `kotlinVersion` variable to `gradle.properties` file.
+    - Add the following code to `build.gradle`
  
- * Setup Kotlin for a Gradle project.
- *
- * This scripts:
- *
- * - Adds Kotlin libraries
- * - Setup code coverage report
- * - Filter project resources with Gradle build variables
- * - Apply better defaults for running tests and cleaning the project
- *
- * You need to add the `kotlinVersion` variable to `gradle.properties` to use this script.
- *
- * buildscript {
- *     repositories {
- *         jcenter ()
- *     }
- *
- *     dependencies {
- *         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
- *     }
- * }
+```Groovy
+      buildscript {
+          repositories {
+              jcenter ()
+          }
+      
+          dependencies {
+              classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+          }
+      }
+```
 
 
 
 
   * `service.gradle`: Gradle's script for a service or application.
-    - Continuous run (AKA "Watch")
-    - deployDir
-    - serviceUser
-    - serviceGroup
-    - `systemdScript`: script that support start/stop/status
 
- * Tasks:
- *
- * - runService
- * - install
- * - buildInfo / processResources
- *
- * Variables:
- *
- * - deployDir
- * - serviceUser
- * - serviceGroup
+Tasks:
+- runService: for continuous run (AKA "Watch")
+- install: `systemdService`: script that support start/stop/status
+- buildInfo / processResources
 
+Variables:
+- deployDir
+- serviceUser
+- serviceGroup
+
+Use service:
 
 #
 # Copy this file to '/etc/systemd/system' and then:
@@ -100,14 +97,3 @@ Build scripts:
  *     id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
  * }
  */
-  
-Templates:
-
-  * curl -s "https://get.sdkman.io" | bash
-  * source "$HOME/.sdkman/bin/sdkman-init.sh"
-  * sdk i lazybones
-  * lazybones config set bintrayRepositories "pledbrook/lazybones-templates" "jamming/maven"
-  * lazybones create hexagon-service service
-  
-
-**TODO Complete documentation**
