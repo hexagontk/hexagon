@@ -14,7 +14,7 @@ import java.lang.ClassLoader.getSystemResourceAsStream as resourceAsStream
  * templates/freemarker/file
  * ...
  */
-internal object KotlinxHtmlRenderer {
+object KotlinxHtmlRenderer {
     fun Exchange.page(callback: TagConsumer<String>.() -> String) {
         val html = createHTML().callback()
         response.contentType = "text/html; charset=${defaultCharset().name()}"

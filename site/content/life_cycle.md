@@ -28,6 +28,7 @@ Templates:
 ```bash
 curl -s get.sdkman.io | bash && source ~/.sdkman/bin/sdkman-init.sh
 sdk i lazybones
+mkdir .lazybones # Bug with Lazybones?
 lazybones config set bintrayRepositories pledbrook/lazybones-templates jamming/maven
 lazybones create hexagon-service service
 gradle/wrapper
