@@ -15,7 +15,7 @@ class ${className}Test {
     }
 
     fun json() {
-        val response = client.get("/json")
+        val response = client.get("/text")
         val content = response.responseBody
 
         assert(response.headers ["Date"] != null)
