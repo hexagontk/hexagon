@@ -22,6 +22,8 @@ task buildInfo {
     }
 }
 
+installDist.dependsOn 'check'
+
 // Include 'Systemd' script to execute the service as an UNIX service
 task install(dependsOn: 'installDist') {
     doLast {
