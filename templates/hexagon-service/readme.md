@@ -36,7 +36,7 @@ wrapper, follow the next steps:
     import static org.gradle.api.tasks.wrapper.Wrapper.DistributionType.*
 
     wrapper {
-        String wrapperBaseFile = "$projectDir/gradle/wrapper"
+        String wrapperBaseFile = "\$projectDir/gradle/wrapper"
 
         gradleVersion = '3.3'
         jarFile = wrapperBaseFile + ".jar"
