@@ -22,6 +22,7 @@ Map<Object, Object> props = [
     className : className
 ]
 
+processTemplates 'readme.md', props
 processTemplates 'build.gradle', props
 processTemplates 'settings.gradle', props
 processTemplates 'gradle.properties', props
@@ -47,9 +48,11 @@ Files.move (testKotlin.resolve ('ServiceTest.kt'), testPackage.resolve ("${class
  */
 println(
     """
-    Sample Hexagon Service
-    ======================
+    ${projectName.toUpperCase()} Hexagon Service
+    ============================================
 
     Read the `readme.md` file for further instructions.
+    
+    Check the documentation at http://there4.co/hexagon for reference.
     """
 )
