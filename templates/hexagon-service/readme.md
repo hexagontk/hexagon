@@ -1,34 +1,29 @@
 
-# Hexagon Service
+# ${projectName} Service
 
-This is an Hexagon template.
+This is an Hexagon service created from a template.
 
+## Usage
 
-## Local setup
+* Build: `gradle/wrapper install`
+* Rebuild: `gradle/wrapper clean install`
+* Run: `gradle/wrapper run`
+* Watch: `gradle/wrapper -x test -t runService`
+* Test: `gradle/wrapper check`
 
+## Optional features
 
-## Tests
+* WAR package: if you deploy the service only as a Java process you should:
+  - Remove the `war` plugin from `build.gradle`.
+  - Change the `jetty-webapp` dependency to `compile` (required).
+  - Delete the `Web` class.
 
+* Stand alone server: if you are going to use the service inside a Java Servlet server. You can:
+  - Remove the `main` method.
+  - Delete the `mainClassName` and `applicationDefaultJvmArgs ` properties from `build.gradle`.
 
-## Infrastructure Software Versions
-
-* [Hexagon 0.3.2](http://there4.co/hexagon)
-
-
-## Run on Systemd
-
-https://blog.openshift.com/run-gradle-builds-on-openshift/
-
-
-## Run on Servlet engine
-
-    rm -f db.txz
-    
-## Run in development
-
-    toolset/run-tests.py --install server --mode verify --test hexagon
-    
-
+* HTML templates: if you don't use templates you can remove the `pebble` and `kotlinx.html.jvm`
+  dependencies from `build.gradle`.
 
 ## Gradle wrapper setup
 

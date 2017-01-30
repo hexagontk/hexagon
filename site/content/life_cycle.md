@@ -8,39 +8,36 @@ status=published
 Service Lifecycle
 =================
 
-Create a service
-----------------
+## Create a service
+
+### From scratch
 
 To build Hexagon services you have some Gradle helpers that you can use on your own project. To
 use them, you can use the online versions, or copy them to your `gradle` directory.
 
-Directory structure: standard Gradle structure. Gradle wrapper changed
-
-Configuration files: service.yaml (see configuration.md) and logback.xml
-
-Templates: Pebble (optional dependencies)
-
-Create from template
---------------------
+### From a template
   
-Templates:
-
 ```bash
 curl -s get.sdkman.io | bash && source ~/.sdkman/bin/sdkman-init.sh
 sdk i lazybones
-mkdir .lazybones # Bug with Lazybones?
+mkdir ~/.lazybones # Bug with Lazybones?
 lazybones config set bintrayRepositories pledbrook/lazybones-templates jamming/maven
-lazybones create hexagon-service service
+lazybones create hexagon-service service -Pgroup=org.example -Pversion=0.1 -Pdescription=Description
+cd service
 gradle/wrapper
 ```
 
-Running and Testing
--------------------
+## Directory structure
 
-Docker compose
+The project uses the standard Gradle structure. Gradle wrapper changed to be stored in the `gradle`
+folder instead of the project root
 
-Packaging and Deployment
-------------------------
+## Running and Testing
+
+gw run
+gw -x test -t runService # Continuous mode AKA watch
+
+## Packaging and Deployment
 
 Build scripts:
 
@@ -62,39 +59,44 @@ Build scripts:
       }
 ```
 
-
-
-
   * `service.gradle`: Gradle's script for a service or application.
 
-Tasks:
-- runService: for continuous run (AKA "Watch")
-- install: `systemdService`: script that support start/stop/status
-- buildInfo / processResources
+    Tasks:
+    - runService: for continuous run (AKA "Watch")
+    - install: `systemdService`: script that support start/stop/status
+    - buildInfo / processResources
 
-Variables:
-- deployDir
-- serviceUser
-- serviceGroup
+    Variables:
+    - deployDir
+    - serviceUser
+    - serviceGroup
 
-Use service:
+    Use Systemd service:
 
-#
-# Copy this file to '/etc/systemd/system' and then:
-#   - To start the service execute: sudo systemctl start ${projectName}
-#   - To run the service at boot type: sudo systemctl enable ${projectName}
-#
-
+    Copy this file to '/etc/systemd/system' and then:
+      - To start the service execute: sudo systemctl start ${projectName}
+      - To run the service at boot type: sudo systemctl enable ${projectName}
 
   * `site.gradle`: Adds support for site generation (with API documentation and reports).
     - siteSource
     - siteTarget
 
-/*
- * To apply this script, you need to add the JBake plugin manually at the top of your build script
- * as that is not possible in included scripts like this one. These are the required lines to do so:
- *
- * plugins {
- *     id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
- * }
- */
+    To apply this script, you need to add the JBake plugin manually at the top of your build script
+    as that is not possible in included scripts like this one. These are the required lines to do so:
+     
+    ```gradle
+    plugins {
+        id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
+    }
+    ```
+
+## Configuration files
+
+* service.yaml (see configuration.md)
+* logback.xml
+
+Templates: Pebble (optional dependencies)
+
+## Deploy on Systemd
+
+## Deploy on Servlet engine
