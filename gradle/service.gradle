@@ -51,7 +51,7 @@ task install(dependsOn: 'installDist') {
 // Run the service in another thread. This allow the possibility to 'watch' source changes
 task runService(dependsOn: 'classes') {
     doLast {
-        // NOTE: these two statements are required to load classpath and main class
+        // NOTE: these two statements are *REQUIRED* to load classpath and main class
         run.classpath.each { it.toString() }
         run.main.toString()
 
@@ -61,7 +61,7 @@ task runService(dependsOn: 'classes') {
             standardOutput = out
         }
         out.toString ().readLines()
-            .findAll { it.endsWith run.main }
+            .findAll { it.endsWith((String)run.main) }
             .collect { it.split(' ')[0] }
             .each { pid -> exec { commandLine 'kill', pid } }
 

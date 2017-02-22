@@ -8,7 +8,7 @@ This is an Hexagon service created from a template.
 * Build: `gradle/wrapper install`
 * Rebuild: `gradle/wrapper clean install`
 * Run: `gradle/wrapper run`
-* Watch: `gradle/wrapper -x test -t runService`
+* Watch: `gradle/wrapper --no-daemon -t runService`
 * Test: `gradle/wrapper check`
 
 ## Optional features
@@ -33,15 +33,13 @@ wrapper, follow the next steps:
 1. Add this to `build.gradle`:
 
 ```groovy
-    import static org.gradle.api.tasks.wrapper.Wrapper.DistributionType.*
-
     wrapper {
-        String wrapperBaseFile = "\$projectDir/gradle/wrapper"
+        String wrapperBaseFile = "$projectDir/gradle/wrapper"
 
         gradleVersion = '3.3'
-        jarFile = wrapperBaseFile + ".jar"
+        jarFile = wrapperBaseFile + '.jar'
         scriptFile = wrapperBaseFile
-        distributionType = ALL
+        distributionType = org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
     }
 ```
 

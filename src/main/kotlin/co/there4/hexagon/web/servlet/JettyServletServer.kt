@@ -33,11 +33,6 @@ class JettyServletServer(bindAddress: InetAddress = address ("localhost"), bindP
 
     override fun startup() {
         val context = ServletContextHandler()
-        context.sessionHandler = SessionHandler(HashSessionManager())
-
-        jettyServer.sessionIdManager = HashSessionIdManager()
-        jettyServer.handler = context
-
         context.addLifeCycleListener(object : LifeCycle.Listener {
             override fun lifeCycleStopped(event: LifeCycle?) { /* Do nothing */ }
             override fun lifeCycleStopping(event: LifeCycle?) { /* Do nothing */ }
@@ -46,11 +41,16 @@ class JettyServletServer(bindAddress: InetAddress = address ("localhost"), bindP
 
             override fun lifeCycleStarting(event: LifeCycle?) {
                 val filter = ServletFilter (this@JettyServletServer)
-                context.servletContext.addFilter("filters", filter)
-                    .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")
+                val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
+                val filterBind = context.servletContext.addFilter("filters", filter)
+                filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
             }
         })
 
+        context.sessionHandler = SessionHandler(HashSessionManager())
+
+        jettyServer.sessionIdManager = HashSessionIdManager()
+        jettyServer.handler = context
         jettyServer.start()
     }
 

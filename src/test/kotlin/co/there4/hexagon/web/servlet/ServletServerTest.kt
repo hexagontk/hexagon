@@ -29,7 +29,7 @@ import javax.servlet.annotation.WebListener
     @BeforeClass fun run_server() {
         val context = WebAppContext()
         context.contextPath = "/"
-        context.war = "src/test/resources/data"
+        context.war = "."
         context.sessionHandler = SessionHandler(HashSessionManager())
         context.addEventListener(Serv())
 

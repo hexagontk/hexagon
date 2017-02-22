@@ -4,20 +4,23 @@ import co.there4.hexagon.messaging.RabbitClient
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.util.CompanionLogger
 
+import kotlin.reflect.KClass
+
 object EventManager : CompanionLogger (EventManager::class) {
-    val exchange = "events"
+    const val exchange = "events"
+
     val client by lazy { RabbitClient () }
 
     init {
         client.bindExchange(exchange, "topic", "*.*.*", "event_pool")
     }
 
-    inline fun <reified T : Event> on(event: String, crossinline consumer: (T) -> Unit) {
-        client.consume(exchange, event, T::class) { consumer(it) }
+    fun <T : Event> consume(type: KClass<T>, event: String, consumer: (T) -> Unit) {
+        client.consume(exchange, event, type) { consumer(it) }
     }
 
-    inline fun <reified T : Event> on(crossinline consumer: (T) -> Unit) {
-        on(T::class.java.name, consumer)
+    fun <T : Event> consume(type: KClass<T>,  consumer: (T) -> Unit) {
+        consume(type, type.java.name, consumer)
     }
 
     fun publish(event: Event) {

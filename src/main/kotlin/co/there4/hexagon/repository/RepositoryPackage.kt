@@ -96,8 +96,7 @@ fun descending(vararg fields: KProperty1<*, *>): Bson = descending(fields.map { 
 fun <T : Any> on (
     entity: KClass<T>, action: RepositoryEventAction, callback: (RepositoryEvent<T>) -> Unit) {
     @Suppress("UNCHECKED_CAST")
-    EventManager.on(
-        entity.simpleName + "." + action.toString(),
+    EventManager.consume(RepositoryEvent::class, entity.simpleName + "." + action.toString(),
         callback as (RepositoryEvent<*>) -> Unit
     )
 }

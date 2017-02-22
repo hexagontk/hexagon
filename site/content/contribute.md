@@ -98,7 +98,7 @@ wrapper, follow the next steps:
         String wrapperBaseFile = "$projectDir/gradle/wrapper"
 
         gradleVersion = '3.3'
-        jarFile = wrapperBaseFile + ".jar"
+        jarFile = wrapperBaseFile + '.jar'
         scriptFile = wrapperBaseFile
         distributionType = org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
     }
