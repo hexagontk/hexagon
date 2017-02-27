@@ -178,4 +178,8 @@ import kotlin.test.assertFailsWith
             requireResource("foo.txt")
         }
     }
+
+    fun resource_folder() {
+        assert(resource("data")?.readText()?.lines()?.size ?: 0 > 0)
+    }
 }

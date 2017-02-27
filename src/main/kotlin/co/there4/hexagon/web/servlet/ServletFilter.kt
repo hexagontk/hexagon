@@ -1,6 +1,5 @@
 package co.there4.hexagon.web.servlet
 
-import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.util.CompanionLogger
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.FilterOrder.*
@@ -29,9 +28,6 @@ internal class ServletFilter (private val router: Router) : CompanionLogger(Serv
 
     // TODO
 //    private val routesByPrefix: Map<String, Route>
-
-    // TODO Change for 'resourcesFolder' and if 'null' do not process them
-    private val processResources = !(setting<Boolean>("ignoreResources") ?: false)
 
     /**
      * TODO Take care of filters that throw exceptions
@@ -131,7 +127,7 @@ internal class ServletFilter (private val router: Router) : CompanionLogger(Serv
     private fun returnResource(
         bResponse: BServletResponse, request: HttpRequest, response: HttpResponse): Boolean {
 
-        val resourcePath = "/public${request.servletPath}"
+        val resourcePath = "/$resourcesFolder${request.servletPath}"
         val stream = javaClass.getResourceAsStream(resourcePath)
 
         if (stream == null)
