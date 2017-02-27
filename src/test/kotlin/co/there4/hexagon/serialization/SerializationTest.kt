@@ -39,7 +39,6 @@ import kotlin.reflect.KClass
             assert(testObjects == testMaps.convertToObjects(type))
         }
 
-
         val modelListString = testObjects.serialize()
         assert (modelListString.parseList(type).size == testObjects.size)
     }

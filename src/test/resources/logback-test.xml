@@ -22,6 +22,6 @@
   </logger>
 
   <logger name="co.there4.hexagon">
-    <level value="off" />
+    <level value="warn" />
   </logger>
 </configuration>

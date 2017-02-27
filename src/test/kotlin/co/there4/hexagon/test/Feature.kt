@@ -6,24 +6,34 @@ import co.there4.hexagon.util.err
 fun StringBuilder.appendLn(line: String = ""): StringBuilder = this.append(line).append(EOL) ?: err
 
 abstract class Feature {
-    protected open fun tags(): List<String> = listOf ()
-    protected open fun narrative(): String? = null
+    protected open val tags: List<String> = listOf ()
+    protected open val narrative: String? = null
 
     init {
         val builder = StringBuilder()
 
-        val tags = tags()
         if (tags.isNotEmpty())
             builder.appendLn (tags.map { "@$it" }.joinToString(" "))
 
         builder.appendLn("Feature:")
 
-        val description = narrative()
+        val description = narrative
         if (description != null)
             builder.appendLn(description.trimIndent().prependIndent("  "))
 
         println (builder)
     }
+}
+
+class Feat : Feature() {
+    override val tags = listOf ("a", "b", "c")
+    override val narrative =
+        """
+        As a ...
+        I want to ...
+        In order to ...
+        """
+
 }
 
 class Scenario (
@@ -91,4 +101,3 @@ abstract class Action (val description: List<String>, val spec: () -> Unit) {
 class Given (vararg description: String, spec: () -> Unit) : Action (description.toList(), spec)
 class When (vararg description: String, spec: () -> Unit) : Action (description.toList(), spec)
 class Then (vararg description: String, spec: () -> Unit) : Action (description.toList(), spec)
-
