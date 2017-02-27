@@ -27,6 +27,9 @@ internal class ServletFilter (private val router: Router) : CompanionLogger(Serv
     private val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
     private val afterFilters = filtersByOrder[AFTER] ?: listOf()
 
+    // TODO
+//    private val routesByPrefix: Map<String, Route>
+
     // TODO Change for 'resourcesFolder' and if 'null' do not process them
     private val processResources = !(setting<Boolean>("ignoreResources") ?: false)
 
@@ -56,6 +59,7 @@ internal class ServletFilter (private val router: Router) : CompanionLogger(Serv
 
         val methodRoutes = routesByMethod[HttpMethod.valueOf (request.method)]?.filter {
             it.first.path.matches(request.servletPath)
+//            it.first.path.matches(request.pathInfo)
         }
 
         val bRequest = BServletRequest (request)
