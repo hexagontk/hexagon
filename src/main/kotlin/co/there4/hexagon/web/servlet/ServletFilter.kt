@@ -28,6 +28,9 @@ internal class ServletFilter (private val router: Router) : CompanionLogger(Serv
 
     // TODO
 //    private val routesByPrefix: Map<String, Route>
+//    private val resources: Map<String, Res>
+//
+//    class Res {}
 
     /**
      * TODO Take care of filters that throw exceptions
@@ -53,11 +56,6 @@ internal class ServletFilter (private val router: Router) : CompanionLogger(Serv
         if (request !is HttpRequest || response !is HttpResponse)
             error("Invalid request/response parmeters")
 
-        val methodRoutes = routesByMethod[HttpMethod.valueOf (request.method)]?.filter {
-            it.first.path.matches(request.servletPath)
-//            it.first.path.matches(request.pathInfo)
-        }
-
         val bRequest = BServletRequest (request)
         val bResponse = BServletResponse (request, response)
         val bSession = BServletSession (request)
@@ -66,6 +64,7 @@ internal class ServletFilter (private val router: Router) : CompanionLogger(Serv
 
         try {
             handled = filter(request, exchange, beforeFilters)
+
             var resource = false
 
             if (processResources &&
@@ -78,6 +77,11 @@ internal class ServletFilter (private val router: Router) : CompanionLogger(Serv
             }
 
             if(!resource) {
+                val methodRoutes = routesByMethod[HttpMethod.valueOf (request.method)]?.filter {
+                    it.first.path.matches(request.servletPath)
+//                    it.first.path.matches(request.pathInfo)
+                }
+
                 if (methodRoutes == null) {
                     bResponse.status = 405
                     bResponse.body = "Invalid method '${request.method}'"
