@@ -4,7 +4,7 @@
 
 apply plugin: 'application'
 
-defaultTasks 'install'
+defaultTasks 'installDist'
 
 processResources.dependsOn 'buildInfo'
 
@@ -23,30 +23,6 @@ task buildInfo {
 }
 
 installDist.dependsOn 'check'
-
-// Include 'Systemd' script to execute the service as an UNIX service
-task install(dependsOn: 'installDist') {
-    doLast {
-        String deployDir = findProperty ('deployDir') ?: '/opt'
-        String serviceUser = findProperty ('serviceUser') ?: 'root'
-        String serviceGroup = findProperty ('serviceGroup') ?: serviceUser
-
-        Map<String, String> parameters = [
-            projectName : project.name,
-            projectVersion : project.version.toString(),
-            projectGroup : project.group.toString (),
-            projectDescription : project.description,
-            deployDir : deployDir,
-            serviceUser : serviceUser,
-            serviceGroup : serviceGroup
-        ]
-
-        String content = new URL("$gradleScripts/systemdService").text
-        parameters.each { content = content.replace ('${' + it.key + '}', it.value) }
-        File script = file ("${tasks.installDist.destinationDir}/bin/${project.name}.service")
-        script.write content
-    }
-}
 
 // Run the service in another thread. This allow the possibility to 'watch' source changes
 task runService(dependsOn: 'classes') {
