@@ -10,17 +10,18 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "uk.co.cacoethes:lazybones-gradle:$lazybonesVersion"
+//        classpath "uk.co.cacoethes:lazybones-gradle:$lazybonesVersion"
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
     }
 }
 
 plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.1.1'
     id 'org.ajoberstar.grgit' version '1.6.0'
     id 'org.ajoberstar.github-pages' version '1.6.0'
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
     id 'com.jfrog.bintray' version '1.7.3'
+    id 'uk.co.cacoethes.lazybones-templates' version '1.2.3'
 }
 
 apply from: 'gradle/site.gradle'
@@ -131,6 +132,8 @@ bintray {
     }
 }
 
+// TODO Write version to template `VERSION` file
+// TODO Replace version in template `gradle.properties`
 lazybones {
     repositoryName = "$bintrayUser/maven"
     publish = true
@@ -139,7 +142,7 @@ lazybones {
     repositoryApiKey = bintrayKey
 
     licenses = [ 'MIT' ]
-    vcsUrl = 'https://github.com/jaguililla/hexagon.git'
+//    vcsUrl = 'https://github.com/jaguililla/hexagon.git'
 }
 
 task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
