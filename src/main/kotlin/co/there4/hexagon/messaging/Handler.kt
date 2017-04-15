@@ -18,8 +18,8 @@ class Handler<T : Any, R : Any> (
     private val handler: (T) -> R): DefaultConsumer(channel) {
 
     companion object : CompanionLogger(Handler::class) {
-        val RETRIES = 5
-        val DELAY = 50L
+        const val RETRIES = 5
+        const val DELAY = 50L
     }
 
     private val client: RabbitClient = RabbitClient(connectionFactory)

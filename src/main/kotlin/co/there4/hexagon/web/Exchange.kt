@@ -40,10 +40,10 @@ data class Exchange (
         locale: Locale = obtainLocale(),
         context: Map<String, *> = mapOf<String, Any>()) {
 
-        val contentType = response.getMimeType(template)
-
-        if (response.contentType == null)
-            response.contentType = "$contentType; charset=${defaultCharset().name()}"
+        if (response.contentType == null) {
+            val mimeType = response.getMimeType(template)
+            response.contentType = "$mimeType; charset=${defaultCharset().name()}"
+        }
 
         val extraParameters = mapOf(
             "pathInfo" to request.pathInfo.removeSuffix("/"), // Do not allow trailing slash

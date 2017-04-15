@@ -7,6 +7,7 @@ import java.net.InetAddress.getLocalHost
 import java.util.*
 import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.lang.ClassLoader.getSystemClassLoader
+import java.lang.Thread.currentThread
 import java.net.URL
 import java.time.*
 import java.time.format.DateTimeFormatter.ISO_DATE_TIME
@@ -86,6 +87,16 @@ object Context {
 }
 
 /**
+ * Returns the code location in the caller of this function.
+ *
+ * @param offset Steps up in the stack. Ie: to get the caller of the caller.
+ */
+fun caller(offset: Int = 0): String = currentThread ().stackTrace.let {
+    val frame = it[3 + (if (offset > 0) offset - 1 else offset)] // Because of default parameter
+    "${frame.className} ${frame.methodName} ${frame.fileName} ${frame.lineNumber}"
+}
+
+/**
  * Executes a lambda until no exception is thrown or a number of times is reached.
  *
  * @param times Number of times to try to execute the callback. Must be greater than 0.
@@ -162,13 +173,6 @@ fun error(): Nothing = error("Invalid state")
 val err: Nothing get() = error()
 
 /*
- * Logging
- */
-
-internal val flarePrefix = getProperty ("CompanionLogger.flarePrefix", ">>>>>>>>")
-val jvmId: String = getRuntimeMXBean().name
-
-/*
  * Map operations
  */
 
@@ -230,3 +234,6 @@ fun requireResource(resName: String): URL = resource(resName) ?: error("$resName
  * Logging
  */
 object Log : CompanionLogger(Log::class)
+
+internal val flarePrefix = getProperty ("CompanionLogger.flarePrefix", ">>>>>>>>")
+val jvmId: String = getRuntimeMXBean().name

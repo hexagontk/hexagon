@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest
 internal class BServletRequest(val req: HttpServletRequest, var actionPath: Path? = null) :
     Request {
 
-    override val scriptName: String = req.pathInfo ?: req.servletPath
-    override val pathInfo: String = scriptName
-    override val path: String = scriptName
+    override val scriptName: String by lazy { req.pathInfo ?: req.servletPath }
+    override val pathInfo: String by lazy { scriptName }
+    override val path: String by lazy { scriptName }
     override val body: String by lazy { InputStreamReader(req.inputStream).readText() }
     override val scheme: String by lazy { req.scheme }
     override val port: Int by lazy { req.serverPort }

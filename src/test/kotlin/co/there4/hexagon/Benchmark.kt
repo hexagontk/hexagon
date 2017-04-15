@@ -48,6 +48,7 @@ private fun Exchange.getQueries() =
 // HANDLERS
 private fun Exchange.listFortunes(store: Repository) {
     val fortunes = store.findFortunes() + Fortune(0, "Additional fortune added at request time.")
+    response.contentType = "text/html; charset=utf-8"
     template("fortunes.html", "fortunes" to fortunes.sortedBy { it.message })
 }
 
@@ -66,7 +67,7 @@ private fun benchmarkRoutes(store: Repository, srv: Router = server) {
     srv.get("/update") { returnWorlds(store.replaceWorlds(getQueries())) }
 }
 
-@WebListener class Web : ServletServer () {
+@WebListener internal class Web : ServletServer () {
     override fun init() {
         benchmarkRoutes(createStore("mongodb"), this)
     }

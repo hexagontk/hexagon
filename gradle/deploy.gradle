@@ -1,0 +1,64 @@
+/*
+ * For more details about this build script, check the `site/content/life_cycle.md` file.
+ */
+
+ext.deployDir = findProperty ('deployDir') ?: '/opt'
+ext.serviceUser = findProperty ('serviceUser') ?: 'root'
+ext.serviceGroup = findProperty ('serviceGroup') ?: serviceUser
+
+// Include 'Systemd' script to execute the service as an UNIX service
+// Needs the 'application' plugin applied
+task systemd(dependsOn: 'installDist') {
+    doLast {
+        String projectName = project.name
+        String projectVersion = project.version.toString()
+        String projectDescription = project.description
+
+        File script = file ("${tasks.installDist.destinationDir}/bin/${projectName}.service")
+
+        script.write """
+            #
+            # Copy this file to '/etc/systemd/system' and then:
+            #   - To start the service execute: sudo systemctl start $projectName
+            #   - To run the service at boot type: sudo systemctl enable $projectName
+            #
+
+            [Unit]
+            Description=$projectName $projectVersion: $projectDescription
+            After=network.target
+
+            [Service]
+            Type=simple
+            WorkingDirectory=$deployDir/$projectName
+            ExecStart=$deployDir/$projectName/bin/$projectName
+            User=$serviceUser
+            Group=$serviceGroup
+
+            [Install]
+            WantedBy=multi-user.target
+        """.stripIndent ().stripMargin ()
+    }
+}
+
+ext.deploy = { Project deployProject, String deployTld ->
+    String rsync = 'rsync -a --delete --exclude log'
+    String user = serviceUser
+    String host = "ssh.$domain.$deployTld"
+    String projectName = deployProject.name
+    String installPath = "$deployDir/$projectName"
+
+    Closure<ExecResult> ssh = { String sshUser, String sshHost, String command ->
+        exec { commandLine = [ 'ssh', "$sshUser@$sshHost", command ] }
+    }
+
+    Closure<ExecResult> exec = { String command ->
+        exec { commandLine = command.split (' ') }
+    }
+
+    exec "$rsync $deployProject.buildDir/install/$projectName $user@$host:$deployDir"
+
+    ssh user, host, "sudo cp -f $installPath/bin/${projectName}.service /etc/systemd/system"
+    ssh user, host, "sudo systemctl daemon-reload"
+    ssh user, host, "sudo systemctl enable $projectName"
+    ssh user, host, "sudo systemctl restart $projectName"
+}

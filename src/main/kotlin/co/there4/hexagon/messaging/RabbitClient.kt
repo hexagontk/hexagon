@@ -40,7 +40,6 @@ class RabbitClient (
             val rabbitUri = URI(uri)
             val cf = ConnectionFactory()
             cf.setUri(rabbitUri)
-            cf.exceptionHandler = LogExceptionHandler()
 
             val params = parseQueryParameters(rabbitUri.query ?: "")
             setVar(params["automaticRecovery"]?.toBoolean()) { cf.isAutomaticRecoveryEnabled = it }

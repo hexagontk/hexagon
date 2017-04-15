@@ -3,8 +3,6 @@ package co.there4.hexagon.web.servlet
 import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.bindAddress
 import org.eclipse.jetty.server.Server as JettyServer
-import org.eclipse.jetty.server.session.HashSessionManager
-import org.eclipse.jetty.server.session.SessionHandler
 import org.eclipse.jetty.webapp.WebAppContext
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -29,8 +27,7 @@ import javax.servlet.annotation.WebListener
     @BeforeClass fun run_server() {
         val context = WebAppContext()
         context.contextPath = "/"
-        context.war = "src/test/resources/data"
-        context.sessionHandler = SessionHandler(HashSessionManager())
+        context.war = "."
         context.addEventListener(Serv())
 
         jettyServer.handler = context

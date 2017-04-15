@@ -1,12 +1,15 @@
 package co.there4.hexagon.util
 
 import org.testng.annotations.Test
+import java.nio.file.*
+import java.nio.file.FileSystems.newFileSystem
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 import java.util.*
 import java.util.Calendar.MILLISECOND
+import java.util.Collections.*
 import kotlin.test.assertFailsWith
 
 @Test class UtilPackageTest {
@@ -176,6 +179,21 @@ import kotlin.test.assertFailsWith
         assert(requireResource("passwd.txt").file == resource("passwd.txt")?.file)
         assertFailsWith<IllegalStateException>("foo.txt not found") {
             requireResource("foo.txt")
+        }
+    }
+
+    fun resource_folder() {
+        assert(resource("data")?.readText()?.lines()?.size ?: 0 > 0)
+    }
+
+    fun main() {
+        val uri = UtilPackageTest::class.java.getResource("/templates").toURI()
+        val myPath: Path =
+            if (uri.scheme == "jar") newFileSystem(uri, emptyMap<String, Any>()).getPath("/templates")
+            else Paths.get(uri)
+
+        Files.walk(myPath).forEach {
+            Log.warn(it.toString())
         }
     }
 }

@@ -25,6 +25,10 @@ internal object PebbleRenderer {
         .cacheActive(environment != DEVELOPMENT)
         .build() ?: error("Error setting up Pebble")
 
+    val settings = SettingsManager.parameters
+
+    var parametersCache: Map<String, Map<String, Any?>> = emptyMap()
+
     private fun loadProps (path: String) =
         resourceAsStream("$basePath/$path.yaml")?.parse ("application/yaml") ?: mapOf<String, Any>()
 
@@ -38,14 +42,16 @@ internal object PebbleRenderer {
         val compiledTemplate = engine.getTemplate("$basePath/$template")
         val bundlePath = template.substringBeforeLast('.')
 
-        val texts = loadBundle (bundlePath)
-        val common = loadBundle ("common")
+        val key = locale.country + locale.language + bundlePath
+        if (!parametersCache.containsKey(key))
+            parametersCache += (key to loadBundle ("common") + loadBundle (bundlePath))
+
+        val parameters: Map<String, Any?> = parametersCache[key] ?: emptyMap()
 
         val writer = StringWriter()
         val now = LocalDateTime.now().toDate()
         val defaultProperties = mapOf("_template_" to template, "_now_" to now)
-        val settings = SettingsManager.parameters
-        val completeContext = settings + common + texts + context + defaultProperties
+        val completeContext = settings + parameters + context + defaultProperties
         val contextEntries = completeContext.map {
             it.key to
                 if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()

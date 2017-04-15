@@ -20,7 +20,7 @@ internal class BServletResponse(val req: HttpServletRequest, val resp: HttpServl
         get() = resp.contentType
         set(value) { resp.contentType = value }
 
-    override val outputStream: OutputStream = resp.outputStream
+    override val outputStream: OutputStream by lazy { resp.outputStream }
 
     override fun getMimeType (file: String): String? = req.servletContext.getMimeType(file)
 
