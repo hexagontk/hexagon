@@ -11,14 +11,12 @@ class MongoObjectIdRepository<T : Any>(
     type: KClass<T>,
     collection: MongoCollection<Document>,
     key: KProperty1<T, String>,
-    publishEvents: Boolean = false,
     onStore: (Document) -> Document = { it },
     onLoad: (Document) -> Document = { it }) :
     MongoIdRepository<T, String> (
         type,
         collection,
         key,
-        publishEvents,
         null,
         onStore,
         onLoad) {
@@ -27,14 +25,12 @@ class MongoObjectIdRepository<T : Any>(
         type: KClass<T>,
         database: MongoDatabase,
         key: KProperty1<T, String>,
-        publishEvents: Boolean = false,
         onStore: (Document) -> Document = { it },
         onLoad: (Document) -> Document = { it }) :
         this (
             type,
             mongoCollection(type.simpleName ?: error("Error getting type name"), database),
             key,
-            publishEvents,
             onStore,
             onLoad
         )
@@ -42,14 +38,12 @@ class MongoObjectIdRepository<T : Any>(
     constructor (
         type: KClass<T>,
         key: KProperty1<T, String>,
-        publishEvents: Boolean = false,
         onStore: (Document) -> Document = { it },
         onLoad: (Document) -> Document = { it }) :
         this (
             type,
             mongoDatabase(),
             key,
-            publishEvents,
             onStore,
             onLoad
         )

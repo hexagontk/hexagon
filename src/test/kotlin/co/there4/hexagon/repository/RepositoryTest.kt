@@ -1,9 +1,8 @@
 package co.there4.hexagon.repository
 
-import co.there4.hexagon.repository.RepositoryEventAction.INSERTED
 import co.there4.hexagon.serialization.SerializationTest
 import co.there4.hexagon.serialization.convertToMap
-import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.CachedLogger
 import com.mongodb.MongoBulkWriteException
 import com.mongodb.client.model.FindOneAndReplaceOptions
 import com.mongodb.client.model.InsertManyOptions
@@ -22,12 +21,12 @@ import kotlin.reflect.KProperty1
 abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: KProperty1<T, K>) :
     SerializationTest<T> (type) {
 
-    companion object : CompanionLogger (RepositoryTest::class)
+    companion object : CachedLogger(RepositoryTest::class)
 
     protected val collection: MongoRepository<T> = createCollection(type)
 
     fun <T : Any> createCollection (type: KClass<T>): MongoRepository<T> {
-        val repository = MongoRepository(type, mongoDatabase(), true)
+        val repository = MongoRepository(type, mongoDatabase())
         setupCollection(repository)
         return repository
     }
@@ -46,11 +45,6 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: K
     @Suppress("unused")
     fun one_object_is_stored_and_loaded_without_error() {
         testObjects.forEach {
-            var eventCount = 0
-            on (it.javaClass.kotlin, INSERTED) {
-                eventCount++
-            }
-
             deleteAll()
             collection.insertOneObject(it)
             var result: T = collection.findObjects().first()
@@ -71,7 +65,6 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: K
             assert(result == it)
 
             deleteAll()
-//            assert(eventCount > 0) // TODO Check event count
         }
     }
 
@@ -81,11 +74,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: K
             deleteAll()
             val objects = createObjects ()
 
-            try {
-                collection.insertManyObjects(objects)
-            } catch (e: MongoBulkWriteException) {
-                err("Repository error", e)
-            }
+            collection.insertManyObjects(objects)
 
             assert(collection.count() == 10L)
             val firstObject = objects[0]

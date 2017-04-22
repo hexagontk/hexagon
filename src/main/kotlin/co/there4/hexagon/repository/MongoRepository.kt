@@ -1,9 +1,11 @@
 package co.there4.hexagon.repository
 
-import co.there4.hexagon.events.EventManager
-import co.there4.hexagon.repository.RepositoryEventAction.*
-import co.there4.hexagon.serialization.*
-import co.there4.hexagon.util.*
+import co.there4.hexagon.serialization.convertToMap
+import co.there4.hexagon.serialization.convertToObject
+import co.there4.hexagon.serialization.parseList
+import co.there4.hexagon.util.CachedLogger
+import co.there4.hexagon.util.requireResource
+import co.there4.hexagon.util.resourceAsStream
 import com.mongodb.client.*
 import com.mongodb.client.model.*
 import com.mongodb.client.result.DeleteResult
@@ -17,32 +19,14 @@ import kotlin.reflect.KProperty1
 open class MongoRepository <T : Any> (
     val type: KClass<T>,
     collection: MongoCollection<Document>,
-    protected val publishEvents: Boolean = false,
     protected val onStore: (Document) -> Document = { it },
     protected val onLoad: (Document) -> Document = { it }) :
         MongoCollection<Document> by collection {
 
-    companion object : CompanionLogger (MongoRepository::class)
+    companion object : CachedLogger(MongoRepository::class)
 
-    constructor (
-        type: KClass<T>,
-        database: MongoDatabase = mongoDatabase(),
-        publishEvents: Boolean = false) :
-            this(
-                type,
-                mongoCollection(type.simpleName ?: error("Error getting type name"), database),
-                publishEvents
-            )
-
-    protected fun publish (source: T, action: RepositoryEventAction) {
-        if (publishEvents)
-            EventManager.publish(RepositoryEvent (source, action))
-    }
-
-    protected fun publish (sources: List<T>, action: RepositoryEventAction) {
-        if (publishEvents)
-            sources.forEach { publish(it, action) }
-    }
+    constructor (type: KClass<T>, database: MongoDatabase = mongoDatabase()) :
+        this(type, mongoCollection(type.simpleName ?: error("Error getting type name"), database))
 
     // TODO Apply to the other MongoCollection's methods to support maps directly
     fun insertOne (document: Map<String, *>) { insertOne(Document(document)) }
@@ -52,39 +36,32 @@ open class MongoRepository <T : Any> (
      */
     fun insertOneObject (document: T) {
         insertOne (map (document))
-        publish(document, INSERTED)
     }
 
     fun insertOneObject (document: T, options: InsertOneOptions) {
         insertOne (map (document), options)
-        publish(document, INSERTED)
     }
 
     fun insertManyObjects (documents: List<T>) {
         insertMany (map (documents))
-        publish(documents, INSERTED)
     }
 
     fun insertManyObjects (documents: List<T>, options: InsertManyOptions) {
         insertMany (map (documents), options)
-        publish(documents, INSERTED)
     }
 
     fun replaceOneObject (filter: Bson, replacement: T): UpdateResult {
         val result = replaceOne (filter, map (replacement))
-        publish(replacement, REPLACED)
         return result
     }
 
     fun replaceOneObject (filter: Bson, replacement: T, options: UpdateOptions): UpdateResult {
         val result = replaceOne (filter, map (replacement), options)
-        publish(replacement, REPLACED)
         return result
     }
 
     fun findOneObjectAndReplace (filter: Bson, replacement: T): T {
         val result = unmap (findOneAndReplace (filter, map (replacement)))
-        publish(replacement, REPLACED)
         return result
     }
 
@@ -92,7 +69,6 @@ open class MongoRepository <T : Any> (
         filter: Bson, replacement: T, options: FindOneAndReplaceOptions): T {
 
         val result = unmap (findOneAndReplace (filter, map (replacement), options))
-        publish(replacement, REPLACED)
         return result
     }
 

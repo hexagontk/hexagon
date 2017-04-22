@@ -10,7 +10,6 @@ import org.testng.annotations.Test
         val repository = MongoObjectIdRepository(
             Color::class,
             Color::id,
-            publishEvents = false,
             onStore = {
                 it[Color::r.name] = 0xFF
                 it

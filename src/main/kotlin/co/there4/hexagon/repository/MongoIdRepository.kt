@@ -1,11 +1,10 @@
 package co.there4.hexagon.repository
 
-import co.there4.hexagon.events.EventManager
-import co.there4.hexagon.repository.RepositoryEventAction.DELETED
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
-import com.mongodb.client.model.Indexes.*
+import com.mongodb.client.model.Indexes.ascending
+import com.mongodb.client.model.Indexes.descending
 import com.mongodb.client.model.UpdateOptions
 import org.bson.Document
 import kotlin.reflect.KClass
@@ -17,11 +16,10 @@ open class MongoIdRepository<T : Any, K : Any> (
     type: KClass<T>,
     collection: MongoCollection<Document>,
     val key: KProperty1<T, K>,
-    publishEvents: Boolean = false,
     indexOrder: Int? = 1,
     onStore: (Document) -> Document = { it },
     onLoad: (Document) -> Document = { it }) :
-        MongoRepository<T> (type, collection, publishEvents, onStore, onLoad) {
+        MongoRepository<T> (type, collection, onStore, onLoad) {
 
     @Suppress("UNCHECKED_CAST")
     val keyType: KClass<K> = key.returnType.kclass() as KClass<K>
@@ -30,7 +28,6 @@ open class MongoIdRepository<T : Any, K : Any> (
         type: KClass<T>,
         database: MongoDatabase,
         key: KProperty1<T, K>,
-        publishEvents: Boolean = false,
         indexOrder: Int? = 1,
         onStore: (Document) -> Document = { it },
         onLoad: (Document) -> Document = { it }) :
@@ -38,7 +35,6 @@ open class MongoIdRepository<T : Any, K : Any> (
                 type,
                 mongoCollection(type.simpleName ?: error("Error getting type name"), database),
                 key,
-                publishEvents,
                 indexOrder,
                 onStore,
                 onLoad
@@ -47,7 +43,6 @@ open class MongoIdRepository<T : Any, K : Any> (
     constructor (
         type: KClass<T>,
         key: KProperty1<T, K>,
-        publishEvents: Boolean = false,
         indexOrder: Int? = 1,
         onStore: (Document) -> Document = { it },
         onLoad: (Document) -> Document = { it }) :
@@ -55,7 +50,6 @@ open class MongoIdRepository<T : Any, K : Any> (
                 type,
                 mongoDatabase(),
                 key,
-                publishEvents,
                 indexOrder,
                 onStore,
                 onLoad
@@ -66,22 +60,11 @@ open class MongoIdRepository<T : Any, K : Any> (
             createIndex (if(indexOrder == 1) ascending(key.name) else descending(key.name), true)
     }
 
-    protected fun publishKey (source: K, action: RepositoryEventAction) {
-        if (publishEvents)
-            EventManager.publish(RepositoryIdEvent (type, source, action))
-    }
-
-    protected fun publishKey (sources: List<K>, action: RepositoryEventAction) {
-        if (publishEvents)
-            sources.forEach { publishKey(it, action) }
-    }
-
     protected open fun convertKeyName(keyName: String): String = keyName
     protected open fun convertId(id: K): Any = id
 
     fun deleteId (documentId: K) {
         deleteOne (convertKeyName(key.name) eq convertId(documentId))
-        publishKey(documentId, DELETED)
     }
 
     fun deleteIds (vararg documentId: K) {
@@ -90,12 +73,10 @@ open class MongoIdRepository<T : Any, K : Any> (
 
     fun deleteIds (documentIds: List<K>) {
         deleteMany (convertKeyName(key.name) isIn documentIds.map { convertId(it) })
-        publishKey(documentIds, DELETED)
     }
 
     fun deleteObject (documentId: T) {
         deleteOne (convertKeyName(key.name) eq convertId((key.getter)(documentId)))
-        publish(documentId, DELETED)
     }
 
     fun deleteObjects (vararg documentId: T) {
@@ -105,7 +86,6 @@ open class MongoIdRepository<T : Any, K : Any> (
     fun deleteObjects (documentIds: List<T>) {
         val ids = documentIds.map { convertId((key.getter)(it)) }
         deleteMany (convertKeyName(key.name) isIn ids)
-        publish(documentIds, DELETED)
     }
 
     fun replaceObject (document: T, upsert: Boolean = false) =
