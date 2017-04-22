@@ -22,12 +22,9 @@ private val QUERIES_PARAM = "queries"
 // UTILITIES
 internal fun rnd() = ThreadLocalRandom.current().nextInt(DB_ROWS) + 1
 
-private fun Exchange.returnWorlds(worlds: List<World>) {
-    fun World.strip(): Map<*, *> = this.convertToMap().filterKeys { it != "_id" }
-
-    val result =
-        if (request[QUERIES_PARAM] == null) worlds[0].strip().serialize()
-        else worlds.map(World::strip).serialize()
+private fun Exchange.returnWorlds(worldsList: List<World>) {
+    val worlds = worldsList.map { it.convertToMap() - "_id" }
+    val result = if (worlds.size == 1) worlds.first().serialize() else worlds.serialize()
 
     ok(result, CONTENT_TYPE_JSON)
 }
@@ -52,29 +49,29 @@ private fun Exchange.listFortunes(store: Repository) {
     template("fortunes.html", "fortunes" to fortunes.sortedBy { it.message })
 }
 
-private fun benchmarkRoutes(store: Repository, srv: Router = server) {
-    srv.before {
+private fun Router.benchmarkRoutes(store: Repository) {
+    before {
         response.addHeader("Server", "Servlet/3.1")
         response.addHeader("Transfer-Encoding", "chunked")
         response.addHeader("Date", httpDate(now()))
     }
 
-    srv.get("/plaintext") { ok("Hello, World!", "text/plain") }
-    srv.get("/json") { ok(Message().serialize(), CONTENT_TYPE_JSON) }
-    srv.get("/fortunes") { listFortunes(store) }
-    srv.get("/db") { returnWorlds(store.findWorlds(getQueries())) }
-    srv.get("/query") { returnWorlds(store.findWorlds(getQueries())) }
-    srv.get("/update") { returnWorlds(store.replaceWorlds(getQueries())) }
+    get("/plaintext") { ok("Hello, World!", "text/plain") }
+    get("/json") { ok(Message().serialize(), CONTENT_TYPE_JSON) }
+    get("/fortunes") { listFortunes(store) }
+    get("/db") { returnWorlds(store.findWorlds(getQueries())) }
+    get("/query") { returnWorlds(store.findWorlds(getQueries())) }
+    get("/update") { returnWorlds(store.replaceWorlds(getQueries())) }
 }
 
 @WebListener internal class Web : ServletServer () {
-    override fun init() {
-        benchmarkRoutes(createStore("mongodb"), this)
+    init {
+        benchmarkRoutes(createStore("mongodb"))
     }
 }
 
 fun main(args: Array<String>) {
     val store = createStore(if (args.isEmpty()) "mongodb" else args[0])
-    benchmarkRoutes(store)
+    server.benchmarkRoutes(store)
     run()
 }

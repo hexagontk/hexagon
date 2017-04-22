@@ -32,7 +32,6 @@ class BenchmarkTest(val databaseEngine: String = "mongodb") {
 
     fun web() {
         val web = Web()
-        web.init()
 
         val webRoutes = web.routes.map { it.key.method to it.key.path.path }
         val benchmarkRoutes = listOf(
