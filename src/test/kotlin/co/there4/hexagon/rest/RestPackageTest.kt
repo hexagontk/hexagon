@@ -25,7 +25,7 @@ import kotlin.reflect.KProperty1
     private val countries = createCollection(Country::class, Country::id)
 
     private fun <T : Any, K : Any> createCollection (type: KClass<T>, key: KProperty1<T, K>) =
-        MongoIdRepository(type, mongoDatabase(), key, true)
+        MongoIdRepository(type, mongoDatabase(), key)
 
     fun int_keyed_repositories_are_handled_properly () {
         val repo = MongoIdRepository (Country::class, countries, Country::id)
