@@ -1,4 +1,4 @@
-package co.there4.hexagon.messaging
+package co.there4.hexagon.events.rabbitmq
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.serialize
@@ -17,7 +17,7 @@ class Handler<T : Any, R : Any> (
     val type: KClass<T>,
     private val handler: (T) -> R): DefaultConsumer(channel) {
 
-    companion object : CompanionLogger(Handler::class) {
+    companion object : CachedLogger(Handler::class) {
         const val RETRIES = 5
         const val DELAY = 50L
     }

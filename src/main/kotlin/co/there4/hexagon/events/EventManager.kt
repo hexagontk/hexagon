@@ -1,13 +1,18 @@
 package co.there4.hexagon.events
 
-import co.there4.hexagon.messaging.RabbitClient
+import co.there4.hexagon.events.rabbitmq.RabbitClient
 import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.CachedLogger
 
 import kotlin.reflect.KClass
 
-object EventManager : CompanionLogger (EventManager::class) {
-    const val exchange = "events"
+interface EventBackend {
+    fun <T : Event> consume(type: KClass<T>, address: String, consumer: (T) -> Unit)
+    fun publish(event: Event, address: String)
+}
+
+class RabbitMqEventBackend : EventBackend {
+    val exchange = "events"
 
     val client by lazy { RabbitClient () }
 
@@ -15,15 +20,31 @@ object EventManager : CompanionLogger (EventManager::class) {
         client.bindExchange(exchange, "topic", "*.*.*", "event_pool")
     }
 
-    fun <T : Event> consume(type: KClass<T>, event: String, consumer: (T) -> Unit) {
-        client.consume(exchange, event, type) { consumer(it) }
+    override fun <T : Event> consume(type: KClass<T>, address: String, consumer: (T) -> Unit) {
+        client.consume(exchange, address, type) { consumer(it) }
     }
 
-    fun <T : Event> consume(type: KClass<T>,  consumer: (T) -> Unit) {
+    override fun publish(event: Event, address: String) {
+        client.publish(exchange, address, event.serialize())
+    }
+}
+
+object EventManager : CachedLogger(EventManager::class) {
+    var backend: EventBackend = RabbitMqEventBackend()
+
+    fun <T : Event> consume(type: KClass<T>, address: String, consumer: (T) -> Unit) {
+        backend.consume(type, address, consumer)
+    }
+
+    fun <T : Event> consume(type: KClass<T>, consumer: (T) -> Unit) {
         consume(type, type.java.name, consumer)
     }
 
+    fun publish(event: Event, address: String) {
+        backend.publish(event, address)
+    }
+
     fun publish(event: Event) {
-        client.publish(exchange, event.action, event.serialize())
+        publish(event, event.javaClass.name)
     }
 }

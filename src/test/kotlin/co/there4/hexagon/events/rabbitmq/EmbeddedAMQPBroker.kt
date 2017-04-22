@@ -1,4 +1,4 @@
-package co.there4.hexagon.messaging
+package co.there4.hexagon.events.rabbitmq
 
 import org.apache.qpid.server.Broker
 import org.apache.qpid.server.BrokerOptions

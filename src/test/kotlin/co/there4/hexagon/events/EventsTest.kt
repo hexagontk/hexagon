@@ -2,7 +2,7 @@ package co.there4.hexagon.events
 
 import co.there4.hexagon.events.EventManager.consume
 import co.there4.hexagon.events.EventManager.publish
-import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.Loggable
 import co.there4.hexagon.util.caller
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -10,10 +10,8 @@ import org.testng.annotations.Test
 import java.lang.System.nanoTime
 import java.lang.Thread.`yield` as threadYield
 
-@Test class EventsTest {
-    class TickEvent (val nanos: Long) : Event (TickEvent::class.java.name)
-
-    companion object : CompanionLogger(EventsTest::class)
+@Test class EventsTest : Loggable {
+    class TickEvent (val nanos: Long) : Event ()
 
     private var tick: Long = 0
 
@@ -25,7 +23,9 @@ import java.lang.Thread.`yield` as threadYield
     }
 
     @AfterClass fun deleteTestQueue() {
-        EventManager.client.deleteQueue(TickEvent::class.java.name)
+        val backend = EventManager.backend
+        if (backend is RabbitMqEventBackend)
+            backend.client.deleteQueue(TickEvent::class.java.name)
     }
 
     fun events_are_published_properly() {
@@ -40,7 +40,6 @@ import java.lang.Thread.`yield` as threadYield
     }
 
     fun events_location() {
-        assert(Event("action").location.contains("events_location"))
         val cl = caller()
         assert(caller().contains("events_location"))
         assert(cl.contains("events_location"))

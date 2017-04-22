@@ -1,12 +1,12 @@
-package co.there4.hexagon.messaging
+package co.there4.hexagon.events.rabbitmq
 
-import co.there4.hexagon.messaging.RabbitClient.Companion.createConnectionFactory
-import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.events.rabbitmq.RabbitClient.Companion.createConnectionFactory
+import co.there4.hexagon.util.CachedLogger
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 
 @Test class RabbitClientTest {
-    companion object : CompanionLogger (RabbitClientTest::class)
+    companion object : CachedLogger(RabbitClientTest::class)
 
     fun create_a_connection_factory_with_empty_URI_fails () {
         assertFailsWith(IllegalArgumentException::class) {
