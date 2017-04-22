@@ -10,7 +10,6 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
-//        classpath "uk.co.cacoethes:lazybones-gradle:$lazybonesVersion"
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
     }
 }
@@ -38,8 +37,6 @@ dependencies {
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
     compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
 
-    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
-    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
     compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
         exclude module: "kotlin-reflect"
@@ -142,7 +139,6 @@ lazybones {
     repositoryApiKey = bintrayKey
 
     licenses = [ 'MIT' ]
-//    vcsUrl = 'https://github.com/jaguililla/hexagon.git'
 }
 
 task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
