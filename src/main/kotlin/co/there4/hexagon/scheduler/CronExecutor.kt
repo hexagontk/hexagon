@@ -1,6 +1,6 @@
 package co.there4.hexagon.scheduler
 
-import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.CachedLogger
 import com.cronutils.model.CronType.QUARTZ
 import com.cronutils.model.definition.CronDefinitionBuilder.instanceDefinitionFor as cronDefinition
 import com.cronutils.model.time.ExecutionTime
@@ -11,7 +11,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor
 import java.util.concurrent.TimeUnit.SECONDS
 
 class CronExecutor (threads: Int = getRuntime().availableProcessors()) {
-    companion object : CompanionLogger (CronExecutor::class)
+    companion object : CachedLogger(CronExecutor::class)
 
     private val scheduler = ScheduledThreadPoolExecutor(threads)
     private val cronParser = CronParser(cronDefinition (QUARTZ))
@@ -32,8 +32,7 @@ class CronExecutor (threads: Int = getRuntime().availableProcessors()) {
             callback()
         }
         catch (e: Exception) {
-            // TODO Fire an event
-            err ("Error executing cron job", e)
+            error("Error executing cron job", e)
         }
 
         val nextExecution = cronExecution.timeToNextExecution(ZonedDateTime.now ())

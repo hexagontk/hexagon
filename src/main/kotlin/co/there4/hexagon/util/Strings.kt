@@ -8,27 +8,27 @@ import java.text.Normalizer.normalize
 val EOL: String = getProperty("line.separator")
 
 /** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
-private val VARIABLE_PREFIX = "#{"
+private const val VARIABLE_PREFIX = "#{"
 /** Variable sufix for string filtering. */
-private val VARIABLE_SUFFIX = "}"
+private const val VARIABLE_SUFFIX = "}"
 
 /** Start of ANSI sequence. */
-private val ANSI_PREFIX = "\u001B["
+private const val ANSI_PREFIX = "\u001B["
 /** End of ANSI sequence. */
-private val ANSI_END = "m"
+private const val ANSI_END = "m"
 
 /** Separator for commands inside a single ANSI sequence. */
-private val ANSI_SEPARATOR = ";"
+private const val ANSI_SEPARATOR = ";"
 /** ANSI command to reset all attributes. */
-private val ANSI_RESET = "0"
+private const val ANSI_RESET = "0"
 
 /** ANSI foreground color base. */
-val FOREGROUND = 30
+const val FOREGROUND = 30
 /** ANSI background color base. */
-val BACKGROUND = 40
+const val BACKGROUND = 40
 
 /** ANSI modifier to switch and effect (add to enable substract todisable). */
-val SWITCH_EFFECT = 20
+const val SWITCH_EFFECT = 20
 
 /**
  * Filters the target string substituting each key by its value. The keys format is:
@@ -51,7 +51,9 @@ fun String.filterVars(parameters: Map<*, *>) =
 fun String.filterVars(vararg parameters: Pair<*, *>) = this.filterVars (mapOf (*parameters))
 
 fun String.filter(prefix: String, suffix: String, vararg parameters: Pair<String, String>) =
-    parameters.fold(this, { result, pair -> result.replace (prefix + pair.first + suffix, pair.second) })
+    parameters.fold(this) { result, pair ->
+        result.replace (prefix + pair.first + suffix, pair.second)
+    }
 
 fun Regex.findGroups (str: String): List<MatchGroup> =
     (this.find (str)?.groups ?: listOf<MatchGroup> ())

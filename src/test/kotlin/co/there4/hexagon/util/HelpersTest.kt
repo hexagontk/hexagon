@@ -1,18 +1,20 @@
 package co.there4.hexagon.util
 
 import org.testng.annotations.Test
-import java.nio.file.*
 import java.nio.file.FileSystems.newFileSystem
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 import java.util.*
 import java.util.Calendar.MILLISECOND
-import java.util.Collections.*
+import java.util.Collections.emptyMap
 import kotlin.test.assertFailsWith
 
-@Test class UtilPackageTest {
+@Test class HelpersTest {
     fun time_nanos_gets_the_elapsed_nanoseconds () {
         val nanos = System.nanoTime()
         val timeNanos = formatNanos(nanos)
@@ -46,14 +48,14 @@ import kotlin.test.assertFailsWith
         val e = RuntimeException ("Runtime error")
         val trace = e.toText ()
         assert (trace.startsWith ("java.lang.RuntimeException"))
-        assert (trace.contains ("\tat ${UtilPackageTest::class.java.name}"))
+        assert (trace.contains ("\tat ${HelpersTest::class.java.name}"))
     }
 
     fun printing_an_exception_with_a_cause_returns_its_stack_trace_in_the_string () {
         val e = RuntimeException ("Runtime error", IllegalStateException ("invalid state"))
         val trace = e.toText ()
         assert (trace.startsWith ("java.lang.RuntimeException"))
-        assert (trace.contains ("\tat ${UtilPackageTest::class.java.name}"))
+        assert (trace.contains ("\tat ${HelpersTest::class.java.name}"))
     }
 
     fun multiple_retry_errors_throw_an_exception () {
@@ -61,7 +63,7 @@ import kotlin.test.assertFailsWith
         try {
             retry(retries, 1, { throw RuntimeException ("Retry error") })
         }
-        catch (e: ServiceException) {
+        catch (e: CodedException) {
             assert (e.causes.size == retries)
         }
     }
@@ -73,21 +75,14 @@ import kotlin.test.assertFailsWith
     }
 
     fun error_utilities_work_as_expected () {
-        assertFailsWith<IllegalStateException> { error() }
         assertFailsWith<IllegalStateException> { err }
     }
 
-    fun setting_context_values_for_threads_works_correctly () {
-        Context["Number"] = 9
-        Context["Text"] = "Text"
-
-        assert (Context["Number"] == 9)
-        assert (Context["Text"] == "Text")
-    }
-
     fun dates_are_parsed_from_ints() {
-        assert(20160905174559101.toLocalDateTime() == LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101000000))
-        assert(20160905174558101.toLocalDateTime() != LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101000000))
+        assert(2016_09_05_17_45_59_101.toLocalDateTime() ==
+            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
+        assert(2016_09_05_17_45_58_101.toLocalDateTime() !=
+            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
     }
 
     fun testGet() {
@@ -187,7 +182,7 @@ import kotlin.test.assertFailsWith
     }
 
     fun main() {
-        val uri = UtilPackageTest::class.java.getResource("/templates").toURI()
+        val uri = HelpersTest::class.java.getResource("/templates").toURI()
         val myPath: Path =
             if (uri.scheme == "jar") newFileSystem(uri, emptyMap<String, Any>()).getPath("/templates")
             else Paths.get(uri)

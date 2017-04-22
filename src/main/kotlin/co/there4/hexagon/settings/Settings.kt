@@ -1,7 +1,7 @@
 package co.there4.hexagon.settings
 
 import co.there4.hexagon.serialization.parse
-import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.CachedLogger
 import co.there4.hexagon.util.EOL
 import co.there4.hexagon.util.resourceAsStream
 import java.io.File
@@ -17,7 +17,7 @@ import java.lang.System.getProperty
  * - service.yaml (file)
  * - <environment>.yaml (file)
  */
-open class Settings : CompanionLogger(SettingsManager::class) {
+open class Settings : CachedLogger(SettingsManager::class) {
     private val prefix = getProperty("settings.prefix") ?: ""
     private val environmentFile = File("${getProperty("user.home")}/.environment")
 
@@ -47,7 +47,7 @@ open class Settings : CompanionLogger(SettingsManager::class) {
     @Suppress("UNCHECKED_CAST")
     fun <T> setting(vararg key: String): T? = get(*key) as? T?
     fun <T> requireSetting(vararg key: String): T =
-        setting<T>(*key) ?: error ("Missing setting: $key")
+        setting<T>(*key) ?: error("Missing setting: $key")
 
     @Suppress("UNCHECKED_CAST")
     private fun loadProps (resName: String): Map<String, *> =

@@ -8,7 +8,7 @@ package co.there4.hexagon.util
  *
  * @author jam
  */
-class ServiceException(val code: Int, message: String = "", vararg causes: Throwable) :
+class CodedException(val code: Int, message: String = "", vararg causes: Throwable) :
     RuntimeException (message, causes.firstOrNull()) {
 
     val causes = causes.toList()

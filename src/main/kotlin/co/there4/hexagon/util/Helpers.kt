@@ -1,16 +1,15 @@
 package co.there4.hexagon.util
 
 import java.io.InputStream
-import java.lang.System.*
-import java.lang.ThreadLocal.withInitial
-import java.net.InetAddress.getLocalHost
-import java.util.*
-import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.lang.ClassLoader.getSystemClassLoader
+import java.lang.System.getProperty
 import java.lang.Thread.currentThread
+import java.lang.management.ManagementFactory.getRuntimeMXBean
+import java.net.InetAddress.getLocalHost
 import java.net.URL
 import java.time.*
 import java.time.format.DateTimeFormatter.ISO_DATE_TIME
+import java.util.*
 
 /*
  * Timing
@@ -27,19 +26,19 @@ fun formatNanos(timestamp: Long) = "%1.3f ms".format (timestamp / 1e6)
  * Formats a date as a formatted integer with this format: `YYYYMMDDHHmmss`.
  */
 fun LocalDateTime.asNumber(): Long =
-    (this.toLocalDate().asNumber() * 1e9.toLong()) +
+    (this.toLocalDate().asNumber() * 1_000_000_000L) +
     this.toLocalTime().asNumber()
 
 fun LocalDate.asNumber(): Int =
-    (this.year       * 1e4.toInt()) +
-    (this.monthValue * 1e2.toInt()) +
+    (this.year       * 10_000) +
+    (this.monthValue * 100) +
     this.dayOfMonth
 
 fun LocalTime.asNumber(): Int =
-    (this.hour       * 1e7.toInt()) +
-    (this.minute     * 1e5.toInt()) +
-    (this.second     * 1e3.toInt()) +
-    (this.nano / 1e6.toInt()) // Nanos to millis
+    (this.hour       * 10_000_000) +
+    (this.minute     * 100_000) +
+    (this.second     * 1_000) +
+    (this.nano / 1_000_000) // Nanos to millis
 
 fun LocalDateTime.formatToIso(): String = this.format(ISO_DATE_TIME)
 fun LocalDateTime.withZone(zoneId: ZoneId = timeZone.toZoneId()): ZonedDateTime =
@@ -48,21 +47,21 @@ fun LocalDateTime.withZone(zoneId: ZoneId = timeZone.toZoneId()): ZonedDateTime 
 /**
  * Parses a date from a formatted integer with this format: `YYYYMMDDHHmmss`.
  */
-fun Long.toLocalDateTime(): LocalDateTime = (this / 1e9).toInt()
+fun Long.toLocalDateTime(): LocalDateTime = (this / 1_000_000_000).toInt()
     .toLocalDate()
-    .atTime((this % 1e9.toLong()).toInt().toLocalTime())
+    .atTime((this % 1_000_000_000).toInt().toLocalTime())
 
 fun Int.toLocalDate(): LocalDate = LocalDate.of(
-    this / 1e4.toInt(),
-    (this % 1e4.toInt()) / 1e2.toInt(),
-    this % 1e2.toInt()
+    this / 10_000,
+    (this % 10_000) / 100,
+    this % 100
 )
 
 fun Int.toLocalTime(): LocalTime = LocalTime.of(
-    (this / 1e7.toInt()),
-    ((this % 1e7.toInt()) / 1e5.toInt()),
-    ((this % 1e5.toInt()) / 1e3.toInt()),
-    ((this % 1e3.toInt()) * 1e6.toInt()) // Millis to nanos
+    (this / 10_000_000),
+    ((this % 10_000_000) / 100_000),
+    ((this % 100_000) / 1_000),
+    ((this % 1_000) * 1_000_000) // Millis to nanos
 )
 
 fun ZonedDateTime.toDate(): Date = Date.from(this.toInstant())
@@ -77,14 +76,6 @@ fun Date.toLocalDate(): LocalDate = this.toLocalDateTime().toLocalDate()
 /*
  * Threading
  */
-
-/** Map for storing context data linked to the executing thread. */
-object Context {
-    private val threadLocal = withInitial { LinkedHashMap<Any, Any>() }
-    fun entries () = threadLocal.get().entries
-    operator fun get (key: Any) = threadLocal.get()[key]
-    operator fun set (key: Any, value: Any) { threadLocal.get()[key] = value }
-}
 
 /**
  * Returns the code location in the caller of this function.
@@ -102,7 +93,7 @@ fun caller(offset: Int = 0): String = currentThread ().stackTrace.let {
  * @param times Number of times to try to execute the callback. Must be greater than 0.
  * @param delay Milliseconds to wait to next execution if there was an error. Must be 0 or greater.
  * @return The callback result if succeed.
- * @throws [ServiceException] if the callback didn't succeed in the given times.
+ * @throws [CodedException] if the callback didn't succeed in the given times.
  */
 fun <T> retry (times: Int, delay: Long, func: () -> T): T {
     require (times > 0)
@@ -119,7 +110,7 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
         }
     }
 
-    throw ServiceException(0, "Error retrying $times times ($delay ms)", *exceptions.toTypedArray())
+    throw CodedException(0, "Error retrying $times times ($delay ms)", *exceptions.toTypedArray())
 }
 
 /*
@@ -127,7 +118,7 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
  */
 
 /** Unknown host name. */
-val UNKNOWN_LOCALHOST = "UNKNOWN_LOCALHOST"
+const val UNKNOWN_LOCALHOST = "UNKNOWN_LOCALHOST"
 
 /** The hostname of the machine running this program. */
 val hostname = getLocalHost()?.hostName ?: UNKNOWN_LOCALHOST
@@ -152,7 +143,7 @@ fun parseQueryParameters(query: String): Map<String, String> =
 /**
  * Returns the stack trace array of the frames that starts with the given prefix.
  */
-fun Throwable.filterStackTrace (prefix: String) =
+fun Throwable.filterStackTrace (prefix: String): Array<out StackTraceElement> =
     if (prefix.isEmpty ())
         this.stackTrace
     else
@@ -169,8 +160,7 @@ fun Throwable.toText (prefix: String = ""): String =
         else
             "${EOL}Caused by: " + (this.cause as Throwable).toText (prefix)
 
-fun error(): Nothing = error("Invalid state")
-val err: Nothing get() = error()
+val err: Nothing get() = error("Invalid state")
 
 /*
  * Map operations
@@ -204,7 +194,7 @@ fun <K : Any, V : Any> fmapOf(vararg pairs: Pair<K, V?>): Map<K, V> = mapOf(*pai
     }
     .mapValues { it.value ?: err }
 
-fun <T : Any> flistOf(vararg pairs: T?): List<T> = listOf<T?>(*pairs)
+fun <T : Any> flistOf(vararg pairs: T?): List<T> = listOf(*pairs)
     .filter {
         when (it) {
             null -> false
@@ -233,7 +223,7 @@ fun requireResource(resName: String): URL = resource(resName) ?: error("$resName
 /*
  * Logging
  */
-object Log : CompanionLogger(Log::class)
+object Log : CachedLogger(Log::class)
 
-internal val flarePrefix = getProperty ("CompanionLogger.flarePrefix", ">>>>>>>>")
+internal val flarePrefix = getProperty ("CachedLogger.flarePrefix", ">>>>>>>>")
 val jvmId: String = getRuntimeMXBean().name
