@@ -1,9 +1,8 @@
 package co.there4.hexagon.web
 
 import java.util.*
-import co.there4.hexagon.web.HttpMethod.*
 import co.there4.hexagon.web.FilterOrder.*
-import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.CachedLogger
 import co.there4.hexagon.util.toText
 import kotlin.reflect.KClass
 
@@ -14,35 +13,34 @@ import kotlin.reflect.KClass
  * TODO Add get<Request, Response>("/path") {} (for all methods)
  */
 open class Router(
-    val filters: MutableMap<Filter, Exchange.() -> Unit> = LinkedHashMap (),
-    val routes: MutableMap<Route, Exchange.() -> Unit> = LinkedHashMap (),
+    val filters: MutableMap<Filter, Handler> = LinkedHashMap (),
+    val routes: MutableMap<Route, Handler> = LinkedHashMap (),
     val assets: MutableList<String> = ArrayList (),
-    val errors: MutableMap<Class<out Exception>, Exchange.(e: Exception) -> Unit> = LinkedHashMap ()
-    ) {
+    val errors: MutableMap<Class<out Exception>, ParameterHandler<Exception>> = LinkedHashMap ()) {
 
-    companion object : CompanionLogger (Router::class)
+    companion object : CachedLogger(Router::class)
 
-    var notFoundHandler: Exchange.() -> Unit = { error(404, request.url + " not found") }
+    var notFoundHandler: Handler = { error(404, request.url + " not found") }
         private set
 
-    private var errorHandler: Exchange.(e: Exception) -> Unit = { e -> error(500, e.toText()) }
+    private var errorHandler: ParameterHandler<Exception> = { e -> error(500, e.toText()) }
 
-    fun after(path: String = "/*", block: Exchange.() -> Unit) = addFilter(path, AFTER, block)
-    fun before(path: String = "/*", block: Exchange.() -> Unit) = addFilter (path, BEFORE, block)
+    fun after(path: String = "/*", block: Handler) = addFilter(path, AFTER, block)
+    fun before(path: String = "/*", block: Handler) = addFilter (path, BEFORE, block)
 
-    fun get(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, GET, block)
-    fun head(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, HEAD, block)
-    fun post(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, POST, block)
-    fun put(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, PUT, block)
-    fun delete(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, DELETE, block)
-    fun trace(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, TRACE, block)
-    fun options(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, OPTIONS, block)
-    fun patch(path: String = "/", block: Exchange.() -> Unit) = addRoute(path, PATCH, block)
+    fun get(path: String = "/", block: Handler) = on(get(path), block)
+    fun head(path: String = "/", block: Handler) = on(head(path), block)
+    fun post(path: String = "/", block: Handler) = on(post(path), block)
+    fun put(path: String = "/", block: Handler) = on(put(path), block)
+    fun delete(path: String = "/", block: Handler) = on(delete(path), block)
+    fun trace(path: String = "/", block: Handler) = on(tracer(path), block)
+    fun options(path: String = "/", block: Handler) = on(options(path), block)
+    fun patch(path: String = "/", block: Handler) = on(patch(path), block)
 
-    fun notFound(block: Exchange.() -> Unit) { notFoundHandler = block }
-    fun internalError(block: Exchange.(e: Exception) -> Unit) { errorHandler = block }
+    fun notFound(block: Handler) { notFoundHandler = block }
+    fun internalError(block: ParameterHandler<Exception>) { errorHandler = block }
 
-    fun handleException (exception: Exception, exchange: Exchange) {
+    internal fun handle(exception: Exception, exchange: Exchange) {
         val handler = errors[exception.javaClass]
 
         if (handler != null)
@@ -53,15 +51,16 @@ open class Router(
 
     fun assets (path: String) = assets.add (path)
 
-    fun error(exception: Class<out Exception>, callback: Exchange.(e: Exception) -> Unit) =
+    fun error(exception: Class<out Exception>, callback: ParameterHandler<Exception>) =
         errors.put (exception, callback)
 
-    fun error(exception: KClass<out Exception>, callback: Exchange.(e: Exception) -> Unit) =
+    fun error(exception: KClass<out Exception>, callback: ParameterHandler<Exception>) =
         error (exception.java, callback)
 
-    private fun addFilter(path: String, order: FilterOrder, block: Exchange.() -> Unit) {
+    private fun addFilter(path: String, order: FilterOrder, block: Handler) {
         val filter = Filter (Path (path), order)
 
+        // TODO Use require
         if (filters.containsKey(filter))
             throw IllegalArgumentException ("$order $path Filter is already added")
 
@@ -69,16 +68,13 @@ open class Router(
         info ("$order $path Filter ADDED")
     }
 
-    private fun addRoute(path: String, method: HttpMethod, block: Exchange.() -> Unit): Route {
-        val route = Route (Path (path), method)
-
+    fun on(route: Route, block: Handler) {
+        // TODO Use require
         if (routes.containsKey(route))
-            throw IllegalArgumentException ("$method $path Route is already added")
+            throw IllegalArgumentException ("${route.method} ${route.path} Route is already added")
 
         routes.put (route, block)
-        info ("$method $path Route ADDED")
-
-        return route
+        info ("${route.method} ${route.path} Route ADDED")
     }
 
     fun reset() {
@@ -86,5 +82,17 @@ open class Router(
         routes.clear()
         assets.clear()
         errors.clear()
+    }
+
+    fun Route.handler(handler: Handler) {
+        on(this, handler)
+    }
+
+    infix fun Route.by(handler: Handler) {
+        on(this, handler)
+    }
+
+    operator fun Route.plus(handler: Handler) {
+        on(this, handler)
     }
 }

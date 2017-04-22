@@ -91,7 +91,7 @@ fun sessionExample(context: String = "session") {
     }
 
     get ("/$context/clear") {
-        session.remove (SESSION_NAME)
+        session.removeAttribute (SESSION_NAME)
         redirect ("/")
     }
 }

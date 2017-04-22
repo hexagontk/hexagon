@@ -3,18 +3,16 @@ package co.there4.hexagon.web
 import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.util.err
 import co.there4.hexagon.util.resource
+import co.there4.hexagon.web.HttpMethod.GET
+import co.there4.hexagon.web.HttpMethod.*
 import co.there4.hexagon.web.servlet.JettyServletServer
 import java.net.InetAddress
 import kotlin.reflect.KClass
 
 import java.net.InetAddress.getByName as address
 
-/*
- * TODO Add base class for Application (setup locales, etc.) for web applications
- * TODO Add base class for Services (the setup for applications is not needed here)
- * TODO Add initialization for applications and services
- * TODO Setup metrics
- */
+typealias Handler = Exchange.() -> Unit
+typealias ParameterHandler<T> = Exchange.(T) -> Unit
 
 /** Port from config. */
 val bindPort = setting<Int>("bindPort") ?: 2010
@@ -35,6 +33,15 @@ var server: Server = JettyServletServer(bindPort = bindPort, bindAddress = bindA
         field = server
     }
 
+fun get (path: String = "/") = Route(Path(path), GET)
+fun head (path: String = "/") = Route(Path(path), HEAD)
+fun post (path: String = "/") = Route(Path(path), POST)
+fun put (path: String = "/") = Route(Path(path), PUT)
+fun delete (path: String = "/") = Route(Path(path), DELETE)
+fun tracer (path: String = "/") = Route(Path(path), TRACE)
+fun options (path: String = "/") = Route(Path(path), OPTIONS)
+fun patch (path: String = "/") = Route(Path(path), PATCH)
+
 /** @see Server.run */
 fun run() = server.run()
 /** @see Server.stop */
@@ -44,39 +51,40 @@ fun stop() = server.stop()
 fun assets (path: String) = server.assets (path)
 
 /** @see Router.after */
-fun after (path: String = "/*", block: Exchange.() -> Unit) = server.after (path, block)
+fun after (path: String = "/*", block: Handler) = server.after (path, block)
 /** @see Router.before */
-fun before (path: String = "/*", block: Exchange.() -> Unit) = server.before (path, block)
+fun before (path: String = "/*", block: Handler) = server.before (path, block)
 
 /** @see Router.get */
-fun get (path: String = "/", block: Exchange.() -> Unit) = server.get (path, block)
+fun get (path: String = "/", block: Handler) = server.get (path, block)
 /** @see Router.head */
-fun head (path: String = "/", block: Exchange.() -> Unit) = server.head (path, block)
+fun head (path: String = "/", block: Handler) = server.head (path, block)
 /** @see Router.post */
-fun post (path: String = "/", block: Exchange.() -> Unit) = server.post (path, block)
+fun post (path: String = "/", block: Handler) = server.post (path, block)
 /** @see Router.put */
-fun put (path: String = "/", block: Exchange.() -> Unit) = server.put (path, block)
+fun put (path: String = "/", block: Handler) = server.put (path, block)
 /** @see Router.delete */
-fun delete (path: String = "/", block: Exchange.() -> Unit) = server.delete (path, block)
+fun delete (path: String = "/", block: Handler) = server.delete (path, block)
 /** @see Router.trace */
-fun trace (path: String = "/", block: Exchange.() -> Unit) = server.trace (path, block)
+fun trace (path: String = "/", block: Handler) = server.trace (path, block)
 /** @see Router.options */
-fun options (path: String = "/", block: Exchange.() -> Unit) = server.options (path, block)
+fun options (path: String = "/", block: Handler) = server.options (path, block)
 /** @see Router.patch */
-fun patch (path: String = "/", block: Exchange.() -> Unit) = server.patch (path, block)
+fun patch (path: String = "/", block: Handler) = server.patch (path, block)
 
 /** @see Router.notFound */
-fun notFound(block: Exchange.() -> Unit) = server.notFound(block)
+fun notFound(block: Handler) = server.notFound(block)
 /** @see Router.internalError */
-fun internalError(block: Exchange.(e: Exception) -> Unit) = server.internalError(block)
+fun internalError(block: ParameterHandler<Exception>) = server.internalError(block)
 
-/** @see Router.err */
-fun error(exception: Class<out Exception>, block: Exchange.(e: Exception) -> Unit) =
+/** @see Router.error */
+fun error(exception: Class<out Exception>, block: ParameterHandler<Exception>) =
     server.error (exception, block)
 
-/** @see Router.err */
-fun error(exception: KClass<out Exception>, block: Exchange.(e: Exception) -> Unit) =
+/** @see Router.error */
+fun error(exception: KClass<out Exception>, block: ParameterHandler<Exception>) =
     server.error (exception, block)
 
 /** @see Router.reset */
 fun reset() = server.reset()
+

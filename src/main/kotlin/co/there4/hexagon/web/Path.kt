@@ -1,6 +1,6 @@
 package co.there4.hexagon.web
 
-import co.there4.hexagon.util.CompanionLogger
+import co.there4.hexagon.util.CachedLogger
 import co.there4.hexagon.util.findGroups
 import co.there4.hexagon.util.filter
 import kotlin.text.Regex
@@ -14,7 +14,7 @@ import kotlin.text.Regex
  *   * Delimiter is {var} to conform with [RFC 6570](https://tools.ietf.org/html/rfc6570)
  */
 data class Path (val path: String) {
-    companion object : CompanionLogger (Path::class) {
+    companion object : CachedLogger(Path::class) {
         internal val PARAMETER_PREFIX = "{"
         internal val PARAMETER_SUFFIX = "}"
 

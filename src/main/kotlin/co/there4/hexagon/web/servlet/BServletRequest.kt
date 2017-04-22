@@ -33,7 +33,8 @@ internal class BServletRequest(val req: HttpServletRequest, var actionPath: Path
     override val preferredType: String by lazy { throw UnsupportedOperationException ()  }
 
     override val parameters: Map<String, List<String>> by lazy {
-        (actionPath?.extractParameters(req.servletPath)?:mapOf()).mapValues { listOf(it.value) } +
+        val requestUrl = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath
+        (actionPath?.extractParameters(requestUrl)?:mapOf()).mapValues { listOf(it.value) } +
         req.parameterMap.map { it.key as String to it.value.toList() }.toMap() +
         parseQueryParameters(req.queryString ?: "").mapValues { listOf(it.value) }
     }

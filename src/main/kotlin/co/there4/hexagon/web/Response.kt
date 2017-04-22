@@ -9,18 +9,26 @@ import java.net.HttpCookie
  *
  * HTTP response context.
  */
-interface Response {
+class Response (private val response: IResponse) {
+    val outputStream: OutputStream by lazy { response.outputStream }
+
     var body: Any
+        get() = response.body
+        set(value) { response.body = value }
+
     var status: Int
+        get() = response.status
+        set(value) { response.status = value }
+
     var contentType: String?
+        get() = response.contentType
+        set(value) { response.contentType = value }
 
-    val outputStream: OutputStream
+    fun getMimeType (file: String): String? = response.getMimeType(file)
+    fun addHeader (name: String, value: String) = response.addHeader(name, value)
 
-    fun getMimeType (file: String): String?
-    fun addHeader (name: String, value: String)
+    fun addCookie (cookie: HttpCookie) = response.addCookie(cookie)
+    fun removeCookie (name: String) = response.removeCookie(name)
 
-    fun addCookie (cookie: HttpCookie)
-    fun removeCookie (name: String)
-
-    fun redirect (url: String)
+    fun redirect (url: String) = response.redirect(url)
 }

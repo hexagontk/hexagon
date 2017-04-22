@@ -1,16 +1,16 @@
 package co.there4.hexagon.web.servlet
 
-import co.there4.hexagon.web.Session
+import co.there4.hexagon.web.ISession
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
-internal class BServletSession(val req: HttpServletRequest) : Session {
+internal class BServletSession(val req: HttpServletRequest) : ISession {
 
-    override fun get(name: String): Any? = req.session.getAttribute(name)
+    override fun getAttribute(name: String): Any? = req.session.getAttribute(name)
 
-    override fun set(name: String, value: Any) { req.session.setAttribute(name, value) }
+    override fun setAttribute(name: String, value: Any) { req.session.setAttribute(name, value) }
 
-    override fun remove(name: String) { req.session.removeAttribute(name) }
+    override fun removeAttribute(name: String) { req.session.removeAttribute(name) }
 
     override val attributeNames: List<String> get() = req.session.attributeNames.toList()
 

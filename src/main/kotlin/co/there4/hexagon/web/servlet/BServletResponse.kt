@@ -1,14 +1,19 @@
 package co.there4.hexagon.web.servlet
 
-import co.there4.hexagon.web.Response
+import co.there4.hexagon.web.IResponse
 import java.io.OutputStream
 import java.net.HttpCookie
+import javax.servlet.ServletContext
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-internal class BServletResponse(val req: HttpServletRequest, val resp: HttpServletResponse) :
-    Response {
+internal class BServletResponse(
+    val req: HttpServletRequest,
+    val resp: HttpServletResponse,
+    private val context: ServletContext = req.servletContext) : IResponse {
+
+    override val outputStream: OutputStream by lazy { resp.outputStream }
 
     override var body: Any = ""
 
@@ -20,9 +25,7 @@ internal class BServletResponse(val req: HttpServletRequest, val resp: HttpServl
         get() = resp.contentType
         set(value) { resp.contentType = value }
 
-    override val outputStream: OutputStream by lazy { resp.outputStream }
-
-    override fun getMimeType (file: String): String? = req.servletContext.getMimeType(file)
+    override fun getMimeType (file: String): String? = context.getMimeType(file)
 
     override fun addHeader (name: String, value: String) {
         resp.addHeader(name, value)

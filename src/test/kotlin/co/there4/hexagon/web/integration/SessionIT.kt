@@ -43,7 +43,7 @@ class SessionIT : ItTest () {
         }
 
         srv.delete("/session/{key}") {
-            session.remove(request.parameter("key"))
+            session.removeAttribute(request.parameter("key"))
         }
 
         srv.get("/session") {

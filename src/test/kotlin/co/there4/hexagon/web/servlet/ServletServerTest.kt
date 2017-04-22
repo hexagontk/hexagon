@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebListener
 
 @Test class ServletServerTest {
     @WebListener class Serv : ServletServer() {
-        override fun init() {
+        init {
             get { ok("Hello Servlet!") }
         }
     }
@@ -35,6 +35,7 @@ import javax.servlet.annotation.WebListener
     }
 
     fun servlet_server_starts() {
-        assert(Client("http://127.0.0.1:9897").get("/").responseBody == "Hello Servlet!")
+        val response = Client("http://127.0.0.1:9897").get("/")
+        assert(response.responseBody == "Hello Servlet!")
     }
 }

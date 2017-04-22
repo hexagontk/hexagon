@@ -40,6 +40,7 @@ class JettyServletServer(bindAddress: InetAddress = address ("localhost"), bindP
                 val filter = ServletFilter (this@JettyServletServer)
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
                 val filterBind = context.servletContext.addFilter("filters", filter)
+                filterBind.setAsyncSupported(true)
                 filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
             }
         })

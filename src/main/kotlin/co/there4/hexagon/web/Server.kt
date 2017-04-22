@@ -11,11 +11,11 @@ abstract class Server (
     val bindAddress: InetAddress = InetAddress.getByName("localhost"),
     val bindPort: Int = 2010) : Router() {
 
-    companion object : CompanionLogger (Server::class)
+    companion object : CachedLogger(Server::class)
 
     val serviceName = SettingsManager["serviceName"] ?: "Hexagon"
 
-open val runtimePort = bindPort
+    open val runtimePort = bindPort
 
     abstract fun started (): Boolean
 

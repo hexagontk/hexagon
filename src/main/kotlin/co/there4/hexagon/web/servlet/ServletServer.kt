@@ -15,13 +15,10 @@ import javax.servlet.DispatcherType
 abstract class ServletServer : Router(), ServletContextListener {
 
     override fun contextInitialized(sce: ServletContextEvent) {
-        init ()
-
         val filter = sce.servletContext.addFilter("filters", ServletFilter (this))
+        filter.setAsyncSupported(true)
         filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")
     }
 
     override fun contextDestroyed(sce: ServletContextEvent?) { /* Empty */ }
-
-    abstract fun init ()
 }
