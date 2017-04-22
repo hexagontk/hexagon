@@ -26,7 +26,7 @@ processResources {
                 it
                     .replace ('${projectVersion}', project.version.toString())
                     .replace ('${projectName}', project.name)
-                    .replace ('${projectGroup}', project.group)
+                    .replace ('${projectGroup}', project.group.toString())
                     .replace ('${projectDescription}', project.description)
             }
         }
