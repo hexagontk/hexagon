@@ -15,27 +15,27 @@ import kotlin.reflect.KClass
 open class Router(
     val filters: MutableMap<Filter, Handler> = LinkedHashMap (),
     val routes: MutableMap<Route, Handler> = LinkedHashMap (),
-    val assets: MutableList<String> = ArrayList (),
     val errors: MutableMap<Class<out Exception>, ParameterHandler<Exception>> = LinkedHashMap ()) {
 
     companion object : CachedLogger(Router::class)
 
-    var notFoundHandler: Handler = { error(404, request.url + " not found") }
-        private set
+    /** TODO Make assets work like a get route to an static file serving handler */
+    var assets: List<String> = listOf(); private set
 
-    private var errorHandler: ParameterHandler<Exception> = { e -> error(500, e.toText()) }
+    var notFoundHandler: Handler = { error(404, request.url + " not found") }; private set
+    private var errorHandler: ErrorHandler = { e -> error(500, e.toText()) }
 
     fun after(path: String = "/*", block: Handler) = addFilter(path, AFTER, block)
     fun before(path: String = "/*", block: Handler) = addFilter (path, BEFORE, block)
 
-    fun get(path: String = "/", block: Handler) = on(get(path), block)
-    fun head(path: String = "/", block: Handler) = on(head(path), block)
-    fun post(path: String = "/", block: Handler) = on(post(path), block)
-    fun put(path: String = "/", block: Handler) = on(put(path), block)
-    fun delete(path: String = "/", block: Handler) = on(delete(path), block)
-    fun trace(path: String = "/", block: Handler) = on(tracer(path), block)
-    fun options(path: String = "/", block: Handler) = on(options(path), block)
-    fun patch(path: String = "/", block: Handler) = on(patch(path), block)
+    fun get(path: String = "/", block: Handler) = get(path) by block
+    fun head(path: String = "/", block: Handler) = head(path) by block
+    fun post(path: String = "/", block: Handler) = post(path) by block
+    fun put(path: String = "/", block: Handler) = put(path) by block
+    fun delete(path: String = "/", block: Handler) = delete(path) by block
+    fun trace(path: String = "/", block: Handler) = tracer(path) by block
+    fun options(path: String = "/", block: Handler) = options(path) by block
+    fun patch(path: String = "/", block: Handler) = patch(path) by block
 
     fun notFound(block: Handler) { notFoundHandler = block }
     fun internalError(block: ParameterHandler<Exception>) { errorHandler = block }
@@ -49,50 +49,32 @@ open class Router(
             exchange.errorHandler(exception)
     }
 
-    fun assets (path: String) = assets.add (path)
+    fun assets (path: String) { assets += path }
 
-    fun error(exception: Class<out Exception>, callback: ParameterHandler<Exception>) =
-        errors.put (exception, callback)
-
-    fun error(exception: KClass<out Exception>, callback: ParameterHandler<Exception>) =
-        error (exception.java, callback)
+    fun error(exception: Class<out Exception>, block: ErrorHandler) = errors.put (exception, block)
+    fun error(exception: KClass<out Exception>, block: ErrorHandler) = error (exception.java, block)
 
     private fun addFilter(path: String, order: FilterOrder, block: Handler) {
         val filter = Filter (Path (path), order)
-
-        // TODO Use require
-        if (filters.containsKey(filter))
-            throw IllegalArgumentException ("$order $path Filter is already added")
-
+        require(!filters.containsKey(filter)) { "$order $path Filter is already added" }
         filters.put (filter, block)
         info ("$order $path Filter ADDED")
-    }
-
-    fun on(route: Route, block: Handler) {
-        // TODO Use require
-        if (routes.containsKey(route))
-            throw IllegalArgumentException ("${route.method} ${route.path} Route is already added")
-
-        routes.put (route, block)
-        info ("${route.method} ${route.path} Route ADDED")
     }
 
     fun reset() {
         filters.clear()
         routes.clear()
-        assets.clear()
         errors.clear()
+        assets = listOf()
     }
 
     fun Route.handler(handler: Handler) {
-        on(this, handler)
+        require (!routes.containsKey(this)) { "$method $path Route is already added" }
+        routes.put (this, handler)
+        info ("$method $path Route ADDED")
     }
 
     infix fun Route.by(handler: Handler) {
-        on(this, handler)
-    }
-
-    operator fun Route.plus(handler: Handler) {
-        on(this, handler)
+        this.handler(handler)
     }
 }

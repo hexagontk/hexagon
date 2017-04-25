@@ -1,7 +1,6 @@
-package co.there4.hexagon.web.servlet
+package co.there4.hexagon.web.backend.servlet
 
 import co.there4.hexagon.web.Client
-import co.there4.hexagon.web.bindAddress
 import org.eclipse.jetty.server.Server as JettyServer
 import org.eclipse.jetty.webapp.WebAppContext
 import org.testng.annotations.AfterClass
@@ -17,7 +16,7 @@ import javax.servlet.annotation.WebListener
         }
     }
 
-    private val jettyServer = JettyServer(InetSocketAddress(bindAddress, 9897))
+    private val jettyServer = JettyServer(InetSocketAddress("127.0.0.1", 9897))
 
     @AfterClass fun shutdown() {
         jettyServer.stopAtShutdown = true

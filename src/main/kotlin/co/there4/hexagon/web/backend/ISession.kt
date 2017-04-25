@@ -1,4 +1,4 @@
-package co.there4.hexagon.web
+package co.there4.hexagon.web.backend
 
 /**
  * Provides session information.

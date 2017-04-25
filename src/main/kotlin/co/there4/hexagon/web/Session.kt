@@ -1,5 +1,7 @@
 package co.there4.hexagon.web
 
+import co.there4.hexagon.web.backend.ISession
+
 /**
  * Provides session information.
  */

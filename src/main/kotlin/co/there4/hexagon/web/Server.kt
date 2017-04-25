@@ -1,51 +1,47 @@
 package co.there4.hexagon.web
 
+import java.net.InetAddress.getByName as address
+import co.there4.hexagon.util.err
+
 import co.there4.hexagon.settings.SettingsManager
+import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.util.*
+import co.there4.hexagon.web.backend.IServer
 import java.net.InetAddress
 import java.lang.System.*
 import java.lang.Runtime.*
 import java.lang.management.ManagementFactory.*
 
-abstract class Server (
-    val bindAddress: InetAddress = InetAddress.getByName("localhost"),
-    val bindPort: Int = 2010) : Router() {
+class Server (
+    private val serverBackend: IServer,
+    val bindAddress: InetAddress = address(setting<String>("bindAddress") ?: "127.0.0.1") ?: err,
+    val bindPort: Int = setting<Int>("bindPort") ?: 2010) : Router() {
 
     companion object : CachedLogger(Server::class)
 
     val serviceName = SettingsManager["serviceName"] ?: "Hexagon"
 
-    open val runtimePort = bindPort
+    val runtimePort get() = serverBackend.runtimePort()
 
-    abstract fun started (): Boolean
-
-    /**
-     * Builds a server of a certain backend from a server definition and runs it.
-     */
-    protected abstract fun startup()
-
-    /**
-     * Stops the instance of the backend.
-     */
-    protected abstract fun shutdown()
+    fun started (): Boolean = serverBackend.started()
 
     fun run() {
         getRuntime().addShutdownHook(
             Thread (
                 {
                     if (started ())
-                        shutdown ()
+                        serverBackend.shutdown ()
                 },
                 "shutdown-${bindAddress.hostName}-$bindPort"
             )
         )
 
-        startup ()
+        serverBackend.startup (this)
         info ("$serviceName started${createBanner()}")
     }
 
     fun stop() {
-        shutdown ()
+        serverBackend.shutdown ()
         info ("$serviceName stopped")
     }
 

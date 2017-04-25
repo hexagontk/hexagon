@@ -1,30 +1,19 @@
 package co.there4.hexagon.web
 
 import co.there4.hexagon.settings.SettingsManager.setting
-import co.there4.hexagon.util.err
-import co.there4.hexagon.util.resource
-import co.there4.hexagon.web.HttpMethod.GET
 import co.there4.hexagon.web.HttpMethod.*
-import co.there4.hexagon.web.servlet.JettyServletServer
-import java.net.InetAddress
+import co.there4.hexagon.web.backend.servlet.JettyServletServer
 import kotlin.reflect.KClass
-
 import java.net.InetAddress.getByName as address
 
 typealias Handler = Exchange.() -> Unit
 typealias ParameterHandler<T> = Exchange.(T) -> Unit
-
-/** Port from config. */
-val bindPort = setting<Int>("bindPort") ?: 2010
-/** Address from config. */
-val bindAddress: InetAddress = address(setting<String>("bindAddress") ?: "localhost") ?: err
+typealias ErrorHandler = ParameterHandler<Exception>
 
 val resourcesFolder = setting<String>("resourcesFolder") ?: "public"
 
-val processResources = resource(resourcesFolder) != null
-
 /** Default server. Used by package methods. */
-var server: Server = JettyServletServer(bindPort = bindPort, bindAddress = bindAddress)
+var server: Server = Server(JettyServletServer())
     get () = field
     set (server) {
         if (field.started ())
@@ -41,6 +30,9 @@ fun delete (path: String = "/") = Route(Path(path), DELETE)
 fun tracer (path: String = "/") = Route(Path(path), TRACE)
 fun options (path: String = "/") = Route(Path(path), OPTIONS)
 fun patch (path: String = "/") = Route(Path(path), PATCH)
+infix fun HttpMethod.at(path: String) = Route(Path(path), this)
+
+fun Exchange.handler(block: Handler): Unit = this.block()
 
 /** @see Server.run */
 fun run() = server.run()
@@ -72,19 +64,10 @@ fun options (path: String = "/", block: Handler) = server.options (path, block)
 /** @see Router.patch */
 fun patch (path: String = "/", block: Handler) = server.patch (path, block)
 
-/** @see Router.notFound */
-fun notFound(block: Handler) = server.notFound(block)
-/** @see Router.internalError */
-fun internalError(block: ParameterHandler<Exception>) = server.internalError(block)
-
 /** @see Router.error */
-fun error(exception: Class<out Exception>, block: ParameterHandler<Exception>) =
-    server.error (exception, block)
-
+fun error(exception: Class<out Exception>, block: ErrorHandler) = server.error(exception, block)
 /** @see Router.error */
-fun error(exception: KClass<out Exception>, block: ParameterHandler<Exception>) =
-    server.error (exception, block)
+fun error(exception: KClass<out Exception>, block: ErrorHandler) = server.error(exception, block)
 
 /** @see Router.reset */
 fun reset() = server.reset()
-

@@ -4,7 +4,7 @@ import co.there4.hexagon.web.Client
 import org.testng.annotations.Test
 
 import co.there4.hexagon.web.Server
-import co.there4.hexagon.web.servlet.JettyServletServer
+import co.there4.hexagon.web.backend.servlet.JettyServletServer
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -19,7 +19,7 @@ internal const val TIMES = 1
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 abstract class ItTest {
     open val servers: List<Server> = listOf(
-        JettyServletServer()
+        Server(JettyServletServer())
     )
 
     protected abstract fun initialize (srv: Server)

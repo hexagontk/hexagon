@@ -1,6 +1,7 @@
-package co.there4.hexagon.web.servlet
+package co.there4.hexagon.web.backend.servlet
 
 import co.there4.hexagon.util.CachedLogger
+import co.there4.hexagon.util.resource
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.FilterOrder.AFTER
 import co.there4.hexagon.web.FilterOrder.BEFORE
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 internal class ServletFilter (private val router: Router) : CachedLogger(ServletFilter::class), Filter {
     companion object : CachedLogger(ServletFilter::class)
 
+    private val processResources = resource(resourcesFolder) != null
     private val routesByMethod: Map<HttpMethod, List<Pair<Route, Exchange.() -> Unit>>> =
         router.routes.entries.map { it.key to it.value }.groupBy { it.first.method }
 
@@ -42,6 +44,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
      */
     private fun filter(
         request: HttpRequest,
+        req: BServletRequest,
         exchange: Exchange,
         filters: List<Pair<HexagonFilter, Exchange.() -> Unit>>): Boolean =
             filters
@@ -51,7 +54,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
                     it.first.path.matches(requestUrl)
                 }
                 .map {
-                    (exchange.request as BServletRequest).actionPath = it.first.path
+                    req.actionPath = it.first.path
                     exchange.(it.second)()
                     trace("Filter for path '${it.first.path}' executed")
                     true
@@ -81,16 +84,16 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
         context: ServletContext = request.servletContext) {
 
         if (request !is HttpRequest || response !is HttpResponse)
-            error("Invalid request/response parmeters")
+            error("Invalid request/response parameters")
 
         val bRequest = BServletRequest(request)
         val bResponse = BServletResponse(request, response, context)
         val bSession = BServletSession(request)
-        val exchange = Exchange(bRequest, Response(bResponse), Session(bSession))
+        val exchange = Exchange(Request(bRequest), Response(bResponse), Session(bSession))
         var handled = false
 
         try {
-            handled = filter(request, exchange, beforeFilters)
+            handled = filter(request, bRequest, exchange, beforeFilters)
 
             var resource = false
 
@@ -106,9 +109,8 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
             }
 
             if (!resource) {
-                val methodRoutes = routesByMethod[HttpMethod.valueOf(request.method)]?.filter {
-                    it.first.path.matches(filledPath)
-                }
+                val methodRoutes = routesByMethod[HttpMethod.valueOf(request.method)]
+                    ?.filter { it.first.path.matches(filledPath) }
 
                 if (methodRoutes == null) {
                     bResponse.status = 405
@@ -133,7 +135,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
                 }
             }
 
-            handled = filter(request, exchange, afterFilters) || handled // Order matters!!!
+            handled = filter(request, bRequest, exchange, afterFilters) || handled // Order matters!
         }
         catch (e: EndException) {
             trace("Request processing ended by callback request")

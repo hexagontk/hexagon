@@ -1,11 +1,12 @@
-package co.there4.hexagon.web.servlet
+package co.there4.hexagon.web.backend.servlet
 
+import co.there4.hexagon.util.err
 import co.there4.hexagon.web.Server
+import co.there4.hexagon.web.backend.IServer
 import org.eclipse.jetty.server.ServerConnector
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS
 import org.eclipse.jetty.util.component.LifeCycle
-import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.util.*
 import javax.servlet.DispatcherType
@@ -15,20 +16,21 @@ import java.net.InetAddress.getByName as address
 /**
  * TODO .
  */
-class JettyServletServer(bindAddress: InetAddress = address ("localhost"), bindPort: Int = 2010):
-    Server(bindAddress, bindPort) {
+class JettyServletServer: IServer {
 
-    private val jettyServer = JettyServer(InetSocketAddress(bindAddress, bindPort))
+    private var jettyServer: JettyServer? = null
 
-    override val runtimePort: Int
-        get() = (jettyServer.connectors[0] as ServerConnector).localPort.let {
+    override fun runtimePort(): Int =
+        ((jettyServer?.connectors?.get(0) ?: err) as ServerConnector).localPort.let {
             if (it == -1) error("Jetty port uninitialized. Use lazy evaluation for HTTP client ;)")
             else it
         }
 
-    override fun started() = jettyServer.isStarted
+    override fun started() = jettyServer?.isStarted ?: false
 
-    override fun startup() {
+    override fun startup(server: Server) {
+        jettyServer = JettyServer(InetSocketAddress(server.bindAddress, server.bindPort))
+
         val context = ServletContextHandler(SESSIONS)
         context.addLifeCycleListener(object : LifeCycle.Listener {
             override fun lifeCycleStopped(event: LifeCycle?) { /* Do nothing */ }
@@ -37,7 +39,7 @@ class JettyServletServer(bindAddress: InetAddress = address ("localhost"), bindP
             override fun lifeCycleFailure(event: LifeCycle?, cause: Throwable?) { /* Do nothing */ }
 
             override fun lifeCycleStarting(event: LifeCycle?) {
-                val filter = ServletFilter (this@JettyServletServer)
+                val filter = ServletFilter (server)
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
                 val filterBind = context.servletContext.addFilter("filters", filter)
                 filterBind.setAsyncSupported(true)
@@ -45,24 +47,12 @@ class JettyServletServer(bindAddress: InetAddress = address ("localhost"), bindP
             }
         })
 
-        jettyServer.handler = context
-//        val filter = ServletFilter (this)
-//        jettyServer.handler = object : AbstractHandler() {
-//            override fun handle(
-//                target: String,
-//                baseRequest: Request,
-//                request: HttpServletRequest,
-//                response: HttpServletResponse) {
-//
-//                filter.doFilter(request, response, null)
-//                baseRequest.isHandled = true
-//            }
-//        }
-        jettyServer.start()
+        jettyServer?.handler = context
+        jettyServer?.start()
     }
 
     override fun shutdown() {
-        jettyServer.stopAtShutdown = true
-        jettyServer.stop()
+        jettyServer?.stopAtShutdown = true
+        jettyServer?.stop()
     }
 }

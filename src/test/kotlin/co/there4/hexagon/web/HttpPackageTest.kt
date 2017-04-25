@@ -2,7 +2,7 @@ package co.there4.hexagon.web
 
 import co.there4.hexagon.web.HttpMethod.*
 import co.there4.hexagon.web.FilterOrder.*
-import co.there4.hexagon.web.servlet.JettyServletServer
+import co.there4.hexagon.web.backend.servlet.JettyServletServer
 
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
@@ -63,18 +63,18 @@ import kotlin.test.assertFailsWith
     fun default_server_can_not_be_replaced_if_running () {
         assertFailsWith<IllegalStateException>("A default server is already started") {
             server.run ()
-            server = JettyServletServer()
+            server = Server(JettyServletServer())
         }
     }
 
     fun default_server_can_be_replaced_if_not_running () {
         server.stop ()
-        server = JettyServletServer()
-        assert (server is JettyServletServer)
+        server = Server(JettyServletServer())
+        assert (server is Server)
         server.run ()
         server.stop ()
         Thread.sleep (500)
-        server = JettyServletServer()
-        assert (server is JettyServletServer)
+        server = Server(JettyServletServer())
+        assert (server is Server)
     }
 }

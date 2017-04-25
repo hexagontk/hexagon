@@ -1,5 +1,6 @@
 package co.there4.hexagon.web
 
+import co.there4.hexagon.web.backend.IRequest
 import java.net.HttpCookie
 
 /**
@@ -10,31 +11,31 @@ import java.net.HttpCookie
  *
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
-interface Request {
-    val scriptName: String    // .path_info // "/foo" (servlet path)
-    val pathInfo: String      // .path_info // "/foo"
-    val path: String          // .path // "/foo" (servlet path + path info)
-    val body: String          // request body sent by the client
-    val scheme: String        // "http"
-    val port: Int             // 80
-    val method: HttpMethod    // "GET"
-    val queryString: String   // ""
-    val contentLength: Long   // length of request.body
-    val contentType: String?  // media type of request.body
-    val host: String          // "example.com"
-    val userAgent: String     // user agent (used by :agent condition)
-    val url: String           // "http://example.com/example/foo"
-    val ip: String            // client IP address
-    val referrer: String      // the referrer of the client or '/'
-    val secure: Boolean       // false (would be true over ssl)
-    val forwarded: Boolean    // true (if running behind a reverse proxy)
-    val xhr: Boolean          // is this an ajax request?
-    val preferredType: String // .preferred_type(t)   // 'text/html'
+class Request(private val request: IRequest) {
+    val scriptName: String by lazy { request.scriptName }
+    val pathInfo: String by lazy { request.pathInfo }
+    val path: String by lazy { request.path }
+    val body: String by lazy { request.body }
+    val scheme: String by lazy { request.scheme }
+    val port: Int by lazy { request.port }
+    val method: HttpMethod by lazy { request.method }
+    val queryString: String by lazy { request.queryString }
+    val contentLength: Long by lazy { request.contentLength }
+    val contentType: String? by lazy { request.contentType }
+    val host: String by lazy { request.host }
+    val userAgent: String by lazy { request.userAgent }
+    val url: String by lazy { request.url }
+    val ip: String by lazy { request.ip }
+    val referrer: String by lazy { request.referrer }
+    val secure: Boolean by lazy { request.secure }
+    val forwarded: Boolean by lazy { request.forwarded }
+    val xhr: Boolean by lazy { request.xhr }
+    val preferredType: String by lazy { request.preferredType }
 
-    val parameters: Map<String, List<String>> // ["some_param"] // value of some_param parameter
-    val headers: Map<String, List<String>>    // ["SOME_HEADER"] // value of SOME_HEADER header
-    val cookies: Map<String, HttpCookie>      // hash of browser cookies
-    val parts: Map<String, Part>              // hash of multipart parts
+    val parameters: Map<String, List<String>> by lazy { request.parameters }
+    val headers: Map<String, List<String>> by lazy { request.headers }
+    val cookies: Map<String, HttpCookie> by lazy { request.cookies }
+    val parts: Map<String, Part> by lazy { request.parts }
 
     operator fun get(name: String): String? = parameters[name]?.first()
 

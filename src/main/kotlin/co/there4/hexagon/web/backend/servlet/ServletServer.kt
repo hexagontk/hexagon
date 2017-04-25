@@ -1,4 +1,4 @@
-package co.there4.hexagon.web.servlet
+package co.there4.hexagon.web.backend.servlet
 
 import co.there4.hexagon.web.Router
 import javax.servlet.ServletContextEvent

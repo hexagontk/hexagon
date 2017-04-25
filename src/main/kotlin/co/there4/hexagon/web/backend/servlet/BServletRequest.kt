@@ -1,16 +1,16 @@
-package co.there4.hexagon.web.servlet
+package co.there4.hexagon.web.backend.servlet
 
 import co.there4.hexagon.util.parseQueryParameters
 import co.there4.hexagon.web.HttpMethod
 import co.there4.hexagon.web.Part
 import co.there4.hexagon.web.Path
-import co.there4.hexagon.web.Request
+import co.there4.hexagon.web.backend.IRequest
 import java.io.InputStreamReader
 import java.net.HttpCookie
 import javax.servlet.http.HttpServletRequest
 
-internal class BServletRequest(val req: HttpServletRequest, var actionPath: Path? = null) :
-    Request {
+internal class BServletRequest(val req: HttpServletRequest) : IRequest {
+    var actionPath: Path? = null
 
     override val scriptName: String by lazy { req.pathInfo ?: req.servletPath }
     override val pathInfo: String by lazy { scriptName }
