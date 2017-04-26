@@ -77,10 +77,10 @@ import kotlin.test.assertFailsWith
     }
 
     fun path_with_many_wildcards_resolve_parameters_properly () {
-        val pathWith1Parameter = Path("*/alfa/*/{param}/tango")
-        assert (pathWith1Parameter.path == "*/alfa/*/{param}/tango")
+        val pathWith1Parameter = Path("/*/alfa/*/{param}/tango")
+        assert (pathWith1Parameter.path == "/*/alfa/*/{param}/tango")
         assert (pathWith1Parameter.hasParameters)
-        assert (pathWith1Parameter.regex?.pattern == "(.*?)/alfa/(.*?)/(.+?)/tango$")
+        assert (pathWith1Parameter.regex?.pattern == "/(.*?)/alfa/(.*?)/(.+?)/tango$")
         assert (pathWith1Parameter.parameterIndex == listOf ("", "", "param"))
 
         val pathWith2Parameters = Path("/alfa/*/{param}/tango/{arg}/*")
@@ -109,8 +109,8 @@ import kotlin.test.assertFailsWith
         val segments1 = Path("/alfa/{p1}/beta/{p2}").segments
         assert(segments1 == listOf ("/alfa/", "/beta/", ""))
 
-        val segments2 = Path("{p0}/alfa/{p1}/beta/{p2}").segments
-        assert(segments2 == listOf ("", "/alfa/", "/beta/", ""))
+        val segments2 = Path("/{p0}/alfa/{p1}/beta/{p2}").segments
+        assert(segments2 == listOf ("/", "/alfa/", "/beta/", ""))
 
         val segments3 = Path("/alfa/{p1}/beta").segments
         assert(segments3 == listOf ("/alfa/", "/beta"))

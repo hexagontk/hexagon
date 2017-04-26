@@ -60,3 +60,9 @@ Streaming support if returning a stream
 TODO Add base class for Application (setup locales, etc.) for web applications
 TODO Add base class for Services (the setup for applications is not needed here)
 TODO Setup metrics
+
+TODO Integrate settings: load configuration properties with prefixes.Ie:
+serviceName.backend = JettyServerBackend
+JettyServerBackend.async = true
+Load order:
+  resources <- system properties <- environment variables <- files <- command line arguments

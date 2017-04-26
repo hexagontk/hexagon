@@ -2,6 +2,7 @@ package co.there4.hexagon.web
 
 import co.there4.hexagon.repository.FileRepository.load
 import co.there4.hexagon.template.PebbleRenderer.render
+import co.there4.hexagon.util.CodedException
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -29,8 +30,7 @@ data class Exchange (
 
     fun halt(content: Any): Nothing = halt(500, content)
     fun halt(code: Int = 500, content: Any = ""): Nothing {
-        send(code, content)
-        throw EndException()
+        throw CodedException(code, content.toString())
     }
 
     fun pass(): Nothing = throw PassException()

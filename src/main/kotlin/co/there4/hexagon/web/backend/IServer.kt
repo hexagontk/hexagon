@@ -2,12 +2,18 @@ package co.there4.hexagon.web.backend
 
 import co.there4.hexagon.web.Server
 
+/**
+ * Represents a server instance of one kind.
+ */
 interface IServer {
     /**
      * Gets the runtime port if started, throw an exception otherwise.
      */
     fun runtimePort(): Int
 
+    /**
+     * .
+     */
     fun started(): Boolean
 
     /**

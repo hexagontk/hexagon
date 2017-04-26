@@ -10,28 +10,37 @@ typealias Handler = Exchange.() -> Unit
 typealias ParameterHandler<T> = Exchange.(T) -> Unit
 typealias ErrorHandler = ParameterHandler<Exception>
 
+@Deprecated("Replaced by `assets` router method")
 val resourcesFolder = setting<String>("resourcesFolder") ?: "public"
 
-/** Default server. Used by package methods. */
+/** Default static server. Used by this package's helper methods. */
 var server: Server = Server(JettyServletServer())
     get () = field
     set (server) {
-        if (field.started ())
-            error("A default server is already started")
-
+        check (!field.started ()) { "A default server is already started" }
         field = server
     }
 
+/** Shortcut to create a GET route. */
 fun get (path: String = "/") = Route(Path(path), GET)
+/** Shortcut to create a HEAD route. */
 fun head (path: String = "/") = Route(Path(path), HEAD)
+/** Shortcut to create a POST route. */
 fun post (path: String = "/") = Route(Path(path), POST)
+/** Shortcut to create a PUT route. */
 fun put (path: String = "/") = Route(Path(path), PUT)
+/** Shortcut to create a DELETE route. */
 fun delete (path: String = "/") = Route(Path(path), DELETE)
+/** Shortcut to create a TRACE route. */
 fun tracer (path: String = "/") = Route(Path(path), TRACE)
+/** Shortcut to create a OPTIONS route. */
 fun options (path: String = "/") = Route(Path(path), OPTIONS)
+/** Shortcut to create a PATCH route. */
 fun patch (path: String = "/") = Route(Path(path), PATCH)
+/** Shortcut to create a route from a method and a path. */
 infix fun HttpMethod.at(path: String) = Route(Path(path), this)
 
+/** Syntactic sugar to ease the definition of handler methods. */
 fun Exchange.handler(block: Handler): Unit = this.block()
 
 /** @see Server.run */
@@ -40,7 +49,7 @@ fun run() = server.run()
 fun stop() = server.stop()
 
 /** @see Router.assets */
-fun assets (path: String) = server.assets (path)
+fun assets (resource: String, path: String = "/") = server.assets (resource, path)
 
 /** @see Router.after */
 fun after (path: String = "/*", block: Handler) = server.after (path, block)
@@ -64,6 +73,8 @@ fun options (path: String = "/", block: Handler) = server.options (path, block)
 /** @see Router.patch */
 fun patch (path: String = "/", block: Handler) = server.patch (path, block)
 
+/** @see Router.error */
+fun error(code: Int, block: ParameterHandler<Int>) = server.error(code, block)
 /** @see Router.error */
 fun error(exception: Class<out Exception>, block: ErrorHandler) = server.error(exception, block)
 /** @see Router.error */

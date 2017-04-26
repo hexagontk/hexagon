@@ -1,6 +1,7 @@
 package co.there4.hexagon.web.backend.servlet
 
 import co.there4.hexagon.util.CachedLogger
+import co.there4.hexagon.util.CodedException
 import co.there4.hexagon.util.resource
 import co.there4.hexagon.web.*
 import co.there4.hexagon.web.FilterOrder.AFTER
@@ -32,12 +33,6 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
     private val afterFilters = filtersByOrder[AFTER] ?: listOf()
 
     private val executor: ExecutorService = Executors.newFixedThreadPool(8)
-
-    // TODO
-//    private val routesByPrefix: Map<String, Route>
-//    private val resources: Map<String, Res>
-//
-//    class Res {}
 
     /**
      * TODO Take care of filters that throw exceptions
@@ -136,20 +131,16 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
             }
 
             handled = filter(request, bRequest, exchange, afterFilters) || handled // Order matters!
+            if (!handled)
+                throw CodedException(404)
         }
         catch (e: EndException) {
             trace("Request processing ended by callback request")
-            handled = true
         }
         catch (e: Exception) {
-            error("Error processing request", e)
             router.handle(e, exchange)
-            handled = true
         }
         finally {
-            if (!handled)
-                exchange.(router.notFoundHandler)()
-
             response.status = exchange.response.status
             response.outputStream.write(exchange.response.body.toString().toByteArray())
             response.outputStream.flush()

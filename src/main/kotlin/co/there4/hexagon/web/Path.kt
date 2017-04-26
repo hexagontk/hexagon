@@ -25,6 +25,11 @@ data class Path (val path: String) {
         internal val PLACEHOLDER_REGEX = Regex ("\\$WILDCARD|\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
     }
 
+    init {
+        require(path.startsWith("/")) { "$path must start with '/'" }
+        require(!path.contains(":")) { "Variables has {var} format. Path cannot have ':' $path" }
+    }
+
     val hasWildcards = WILDCARD_REGEX in path
     val hasParameters = PARAMETER_REGEX in path
 
