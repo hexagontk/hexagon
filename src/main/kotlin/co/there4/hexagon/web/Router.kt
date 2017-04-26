@@ -37,16 +37,18 @@ open class Router(
     fun options(path: String = "/", block: Handler) = options(path) by block
     fun patch(path: String = "/", block: Handler) = patch(path) by block
 
-    fun notFound(block: Handler) { notFoundHandler = block }
-    fun internalError(block: ParameterHandler<Exception>) { errorHandler = block }
+    internal fun handle(
+        exception: Exception, exchange: Exchange, type: Class<*> = exception.javaClass) {
 
-    internal fun handle(exception: Exception, exchange: Exchange) {
-        val handler = errors[exception.javaClass]
+        val handler = errors[type]
 
         if (handler != null)
             exchange.(handler)(exception)
         else
-            exchange.errorHandler(exception)
+            type.superclass.also {
+                if (it != null) handle(exception, exchange, it)
+                else exchange.errorHandler(exception)
+            }
     }
 
     fun assets (path: String) { assets += path }

@@ -42,7 +42,7 @@ class JettyServletServer: IServer {
                 val filter = ServletFilter (server)
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
                 val filterBind = context.servletContext.addFilter("filters", filter)
-                filterBind.setAsyncSupported(true)
+                filterBind.setAsyncSupported(false)
                 filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
             }
         })

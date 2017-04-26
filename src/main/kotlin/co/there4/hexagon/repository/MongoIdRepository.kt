@@ -3,8 +3,10 @@ package co.there4.hexagon.repository
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.BulkWriteOptions
 import com.mongodb.client.model.Indexes.ascending
 import com.mongodb.client.model.Indexes.descending
+import com.mongodb.client.model.ReplaceOneModel
 import com.mongodb.client.model.UpdateOptions
 import org.bson.Document
 import kotlin.reflect.KClass
@@ -95,12 +97,21 @@ open class MongoIdRepository<T : Any, K : Any> (
             if (upsert) UpdateOptions().upsert(true) else UpdateOptions()
         )
 
-    fun replaceObjects (vararg document: T, upsert: Boolean = false) {
-        replaceObjects (document.toList(), upsert)
+    fun replaceObjects (vararg document: T, upsert: Boolean = false, bulk: Boolean = false) {
+        replaceObjects (document.toList(), upsert, bulk)
     }
 
-    fun replaceObjects (document: List<T>, upsert: Boolean = false) {
-        document.forEach { replaceObject(it, upsert) }
+    fun replaceObjects (document: List<T>, upsert: Boolean = false, bulk: Boolean = false) {
+        if (bulk) {
+            val keyName = convertKeyName(key.name)
+            bulkWrite(
+                document.map { ReplaceOneModel(keyName eq convertId((key.getter)(it)), map(it)) },
+                BulkWriteOptions().ordered(false)
+            )
+        }
+        else {
+            document.forEach { replaceObject(it, upsert) }
+        }
     }
 
     fun find (vararg documentId: K): List<T> = find (documentId.toList ())

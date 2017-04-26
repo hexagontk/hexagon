@@ -30,8 +30,9 @@ The purpose of the project is to provide a microservices framework with the foll
 
 DISCLAIMER: The project status is beta. Use it at your own risk. This is the coverage grid:
 
-![coverage](https://codecov.io/gh/jaguililla/hexagon/branch/master/graphs/tree.svg)
+[![CoverageGrid]][Coverage]
 
+[CoverageGrid]: https://codecov.io/gh/jaguililla/hexagon/branch/master/graphs/tree.svg
 [Kotlin]: http://kotlinlang.org
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com

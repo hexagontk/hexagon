@@ -131,7 +131,7 @@ open class MongoRepository <T : Any> (
         )
     }
 
-    protected open fun map (documents: List<T>): List<Document> = documents.map { map(it) }
+    protected open fun map (documents: List<T>): List<Document> = documents.map(this::map)
 
     protected open fun unmap (document: Document): T = onLoad(document).convertToObject(type)
 }
