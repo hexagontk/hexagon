@@ -27,3 +27,20 @@ class SampleRouter : Router() {
     }
 }
 
+val s = server {
+    before {
+        response.addHeader("foo", "bar")
+    }
+
+    get { ok("Hi") }
+}
+
+fun main (vararg args: String) {
+    serve {
+        before {
+            response.addHeader("foo", "bar")
+        }
+
+        get { ok("Hi") }
+    }
+}

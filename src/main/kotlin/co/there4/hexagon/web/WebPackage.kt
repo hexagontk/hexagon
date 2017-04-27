@@ -2,6 +2,7 @@ package co.there4.hexagon.web
 
 import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.web.HttpMethod.*
+import co.there4.hexagon.web.backend.IServer
 import co.there4.hexagon.web.backend.servlet.JettyServletServer
 import kotlin.reflect.KClass
 import java.net.InetAddress.getByName as address
@@ -20,6 +21,14 @@ var server: Server = Server(JettyServletServer())
         check (!field.started ()) { "A default server is already started" }
         field = server
     }
+
+/** . */
+fun server(backend: IServer=JettyServletServer(), block: Server.() -> Unit): Server =
+    Server(backend).apply(block)
+
+/** . */
+fun serve(backend: IServer=JettyServletServer(), block: Server.() -> Unit): Server =
+    server(backend, block).apply { run() }
 
 /** Shortcut to create a GET route. */
 fun get (path: String = "/") = Route(Path(path), GET)
