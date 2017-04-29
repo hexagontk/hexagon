@@ -104,7 +104,7 @@ private fun <K : Any, T : Any> parseKey(
 private fun <K : Any, T : Any> parseKeys(
     repository: MongoIdRepository<T, K>, exchange: Exchange): List<K> =
 
-    exchange.request.pathInfo.substringAfterLast("/").split(",").map { it.trim() }.map {
+    exchange.request.path.substringAfterLast("/").split(",").map { it.trim() }.map {
         @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
         when (repository.keyType) {
             String::class -> "$it"

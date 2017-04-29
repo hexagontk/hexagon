@@ -22,7 +22,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
     companion object : CachedLogger(ServletFilter::class)
 
     private val processResources = resource(resourcesFolder) != null
-    private val routesByMethod: Map<HttpMethod, List<Pair<Route, Exchange.() -> Unit>>> =
+    private val routesByMethod: Map<HttpMethod, List<Pair<Route, Handler>>> =
         router.routes.entries.map { it.key to it.value }.groupBy { it.first.method }
 
     private val filtersByOrder = router.filters.entries
@@ -41,7 +41,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
         request: HttpRequest,
         req: BServletRequest,
         exchange: Exchange,
-        filters: List<Pair<HexagonFilter, Exchange.() -> Unit>>): Boolean =
+        filters: List<Pair<HexagonFilter, Handler>>): Boolean =
             filters
                 .filter {
                     val servletPath = request.servletPath
@@ -117,7 +117,10 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
                     for ((first, second) in methodRoutes) {
                         try {
                             bRequest.actionPath = first.path
-                            exchange.(second)()
+                            val result = exchange.second()
+
+                            // TODO Handle result (warn if body has been set)
+
                             trace("Route for path '${bRequest.actionPath}' executed")
                             handled = true
                             break
@@ -133,9 +136,6 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
             handled = filter(request, bRequest, exchange, afterFilters) || handled // Order matters!
             if (!handled)
                 throw CodedException(404)
-        }
-        catch (e: EndException) {
-            trace("Request processing ended by callback request")
         }
         catch (e: Exception) {
             router.handle(e, exchange)

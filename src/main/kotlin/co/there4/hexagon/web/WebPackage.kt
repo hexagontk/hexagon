@@ -7,7 +7,17 @@ import co.there4.hexagon.web.backend.servlet.JettyServletServer
 import kotlin.reflect.KClass
 import java.net.InetAddress.getByName as address
 
-typealias Handler = Exchange.() -> Unit
+/**
+ * Unit -> 200 <empty>
+ * Int -> <status> <empty>
+ * String -> 200 body
+ * Pair (403 to "Forbidden") -> <code> <body>
+ * Map -> serialize with "accept" or default format
+ * List -> serialize with "accept header", "response.contentType" or default format
+ * Stream -> streaming
+ */
+typealias FilterHandler = Exchange.() -> Unit
+typealias Handler = Exchange.() -> Any
 typealias ParameterHandler<T> = Exchange.(T) -> Unit
 typealias ErrorHandler = ParameterHandler<Exception>
 
@@ -50,7 +60,7 @@ fun patch (path: String = "/") = Route(Path(path), PATCH)
 infix fun HttpMethod.at(path: String) = Route(Path(path), this)
 
 /** Syntactic sugar to ease the definition of handler methods. */
-fun Exchange.handler(block: Handler): Unit = this.block()
+fun Exchange.handler(block: Handler): Any = this.block()
 
 /** @see Server.run */
 fun run() = server.run()

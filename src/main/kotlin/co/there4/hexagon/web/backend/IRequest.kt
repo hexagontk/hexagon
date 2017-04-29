@@ -13,8 +13,6 @@ import java.net.HttpCookie
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
 interface IRequest {
-    val scriptName: String    // .path_info // "/foo" (servlet path)
-    val pathInfo: String      // .path_info // "/foo"
     val path: String          // .path // "/foo" (servlet path + path info)
     val body: String          // request body sent by the client
     val scheme: String        // "http"

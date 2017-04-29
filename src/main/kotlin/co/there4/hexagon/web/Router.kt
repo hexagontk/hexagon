@@ -59,6 +59,11 @@ open class Router(
     fun patch(path: String = "/", block: Handler) = patch(path) by block
 
     internal fun handle(error: Exception, exchange: Exchange, type: Class<*> = error.javaClass) {
+        if (error is EndException) {
+            trace("Request processing ended by callback request")
+            return
+        }
+
         error("Error processing request", error)
 
         val handler = errors[type]

@@ -19,7 +19,7 @@ class Server (
 
     companion object : CachedLogger(Server::class)
 
-    val serviceName = SettingsManager["serviceName"] ?: "Hexagon"
+    val serviceName by lazy { SettingsManager["serviceName"] ?: "Hexagon" }
 
     val runtimePort get() = serverBackend.runtimePort()
 

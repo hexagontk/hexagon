@@ -36,6 +36,7 @@ class SessionIT : ItTest () {
 
         srv.put("/session/{key}/{value}") {
             session [request.parameter("key")] = request.parameter("value")
+            Unit
         }
 
         srv.get("/session/{key}") {

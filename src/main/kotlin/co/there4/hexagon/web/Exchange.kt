@@ -46,7 +46,7 @@ data class Exchange (
         }
 
         val extraParameters = mapOf(
-            "pathInfo" to request.pathInfo.removeSuffix("/"), // Do not allow trailing slash
+            "pathInfo" to request.path.removeSuffix("/"), // Do not allow trailing slash
             "lang" to locale.language
         )
 
