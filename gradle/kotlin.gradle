@@ -7,6 +7,10 @@ apply plugin: 'jacoco'
 
 defaultTasks 'build'
 
+ext.javaVersion = findProperty ('javaVersion') ?: '8'
+
+targetCompatibility = "1.$javaVersion"
+
 repositories {
     jcenter ()
     mavenCentral ()
@@ -14,7 +18,11 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    compile ("org.jetbrains.kotlin:kotlin-stdlib-jre$javaVersion:$kotlinVersion")
+    compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion") {
+        exclude module: "kotlin-stdlib"
+    }
+
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
 }
 
@@ -33,13 +41,16 @@ processResources {
     }
 }
 
+compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
+compileTestKotlin.kotlinOptions.jvmTarget = targetCompatibility
+
 // Clean the project taking care of logs and runtime files
 clean {
     delete "build", ".gradle", "log"
 
-    delete fileTree(rootDir) { include '**/*.log' }
-    delete fileTree(rootDir) { include '**/*.hprof' }
-    delete fileTree(rootDir) { include '**/*.class' }
+    setDelete fileTree(rootDir) { include '**/*.log' }
+    setDelete fileTree(rootDir) { include '**/*.hprof' }
+    setDelete fileTree(rootDir) { include '**/*.class' }
 }
 
 // Show useful testing information while running tests
