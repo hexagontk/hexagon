@@ -1,0 +1,6 @@
+
+FROM openjdk
+COPY . /usr/src/myapp
+WORKDIR /usr/src/myapp
+RUN /gradle/wrapper
+CMD ["java", "Main"]
