@@ -9,7 +9,7 @@ val usernamePasswords = mapOf (
     "admin" to "admin"
 )
 
-fun filterExample(context: String = "filter") {
+fun Server.filterExample(context: String = "filter") {
     before {
         val user = request.parameters ["user"] ?: ""
         val password = request.parameters ["password"] ?: ""
@@ -26,11 +26,11 @@ fun filterExample(context: String = "filter") {
     after ("/$context/hello") { response.addHeader ("hexagon", "added by after-filter") }
 }
 
-fun helloWorld(context: String = "hello") {
+fun Server.helloWorld(context: String = "hello") {
     get ("/$context") { ok ("Hello World!") }
 }
 
-fun simpleExample(context: String = "simple") {
+fun Server.simpleExample(context: String = "simple") {
     get ("/$context/hello") { ok ("Hello World!") }
 
     post ("/$context/hello") { ok ("Hello World: " + response.body) }
@@ -61,7 +61,7 @@ fun simpleExample(context: String = "simple") {
     get ("/$context/") { ok ("root") }
 }
 
-fun sessionExample(context: String = "session") {
+fun Server.sessionExample(context: String = "session") {
     get ("/$context/") {
         ok (
             if (session.attributes.containsKey(SESSION_NAME))
@@ -97,10 +97,10 @@ fun sessionExample(context: String = "session") {
 }
 
 fun main(args: Array<String>) {
-    filterExample ()
-    helloWorld()
-    simpleExample()
-    sessionExample()
-
-    run ()
+    serve {
+        filterExample ()
+        helloWorld()
+        simpleExample()
+        sessionExample()
+    }
 }

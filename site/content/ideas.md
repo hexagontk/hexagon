@@ -67,7 +67,5 @@ Load order:
 
 Render template if no route found and template with that name exist (after filter)
 
-JMH tests
-
 Use Hexagon static site builder (to be developed) to generate site
 Create kjava.gradle, kjavascript.gradle, kandroid.gradle

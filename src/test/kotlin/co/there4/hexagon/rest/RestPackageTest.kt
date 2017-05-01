@@ -64,10 +64,9 @@ import kotlin.reflect.KProperty1
     fun rest_application_starts_correctly () {
         val repo = MongoIdRepository (Parameter::class, parameters, Parameter::name)
 
-        stop()
-        server = Server(JettyServletServer(), bindPort = 0)
-        crud(repo)
-        run()
+        val server = Server(JettyServletServer(), bindPort = 0)
+        server.crud(repo)
+        server.run()
 
         fun param (json: String?) = json?.parse (Parameter::class) ?: err
         fun paramList (json: String?) = json?.parseList (Parameter::class) ?: err
@@ -86,16 +85,15 @@ import kotlin.reflect.KProperty1
         assert (client.get("/Parameter/${parameter.name}").statusCode == 404)
         assert (client.get("/Parameter").responseBody == "[ ]")
 
-        stop()
+        server.stop()
     }
 
     fun simple_crud_starts_correctly () {
         val addresses = mongoRepository<Address>()
 
-        stop()
-        server = Server(JettyServletServer(), bindPort = 0)
-        crud(addresses)
-        run()
+        val server = Server(JettyServletServer(), bindPort = 0)
+        server.crud(addresses)
+        server.run()
 
         fun param (json: String?) = json?.parse (Address::class) ?: err
         fun paramList (json: String?) = json?.parseList (Address::class) ?: err
@@ -124,6 +122,6 @@ import kotlin.reflect.KProperty1
         assert (client.delete("/Address?postcode=b,c").statusCode == 200)
         assert (client.get("/Address/count").responseBody == "0")
 
-        stop()
+        server.stop()
     }
 }

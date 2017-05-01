@@ -2,41 +2,45 @@ package co.there4.hexagon.web
 
 import co.there4.hexagon.web.HttpMethod.*
 import co.there4.hexagon.web.FilterOrder.*
-import co.there4.hexagon.web.backend.servlet.JettyServletServer
 
 import org.testng.annotations.Test
-import kotlin.test.assertFailsWith
 
 @Test class HttpPackageTest {
     fun package_routes_are_stored_in_default_server () {
-        assets ("/assets")
-        assert (server.assets.contains("/assets"))
+        val server = server {
+            assets ("/assets")
+            assert (assets.contains("/assets"))
 
-        after ("/after") {}
-        before ("/before") {}
-        after {}
-        before {}
-        assert (server.filters.containsKey(Filter(Path ("/after"), AFTER)))
-        assert (server.filters.containsKey(Filter(Path ("/before"), BEFORE)))
-        assert (server.filters.containsKey(Filter(Path ("/*"), AFTER)))
-        assert (server.filters.containsKey(Filter(Path ("/*"), BEFORE)))
+            after ("/after") {}
+            before ("/before") {}
+            after {}
+            before {}
+            assert (filters.containsKey(Filter(Path ("/after"), AFTER)))
+            assert (filters.containsKey(Filter(Path ("/before"), BEFORE)))
+            assert (filters.containsKey(Filter(Path ("/*"), AFTER)))
+            assert (filters.containsKey(Filter(Path ("/*"), BEFORE)))
 
-        get ("/get") {}
-        head ("/head") {}
-        post ("/post") {}
-        put ("/put") {}
-        delete ("/delete") {}
-        trace ("/trace") {}
-        options ("/options") {}
-        patch ("/patch") {}
-        get ("/") {}
-        head ("/") {}
-        post ("/") {}
-        put ("/") {}
-        delete ("/") {}
-        trace ("/") {}
-        options ("/") {}
-        patch ("/") {}
+            get ("/get") {}
+            head ("/head") {}
+            post ("/post") {}
+            put ("/put") {}
+            delete ("/delete") {}
+            trace ("/trace") {}
+            options ("/options") {}
+            patch ("/patch") {}
+            get ("/") {}
+            head ("/") {}
+            post ("/") {}
+            put ("/") {}
+            delete ("/") {}
+            trace ("/") {}
+            options ("/") {}
+            patch ("/") {}
+
+            error(IllegalStateException::class.java) {}
+            error(IllegalArgumentException::class) {}
+        }
+
         assert (server.routes.containsKey(Route(Path ("/get"), GET)))
         assert (server.routes.containsKey(Route(Path ("/head"), HEAD)))
         assert (server.routes.containsKey(Route(Path ("/post"), POST)))
@@ -54,27 +58,7 @@ import kotlin.test.assertFailsWith
         assert (server.routes.containsKey(Route(Path ("/"), OPTIONS)))
         assert (server.routes.containsKey(Route(Path ("/"), PATCH)))
 
-        error(IllegalStateException::class.java) {}
-        error(IllegalArgumentException::class) {}
         assert (server.errors.containsKey(IllegalStateException::class.java))
         assert (server.errors.containsKey(IllegalArgumentException::class.java))
-    }
-
-    fun default_server_can_not_be_replaced_if_running () {
-        assertFailsWith<IllegalStateException>("A default server is already started") {
-            server.run ()
-            server = Server(JettyServletServer())
-        }
-    }
-
-    fun default_server_can_be_replaced_if_not_running () {
-        server.stop ()
-        server = Server(JettyServletServer())
-        assert (server is Server)
-        server.run ()
-        server.stop ()
-        Thread.sleep (500)
-        server = Server(JettyServletServer())
-        assert (server is Server)
     }
 }

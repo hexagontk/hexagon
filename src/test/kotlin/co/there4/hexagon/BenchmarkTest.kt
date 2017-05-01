@@ -3,9 +3,6 @@ package co.there4.hexagon
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.HttpMethod.GET
-import co.there4.hexagon.web.reset
-import co.there4.hexagon.web.server
-import co.there4.hexagon.web.stop
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -16,11 +13,9 @@ internal const val TIMES = 2
 
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
 class BenchmarkTest(val databaseEngine: String = "mongodb") {
-    private val client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client by lazy { Client("http://localhost:${server?.runtimePort}") }
 
     @BeforeClass fun warmup() {
-        stop()
-        reset()
         main(arrayOf(databaseEngine))
     }
 

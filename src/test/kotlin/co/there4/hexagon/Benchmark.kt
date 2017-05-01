@@ -19,6 +19,8 @@ internal data class World(val _id: Int, val id: Int = _id, val randomNumber: Int
 private val CONTENT_TYPE_JSON = "application/json"
 private val QUERIES_PARAM = "queries"
 
+var server: Server? = null
+
 // UTILITIES
 internal fun rnd() = ThreadLocalRandom.current().nextInt(DB_ROWS) + 1
 
@@ -72,6 +74,7 @@ private fun Router.benchmarkRoutes(store: Repository) {
 
 fun main(args: Array<String>) {
     val store = createStore(if (args.isEmpty()) "mongodb" else args[0])
-    server.benchmarkRoutes(store)
-    run()
+    server = serve {
+        benchmarkRoutes(store)
+    }
 }
