@@ -1,6 +1,6 @@
 package co.there4.hexagon.template
 
-import co.there4.hexagon.web.Exchange
+import co.there4.hexagon.server.Exchange
 import kotlinx.html.TagConsumer
 import kotlinx.html.stream.createHTML
 import java.nio.charset.Charset.defaultCharset

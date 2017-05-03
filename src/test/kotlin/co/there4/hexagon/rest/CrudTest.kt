@@ -1,9 +1,9 @@
 package co.there4.hexagon.rest
 
 import co.there4.hexagon.repository.IdRepositoryTest
-import co.there4.hexagon.web.Client
-import co.there4.hexagon.web.Server
-import co.there4.hexagon.web.backend.servlet.JettyServletServer
+import co.there4.hexagon.server.Client
+import co.there4.hexagon.server.Server
+import co.there4.hexagon.server.backend.servlet.JettyServletServer
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import kotlin.reflect.KClass

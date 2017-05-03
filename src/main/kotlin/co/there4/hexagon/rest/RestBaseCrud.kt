@@ -4,8 +4,8 @@ import co.there4.hexagon.repository.MongoRepository
 import co.there4.hexagon.repository.eq
 import co.there4.hexagon.repository.isIn
 import co.there4.hexagon.serialization.*
-import co.there4.hexagon.web.Exchange
-import co.there4.hexagon.web.Server
+import co.there4.hexagon.server.Exchange
+import co.there4.hexagon.server.Server
 import com.mongodb.MongoWriteException
 import com.mongodb.client.FindIterable
 import com.mongodb.client.model.Filters

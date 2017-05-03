@@ -66,7 +66,7 @@ dependencies {
 `src/main/kotlin/Hello.kt`:
 
 ```kotlin
-import co.there4.hexagon.web.*
+import co.there4.hexagon.server.*
 
 fun main(args: Array<String>) {
     get("/hello/{name}") { ok("Hello ${request["name"]}!") }

@@ -3,10 +3,7 @@ package co.there4.hexagon.rest
 import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.repository.MongoRepository
 import co.there4.hexagon.serialization.*
-import co.there4.hexagon.web.*
-import com.mongodb.MongoWriteException
-import com.mongodb.client.FindIterable
-import com.mongodb.client.model.Projections
+import co.there4.hexagon.server.*
 import com.mongodb.client.model.Projections.include
 import java.nio.charset.Charset.defaultCharset
 

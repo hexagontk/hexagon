@@ -1,9 +1,9 @@
 package co.there4.hexagon
 
 import co.there4.hexagon.serialization.parse
-import co.there4.hexagon.web.Client
-import co.there4.hexagon.web.HttpMethod.GET
-import co.there4.hexagon.web.RequestHandler.RouteHandler
+import co.there4.hexagon.server.Client
+import co.there4.hexagon.server.HttpMethod.GET
+import co.there4.hexagon.server.RequestHandler.RouteHandler
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test

@@ -7,8 +7,8 @@ import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.parseList
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.util.err
-import co.there4.hexagon.web.*
-import co.there4.hexagon.web.backend.servlet.JettyServletServer
+import co.there4.hexagon.server.*
+import co.there4.hexagon.server.backend.servlet.JettyServletServer
 import org.testng.annotations.Test
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1

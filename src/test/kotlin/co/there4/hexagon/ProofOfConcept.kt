@@ -1,8 +1,8 @@
 package co.there4.hexagon
 
 import co.there4.hexagon.util.Log
-import co.there4.hexagon.web.*
-import co.there4.hexagon.web.HttpMethod.*
+import co.there4.hexagon.server.*
+import co.there4.hexagon.server.HttpMethod.*
 import javax.script.Compilable
 import javax.script.ScriptEngineManager
 
