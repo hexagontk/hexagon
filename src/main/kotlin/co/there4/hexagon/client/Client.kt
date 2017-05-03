@@ -1,11 +1,12 @@
-package co.there4.hexagon.server
+package co.there4.hexagon.client
 
 import co.there4.hexagon.serialization.serialize
+import co.there4.hexagon.server.HttpMethod
 import co.there4.hexagon.server.HttpMethod.*
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory
 import org.asynchttpclient.DefaultAsyncHttpClient
-import org.asynchttpclient.DefaultAsyncHttpClientConfig
+import org.asynchttpclient.DefaultAsyncHttpClientConfig.Builder
 import org.asynchttpclient.Response
 import org.asynchttpclient.cookie.Cookie
 import java.io.File
@@ -13,6 +14,7 @@ import java.net.URL
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
 import java.util.*
+import java.util.Base64.Encoder
 import org.asynchttpclient.request.body.multipart.Part as AsyncHttpPart
 
 /**
@@ -26,14 +28,14 @@ class Client (
     password: String? = null,
     insecure: Boolean = false) {
 
-    val base64encoder: Base64.Encoder = Base64.getEncoder()
+    val base64encoder: Encoder = Base64.getEncoder()
     val authorization: String? =
         if (user != null)
         base64encoder.encodeToString("$user:$password".toByteArray(UTF_8))
         else null
 
     val endpoint = endpointUrl.toString()
-    val client = DefaultAsyncHttpClient(DefaultAsyncHttpClientConfig.Builder()
+    val client = DefaultAsyncHttpClient(Builder()
         .setConnectTimeout(5000)
         .setSslContext(
             if (insecure)

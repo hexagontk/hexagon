@@ -1,5 +1,6 @@
 package co.there4.hexagon.server.integration
 
+import co.there4.hexagon.client.Client
 import co.there4.hexagon.template.KotlinxHtmlRenderer.page
 import co.there4.hexagon.server.*
 import kotlinx.html.*

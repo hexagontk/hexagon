@@ -1,7 +1,7 @@
 package co.there4.hexagon
 
 import co.there4.hexagon.serialization.parse
-import co.there4.hexagon.server.Client
+import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.HttpMethod.GET
 import co.there4.hexagon.server.RequestHandler.RouteHandler
 import org.asynchttpclient.Response

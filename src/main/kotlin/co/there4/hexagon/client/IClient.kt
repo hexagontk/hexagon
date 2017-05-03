@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.backend
+package co.there4.hexagon.client
 
 /**
  * TODO .

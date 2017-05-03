@@ -1,6 +1,6 @@
 package co.there4.hexagon.server.backend.servlet
 
-import co.there4.hexagon.server.Client
+import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.Router
 import org.eclipse.jetty.server.Server as JettyServer
 import org.eclipse.jetty.webapp.WebAppContext

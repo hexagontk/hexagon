@@ -1,7 +1,7 @@
 package co.there4.hexagon.rest
 
 import co.there4.hexagon.repository.IdRepositoryTest
-import co.there4.hexagon.server.Client
+import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.Server
 import co.there4.hexagon.server.backend.servlet.JettyServletServer
 import org.testng.annotations.AfterClass

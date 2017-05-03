@@ -1,5 +1,6 @@
 package co.there4.hexagon.rest
 
+import co.there4.hexagon.client.Client
 import co.there4.hexagon.repository.MongoIdRepository
 import co.there4.hexagon.repository.mongoDatabase
 import co.there4.hexagon.repository.mongoRepository
