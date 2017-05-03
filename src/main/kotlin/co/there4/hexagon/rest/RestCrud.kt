@@ -8,8 +8,6 @@ import com.mongodb.MongoWriteException
 import com.mongodb.client.FindIterable
 import com.mongodb.client.model.Projections
 import com.mongodb.client.model.Projections.include
-import com.sun.jmx.snmp.SnmpStatusException.readOnly
-import kotlinx.html.MetaHttpEquiv.contentType
 import java.nio.charset.Charset.defaultCharset
 
 /**
@@ -20,15 +18,15 @@ fun Server.crud(repository: MongoIdRepository<*, *>) {
 
     val collectionName = repository.namespace.collectionName
 
-    get("/$collectionName/ids") { findIds(repository) }
-    get("/$collectionName/*,*") { findList (repository) }
-    get("/$collectionName/{id}") { find (repository) }
+    router.get("/$collectionName/ids") { findIds(repository) }
+    router.get("/$collectionName/*,*") { findList (repository) }
+    router.get("/$collectionName/{id}") { find (repository) }
 
-    put("/$collectionName/list") { replaceList (repository) }
-    put("/$collectionName") { replace (repository) }
+    router.put("/$collectionName/list") { replaceList (repository) }
+    router.put("/$collectionName") { replace (repository) }
 
-    delete("/$collectionName/*,*") { deleteList (repository) }
-    delete("/$collectionName/{id}") { delete (repository) }
+    router.delete("/$collectionName/*,*") { deleteList (repository) }
+    router.delete("/$collectionName/{id}") { delete (repository) }
 }
 
 private fun Exchange.findIds(repository: MongoIdRepository<*, *>) {

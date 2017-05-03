@@ -1,3 +1,6 @@
+/*
+ * TODO Change to subrouters and mount
+ */
 package co.there4.hexagon.web
 
 import java.net.InetAddress.getByName as address
@@ -9,7 +12,7 @@ val usernamePasswords = mapOf (
     "admin" to "admin"
 )
 
-fun Server.filterExample(context: String = "filter") {
+fun Router.filterExample(context: String = "filter") {
     before {
         val user = request.parameters ["user"] ?: ""
         val password = request.parameters ["password"] ?: ""
@@ -26,28 +29,22 @@ fun Server.filterExample(context: String = "filter") {
     after ("/$context/hello") { response.addHeader ("hexagon", "added by after-filter") }
 }
 
-fun Server.helloWorld(context: String = "hello") {
+fun Router.helloWorld(context: String = "hello") {
     get ("/$context") { ok ("Hello World!") }
 }
 
-fun Server.simpleExample(context: String = "simple") {
+fun Router.simpleExample(context: String = "simple") {
     get ("/$context/hello") { ok ("Hello World!") }
 
     post ("/$context/hello") { ok ("Hello World: " + response.body) }
 
-    get ("/$context/private") {
-        response.status = 401
-        ok ("Go Away!!!")
-    }
+    get ("/$context/private") { error (401, "Go Away!!!") }
 
     get ("/$context/users/{name}") { ok ("Selected user: " + request.parameters ["name"]) }
 
     get ("/$context/news/{section}") {
-        response.addHeader ("Content-Type", "text/xml")
-        ok (
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-                "<news>" + request.parameters ["section"] + "</news>"
-        )
+        val list = request.parameters ["section"]?.first() ?: "not found"
+        ok ("""<?xml version="1.0" encoding="UTF-8"?><news>$list</news>""", "text/xml")
     }
 
     get ("/$context/protected") {
@@ -61,7 +58,7 @@ fun Server.simpleExample(context: String = "simple") {
     get ("/$context/") { ok ("root") }
 }
 
-fun Server.sessionExample(context: String = "session") {
+fun Router.sessionExample(context: String = "session") {
     get ("/$context/") {
         ok (
             if (session.attributes.containsKey(SESSION_NAME))

@@ -1,12 +1,12 @@
 package co.there4.hexagon.web.integration
 
 import co.there4.hexagon.web.Exchange
-import co.there4.hexagon.web.Server
+import co.there4.hexagon.web.Router
 import java.net.HttpCookie
 
 @Suppress("unused") // Test methods are flagged as unused
 class CookiesIT : ItTest () {
-    override fun initialize(srv: Server) {
+    override fun initialize(srv: Router) {
         srv.post("/assertNoCookies") {
             if (!request.cookies.isEmpty())
                 halt(500)

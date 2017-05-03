@@ -12,10 +12,14 @@ import javax.servlet.DispatcherType
  * TODO Take care of wildcards (review servlet specs) to group filters
  * TODO Take care of wildcards (review servlet specs) to group routes in servlets
  */
-abstract class ServletServer : Router(), ServletContextListener {
+abstract class ServletServer : ServletContextListener {
+    val router = Router()
+
+    abstract fun Router.initRoutes()
 
     override fun contextInitialized(sce: ServletContextEvent) {
-        val filter = sce.servletContext.addFilter("filters", ServletFilter (this))
+        router.initRoutes()
+        val filter = sce.servletContext.addFilter("filters", ServletFilter (router))
         filter.setAsyncSupported(true)
         filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")
     }

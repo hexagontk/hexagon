@@ -15,12 +15,12 @@ import java.lang.management.ManagementFactory.*
 class Server (
     private val serverBackend: IServer,
     val bindAddress: InetAddress = address(setting<String>("bindAddress") ?: "127.0.0.1") ?: err,
-    val bindPort: Int = setting<Int>("bindPort") ?: 2010) : Router() {
+    val bindPort: Int = setting<Int>("bindPort") ?: 2010,
+    val router: Router = Router()) {
 
     companion object : CachedLogger(Server::class)
 
     val serviceName by lazy { SettingsManager["serviceName"] ?: "Hexagon" }
-
     val runtimePort get() = serverBackend.runtimePort()
 
     fun started (): Boolean = serverBackend.started()

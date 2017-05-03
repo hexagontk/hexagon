@@ -1,6 +1,7 @@
 package co.there4.hexagon.web.backend.servlet
 
 import co.there4.hexagon.web.Client
+import co.there4.hexagon.web.Router
 import org.eclipse.jetty.server.Server as JettyServer
 import org.eclipse.jetty.webapp.WebAppContext
 import org.testng.annotations.AfterClass
@@ -11,7 +12,7 @@ import javax.servlet.annotation.WebListener
 
 @Test class ServletServerTest {
     @WebListener class Serv : ServletServer() {
-        init {
+        override fun Router.initRoutes() {
             get { ok("Hello Servlet!") }
         }
     }

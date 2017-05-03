@@ -4,7 +4,7 @@ import co.there4.hexagon.web.*
 import org.testng.annotations.Test
 
 @Test class HexagonIT : ItTest() {
-    override fun initialize(srv: Server) {
+    override fun initialize(srv: Router) {
         srv.get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")
         }

@@ -17,18 +17,20 @@ import org.testng.annotations.Test
     @BeforeClass fun startup() {
 //        server.files()
 
-        server.post {
-            response.contentType = "application/json; charset=utf-8"
-            ok(request.body)
-        }
+        server.router.apply {
+            post {
+                response.contentType = "application/json; charset=utf-8"
+                ok(request.body)
+            }
 
-        server.get { ok(request.body) }
-        server.head { ok(request.body) }
-        server.put { ok(request.body) }
-        server.delete { ok(request.body) }
-        server.trace { ok(request.body) }
-        server.options { ok(request.body) }
-        server.patch { ok(request.body) }
+            get { ok(request.body) }
+            head { ok(request.body) }
+            put { ok(request.body) }
+            delete { ok(request.body) }
+            trace { ok(request.body) }
+            options { ok(request.body) }
+            patch { ok(request.body) }
+        }
 
         server.run()
     }

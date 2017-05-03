@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 /**
  * .
  */
-open class Router {
+class Router {
     private companion object : CachedLogger(Router::class)
 
     private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }

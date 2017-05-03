@@ -1,6 +1,6 @@
 package co.there4.hexagon.web.integration
 
-import co.there4.hexagon.web.Server
+import co.there4.hexagon.web.Router
 import org.testng.annotations.BeforeTest
 import java.util.*
 import java.util.Collections.synchronizedMap
@@ -20,7 +20,7 @@ class BooksIT : ItTest () {
         )))
     }
 
-    override fun initialize(srv: Server) {
+    override fun initialize(srv: Router) {
         srv.post ("/books") {
             books [id] = Book (request.parameter("author"), request.parameter("title"))
             created ((id++).toString ())

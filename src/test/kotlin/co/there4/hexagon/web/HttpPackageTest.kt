@@ -44,7 +44,7 @@ import org.testng.annotations.Test
             error(IllegalArgumentException::class) {}
         }
 
-        val routes = server.requestHandlers.filterIsInstance(RouteHandler::class.java)
+        val routes = server.router.requestHandlers.filterIsInstance(RouteHandler::class.java)
         assert (routes.any { it.route == Route(Path ("/get"), GET) })
         assert (routes.any { it.route == Route(Path ("/head"), HEAD) })
         assert (routes.any { it.route == Route(Path ("/post"), POST) })
@@ -62,7 +62,7 @@ import org.testng.annotations.Test
         assert (routes.any { it.route == Route(Path ("/"), OPTIONS) })
         assert (routes.any { it.route == Route(Path ("/"), PATCH) })
 
-        assert (server.exceptionErrors.containsKey(IllegalStateException::class.java))
-        assert (server.exceptionErrors.containsKey(IllegalArgumentException::class.java))
+        assert (server.router.exceptionErrors.containsKey(IllegalStateException::class.java))
+        assert (server.router.exceptionErrors.containsKey(IllegalArgumentException::class.java))
     }
 }

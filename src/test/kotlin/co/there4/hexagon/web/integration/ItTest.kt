@@ -1,6 +1,7 @@
 package co.there4.hexagon.web.integration
 
 import co.there4.hexagon.web.Client
+import co.there4.hexagon.web.Router
 import org.testng.annotations.Test
 
 import co.there4.hexagon.web.Server
@@ -22,12 +23,12 @@ abstract class ItTest {
         Server(JettyServletServer())
     )
 
-    protected abstract fun initialize (srv: Server)
+    protected abstract fun initialize (srv: Router)
 
     @BeforeClass fun startServers () {
         servers.forEach {
             it.stop()
-            initialize (it)
+            initialize (it.router)
             it.run ()
         }
     }

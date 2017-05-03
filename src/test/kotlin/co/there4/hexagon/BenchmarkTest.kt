@@ -29,7 +29,7 @@ class BenchmarkTest(val databaseEngine: String = "mongodb") {
     fun web() {
         val web = Web()
 
-        val webRoutes = web.requestHandlers
+        val webRoutes = web.router.requestHandlers
             .filterIsInstance(RouteHandler::class.java)
             .map { it.route.method.first() to it.route.path.path }
         val benchmarkRoutes = listOf(

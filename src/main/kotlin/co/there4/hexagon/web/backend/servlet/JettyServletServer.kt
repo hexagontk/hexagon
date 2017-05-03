@@ -39,7 +39,7 @@ class JettyServletServer: IServer {
             override fun lifeCycleFailure(event: LifeCycle?, cause: Throwable?) { /* Do nothing */ }
 
             override fun lifeCycleStarting(event: LifeCycle?) {
-                val filter = ServletFilter (server)
+                val filter = ServletFilter (server.router)
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
                 val filterBind = context.servletContext.addFilter("filters", filter)
                 filterBind.setAsyncSupported(false)

@@ -15,13 +15,13 @@ val ALL = HttpMethod.values().toSet()
 /** . */
 fun server(
     backend: IServer=JettyServletServer(),
-    block: Server.() -> Unit): Server =
-        Server(backend).apply(block)
+    block: Router.() -> Unit): Server =
+        Server(backend).apply { router.block() }
 
 /** . */
 fun serve(
     backend: IServer=JettyServletServer(),
-    block: Server.() -> Unit): Server =
+    block: Router.() -> Unit): Server =
         server(backend, block).apply { run() }
 
 /** Shortcut to create a route for a filter (with all methods). */

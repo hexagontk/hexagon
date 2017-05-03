@@ -68,6 +68,10 @@ private fun Router.benchmarkRoutes(store: Repository) {
 
 @WebListener internal class Web : ServletServer () {
     init {
+        router.initRoutes()
+    }
+
+    override fun Router.initRoutes() {
         benchmarkRoutes(createStore("mongodb"))
     }
 }

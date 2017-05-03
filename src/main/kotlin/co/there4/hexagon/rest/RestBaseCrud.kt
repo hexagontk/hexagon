@@ -20,12 +20,12 @@ import kotlin.reflect.full.declaredMemberProperties
 fun Server.crud(repository: MongoRepository<*>) {
     val collectionName = repository.namespace.collectionName
 
-    get("/$collectionName") { findAll (repository) }
-    get("/$collectionName/count") { ok(repository.count()) }
+    router.get("/$collectionName") { findAll (repository) }
+    router.get("/$collectionName/count") { ok(repository.count()) }
 
-    post("/$collectionName/list") { insertList (repository) }
-    post("/$collectionName") { insert (repository) }
-    delete("/$collectionName") { deleteByExample (repository) }
+    router.post("/$collectionName/list") { insertList (repository) }
+    router.post("/$collectionName") { insert (repository) }
+    router.delete("/$collectionName") { deleteByExample (repository) }
 }
 
 internal fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat

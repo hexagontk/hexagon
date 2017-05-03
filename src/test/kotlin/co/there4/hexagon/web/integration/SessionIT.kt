@@ -1,10 +1,10 @@
 package co.there4.hexagon.web.integration
 
-import co.there4.hexagon.web.Server
+import co.there4.hexagon.web.Router
 
 @Suppress("unused") // Test methods are flagged as unused
 class SessionIT : ItTest () {
-    override fun initialize(srv: Server) {
+    override fun initialize(srv: Router) {
         srv.get("/session/id") {
             val id: String = session.id ?: "null"
             session.id = "sessionId"

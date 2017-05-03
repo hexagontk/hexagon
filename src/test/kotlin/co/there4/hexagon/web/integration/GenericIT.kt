@@ -1,10 +1,7 @@
 package co.there4.hexagon.web.integration
 
 import co.there4.hexagon.template.KotlinxHtmlRenderer.page
-import co.there4.hexagon.web.Client
-import co.there4.hexagon.web.Exchange
-import co.there4.hexagon.web.HttpMethod
-import co.there4.hexagon.web.Server
+import co.there4.hexagon.web.*
 import kotlinx.html.*
 import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
@@ -30,7 +27,7 @@ class GenericIT : ItTest () {
         "フレームワークのベンチマーク"
     )
 
-    override fun initialize(srv: Server) {
+    override fun initialize(srv: Router) {
         srv.before("/protected/*") { halt(401, "Go Away!") }
 
         srv.get("/request/data") {
