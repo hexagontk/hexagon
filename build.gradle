@@ -60,7 +60,6 @@ dependencies {
 
     // TEST
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("org.mockito:mockito-core:$mockitoVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
     testCompile ("org.mongodb:mongodb-driver:$mongodbVersion")
     testCompile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: "slf4j-api" }
@@ -73,11 +72,13 @@ dependencies {
         exclude module: "commons-logging"
         exclude module: "slf4j-log4j12"
         exclude module: "slf4j-api"
+        exclude module: "guava"
     }
 
     // BENCHMARK
     jmh ("org.openjdk.jmh:jmh-core:$jmhVersion")
     jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion")
+    jmh ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
 }
 
 test {

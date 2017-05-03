@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest
 internal class BServletRequest(val req: HttpServletRequest) : IRequest {
     var actionPath: Path? = null
 
-    override val path: String by lazy { req.pathInfo ?: req.servletPath }
+    override val path: String by lazy {
+        if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath
+    }
     override val body: String by lazy { InputStreamReader(req.inputStream).readText() }
     override val scheme: String by lazy { req.scheme }
     override val port: Int by lazy { req.serverPort }

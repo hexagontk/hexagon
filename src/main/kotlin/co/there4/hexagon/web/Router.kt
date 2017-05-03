@@ -4,114 +4,142 @@ import co.there4.hexagon.util.CachedLogger
 import co.there4.hexagon.util.CodedException
 import co.there4.hexagon.web.FilterOrder.AFTER
 import co.there4.hexagon.web.FilterOrder.BEFORE
-import java.util.*
+import co.there4.hexagon.web.HttpMethod.GET
+import co.there4.hexagon.web.RequestHandler.*
+import co.there4.hexagon.web.backend.EndException
+import co.there4.hexagon.web.backend.PassException
 import kotlin.reflect.KClass
 
 /**
- * TODO Compose routers with a map of context to router (children)
- * TODO val children: MutableMap<String, Router> = LinkedHashMap()
- * TODO Add get<Request, Response>("/path") {} (for all methods)
+ * .
  */
-open class Router(
-    val filters: MutableMap<Filter, Handler> = LinkedHashMap (),
-    val routes: MutableMap<Route, Handler> = LinkedHashMap ()) {
+open class Router {
+    private companion object : CachedLogger(Router::class)
 
-    companion object : CachedLogger(Router::class)
+    private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
+    private val baseExceptionHandler: ErrorCallback =
+        { error(500, "${it.javaClass.simpleName} (${it.message ?: "no details"})") }
 
-    private val notFoundHandler: ParameterHandler<Int> = { error(404, request.url + " not found") }
-
-    private val baseExceptionHandler: ErrorHandler = {
-        error(500, "${it.javaClass.simpleName} (${it.message ?: "no details"})")
-    }
-
-    private val codedExceptionHandler: ErrorHandler = {
-        if (it is CodedException) {
-            val handler: ParameterHandler<Int> = codedErrors[it.code] ?: { code ->
-                error(code, it.message ?: "")
-            }
-            handler(it.code)
-        }
-        else {
-            error(500, "WTF")
-        }
-    }
-
-    val codedErrors: MutableMap<Int, ParameterHandler<Int>> = linkedMapOf(404 to notFoundHandler)
-
-    val errors: MutableMap<Class<out Exception>, ErrorHandler> = linkedMapOf(
-       CodedException::class.java to codedExceptionHandler,
-       Exception::class.java to baseExceptionHandler
+    private val defaultHandlers = listOf(
+        ErrorCodeHandler(Route(Path("/"), ALL), 404, notFoundHandler),
+        ErrorHandler(Route(Path("/"), ALL), Exception::class.java, baseExceptionHandler)
     )
 
-    /** TODO Make assets work like a get route to an static file serving handler */
-    var assets: List<String> = listOf(); private set
+    var requestHandlers: List<RequestHandler> = defaultHandlers; private set
+    var codedErrors: Map<Int, ErrorCodeCallback> = codedErrors(); private set
+    var exceptionErrors: Map<Class<out Exception>, ErrorCallback> = exceptionErrors(); private set
 
-    fun after(path: String = "/*", block: Handler) = addFilter(path, AFTER, block)
-    fun before(path: String = "/*", block: Handler) = addFilter (path, BEFORE, block)
+    private fun codedErrors(): Map<Int, ErrorCodeCallback> = requestHandlers
+        .filterIsInstance(ErrorCodeHandler::class.java)
+        .map { it.code to it.handler }
+        .toMap()
 
-    fun get(path: String = "/", block: Handler) = get(path) by block
-    fun head(path: String = "/", block: Handler) = head(path) by block
-    fun post(path: String = "/", block: Handler) = post(path) by block
-    fun put(path: String = "/", block: Handler) = put(path) by block
-    fun delete(path: String = "/", block: Handler) = delete(path) by block
-    fun trace(path: String = "/", block: Handler) = tracer(path) by block
-    fun options(path: String = "/", block: Handler) = options(path) by block
-    fun patch(path: String = "/", block: Handler) = patch(path) by block
+    private fun exceptionErrors(): Map<Class<out Exception>, ErrorCallback> = requestHandlers
+        .filterIsInstance(ErrorHandler::class.java)
+        .map { it.exception to it.handler }
+        .toMap()
 
-    internal fun handle(error: Exception, exchange: Exchange, type: Class<*> = error.javaClass) {
-        if (error is EndException) {
-            trace("Request processing ended by callback request")
-            return
-        }
-
-        error("Error processing request", error)
-
-        val handler = errors[type]
-
-        if (handler != null)
-            exchange.handler(error)
-        else
-            type.superclass.also {
-                if (it != null) handle(error, exchange, it)
-                else exchange.baseExceptionHandler(error) // This handler is added before
-            }
+    fun reset() {
+        requestHandlers = defaultHandlers
+        codedErrors = codedErrors()
+        exceptionErrors = exceptionErrors()
     }
 
-    fun assets (resource: String, path: String = "/") { assets += resource }
+    fun Route.handler(order: FilterOrder, block: FilterCallback) {
+        requestHandlers += FilterHandler(this, order, block)
+        info ("$order ${this.path.path} Filter ADDED")
+    }
 
-    fun error(code: Int, block: ParameterHandler<Int>) { codedErrors[code] = block }
-    fun error(exception: KClass<out Exception>, block: ErrorHandler) = error (exception.java, block)
-    fun error(exception: Class<out Exception>, block: ErrorHandler) {
+    fun Route.handler(handler: RouteCallback) {
+        requestHandlers += RouteHandler(this, handler)
+        info ("$method $path Route ADDED")
+    }
+
+    fun Path.mount(handler: Router) {
+        requestHandlers += PathHandler(Route(this), handler)
+        info ("Router $path Route ADDED")
+    }
+
+    infix fun Route.before(handler: FilterCallback) { this.handler(BEFORE, handler) }
+    infix fun Route.after(handler: FilterCallback) { this.handler(AFTER, handler) }
+
+    infix fun Route.by(handler: RouteCallback) { this.handler(handler) }
+
+    fun before(path: String = "/*", block: FilterCallback) = all(path) before block
+    fun after(path: String = "/*", block: FilterCallback) = all(path) after block
+
+    fun get(path: String = "/", block: RouteCallback) = get(path) by block
+    fun head(path: String = "/", block: RouteCallback) = head(path) by block
+    fun post(path: String = "/", block: RouteCallback) = post(path) by block
+    fun put(path: String = "/", block: RouteCallback) = put(path) by block
+    fun delete(path: String = "/", block: RouteCallback) = delete(path) by block
+    fun trace(path: String = "/", block: RouteCallback) = tracer(path) by block
+    fun options(path: String = "/", block: RouteCallback) = options(path) by block
+    fun patch(path: String = "/", block: RouteCallback) = patch(path) by block
+
+    fun assets (resource: String, path: String = "/") {
+        requestHandlers += AssetsHandler(Route(Path(path), GET), resource)
+    }
+
+    fun error(code: Int, block: ErrorCodeCallback) {
+        codedErrors += code to block
+        requestHandlers += ErrorCodeHandler(Route(Path("/"), ALL), code, block)
+    }
+
+    fun error(exception: KClass<out Exception>, block: ErrorCallback) = error (exception.java, block)
+    fun error(exception: Class<out Exception>, block: ErrorCallback) {
         val listOf = listOf(
             CodedException::class.java,
             EndException::class.java,
             PassException::class.java
         )
         require(exception !in listOf) { "${exception.name} is internal and must not be handled" }
-        errors.put (exception, block)
+        exceptionErrors += exception to block
+        requestHandlers += ErrorHandler(Route(Path("/"), ALL), exception, block)
     }
 
-    private fun addFilter(path: String, order: FilterOrder, block: Handler) {
-        val filter = Filter (Path (path), order)
-        require(!filters.containsKey(filter)) { "$order $path Filter is already added" }
-        filters.put (filter, block)
-        info ("$order $path Filter ADDED")
+    internal fun handleError(error: Exception, ex: Exchange, type: Class<*> = error.javaClass) {
+        when (error) {
+            is EndException -> trace("Request processing ended by callback request")
+            is CodedException -> {
+                val handler: ErrorCodeCallback =
+                    codedErrors[error.code] ?: { error(it, error.message ?: "") }
+                ex.handler(error.code)
+            }
+            else -> {
+                error("Error processing request", error)
+
+                val handler = exceptionErrors[type]
+
+                if (handler != null)
+                    ex.handler(error)
+                else
+                    type.superclass.also {
+                        if (it != null) handleError(error, ex, it)
+                        else ex.baseExceptionHandler(error) // This handler is added before
+                    }
+            }
+        }
     }
 
-    fun reset() {
-        filters.clear()
-        routes.clear()
-        errors.clear()
-        assets = listOf()
-    }
+    private fun createResourceHandler(resourcesFolder: String): RouteCallback = {
+        val path = if (request.path.isEmpty()) request.path else request.path
+        val resourcePath = "/$resourcesFolder$path"
+        val stream = javaClass.getResourceAsStream(resourcePath)
 
-    fun Route.handler(handler: Handler) {
-        require (!routes.containsKey(this)) { "$method $path Route is already added" }
-        routes.put (this, handler)
-        info ("$method $path Route ADDED")
-    }
+        if (stream == null)
+            pass()
+        else {
+            val contentType by lazy { response.getMimeType(path) }
 
-    infix fun Route.by(handler: Handler) {
-        this.handler(handler)
+            // Should be done BEFORE flushing the stream (if not content type is ignored)
+            if (response.contentType == null && contentType != null)
+                response.contentType = contentType
+
+            trace("Resource for '$resourcePath' (${response.contentType}) found and returned")
+            val bytes = stream.readBytes()
+            response.outputStream.write(bytes)
+            response.outputStream.flush()
+        }
     }
 }

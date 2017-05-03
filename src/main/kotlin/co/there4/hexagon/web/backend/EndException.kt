@@ -1,4 +1,4 @@
-package co.there4.hexagon.web
+package co.there4.hexagon.web.backend
 
 /**
  * Exception used for stopping the execution. It is used only for flow control.

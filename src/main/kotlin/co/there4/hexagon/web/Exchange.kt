@@ -3,8 +3,11 @@ package co.there4.hexagon.web
 import co.there4.hexagon.repository.FileRepository.load
 import co.there4.hexagon.template.PebbleRenderer.render
 import co.there4.hexagon.util.CodedException
+import co.there4.hexagon.web.backend.PassException
+import com.sun.management.jmx.Trace.send
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
+import java.time.LocalDateTime.now
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
@@ -14,12 +17,12 @@ import java.util.Locale.forLanguageTag as localeFor
 /**
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
-data class Exchange (
+class Exchange (
     val request: Request,
     val response: Response,
     val session: Session,
     /** Exchange attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
-    val attributes: MutableMap<String, Any> = mutableMapOf<String, Any>()) {
+    var attributes: Map<String, Any> = linkedMapOf<String, Any>()) {
 
     fun redirect(url: String) = response.redirect(url)
 
@@ -81,7 +84,7 @@ data class Exchange (
         else -> Locale.getDefault()
     }
 
-    fun httpDate (date: LocalDateTime): String =
+    fun httpDate (date: LocalDateTime = now()): String =
         RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
 
     private fun send(code: Int, content: Any, contentType: String? = null) {

@@ -1,5 +1,6 @@
 package co.there4.hexagon.web.backend.servlet
 
+import co.there4.hexagon.settings.SettingsManager
 import co.there4.hexagon.util.CachedLogger
 import co.there4.hexagon.util.CodedException
 import co.there4.hexagon.util.resource
@@ -7,11 +8,13 @@ import co.there4.hexagon.web.*
 import co.there4.hexagon.web.FilterOrder.AFTER
 import co.there4.hexagon.web.FilterOrder.BEFORE
 import co.there4.hexagon.web.HttpMethod.GET
+import co.there4.hexagon.web.RequestHandler.FilterHandler
+import co.there4.hexagon.web.RequestHandler.RouteHandler
+import co.there4.hexagon.web.backend.PassException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.servlet.*
 import javax.servlet.Filter
-import co.there4.hexagon.web.Filter as HexagonFilter
 import javax.servlet.http.HttpServletRequest as HttpRequest
 import javax.servlet.http.HttpServletResponse as HttpResponse
 
@@ -21,13 +24,28 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 internal class ServletFilter (private val router: Router) : CachedLogger(ServletFilter::class), Filter {
     companion object : CachedLogger(ServletFilter::class)
 
-    private val processResources = resource(resourcesFolder) != null
-    private val routesByMethod: Map<HttpMethod, List<Pair<Route, Handler>>> =
-        router.routes.entries.map { it.key to it.value }.groupBy { it.first.method }
+    @Deprecated("Replaced by `assets` router method")
+    val resourcesFolder = SettingsManager.setting<String>("resourcesFolder") ?: "public"
 
-    private val filtersByOrder = router.filters.entries
-        .groupBy { it.key.order }
-        .mapValues { it.value.map { it.key to it.value } }
+    private val processResources = resource(resourcesFolder) != null
+
+//    private val routesByMethod: Map<HttpMethod, List<Pair<Route, RouteCallback>>> =
+//        router.routes.entries.map { it.key to it.value }.groupBy { it.first.method.first() }
+//
+//    private val filtersByOrder = router.filters.entries
+//        .groupBy { it.key.order }
+//        .mapValues { it.value.map { it.key to it.value } }
+
+    private val routesByMethod: Map<HttpMethod, List<Pair<Route, RouteCallback>>> =
+        router.requestHandlers
+            .filterIsInstance(RouteHandler::class.java)
+            .map { it.route to it.handler }
+            .groupBy { it.first.method.first() }
+
+    private val filtersByOrder = router.requestHandlers
+        .filterIsInstance(FilterHandler::class.java)
+        .groupBy { it.order }
+        .mapValues { it.value.map { it.route to it.handler } }
 
     private val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
     private val afterFilters = filtersByOrder[AFTER] ?: listOf()
@@ -38,16 +56,11 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
      * TODO Take care of filters that throw exceptions
      */
     private fun filter(
-        request: HttpRequest,
         req: BServletRequest,
         exchange: Exchange,
-        filters: List<Pair<HexagonFilter, Handler>>): Boolean =
+        filters: List<Pair<Route, FilterCallback>>): Boolean =
             filters
-                .filter {
-                    val servletPath = request.servletPath
-                    val requestUrl = if (servletPath.isEmpty()) request.pathInfo else servletPath
-                    it.first.path.matches(requestUrl)
-                }
+                .filter { it.first.path.matches(req.path) }
                 .map {
                     req.actionPath = it.first.path
                     exchange.(it.second)()
@@ -88,7 +101,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
         var handled = false
 
         try {
-            handled = filter(request, bRequest, exchange, beforeFilters)
+            handled = filter(bRequest, exchange, beforeFilters)
 
             var resource = false
 
@@ -118,8 +131,26 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
                         try {
                             bRequest.actionPath = first.path
                             val result = exchange.second()
+                            /*
+                             * TODO Handle result (warn if body has been set)
+                             * Unit -> 200 <empty>
+                             * Int -> <status> <empty>
+                             * String -> 200 body
+                             * Pair (403 to "Forbidden") -> <code> <body>
+                             * Map -> serialize with "accept" or default format
+                             * List -> serialize with "accept header", "response.contentType" or default format
+                             * Stream -> streaming
+                             */
 
-                            // TODO Handle result (warn if body has been set)
+                            when (result) {
+                                is Unit -> {}
+                                is Nothing -> {}
+                                is Int -> exchange.response.status = result
+                                is String -> exchange.response.body = result
+                                is Pair<*, *> -> ""
+                                is Map<*, *> -> ""
+                                is List<*> -> ""
+                            }
 
                             trace("Route for path '${bRequest.actionPath}' executed")
                             handled = true
@@ -133,12 +164,12 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
                 }
             }
 
-            handled = filter(request, bRequest, exchange, afterFilters) || handled // Order matters!
+            handled = filter(bRequest, exchange, afterFilters) || handled // Order matters!!!
             if (!handled)
                 throw CodedException(404)
         }
         catch (e: Exception) {
-            router.handle(e, exchange)
+            router.handleError(e, exchange)
         }
         finally {
             response.status = exchange.response.status

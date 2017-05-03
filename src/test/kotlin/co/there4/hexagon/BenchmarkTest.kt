@@ -3,6 +3,7 @@ package co.there4.hexagon
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.web.Client
 import co.there4.hexagon.web.HttpMethod.GET
+import co.there4.hexagon.web.RequestHandler.RouteHandler
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -28,7 +29,9 @@ class BenchmarkTest(val databaseEngine: String = "mongodb") {
     fun web() {
         val web = Web()
 
-        val webRoutes = web.routes.map { it.key.method to it.key.path.path }
+        val webRoutes = web.requestHandlers
+            .filterIsInstance(RouteHandler::class.java)
+            .map { it.route.method.first() to it.route.path.path }
         val benchmarkRoutes = listOf(
             GET to "/plaintext",
             GET to "/json",
