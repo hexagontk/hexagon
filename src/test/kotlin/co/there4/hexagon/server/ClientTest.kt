@@ -3,7 +3,7 @@ package co.there4.hexagon.server
 //import co.there4.hexagon.rest.files
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.server.backend.servlet.JettyServletEngine
+import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass

@@ -1,6 +1,6 @@
-package co.there4.hexagon.server.backend.servlet
+package co.there4.hexagon.server.engine.servlet
 
-import co.there4.hexagon.server.backend.ISession
+import co.there4.hexagon.server.engine.ISession
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 

@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.backend.servlet
+package co.there4.hexagon.server.engine.servlet
 
 import co.there4.hexagon.settings.SettingsManager
 import co.there4.hexagon.helpers.CachedLogger
@@ -10,7 +10,7 @@ import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.HttpMethod.GET
 import co.there4.hexagon.server.RequestHandler.FilterHandler
 import co.there4.hexagon.server.RequestHandler.RouteHandler
-import co.there4.hexagon.server.backend.PassException
+import co.there4.hexagon.server.engine.PassException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.servlet.*

@@ -1,6 +1,6 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.backend.IRequest
+import co.there4.hexagon.server.engine.IRequest
 import java.net.HttpCookie
 
 /**

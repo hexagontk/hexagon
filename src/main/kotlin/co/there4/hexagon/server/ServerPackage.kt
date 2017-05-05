@@ -1,8 +1,8 @@
 package co.there4.hexagon.server
 
 import co.there4.hexagon.server.HttpMethod.*
-import co.there4.hexagon.server.backend.ServerEngine
-import co.there4.hexagon.server.backend.servlet.JettyServletEngine
+import co.there4.hexagon.server.engine.ServerEngine
+import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import java.net.InetAddress.getByName as address
 
 typealias FilterCallback = Call.() -> Unit

@@ -1,8 +1,8 @@
-package co.there4.hexagon.server.backend.servlet
+package co.there4.hexagon.server.engine.servlet
 
 import co.there4.hexagon.helpers.err
 import co.there4.hexagon.server.Server
-import co.there4.hexagon.server.backend.ServerEngine
+import co.there4.hexagon.server.engine.ServerEngine
 import org.eclipse.jetty.server.ServerConnector
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS

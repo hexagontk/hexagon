@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.backend.servlet
+package co.there4.hexagon.server.engine.servlet
 
 import co.there4.hexagon.server.Router
 import javax.servlet.ServletContextEvent
@@ -8,7 +8,7 @@ import java.util.*
 import javax.servlet.DispatcherType
 
 /**
- * Not a standard backend as it is not started/stopped
+ * Not a standard engine as it is not started/stopped
  * TODO Take care of wildcards (review servlet specs) to group filters
  * TODO Take care of wildcards (review servlet specs) to group routes in servlets
  */

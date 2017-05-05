@@ -5,7 +5,7 @@ import co.there4.hexagon.server.Router
 import org.testng.annotations.Test
 
 import co.there4.hexagon.server.Server
-import co.there4.hexagon.server.backend.servlet.JettyServletEngine
+import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass

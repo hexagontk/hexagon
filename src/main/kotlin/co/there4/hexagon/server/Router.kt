@@ -6,8 +6,8 @@ import co.there4.hexagon.server.FilterOrder.AFTER
 import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.HttpMethod.GET
 import co.there4.hexagon.server.RequestHandler.*
-import co.there4.hexagon.server.backend.EndException
-import co.there4.hexagon.server.backend.PassException
+import co.there4.hexagon.server.engine.EndException
+import co.there4.hexagon.server.engine.PassException
 import kotlin.reflect.KClass
 
 /**

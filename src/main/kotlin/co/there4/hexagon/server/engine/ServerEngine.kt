@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.backend
+package co.there4.hexagon.server.engine
 
 import co.there4.hexagon.server.Server
 
@@ -17,12 +17,12 @@ interface ServerEngine {
     fun started(): Boolean
 
     /**
-     * Builds a server of a certain backend from a server definition and runs it.
+     * Builds a server of a certain engine from a server definition and runs it.
      */
     fun startup(server: Server, settings: Map<String, *> = emptyMap<String, Any>())
 
     /**
-     * Stops the instance of the backend.
+     * Stops the instance of the engine.
      */
     fun shutdown()
 }

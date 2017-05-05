@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.backend.servlet
+package co.there4.hexagon.server.engine.servlet
 
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.Router

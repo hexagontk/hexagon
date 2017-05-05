@@ -1,6 +1,6 @@
-package co.there4.hexagon.server.backend.servlet
+package co.there4.hexagon.server.engine.servlet
 
-import co.there4.hexagon.server.backend.IResponse
+import co.there4.hexagon.server.engine.IResponse
 import java.io.OutputStream
 import java.net.HttpCookie
 import javax.servlet.ServletContext

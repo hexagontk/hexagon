@@ -1,6 +1,6 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.backend.ISession
+import co.there4.hexagon.server.engine.ISession
 
 /**
  * Provides session information.

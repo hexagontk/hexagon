@@ -3,7 +3,7 @@ package co.there4.hexagon
 import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.server.*
-import co.there4.hexagon.server.backend.servlet.ServletServer
+import co.there4.hexagon.server.engine.servlet.ServletServer
 
 import java.net.InetAddress.getByName as address
 import java.time.LocalDateTime.now
