@@ -2,8 +2,7 @@ package co.there4.hexagon.repository
 
 import co.there4.hexagon.serialization.SerializationTest
 import co.there4.hexagon.serialization.convertToMap
-import co.there4.hexagon.util.CachedLogger
-import com.mongodb.MongoBulkWriteException
+import co.there4.hexagon.helpers.CachedLogger
 import com.mongodb.client.model.FindOneAndReplaceOptions
 import com.mongodb.client.model.InsertManyOptions
 import com.mongodb.client.model.InsertOneOptions

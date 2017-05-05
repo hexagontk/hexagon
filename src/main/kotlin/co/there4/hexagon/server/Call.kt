@@ -2,7 +2,7 @@ package co.there4.hexagon.server
 
 import co.there4.hexagon.repository.FileRepository.load
 import co.there4.hexagon.template.PebbleRenderer.render
-import co.there4.hexagon.util.CodedException
+import co.there4.hexagon.helpers.CodedException
 import co.there4.hexagon.server.backend.PassException
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime

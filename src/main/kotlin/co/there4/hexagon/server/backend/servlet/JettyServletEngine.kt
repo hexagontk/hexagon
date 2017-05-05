@@ -1,6 +1,6 @@
 package co.there4.hexagon.server.backend.servlet
 
-import co.there4.hexagon.util.err
+import co.there4.hexagon.helpers.err
 import co.there4.hexagon.server.Server
 import co.there4.hexagon.server.backend.ServerEngine
 import org.eclipse.jetty.server.ServerConnector

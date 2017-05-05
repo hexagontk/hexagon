@@ -1,6 +1,6 @@
 package co.there4.hexagon.scheduler
 
-import co.there4.hexagon.util.CachedLogger
+import co.there4.hexagon.helpers.CachedLogger
 import com.cronutils.model.CronType.QUARTZ
 import com.cronutils.model.definition.CronDefinitionBuilder.instanceDefinitionFor as cronDefinition
 import com.cronutils.model.time.ExecutionTime

@@ -1,9 +1,9 @@
 package co.there4.hexagon.settings
 
 import co.there4.hexagon.serialization.parse
-import co.there4.hexagon.util.CachedLogger
-import co.there4.hexagon.util.EOL
-import co.there4.hexagon.util.resourceAsStream
+import co.there4.hexagon.helpers.CachedLogger
+import co.there4.hexagon.helpers.EOL
+import co.there4.hexagon.helpers.resourceAsStream
 import java.io.File
 import java.lang.System.getProperty
 

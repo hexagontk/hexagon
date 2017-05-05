@@ -1,8 +1,8 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.util.CachedLogger
-import co.there4.hexagon.util.findGroups
-import co.there4.hexagon.util.filter
+import co.there4.hexagon.helpers.CachedLogger
+import co.there4.hexagon.helpers.findGroups
+import co.there4.hexagon.helpers.filter
 import kotlin.text.Regex
 
 /**

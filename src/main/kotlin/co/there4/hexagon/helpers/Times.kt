@@ -1,4 +1,4 @@
-package co.there4.hexagon.util
+package co.there4.hexagon.helpers
 
 import java.time.*
 import java.time.format.DateTimeFormatter.ISO_DATE_TIME

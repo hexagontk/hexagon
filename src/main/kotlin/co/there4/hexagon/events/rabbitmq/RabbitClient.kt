@@ -1,9 +1,9 @@
 package co.there4.hexagon.events.rabbitmq
 
 import co.there4.hexagon.settings.SettingsManager.setting
-import co.there4.hexagon.util.CachedLogger
-import co.there4.hexagon.util.parseQueryParameters
-import co.there4.hexagon.util.retry
+import co.there4.hexagon.helpers.CachedLogger
+import co.there4.hexagon.helpers.parseQueryParameters
+import co.there4.hexagon.helpers.retry
 import com.rabbitmq.client.*
 import com.rabbitmq.client.AMQP.BasicProperties
 import java.io.Closeable

@@ -1,6 +1,6 @@
 package co.there4.hexagon.serialization
 
-import co.there4.hexagon.util.requireResource
+import co.there4.hexagon.helpers.requireResource
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 

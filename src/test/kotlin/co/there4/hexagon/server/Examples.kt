@@ -4,7 +4,7 @@
 package co.there4.hexagon.server
 
 import java.net.InetAddress.getByName as address
-import co.there4.hexagon.util.Log
+import co.there4.hexagon.helpers.Log
 import co.there4.hexagon.server.HttpMethod.*
 import javax.script.Compilable
 import javax.script.ScriptEngineManager

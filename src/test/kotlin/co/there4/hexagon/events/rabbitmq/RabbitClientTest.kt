@@ -1,7 +1,7 @@
 package co.there4.hexagon.events.rabbitmq
 
 import co.there4.hexagon.events.rabbitmq.RabbitClient.Companion.createConnectionFactory
-import co.there4.hexagon.util.CachedLogger
+import co.there4.hexagon.helpers.CachedLogger
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 

@@ -3,9 +3,9 @@ package co.there4.hexagon.repository
 import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.convertToObject
 import co.there4.hexagon.serialization.parseList
-import co.there4.hexagon.util.CachedLogger
-import co.there4.hexagon.util.requireResource
-import co.there4.hexagon.util.resourceAsStream
+import co.there4.hexagon.helpers.CachedLogger
+import co.there4.hexagon.helpers.requireResource
+import co.there4.hexagon.helpers.resourceAsStream
 import com.mongodb.client.*
 import com.mongodb.client.model.*
 import com.mongodb.client.result.DeleteResult

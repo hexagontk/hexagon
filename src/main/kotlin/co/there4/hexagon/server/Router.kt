@@ -1,7 +1,7 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.util.CachedLogger
-import co.there4.hexagon.util.CodedException
+import co.there4.hexagon.helpers.CachedLogger
+import co.there4.hexagon.helpers.CodedException
 import co.there4.hexagon.server.FilterOrder.AFTER
 import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.HttpMethod.GET

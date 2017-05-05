@@ -1,11 +1,11 @@
 package co.there4.hexagon.server
 
 import java.net.InetAddress.getByName as address
-import co.there4.hexagon.util.err
+import co.there4.hexagon.helpers.err
 
 import co.there4.hexagon.settings.SettingsManager
 import co.there4.hexagon.settings.SettingsManager.setting
-import co.there4.hexagon.util.*
+import co.there4.hexagon.helpers.*
 import co.there4.hexagon.server.backend.ServerEngine
 import java.net.InetAddress
 import java.lang.System.*

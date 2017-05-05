@@ -1,6 +1,6 @@
 package co.there4.hexagon.repository
 
-import co.there4.hexagon.util.err
+import co.there4.hexagon.helpers.err
 import org.testng.annotations.Test
 
 @Test class MongoObjectIdRepositoryTest {

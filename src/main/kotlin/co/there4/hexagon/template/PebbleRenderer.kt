@@ -2,8 +2,8 @@ package co.there4.hexagon.template
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.settings.SettingsManager
-import co.there4.hexagon.util.resourceAsStream
-import co.there4.hexagon.util.toDate
+import co.there4.hexagon.helpers.resourceAsStream
+import co.there4.hexagon.helpers.toDate
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.io.StringWriter
 import java.time.LocalDateTime

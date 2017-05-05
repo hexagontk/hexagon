@@ -1,4 +1,4 @@
-package co.there4.hexagon.util
+package co.there4.hexagon.helpers
 
 import java.lang.System.getProperty
 import java.text.Normalizer.Form.NFD

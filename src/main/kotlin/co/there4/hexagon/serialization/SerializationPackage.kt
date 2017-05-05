@@ -1,10 +1,10 @@
 package co.there4.hexagon.serialization
 
 import co.there4.hexagon.settings.SettingsManager.setting
-import co.there4.hexagon.util.asNumber
-import co.there4.hexagon.util.toLocalDate
-import co.there4.hexagon.util.toLocalDateTime
-import co.there4.hexagon.util.toLocalTime
+import co.there4.hexagon.helpers.asNumber
+import co.there4.hexagon.helpers.toLocalDate
+import co.there4.hexagon.helpers.toLocalDateTime
+import co.there4.hexagon.helpers.toLocalTime
 
 import com.fasterxml.jackson.core.JsonParser.Feature.*
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY

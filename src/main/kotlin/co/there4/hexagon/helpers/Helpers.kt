@@ -1,4 +1,4 @@
-package co.there4.hexagon.util
+package co.there4.hexagon.helpers
 
 import java.io.InputStream
 import java.lang.ClassLoader.getSystemClassLoader

@@ -2,7 +2,7 @@ package co.there4.hexagon.events.rabbitmq
 
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.util.*
+import co.there4.hexagon.helpers.*
 import com.rabbitmq.client.*
 import java.nio.charset.Charset
 import java.nio.charset.Charset.defaultCharset

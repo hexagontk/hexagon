@@ -1,6 +1,6 @@
 package co.there4.hexagon.events.rabbitmq
 
-import co.there4.hexagon.util.CachedLogger
+import co.there4.hexagon.helpers.CachedLogger
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test

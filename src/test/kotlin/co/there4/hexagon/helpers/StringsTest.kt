@@ -1,7 +1,7 @@
-package co.there4.hexagon.util
+package co.there4.hexagon.helpers
 
-import co.there4.hexagon.util.AnsiEffect.*
-import co.there4.hexagon.util.AnsiColor.*
+import co.there4.hexagon.helpers.AnsiEffect.*
+import co.there4.hexagon.helpers.AnsiColor.*
 import java.util.*
 import org.testng.annotations.Test
 

@@ -1,9 +1,9 @@
 package co.there4.hexagon.server.backend.servlet
 
 import co.there4.hexagon.settings.SettingsManager
-import co.there4.hexagon.util.CachedLogger
-import co.there4.hexagon.util.CodedException
-import co.there4.hexagon.util.resource
+import co.there4.hexagon.helpers.CachedLogger
+import co.there4.hexagon.helpers.CodedException
+import co.there4.hexagon.helpers.resource
 import co.there4.hexagon.server.*
 import co.there4.hexagon.server.FilterOrder.AFTER
 import co.there4.hexagon.server.FilterOrder.BEFORE

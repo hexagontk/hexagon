@@ -1,4 +1,4 @@
-package co.there4.hexagon.util
+package co.there4.hexagon.helpers
 
 enum class AnsiEffect (code: Int, on: Boolean) {
     BOLD (1, true),

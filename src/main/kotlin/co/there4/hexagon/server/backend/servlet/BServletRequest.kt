@@ -1,6 +1,6 @@
 package co.there4.hexagon.server.backend.servlet
 
-import co.there4.hexagon.util.parseQueryParameters
+import co.there4.hexagon.helpers.parseQueryParameters
 import co.there4.hexagon.server.HttpMethod
 import co.there4.hexagon.server.Part
 import co.there4.hexagon.server.Path

@@ -2,7 +2,7 @@ package co.there4.hexagon.events
 
 import co.there4.hexagon.events.rabbitmq.RabbitClient
 import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.util.CachedLogger
+import co.there4.hexagon.helpers.CachedLogger
 
 import kotlin.reflect.KClass
 
