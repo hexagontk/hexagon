@@ -1,4 +1,4 @@
-package co.there4.hexagon.repository
+package co.there4.hexagon.store
 
 import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.convertToObject
@@ -105,7 +105,7 @@ open class MongoRepository <T : Any> (
     fun delete(): DeleteResult = deleteMany(Document())
 
     /**
-     * Load a file with DB data serialized to a repository.
+     * Load a file with DB data serialized to a store.
      * @param file .
      */
     fun loadData(file: String) {

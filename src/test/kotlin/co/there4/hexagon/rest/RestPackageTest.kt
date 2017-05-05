@@ -1,9 +1,9 @@
 package co.there4.hexagon.rest
 
 import co.there4.hexagon.client.Client
-import co.there4.hexagon.repository.MongoIdRepository
-import co.there4.hexagon.repository.mongoDatabase
-import co.there4.hexagon.repository.mongoRepository
+import co.there4.hexagon.store.MongoIdRepository
+import co.there4.hexagon.store.mongoDatabase
+import co.there4.hexagon.store.mongoRepository
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.parseList
 import co.there4.hexagon.serialization.serialize

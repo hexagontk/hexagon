@@ -1,8 +1,8 @@
 package co.there4.hexagon.rest
 
-import co.there4.hexagon.repository.MongoRepository
-import co.there4.hexagon.repository.eq
-import co.there4.hexagon.repository.isIn
+import co.there4.hexagon.store.MongoRepository
+import co.there4.hexagon.store.eq
+import co.there4.hexagon.store.isIn
 import co.there4.hexagon.serialization.*
 import co.there4.hexagon.server.Call
 import co.there4.hexagon.server.Server

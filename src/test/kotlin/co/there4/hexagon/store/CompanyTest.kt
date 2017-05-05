@@ -1,6 +1,6 @@
-package co.there4.hexagon.repository
+package co.there4.hexagon.store
 
-import co.there4.hexagon.repository.Department.*
+import co.there4.hexagon.store.Department.*
 import co.there4.hexagon.rest.CrudTest
 import org.testng.annotations.Test
 import java.net.URL

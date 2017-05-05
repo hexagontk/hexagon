@@ -1,4 +1,4 @@
-package co.there4.hexagon.repository
+package co.there4.hexagon.store
 
 import com.mongodb.client.gridfs.GridFSBucket
 import com.mongodb.client.gridfs.GridFSBuckets

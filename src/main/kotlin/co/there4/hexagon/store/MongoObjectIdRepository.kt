@@ -1,4 +1,4 @@
-package co.there4.hexagon.repository
+package co.there4.hexagon.store
 
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase

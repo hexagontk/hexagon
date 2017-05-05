@@ -1,4 +1,4 @@
-package co.there4.hexagon.repository
+package co.there4.hexagon.store
 
 import org.bson.Document
 import kotlin.reflect.KClass

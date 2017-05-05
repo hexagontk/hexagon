@@ -7,8 +7,8 @@ status=published
 REST
 ====
 
-    import co.there4.hexagon.repository.MongoIdRepository
-    import co.there4.hexagon.repository.mongoDatabase
+    import co.there4.hexagon.store.MongoIdRepository
+    import co.there4.hexagon.store.mongoDatabase
     import co.there4.hexagon.serialization.parse
     import co.there4.hexagon.serialization.parseList
     import co.there4.hexagon.serialization.serialize

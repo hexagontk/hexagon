@@ -1,8 +1,8 @@
 package co.there4.hexagon
 
-import co.there4.hexagon.repository.MongoIdRepository
-import co.there4.hexagon.repository.mongoCollection
-import co.there4.hexagon.repository.mongoDatabase
+import co.there4.hexagon.store.MongoIdRepository
+import co.there4.hexagon.store.mongoCollection
+import co.there4.hexagon.store.mongoDatabase
 import co.there4.hexagon.settings.SettingsManager.setting
 import java.lang.System.getenv
 import kotlin.reflect.KProperty1
