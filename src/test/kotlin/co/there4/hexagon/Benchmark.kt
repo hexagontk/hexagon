@@ -24,14 +24,14 @@ var server: Server? = null
 // UTILITIES
 internal fun rnd() = ThreadLocalRandom.current().nextInt(DB_ROWS) + 1
 
-private fun Exchange.returnWorlds(worldsList: List<World>) {
+private fun Call.returnWorlds(worldsList: List<World>) {
     val worlds = worldsList.map { it.convertToMap() - "_id" }
     val result = if (worlds.size == 1) worlds.first().serialize() else worlds.serialize()
 
     ok(result, CONTENT_TYPE_JSON)
 }
 
-private fun Exchange.getQueries() =
+private fun Call.getQueries() =
     try {
         val queries = request[QUERIES_PARAM]?.toInt() ?: 1
         when {
@@ -45,7 +45,7 @@ private fun Exchange.getQueries() =
     }
 
 // HANDLERS
-private fun Exchange.listFortunes(store: Repository) {
+private fun Call.listFortunes(store: Repository) {
     val fortunes = store.findFortunes() + Fortune(0, "Additional fortune added at request time.")
     response.contentType = "text/html; charset=utf-8"
     template("fortunes.html", "fortunes" to fortunes.sortedBy { it.message })

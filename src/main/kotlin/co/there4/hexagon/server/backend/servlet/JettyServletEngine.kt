@@ -2,7 +2,7 @@ package co.there4.hexagon.server.backend.servlet
 
 import co.there4.hexagon.util.err
 import co.there4.hexagon.server.Server
-import co.there4.hexagon.server.backend.IServer
+import co.there4.hexagon.server.backend.ServerEngine
 import org.eclipse.jetty.server.ServerConnector
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS
@@ -16,7 +16,7 @@ import java.net.InetAddress.getByName as address
 /**
  * TODO .
  */
-class JettyServletServer: IServer {
+class JettyServletEngine : ServerEngine {
 
     private var jettyServer: JettyServer? = null
 
@@ -28,7 +28,7 @@ class JettyServletServer: IServer {
 
     override fun started() = jettyServer?.isStarted ?: false
 
-    override fun startup(server: Server) {
+    override fun startup(server: Server, settings: Map<String, *>) {
         jettyServer = JettyServer(InetSocketAddress(server.bindAddress, server.bindPort))
 
         val context = ServletContextHandler(SESSIONS)

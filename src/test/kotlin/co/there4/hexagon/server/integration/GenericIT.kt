@@ -111,7 +111,7 @@ class GenericIT : ItTest () {
         }
     }
 
-    private fun Exchange.okRequestMethod() = ok (request.method)
+    private fun Call.okRequestMethod() = ok (request.method)
 
     fun reqres() {
         withClients {

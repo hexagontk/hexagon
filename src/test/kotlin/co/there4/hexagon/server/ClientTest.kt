@@ -3,14 +3,14 @@ package co.there4.hexagon.server
 //import co.there4.hexagon.rest.files
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.server.backend.servlet.JettyServletServer
+import co.there4.hexagon.server.backend.servlet.JettyServletEngine
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
 @Test class ClientTest {
-    val server = Server(JettyServletServer())
+    val server = Server(JettyServletEngine())
     val client by lazy {
         Client("http://${server.bindAddress.hostAddress}:${server.runtimePort}", "application/json")
     }

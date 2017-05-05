@@ -26,13 +26,13 @@ WebApplication, Desktop Application, Mobile Application or Browser Aplication
 
 For components:
 Services: local or remote functionalities (interfaces), implementations will be *Client or
-*Backend Ie:
+*Engine Ie:
     MessagingService <- RabbitMqClient, JeroMqClient
     StorageService <- RedisClient, MongoDbClient, CouchBaseClient
 
-    SettingsService <- LocalSettingsBackend, EventSettingsBackend
-    WebService <- ServletBackend, JettyServletBackend, UndertowBackend
-    WebClientService <- OkHttpBackend
+    SettingsService <- LocalSettingsEngine, EventSettingsEngine
+    WebService <- ServletEngine, JettyServletEngine, UndertowEngine
+    WebClientService <- OkHttpEngine
     SerializationService
     TemplateService
 
@@ -59,8 +59,8 @@ Add `Exchange.body/headers/params` as Sinatra. Ie: headers["Date"] = date
 Streaming support if returning a stream
 
 TODO Integrate settings: load configuration properties with prefixes.Ie:
-serviceName.backend = JettyServerBackend
-JettyServerBackend.async = true
+serviceName.engine = JettyServerEngine
+JettyServerEngine.async = true
 Load order:
   resources <- system properties <- environment variables <- files <- command line arguments
 

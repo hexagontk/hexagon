@@ -2,91 +2,35 @@ package co.there4.hexagon.util
 
 import java.io.InputStream
 import java.lang.ClassLoader.getSystemClassLoader
-import java.lang.System.getProperty
-import java.lang.Thread.currentThread
 import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.net.InetAddress.getLocalHost
 import java.net.URL
-import java.time.*
-import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 import java.util.*
 
-/*
- * Timing
- */
-
+/** Default timezone. */
 val timeZone: TimeZone = TimeZone.getDefault()
 
-/**
- * Returns a time difference in nanoseconds formatted as a string.
- */
-fun formatNanos(timestamp: Long) = "%1.3f ms".format (timestamp / 1e6)
+/** Unknown host name. */
+const val UNKNOWN_LOCALHOST = "UNKNOWN_LOCALHOST"
+/** The hostname of the machine running this program. */
+val hostname = getLocalHost()?.hostName ?: UNKNOWN_LOCALHOST
+/** The IP address of the machine running this program. */
+val ip = getLocalHost()?.hostAddress ?: UNKNOWN_LOCALHOST
 
-/**
- * Formats a date as a formatted integer with this format: `YYYYMMDDHHmmss`.
- */
-fun LocalDateTime.asNumber(): Long =
-    (this.toLocalDate().asNumber() * 1_000_000_000L) +
-    this.toLocalTime().asNumber()
+/** Syntax sugar to throw errors. */
+val err: Nothing get() = error("Invalid state")
 
-fun LocalDate.asNumber(): Int =
-    (this.year       * 10_000) +
-    (this.monthValue * 100) +
-    this.dayOfMonth
+/** System class loader. */
+val systemClassLoader: ClassLoader = getSystemClassLoader()
 
-fun LocalTime.asNumber(): Int =
-    (this.hour       * 10_000_000) +
-    (this.minute     * 100_000) +
-    (this.second     * 1_000) +
-    (this.nano / 1_000_000) // Nanos to millis
+val jvmId: String = getRuntimeMXBean().name
 
-fun LocalDateTime.formatToIso(): String = this.format(ISO_DATE_TIME)
-fun LocalDateTime.withZone(zoneId: ZoneId = timeZone.toZoneId()): ZonedDateTime =
-    ZonedDateTime.of(this, zoneId)
+internal const val flarePrefix = ">>>>>>>>"
 
-/**
- * Parses a date from a formatted integer with this format: `YYYYMMDDHHmmss`.
- */
-fun Long.toLocalDateTime(): LocalDateTime = (this / 1_000_000_000).toInt()
-    .toLocalDate()
-    .atTime((this % 1_000_000_000).toInt().toLocalTime())
+/** Default logger when you are lazy to declare one. */
+object Log : CachedLogger(Log::class)
 
-fun Int.toLocalDate(): LocalDate = LocalDate.of(
-    this / 10_000,
-    (this % 10_000) / 100,
-    this % 100
-)
-
-fun Int.toLocalTime(): LocalTime = LocalTime.of(
-    (this / 10_000_000),
-    ((this % 10_000_000) / 100_000),
-    ((this % 100_000) / 1_000),
-    ((this % 1_000) * 1_000_000) // Millis to nanos
-)
-
-fun ZonedDateTime.toDate(): Date = Date.from(this.toInstant())
-fun LocalDateTime.toDate(): Date = this.atZone(timeZone.toZoneId()).toDate()
-fun LocalDate.toDate(): Date = this.atStartOfDay(timeZone.toZoneId()).toDate()
-
-fun Date.toLocalDateTime(): LocalDateTime =
-    LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), ZoneId.systemDefault())
-
-fun Date.toLocalDate(): LocalDate = this.toLocalDateTime().toLocalDate()
-
-/*
- * Threading
- */
-
-/**
- * Returns the code location in the caller of this function.
- *
- * @param offset Steps up in the stack. Ie: to get the caller of the caller.
- */
-fun caller(offset: Int = 0): String = currentThread ().stackTrace.let {
-    val frame = it[3 + (if (offset > 0) offset - 1 else offset)] // Because of default parameter
-    "${frame.className} ${frame.methodName} ${frame.fileName} ${frame.lineNumber}"
-}
-
+// THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
  * Executes a lambda until no exception is thrown or a number of times is reached.
  *
@@ -113,18 +57,10 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
     throw CodedException(0, "Error retrying $times times ($delay ms)", *exceptions.toTypedArray())
 }
 
-/*
- * Networking
+// NETWORKING //////////////////////////////////////////////////////////////////////////////////////
+/**
+ * TODO .
  */
-
-/** Unknown host name. */
-const val UNKNOWN_LOCALHOST = "UNKNOWN_LOCALHOST"
-
-/** The hostname of the machine running this program. */
-val hostname = getLocalHost()?.hostName ?: UNKNOWN_LOCALHOST
-/** The IP address of the machine running this program. */
-val ip = getLocalHost()?.hostAddress ?: UNKNOWN_LOCALHOST
-
 fun parseQueryParameters(query: String): Map<String, String> =
     if (query.isEmpty())
         mapOf()
@@ -136,10 +72,7 @@ fun parseQueryParameters(query: String): Map<String, String> =
             }
             .toMap(LinkedHashMap<String, String>())
 
-/*
- * Error handling
- */
-
+// ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
 /**
  * Returns the stack trace array of the frames that starts with the given prefix.
  */
@@ -160,12 +93,10 @@ fun Throwable.toText (prefix: String = ""): String =
         else
             "${EOL}Caused by: " + (this.cause as Throwable).toText (prefix)
 
-val err: Nothing get() = error("Invalid state")
-
-/*
- * Map operations
+// MAP OPERATIONS //////////////////////////////////////////////////////////////////////////////////
+/**
+ * TODO .
  */
-
 @Suppress("UNCHECKED_CAST")
 operator fun Map<*, *>.get(vararg keys: Any): Any? =
     if (keys.size > 1)
@@ -183,33 +114,19 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
     else
         (this as Map<Any, Any>).getOrElse(keys.first()) { null }
 
-fun <K : Any, V : Any> fmapOf(vararg pairs: Pair<K, V?>): Map<K, V> = mapOf(*pairs)
-    .filterValues {
-        when (it) {
-            null -> false
-            is List<*> -> it.isNotEmpty()
-            is Map<*, *> -> it.isNotEmpty()
-            else -> true
-        }
+fun <K, V> Map<K, V>.filterEmpty(): Map<K, V> = this.filterValues(::notEmpty)
+fun <V> List<V>.filterEmpty(): List<V> = this.filter(::notEmpty)
+
+fun <V> notEmpty(it: V): Boolean {
+    return when (it) {
+        null -> false
+        is List<*> -> it.isNotEmpty()
+        is Map<*, *> -> it.isNotEmpty()
+        else -> true
     }
-    .mapValues { it.value ?: err }
+}
 
-fun <T : Any> flistOf(vararg pairs: T?): List<T> = listOf(*pairs)
-    .filter {
-        when (it) {
-            null -> false
-            is List<*> -> it.isNotEmpty()
-            is Map<*, *> -> it.isNotEmpty()
-            else -> true
-        }
-    }
-    .map { it ?: err }
-
-/*
- * I/O
- */
-val systemClassLoader: ClassLoader = getSystemClassLoader()
-
+// I/O /////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * TODO Fix class loader issues, use thread class loader or whatever
  * http://www.javaworld.com/article/2077344/core-java/find-a-way-out-of-the-classloader-maze.html
@@ -219,11 +136,3 @@ fun resource(resName: String): URL? = systemClassLoader.getResource(resName)
 fun requireResource(resName: String): URL = resource(resName) ?: error("$resName not found")
 //fun resources(resName: String): List<URL> =
 //    systemClassLoader.getResources(resName).toList().filterNotNull()
-
-/*
- * Logging
- */
-object Log : CachedLogger(Log::class)
-
-internal val flarePrefix = getProperty ("CachedLogger.flarePrefix", ">>>>>>>>")
-val jvmId: String = getRuntimeMXBean().name

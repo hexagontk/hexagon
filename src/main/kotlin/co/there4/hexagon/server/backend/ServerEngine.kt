@@ -5,7 +5,7 @@ import co.there4.hexagon.server.Server
 /**
  * Represents a server instance of one kind.
  */
-interface IServer {
+interface ServerEngine {
     /**
      * Gets the runtime port if started, throw an exception otherwise.
      */
@@ -19,7 +19,7 @@ interface IServer {
     /**
      * Builds a server of a certain backend from a server definition and runs it.
      */
-    fun startup(server: Server)
+    fun startup(server: Server, settings: Map<String, *> = emptyMap<String, Any>())
 
     /**
      * Stops the instance of the backend.

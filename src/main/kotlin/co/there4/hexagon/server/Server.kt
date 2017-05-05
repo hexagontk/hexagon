@@ -6,14 +6,14 @@ import co.there4.hexagon.util.err
 import co.there4.hexagon.settings.SettingsManager
 import co.there4.hexagon.settings.SettingsManager.setting
 import co.there4.hexagon.util.*
-import co.there4.hexagon.server.backend.IServer
+import co.there4.hexagon.server.backend.ServerEngine
 import java.net.InetAddress
 import java.lang.System.*
 import java.lang.Runtime.*
 import java.lang.management.ManagementFactory.*
 
 class Server (
-    private val serverBackend: IServer,
+    private val serverBackend: ServerEngine,
     val bindAddress: InetAddress = address(setting<String>("bindAddress") ?: "127.0.0.1") ?: err,
     val bindPort: Int = setting<Int>("bindPort") ?: 2010,
     val router: Router = Router()) {
@@ -21,7 +21,8 @@ class Server (
     companion object : CachedLogger(Server::class)
 
     val serviceName by lazy { SettingsManager["serviceName"] ?: "Hexagon" }
-    val runtimePort get() = serverBackend.runtimePort()
+    val runtimePort
+        get() = if (started()) serverBackend.runtimePort() else error("Server is not running")
 
     fun started (): Boolean = serverBackend.started()
 
@@ -46,10 +47,7 @@ class Server (
     }
 
     private fun createBanner(): String {
-        val runtime = getRuntime()
         val heap = getMemoryMXBean().heapMemoryUsage
-        val bootTime = currentTimeMillis() - getRuntimeMXBean().startTime
-
         val locale = "%s_%s.%s".format(
             getProperty("user.language"),
             getProperty("user.country"),
@@ -57,25 +55,23 @@ class Server (
         )
 
         val environment = (SettingsManager.environment ?: "N/A")
-        val applicationLocale = locale
-        val applicationTimezone = getProperty("user.timezone")
-        val applicationCpus = runtime.availableProcessors()
-        val applicationJvmMemory = String.format("%,d", heap.init / 1024)
-        val applicationJvm = getRuntimeMXBean().vmName
-        val applicationJvmVersion = getRuntimeMXBean().specVersion
-        val applicationBootTime = String.format("%01.3f", bootTime / 1e3)
-        val applicationUsedMemory = String.format("%,d", heap.used / 1024)
-        val applicationHost = hostname
+        val timezone = getProperty("user.timezone")
+        val cpuCount = getRuntime().availableProcessors()
+        val jvmName = getRuntimeMXBean().vmName
+        val jvmVersion = getRuntimeMXBean().specVersion
+        val jvmMemory = "%,d".format(heap.init / 1024)
+        val usedMemory = "%,d".format(heap.used / 1024)
+        val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
 
         val information = """
             SERVICE:     $serviceName
             ENVIRONMENT: $environment
 
-            Running in '$applicationHost' with $applicationCpus CPUs $applicationJvmMemory KB
-            Java $applicationJvmVersion [$applicationJvm]
-            Locale $applicationLocale Timezone $applicationTimezone
+            Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
+            Java $jvmVersion [$jvmName]
+            Locale $locale Timezone $timezone
 
-            Started in $applicationBootTime s using $applicationUsedMemory KB
+            Started in $bootTime s using $usedMemory KB
             Served at http://${bindAddress.canonicalHostName}:$runtimePort
         """
 

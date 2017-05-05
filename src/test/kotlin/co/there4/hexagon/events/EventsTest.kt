@@ -2,22 +2,21 @@ package co.there4.hexagon.events
 
 import co.there4.hexagon.events.EventManager.consume
 import co.there4.hexagon.events.EventManager.publish
-import co.there4.hexagon.util.Loggable
-import co.there4.hexagon.util.caller
+import co.there4.hexagon.util.Log
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.lang.System.nanoTime
 import java.lang.Thread.`yield` as threadYield
 
-@Test class EventsTest : Loggable {
+@Test class EventsTest {
     class TickEvent (val nanos: Long) : Event ()
 
     private var tick: Long = 0
 
     @BeforeClass fun startConsumer() {
         consume(TickEvent::class) {
-            info("Tick: ${it.nanos}")
+            Log.info("Tick: ${it.nanos}")
             tick = it.nanos
         }
     }
@@ -37,11 +36,5 @@ import java.lang.Thread.`yield` as threadYield
             threadYield()
 
         assert(tick == nanos)
-    }
-
-    fun events_location() {
-        val cl = caller()
-        assert(caller().contains("events_location"))
-        assert(cl.contains("events_location"))
     }
 }

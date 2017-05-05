@@ -4,7 +4,7 @@ import co.there4.hexagon.repository.MongoRepository
 import co.there4.hexagon.repository.eq
 import co.there4.hexagon.repository.isIn
 import co.there4.hexagon.serialization.*
-import co.there4.hexagon.server.Exchange
+import co.there4.hexagon.server.Call
 import co.there4.hexagon.server.Server
 import com.mongodb.MongoWriteException
 import com.mongodb.client.FindIterable
@@ -28,13 +28,13 @@ fun Server.crud(repository: MongoRepository<*>) {
     router.delete("/$collectionName") { deleteByExample (repository) }
 }
 
-internal fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat
-internal fun accept (exchange: Exchange) = exchange.request.accept()?.first().let {
+internal fun contentType (call: Call) = call.request.contentType ?: defaultFormat
+internal fun accept (call: Call) = call.request.accept()?.first().let {
     if (it != null && contentTypes.contains(it)) it
     else defaultFormat
 }
 
-internal fun <T : Any> Exchange.insertList (repository: MongoRepository<T>) {
+internal fun <T : Any> Call.insertList (repository: MongoRepository<T>) {
     val obj = request.body.parseList(repository.type, contentType(this))
     try {
         repository.insertManyObjects(obj)
@@ -48,7 +48,7 @@ internal fun <T : Any> Exchange.insertList (repository: MongoRepository<T>) {
     }
 }
 
-internal fun <T : Any> Exchange.insert (repository: MongoRepository<T>) {
+internal fun <T : Any> Call.insert (repository: MongoRepository<T>) {
     val obj = request.body.parse(repository.type, contentType(this))
     try {
         repository.insertOneObject(obj)
@@ -62,7 +62,7 @@ internal fun <T : Any> Exchange.insert (repository: MongoRepository<T>) {
     }
 }
 
-internal fun <T : Any> Exchange.findAll (repository: MongoRepository<T>) {
+internal fun <T : Any> Call.findAll (repository: MongoRepository<T>) {
     val exampleFilter = filterByExample(repository, this)
     val objects =
         if (exampleFilter == null) repository.findObjects { pageResults(this@findAll) }.toList()
@@ -72,7 +72,7 @@ internal fun <T : Any> Exchange.findAll (repository: MongoRepository<T>) {
     ok(objects.serialize(contentType))
 }
 
-private fun Exchange.deleteByExample(repository: MongoRepository<*>) {
+private fun Call.deleteByExample(repository: MongoRepository<*>) {
     val exampleFilter = filterByExample(repository, this)
     if (exampleFilter == null)
         error(400, "A filter is required")
@@ -80,8 +80,8 @@ private fun Exchange.deleteByExample(repository: MongoRepository<*>) {
         repository.deleteMany(exampleFilter)
 }
 
-internal fun filterByExample(repository: MongoRepository<*>, exchange: Exchange): Bson? {
-    val parameters = exchange.request.parameters
+internal fun filterByExample(repository: MongoRepository<*>, call: Call): Bson? {
+    val parameters = call.request.parameters
     val filters = parameters
         .filterKeys { it in repository.type.declaredMemberProperties.map { it.name } }
 
@@ -98,11 +98,11 @@ internal fun filterByExample(repository: MongoRepository<*>, exchange: Exchange)
     else null
 }
 
-internal fun FindIterable<*>.pageResults(exchange: Exchange): FindIterable<*> {
-    val limit = exchange.request["limit"]
+internal fun FindIterable<*>.pageResults(call: Call): FindIterable<*> {
+    val limit = call.request["limit"]
     if (limit != null)
         limit(limit.toInt())
-    val skip = exchange.request["skip"]
+    val skip = call.request["skip"]
     if (skip != null)
         skip(skip.toInt())
 

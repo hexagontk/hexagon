@@ -128,7 +128,7 @@ import kotlin.test.assertFailsWith
 
     fun filtered_maps() {
         assert(
-            fmapOf(
+            mapOf(
                 "a" to "b",
                 "b" to null,
                 "c" to 1,
@@ -136,9 +136,9 @@ import kotlin.test.assertFailsWith
                 "e" to listOf<String>(),
                 "f" to mapOf(0 to 1),
                 "g" to mapOf<String, Int>(),
-                "h" to fmapOf("a" to true, "b" to null),
-                "i" to fmapOf("a" to listOf<Int>())
-            ) ==
+                "h" to mapOf("a" to true, "b" to null).filterEmpty(),
+                "i" to mapOf("a" to listOf<Int>()).filterEmpty()
+            ).filterEmpty() ==
             mapOf(
                 "a" to "b",
                 "c" to 1,
@@ -151,16 +151,16 @@ import kotlin.test.assertFailsWith
 
     fun filtered_lists() {
         assert(
-            flistOf(
+            listOf(
                 "a",
                 null,
                 listOf(1, 2),
                 listOf<String>(),
                 mapOf(0 to 1),
                 mapOf<String, Int>(),
-                fmapOf("a" to true, "b" to null),
-                fmapOf("a" to listOf<Int>())
-            ) ==
+                mapOf("a" to true, "b" to null).filterEmpty(),
+                mapOf("a" to listOf<Int>()).filterEmpty()
+            ).filterEmpty() ==
             listOf(
                 "a",
                 listOf(1, 2),

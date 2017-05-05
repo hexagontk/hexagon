@@ -57,13 +57,13 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
      */
     private fun filter(
         req: BServletRequest,
-        exchange: Exchange,
+        call: Call,
         filters: List<Pair<Route, FilterCallback>>): Boolean =
             filters
                 .filter { it.first.path.matches(req.path) }
                 .map {
                     req.actionPath = it.first.path
-                    exchange.(it.second)()
+                    call.(it.second)()
                     trace("Filter for path '${it.first.path}' executed")
                     true
                 }
@@ -97,7 +97,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
         val bRequest = BServletRequest(request)
         val bResponse = BServletResponse(request, response, context)
         val bSession = BServletSession(request)
-        val exchange = Exchange(Request(bRequest), Response(bResponse), Session(bSession))
+        val exchange = Call(Request(bRequest), Response(bResponse), Session(bSession))
         var handled = false
 
         try {

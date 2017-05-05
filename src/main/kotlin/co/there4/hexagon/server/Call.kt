@@ -16,11 +16,11 @@ import java.util.Locale.forLanguageTag as localeFor
 /**
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
-class Exchange (
+class Call(
     val request: Request,
     val response: Response,
     val session: Session,
-    /** Exchange attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
+    /** Call attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
     var attributes: Map<String, Any> = linkedMapOf<String, Any>()) {
 
     fun redirect(url: String) = response.redirect(url)

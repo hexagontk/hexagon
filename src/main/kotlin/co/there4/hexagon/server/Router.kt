@@ -98,7 +98,7 @@ class Router {
         requestHandlers += ErrorHandler(Route(Path("/"), ALL), exception, block)
     }
 
-    internal fun handleError(error: Exception, ex: Exchange, type: Class<*> = error.javaClass) {
+    internal fun handleError(error: Exception, ex: Call, type: Class<*> = error.javaClass) {
         when (error) {
             is EndException -> trace("Request processing ended by callback request")
             is CodedException -> {

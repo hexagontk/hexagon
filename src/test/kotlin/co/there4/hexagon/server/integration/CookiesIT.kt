@@ -1,6 +1,6 @@
 package co.there4.hexagon.server.integration
 
-import co.there4.hexagon.server.Exchange
+import co.there4.hexagon.server.Call
 import co.there4.hexagon.server.Router
 import java.net.HttpCookie
 
@@ -60,7 +60,7 @@ class CookiesIT : ItTest () {
         }
     }
 
-    private fun Exchange.checkCookie(cookieName: String?) {
+    private fun Call.checkCookie(cookieName: String?) {
         val cookieValue = request.cookies[cookieName]?.value
         if (request["cookieValue"] != cookieValue)
             halt(500)

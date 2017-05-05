@@ -26,7 +26,7 @@ fun Server.crud(repository: MongoIdRepository<*, *>) {
     router.delete("/$collectionName/{id}") { delete (repository) }
 }
 
-private fun Exchange.findIds(repository: MongoIdRepository<*, *>) {
+private fun Call.findIds(repository: MongoIdRepository<*, *>) {
     val keyName = repository.key.name
     val projection = include(keyName)
     val ids = repository.find().projection(projection)
@@ -34,25 +34,25 @@ private fun Exchange.findIds(repository: MongoIdRepository<*, *>) {
     ok(idValues.toList().serialize())
 }
 
-private fun <T : Any, K : Any> Exchange.replaceList (repository: MongoIdRepository<T, K>) {
+private fun <T : Any, K : Any> Call.replaceList (repository: MongoIdRepository<T, K>) {
     val obj = request.body.parseList(repository.type, contentType(this))
     repository.replaceObjects(obj, request.parameters.containsKey("upsert"))
     ok(200) // Created
 }
 
-private fun <T : Any, K : Any> Exchange.replace (repository: MongoIdRepository<T, K>) {
+private fun <T : Any, K : Any> Call.replace (repository: MongoIdRepository<T, K>) {
     val obj = request.body.parse(repository.type, contentType(this))
     repository.replaceObject(obj, request.parameters.containsKey("upsert"))
     ok(200) // Created
 }
 
-private fun <T : Any, K : Any> Exchange.deleteList (repository: MongoIdRepository<T, K>) {
+private fun <T : Any, K : Any> Call.deleteList (repository: MongoIdRepository<T, K>) {
     val key = parseKeys(repository, this)
     repository.deleteIds(key)
     ok(200)
 }
 
-private fun <T : Any, K : Any> Exchange.findList (repository: MongoIdRepository<T, K>) {
+private fun <T : Any, K : Any> Call.findList (repository: MongoIdRepository<T, K>) {
     val keys: List<K> = parseKeys(repository, this)
     val obj = repository.find(keys) { pageResults(this@findList) }.toList()
 
@@ -66,13 +66,13 @@ private fun <T : Any, K : Any> Exchange.findList (repository: MongoIdRepository<
     }
 }
 
-private fun <T : Any, K : Any> Exchange.delete (repository: MongoIdRepository<T, K>) {
+private fun <T : Any, K : Any> Call.delete (repository: MongoIdRepository<T, K>) {
     val key = parseKey(repository, this)
     repository.deleteId(key)
     ok(200)
 }
 
-private fun <T : Any, K : Any> Exchange.find (repository: MongoIdRepository<T, K>) {
+private fun <T : Any, K : Any> Call.find (repository: MongoIdRepository<T, K>) {
     val key = parseKey(repository, this)
     val obj = repository.find(key)
 
@@ -87,19 +87,19 @@ private fun <T : Any, K : Any> Exchange.find (repository: MongoIdRepository<T, K
 }
 
 private fun <K : Any, T : Any> parseKey(
-    repository: MongoIdRepository<T, K>, exchange: Exchange): K {
+    repository: MongoIdRepository<T, K>, call: Call): K {
 
-    val id: String = exchange.request.parameter("id")
+    val id: String = call.request.parameter("id")
     return when (repository.keyType) {
         String::class -> """"$id""""
         else -> id
-    }.parse(repository.keyType, contentType(exchange))
+    }.parse(repository.keyType, contentType(call))
 }
 
 private fun <K : Any, T : Any> parseKeys(
-    repository: MongoIdRepository<T, K>, exchange: Exchange): List<K> =
+    repository: MongoIdRepository<T, K>, call: Call): List<K> =
 
-    exchange.request.path.substringAfterLast("/").split(",").map { it.trim() }.map {
+    call.request.path.substringAfterLast("/").split(",").map { it.trim() }.map {
         @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
         when (repository.keyType) {
             String::class -> "$it"
