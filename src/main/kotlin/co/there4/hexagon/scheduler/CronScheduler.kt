@@ -10,8 +10,8 @@ import java.time.ZonedDateTime
 import java.util.concurrent.ScheduledThreadPoolExecutor
 import java.util.concurrent.TimeUnit.SECONDS
 
-class CronExecutor (threads: Int = getRuntime().availableProcessors()) {
-    companion object : CachedLogger(CronExecutor::class)
+class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
+    companion object : CachedLogger(CronScheduler::class)
 
     private val scheduler = ScheduledThreadPoolExecutor(threads)
     private val cronParser = CronParser(cronDefinition (QUARTZ))

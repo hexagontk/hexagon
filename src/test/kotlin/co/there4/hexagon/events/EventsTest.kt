@@ -22,8 +22,8 @@ import java.lang.Thread.`yield` as threadYield
     }
 
     @AfterClass fun deleteTestQueue() {
-        val backend = EventManager.backend
-        if (backend is RabbitMqEventBackend)
+        val backend = EventManager.engine
+        if (backend is RabbitMqEventEngine)
             backend.client.deleteQueue(TickEvent::class.java.name)
     }
 

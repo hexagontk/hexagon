@@ -3,9 +3,9 @@ package co.there4.hexagon.scheduler
 import org.testng.annotations.Test
 import java.lang.Thread.sleep
 
-@Test class CronExecutorTest {
+@Test class CronSchedulerTest {
     fun callback_is_executed_properly () {
-        val cron = CronExecutor ()
+        val cron = CronScheduler()
         val times = 1
         var count = 0
 
@@ -17,7 +17,7 @@ import java.lang.Thread.sleep
     }
 
     fun failing_callback_does_not_prevent_future_executions () {
-        val cron = CronExecutor ()
+        val cron = CronScheduler()
         val times = 2
         var count = 0
 
