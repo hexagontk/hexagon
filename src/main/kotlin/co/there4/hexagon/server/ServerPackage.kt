@@ -3,26 +3,33 @@ package co.there4.hexagon.server
 import co.there4.hexagon.server.HttpMethod.*
 import co.there4.hexagon.server.engine.ServerEngine
 import co.there4.hexagon.server.engine.servlet.JettyServletEngine
-import java.net.InetAddress.getByName as address
 
+/** Shortcut for filters' callbacks. Functions executed before/after routes. */
 typealias FilterCallback = Call.() -> Unit
+/** Shortcut for routes' callbacks. Functions executed when a route is matched. */
 typealias RouteCallback = Call.() -> Any
+/** Shortcut for exceptions' callbacks. Functions executed when an exception is thrown. */
 typealias ErrorCallback = Call.(Exception) -> Any
+/** Shortcut for errors' callbacks. Functions executed to handle a HTTP error code. */
 typealias ErrorCodeCallback = Call.(Int) -> Any
 
-val ALL = HttpMethod.values().toSet()
+/** Set containing all HTTP methods. */
+val ALL: Set<HttpMethod> = HttpMethod.values().toSet()
 
-/** . */
+/** TODO . */
 fun server(
     backend: ServerEngine = JettyServletEngine(),
     block: Router.() -> Unit): Server =
-        Server(backend).apply { router.block() }
+        Server(backend, router = router(block))
 
-/** . */
+/** TODO . */
 fun serve(
     backend: ServerEngine = JettyServletEngine(),
     block: Router.() -> Unit): Server =
         server(backend, block).apply { run() }
+
+/** . */
+fun router(block: Router.() -> Unit): Router = Router().apply { block() }
 
 /** Shortcut to create a path (for adding routers). */
 fun path(path: String = "/") = Path(path)

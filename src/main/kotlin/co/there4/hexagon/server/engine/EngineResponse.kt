@@ -9,7 +9,7 @@ import java.net.HttpCookie
  *
  * HTTP response context.
  */
-interface IResponse {
+interface EngineResponse {
     val outputStream: OutputStream
 
     var body: Any

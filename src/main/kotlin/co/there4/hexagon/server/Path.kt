@@ -1,9 +1,8 @@
 package co.there4.hexagon.server
 
 import co.there4.hexagon.helpers.CachedLogger
-import co.there4.hexagon.helpers.findGroups
 import co.there4.hexagon.helpers.filter
-import kotlin.text.Regex
+import co.there4.hexagon.helpers.findGroups
 
 /**
  * A path definition. It parses path patterns and extract values for parameters.
@@ -66,8 +65,8 @@ data class Path (val path: String) {
             throw IllegalArgumentException ("URL '$requestUrl' does not match path")
         else if (hasParameters && regex != null)
             regex.findGroups (requestUrl)
-                .mapIndexed { idx, match -> parameterIndex[idx] to match.value }
-                .filter { pair -> pair.first != "" }
+                .mapIndexed { idx, (value) -> parameterIndex[idx] to value }
+                .filter { (first) -> first != "" }
                 .toMap ()
         else
             mapOf ()

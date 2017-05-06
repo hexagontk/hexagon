@@ -1,7 +1,10 @@
 package co.there4.hexagon.helpers
 
+import java.lang.System.*
+
 import java.io.InputStream
 import java.lang.ClassLoader.getSystemClassLoader
+import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.net.InetAddress.getLocalHost
 import java.net.URL
@@ -24,6 +27,15 @@ val err: Nothing get() = error("Invalid state")
 val systemClassLoader: ClassLoader = getSystemClassLoader()
 
 val jvmId: String = getRuntimeMXBean().name
+val jvmName: String = getRuntimeMXBean().vmName
+val jvmVersion: String = getRuntimeMXBean().specVersion
+val cpuCount: Int = getRuntime().availableProcessors()
+val timezone: String = getProperty("user.timezone")
+val locale: String = "%s_%s.%s".format(
+    getProperty("user.language"),
+    getProperty("user.country"),
+    getProperty("file.encoding")
+)
 
 internal const val flarePrefix = ">>>>>>>>"
 

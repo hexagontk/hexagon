@@ -1,5 +1,6 @@
 package co.there4.hexagon.events
 
+import co.there4.hexagon.events.rabbitmq.RabbitMqEventEngine
 import co.there4.hexagon.helpers.CachedLogger
 import kotlin.reflect.KClass
 

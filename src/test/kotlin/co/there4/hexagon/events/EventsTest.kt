@@ -2,6 +2,7 @@ package co.there4.hexagon.events
 
 import co.there4.hexagon.events.EventManager.consume
 import co.there4.hexagon.events.EventManager.publish
+import co.there4.hexagon.events.rabbitmq.RabbitMqEventEngine
 import co.there4.hexagon.helpers.Log
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass

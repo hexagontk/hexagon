@@ -3,7 +3,7 @@ package co.there4.hexagon.server.engine
 /**
  * Provides session information.
  */
-interface ISession {
+interface EngineSession {
     val creationTime: Long?
     val lastAccessedTime: Long?
     val attributeNames: List<String>

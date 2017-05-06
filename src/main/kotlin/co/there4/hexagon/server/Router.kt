@@ -8,6 +8,7 @@ import co.there4.hexagon.server.HttpMethod.GET
 import co.there4.hexagon.server.RequestHandler.*
 import co.there4.hexagon.server.engine.EndException
 import co.there4.hexagon.server.engine.PassException
+
 import kotlin.reflect.KClass
 
 /**
@@ -57,28 +58,12 @@ class Router {
 
     fun Path.mount(handler: Router) {
         requestHandlers += PathHandler(Route(this), handler)
-        info ("Router $path Route ADDED")
+        info ("Router MOUNTED in $path")
     }
-
-    infix fun Route.before(handler: FilterCallback) { this.handler(BEFORE, handler) }
-    infix fun Route.after(handler: FilterCallback) { this.handler(AFTER, handler) }
-
-    infix fun Route.by(handler: RouteCallback) { this.handler(handler) }
-
-    fun before(path: String = "/*", block: FilterCallback) = all(path) before block
-    fun after(path: String = "/*", block: FilterCallback) = all(path) after block
-
-    fun get(path: String = "/", block: RouteCallback) = get(path) by block
-    fun head(path: String = "/", block: RouteCallback) = head(path) by block
-    fun post(path: String = "/", block: RouteCallback) = post(path) by block
-    fun put(path: String = "/", block: RouteCallback) = put(path) by block
-    fun delete(path: String = "/", block: RouteCallback) = delete(path) by block
-    fun trace(path: String = "/", block: RouteCallback) = tracer(path) by block
-    fun options(path: String = "/", block: RouteCallback) = options(path) by block
-    fun patch(path: String = "/", block: RouteCallback) = patch(path) by block
 
     fun assets (resource: String, path: String = "/") {
         requestHandlers += AssetsHandler(Route(Path(path), GET), resource)
+        info ("Assets in $path LOADED from $resource")
     }
 
     fun error(code: Int, block: ErrorCodeCallback) {
@@ -97,6 +82,23 @@ class Router {
         exceptionErrors += exception to block
         requestHandlers += ErrorHandler(Route(Path("/"), ALL), exception, block)
     }
+
+    infix fun Route.before(handler: FilterCallback) { this.handler(BEFORE, handler) }
+    infix fun Route.after(handler: FilterCallback) { this.handler(AFTER, handler) }
+
+    infix fun Route.by(handler: RouteCallback) { this.handler(handler) }
+
+    fun before(path: String = "/*", block: FilterCallback) = all(path) before block
+    fun after(path: String = "/*", block: FilterCallback) = all(path) after block
+
+    fun get(path: String = "/", block: RouteCallback) = get(path) by block
+    fun head(path: String = "/", block: RouteCallback) = head(path) by block
+    fun post(path: String = "/", block: RouteCallback) = post(path) by block
+    fun put(path: String = "/", block: RouteCallback) = put(path) by block
+    fun delete(path: String = "/", block: RouteCallback) = delete(path) by block
+    fun trace(path: String = "/", block: RouteCallback) = tracer(path) by block
+    fun options(path: String = "/", block: RouteCallback) = options(path) by block
+    fun patch(path: String = "/", block: RouteCallback) = patch(path) by block
 
     internal fun handleError(error: Exception, ex: Call, type: Class<*> = error.javaClass) {
         when (error) {
@@ -122,7 +124,7 @@ class Router {
         }
     }
 
-    private fun createResourceHandler(resourcesFolder: String): RouteCallback = {
+    internal fun createResourceHandler(resourcesFolder: String): RouteCallback = {
         val path = if (request.path.isEmpty()) request.path else request.path
         val resourcePath = "/$resourcesFolder$path"
         val stream = javaClass.getResourceAsStream(resourcePath)

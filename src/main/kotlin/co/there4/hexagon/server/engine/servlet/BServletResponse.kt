@@ -1,6 +1,6 @@
 package co.there4.hexagon.server.engine.servlet
 
-import co.there4.hexagon.server.engine.IResponse
+import co.there4.hexagon.server.engine.EngineResponse
 import java.io.OutputStream
 import java.net.HttpCookie
 import javax.servlet.ServletContext
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse
 internal class BServletResponse(
     val req: HttpServletRequest,
     val resp: HttpServletResponse,
-    private val context: ServletContext = req.servletContext) : IResponse {
+    private val context: ServletContext = req.servletContext) : EngineResponse {
 
     override val outputStream: OutputStream by lazy { resp.outputStream }
 

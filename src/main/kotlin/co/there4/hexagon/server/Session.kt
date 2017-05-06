@@ -1,11 +1,11 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.engine.ISession
+import co.there4.hexagon.server.engine.EngineSession
 
 /**
  * Provides session information.
  */
-class Session (private val session: ISession) {
+class Session (private val session: EngineSession) {
     val attributes: Map<String, Any?> get() = attributeNames.map { it to this[it] }.toMap()
 
     val creationTime: Long? by lazy { session.creationTime }

@@ -1,6 +1,7 @@
-package co.there4.hexagon.events
+package co.there4.hexagon.events.rabbitmq
 
-import co.there4.hexagon.events.rabbitmq.RabbitClient
+import co.there4.hexagon.events.Event
+import co.there4.hexagon.events.EventEngine
 import co.there4.hexagon.serialization.serialize
 import kotlin.reflect.KClass
 

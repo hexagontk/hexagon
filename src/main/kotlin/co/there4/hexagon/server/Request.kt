@@ -1,6 +1,6 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.engine.IRequest
+import co.there4.hexagon.server.engine.EngineRequest
 import java.net.HttpCookie
 
 /**
@@ -11,7 +11,7 @@ import java.net.HttpCookie
  *
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
-class Request(private val request: IRequest) {
+class Request(private val request: EngineRequest) {
     val path: String by lazy { request.path }
     val body: String by lazy { request.body }
     val scheme: String by lazy { request.scheme }

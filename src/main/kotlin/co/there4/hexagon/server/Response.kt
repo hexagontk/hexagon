@@ -1,6 +1,6 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.engine.IResponse
+import co.there4.hexagon.server.engine.EngineResponse
 import java.io.OutputStream
 import java.net.HttpCookie
 
@@ -10,7 +10,7 @@ import java.net.HttpCookie
  *
  * HTTP response context.
  */
-class Response (private val response: IResponse) {
+class Response (private val response: EngineResponse) {
     val outputStream: OutputStream by lazy { response.outputStream }
 
     var body: Any

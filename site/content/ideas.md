@@ -50,7 +50,6 @@ Managers: singletons to manage across an application and/or between services
 Packaging and deployment
 
 TODO
-`Router.path` to "insert" another router (modularity) (Maybe the same as `Router.mount`)
 `Exchange.call` method to redirect to other handler
 Add metadata to routes (Swagger/RAML)
 Add auto parsing/serializing of body/response based on a type

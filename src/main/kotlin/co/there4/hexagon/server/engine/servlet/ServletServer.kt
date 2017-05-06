@@ -1,11 +1,11 @@
 package co.there4.hexagon.server.engine.servlet
 
 import co.there4.hexagon.server.Router
-import javax.servlet.ServletContextEvent
-import javax.servlet.ServletContextListener
 
 import java.util.*
 import javax.servlet.DispatcherType
+import javax.servlet.ServletContextEvent
+import javax.servlet.ServletContextListener
 
 /**
  * Not a standard engine as it is not started/stopped
@@ -13,13 +13,12 @@ import javax.servlet.DispatcherType
  * TODO Take care of wildcards (review servlet specs) to group routes in servlets
  */
 abstract class ServletServer : ServletContextListener {
-    val router = Router()
+    val serverRouter by lazy { createRouter() }
 
-    abstract fun Router.initRoutes()
+    abstract fun createRouter(): Router
 
     override fun contextInitialized(sce: ServletContextEvent) {
-        router.initRoutes()
-        val filter = sce.servletContext.addFilter("filters", ServletFilter (router))
+        val filter = sce.servletContext.addFilter("filters", ServletFilter (serverRouter))
         filter.setAsyncSupported(true)
         filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")
     }

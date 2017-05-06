@@ -1,10 +1,10 @@
 package co.there4.hexagon.server.engine.servlet
 
-import co.there4.hexagon.server.engine.ISession
+import co.there4.hexagon.server.engine.EngineSession
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
-internal class BServletSession(val req: HttpServletRequest) : ISession {
+internal class BServletSession(val req: HttpServletRequest) : EngineSession {
 
     override fun getAttribute(name: String): Any? = req.session.getAttribute(name)
 

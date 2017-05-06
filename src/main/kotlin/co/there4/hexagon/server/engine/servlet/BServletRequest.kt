@@ -4,12 +4,12 @@ import co.there4.hexagon.helpers.parseQueryParameters
 import co.there4.hexagon.server.HttpMethod
 import co.there4.hexagon.server.Part
 import co.there4.hexagon.server.Path
-import co.there4.hexagon.server.engine.IRequest
+import co.there4.hexagon.server.engine.EngineRequest
 import java.io.InputStreamReader
 import java.net.HttpCookie
 import javax.servlet.http.HttpServletRequest
 
-internal class BServletRequest(val req: HttpServletRequest) : IRequest {
+internal class BServletRequest(val req: HttpServletRequest) : EngineRequest {
     var actionPath: Path? = null
 
     override val path: String by lazy {
