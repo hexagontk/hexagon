@@ -8,9 +8,9 @@
       "secureOnlyMechanisms" : [ ],
       "users" : [
         {
-          "name" : "guest",
+          "name" : "${qpid.user}",
           "type" : "managed",
-          "password" : "guest"
+          "password" : "${qpid.password}"
         }
       ]
     }
@@ -24,7 +24,7 @@
       "transports": [ "TCP" ],
       "virtualhostaliases": [
         {
-          "name": "test",
+          "name": "${qpid.vhost}",
           "type": "nameAlias"
         }
       ]
@@ -32,7 +32,7 @@
   ],
   "virtualhostnodes" : [
     {
-      "name" : "test",
+      "name" : "${qpid.vhost}",
       "type" : "Memory",
       "defaultVirtualHostNode" : "true",
       "virtualHostInitialConfiguration" : "{ \"type\": \"Memory\" }"

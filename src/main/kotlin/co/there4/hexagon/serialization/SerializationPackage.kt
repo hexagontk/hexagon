@@ -171,6 +171,7 @@ internal object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
     }
 }
 
+// TODO Not thread safe!!! (as proved by parallel tests)
 internal object ClosedRangeDeserializer: JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
     private val valueType: ThreadLocal<JavaType?> = ThreadLocal.withInitial { null }
 

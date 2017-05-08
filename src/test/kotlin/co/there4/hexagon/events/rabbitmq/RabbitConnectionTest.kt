@@ -9,9 +9,13 @@ import java.lang.System.currentTimeMillis
 @Test class RabbitConnectionTest {
     companion object : CachedLogger(RabbitConnectionTest::class)
 
-    private val broker = EmbeddedAMQPBroker()
+    private val port = 5673
+    private val user = "guest"
+    private val password = "guest"
+    private val vhost = "test"
+    private val broker = EmbeddedAMQPBroker(port, user, password, vhost)
 
-    private val URI = "amqp://guest:guest@localhost:5673/test"
+    private val URI = "amqp://$user:$password@localhost:$port/$vhost"
     private val QUEUE = "test"
     private val QUEUE_ERROR = "error"
     private val SUFFIX = "DONE"

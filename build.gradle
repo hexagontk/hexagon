@@ -68,15 +68,24 @@ dependencies {
     }
     testCompile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: "slf4j-api" }
     testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
-    testCompile ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
+    testCompile ("com.mitchellbosecke:pebble:$pebbleVersion") {
+        exclude module: "guava"
+        exclude module: "slf4j-api"
+    }
     testCompile ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion") {
         exclude module: "kotlin-stdlib"
     }
+    testCompile ("com.google.guava:guava:18.0")
     testCompile ("org.apache.qpid:qpid-broker:6.1.2") {
-        exclude module: "commons-logging"
-        exclude module: "slf4j-log4j12"
+        exclude module: "logback-classic"
+        exclude module: "jackson-databind"
+        exclude module: "jackson-core"
         exclude module: "slf4j-api"
-        exclude module: "guava"
+        exclude module: "qpid-broker-plugins-derby-store"
+        exclude module: "qpid-broker-plugins-jdbc-provider-bone"
+        exclude module: "qpid-broker-plugins-jdbc-store"
+        exclude module: "qpid-broker-plugins-management-http"
+        exclude module: "qpid-broker-plugins-websocket"
     }
 
     // BENCHMARK
@@ -86,7 +95,11 @@ dependencies {
 }
 
 test {
-    useTestNG ()
+    useTestNG {
+        // TODO threading issues with `ClosedRangeDeserializer`
+//        parallel = "methods"
+//        threadCount = 4
+    }
 
     doFirst {
         File environmentFile = file("${System.getProperty("user.home")}/.environment")

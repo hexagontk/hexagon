@@ -131,50 +131,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
 
         try {
             handled = filter(bRequest, exchange, beforeFilters)
-
-            val methodRoutes = routesByMethod[HttpMethod.valueOf(request.method)]
-                ?.filter { it.first.path.matches(exchange.request.path) }
-
-            if (methodRoutes == null) {
-                throw CodedException(405, "Invalid method '${request.method}'")
-            }
-            else {
-                for ((first, second) in methodRoutes) {
-                    try {
-                        bRequest.actionPath = first.path
-                        val result = exchange.second()
-                        /*
-                         * TODO Handle result (warn if body has been set)
-                         * Unit -> 200 <empty>
-                         * Int -> <status> <empty>
-                         * String -> 200 body
-                         * Pair (403 to "Forbidden") -> <code> <body>
-                         * Map -> serialize with "accept" or default format
-                         * List -> serialize with "accept header", "response.contentType" or default format
-                         * Stream -> streaming
-                         */
-
-                        when (result) {
-                            is Unit -> {}
-                            is Nothing -> {}
-                            is Int -> exchange.response.status = result
-                            is String -> exchange.response.body = result
-                            is Pair<*, *> -> ""
-                            is Map<*, *> -> ""
-                            is List<*> -> ""
-                        }
-
-                        trace("Route for path '${bRequest.actionPath}' executed")
-                        handled = true
-                        break
-                    }
-                    catch (e: PassException) {
-                        trace("Handler for path '${bRequest.actionPath}' passed")
-                        continue
-                    }
-                }
-            }
-
+            handled = route(exchange, bRequest) || handled
             handled = filter(bRequest, exchange, afterFilters) || handled // Order matters!!!
 
             if (!handled)

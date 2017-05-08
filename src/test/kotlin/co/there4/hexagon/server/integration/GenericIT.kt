@@ -1,13 +1,14 @@
 package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.client.Client
+import co.there4.hexagon.server.Call
+import co.there4.hexagon.server.HttpMethod
+import co.there4.hexagon.server.Router
 import co.there4.hexagon.template.KotlinxHtmlRenderer.page
-import co.there4.hexagon.server.*
 import kotlinx.html.*
 import java.time.LocalDateTime
-import java.util.Locale.getDefault as defaultLocale
-
 import kotlin.test.assertTrue
+import java.util.Locale.getDefault as defaultLocale
 
 @Suppress("unused") // Test methods are flagged as unused
 class GenericIT : ItTest () {

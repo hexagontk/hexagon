@@ -22,8 +22,6 @@ val ALL: Set<HttpMethod> = HttpMethod.values().toSet()
  * @param engine The server engine.
  * @param block Router's setup block.
  * @return A new server with the built router.
- * @see Server
- * @see router
  */
 fun server(
     engine: ServerEngine = JettyServletEngine(),
@@ -36,15 +34,18 @@ fun server(
  * @param engine The server engine.
  * @param block Router's setup block.
  * @return The running server with the built router.
- * @see Server
- * @see router
  */
 fun serve(
     engine: ServerEngine = JettyServletEngine(),
     block: Router.() -> Unit): Server =
         server(engine, block).apply { run() }
 
-/** TODO . */
+/**
+ * Creates and initializes a [Router] based on a code block.
+ *
+ * @param block Router's setup block.
+ * @return A new router initialized by the passed block.
+ */
 fun router(block: Router.() -> Unit): Router = Router().apply { block() }
 
 /** Shortcut to create a path (for adding routers). */
