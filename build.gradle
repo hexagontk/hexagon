@@ -44,6 +44,7 @@ dependencies {
         exclude module: "kotlin-reflect"
     }
 
+    // Compile only (optional libraries)
     compileOnly ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
         exclude module: "kotlin-stdlib"
     }
@@ -62,13 +63,16 @@ dependencies {
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
     testCompile ("org.mongodb:mongodb-driver:$mongodbVersion")
+    testCompile ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
+        exclude module: "kotlin-stdlib"
+    }
     testCompile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: "slf4j-api" }
     testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
     testCompile ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
     testCompile ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion") {
         exclude module: "kotlin-stdlib"
     }
-    testCompile ("org.apache.qpid:qpid-broker:0.28") { // Version *MUST BE* 0.28 for tests to work
+    testCompile ("org.apache.qpid:qpid-broker:6.1.2") {
         exclude module: "commons-logging"
         exclude module: "slf4j-log4j12"
         exclude module: "slf4j-api"

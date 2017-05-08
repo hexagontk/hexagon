@@ -1,26 +1,41 @@
 {
-    "name" : "EmbeddedBroker",
-    "defaultVirtualHost" : "default",
-    "modelVersion" : "1.0",
-    "storeVersion" : 1,
-    "authenticationproviders" : [
+  "name" : "embedded",
+  "modelVersion" : "6.1",
+  "authenticationproviders" : [
+    {
+      "name" : "auth",
+      "type" : "Plain",
+      "secureOnlyMechanisms" : [ ],
+      "users" : [
         {
-            "name" : "passwordFile",
-            "path" : "${qpid.pass_file}",
-            "type" : "PlainPasswordFile"
+          "name" : "guest",
+          "type" : "managed",
+          "password" : "guest"
         }
-    ],
-    "ports" : [
+      ]
+    }
+  ],
+  "ports" : [
+    {
+      "name" : "amqp_0_9_1",
+      "port" : "${qpid.amqp_port}",
+      "protocols" : [ "AMQP_0_9_1" ],
+      "authenticationProvider" : "auth",
+      "transports": [ "TCP" ],
+      "virtualhostaliases": [
         {
-            "name" : "AMQP",
-            "port" : "${qpid.amqp_port}",
-            "authenticationProvider" : "passwordFile"
+          "name": "test",
+          "type": "nameAlias"
         }
-    ],
-    "virtualhosts" : [
-        {
-            "name" : "default",
-            "storeType" : "MEMORY"
-        }
-    ]
+      ]
+    }
+  ],
+  "virtualhostnodes" : [
+    {
+      "name" : "test",
+      "type" : "Memory",
+      "defaultVirtualHostNode" : "true",
+      "virtualHostInitialConfiguration" : "{ \"type\": \"Memory\" }"
+    }
+  ]
 }

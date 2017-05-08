@@ -171,7 +171,7 @@ import kotlin.test.assertFailsWith
     }
 
     fun require_resource() {
-        assert(requireResource("passwd.txt").file == resource("passwd.txt")?.file)
+        assert(requireResource("service.yaml").file == resource("service.yaml")?.file)
         assertFailsWith<IllegalStateException>("foo.txt not found") {
             requireResource("foo.txt")
         }

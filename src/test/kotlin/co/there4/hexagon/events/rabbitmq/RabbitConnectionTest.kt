@@ -11,7 +11,7 @@ import java.lang.System.currentTimeMillis
 
     private val broker = EmbeddedAMQPBroker()
 
-    private val URI = "amqp://guest:guest@localhost:5673"
+    private val URI = "amqp://guest:guest@localhost:5673/test"
     private val QUEUE = "test"
     private val QUEUE_ERROR = "error"
     private val SUFFIX = "DONE"

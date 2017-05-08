@@ -16,15 +16,9 @@ class EmbeddedAMQPBroker {
         val workDir = Files.createTempDirectory("derby")
         val brokerOptions = BrokerOptions()
 
-        Files.copy(
-            Paths.get("src/test/resources/qpid.json"),
-            workDir.resolve("config.json"))
-
         brokerOptions.setConfigProperty("qpid.amqp_port", "5673")
-        brokerOptions.setConfigProperty("qpid.pass_file", "$dir/passwd.txt")
         brokerOptions.setConfigProperty("qpid.work_dir", workDir.toFile().absolutePath)
         brokerOptions.initialConfigurationLocation = "$dir/qpid.json"
-        brokerOptions.logConfigFileLocation = "$dir/log4j.xml"
         broker = Broker()
         broker?.startup(brokerOptions)
     }

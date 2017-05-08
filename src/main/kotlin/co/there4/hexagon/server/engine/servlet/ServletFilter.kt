@@ -1,20 +1,17 @@
 package co.there4.hexagon.server.engine.servlet
 
-import co.there4.hexagon.settings.SettingsManager
 import co.there4.hexagon.helpers.CachedLogger
 import co.there4.hexagon.helpers.CodedException
-import co.there4.hexagon.helpers.resource
+import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.server.*
 import co.there4.hexagon.server.FilterOrder.AFTER
 import co.there4.hexagon.server.FilterOrder.BEFORE
-import co.there4.hexagon.server.HttpMethod.GET
 import co.there4.hexagon.server.RequestHandler.FilterHandler
 import co.there4.hexagon.server.RequestHandler.RouteHandler
 import co.there4.hexagon.server.engine.PassException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.servlet.*
-import javax.servlet.Filter
 import javax.servlet.http.HttpServletRequest as HttpRequest
 import javax.servlet.http.HttpServletResponse as HttpResponse
 
@@ -23,18 +20,6 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
  */
 internal class ServletFilter (private val router: Router) : CachedLogger(ServletFilter::class), Filter {
     companion object : CachedLogger(ServletFilter::class)
-
-    @Deprecated("Replaced by `assets` router method")
-    val resourcesFolder = SettingsManager.setting<String>("resourcesFolder") ?: "public"
-
-    private val processResources = resource(resourcesFolder) != null
-
-//    private val routesByMethod: Map<HttpMethod, List<Pair<Route, RouteCallback>>> =
-//        router.routes.entries.map { it.key to it.value }.groupBy { it.first.method.first() }
-//
-//    private val filtersByOrder = router.filters.entries
-//        .groupBy { it.key.order }
-//        .mapValues { it.value.map { it.key to it.value } }
 
     private val routesByMethod: Map<HttpMethod, List<Pair<Route, RouteCallback>>> =
         router.requestHandlers
@@ -68,6 +53,50 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
                     true
                 }
                 .isNotEmpty()
+
+    private fun route(exchange: Call, bRequest: BServletRequest): Boolean {
+        val methodRoutes = routesByMethod[exchange.request.method]
+            ?.filter { it.first.path.matches(exchange.request.path) }
+            ?: throw CodedException(405, "Invalid method '${exchange.request.method}'")
+
+        for ((first, second) in methodRoutes) {
+            try {
+                bRequest.actionPath = first.path
+                val result = exchange.second()
+
+                /*
+                 * TODO Handle result (warn if body has been set)
+                 * Unit -> 200 <empty>
+                 * Pair (403 to "Forbidden") -> <code> <body>
+                 * List -> serialize with "accept header", "response.contentType" or default format
+                 * Stream -> streaming
+                 */
+                when (result) {
+                    is Unit -> {}
+                    is Nothing -> {}
+                    is Int -> exchange.response.status = result
+                    is String -> exchange.response.body = result
+                    is Pair<*, *> -> {
+                        if (result.first is Int)
+                            exchange.response.status = result.first as Int
+
+                    }
+                    else -> result.serialize(exchange.response.contentType
+                        ?: exchange.request.contentType
+                        ?: co.there4.hexagon.helpers.err
+                    )
+                }
+
+                trace("Route for path '${bRequest.actionPath}' executed")
+                return true
+            }
+            catch (e: PassException) {
+                trace("Handler for path '${bRequest.actionPath}' passed")
+                continue
+            }
+        }
+        return false
+    }
 
     override fun init(filterConfig: FilterConfig) { /* Not implemented */ }
     override fun destroy() { /* Not implemented */ }
@@ -103,68 +132,51 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
         try {
             handled = filter(bRequest, exchange, beforeFilters)
 
-            var resource = false
+            val methodRoutes = routesByMethod[HttpMethod.valueOf(request.method)]
+                ?.filter { it.first.path.matches(exchange.request.path) }
 
-            val servletPath = request.servletPath
-            val filledPath = if (servletPath.isEmpty()) request.pathInfo else servletPath
-            if (processResources &&
-                bRequest.method == GET &&
-                !filledPath.endsWith("/")) { // Reading a folder as resource gets all files
-
-                resource = returnResource(bResponse, request, response)
-                if (resource)
-                    handled = true
+            if (methodRoutes == null) {
+                throw CodedException(405, "Invalid method '${request.method}'")
             }
+            else {
+                for ((first, second) in methodRoutes) {
+                    try {
+                        bRequest.actionPath = first.path
+                        val result = exchange.second()
+                        /*
+                         * TODO Handle result (warn if body has been set)
+                         * Unit -> 200 <empty>
+                         * Int -> <status> <empty>
+                         * String -> 200 body
+                         * Pair (403 to "Forbidden") -> <code> <body>
+                         * Map -> serialize with "accept" or default format
+                         * List -> serialize with "accept header", "response.contentType" or default format
+                         * Stream -> streaming
+                         */
 
-            if (!resource) {
-                val methodRoutes = routesByMethod[HttpMethod.valueOf(request.method)]
-                    ?.filter { it.first.path.matches(filledPath) }
-
-                if (methodRoutes == null) {
-                    bResponse.status = 405
-                    bResponse.body = "Invalid method '${request.method}'"
-                    trace(bResponse.body as String)
-                    handled = true
-                }
-                else {
-                    for ((first, second) in methodRoutes) {
-                        try {
-                            bRequest.actionPath = first.path
-                            val result = exchange.second()
-                            /*
-                             * TODO Handle result (warn if body has been set)
-                             * Unit -> 200 <empty>
-                             * Int -> <status> <empty>
-                             * String -> 200 body
-                             * Pair (403 to "Forbidden") -> <code> <body>
-                             * Map -> serialize with "accept" or default format
-                             * List -> serialize with "accept header", "response.contentType" or default format
-                             * Stream -> streaming
-                             */
-
-                            when (result) {
-                                is Unit -> {}
-                                is Nothing -> {}
-                                is Int -> exchange.response.status = result
-                                is String -> exchange.response.body = result
-                                is Pair<*, *> -> ""
-                                is Map<*, *> -> ""
-                                is List<*> -> ""
-                            }
-
-                            trace("Route for path '${bRequest.actionPath}' executed")
-                            handled = true
-                            break
+                        when (result) {
+                            is Unit -> {}
+                            is Nothing -> {}
+                            is Int -> exchange.response.status = result
+                            is String -> exchange.response.body = result
+                            is Pair<*, *> -> ""
+                            is Map<*, *> -> ""
+                            is List<*> -> ""
                         }
-                        catch (e: PassException) {
-                            trace("Handler for path '${bRequest.actionPath}' passed")
-                            continue
-                        }
+
+                        trace("Route for path '${bRequest.actionPath}' executed")
+                        handled = true
+                        break
+                    }
+                    catch (e: PassException) {
+                        trace("Handler for path '${bRequest.actionPath}' passed")
+                        continue
                     }
                 }
             }
 
             handled = filter(bRequest, exchange, afterFilters) || handled // Order matters!!!
+
             if (!handled)
                 throw CodedException(404)
         }
@@ -177,31 +189,6 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
             response.outputStream.flush()
 
             trace("Status ${response.status} <${if (handled) "" else "NOT "}HANDLED>")
-        }
-    }
-
-    private fun returnResource(
-        bResponse: BServletResponse, request: HttpRequest, response: HttpResponse): Boolean {
-
-        val servletPath = request.servletPath
-        val path = if (servletPath.isEmpty()) request.pathInfo else servletPath
-        val resourcePath = "/$resourcesFolder$path"
-        val stream = javaClass.getResourceAsStream(resourcePath)
-
-        if (stream == null)
-            return false
-        else {
-            val contentType by lazy { bResponse.getMimeType(path) }
-
-            // Should be done BEFORE flushing the stream (if not content type is ignored)
-            if (response.contentType == null && contentType != null)
-                response.contentType = contentType
-
-            trace("Resource for '$resourcePath' (${response.contentType}) found and returned")
-            val bytes = stream.readBytes()
-            response.outputStream.write(bytes)
-            response.outputStream.flush()
-            return true
         }
     }
 }

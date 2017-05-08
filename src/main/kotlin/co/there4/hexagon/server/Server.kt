@@ -12,7 +12,7 @@ import java.net.InetAddress
 import java.net.InetAddress.getByName as address
 
 class Server (
-    private val serverBackend: ServerEngine,
+    private val serverEngine: ServerEngine,
     val serviceName: String = setting("serviceName") ?: "Service",
     val bindAddress: InetAddress = address(setting("bindAddress") ?: "127.0.0.1") ?: err,
     val bindPort: Int = setting<Int>("bindPort") ?: 2010,
@@ -21,27 +21,27 @@ class Server (
     companion object : CachedLogger(Server::class)
 
     val runtimePort
-        get() = if (started()) serverBackend.runtimePort() else error("Server is not running")
+        get() = if (started()) serverEngine.runtimePort() else error("Server is not running")
 
-    fun started (): Boolean = serverBackend.started()
+    fun started (): Boolean = serverEngine.started()
 
     fun run() {
         getRuntime().addShutdownHook(
             Thread (
                 {
                     if (started ())
-                        serverBackend.shutdown ()
+                        serverEngine.shutdown ()
                 },
                 "shutdown-${bindAddress.hostName}-$bindPort"
             )
         )
 
-        serverBackend.startup (this)
+        serverEngine.startup (this)
         info ("$serviceName started${createBanner()}")
     }
 
     fun stop() {
-        serverBackend.shutdown ()
+        serverEngine.shutdown ()
         info ("$serviceName stopped")
     }
 

@@ -6,7 +6,7 @@ import co.there4.hexagon.server.RequestHandler.*
 
 import org.testng.annotations.Test
 
-@Test class HttpPackageTest {
+@Test class ServerPackageTest {
     fun package_routes_are_stored_in_default_server () {
         val server = server {
             assets ("/assets")
@@ -31,14 +31,18 @@ import org.testng.annotations.Test
             trace ("/trace") {}
             options ("/options") {}
             patch ("/patch") {}
-            get ("/") {}
-            head ("/") {}
-            post ("/") {}
-            put ("/") {}
-            delete ("/") {}
-            trace ("/") {}
-            options ("/") {}
-            patch ("/") {}
+            get {}
+            head {}
+            post {}
+            put {}
+            delete {}
+            trace {}
+            options {}
+            patch {}
+
+            path("/router") mount router {
+                get { "Router" }
+            }
 
             error(IllegalStateException::class.java) {}
             error(IllegalArgumentException::class) {}
@@ -62,7 +66,13 @@ import org.testng.annotations.Test
         assert (routes.any { it.route == Route(Path ("/"), OPTIONS) })
         assert (routes.any { it.route == Route(Path ("/"), PATCH) })
 
+        val paths = server.router.requestHandlers.filterIsInstance(PathHandler::class.java)
+        assert (paths.any { it.route == Route(Path ("/router")) })
+
         assert (server.router.exceptionErrors.containsKey(IllegalStateException::class.java))
         assert (server.router.exceptionErrors.containsKey(IllegalArgumentException::class.java))
+
+        server.router.reset()
+        assert(server.router.requestHandlers.size == 2)
     }
 }

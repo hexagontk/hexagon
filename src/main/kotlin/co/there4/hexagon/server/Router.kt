@@ -56,7 +56,7 @@ class Router {
         info ("$method $path Route ADDED")
     }
 
-    fun Path.mount(handler: Router) {
+    infix fun Path.mount(handler: Router) {
         requestHandlers += PathHandler(Route(this), handler)
         info ("Router MOUNTED in $path")
     }
@@ -126,11 +126,15 @@ class Router {
 
     internal fun createResourceHandler(resourcesFolder: String): RouteCallback = {
         val path = if (request.path.isEmpty()) request.path else request.path
+        if (path.endsWith("/"))
+            pass()
         val resourcePath = "/$resourcesFolder$path"
         val stream = javaClass.getResourceAsStream(resourcePath)
 
-        if (stream == null)
+        if (stream == null) {
+            response.status = 404
             pass()
+        }
         else {
             val contentType by lazy { response.getMimeType(path) }
 
