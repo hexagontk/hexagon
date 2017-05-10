@@ -1,5 +1,7 @@
 package co.there4.hexagon.helpers
 
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.Logger
 import org.testng.annotations.Test
 
 /**
@@ -8,8 +10,24 @@ import org.testng.annotations.Test
  */
 @Test class CachedLoggerTest {
     companion object : CachedLogger(CachedLoggerTest::class)
+    val l = logger() as Logger
 
     fun messages_are_logged_without_errors () {
+        l.level = Level.TRACE
+
+        trace ("message")
+        debug ("message")
+        info ("message")
+        warn ("message")
+        err ("message")
+        warn ("message", RuntimeException ())
+        error("message", RuntimeException ())
+        flare ("message")
+        time ("message") {}
+        time {}
+
+        l.level = Level.OFF
+
         trace ("message")
         debug ("message")
         info ("message")
@@ -33,5 +51,20 @@ import org.testng.annotations.Test
         Log.flare ("message")
         Log.time ("message") {}
         Log.time {}
+    }
+
+    fun loggable() {
+        val loggable = object : Loggable {}
+
+        loggable.trace ("message")
+        loggable.debug ("message")
+        loggable.info ("message")
+        loggable.warn ("message")
+        loggable.err ("message")
+        loggable.warn ("message", RuntimeException ())
+        loggable.error("message", RuntimeException ())
+        loggable.flare ("message")
+        loggable.time ("message") {}
+        loggable.time {}
     }
 }

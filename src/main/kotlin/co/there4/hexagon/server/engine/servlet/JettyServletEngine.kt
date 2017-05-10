@@ -29,7 +29,8 @@ class JettyServletEngine : ServerEngine {
     override fun started() = jettyServer?.isStarted ?: false
 
     override fun startup(server: Server, settings: Map<String, *>) {
-        jettyServer = JettyServer(InetSocketAddress(server.bindAddress, server.bindPort))
+        val serverInstance = JettyServer(InetSocketAddress(server.bindAddress, server.bindPort))
+        jettyServer = serverInstance
 
         val context = ServletContextHandler(SESSIONS)
         context.addLifeCycleListener(object : LifeCycle.Listener {
@@ -47,8 +48,8 @@ class JettyServletEngine : ServerEngine {
             }
         })
 
-        jettyServer?.handler = context
-        jettyServer?.start()
+        serverInstance.handler = context
+        serverInstance.start()
     }
 
     override fun shutdown() {
