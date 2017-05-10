@@ -20,13 +20,13 @@ class BooksIT : ItTest () {
         )))
     }
 
-    override fun initialize(srv: Router) {
-        srv.post ("/books") {
+    override fun Router.initialize() {
+        post ("/books") {
             books [id] = Book (request.parameter("author"), request.parameter("title"))
             created ((id++).toString ())
         }
 
-        srv.get ("/books/{id}") {
+        get ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books [bookId]
             if (book != null)
@@ -35,7 +35,7 @@ class BooksIT : ItTest () {
                 error (404, "Book not found")
         }
 
-        srv.put ("/books/{id}") {
+        put ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books[bookId]
             if (book != null) {
@@ -54,7 +54,7 @@ class BooksIT : ItTest () {
             }
         }
 
-        srv.delete ("/books/{id}") {
+        delete ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books.remove (bookId)
             if (book != null)
@@ -63,7 +63,7 @@ class BooksIT : ItTest () {
                 error (404, "Book not found")
         }
 
-        srv.get ("/books") {
+        get ("/books") {
             ok (books.keys.map(Int::toString).joinToString(" "))
         }
     }

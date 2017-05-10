@@ -9,7 +9,7 @@ typealias FilterCallback = Call.() -> Unit
 /** Alias for routes' callbacks. Functions executed when a route is matched. */
 typealias RouteCallback = Call.() -> Any
 /** Alias for exceptions' callbacks. Functions executed when an exception is thrown. */
-typealias ErrorCallback = Call.(Exception) -> Any
+typealias ExceptionCallback = Call.(Exception) -> Any
 /** Alias for errors' callbacks. Functions executed to handle a HTTP error code. */
 typealias ErrorCodeCallback = Call.(Int) -> Any
 

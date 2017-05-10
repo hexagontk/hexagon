@@ -1,6 +1,6 @@
 package co.there4.hexagon.serialization
 
-import co.there4.hexagon.settings.SettingsManager.setting
+import co.there4.hexagon.settings.SettingsManager.settings
 import co.there4.hexagon.helpers.asNumber
 import co.there4.hexagon.helpers.toLocalDate
 import co.there4.hexagon.helpers.toLocalDateTime
@@ -34,7 +34,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 val contentTypes = JacksonSerializer.contentTypes
-val defaultFormat by lazy { setting<String>("contentType") ?: contentTypes.first() }
+val defaultFormat by lazy { settings["contentType"] as? String ?: contentTypes.first() }
 
 fun Any.convertToMap(): Map<*, *> = JacksonSerializer.toMap (this)
 
@@ -172,7 +172,9 @@ internal object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
 }
 
 // TODO Not thread safe!!! (as proved by parallel tests)
-internal object ClosedRangeDeserializer: JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
+internal object ClosedRangeDeserializer :
+    JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
+
     private val valueType: ThreadLocal<JavaType?> = ThreadLocal.withInitial { null }
 
     override fun createContextual(

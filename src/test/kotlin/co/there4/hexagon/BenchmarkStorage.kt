@@ -3,16 +3,16 @@ package co.there4.hexagon
 import co.there4.hexagon.store.MongoIdRepository
 import co.there4.hexagon.store.mongoCollection
 import co.there4.hexagon.store.mongoDatabase
-import co.there4.hexagon.settings.SettingsManager.setting
+import co.there4.hexagon.settings.SettingsManager.settings
 import java.lang.System.getenv
 import kotlin.reflect.KProperty1
 
 internal val DB_ROWS = 10000
 
 private val DB_HOST = getenv("DBHOST") ?: "localhost"
-private val DB = setting<String>("database") ?: "hello_world"
-private val WORLD: String = setting<String>("worldCollection") ?: "world"
-private val FORTUNE: String = setting<String>("fortuneCollection") ?: "fortune"
+private val DB = settings["database"] as? String ?: "hello_world"
+private val WORLD: String = settings["worldCollection"] as? String ?: "world"
+private val FORTUNE: String = settings["fortuneCollection"] as? String ?: "fortune"
 
 internal fun createStore(engine: String): Repository = when (engine) {
     "mongodb" -> MongoDbRepository()

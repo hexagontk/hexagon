@@ -33,7 +33,7 @@ open class Settings {
         null
     }
 
-    val parameters: Map<String, *> = loadSettings()
+    val settings: Map<String, *> = loadSettings()
 
     private fun loadSettings() = loadProps("${prefix}service.yaml") +
         if (environment != null) loadProps("$prefix${environment.toString().toLowerCase()}.yaml")
@@ -41,15 +41,10 @@ open class Settings {
 
     operator fun get (vararg key: String): Any? = key
         .dropLast(1)
-        .fold(parameters) { result, element ->
+        .fold(settings) { result, element ->
             @Suppress("UNCHECKED_CAST")
             (result[element] as Map<String, *>)
         }[key.last()]
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T> setting(vararg key: String): T? = get(*key) as? T?
-    fun <T> requireSetting(vararg key: String): T =
-        setting<T>(*key) ?: error("Missing setting: $key")
 
     @Suppress("UNCHECKED_CAST")
     private fun loadProps (resName: String): Map<String, *> =

@@ -6,6 +6,7 @@ import org.testng.annotations.Test
 
 import co.there4.hexagon.server.Server
 import co.there4.hexagon.server.engine.servlet.JettyServletEngine
+import co.there4.hexagon.settings.SettingsManager
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -20,15 +21,15 @@ internal const val TIMES = 1
 @Test (threadPoolSize = THREADS, invocationCount = TIMES)
 abstract class ItTest {
     open val servers: List<Server> = listOf(
-        Server(JettyServletEngine())
+        Server(JettyServletEngine(), SettingsManager.settings)
     )
 
-    protected abstract fun initialize (srv: Router)
+    protected abstract fun Router.initialize ()
 
     @BeforeClass fun startServers () {
         servers.forEach {
             it.stop()
-            initialize (it.router)
+            it.router.initialize ()
             it.run ()
         }
     }

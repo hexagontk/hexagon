@@ -1,6 +1,6 @@
 package co.there4.hexagon.events.rabbitmq
 
-import co.there4.hexagon.settings.SettingsManager.setting
+import co.there4.hexagon.settings.SettingsManager.settings
 import co.there4.hexagon.helpers.CachedLogger
 import co.there4.hexagon.helpers.parseQueryParameters
 import co.there4.hexagon.helpers.retry
@@ -27,7 +27,7 @@ class RabbitClient (
     private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
 
     companion object : CachedLogger(RabbitClient::class) {
-        val rabbitmqUrl = setting<String>("rabbitmqUrl") ?: "amqp://guest:guest@localhost"
+        val rabbitmqUrl = settings["rabbitmqUrl"] as? String ?: "amqp://guest:guest@localhost"
 
         fun createConnectionFactory(uri: String = rabbitmqUrl): ConnectionFactory {
             fun <T> setVar(value: T?, setter: (T) -> Unit) {

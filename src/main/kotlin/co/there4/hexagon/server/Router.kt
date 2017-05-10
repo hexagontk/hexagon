@@ -6,19 +6,18 @@ import co.there4.hexagon.server.FilterOrder.AFTER
 import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.HttpMethod.GET
 import co.there4.hexagon.server.RequestHandler.*
-import co.there4.hexagon.server.engine.EndException
 import co.there4.hexagon.server.engine.PassException
 
 import kotlin.reflect.KClass
 
 /**
- * .
+ * TODO Document.
  */
 class Router {
     private companion object : CachedLogger(Router::class)
 
     private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
-    private val baseExceptionHandler: ErrorCallback =
+    private val baseExceptionHandler: ExceptionCallback =
         { error(500, "${it.javaClass.simpleName} (${it.message ?: "no details"})") }
 
     private val defaultHandlers = listOf(
@@ -28,14 +27,15 @@ class Router {
 
     var requestHandlers: List<RequestHandler> = defaultHandlers; private set
     var codedErrors: Map<Int, ErrorCodeCallback> = codedErrors(); private set
-    var exceptionErrors: Map<Class<out Exception>, ErrorCallback> = exceptionErrors(); private set
+    var exceptionErrors: Map<Class<out Exception>, ExceptionCallback> = exceptionErrors()
+        private set
 
     private fun codedErrors(): Map<Int, ErrorCodeCallback> = requestHandlers
         .filterIsInstance(ErrorCodeHandler::class.java)
         .map { it.code to it.handler }
         .toMap()
 
-    private fun exceptionErrors(): Map<Class<out Exception>, ErrorCallback> = requestHandlers
+    private fun exceptionErrors(): Map<Class<out Exception>, ExceptionCallback> = requestHandlers
         .filterIsInstance(ErrorHandler::class.java)
         .map { it.exception to it.handler }
         .toMap()
@@ -61,7 +61,7 @@ class Router {
         info ("Router MOUNTED in $path")
     }
 
-    fun assets (resource: String, path: String = "/") {
+    fun assets (resource: String, path: String = "/*") {
         requestHandlers += AssetsHandler(Route(Path(path), GET), resource)
         info ("Assets in $path LOADED from $resource")
     }
@@ -71,13 +71,11 @@ class Router {
         requestHandlers += ErrorCodeHandler(Route(Path("/"), ALL), code, block)
     }
 
-    fun error(exception: KClass<out Exception>, block: ErrorCallback) = error (exception.java, block)
-    fun error(exception: Class<out Exception>, block: ErrorCallback) {
-        val listOf = listOf(
-            CodedException::class.java,
-            EndException::class.java,
-            PassException::class.java
-        )
+    fun error(exception: KClass<out Exception>, block: ExceptionCallback) =
+        error (exception.java, block)
+
+    fun error(exception: Class<out Exception>, block: ExceptionCallback) {
+        val listOf = listOf(CodedException::class.java, PassException::class.java)
         require(exception !in listOf) { "${exception.name} is internal and must not be handled" }
         exceptionErrors += exception to block
         requestHandlers += ErrorHandler(Route(Path("/"), ALL), exception, block)
@@ -102,7 +100,6 @@ class Router {
 
     internal fun handleError(error: Exception, ex: Call, type: Class<*> = error.javaClass) {
         when (error) {
-            is EndException -> trace("Request processing ended by callback request")
             is CodedException -> {
                 val handler: ErrorCodeCallback =
                     codedErrors[error.code] ?: { error(it, error.message ?: "") }
@@ -116,19 +113,16 @@ class Router {
                 if (handler != null)
                     ex.handler(error)
                 else
-                    type.superclass.also {
-                        if (it != null) handleError(error, ex, it)
-                        else ex.baseExceptionHandler(error) // This handler is added before
-                    }
+                    type.superclass.also { if (it != null) handleError(error, ex, it) }
             }
         }
     }
 
     internal fun createResourceHandler(resourcesFolder: String): RouteCallback = {
-        val path = if (request.path.isEmpty()) request.path else request.path
-        if (path.endsWith("/"))
+        if (request.path.endsWith("/"))
             pass()
-        val resourcePath = "/$resourcesFolder$path"
+
+        val resourcePath = "/$resourcesFolder${request.path}"
         val stream = javaClass.getResourceAsStream(resourcePath)
 
         if (stream == null) {
@@ -136,7 +130,7 @@ class Router {
             pass()
         }
         else {
-            val contentType by lazy { response.getMimeType(path) }
+            val contentType by lazy { response.getMimeType(request.path) }
 
             // Should be done BEFORE flushing the stream (if not content type is ignored)
             if (response.contentType == null && contentType != null)

@@ -19,8 +19,8 @@ import java.util.*
  */
 internal object PebbleRenderer {
     val basePath = "templates"
-//    val engine: PebbleEngine = PebbleEngine.Builder().build() ?: error("Error setting up Pebble")
-    val settings = SettingsManager.parameters
+    val engine: PebbleEngine = PebbleEngine.Builder().build() ?: error("Error setting up Pebble")
+    val settings = SettingsManager.settings
 
     var parametersCache: Map<String, Map<String, Any?>> = mapOf()
 
@@ -34,7 +34,6 @@ internal object PebbleRenderer {
                 as Map<String, *> + (it["data"] ?: mapOf<String, Any>()) as Map<String, *>
         }
 
-        val engine = PebbleEngine.Builder().cacheActive(false).build() ?: error("Error setting up Pebble")
         val compiledTemplate = engine.getTemplate("$basePath/$template")
         val bundlePath = template.substringBeforeLast('.')
 

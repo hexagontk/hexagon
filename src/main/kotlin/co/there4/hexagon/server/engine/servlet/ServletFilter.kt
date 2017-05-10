@@ -2,12 +2,12 @@ package co.there4.hexagon.server.engine.servlet
 
 import co.there4.hexagon.helpers.CachedLogger
 import co.there4.hexagon.helpers.CodedException
+import co.there4.hexagon.serialization.contentTypes
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.server.*
 import co.there4.hexagon.server.FilterOrder.AFTER
 import co.there4.hexagon.server.FilterOrder.BEFORE
-import co.there4.hexagon.server.RequestHandler.FilterHandler
-import co.there4.hexagon.server.RequestHandler.RouteHandler
+import co.there4.hexagon.server.RequestHandler.*
 import co.there4.hexagon.server.engine.PassException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -21,11 +21,16 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 internal class ServletFilter (private val router: Router) : CachedLogger(ServletFilter::class), Filter {
     companion object : CachedLogger(ServletFilter::class)
 
-    private val routesByMethod: Map<HttpMethod, List<Pair<Route, RouteCallback>>> =
-        router.requestHandlers
-            .filterIsInstance(RouteHandler::class.java)
-            .map { it.route to it.handler }
-            .groupBy { it.first.method.first() }
+    private val routesByMethod: Map<HttpMethod, List<RouteHandler>> = router.requestHandlers
+        .map {
+            when (it) {
+                is PathHandler -> it // TODO
+                is AssetsHandler -> RouteHandler(it.route, router.createResourceHandler(it.path))
+                else -> it
+            }
+        }
+        .filterIsInstance(RouteHandler::class.java)
+        .groupBy { it.route.method.first() }
 
     private val filtersByOrder = router.requestHandlers
         .filterIsInstance(FilterHandler::class.java)
@@ -54,37 +59,33 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
                 }
                 .isNotEmpty()
 
-    private fun route(exchange: Call, bRequest: BServletRequest): Boolean {
-        val methodRoutes = routesByMethod[exchange.request.method]
-            ?.filter { it.first.path.matches(exchange.request.path) }
-            ?: throw CodedException(405, "Invalid method '${exchange.request.method}'")
+    private fun route(call: Call, bRequest: BServletRequest): Boolean {
+        val methodRoutes = routesByMethod[call.request.method]
+            ?.filter { it.route.path.matches(call.request.path) }
+            ?: throw CodedException(405, "Invalid method '${call.request.method}'")
 
         for ((first, second) in methodRoutes) {
             try {
                 bRequest.actionPath = first.path
-                val result = exchange.second()
+                val result = call.second()
 
-                /*
-                 * TODO Handle result (warn if body has been set)
-                 * Unit -> 200 <empty>
-                 * Pair (403 to "Forbidden") -> <code> <body>
-                 * List -> serialize with "accept header", "response.contentType" or default format
-                 * Stream -> streaming
-                 */
+                // TODO Rename and add to `Call`
+                fun ct(call: Call) =
+                    call.response.contentType ?: call.request.contentType ?: contentTypes.first()
+
+                // TODO Handle result (warn if body has been set)
                 when (result) {
                     is Unit -> {}
                     is Nothing -> {}
-                    is Int -> exchange.response.status = result
-                    is String -> exchange.response.body = result
-                    is Pair<*, *> -> {
-                        if (result.first is Int)
-                            exchange.response.status = result.first as Int
-
-                    }
-                    else -> result.serialize(exchange.response.contentType
-                        ?: exchange.request.contentType
-                        ?: co.there4.hexagon.helpers.err
+                    is Int -> call.response.status = result
+                    is String -> call.ok(result)
+                    is Pair<*, *> -> call.ok(
+                        code = result.first as? Int ?: 200,
+                        content = result.second.let {
+                            it as? String ?: it?.serialize(ct(call)) ?: ""
+                        }
                     )
+                    else -> call.ok(result.serialize(ct(call)))
                 }
 
                 trace("Route for path '${bRequest.actionPath}' executed")
@@ -131,7 +132,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
 
         try {
             handled = filter(bRequest, exchange, beforeFilters)
-            handled = route(exchange, bRequest) || handled
+            handled = route(exchange, bRequest) || handled // Order matters!!!
             handled = filter(bRequest, exchange, afterFilters) || handled // Order matters!!!
 
             if (!handled)

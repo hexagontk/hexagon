@@ -4,17 +4,17 @@ import co.there4.hexagon.server.Router
 
 @Suppress("unused") // Test methods are flagged as unused
 class SessionIT : ItTest () {
-    override fun initialize(srv: Router) {
-        srv.get("/session/id") {
+    override fun Router.initialize() {
+        get("/session/id") {
             val id: String = session.id ?: "null"
             session.id = "sessionId"
             assert(id == session.id ?: "null")
             ok(id)
         }
 
-        srv.get("/session/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
+        get("/session/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
 
-        srv.get("/session/new") {
+        get("/session/new") {
             try {
                 ok(session.isNew())
             }
@@ -23,31 +23,31 @@ class SessionIT : ItTest () {
             }
         }
 
-        srv.get("/session/inactive") {
+        get("/session/inactive") {
             val inactiveInterval = session.maxInactiveInterval ?: "null"
             session.maxInactiveInterval = 999
             assert(inactiveInterval == session.maxInactiveInterval ?: "null")
             ok(inactiveInterval)
         }
 
-        srv.get("/session/creation") { ok(session.creationTime ?: "null") }
+        get("/session/creation") { ok(session.creationTime ?: "null") }
 
-        srv.post("/session/invalidate") { session.invalidate() }
+        post("/session/invalidate") { session.invalidate() }
 
-        srv.put("/session/{key}/{value}") {
+        put("/session/{key}/{value}") {
             session [request.parameter("key")] = request.parameter("value")
             Unit
         }
 
-        srv.get("/session/{key}") {
+        get("/session/{key}") {
             ok (session [request.parameter("key")].toString())
         }
 
-        srv.delete("/session/{key}") {
+        delete("/session/{key}") {
             session.removeAttribute(request.parameter("key"))
         }
 
-        srv.get("/session") {
+        get("/session") {
             val attributeTexts = session.attributes.entries.map { it.key + " : " + it.value }
 
             response.addHeader ("attributes", attributeTexts.joinToString(", "))

@@ -4,14 +4,14 @@ import co.there4.hexagon.server.*
 import org.testng.annotations.Test
 
 @Test class HexagonIT : ItTest() {
-    override fun initialize(srv: Router) {
-        srv.get ("/books/{id}") {
+    override fun Router.initialize() {
+        get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")
         }
-        srv.get ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        srv.trace ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        srv.patch ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        srv.head ("/books/{id}/{title}") {
+        get ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        trace ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        patch ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        head ("/books/{id}/{title}") {
             response.addHeader("id", request.parameter("id"))
             response.addHeader("title", request.parameter("title"))
         }

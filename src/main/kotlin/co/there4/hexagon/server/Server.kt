@@ -3,7 +3,6 @@ package co.there4.hexagon.server
 import co.there4.hexagon.helpers.*
 import co.there4.hexagon.server.engine.ServerEngine
 import co.there4.hexagon.settings.SettingsManager.environment
-import co.there4.hexagon.settings.SettingsManager.setting
 
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
@@ -11,14 +10,34 @@ import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.net.InetAddress
 import java.net.InetAddress.getByName as address
 
-class Server (
+/**
+ * A server that listen to HTTP connections on a port and address and route requests using a
+ * router.
+ *
+ * TODO Write documentation.
+ */
+data class Server (
+    /** Engine used to run this HTTP server. */
     private val serverEngine: ServerEngine,
-    val serviceName: String = setting("serviceName") ?: "Service",
-    val bindAddress: InetAddress = address(setting("bindAddress") ?: "127.0.0.1") ?: err,
-    val bindPort: Int = setting<Int>("bindPort") ?: 2010,
+    val serverName: String = Server.DEFAULT_NAME,
+    val bindAddress: InetAddress = address(Server.DEFAULT_ADDRESS),
+    val bindPort: Int = Server.DEFAULT_PORT,
     val router: Router = Router()) {
 
-    companion object : CachedLogger(Server::class)
+    internal companion object : CachedLogger(Server::class) {
+        internal const val DEFAULT_NAME = "<undefined>"
+        internal const val DEFAULT_ADDRESS = "127.0.0.1"
+        internal const val DEFAULT_PORT = 2010
+    }
+
+    constructor(serverEngine: ServerEngine, settings: Map<String, *>, router: Router = Router()) :
+        this (
+            serverEngine,
+            settings["serviceName"] as? String ?: DEFAULT_NAME,
+            address(settings["bindAddress"] as? String ?: DEFAULT_ADDRESS),
+            settings["bindPort"] as? Int ?: DEFAULT_PORT,
+            router
+        )
 
     val runtimePort
         get() = if (started()) serverEngine.runtimePort() else error("Server is not running")
@@ -37,12 +56,12 @@ class Server (
         )
 
         serverEngine.startup (this)
-        info ("$serviceName started${createBanner()}")
+        info ("$serverName started${createBanner()}")
     }
 
     fun stop() {
         serverEngine.shutdown ()
-        info ("$serviceName stopped")
+        info ("$serverName stopped")
     }
 
     private fun createBanner(): String {
@@ -53,7 +72,7 @@ class Server (
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
 
         val information = """
-            SERVICE:     $serviceName
+            SERVICE:     $serverName
             ENVIRONMENT: $environment
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB

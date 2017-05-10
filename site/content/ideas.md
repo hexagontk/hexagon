@@ -31,9 +31,9 @@ Services: local or remote functionalities (interfaces), implementations will be 
     StorageService <- RedisClient, MongoDbClient, CouchBaseClient
 
     SettingsService <- LocalSettingsEngine, EventSettingsEngine
-    WebService <- ServletEngine, JettyServletEngine, UndertowEngine
-    WebClientService <- OkHttpEngine
-    SerializationService
+    ServerService <- ServletEngine, JettyServletEngine, UndertowEngine
+    ClientService <- OkHttpEngine
+    SerializationService <- MessagePackFormat
     TemplateService
 
     MetricsService <- MetricsClient TODO
@@ -51,16 +51,12 @@ Packaging and deployment
 
 TODO
 `Exchange.call` method to redirect to other handler
-Add metadata to routes (Swagger/RAML)
 Add auto parsing/serializing of body/response based on a type
   Ie: Add get<Request, Response>("/path") {} (for all methods)
 Add `Exchange.body/headers/params` as Sinatra. Ie: headers["Date"] = date
 Streaming support if returning a stream
 
-TODO Integrate settings: load configuration properties with prefixes.Ie:
-serviceName.engine = JettyServerEngine
-JettyServerEngine.async = true
-Load order:
+Settings load order:
   resources <- system properties <- environment variables <- files <- command line arguments
 
 Render template if no route found and template with that name exist (after filter)

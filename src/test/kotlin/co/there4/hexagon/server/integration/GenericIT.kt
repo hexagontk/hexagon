@@ -1,9 +1,12 @@
 package co.there4.hexagon.server.integration
 
+import co.there4.hexagon.Fortune
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.Call
 import co.there4.hexagon.server.HttpMethod
+import co.there4.hexagon.server.HttpMethod.GET
 import co.there4.hexagon.server.Router
+import co.there4.hexagon.server.at
 import co.there4.hexagon.template.KotlinxHtmlRenderer.page
 import kotlinx.html.*
 import java.time.LocalDateTime
@@ -12,6 +15,8 @@ import java.util.Locale.getDefault as defaultLocale
 
 @Suppress("unused") // Test methods are flagged as unused
 class GenericIT : ItTest () {
+    class CustomException : IllegalArgumentException()
+
     private val part = "param"
 
     private val FORTUNE_MESSAGES = setOf(
@@ -29,10 +34,12 @@ class GenericIT : ItTest () {
         "フレームワークのベンチマーク"
     )
 
-    override fun initialize(srv: Router) {
-        srv.before("/protected/*") { halt(401, "Go Away!") }
+    override fun Router.initialize() {
+        before("/protected/*") { halt(401, "Go Away!") }
 
-        srv.get("/request/data") {
+        assets("public")
+
+        get("/request/data") {
             response.body = request.url
 
             request.cookies["method"]?.value = request.method.toString()
@@ -49,45 +56,61 @@ class GenericIT : ItTest () {
             ok ("${response.body}!!!")
         }
 
-        srv.error(UnsupportedOperationException::class) {
+        error(UnsupportedOperationException::class) {
             response.addHeader("error", it.message ?: it.javaClass.name)
         }
 
-        srv.get("/*") { pass() }
-        srv.get("/exception") { throw UnsupportedOperationException("error message") }
-        srv.get("/hi") { ok ("Hello World!") }
-        srv.get("/param/{param}") { ok ("echo: ${request ["param"]}") }
-        srv.get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request ["paramWithMaj"]}") }
-        srv.get("/") { ok("Hello Root!") }
-        srv.post("/poster") { created("Body was: ${request.body}") }
-        srv.patch("/patcher") { ok ("Body was: ${request.body}") }
-        srv.delete ("/method") { okRequestMethod () }
-        srv.options ("/method") { okRequestMethod () }
-        srv.get ("/method") { okRequestMethod () }
-        srv.patch ("/method") { okRequestMethod () }
-        srv.post ("/method") { okRequestMethod () }
-        srv.put ("/method") { okRequestMethod () }
-        srv.trace ("/method") { okRequestMethod () }
-        srv.head ("/method") { response.addHeader ("header", request.method.toString()) }
-        srv.get("/halt") { halt("halted") }
-        srv.get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
-        srv.get("/template") {
+        error(IllegalArgumentException::class) {
+            response.addHeader("runtimeError", it.message ?: it.javaClass.name)
+        }
+
+        get("/*") { pass() }
+        get("/exception") { throw UnsupportedOperationException("error message") }
+        get("/baseException") { throw CustomException() }
+        get("/unhandledException") { error("error message") }
+        get("/hi") { ok ("Hello World!") }
+        get("/param/{param}") { ok ("echo: ${request ["param"]}") }
+        get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request ["paramWithMaj"]}") }
+        get("/") { ok("Hello Root!") }
+        post("/poster") { created("Body was: ${request.body}") }
+        patch("/patcher") { ok ("Body was: ${request.body}") }
+        delete ("/method") { okRequestMethod () }
+        options ("/method") { okRequestMethod () }
+        get ("/method") { okRequestMethod () }
+        patch ("/method") { okRequestMethod () }
+        post ("/method") { okRequestMethod () }
+        put ("/method") { okRequestMethod () }
+        trace ("/method") { okRequestMethod () }
+        head ("/method") { response.addHeader ("header", request.method.toString()) }
+        get("/halt") { halt("halted") }
+        get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
+        get("/template") {
             template("pebble_template.html", defaultLocale(), mapOf("date" to LocalDateTime.now()))
         }
 
-        srv.get("/tworoutes/${part.toUpperCase()}/{param}") {
+        get("/tworoutes/${part.toUpperCase()}/{param}") {
             ok ("${part.toUpperCase()} route: ${request ["param"]}")
         }
 
-        srv.get("/reqres") { ok (request.method) }
+        get("/reqres") { ok (request.method) }
 
-        srv.get("/redirect") { redirect("http://example.com") }
+        get("/redirect") { redirect("http://example.com") }
 
-        srv.after("/hi") {
+        after("/hi") {
             response.addHeader ("after", "foobar")
         }
 
-        srv.get("/fortunes") {
+        GET at "/return/status" by { 201 }
+        GET at "/return/body" by { "body" }
+        GET at "/return/pair" by { 202 to "funky status" }
+        GET at "/return/list" by { listOf("alpha", "beta") }
+        GET at "/return/map" by { mapOf("alpha" to 0, "beta" to true) }
+        GET at "/return/object" by { Fortune(1, "Message") }
+        GET at "/return/pair/list" by { 201 to listOf("alpha", "beta") }
+        GET at "/return/pair/map" by { 201 to mapOf("alpha" to 0, "beta" to true) }
+        GET at "/return/pair/object" by { 201 to Fortune(1, "Message") }
+
+        get("/fortunes") {
             page {
                 html {
                     head {
@@ -226,6 +249,13 @@ class GenericIT : ItTest () {
         }
     }
 
+    fun staticFolder() {
+        withClients {
+            val response = get ("/file.txt/")
+            assertResponseContains(response, 404, "/file.txt/ not found")
+        }
+    }
+
     fun staticFile() {
         withClients {
             val response = get ("/file.txt")
@@ -284,6 +314,34 @@ class GenericIT : ItTest () {
         withClients {
             val response = get ("/exception")
             assert("error message" == response.headers["error"]?.toString())
+        }
+    }
+
+    fun base_error_handler() {
+        withClients {
+            val response = get ("/baseException")
+            assert(response.headers["runtimeError"]?.toString() == CustomException::class.java.name)
+        }
+    }
+
+    fun not_registered_error_handler() {
+        withClients {
+            val response = get ("/unhandledException")
+            assertResponseContains(response, 500)
+        }
+    }
+
+    fun return_values () {
+        withClients {
+            assertResponseContains(get ("/return/status"), 201)
+            assertResponseEquals(get ("/return/body"), 200, "body")
+            assertResponseEquals(get ("/return/pair"), 202, "funky status")
+            assertResponseContains(get ("/return/list"), 200, "alpha", "beta")
+            assertResponseContains(get ("/return/map"), 200, "alpha", "beta", "0", "true")
+            assertResponseContains(get ("/return/object"), 200, "_id", "Message")
+            assertResponseContains(get ("/return/pair/list"), 201, "alpha", "beta")
+            assertResponseContains(get ("/return/pair/map"), 201, "alpha", "beta", "0", "true")
+            assertResponseContains(get ("/return/pair/object"), 201, "_id", "Message")
         }
     }
 
