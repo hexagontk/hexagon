@@ -1,117 +1,110 @@
 package co.there4.hexagon.rest
 
-import co.there4.hexagon.repository.MongoRepository
-import co.there4.hexagon.repository.eq
-import co.there4.hexagon.repository.isIn
+import co.there4.hexagon.store.MongoRepository
+import co.there4.hexagon.store.eq
+import co.there4.hexagon.store.isIn
 import co.there4.hexagon.serialization.*
-import co.there4.hexagon.web.*
+import co.there4.hexagon.server.Call
+import co.there4.hexagon.server.Server
 import com.mongodb.MongoWriteException
 import com.mongodb.client.FindIterable
 import com.mongodb.client.model.Filters
 import org.bson.conversions.Bson
 import java.nio.charset.Charset.defaultCharset
-import kotlin.reflect.declaredMemberProperties
+import kotlin.reflect.full.declaredMemberProperties
 
 /**
  * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)
  * TODO Implement pattern delete with filters made from query strings (see above)
  */
-open class RestBaseCrud <T : Any> (
-    open val repository: MongoRepository<T>,
-    open val server: Server,
-    open val readOnly: Boolean = false) {
+fun Server.crud(repository: MongoRepository<*>) {
+    val collectionName = repository.namespace.collectionName
 
-    open fun install() {
-        val collectionName = repository.namespace.collectionName
+    router.get("/$collectionName") { findAll (repository) }
+    router.get("/$collectionName/count") { ok(repository.count()) }
 
-        server.get("/$collectionName") { findAll (repository, this) }
-        server.get("/$collectionName/count") { ok(repository.count()) }
+    router.post("/$collectionName/list") { insertList (repository) }
+    router.post("/$collectionName") { insert (repository) }
+    router.delete("/$collectionName") { deleteByExample (repository) }
+}
 
-        if (!readOnly) {
-            server.post("/$collectionName/list") { insertList (repository, this) }
-            server.post("/$collectionName") { insert (repository, this) }
-            server.delete("/$collectionName") { deleteByExample (repository, this) }
-        }
+internal fun contentType (call: Call) = call.request.contentType ?: defaultFormat
+internal fun accept (call: Call) = call.request.accept()?.first().let {
+    if (it != null && contentTypes.contains(it)) it
+    else defaultFormat
+}
+
+internal fun <T : Any> Call.insertList (repository: MongoRepository<T>) {
+    val obj = request.body.parseList(repository.type, contentType(this))
+    try {
+        repository.insertManyObjects(obj)
+        ok(201) // Created
     }
-
-    protected fun contentType (exchange: Exchange) = exchange.request.contentType ?: defaultFormat
-    protected fun accept (exchange: Exchange) = exchange.request.accept()?.first().let {
-        if (it != null && contentTypes.contains(it)) it
-        else defaultFormat
-    }
-
-    protected fun <T : Any> insertList (repository: MongoRepository<T>, exchange: Exchange) {
-        val obj = exchange.request.body.parseList(repository.type, contentType(exchange))
-        try {
-            repository.insertManyObjects(obj)
-            exchange.ok(201) // Created
-        }
-        catch (e: MongoWriteException) {
-            if (e.error.code == 11000)
-                exchange.halt(500)//(UNPROCESSABLE_ENTITY)
-            else
-                throw e
-        }
-    }
-
-    protected fun <T : Any> insert (repository: MongoRepository<T>, exchange: Exchange) {
-        val obj = exchange.request.body.parse(repository.type, contentType(exchange))
-        try {
-            repository.insertOneObject(obj)
-            exchange.ok(201) // Created
-        }
-        catch (e: MongoWriteException) {
-            if (e.error.code == 11000)
-                exchange.halt(500)//(UNPROCESSABLE_ENTITY)
-            else
-                throw e
-        }
-    }
-
-    protected fun <T : Any> findAll (repository: MongoRepository<T>, exchange: Exchange) {
-        val exampleFilter = filterByExample(exchange)
-        val objects =
-            if (exampleFilter == null) repository.findObjects { pageResults(exchange) }.toList()
-            else repository.findObjects (exampleFilter) { pageResults(exchange) }.toList()
-        val contentType = accept(exchange)
-        exchange.response.contentType = contentType + "; charset=${defaultCharset().name()}"
-        exchange.ok(objects.serialize(contentType))
-    }
-
-    private fun deleteByExample(repository: MongoRepository<T>, exchange: Exchange) {
-        val exampleFilter = filterByExample(exchange)
-        if (exampleFilter == null)
-            exchange.error(400, "A filter is required")
+    catch (e: MongoWriteException) {
+        if (e.error.code == 11000)
+            halt(500)//(UNPROCESSABLE_ENTITY)
         else
-            repository.deleteMany(exampleFilter)
+            throw e
     }
+}
 
-    protected fun filterByExample(exchange: Exchange): Bson? {
-        val parameters = exchange.request.parameters
-        val filters = parameters
-            .filterKeys { it in repository.type.declaredMemberProperties.map { it.name } }
-
-        return if (filters.isNotEmpty())
-            Filters.and(
-                filters.map {
-                    val value = it.value.first()
-                    if (value.contains(','))
-                        it.key isIn value.split(',')
-                    else
-                        it.key eq value
-                }
-            )
-        else null
+internal fun <T : Any> Call.insert (repository: MongoRepository<T>) {
+    val obj = request.body.parse(repository.type, contentType(this))
+    try {
+        repository.insertOneObject(obj)
+        ok(201) // Created
     }
-
-    protected fun FindIterable<*>.pageResults(exchange: Exchange): FindIterable<*> {
-        val limit = exchange.request["limit"]
-        if (limit != null)
-            limit(limit.toInt())
-        val skip = exchange.request["skip"]
-        if (skip != null)
-            skip(skip.toInt())
-
-        return this
+    catch (e: MongoWriteException) {
+        if (e.error.code == 11000)
+            halt(500)//(UNPROCESSABLE_ENTITY)
+        else
+            throw e
     }
+}
+
+internal fun <T : Any> Call.findAll (repository: MongoRepository<T>) {
+    val exampleFilter = filterByExample(repository, this)
+    val objects =
+        if (exampleFilter == null) repository.findObjects { pageResults(this@findAll) }.toList()
+        else repository.findObjects (exampleFilter) { pageResults(this@findAll) }.toList()
+    val contentType = accept(this)
+    response.contentType = contentType + "; charset=${defaultCharset().name()}"
+    ok(objects.serialize(contentType))
+}
+
+private fun Call.deleteByExample(repository: MongoRepository<*>) {
+    val exampleFilter = filterByExample(repository, this)
+    if (exampleFilter == null)
+        error(400, "A filter is required")
+    else
+        repository.deleteMany(exampleFilter)
+}
+
+internal fun filterByExample(repository: MongoRepository<*>, call: Call): Bson? {
+    val parameters = call.request.parameters
+    val filters = parameters
+        .filterKeys { it in repository.type.declaredMemberProperties.map { it.name } }
+
+    return if (filters.isNotEmpty())
+        Filters.and(
+            filters.map {
+                val value = it.value.first()
+                if (value.contains(','))
+                    it.key isIn value.split(',')
+                else
+                    it.key eq value
+            }
+        )
+    else null
+}
+
+internal fun FindIterable<*>.pageResults(call: Call): FindIterable<*> {
+    val limit = call.request["limit"]
+    if (limit != null)
+        limit(limit.toInt())
+    val skip = call.request["skip"]
+    if (skip != null)
+        skip(skip.toInt())
+
+    return this
 }

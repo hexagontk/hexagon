@@ -28,7 +28,7 @@ services:
 
 install:
   - ln -s gradle/wrapper gradlew
-  - mongo systems/benchmark.js
+  - mongo systems/mongodb.js
 
 script: gradle/wrapper --no-daemon --full-stacktrace build site
 

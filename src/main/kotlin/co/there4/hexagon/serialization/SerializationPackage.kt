@@ -1,24 +1,23 @@
 package co.there4.hexagon.serialization
 
-import co.there4.hexagon.settings.SettingsManager.setting
-import co.there4.hexagon.util.asNumber
-import co.there4.hexagon.util.toLocalDate
-import co.there4.hexagon.util.toLocalDateTime
-import co.there4.hexagon.util.toLocalTime
+import co.there4.hexagon.settings.SettingsManager.settings
+import co.there4.hexagon.helpers.asNumber
+import co.there4.hexagon.helpers.toLocalDate
+import co.there4.hexagon.helpers.toLocalDateTime
+import co.there4.hexagon.helpers.toLocalTime
 
+import com.fasterxml.jackson.core.JsonParser.Feature.*
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
-import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonToken
+import com.fasterxml.jackson.core.*
 import com.fasterxml.jackson.core.JsonToken.START_OBJECT
 import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY
+import com.fasterxml.jackson.databind.DeserializationFeature.WRAP_EXCEPTIONS
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
+import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES
+import com.fasterxml.jackson.databind.SerializationFeature.*
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 
 import java.io.ByteArrayInputStream
@@ -35,7 +34,7 @@ import java.util.*
 import kotlin.reflect.KClass
 
 val contentTypes = JacksonSerializer.contentTypes
-val defaultFormat by lazy { setting<String>("contentType") ?: contentTypes.first() }
+val defaultFormat by lazy { settings["contentType"] as? String ?: contentTypes.first() }
 
 fun Any.convertToMap(): Map<*, *> = JacksonSerializer.toMap (this)
 
@@ -83,30 +82,30 @@ private fun JsonToken.checkIs(expected: JsonToken) {
     check (this == expected) { "${this.name} should be: ${expected.name}" }
 }
 
-internal fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper {
-    val mapper = ObjectMapper (mapperFactory)
-    mapper.configure (FAIL_ON_UNKNOWN_PROPERTIES, false)
-    mapper.configure (FAIL_ON_EMPTY_BEANS, false)
-    mapper.setSerializationInclusion (NON_EMPTY)
-    mapper.registerModule (Jdk8Module ())
-    mapper.registerModule (JavaTimeModule ())
-    mapper.registerModule (KotlinModule ())
-    mapper.registerModule (object : SimpleModule() {
-        init {
-            addSerializer (ByteBuffer::class.java, ByteBufferSerializer)
-            addDeserializer (ByteBuffer::class.java, ByteBufferDeserializer)
-            addSerializer (LocalTime::class.java, LocalTimeSerializer)
-            addDeserializer (LocalTime::class.java, LocalTimeDeserializer)
-            addSerializer (LocalDate::class.java, LocalDateSerializer)
-            addDeserializer (LocalDate::class.java, LocalDateDeserializer)
-            addSerializer (LocalDateTime::class.java, LocalDateTimeSerializer)
-            addDeserializer (LocalDateTime::class.java, LocalDateTimeDeserializer)
-            addSerializer (ClosedRange::class.java, ClosedRangeSerializer)
-            addDeserializer (ClosedRange::class.java, ClosedRangeDeserializer)
-        }
-    })
-    return mapper
-}
+internal fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()) =
+    ObjectMapper (mapperFactory)
+        .configure (FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure (FAIL_ON_EMPTY_BEANS, false)
+        .configure (ALLOW_UNQUOTED_FIELD_NAMES, true)
+        .configure (ALLOW_COMMENTS, true)
+        .configure (ALLOW_SINGLE_QUOTES, true)
+        .configure (WRAP_EXCEPTIONS, false)
+        .configure (FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
+        .configure (ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
+        .setSerializationInclusion (NON_EMPTY)
+        .registerModule (KotlinModule ())
+        .registerModule (SimpleModule("SerializationModule", Version.unknownVersion())
+            .addSerializer (ByteBuffer::class.java, ByteBufferSerializer)
+            .addDeserializer (ByteBuffer::class.java, ByteBufferDeserializer)
+            .addSerializer (LocalTime::class.java, LocalTimeSerializer)
+            .addDeserializer (LocalTime::class.java, LocalTimeDeserializer)
+            .addSerializer (LocalDate::class.java, LocalDateSerializer)
+            .addDeserializer (LocalDate::class.java, LocalDateDeserializer)
+            .addSerializer (LocalDateTime::class.java, LocalDateTimeSerializer)
+            .addDeserializer (LocalDateTime::class.java, LocalDateTimeDeserializer)
+            .addSerializer (ClosedRange::class.java, ClosedRangeSerializer)
+            .addDeserializer (ClosedRange::class.java, ClosedRangeDeserializer)
+        )
 
 internal object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
     override fun serialize(value: ByteBuffer, gen: JsonGenerator, serializers: SerializerProvider) {
@@ -172,7 +171,10 @@ internal object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
     }
 }
 
-internal object ClosedRangeDeserializer: JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
+// TODO Not thread safe!!! (as proved by parallel tests)
+internal object ClosedRangeDeserializer :
+    JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
+
     private val valueType: ThreadLocal<JavaType?> = ThreadLocal.withInitial { null }
 
     override fun createContextual(

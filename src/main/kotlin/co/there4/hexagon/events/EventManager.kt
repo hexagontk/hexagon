@@ -1,29 +1,25 @@
 package co.there4.hexagon.events
 
-import co.there4.hexagon.messaging.RabbitClient
-import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.util.CompanionLogger
-
+import co.there4.hexagon.events.rabbitmq.RabbitMqEventEngine
+import co.there4.hexagon.helpers.CachedLogger
 import kotlin.reflect.KClass
 
-object EventManager : CompanionLogger (EventManager::class) {
-    const val exchange = "events"
+object EventManager : CachedLogger(EventManager::class) {
+    var engine: EventEngine = RabbitMqEventEngine()
 
-    val client by lazy { RabbitClient () }
-
-    init {
-        client.bindExchange(exchange, "topic", "*.*.*", "event_pool")
+    fun <T : Event> consume(type: KClass<T>, address: String, consumer: (T) -> Unit) {
+        engine.consume(type, address, consumer)
     }
 
-    fun <T : Event> consume(type: KClass<T>, event: String, consumer: (T) -> Unit) {
-        client.consume(exchange, event, type) { consumer(it) }
-    }
-
-    fun <T : Event> consume(type: KClass<T>,  consumer: (T) -> Unit) {
+    fun <T : Event> consume(type: KClass<T>, consumer: (T) -> Unit) {
         consume(type, type.java.name, consumer)
     }
 
+    fun publish(event: Event, address: String) {
+        engine.publish(event, address)
+    }
+
     fun publish(event: Event) {
-        client.publish(exchange, event.action, event.serialize())
+        publish(event, event.javaClass.name)
     }
 }

@@ -1,11 +1,9 @@
 package co.there4.hexagon
 
 import co.there4.hexagon.serialization.parse
-import co.there4.hexagon.web.Client
-import co.there4.hexagon.web.HttpMethod.GET
-import co.there4.hexagon.web.reset
-import co.there4.hexagon.web.server
-import co.there4.hexagon.web.stop
+import co.there4.hexagon.client.Client
+import co.there4.hexagon.server.HttpMethod.GET
+import co.there4.hexagon.server.RequestHandler.RouteHandler
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -16,11 +14,9 @@ internal const val TIMES = 2
 
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
 class BenchmarkTest(val databaseEngine: String = "mongodb") {
-    private val client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client by lazy { Client("http://localhost:${server?.runtimePort}") }
 
     @BeforeClass fun warmup() {
-        stop()
-        reset()
         main(arrayOf(databaseEngine))
     }
 
@@ -32,9 +28,10 @@ class BenchmarkTest(val databaseEngine: String = "mongodb") {
 
     fun web() {
         val web = Web()
-        web.init()
 
-        val webRoutes = web.routes.map { it.key.method to it.key.path.path }
+        val webRoutes = web.serverRouter.requestHandlers
+            .filterIsInstance(RouteHandler::class.java)
+            .map { it.route.method.first() to it.route.path.path }
         val benchmarkRoutes = listOf(
             GET to "/plaintext",
             GET to "/json",

@@ -2,8 +2,8 @@ package co.there4.hexagon
 
 import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.web.*
-import co.there4.hexagon.web.servlet.ServletServer
+import co.there4.hexagon.server.*
+import co.there4.hexagon.server.engine.servlet.ServletServer
 
 import java.net.InetAddress.getByName as address
 import java.time.LocalDateTime.now
@@ -19,20 +19,19 @@ internal data class World(val _id: Int, val id: Int = _id, val randomNumber: Int
 private val CONTENT_TYPE_JSON = "application/json"
 private val QUERIES_PARAM = "queries"
 
+var server: Server? = null
+
 // UTILITIES
 internal fun rnd() = ThreadLocalRandom.current().nextInt(DB_ROWS) + 1
 
-private fun Exchange.returnWorlds(worlds: List<World>) {
-    fun World.strip(): Map<*, *> = this.convertToMap().filterKeys { it != "_id" }
-
-    val result =
-        if (request[QUERIES_PARAM] == null) worlds[0].strip().serialize()
-        else worlds.map(World::strip).serialize()
+private fun Call.returnWorlds(worldsList: List<World>) {
+    val worlds = worldsList.map { it.convertToMap() - "_id" }
+    val result = if (worlds.size == 1) worlds.first().serialize() else worlds.serialize()
 
     ok(result, CONTENT_TYPE_JSON)
 }
 
-private fun Exchange.getQueries() =
+private fun Call.getQueries() =
     try {
         val queries = request[QUERIES_PARAM]?.toInt() ?: 1
         when {
@@ -46,35 +45,36 @@ private fun Exchange.getQueries() =
     }
 
 // HANDLERS
-private fun Exchange.listFortunes(store: Repository) {
+private fun Call.listFortunes(store: Repository) {
     val fortunes = store.findFortunes() + Fortune(0, "Additional fortune added at request time.")
     response.contentType = "text/html; charset=utf-8"
     template("fortunes.html", "fortunes" to fortunes.sortedBy { it.message })
 }
 
-private fun benchmarkRoutes(store: Repository, srv: Router = server) {
-    srv.before {
+private fun Router.benchmarkRoutes(store: Repository) {
+    before {
         response.addHeader("Server", "Servlet/3.1")
         response.addHeader("Transfer-Encoding", "chunked")
         response.addHeader("Date", httpDate(now()))
     }
 
-    srv.get("/plaintext") { ok("Hello, World!", "text/plain") }
-    srv.get("/json") { ok(Message().serialize(), CONTENT_TYPE_JSON) }
-    srv.get("/fortunes") { listFortunes(store) }
-    srv.get("/db") { returnWorlds(store.findWorlds(getQueries())) }
-    srv.get("/query") { returnWorlds(store.findWorlds(getQueries())) }
-    srv.get("/update") { returnWorlds(store.replaceWorlds(getQueries())) }
+    get("/plaintext") { ok("Hello, World!", "text/plain") }
+    get("/json") { ok(Message().serialize(), CONTENT_TYPE_JSON) }
+    get("/fortunes") { listFortunes(store) }
+    get("/db") { returnWorlds(store.findWorlds(getQueries())) }
+    get("/query") { returnWorlds(store.findWorlds(getQueries())) }
+    get("/update") { returnWorlds(store.replaceWorlds(getQueries())) }
 }
 
 @WebListener internal class Web : ServletServer () {
-    override fun init() {
-        benchmarkRoutes(createStore("mongodb"), this)
+    override fun createRouter() = router {
+        benchmarkRoutes(createStore("mongodb"))
     }
 }
 
 fun main(args: Array<String>) {
     val store = createStore(if (args.isEmpty()) "mongodb" else args[0])
-    benchmarkRoutes(store)
-    run()
+    server = serve {
+        benchmarkRoutes(store)
+    }
 }

@@ -1,8 +1,8 @@
 package co.there4.hexagon.settings
 
-import co.there4.hexagon.settings.SettingsManager.requireSetting
+import co.there4.hexagon.helpers.get
+import co.there4.hexagon.settings.SettingsManager.settings
 import org.testng.annotations.Test
-import kotlin.test.assertFailsWith
 
 /**
  * Check `gradle.build` to see the related files creation.
@@ -10,13 +10,10 @@ import kotlin.test.assertFailsWith
 @Test class SettingsManagerTest {
     fun get_configuration_properties() {
         assert(SettingsManager["property"] == "changed")
-        assert(requireSetting<String>("property") == "changed")
-        assert(requireSetting<String>("property") == "changed")
-        assert(requireSetting<Int>("intProperty") == 42)
-        assert(requireSetting<String>("foo") == "bar")
-        assert(requireSetting<String>("parent", "key") == "val")
-        assertFailsWith<IllegalStateException>("Missing setting: absent") {
-            requireSetting<String>("absent")
-        }
+        assert(settings["property"] as String == "changed")
+        assert(settings["property"] as String == "changed")
+        assert(settings["intProperty"] as Int == 42)
+        assert(settings["foo"] as String == "bar")
+        assert(settings["parent", "key"] as String == "val")
     }
 }

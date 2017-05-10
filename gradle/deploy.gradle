@@ -6,8 +6,11 @@ ext.deployDir = findProperty ('deployDir') ?: '/opt'
 ext.serviceUser = findProperty ('serviceUser') ?: 'root'
 ext.serviceGroup = findProperty ('serviceGroup') ?: serviceUser
 
-// Include 'Systemd' script to execute the service as an UNIX service
-// Needs the 'application' plugin applied
+/*
+ * Include 'Systemd' script to execute the service as an UNIX service
+ * Needs the 'application' plugin applied
+ */
+//noinspection GroovyAssignabilityCheck
 task systemd(dependsOn: 'installDist') {
     doLast {
         String projectName = project.name

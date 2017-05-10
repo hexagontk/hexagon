@@ -14,7 +14,6 @@ typing:
     git clone https://github.com/jaguililla/hexagon.git
     cd hexagon
     docker-compose up -d
-    docker exec hexagon_mongodb_1 mongo /benchmark.js
     ./gradle/wrapper clean site publishLocal libraries installAllTemplates
 
 The results are located in the `/build` directory. And the site in `/build/site`.

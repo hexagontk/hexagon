@@ -1,16 +1,23 @@
 #
-# Services needed for testing. To setup them it is necessary to execute the following command after
-# starting the containers (check `site/content/contribute.md`):
-#
-#     docker exec hexagon_mongodb_1 mongo /benchmark.js
+# Services needed for testing (check `site/content/contribute.md`).
 #
 
 mongodb:
   image: mongo
   volumes:
-    - ./systems/benchmark.js:/benchmark.js:ro
+    - ./systems/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
   ports:
     - 27017:27017
+
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  volumes:
+    - ./systems/mysql.cnf:/etc/mysql/conf.d/config-file.cnf:ro
+    - ./systems/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql:ro
+  ports:
+    - 3306:3306
 
 rabbitmq:
   image: rabbitmq:management

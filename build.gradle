@@ -9,67 +9,97 @@ buildscript {
     }
 
     dependencies {
+        // TODO Use Dokka 0.9.14 plugin instead classpath
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
-//        classpath "uk.co.cacoethes:lazybones-gradle:$lazybonesVersion"
         classpath "com.github.zafarkhaja:java-semver:$semverVersion"
     }
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.1'
-    id 'org.ajoberstar.grgit' version '1.6.0'
-    id 'org.ajoberstar.github-pages' version '1.6.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.1.2'
+    id 'org.ajoberstar.grgit' version '1.7.1'
+    // TODO Replace by git-publish
+    id 'org.ajoberstar.github-pages' version '1.7.1'
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
     id 'com.jfrog.bintray' version '1.7.3'
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3'
+    id 'me.champeau.gradle.jmh' version '0.3.1'
 }
 
 apply from: 'gradle/site.gradle'
 apply from: 'gradle/kotlin.gradle'
 apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.dokka'
-apply plugin: 'uk.co.cacoethes.lazybones-templates'
 
 dependencies {
     // COMPILE
-    compile ("ch.qos.logback:logback-classic:$logbackVersion")
-    compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion")
-    compile ("org.slf4j:jul-to-slf4j:$slf4jVersion")
+    compile ("org.slf4j:slf4j-api:$slf4jVersion")
+    compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion") { exclude module: "slf4j-api" }
+    compile ("org.slf4j:jul-to-slf4j:$slf4jVersion") { exclude module: "slf4j-api" }
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
-    compile ("org.asynchttpclient:async-http-client:$asynchttpclientVersion")
+    compile ("org.asynchttpclient:async-http-client:$ahcVersion") { exclude module: "slf4j-api" }
 
-    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
-    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
     compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
         exclude module: "kotlin-reflect"
     }
 
-    compileOnly ("com.rabbitmq:amqp-client:$rabbitVersion")
+    // Compile only (optional libraries)
+    compileOnly ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
+        exclude module: "kotlin-stdlib"
+    }
+
+    compileOnly ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: "slf4j-api" }
     compileOnly ("org.mongodb:mongodb-driver:$mongodbVersion")
 
     compileOnly ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
-    compileOnly ("com.mitchellbosecke:pebble:$pebbleVersion")
-    compileOnly ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
+    compileOnly ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
+    compileOnly ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion") {
+        exclude module: "kotlin-stdlib"
+    }
 
     // TEST
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("org.mockito:mockito-core:$mockitoVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
     testCompile ("org.mongodb:mongodb-driver:$mongodbVersion")
-    testCompile ("com.rabbitmq:amqp-client:$rabbitVersion")
+    testCompile ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
+        exclude module: "kotlin-stdlib"
+    }
+    testCompile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: "slf4j-api" }
     testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
-    testCompile ("com.mitchellbosecke:pebble:$pebbleVersion")
-    testCompile ("org.jetbrains.kotlinx:kotlinx.html.jvm:$kotlinxHtmlVersion")
-    testCompile ("org.apache.qpid:qpid-broker:0.28") { // Version *MUST BE* 0.28 for tests to work
-        exclude module: "commons-logging"
-        exclude module: "slf4j-log4j12"
+    testCompile ("com.mitchellbosecke:pebble:$pebbleVersion") {
+        exclude module: "guava"
         exclude module: "slf4j-api"
     }
+    testCompile ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion") {
+        exclude module: "kotlin-stdlib"
+    }
+    testCompile ("com.google.guava:guava:18.0")
+    testCompile ("org.apache.qpid:qpid-broker:6.1.2") {
+        exclude module: "logback-classic"
+        exclude module: "jackson-databind"
+        exclude module: "jackson-core"
+        exclude module: "slf4j-api"
+        exclude module: "qpid-broker-plugins-derby-store"
+        exclude module: "qpid-broker-plugins-jdbc-provider-bone"
+        exclude module: "qpid-broker-plugins-jdbc-store"
+        exclude module: "qpid-broker-plugins-management-http"
+        exclude module: "qpid-broker-plugins-websocket"
+    }
+
+    // BENCHMARK
+    jmh ("org.openjdk.jmh:jmh-core:$jmhVersion")
+    jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion")
+    jmh ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
 }
 
 test {
-    useTestNG ()
+    useTestNG {
+        // TODO threading issues with `ClosedRangeDeserializer`
+//        parallel = "methods"
+//        threadCount = 4
+    }
 
     doFirst {
         File environmentFile = file("${System.getProperty("user.home")}/.environment")
@@ -142,7 +172,6 @@ lazybones {
     repositoryApiKey = bintrayKey
 
     licenses = [ 'MIT' ]
-//    vcsUrl = 'https://github.com/jaguililla/hexagon.git'
 }
 
 task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
@@ -176,16 +205,16 @@ task checkGitStatus () {
     }
 }
 
-task major (dependsOn: 'checkGitStatus') { doLast { version "major" } }
-task minor (dependsOn: 'checkGitStatus') { doLast { version "minor" } }
-task patch (dependsOn: 'checkGitStatus') { doLast { version "patch" } }
+task major (dependsOn: 'checkGitStatus') { doLast { upgrade 'major' } }
+task minor (dependsOn: 'checkGitStatus') { doLast { upgrade 'minor' } }
+task patch (dependsOn: 'checkGitStatus') { doLast { upgrade 'patch' } }
 
-void checkCleanRepository() {
+static void checkCleanRepository() {
     if (!grgit.status ().clean)
         throw new GradleException ('Repository not clean')
 }
 
-void version(String type) {
+void upgrade (String type) {
     //noinspection UnnecessaryQualifiedReference
     def semver = com.github.zafarkhaja.semver.Version.valueOf (version.toString())
 

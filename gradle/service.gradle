@@ -8,7 +8,10 @@ defaultTasks 'installDist'
 
 processResources.dependsOn 'buildInfo'
 
-// Add configuration file with build variables to the package
+/*
+ * Add configuration file with build variables to the package
+ */
+//noinspection GroovyAssignabilityCheck
 task buildInfo {
     doLast {
         file ("$buildDir/resources/main").mkdirs ()
@@ -24,7 +27,10 @@ task buildInfo {
 
 installDist.dependsOn 'check'
 
-// Run the service in another thread. This allow the possibility to 'watch' source changes
+/*
+ * Run the service in another thread. This allow the possibility to 'watch' source changes
+ */
+//noinspection GroovyAssignabilityCheck
 task runService(dependsOn: 'classes') {
     doLast {
         // NOTE: these two statements are *REQUIRED* to load classpath and main class

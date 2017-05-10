@@ -1,12 +1,13 @@
 package co.there4.hexagon.serialization
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import java.io.InputStream
 import kotlin.reflect.KClass
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
 
 object JacksonSerializer {
-    val mapper = createObjectMapper ()
+    val mapper: ObjectMapper = createObjectMapper ()
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     private val formatList = listOf (
