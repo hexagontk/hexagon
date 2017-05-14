@@ -7,7 +7,7 @@ import co.there4.hexagon.settings.SettingsManager.settings
 import java.lang.System.getenv
 import kotlin.reflect.KProperty1
 
-internal val DB_ROWS = 10000
+internal const val DB_ROWS = 10000
 
 private val DB_HOST = getenv("DBHOST") ?: "localhost"
 private val DB = settings["database"] as? String ?: "hello_world"

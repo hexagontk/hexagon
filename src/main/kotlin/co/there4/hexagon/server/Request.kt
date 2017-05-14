@@ -12,15 +12,16 @@ import java.net.HttpCookie
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
 class Request(private val request: EngineRequest) {
-    val path: String by lazy { request.path }
-    val body: String by lazy { request.body }
-    val scheme: String by lazy { request.scheme }
-    val port: Int by lazy { request.port }
     val method: HttpMethod by lazy { request.method }
+    val scheme: String by lazy { request.scheme }
+    val host: String by lazy { request.host }
+    val port: Int by lazy { request.port }
+    val path: String by lazy { request.path }
     val queryString: String by lazy { request.queryString }
+    val body: String by lazy { request.body }
+
     val contentLength: Long by lazy { request.contentLength }
     val contentType: String? by lazy { request.contentType }
-    val host: String by lazy { request.host }
     val userAgent: String by lazy { request.userAgent }
     val url: String by lazy { request.url }
     val ip: String by lazy { request.ip }

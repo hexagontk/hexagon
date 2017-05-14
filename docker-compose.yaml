@@ -5,7 +5,7 @@
 mongodb:
   image: mongo
   volumes:
-    - ./systems/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
+    - ./benchmark/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
   ports:
     - 27017:27017
 
@@ -14,10 +14,17 @@ mysql:
   environment:
     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
   volumes:
-    - ./systems/mysql.cnf:/etc/mysql/conf.d/config-file.cnf:ro
-    - ./systems/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql:ro
+    - ./benchmark/mysql.cnf:/etc/mysql/conf.d/config-file.cnf:ro
+    - ./benchmark/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql:ro
   ports:
     - 3306:3306
+
+postgresql:
+  image: postgres
+  volumes:
+    - ./benchmark/postgresql.sql:/docker-entrypoint-initdb.d/db.sql:ro
+  ports:
+    - 5432:5432
 
 rabbitmq:
   image: rabbitmq:management

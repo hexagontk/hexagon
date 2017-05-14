@@ -3,21 +3,49 @@ package co.there4.hexagon
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.HttpMethod.GET
-import co.there4.hexagon.server.RequestHandler.RouteHandler
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 
 internal const val THREADS = 4
-internal const val TIMES = 2
+internal const val TIMES = 4
+
+class BenchmarkMongoDbTest : BenchmarkTest("mongodb")
+class BenchmarkMySqlTest : BenchmarkTest("mysql")
+//class BenchmarkPostgreSqlTest : BenchmarkTest("postgresql")
 
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
-class BenchmarkTest(val databaseEngine: String = "mongodb") {
+abstract class BenchmarkTest(val databaseEngine: String) {
     private val client by lazy { Client("http://localhost:${server?.runtimePort}") }
 
     @BeforeClass fun warmup() {
         main(databaseEngine)
+
+        val warmupRounds = if (THREADS > 1) 2 else 0
+        (1..warmupRounds).forEach {
+            json()
+            plaintext()
+            no_query_parameter()
+            empty_query_parameter()
+            text_query_parameter()
+            zero_queries()
+            one_thousand_queries()
+            one_query()
+            ten_queries()
+            one_hundred_queries()
+            five_hundred_queries()
+            fortunes()
+            no_updates_parameter()
+            empty_updates_parameter()
+            text_updates_parameter()
+            zero_updates()
+            one_thousand_updates()
+            one_update()
+            ten_updates()
+            one_hundred_updates()
+            five_hundred_updates()
+        }
     }
 
     fun store() {
@@ -121,9 +149,7 @@ class BenchmarkTest(val databaseEngine: String = "mongodb") {
             val r = resultsList[it - 1] as Map<*, *>
             assert(r.containsKey(World::id.name) && r.containsKey(World::randomNumber.name))
             assert(!r.containsKey(World::_id.name))
-            // TODO Should be between 1 and 10000, but it seems that for query it does not work
-//            assert((r[World::id.name] as Int) in 1..10000)
-            assert((r[World::id.name] as Int) in 0..10000)
+            assert((r[World::id.name] as Int) in 1..10000)
         }
     }
 

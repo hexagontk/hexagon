@@ -1,7 +1,7 @@
 #!/usr/local/bin/kotlins ../build/libs
 
-import co.there4.hexagon.web.*
+import co.there4.hexagon.server.*
 
 serve {
-    get { ok("ok computer") }
+    get { "ok computer" }
 }

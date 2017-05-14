@@ -1,9 +1,9 @@
 package co.there4.hexagon.template
 
 import co.there4.hexagon.serialization.parse
-import co.there4.hexagon.settings.SettingsManager
 import co.there4.hexagon.helpers.resourceAsStream
 import co.there4.hexagon.helpers.toDate
+import co.there4.hexagon.settings.SettingsManager.settings
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.io.StringWriter
 import java.time.LocalDateTime
@@ -19,8 +19,7 @@ import java.util.*
  */
 internal object PebbleRenderer {
     val basePath = "templates"
-    val engine: PebbleEngine = PebbleEngine.Builder().build() ?: error("Error setting up Pebble")
-    val settings = SettingsManager.settings
+    val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()
 
     var parametersCache: Map<String, Map<String, Any?>> = mapOf()
 
