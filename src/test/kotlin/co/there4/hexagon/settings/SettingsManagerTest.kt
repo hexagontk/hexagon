@@ -9,7 +9,6 @@ import org.testng.annotations.Test
  */
 @Test class SettingsManagerTest {
     fun get_configuration_properties() {
-        assert(SettingsManager["property"] == "changed")
         assert(settings["property"] as String == "changed")
         assert(settings["property"] as String == "changed")
         assert(settings["intProperty"] as Int == 42)

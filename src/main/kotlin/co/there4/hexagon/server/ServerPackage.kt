@@ -3,6 +3,7 @@ package co.there4.hexagon.server
 import co.there4.hexagon.server.HttpMethod.*
 import co.there4.hexagon.server.engine.ServerEngine
 import co.there4.hexagon.server.engine.servlet.JettyServletEngine
+import co.there4.hexagon.settings.SettingsManager
 
 /** Alias for filters' callbacks. Functions executed before/after routes. */
 typealias FilterCallback = Call.() -> Unit
@@ -20,25 +21,29 @@ val ALL: Set<HttpMethod> = HttpMethod.values().toSet()
  * Creates a server with a router. It is a combination of [Server] and [router].
  *
  * @param engine The server engine.
+ * @param settings Server settings. Port and address will be searched in this map.
  * @param block Router's setup block.
  * @return A new server with the built router.
  */
 fun server(
     engine: ServerEngine = JettyServletEngine(),
+    settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
-        Server(engine, router = router(block))
+        Server(engine, settings, router(block))
 
 /**
  * Creates and starts a server with a router. It is a combination of [Server] and [router].
  *
  * @param engine The server engine.
+ * @param settings Server settings. Port and address will be searched in this map.
  * @param block Router's setup block.
  * @return The running server with the built router.
  */
 fun serve(
     engine: ServerEngine = JettyServletEngine(),
+    settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
-        server(engine, block).apply { run() }
+        server(engine, settings, block).apply { run() }
 
 /**
  * Creates and initializes a [Router] based on a code block.

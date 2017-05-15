@@ -13,36 +13,15 @@ import java.io.Closeable
 import java.sql.Connection
 import java.sql.ResultSet.CONCUR_READ_ONLY
 import java.sql.ResultSet.TYPE_FORWARD_ONLY
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import javax.sql.DataSource
 import kotlin.reflect.KProperty1
 
-internal const val DB_ROWS = 10000
+internal const val WORLD_ROWS = 10000
 
 private val DB_HOST = getenv("DBHOST") ?: "localhost"
 private val DB = settings["database"] as? String ?: "hello_world"
 private val WORLD: String = settings["worldCollection"] as? String ?: "world"
 private val FORTUNE: String = settings["fortuneCollection"] as? String ?: "fortune"
-
-private val mysqlUrl = "jdbc:mysql://$DB_HOST/$DB?" +
-    "useSSL=false&" +
-    "rewriteBatchedStatements=true&" +
-    "jdbcCompliantTruncation=false&" +
-    "elideSetAutoCommits=true&" +
-    "useLocalSessionState=true&" +
-    "cachePrepStmts=true&" +
-    "cacheCallableStmts=true&" +
-    "alwaysSendSetIsolation=false&" +
-    "prepStmtCacheSize=4096&" +
-    "cacheServerConfiguration=true&" +
-    "prepStmtCacheSqlLimit=2048&" +
-    "traceProtocol=false&" +
-    "useUnbufferedInput=false&" +
-    "useReadAheadInput=false&" +
-    "maintainTimeStats=false&" +
-    "useServerPrepStmts=true&" +
-    "cacheRSMetadata=true"
 
 private val postgresqlUrl = "jdbc:postgresql://$DB_HOST/$DB?" +
     "jdbcCompliantTruncation=false&" +
@@ -61,22 +40,19 @@ private val postgresqlUrl = "jdbc:postgresql://$DB_HOST/$DB?" +
     "useServerPrepStmts=true&" +
     "cacheRSMetadata=true"
 
-private val executor: ExecutorService = Executors.newFixedThreadPool(16)
-
-internal fun createStore(engine: String): Repository = when (engine) {
-    "mongodb" -> MongoDbRepository()
-    "mysql" -> SqlRepository(mysqlUrl)
-    "postgresql" -> SqlRepository(postgresqlUrl)
+internal fun createStore(engine: String): Store = when (engine) {
+    "mongodb" -> MongoDbStore()
+    "postgresql" -> SqlStore(postgresqlUrl)
     else -> error("Unsupported database")
 }
 
-internal interface Repository {
+internal interface Store {
     fun findFortunes(): List<Fortune>
     fun findWorlds(queries: Int): List<World>
     fun replaceWorlds(queries: Int): List<World>
 }
 
-internal class MongoDbRepository : Repository {
+internal class MongoDbStore : Store {
     private val database = mongoDatabase("mongodb://$DB_HOST/$DB")
 
     internal val worldRepository = repository(WORLD, World::_id)
@@ -89,18 +65,18 @@ internal class MongoDbRepository : Repository {
     override fun findFortunes() = fortuneRepository.findObjects().toList()
 
     override fun findWorlds(queries: Int) =
-        (1..queries).map { worldRepository.find(rnd()) }.filterNotNull()
+        (1..queries).map { worldRepository.find(randomWorld()) }.filterNotNull()
 
     override fun replaceWorlds(queries: Int) = (1..queries)
-        .map { worldRepository.find(rnd())?.copy(randomNumber = rnd()) ?: err }
+        .map { worldRepository.find(randomWorld())?.copy(randomNumber = randomWorld()) ?: err }
         .toList()
         .map {
-            executor.execute { worldRepository.replaceObjects(it, bulk = true) }
+            worldRepository.replaceObjects(it, bulk = true)
             it
         }
 }
 
-internal class SqlRepository(jdbcUrl: String) : Repository {
+internal class SqlStore(jdbcUrl: String) : Store {
     private val SELECT_WORLD = "select * from world where id = ?"
     private val UPDATE_WORLD = "update world set randomNumber = ? where id = ?"
     private val SELECT_FORTUNES = "select * from fortune"
@@ -138,10 +114,11 @@ internal class SqlRepository(jdbcUrl: String) : Repository {
             val stmtSelect = con.prepareStatement(SELECT_WORLD)
 
             for (ii in 0..queries - 1) {
-                stmtSelect.setInt(1, rnd())
+                stmtSelect.setInt(1, randomWorld())
                 val rs = stmtSelect.executeQuery()
                 rs.next()
-                worlds += World(rs.getInt(1), rs.getInt(2))
+                val _id = rs.getInt(1)
+                worlds += World(_id, _id, rs.getInt(2))
             }
         }
 
@@ -153,50 +130,27 @@ internal class SqlRepository(jdbcUrl: String) : Repository {
 
         KConnection(DATA_SOURCE.connection).use { con: Connection ->
             val stmtSelect = con.prepareStatement(SELECT_WORLD, TYPE_FORWARD_ONLY, CONCUR_READ_ONLY)
-//            val stmtUpdate = con.prepareStatement(UPDATE_WORLD)
+            val stmtUpdate = con.prepareStatement(UPDATE_WORLD)
 
             for (ii in 0..queries - 1) {
-                stmtSelect.setInt(1, rnd())
+                stmtSelect.setInt(1, randomWorld())
                 val rs = stmtSelect.executeQuery()
                 rs.next()
 
-                val world = World(rs.getInt(1), rs.getInt(2)).copy(randomNumber = rnd())
+                val _id = rs.getInt(1)
+                val world = World(_id, _id, rs.getInt(2)).copy(randomNumber = randomWorld())
                 worlds += world
 
-//                stmtUpdate.setInt(1, world.randomNumber)
-//                stmtUpdate.setInt(2, world.id)
-//                stmtUpdate.addBatch()
-//
-//                if (ii % 50 == 0)
-//                    stmtUpdate.executeBatch()
+                stmtUpdate.setInt(1, world.randomNumber)
+                stmtUpdate.setInt(2, world.id)
+                stmtUpdate.addBatch()
+
+                if (ii % 25 == 0)
+                    stmtUpdate.executeBatch()
             }
 
-//            stmtUpdate.executeBatch()
+            stmtUpdate.executeBatch()
         }
-
-//        //            KConnection(DATA_SOURCE.connection).use { con: Connection ->
-//                val stmtUpdate = con.prepareStatement(UPDATE_WORLD)
-//
-//                for ((_, id, randomNumber) in worlds) {
-//                    stmtUpdate.setInt(1, randomNumber)
-//                    stmtUpdate.setInt(2, id)
-//                    stmtUpdate.addBatch()
-//                }
-//
-//                stmtUpdate.executeBatch()
-//            }executor.execute {
-            KConnection(DATA_SOURCE.connection).use { con: Connection ->
-                val stmtUpdate = con.prepareStatement(UPDATE_WORLD)
-
-                for ((_, id, randomNumber) in worlds) {
-                    stmtUpdate.setInt(1, randomNumber)
-                    stmtUpdate.setInt(2, id)
-                    stmtUpdate.addBatch()
-                }
-
-                stmtUpdate.executeBatch()
-            }
-//        }
 
         return worlds
     }

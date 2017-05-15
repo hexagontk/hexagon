@@ -98,6 +98,7 @@ import kotlin.test.assertFailsWith
         assert(m["nested", "zulu", "tango"] == null)
         assert(m["nested", "empty"] == null)
         assert(m["empty"] == null)
+        assert(m["alpha"] == "bravo")
         assert(m[0] == 1)
     }
 
@@ -171,7 +172,7 @@ import kotlin.test.assertFailsWith
     }
 
     fun require_resource() {
-        assert(requireResource("service.yaml").file == resource("service.yaml")?.file)
+        assert(requireResource("service_test.yaml").file == resource("service_test.yaml")?.file)
         assertFailsWith<IllegalStateException>("foo.txt not found") {
             requireResource("foo.txt")
         }

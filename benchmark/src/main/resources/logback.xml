@@ -23,5 +23,5 @@
     <appender-ref ref="file" />
   </root>
 
-  <logger name="co.there4.hexagon" level="off" />
+  <logger name="co.there4.hexagon.server.Server" level="info" />
 </configuration>

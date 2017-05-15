@@ -12,8 +12,7 @@ internal const val THREADS = 4
 internal const val TIMES = 4
 
 class BenchmarkMongoDbTest : BenchmarkTest("mongodb")
-class BenchmarkMySqlTest : BenchmarkTest("mysql")
-//class BenchmarkPostgreSqlTest : BenchmarkTest("postgresql")
+class BenchmarkPostgreSqlTest : BenchmarkTest("postgresql")
 
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
 abstract class BenchmarkTest(val databaseEngine: String) {

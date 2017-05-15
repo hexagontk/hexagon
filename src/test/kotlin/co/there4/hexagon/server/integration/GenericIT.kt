@@ -1,6 +1,5 @@
 package co.there4.hexagon.server.integration
 
-import co.there4.hexagon.Fortune
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.Call
 import co.there4.hexagon.server.HttpMethod
@@ -12,6 +11,7 @@ import kotlinx.html.*
 import java.time.LocalDateTime
 import kotlin.test.assertTrue
 import java.util.Locale.getDefault as defaultLocale
+import co.there4.hexagon.store.Tag as TestTag
 
 @Suppress("unused") // Test methods are flagged as unused
 class GenericIT : ItTest () {
@@ -105,10 +105,10 @@ class GenericIT : ItTest () {
         GET at "/return/pair" by { 202 to "funky status" }
         GET at "/return/list" by { listOf("alpha", "beta") }
         GET at "/return/map" by { mapOf("alpha" to 0, "beta" to true) }
-        GET at "/return/object" by { Fortune(1, "Message") }
+        GET at "/return/object" by { TestTag(name = "Message") }
         GET at "/return/pair/list" by { 201 to listOf("alpha", "beta") }
         GET at "/return/pair/map" by { 201 to mapOf("alpha" to 0, "beta" to true) }
-        GET at "/return/pair/object" by { 201 to Fortune(1, "Message") }
+        GET at "/return/pair/object" by { 201 to TestTag(name = "Message") }
 
         get("/fortunes") {
             page {

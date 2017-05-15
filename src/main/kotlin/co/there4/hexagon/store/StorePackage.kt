@@ -1,6 +1,6 @@
 package co.there4.hexagon.store
 
-import co.there4.hexagon.settings.SettingsManager
+import co.there4.hexagon.settings.SettingsManager.settings
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoCollection
@@ -12,7 +12,7 @@ import org.bson.conversions.Bson
 import org.bson.types.ObjectId
 import kotlin.reflect.KProperty1
 
-val mongodbUrl = SettingsManager["mongodbUrl"] as String? ?: "mongodb://localhost/test"
+val mongodbUrl = settings["mongodbUrl"] as? String? ?: "mongodb://localhost/test"
 
 fun mongoDatabase (uri: String = mongodbUrl): MongoDatabase =
     MongoClient(MongoClientURI(uri)).getDatabase(MongoClientURI(uri).database) ?:
