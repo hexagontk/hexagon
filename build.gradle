@@ -185,6 +185,8 @@ publishGhPages.dependsOn 'site'
 bintrayUpload.dependsOn 'build'
 publish.dependsOn 'publishGhPages', 'bintrayUpload', 'publishAllTemplates'
 
+ext.grgit = org.ajoberstar.grgit.Grgit.open(dir: '.')
+
 task release(dependsOn: [ 'checkGitStatus', 'publish', 'libraries', 'installAllTemplates' ]) {
     doLast {
         grgit.tag.add {
@@ -200,9 +202,9 @@ task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 
 task checkGitStatus () {
     doLast {
-        checkCleanRepository()
+        checkCleanRepository(grgit)
         grgit.pull (remote: 'origin', branch: 'master')
-        checkCleanRepository()
+        checkCleanRepository(grgit)
     }
 }
 
@@ -210,8 +212,8 @@ task major (dependsOn: 'checkGitStatus') { doLast { upgrade 'major' } }
 task minor (dependsOn: 'checkGitStatus') { doLast { upgrade 'minor' } }
 task patch (dependsOn: 'checkGitStatus') { doLast { upgrade 'patch' } }
 
-static void checkCleanRepository() {
-    if (!grgit.status ().clean)
+static void checkCleanRepository(org.ajoberstar.grgit.Grgit gitRepository) {
+    if (!gitRepository.status ().clean)
         throw new GradleException ('Repository not clean')
 }
 
