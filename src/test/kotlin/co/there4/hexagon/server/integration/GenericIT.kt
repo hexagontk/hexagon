@@ -338,10 +338,10 @@ class GenericIT : ItTest () {
             assertResponseEquals(get ("/return/pair"), 202, "funky status")
             assertResponseContains(get ("/return/list"), 200, "alpha", "beta")
             assertResponseContains(get ("/return/map"), 200, "alpha", "beta", "0", "true")
-            assertResponseContains(get ("/return/object"), 200, "_id", "Message")
+            assertResponseContains(get ("/return/object"), 200, "id", "name", "Message")
             assertResponseContains(get ("/return/pair/list"), 201, "alpha", "beta")
             assertResponseContains(get ("/return/pair/map"), 201, "alpha", "beta", "0", "true")
-            assertResponseContains(get ("/return/pair/object"), 201, "_id", "Message")
+            assertResponseContains(get ("/return/pair/object"), 201, "id", "name", "Message")
         }
     }
 
