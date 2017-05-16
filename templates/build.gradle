@@ -1,0 +1,23 @@
+/*
+ * For details on how to build and publish and release the project, check the
+ * `site/content/contribute.md` file.
+ */
+
+apply plugin: 'uk.co.cacoethes.lazybones-templates'
+
+// TODO Use `bintray.user/key` in lazybones, instead `ext` variables (move this to bintray block)
+ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
+ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
+
+// TODO Write version to template `VERSION` file
+// TODO Replace version in template `gradle.properties`
+lazybones {
+    repositoryName = "$bintrayUser/maven"
+    publish = true
+
+    repositoryUsername = bintrayUser
+    repositoryApiKey = bintrayKey
+
+    licenses = [ 'MIT' ]
+    templateDirs = files ("$projectDir/hexagon-service")
+}

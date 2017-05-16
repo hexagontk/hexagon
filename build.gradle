@@ -3,6 +3,8 @@
  * `site/content/contribute.md` file.
  */
 
+import org.ajoberstar.grgit.Grgit
+
 buildscript {
     repositories {
         jcenter ()
@@ -10,184 +12,26 @@ buildscript {
 
     dependencies {
         // TODO Use Dokka 0.9.14 plugin instead classpath
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
-        classpath "com.github.zafarkhaja:java-semver:$semverVersion"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.13"
+        classpath "com.github.zafarkhaja:java-semver:0.9.0"
     }
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.2'
-    id 'org.ajoberstar.grgit' version '1.7.1'
-    // TODO Replace by git-publish
-    id 'org.ajoberstar.github-pages' version '1.7.1'
-    id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
     id 'com.jfrog.bintray' version '1.7.3'
-    id 'uk.co.cacoethes.lazybones-templates' version '1.2.3'
-    id 'me.champeau.gradle.jmh' version '0.3.1'
+    id 'org.ajoberstar.grgit' version '1.7.1'
+
+    id 'org.jetbrains.kotlin.jvm' version '1.1.2' apply false
+    // TODO Replace by git-publish
+    id 'org.ajoberstar.github-pages' version '1.7.1' apply false
+    id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
+    id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
+    id 'me.champeau.gradle.jmh' version '0.3.1' apply false
 }
 
-apply from: 'gradle/site.gradle'
-apply from: 'gradle/kotlin.gradle'
-apply plugin: 'maven-publish'
-apply plugin: 'org.jetbrains.dokka'
+ext.grgit = Grgit.open()
 
-dependencies {
-    // COMPILE
-    compile ("org.slf4j:slf4j-api:$slf4jVersion")
-    compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion") { exclude module: "slf4j-api" }
-    compile ("org.slf4j:jul-to-slf4j:$slf4jVersion") { exclude module: "slf4j-api" }
-    compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: "slf4j-api" }
-
-    compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
-    compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
-        exclude module: "kotlin-reflect"
-    }
-
-    compile ("org.asynchttpclient:async-http-client:$ahcVersion") { exclude module: "slf4j-api" }
-
-    // Compile only (optional libraries)
-    compileOnly ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
-        exclude module: "kotlin-stdlib"
-    }
-
-    compileOnly ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: "slf4j-api" }
-    compileOnly ("org.mongodb:mongodb-driver:$mongodbVersion")
-
-    compileOnly ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
-
-    compileOnly ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
-    compileOnly ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion") {
-        exclude module: "kotlin-stdlib"
-    }
-
-    // TEST
-    testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
-    testCompile ("org.mongodb:mongodb-driver:$mongodbVersion")
-    testCompile ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
-        exclude module: "kotlin-stdlib"
-    }
-    testCompile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: "slf4j-api" }
-    testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
-    testCompile ("com.mitchellbosecke:pebble:$pebbleVersion") {
-        exclude module: "guava"
-        exclude module: "slf4j-api"
-    }
-    testCompile ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion") {
-        exclude module: "kotlin-stdlib"
-    }
-    testCompile ("com.google.guava:guava:18.0")
-    testCompile ("org.apache.qpid:qpid-broker:6.1.2") {
-        exclude module: "logback-classic"
-        exclude module: "jackson-databind"
-        exclude module: "jackson-core"
-        exclude module: "slf4j-api"
-        exclude module: "qpid-broker-plugins-derby-store"
-        exclude module: "qpid-broker-plugins-jdbc-provider-bone"
-        exclude module: "qpid-broker-plugins-jdbc-store"
-        exclude module: "qpid-broker-plugins-management-http"
-        exclude module: "qpid-broker-plugins-websocket"
-    }
-
-    // BENCHMARK
-    jmh ("org.openjdk.jmh:jmh-core:$jmhVersion")
-    jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion")
-    jmh ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
-}
-
-test {
-    useTestNG {
-        // TODO threading issues with `ClosedRangeDeserializer`
-//        parallel = "methods"
-//        threadCount = 4
-    }
-
-    doFirst {
-        File environmentFile = file("${System.getProperty("user.home")}/.environment")
-        if (!environmentFile.exists())
-            environmentFile.write("DEVELOPMENT\n")
-    }
-}
-
-configurations {
-    deployerJars
-}
-
-task sourceJar (type: Jar) {
-    from sourceSets.main.allJava
-}
-
-task packageTest (type: Jar) {
-    from sourceSets.test.output
-
-    exclude '/data', '/public', '/templates', '/*.yaml', '/*.xml', '/*.json', '/*.txt'
-}
-
-publishing {
-    publications {
-        mavenJava (MavenPublication) {
-            from components.java
-
-            artifact sourceJar {
-                classifier 'sources'
-            }
-
-            artifact packageTest {
-                classifier 'test'
-            }
-        }
-    }
-}
-
-githubPages {
-    pages {
-        from "$buildDir/site"
-    }
-}
-
-// TODO Use `bintray.user/key` in lazybones, instead `ext` variables (move this to bintray block)
-ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
-ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
-
-bintray {
-    user = bintrayUser
-    key = bintrayKey
-    publications = [ 'mavenJava' ]
-    publish = true
-
-    pkg {
-        repo = 'maven'
-        name = 'Hexagon'
-        licenses = [ 'MIT' ]
-        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
-    }
-}
-
-// TODO Write version to template `VERSION` file
-// TODO Replace version in template `gradle.properties`
-lazybones {
-    repositoryName = "$bintrayUser/maven"
-    publish = true
-
-    repositoryUsername = bintrayUser
-    repositoryApiKey = bintrayKey
-
-    licenses = [ 'MIT' ]
-}
-
-task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
-    into "$buildDir/libs"
-    from configurations.compileOnly
-}
-
-site.dependsOn 'dokka', 'jacocoTestReport'
-publishGhPages.dependsOn 'site'
-bintrayUpload.dependsOn 'build'
-publish.dependsOn 'publishGhPages', 'bintrayUpload', 'publishAllTemplates'
-
-ext.grgit = org.ajoberstar.grgit.Grgit.open(dir: '.')
-
-task release(dependsOn: [ 'checkGitStatus', 'publish', 'libraries', 'installAllTemplates' ]) {
+task release(dependsOn: [ 'checkGitStatus', 'publish', 'installAllTemplates' ]) {
     doLast {
         grgit.tag.add {
             name = version
@@ -212,7 +56,7 @@ task major (dependsOn: 'checkGitStatus') { doLast { upgrade 'major' } }
 task minor (dependsOn: 'checkGitStatus') { doLast { upgrade 'minor' } }
 task patch (dependsOn: 'checkGitStatus') { doLast { upgrade 'patch' } }
 
-static void checkCleanRepository(org.ajoberstar.grgit.Grgit gitRepository) {
+static void checkCleanRepository(Grgit gitRepository) {
     if (!gitRepository.status ().clean)
         throw new GradleException ('Repository not clean')
 }

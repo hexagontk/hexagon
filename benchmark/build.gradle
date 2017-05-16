@@ -1,11 +1,8 @@
 
 apply from: "../gradle/kotlin.gradle"
 apply from: "../gradle/service.gradle"
-apply from: "../gradle/deploy.gradle"
 
 apply plugin: 'war'
-
-defaultTasks 'systemd'
 
 mainClassName = "co.there4.hexagon.BenchmarkKt"
 applicationDefaultJvmArgs = [
@@ -27,7 +24,7 @@ war {
 installDist.dependsOn 'war'
 
 dependencies {
-    compile rootProject
+    compile project(':core')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion")
     compile ("com.mitchellbosecke:pebble:$pebbleVersion")

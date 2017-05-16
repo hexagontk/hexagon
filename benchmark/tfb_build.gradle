@@ -5,11 +5,10 @@ plugins {
 
 apply from: "$gradleScripts/kotlin.gradle"
 apply from: "$gradleScripts/service.gradle"
-apply from: "$gradleScripts/deploy.gradle"
 
 apply plugin: 'war'
 
-defaultTasks 'systemd'
+defaultTasks 'installDist'
 
 mainClassName = "co.there4.hexagon.BenchmarkKt"
 applicationDefaultJvmArgs = [
