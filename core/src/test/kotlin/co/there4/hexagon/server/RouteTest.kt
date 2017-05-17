@@ -5,9 +5,10 @@ import org.testng.annotations.Test
 
 @Test class RouteTest {
     fun route_constructor() {
-        val route = Route(Path("/"), setOf(GET), String::class, Int::class, mapOf("doc" to "text"))
+        val metadata = mapOf("doc" to "text")
+        val route = Route(Path("/"), linkedSetOf(GET), String::class, Int::class, metadata)
         assert(route.requestType == String::class)
         assert(route.responseType == Int::class)
-        assert(route.metadata == mapOf("doc" to "text"))
+        assert(route.metadata == metadata)
     }
 }

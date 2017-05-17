@@ -12,7 +12,14 @@ import java.io.File
         repository.delete()
         repository.importResource("data/companies.json")
         repository.delete()
-        repository.importFile(File("src/test/resources/data/companies.json"))
+
+        // File paths change from IDE to build tool
+        val file = File("core/src/test/resources/data/companies.json").let {
+            if (it.exists()) it
+            else File("src/test/resources/data/companies.json")
+        }
+
+        repository.importFile(file)
         repository.delete()
     }
 }

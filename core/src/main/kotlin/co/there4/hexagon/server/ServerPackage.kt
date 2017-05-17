@@ -4,6 +4,7 @@ import co.there4.hexagon.server.HttpMethod.*
 import co.there4.hexagon.server.engine.ServerEngine
 import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import co.there4.hexagon.settings.SettingsManager
+import java.util.*
 
 /** Alias for filters' callbacks. Functions executed before/after routes. */
 typealias FilterCallback = Call.() -> Unit
@@ -15,7 +16,7 @@ typealias ExceptionCallback = Call.(Exception) -> Any
 typealias ErrorCodeCallback = Call.(Int) -> Any
 
 /** Set containing all HTTP methods. */
-val ALL: Set<HttpMethod> = HttpMethod.values().toSet()
+val ALL: LinkedHashSet<HttpMethod> = linkedSetOf(*HttpMethod.values())
 
 /**
  * Creates a server with a router. It is a combination of [Server] and [router].
@@ -78,4 +79,4 @@ fun patch(path: String = "/") = Route(Path(path), PATCH)
 /** Shortcut to create a route from a method and a path. */
 infix fun HttpMethod.at(path: String) = Route(Path(path), this)
 /** Shortcut to create a route from a method and a path. */
-infix fun Set<HttpMethod>.at(path: String) = Route(Path(path), this)
+infix fun LinkedHashSet<HttpMethod>.at(path: String) = Route(Path(path), this)
