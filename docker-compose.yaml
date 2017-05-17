@@ -1,26 +1,34 @@
 #
 # Services needed for testing (check `site/content/contribute.md`).
+# TODO postgresql must be restarted after postgresql finish (it requires a kind of order)
 #
+
+postgresql:
+  image: postgres
+  volumes: [ "./benchmark/postgresql.sql:/docker-entrypoint-initdb.d/db.sql:ro" ]
+  ports: [ "5432:5432" ]
 
 mongodb:
   image: mongo
-  volumes:
-    - ./systems/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
-  ports:
-    - 27017:27017
-
-mysql:
-  image: mysql
-  environment:
-    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-  volumes:
-    - ./systems/mysql.cnf:/etc/mysql/conf.d/config-file.cnf:ro
-    - ./systems/mysql.sql:/docker-entrypoint-initdb.d/mysql.sql:ro
-  ports:
-    - 3306:3306
+  volumes: [ "./benchmark/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro" ]
+  ports: [ "27017:27017" ]
 
 rabbitmq:
   image: rabbitmq:management
   ports:
     - 5672:5672
     - 15672:15672
+
+benchmark_jetty_mongodb:
+  build: ./benchmark
+  command: mongodb
+  environment: [ "DBHOST=mongodb" ]
+  links: [ "mongodb:mongodb" ]
+  ports: [ "9090:9090" ]
+
+benchmark_jetty_postgresql:
+  build: ./benchmark
+  command: postgresql
+  environment: [ "DBHOST=postgresql" ]
+  links: [ "postgresql:postgresql" ]
+  ports: [ "9080:9090" ]

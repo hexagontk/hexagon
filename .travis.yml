@@ -15,6 +15,7 @@ before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
   - rm -rf $HOME/.gradle/caches/*/scripts*/
+  - rm -rf $HOME/.gradle/caches/*/fileHashes/
 
 cache:
   directories:
@@ -25,10 +26,12 @@ cache:
 services:
   - mongodb
   - rabbitmq
+  - postgresql
 
 install:
   - ln -s gradle/wrapper gradlew
-  - mongo systems/mongodb.js
+  - mongo benchmark/mongodb.js
+  - psql -U postgres -f benchmark/postgresql.sql
 
 script: gradle/wrapper --no-daemon --full-stacktrace build site
 

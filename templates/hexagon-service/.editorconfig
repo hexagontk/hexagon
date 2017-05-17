@@ -18,5 +18,5 @@ trim_trailing_whitespace = true
 charset = latin1
 
 # 4 space indentation
-[*.{java,kt,kts,gradle,groovy}]
+[*.{java,js,kt,kts,gradle,groovy}]
 indent_size = 4
