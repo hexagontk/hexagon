@@ -26,10 +26,12 @@ cache:
 services:
   - mongodb
   - rabbitmq
+  - postgresql
 
 install:
   - ln -s gradle/wrapper gradlew
-  - mongo systems/mongodb.js
+  - mongo benchmark/mongodb.js
+  - psql -U postgres -f benchmark/postgresql.sql
 
 script: gradle/wrapper --no-daemon --full-stacktrace build site
 
