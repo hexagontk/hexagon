@@ -9,7 +9,7 @@ import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 
 internal const val THREADS = 4
-internal const val TIMES = 4
+internal const val TIMES = 2
 
 class BenchmarkMongoDbTest : BenchmarkTest("mongodb")
 class BenchmarkPostgreSqlTest : BenchmarkTest("postgresql")

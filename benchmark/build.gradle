@@ -39,7 +39,10 @@ dependencies {
 }
 
 test {
-    useTestNG ()
+    useTestNG {
+        parallel = "methods"
+        threadCount = 4
+    }
 }
 
 //noinspection GroovyAssignabilityCheck

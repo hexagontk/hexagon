@@ -22,7 +22,7 @@ private const val TEXT_MESSAGE: String = "Hello, World!"
 private const val CONTENT_TYPE_JSON = "application/json"
 private const val QUERIES_PARAM = "queries"
 
-var server: Server? = null
+internal var server: Server? = null
 
 // UTILITIES
 internal fun randomWorld() = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
@@ -34,7 +34,7 @@ private fun Call.returnWorlds(worldsList: List<World>) {
     ok(result, CONTENT_TYPE_JSON)
 }
 
-private fun Call.getQueries() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1).let {
+private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1).let {
     when {
         it < 1 -> 1
         it > 500 -> 500
@@ -44,9 +44,17 @@ private fun Call.getQueries() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1).let
 
 // HANDLERS
 private fun Call.listFortunes(store: Store) {
-    val fortunes = store.findFortunes() + Fortune(0, "Additional fortune added at request time.")
+    val fortunes = store.findAllFortunes() + Fortune(0, "Additional fortune added at request time.")
     response.contentType = "text/html; charset=utf-8"
     template("fortunes.html", "fortunes" to fortunes.sortedBy { it.message })
+}
+
+private fun Call.getWorlds(store: Store) {
+    returnWorlds(store.findWorlds(getWorldsCount()))
+}
+
+private fun Call.updateWorlds(store: Store) {
+    returnWorlds(store.replaceWorlds(getWorldsCount()))
 }
 
 private fun router(store: Store): Router = router {
@@ -59,9 +67,9 @@ private fun router(store: Store): Router = router {
     get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
     get("/json") { ok(Message(TEXT_MESSAGE).serialize(), CONTENT_TYPE_JSON) }
     get("/fortunes") { listFortunes(store) }
-    get("/db") { returnWorlds(store.findWorlds(getQueries())) }
-    get("/query") { returnWorlds(store.findWorlds(getQueries())) }
-    get("/update") { returnWorlds(store.replaceWorlds(getQueries())) }
+    get("/db") { getWorlds(store) }
+    get("/query") { getWorlds(store) }
+    get("/update") { updateWorlds(store) }
 }
 
 @WebListener class Web : ServletServer () {
