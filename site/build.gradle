@@ -13,7 +13,7 @@ apply from: '../gradle/site.gradle'
 
 githubPages {
     pages {
-        from "$buildDir/site"
+        from buildDir
     }
 }
 

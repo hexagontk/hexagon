@@ -42,6 +42,10 @@ task release(dependsOn: [ 'checkGitStatus', 'publish', 'installAllTemplates' ]) 
     }
 }
 
+task publish(
+    dependsOn: [ ':site:publishGhPages', ':core:bintrayUpload', ':templates:publishAllTemplates' ]
+)
+
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 
 task checkGitStatus () {
