@@ -47,18 +47,19 @@ import kotlin.test.assertFailsWith
     }
 
     fun a_path_with_parameters_have_regex_and_params_table () {
-        val pathWith1Parameter = Path("/alfa/{param}/tango")
-        assert (pathWith1Parameter.path == "/alfa/{param}/tango")
+        assert (!Path("/alfa/{param}/tango").matches ("/alfa/a/tango/zulu"))
+
+        val pathWith1Parameter = Path("/alfa/{param}/tango*")
+        assert (pathWith1Parameter.path == "/alfa/{param}/tango*")
         assert (pathWith1Parameter.hasParameters)
-        assert (pathWith1Parameter.regex?.pattern == "/alfa/(.+?)/tango$")
-        assert (pathWith1Parameter.parameterIndex == listOf ("param"))
+        assert (pathWith1Parameter.regex?.pattern == "/alfa/(.+?)/tango(.*?)$")
+        assert (pathWith1Parameter.parameterIndex == listOf ("param", ""))
 
         assert (pathWith1Parameter.matches ("/alfa/a/tango"))
         assert (pathWith1Parameter.matches ("/alfa/abc/tango"))
         assert (!pathWith1Parameter.matches ("/alfa//tango"))
         assert (!pathWith1Parameter.matches ("/alfa/tango"))
-        assert (!pathWith1Parameter.matches ("/alfa/a/tango/zulu"))
-        assert (!pathWith1Parameter.matches ("zulu/alfa/abc/tango"))
+        assert (pathWith1Parameter.matches ("/alfa/a/tango/zulu"))
 
         val params = pathWith1Parameter.extractParameters("/alfa/abc/tango")
         assert (params == mapOf ("param" to "abc"))

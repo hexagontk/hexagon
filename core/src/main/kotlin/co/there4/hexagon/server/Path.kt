@@ -42,7 +42,7 @@ data class Path (val path: String) {
                 }
                 .toList ()
         else
-            listOf ()
+            emptyList()
 
     val regex: Regex? = when (Pair (hasWildcards, hasParameters)) {
         Pair (true, true) ->
