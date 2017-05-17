@@ -98,7 +98,6 @@ open class MongoRepository <T : Any> (
     fun aggregate(vararg bson: Map<String, *>): AggregateIterable<Document>? =
         aggregate(bson.map(::Document))
 
-    // TODO Test this!
     fun importFile(input: File) { insertManyObjects(input.parseList(type)) }
     fun importResource(input: String) { insertManyObjects(requireResource(input).parseList(type)) }
 
