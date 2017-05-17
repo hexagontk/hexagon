@@ -31,7 +31,7 @@ plugins {
 
 ext.grgit = Grgit.open()
 
-task release(dependsOn: [ 'checkGitStatus', 'publish', 'installAllTemplates' ]) {
+task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
     doLast {
         grgit.tag.add {
             name = version
