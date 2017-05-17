@@ -13,20 +13,21 @@ import co.there4.hexagon.helpers.findGroups
  *   * Delimiter is {var} to conform with [RFC 6570](https://tools.ietf.org/html/rfc6570)
  */
 data class Path (val path: String) {
-    companion object : CachedLogger(Path::class) {
-        internal val PARAMETER_PREFIX = "{"
-        internal val PARAMETER_SUFFIX = "}"
+    private companion object : CachedLogger(Path::class) {
+        internal const val PARAMETER_PREFIX = "{"
+        internal const val PARAMETER_SUFFIX = "}"
 
-        internal val WILDCARD = "*"
+        internal const val WILDCARD = "*"
 
         internal val WILDCARD_REGEX = Regex ("\\$WILDCARD")
         internal val PARAMETER_REGEX = Regex ("\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
-        internal val PLACEHOLDER_REGEX = Regex ("\\$WILDCARD|\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
+        internal val PLACEHOLDER_REGEX =
+            Regex ("\\$WILDCARD|\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
     }
 
     init {
-        require(path.startsWith("/")) { "$path must start with '/'" }
-        require(!path.contains(":")) { "Variables has {var} format. Path cannot have ':' $path" }
+        require(path.startsWith("/")) { "'$path' must start with '/'" }
+        require(!path.contains(":")) { "Variables have {var} format. Path cannot have ':' $path" }
     }
 
     val hasWildcards = WILDCARD_REGEX in path
@@ -36,13 +37,8 @@ data class Path (val path: String) {
         if (hasParameters)
             PLACEHOLDER_REGEX.findAll(path)
                 .map {
-                    if (it.value == WILDCARD)
-                        ""
-                    else {
-                        val start = PARAMETER_PREFIX.length
-                        val end = it.value.length - PARAMETER_SUFFIX.length
-                        it.value.substring(start, end)
-                    }
+                    if (it.value == WILDCARD) ""
+                    else it.value.removePrefix(PARAMETER_PREFIX).removeSuffix(PARAMETER_SUFFIX)
                 }
                 .toList ()
         else
@@ -60,16 +56,17 @@ data class Path (val path: String) {
 
     fun matches (requestUrl: String) = regex?.matches(requestUrl) ?: (path == requestUrl)
 
-    fun extractParameters (requestUrl: String): Map<String, String> =
-        if (!matches (requestUrl))
-            throw IllegalArgumentException ("URL '$requestUrl' does not match path")
-        else if (hasParameters && regex != null)
-            regex.findGroups (requestUrl)
-                .mapIndexed { idx, (value) -> parameterIndex[idx] to value }
-                .filter { (first) -> first != "" }
-                .toMap ()
-        else
-            mapOf ()
+    fun extractParameters (requestUrl: String): Map<String, String> {
+        require(matches (requestUrl)) { "URL '$requestUrl' does not match path" }
+
+        fun parameters (re: Regex) = re
+            .findGroups(requestUrl)
+            .mapIndexed { idx, (value) -> parameterIndex[idx] to value }
+            .filter { (first) -> first != "" }
+            .toMap()
+
+        return if (hasParameters && regex != null) parameters(regex) else emptyMap()
+    }
 
     fun create(vararg parameters: Pair<String, Any>) =
         if (hasWildcards || parameters.size != parameterIndex.size) {

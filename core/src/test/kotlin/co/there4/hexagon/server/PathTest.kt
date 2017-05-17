@@ -22,6 +22,17 @@ import kotlin.test.assertFailsWith
         assert (pathWithoutData.extractParameters("/alfa/bravo/tango").isEmpty())
     }
 
+    fun invalid_path_parameters () {
+        val slashMessage = "'alfa/bravo' must start with '/'"
+        assertFailsWith<IllegalArgumentException> (slashMessage) {
+            Path("alfa/bravo")
+        }
+
+        val colonMessage = "Variables have {var} format. Path cannot have ':' alfa/bravo/:id"
+        assertFailsWith<IllegalArgumentException> (colonMessage) {
+            Path("alfa/bravo/:id")
+        }
+    }
 
     fun extract_parameter_from_a_non_matching_url_fails () {
         val pathWithoutData = Path("/alfa/bravo/tango")

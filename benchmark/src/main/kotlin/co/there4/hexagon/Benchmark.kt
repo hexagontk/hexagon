@@ -61,7 +61,7 @@ private fun router(store: Store): Router = router {
     before {
         response.addHeader("Server", "Servlet/3.1")
         response.addHeader("Transfer-Encoding", "chunked")
-        response.addHeader("Date", httpDate(now()))
+        response.addHeader("Date", httpDate())
     }
 
     get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }

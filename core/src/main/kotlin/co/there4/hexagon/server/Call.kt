@@ -1,6 +1,5 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.store.FileRepository.load
 import co.there4.hexagon.template.PebbleRenderer.render
 import co.there4.hexagon.helpers.CodedException
 import co.there4.hexagon.server.engine.PassException
@@ -61,13 +60,6 @@ class Call(
 
     fun template(template: String, vararg context: Pair<String, *>) =
         template(template, context.toMap())
-
-    fun file(name: String) {
-        val meta = load(name, response.outputStream)
-        response.contentType = meta["Content-Type"].toString()
-        response.outputStream.flush()
-        response.status = 200
-    }
 
     /**
      * TODO Review order precedence and complete code (now only taking request attribute)

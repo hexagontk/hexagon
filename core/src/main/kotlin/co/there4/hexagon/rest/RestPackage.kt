@@ -9,3 +9,10 @@ import java.net.InetAddress.getByName as address
 //    post(path) { FileRepository.store(fileName(), request.body.byteInputStream(), base64 = true) }
 //    delete(path) { FileRepository.gridfs.delete(fileName()) }
 //}
+
+//fun Call.file(name: String) {
+//    val meta = load(name, response.outputStream)
+//    response.contentType = meta["Content-Type"].toString()
+//    response.outputStream.flush()
+//    response.status = 200
+//}

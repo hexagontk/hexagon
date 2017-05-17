@@ -69,8 +69,9 @@ private class MongoDbStore : Store {
         (1..count).map { worldRepository.find(randomWorld()) }.filterNotNull()
 
     override fun replaceWorlds(count: Int) = (1..count)
-        .map { worldRepository.find(randomWorld())?.copy(randomNumber = randomWorld()) ?: err }
+        .map { worldRepository.find(randomWorld())?.copy(randomNumber = randomWorld()) }
         .toList()
+        .filterNotNull()
         .map {
             worldRepository.replaceObjects(it, bulk = true)
             it
@@ -96,8 +97,7 @@ private class SqlStore(jdbcUrl: String) : Store {
     override fun findAllFortunes(): List<Fortune> {
         var fortunes = listOf<Fortune>()
 
-        val connection = DATA_SOURCE.connection ?: err
-        connection.use { con: Connection ->
+        DATA_SOURCE.connection.use { con: Connection ->
             val rs = con.prepareStatement(SELECT_ALL_FORTUNES).executeQuery()
             while (rs.next())
                 fortunes += Fortune(rs.getInt(1), rs.getString(2))
