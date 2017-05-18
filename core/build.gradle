@@ -117,9 +117,14 @@ publishing {
     }
 }
 
+//ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
+//ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
+
 bintray {
-    user = findProperty ('bintrayUser') ?: 'anonymous'
-    key = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
+    user = bintrayUser
+    key = bintrayKey
+//    user = findProperty ('bintrayUser') ?: 'anonymous'
+//    key = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
     publications = [ 'mavenJava' ]
     publish = true
 

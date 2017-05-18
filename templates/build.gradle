@@ -2,7 +2,8 @@
 apply plugin: 'uk.co.cacoethes.lazybones-templates'
 
 // TODO Use `bintray.user/key` in lazybones, instead `ext` variables (move this to bintray block)
-ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
+//ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
+//ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
 
 // TODO Write version to template `VERSION` file
 // TODO Replace version in template `gradle.properties`
@@ -11,7 +12,7 @@ lazybones {
     publish = true
 
     repositoryUsername = bintrayUser
-    repositoryApiKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
+    repositoryApiKey = bintrayKey
 
     licenses = [ 'MIT' ]
     templateDirs = files ("$projectDir/hexagon-service")
