@@ -93,7 +93,10 @@ task benchmarkConfig() {
         tests.forEach {
             String server = it[0]
             String database = it[1]
-            test[(server + '_' + database).toLowerCase()] = [
+            String name = server + '_' + database
+            if (server == servers.first () && database == databases.first ())
+                name = "default"
+            test[name.toLowerCase()] = [
                 json_url : '/json',
                 db_url : '/db',
                 query_url : '/query?queries=',

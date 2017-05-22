@@ -29,6 +29,8 @@ plugins {
     id 'me.champeau.gradle.jmh' version '0.3.1' apply false
 }
 
+ext.bintrayUser = 'anonymous'
+ext.bintrayKey = 'anonymous'
 apply from: 'local.gradle'
 
 ext.grgit = Grgit.open()
