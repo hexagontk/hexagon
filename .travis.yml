@@ -30,6 +30,7 @@ services:
 
 install:
   - ln -s gradle/wrapper gradlew
+  - echo "ext.ci = true" >local.gradle
   - mongo benchmark/mongodb.js
   - psql -U postgres -f benchmark/postgresql.sql
 

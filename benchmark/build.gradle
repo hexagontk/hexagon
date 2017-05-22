@@ -71,6 +71,7 @@ task gradleSettings(type: WriteProperties) {
 
         hexagonVersion : rootProject.version,
         kotlinVersion : kotlinVersion,
+        logbackVersion : logbackVersion,
         pebbleVersion : pebbleVersion,
         jettyVersion : jettyVersion,
         mongodbVersion : mongodbVersion,
