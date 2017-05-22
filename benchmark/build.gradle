@@ -93,9 +93,11 @@ task benchmarkConfig() {
         tests.forEach {
             String server = it[0]
             String database = it[1]
+            String databaseCode = database == "PostgreSQL"? "postgres" : database.toLowerCase ()
             String name = server + '_' + database
             if (server == servers.first () && database == databases.first ())
                 name = "default"
+            int port = server == "Resin"? 8080 : 9090
             test[name.toLowerCase()] = [
                 json_url : '/json',
                 db_url : '/db',
@@ -104,11 +106,11 @@ task benchmarkConfig() {
                 update_url : '/update?queries=',
                 plaintext_url : '/plaintext',
 
-                port : 9090,
+                port : port,
 
                 approach : 'Realistic',
                 classification : 'Micro',
-                database : database,
+                database : databaseCode,
                 framework : 'Hexagon',
                 language : 'Kotlin',
                 orm : 'Raw',
@@ -144,17 +146,21 @@ task setupScripts() {
             String database = ((String)it[1]).toLowerCase()
             File file = file("$tfbBuildDir/setup_${server}_${database}.sh")
             file.createNewFile()
+            String command = server == "resin"?
+                """
+                export DBSTORE='$database'
+                rm -rf \$RESIN_HOME/webapps/*
+                cp build/libs/ROOT.war \$RESIN_HOME/webapps
+                resinctl start
+                """:
+                "nohup build/install/hexagon/bin/hexagon $database &"
             file.text = """
                 #!/bin/bash
 
                 fw_depends java $database
 
                 gradle/wrapper -x test
-
-                nohup build/install/hexagon/bin/hexagon $database &
-                #rm -rf \$RESIN_HOME/webapps/*
-                #cp build/libs/ROOT.war \$RESIN_HOME/webapps
-                #resinctl start
+                $command
             """.stripIndent ()
         }
     }
