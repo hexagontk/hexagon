@@ -10,6 +10,18 @@ apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'me.champeau.gradle.jmh'
 apply plugin: 'com.jfrog.bintray'
 
+ext.slf4jVersion = '1.7.25'
+ext.jacksonVersion = '2.8.8'
+ext.cronutilsVersion = '5.0.5'
+
+ext.rabbitVersion = '4.1.0'
+ext.mongodbVersion = '3.4.2'
+ext.logbackVersion = '1.2.2'
+ext.ahcVersion = '2.0.31'
+ext.pebbleVersion = '2.3.0'
+ext.kotlinxHtmlVersion = '0.6.3'
+ext.jettyVersion = '9.4.4.v20170414'
+
 dependencies {
     // COMPILE
     compile ("org.slf4j:slf4j-api:$slf4jVersion")
@@ -24,10 +36,6 @@ dependencies {
     compile ("org.asynchttpclient:async-http-client:$ahcVersion") { exclude module: "slf4j-api" }
 
     // Compile only (optional libraries)
-    compileOnly ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
-        exclude module: "kotlin-stdlib"
-    }
-
     compileOnly ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: "slf4j-api" }
     compileOnly ("org.mongodb:mongodb-driver:$mongodbVersion")
 
@@ -65,6 +73,10 @@ dependencies {
         exclude module: "qpid-broker-plugins-jdbc-store"
         exclude module: "qpid-broker-plugins-management-http"
         exclude module: "qpid-broker-plugins-websocket"
+    }
+
+    testCompile ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
+        exclude module: "kotlin-stdlib"
     }
 
     // BENCHMARK
@@ -117,15 +129,10 @@ publishing {
     }
 }
 
-//ext.bintrayUser = findProperty ('bintrayUser') ?: 'anonymous'
-//ext.bintrayKey = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
-
 bintray {
-    user = bintrayUser
-    key = bintrayKey
-//    user = findProperty ('bintrayUser') ?: 'anonymous'
-//    key = findProperty ("${project.name}BintrayKey") ?: 'anonymous'
-    publications = [ 'mavenJava' ]
+    setKey bintrayKey
+    setUser bintrayUser
+    setPublications 'mavenJava'
     publish = true
 
     pkg {

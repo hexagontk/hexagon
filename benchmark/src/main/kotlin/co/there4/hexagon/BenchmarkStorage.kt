@@ -1,6 +1,5 @@
 package co.there4.hexagon
 
-import co.there4.hexagon.helpers.err
 import co.there4.hexagon.settings.SettingsManager.settings
 import co.there4.hexagon.store.MongoIdRepository
 import co.there4.hexagon.store.mongoCollection
@@ -88,7 +87,7 @@ private class SqlStore(jdbcUrl: String) : Store {
     init {
         val config = HikariConfig()
         config.jdbcUrl = jdbcUrl
-        config.maximumPoolSize = 64 // TODO Extract to settings
+        config.maximumPoolSize = 32 // TODO Extract to settings
         config.username = "benchmarkdbuser"
         config.password = "benchmarkdbpass"
         DATA_SOURCE = HikariDataSource(config)

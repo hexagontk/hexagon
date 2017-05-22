@@ -12,6 +12,11 @@ applicationDefaultJvmArgs = [
 ext.hikariVersion = '2.6.1'
 ext.postgresqlVersion = '42.0.0'
 
+ext.logbackVersion = '1.2.2'
+ext.pebbleVersion = '2.3.0'
+ext.mongodbVersion = '3.4.2'
+ext.jettyVersion = '9.4.4.v20170414'
+
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
 ext.servers = [ 'Jetty' ]

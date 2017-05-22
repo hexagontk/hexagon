@@ -80,11 +80,10 @@ import org.testng.annotations.Test
         val subget = subrouter.requestHandlers.filterIsInstance(RouteHandler::class.java).first()
         assert(subget.route.path.path == "/subroute")
 
-        assert (server.router.codedErrors.containsKey(401))
-        assert (server.router.exceptionErrors.containsKey(IllegalArgumentException::class.java))
-        assert (server.router.exceptionErrors.containsKey(IllegalArgumentException::class.java))
-
-        server.router.reset()
-        assert(server.router.requestHandlers.size == 2)
+        val codedErrors = server.router.requestHandlers.filterIsInstance(CodeHandler::class.java)
+        assert (codedErrors.any { it.code == 401 })
+        val exceptionErrors = server.router.requestHandlers.filterIsInstance(ExceptionHandler::class.java)
+        assert (exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
+        assert (exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
     }
 }

@@ -17,7 +17,6 @@ import java.net.InetAddress.getByName as address
  * TODO .
  */
 class JettyServletEngine : ServerEngine {
-
     private var jettyServer: JettyServer? = null
 
     override fun runtimePort(): Int =
@@ -40,7 +39,7 @@ class JettyServletEngine : ServerEngine {
             override fun lifeCycleFailure(event: LifeCycle?, cause: Throwable?) { /* Do nothing */ }
 
             override fun lifeCycleStarting(event: LifeCycle?) {
-                val filter = ServletFilter (server.router)
+                val filter = ServletFilter (server.router.requestHandlers)
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
                 val filterBind = context.servletContext.addFilter("filters", filter)
                 filterBind.setAsyncSupported(false)

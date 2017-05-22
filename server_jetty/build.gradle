@@ -1,0 +1,74 @@
+
+apply from: '../gradle/kotlin.gradle'
+
+apply plugin: 'maven-publish'
+apply plugin: 'org.jetbrains.dokka'
+apply plugin: 'me.champeau.gradle.jmh'
+apply plugin: 'com.jfrog.bintray'
+
+ext.jettyVersion = '9.4.4.v20170414'
+
+dependencies {
+    // COMPILE
+    compile project(':core')
+    compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
+
+    // TEST
+    testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
+
+    // BENCHMARK
+    jmh ("org.openjdk.jmh:jmh-core:$jmhVersion")
+    jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion")
+    jmh ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+}
+
+test {
+    useTestNG()
+}
+
+configurations {
+    deployerJars
+}
+
+task sourceJar (type: Jar) {
+    from sourceSets.main.allJava
+}
+
+task packageTest (type: Jar) {
+    from sourceSets.test.output
+
+    exclude '/data', '/public', '/templates', '/*.yaml', '/*.xml', '/*.json', '/*.txt'
+}
+
+publishing {
+    publications {
+        mavenJava (MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier 'sources'
+            }
+
+            artifact packageTest {
+                classifier 'test'
+            }
+        }
+    }
+}
+
+bintray {
+    setKey bintrayKey
+    setUser bintrayUser
+    setPublications 'mavenJava'
+    publish = true
+
+    pkg {
+        repo = 'maven'
+        name = 'Hexagon'
+        licenses = [ 'MIT' ]
+        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
+    }
+}
+
+bintrayUpload.dependsOn 'build'

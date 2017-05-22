@@ -18,27 +18,46 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 /**
  * @author jam
  */
-internal class ServletFilter (private val router: Router) : CachedLogger(ServletFilter::class), Filter {
+internal class ServletFilter (router: List<RequestHandler>) : Filter {
     companion object : CachedLogger(ServletFilter::class)
 
-    private val routesByMethod: Map<HttpMethod, List<RouteHandler>> = router.requestHandlers
+    private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
+    private val baseExceptionHandler: ExceptionCallback =
+        { error(500, "${it.javaClass.simpleName} (${it.message ?: "no details"})") }
+
+    private val allHandlers = listOf(
+        CodeHandler(Route(Path("/"), ALL), 404, notFoundHandler),
+        ExceptionHandler(Route(Path("/"), ALL), Exception::class.java, baseExceptionHandler)
+    ) + router
+
+    private val routesByMethod: Map<HttpMethod, List<RouteHandler>> = router
         .map {
             when (it) {
                 is PathHandler -> it // TODO
-                is AssetsHandler -> RouteHandler(it.route, router.createResourceHandler(it.path))
+                is AssetsHandler -> RouteHandler(it.route, createResourceHandler(it.path))
                 else -> it
             }
         }
         .filterIsInstance(RouteHandler::class.java)
         .groupBy { it.route.method.first() }
 
-    private val filtersByOrder = router.requestHandlers
+    private val filtersByOrder = router
         .filterIsInstance(FilterHandler::class.java)
         .groupBy { it.order }
         .mapValues { it.value.map { it.route to it.handler } }
 
     private val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
     private val afterFilters = filtersByOrder[AFTER] ?: listOf()
+
+    private val codedErrors: Map<Int, ErrorCodeCallback> = allHandlers
+        .filterIsInstance(CodeHandler::class.java)
+        .map { it.code to it.handler }
+        .toMap()
+
+    private val exceptionErrors: Map<Class<out Exception>, ExceptionCallback> = allHandlers
+        .filterIsInstance(ExceptionHandler::class.java)
+        .map { it.exception to it.handler }
+        .toMap()
 
     private val executor: ExecutorService = Executors.newFixedThreadPool(8)
 
@@ -139,7 +158,7 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
                 throw CodedException(404)
         }
         catch (e: Exception) {
-            router.handleError(e, exchange)
+            handleError(e, exchange)
         }
         finally {
             response.status = exchange.response.status
@@ -147,6 +166,51 @@ internal class ServletFilter (private val router: Router) : CachedLogger(Servlet
             response.outputStream.flush()
 
             trace("Status ${response.status} <${if (handled) "" else "NOT "}HANDLED>")
+        }
+    }
+
+    internal fun handleError(error: Exception, ex: Call, type: Class<*> = error.javaClass) {
+        when (error) {
+            is CodedException -> {
+                val handler: ErrorCodeCallback =
+                    codedErrors[error.code] ?: { error(it, error.message ?: "") }
+                ex.handler(error.code)
+            }
+            else -> {
+                error("Error processing request", error)
+
+                val handler = exceptionErrors[type]
+
+                if (handler != null)
+                    ex.handler(error)
+                else
+                    type.superclass.also { if (it != null) handleError(error, ex, it) }
+            }
+        }
+    }
+
+    internal fun createResourceHandler(resourcesFolder: String): RouteCallback = {
+        if (request.path.endsWith("/"))
+            pass()
+
+        val resourcePath = "/$resourcesFolder${request.path}"
+        val stream = javaClass.getResourceAsStream(resourcePath)
+
+        if (stream == null) {
+            response.status = 404
+            pass()
+        }
+        else {
+            val contentType by lazy { response.getMimeType(request.path) }
+
+            // Should be done BEFORE flushing the stream (if not content type is ignored)
+            if (response.contentType == null && contentType != null)
+                response.contentType = contentType
+
+            trace("Resource for '$resourcePath' (${response.contentType}) found and returned")
+            val bytes = stream.readBytes()
+            response.outputStream.write(bytes)
+            response.outputStream.flush()
         }
     }
 }

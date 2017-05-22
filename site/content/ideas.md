@@ -63,3 +63,6 @@ Render template if no route found and template with that name exist (after filte
 
 Use Hexagon static site builder (to be developed) to generate site
 Create kjava.gradle, kjavascript.gradle, kandroid.gradle
+
+Server contains a list of RequestHandler (a router is only a list of RequestHandler)
+Move router funtions to package as functions that produce RequestHandlers

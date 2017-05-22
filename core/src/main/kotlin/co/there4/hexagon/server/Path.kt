@@ -30,10 +30,10 @@ data class Path (val path: String) {
         require(!path.contains(":")) { "Variables have {var} format. Path cannot have ':' $path" }
     }
 
-    val hasWildcards = WILDCARD_REGEX in path
-    val hasParameters = PARAMETER_REGEX in path
+    val hasWildcards by lazy { WILDCARD_REGEX in path }
+    val hasParameters by lazy { PARAMETER_REGEX in path }
 
-    val parameterIndex: List<String> =
+    val parameterIndex: List<String> by lazy {
         if (hasParameters)
             PLACEHOLDER_REGEX.findAll(path)
                 .map {
@@ -43,13 +43,16 @@ data class Path (val path: String) {
                 .toList ()
         else
             emptyList()
+    }
 
-    val regex: Regex? = when (Pair (hasWildcards, hasParameters)) {
-        Pair (true, true) ->
-            Regex (path.replace (WILDCARD, "(.*?)").replace (PARAMETER_REGEX, "(.+?)") + "$")
-        Pair (true, false) -> Regex (path.replace (WILDCARD, "(.*?)") + "$")
-        Pair (false, true) -> Regex (path.replace (PARAMETER_REGEX, "(.+?)") + "$")
-        else -> null
+    val regex: Regex? by lazy {
+        when (Pair (hasWildcards, hasParameters)) {
+            Pair (true, true) ->
+                Regex (path.replace (WILDCARD, "(.*?)").replace (PARAMETER_REGEX, "(.+?)") + "$")
+            Pair (true, false) -> Regex (path.replace (WILDCARD, "(.*?)") + "$")
+            Pair (false, true) -> Regex (path.replace (PARAMETER_REGEX, "(.+?)") + "$")
+            else -> null
+        }
     }
 
     val segments by lazy { path.split(PLACEHOLDER_REGEX) }
@@ -65,7 +68,8 @@ data class Path (val path: String) {
             .filter { (first) -> first != "" }
             .toMap()
 
-        return if (hasParameters && regex != null) parameters(regex) else emptyMap()
+        val re = regex
+        return if (hasParameters && re != null) parameters(re) else emptyMap()
     }
 
     fun create(vararg parameters: Pair<String, Any>) =

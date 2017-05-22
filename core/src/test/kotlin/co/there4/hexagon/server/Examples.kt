@@ -25,10 +25,8 @@ class SampleRouter  {
         get { "Hi" }
 
         getIndex by {}
-        getIndex.handler {}
 
         post("/foo") by {}
-        post("/foo").handler {}
 
         POST at "/foo" by { "Done" }
         POST at "/foo" by { done() }
@@ -72,10 +70,8 @@ val s = server {
     get { "Hi" }
 
     getIndex by {}
-    getIndex.handler {}
 
     post("/foo") by {}
-    post("/foo").handler {}
 
     POST at "/foo" by { "Done" }
     POST at "/foo" by { done() }

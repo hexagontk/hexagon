@@ -12,12 +12,12 @@ sealed class RequestHandler {
         override val route: Route,
         val handler: RouteCallback) : RequestHandler()
 
-    data class ErrorHandler(
+    data class ExceptionHandler(
         override val route: Route,
         val exception: Class<out Exception>,
         val handler: ExceptionCallback) : RequestHandler()
 
-    data class ErrorCodeHandler(
+    data class CodeHandler(
         override val route: Route,
         val code: Int,
         val handler: ErrorCodeCallback) : RequestHandler()

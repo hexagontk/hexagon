@@ -6,9 +6,9 @@ import co.there4.hexagon.server.*
 import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import co.there4.hexagon.server.engine.servlet.ServletServer
 import co.there4.hexagon.settings.SettingsManager.settings
+import java.lang.System.getenv
 
 import java.net.InetAddress.getByName as address
-import java.time.LocalDateTime.now
 import java.util.concurrent.ThreadLocalRandom
 import javax.servlet.annotation.WebListener
 
@@ -73,11 +73,11 @@ private fun router(store: Store): Router = router {
 }
 
 @WebListener class Web : ServletServer () {
-    override fun createRouter() = router (createStore("mongodb"))
+    override fun createRouter() = router (createStore(getenv("DBSTORE") ?: "mongodb"))
 }
 
 fun main(vararg args: String) {
-    val store = createStore(if (args.isEmpty()) "mongodb" else args[0])
+    val store = createStore(if (args.isEmpty()) getenv("DBSTORE") ?: "mongodb" else args[0])
     server = Server(JettyServletEngine(), settings, router(store))
     server?.run()
 }
