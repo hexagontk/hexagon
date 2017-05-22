@@ -3,7 +3,7 @@ package co.there4.hexagon.rest
 import co.there4.hexagon.store.IdRepositoryTest
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.Server
-import co.there4.hexagon.server.engine.servlet.JettyServletEngine
+import co.there4.hexagon.server.VoidEngine
 import co.there4.hexagon.settings.SettingsManager.settings
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -13,7 +13,7 @@ import kotlin.reflect.KProperty1
 abstract class CrudTest <T : Any, K : Any> (type: KClass<T>, key: KProperty1<T, K>) :
     IdRepositoryTest<T, K>(type, key) {
 
-    val server = Server(JettyServletEngine(), settings)
+    val server = Server(VoidEngine, settings)
     val client by lazy { Client("http://${server.bindAddress.hostAddress}:${server.runtimePort}") }
 
     @BeforeClass fun startServer() {

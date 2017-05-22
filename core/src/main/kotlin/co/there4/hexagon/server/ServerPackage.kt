@@ -5,7 +5,6 @@ import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.HttpMethod.*
 import co.there4.hexagon.server.RequestHandler.*
 import co.there4.hexagon.server.engine.ServerEngine
-import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import co.there4.hexagon.settings.SettingsManager
 import java.util.*
 import kotlin.reflect.KClass
@@ -31,7 +30,7 @@ val ALL: LinkedHashSet<HttpMethod> = linkedSetOf(*HttpMethod.values())
  * @return A new server with the built router.
  */
 fun server(
-    engine: ServerEngine = JettyServletEngine(),
+    engine: ServerEngine,
     settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
         Server(engine, settings, router(block))
@@ -45,7 +44,7 @@ fun server(
  * @return The running server with the built router.
  */
 fun serve(
-    engine: ServerEngine = JettyServletEngine(),
+    engine: ServerEngine,
     settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
         server(engine, settings, block).apply { run() }

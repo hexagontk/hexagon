@@ -1,23 +1,12 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.engine.ServerEngine
-import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 import java.net.InetAddress.getByName as address
 
 @Test class ServerTest {
-    object FakeEngine : ServerEngine {
-        var started = false
-
-        override fun runtimePort() = 12345
-        override fun started() = started
-        override fun startup(server: Server, settings: Map<String, *>) { started = true }
-        override fun shutdown() { started = false }
-    }
-
     fun default_parameters() {
-        val server = Server(JettyServletEngine(), "name", address("localhost"), 9999, router {})
+        val server = Server(VoidEngine, "name", address("localhost"), 9999, router {})
 
         assert(server.serverName == "name")
         assert(server.bindAddress == address("localhost"))
@@ -25,7 +14,7 @@ import java.net.InetAddress.getByName as address
     }
 
     fun runtime_port() {
-        val server = Server(FakeEngine, "name", address("localhost"), 9999, router {})
+        val server = Server(VoidEngine, "name", address("localhost"), 9999, router {})
 
         assertFailsWith<IllegalStateException>("Server is not running") { server.runtimePort }
         assert(!server.started())
@@ -38,18 +27,18 @@ import java.net.InetAddress.getByName as address
 
     fun parameters_map() {
         val router = router {}
-        val server = Server(FakeEngine, router = router)
-        assert(equal (server, Server(FakeEngine, mapOf<String, Any>(), router)))
+        val server = Server(VoidEngine, router = router)
+        assert(equal (server, Server(VoidEngine, mapOf<String, Any>(), router)))
         val invalidSettings = mapOf("serviceName" to 0, "bindAddress" to 1, "bindPort" to true)
-        assert(equal(server, Server(FakeEngine, invalidSettings)))
+        assert(equal(server, Server(VoidEngine, invalidSettings)))
 
         val settings = mapOf(
             "serviceName" to "name",
             "bindAddress" to "localhost",
             "bindPort" to 12345
         )
-        val server1 = Server(FakeEngine, "name", address("localhost"), 12345, router)
-        assert(equal(server1, Server(FakeEngine, settings)))
+        val server1 = Server(VoidEngine, "name", address("localhost"), 12345, router)
+        assert(equal(server1, Server(VoidEngine, settings)))
     }
 
     private fun equal(server1: Server, server2: Server) =

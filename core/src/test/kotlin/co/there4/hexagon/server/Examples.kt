@@ -12,7 +12,7 @@ import javax.script.ScriptEngineManager
 val getIndex = get()
 
 class SampleRouter  {
-    val s = server {
+    val s = server(VoidEngine) {
         before {
             if (request.method == POST)
                 return@before
@@ -57,7 +57,7 @@ fun script () {
     }
 }
 
-val s = server {
+val s = server(VoidEngine) {
     before {
         if (request.method == POST)
             return@before
@@ -180,7 +180,7 @@ fun Router.sessionExample(context: String = "session") {
 }
 
 fun main(args: Array<String>) {
-    serve {
+    serve(VoidEngine) {
         filterExample ()
         helloWorld()
         simpleExample()

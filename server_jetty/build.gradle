@@ -7,10 +7,11 @@ apply plugin: 'me.champeau.gradle.jmh'
 apply plugin: 'com.jfrog.bintray'
 
 ext.jettyVersion = '9.4.4.v20170414'
+ext.logbackVersion = '1.2.2'
 
 dependencies {
     // COMPILE
-    compile project(':core')
+    compile project(':server_servlet')
     compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
     // TEST

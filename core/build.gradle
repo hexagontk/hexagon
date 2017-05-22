@@ -39,14 +39,15 @@ dependencies {
     compileOnly ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: "slf4j-api" }
     compileOnly ("org.mongodb:mongodb-driver:$mongodbVersion")
 
-    compileOnly ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
-
     compileOnly ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
     compileOnly ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion") {
         exclude module: "kotlin-stdlib"
     }
 
     // TEST
+    testCompile project(':server_jetty')
+//    testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
+
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
     testCompile ("org.mongodb:mongodb-driver:$mongodbVersion")

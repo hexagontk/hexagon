@@ -7,8 +7,9 @@ import co.there4.hexagon.server.RequestHandler.*
 import org.testng.annotations.Test
 
 @Test class ServerPackageTest {
+
     fun package_routes_are_stored_in_server () {
-        val server = server {
+        val server = server(VoidEngine) {
             assets ("assets")
 
             after ("/after") {}

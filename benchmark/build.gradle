@@ -29,7 +29,7 @@ war {
 installDist.dependsOn 'war'
 
 dependencies {
-    compile project(':core')
+    compile project(':server_jetty')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion")
     compile ("com.mitchellbosecke:pebble:$pebbleVersion")

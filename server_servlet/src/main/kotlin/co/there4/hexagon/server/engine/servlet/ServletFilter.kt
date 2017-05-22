@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 /**
  * @author jam
  */
-internal class ServletFilter (router: List<RequestHandler>) : Filter {
+class ServletFilter (router: List<RequestHandler>) : Filter {
     companion object : CachedLogger(ServletFilter::class)
 
     private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
