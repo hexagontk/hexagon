@@ -1,3 +1,16 @@
-rootProject.name = name
+rootProject.name = 'hexagon'
 
-include 'benchmark', 'core', 'templates', 'site', 'server_servlet', 'server_jetty'
+include (
+    'hexagon_benchmark',
+    'hexagon_core',
+    'hexagon_site',
+    'hexagon_templates',
+    'hexagon_test',
+
+    'server_servlet',
+    'server_jetty',
+    'server_undertow',
+    'templates_pebble',
+    'templates_kotlinx',
+    'events_rabbitmq'
+)

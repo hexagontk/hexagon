@@ -16,9 +16,9 @@ jbake {
     configuration['render.sitemap'] = true
 
     // Custom properties
-    configuration['projectName'] = project.name // Applied in templates, not content
-    configuration['projectDescription'] = project.description
-    configuration['projectVersion'] = project.version.toString()
+    configuration['projectName'] = rootProject.name // Applied in templates, not content
+    configuration['projectDescription'] = rootProject.description
+    configuration['projectVersion'] = rootProject.version.toString()
     configuration['siteColor'] = siteColor
 }
 
@@ -27,10 +27,10 @@ task site (dependsOn: 'jbake') {
     doLast {
         file ("$buildDir/$jbake.destDirName").traverse (nameFilter: ~/.+\.(html|xml|css|svg)$/) {
             it.write (it.getText ()
-                .replace ('${projectVersion}', project.version.toString ())
-                .replace ('${projectName}', project.name)
-                .replace ('${projectGroup}', project.group.toString ())
-                .replace ('${projectDescription}', project.description)
+                .replace ('${projectVersion}', rootProject.version.toString ())
+                .replace ('${projectName}', rootProject.name)
+                .replace ('${projectGroup}', rootProject.group.toString ())
+                .replace ('${projectDescription}', rootProject.description)
                 .replace ('${siteColor}', siteColor.toString())
             )
         }

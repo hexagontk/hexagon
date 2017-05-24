@@ -5,16 +5,27 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.jfrog.bintray'
 
-ext.jettyVersion = '9.4.4.v20170414'
+ext.rabbitVersion = '4.1.0'
 
 dependencies {
     // COMPILE
-    compile project(':server_servlet')
-    compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
+    compile project(':hexagon_core')
+    compile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: 'slf4j-api' }
 
     // TEST
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
+    testCompile ('org.apache.qpid:qpid-broker:6.1.2') {
+        exclude module: 'logback-classic'
+        exclude module: 'jackson-databind'
+        exclude module: 'jackson-core'
+        exclude module: 'slf4j-api'
+        exclude module: 'qpid-broker-plugins-derby-store'
+        exclude module: 'qpid-broker-plugins-jdbc-provider-bone'
+        exclude module: 'qpid-broker-plugins-jdbc-store'
+        exclude module: 'qpid-broker-plugins-management-http'
+        exclude module: 'qpid-broker-plugins-websocket'
+    }
 }
 
 test {

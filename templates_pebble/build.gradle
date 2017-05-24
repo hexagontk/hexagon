@@ -5,12 +5,12 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.jfrog.bintray'
 
-ext.jettyVersion = '9.4.4.v20170414'
+ext.pebbleVersion = '2.3.0'
 
 dependencies {
     // COMPILE
-    compile project(':server_servlet')
-    compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
+    compile project(':hexagon_core')
+    compile ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
 
     // TEST
     testCompile ("org.testng:testng:$testngVersion")

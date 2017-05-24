@@ -5,12 +5,12 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.jfrog.bintray'
 
-ext.jettyVersion = '9.4.4.v20170414'
+ext.undertowVersion = '1.4.15.Final'
 
 dependencies {
     // COMPILE
-    compile project(':server_servlet')
-    compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
+    compile project(':hexagon_core')
+    compileOnly ("io.undertow:undertow-core:$undertowVersion")
 
     // TEST
     testCompile ("org.testng:testng:$testngVersion")

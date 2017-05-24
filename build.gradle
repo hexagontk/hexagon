@@ -18,22 +18,31 @@ buildscript {
 }
 
 plugins {
-    id 'com.jfrog.bintray' version '1.7.3'
     id 'org.ajoberstar.grgit' version '1.7.1'
 
-    id 'org.jetbrains.kotlin.jvm' version '1.1.2-2' apply false
     // TODO Replace by git-publish
     id 'org.ajoberstar.github-pages' version '1.7.1' apply false
+    id 'com.jfrog.bintray' version '1.7.3' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.1.2-2' apply false
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
     id 'me.champeau.gradle.jmh' version '0.3.1' apply false
 }
 
+version = '0.14.0'
+group = 'co.there4.hexagon'
+description = 'The atoms of your platform'
+
 ext.bintrayUser = 'anonymous'
 ext.bintrayKey = 'anonymous'
-apply from: 'local.gradle'
+
+ext.kotlinVersion = '1.1.2-2'
+ext.testngVersion = '6.11'
+ext.logbackVersion = '1.2.2'
 
 ext.grgit = Grgit.open()
+
+apply from: 'local.gradle'
 
 task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
     doLast {
@@ -47,7 +56,11 @@ task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
 }
 
 task publish(
-    dependsOn: [ ':site:publishGhPages', ':core:bintrayUpload', ':templates:publishAllTemplates' ]
+    dependsOn: [
+        ':hexagon_site:publishGhPages',
+        ':hexagon_core:bintrayUpload',
+        ':hexagon_templates:publishAllTemplates'
+    ]
 )
 
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])

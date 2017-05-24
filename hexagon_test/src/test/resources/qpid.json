@@ -1,0 +1,41 @@
+{
+  "name" : "embedded",
+  "modelVersion" : "6.1",
+  "authenticationproviders" : [
+    {
+      "name" : "auth",
+      "type" : "Plain",
+      "secureOnlyMechanisms" : [ ],
+      "users" : [
+        {
+          "name" : "${qpid.user}",
+          "type" : "managed",
+          "password" : "${qpid.password}"
+        }
+      ]
+    }
+  ],
+  "ports" : [
+    {
+      "name" : "amqp_0_9_1",
+      "port" : "${qpid.amqp_port}",
+      "protocols" : [ "AMQP_0_9_1" ],
+      "authenticationProvider" : "auth",
+      "transports": [ "TCP" ],
+      "virtualhostaliases": [
+        {
+          "name": "${qpid.vhost}",
+          "type": "nameAlias"
+        }
+      ]
+    }
+  ],
+  "virtualhostnodes" : [
+    {
+      "name" : "${qpid.vhost}",
+      "type" : "Memory",
+      "defaultVirtualHostNode" : "true",
+      "virtualHostInitialConfiguration" : "{ \"type\": \"Memory\" }"
+    }
+  ]
+}
