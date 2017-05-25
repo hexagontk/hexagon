@@ -8,12 +8,12 @@ version: '3'
 services:
   postgresql:
     image: postgres
-    volumes: [ "./benchmark/postgresql.sql:/docker-entrypoint-initdb.d/db.sql:ro" ]
+    volumes: [ "./hexagon_benchmark/postgresql.sql:/docker-entrypoint-initdb.d/db.sql:ro" ]
     ports: [ "5432:5432" ]
 
   mongodb:
     image: mongo
-    volumes: [ "./benchmark/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro" ]
+    volumes: [ "./hexagon_benchmark/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro" ]
     ports: [ "27017:27017" ]
 
   rabbitmq:
@@ -21,19 +21,19 @@ services:
     ports: [ "5672:5672", "15672:15672" ]
 
   benchmark_resin_mongodb:
-    build: { context: "./benchmark", dockerfile: "resin.dockerfile" }
+    build: { context: "./hexagon_benchmark", dockerfile: "resin.dockerfile" }
     environment: [ "DBHOST=mongodb" ]
     links: [ "mongodb:mongodb" ]
     ports: [ "9070:8080" ]
 
   benchmark_jetty_mongodb:
-    build: { context: "./benchmark", dockerfile: "java.dockerfile" }
+    build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
     environment: [ "DBHOST=mongodb" ]
     links: [ "mongodb:mongodb" ]
     ports: [ "9090:9090" ]
 
   benchmark_jetty_postgresql:
-    build: { context: "./benchmark", dockerfile: "java.dockerfile" }
+    build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
     environment: [ "DBHOST=postgresql" ]
     links: [ "postgresql:postgresql" ]
     ports: [ "9080:9090" ]
