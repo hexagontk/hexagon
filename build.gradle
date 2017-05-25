@@ -29,7 +29,7 @@ plugins {
     id 'me.champeau.gradle.jmh' version '0.3.1' apply false
 }
 
-version = '0.14.0'
+version = '0.15.0'
 group = 'co.there4.hexagon'
 description = 'The atoms of your platform'
 
@@ -58,8 +58,12 @@ task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
 task publish(
     dependsOn: [
         ':hexagon_site:publishGhPages',
+        ':hexagon_templates:publishAllTemplates',
         ':hexagon_core:bintrayUpload',
-        ':hexagon_templates:publishAllTemplates'
+        ':events_rabbitmq:bintrayUpload',
+        ':server_jetty:bintrayUpload',
+        ':server_servlet:bintrayUpload',
+        ':templates_pebble:bintrayUpload'
     ]
 )
 

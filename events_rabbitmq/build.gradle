@@ -32,18 +32,12 @@ test {
     useTestNG()
 }
 
-configurations {
-    deployerJars
-}
+//configurations {
+//    deployerJars
+//}
 
 task sourceJar (type: Jar) {
     from sourceSets.main.allJava
-}
-
-task packageTest (type: Jar) {
-    from sourceSets.test.output
-
-    exclude '/data', '/public', '/templates', '/*.yaml', '/*.xml', '/*.json', '/*.txt'
 }
 
 publishing {
@@ -53,10 +47,6 @@ publishing {
 
             artifact sourceJar {
                 classifier 'sources'
-            }
-
-            artifact packageTest {
-                classifier 'test'
             }
         }
     }
