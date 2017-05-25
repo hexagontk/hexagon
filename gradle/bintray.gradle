@@ -1,0 +1,42 @@
+
+apply plugin: 'kotlin'
+apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+test {
+    useTestNG()
+}
+
+task sourceJar (type: Jar) {
+    from sourceSets.main.allJava
+}
+
+publishing {
+    publications {
+        mavenJava (MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier 'sources'
+            }
+        }
+    }
+}
+
+bintray {
+    setKey bintrayKey
+    setUser bintrayUser
+    setPublications 'mavenJava'
+    publish = true
+
+    pkg {
+        repo = 'maven'
+        name = 'Hexagon'
+        licenses = [ 'MIT' ]
+        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
+    }
+}
+
+bintrayUpload.dependsOn 'build'
+

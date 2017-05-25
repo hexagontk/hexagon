@@ -1,4 +1,9 @@
 
+apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
+
+apply plugin: 'org.jetbrains.dokka'
+
 ext.rabbitVersion = '4.1.0'
 
 dependencies {
