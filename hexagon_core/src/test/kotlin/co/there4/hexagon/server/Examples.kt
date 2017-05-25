@@ -1,138 +1,100 @@
-/*
- * TODO Change to subrouters and mount
- */
 package co.there4.hexagon.server
 
 import java.net.InetAddress.getByName as address
 import co.there4.hexagon.server.HttpMethod.*
+import java.net.HttpCookie
 
+/** A route, available in the server (to be handled) or in the client (to be * called). */
 val getIndex = get()
+/** Another syntax to create a route. */
+val postIndex = POST at "/"
 
-class SampleRouter  {
-    val s = server(VoidEngine) {
-        before {
-            if (request.method == POST)
-                return@before
-
-            response.addHeader("foo", "bar")
-        }
-
-        assets ("/public", "/public")
-
-        get { "Hi" }
-
-        getIndex by {}
-
-        post("/foo") by {}
-
-        POST at "/foo" by { "Done" }
-        POST at "/foo" by { done() }
-        POST at "/foo" by this@SampleRouter::reference
-
-        ALL at "/" before {
-        }
-
-        ALL at "/" after {
-        }
-    }
-
-    private fun done(): Any = 200 to "Done"
-    private fun reference(e: Call): Any = 200 to "Done"
-
-    fun f() {
-        s.run()
-    }
-}
-
-val s = server(VoidEngine) {
-    before {
-        if (request.method == POST)
-            return@before
-
-        response.addHeader("foo", "bar")
-    }
-
-    assets ("/public", "/public")
-
-    get { "Hi" }
-
-    getIndex by {}
-
-    post("/foo") by {}
-
-    POST at "/foo" by { "Done" }
-    POST at "/foo" by { done() }
-    POST at "/foo" by ::reference
-
-    ALL at "/" before {
-    }
-
-    ALL at "/" after {
-    }
-}
-
-private fun done(): Any = 200 to "Done"
-private fun reference(e: Call): Any = 200 to "Done"
-
-fun f() {
-    s.run()
-}
-
-val SESSION_NAME = "username"
+const val SESSION_NAME = "username"
 
 val usernamePasswords = mapOf (
     "foo" to "bar",
     "admin" to "admin"
 )
 
-fun Router.filterExample(context: String = "filter") {
+/**
+ * Creates a server which can be started/stoped elsewhere.
+ *
+ * Each call defines a route handler or filter, they are evaluated in order at runtime.
+ */
+val serverExample = server(VoidEngine) {
+    // Adds 'foo' header to all requests
+    before { response.addHeader("foo", "bar") }
+
+    // Before POST / check 'pass' header, if present, pass to the next filter
+    postIndex before {
+        if(request.headers["pass"] != null)
+            pass()
+        else
+            response.addHeader("passing", "true")
+    }
+
+    // Another syntax for a before filter
+    ALL at "/" before { response.addCookie(HttpCookie("cookie", "jar")) }
+
+    // Map '/public' classpath resources to '/' path
+    assets ("/public")
+    // Map '/css' classpath resources to '/css' path (only if not found in '/public' before!)
+    assets ("/css", "/public")
+
+    get { "Hi" }
+
+    // Create a handler with an existing route
+    getIndex by {}
+
+    post("/foo") by {}
+
+    // The return object is the response (String sets body, Int sets code, Pair<Int, Any> both)
+    POST at "/foo" by { "Done" }
+    // Handling a route with a method reference (note that 'Call' cannot be used as the receiver)
+    POST at "/foo" by ::reference
+
+    ALL at "/" after {}
+}
+
+private fun reference(e: Call): Any = 200 to "Done"
+
+val filter = router {
     before {
         val user = request.parameters ["user"] ?: ""
         val password = request.parameters ["password"] ?: ""
 
         val dbPassword = usernamePasswords[user]
         if (password != dbPassword)
-            halt (401, "You are not welcome here!!!")
+            401 to "You are not welcome here!!!"
     }
 
-    before ("/$context/hello") { response.addHeader ("Foo", "Set by second before filter") }
-
-    get ("/$context/hello") { ok ("Hello World!") }
-
-    after ("/$context/hello") { response.addHeader ("hexagon", "added by after-filter") }
+    before ("/hello") { response.addHeader ("Foo", "Set by second before filter") }
+    get ("/hello") { "Hello World!" }
+    after ("/hello") { response.addHeader ("hexagon", "added by after-filter") }
 }
 
-fun Router.helloWorld(context: String = "hello") {
-    get ("/$context") { ok ("Hello World!") }
+val helloWorld = router {
+    get ("/") { "Hello World!" }
 }
 
-fun Router.simpleExample(context: String = "simple") {
-    get ("/$context/hello") { ok ("Hello World!") }
-
-    post ("/$context/hello") { ok ("Hello World: " + response.body) }
-
-    get ("/$context/private") { error (401, "Go Away!!!") }
-
-    get ("/$context/users/{name}") { ok ("Selected user: " + request.parameters ["name"]) }
-
-    get ("/$context/news/{section}") {
+val simple = router {
+    get ("/news/{section}") {
         val list = request.parameters ["section"]?.first() ?: "not found"
-        ok ("""<?xml version="1.0" encoding="UTF-8"?><news>$list</news>""", "text/xml")
+        ok("""<?xml version="1.0" encoding="UTF-8"?><news>$list</news>""", "text/xml")
     }
 
-    get ("/$context/protected") {
-        halt (403, "I don't think so!!!")
-    }
-
-    get ("/$context/redirect") {
-        redirect ("/news/world")
-    }
-
-    get ("/$context/") { ok ("root") }
+    get ("/hello") { "Hello World!" }
+    post ("/hello") { "Hello World: " + response.body }
+    // Returning a tuple sets the code and the body
+    get ("/private") { 401 to "Go Away!!!" }
+    get ("/users/{name}") { "Selected user: " + request.parameters ["name"] }
+    get ("/protected") { 403 to "I don't think so!!!" }
+    get ("/redirect") { redirect ("/news/world") }
+    get { "root" }
 }
 
-fun Router.sessionExample(context: String = "session") {
-    get ("/$context/") {
+val session = router {
+    get {
         if (session.attributes.containsKey(SESSION_NAME))
             """
             <html>
@@ -149,7 +111,7 @@ fun Router.sessionExample(context: String = "session") {
             "<html><body>Hello, ${session[SESSION_NAME]}!</body></html>"
     }
 
-    post ("/$context/entry") {
+    post {
         val name = request.parameters ["name"]?.first()
 
         if (name != null)
@@ -158,7 +120,7 @@ fun Router.sessionExample(context: String = "session") {
         redirect ("/")
     }
 
-    get ("/$context/clear") {
+    get {
         session.removeAttribute (SESSION_NAME)
         redirect ("/")
     }
@@ -166,9 +128,18 @@ fun Router.sessionExample(context: String = "session") {
 
 fun main(args: Array<String>) {
     serve(VoidEngine) {
-        filterExample ()
-        helloWorld()
-        simpleExample()
-        sessionExample()
+        // You can mount routers in paths
+        path("/filter", filter)
+        path("/hello", helloWorld)
+        path("/simple", simple)
+        path("/session", session)
+
+        // Handlers can be nested
+        path("/inline") {
+            get { "Inline router" }
+            post {}
+        }
     }
+
+    serverExample.run()
 }
