@@ -31,8 +31,8 @@ services:
 install:
   - ln -s gradle/wrapper gradlew
   - echo "ext.ci = true" >local.gradle
-  - mongo benchmark/mongodb.js
-  - psql -U postgres -f benchmark/postgresql.sql
+  - mongo hexagon_benchmark/mongodb.js
+  - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
 script: gradle/wrapper --no-daemon --full-stacktrace build site
 
