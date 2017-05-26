@@ -1,4 +1,4 @@
-rootProject.name = 'hexagon'
+rootProject.name = name
 
 include (
     'hexagon_benchmark',

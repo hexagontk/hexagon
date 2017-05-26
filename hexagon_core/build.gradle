@@ -55,14 +55,11 @@ test {
     }
 }
 
-configurations {
-    deployerJars
-}
-
 task sourceJar (type: Jar) {
     from sourceSets.main.allJava
 }
 
+// TODO apply 'bintray.gradle' when 'hexagon_test' is ready and delete this package
 task packageTest (type: Jar) {
     from sourceSets.test.output
 

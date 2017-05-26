@@ -6,7 +6,6 @@ import kotlinx.html.*
 import javax.script.Compilable
 import javax.script.ScriptEngineManager
 import java.util.Locale.getDefault as defaultLocale
-import co.there4.hexagon.store.Tag as TestTag
 
 @Suppress("unused") // Test methods are flagged as unused
 class GenericIT {
