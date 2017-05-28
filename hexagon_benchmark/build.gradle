@@ -14,6 +14,8 @@ ext.hikariVersion = '2.6.1'
 ext.postgresqlVersion = '42.0.0'
 ext.mongodbVersion = '3.4.2'
 
+ext.ahcVersion = '2.0.31'
+
 ext.jmhVersion = '1.18'
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
@@ -37,6 +39,10 @@ dependencies {
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
     testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
+    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
+        exclude module: 'slf4j-api'
+    }
 
     // BENCHMARK
     jmh ("org.openjdk.jmh:jmh-core:$jmhVersion")

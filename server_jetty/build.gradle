@@ -6,6 +6,8 @@ apply plugin: 'org.jetbrains.dokka'
 
 ext.jettyVersion = '9.4.4.v20170414'
 
+ext.ahcVersion = '2.0.31'
+
 dependencies {
     // COMPILE
     compile project(':server_servlet')
@@ -14,4 +16,7 @@ dependencies {
     // TEST
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
+    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
+        exclude module: 'slf4j-api'
+    }
 }

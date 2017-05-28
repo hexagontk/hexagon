@@ -5,6 +5,7 @@ apply from: '../gradle/bintray.gradle'
 apply plugin: 'org.jetbrains.dokka'
 
 ext.rabbitVersion = '4.1.0'
+ext.qpidVersion = '6.1.2'
 
 dependencies {
     // COMPILE
@@ -14,7 +15,7 @@ dependencies {
     // TEST
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
-    testCompile ('org.apache.qpid:qpid-broker:6.1.2') {
+    testCompile ("org.apache.qpid:qpid-broker:$qpidVersion") {
         exclude module: 'logback-classic'
         exclude module: 'jackson-databind'
         exclude module: 'jackson-core'

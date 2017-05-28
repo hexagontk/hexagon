@@ -1,7 +1,7 @@
 package co.there4.hexagon.events.rabbitmq
 
-import co.there4.hexagon.settings.SettingsManager.settings
 import co.there4.hexagon.helpers.CachedLogger
+import co.there4.hexagon.helpers.error
 import co.there4.hexagon.helpers.parseQueryParameters
 import co.there4.hexagon.helpers.retry
 import com.rabbitmq.client.*
@@ -19,29 +19,24 @@ import kotlin.reflect.KClass
  * Rabbit client.
  * TODO Add metrics
  * TODO Ordered shutdown
- *
- * @author jam
  */
-class RabbitClient (
+class RabbitClient(
     private val connectionFactory: ConnectionFactory,
     private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
 
-    companion object : CachedLogger(RabbitClient::class) {
-        val rabbitmqUrl = settings["rabbitmqUrl"] as? String ?: "amqp://guest:guest@localhost"
+    internal companion object : CachedLogger(RabbitClient::class) {
+        internal fun <T> setVar(value: T?, setter: (T) -> Unit) {
+            if (value != null)
+                setter(value)
+        }
 
-        fun createConnectionFactory(uri: String = rabbitmqUrl): ConnectionFactory {
-            fun <T> setVar(value: T?, setter: (T) -> Unit) {
-                if (value != null)
-                    setter (value)
-            }
+        internal fun createConnectionFactory(uri: URI): ConnectionFactory {
+            require(uri.toString().isNotBlank())
 
-            require(!uri.isEmpty())
-
-            val rabbitUri = URI(uri)
             val cf = ConnectionFactory()
-            cf.setUri(rabbitUri)
+            cf.setUri(uri)
 
-            val params = parseQueryParameters(rabbitUri.query ?: "")
+            val params = parseQueryParameters(uri.query ?: "")
             setVar(params["automaticRecovery"]?.toBoolean()) { cf.isAutomaticRecoveryEnabled = it }
             setVar(params["recoveryInterval"]?.toLong()) { cf.networkRecoveryInterval = it }
             setVar(params["shutdownTimeout"]?.toInt()) { cf.shutdownTimeout = it }
@@ -53,25 +48,15 @@ class RabbitClient (
 
     @Volatile private var count: Int = 0
     private val threadPool = newFixedThreadPool(poolSize, { Thread(it, "rabbitmq-" + count++) })
-    private var connection: Connection? = null
+    private var connection: Connection? = connectionFactory.newConnection()
 
-    init {
-        this.connection = connectionFactory.newConnection()
+    /** . */
+    constructor (uri: URI) : this(createConnectionFactory(uri))
 
-        info("""
-            RabbitMQ Client connected to:
-            ${connectionFactory.host}
-            ${connectionFactory.port}
-            ${connectionFactory.virtualHost}
-            ${connectionFactory.username}
-            ${connectionFactory.password}""".trimIndent()
-        )
-    }
-
-    constructor (uri: String = rabbitmqUrl): this(createConnectionFactory(uri))
-
+    /** . */
     val connected: Boolean get() = connection?.isOpen ?: false
 
+    /** @see Closeable.close */
     override fun close() {
         if (!connected) error("Connection already closed")
 
@@ -79,15 +64,18 @@ class RabbitClient (
         info("RabbitMQ client closed")
     }
 
+    /** . */
     fun declareQueue(name: String) {
         withChannel { it.queueDeclare(name, false, false, false, null) }
     }
 
+    /** . */
     fun deleteQueue(name: String) {
         withChannel { it.queueDelete(name) }
     }
 
-    fun bindExchange (exchange: String, exchangeType: String, routingKey: String, queue: String) {
+    /** . */
+    fun bindExchange(exchange: String, exchangeType: String, routingKey: String, queue: String) {
         withChannel {
             it.queueDeclare(queue, false, false, false, null)
             it.exchangeDeclare(exchange, exchangeType, false, false, false, null)
@@ -95,6 +83,7 @@ class RabbitClient (
         }
     }
 
+    /** . */
     fun <T : Any> consume(
         exchange: String, routingKey: String, type: KClass<T>, handler: (T) -> Unit) {
 
@@ -105,6 +94,7 @@ class RabbitClient (
         consume(routingKey, type, handler)
     }
 
+    /** . */
     fun <T : Any, R : Any> consume(queueName: String, type: KClass<T>, handler: (T) -> R) {
         val channel = createChannel()
         val callback = Handler(connectionFactory, channel, threadPool, type, handler)
@@ -119,12 +109,12 @@ class RabbitClient (
      * @return A new channel.
      */
     private fun createChannel(): Channel =
-        retry (times = 3, delay = 50) {
+        retry(times = 3, delay = 50) {
             if (!(connection?.isOpen ?: false)) {
                 connection = connectionFactory.newConnection()
                 warn("Rabbit connection RESTORED")
             }
-            val channel = connection!!.createChannel()
+            val channel = connection?.createChannel() ?: error
             channel.basicQos(poolSize)
             channel
         }
@@ -141,7 +131,8 @@ class RabbitClient (
         }
     }
 
-    fun publish(queue: String, message: String) = publish("", queue, message)
+    fun publish(queue: String, message: String, correlationId: String? = null) =
+        publish("", queue, message, correlationId)
 
     fun publish(
         exchange: String,
@@ -209,7 +200,9 @@ class RabbitClient (
             }
 
             it.basicConsume(replyQueueName, true, consumer)
-            while(result == null) { sleep(5) } // Wait until callback is called
+            while (result == null) {
+                sleep(5)
+            } // Wait until callback is called
             result ?: ""
         }
 }

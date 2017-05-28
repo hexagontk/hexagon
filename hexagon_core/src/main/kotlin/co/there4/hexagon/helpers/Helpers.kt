@@ -74,7 +74,7 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
  * TODO .
  */
 fun parseQueryParameters(query: String): Map<String, String> =
-    if (query.isEmpty())
+    if (query.isBlank())
         mapOf()
     else
         query.split("&".toRegex())

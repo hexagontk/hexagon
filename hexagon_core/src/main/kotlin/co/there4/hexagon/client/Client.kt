@@ -18,13 +18,13 @@ import java.util.Base64.Encoder
 import org.asynchttpclient.request.body.multipart.Part as AsyncHttpPart
 
 /**
- * Client to use other REST services (like the ones created with Blacksheep).
+ * Client to use other REST services.
  */
 class Client (
     val endpointUrl: URL,
     val contentType: String? = null,
     val useCookies: Boolean = true,
-    val user: String? = null,
+    user: String? = null,
     password: String? = null,
     insecure: Boolean = false) {
 

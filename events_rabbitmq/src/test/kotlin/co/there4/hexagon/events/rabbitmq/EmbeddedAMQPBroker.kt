@@ -8,8 +8,10 @@ import java.nio.file.Files
 /**
  * Check: https://dzone.com/articles/mocking-rabbitmq-for-integration-tests
  */
-class EmbeddedAMQPBroker(val port: Int, val user: String, val password: String, val vhost: String) {
-    private var broker: Broker? = null
+internal class EmbeddedAMQPBroker(
+    val port: Int, val user: String, val password: String, val vhost: String) {
+
+    private val broker: Broker = Broker()
 
     fun startup() {
         val preferenceStore = """{"type": "Noop"}"""
@@ -27,9 +29,8 @@ class EmbeddedAMQPBroker(val port: Int, val user: String, val password: String, 
         options.setConfigProperty("qpid.vhost", vhost)
         options.setConfigProperty("qpid.work_dir", workDir)
 
-        broker = Broker()
-        broker?.startup(options)
+        broker.startup(options)
     }
 
-    fun shutdown() { broker?.shutdown() }
+    fun shutdown() { broker.shutdown() }
 }

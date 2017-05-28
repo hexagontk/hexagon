@@ -1,65 +1,66 @@
 package co.there4.hexagon.events.rabbitmq
 
+import co.there4.hexagon.helpers.CachedLogger
+import co.there4.hexagon.helpers.retry
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.helpers.*
-import com.rabbitmq.client.*
+import com.rabbitmq.client.AMQP.BasicProperties
+import com.rabbitmq.client.Channel
+import com.rabbitmq.client.ConnectionFactory
+import com.rabbitmq.client.DefaultConsumer
+import com.rabbitmq.client.Envelope
 import java.nio.charset.Charset
 import java.nio.charset.Charset.defaultCharset
 import java.util.concurrent.ExecutorService
 import kotlin.reflect.KClass
-import kotlin.system.measureNanoTime
 
-class Handler<T : Any, R : Any> (
+/**
+ * TODO .
+ * TODO Add content type support
+ */
+class Handler<T : Any, R : Any>(
     connectionFactory: ConnectionFactory,
     channel: Channel,
     private val executor: ExecutorService,
-    val type: KClass<T>,
-    private val handler: (T) -> R): DefaultConsumer(channel) {
+    private val type: KClass<T>,
+    private val handler: (T) -> R) : DefaultConsumer(channel) {
 
-    companion object : CachedLogger(Handler::class) {
-        const val RETRIES = 5
-        const val DELAY = 50L
+    private companion object : CachedLogger(Handler::class) {
+        private const val RETRIES = 5
+        private const val DELAY = 50L
     }
 
-    private val client: RabbitClient = RabbitClient(connectionFactory)
+    private val client: RabbitClient by lazy { RabbitClient(connectionFactory) }
 
+    /** @see DefaultConsumer.handleDelivery */
     override fun handleDelivery(
-        consumerTag: String,
-        envelope: Envelope,
-        properties: AMQP.BasicProperties,
-        body: ByteArray) {
+        consumerTag: String, envelope: Envelope, properties: BasicProperties, body: ByteArray) {
 
         executor.execute {
-            val t = measureNanoTime {
-                val charset = properties.contentEncoding ?: defaultCharset().name()
-                val correlationId = properties.correlationId
-                val replyTo = properties.replyTo
+            val charset = properties.contentEncoding ?: defaultCharset().name()
+            val correlationId = properties.correlationId
+            val replyTo = properties.replyTo
 
-                var request: String? = null
-
-                try {
-                    request = String(body, Charset.forName(charset))
-                    val input = request.parse(type)
-                    handleMessage(input, replyTo, correlationId)
-                }
-                catch (ex: Exception) {
-                    warn("Error processing message", ex)
-                    handleError(ex, replyTo, correlationId)
-                }
-                finally {
-                    retry (RETRIES, DELAY) { channel.basicAck (envelope.deliveryTag, false) }
-                    trace (
-                        """ENCODING: $charset CORRELATION ID: $correlationId
-                        BODY: $request"""
-                    )
-                }
+            try {
+                trace("Received message ($correlationId) in $charset")
+                val request = String(body, Charset.forName(charset))
+                trace("Message body:\n$request")
+                val input = request.parse(type)
+                handleMessage(input, replyTo, correlationId)
             }
-            trace ("TIME: ${formatNanos(t)}")
+            catch (ex: Exception) {
+                warn("Error processing message ($correlationId) in $charset", ex)
+                handleError(ex, replyTo, correlationId)
+            }
+            finally {
+                retry(RETRIES, DELAY) { channel.basicAck(envelope.deliveryTag, false) }
+            }
         }
     }
 
     private fun handleMessage(message: T, replyTo: String?, correlationId: String?) {
+        if (replyTo == null) return
+
         val response = handler(message)
 
         val output = when (response) {
@@ -69,15 +70,14 @@ class Handler<T : Any, R : Any> (
             else -> response.serialize()
         }
 
-        if (replyTo != null)
-            client.publish("", replyTo, output, correlationId)
+        client.publish(replyTo, output, correlationId)
     }
 
     private fun handleError(exception: Exception, replyTo: String?, correlationId: String?) {
-        if (replyTo != null) {
-            val message = exception.message ?: ""
-            val errorMessage = if (message.isBlank()) exception.javaClass.name else message
-            client.publish("", replyTo, errorMessage, correlationId)
-        }
+        if (replyTo == null) return
+
+        val message = exception.message ?: ""
+        val errorMessage = if (message.isBlank()) exception.javaClass.name else message
+        client.publish(replyTo, errorMessage, correlationId)
     }
 }

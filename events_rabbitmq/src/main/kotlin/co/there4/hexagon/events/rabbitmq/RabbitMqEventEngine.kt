@@ -3,12 +3,18 @@ package co.there4.hexagon.events.rabbitmq
 import co.there4.hexagon.events.Event
 import co.there4.hexagon.events.EventEngine
 import co.there4.hexagon.serialization.serialize
+import java.net.URI
 import kotlin.reflect.KClass
 
+/**
+ * TODO .
+ */
 class RabbitMqEventEngine : EventEngine {
-    val exchange = "events"
+    private companion object {
+        private const val exchange = "events"
+    }
 
-    val client by lazy { RabbitClient() }
+    private val client by lazy { RabbitClient(URI("amqp://guest:guest@localhost")) }
 
     init {
         client.bindExchange(exchange, "topic", "*.*.*", "event_pool")

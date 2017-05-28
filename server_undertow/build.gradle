@@ -8,6 +8,8 @@ apply plugin: 'com.jfrog.bintray'
 
 ext.undertowVersion = '1.4.15.Final'
 
+ext.ahcVersion = '2.0.31'
+
 dependencies {
     // COMPILE
     compile project(':hexagon_core')
@@ -16,4 +18,7 @@ dependencies {
     // TEST
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
+    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
+        exclude module: 'slf4j-api'
+    }
 }
