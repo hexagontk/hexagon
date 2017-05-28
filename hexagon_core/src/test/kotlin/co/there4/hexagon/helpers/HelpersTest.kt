@@ -75,7 +75,7 @@ import kotlin.test.assertFailsWith
     }
 
     fun error_utilities_work_as_expected () {
-        assertFailsWith<IllegalStateException> { err }
+        assertFailsWith<IllegalStateException> { error }
     }
 
     fun dates_are_parsed_from_ints() {
@@ -124,7 +124,7 @@ import kotlin.test.assertFailsWith
     }
 
     fun error_utilities() {
-        assertFailsWith<IllegalStateException>("Invalid state") { err }
+        assertFailsWith<IllegalStateException>("Invalid state") { error }
     }
 
     fun filtered_maps() {

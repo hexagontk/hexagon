@@ -1,6 +1,6 @@
 
 FROM openjdk
-COPY build/install/benchmark /opt/benchmark
-WORKDIR /opt/benchmark
+COPY build/install/hexagon_benchmark /opt/hexagon_benchmark
+WORKDIR /opt/hexagon_benchmark
 EXPOSE 9090
-ENTRYPOINT ["/opt/benchmark/bin/benchmark"]
+ENTRYPOINT ["/opt/hexagon_benchmark/bin/hexagon_benchmark"]

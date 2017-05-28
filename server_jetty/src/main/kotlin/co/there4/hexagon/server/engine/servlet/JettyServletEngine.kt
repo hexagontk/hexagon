@@ -1,6 +1,6 @@
 package co.there4.hexagon.server.engine.servlet
 
-import co.there4.hexagon.helpers.err
+import co.there4.hexagon.helpers.error
 import co.there4.hexagon.server.Server
 import co.there4.hexagon.server.engine.ServerEngine
 import org.eclipse.jetty.server.ServerConnector
@@ -20,7 +20,7 @@ class JettyServletEngine : ServerEngine {
     private var jettyServer: JettyServer? = null
 
     override fun runtimePort(): Int =
-        ((jettyServer?.connectors?.get(0) ?: err) as ServerConnector).localPort.let {
+        ((jettyServer?.connectors?.get(0) ?: error) as ServerConnector).localPort.let {
             if (it == -1) error("Jetty port uninitialized. Use lazy evaluation for HTTP client ;)")
             else it
         }

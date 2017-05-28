@@ -7,7 +7,7 @@ import co.there4.hexagon.store.mongoRepository
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.parseList
 import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.helpers.err
+import co.there4.hexagon.helpers.error
 import co.there4.hexagon.server.*
 import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import org.testng.annotations.Test
@@ -33,8 +33,8 @@ import kotlin.reflect.KProperty1
         server.crud(repo)
         server.run()
 
-        fun param (json: String?) = json?.parse (Country::class) ?: err
-        fun paramList (json: String?) = json?.parseList (Country::class) ?: err
+        fun param (json: String?) = json?.parse (Country::class) ?: error
+        fun paramList (json: String?) = json?.parseList (Country::class) ?: error
         val url = "http://${server.bindAddress.hostAddress}:${server.runtimePort}"
         val client = Client (url, useCookies = false)
         val parameter = Country(34, "es")
@@ -69,8 +69,8 @@ import kotlin.reflect.KProperty1
         server.crud(repo)
         server.run()
 
-        fun param (json: String?) = json?.parse (Parameter::class) ?: err
-        fun paramList (json: String?) = json?.parseList (Parameter::class) ?: err
+        fun param (json: String?) = json?.parse (Parameter::class) ?: error
+        fun paramList (json: String?) = json?.parseList (Parameter::class) ?: error
         val client = Client("http://localhost:${server.runtimePort}", useCookies = false)
         val parameter = Parameter("a", "b")
         val modifiedParameter = parameter.copy(value = "c")
@@ -96,8 +96,8 @@ import kotlin.reflect.KProperty1
         server.crud(addresses)
         server.run()
 
-        fun param (json: String?) = json?.parse (Address::class) ?: err
-        fun paramList (json: String?) = json?.parseList (Address::class) ?: err
+        fun param (json: String?) = json?.parse (Address::class) ?: error
+        fun paramList (json: String?) = json?.parseList (Address::class) ?: error
 
         val client = Client("http://localhost:${server.runtimePort}", useCookies = false)
 

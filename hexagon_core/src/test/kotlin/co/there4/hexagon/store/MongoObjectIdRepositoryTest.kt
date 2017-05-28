@@ -1,6 +1,6 @@
 package co.there4.hexagon.store
 
-import co.there4.hexagon.helpers.err
+import co.there4.hexagon.helpers.error
 import org.testng.annotations.Test
 
 @Test class MongoObjectIdRepositoryTest {
@@ -22,7 +22,7 @@ import org.testng.annotations.Test
 
         val newColor = Color(r = 1, g = 2, b = 3, a = 0)
         repository.insertOneObject(newColor)
-        val color = repository.find(newColor.id) ?: err
+        val color = repository.find(newColor.id) ?: error
         assert(color.r == 0xFF)
         assert(color.g == 0xFF)
         repository.delete()

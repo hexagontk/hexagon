@@ -21,7 +21,7 @@ val hostname = getLocalHost()?.hostName ?: UNKNOWN_LOCALHOST
 val ip = getLocalHost()?.hostAddress ?: UNKNOWN_LOCALHOST
 
 /** Syntax sugar to throw errors. */
-val err: Nothing get() = error("Invalid state")
+val error: Nothing get() = error("Invalid state")
 
 /** System class loader. */
 val systemClassLoader: ClassLoader = getSystemClassLoader()

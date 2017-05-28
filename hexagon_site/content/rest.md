@@ -49,6 +49,6 @@ REST
             server.stop()
         }
 
-        private fun param (json: String?) = json?.parse (Parameter::class) ?: err
-        private fun paramList (json: String?) = json?.parseList (Parameter::class) ?: err
+        private fun param (json: String?) = json?.parse (Parameter::class) ?: error
+        private fun paramList (json: String?) = json?.parseList (Parameter::class) ?: error
     }
