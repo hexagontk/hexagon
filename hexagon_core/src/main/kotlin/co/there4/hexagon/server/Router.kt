@@ -14,6 +14,10 @@ import co.there4.hexagon.server.assets as packageAssets
 
 /**
  * TODO Document.
+ * TODO Get routes (paths to be handled)
+ * TODO Index paths (ie: /foo)
+ * TODO Index routes (ie: GET /foo)
+ * TODO Map with routes to all handlers needed
  */
 class Router {
     var requestHandlers: List<RequestHandler> = emptyList(); private set
