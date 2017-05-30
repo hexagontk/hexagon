@@ -14,7 +14,7 @@ ext.ahcVersion = '2.0.31'
 dependencies {
     // COMPILE
     compile project(':hexagon_core')
-    compile ("javax.servlet:javax.servlet-api:$servletVersion")
+    compileOnly ("javax.servlet:javax.servlet-api:$servletVersion")
 
     // TEST
     testCompile ("org.testng:testng:$testngVersion")
