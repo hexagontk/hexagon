@@ -9,7 +9,7 @@ import java.lang.System.nanoTime
 import kotlin.reflect.KClass
 import java.lang.Thread.`yield` as threadYield
 
-@Test class EventsTest {
+@Test class EventManagerTest {
     class TickEvent (val nanos: Long) : Event ()
 
     object VoidEngine : EventEngine {
