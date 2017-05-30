@@ -20,11 +20,11 @@ import kotlin.reflect.KClass
  * TODO Add metrics
  * TODO Ordered shutdown
  */
-class RabbitClient(
+class RabbitMqClient(
     private val connectionFactory: ConnectionFactory,
     private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
 
-    internal companion object : CachedLogger(RabbitClient::class) {
+    internal companion object : CachedLogger(RabbitMqClient::class) {
         internal fun <T> setVar(value: T?, setter: (T) -> Unit) {
             if (value != null)
                 setter(value)

@@ -15,8 +15,8 @@ import java.net.URI
         private const val DELAY = 10L
     }
 
-    private val consumer: RabbitClient = RabbitClient(URI(URI))
-    private val client: RabbitClient = RabbitClient(URI(URI))
+    private val consumer: RabbitMqClient = RabbitMqClient(URI(URI))
+    private val client: RabbitMqClient = RabbitMqClient(URI(URI))
 
     @BeforeClass fun startConsumer() {
         consumer.declareQueue(QUEUE)

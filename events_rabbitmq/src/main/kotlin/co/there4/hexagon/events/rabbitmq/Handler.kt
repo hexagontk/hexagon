@@ -30,7 +30,7 @@ class Handler<T : Any, R : Any>(
         private const val DELAY = 50L
     }
 
-    private val client: RabbitClient by lazy { RabbitClient(connectionFactory) }
+    private val client: RabbitMqClient by lazy { RabbitMqClient(connectionFactory) }
 
     /** @see DefaultConsumer.handleDelivery */
     override fun handleDelivery(

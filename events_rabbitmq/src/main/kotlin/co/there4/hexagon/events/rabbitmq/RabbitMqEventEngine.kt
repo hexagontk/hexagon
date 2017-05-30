@@ -14,7 +14,7 @@ class RabbitMqEventEngine : EventEngine {
         private const val exchange = "events"
     }
 
-    private val client by lazy { RabbitClient(URI("amqp://guest:guest@localhost")) }
+    private val client by lazy { RabbitMqClient(URI("amqp://guest:guest@localhost")) }
 
     init {
         client.bindExchange(exchange, "topic", "*.*.*", "event_pool")

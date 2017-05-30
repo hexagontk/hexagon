@@ -23,8 +23,8 @@ import java.net.URI
 
     private val broker = EmbeddedAMQPBroker(port, user, password, vhost)
 
-    private val consumer: RabbitClient by lazy { RabbitClient(URI(URI)) }
-    private val client: RabbitClient by lazy { RabbitClient(URI(URI)) }
+    private val consumer: RabbitMqClient by lazy { RabbitMqClient(URI(URI)) }
+    private val client: RabbitMqClient by lazy { RabbitMqClient(URI(URI)) }
 
     @BeforeClass fun startConsumer() {
         broker.startup()
