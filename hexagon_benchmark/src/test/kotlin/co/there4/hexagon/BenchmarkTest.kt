@@ -6,6 +6,7 @@ import co.there4.hexagon.server.HttpMethod.GET
 import org.asynchttpclient.Response
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
+import java.lang.System.setProperty
 import kotlin.test.assertFailsWith
 
 internal const val THREADS = 4
@@ -19,6 +20,7 @@ abstract class BenchmarkTest(val databaseEngine: String) {
     private val client by lazy { Client("http://localhost:${server?.runtimePort}") }
 
     @BeforeClass fun warmup() {
+//        setProperty("DBSTORE", databaseEngine)
         main(databaseEngine)
 
         val warmupRounds = if (THREADS > 1) 2 else 0

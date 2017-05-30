@@ -7,7 +7,7 @@ apply plugin: 'me.champeau.gradle.jmh'
 
 mainClassName = "co.there4.hexagon.BenchmarkKt"
 applicationDefaultJvmArgs = [
-    '-Xms64M', '-Xmx2G', '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts'
+    '-Xms2G', '-Xmx2G', '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts'
 ]
 
 ext.hikariVersion = '2.6.1'
@@ -154,18 +154,18 @@ task setupScripts() {
             file.createNewFile()
             String command = server == "resin"?
                 """
-                export DBSTORE='$database'
                 rm -rf \$RESIN_HOME/webapps/*
                 cp build/libs/ROOT.war \$RESIN_HOME/webapps
                 resinctl start
                 """:
-                "nohup build/install/hexagon/bin/hexagon $database &"
+                'nohup build/install/hexagon/bin/hexagon &'
             file.text = """
                 #!/bin/bash
 
                 fw_depends java $database
 
                 gradle/wrapper -x test
+                export DBSTORE='$database'
                 $command
             """.stripIndent ()
         }

@@ -7,7 +7,7 @@ import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import co.there4.hexagon.server.engine.servlet.ServletServer
 import co.there4.hexagon.settings.SettingsManager.settings
 import co.there4.hexagon.templates.pebble.PebbleEngine
-import java.lang.System.getenv
+import java.lang.System.*
 import java.util.*
 
 import java.net.InetAddress.getByName as address
@@ -23,8 +23,6 @@ internal data class World(val _id: Int, val id: Int, val randomNumber: Int)
 private const val TEXT_MESSAGE: String = "Hello, World!"
 private const val CONTENT_TYPE_JSON = "application/json"
 private const val QUERIES_PARAM = "queries"
-
-internal var server: Server? = null
 
 // UTILITIES
 internal fun randomWorld() = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
@@ -60,27 +58,33 @@ private fun Call.updateWorlds(store: Store) {
     returnWorlds(store.replaceWorlds(getWorldsCount()))
 }
 
-private fun router(store: Store): Router = router {
-    before {
-        response.addHeader("Server", "Servlet/3.1")
-        response.addHeader("Transfer-Encoding", "chunked")
-        response.addHeader("Date", httpDate())
-    }
+// CONTROLLER
+private val router: Router by lazy {
+    router {
+        val store = createStore(getProperty("DBSTORE") ?: getenv("DBSTORE") ?: "mongodb")
 
-    get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
-    get("/json") { ok(Message(TEXT_MESSAGE).serialize(), CONTENT_TYPE_JSON) }
-    get("/fortunes") { listFortunes(store) }
-    get("/db") { getWorlds(store) }
-    get("/query") { getWorlds(store) }
-    get("/update") { updateWorlds(store) }
+        before {
+            response.addHeader("Server", "Servlet/3.1")
+            response.addHeader("Transfer-Encoding", "chunked")
+            response.addHeader("Date", httpDate())
+        }
+
+        get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
+        get("/json") { ok(Message(TEXT_MESSAGE).serialize(), CONTENT_TYPE_JSON) }
+        get("/fortunes") { listFortunes(store) }
+        get("/db") { getWorlds(store) }
+        get("/query") { getWorlds(store) }
+        get("/update") { updateWorlds(store) }
+    }
 }
 
+internal val server: Server by lazy { Server(JettyServletEngine(), settings, router) }
+
 @WebListener class Web : ServletServer () {
-    override fun createRouter() = router (createStore(getenv("DBSTORE") ?: "mongodb"))
+    override fun createRouter() = router
 }
 
 fun main(vararg args: String) {
-    val store = createStore(if (args.isEmpty()) getenv("DBSTORE") ?: "mongodb" else args[0])
-    server = Server(JettyServletEngine(), settings, router(store))
-    server?.run()
+    if (args.isNotEmpty()) setProperty("DBSTORE", args.first())
+    server.run()
 }
