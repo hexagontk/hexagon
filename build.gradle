@@ -11,8 +11,7 @@ buildscript {
     }
 
     dependencies {
-        // TODO Use Dokka 0.9.14 plugin instead classpath
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.13"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.14"
         classpath "com.github.zafarkhaja:java-semver:0.9.0"
     }
 }
@@ -21,7 +20,9 @@ plugins {
     id 'org.ajoberstar.grgit' version '1.7.1'
 
     // TODO Replace by git-publish
+    // TODO Use Dokka 0.9.14 plugin instead classpath
     id 'org.ajoberstar.github-pages' version '1.7.1' apply false
+//    id 'org.jetbrains.dokka' version '0.9.14' apply false
     id 'com.jfrog.bintray' version '1.7.3' apply false
     id 'org.jetbrains.kotlin.jvm' version '1.1.2-2' apply false
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false

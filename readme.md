@@ -28,7 +28,12 @@ The purpose of the project is to provide a microservices framework with the foll
 2. Easily hackable
 3. Be small
 
-DISCLAIMER: The project status is beta. Use it at your own risk. This is the coverage grid:
+## Performance
+
+Performance is not the primary goal, but it is taken seriously. You can check performance numbers
+in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks)
+
+**DISCLAIMER**: The project status is beta. Use it at your own risk. This is the coverage grid:
 
 [![CoverageGrid]][Coverage]
 

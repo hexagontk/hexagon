@@ -29,6 +29,7 @@ bintray {
     key = findProperty ('bintrayKey') ?: 'anonymous'
     user = findProperty ('bintrayUser') ?: 'anonymous'
     publications = [ 'mavenJava' ]
+    //noinspection GroovyAssignabilityCheck TODO Check this warning. Try `it.publish`
     publish = true
 
     pkg {
