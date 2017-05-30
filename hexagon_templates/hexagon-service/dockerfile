@@ -1,0 +1,6 @@
+
+FROM openjdk
+COPY build/install/${projectName} /opt/${projectName}
+WORKDIR /opt/${projectName}
+EXPOSE ${bindPort}
+ENTRYPOINT ["/opt/${projectName}/bin/${projectName}"]
