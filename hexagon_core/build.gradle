@@ -87,9 +87,9 @@ publishing {
 }
 
 bintray {
-    setKey bintrayKey
-    setUser bintrayUser
-    setPublications 'mavenJava'
+    key = findProperty ('bintrayKey') ?: 'anonymous'
+    user = findProperty ('bintrayUser') ?: 'anonymous'
+    publications = [ 'mavenJava' ]
     publish = true
 
     pkg {
