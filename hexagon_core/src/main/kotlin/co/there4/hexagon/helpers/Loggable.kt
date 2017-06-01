@@ -12,6 +12,14 @@ import java.lang.System.nanoTime
 interface Loggable {
     fun logger(): Logger = getLogger(this::class.java)
 
+    fun traceEnabled() = logger().isTraceEnabled
+    fun debugEnabled() = logger().isDebugEnabled
+    fun infoEnabled() = logger().isInfoEnabled
+    fun warnEnabled() = logger().isWarnEnabled
+    fun errEnabled() = logger().isErrorEnabled
+    fun flareEnabled() = traceEnabled()
+    fun timeEnabled() = traceEnabled()
+
     fun trace (message: String, vararg arguments: Any) {
         logger().apply { if (isTraceEnabled) trace(message, arguments) }
     }

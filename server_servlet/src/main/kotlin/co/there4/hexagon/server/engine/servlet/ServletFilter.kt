@@ -59,6 +59,9 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         .map { it.exception to it.handler }
         .toMap()
 
+    private val routes: Set<Route> = allHandlers.map { it.route }.toSet()
+    private val paths: Set<Path> = routes.map { it.path }.toSet()
+
     private val executor: ExecutorService = Executors.newFixedThreadPool(8)
 
     /**
