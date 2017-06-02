@@ -2,7 +2,6 @@ package co.there4.hexagon.server
 
 import co.there4.hexagon.helpers.CodedException
 import co.there4.hexagon.server.RequestHandler.*
-import co.there4.hexagon.server.engine.PassException
 
 import kotlin.reflect.KClass
 

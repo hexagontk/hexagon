@@ -19,10 +19,10 @@ fun main(vararg args: String) {
     val server = Undertow.builder()
         .addHttpListener(7070, "localhost")
         .setHandler(hnd)
-//        .setHandler {
-//            it.responseHeaders.put(CONTENT_TYPE, "text/plain")
-//            it.responseSender.send("Hello World")
-//        }
+        .setHandler {
+            it.responseHeaders.put(CONTENT_TYPE, "text/plain")
+            it.responseSender.send("Hello World")
+        }
         .build()
     server.start()
 }

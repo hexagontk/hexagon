@@ -13,7 +13,7 @@ ext.ahcVersion = '2.0.31'
 dependencies {
     // COMPILE
     compile project(':hexagon_core')
-    compileOnly ("io.undertow:undertow-core:$undertowVersion")
+    compile ("io.undertow:undertow-core:$undertowVersion")
 
     // TEST
     testCompile ("org.testng:testng:$testngVersion")

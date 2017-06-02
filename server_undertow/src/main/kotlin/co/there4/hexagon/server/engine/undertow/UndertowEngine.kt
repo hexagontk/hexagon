@@ -1,7 +1,7 @@
 package co.there4.hexagon.server.engine.servlet
 
 import co.there4.hexagon.server.Server
-import co.there4.hexagon.server.engine.ServerEngine
+import co.there4.hexagon.server.ServerEngine
 import java.net.InetAddress.getByName as address
 
 class UndertowEngine : ServerEngine {

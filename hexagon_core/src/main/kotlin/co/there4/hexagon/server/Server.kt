@@ -1,7 +1,6 @@
 package co.there4.hexagon.server
 
 import co.there4.hexagon.helpers.*
-import co.there4.hexagon.server.engine.ServerEngine
 import co.there4.hexagon.settings.SettingsManager.environment
 
 import java.lang.Runtime.getRuntime

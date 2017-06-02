@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.engine
+package co.there4.hexagon.server
 
 import java.io.OutputStream
 import java.net.HttpCookie
@@ -10,7 +10,7 @@ import java.net.HttpCookie
  * HTTP response context.
  */
 interface EngineResponse {
-    val outputStream: OutputStream
+    val outputStream: java.io.OutputStream
 
     var body: Any
     var status: Int
@@ -18,7 +18,7 @@ interface EngineResponse {
 
     fun getMimeType (file: String): String?
     fun addHeader (name: String, value: String)
-    fun addCookie (cookie: HttpCookie)
+    fun addCookie (cookie: java.net.HttpCookie)
     fun removeCookie (name: String)
     fun redirect (url: String)
 }

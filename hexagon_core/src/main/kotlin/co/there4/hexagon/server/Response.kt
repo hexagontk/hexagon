@@ -1,6 +1,5 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.engine.EngineResponse
 import java.io.OutputStream
 import java.net.HttpCookie
 

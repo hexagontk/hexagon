@@ -1,7 +1,5 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.engine.EngineSession
-
 /**
  * Provides session information.
  */

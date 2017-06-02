@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.engine
+package co.there4.hexagon.server
 
 import co.there4.hexagon.server.Server
 

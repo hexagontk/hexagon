@@ -1,7 +1,6 @@
 package co.there4.hexagon.server
 
 import co.there4.hexagon.helpers.CodedException
-import co.there4.hexagon.server.engine.PassException
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now

@@ -4,7 +4,6 @@ import co.there4.hexagon.server.FilterOrder.AFTER
 import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.HttpMethod.*
 import co.there4.hexagon.server.RequestHandler.*
-import co.there4.hexagon.server.engine.ServerEngine
 import co.there4.hexagon.settings.SettingsManager
 import java.util.*
 import kotlin.reflect.KClass

@@ -8,7 +8,7 @@ import co.there4.hexagon.server.*
 import co.there4.hexagon.server.FilterOrder.AFTER
 import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.RequestHandler.*
-import co.there4.hexagon.server.engine.PassException
+import co.there4.hexagon.server.PassException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.servlet.*

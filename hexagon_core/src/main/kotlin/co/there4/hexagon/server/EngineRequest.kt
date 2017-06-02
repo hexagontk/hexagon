@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.engine
+package co.there4.hexagon.server
 
 import co.there4.hexagon.server.HttpMethod
 import co.there4.hexagon.server.Part
@@ -17,7 +17,7 @@ interface EngineRequest {
     val body: String          // request body sent by the client
     val scheme: String        // "http"
     val port: Int             // 80
-    val method: HttpMethod    // "GET"
+    val method: co.there4.hexagon.server.HttpMethod    // "GET"
     val queryString: String   // ""
     val contentLength: Long   // length of request.body
     val contentType: String?  // media type of request.body
@@ -33,6 +33,6 @@ interface EngineRequest {
 
     val parameters: Map<String, List<String>> // ["some_param"] // value of some_param parameter
     val headers: Map<String, List<String>>    // ["SOME_HEADER"] // value of SOME_HEADER header
-    val cookies: Map<String, HttpCookie>      // hash of browser cookies
-    val parts: Map<String, Part>              // hash of multipart parts
+    val cookies: Map<String, java.net.HttpCookie>      // hash of browser cookies
+    val parts: Map<String, co.there4.hexagon.server.Part>              // hash of multipart parts
 }

@@ -1,7 +1,5 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.engine.ServerEngine
-
 object VoidEngine : ServerEngine {
     var started = false
 

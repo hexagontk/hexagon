@@ -4,7 +4,7 @@ import co.there4.hexagon.helpers.parseQueryParameters
 import co.there4.hexagon.server.HttpMethod
 import co.there4.hexagon.server.Part
 import co.there4.hexagon.server.Path
-import co.there4.hexagon.server.engine.EngineRequest
+import co.there4.hexagon.server.EngineRequest
 import java.io.InputStreamReader
 import java.net.HttpCookie
 import javax.servlet.http.HttpServletRequest
