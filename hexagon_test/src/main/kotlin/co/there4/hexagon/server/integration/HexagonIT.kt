@@ -1,9 +1,8 @@
 package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.server.*
-import org.testng.annotations.Test
 
-@Test class HexagonIT : ItTest() {
+class HexagonIT : ItTest() {
     override fun Router.initialize() {
         get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")

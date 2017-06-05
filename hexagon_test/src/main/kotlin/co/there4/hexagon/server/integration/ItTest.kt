@@ -2,14 +2,10 @@ package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.Router
-import org.testng.annotations.Test
 
 import co.there4.hexagon.server.Server
-import co.there4.hexagon.server.engine.servlet.JettyServletEngine
 import co.there4.hexagon.settings.SettingsManager
 import org.asynchttpclient.Response
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
 import java.net.InetAddress.getByName as address
 
 internal const val THREADS = 1
@@ -18,7 +14,6 @@ internal const val TIMES = 1
 /*
  * TODO Fix errors with several threads
  */
-@Test (threadPoolSize = THREADS, invocationCount = TIMES)
 abstract class ItTest {
     open val servers: List<Server> = listOf(
         Server(JettyServletEngine(), SettingsManager.settings)

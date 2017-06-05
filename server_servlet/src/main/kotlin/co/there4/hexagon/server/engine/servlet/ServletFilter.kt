@@ -161,7 +161,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 throw CodedException(404)
         }
         catch (e: Exception) {
-            handleError(e, exchange)
+            handleException(e, exchange)
         }
         finally {
             response.status = exchange.response.status
@@ -172,22 +172,24 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         }
     }
 
-    internal fun handleError(error: Exception, ex: Call, type: Class<*> = error.javaClass) {
-        when (error) {
+    internal fun handleException(
+        exception: Exception, call: Call, type: Class<*> = exception.javaClass) {
+
+        when (exception) {
             is CodedException -> {
                 val handler: ErrorCodeCallback =
-                    codedErrors[error.code] ?: { error(it, error.message ?: "") }
-                ex.handler(error.code)
+                    codedErrors[exception.code] ?: { error(it, exception.message ?: "") }
+                call.handler(exception.code)
             }
             else -> {
-                error("Error processing request", error)
+                error("Error processing request", exception)
 
                 val handler = exceptionErrors[type]
 
                 if (handler != null)
-                    ex.handler(error)
+                    call.handler(exception)
                 else
-                    type.superclass.also { if (it != null) handleError(error, ex, it) }
+                    type.superclass.also { if (it != null) handleException(exception, call, it) }
             }
         }
     }

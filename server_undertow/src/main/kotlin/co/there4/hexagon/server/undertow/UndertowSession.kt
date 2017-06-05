@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.engine.undertow
+package co.there4.hexagon.server.undertow
 
 import io.undertow.server.HttpServerExchange
 import co.there4.hexagon.server.EngineSession

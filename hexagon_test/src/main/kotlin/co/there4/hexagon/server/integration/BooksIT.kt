@@ -1,7 +1,6 @@
 package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.server.Router
-import org.testng.annotations.BeforeTest
 import java.util.*
 import java.util.Collections.synchronizedMap
 
@@ -12,7 +11,7 @@ class BooksIT : ItTest () {
     private var id = 1
     private var books: MutableMap<Int, Book> = LinkedHashMap ()
 
-    @BeforeTest fun initBooks () {
+    fun initBooks () {
         books = synchronizedMap(LinkedHashMap(mapOf(
             100 to Book ("Miguel_de_Cervantes", "Don_Quixote"),
             101 to Book ("William_Shakespeare", "Hamlet"),
