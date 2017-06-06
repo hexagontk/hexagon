@@ -9,11 +9,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.jfrog.bintray'
 
-ext.slf4jVersion = '1.7.25'
-ext.jacksonVersion = '2.8.8'
-ext.cronutilsVersion = '5.0.5'
-
-ext.mongodbVersion = '3.4.2'
 ext.ahcVersion = '2.0.31'
 
 dependencies {
@@ -39,44 +34,3 @@ test {
             environmentFile.write("DEVELOPMENT\n")
     }
 }
-
-configurations {
-    deployerJars
-}
-
-task sourceJar (type: Jar) {
-    from sourceSets.main.allJava
-}
-
-publishing {
-    publications {
-        mavenJava (MavenPublication) {
-            from components.java
-
-            artifact sourceJar {
-                classifier 'sources'
-            }
-        }
-    }
-}
-
-bintray {
-    setKey bintrayKey
-    setUser bintrayUser
-    setPublications 'mavenJava'
-    publish = true
-
-    pkg {
-        repo = 'maven'
-        name = 'Hexagon'
-        licenses = [ 'MIT' ]
-        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
-    }
-}
-
-task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
-    into "$buildDir/libs"
-    from configurations.compileOnly
-}
-
-bintrayUpload.dependsOn 'build'
