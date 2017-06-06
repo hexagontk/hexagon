@@ -6,11 +6,7 @@ import co.there4.hexagon.server.HttpMethod
 import co.there4.hexagon.server.HttpMethod.GET
 import co.there4.hexagon.server.Router
 import co.there4.hexagon.server.at
-import co.there4.hexagon.templates.pebble.PebbleEngine
-import java.time.LocalDateTime
-import kotlin.test.assertTrue
 import java.util.Locale.getDefault as defaultLocale
-import co.there4.hexagon.store.Tag as TestTag
 
 @Suppress("unused") // Test methods are flagged as unused
 class GenericIT : ItTest () {
@@ -83,11 +79,6 @@ class GenericIT : ItTest () {
         head ("/method") { response.addHeader ("header", request.method.toString()) }
         get("/halt") { halt("halted") }
         get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
-        get("/template") {
-            val locale = defaultLocale()
-            val now = LocalDateTime.now()
-            template(PebbleEngine, "pebble_template.html", locale, mapOf("date" to now))
-        }
 
         get("/tworoutes/${part.toUpperCase()}/{param}") {
             ok ("${part.toUpperCase()} route: ${request ["param"]}")
@@ -106,10 +97,8 @@ class GenericIT : ItTest () {
         GET at "/return/pair" by { 202 to "funky status" }
         GET at "/return/list" by { listOf("alpha", "beta") }
         GET at "/return/map" by { mapOf("alpha" to 0, "beta" to true) }
-        GET at "/return/object" by { TestTag(name = "Message") }
         GET at "/return/pair/list" by { 201 to listOf("alpha", "beta") }
         GET at "/return/pair/map" by { 201 to mapOf("alpha" to 0, "beta" to true) }
-        GET at "/return/pair/object" by { 201 to TestTag(name = "Message") }
     }
 
     private fun Call.okRequestMethod() = ok (request.method)
@@ -201,7 +190,7 @@ class GenericIT : ItTest () {
     fun unauthorized() {
         withClients {
             val response = get ("/protected/resource")
-            assertTrue(response.statusCode == 401)
+            assert(response.statusCode == 401)
         }
     }
 

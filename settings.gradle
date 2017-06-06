@@ -5,7 +5,7 @@ include (
     'hexagon_core',
     'hexagon_site',
     'hexagon_templates',
-//    'hexagon_test',
+    'hexagon_test',
 
     'server_servlet',
     'server_jetty',

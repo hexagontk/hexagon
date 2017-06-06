@@ -19,6 +19,7 @@ ext.ahcVersion = '2.0.31'
 dependencies {
     // COMPILE
     compile project(':hexagon_core')
+    compile ("org.asynchttpclient:async-http-client:$ahcVersion") { exclude module: 'slf4j-api' }
 
     // TEST
     testCompile ("org.testng:testng:$testngVersion")

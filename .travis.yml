@@ -29,7 +29,6 @@ services:
   - postgresql
 
 install:
-  - ln -s gradle/wrapper gradlew
   - echo "ext.ci = true" >local.gradle
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
