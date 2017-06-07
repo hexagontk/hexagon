@@ -55,9 +55,8 @@ Or you can write a [Gradle] project from scratch (Gradle 3 is required):
 `build.gradle`:
 
 ```groovy
-buildscript {
-    repositories { jcenter () }
-    dependencies { classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6" }
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.1.2-2'
 }
 
 apply plugin: "kotlin"
@@ -65,11 +64,12 @@ apply plugin: "application"
 
 mainClassName = 'HelloKt'
 
-repositories { jcenter () }
+repositories {
+    jcenter ()
+}
 
 dependencies {
-    compile ("co.there4:hexagon:0.10.7")
-    compile ("org.eclipse.jetty:jetty-webapp:9.3.16.v20170120")
+    compile ("co.there4.hexagon:server_jetty:0.14.0")
 }
 ```
 
@@ -77,10 +77,12 @@ dependencies {
 
 ```kotlin
 import co.there4.hexagon.server.*
+import co.there4.hexagon.server.jetty.*
 
-fun main(args: Array<String>) {
-    get("/hello/{name}") { ok("Hello ${request["name"]}!") }
-    run()
+fun main(vararg args: String) {
+    serve(JettyServletEngine()) {
+        get("/hello/{name}") { "Hello ${request["name"]}!" }
+    }
 }
 ```
 
