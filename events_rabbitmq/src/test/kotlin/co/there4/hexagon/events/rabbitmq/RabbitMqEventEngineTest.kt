@@ -15,5 +15,6 @@ import org.testng.annotations.Test
             if (it.str == "message error")
                 error("message")
         }
+        EventManager.publish(Sample("foo", 1))
     }
 }

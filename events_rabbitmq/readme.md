@@ -6,7 +6,3 @@ The module shows the Dokka syntax usage.
 # Package co.there4.hexagon.events.rabbitmq
 
 Contains assorted useful stuff.
-
-## Level 2 heading
-
-More docs

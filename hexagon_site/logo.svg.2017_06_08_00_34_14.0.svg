@@ -2,6 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -21,28 +22,71 @@
   <defs
      id="defs2">
     <linearGradient
-       inkscape:collect="always"
-       id="linearGradient4501">
+       id="linearGradient5972"
+       osb:paint="solid">
       <stop
-         style="stop-color:#002787;stop-opacity:1"
+         style="stop-color:#00ffff;stop-opacity:1;"
          offset="0"
-         id="stop4497" />
-      <stop
-         style="stop-color:#2da2ff;stop-opacity:0.94117647"
-         offset="1"
-         id="stop4499" />
+         id="stop5970" />
     </linearGradient>
-    <radialGradient
+    <meshgradient
        inkscape:collect="always"
-       xlink:href="#linearGradient4501"
-       id="radialGradient4507"
-       cx="55.145519"
-       cy="50.227764"
-       fx="55.145519"
-       fy="50.227764"
-       r="42.718731"
-       gradientTransform="matrix(1,0,0,0.71397193,0,14.36655)"
-       gradientUnits="userSpaceOnUse" />
+       id="meshgradient6022"
+       gradientUnits="userSpaceOnUse"
+       x="12.926781"
+       y="20.227789">
+      <meshrow
+         id="meshrow6024">
+        <meshpatch
+           id="meshpatch6026">
+          <stop
+             path="c 28.1458,0  56.2917,0  84.4375,0"
+             style="stop-color:#ffffff;stop-opacity:1"
+             id="stop6028" />
+          <stop
+             path="c 0,20  0,40  0,60"
+             style="stop-color:#00ffff;stop-opacity:1"
+             id="stop6030" />
+          <stop
+             path="c -28.1458,0  -56.2917,0  -84.4375,0"
+             style="stop-color:#ffffff;stop-opacity:1"
+             id="stop6032" />
+          <stop
+             path="c 0,-20  0,-40  0,-60"
+             style="stop-color:#00ffff;stop-opacity:1"
+             id="stop6034" />
+        </meshpatch>
+      </meshrow>
+    </meshgradient>
+    <meshgradient
+       inkscape:collect="always"
+       id="meshgradient6036"
+       gradientUnits="userSpaceOnUse"
+       x="12.926781"
+       y="20.227789">
+      <meshrow
+         id="meshrow6048">
+        <meshpatch
+           id="meshpatch6046">
+          <stop
+             id="stop6038"
+             style="stop-color:#ffffff;stop-opacity:1"
+             path="c 28.1458,0  56.2917,0  84.4375,0" />
+          <stop
+             id="stop6040"
+             style="stop-color:#00ffff;stop-opacity:1"
+             path="c 0,20  0,40  0,60" />
+          <stop
+             id="stop6042"
+             style="stop-color:#ffffff;stop-opacity:1"
+             path="c -28.1458,0  -56.2917,0  -84.4375,0" />
+          <stop
+             id="stop6044"
+             style="stop-color:#00ffff;stop-opacity:1"
+             path="c 0,-20  0,-40  0,-60" />
+        </meshpatch>
+      </meshrow>
+    </meshgradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -51,12 +95,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="387.63071"
+     inkscape:zoom="1.5638603"
+     inkscape:cx="384.43349"
      inkscape:cy="224.97758"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1007"
      inkscape:window-x="0"
@@ -85,7 +129,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -94,7 +138,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-2.1014621,-89.500008)"
-     style="display:none;opacity:0.2"
+     style="display:inline;opacity:0.2"
      sodipodi:insensitive="true">
     <image
        y="89.500008"
@@ -110,7 +154,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Hexagon"
-     style="display:none;opacity:0.2"
+     style="display:inline;opacity:0.2"
      transform="translate(-2.1014621,-2.5000076)"
      sodipodi:insensitive="true">
     <path
@@ -139,7 +183,7 @@
      style="display:inline"
      transform="translate(-2.1014621,-2.5000076)">
     <path
-       style="fill:url(#radialGradient4507);stroke:#010245;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       style="fill:url(#meshgradient6036);stroke:#01042d;stroke-width:1;stroke-linecap:butt;stroke-linejoin:bevel;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
        d="M 12.926781,65.227787 38.907543,20.227788 h 51.961523 l 6.495191,11.249999 -15.155445,26.25 L 56.228051,57.22779 69.218431,35.227787 H 47.567797 l -25.980762,45 z"
        id="path3777"
        inkscape:connector-curvature="0"

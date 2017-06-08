@@ -58,9 +58,8 @@ class RabbitMqClient(
 
     /** @see Closeable.close */
     override fun close() {
-        if (!connected) error("Connection already closed")
-
         connection?.close()
+        connection = null
         info("RabbitMQ client closed")
     }
 

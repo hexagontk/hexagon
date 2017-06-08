@@ -15,10 +15,10 @@ import java.util.concurrent.ExecutorService
 import kotlin.reflect.KClass
 
 /**
- * TODO .
+ * Message handler that can reply messages. TODO Complete docs.
  * TODO Add content type support
  */
-class Handler<T : Any, R : Any>(
+internal class Handler<T : Any, R : Any>(
     connectionFactory: ConnectionFactory,
     channel: Channel,
     private val executor: ExecutorService,

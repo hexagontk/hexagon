@@ -44,7 +44,14 @@ import kotlin.test.assertFailsWith
     }
 
     fun create_a_connection_factory_with_all_parameters_succeed() {
-        val opt = "channelCacheSize=50&heartbeat=25&automaticRecovery=true&recoveryInterval=5"
+        val opts = listOf(
+            "channelCacheSize=50",
+            "heartbeat=25",
+            "automaticRecovery=true",
+            "recoveryInterval=5",
+            "shutdownTimeout=5"
+        )
+        val opt = opts.joinToString("&")
         val uri = "amqp://user:pass@localhost:12345?$opt"
         val cf = createConnectionFactory(URI(uri))
         assert(cf.host == "localhost")
@@ -56,9 +63,8 @@ import kotlin.test.assertFailsWith
         assert(client.connected)
         client.close()
         assert(!client.connected)
-        assertFailsWith<IllegalStateException> {
-            client.close()
-        }
+        client.close()
+        assert(!client.connected)
     }
 
     fun consumers_handle_numbers_properly() {

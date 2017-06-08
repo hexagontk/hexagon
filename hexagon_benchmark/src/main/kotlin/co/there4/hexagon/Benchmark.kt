@@ -59,32 +59,29 @@ private fun Call.updateWorlds(store: Store) {
 }
 
 // CONTROLLER
-private val router: Router by lazy {
-    router {
-        val store = createStore(getProperty("DBSTORE") ?: getenv("DBSTORE") ?: "mongodb")
+private fun router(): Router = router {
+    val store = createStore(getProperty("DBSTORE") ?: getenv("DBSTORE") ?: "mongodb")
 
-        before {
-            response.addHeader("Server", "Servlet/3.1")
-            response.addHeader("Transfer-Encoding", "chunked")
-            response.addHeader("Date", httpDate())
-        }
-
-        get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
-        get("/json") { ok(Message(TEXT_MESSAGE).serialize(), CONTENT_TYPE_JSON) }
-        get("/fortunes") { listFortunes(store) }
-        get("/db") { getWorlds(store) }
-        get("/query") { getWorlds(store) }
-        get("/update") { updateWorlds(store) }
+    before {
+        response.addHeader("Server", "Servlet/3.1")
+        response.addHeader("Transfer-Encoding", "chunked")
+        response.addHeader("Date", httpDate())
     }
-}
 
-internal val server: Server by lazy { Server(JettyServletEngine(), settings, router) }
+    get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
+    get("/json") { ok(Message(TEXT_MESSAGE).serialize(), CONTENT_TYPE_JSON) }
+    get("/fortunes") { listFortunes(store) }
+    get("/db") { getWorlds(store) }
+    get("/query") { getWorlds(store) }
+    get("/update") { updateWorlds(store) }
+}
 
 @WebListener class Web : ServletServer () {
-    override fun createRouter() = router
+    override fun createRouter() = router()
 }
 
+internal var server: Server? = null
+
 fun main(vararg args: String) {
-    if (args.isNotEmpty()) setProperty("DBSTORE", args.first())
-    server.run()
+    server = Server(JettyServletEngine(), settings, router()).apply { run() }
 }

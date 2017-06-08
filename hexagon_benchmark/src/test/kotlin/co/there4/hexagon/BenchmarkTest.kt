@@ -20,8 +20,8 @@ abstract class BenchmarkTest(val databaseEngine: String) {
     private val client by lazy { Client("http://localhost:${server?.runtimePort}") }
 
     @BeforeClass fun warmup() {
-//        setProperty("DBSTORE", databaseEngine)
-        main(databaseEngine)
+        setProperty("DBSTORE", databaseEngine)
+        main()
 
         val warmupRounds = if (THREADS > 1) 2 else 0
         (1..warmupRounds).forEach {
