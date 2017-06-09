@@ -1,0 +1,16 @@
+
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="409"
+   height="354"
+   viewBox="0 0 409 354">
+
+  <g>
+    <path
+       style="fill:orange"
+       d="M 0,177 102,0 l 205,0 L 329,35 265,142 l -81,0 42,-71 -81,0 L 40,248 Z"
+       id="pathUp" />
+    <use xlink:href="#pathUp" transform="matrix(-1,0,0,-1,409,354)" />
+  </g>
+</svg>
