@@ -46,50 +46,28 @@ repositories {
     jcenter ()
 }
 
-//noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
 task jacocoMerge(dependsOn: getTasksByName ('test', true), type: JacocoMerge) {
-    executionData = fileTree (rootDir).include ('**/build/jacoco/*.exec')
+    executionData fileTree (rootDir).include ('**/build/jacoco/*.exec')
 }
 
-//noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
 task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
     sourceDirectories = files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
     classDirectories = files(
-        subprojects
-            .find { prj ->
-                println '*** ' + prj.getTasksByName ('test', false).join (', ')
-                !prj.getTasksByName ('test', false).isEmpty ()
-            }
-            .collect { it.sourceSets.main.output.classesDir }
+        rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
+        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
+        rootDir.absolutePath + '/hexagon_core/build/classes/main',
+        rootDir.absolutePath + '/hexagon_test/build/classes/main',
+        rootDir.absolutePath + '/server_jetty/build/classes/main',
+        rootDir.absolutePath + '/server_servlet/build/classes/main',
+        rootDir.absolutePath + '/server_undertow/build/classes/main',
+        rootDir.absolutePath + '/templates_kotlinx/build/classes/main',
+        rootDir.absolutePath + '/templates_pebble/build/classes/main'
     )
-//    classDirectories = files(
-//        rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
-//        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
-//        rootDir.absolutePath + '/hexagon_core/build/classes/main'
-//    )
 
     executionData = files(jacocoMerge.destinationFile)
 
     reports {
         html.enabled = true
         xml.enabled = true
-    }
-}
-
-task foo {
-    doLast {
-        subprojects
-            .collect { it.sourceSets.main.output.classesDir }
-            .each { println '--- ' + it }
-        subprojects
-            .find { prj -> !prj.getTasksByName ('test', false).isEmpty () }
-            .collect { it.sourceSets.main.output.classesDir }
-            .each { println it }
-        subprojects
-            .find { prj ->
-                println '*** ' + prj.getTasksByName ('test', false).join (', ')
-                !prj.getTasksByName ('test', false).isEmpty ()
-            }
-            .collect { it.sourceSets.main.output.classesDir }
     }
 }
