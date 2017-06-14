@@ -6,19 +6,18 @@
 buildscript {
     repositories { jcenter () }
     dependencies {
-        // TODO Use Dokka plugin instead classpath: id 'org.jetbrains.dokka' version '0.9.14'
         classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.9.14'
         classpath 'com.github.zafarkhaja:java-semver:0.9.0'
     }
 }
 
 plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.1.2-2'
     id 'org.ajoberstar.grgit' version '1.7.1'
 
     // TODO Replace by git-publish
     id 'org.ajoberstar.github-pages' version '1.7.1' apply false
     id 'com.jfrog.bintray' version '1.7.3' apply false
-    id 'org.jetbrains.kotlin.jvm' version '1.1.2-2' apply false
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
     id 'me.champeau.gradle.jmh' version '0.3.1' apply false
@@ -40,3 +39,57 @@ task publish(
 )
 
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
+
+apply plugin: 'jacoco'
+
+repositories {
+    jcenter ()
+}
+
+//noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
+task jacocoMerge(dependsOn: getTasksByName ('test', true), type: JacocoMerge) {
+    executionData = fileTree (rootDir).include ('**/build/jacoco/*.exec')
+}
+
+//noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
+task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
+    sourceDirectories = files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
+    classDirectories = files(
+        subprojects
+            .find { prj ->
+                println '*** ' + prj.getTasksByName ('test', false).join (', ')
+                !prj.getTasksByName ('test', false).isEmpty ()
+            }
+            .collect { it.sourceSets.main.output.classesDir }
+    )
+//    classDirectories = files(
+//        rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
+//        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
+//        rootDir.absolutePath + '/hexagon_core/build/classes/main'
+//    )
+
+    executionData = files(jacocoMerge.destinationFile)
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+}
+
+task foo {
+    doLast {
+        subprojects
+            .collect { it.sourceSets.main.output.classesDir }
+            .each { println '--- ' + it }
+        subprojects
+            .find { prj -> !prj.getTasksByName ('test', false).isEmpty () }
+            .collect { it.sourceSets.main.output.classesDir }
+            .each { println it }
+        subprojects
+            .find { prj ->
+                println '*** ' + prj.getTasksByName ('test', false).join (', ')
+                !prj.getTasksByName ('test', false).isEmpty ()
+            }
+            .collect { it.sourceSets.main.output.classesDir }
+    }
+}
