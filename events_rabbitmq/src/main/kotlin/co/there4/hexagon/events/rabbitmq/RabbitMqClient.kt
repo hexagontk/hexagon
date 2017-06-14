@@ -17,6 +17,7 @@ import kotlin.reflect.KClass
 
 /**
  * Rabbit client.
+ * TODO Review if channel handling is still needed in Java 4.1.x version
  * TODO Add metrics
  * TODO Ordered shutdown
  */

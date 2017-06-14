@@ -1,5 +1,7 @@
 package co.there4.hexagon.events.rabbitmq
 
+import co.there4.hexagon.events.Event
+import co.there4.hexagon.serialization.serialize
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -7,6 +9,8 @@ import java.lang.System.currentTimeMillis
 import java.net.URI
 
 @Test class RabbitTest {
+//    data class Sample(val str: String, val int: Int) : Event()
+
     private companion object {
         private const val URI = "amqp://guest:guest@localhost"
         private const val QUEUE = "test"
@@ -43,4 +47,17 @@ import java.net.URI
         val result = client.call(QUEUE_ERROR, ts)
         assert(result.contains(ts) && result.contains("Error with: $ts"))
     }
+
+    // TODO Test errors
+//    fun call_errors() {
+//        consumer.consume("aq", Sample::class) {
+//            if (it.str == "no message error")
+//                throw IllegalStateException()
+//            if (it.str == "message error")
+//                error("message")
+//        }
+//        client.publish("aq", Sample("foo", 1).serialize())
+//        client.call("aq", Sample("no message error", 1).serialize())
+//        client.call("aq", Sample("message error", 1).serialize())
+//    }
 }

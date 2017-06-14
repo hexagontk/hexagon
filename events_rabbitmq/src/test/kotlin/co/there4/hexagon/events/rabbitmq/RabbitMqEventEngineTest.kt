@@ -7,6 +7,9 @@ import org.testng.annotations.Test
 @Test class RabbitMqEventEngineTest {
     data class Sample(val str: String, val int: Int) : Event()
 
+    /**
+     * TODO Add asserts
+     */
     fun event_manager() {
         EventManager.engine = RabbitMqEventEngine()
         EventManager.consume(Sample::class) {
@@ -16,5 +19,7 @@ import org.testng.annotations.Test
                 error("message")
         }
         EventManager.publish(Sample("foo", 1))
+//        EventManager.publish(Sample("no message error", 1))
+//        EventManager.publish(Sample("message error", 1))
     }
 }
