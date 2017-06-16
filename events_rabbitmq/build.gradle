@@ -1,20 +1,12 @@
 
-apply from: '../gradle/kotlin.gradle'
-apply from: '../gradle/bintray.gradle'
-
-apply plugin: 'org.jetbrains.dokka'
+apply from: '../gradle/hexagon_module.gradle'
 
 ext.rabbitVersion = '4.1.0'
 ext.qpidVersion = '6.1.2'
 
 dependencies {
-    // COMPILE
-    compile project(':hexagon_core')
     compile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: 'slf4j-api' }
 
-    // TEST
-    testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     testCompile ("org.apache.qpid:qpid-broker:$qpidVersion") {
         exclude module: 'logback-classic'
         exclude module: 'jackson-databind'
@@ -26,8 +18,4 @@ dependencies {
         exclude module: 'qpid-broker-plugins-management-http'
         exclude module: 'qpid-broker-plugins-websocket'
     }
-}
-
-dokka {
-    reportNotDocumented = false
 }

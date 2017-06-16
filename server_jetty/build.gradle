@@ -1,8 +1,5 @@
 
-apply from: '../gradle/kotlin.gradle'
-apply from: '../gradle/bintray.gradle'
-
-apply plugin: 'org.jetbrains.dokka'
+apply from: '../gradle/hexagon_module.gradle'
 
 ext.jettyVersion = '9.4.4.v20170414'
 
@@ -14,8 +11,6 @@ dependencies {
     compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
     // TEST
-    testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
     testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
         exclude module: 'slf4j-api'
     }

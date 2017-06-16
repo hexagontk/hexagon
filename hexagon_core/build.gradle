@@ -4,9 +4,9 @@
  */
 
 apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/dokka.gradle'
 
 apply plugin: 'maven-publish'
-apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'com.jfrog.bintray'
 
 ext.slf4jVersion = '1.7.25'

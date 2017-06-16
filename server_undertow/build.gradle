@@ -1,23 +1,13 @@
 
-apply from: '../gradle/kotlin.gradle'
-apply from: '../gradle/bintray.gradle'
-
-apply plugin: 'maven-publish'
-apply plugin: 'org.jetbrains.dokka'
-apply plugin: 'com.jfrog.bintray'
+apply from: '../gradle/hexagon_module.gradle'
 
 ext.undertowVersion = '1.4.15.Final'
 
 ext.ahcVersion = '2.0.31'
 
 dependencies {
-    // COMPILE
-    compile project(':hexagon_core')
     compile ("io.undertow:undertow-core:$undertowVersion")
 
-    // TEST
-    testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
     testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
         exclude module: 'slf4j-api'
     }

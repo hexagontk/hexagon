@@ -52,6 +52,7 @@ task jacocoMerge(dependsOn: getTasksByName ('test', true), type: JacocoMerge) {
 
 task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
     sourceDirectories = files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
+    // TODO Replace by method that filter modules
     classDirectories = files(
         rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
         rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',

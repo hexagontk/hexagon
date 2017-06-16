@@ -1,24 +1,13 @@
 
-apply from: '../gradle/kotlin.gradle'
-apply from: '../gradle/bintray.gradle'
-
-apply plugin: 'maven-publish'
-apply plugin: 'org.jetbrains.dokka'
-apply plugin: 'com.jfrog.bintray'
+apply from: '../gradle/hexagon_module.gradle'
 
 ext.kotlinxVersion = '0.6.3'
 
 dependencies {
-    // COMPILE
-    compile project(':hexagon_core')
     compile ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxVersion") {
         exclude module: "kotlin-stdlib"
     }
     compile ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
         exclude module: "kotlin-stdlib"
     }
-
-    // TEST
-    testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
 }

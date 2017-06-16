@@ -22,18 +22,21 @@ services:
 
   benchmark_resin_mongodb:
     build: { context: "./hexagon_benchmark", dockerfile: "resin.dockerfile" }
+    depends_on: [ mongodb ]
     environment: [ "DBHOST=mongodb", "DBSTORE=mongodb" ]
     links: [ "mongodb:mongodb" ]
     ports: [ "9070:8080" ]
 
   benchmark_jetty_mongodb:
     build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
+    depends_on: [ mongodb ]
     environment: [ "DBHOST=mongodb", "DBSTORE=mongodb" ]
     links: [ "mongodb:mongodb" ]
     ports: [ "9090:9090" ]
 
   benchmark_jetty_postgresql:
     build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
+    depends_on: [ postgresql ]
     environment: [ "DBHOST=postgresql", "DBSTORE=postgresql" ]
     links: [ "postgresql:postgresql" ]
     ports: [ "9080:9090" ]

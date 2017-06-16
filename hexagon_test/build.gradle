@@ -1,36 +1,8 @@
-/*
- * For details on how to build and publish and release the project, check the
- * `site/content/contribute.md` file.
- */
 
-apply from: '../gradle/kotlin.gradle'
-
-apply plugin: 'maven-publish'
-apply plugin: 'org.jetbrains.dokka'
-apply plugin: 'com.jfrog.bintray'
+apply from: '../gradle/hexagon_module.gradle'
 
 ext.ahcVersion = '2.0.31'
 
 dependencies {
-    // COMPILE
-    compile project(':hexagon_core')
     compile ("org.asynchttpclient:async-http-client:$ahcVersion") { exclude module: 'slf4j-api' }
-
-    // TEST
-    testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: "slf4j-api" }
-}
-
-test {
-    useTestNG {
-        // TODO threading issues with `ClosedRangeDeserializer`
-//        parallel = "methods"
-//        threadCount = 4
-    }
-
-    doFirst {
-        File environmentFile = file("${System.getProperty("user.home")}/.environment")
-        if (!environmentFile.exists())
-            environmentFile.write("DEVELOPMENT\n")
-    }
 }
