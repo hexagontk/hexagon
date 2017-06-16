@@ -33,18 +33,16 @@ dependencies {
     compile project(':server_jetty')
     compile project(':templates_pebble')
 
-    compile ("ch.qos.logback:logback-classic:$logbackVersion")
+    compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     compile ("org.mongodb:mongodb-driver:$mongodbVersion")
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
         exclude module: 'slf4j-api'
     }
 
-    // BENCHMARK
     jmh ("org.openjdk.jmh:jmh-core:$jmhVersion")
     jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion")
     jmh ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
@@ -92,18 +90,20 @@ task gradleSettings(type: WriteProperties) {
     outputFile = "$tfbBuildDir/gradle.properties"
 }
 
+import groovy.json.JsonOutput
+
 //noinspection GroovyAssignabilityCheck
 task benchmarkConfig() {
     doLast {
         Map<String, Map<String, Object>> test = [:]
         tests.forEach {
-            String server = it[0]
-            String database = it[1]
-            String databaseCode = database == "PostgreSQL"? "postgres" : database.toLowerCase ()
+            String server = it['0']
+            String database = it['1']
+            String databaseCode = database == 'PostgreSQL'? 'postgres' : database.toLowerCase ()
             String name = server + '_' + database
             if (server == servers.first () && database == databases.first ())
-                name = "default"
-            int port = server == "Resin"? 8080 : 9090
+                name = 'default'
+            int port = server == 'Resin'? 8080 : 9090
             test[name.toLowerCase()] = [
                 json_url : '/json',
                 db_url : '/db',
@@ -137,10 +137,10 @@ task benchmarkConfig() {
             tests : [ test ]
         ]
 
-        String json = groovy.json.JsonOutput.toJson(config)
+        String json = JsonOutput.toJson(config)
         File file = file("$tfbBuildDir/benchmark_config.json")
         file.createNewFile()
-        file.text = groovy.json.JsonOutput.prettyPrint(json)
+        file.text = JsonOutput.prettyPrint(json)
     }
 }
 
@@ -148,8 +148,8 @@ task benchmarkConfig() {
 task setupScripts() {
     doLast {
         tests.forEach {
-            String server = ((String)it[0]).toLowerCase()
-            String database = ((String)it[1]).toLowerCase()
+            String server = ((String)it['0']).toLowerCase()
+            String database = ((String)it['1']).toLowerCase()
             File file = file("$tfbBuildDir/setup_${server}_${database}.sh")
             file.createNewFile()
             String command = server == "resin"?

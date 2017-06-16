@@ -1,8 +1,8 @@
 
 # Module events_rabbitmq
 
-The module shows the Dokka syntax usage.
+Hexagon's event bus implementation based in RabbitMQ.
 
 # Package co.there4.hexagon.events.rabbitmq
 
-Contains assorted useful stuff.
+Contains a RabbitMQ Client and a Hexagon events implementation backed by it. 
