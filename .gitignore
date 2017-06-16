@@ -13,7 +13,6 @@ local.*
 .idea/
 
 # Runtime
-**/*.class
 *.log
 *.hprof
 log/

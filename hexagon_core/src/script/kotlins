@@ -1,5 +1,0 @@
-#!/bin/sh
-
-CP=$(find $1 -name "*.jar"|tr '\n' ':')
-shift
-kotlinc -script -classpath "$CP" $@
