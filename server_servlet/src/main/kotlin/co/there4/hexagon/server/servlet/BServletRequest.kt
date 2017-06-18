@@ -1,4 +1,4 @@
-package co.there4.hexagon.server.engine.servlet
+package co.there4.hexagon.server.servlet
 
 import co.there4.hexagon.helpers.parseQueryParameters
 import co.there4.hexagon.server.HttpMethod

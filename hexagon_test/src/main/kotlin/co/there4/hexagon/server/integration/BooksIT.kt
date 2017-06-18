@@ -1,11 +1,12 @@
 package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.server.Router
+import co.there4.hexagon.server.ServerEngine
 import java.util.*
 import java.util.Collections.synchronizedMap
 
 @Suppress("unused") // Test methods are flagged as unused
-class BooksIT : ItTest () {
+class BooksIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
     data class Book (val author: String, val title: String)
 
     private var id = 1
@@ -120,5 +121,15 @@ class BooksIT : ItTest () {
             val result = options ("/books/9999")
             assert (405 == result.statusCode)
         }
+    }
+
+    override fun validate() {
+        createBook()
+        listBooks()
+        getBook()
+        updateBook()
+        deleteBook()
+        bookNotFound()
+        invalidMethodReturns405()
     }
 }

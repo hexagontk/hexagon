@@ -2,7 +2,7 @@ package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.server.*
 
-class HexagonIT : ItTest() {
+class HexagonIT(serverEngine: ServerEngine) : ItTest(serverEngine) {
     override fun Router.initialize() {
         get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")
@@ -34,5 +34,10 @@ class HexagonIT : ItTest() {
             assertResponseContains (patch ("/books/101/Hamlet", "body"), 200, "101", "Hamlet", "body")
             assertResponseContains (head ("/books/101/Hamlet", "body"), 200)
         }
+    }
+
+    override fun validate() {
+        foo()
+        getBook()
     }
 }

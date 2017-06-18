@@ -3,15 +3,14 @@ package co.there4.hexagon.store
 import co.there4.hexagon.serialization.SerializationTest
 import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.helpers.CachedLogger
+import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.FindOneAndReplaceOptions
 import com.mongodb.client.model.InsertManyOptions
 import com.mongodb.client.model.InsertOneOptions
 import com.mongodb.client.model.UpdateOptions
+import com.mongodb.client.result.DeleteResult
 import java.lang.System.*
 import kotlin.reflect.KClass
-import com.mongodb.client.model.Filters.*
-import com.mongodb.client.result.DeleteResult
-import org.bson.Document
 import kotlin.reflect.KProperty1
 
 /**
@@ -39,7 +38,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: K
 
     protected open fun createObjects() = (0..9).map { setObjectKey (createObject(), it) }
 
-    protected fun deleteAll (): DeleteResult = collection.deleteMany (Document ())
+    protected fun deleteAll (): DeleteResult = collection.delete ()
 
     @Suppress("unused")
     fun one_object_is_stored_and_loaded_without_error() {

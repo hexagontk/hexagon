@@ -2,10 +2,11 @@ package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.server.Call
 import co.there4.hexagon.server.Router
+import co.there4.hexagon.server.ServerEngine
 import java.net.HttpCookie
 
 @Suppress("unused") // Test methods are flagged as unused
-class CookiesIT : ItTest () {
+class CookiesIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
     override fun Router.initialize() {
         post("/assertNoCookies") {
             if (!request.cookies.isEmpty())
@@ -64,5 +65,11 @@ class CookiesIT : ItTest () {
         val cookieValue = request.cookies[cookieName]?.value
         if (request["cookieValue"] != cookieValue)
             halt(500)
+    }
+
+    override fun validate() {
+        emptyCookies()
+        createCookie()
+        removeCookie()
     }
 }

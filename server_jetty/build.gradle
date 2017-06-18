@@ -3,15 +3,11 @@ apply from: '../gradle/hexagon_module.gradle'
 
 ext.jettyVersion = '9.4.4.v20170414'
 
-ext.ahcVersion = '2.0.31'
-
 dependencies {
-    // COMPILE
     compile project(':server_servlet')
     compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
-    // TEST
-    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
-        exclude module: 'slf4j-api'
-    }
+    testCompile project(':hexagon_test')
+    // TODO Remove when templates are standalone
+    testCompile project(':templates_pebble')
 }

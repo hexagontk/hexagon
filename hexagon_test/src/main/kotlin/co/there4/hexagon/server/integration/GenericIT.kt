@@ -1,15 +1,13 @@
 package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.client.Client
-import co.there4.hexagon.server.Call
-import co.there4.hexagon.server.HttpMethod
+import co.there4.hexagon.server.*
 import co.there4.hexagon.server.HttpMethod.GET
-import co.there4.hexagon.server.Router
-import co.there4.hexagon.server.at
 import java.util.Locale.getDefault as defaultLocale
+import co.there4.hexagon.store.Tag as TestTag
 
 @Suppress("unused") // Test methods are flagged as unused
-class GenericIT : ItTest () {
+class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
     class CustomException : IllegalArgumentException()
 
     private val part = "param"
@@ -97,8 +95,10 @@ class GenericIT : ItTest () {
         GET at "/return/pair" by { 202 to "funky status" }
         GET at "/return/list" by { listOf("alpha", "beta") }
         GET at "/return/map" by { mapOf("alpha" to 0, "beta" to true) }
+        GET at "/return/object" by { TestTag(name = "Message") }
         GET at "/return/pair/list" by { 201 to listOf("alpha", "beta") }
         GET at "/return/pair/map" by { 201 to mapOf("alpha" to 0, "beta" to true) }
+        GET at "/return/pair/object" by { 201 to TestTag(name = "Message") }
     }
 
     private fun Call.okRequestMethod() = ok (request.method)
@@ -331,6 +331,9 @@ class GenericIT : ItTest () {
             else res.headers.get(headerName) == methodName
         )
         assert (200 == res.statusCode)
+    }
+
+    override fun validate() {
     }
 }
 

@@ -11,8 +11,6 @@ Contains assorted useful stuff.
 
 More docs
 
-# Package co.there4.hexagon.server.engine
+# Package co.there4.hexagon.server.servlet
 
 Useful stuff in another package.
-
-# Package co.there4.hexagon.server.engine.servlet

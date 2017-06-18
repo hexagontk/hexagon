@@ -3,25 +3,24 @@ package co.there4.hexagon.rest
 import co.there4.hexagon.store.IdRepositoryTest
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.Server
-import co.there4.hexagon.server.VoidEngine
+import co.there4.hexagon.server.ServerEngine
 import co.there4.hexagon.settings.SettingsManager.settings
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-abstract class CrudTest <T : Any, K : Any> (type: KClass<T>, key: KProperty1<T, K>) :
+abstract class CrudTest <T : Any, K : Any> (
+    type: KClass<T>, key: KProperty1<T, K>, engine: ServerEngine) :
     IdRepositoryTest<T, K>(type, key) {
 
-    val server = Server(VoidEngine, settings)
+    val server = Server(engine, settings)
     val client by lazy { Client("http://${server.bindAddress.hostAddress}:${server.runtimePort}") }
 
-    @BeforeClass fun startServer() {
+    fun startServer() {
         server.crud(idCollection)
         server.run()
     }
 
-    @AfterClass fun stopServer() {
+    fun stopServer() {
         server.stop()
     }
 

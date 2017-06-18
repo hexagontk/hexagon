@@ -1,9 +1,10 @@
 package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.server.Router
+import co.there4.hexagon.server.ServerEngine
 
 @Suppress("unused") // Test methods are flagged as unused
-class SessionIT : ItTest () {
+class SessionIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
     override fun Router.initialize() {
         get("/session/id") {
             val id: String = session.id ?: "null"
@@ -96,5 +97,10 @@ class SessionIT : ItTest () {
             assert(get("/session/creation").responseBody == "null")
             assert(get("/session/access").responseBody == "null")
         }
+    }
+
+    override fun validate() {
+        attribute()
+        sessionLifecycle()
     }
 }

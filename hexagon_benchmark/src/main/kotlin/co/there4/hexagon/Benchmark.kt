@@ -2,17 +2,21 @@ package co.there4.hexagon
 
 import co.there4.hexagon.serialization.convertToMap
 import co.there4.hexagon.serialization.serialize
-import co.there4.hexagon.server.*
-import co.there4.hexagon.server.engine.servlet.JettyServletEngine
-import co.there4.hexagon.server.engine.servlet.ServletServer
+import co.there4.hexagon.server.Call
+import co.there4.hexagon.server.Router
+import co.there4.hexagon.server.Server
+import co.there4.hexagon.server.jetty.JettyServletEngine
+import co.there4.hexagon.server.router
+import co.there4.hexagon.server.servlet.ServletServer
 import co.there4.hexagon.settings.SettingsManager.settings
 import co.there4.hexagon.templates.pebble.PebbleEngine
-import java.lang.System.*
-import java.util.*
 
-import java.net.InetAddress.getByName as address
+import java.lang.System.getProperty
+import java.lang.System.getenv
+import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import javax.servlet.annotation.WebListener
+import java.net.InetAddress.getByName as address
 
 // DATA CLASSES
 internal data class Message(val message: String)

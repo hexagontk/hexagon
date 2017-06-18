@@ -13,10 +13,10 @@ buildscript {
 
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.1.2-5'
-    id 'org.ajoberstar.grgit' version '1.7.1'
+    id 'org.ajoberstar.grgit' version '1.7.2'
 
     // TODO Replace by git-publish
-    id 'org.ajoberstar.github-pages' version '1.7.1' apply false
+    id 'org.ajoberstar.github-pages' version '1.7.2' apply false
     id 'com.jfrog.bintray' version '1.7.3' apply false
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false

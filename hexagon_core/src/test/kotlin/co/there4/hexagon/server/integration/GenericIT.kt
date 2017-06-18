@@ -10,7 +10,6 @@ import co.there4.hexagon.templates.pebble.PebbleEngine
 import java.time.LocalDateTime
 import kotlin.test.assertTrue
 import java.util.Locale.getDefault as defaultLocale
-import co.there4.hexagon.store.Tag as TestTag
 
 @Suppress("unused") // Test methods are flagged as unused
 class GenericIT : ItTest () {
@@ -106,10 +105,8 @@ class GenericIT : ItTest () {
         GET at "/return/pair" by { 202 to "funky status" }
         GET at "/return/list" by { listOf("alpha", "beta") }
         GET at "/return/map" by { mapOf("alpha" to 0, "beta" to true) }
-        GET at "/return/object" by { TestTag(name = "Message") }
         GET at "/return/pair/list" by { 201 to listOf("alpha", "beta") }
         GET at "/return/pair/map" by { 201 to mapOf("alpha" to 0, "beta" to true) }
-        GET at "/return/pair/object" by { 201 to TestTag(name = "Message") }
     }
 
     private fun Call.okRequestMethod() = ok (request.method)
@@ -315,10 +312,8 @@ class GenericIT : ItTest () {
             assertResponseEquals(get ("/return/pair"), 202, "funky status")
             assertResponseContains(get ("/return/list"), 200, "alpha", "beta")
             assertResponseContains(get ("/return/map"), 200, "alpha", "beta", "0", "true")
-            assertResponseContains(get ("/return/object"), 200, "id", "name", "Message")
             assertResponseContains(get ("/return/pair/list"), 201, "alpha", "beta")
             assertResponseContains(get ("/return/pair/map"), 201, "alpha", "beta", "0", "true")
-            assertResponseContains(get ("/return/pair/object"), 201, "id", "name", "Message")
         }
     }
 

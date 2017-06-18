@@ -12,26 +12,25 @@ import java.net.InetAddress.getByName as address
 /*
  * TODO Fix errors with several threads
  */
-//abstract class ItTest(serverEngine: ServerEngine) {
-abstract class ItTest {
-//    protected val server: Server = Server(serverEngine, SettingsManager.settings)
+abstract class ItTest(serverEngine: ServerEngine) {
+    protected val server: Server = Server(serverEngine, SettingsManager.settings)
+    protected val client by lazy { Client ("http://localhost:${server.runtimePort}") }
 
     protected abstract fun Router.initialize ()
+    protected abstract fun validate()
 
     fun startServers () {
-//        server.stop()
-//        server.router.initialize ()
-//        server.run ()
+        server.router.initialize ()
+        server.run ()
     }
 
     fun stopServers () {
-//        server.stop()
+        server.stop()
     }
 
     protected fun withClients(lambda: Client.() -> Unit) {
-//        val client = Client ("http://localhost:${server.runtimePort}")
-//        client.cookies.clear()
-//        client.(lambda) ()
+        client.cookies.clear()
+        client.lambda ()
     }
 
     protected fun assertResponseEquals(response: Response?, status: Int, content: String) {

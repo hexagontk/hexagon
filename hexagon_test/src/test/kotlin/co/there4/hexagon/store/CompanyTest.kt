@@ -2,6 +2,7 @@ package co.there4.hexagon.store
 
 import co.there4.hexagon.store.Department.*
 import co.there4.hexagon.rest.CrudTest
+import co.there4.hexagon.server.VoidEngine
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer
@@ -9,7 +10,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@Test class CompanyTest : CrudTest<Company, String>(Company::class, Company::id) {
+@Test class CompanyTest : CrudTest<Company, String>(Company::class, Company::id, VoidEngine) {
     override val testObjects: List<Company> = listOf (
         createObject(),
         Company(
