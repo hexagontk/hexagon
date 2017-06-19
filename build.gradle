@@ -6,15 +6,12 @@
 buildscript {
     repositories { jcenter () }
     dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.9.14'
-        classpath 'com.github.zafarkhaja:java-semver:0.9.0'
     }
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.2-5'
-    id 'org.ajoberstar.grgit' version '1.7.2'
-
     // TODO Replace by git-publish
     id 'org.ajoberstar.github-pages' version '1.7.2' apply false
     id 'com.jfrog.bintray' version '1.7.3' apply false
@@ -23,8 +20,11 @@ plugins {
     id 'me.champeau.gradle.jmh' version '0.3.1' apply false
 }
 
+apply plugin: 'kotlin'
+apply plugin: 'jacoco'
+
 apply from: 'local.gradle'
-//apply from: 'gradle/release.gradle'
+apply from: 'gradle/release.gradle'
 
 task publish(
     dependsOn: [
@@ -54,15 +54,15 @@ task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
     sourceDirectories = files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
     // TODO Replace by method that filter modules
     classDirectories = files(
-        rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
-        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
         rootDir.absolutePath + '/hexagon_core/build/classes/main',
         rootDir.absolutePath + '/hexagon_test/build/classes/main',
-        rootDir.absolutePath + '/server_jetty/build/classes/main',
+        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
+        rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
         rootDir.absolutePath + '/server_servlet/build/classes/main',
+        rootDir.absolutePath + '/server_jetty/build/classes/main',
         rootDir.absolutePath + '/server_undertow/build/classes/main',
-        rootDir.absolutePath + '/templates_kotlinx/build/classes/main',
-        rootDir.absolutePath + '/templates_pebble/build/classes/main'
+        rootDir.absolutePath + '/templates_pebble/build/classes/main',
+        rootDir.absolutePath + '/templates_kotlinx/build/classes/main'
     )
 
     executionData = files(jacocoMerge.destinationFile)

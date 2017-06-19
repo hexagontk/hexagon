@@ -1,4 +1,12 @@
 
+buildscript {
+    repositories { jcenter () }
+    dependencies {
+        classpath 'org.ajoberstar:gradle-git:1.7.2'
+        classpath 'com.github.zafarkhaja:java-semver:0.9.0'
+    }
+}
+
 apply plugin: 'org.ajoberstar.grgit'
 
 import org.ajoberstar.grgit.Grgit

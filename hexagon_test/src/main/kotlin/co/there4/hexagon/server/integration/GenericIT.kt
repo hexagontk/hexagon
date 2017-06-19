@@ -3,12 +3,18 @@ package co.there4.hexagon.server.integration
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.*
 import co.there4.hexagon.server.HttpMethod.GET
+import co.there4.hexagon.templates.pebble.PebbleEngine
+import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
-import co.there4.hexagon.store.Tag as TestTag
 
 @Suppress("unused") // Test methods are flagged as unused
 class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
-    class CustomException : IllegalArgumentException()
+    internal class CustomException : IllegalArgumentException()
+
+    internal data class Tag(
+        val id: String = System.currentTimeMillis().toString(),
+        val name: String
+    )
 
     private val part = "param"
 
@@ -77,6 +83,11 @@ class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
         head ("/method") { response.addHeader ("header", request.method.toString()) }
         get("/halt") { halt("halted") }
         get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
+        get("/template") {
+            val locale = defaultLocale()
+            val now = LocalDateTime.now()
+            template(PebbleEngine, "pebble_template.html", locale, mapOf("date" to now))
+        }
 
         get("/tworoutes/${part.toUpperCase()}/{param}") {
             ok ("${part.toUpperCase()} route: ${request ["param"]}")
@@ -95,10 +106,10 @@ class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
         GET at "/return/pair" by { 202 to "funky status" }
         GET at "/return/list" by { listOf("alpha", "beta") }
         GET at "/return/map" by { mapOf("alpha" to 0, "beta" to true) }
-        GET at "/return/object" by { TestTag(name = "Message") }
+        GET at "/return/object" by { Tag(name = "Message") }
         GET at "/return/pair/list" by { 201 to listOf("alpha", "beta") }
         GET at "/return/pair/map" by { 201 to mapOf("alpha" to 0, "beta" to true) }
-        GET at "/return/pair/object" by { 201 to TestTag(name = "Message") }
+        GET at "/return/pair/object" by { 201 to Tag(name = "Message") }
     }
 
     private fun Call.okRequestMethod() = ok (request.method)

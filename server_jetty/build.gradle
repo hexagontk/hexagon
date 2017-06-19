@@ -8,6 +8,4 @@ dependencies {
     compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
     testCompile project(':hexagon_test')
-    // TODO Remove when templates are standalone
-    testCompile project(':templates_pebble')
 }

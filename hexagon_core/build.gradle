@@ -34,8 +34,8 @@ dependencies {
     }
 
     // TEST
+    testCompile project(':hexagon_test')
     testCompile project(':server_jetty')
-    testCompile project(':templates_pebble')
 
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
