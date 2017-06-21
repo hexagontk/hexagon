@@ -2,6 +2,7 @@ package co.there4.hexagon.events.rabbitmq
 
 import co.there4.hexagon.helpers.CachedLogger
 import co.there4.hexagon.helpers.retry
+import co.there4.hexagon.serialization.defaultFormat
 import co.there4.hexagon.serialization.parse
 import co.there4.hexagon.serialization.serialize
 import com.rabbitmq.client.AMQP.BasicProperties
@@ -15,10 +16,11 @@ import java.util.concurrent.ExecutorService
 import kotlin.reflect.KClass
 
 /**
- * Message handler that can reply messages. TODO Complete docs.
- * TODO Add content type support
+ * Message handler that can reply messages to a reply queue.
+ *
+ * TODO Test content type support.
  */
-internal class Handler<T : Any, R : Any>(
+internal class Handler<T : Any, R : Any> internal constructor (
     connectionFactory: ConnectionFactory,
     channel: Channel,
     private val executor: ExecutorService,
@@ -40,13 +42,18 @@ internal class Handler<T : Any, R : Any>(
             val charset = properties.contentEncoding ?: defaultCharset().name()
             val correlationId = properties.correlationId
             val replyTo = properties.replyTo
+            val contentType = properties.contentType ?: defaultFormat
 
             try {
                 trace("Received message ($correlationId) in $charset")
                 val request = String(body, Charset.forName(charset))
                 trace("Message body:\n$request")
-                val input = request.parse(type)
-                handleMessage(input, replyTo, correlationId)
+                val input = request.parse(type, contentType)
+
+                val response = handler(input)
+
+                if (replyTo != null)
+                    handleResponse(response, replyTo, correlationId)
             }
             catch (ex: Exception) {
                 warn("Error processing message ($correlationId) in $charset", ex)
@@ -58,11 +65,7 @@ internal class Handler<T : Any, R : Any>(
         }
     }
 
-    private fun handleMessage(message: T, replyTo: String?, correlationId: String?) {
-        if (replyTo == null) return
-
-        val response = handler(message)
-
+    private fun handleResponse(response: R, replyTo: String, correlationId: String?) {
         val output = when (response) {
             is String -> response
             is Int -> response.toString()
