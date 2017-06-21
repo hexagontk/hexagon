@@ -57,7 +57,9 @@ internal class Handler<T : Any, R : Any> internal constructor (
             }
             catch (ex: Exception) {
                 warn("Error processing message ($correlationId) in $charset", ex)
-                handleError(ex, replyTo, correlationId)
+
+                if (replyTo != null)
+                    handleError(ex, replyTo, correlationId)
             }
             finally {
                 retry(RETRIES, DELAY) { channel.basicAck(envelope.deliveryTag, false) }
@@ -76,9 +78,7 @@ internal class Handler<T : Any, R : Any> internal constructor (
         client.publish(replyTo, output, correlationId)
     }
 
-    private fun handleError(exception: Exception, replyTo: String?, correlationId: String?) {
-        if (replyTo == null) return
-
+    private fun handleError(exception: Exception, replyTo: String, correlationId: String?) {
         val message = exception.message ?: ""
         val errorMessage = if (message.isBlank()) exception.javaClass.name else message
         client.publish(replyTo, errorMessage, correlationId)
