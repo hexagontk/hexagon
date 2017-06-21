@@ -33,6 +33,9 @@ your `.git/hooks/pre-push` script. As it will be checked by [Travis] before the 
 If you want to commit to the project. It is convenient to setup your own [Travis] account to execute
 the CI job defined in `.travis.yml`.
 
+To use IntelliJ Idea you need to enable `Build, Execution, Deployment > Build Tools > Gradle >
+Create separate module per source set` in order to compile JMH tests.
+
 ## Tools used
 
 * [Travis]: For continuous integration.

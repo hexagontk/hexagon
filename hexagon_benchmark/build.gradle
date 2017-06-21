@@ -16,7 +16,7 @@ ext.mongodbVersion = '3.4.2'
 
 ext.ahcVersion = '2.0.31'
 
-ext.jmhVersion = '1.19'
+ext.jmhBenchmarkVersion = '1.19'
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
@@ -43,8 +43,8 @@ dependencies {
         exclude module: 'slf4j-api'
     }
 
-    testCompile ("org.openjdk.jmh:jmh-core:$jmhVersion")
-    testCompile ("org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion")
+    jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
+    jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
 }
 
 test {
@@ -56,7 +56,7 @@ test {
 
 jmh {
     iterations = 5
-    benchmarkMode = [ 'all' ] // Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all
+    benchmarkMode = [ 'all' ]
     batchSize = 1
     fork = 1
     operationsPerInvocation = 5
@@ -65,7 +65,7 @@ jmh {
     warmupBatchSize = 5
     warmupIterations = 1
 
-    jmhVersion = '1.19'//"$jmhVersion"
+    jmhVersion = jmhBenchmarkVersion
 }
 
 //noinspection GroovyAssignabilityCheck

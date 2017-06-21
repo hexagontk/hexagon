@@ -1,18 +1,18 @@
 
-package co.there4.hexagon
+package co.there4.hexagon.jmh
 
 import org.openjdk.jmh.annotations.Benchmark
 
-open class Bench {
+open class Benchmark {
     @Benchmark
     fun foo() {
-        println("bench")
+        println("foo bench")
         Thread.sleep(100L)
     }
 
     @Benchmark
     fun bar() {
-        println("bench")
+        println("bar bench")
         Thread.sleep(100L)
     }
 }
