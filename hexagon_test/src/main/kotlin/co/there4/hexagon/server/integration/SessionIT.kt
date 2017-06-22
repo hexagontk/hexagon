@@ -1,7 +1,6 @@
 package co.there4.hexagon.server.integration
 
-import co.there4.hexagon.server.Router
-import co.there4.hexagon.server.ServerEngine
+import co.there4.hexagon.server.*
 
 @Suppress("unused") // Test methods are flagged as unused
 class SessionIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
@@ -62,41 +61,37 @@ class SessionIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
     }
 
     fun attribute() {
-        withClients {
-            assert(put("/session/foo/bar").statusCode == 200)
-            assertResponseEquals(get("/session/foo"), 200, "bar")
-        }
+        assert(client.put("/session/foo/bar").statusCode == 200)
+        assertResponseEquals(client.get("/session/foo"), 200, "bar")
     }
 
     fun sessionLifecycle() {
-        withClients {
-            assert(get("/session/id").responseBody == "null")
-            assert(get("/session/inactive").responseBody == "null")
-            assert(get("/session/creation").responseBody == "null")
-            assert(get("/session/access").responseBody == "null")
-            assert(get("/session/new").responseBody == "true")
+        assert(client.get("/session/id").responseBody == "null")
+        assert(client.get("/session/inactive").responseBody == "null")
+        assert(client.get("/session/creation").responseBody == "null")
+        assert(client.get("/session/access").responseBody == "null")
+        assert(client.get("/session/new").responseBody == "true")
 
-            assert(put("/session/foo/bar").statusCode == 200)
-            assert(put("/session/foo/bazz").statusCode == 200)
-            assert(put("/session/temporal/_").statusCode == 200)
-            assert(delete("/session/temporal").statusCode == 200)
+        assert(client.put("/session/foo/bar").statusCode == 200)
+        assert(client.put("/session/foo/bazz").statusCode == 200)
+        assert(client.put("/session/temporal/_").statusCode == 200)
+        assert(client.delete("/session/temporal").statusCode == 200)
 
-            assert(get("/session").statusCode == 200)
-            assertResponseEquals(get("/session/foo"), 200, "bazz")
+        assert(client.get("/session").statusCode == 200)
+        assertResponseEquals(client.get("/session/foo"), 200, "bazz")
 
-            assert(get("/session/id").responseBody != "null")
-            assert(get("/session/inactive").responseBody != "null")
-            assert(get("/session/creation").responseBody != "null")
-            assert(get("/session/access").responseBody != "null")
-            assert(get("/session/new").responseBody == "false")
+        assert(client.get("/session/id").responseBody != "null")
+        assert(client.get("/session/inactive").responseBody != "null")
+        assert(client.get("/session/creation").responseBody != "null")
+        assert(client.get("/session/access").responseBody != "null")
+        assert(client.get("/session/new").responseBody == "false")
 
-            post("/session/invalidate")
+        client.post("/session/invalidate")
 
-            assert(get("/session/id").responseBody == "null")
-            assert(get("/session/inactive").responseBody == "null")
-            assert(get("/session/creation").responseBody == "null")
-            assert(get("/session/access").responseBody == "null")
-        }
+        assert(client.get("/session/id").responseBody == "null")
+        assert(client.get("/session/inactive").responseBody == "null")
+        assert(client.get("/session/creation").responseBody == "null")
+        assert(client.get("/session/access").responseBody == "null")
     }
 
     override fun validate() {

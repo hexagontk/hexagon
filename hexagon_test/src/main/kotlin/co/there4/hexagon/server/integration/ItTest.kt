@@ -28,11 +28,6 @@ abstract class ItTest(serverEngine: ServerEngine) {
         server.stop()
     }
 
-    protected fun withClients(lambda: Client.() -> Unit) {
-        client.cookies.clear()
-        client.lambda ()
-    }
-
     protected fun assertResponseEquals(response: Response?, status: Int, content: String) {
         assert (response?.statusCode == status)
         assert (response?.responseBody == content)

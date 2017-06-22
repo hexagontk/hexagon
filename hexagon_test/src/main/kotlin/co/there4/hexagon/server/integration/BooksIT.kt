@@ -1,7 +1,6 @@
 package co.there4.hexagon.server.integration
 
-import co.there4.hexagon.server.Router
-import co.there4.hexagon.server.ServerEngine
+import co.there4.hexagon.server.*
 import java.util.*
 import java.util.Collections.synchronizedMap
 
@@ -69,58 +68,44 @@ class BooksIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
     }
 
     fun createBook () {
-        withClients {
-            val result = post ("/books?author=Vladimir_Nabokov&title=Lolita")
-            assert (Integer.valueOf (result.responseBody) > 0)
-            assert (201 == result.statusCode)
-        }
+        val result = client.post ("/books?author=Vladimir_Nabokov&title=Lolita")
+        assert (Integer.valueOf (result.responseBody) > 0)
+        assert (201 == result.statusCode)
     }
 
     fun listBooks () {
-        withClients {
-            val result = get ("/books")
-            assertResponseContains(result, 200, "100", "101")
-        }
+        val result = client.get ("/books")
+        assertResponseContains(result, 200, "100", "101")
     }
 
     fun getBook () {
-        withClients {
-            val result = get ("/books/101")
-            assertResponseContains (result, 200, "William_Shakespeare", "Hamlet")
-        }
+        val result = client.get ("/books/101")
+        assertResponseContains (result, 200, "William_Shakespeare", "Hamlet")
     }
 
     fun updateBook () {
-        withClients {
-            val resultPut = put ("/books/100?title=Don_Quixote")
-            assertResponseContains (resultPut, 200, "100", "updated")
+        val resultPut = client.put ("/books/100?title=Don_Quixote")
+        assertResponseContains (resultPut, 200, "100", "updated")
 
-            val resultGet = get ("/books/100")
-            assertResponseContains (resultGet, 200, "Miguel_de_Cervantes", "Don_Quixote")
-        }
+        val resultGet = client.get ("/books/100")
+        assertResponseContains (resultGet, 200, "Miguel_de_Cervantes", "Don_Quixote")
     }
 
     fun deleteBook () {
-        withClients {
-            initBooks ()
-            val result = delete ("/books/102")
-            assertResponseContains (result, 200, "102", "deleted")
-            books.put (102, Book ("Homer", "The_Odyssey")) // Restore book for next tests
-        }
+        initBooks ()
+        val result = client.delete ("/books/102")
+        assertResponseContains (result, 200, "102", "deleted")
+        books.put (102, Book ("Homer", "The_Odyssey")) // Restore book for next tests
     }
 
     fun bookNotFound () {
-        withClients {
-            val result = get ("/books/9999")
-            assertResponseContains(result, 404, "not found")
-        }
+        val result = client.get ("/books/9999")
+        assertResponseContains(result, 404, "not found")
     }
 
     fun invalidMethodReturns405 () {
-        withClients {
-            val result = options ("/books/9999")
-            assert (405 == result.statusCode)
-        }
+        val result = client.options ("/books/9999")
+        assert (405 == result.statusCode)
     }
 
     override fun validate() {

@@ -17,23 +17,19 @@ class HexagonIT(serverEngine: ServerEngine) : ItTest(serverEngine) {
     }
 
     fun foo () {
-        withClients {
-            assertResponseContains (get ("/books/101"), 200, "101")
-        }
+        assertResponseContains (client.get ("/books/101"), 200, "101")
     }
 
     fun getBook () {
-        withClients {
-            assertResponseContains (get ("/books/101/Hamlet"), 200, "101", "Hamlet")
-            assertResponseContains (trace ("/books/101/Hamlet"), 200, "101", "Hamlet")
-            assertResponseContains (patch ("/books/101/Hamlet"), 200, "101", "Hamlet")
-            assertResponseContains (head ("/books/101/Hamlet"), 200)
+        assertResponseContains (client.get ("/books/101/Hamlet"), 200, "101", "Hamlet")
+        assertResponseContains (client.trace ("/books/101/Hamlet"), 200, "101", "Hamlet")
+        assertResponseContains (client.patch ("/books/101/Hamlet"), 200, "101", "Hamlet")
+        assertResponseContains (client.head ("/books/101/Hamlet"), 200)
 
-            assertResponseContains (get ("/books/101/Hamlet", "body"), 200, "101", "Hamlet", "body")
-            assertResponseContains (trace ("/books/101/Hamlet", "body"), 200, "101", "Hamlet", "body")
-            assertResponseContains (patch ("/books/101/Hamlet", "body"), 200, "101", "Hamlet", "body")
-            assertResponseContains (head ("/books/101/Hamlet", "body"), 200)
-        }
+        assertResponseContains (client.get ("/books/101/Hamlet", "body"), 200, "101", "Hamlet", "body")
+        assertResponseContains (client.trace ("/books/101/Hamlet", "body"), 200, "101", "Hamlet", "body")
+        assertResponseContains (client.patch ("/books/101/Hamlet", "body"), 200, "101", "Hamlet", "body")
+        assertResponseContains (client.head ("/books/101/Hamlet", "body"), 200)
     }
 
     override fun validate() {

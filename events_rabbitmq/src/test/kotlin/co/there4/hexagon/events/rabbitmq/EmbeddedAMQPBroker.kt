@@ -3,34 +3,34 @@ package co.there4.hexagon.events.rabbitmq
 import co.there4.hexagon.helpers.resource
 import org.apache.qpid.server.Broker
 import org.apache.qpid.server.BrokerOptions
-import java.nio.file.Files
+import java.nio.file.Files.createTempDirectory
 
-/**
- * Check: https://dzone.com/articles/mocking-rabbitmq-for-integration-tests
- */
 internal class EmbeddedAMQPBroker(
-    val port: Int, val user: String, val password: String, val vhost: String) {
+    private val port: Int,
+    private val user: String,
+    private val password: String,
+    private val vhost: String) {
 
     private val broker: Broker = Broker()
 
-    fun startup() {
-        val preferenceStore = """{"type": "Noop"}"""
-        val workDir = Files.createTempDirectory("qpid").toFile().absolutePath
-        val options = BrokerOptions()
+    internal fun startup() {
+        val options = with(BrokerOptions()) {
+            isStartupLoggedToSystemOut = false
+            initialConfigurationLocation = resource("qpid.json").toString()
+            configurationStoreType = "Memory"
 
-        options.isStartupLoggedToSystemOut = false
-        options.initialConfigurationLocation = resource("qpid.json").toString()
-        options.configurationStoreType = "Memory"
-
-        options.setConfigProperty("qpid.broker.defaultPreferenceStoreAttributes", preferenceStore)
-        options.setConfigProperty("qpid.amqp_port", port.toString())
-        options.setConfigProperty("qpid.user", user)
-        options.setConfigProperty("qpid.password", password)
-        options.setConfigProperty("qpid.vhost", vhost)
-        options.setConfigProperty("qpid.work_dir", workDir)
+            val storeAttributes = """{"type": "Noop"}"""
+            setConfigProperty("qpid.broker.defaultPreferenceStoreAttributes", storeAttributes)
+            setConfigProperty("qpid.amqp_port", port.toString())
+            setConfigProperty("qpid.user", user)
+            setConfigProperty("qpid.password", password)
+            setConfigProperty("qpid.vhost", vhost)
+            setConfigProperty("qpid.work_dir", createTempDirectory("qpid").toFile().absolutePath)
+            this
+        }
 
         broker.startup(options)
     }
 
-    fun shutdown() { broker.shutdown() }
+    internal fun shutdown() { broker.shutdown() }
 }

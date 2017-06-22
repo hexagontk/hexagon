@@ -9,8 +9,8 @@ lazybones {
     repositoryName = "$btUser/maven"
     publish = true
 
-    setRepositoryUsername (findProperty ('bintrayUser') ?: 'anonymous')
-    setRepositoryApiKey (findProperty ('bintrayKey') ?: 'anonymous')
+    setRepositoryUsername findProperty ('bintrayUser').toString () ?: 'anonymous'
+    setRepositoryApiKey findProperty ('bintrayKey').toString () ?: 'anonymous'
 
     licenses = [ 'MIT' ]
     templateDirs = files ("$projectDir/hexagon-service")

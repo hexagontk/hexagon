@@ -36,6 +36,9 @@ the CI job defined in `.travis.yml`.
 To use IntelliJ Idea you need to enable `Build, Execution, Deployment > Build Tools > Gradle >
 Create separate module per source set` in order to compile JMH tests.
 
+Inside Idea IDE, you need to review Kotlin's settings to make sure JVM 1.8 is used
+(`Project Structure > Modules > <Any Module> > Kotlin > Target Platform`).
+
 ## Tools used
 
 * [Travis]: For continuous integration.

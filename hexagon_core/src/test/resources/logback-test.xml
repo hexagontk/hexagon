@@ -10,10 +10,10 @@
     </encoder>
   </appender>
 
-  <root level="warn">
+  <root level="off">
     <appender-ref ref="console" />
   </root>
 
   <logger name="com.rabbitmq" level="off" />
-  <logger name="co.there4.hexagon" level="info" />
+  <logger name="co.there4.hexagon" level="off" />
 </configuration>
