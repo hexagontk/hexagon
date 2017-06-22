@@ -62,7 +62,7 @@ class SessionIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
 
     fun attribute() {
         assert(client.put("/session/foo/bar").statusCode == 200)
-        assertResponseEquals(client.get("/session/foo"), 200, "bar")
+        assertResponseEquals(client.get("/session/foo"), "bar")
     }
 
     fun sessionLifecycle() {
@@ -78,7 +78,7 @@ class SessionIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
         assert(client.delete("/session/temporal").statusCode == 200)
 
         assert(client.get("/session").statusCode == 200)
-        assertResponseEquals(client.get("/session/foo"), 200, "bazz")
+        assertResponseEquals(client.get("/session/foo"), "bazz")
 
         assert(client.get("/session/id").responseBody != "null")
         assert(client.get("/session/inactive").responseBody != "null")

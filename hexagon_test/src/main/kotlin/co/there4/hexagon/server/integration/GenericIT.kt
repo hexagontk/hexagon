@@ -116,17 +116,17 @@ class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
 
     fun reqres() {
         val response = client.get("/reqres")
-        assertResponseEquals(response, 200, "GET")
+        assertResponseEquals(response, "GET")
     }
 
     fun getHi() {
         val response = client.get("/hi")
-        assertResponseEquals(response, 200, "Hello World!")
+        assertResponseEquals(response, "Hello World!")
     }
 
     fun hiHead() {
         val response = client.head("/hi")
-        assertResponseEquals(response, 200, "")
+        assertResponseEquals(response, "")
     }
 
     fun template() {
@@ -136,44 +136,44 @@ class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
 
     fun getHiAfterFilter() {
         val response = client.get ("/hi")
-        assertResponseEquals(response, 200, "Hello World!")
+        assertResponseEquals(response, "Hello World!")
         assert(response.headers["after"]?.contains("foobar") ?: false)
     }
 
     fun getRoot() {
         val response = client.get ("/")
-        assertResponseEquals(response, 200, "Hello Root!")
+        assertResponseEquals(response, "Hello Root!")
     }
 
     fun echoParam1() {
         val response = client.get ("/param/shizzy")
-        assertResponseEquals(response, 200, "echo: shizzy")
+        assertResponseEquals(response, "echo: shizzy")
     }
 
     fun echoParam2() {
         val response = client.get ("/param/gunit")
-        assertResponseEquals(response, 200, "echo: gunit")
+        assertResponseEquals(response, "echo: gunit")
     }
 
     fun echoParamWithUpperCaseInValue() {
         val camelCased = "ThisIsAValueAndBlacksheepShouldRetainItsUpperCasedCharacters"
         val response = client.get ("/param/" + camelCased)
-        assertResponseEquals(response, 200, "echo: $camelCased")
+        assertResponseEquals(response, "echo: $camelCased")
     }
 
     fun twoRoutesWithDifferentCase() {
         var expected = "expected"
         val response1 = client.get ("/tworoutes/$part/$expected")
-        assertResponseEquals(response1, 200, "$part route: $expected")
+        assertResponseEquals(response1, "$part route: $expected")
 
         expected = expected.toUpperCase()
         val response = client.get ("/tworoutes/${part.toUpperCase()}/$expected")
-        assertResponseEquals(response, 200, "${part.toUpperCase()} route: $expected")
+        assertResponseEquals(response, "${part.toUpperCase()} route: $expected")
     }
 
     fun echoParamWithMaj() {
         val response = client.get ("/paramwithmaj/plop")
-        assertResponseEquals(response, 200, "echo: plop")
+        assertResponseEquals(response, "echo: plop")
     }
 
     fun unauthorized() {
@@ -193,7 +193,7 @@ class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
 
     fun patchOk() {
         val response = client.patch ("/patcher", "Fo shizzy")
-        assertResponseContains(response, 200, "Fo shizzy")
+        assertResponseContains(response, "Fo shizzy")
     }
 
     fun staticFolder() {
@@ -203,18 +203,18 @@ class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
 
     fun staticFile() {
         val response = client.get ("/file.txt")
-        assertResponseEquals(response, 200, "file content\n")
+        assertResponseEquals(response, "file content\n")
     }
 
     fun fileContentType() {
         val response = client.get ("/file.css")
         assert(response.contentType.contains("css"))
-        assertResponseEquals(response, 200, "/* css */\n")
+        assertResponseEquals(response, "/* css */\n")
     }
 
     fun halt() {
         val response = client.get ("/halt")
-        assertResponseEquals(response, 500, "halted")
+        assertResponseEquals(response, "halted", 500)
     }
 
     fun redirect() {
@@ -263,11 +263,11 @@ class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
 
     fun return_values () {
         assertResponseContains(client.get ("/return/status"), 201)
-        assertResponseEquals(client.get ("/return/body"), 200, "body")
-        assertResponseEquals(client.get ("/return/pair"), 202, "funky status")
-        assertResponseContains(client.get ("/return/list"), 200, "alpha", "beta")
-        assertResponseContains(client.get ("/return/map"), 200, "alpha", "beta", "0", "true")
-        assertResponseContains(client.get ("/return/object"), 200, "id", "name", "Message")
+        assertResponseEquals(client.get ("/return/body"), "body")
+        assertResponseEquals(client.get ("/return/pair"), "funky status", 202)
+        assertResponseContains(client.get ("/return/list"), "alpha", "beta")
+        assertResponseContains(client.get ("/return/map"), "alpha", "beta", "0", "true")
+        assertResponseContains(client.get ("/return/object"), "id", "name", "Message")
         assertResponseContains(client.get ("/return/pair/list"), 201, "alpha", "beta")
         assertResponseContains(client.get ("/return/pair/map"), 201, "alpha", "beta", "0", "true")
         assertResponseContains(client.get ("/return/pair/object"), 201, "id", "name", "Message")
@@ -294,6 +294,32 @@ class GenericIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
     }
 
     override fun validate() {
+        reqres()
+        getHi()
+        hiHead()
+        template()
+        getHiAfterFilter()
+        getRoot()
+        echoParam1()
+        echoParam2()
+        echoParamWithUpperCaseInValue()
+        twoRoutesWithDifferentCase()
+        echoParamWithMaj()
+        unauthorized()
+        notFound()
+        postOk()
+        patchOk()
+        staticFolder()
+        staticFile()
+        fileContentType()
+        halt()
+        redirect()
+        requestData()
+        handleException()
+        base_error_handler()
+        not_registered_error_handler()
+        return_values ()
+        methods ()
     }
 }
 

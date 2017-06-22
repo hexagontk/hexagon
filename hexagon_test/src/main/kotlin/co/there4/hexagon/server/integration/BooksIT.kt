@@ -75,26 +75,26 @@ class BooksIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
 
     fun listBooks () {
         val result = client.get ("/books")
-        assertResponseContains(result, 200, "100", "101")
+        assertResponseContains(result, "100", "101")
     }
 
     fun getBook () {
         val result = client.get ("/books/101")
-        assertResponseContains (result, 200, "William_Shakespeare", "Hamlet")
+        assertResponseContains (result, "William_Shakespeare", "Hamlet")
     }
 
     fun updateBook () {
         val resultPut = client.put ("/books/100?title=Don_Quixote")
-        assertResponseContains (resultPut, 200, "100", "updated")
+        assertResponseContains (resultPut, "100", "updated")
 
         val resultGet = client.get ("/books/100")
-        assertResponseContains (resultGet, 200, "Miguel_de_Cervantes", "Don_Quixote")
+        assertResponseContains (resultGet, "Miguel_de_Cervantes", "Don_Quixote")
     }
 
     fun deleteBook () {
         initBooks ()
         val result = client.delete ("/books/102")
-        assertResponseContains (result, 200, "102", "deleted")
+        assertResponseContains (result, "102", "deleted")
         books.put (102, Book ("Homer", "The_Odyssey")) // Restore book for next tests
     }
 

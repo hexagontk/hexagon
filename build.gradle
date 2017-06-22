@@ -60,9 +60,9 @@ task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
         rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
         rootDir.absolutePath + '/server_servlet/build/classes/main',
         rootDir.absolutePath + '/server_jetty/build/classes/main',
-        rootDir.absolutePath + '/server_undertow/build/classes/main',
-        rootDir.absolutePath + '/templates_pebble/build/classes/main',
-        rootDir.absolutePath + '/templates_kotlinx/build/classes/main'
+//        rootDir.absolutePath + '/server_undertow/build/classes/main',
+        rootDir.absolutePath + '/templates_pebble/build/classes/main'
+//        rootDir.absolutePath + '/templates_kotlinx/build/classes/main'
     )
 
     executionData = files(jacocoMerge.destinationFile)

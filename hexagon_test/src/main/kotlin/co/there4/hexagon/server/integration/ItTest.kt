@@ -28,7 +28,7 @@ abstract class ItTest(serverEngine: ServerEngine) {
         server.stop()
     }
 
-    protected fun assertResponseEquals(response: Response?, status: Int, content: String) {
+    protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
         assert (response?.statusCode == status)
         assert (response?.responseBody == content)
     }
@@ -38,5 +38,9 @@ abstract class ItTest(serverEngine: ServerEngine) {
         content.forEach {
             assert (response?.responseBody?.contains (it) ?: false)
         }
+    }
+
+    protected fun assertResponseContains(response: Response?, vararg content: String) {
+        assertResponseContains(response, 200, *content)
     }
 }
