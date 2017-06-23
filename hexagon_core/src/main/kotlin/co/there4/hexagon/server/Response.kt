@@ -18,11 +18,16 @@ class Response (private val response: EngineResponse) {
 
     var status: Int
         get() = response.status
-        set(value) { response.status = value }
+        set(value) {
+            response.status = value
+            statusChanged = true
+        }
 
     var contentType: String?
         get() = response.contentType
         set(value) { response.contentType = value }
+
+    var statusChanged: Boolean = false
 
     fun getMimeType (file: String): String? = response.getMimeType(file)
     fun addHeader (name: String, value: String) = response.addHeader(name, value)
