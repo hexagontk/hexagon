@@ -2,7 +2,7 @@ package co.there4.hexagon.server.integration
 
 import co.there4.hexagon.server.*
 
-class HexagonIT(serverEngine: ServerEngine) : ItTest(serverEngine) {
+class HexagonIT(serverEngine: ServerEngine) : ItModule(serverEngine) {
     override fun Router.initialize() {
         get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")

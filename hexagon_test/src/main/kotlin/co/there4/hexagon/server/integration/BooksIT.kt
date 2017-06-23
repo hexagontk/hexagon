@@ -5,7 +5,7 @@ import java.util.*
 import java.util.Collections.synchronizedMap
 
 @Suppress("unused") // Test methods are flagged as unused
-class BooksIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
+class BooksIT(serverEngine: ServerEngine) : ItModule {
     data class Book (val author: String, val title: String)
 
     private var id = 1
@@ -19,13 +19,13 @@ class BooksIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
         )))
     }
 
-    override fun Router.initialize() {
-        post ("/books") {
+    override fun initialize(router: Router) {
+        router.post ("/books") {
             books [id] = Book (request.parameter("author"), request.parameter("title"))
             created ((id++).toString ())
         }
 
-        get ("/books/{id}") {
+        router.get ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books [bookId]
             if (book != null)
@@ -34,7 +34,7 @@ class BooksIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
                 error (404, "Book not found")
         }
 
-        put ("/books/{id}") {
+        router.put ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books[bookId]
             if (book != null) {
@@ -53,7 +53,7 @@ class BooksIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
             }
         }
 
-        delete ("/books/{id}") {
+        router.delete ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books.remove (bookId)
             if (book != null)
@@ -62,7 +62,7 @@ class BooksIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
                 error (404, "Book not found")
         }
 
-        get ("/books") {
+        router.get ("/books") {
             ok (books.keys.map(Int::toString).joinToString(" "))
         }
     }

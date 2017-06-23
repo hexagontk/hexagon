@@ -7,7 +7,7 @@ import co.there4.hexagon.server.post
 import java.net.HttpCookie
 
 @Suppress("unused") // Test methods are flagged as unused
-class CookiesIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
+class CookiesIT(serverEngine: ServerEngine) : ItModule(serverEngine) {
     override fun Router.initialize() {
         post("/assertNoCookies") {
             if (!request.cookies.isEmpty())

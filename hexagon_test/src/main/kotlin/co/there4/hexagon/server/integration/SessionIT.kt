@@ -3,7 +3,7 @@ package co.there4.hexagon.server.integration
 import co.there4.hexagon.server.*
 
 @Suppress("unused") // Test methods are flagged as unused
-class SessionIT(serverEngine: ServerEngine) : ItTest (serverEngine) {
+class SessionIT(serverEngine: ServerEngine) : ItModule(serverEngine) {
     override fun Router.initialize() {
         get("/session/id") {
             val id: String = session.id ?: "null"
