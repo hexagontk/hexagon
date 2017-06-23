@@ -4,10 +4,8 @@
  */
 
 apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
-
-apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
 
 ext.slf4jVersion = '1.7.25'
 ext.jacksonVersion = '2.8.8'
@@ -58,51 +56,3 @@ test {
             environmentFile.write('DEVELOPMENT\n')
     }
 }
-
-task sourceJar (type: Jar) {
-    from sourceSets.main.allJava
-}
-
-// TODO apply 'bintray.gradle' when 'hexagon_test' is ready and delete this package
-task packageTest (type: Jar) {
-    from sourceSets.test.output
-
-    exclude '/data', '/public', '/templates', '/*.yaml', '/*.xml', '/*.json', '/*.txt'
-}
-
-publishing {
-    publications {
-        mavenJava (MavenPublication) {
-            from components.java
-
-            artifact sourceJar {
-                classifier 'sources'
-            }
-
-            artifact packageTest {
-                classifier 'test'
-            }
-        }
-    }
-}
-
-bintray {
-    key = findProperty ('bintrayKey') ?: 'anonymous'
-    user = findProperty ('bintrayUser') ?: 'anonymous'
-    publications = [ 'mavenJava' ]
-    publish = true
-
-    pkg {
-        repo = 'maven'
-        name = 'Hexagon'
-        licenses = [ 'MIT' ]
-        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
-    }
-}
-
-task libraries(dependsOn: [ 'build', 'packageTest' ], type: Copy) {
-    into "$buildDir/libs"
-    from configurations.compileOnly
-}
-
-bintrayUpload.dependsOn 'build'
