@@ -4,7 +4,7 @@ import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.*
 
 @Suppress("unused") // Test methods are flagged as unused
-class SessionIT(serverEngine: Client) : ItModule(serverEngine) {
+class SessionIT : ItModule() {
     override fun initialize(router: Router) {
         router.get("/session/id") {
             val id: String = session.id ?: "null"
@@ -61,12 +61,12 @@ class SessionIT(serverEngine: Client) : ItModule(serverEngine) {
         }
     }
 
-    fun attribute() {
+    fun attribute(client: Client) {
         assert(client.put("/session/foo/bar").statusCode == 200)
         assertResponseEquals(client.get("/session/foo"), "bar")
     }
 
-    fun sessionLifecycle() {
+    fun sessionLifecycle(client: Client) {
         assert(client.get("/session/id").responseBody == "null")
         assert(client.get("/session/inactive").responseBody == "null")
         assert(client.get("/session/creation").responseBody == "null")
@@ -95,8 +95,8 @@ class SessionIT(serverEngine: Client) : ItModule(serverEngine) {
         assert(client.get("/session/access").responseBody == "null")
     }
 
-    override fun validate() {
-        attribute()
-        sessionLifecycle()
+    override fun validate(client: Client) {
+        attribute(client)
+        sessionLifecycle(client)
     }
 }

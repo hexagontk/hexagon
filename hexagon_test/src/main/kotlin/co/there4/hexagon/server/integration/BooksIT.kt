@@ -6,7 +6,7 @@ import java.util.*
 import java.util.Collections.synchronizedMap
 
 @Suppress("unused") // Test methods are flagged as unused
-class BooksIT(client: Client) : ItModule(client) {
+class BooksIT : ItModule() {
     data class Book (val author: String, val title: String)
 
     private var id = 1
@@ -68,23 +68,23 @@ class BooksIT(client: Client) : ItModule(client) {
         }
     }
 
-    fun createBook () {
+    fun createBook (client: Client) {
         val result = client.post ("/books?author=Vladimir_Nabokov&title=Lolita")
         assert (Integer.valueOf (result.responseBody) > 0)
         assert (201 == result.statusCode)
     }
 
-    fun listBooks () {
+    fun listBooks (client: Client) {
         val result = client.get ("/books")
         assertResponseContains(result, "100", "101")
     }
 
-    fun getBook () {
+    fun getBook (client: Client) {
         val result = client.get ("/books/101")
         assertResponseContains (result, "William_Shakespeare", "Hamlet")
     }
 
-    fun updateBook () {
+    fun updateBook (client: Client) {
         val resultPut = client.put ("/books/100?title=Don_Quixote")
         assertResponseContains (resultPut, "100", "updated")
 
@@ -92,30 +92,30 @@ class BooksIT(client: Client) : ItModule(client) {
         assertResponseContains (resultGet, "Miguel_de_Cervantes", "Don_Quixote")
     }
 
-    fun deleteBook () {
+    fun deleteBook (client: Client) {
         initBooks ()
         val result = client.delete ("/books/102")
         assertResponseContains (result, "102", "deleted")
         books.put (102, Book ("Homer", "The_Odyssey")) // Restore book for next tests
     }
 
-    fun bookNotFound () {
+    fun bookNotFound (client: Client) {
         val result = client.get ("/books/9999")
         assertResponseContains(result, 404, "not found")
     }
 
-    fun invalidMethodReturns405 () {
+    fun invalidMethodReturns405 (client: Client) {
         val result = client.options ("/books/9999")
         assert (405 == result.statusCode)
     }
 
-    override fun validate() {
-        createBook()
-        listBooks()
-        getBook()
-        updateBook()
-        deleteBook()
-        bookNotFound()
-        invalidMethodReturns405()
+    override fun validate(client: Client) {
+        createBook(client)
+        listBooks(client)
+        getBook(client)
+        updateBook(client)
+        deleteBook(client)
+        bookNotFound(client)
+        invalidMethodReturns405(client)
     }
 }

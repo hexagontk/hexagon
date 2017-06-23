@@ -3,7 +3,7 @@ package co.there4.hexagon.server.integration
 import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.*
 
-class HexagonIT(serverEngine: Client) : ItModule(serverEngine) {
+class HexagonIT : ItModule() {
     override fun initialize(router: Router) {
         router.get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")
@@ -17,11 +17,11 @@ class HexagonIT(serverEngine: Client) : ItModule(serverEngine) {
         }
     }
 
-    fun foo () {
+    fun foo (client: Client) {
         assertResponseContains (client.get ("/books/101"), "101")
     }
 
-    fun getBook () {
+    fun getBook (client: Client) {
         assertResponseContains (client.get ("/books/101/Hamlet"), "101", "Hamlet")
         assertResponseContains (client.trace ("/books/101/Hamlet"), "101", "Hamlet")
         assertResponseContains (client.patch ("/books/101/Hamlet"), "101", "Hamlet")
@@ -33,8 +33,8 @@ class HexagonIT(serverEngine: Client) : ItModule(serverEngine) {
         assertResponseContains (client.head ("/books/101/Hamlet", "body"))
     }
 
-    override fun validate() {
-        foo()
-        getBook()
+    override fun validate(client: Client) {
+        foo(client)
+        getBook(client)
     }
 }

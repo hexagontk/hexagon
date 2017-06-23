@@ -13,22 +13,26 @@ abstract class ItTest(serverEngine: ServerEngine) {
     protected val server: Server = Server(serverEngine, SettingsManager.settings)
     protected val client by lazy { Client ("http://localhost:${server.runtimePort}") }
 
-    private val modules: List<ItModule> = listOf(
-//        BooksIT(server.router, client),
-//        CookiesIT(server.router, client),
-//        GenericIT(server.router, client),
-//        HexagonIT(server.router, client),
-//        SessionIT(server.router, client)
-    )
+    protected val modules: List<ItModule> by lazy {
+        listOf(
+            BooksIT(),
+            CookiesIT(),
+            GenericIT(),
+            HexagonIT(),
+            SessionIT()
+        )
+    }
 
     fun startServers () {
-        modules.forEach {
-            it.initialize(server.router)
-        }
+        modules.forEach { it.initialize(server.router) }
         server.run ()
     }
 
     fun stopServers () {
         server.stop()
+    }
+
+    fun validate() {
+        modules.forEach { it.validate(client) }
     }
 }

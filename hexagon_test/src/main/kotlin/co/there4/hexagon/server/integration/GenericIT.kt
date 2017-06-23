@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
 
 @Suppress("unused") // Test methods are flagged as unused
-class GenericIT(serverEngine: Client) : ItModule(serverEngine) {
+class GenericIT : ItModule() {
     internal class CustomException : IllegalArgumentException()
 
     internal data class Tag(
@@ -115,54 +115,54 @@ class GenericIT(serverEngine: Client) : ItModule(serverEngine) {
 
     private fun Call.okRequestMethod() = ok (request.method)
 
-    fun reqres() {
+    fun reqres(client: Client) {
         val response = client.get("/reqres")
         assertResponseEquals(response, "GET")
     }
 
-    fun getHi() {
+    fun getHi(client: Client) {
         val response = client.get("/hi")
         assertResponseEquals(response, "Hello World!")
     }
 
-    fun hiHead() {
+    fun hiHead(client: Client) {
         val response = client.head("/hi")
         assertResponseEquals(response, "")
     }
 
-    fun template() {
+    fun template(client: Client) {
         val response = client.get("/template")
         assert(response.statusCode == 200)
     }
 
-    fun getHiAfterFilter() {
+    fun getHiAfterFilter(client: Client) {
         val response = client.get ("/hi")
         assertResponseEquals(response, "Hello World!")
         assert(response.headers["after"]?.contains("foobar") ?: false)
     }
 
-    fun getRoot() {
+    fun getRoot(client: Client) {
         val response = client.get ("/")
         assertResponseEquals(response, "Hello Root!")
     }
 
-    fun echoParam1() {
+    fun echoParam1(client: Client) {
         val response = client.get ("/param/shizzy")
         assertResponseEquals(response, "echo: shizzy")
     }
 
-    fun echoParam2() {
+    fun echoParam2(client: Client) {
         val response = client.get ("/param/gunit")
         assertResponseEquals(response, "echo: gunit")
     }
 
-    fun echoParamWithUpperCaseInValue() {
+    fun echoParamWithUpperCaseInValue(client: Client) {
         val camelCased = "ThisIsAValueAndBlacksheepShouldRetainItsUpperCasedCharacters"
         val response = client.get ("/param/" + camelCased)
         assertResponseEquals(response, "echo: $camelCased")
     }
 
-    fun twoRoutesWithDifferentCase() {
+    fun twoRoutesWithDifferentCase(client: Client) {
         var expected = "expected"
         val response1 = client.get ("/tworoutes/$part/$expected")
         assertResponseEquals(response1, "$part route: $expected")
@@ -172,60 +172,60 @@ class GenericIT(serverEngine: Client) : ItModule(serverEngine) {
         assertResponseEquals(response, "${part.toUpperCase()} route: $expected")
     }
 
-    fun echoParamWithMaj() {
+    fun echoParamWithMaj(client: Client) {
         val response = client.get ("/paramwithmaj/plop")
         assertResponseEquals(response, "echo: plop")
     }
 
-    fun unauthorized() {
+    fun unauthorized(client: Client) {
         val response = client.get ("/protected/resource")
         assert(response.statusCode == 401)
     }
 
-    fun notFound() {
+    fun notFound(client: Client) {
         val response = client.get ("/no/resource")
         assertResponseContains(response, 404, "http://localhost:", "/no/resource not found")
     }
 
-    fun postOk() {
+    fun postOk(client: Client) {
         val response = client.post ("/poster", "Fo shizzy")
         assertResponseContains(response, 201, "Fo shizzy")
     }
 
-    fun patchOk() {
+    fun patchOk(client: Client) {
         val response = client.patch ("/patcher", "Fo shizzy")
         assertResponseContains(response, "Fo shizzy")
     }
 
-    fun staticFolder() {
+    fun staticFolder(client: Client) {
         val response = client.get ("/file.txt/")
         assertResponseContains(response, 404, "/file.txt/ not found")
     }
 
-    fun staticFile() {
+    fun staticFile(client: Client) {
         val response = client.get ("/file.txt")
         assertResponseEquals(response, "file content\n")
     }
 
-    fun fileContentType() {
+    fun fileContentType(client: Client) {
         val response = client.get ("/file.css")
         assert(response.contentType.contains("css"))
         assertResponseEquals(response, "/* css */\n")
     }
 
-    fun halt() {
+    fun halt(client: Client) {
         val response = client.get ("/halt")
         assertResponseEquals(response, "halted", 500)
     }
 
-    fun redirect() {
+    fun redirect(client: Client) {
         val response = client.get ("/redirect")
         assert(response.statusCode == 302)
         assert(response.headers["Location"] == "http://example.com")
     }
 
     // TODO Check with asserts
-    fun requestData() {
+    fun requestData(client: Client) {
         val response = client.get ("/request/data?query")
         val port = client.endpointUrl.port.toString ()
         val protocol = "http"
@@ -247,22 +247,22 @@ class GenericIT(serverEngine: Client) : ItModule(serverEngine) {
         assert(200 == response.statusCode)
     }
 
-    fun handleException() {
+    fun handleException(client: Client) {
         val response = client.get ("/exception")
         assert("error message" == response.headers["error"]?.toString())
     }
 
-    fun base_error_handler() {
+    fun base_error_handler(client: Client) {
         val response = client.get ("/baseException")
         assert(response.headers["runtimeError"]?.toString() == CustomException::class.java.name)
     }
 
-    fun not_registered_error_handler() {
+    fun not_registered_error_handler(client: Client) {
         val response = client.get ("/unhandledException")
         assertResponseContains(response, 500)
     }
 
-    fun return_values () {
+    fun return_values (client: Client) {
         assertResponseContains(client.get ("/return/status"), 201)
         assertResponseEquals(client.get ("/return/body"), "body")
         assertResponseEquals(client.get ("/return/pair"), "funky status", 202)
@@ -274,7 +274,7 @@ class GenericIT(serverEngine: Client) : ItModule(serverEngine) {
         assertResponseContains(client.get ("/return/pair/object"), 201, "id", "name", "Message")
     }
 
-    fun methods () {
+    fun methods (client: Client) {
         checkMethod (client, "HEAD", "header") // Head does not support body message
         checkMethod (client, "DELETE")
         checkMethod (client, "OPTIONS")
@@ -294,33 +294,33 @@ class GenericIT(serverEngine: Client) : ItModule(serverEngine) {
         assert (200 == res.statusCode)
     }
 
-    override fun validate() {
-        reqres()
-        getHi()
-        hiHead()
-        template()
-        getHiAfterFilter()
-        getRoot()
-        echoParam1()
-        echoParam2()
-        echoParamWithUpperCaseInValue()
-        twoRoutesWithDifferentCase()
-        echoParamWithMaj()
-        unauthorized()
-        notFound()
-        postOk()
-        patchOk()
-        staticFolder()
-        staticFile()
-        fileContentType()
-        halt()
-        redirect()
-        requestData()
-        handleException()
-        base_error_handler()
-        not_registered_error_handler()
-        return_values ()
-        methods ()
+    override fun validate(client: Client) {
+        reqres(client)
+        getHi(client)
+        hiHead(client)
+        template(client)
+        getHiAfterFilter(client)
+        getRoot(client)
+        echoParam1(client)
+        echoParam2(client)
+        echoParamWithUpperCaseInValue(client)
+        twoRoutesWithDifferentCase(client)
+        echoParamWithMaj(client)
+        unauthorized(client)
+        notFound(client)
+        postOk(client)
+        patchOk(client)
+        staticFolder(client)
+        staticFile(client)
+        fileContentType(client)
+        halt(client)
+        redirect(client)
+        requestData(client)
+        handleException(client)
+        base_error_handler(client)
+        not_registered_error_handler(client)
+        return_values (client)
+        methods(client)
     }
 }
 

@@ -5,9 +5,9 @@ import co.there4.hexagon.server.Router
 import org.asynchttpclient.Response
 import java.net.InetAddress.getByName as address
 
-abstract class ItModule(protected val client: Client) {
-    internal abstract fun initialize (router: Router)
-    internal abstract fun validate()
+abstract class ItModule {
+    abstract fun initialize(router: Router)
+    abstract fun validate(client: Client)
 
     protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
         assert (response?.statusCode == status)
