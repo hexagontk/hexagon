@@ -181,15 +181,4 @@ import kotlin.test.assertFailsWith
     fun resource_folder() {
         assert(resource("data")?.readText()?.lines()?.size ?: 0 > 0)
     }
-
-    fun main() {
-        val uri = HelpersTest::class.java.getResource("/templates").toURI()
-        val myPath: Path =
-            if (uri.scheme == "jar") newFileSystem(uri, emptyMap<String, Any>()).getPath("/templates")
-            else Paths.get(uri)
-
-        Files.walk(myPath).forEach {
-            Log.warn(it.toString())
-        }
-    }
 }

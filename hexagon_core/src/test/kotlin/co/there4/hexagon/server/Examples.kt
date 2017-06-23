@@ -56,7 +56,7 @@ val serverExample = server(VoidEngine) {
     ALL at "/" after {}
 }
 
-private fun reference(e: Call): Any = 200 to "Done"
+private fun reference(@Suppress("UNUSED_PARAMETER") e: Call): Any = 200 to "Done"
 
 val filter = router {
     before {
