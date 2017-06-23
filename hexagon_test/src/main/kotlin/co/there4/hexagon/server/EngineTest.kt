@@ -1,15 +1,10 @@
-package co.there4.hexagon.server.integration
+package co.there4.hexagon.server
 
 import co.there4.hexagon.client.Client
-import co.there4.hexagon.server.Server
-import co.there4.hexagon.server.ServerEngine
 import co.there4.hexagon.settings.SettingsManager
 import java.net.InetAddress.getByName as address
 
-/*
- * TODO Fix errors with several threads
- */
-abstract class ItTest(serverEngine: ServerEngine) {
+abstract class EngineTest(serverEngine: ServerEngine) {
     protected val server: Server = Server(serverEngine, SettingsManager.settings)
     protected val client by lazy { Client ("http://localhost:${server.runtimePort}") }
 

@@ -1,7 +1,6 @@
-package co.there4.hexagon.server.integration
+package co.there4.hexagon.server
 
 import co.there4.hexagon.client.Client
-import co.there4.hexagon.server.*
 
 @Suppress("unused") // Test methods are flagged as unused
 class SessionIT : ItModule() {
@@ -96,7 +95,9 @@ class SessionIT : ItModule() {
     }
 
     override fun validate(client: Client) {
+        client.cookies.clear()
         attribute(client)
+        client.cookies.clear()
         sessionLifecycle(client)
     }
 }

@@ -1,7 +1,6 @@
-package co.there4.hexagon.server.integration
+package co.there4.hexagon.server
 
 import co.there4.hexagon.client.Client
-import co.there4.hexagon.server.Router
 import org.asynchttpclient.Response
 import java.net.InetAddress.getByName as address
 

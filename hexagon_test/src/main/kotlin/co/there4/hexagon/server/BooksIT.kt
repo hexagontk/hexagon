@@ -1,7 +1,6 @@
-package co.there4.hexagon.server.integration
+package co.there4.hexagon.server
 
 import co.there4.hexagon.client.Client
-import co.there4.hexagon.server.*
 import java.util.*
 import java.util.Collections.synchronizedMap
 
@@ -14,15 +13,15 @@ class BooksIT : ItModule() {
 
     fun initBooks () {
         books = synchronizedMap(LinkedHashMap(mapOf(
-            100 to Book ("Miguel_de_Cervantes", "Don_Quixote"),
-            101 to Book ("William_Shakespeare", "Hamlet"),
-            102 to Book ("Homer", "The_Odyssey")
+            100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
+            101 to Book("William_Shakespeare", "Hamlet"),
+            102 to Book("Homer", "The_Odyssey")
         )))
     }
 
     override fun initialize(router: Router) {
         router.post ("/books") {
-            books [id] = Book (request.parameter("author"), request.parameter("title"))
+            books [id] = Book(request.parameter("author"), request.parameter("title"))
             created ((id++).toString ())
         }
 
@@ -93,10 +92,9 @@ class BooksIT : ItModule() {
     }
 
     fun deleteBook (client: Client) {
-        initBooks ()
         val result = client.delete ("/books/102")
         assertResponseContains (result, "102", "deleted")
-        books.put (102, Book ("Homer", "The_Odyssey")) // Restore book for next tests
+        books.put (102, Book("Homer", "The_Odyssey")) // Restore book for next tests
     }
 
     fun bookNotFound (client: Client) {
@@ -110,12 +108,25 @@ class BooksIT : ItModule() {
     }
 
     override fun validate(client: Client) {
+        initBooks ()
         createBook(client)
+        client.cookies.clear()
+        initBooks ()
         listBooks(client)
+        client.cookies.clear()
+        initBooks ()
         getBook(client)
+        client.cookies.clear()
+        initBooks ()
         updateBook(client)
+        client.cookies.clear()
+        initBooks ()
         deleteBook(client)
+        client.cookies.clear()
+        initBooks ()
         bookNotFound(client)
+        client.cookies.clear()
+        initBooks ()
         invalidMethodReturns405(client)
     }
 }

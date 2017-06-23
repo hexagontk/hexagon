@@ -15,5 +15,5 @@
   </root>
 
   <logger name="com.rabbitmq" level="off" />
-  <logger name="co.there4.hexagon" level="off" />
+  <logger name="co.there4.hexagon" level="info" />
 </configuration>

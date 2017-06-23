@@ -1,7 +1,6 @@
-package co.there4.hexagon.server.integration
+package co.there4.hexagon.server
 
 import co.there4.hexagon.client.Client
-import co.there4.hexagon.server.*
 import co.there4.hexagon.server.HttpMethod.GET
 import co.there4.hexagon.templates.pebble.PebbleEngine
 import java.time.LocalDateTime
@@ -123,11 +122,6 @@ class GenericIT : ItModule() {
     fun getHi(client: Client) {
         val response = client.get("/hi")
         assertResponseEquals(response, "Hello World!")
-    }
-
-    fun hiHead(client: Client) {
-        val response = client.head("/hi")
-        assertResponseEquals(response, "")
     }
 
     fun template(client: Client) {
@@ -297,7 +291,6 @@ class GenericIT : ItModule() {
     override fun validate(client: Client) {
         reqres(client)
         getHi(client)
-        hiHead(client)
         template(client)
         getHiAfterFilter(client)
         getRoot(client)

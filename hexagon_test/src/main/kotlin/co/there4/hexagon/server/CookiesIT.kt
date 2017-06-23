@@ -1,9 +1,6 @@
-package co.there4.hexagon.server.integration
+package co.there4.hexagon.server
 
 import co.there4.hexagon.client.Client
-import co.there4.hexagon.server.Call
-import co.there4.hexagon.server.Router
-import co.there4.hexagon.server.post
 import java.net.HttpCookie
 
 @Suppress("unused") // Test methods are flagged as unused
@@ -63,8 +60,11 @@ class CookiesIT : ItModule() {
     }
 
     override fun validate(client: Client) {
+        client.cookies.clear()
         emptyCookies(client)
+        client.cookies.clear()
         createCookie(client)
+        client.cookies.clear()
         removeCookie(client)
     }
 }
