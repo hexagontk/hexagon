@@ -1,11 +1,12 @@
 package co.there4.hexagon.server.integration
 
+import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.*
 import java.util.*
 import java.util.Collections.synchronizedMap
 
 @Suppress("unused") // Test methods are flagged as unused
-class BooksIT(serverEngine: ServerEngine) : ItModule {
+class BooksIT(client: Client) : ItModule(client) {
     data class Book (val author: String, val title: String)
 
     private var id = 1

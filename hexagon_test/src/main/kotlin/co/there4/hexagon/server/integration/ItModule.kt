@@ -1,10 +1,11 @@
 package co.there4.hexagon.server.integration
 
+import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.Router
 import org.asynchttpclient.Response
 import java.net.InetAddress.getByName as address
 
-internal abstract class ItModule {
+abstract class ItModule(protected val client: Client) {
     internal abstract fun initialize (router: Router)
     internal abstract fun validate()
 

@@ -1,20 +1,21 @@
 package co.there4.hexagon.server.integration
 
+import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.*
 
 @Suppress("unused") // Test methods are flagged as unused
-class SessionIT(serverEngine: ServerEngine) : ItModule(serverEngine) {
-    override fun Router.initialize() {
-        get("/session/id") {
+class SessionIT(serverEngine: Client) : ItModule(serverEngine) {
+    override fun initialize(router: Router) {
+        router.get("/session/id") {
             val id: String = session.id ?: "null"
             session.id = "sessionId"
             assert(id == session.id ?: "null")
             ok(id)
         }
 
-        get("/session/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
+        router.get("/session/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
 
-        get("/session/new") {
+        router.get("/session/new") {
             try {
                 ok(session.isNew())
             }
@@ -23,31 +24,31 @@ class SessionIT(serverEngine: ServerEngine) : ItModule(serverEngine) {
             }
         }
 
-        get("/session/inactive") {
+        router.get("/session/inactive") {
             val inactiveInterval = session.maxInactiveInterval ?: "null"
             session.maxInactiveInterval = 999
             assert(inactiveInterval == session.maxInactiveInterval ?: "null")
             ok(inactiveInterval)
         }
 
-        get("/session/creation") { ok(session.creationTime ?: "null") }
+        router.get("/session/creation") { ok(session.creationTime ?: "null") }
 
-        post("/session/invalidate") { session.invalidate() }
+        router.post("/session/invalidate") { session.invalidate() }
 
-        put("/session/{key}/{value}") {
+        router.put("/session/{key}/{value}") {
             session [request.parameter("key")] = request.parameter("value")
             Unit
         }
 
-        get("/session/{key}") {
+        router.get("/session/{key}") {
             ok (session [request.parameter("key")].toString())
         }
 
-        delete("/session/{key}") {
+        router.delete("/session/{key}") {
             session.removeAttribute(request.parameter("key"))
         }
 
-        get("/session") {
+        router.get("/session") {
             val attributeTexts = session.attributes.entries.map { it.key + " : " + it.value }
 
             response.addHeader ("attributes", attributeTexts.joinToString(", "))

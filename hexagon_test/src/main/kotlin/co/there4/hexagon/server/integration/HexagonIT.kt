@@ -1,16 +1,17 @@
 package co.there4.hexagon.server.integration
 
+import co.there4.hexagon.client.Client
 import co.there4.hexagon.server.*
 
-class HexagonIT(serverEngine: ServerEngine) : ItModule(serverEngine) {
-    override fun Router.initialize() {
-        get ("/books/{id}") {
+class HexagonIT(serverEngine: Client) : ItModule(serverEngine) {
+    override fun initialize(router: Router) {
+        router.get ("/books/{id}") {
             ok ("${request ["id"]}:${request.body}")
         }
-        get ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        trace ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        patch ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        head ("/books/{id}/{title}") {
+        router.get ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        router.trace ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        router.patch ("/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        router.head ("/books/{id}/{title}") {
             response.addHeader("id", request.parameter("id"))
             response.addHeader("title", request.parameter("title"))
         }
