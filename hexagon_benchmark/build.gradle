@@ -74,7 +74,7 @@ task setupTfb(dependsOn: [ 'benchmarkCode', 'benchmarkConfig', 'setupScripts' ])
 //noinspection GroovyAssignabilityCheck
 task copyTfb(type: Copy) {
     from projectDir
-    include 'src/**', 'tfb_build.gradle', 'readme.md'
+    include 'src/**', 'tfb.gradle', 'readme.md'
     exclude 'src/jmh'
     into tfbBuildDir
     rename 'tfb_(.+)', '$1'
