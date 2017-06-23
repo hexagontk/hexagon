@@ -82,9 +82,11 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 .isNotEmpty()
 
     private fun route(call: Call, bRequest: BServletRequest): Boolean {
-        val methodRoutes = routesByMethod[call.request.method]
-            ?.filter { it.route.path.matches(call.request.path) }
-            ?: throw CodedException(405, "Invalid method '${call.request.method}'")
+        val routes = routesByMethod[call.request.method]
+        val methodRoutes = routes?.filter { it.route.path.matches(call.request.path) } ?: emptyList()
+
+        if (methodRoutes.isEmpty())
+            throw CodedException(405, "Invalid method '${call.request.method}'")
 
         for ((first, second) in methodRoutes) {
             try {
@@ -92,22 +94,22 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 val result = call.second()
 
                 // TODO Rename and add to `Call`
-                fun ct(call: Call) =
+                fun ct() =
                     call.response.contentType ?: call.request.contentType ?: contentTypes.first()
 
                 // TODO Handle result (warn if body has been set)
                 when (result) {
-                    is Unit -> {}
-                    is Nothing -> {}
+                    is Unit -> { if (!call.response.statusChanged) call.response.status = 200 }
+                    is Nothing -> { if (!call.response.statusChanged) call.response.status = 200 }
                     is Int -> call.response.status = result
                     is String -> call.ok(result)
                     is Pair<*, *> -> call.ok(
                         code = result.first as? Int ?: 200,
                         content = result.second.let {
-                            it as? String ?: it?.serialize(ct(call)) ?: ""
+                            it as? String ?: it?.serialize(ct()) ?: ""
                         }
                     )
-                    else -> call.ok(result.serialize(ct(call)))
+                    else -> call.ok(result.serialize(ct()))
                 }
 
                 trace("Route for path '${bRequest.actionPath}' executed")
@@ -203,6 +205,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
 
         if (stream == null) {
             response.status = 404
+            response.statusChanged = false // TODO Handle this in a better way
             pass()
         }
         else {
