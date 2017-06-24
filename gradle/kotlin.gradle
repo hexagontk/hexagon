@@ -42,7 +42,10 @@ processResources {
 }
 
 compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
-compileTestKotlin.kotlinOptions.jvmTarget = targetCompatibility
+compileKotlin.kotlinOptions.apiVersion = '1.1'
+
+compileTestKotlin.kotlinOptions.jvmTarget = compileKotlin.kotlinOptions.jvmTarget
+compileTestKotlin.kotlinOptions.apiVersion = compileKotlin.kotlinOptions.apiVersion
 
 // Clean the project taking care of logs and runtime files
 clean {
