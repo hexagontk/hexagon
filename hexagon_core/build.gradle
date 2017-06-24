@@ -9,7 +9,7 @@ apply from: '../gradle/dokka.gradle'
 
 ext.slf4jVersion = '1.7.25'
 ext.jacksonVersion = '2.8.9'
-ext.cronutilsVersion = '5.0.5' // TODO Migrate to 6.0.x
+ext.cronutilsVersion = '6.0.1'
 
 ext.mongodbVersion = '3.4.2'
 ext.ahcVersion = '2.0.32'
@@ -45,9 +45,8 @@ dependencies {
 
 test {
     useTestNG {
-        // TODO threading issues with `ClosedRangeDeserializer`
-//        parallel = "methods"
-//        threadCount = 4
+        parallel = "methods"
+        threadCount = 4
     }
 
     doFirst {

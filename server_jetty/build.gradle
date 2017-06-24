@@ -1,7 +1,7 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
-ext.jettyVersion = '9.4.4.v20170414'
+ext.jettyVersion = '9.4.6.v20170531'
 
 dependencies {
     compile project(':server_servlet')
