@@ -87,25 +87,25 @@ infix fun Route.before(block: FilterCallback) = FilterHandler(this, BEFORE, bloc
 infix fun Route.after(block: FilterCallback) = FilterHandler(this, AFTER, block)
 infix fun Route.by(block: RouteCallback) = RouteHandler(this, block)
 
-fun before(path: String = "/*", block: FilterCallback) = all(path) before block
-fun after(path: String = "/*", block: FilterCallback) = all(path) after block
-fun get(path: String = "/", block: RouteCallback) = get(path) by block
-fun head(path: String = "/", block: RouteCallback) = head(path) by block
-fun post(path: String = "/", block: RouteCallback) = post(path) by block
-fun put(path: String = "/", block: RouteCallback) = put(path) by block
-fun delete(path: String = "/", block: RouteCallback) = delete(path) by block
-fun trace(path: String = "/", block: RouteCallback) = tracer(path) by block
-fun options(path: String = "/", block: RouteCallback) = options(path) by block
-fun patch(path: String = "/", block: RouteCallback) = patch(path) by block
+//fun before(path: String = "/*", block: FilterCallback) = all(path) before block
+//fun after(path: String = "/*", block: FilterCallback) = all(path) after block
+//fun get(path: String = "/", block: RouteCallback) = get(path) by block
+//fun head(path: String = "/", block: RouteCallback) = head(path) by block
+//fun post(path: String = "/", block: RouteCallback) = post(path) by block
+//fun put(path: String = "/", block: RouteCallback) = put(path) by block
+//fun delete(path: String = "/", block: RouteCallback) = delete(path) by block
+//fun trace(path: String = "/", block: RouteCallback) = tracer(path) by block
+//fun options(path: String = "/", block: RouteCallback) = options(path) by block
+//fun patch(path: String = "/", block: RouteCallback) = patch(path) by block
 
 fun error(code: Int, block: ErrorCodeCallback) = CodeHandler(Route(Path("/"), ALL), code, block)
 fun error(exception: KClass<out Exception>, block: ExceptionCallback) = error(exception.java, block)
 fun error(exception: Class<out Exception>, block: ExceptionCallback) =
     ExceptionHandler(all(), exception, block)
 
-infix fun Path.mount(router: Router) = PathHandler(Route(this), router)
-fun path(path: Path, router: Router) = path mount router
-fun path(path: String, router: Router) = Path(path) mount router
-fun path(path: String, block: Router.() -> Unit) = Path(path) mount router(block)
+//infix fun Path.mount(router: Router) = PathHandler(Route(this), router)
+//fun path(path: Path, router: Router) = path mount router
+//fun path(path: String, router: Router) = Path(path) mount router
+//fun path(path: String, block: Router.() -> Unit) = Path(path) mount router(block)
 
 fun assets(resource: String, path: String = "/*") = AssetsHandler(Route(Path(path), GET), resource)
