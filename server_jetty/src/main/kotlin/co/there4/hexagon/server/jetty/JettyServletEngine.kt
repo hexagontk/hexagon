@@ -7,6 +7,7 @@ import co.there4.hexagon.server.servlet.ServletFilter
 import org.eclipse.jetty.server.ServerConnector
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS
+import org.eclipse.jetty.util.component.AbstractLifeCycle.AbstractLifeCycleListener
 import org.eclipse.jetty.util.component.LifeCycle
 import java.net.InetSocketAddress
 import java.util.*
@@ -33,12 +34,7 @@ class JettyServletEngine(private val async: Boolean = false) : ServerEngine {
         jettyServer = serverInstance
 
         val context = ServletContextHandler(SESSIONS)
-        context.addLifeCycleListener(object : LifeCycle.Listener {
-            override fun lifeCycleStopped(event: LifeCycle?) { /* Do nothing */ }
-            override fun lifeCycleStopping(event: LifeCycle?) { /* Do nothing */ }
-            override fun lifeCycleStarted(event: LifeCycle?) { /* Do nothing */ }
-            override fun lifeCycleFailure(event: LifeCycle?, cause: Throwable?) { /* Do nothing */ }
-
+        context.addLifeCycleListener(object : AbstractLifeCycleListener() {
             override fun lifeCycleStarting(event: LifeCycle?) {
                 val filter = ServletFilter (server.router.requestHandlers)
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
