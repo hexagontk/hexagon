@@ -1,0 +1,57 @@
+/*
+ * For details on how to build and publish and release the project, check the
+ * `site/content/contribute.md` file.
+ */
+
+apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
+apply from: '../gradle/dokka.gradle'
+
+ext.slf4jVersion = '1.7.25'
+ext.jacksonVersion = '2.8.9'
+ext.cronutilsVersion = '6.0.1'
+
+ext.mongodbVersion = '3.4.2'
+ext.ahcVersion = '2.0.32'
+
+dependencies {
+    // COMPILE
+    compile ("org.slf4j:slf4j-api:$slf4jVersion")
+    compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion") { exclude module: 'slf4j-api' }
+    compile ("org.slf4j:jul-to-slf4j:$slf4jVersion") { exclude module: 'slf4j-api' }
+    compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: 'slf4j-api' }
+    compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+    compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
+        exclude module: 'kotlin-reflect'
+    }
+
+    // Compile only (optional libraries)
+    compileOnly ("org.mongodb:mongodb-driver:$mongodbVersion")
+    compileOnly ("org.asynchttpclient:async-http-client:$ahcVersion") {
+        exclude module: 'slf4j-api'
+    }
+
+    // TEST
+    testCompile project(':hexagon_test')
+    testCompile project(':server_jetty')
+
+    testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
+    testCompile ("org.mongodb:mongodb-driver:$mongodbVersion")
+    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
+        exclude module: 'slf4j-api'
+    }
+}
+
+test {
+    useTestNG {
+        parallel = "methods"
+        threadCount = 4
+    }
+
+    doFirst {
+        File environmentFile = file("${System.getProperty('user.home')}/.environment")
+        if (!environmentFile.exists())
+            environmentFile.write('DEVELOPMENT\n')
+    }
+}

@@ -3,85 +3,72 @@
  * `site/content/contribute.md` file.
  */
 
-import org.ajoberstar.grgit.Grgit
-
 buildscript {
-    repositories {
-        jcenter ()
-    }
-
+    repositories { jcenter () }
     dependencies {
-        // TODO Use Dokka 0.9.14 plugin instead classpath
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.13"
-        classpath "com.github.zafarkhaja:java-semver:0.9.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.9.14'
     }
 }
 
 plugins {
-    id 'com.jfrog.bintray' version '1.7.3'
-    id 'org.ajoberstar.grgit' version '1.7.1'
-
-    id 'org.jetbrains.kotlin.jvm' version '1.1.2-2' apply false
     // TODO Replace by git-publish
-    id 'org.ajoberstar.github-pages' version '1.7.1' apply false
+    id 'org.ajoberstar.github-pages' version '1.7.2' apply false
+    id 'com.jfrog.bintray' version '1.7.3' apply false
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
     id 'me.champeau.gradle.jmh' version '0.3.1' apply false
 }
 
-ext.grgit = Grgit.open()
+apply plugin: 'kotlin'
+apply plugin: 'jacoco'
 
-task release(dependsOn: [ 'checkGitStatus', 'publish', 'installAllTemplates' ]) {
-    doLast {
-        grgit.tag.add {
-            name = version
-            message = "Release $version"
-        }
+apply from: 'local.gradle'
+apply from: 'gradle/release.gradle'
 
-        grgit.push()
-    }
-}
+task publish(
+    dependsOn: [
+        ':hexagon_site:publishGhPages',
+        ':hexagon_templates:publishAllTemplates',
+        ':hexagon_core:bintrayUpload',
+        ':events_rabbitmq:bintrayUpload',
+        ':server_jetty:bintrayUpload',
+        ':server_servlet:bintrayUpload',
+        ':templates_pebble:bintrayUpload'
+    ]
+)
 
 task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
 
-task checkGitStatus () {
-    doLast {
-        checkCleanRepository(grgit)
-        grgit.pull (remote: 'origin', branch: 'master')
-        checkCleanRepository(grgit)
-    }
+apply plugin: 'jacoco'
+
+repositories {
+    jcenter ()
 }
 
-task major (dependsOn: 'checkGitStatus') { doLast { upgrade 'major' } }
-task minor (dependsOn: 'checkGitStatus') { doLast { upgrade 'minor' } }
-task patch (dependsOn: 'checkGitStatus') { doLast { upgrade 'patch' } }
-
-static void checkCleanRepository(Grgit gitRepository) {
-    if (!gitRepository.status ().clean)
-        throw new GradleException ('Repository not clean')
+task jacocoMerge(dependsOn: getTasksByName ('test', true), type: JacocoMerge) {
+    executionData fileTree (rootDir).include ('**/build/jacoco/*.exec')
 }
 
-void upgrade (String type) {
-    //noinspection UnnecessaryQualifiedReference
-    def semver = com.github.zafarkhaja.semver.Version.valueOf (version.toString())
+task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
+    sourceDirectories = files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
+    // TODO Replace by method that filter modules
+    classDirectories = files(
+        rootDir.absolutePath + '/hexagon_core/build/classes/main',
+        rootDir.absolutePath + '/hexagon_test/build/classes/main',
+        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
+        rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
+        rootDir.absolutePath + '/server_servlet/build/classes/main',
+        rootDir.absolutePath + '/server_jetty/build/classes/main',
+        rootDir.absolutePath + '/server_undertow/build/classes/main',
+        rootDir.absolutePath + '/templates_pebble/build/classes/main',
+        rootDir.absolutePath + '/templates_kotlinx/build/classes/main'
+    )
 
-    switch (type) {
-        case "major":
-            version = semver.incrementMajorVersion ()
-            break
-        case "minor":
-            version = semver.incrementMinorVersion ()
-            break
-        case "patch":
-            version = semver.incrementPatchVersion ()
-            break
-        default:
-            throw new RuntimeException ("Unsupported version change: $type")
+    executionData = files(jacocoMerge.destinationFile)
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
     }
-
-    File properties = file ("$rootDir/gradle.properties")
-    String version = "version=${version.toString()}"
-    properties.write(properties.getText().replaceAll(/(?m)version=.*/, version))
-
-    // TODO Commit change
 }

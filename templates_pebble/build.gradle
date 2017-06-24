@@ -1,0 +1,8 @@
+
+apply from: '../gradle/hexagon_module.gradle'
+
+ext.pebbleVersion = '2.3.0'
+
+dependencies {
+    compile ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
+}

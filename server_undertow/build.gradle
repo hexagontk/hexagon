@@ -1,0 +1,14 @@
+
+apply from: '../gradle/hexagon_module.gradle'
+
+ext.undertowVersion = '1.4.15.Final'
+
+ext.ahcVersion = '2.0.31'
+
+dependencies {
+    compile ("io.undertow:undertow-core:$undertowVersion")
+
+    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
+        exclude module: 'slf4j-api'
+    }
+}

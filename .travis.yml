@@ -12,7 +12,7 @@ branches:
     - develop
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -f  $HOME/.gradle/caches/*/*.lock
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
@@ -29,10 +29,10 @@ services:
   - postgresql
 
 install:
-  - ln -s gradle/wrapper gradlew
-  - mongo benchmark/mongodb.js
-  - psql -U postgres -f benchmark/postgresql.sql
+  - echo "ext.ci = true" >local.gradle
+  - mongo hexagon_benchmark/mongodb.js
+  - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
-script: gradle/wrapper --no-daemon --full-stacktrace build site
+script: ./gradlew --no-daemon --full-stacktrace build site jacocoReport
 
 after_success: bash <(curl -s https://codecov.io/bash)

@@ -1,0 +1,21 @@
+
+apply from: '../gradle/hexagon_module.gradle'
+
+ext.rabbitVersion = '4.1.0'
+ext.qpidVersion = '6.1.2'
+
+dependencies {
+    compile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: 'slf4j-api' }
+
+    testCompile ("org.apache.qpid:qpid-broker:$qpidVersion") {
+        exclude module: 'logback-classic'
+        exclude module: 'jackson-databind'
+        exclude module: 'jackson-core'
+        exclude module: 'slf4j-api'
+        exclude module: 'qpid-broker-plugins-derby-store'
+        exclude module: 'qpid-broker-plugins-jdbc-provider-bone'
+        exclude module: 'qpid-broker-plugins-jdbc-store'
+        exclude module: 'qpid-broker-plugins-management-http'
+        exclude module: 'qpid-broker-plugins-websocket'
+    }
+}

@@ -1,0 +1,67 @@
+
+buildscript {
+    repositories { jcenter () }
+    dependencies {
+        classpath 'org.ajoberstar:gradle-git:1.7.2'
+        classpath 'com.github.zafarkhaja:java-semver:0.9.0'
+    }
+}
+
+apply plugin: 'org.ajoberstar.grgit'
+
+import org.ajoberstar.grgit.Grgit
+
+ext.grgit = Grgit.open()
+
+task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
+    doLast {
+        grgit.tag.add {
+            name = version
+            message = "Release $version"
+        }
+
+        grgit.push()
+    }
+}
+
+task checkGitStatus () {
+    doLast {
+        checkCleanRepository(grgit)
+        grgit.pull (remote: 'origin', branch: 'master')
+        checkCleanRepository(grgit)
+    }
+}
+
+task major (dependsOn: 'checkGitStatus') { doLast { upgrade 'major' } }
+task minor (dependsOn: 'checkGitStatus') { doLast { upgrade 'minor' } }
+task patch (dependsOn: 'checkGitStatus') { doLast { upgrade 'patch' } }
+
+static void checkCleanRepository(Grgit gitRepository) {
+    if (!gitRepository.status ().clean)
+        throw new GradleException ('Repository not clean')
+}
+
+void upgrade (String type) {
+    //noinspection UnnecessaryQualifiedReference
+    def semver = com.github.zafarkhaja.semver.Version.valueOf (version.toString())
+
+    switch (type) {
+        case "major":
+            version = semver.incrementMajorVersion ()
+            break
+        case "minor":
+            version = semver.incrementMinorVersion ()
+            break
+        case "patch":
+            version = semver.incrementPatchVersion ()
+            break
+        default:
+            throw new RuntimeException ("Unsupported version change: $type")
+    }
+
+    File properties = file ("$rootDir/gradle.properties")
+    String version = "version=${version.toString()}"
+    properties.write(properties.getText().replaceAll(/(?m)version=.*/, version))
+
+    // TODO Commit change
+}
