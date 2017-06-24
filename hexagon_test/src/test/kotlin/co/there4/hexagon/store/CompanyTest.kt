@@ -49,4 +49,17 @@ import java.time.LocalTime
         departments = setOf (DESIGN, DEVELOPMENT),
         creationDate = LocalDateTime.of (2016, 1, 1, 0, 0, 0)
     )
+
+    fun check() {
+        crud_operations_behave_properly()
+
+        performing_crud_operations_with_lists_of_objects_behaves_as_expected()
+
+        one_object_is_stored_and_loaded_without_error()
+        many_objects_are_stored_and_loaded_without_error()
+        replace_object_stores_modified_data_in_db()
+        find_and_replace_object_stores_modified_data_in_db()
+
+        object_is_mapped_and_parsed_back_without_error()
+    }
 }
