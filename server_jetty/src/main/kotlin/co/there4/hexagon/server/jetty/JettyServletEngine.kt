@@ -49,11 +49,11 @@ class JettyServletEngine(private val async: Boolean = false) : ServerEngine {
         })
 
         serverInstance.handler = context
+        serverInstance.stopAtShutdown = true
         serverInstance.start()
     }
 
     override fun shutdown() {
-        jettyServer?.stopAtShutdown = true
         jettyServer?.stop()
     }
 }

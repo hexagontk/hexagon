@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 internal class BServletResponse(
-    val req: HttpServletRequest,
-    val resp: HttpServletResponse,
+    private val req: HttpServletRequest,
+    private val resp: HttpServletResponse,
     private val context: ServletContext = req.servletContext) : EngineResponse {
 
     override val outputStream: OutputStream by lazy { resp.outputStream }
