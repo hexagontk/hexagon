@@ -2,7 +2,7 @@ package co.there4.hexagon.server
 
 import co.there4.hexagon.client.Client
 
-class HexagonIT : ItModule() {
+internal class HexagonModule : TestModule() {
     override fun initialize(router: Router) {
         router.get ("/hexagon/books/{id}") {
             ok ("${request ["id"]}:${request.body}")

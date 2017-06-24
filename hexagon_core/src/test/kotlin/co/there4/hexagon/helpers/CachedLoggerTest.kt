@@ -67,4 +67,17 @@ import org.testng.annotations.Test
         loggable.time ("message") {}
         loggable.time {}
     }
+
+    fun checkLevels() {
+        val loggable = object : Loggable {}
+
+        loggable.traceEnabled()
+        loggable.debugEnabled()
+        loggable.infoEnabled()
+        loggable.warnEnabled()
+        loggable.errEnabled()
+        loggable.warnEnabled()
+        loggable.flareEnabled()
+        loggable.timeEnabled()
+    }
 }

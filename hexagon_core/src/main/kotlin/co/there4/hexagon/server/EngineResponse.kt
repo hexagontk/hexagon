@@ -1,8 +1,5 @@
 package co.there4.hexagon.server
 
-import java.io.OutputStream
-import java.net.HttpCookie
-
 /**
  * Check 'Request' comment. And also note that lists should be updated by engines after callback
  * is processed, this data is like a buffer that needs to be dumped to the real response.

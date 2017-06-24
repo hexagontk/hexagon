@@ -4,7 +4,7 @@ import co.there4.hexagon.client.Client
 import java.net.HttpCookie
 
 @Suppress("unused") // Test methods are flagged as unused
-class CookiesIT : ItModule() {
+internal class CookiesModule : TestModule() {
     override fun initialize(router: Router) {
         router.post("/assertNoCookies") {
             if (!request.cookies.isEmpty())
@@ -44,13 +44,15 @@ class CookiesIT : ItModule() {
     }
 
     fun removeCookie(client: Client) {
-            val cookieName = "testCookie"
-            val cookieValue = "testCookieValue"
-            val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
-            post("/setCookie?$cookie")
-            post("/removeCookie?$cookie")
-            val result = client.post("/assertNoCookies")
-            assert (result.statusCode == 200)
+        val cookieName = "testCookie"
+        val cookieValue = "testCookieValue"
+        val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
+        client.post("/setCookie?$cookie")
+        assert (client.cookies.size == 1)
+        assert (client.post("/assertHasCookie?$cookie").statusCode == 200)
+        client.post("/removeCookie?$cookie")
+        val result = client.post("/assertNoCookies")
+        assert (result.statusCode == 200)
     }
 
     private fun Call.checkCookie(cookieName: String?) {

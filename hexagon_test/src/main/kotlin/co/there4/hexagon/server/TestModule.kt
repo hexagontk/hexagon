@@ -4,7 +4,7 @@ import co.there4.hexagon.client.Client
 import org.asynchttpclient.Response
 import java.net.InetAddress.getByName as address
 
-abstract class ItModule {
+internal abstract class TestModule {
     abstract fun initialize(router: Router)
     abstract fun validate(client: Client)
 

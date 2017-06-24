@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
 
 @Suppress("unused") // Test methods are flagged as unused
-class GenericIT : ItModule() {
+internal class GenericModule : TestModule() {
     internal class CustomException : IllegalArgumentException()
 
     internal data class Tag(

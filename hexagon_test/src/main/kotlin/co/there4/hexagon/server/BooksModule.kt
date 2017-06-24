@@ -5,7 +5,7 @@ import java.util.*
 import java.util.Collections.synchronizedMap
 
 @Suppress("unused") // Test methods are flagged as unused
-class BooksIT : ItModule() {
+internal class BooksModule : TestModule() {
     data class Book (val author: String, val title: String)
 
     private var id = 1

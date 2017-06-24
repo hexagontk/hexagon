@@ -2,7 +2,6 @@ package co.there4.hexagon.serialization
 
 import kotlin.reflect.KClass
 
-// TODO Remove TestNG dependency here (allow this class to be extended from JUnit test also)
 abstract class SerializationTest<T : Any> (val type: KClass<T>) {
     abstract val testObjects: List<T>
 
