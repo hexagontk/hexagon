@@ -6,8 +6,8 @@
 [CoverageImg]: https://codecov.io/gh/jaguililla/hexagon/branch/master/graph/badge.svg
 [Coverage]: https://codecov.io/gh/jaguililla/hexagon
 
-[DownloadImg]: https://api.bintray.com/packages/jamming/maven/Hexagon/images/download.svg
-[Download]: https://bintray.com/jamming/maven/Hexagon/_latestVersion
+[DownloadImg]: https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg
+[Download]: https://bintray.com/jamming/maven/hexagon_core/_latestVersion
 
 HEXAGON
 =======
@@ -42,7 +42,7 @@ in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchm
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com
 
-## Getting started
+## Getting Started
 
 For detailed information about how to create a service, please refer to the [Service Life Cycle]
 documentation.
@@ -92,7 +92,7 @@ Now you can run the service with `gradle run` and view the results at:
 [Lazybones]: https://github.com/pledbrook/lazybones
 [Gradle]: https://gradle.org/
 
-## Further resources
+## Further Resources
 
 * [Service Life Cycle]: provide helpers to create, build and package your services.
 * [HTTP]: Web routing and filters. It is handled like the [Sinatra] Ruby framework.
@@ -118,32 +118,11 @@ Now you can run the service with `gradle run` and view the results at:
 [Scheduling]: http://there4.co/hexagon/scheduling.html
 [Testing]: http://there4.co/hexagon/testing.html
 
-## Build and Contribute
+## Contribute
 
-Refer to the [contribute] section for detailed information about Hexagon's development.
-
-[contribute]: http://there4.co/hexagon/contribute.html
+Refer to the [contributing.md](contributing.md) file for detailed information about Hexagon's
+development.
 
 ## License
 
-MIT License
-
-Copyright (c) 2016 Juanjo Aguililla
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+The project is licensed under the [MIT License](license.md).

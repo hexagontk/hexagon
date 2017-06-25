@@ -13,5 +13,5 @@ lazybones {
     setRepositoryApiKey findProperty ('bintrayKey').toString () ?: 'anonymous'
 
     licenses = [ 'MIT' ]
-    templateDirs = files ("$projectDir/hexagon-service")
+    setTemplateDirs(files("$projectDir/hexagon-service"))
 }

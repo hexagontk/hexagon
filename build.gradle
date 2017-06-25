@@ -1,6 +1,5 @@
 /*
- * For details on how to build and publish and release the project, check the
- * `site/content/contribute.md` file.
+ * For details on how to build and publish and release the project, check `contributing.md`.
  */
 
 buildscript {
