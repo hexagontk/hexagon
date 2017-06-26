@@ -71,3 +71,55 @@ task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
         xml.enabled = true
     }
 }
+
+ext.logoSmall = 'hexagon_site/logo_code.svg'
+ext.logoWide = 'hexagon_site/logo_code.svg'
+ext.logoLarge = 'hexagon_site/logo_code.svg'
+ext.siteTarget = 'build'
+
+/*
+ * NOTE: For image rendering you will need 'rsvg' (librsvg2-bin) and 'imagemagick' installed in the
+ * development machine.
+ */
+task icons {
+    doLast {
+        try {
+            createIco ((String)logoSmall, 'favicon.ico', 16, 32, 48, 64)
+            extendImage ((String)logoSmall, '180x180', 180, 'apple-touch-icon.png')
+            extendImage ((String)logoSmall, '128x128', 128, 'tile-small.png')
+            extendImage ((String)logoLarge, '270x270', 270, 'tile-medium.png')
+            extendImage ((String)logoWide, '558x270', 558, 'tile-wide.png')
+            extendImage ((String)logoLarge, '558x558', 558, 'tile-large.png')
+
+            // Sanity
+            [ 16, 32, 48, 64, 128, 180, 270, 558 ].each {
+                new File ("$siteTarget/_${it}.png").delete ()
+            }
+        }
+        catch (Exception e) {
+            logger.error (e.message)
+        }
+    }
+}
+
+private void rasterSvg (String svg, int... widths) {
+    widths.each { w ->
+        exec { commandLine 'rsvg-convert', '-w', w, '-o', "$siteTarget/_${w}.png", svg }
+    }
+}
+
+private void createIco (String svg, String ico, int... widths) {
+    widths.each { extendImage svg, "${it}x${it}", it, "_${it}.png" }
+    List<String> images = widths.collect { "$siteTarget/_${it}.png" }
+    List<String> cmd = ['convert', images, "$siteTarget/$ico" ].flatten()
+    exec { commandLine cmd }
+}
+
+private void extendImage (String bg = 'white', String svg, String size, int width, String file) {
+    rasterSvg svg, width
+    String src = "$siteTarget/_${width}.png"
+    String dest = "$siteTarget/$file"
+    exec {
+        commandLine 'convert', '-gravity', 'center', '-background', bg, '-extent', size, src, dest
+    }
+}

@@ -55,7 +55,6 @@ img#logo {
 }
 
 .navbar-default {
-  background-color: #AAD400;
   font-size: large;
 }
 
@@ -63,9 +62,3 @@ img#logo {
   padding-top: 11px;
   padding-left: 5px;
 }
-
-.navbar-default .navbar-brand { color: #EEE; }
-.navbar-default .navbar-brand:hover { color: #DDD; }
-.navbar-default .navbar-nav>li>a { color: #EEE; }
-.navbar-default .navbar-nav>li>a:hover { color: #DDD; }
-.navbar-default .navbar-toggle .icon-bar { background-color: #EEE; }

@@ -53,4 +53,27 @@ class Router {
     fun assets (resource: String, path: String = "/*") {
         requestHandlers += packageAssets(resource, path)
     }
+
+    fun flatRequestHandlers(): List<RequestHandler> = requestHandlers
+        .flatMap { handler ->
+            if (handler is PathHandler)
+                handler.router.requestHandlers.flatMap {
+                    val route = it.route
+                    val path = route.path
+                    val handlerPath = handler.route.path.path
+                    val nestedPath = path.copy(path = handlerPath + path.path)
+                    val nestedRoute = route.copy(path = nestedPath)
+
+                    when (it) {
+                        is FilterHandler -> listOf(it.copy(route = nestedRoute))
+                        is RouteHandler -> listOf(it.copy(route = nestedRoute))
+                        is ExceptionHandler -> listOf(it.copy(route = nestedRoute))
+                        is CodeHandler -> listOf(it.copy(route = nestedRoute))
+                        is AssetsHandler -> listOf(it.copy(route = nestedRoute))
+                        is PathHandler -> listOf(it.copy(route = nestedRoute))
+                    }
+                }
+            else
+                listOf(handler)
+        }
 }

@@ -1,11 +1,7 @@
-/*
- * For details on how to build and publish and release the project, check the
- * `site/content/contribute.md` file.
- */
 
 ext.siteSource = '.'
 ext.siteHost = 'http://there4.co/hexagon'
-ext.siteColor = '#88AA00'
+ext.siteColor = '#135AA1'
 
 apply plugin: 'org.xbib.gradle.plugin.jbake'
 apply plugin: 'org.ajoberstar.github-pages'

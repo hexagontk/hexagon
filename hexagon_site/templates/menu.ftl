@@ -10,10 +10,10 @@
       <a href="https://github.com/jaguililla/hexagon" class="hidden-sm hidden-xs">
         <img
           style="position: absolute; top: 0; right: 0; border: 0;"
-          src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"
+          src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
           alt="Fork me on GitHub"
           data-canonical-src=
-            "https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png">
+            "https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
       </a>
       <div class="container">
         <div class="navbar-header">
@@ -57,9 +57,10 @@
               </a>
             </li>
             <li>
-              <a href="https://bintray.com/jamming/maven/Hexagon/_latestVersion">
+              <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
                 <img
-                  src="https://api.bintray.com/packages/jamming/maven/Hexagon/images/download.svg"
+                  src=
+                    "https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg"
                   alt="DownloadImg" />
               </a>
             </li>

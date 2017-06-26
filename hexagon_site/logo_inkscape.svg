@@ -15,10 +15,34 @@
    viewBox="0 0 409.25197 354.33071"
    id="svg4192"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.1 r"
    sodipodi:docname="logo_inkscape.svg">
   <defs
-     id="defs4194" />
+     id="defs4194">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4491">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop4487" />
+      <stop
+         style="stop-color:#0092cd;stop-opacity:1"
+         offset="1"
+         id="stop4489" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4491"
+       id="radialGradient4495"
+       cx="164.1861"
+       cy="124.01578"
+       fx="164.1861"
+       fy="124.01578"
+       r="164.76378"
+       gradientTransform="matrix(1,0,0,0.75268817,0,30.67057)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,7 +51,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2"
-     inkscape:cx="228.40644"
+     inkscape:cx="157.15644"
      inkscape:cy="171.9028"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
@@ -35,7 +59,7 @@
      inkscape:window-width="1920"
      inkscape:window-height="1007"
      inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      guidetolerance="10000"
      fit-margin-top="0"
@@ -62,7 +86,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -95,7 +119,7 @@
      inkscape:label="Logo"
      transform="translate(0.5776813,-2.3712756e-5)">
     <path
-       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:url(#radialGradient4495);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M -0.5776813,177.16534 102.17822,3.4045479e-5 l 205.51182,0 L 328.94988,35.433105 265.17035,141.73232 l -81.49606,0 42.51968,-70.866144 -81.49606,0 L 40.17035,248.03153 Z"
        id="path4791"
        inkscape:connector-curvature="0"
