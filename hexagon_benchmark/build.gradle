@@ -21,7 +21,7 @@ ext.jmhBenchmarkVersion = '1.19'
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
-ext.servers = [ 'Jetty' ]
+ext.servers = [ 'Jetty', 'Resin' ]
 ext.tests = [servers, databases].combinations ()
 
 war {
@@ -93,6 +93,7 @@ task gradleSettings(type: WriteProperties) {
         kotlinVersion : kotlinVersion,
         logbackVersion : logbackVersion,
         mongodbVersion : mongodbVersion,
+        ahcVersion : ahcVersion,
 
         jettyVersion : jettyVersion,
         hikariVersion : hikariVersion,
@@ -179,7 +180,7 @@ task setupScripts() {
 
                 fw_depends java $database
 
-                gradle/wrapper -x test
+                ./gradlew -x test
                 export DBSTORE='$database'
                 $command
             """.stripIndent ()

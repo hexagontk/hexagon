@@ -34,6 +34,9 @@ dependencies {
     providedCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
     testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
+        exclude module: 'slf4j-api'
+    }
 }
 
 test {
