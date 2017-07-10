@@ -4,7 +4,7 @@ ext.siteHost = 'http://there4.co/hexagon'
 ext.siteColor = '#135AA1'
 
 ext.logoSmall = 'assets/img/logo.svg'
-ext.logoWide = 'assets/img/logo.svg'
+ext.logoWide = 'assets/img/logo_text.svg'
 ext.logoLarge = 'assets/img/logo.svg'
 
 apply plugin: 'org.xbib.gradle.plugin.jbake'
@@ -58,7 +58,9 @@ private void createIco (String svg, String ico, int... widths) {
     exec { commandLine cmd }
 }
 
-private void extendImage (String bg = 'white', String svg, String size, int width, String file) {
+private void extendImage (
+    String bg = 'transparent', String svg, String size, int width, String file) {
+
     rasterSvg svg, width
     String src = "$buildDir/_${width}.png"
     String dest = "$buildDir/$file"
