@@ -9,6 +9,8 @@
 [DownloadImg]: https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg
 [Download]: https://bintray.com/jamming/maven/hexagon_core/_latestVersion
 
+![logo](hexagon_site/assets/tile-small.png)
+
 HEXAGON
 =======
 ### The atoms of your platform
