@@ -12,7 +12,7 @@ plugins {
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
     id 'me.champeau.gradle.jmh' version '0.3.1' apply false
-    id 'org.jetbrains.dokka' version '0.9.15' apply false
+    id 'org.jetbrains.dokka' version '0.9.14' apply false
 }
 
 apply from: 'local.gradle'
