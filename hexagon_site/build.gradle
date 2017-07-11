@@ -8,7 +8,6 @@ ext.logoWide = 'assets/img/logo_text.svg'
 ext.logoLarge = 'assets/img/logo.svg'
 
 apply plugin: 'org.xbib.gradle.plugin.jbake'
-//apply plugin: 'org.ajoberstar.github-pages'
 apply plugin: 'org.ajoberstar.git-publish'
 apply from: '../gradle/site.gradle'
 
@@ -19,7 +18,6 @@ gitPublish {
 }
 
 site.dependsOn ':hexagon_core:dokka', ':hexagon_core:jacocoTestReport'
-//publishGhPages.dependsOn 'site'
 
 /*
  * NOTE: For image rendering you will need 'rsvg' (librsvg2-bin) and 'imagemagick' installed in the
