@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-apply plugin: 'org.ajoberstar.grgit'
+//apply plugin: 'org.ajoberstar.grgit'
 
 import org.ajoberstar.grgit.Grgit
 
