@@ -1,0 +1,8 @@
+
+apply from: '../gradle/hexagon_module.gradle'
+
+ext.cronutilsVersion = '6.0.1'
+
+dependencies {
+    compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: 'slf4j-api' }
+}

@@ -26,15 +26,15 @@ import java.io.File
 
     // TODO Check inserted data
     fun resources_are_loaded() {
-        repository.loadData("data/companies.json")
+        repository.loadData("companies.json")
         repository.delete()
-        repository.importResource("data/companies.json")
+        repository.importResource("companies.json")
         repository.delete()
 
         // File paths change from IDE to build tool
-        val file = File("hexagon_core/src/test/resources/data/companies.json").let {
+        val file = File("hexagon_core/src/test/resources/companies.json").let {
             if (it.exists()) it
-            else File("src/test/resources/data/companies.json")
+            else File("src/test/resources/companies.json")
         }
 
         repository.importFile(file)
