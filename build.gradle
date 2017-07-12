@@ -24,7 +24,7 @@ apply from: 'gradle/release.gradle'
 
 task publish(
     dependsOn: [
-        ':hexagon_site:publishGhPages',
+        ':hexagon_site:gitPublishPush',
         ':hexagon_templates:publishAllTemplates',
         ':hexagon_core:bintrayUpload',
         ':events_rabbitmq:bintrayUpload',

@@ -12,6 +12,9 @@ apply plugin: 'org.ajoberstar.git-publish'
 apply from: '../gradle/site.gradle'
 
 gitPublish {
+    repoUri = 'git@github.com/jaguililla/hexagon.git'
+    branch = 'gh-pages'
+
     contents {
         from buildDir
     }
