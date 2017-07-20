@@ -28,6 +28,10 @@ task publish(
         ':hexagon_templates:publishAllTemplates',
 
         ':hexagon_core:bintrayUpload',
+        ':hexagon_rest:bintrayUpload',
+        ':hexagon_scheduler:bintrayUpload',
+        ':hexagon_store:bintrayUpload',
+        ':hexagon_templates:bintrayUpload',
         ':hexagon_test:bintrayUpload',
         ':events_rabbitmq:bintrayUpload',
         ':server_servlet:bintrayUpload',
