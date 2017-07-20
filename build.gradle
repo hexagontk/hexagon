@@ -58,14 +58,11 @@ task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
     classDirectories = files(
         rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
 
-//        rootDir.absolutePath + '/hexagon_core/build/classes/main',
-//        rootDir.absolutePath + '/hexagon_rest/build/classes/main',
-//        rootDir.absolutePath + '/hexagon_scheduler/build/classes/main',
-//        rootDir.absolutePath + '/hexagon_store/build/classes/main',
-//        rootDir.absolutePath + '/hexagon_test/build/classes/main',
-
-        rootDir.absolutePath + '/hexagon_core/build/classes/main',
+        rootDir.absolutePath + '/hexagon_rest/build/classes/main',
+        rootDir.absolutePath + '/hexagon_scheduler/build/classes/main',
+        rootDir.absolutePath + '/hexagon_store/build/classes/main',
         rootDir.absolutePath + '/hexagon_test/build/classes/main',
+        rootDir.absolutePath + '/hexagon_core/build/classes/main',
 
         rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
         rootDir.absolutePath + '/server_servlet/build/classes/main',
