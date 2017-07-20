@@ -1,12 +1,8 @@
 package co.there4.hexagon.server
 
-import co.there4.hexagon.server.FilterOrder.AFTER
-import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.HttpMethod.*
-import co.there4.hexagon.server.RequestHandler.*
 import co.there4.hexagon.settings.SettingsManager
 import java.util.*
-import kotlin.reflect.KClass
 
 /** Alias for filters' callbacks. Functions executed before/after routes. */
 typealias FilterCallback = Call.() -> Unit
@@ -82,16 +78,3 @@ fun patch(path: String = "/") = Route(Path(path), PATCH)
 infix fun HttpMethod.at(path: String) = Route(Path(path), this)
 /** Shortcut to create a route from a method and a path. */
 infix fun LinkedHashSet<HttpMethod>.at(path: String) = Route(Path(path), this)
-
-infix fun Route.before(block: FilterCallback) = FilterHandler(this, BEFORE, block)
-infix fun Route.after(block: FilterCallback) = FilterHandler(this, AFTER, block)
-infix fun Route.by(block: RouteCallback) = RouteHandler(this, block)
-
-fun error(code: Int, block: ErrorCodeCallback) = CodeHandler(Route(Path("/"), ALL), code, block)
-fun error(exception: KClass<out Exception>, block: ExceptionCallback) = error(exception.java, block)
-fun error(exception: Class<out Exception>, block: ExceptionCallback) =
-    ExceptionHandler(all(), exception, block)
-
-infix fun Path.mount(router: Router) = PathHandler(Route(this), router)
-
-fun assets(resource: String, path: String = "/*") = AssetsHandler(Route(Path(path), GET), resource)
