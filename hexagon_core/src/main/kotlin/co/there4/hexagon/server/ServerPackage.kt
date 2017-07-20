@@ -93,8 +93,5 @@ fun error(exception: Class<out Exception>, block: ExceptionCallback) =
     ExceptionHandler(all(), exception, block)
 
 infix fun Path.mount(router: Router) = PathHandler(Route(this), router)
-fun path(path: Path, router: Router) = path mount router
-fun path(path: String, router: Router) = Path(path) mount router
-fun path(path: String, block: Router.() -> Unit) = Path(path) mount router(block)
 
 fun assets(resource: String, path: String = "/*") = AssetsHandler(Route(Path(path), GET), resource)

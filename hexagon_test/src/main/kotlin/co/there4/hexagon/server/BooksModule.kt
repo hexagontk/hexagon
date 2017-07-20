@@ -12,11 +12,11 @@ internal class BooksModule : TestModule() {
     private var books: MutableMap<Int, Book> = LinkedHashMap ()
 
     fun initBooks () {
-        books = synchronizedMap(LinkedHashMap(mapOf(
+        books = synchronizedMap(linkedMapOf(
             100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
             101 to Book("William_Shakespeare", "Hamlet"),
             102 to Book("Homer", "The_Odyssey")
-        )))
+        ))
     }
 
     override fun initialize(router: Router) {

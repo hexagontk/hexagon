@@ -9,6 +9,7 @@ import co.there4.hexagon.server.before as packageBefore
 import co.there4.hexagon.server.after as packageAfter
 import co.there4.hexagon.server.by as packageBy
 import co.there4.hexagon.server.error as packageError
+import co.there4.hexagon.server.mount as packageMount
 import co.there4.hexagon.server.assets as packageAssets
 
 /**
@@ -47,8 +48,12 @@ class Router {
         requestHandlers += ExceptionHandler(Route(Path("/"), ALL), exception, block)
     }
 
-    infix fun Path.mount(handler: Router) { requestHandlers += PathHandler(Route(this), handler) }
-    fun mount(handler: Router) { Path("/") mount handler }
+    infix fun Path.mount(handler: Router) { requestHandlers += this.packageMount(handler) }
+    fun path(handler: Router) { Path("/") mount handler }
+    fun path(block: Router.() -> Unit) = path(router(block))
+    fun path(path: Path, router: Router) = path mount router
+    fun path(path: String, router: Router) = Path(path) mount router
+    fun path(path: String, block: Router.() -> Unit) = Path(path) mount router(block)
 
     fun assets (resource: String, path: String = "/*") {
         requestHandlers += packageAssets(resource, path)
@@ -56,6 +61,7 @@ class Router {
 
     fun flatRequestHandlers(): List<RequestHandler> = requestHandlers
         .flatMap { handler ->
+            @Suppress("IfThenToElvis")
             if (handler is PathHandler)
                 handler.router.requestHandlers.flatMap {
                     val route = it.route
