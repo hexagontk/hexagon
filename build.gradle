@@ -56,15 +56,24 @@ task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
     sourceDirectories = files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
     // TODO Replace by method that filter modules
     classDirectories = files(
-        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
+//        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
+//
+//        rootDir.absolutePath + '/hexagon_core/build/classes/main',
+//        rootDir.absolutePath + '/hexagon_rest/build/classes/main',
+//        rootDir.absolutePath + '/hexagon_scheduler/build/classes/main',
+//        rootDir.absolutePath + '/hexagon_store/build/classes/main',
+//        rootDir.absolutePath + '/hexagon_templates/build/classes/main',
+//        rootDir.absolutePath + '/hexagon_test/build/classes/main',
+//
+//        rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
+//        rootDir.absolutePath + '/server_servlet/build/classes/main',
+//        rootDir.absolutePath + '/server_jetty/build/classes/main',
+//        rootDir.absolutePath + '/server_undertow/build/classes/main',
+//        rootDir.absolutePath + '/templates_pebble/build/classes/main'
 
         rootDir.absolutePath + '/hexagon_core/build/classes/main',
-        rootDir.absolutePath + '/hexagon_rest/build/classes/main',
-        rootDir.absolutePath + '/hexagon_scheduler/build/classes/main',
-        rootDir.absolutePath + '/hexagon_store/build/classes/main',
-        rootDir.absolutePath + '/hexagon_templates/build/classes/main',
         rootDir.absolutePath + '/hexagon_test/build/classes/main',
-
+        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
         rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
         rootDir.absolutePath + '/server_servlet/build/classes/main',
         rootDir.absolutePath + '/server_jetty/build/classes/main',
