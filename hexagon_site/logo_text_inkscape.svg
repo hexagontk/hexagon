@@ -18,7 +18,50 @@
    inkscape:version="0.92.1 r"
    sodipodi:docname="logo_text_inkscape.svg">
   <defs
-     id="defs4194" />
+     id="defs4194">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient10019">
+      <stop
+         style="stop-color:#135aa1;stop-opacity:1;"
+         offset="0"
+         id="stop10015" />
+      <stop
+         style="stop-color:#1aa8f0;stop-opacity:1"
+         offset="1"
+         id="stop10017" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient6763">
+      <stop
+         style="stop-color:#135aa1;stop-opacity:1;"
+         offset="0"
+         id="stop6759" />
+      <stop
+         style="stop-color:#1aa8f0;stop-opacity:1"
+         offset="1"
+         id="stop6761" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6763"
+       id="linearGradient9977"
+       gradientUnits="userSpaceOnUse"
+       x1="224.45253"
+       y1="70.86618"
+       x2="40.336903"
+       y2="248.03152" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10019"
+       id="linearGradient10021"
+       x1="613.14111"
+       y1="3.8803675e-05"
+       x2="613.14111"
+       y2="531.49609"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,7 +70,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.851281"
-     inkscape:cx="797.03411"
+     inkscape:cx="856.59877"
      inkscape:cy="188.97639"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
@@ -62,7 +105,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -95,7 +138,7 @@
      inkscape:label="Logo"
      transform="translate(0.5776813,6.6370569e-6)">
     <path
-       style="fill:#135aa1;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:url(#linearGradient9977);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M -0.5776813,177.16534 102.17822,3.4045479e-5 H 307.69004 L 328.94988,35.433105 265.17035,141.73232 H 183.67429 L 226.19397,70.866176 H 144.69791 L 40.17035,248.03153 Z"
        id="path4791"
        inkscape:connector-curvature="0"
@@ -110,7 +153,7 @@
        height="100%" />
     <text
        xml:space="preserve"
-       style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:320px;line-height:1.25;font-family:'Roboto Condensed';-inkscape-font-specification:'Roboto Condensed, Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#135aa1;fill-opacity:1;stroke:none;stroke-width:0.9375"
+       style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:320px;line-height:1.25;font-family:'Roboto Condensed';-inkscape-font-specification:'Roboto Condensed, Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient10021);fill-opacity:1;stroke:none;stroke-width:0.9375"
        x="408.38995"
        y="284.55026"
        id="text4493"><tspan
@@ -118,6 +161,6 @@
          id="tspan4491"
          x="408.38995"
          y="284.55026"
-         style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:320px;font-family:'Roboto Condensed';-inkscape-font-specification:'Roboto Condensed, Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#135aa1;fill-opacity:1;stroke-width:0.9375">Hexagon</tspan></text>
+         style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:320px;font-family:'Roboto Condensed';-inkscape-font-specification:'Roboto Condensed, Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient10021);fill-opacity:1;stroke-width:0.9375">Hexagon</tspan></text>
   </g>
 </svg>
