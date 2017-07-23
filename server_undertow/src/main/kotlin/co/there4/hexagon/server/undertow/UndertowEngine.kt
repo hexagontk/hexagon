@@ -27,13 +27,13 @@ class UndertowEngine : ServerEngine {
         val root = routing()
 
         val requestHandlers = server.router.requestHandlers
-        val filtersByOrder = requestHandlers
-            .filterIsInstance(FilterHandler::class.java)
-            .groupBy { it.order }
-            .mapValues { it.value.map { it.route to it.handler } }
-
-        val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
-        val afterFilters = filtersByOrder[AFTER] ?: listOf()
+//        val filtersByOrder = requestHandlers
+//            .filterIsInstance(FilterHandler::class.java)
+//            .groupBy { it.order }
+//            .mapValues { it.value.map { it.route to it.handler } }
+//
+//        val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
+//        val afterFilters = filtersByOrder[AFTER] ?: listOf()
 
         Handlers.pathTemplate()
         val codedErrors: Map<Int, ErrorCodeCallback> = requestHandlers

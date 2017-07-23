@@ -17,8 +17,6 @@ ext.jettyVersion = '9.4.6.v20170531'
 
 ext.ahcVersion = '2.0.31'
 
-ext.jmhBenchmarkVersion = '1.19'
-
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
 ext.servers = [ 'Jetty', 'Resin' ]

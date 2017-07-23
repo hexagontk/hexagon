@@ -20,3 +20,7 @@ charset = latin1
 # 4 space indentation
 [*.{java,js,kt,kts,gradle,groovy}]
 indent_size = 4
+
+# Go lang uses tabs by default
+[*.go]
+indent_style = tab
