@@ -18,7 +18,7 @@ abstract class ServletServer(private val async: Boolean = false) : ServletContex
     abstract fun createRouter(): Router
 
     override fun contextInitialized(sce: ServletContextEvent) {
-        val servletFilter = ServletFilter(serverRouter.requestHandlers)
+        val servletFilter = ServletFilter(serverRouter.flatRequestHandlers())
         val filter = sce.servletContext.addFilter("filters", servletFilter)
         filter.setAsyncSupported(async)
         filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")

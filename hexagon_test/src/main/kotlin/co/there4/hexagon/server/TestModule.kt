@@ -5,7 +5,7 @@ import org.asynchttpclient.Response
 import java.net.InetAddress.getByName as address
 
 internal abstract class TestModule {
-    abstract fun initialize(router: Router)
+    abstract fun initialize(): Router
     abstract fun validate(client: Client)
 
     protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {

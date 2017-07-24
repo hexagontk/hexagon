@@ -32,12 +32,12 @@ internal class GenericModule : TestModule() {
         "フレームワークのベンチマーク"
     )
 
-    override fun initialize(router: Router) {
-        router.before("/protected/*") { halt(401, "Go Away!") }
+    override fun initialize(): Router = router {
+        before("/protected/*") { halt(401, "Go Away!") }
 
-        router.assets("public")
+        assets("public")
 
-        router.get("/request/data") {
+        get("/request/data") {
             response.body = request.url
 
             request.cookies["method"]?.value = request.method.toString()
@@ -54,52 +54,52 @@ internal class GenericModule : TestModule() {
             ok ("${response.body}!!!")
         }
 
-        router.error(UnsupportedOperationException::class) {
+        error(UnsupportedOperationException::class) {
             response.addHeader("error", it.message ?: it.javaClass.name)
         }
 
-        router.error(IllegalArgumentException::class) {
+        error(IllegalArgumentException::class) {
             response.addHeader("runtimeError", it.message ?: it.javaClass.name)
         }
 
-        router.get("/*") { pass() }
-        router.get("/exception") { throw UnsupportedOperationException("error message") }
-        router.get("/baseException") { throw CustomException() }
-        router.get("/unhandledException") { error("error message") }
-        router.get("/hi") { ok ("Hello World!") }
-        router.get("/param/{param}") { ok ("echo: ${request ["param"]}") }
-        router.get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request ["paramWithMaj"]}") }
-        router.get("/") { ok("Hello Root!") }
-        router.post("/poster") { created("Body was: ${request.body}") }
-        router.patch("/patcher") { ok ("Body was: ${request.body}") }
-        router.delete ("/method") { okRequestMethod () }
-        router.options ("/method") { okRequestMethod () }
-        router.get ("/method") { okRequestMethod () }
-        router.patch ("/method") { okRequestMethod () }
-        router.post ("/method") { okRequestMethod () }
-        router.put ("/method") { okRequestMethod () }
-        router.trace ("/method") { okRequestMethod () }
-        router.head ("/method") { response.addHeader ("header", request.method.toString()) }
-        router.get("/halt") { halt("halted") }
-        router.get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
-        router.get("/template") {
+        get("/*") { pass() }
+        get("/exception") { throw UnsupportedOperationException("error message") }
+        get("/baseException") { throw CustomException() }
+        get("/unhandledException") { error("error message") }
+        get("/hi") { ok ("Hello World!") }
+        get("/param/{param}") { ok ("echo: ${request ["param"]}") }
+        get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request ["paramWithMaj"]}") }
+        get("/") { ok("Hello Root!") }
+        post("/poster") { created("Body was: ${request.body}") }
+        patch("/patcher") { ok ("Body was: ${request.body}") }
+        delete ("/method") { okRequestMethod () }
+        options ("/method") { okRequestMethod () }
+        get ("/method") { okRequestMethod () }
+        patch ("/method") { okRequestMethod () }
+        post ("/method") { okRequestMethod () }
+        put ("/method") { okRequestMethod () }
+        trace ("/method") { okRequestMethod () }
+        head ("/method") { response.addHeader ("header", request.method.toString()) }
+        get("/halt") { halt("halted") }
+        get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
+        get("/template") {
             val locale = defaultLocale()
             val now = LocalDateTime.now()
             template(PebbleEngine, "pebble_template.html", locale, mapOf("date" to now))
         }
 
-        router.get("/tworoutes/${part.toUpperCase()}/{param}") {
+        get("/tworoutes/${part.toUpperCase()}/{param}") {
             ok ("${part.toUpperCase()} route: ${request ["param"]}")
         }
 
-        router.get("/reqres") { ok (request.method) }
+        get("/reqres") { ok (request.method) }
 
-        router.get("/redirect") { redirect("http://example.com") }
+        get("/redirect") { redirect("http://example.com") }
 
-        router.after("/hi") {
+        after("/hi") {
             response.addHeader ("after", "foobar")
         }
-        router.apply {
+        apply {
             GET at "/return/status" by { 201 }
             GET at "/return/body" by { "body" }
             GET at "/return/pair" by { 202 to "funky status" }

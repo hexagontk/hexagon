@@ -4,17 +4,17 @@ import co.there4.hexagon.client.Client
 
 @Suppress("unused") // Test methods are flagged as unused
 internal class SessionModule : TestModule() {
-    override fun initialize(router: Router) {
-        router.get("/session/id") {
+    override fun initialize(): Router = router {
+        get("/session/id") {
             val id: String = session.id ?: "null"
             session.id = "sessionId"
             assert(id == session.id ?: "null")
             ok(id)
         }
 
-        router.get("/session/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
+        get("/session/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
 
-        router.get("/session/new") {
+        get("/session/new") {
             try {
                 ok(session.isNew())
             }
@@ -23,31 +23,31 @@ internal class SessionModule : TestModule() {
             }
         }
 
-        router.get("/session/inactive") {
+        get("/session/inactive") {
             val inactiveInterval = session.maxInactiveInterval ?: "null"
             session.maxInactiveInterval = 999
             assert(inactiveInterval == session.maxInactiveInterval ?: "null")
             ok(inactiveInterval)
         }
 
-        router.get("/session/creation") { ok(session.creationTime ?: "null") }
+        get("/session/creation") { ok(session.creationTime ?: "null") }
 
-        router.post("/session/invalidate") { session.invalidate() }
+        post("/session/invalidate") { session.invalidate() }
 
-        router.put("/session/{key}/{value}") {
+        put("/session/{key}/{value}") {
             session [request.parameter("key")] = request.parameter("value")
             Unit
         }
 
-        router.get("/session/{key}") {
+        get("/session/{key}") {
             ok (session [request.parameter("key")].toString())
         }
 
-        router.delete("/session/{key}") {
+        delete("/session/{key}") {
             session.removeAttribute(request.parameter("key"))
         }
 
-        router.get("/session") {
+        get("/session") {
             val attributeTexts = session.attributes.entries.map { it.key + " : " + it.value }
 
             response.addHeader ("attributes", attributeTexts.joinToString(", "))
