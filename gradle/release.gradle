@@ -44,13 +44,13 @@ void upgrade (String type) {
     def semver = com.github.zafarkhaja.semver.Version.valueOf (version.toString())
 
     switch (type) {
-        case "major":
+        case 'major':
             version = semver.incrementMajorVersion ()
             break
-        case "minor":
+        case 'minor':
             version = semver.incrementMinorVersion ()
             break
-        case "patch":
+        case 'patch':
             version = semver.incrementPatchVersion ()
             break
         default:
