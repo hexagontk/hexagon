@@ -7,7 +7,7 @@ include (
     'hexagon_store',
     'hexagon_rest',
     'hexagon_site',
-    'hexagon_templates',
+    'hexagon_starters',
     'hexagon_test',
 
     'server_servlet',

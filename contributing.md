@@ -103,7 +103,7 @@ roadmap or pick tasks that you wish to contribute.
 
 ## Lazybones Templates
 
-The [Lazybones] templates are located in the `hexagon_templates` module. Each subdirectory is a
+The [Lazybones] templates are located in the `hexagon_starters` module. Each subdirectory is a
 different template.
 
 You can package and install the templates locally with the command:
