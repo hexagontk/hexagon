@@ -28,9 +28,39 @@ engines (feature implementations)
 
 The heavy lifting is done by these ones (Undertow, Jetty, RabbitMQ, MongoDB)
 
+# Concepts
+
+Paths
+
+Routes
+
+Filters
+
+Handlers
+
+Callbacks
+
+Routers
+
+Servers
+
+Templates
+
+Events
+
+... Stores + Rest
+
 # Status
 
 Used in projects (not released yet)
+
+Used to develop APIs and Web applications
+
+Well tested
+
+Performance tests (TechEmpower and JMeter)
+
+Project templates (AKA starters)
 
 # Scope of the release
 
@@ -38,7 +68,25 @@ Used in projects (not released yet)
 
 # Teaser
 
-Support Coreos, Docker, Systemd
+Support Coreos, Docker, Systemd, CoreOS Fleet
+
+Metrics
+
+Registering
+
+Logging
+
+Health checks
+
+Web to download starters
+
+Tool for client requests
+
+HTTP/2
+
+Websockets
+
+CBOR
 
 # Contributing
 
