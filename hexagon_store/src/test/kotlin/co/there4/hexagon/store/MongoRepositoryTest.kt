@@ -32,7 +32,7 @@ import java.io.File
         repository.delete()
 
         // File paths change from IDE to build tool
-        val file = File("hexagon_core/src/test/resources/companies.json").let {
+        val file = File("hexagon_core/src/test/resources/data/companies.json").let {
             if (it.exists()) it
             else File("src/test/resources/companies.json")
         }
