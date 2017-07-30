@@ -3,11 +3,11 @@
 
 [![BuildImg]][Build] [![CoverageImg]][Coverage] [![DownloadImg]][Download]
 
-[BuildImg]: https://travis-ci.org/jaguililla/hexagon.svg?branch=master
-[Build]: https://travis-ci.org/jaguililla/hexagon
+[BuildImg]: https://travis-ci.org/hexagonkt/hexagon.svg?branch=master
+[Build]: https://travis-ci.org/hexagonkt/hexagon
 
-[CoverageImg]: https://codecov.io/gh/jaguililla/hexagon/branch/master/graph/badge.svg
-[Coverage]: https://codecov.io/gh/jaguililla/hexagon
+[CoverageImg]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graph/badge.svg
+[Coverage]: https://codecov.io/gh/hexagonkt/hexagon
 
 [DownloadImg]: https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg
 [Download]: https://bintray.com/jamming/maven/hexagon_core/_latestVersion
@@ -36,7 +36,7 @@ in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchm
 
 [![CoverageGrid]][Coverage]
 
-[CoverageGrid]: https://codecov.io/gh/jaguililla/hexagon/branch/master/graphs/tree.svg
+[CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/tree.svg
 [Kotlin]: http://kotlinlang.org
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com

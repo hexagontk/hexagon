@@ -48,27 +48,38 @@ repositories {
     jcenter ()
 }
 
+task info() {
+    doLast {
+        getTasksByName ('test', true).forEach { t -> println t }
+        files(fileTree (rootDir).include ('**/build/jacoco/test.exec'))
+            .forEach { t -> println t}
+        files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
+            .forEach { t -> println t}
+    }
+}
+
 task jacocoMerge(dependsOn: getTasksByName ('test', true), type: JacocoMerge) {
-    executionData fileTree (rootDir).include ('**/build/jacoco/*.exec')
+    executionData fileTree (rootDir).include ('**/build/jacoco/test.exec')
 }
 
 task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
     sourceDirectories = files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
     // TODO Replace by method that filter modules
     classDirectories = files(
-        rootDir.absolutePath + '/hexagon_benchmark/build/classes/main',
+        rootDir.absolutePath + '/hexagon_benchmark/build/classes/java/main',
 
-//        rootDir.absolutePath + '/hexagon_rest/build/classes/main',
-//        rootDir.absolutePath + '/hexagon_scheduler/build/classes/main',
-//        rootDir.absolutePath + '/hexagon_store/build/classes/main',
-//        rootDir.absolutePath + '/hexagon_test/build/classes/main',
-        rootDir.absolutePath + '/hexagon_core/build/classes/main'//,
+        rootDir.absolutePath + '/hexagon_rest/build/classes/java/main',
+        rootDir.absolutePath + '/hexagon_scheduler/build/classes/java/main',
+        rootDir.absolutePath + '/hexagon_store/build/classes/java/main',
+        rootDir.absolutePath + '/hexagon_test/build/classes/java/main',
+        rootDir.absolutePath + '/hexagon_core/build/classes/java/main',
 
-//        rootDir.absolutePath + '/events_rabbitmq/build/classes/main',
-//        rootDir.absolutePath + '/server_servlet/build/classes/main',
-//        rootDir.absolutePath + '/server_jetty/build/classes/main',
-//        rootDir.absolutePath + '/server_undertow/build/classes/main',
-//        rootDir.absolutePath + '/templates_pebble/build/classes/main'
+        rootDir.absolutePath + '/events_rabbitmq/build/classes/java/main',
+        rootDir.absolutePath + '/server_servlet/build/classes/java/main',
+        rootDir.absolutePath + '/server_jetty/build/classes/java/main',
+        rootDir.absolutePath + '/server_undertow/build/classes/java/main'
+
+//        rootDir.absolutePath + '/templates_pebble/build/classes/java/main'
     )
 
     executionData = files(jacocoMerge.destinationFile)
