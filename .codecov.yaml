@@ -4,3 +4,4 @@ ignore:
   # TODO Enable these modules once they are finished
   - hexagon_store
   - hexagon_rest
+  - server_undertow

@@ -48,16 +48,6 @@ repositories {
     jcenter ()
 }
 
-task info() {
-    doLast {
-        getTasksByName ('jacocoTestReport', true).forEach { t -> println t }
-        files(fileTree (rootDir).include ('**/build/jacoco/test.exec'))
-            .forEach { t -> println t}
-        files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
-            .forEach { t -> println t}
-    }
-}
-
 task jacocoMerge(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoMerge) {
     executionData fileTree (rootDir).include ('**/build/jacoco/test.exec')
 }
