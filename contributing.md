@@ -6,7 +6,7 @@ Requires [Docker Compose installed](https://docs.docker.com/compose/install)
 You can build the project, generate the documentation and install it in your local repository
 typing:
 
-    git clone https://github.com/jaguililla/hexagon.git
+    git clone https://github.com/hexagonkt/hexagon.git
     cd hexagon
     docker-compose up -d
     ./gradlew clean site publishLocal installAllTemplates
@@ -99,7 +99,7 @@ NOTE: For the package to be accepted in JCenter, you need to include sources (so
 Project's tasks and milestones are tracked in a [Github board]. You can use that board to check the
 roadmap or pick tasks that you wish to contribute.
 
-[Github board]: https://github.com/jaguililla/hexagon/projects/1
+[Github board]: https://github.com/hexagonkt/hexagon/projects/1
 
 ## Lazybones Templates
 

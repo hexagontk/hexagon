@@ -11,29 +11,29 @@
       | Baked with <a href="http://jbake.org">JBake ${version}</a> |
       <a
         class="github-button"
-        href="https://github.com/jaguililla/hexagon"
+        href="https://github.com/hexagonkt/hexagon"
         data-icon="octicon-star"
-        data-count-href="/jaguililla/hexagon/stargazers"
-        data-count-api="/repos/jaguililla/hexagon#stargazers_count">Star</a>
+        data-count-href="/hexagonkt/hexagon/stargazers"
+        data-count-api="/repos/hexagonkt/hexagon#stargazers_count">Star</a>
       <a
         class="github-button"
-        href="https://github.com/jaguililla/hexagon"
+        href="https://github.com/hexagonkt/hexagon"
         data-icon="octicon-eye"
-        data-count-href="/jaguililla/hexagon/watchers"
-        data-count-api="/repos/jaguililla/hexagon#subscribers_count"
+        data-count-href="/hexagonkt/hexagon/watchers"
+        data-count-api="/repos/hexagonkt/hexagon#subscribers_count"
         data-count-aria-label="# watchers on GitHub"
-        aria-label="Watch jaguililla/hexagon on GitHub">Watch</a>
+        aria-label="Watch hexagonkt/hexagon on GitHub">Watch</a>
       <a
         class="github-button"
-        href="https://github.com/jaguililla/hexagon/fork"
+        href="https://github.com/hexagonkt/hexagon/fork"
         data-icon="octicon-git-branch"
-        data-count-href="/jaguililla/hexagon/network"
-        data-count-api="/repos/jaguililla/hexagon#forks_count">Fork</a>
+        data-count-href="/hexagonkt/hexagon/network"
+        data-count-api="/repos/hexagonkt/hexagon#forks_count">Fork</a>
       <a
         class="github-button"
-        href="https://github.com/jaguililla/hexagon/issues"
+        href="https://github.com/hexagonkt/hexagon/issues"
         data-icon="octicon-issue-opened"
-        data-count-api="/repos/jaguililla/hexagon#open_issues_count">Issue</a>
+        data-count-api="/repos/hexagonkt/hexagon#open_issues_count">Issue</a>
     </div>
   </footer>
 

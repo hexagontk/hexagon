@@ -86,7 +86,7 @@ task gradleSettings(type: WriteProperties) {
         description : 'Hexagon web framework\'s benchmark',
 
         gradleScripts :
-            "https://raw.githubusercontent.com/jaguililla/hexagon/$rootProject.version/gradle",
+            "https://raw.githubusercontent.com/hexagonkt/hexagon/$rootProject.version/gradle",
 
         hexagonVersion : rootProject.version,
         kotlinVersion : kotlinVersion,
