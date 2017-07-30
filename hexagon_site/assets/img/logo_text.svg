@@ -9,31 +9,43 @@
   <defs>
     <style type="text/css">
       @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
-      #pathUp { fill: #135AA1; }
+      #pathUp { fill: url(#gradient); }
       #logoText {
         font-style:italic;
         font-weight:bold;
         font-size:320px;
         font-family: Roboto Condensed;
-        fill:#135aa1;
+        fill:url(#textGradient);
       }
     </style>
 
-    <linearGradient id="linearGradient">
-      <stop style="stop-color:#000000" offset="0" />
-      <stop style="stop-color:#0092cd" offset="1" />
+    <linearGradient
+      xlink:href="#gradient2"
+      id="gradient"
+      gradientUnits="userSpaceOnUse"
+      x1="225"
+      y1="70"
+      x2="40"
+      y2="250" />
+
+    <linearGradient id="gradient2">
+      <stop style="stop-color:#135aa1" offset="0" />
+      <stop style="stop-color:#1aa8f0" offset="1" />
     </linearGradient>
 
-    <radialGradient
-      xlink:href="#linearGradient"
-      id="radialGradient"
-      cx="164"
-      cy="124"
-      fx="164"
-      fy="124"
-      r="164"
-      gradientTransform="matrix(1,0,0,0.75,0,30.7)"
+    <linearGradient
+      xlink:href="#textGradient2"
+      id="textGradient"
+      x1="615"
+      y1="0"
+      x2="615"
+      y2="530"
       gradientUnits="userSpaceOnUse" />
+
+    <linearGradient id="textGradient2">
+      <stop style="stop-color:#135aa1;" offset="0" />
+      <stop style="stop-color:#1aa8f0;" offset="1" />
+    </linearGradient>
 
     <filter id="shadow">
       <feOffset in="SourceAlpha" dx="3" dy="3" />
@@ -56,6 +68,6 @@
   <g>
     <path d="M 0,177 102,0 l 205,0 L 329,35 265,142 l -81,0 42,-71 -81,0 L 40,248 Z" id="pathUp" />
     <use xlink:href="#pathUp" transform="matrix(-1,0,0,-1,409,354)" />
-    <text x="450" y="285" id="logoText">Hexagon</text>
+    <text x="410" y="285" id="logoText">Hexagon</text>
   </g>
 </svg>

@@ -88,6 +88,8 @@ Websockets
 
 CBOR
 
+Clients and Servers contracts... when you define routes, and route documentation is in place
+
 # Contributing
 
 Github's panel

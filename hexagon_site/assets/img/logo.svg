@@ -8,41 +8,22 @@
 
   <defs>
     <style type="text/css">
-      #pathUp { fill: #135AA1; }
+      #pathUp { fill: url(#gradient); }
     </style>
 
-    <linearGradient id="linearGradient">
-      <stop style="stop-color:#000000" offset="0" />
-      <stop style="stop-color:#0092cd" offset="1" />
+    <linearGradient
+      xlink:href="#gradient2"
+      id="gradient"
+      gradientUnits="userSpaceOnUse"
+      x1="225"
+      y1="70"
+      x2="40"
+      y2="250" />
+
+    <linearGradient id="gradient2">
+      <stop style="stop-color:#135aa1" offset="0" />
+      <stop style="stop-color:#1aa8f0" offset="1" />
     </linearGradient>
-
-    <radialGradient
-      xlink:href="#linearGradient"
-      id="radialGradient"
-      cx="164"
-      cy="124"
-      fx="164"
-      fy="124"
-      r="164"
-      gradientTransform="matrix(1,0,0,0.75,0,30.7)"
-      gradientUnits="userSpaceOnUse" />
-
-    <filter id="shadow">
-      <feOffset in="SourceAlpha" dx="3" dy="3" />
-      <feGaussianBlur stdDeviation="3" result="blurResult" />
-      <feBlend in="SourceGraphic" in2="blurResult" />
-    </filter>
-
-    <filter id="glow">
-      <feFlood flood-color="#2CE1CD" />
-      <feComposite in2="SourceGraphic" operator="in" />
-      <feMorphology operator="dilate" radius="2" />
-      <feGaussianBlur stdDeviation="10 10" result="blurResult"/>
-      <feMerge>
-        <feMergeNode in="blurResult"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
 
   <g>

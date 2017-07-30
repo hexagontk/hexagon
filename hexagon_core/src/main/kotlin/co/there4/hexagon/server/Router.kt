@@ -11,8 +11,6 @@ import kotlin.reflect.KClass
 
 /**
  * TODO Document.
- * TODO Get routes (paths to be handled)
- * TODO Index paths (ie: /foo)
  * TODO Index routes (ie: GET /foo)
  * TODO Map with routes to all handlers needed
  */
