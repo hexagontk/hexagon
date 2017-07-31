@@ -31,7 +31,6 @@ task publish(
         ':hexagon_rest:bintrayUpload',
         ':hexagon_scheduler:bintrayUpload',
         ':hexagon_store:bintrayUpload',
-        ':hexagon_starters:bintrayUpload',
         ':hexagon_test:bintrayUpload',
 
         ':events_rabbitmq:bintrayUpload',
