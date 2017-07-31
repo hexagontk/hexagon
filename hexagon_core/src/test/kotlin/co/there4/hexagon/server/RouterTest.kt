@@ -7,6 +7,13 @@ import org.testng.annotations.Test
  * TODO .
  */
 @Test class RouterTest {
+    @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
+    fun exceptionsInErrorHandlers() {
+        router {
+            error(PassException::class) {}
+        }
+    }
+
     fun test() {
         val router = router {
             path {
@@ -20,6 +27,11 @@ import org.testng.annotations.Test
                     get("/route") {}
                     post {}
                 }
+
+                after ("/bar") {}
+                error(404) {}
+                error(IllegalArgumentException::class) {}
+                assets("/assets", "/files")
             }
         }
 
@@ -30,6 +42,10 @@ import org.testng.annotations.Test
         assertHandler(handlers[3], "/foo/bar", GET)
         assertHandler(handlers[4], "/foo/sub/route", GET)
         assertHandler(handlers[5], "/foo/sub", POST)
+        assertHandler(handlers[6], "/foo/bar", *ALL.toTypedArray())
+        assertHandler(handlers[7], "/foo", *ALL.toTypedArray())
+        assertHandler(handlers[8], "/foo", *ALL.toTypedArray())
+        assertHandler(handlers[9], "/foo/files", GET)
     }
 
     private fun assertHandler(handler: RequestHandler, path: String, vararg methods: HttpMethod) {
