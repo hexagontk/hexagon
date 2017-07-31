@@ -1,12 +1,33 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" width="130" height="115">
-  <g>
-    <path
-      style="fill: ${siteColor}; stroke: ${siteColor}; stroke-width: 10;"
-      d="m 125,57 -30,52 -60,0 -30,-52 30,-52 60,0 z" />
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="415"
+   height="360"
+   viewBox="0 0 415 360">
 
-    <text style="font-size: 90px; font-weight: bold; fill: #FFF; font-family: Sans" x="27" y="90">
-      <tspan x="27" y="90">H</tspan>
-    </text>
+  <defs>
+    <style type="text/css">
+      #pathUp { fill: url(#gradient); }
+    </style>
+
+    <linearGradient
+      xlink:href="#gradient2"
+      id="gradient"
+      gradientUnits="userSpaceOnUse"
+      x1="225"
+      y1="70"
+      x2="40"
+      y2="250" />
+
+    <linearGradient id="gradient2">
+      <stop style="stop-color:#135aa1" offset="0" />
+      <stop style="stop-color:#1aa8f0" offset="1" />
+    </linearGradient>
+  </defs>
+
+  <g>
+    <path d="M 0,177 102,0 l 205,0 L 329,35 265,142 l -81,0 42,-71 -81,0 L 40,248 Z" id="pathUp" />
+    <use xlink:href="#pathUp" transform="matrix(-1,0,0,-1,409,354)" />
   </g>
 </svg>

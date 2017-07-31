@@ -13,14 +13,13 @@ applicationDefaultJvmArgs = [
 ext.hikariVersion = '2.6.1'
 ext.postgresqlVersion = '42.0.0'
 ext.mongodbVersion = '3.4.2'
+ext.jettyVersion = '9.4.6.v20170531'
 
 ext.ahcVersion = '2.0.31'
 
-ext.jmhBenchmarkVersion = '1.19'
-
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
-ext.servers = [ 'Jetty' ]
+ext.servers = [ 'Jetty', 'Resin' ]
 ext.tests = [servers, databases].combinations ()
 
 war {
@@ -30,6 +29,7 @@ war {
 installDist.dependsOn 'war'
 
 dependencies {
+    compile project(':hexagon_store')
     compile project(':server_jetty')
     compile project(':templates_pebble')
 
@@ -77,7 +77,7 @@ task copyTfb(type: Copy) {
     include 'src/**', 'tfb.gradle', 'readme.md'
     exclude 'src/jmh'
     into tfbBuildDir
-    rename 'tfb_(.+)', '$1'
+    rename 'tfb.gradle', 'build.gradle'
 }
 
 //noinspection GroovyAssignabilityCheck
@@ -86,13 +86,15 @@ task gradleSettings(type: WriteProperties) {
         description : 'Hexagon web framework\'s benchmark',
 
         gradleScripts :
-            "https://raw.githubusercontent.com/jaguililla/hexagon/$rootProject.version/gradle",
+            "https://raw.githubusercontent.com/hexagonkt/hexagon/$rootProject.version/gradle",
 
         hexagonVersion : rootProject.version,
         kotlinVersion : kotlinVersion,
         logbackVersion : logbackVersion,
         mongodbVersion : mongodbVersion,
+        ahcVersion : ahcVersion,
 
+        jettyVersion : jettyVersion,
         hikariVersion : hikariVersion,
         postgresqlVersion : postgresqlVersion,
 
@@ -110,8 +112,8 @@ task benchmarkConfig() {
     doLast {
         Map<String, Map<String, Object>> test = [:]
         tests.forEach {
-            String server = it['0']
-            String database = it['1']
+            String server = it[0]
+            String database = it[1]
             String databaseCode = database == 'PostgreSQL'? 'postgres' : database.toLowerCase ()
             String name = server + '_' + database
             if (server == servers.first () && database == databases.first ())
@@ -161,8 +163,8 @@ task benchmarkConfig() {
 task setupScripts() {
     doLast {
         tests.forEach {
-            String server = ((String)it['0']).toLowerCase()
-            String database = ((String)it['1']).toLowerCase()
+            String server = ((String)it[0]).toLowerCase()
+            String database = ((String)it[1]).toLowerCase()
             File file = file("$tfbBuildDir/setup_${server}_${database}.sh")
             file.createNewFile()
             String command = server == "resin"?
@@ -177,7 +179,7 @@ task setupScripts() {
 
                 fw_depends java $database
 
-                gradle/wrapper -x test
+                ./gradlew -x test
                 export DBSTORE='$database'
                 $command
             """.stripIndent ()

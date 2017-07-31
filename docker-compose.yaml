@@ -15,7 +15,7 @@ services:
   mongodb:
     image: mongo
     volumes:
-      - ./hexagon_benchmark/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro"
+      - ./hexagon_benchmark/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
     ports:
       - 27017:27017
 

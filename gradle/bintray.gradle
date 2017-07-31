@@ -32,7 +32,7 @@ bintray {
         repo = 'maven'
         name = project.name
         licenses = [ 'MIT' ]
-        vcsUrl = 'https://github.com/jaguililla/hexagon.git'
+        vcsUrl = 'https://github.com/hexagonkt/hexagon.git'
     }
 }
 

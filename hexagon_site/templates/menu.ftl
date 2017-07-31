@@ -7,13 +7,13 @@
 
     <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <a href="https://github.com/jaguililla/hexagon" class="hidden-sm hidden-xs">
+      <a href="https://github.com/hexagonkt/hexagon" class="hidden-sm hidden-xs">
         <img
           style="position: absolute; top: 0; right: 0; border: 0;"
-          src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"
+          src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
           alt="Fork me on GitHub"
           data-canonical-src=
-            "https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png">
+            "https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
       </a>
       <div class="container">
         <div class="navbar-header">
@@ -43,23 +43,24 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="https://travis-ci.org/jaguililla/hexagon">
+              <a href="https://travis-ci.org/hexagonkt/hexagon">
                 <img
-                  src="https://travis-ci.org/jaguililla/hexagon.svg?branch=master"
+                  src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master"
                   alt="BuildImg" />
               </a>
             </li>
             <li>
-              <a href="https://codecov.io/github/jaguililla/hexagon?branch=master">
+              <a href="https://codecov.io/github/hexagonkt/hexagon?branch=master">
                 <img
-                  src="https://codecov.io/github/jaguililla/hexagon/coverage.svg?branch=master"
+                  src="https://codecov.io/github/hexagonkt/hexagon/coverage.svg?branch=master"
                   alt="CoverageImg" />
               </a>
             </li>
             <li>
-              <a href="https://bintray.com/jamming/maven/Hexagon/_latestVersion">
+              <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
                 <img
-                  src="https://api.bintray.com/packages/jamming/maven/Hexagon/images/download.svg"
+                  src=
+                    "https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg"
                   alt="DownloadImg" />
               </a>
             </li>

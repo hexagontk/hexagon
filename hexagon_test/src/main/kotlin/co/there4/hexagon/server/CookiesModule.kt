@@ -5,23 +5,23 @@ import java.net.HttpCookie
 
 @Suppress("unused") // Test methods are flagged as unused
 internal class CookiesModule : TestModule() {
-    override fun initialize(router: Router) {
-        router.post("/assertNoCookies") {
+    override fun initialize(): Router = router {
+        post("/assertNoCookies") {
             if (!request.cookies.isEmpty())
                 halt(500)
         }
 
-        router.post("/setCookie") {
+        post("/setCookie") {
             val name = request ["cookieName"]
             val value = request ["cookieValue"]
             response.addCookie (HttpCookie (name, value))
         }
 
-        router.post("/assertHasCookie") {
+        post("/assertHasCookie") {
             checkCookie(request ["cookieName"])
         }
 
-        router.post("/removeCookie") {
+        post("/removeCookie") {
             val cookieName = request.parameter("cookieName")
             checkCookie(cookieName)
             response.removeCookie(cookieName)

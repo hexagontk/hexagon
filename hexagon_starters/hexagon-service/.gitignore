@@ -1,0 +1,20 @@
+
+# Gradle
+.gradle/
+build/
+local.*
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# Idea
+.idea/
+*.iml
+
+# Runtime
+**/*.class
+*.log
+*.hprof
+log/

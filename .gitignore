@@ -11,6 +11,8 @@ local.*
 
 # Idea
 .idea/
+out/
+*.iml
 
 # Runtime
 *.log

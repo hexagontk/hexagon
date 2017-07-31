@@ -3,14 +3,14 @@ package co.there4.hexagon.server
 import co.there4.hexagon.client.Client
 
 internal class HexagonModule : TestModule() {
-    override fun initialize(router: Router) {
-        router.get ("/hexagon/books/{id}") {
+    override fun initialize(): Router = router {
+        get ("/hexagon/books/{id}") {
             ok ("${request ["id"]}:${request.body}")
         }
-        router.get ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        router.trace ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        router.patch ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        router.head ("/hexagon/books/{id}/{title}") {
+        get ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        trace ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        patch ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        head ("/hexagon/books/{id}/{title}") {
             response.addHeader("id", request.parameter("id"))
             response.addHeader("title", request.parameter("title"))
         }

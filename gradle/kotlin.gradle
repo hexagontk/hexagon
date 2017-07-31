@@ -1,6 +1,3 @@
-/*
- * For more details about this build script, check the `site/content/life_cycle.md` file.
- */
 
 apply plugin: 'kotlin'
 apply plugin: 'jacoco'
@@ -20,7 +17,7 @@ repositories {
 dependencies {
     compile ("org.jetbrains.kotlin:kotlin-stdlib-jre$javaVersion:$kotlinVersion")
     compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion") {
-        exclude module: "kotlin-stdlib"
+        exclude module: 'kotlin-stdlib'
     }
 
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
@@ -41,15 +38,15 @@ processResources {
     }
 }
 
-compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
-compileKotlin.kotlinOptions.apiVersion = '1.1'
+tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
+tasks.compileKotlin.kotlinOptions.apiVersion = '1.1'
 
-compileTestKotlin.kotlinOptions.jvmTarget = compileKotlin.kotlinOptions.jvmTarget
-compileTestKotlin.kotlinOptions.apiVersion = compileKotlin.kotlinOptions.apiVersion
+tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
+tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
 
 // Clean the project taking care of logs and runtime files
 clean {
-    delete "build", ".gradle", "log"
+    delete 'build', '.gradle', 'log', 'out'
 
     delete (
         fileTree(rootDir) { include '**/*.log' },

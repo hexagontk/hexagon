@@ -6,6 +6,7 @@ import co.there4.hexagon.helpers.CodedException
 import co.there4.hexagon.server.*
 import co.there4.hexagon.server.FilterOrder.*
 import co.there4.hexagon.server.RequestHandler.*
+import io.undertow.Handlers
 import io.undertow.Undertow
 import io.undertow.Handlers.*
 import java.net.InetSocketAddress
@@ -19,22 +20,22 @@ class UndertowEngine : ServerEngine {
 
     override fun started() = started
 
-//    override fun runtimePort(): Int = 0
     override fun runtimePort(): Int =
         (undertow?.listenerInfo?.get(0)?.address as? InetSocketAddress)?.port ?: error
 
-    fun build(server: Server, settings: Map<String, *>) {
+    fun build(server: Server) {
         val root = routing()
 
         val requestHandlers = server.router.requestHandlers
-        val filtersByOrder = requestHandlers
-            .filterIsInstance(FilterHandler::class.java)
-            .groupBy { it.order }
-            .mapValues { it.value.map { it.route to it.handler } }
+//        val filtersByOrder = requestHandlers
+//            .filterIsInstance(FilterHandler::class.java)
+//            .groupBy { it.order }
+//            .mapValues { it.value.map { it.route to it.handler } }
+//
+//        val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
+//        val afterFilters = filtersByOrder[AFTER] ?: listOf()
 
-        val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
-        val afterFilters = filtersByOrder[AFTER] ?: listOf()
-
+        Handlers.pathTemplate()
         val codedErrors: Map<Int, ErrorCodeCallback> = requestHandlers
             .filterIsInstance(CodeHandler::class.java)
             .map { it.code to it.handler }
@@ -47,14 +48,6 @@ class UndertowEngine : ServerEngine {
 
         for (handler in requestHandlers) {
             val route = handler.route
-            val path = route.path
-
-            val beforeCallbacks = beforeFilters
-                .filter { it.first.path.path.startsWith(path.path) }
-                .map { it.second }
-            val afterCallbacks = afterFilters
-                .filter { it.first.path.path.startsWith(path.path) }
-                .map { it.second }
 
             when (handler) {
                 is RouteHandler -> {
@@ -66,9 +59,7 @@ class UndertowEngine : ServerEngine {
                         )
 
                         try {
-                            beforeCallbacks.forEach { undertowExchange.(it) () }
                             undertowExchange.(handler.handler) ()
-                            afterCallbacks.forEach { undertowExchange.(it) () }
                         }
                         catch (e: PassException) {
                             // Just aborts the handler
@@ -97,7 +88,7 @@ class UndertowEngine : ServerEngine {
     }
 
     override fun startup(server: Server, settings: Map<String, *>) {
-        build(server, settings)
+        build(server)
         if (!started)
             undertow?.start()
         started = true

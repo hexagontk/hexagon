@@ -1,6 +1,3 @@
-/*
- * For more details about this build script, check the `site/content/life_cycle.md` file.
- */
 
 apply plugin: 'application'
 

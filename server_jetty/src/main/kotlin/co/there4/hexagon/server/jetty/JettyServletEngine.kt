@@ -36,7 +36,7 @@ class JettyServletEngine(private val async: Boolean = false) : ServerEngine {
         val context = ServletContextHandler(SESSIONS)
         context.addLifeCycleListener(object : AbstractLifeCycleListener() {
             override fun lifeCycleStarting(event: LifeCycle?) {
-                val filter = ServletFilter (server.router.requestHandlers)
+                val filter = ServletFilter (server.router.flatRequestHandlers())
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
                 val filterBind = context.servletContext.addFilter("filters", filter)
                 filterBind.setAsyncSupported(async)

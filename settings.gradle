@@ -3,14 +3,16 @@ rootProject.name = name
 include (
     'hexagon_benchmark',
     'hexagon_core',
+    'hexagon_scheduler',
+    'hexagon_store',
+    'hexagon_rest',
     'hexagon_site',
-    'hexagon_templates',
+    'hexagon_starters',
     'hexagon_test',
 
     'server_servlet',
     'server_jetty',
-//    'server_undertow',
+    'server_undertow',
     'templates_pebble',
-//    'templates_kotlinx',
     'events_rabbitmq'
 )

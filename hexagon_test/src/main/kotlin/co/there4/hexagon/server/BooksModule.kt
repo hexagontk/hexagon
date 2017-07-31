@@ -12,20 +12,20 @@ internal class BooksModule : TestModule() {
     private var books: MutableMap<Int, Book> = LinkedHashMap ()
 
     fun initBooks () {
-        books = synchronizedMap(LinkedHashMap(mapOf(
+        books = synchronizedMap(linkedMapOf(
             100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
             101 to Book("William_Shakespeare", "Hamlet"),
             102 to Book("Homer", "The_Odyssey")
-        )))
+        ))
     }
 
-    override fun initialize(router: Router) {
-        router.post ("/books") {
+    override fun initialize(): Router = router {
+        post ("/books") {
             books [id] = Book(request.parameter("author"), request.parameter("title"))
             created ((id++).toString ())
         }
 
-        router.get ("/books/{id}") {
+        get ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books [bookId]
             if (book != null)
@@ -34,7 +34,7 @@ internal class BooksModule : TestModule() {
                 error (404, "Book not found")
         }
 
-        router.put ("/books/{id}") {
+        put ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books[bookId]
             if (book != null) {
@@ -53,7 +53,7 @@ internal class BooksModule : TestModule() {
             }
         }
 
-        router.delete ("/books/{id}") {
+        delete ("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books.remove (bookId)
             if (book != null)
@@ -62,7 +62,7 @@ internal class BooksModule : TestModule() {
                 error (404, "Book not found")
         }
 
-        router.get ("/books") {
+        get ("/books") {
             ok (books.keys.map(Int::toString).joinToString(" "))
         }
     }

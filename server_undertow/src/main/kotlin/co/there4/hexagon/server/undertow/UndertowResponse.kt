@@ -38,7 +38,7 @@ class UndertowResponse(exchange: HttpServerExchange) : EngineResponse {
         set(value) { field = value }
     override var status: Int
         get() = e.statusCode
-        set(value) { e.setStatusCode(value) }
+        set(value) { e.statusCode = value }
 
     override fun redirect(url: String) {
         throw UnsupportedOperationException()

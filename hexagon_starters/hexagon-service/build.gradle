@@ -1,0 +1,33 @@
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.1.3-2'
+}
+
+apply from: "\$gradleScripts/kotlin.gradle"
+apply from: "\$gradleScripts/service.gradle"
+apply plugin: 'war'
+
+mainClassName = '${group}.${className}Kt'
+applicationDefaultJvmArgs = [
+    '-Xms64M', '-Xmx2G', '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts'
+]
+
+installDist.dependsOn 'war'
+
+dependencies {
+    compile ("co.there4.hexagon:server_jetty:\$hexagonVersion")
+
+    // Optional dependencies. Can be removed if not used
+    compile ("com.mitchellbosecke:pebble:\$pebbleVersion")
+    compile ("org.jetbrains.kotlinx:kotlinx.html.jvm:\$kotlinxHtmlVersion")
+    compile ("org.mongodb:mongodb-driver:\$mongodbVersion")
+
+    // providedCompile excludes the dependency only in the WAR, not in the distribution
+    providedCompile ("org.eclipse.jetty:jetty-webapp:\$jettyVersion") {
+        exclude module: "slf4j-api"
+    }
+
+    testCompile ("org.testng:testng:\$testngVersion")
+    testCompile ("co.there4.hexagon:hexagon_test:\$hexagonVersion:test")
+    testCompile ("com.rabbitmq:amqp-client:\$rabbitVersion")
+}

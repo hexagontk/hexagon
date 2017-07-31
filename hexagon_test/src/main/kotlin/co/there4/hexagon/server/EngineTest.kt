@@ -19,7 +19,7 @@ abstract class EngineTest(serverEngine: ServerEngine) {
     }
 
     fun startServers () {
-        modules.forEach { it.initialize(server.router) }
+        modules.map { server.router.path(it.initialize()) }
         server.run ()
     }
 
