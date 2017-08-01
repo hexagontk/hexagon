@@ -20,7 +20,6 @@ import java.lang.System.getProperty
 open class Settings {
     private companion object : CachedLogger(Settings::class)
 
-    private val prefix = getProperty("settings.prefix") ?: ""
     private val environmentFile = File("${getProperty("user.home")}/.environment")
 
     val environment: Environment? = if (environmentFile.exists() && environmentFile.isFile) {
@@ -36,9 +35,9 @@ open class Settings {
     val settings: Map<String, *> = loadSettings()
 
     private fun loadSettings() =
-        loadProps("${prefix}service.yaml") +
-        loadProps("${prefix}service_test.yaml") +
-        if (environment != null) loadProps("$prefix${environment.toString().toLowerCase()}.yaml")
+        loadProps("service.yaml") +
+        loadProps("service_test.yaml") +
+        if (environment != null) loadProps("${environment.toString().toLowerCase()}.yaml")
         else mapOf<String, Any>()
 
     @Suppress("UNCHECKED_CAST")
