@@ -18,7 +18,7 @@ import java.lang.System.getProperty
  * - <environment>.yaml (file)
  */
 open class Settings {
-    private companion object : CachedLogger(SettingsManager::class)
+    private companion object : CachedLogger(Settings::class)
 
     private val prefix = getProperty("settings.prefix") ?: ""
     private val environmentFile = File("${getProperty("user.home")}/.environment")
