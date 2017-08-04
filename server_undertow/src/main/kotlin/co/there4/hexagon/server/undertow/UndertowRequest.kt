@@ -11,7 +11,12 @@ import java.net.HttpCookie
 class UndertowRequest(val e: HttpServerExchange, val route: Route) : EngineRequest {
     override val path: String = e.requestPath
     override val contentType: String? get() = throw UnsupportedOperationException()
-    override val body: String get() = throw UnsupportedOperationException()
+    override val body: String get() {
+//        val buffer = e.connection.byteBufferPool
+//        val allocate = e.connection.byteBufferPool.allocate()
+//        e.requestChannel.read(buffer)
+        TODO()
+    }
     override val scheme: String get() = e.requestScheme
     override val port: Int get() = e.hostPort
     override val method: HttpMethod by lazy { HttpMethod.valueOf (e.requestMethod.toString()) }

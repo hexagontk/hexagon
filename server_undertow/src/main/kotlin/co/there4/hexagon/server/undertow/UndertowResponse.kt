@@ -8,8 +8,9 @@ import java.net.HttpCookie
 
 class UndertowResponse(exchange: HttpServerExchange) : EngineResponse {
     override var contentType: String?
-        get() = throw UnsupportedOperationException()
+        get() = contentType
         set(value) {
+            contentType = value
         }
 
     override val outputStream: OutputStream

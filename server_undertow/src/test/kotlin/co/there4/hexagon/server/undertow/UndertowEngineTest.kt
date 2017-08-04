@@ -9,7 +9,7 @@ import kotlin.test.assertFailsWith
 class UndertowEngineTest : EngineTest(UndertowEngine()) {
     @BeforeClass fun start () { startServers() }
     @AfterClass fun stop () { stopServers() }
-    @Test(enabled = false) fun validateEngine() { validate() }
+    @Test fun validateEngine() { validate() }
 
     @Test fun start_test() {
         val engine = UndertowEngine()

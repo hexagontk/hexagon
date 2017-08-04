@@ -4,13 +4,17 @@ import co.there4.hexagon.helpers.error
 import co.there4.hexagon.helpers.CachedLogger
 import co.there4.hexagon.helpers.CodedException
 import co.there4.hexagon.server.*
-import co.there4.hexagon.server.FilterOrder.*
 import co.there4.hexagon.server.RequestHandler.*
 import io.undertow.Handlers
 import io.undertow.Undertow
 import io.undertow.Handlers.*
 import java.net.InetSocketAddress
+import java.util.logging.FileHandler
 import java.net.InetAddress.getByName as address
+
+//class ChainHandler(val next: Handler) {
+//
+//}
 
 class UndertowEngine : ServerEngine {
     companion object : CachedLogger(UndertowEngine::class)
@@ -26,7 +30,7 @@ class UndertowEngine : ServerEngine {
     fun build(server: Server) {
         val root = routing()
 
-        val requestHandlers = server.router.requestHandlers
+        val requestHandlers = server.router.flatRequestHandlers()
 //        val filtersByOrder = requestHandlers
 //            .filterIsInstance(FilterHandler::class.java)
 //            .groupBy { it.order }
@@ -50,29 +54,34 @@ class UndertowEngine : ServerEngine {
             val route = handler.route
 
             when (handler) {
+                is FileHandler -> {}
+                is AssetsHandler -> {}
                 is RouteHandler -> {
-                    root.add(route.method.toString (), route.path.path, {
-                        val undertowExchange = Call (
-                            Request(UndertowRequest (it, route)),
-                            Response(UndertowResponse (it)),
-                            Session(UndertowSession (it))
-                        )
+                    route.method.forEach { m ->
+                        root.add(m.toString (), route.path.path, {
+                            val undertowExchange = Call (
+                                Request(UndertowRequest (it, route)),
+                                Response(UndertowResponse (it)),
+                                Session(UndertowSession (it))
+                            )
 
-                        try {
-                            undertowExchange.(handler.handler) ()
-                        }
-                        catch (e: PassException) {
-                            // Just aborts the handler
-                        }
-                        catch (e: Exception) {
-                            handleException (e, undertowExchange, codedErrors, exceptionErrors)
-                        }
-                        finally {
-                            it.statusCode = undertowExchange.response.status
-                            it.responseSender.send (undertowExchange.response.body.toString())
-                            it.responseSender.close()
-                        }
-                    })
+                            try {
+                                val handlerCallback = handler.handler
+                                undertowExchange.handlerCallback()
+                            }
+                            catch (e: PassException) {
+                                // Jumps to the next handler
+                            }
+                            catch (e: Exception) {
+                                handleException (e, undertowExchange, codedErrors, exceptionErrors)
+                            }
+                            finally {
+                                it.statusCode = undertowExchange.response.status
+                                it.responseSender.send (undertowExchange.response.body.toString())
+                                it.responseSender.close()
+                            }
+                        })
+                    }
                 }
                 else -> warn("unhandled")
             }
