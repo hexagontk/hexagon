@@ -39,7 +39,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             }
         }
         .filterIsInstance(RouteHandler::class.java)
-        .groupBy { it.route.method.first() }
+        .groupBy { it.route.methods.first() }
 
     private val filtersByOrder = router
         .filterIsInstance(FilterHandler::class.java)

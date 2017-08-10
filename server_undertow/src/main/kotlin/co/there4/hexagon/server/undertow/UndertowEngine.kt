@@ -15,7 +15,6 @@ import io.undertow.server.session.InMemorySessionManager
 import io.undertow.server.session.SessionAttachmentHandler
 import io.undertow.server.session.SessionCookieConfig
 import java.net.InetSocketAddress
-import java.util.logging.FileHandler
 import java.net.InetAddress.getByName as address
 
 class UndertowEngine : ServerEngine {
@@ -52,7 +51,7 @@ class UndertowEngine : ServerEngine {
             .toMap()
 
         beforeFilters.forEach {
-            it.route.method.forEach {
+            it.route.methods.forEach {
 
             }
         }
@@ -63,7 +62,7 @@ class UndertowEngine : ServerEngine {
             when (handler) {
                 is AssetsHandler -> {}
                 is RouteHandler -> {
-                    route.method.forEach { m ->
+                    route.methods.forEach { m ->
                         root.add(m.toString (), route.path.path, BlockingHandler {
                             val undertowExchange = Call (
                                 Request(UndertowRequest (it, route)),

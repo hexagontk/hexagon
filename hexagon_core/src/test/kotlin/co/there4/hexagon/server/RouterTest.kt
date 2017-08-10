@@ -51,6 +51,6 @@ import org.testng.annotations.Test
     private fun assertHandler(handler: RequestHandler, path: String, vararg methods: HttpMethod) {
         val route = handler.route
         assert(route.path.path == path)
-        assert(route.method.containsAll(methods.toSet()))
+        assert(route.methods.containsAll(methods.toSet()))
     }
 }

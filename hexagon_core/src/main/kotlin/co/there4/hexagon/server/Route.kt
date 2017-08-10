@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 
 data class Route (
     val path: Path,
-    val method: LinkedHashSet<HttpMethod>,
+    val methods: LinkedHashSet<HttpMethod>,
     val requestType: KClass<*>? = null,
     val responseType: KClass<*>? = null,
     val metadata: Map<String, *> = emptyMap<String, Any>()) {
