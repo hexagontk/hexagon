@@ -42,12 +42,12 @@ class UndertowEngine : ServerEngine {
         Handlers.pathTemplate()
         val codedErrors: Map<Int, ErrorCodeCallback> = requestHandlers
             .filterIsInstance(CodeHandler::class.java)
-            .map { it.code to it.handler }
+            .map { it.code to it.callback }
             .toMap()
 
         val exceptionErrors: Map<Class<out Exception>, ExceptionCallback> = requestHandlers
             .filterIsInstance(ExceptionHandler::class.java)
-            .map { it.exception to it.handler }
+            .map { it.exception to it.callback }
             .toMap()
 
         beforeFilters.forEach {
@@ -71,7 +71,7 @@ class UndertowEngine : ServerEngine {
                             )
 
                             try {
-                                val handlerCallback = handler.handler
+                                val handlerCallback = handler.callback
                                 undertowExchange.handlerCallback()
                             }
                             catch (e: PassException) {

@@ -6,21 +6,21 @@ sealed class RequestHandler {
     data class FilterHandler(
         override val route: Route,
         val order: FilterOrder,
-        val handler: FilterCallback) : RequestHandler()
+        val callback: FilterCallback) : RequestHandler()
 
     data class RouteHandler(
         override val route: Route,
-        val handler: RouteCallback) : RequestHandler()
+        val callback: RouteCallback) : RequestHandler()
 
     data class ExceptionHandler(
         override val route: Route,
         val exception: Class<out Exception>,
-        val handler: ExceptionCallback) : RequestHandler()
+        val callback: ExceptionCallback) : RequestHandler()
 
     data class CodeHandler(
         override val route: Route,
         val code: Int,
-        val handler: ErrorCodeCallback) : RequestHandler()
+        val callback: ErrorCodeCallback) : RequestHandler()
 
     data class AssetsHandler(
         override val route: Route,

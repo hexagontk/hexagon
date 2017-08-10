@@ -44,19 +44,19 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     private val filtersByOrder = router
         .filterIsInstance(FilterHandler::class.java)
         .groupBy { it.order }
-        .mapValues { it.value.map { it.route to it.handler } }
+        .mapValues { it.value.map { it.route to it.callback } }
 
     private val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
     private val afterFilters = filtersByOrder[AFTER] ?: listOf()
 
     private val codedErrors: Map<Int, ErrorCodeCallback> = allHandlers
         .filterIsInstance(CodeHandler::class.java)
-        .map { it.code to it.handler }
+        .map { it.code to it.callback }
         .toMap()
 
     private val exceptionErrors: Map<Class<out Exception>, ExceptionCallback> = allHandlers
         .filterIsInstance(ExceptionHandler::class.java)
-        .map { it.exception to it.handler }
+        .map { it.exception to it.callback }
         .toMap()
 
     private val routes: Set<Route> = allHandlers.map { it.route }.toSet()
