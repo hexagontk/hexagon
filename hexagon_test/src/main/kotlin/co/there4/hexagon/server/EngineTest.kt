@@ -11,9 +11,9 @@ abstract class EngineTest(serverEngine: ServerEngine) {
     internal val modules: List<TestModule> by lazy {
         listOf(
             BooksModule(),
-//            CookiesModule(),
-//            GenericModule(),
-//            HexagonModule(),
+            CookiesModule(),
+            GenericModule(),
+            HexagonModule(),
             SessionModule()
         )
     }

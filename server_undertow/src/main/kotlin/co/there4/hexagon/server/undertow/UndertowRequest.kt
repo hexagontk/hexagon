@@ -8,15 +8,10 @@ import co.there4.hexagon.server.EngineRequest
 import co.there4.hexagon.server.Route
 import java.net.HttpCookie
 
-class UndertowRequest(val e: HttpServerExchange, val route: Route) : EngineRequest {
+class UndertowRequest(private val e: HttpServerExchange, private val route: Route) : EngineRequest {
     override val path: String = e.requestPath
     override val contentType: String? get() = throw UnsupportedOperationException()
-    override val body: String get() {
-//        val buffer = e.connection.byteBufferPool
-//        val allocate = e.connection.byteBufferPool.allocate()
-//        e.requestChannel.read(buffer)
-        TODO()
-    }
+    override val body: String get() = e.inputStream.reader().readText()
     override val scheme: String get() = e.requestScheme
     override val port: Int get() = e.hostPort
     override val method: HttpMethod by lazy { HttpMethod.valueOf (e.requestMethod.toString()) }
@@ -33,7 +28,14 @@ class UndertowRequest(val e: HttpServerExchange, val route: Route) : EngineReque
     override val userAgent: String get() = throw UnsupportedOperationException()
     override val url: String get() = e.requestURL
     override val ip: String get() = e.hostName
-    override val cookies: MutableMap<String, HttpCookie> get() = throw UnsupportedOperationException()
+    override val cookies: Map<String, HttpCookie> get() = e.requestCookies
+        .map {
+            val c = it.value
+            val k = it.key ?: error("Error reading request cookies")
+            k to HttpCookie(c.name, c.value)
+        }
+        .toMap()
+
     override val parts: Map<String, Part> get() = throw UnsupportedOperationException()
     override val referrer: String get() = throw UnsupportedOperationException()
     override val secure: Boolean get() = throw UnsupportedOperationException()

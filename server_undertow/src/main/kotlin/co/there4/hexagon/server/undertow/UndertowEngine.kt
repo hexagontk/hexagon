@@ -8,13 +8,13 @@ import co.there4.hexagon.server.RequestHandler.*
 import io.undertow.Handlers
 import io.undertow.Undertow
 import io.undertow.Handlers.*
+import io.undertow.server.handlers.BlockingHandler
+import io.undertow.server.session.InMemorySessionManager
+import io.undertow.server.session.SessionAttachmentHandler
+import io.undertow.server.session.SessionCookieConfig
 import java.net.InetSocketAddress
 import java.util.logging.FileHandler
 import java.net.InetAddress.getByName as address
-
-//class ChainHandler(val next: Handler) {
-//
-//}
 
 class UndertowEngine : ServerEngine {
     companion object : CachedLogger(UndertowEngine::class)
@@ -58,7 +58,7 @@ class UndertowEngine : ServerEngine {
                 is AssetsHandler -> {}
                 is RouteHandler -> {
                     route.method.forEach { m ->
-                        root.add(m.toString (), route.path.path, {
+                        root.add(m.toString (), route.path.path, BlockingHandler {
                             val undertowExchange = Call (
                                 Request(UndertowRequest (it, route)),
                                 Response(UndertowResponse (it)),
@@ -88,9 +88,15 @@ class UndertowEngine : ServerEngine {
 
         }
 
+        val sessionHandler = SessionAttachmentHandler(
+            InMemorySessionManager("session_manager"),
+            SessionCookieConfig())
+
+        sessionHandler.next = root
+
         val bindPort = server.bindPort
         val hostName = server.bindAddress.hostName
-        val gracefulShutdown = gracefulShutdown(root)
+        val gracefulShutdown = gracefulShutdown(sessionHandler)
         val builder = Undertow.builder().addHttpListener(bindPort, hostName, gracefulShutdown)
 
         undertow = builder.build()

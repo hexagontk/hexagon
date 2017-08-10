@@ -1,13 +1,19 @@
 package co.there4.hexagon.server
 
 import co.there4.hexagon.client.Client
+import co.there4.hexagon.helpers.Loggable
 
 @Suppress("unused") // Test methods are flagged as unused
-internal class SessionModule : TestModule() {
+internal class SessionModule : TestModule(), Loggable {
     override fun initialize(): Router = router {
         get("/session/id") {
             val id: String = session.id ?: "null"
-            session.id = "sessionId"
+            try {
+                session.id = "sessionId"
+            }
+            catch (e: UnsupportedOperationException) {
+                info("Unsupported by framework")
+            }
             assert(id == session.id ?: "null")
             ok(id)
         }

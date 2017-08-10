@@ -2,6 +2,7 @@ package co.there4.hexagon.server.undertow
 
 import io.undertow.server.HttpServerExchange
 import co.there4.hexagon.server.EngineResponse
+import io.undertow.server.handlers.CookieImpl
 import io.undertow.util.HttpString
 import java.io.OutputStream
 import java.net.HttpCookie
@@ -25,11 +26,17 @@ class UndertowResponse(exchange: HttpServerExchange) : EngineResponse {
     }
 
     override fun addCookie(cookie: HttpCookie) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        e.responseCookies.put(cookie.name, CookieImpl(cookie.name, cookie.value))
     }
 
     override fun removeCookie(name: String) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val cookie = e.requestCookies[name]
+        if (cookie != null) {
+            cookie.value = ""
+            cookie.path = "/"
+            cookie.maxAge = 0
+            e.responseCookies[name] = cookie
+        }
     }
 
     val e: HttpServerExchange = exchange
