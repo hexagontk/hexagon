@@ -4,6 +4,8 @@ import co.there4.hexagon.helpers.error
 import co.there4.hexagon.helpers.CachedLogger
 import co.there4.hexagon.helpers.CodedException
 import co.there4.hexagon.server.*
+import co.there4.hexagon.server.FilterOrder.AFTER
+import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.RequestHandler.*
 import io.undertow.Handlers
 import io.undertow.Undertow
@@ -31,13 +33,12 @@ class UndertowEngine : ServerEngine {
         val root = routing()
 
         val requestHandlers = server.router.flatRequestHandlers()
-//        val filtersByOrder = requestHandlers
-//            .filterIsInstance(FilterHandler::class.java)
-//            .groupBy { it.order }
-//            .mapValues { it.value.map { it.route to it.handler } }
-//
-//        val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
-//        val afterFilters = filtersByOrder[AFTER] ?: listOf()
+        val filtersByOrder = requestHandlers
+            .filterIsInstance(FilterHandler::class.java)
+            .groupBy { it.order }
+
+        val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
+        val afterFilters = filtersByOrder[AFTER] ?: listOf()
 
         Handlers.pathTemplate()
         val codedErrors: Map<Int, ErrorCodeCallback> = requestHandlers
@@ -50,11 +51,16 @@ class UndertowEngine : ServerEngine {
             .map { it.exception to it.handler }
             .toMap()
 
+        beforeFilters.forEach {
+            it.route.method.forEach {
+
+            }
+        }
+
         for (handler in requestHandlers) {
             val route = handler.route
 
             when (handler) {
-                is FileHandler -> {}
                 is AssetsHandler -> {}
                 is RouteHandler -> {
                     route.method.forEach { m ->

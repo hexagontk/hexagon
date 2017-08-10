@@ -218,18 +218,10 @@ internal class GenericModule : TestModule() {
         assert(response.headers["Location"] == "http://example.com")
     }
 
-    // TODO Check with asserts
     fun requestData(client: Client) {
         val response = client.get ("/request/data?query")
         val port = client.endpointUrl.port.toString ()
         val protocol = "http"
-
-//        val protocol = if (testScenario.secure) "https" else "http"
-//
-//        assert ("error message" == response.cookies["method"].value)
-//        assert ("error message" == response.cookies["host"].value)
-//        assert ("error message" == response.cookies["uri"].value)
-//        assert ("error message" == response.cookies["params"].value)
 
         assert("AHC/2.0" == response.headers["agent"])
         assert(protocol == response.headers["scheme"])
