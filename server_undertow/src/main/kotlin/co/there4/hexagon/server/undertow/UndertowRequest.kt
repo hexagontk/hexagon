@@ -5,10 +5,9 @@ import co.there4.hexagon.server.Part
 import io.undertow.server.HttpServerExchange
 
 import co.there4.hexagon.server.EngineRequest
-import co.there4.hexagon.server.Route
 import java.net.HttpCookie
 
-class UndertowRequest(private val e: HttpServerExchange, private val route: Route) : EngineRequest {
+class UndertowRequest(private val e: HttpServerExchange) : EngineRequest {
     override val path: String = e.requestPath
     override val contentType: String? get() = throw UnsupportedOperationException()
     override val body: String get() = e.inputStream.reader().readText()
