@@ -27,10 +27,10 @@ val serverExample = server(VoidEngine) {
 
     // Before POST / check 'pass' header, if present, pass to the next filter
     postIndex before {
-        if(request.headers["pass"] != null)
-            pass()
+        if(request.headers["odd"] != null)
+            response.addHeader("odd", "true")
         else
-            response.addHeader("passing", "true")
+            response.addHeader("even", "true")
     }
 
     // Another syntax for a before filter

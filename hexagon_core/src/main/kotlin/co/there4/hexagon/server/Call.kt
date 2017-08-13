@@ -1,6 +1,7 @@
 package co.there4.hexagon.server
 
 import co.there4.hexagon.helpers.CodedException
+import co.there4.hexagon.serialization.contentTypes
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now
@@ -35,7 +36,7 @@ class Call(
         throw CodedException(code, content.toString())
     }
 
-    fun pass(): Nothing = throw PassException()
+    fun contentType(): String = response.contentType ?: request.contentType ?: contentTypes.first()
 
     fun template(
         engine: TemplateEngine,

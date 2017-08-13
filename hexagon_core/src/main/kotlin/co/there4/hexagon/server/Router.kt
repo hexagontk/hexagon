@@ -15,10 +15,6 @@ import kotlin.reflect.KClass
  * TODO Map with routes to all handlers needed
  */
 class Router {
-    companion object {
-        val internalExceptions = listOf(CodedException::class.java, PassException::class.java)
-    }
-
     var requestHandlers: List<RequestHandler> = emptyList(); private set
 
     infix fun Route.before(block: FilterCallback) {
@@ -53,7 +49,7 @@ class Router {
     }
 
     fun error(exception: Class<out Exception>, block: ExceptionCallback) {
-        require(exception !in internalExceptions) {
+        require(exception != CodedException::class.java) {
             "${exception.name} is internal and can't be handled"
         }
         requestHandlers += ExceptionHandler(Route(Path("/"), ALL), exception, block)

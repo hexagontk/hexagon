@@ -62,7 +62,6 @@ internal class GenericModule : TestModule() {
             response.addHeader("runtimeError", it.message ?: it.javaClass.name)
         }
 
-        get("/*") { pass() }
         get("/exception") { throw UnsupportedOperationException("error message") }
         get("/baseException") { throw CustomException() }
         get("/unhandledException") { error("error message") }
@@ -178,7 +177,7 @@ internal class GenericModule : TestModule() {
 
     fun notFound(client: Client) {
         val response = client.get ("/no/resource")
-        assertResponseContains(response, 404, "http://localhost:", "/no/resource not found")
+        assertResponseContains(response, 404)
     }
 
     fun postOk(client: Client) {
@@ -193,7 +192,7 @@ internal class GenericModule : TestModule() {
 
     fun staticFolder(client: Client) {
         val response = client.get ("/file.txt/")
-        assertResponseContains(response, 404, "/file.txt/ not found")
+        assertResponseContains(response, 404)
     }
 
     fun staticFile(client: Client) {
@@ -284,15 +283,15 @@ internal class GenericModule : TestModule() {
         reqres(client)
         getHi(client)
         template(client)
-//        getHiAfterFilter(client)
-//        getRoot(client)
+        getHiAfterFilter(client)
+        getRoot(client)
         echoParam1(client)
         echoParam2(client)
         echoParamWithUpperCaseInValue(client)
         twoRoutesWithDifferentCase(client)
         echoParamWithMaj(client)
-//        unauthorized(client)
-//        notFound(client)
+        unauthorized(client)
+        notFound(client)
         postOk(client)
         patchOk(client)
 //        staticFolder(client)

@@ -1,5 +1,6 @@
 package co.there4.hexagon.server
 
+import co.there4.hexagon.helpers.CodedException
 import co.there4.hexagon.server.HttpMethod.*
 import org.testng.annotations.Test
 
@@ -10,7 +11,7 @@ import org.testng.annotations.Test
     @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
     fun exceptionsInErrorHandlers() {
         router {
-            error(PassException::class) {}
+            error(CodedException::class) {}
         }
     }
 

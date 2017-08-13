@@ -2,13 +2,11 @@ package co.there4.hexagon.server.servlet
 
 import co.there4.hexagon.helpers.CachedLogger
 import co.there4.hexagon.helpers.CodedException
-import co.there4.hexagon.serialization.contentTypes
 import co.there4.hexagon.serialization.serialize
 import co.there4.hexagon.server.*
 import co.there4.hexagon.server.FilterOrder.AFTER
 import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.RequestHandler.*
-import co.there4.hexagon.server.PassException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.servlet.*
@@ -59,9 +57,6 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         .map { it.exception to it.callback }
         .toMap()
 
-    private val routes: Set<Route> = allHandlers.map { it.route }.toSet()
-    private val paths: Set<Path> = routes.map { it.path }.toSet()
-
     private val executor: ExecutorService = Executors.newFixedThreadPool(8)
 
     /**
@@ -93,10 +88,6 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 bRequest.actionPath = first.path
                 val result = call.second()
 
-                // TODO Rename and add to `Call`
-                fun ct() =
-                    call.response.contentType ?: call.request.contentType ?: contentTypes.first()
-
                 // TODO Handle result (warn if body has been set)
                 when (result) {
                     is Unit -> { if (!call.response.statusChanged) call.response.status = 200 }
@@ -106,10 +97,10 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                     is Pair<*, *> -> call.ok(
                         code = result.first as? Int ?: 200,
                         content = result.second.let {
-                            it as? String ?: it?.serialize(ct()) ?: ""
+                            it as? String ?: it?.serialize(call.contentType()) ?: ""
                         }
                     )
-                    else -> call.ok(result.serialize(ct()))
+                    else -> call.ok(result.serialize(call.contentType()))
                 }
 
                 trace("Route for path '${bRequest.actionPath}' executed")
@@ -204,9 +195,9 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         }
     }
 
-    internal fun createResourceHandler(resourcesFolder: String): RouteCallback = {
+    private fun createResourceHandler(resourcesFolder: String): RouteCallback = {
         if (request.path.endsWith("/"))
-            pass()
+            throw PassException()
 
         val resourcePath = "/$resourcesFolder${request.path}"
         val stream = javaClass.getResourceAsStream(resourcePath)
@@ -214,7 +205,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         if (stream == null) {
             response.status = 404
             response.statusChanged = false // TODO Handle this in a better way
-            pass()
+            throw PassException()
         }
         else {
             val contentType by lazy { response.getMimeType(request.path) }
@@ -230,3 +221,8 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         }
     }
 }
+
+/**
+ * Exception used for stopping the execution. It is used only for flow control.
+ */
+class PassException: RuntimeException ()
