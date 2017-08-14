@@ -303,7 +303,7 @@ internal class GenericModule : TestModule() {
         handleException(client)
         base_error_handler(client)
 //        not_registered_error_handler(client)
-//        return_values (client)
+        return_values (client)
         methods(client)
     }
 }

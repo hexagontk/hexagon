@@ -158,7 +158,7 @@ class UndertowEngine : ServerEngine {
         started = false
     }
 
-    internal fun handleException(
+    private fun handleException(
         exception: Exception,
         call: Call,
         codedErrors: Map<Int, ErrorCodeCallback>,

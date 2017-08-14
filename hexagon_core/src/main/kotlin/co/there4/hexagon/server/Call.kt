@@ -22,7 +22,7 @@ class Call(
     val response: Response,
     val session: Session,
     /** Call attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
-    var attributes: Map<String, Any> = linkedMapOf<String, Any>()) {
+    var attributes: Map<String, Any> = linkedMapOf()) {
 
     fun redirect(url: String) = response.redirect(url)
 
@@ -36,7 +36,8 @@ class Call(
         throw CodedException(code, content.toString())
     }
 
-    fun contentType(): String = response.contentType ?: request.contentType ?: contentTypes.first()
+    fun contentType(): String =
+        response.contentType ?: request["accept"] ?: request.contentType ?: contentTypes.first()
 
     fun template(
         engine: TemplateEngine,

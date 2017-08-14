@@ -9,7 +9,7 @@ import java.net.HttpCookie
 
 class UndertowRequest(private val e: HttpServerExchange) : EngineRequest {
     override val path: String = e.requestPath
-    override val contentType: String? get() = throw UnsupportedOperationException()
+    override val contentType: String? get() = e.requestHeaders.getFirst("content-type")
     override val body: String get() = e.inputStream.reader().readText()
     override val scheme: String get() = e.requestScheme
     override val port: Int get() = e.hostPort

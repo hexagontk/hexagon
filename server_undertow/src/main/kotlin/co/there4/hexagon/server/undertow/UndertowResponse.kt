@@ -7,11 +7,11 @@ import io.undertow.util.HttpString
 import java.io.OutputStream
 import java.net.HttpCookie
 
-class UndertowResponse(exchange: HttpServerExchange) : EngineResponse {
+class UndertowResponse(private val exchange: HttpServerExchange) : EngineResponse {
     override var contentType: String?
-        get() = contentType
+        get() = exchange.responseHeaders.getFirst("content-type")
         set(value) {
-            contentType = value
+            exchange.responseHeaders.put(HttpString("content-type"), value)
         }
 
     override val outputStream: OutputStream
