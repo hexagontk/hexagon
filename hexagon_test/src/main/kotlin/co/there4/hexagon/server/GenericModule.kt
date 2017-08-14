@@ -220,11 +220,12 @@ internal class GenericModule : TestModule() {
     fun requestData(client: Client) {
         val response = client.get ("/request/data?query")
         val port = client.endpointUrl.port.toString ()
+        val host = response.headers["host"]
         val protocol = "http"
 
         assert("AHC/2.0" == response.headers["agent"])
         assert(protocol == response.headers["scheme"])
-        assert("127.0.0.1" == response.headers["host"])
+        assert("127.0.0.1" == host || "localhost" == host)
         assert("query" == response.headers["query"])
         assert(port == response.headers["port"])
 
@@ -299,10 +300,10 @@ internal class GenericModule : TestModule() {
 //        fileContentType(client)
         halt(client)
 //        redirect(client)
-//        requestData(client)
+        requestData(client)
         handleException(client)
         base_error_handler(client)
-//        not_registered_error_handler(client)
+        not_registered_error_handler(client)
         return_values (client)
         methods(client)
     }

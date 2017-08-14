@@ -2,6 +2,7 @@ package co.there4.hexagon.server.undertow
 
 import io.undertow.server.HttpServerExchange
 import co.there4.hexagon.server.EngineResponse
+import co.there4.hexagon.server.get
 import io.undertow.server.handlers.CookieImpl
 import io.undertow.util.HttpString
 import java.io.OutputStream
@@ -22,33 +23,32 @@ class UndertowResponse(private val exchange: HttpServerExchange) : EngineRespons
     }
 
     override fun addHeader(name: String, value: String) {
-        e.responseHeaders.put(HttpString(name), value)
+        exchange.responseHeaders.put(HttpString(name), value)
     }
 
     override fun addCookie(cookie: HttpCookie) {
-        e.responseCookies.put(cookie.name, CookieImpl(cookie.name, cookie.value))
+        exchange.responseCookies.put(cookie.name, CookieImpl(cookie.name, cookie.value))
     }
 
     override fun removeCookie(name: String) {
-        val cookie = e.requestCookies[name]
+        val cookie = exchange.requestCookies[name]
         if (cookie != null) {
             cookie.value = ""
             cookie.path = "/"
             cookie.maxAge = 0
-            e.responseCookies[name] = cookie
+            exchange.responseCookies[name] = cookie
         }
     }
-
-    val e: HttpServerExchange = exchange
 
     override var body: Any = ""
         get() = field
         set(value) { field = value }
     override var status: Int
-        get() = e.statusCode
-        set(value) { e.statusCode = value }
+        get() = exchange.statusCode
+        set(value) { exchange.statusCode = value }
 
     override fun redirect(url: String) {
-        throw UnsupportedOperationException()
+        exchange.statusCode = 302
+        exchange.responseHeaders.put(HttpString("Location"), url)
     }
 }

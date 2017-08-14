@@ -24,6 +24,10 @@ class UndertowEngine : ServerEngine {
 
     private val callKey = AttachmentKey.create(Call::class.java)
 
+    private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
+    private val baseExceptionHandler: ExceptionCallback =
+        { error(500, "${it.javaClass.simpleName} (${it.message ?: "no details"})") }
+
     private var undertow: Undertow? = null
     private var started = false
 
@@ -41,7 +45,12 @@ class UndertowEngine : ServerEngine {
         after.invalidMethodHandler = HttpHandler {}
         after.fallbackHandler = HttpHandler {}
 
-        val requestHandlers = server.router.flatRequestHandlers()
+        val errorHandlers = listOf(
+            CodeHandler(Route(Path("/"), ALL), 404, notFoundHandler),
+            ExceptionHandler(Route(Path("/"), ALL), Exception::class.java, baseExceptionHandler)
+        )
+
+        val requestHandlers = errorHandlers + server.router.flatRequestHandlers()
         val filtersByOrder = requestHandlers
             .filterIsInstance(FilterHandler::class.java)
             .groupBy { it.order }

@@ -24,7 +24,7 @@ class UndertowRequest(private val e: HttpServerExchange) : EngineRequest {
     override val headers: Map<String, List<String>> get() =
         e.requestHeaders.map { it.headerName.toString() to it }.toMap()
 
-    override val userAgent: String get() = throw UnsupportedOperationException()
+    override val userAgent: String get() = e.requestHeaders.getFirst("user-agent") ?: "UNKNOWN"
     override val url: String get() = e.requestURL
     override val ip: String get() = e.hostName
     override val cookies: Map<String, HttpCookie> get() = e.requestCookies
