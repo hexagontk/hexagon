@@ -9,6 +9,8 @@ import java.net.HttpCookie
 import javax.activation.MimetypesFileTypeMap
 
 class UndertowResponse(private val exchange: HttpServerExchange) : EngineResponse {
+    private val fileTypeMap = MimetypesFileTypeMap()
+
     override var contentType: String?
         get() = exchange.responseHeaders.getFirst("content-type")
         set(value) {
@@ -18,7 +20,7 @@ class UndertowResponse(private val exchange: HttpServerExchange) : EngineRespons
     override val outputStream: OutputStream
         get() = throw UnsupportedOperationException()
 
-    override fun getMimeType(file: String): String? = MimetypesFileTypeMap().getContentType(file)
+    override fun getMimeType(file: String): String? = fileTypeMap.getContentType(file)
 
     override fun addHeader(name: String, value: String) {
         exchange.responseHeaders.put(HttpString(name), value)
