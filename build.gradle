@@ -45,31 +45,12 @@ repositories {
     jcenter ()
 }
 
-task jacocoMerge(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoMerge) {
-    executionData fileTree (rootDir).include ('**/build/jacoco/test.exec')
-}
+task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoReport) {
+    executionData = files(fileTree(rootDir.absolutePath).include("**/build/jacoco/test.exec"))
 
-task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
-    sourceDirectories = files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
-
-    // TODO Replace by method that filter modules
-    classDirectories = files(
-        rootDir.absolutePath + '/hexagon_benchmark/build/classes/java/main',
-
-        rootDir.absolutePath + '/hexagon_core/build/classes/java/main',
-        rootDir.absolutePath + '/hexagon_rest/build/classes/java/main',
-        rootDir.absolutePath + '/hexagon_scheduler/build/classes/java/main',
-        rootDir.absolutePath + '/hexagon_store/build/classes/java/main',
-        rootDir.absolutePath + '/hexagon_test/build/classes/java/main',
-
-        rootDir.absolutePath + '/events_rabbitmq/build/classes/java/main',
-        rootDir.absolutePath + '/server_servlet/build/classes/java/main',
-        rootDir.absolutePath + '/server_jetty/build/classes/java/main',
-        rootDir.absolutePath + '/server_undertow/build/classes/java/main'
-//        rootDir.absolutePath + '/templates_pebble/build/classes/java/main'
-    )
-
-    executionData = files(jacocoMerge.destinationFile)
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
 
     reports {
         html.enabled = true
