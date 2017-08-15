@@ -1,8 +1,8 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
-ext.rabbitVersion = '4.1.0'
-ext.qpidVersion = '6.1.2'
+ext.rabbitVersion = '4.2.0'
+ext.qpidVersion = '6.1.4'
 
 dependencies {
     compile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: 'slf4j-api' }
