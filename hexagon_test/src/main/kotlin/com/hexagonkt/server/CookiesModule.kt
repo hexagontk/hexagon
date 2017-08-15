@@ -3,7 +3,7 @@ package com.hexagonkt.server
 import com.hexagonkt.client.Client
 import java.net.HttpCookie
 
-@Suppress("unused") // Test methods are flagged as unused
+@Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
 internal class CookiesModule : TestModule() {
     override fun initialize(): Router = router {
         post("/assertNoCookies") {

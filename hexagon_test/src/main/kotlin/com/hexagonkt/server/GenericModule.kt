@@ -6,7 +6,7 @@ import com.hexagonkt.templates.pebble.PebbleEngine
 import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
 
-@Suppress("unused") // Test methods are flagged as unused
+@Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
 internal class GenericModule : TestModule() {
     internal class CustomException : IllegalArgumentException()
 

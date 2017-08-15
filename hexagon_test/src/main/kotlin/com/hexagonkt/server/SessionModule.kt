@@ -3,7 +3,7 @@ package com.hexagonkt.server
 import com.hexagonkt.client.Client
 import com.hexagonkt.helpers.Loggable
 
-@Suppress("unused") // Test methods are flagged as unused
+@Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
 internal class SessionModule : TestModule(), Loggable {
     override fun initialize(): Router = router {
         get("/session/id") {

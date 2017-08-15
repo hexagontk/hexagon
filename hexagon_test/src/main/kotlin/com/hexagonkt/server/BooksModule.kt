@@ -4,14 +4,14 @@ import com.hexagonkt.client.Client
 import java.util.*
 import java.util.Collections.synchronizedMap
 
-@Suppress("unused") // Test methods are flagged as unused
+@Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
 internal class BooksModule : TestModule() {
     data class Book (val author: String, val title: String)
 
     private var id = 1
     private var books: MutableMap<Int, Book> = LinkedHashMap ()
 
-    fun initBooks () {
+    private fun initBooks () {
         books = synchronizedMap(linkedMapOf(
             100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
             101 to Book("William_Shakespeare", "Hamlet"),
@@ -63,7 +63,7 @@ internal class BooksModule : TestModule() {
         }
 
         get ("/books") {
-            ok (books.keys.map(Int::toString).joinToString(" "))
+            ok (books.keys.joinToString(" ", transform = Int::toString))
         }
     }
 
