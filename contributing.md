@@ -92,7 +92,9 @@ NOTE: For the package to be accepted in JCenter, you need to include sources (so
   Then something happened
   ```
 
-* PRs should be done to `master`
+* New features should be discussed as issues in the issue tracker before actual coding
+
+* PRs should be done to `develop`
 
 ## Tasks and Milestones
 

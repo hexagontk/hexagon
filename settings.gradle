@@ -1,18 +1,20 @@
 rootProject.name = name
 
 include (
-    'hexagon_benchmark',
-    'hexagon_core',
-    'hexagon_scheduler',
-    'hexagon_store',
-    'hexagon_rest',
     'hexagon_site',
     'hexagon_starters',
+
+    'hexagon_benchmark',
+
+    'hexagon_core',
+    'hexagon_rest',
+    'hexagon_scheduler',
+    'hexagon_store',
     'hexagon_test',
 
+    'events_rabbitmq',
     'server_servlet',
     'server_jetty',
     'server_undertow',
-    'templates_pebble',
-    'events_rabbitmq'
+    'templates_pebble'
 )
