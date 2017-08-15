@@ -19,7 +19,7 @@
     <level value="off" />
   </logger>
 
-  <logger name="co.there4.hexagon">
+  <logger name="com.hexagonkt">
     <level value="off" />
   </logger>
 </configuration>

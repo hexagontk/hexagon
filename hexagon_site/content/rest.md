@@ -7,11 +7,11 @@ status=published
 REST
 ====
 
-    import co.there4.hexagon.store.MongoIdRepository
-    import co.there4.hexagon.store.mongoDatabase
-    import co.there4.hexagon.serialization.parse
-    import co.there4.hexagon.serialization.parseList
-    import co.there4.hexagon.serialization.serialize
+    import com.hexagonkt.store.MongoIdRepository
+    import com.hexagonkt.store.mongoDatabase
+    import com.hexagonkt.serialization.parse
+    import com.hexagonkt.serialization.parseList
+    import com.hexagonkt.serialization.serialize
     import org.testng.annotations.Test
     import java.net.URL
 

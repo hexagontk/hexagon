@@ -63,7 +63,7 @@ mainClassName = 'HelloKt'
 repositories { jcenter () }
 
 dependencies {
-    compile ("co.there4:hexagon:0.10.7")
+    compile ("com.hexagonkt:hexagon_core:0.19.0")
     compile ("org.eclipse.jetty:jetty-webapp:9.3.16.v20170120")
 }
 ```
@@ -71,7 +71,7 @@ dependencies {
 `src/main/kotlin/Hello.kt`:
 
 ```kotlin
-import co.there4.hexagon.server.*
+import com.hexagonkt.server.*
 
 fun main(args: Array<String>) {
     get("/hello/{name}") { ok("Hello ${request["name"]}!") }

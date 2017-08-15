@@ -1,7 +1,7 @@
 package ${group}
 
-import co.there4.hexagon.web.Client
-import co.there4.hexagon.web.server
+import com.hexagonkt.web.Client
+import com.hexagonkt.web.server
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 

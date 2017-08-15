@@ -68,15 +68,15 @@ repositories {
 }
 
 dependencies {
-    compile ("co.there4.hexagon:server_jetty:0.14.0")
+    compile ("com.hexagonkt:server_jetty:0.14.0")
 }
 ```
 
 `src/main/kotlin/Hello.kt`:
 
 ```kotlin
-import co.there4.hexagon.server.*
-import co.there4.hexagon.server.jetty.*
+import com.hexagonkt.server.*
+import com.hexagonkt.server.jetty.*
 
 fun main(vararg args: String) {
     serve(JettyServletEngine()) {
@@ -107,15 +107,15 @@ Now you can run the service with `gradle run` and view the results at:
 [Pebble]: http://www.mitchellbosecke.com/pebble/home
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
 
-[Service Life Cycle]: http://there4.co/hexagon/life_cycle.html
-[HTTP]: http://there4.co/hexagon/rest.html
-[Serialization]: http://there4.co/hexagon/serialization.html
-[Storage]: http://there4.co/hexagon/storage.html
-[Events]: http://there4.co/hexagon/events.html
-[Configuration]: http://there4.co/hexagon/configuration.html
-[Templates]: http://there4.co/hexagon/templates.html
-[Scheduling]: http://there4.co/hexagon/scheduling.html
-[Testing]: http://there4.co/hexagon/testing.html
+[Service Life Cycle]: http://hexagonkt.com/life_cycle.html
+[HTTP]: http://hexagonkt.com/rest.html
+[Serialization]: http://hexagonkt.com/serialization.html
+[Storage]: http://hexagonkt.com/storage.html
+[Events]: http://hexagonkt.com/events.html
+[Configuration]: http://hexagonkt.com/configuration.html
+[Templates]: http://hexagonkt.com/templates.html
+[Scheduling]: http://hexagonkt.com/scheduling.html
+[Testing]: http://hexagonkt.com/testing.html
 
 ## Contribute
 

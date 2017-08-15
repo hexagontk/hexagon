@@ -4,9 +4,9 @@ import java.time.LocalDateTime.now
 import javax.servlet.annotation.WebListener
 
 import kotlinx.html.*
-import co.there4.hexagon.web.*
-import co.there4.hexagon.web.servlet.ServletServer
-import co.there4.hexagon.template.KotlinxHtmlRenderer.page
+import com.hexagonkt.web.*
+import com.hexagonkt.web.servlet.ServletServer
+import com.hexagonkt.template.KotlinxHtmlRenderer.page
 
 /**
  * Routes setup. It is in its own method to be able to call it for the Webapp and from the Service.

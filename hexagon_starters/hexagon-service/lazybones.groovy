@@ -57,6 +57,6 @@ println(
 
     Read the `readme.md` file for further instructions.
     
-    Check the documentation at http://there4.co/hexagon for reference.
+    Check the documentation at http://hexagonkt.com for reference.
     """
 )

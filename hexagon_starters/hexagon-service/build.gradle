@@ -15,7 +15,7 @@ applicationDefaultJvmArgs = [
 installDist.dependsOn 'war'
 
 dependencies {
-    compile ("co.there4.hexagon:server_jetty:\$hexagonVersion")
+    compile ("com.hexagonkt:server_jetty:\$hexagonVersion")
 
     // Optional dependencies. Can be removed if not used
     compile ("com.mitchellbosecke:pebble:\$pebbleVersion")
@@ -28,6 +28,6 @@ dependencies {
     }
 
     testCompile ("org.testng:testng:\$testngVersion")
-    testCompile ("co.there4.hexagon:hexagon_test:\$hexagonVersion:test")
+    testCompile ("com.hexagonkt:hexagon_test:\$hexagonVersion:test")
     testCompile ("com.rabbitmq:amqp-client:\$rabbitVersion")
 }
