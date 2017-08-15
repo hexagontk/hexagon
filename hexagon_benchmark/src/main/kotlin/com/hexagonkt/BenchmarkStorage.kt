@@ -13,6 +13,7 @@ import java.sql.Connection
 import java.sql.ResultSet.CONCUR_READ_ONLY
 import java.sql.ResultSet.TYPE_FORWARD_ONLY
 import javax.sql.DataSource
+import kotlin.reflect.KClass
 
 import kotlin.reflect.KProperty1
 
@@ -55,17 +56,17 @@ internal interface Store {
 private class MongoDbStore : Store {
     private val database = mongoDatabase("mongodb://$DB_HOST/$DB_NAME")
 
-    private val worldRepository = repository(WORLD_NAME, World::_id)
-    private val fortuneRepository = repository(FORTUNE_NAME, Fortune::_id)
+    private val worldRepository = repository(WORLD_NAME, World::class, World::_id)
+    private val fortuneRepository = repository(FORTUNE_NAME, Fortune::class, Fortune::_id)
 
     // TODO Find out why it fails when creating index '_id' with background: true
-    private inline fun <reified T : Any> repository(name: String, key: KProperty1<T, Int>) =
-        MongoIdRepository(T::class, mongoCollection(name, database), key, indexOrder = null)
+    private fun <T : Any> repository(name: String, type: KClass<T>, key: KProperty1<T, Int>) =
+        MongoIdRepository(type, mongoCollection(name, database), key, indexOrder = null)
 
     override fun findAllFortunes() = fortuneRepository.findObjects().toList()
 
     override fun findWorlds(count: Int) =
-        (1..count).map { worldRepository.find(randomWorld()) }.filterNotNull()
+        (1..count).mapNotNull { worldRepository.find(randomWorld()) }
 
     override fun replaceWorlds(count: Int) = (1..count)
         .map { worldRepository.find(randomWorld())?.copy(randomNumber = randomWorld()) }

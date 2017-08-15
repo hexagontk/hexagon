@@ -13,19 +13,17 @@ interface EngineRequest {
     val body: String          // request body sent by the client
     val scheme: String        // "http"
     val port: Int             // 80
-    val method: com.hexagonkt.server.HttpMethod    // "GET"
+    val method: HttpMethod    // "GET"
     val queryString: String   // ""
     val contentLength: Long   // length of request.body
     val contentType: String?  // media type of request.body
     val host: String          // "example.com"
-    val userAgent: String     // user agent (used by :agent condition)
     val url: String           // "http://example.com/example/foo"
     val ip: String            // client IP address
-    val referrer: String      // the referrer of the client or '/'
+
+    val userAgent: String     // user agent (used by :agent condition)
+    val referer: String      // the referrer of the client or '/'
     val secure: Boolean       // false (would be true over ssl)
-    val forwarded: Boolean    // true (if running behind a reverse proxy)
-    val xhr: Boolean          // is this an ajax request?
-    val preferredType: String // .preferred_type(t)   // 'text/html'
 
     val parameters: Map<String, List<String>> // ["some_param"] // value of some_param parameter
     val headers: Map<String, List<String>>    // ["SOME_HEADER"] // value of SOME_HEADER header

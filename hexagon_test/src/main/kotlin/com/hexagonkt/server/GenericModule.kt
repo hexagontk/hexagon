@@ -51,6 +51,11 @@ internal class GenericModule : TestModule() {
             response.addHeader("query", request.queryString)
             response.addHeader("port", request.port.toString())
 
+            response.addHeader("secure", request.secure.toString())
+            response.addHeader("referer", request.referer)
+            response.addHeader("preferredType", request.preferredType)
+            response.addHeader("contentLength", request.contentLength.toString())
+
             ok ("${response.body}!!!")
         }
 
@@ -228,6 +233,11 @@ internal class GenericModule : TestModule() {
         assert("127.0.0.1" == host || "localhost" == host)
         assert("query" == response.headers["query"])
         assert(port == response.headers["port"])
+
+        assert("false" == response.headers["secure"])
+        assert("UNKNOWN" == response.headers["referer"])
+        assert("text/plain" == response.headers["preferredType"])
+        assert(response.headers["contentLength"].isNotEmpty())
 
         assert(response.responseBody == "$protocol://localhost:$port/request/data!!!")
         assert(200 == response.statusCode)

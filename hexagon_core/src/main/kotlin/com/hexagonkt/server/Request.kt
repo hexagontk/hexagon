@@ -24,11 +24,9 @@ class Request(private val request: EngineRequest) {
     val userAgent: String by lazy { request.userAgent }
     val url: String by lazy { request.url }
     val ip: String by lazy { request.ip }
-    val referrer: String by lazy { request.referrer }
+    val referer: String by lazy { request.referer }
     val secure: Boolean by lazy { request.secure }
-    val forwarded: Boolean by lazy { request.forwarded }
-    val xhr: Boolean by lazy { request.xhr }
-    val preferredType: String by lazy { request.preferredType }
+    val preferredType: String by lazy { accept()?.first() ?: "text/plain" }
 
     val parameters: Map<String, List<String>> by lazy { request.parameters }
     val headers: Map<String, List<String>> by lazy { request.headers }
@@ -37,7 +35,7 @@ class Request(private val request: EngineRequest) {
 
     operator fun get(name: String): String? = parameters[name]?.first()
 
-    fun accept () = headers["Accept"]
+    fun accept () = headers["accept"]
 
     fun parameter(name: String) = get(name) ?: error ("'$name' parameter not found")
 }

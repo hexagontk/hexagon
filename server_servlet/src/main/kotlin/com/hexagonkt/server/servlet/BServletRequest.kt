@@ -9,7 +9,7 @@ import java.io.InputStreamReader
 import java.net.HttpCookie
 import javax.servlet.http.HttpServletRequest
 
-internal class BServletRequest(val req: HttpServletRequest) : EngineRequest {
+internal class BServletRequest(private val req: HttpServletRequest) : EngineRequest {
     var actionPath: Path? = null
 
     override val path: String by lazy {
@@ -23,14 +23,12 @@ internal class BServletRequest(val req: HttpServletRequest) : EngineRequest {
     override val contentLength: Long by lazy { req.contentLength.toLong() }
     override val contentType: String? by lazy { req.contentType }
     override val host: String by lazy { req.remoteHost }
-    override val userAgent: String by lazy { headers["User-Agent"]?.first() ?: "UNKNOWN" }
     override val url: String by lazy { req.requestURL.toString() }
     override val ip: String by lazy { req.remoteAddr }
-    override val referrer: String by lazy { throw UnsupportedOperationException ()  }
-    override val secure: Boolean by lazy { throw UnsupportedOperationException ()  }
-    override val forwarded: Boolean by lazy { throw UnsupportedOperationException ()  }
-    override val xhr: Boolean by lazy { throw UnsupportedOperationException ()  }
-    override val preferredType: String by lazy { throw UnsupportedOperationException ()  }
+
+    override val userAgent: String by lazy { headers["User-Agent"]?.first() ?: "UNKNOWN" }
+    override val referer: String by lazy { headers["Referer"]?.first() ?: "UNKNOWN" }
+    override val secure: Boolean by lazy { scheme == "https" }
 
     override val parameters: Map<String, List<String>> by lazy {
         val requestUrl = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath
@@ -43,15 +41,14 @@ internal class BServletRequest(val req: HttpServletRequest) : EngineRequest {
         req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()
     }
 
-    override val cookies: Map<String, HttpCookie> get() {
+    override val cookies: Map<String, HttpCookie> get() =
         try {
             val map = req.cookies.map { HttpCookie(it.name, it.value) }.map { it.name to it }
-            return map.toMap()
+            map.toMap()
         }
         catch (e: Exception) {
-            return mapOf()
+            mapOf()
         }
-    }
 
     override val parts: Map<String, Part> by lazy { throw UnsupportedOperationException ()  }
 }
