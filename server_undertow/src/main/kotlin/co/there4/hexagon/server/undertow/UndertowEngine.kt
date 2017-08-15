@@ -10,14 +10,17 @@ import co.there4.hexagon.server.FilterOrder.BEFORE
 import co.there4.hexagon.server.RequestHandler.*
 import io.undertow.Undertow
 import io.undertow.Handlers.*
+import io.undertow.predicate.Predicates
 import io.undertow.server.HttpHandler
 import io.undertow.server.handlers.BlockingHandler
+import io.undertow.server.handlers.resource.ResourceHandler
 import io.undertow.server.session.InMemorySessionManager
 import io.undertow.server.session.SessionAttachmentHandler
 import io.undertow.server.session.SessionCookieConfig
 import io.undertow.util.AttachmentKey
 import java.net.InetSocketAddress
 import java.net.InetAddress.getByName as address
+import io.undertow.server.handlers.PredicateHandler
 
 class UndertowEngine : ServerEngine {
     companion object : CachedLogger(UndertowEngine::class)
@@ -81,19 +84,25 @@ class UndertowEngine : ServerEngine {
             val route = handler.route
 
             when (handler) {
-                is AssetsHandler -> {}
                 is RouteHandler -> {
                     route.methods.forEach { m ->
                         root.add(m.toString (), route.path.path, BlockingHandler {
                             val call = it.getAttachment(callKey)
                             val handlerCallback = handler.callback
                             val result = call.handlerCallback()
+                            val response = call.response
 
                             // TODO warn if body has been set
                             when (result) {
-                                is Unit -> { if (!call.response.statusChanged) call.response.status = 200 }
-                                is Nothing -> { if (!call.response.statusChanged) call.response.status = 200 }
-                                is Int -> call.response.status = result
+                                is Unit -> {
+                                    if (!response.statusChanged && response.status != 302)
+                                        response.status = 200
+                                }
+                                is Nothing -> {
+                                    if (!response.statusChanged && response.status != 302)
+                                        response.status = 200
+                                }
+                                is Int -> response.status = result
                                 is String -> call.ok(result)
                                 is Pair<*, *> -> call.ok(
                                     code = result.first as? Int ?: 200,
@@ -146,9 +155,16 @@ class UndertowEngine : ServerEngine {
             }
         }
 
+        // TODO Code a proper handler
+        val resourceHandler = PredicateHandler(
+            Predicates.suffixes(".css", ".js", ".txt"),
+            ResourceHandler(FallbackResourceManager(null, "public")),
+            sessionHandler
+        )
+
         val bindPort = server.bindPort
         val hostName = server.bindAddress.hostName
-        val gracefulShutdown = gracefulShutdown(sessionHandler)
+        val gracefulShutdown = gracefulShutdown(resourceHandler)
         val builder = Undertow.builder().addHttpListener(bindPort, hostName, gracefulShutdown)
 
         undertow = builder.build()
@@ -196,4 +212,3 @@ class UndertowEngine : ServerEngine {
         }
     }
 }
-

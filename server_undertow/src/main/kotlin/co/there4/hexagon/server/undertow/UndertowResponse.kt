@@ -2,11 +2,11 @@ package co.there4.hexagon.server.undertow
 
 import io.undertow.server.HttpServerExchange
 import co.there4.hexagon.server.EngineResponse
-import co.there4.hexagon.server.get
 import io.undertow.server.handlers.CookieImpl
 import io.undertow.util.HttpString
 import java.io.OutputStream
 import java.net.HttpCookie
+import javax.activation.MimetypesFileTypeMap
 
 class UndertowResponse(private val exchange: HttpServerExchange) : EngineResponse {
     override var contentType: String?
@@ -18,9 +18,7 @@ class UndertowResponse(private val exchange: HttpServerExchange) : EngineRespons
     override val outputStream: OutputStream
         get() = throw UnsupportedOperationException()
 
-    override fun getMimeType(file: String): String? {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getMimeType(file: String): String? = MimetypesFileTypeMap().getContentType(file)
 
     override fun addHeader(name: String, value: String) {
         exchange.responseHeaders.put(HttpString(name), value)
