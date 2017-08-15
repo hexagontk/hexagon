@@ -15,6 +15,7 @@ out/
 *.iml
 
 # Runtime
+**/*.class
 *.log
 *.hprof
 log/
