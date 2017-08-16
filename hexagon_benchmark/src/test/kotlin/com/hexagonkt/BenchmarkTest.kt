@@ -15,8 +15,8 @@ internal const val TIMES = 2
 class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
 class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
 
-//class BenchmarkUndertowMongoDbTest : BenchmarkTest("undertow", "mongodb")
-//class BenchmarkUndertowPostgreSqlTest : BenchmarkTest("undertow", "postgresql")
+class BenchmarkUndertowMongoDbTest : BenchmarkTest("undertow", "mongodb")
+class BenchmarkUndertowPostgreSqlTest : BenchmarkTest("undertow", "postgresql")
 
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
 abstract class BenchmarkTest(private val webEngine: String, private val databaseEngine: String) {

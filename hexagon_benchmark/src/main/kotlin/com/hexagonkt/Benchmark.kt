@@ -48,7 +48,7 @@ private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1)
 private fun Call.listFortunes(store: Store) {
     val fortunes = store.findAllFortunes() + Fortune(0, "Additional fortune added at request time.")
     val locale = Locale.getDefault()
-    response.contentType = "text/html; charset=utf-8"
+    response.contentType = "text/html;charset=utf-8"
     template(PebbleEngine, "fortunes.html", locale, "fortunes" to fortunes.sortedBy { it.message })
 }
 
