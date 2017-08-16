@@ -3,13 +3,15 @@
 
 [![BuildImg]][Build] [![CoverageImg]][Coverage] [![DownloadImg]][Download]
 
-[BuildImg]: https://travis-ci.org/hexagonkt/hexagon.svg?branch=master
+[BuildImg]: https://img.shields.io/travis/hexagonkt/hexagon.svg?colorA=0000FF&style=flat-square
 [Build]: https://travis-ci.org/hexagonkt/hexagon
 
-[CoverageImg]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graph/badge.svg
+[CoverageImg]:
+  https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0000FF&style=flat-square
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
 
-[DownloadImg]: https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg
+[DownloadImg]:
+  https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0000FF&style=flat-square
 [Download]: https://bintray.com/jamming/maven/hexagon_core/_latestVersion
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and

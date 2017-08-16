@@ -66,9 +66,10 @@ Project templates (AKA starters)
 
 1.0 Will maintain compatibility. But It will not be supported after 2.0
 
-# Teaser
+# Teaser / Roadmap
 
 Froze interface
+The focus will be library ease of use and API freeze
 
 Async
 
