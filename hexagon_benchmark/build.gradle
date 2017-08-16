@@ -10,7 +10,7 @@ applicationDefaultJvmArgs = [
     '-Xms2G', '-Xmx2G', '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts'
 ]
 
-ext.hikariVersion = '2.6.1'
+ext.hikariVersion = '2.6.2'
 ext.postgresqlVersion = '42.0.0'
 ext.mongodbVersion = '3.4.2'
 ext.jettyVersion = '9.4.6.v20170531'
