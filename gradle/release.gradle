@@ -29,3 +29,8 @@ task checkGitStatus () {
         checkCleanRepository(grgit)
     }
 }
+
+static void checkCleanRepository(Grgit gitRepository) {
+    if (!gitRepository.status ().clean)
+        throw new GradleException ('Repository not clean')
+}
