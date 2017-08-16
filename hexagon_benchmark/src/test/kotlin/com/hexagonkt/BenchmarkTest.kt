@@ -4,12 +4,13 @@ import com.hexagonkt.serialization.parse
 import com.hexagonkt.client.Client
 import com.hexagonkt.server.HttpMethod.GET
 import org.asynchttpclient.Response
+import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.lang.System.setProperty
 import kotlin.test.assertFailsWith
 
-internal const val THREADS = 2
+internal const val THREADS = 4
 internal const val TIMES = 2
 
 class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
@@ -20,7 +21,7 @@ class BenchmarkUndertowPostgreSqlTest : BenchmarkTest("undertow", "postgresql")
 
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
 abstract class BenchmarkTest(private val webEngine: String, private val databaseEngine: String) {
-    private val client by lazy { Client("http://localhost:${server?.runtimePort}") }
+    private val client by lazy { Client("http://localhost:${benchmarkServer?.runtimePort}") }
 
     @BeforeClass fun warmup() {
         setProperty("DBSTORE", databaseEngine)
@@ -51,6 +52,11 @@ abstract class BenchmarkTest(private val webEngine: String, private val database
             one_hundred_updates()
             five_hundred_updates()
         }
+    }
+
+    @AfterClass fun cooldown() {
+        benchmarkStore?.close()
+        benchmarkServer?.stop()
     }
 
     fun store() {

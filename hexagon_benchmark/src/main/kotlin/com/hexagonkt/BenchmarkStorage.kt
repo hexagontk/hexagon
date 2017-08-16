@@ -51,6 +51,7 @@ internal interface Store {
     fun findAllFortunes(): List<Fortune>
     fun findWorlds(count: Int): List<World>
     fun replaceWorlds(count: Int): List<World>
+    fun close()
 }
 
 private class MongoDbStore : Store {
@@ -62,6 +63,8 @@ private class MongoDbStore : Store {
     // TODO Find out why it fails when creating index '_id' with background: true
     private fun <T : Any> repository(name: String, type: KClass<T>, key: KProperty1<T, Int>) =
         MongoIdRepository(type, mongoCollection(name, database), key, indexOrder = null)
+
+    override fun close() { /* Not needed */ }
 
     override fun findAllFortunes() = fortuneRepository.findObjects().toList()
 
@@ -83,7 +86,7 @@ private class SqlStore(jdbcUrl: String) : Store {
     private val UPDATE_WORLD = "update world set randomNumber = ? where id = ?"
     private val SELECT_ALL_FORTUNES = "select * from fortune"
 
-    private val DATA_SOURCE: DataSource
+    private val DATA_SOURCE: HikariDataSource
 
     init {
         val config = HikariConfig()
@@ -92,6 +95,10 @@ private class SqlStore(jdbcUrl: String) : Store {
         config.username = settings["databaseUsername"] as? String ?: "benchmarkdbuser"
         config.password = settings["databasePassword"] as? String ?:  "benchmarkdbpass"
         DATA_SOURCE = HikariDataSource(config)
+    }
+
+    override fun close() {
+        DATA_SOURCE.close()
     }
 
     override fun findAllFortunes(): List<Fortune> {

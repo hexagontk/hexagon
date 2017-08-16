@@ -62,7 +62,7 @@ private fun Call.updateWorlds(store: Store) {
 
 // CONTROLLER
 private fun router(): Router = router {
-    val store = createStore(getProperty("DBSTORE") ?: getenv("DBSTORE") ?: "mongodb")
+    val store = benchmarkStore ?: error("Invalid Store")
 
     before {
         response.addHeader("Server", "Servlet/3.1")
@@ -79,10 +79,16 @@ private fun router(): Router = router {
 }
 
 @WebListener class Web : ServletServer () {
+    init {
+        if (benchmarkStore == null)
+            benchmarkStore = createStore(getProperty("DBSTORE") ?: getenv("DBSTORE") ?: "mongodb")
+    }
+
     override fun createRouter() = router()
 }
 
-internal var server: Server? = null
+internal var benchmarkStore: Store? = null
+internal var benchmarkServer: Server? = null
 
 internal fun createEngine(engine: String): ServerEngine = when (engine) {
     "jetty" -> JettyServletEngine()
@@ -92,5 +98,6 @@ internal fun createEngine(engine: String): ServerEngine = when (engine) {
 
 fun main(vararg args: String) {
     val engine = createEngine(getProperty("WEBENGINE") ?: getenv("WEBENGINE") ?: "jetty")
-    server = Server(engine, settings, router()).apply { run() }
+    benchmarkStore = createStore(getProperty("DBSTORE") ?: getenv("DBSTORE") ?: "mongodb")
+    benchmarkServer = Server(engine, settings, router()).apply { run() }
 }
