@@ -1,5 +1,7 @@
 package com.hexagonkt.server.undertow
 
+import java.lang.ClassLoader.getSystemClassLoader
+
 import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.CodedException
@@ -21,6 +23,7 @@ import io.undertow.util.AttachmentKey
 import java.net.InetSocketAddress
 import java.net.InetAddress.getByName as address
 import io.undertow.server.handlers.PredicateHandler
+import io.undertow.server.handlers.resource.ClassPathResourceManager
 
 class UndertowEngine : ServerEngine {
     companion object : CachedLogger(UndertowEngine::class)
@@ -158,7 +161,7 @@ class UndertowEngine : ServerEngine {
         // TODO Code a proper handler
         val resourceHandler = PredicateHandler(
             Predicates.suffixes(".css", ".js", ".txt"),
-            ResourceHandler(FallbackResourceManager(null, "public")),
+            ResourceHandler(ClassPathResourceManager (getSystemClassLoader (), "public")),
             sessionHandler
         )
 
