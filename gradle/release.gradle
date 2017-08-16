@@ -16,8 +16,6 @@ task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
             name = version
             message = "Release $version"
         }
-
-        grgit.push()
     }
 }
 
