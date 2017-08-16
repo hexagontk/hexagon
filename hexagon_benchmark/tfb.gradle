@@ -24,6 +24,7 @@ installDist.dependsOn 'war'
 dependencies {
     compile ("com.hexagonkt:hexagon_store:$hexagonVersion")
     compile ("com.hexagonkt:server_jetty:$hexagonVersion")
+    compile ("com.hexagonkt:server_undertow:$hexagonVersion")
     compile ("com.hexagonkt:templates_pebble:$hexagonVersion")
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion")

@@ -31,6 +31,7 @@ installDist.dependsOn 'war'
 dependencies {
     compile project(':hexagon_store')
     compile project(':server_jetty')
+    compile project(':server_undertow')
     compile project(':templates_pebble')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }

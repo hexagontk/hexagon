@@ -12,15 +12,19 @@ import kotlin.test.assertFailsWith
 internal const val THREADS = 4
 internal const val TIMES = 2
 
-class BenchmarkMongoDbTest : BenchmarkTest("mongodb")
-class BenchmarkPostgreSqlTest : BenchmarkTest("postgresql")
+class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
+class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
+
+//class BenchmarkUndertowMongoDbTest : BenchmarkTest("undertow", "mongodb")
+//class BenchmarkUndertowPostgreSqlTest : BenchmarkTest("undertow", "postgresql")
 
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
-abstract class BenchmarkTest(val databaseEngine: String) {
+abstract class BenchmarkTest(private val webEngine: String, private val databaseEngine: String) {
     private val client by lazy { Client("http://localhost:${server?.runtimePort}") }
 
     @BeforeClass fun warmup() {
         setProperty("DBSTORE", databaseEngine)
+        setProperty("WEBENGINE", webEngine)
         main()
 
         val warmupRounds = if (THREADS > 1) 2 else 0

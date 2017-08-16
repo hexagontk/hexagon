@@ -2,12 +2,10 @@ package com.hexagonkt
 
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.serialize
-import com.hexagonkt.server.Call
-import com.hexagonkt.server.Router
-import com.hexagonkt.server.Server
+import com.hexagonkt.server.*
 import com.hexagonkt.server.jetty.JettyServletEngine
-import com.hexagonkt.server.router
 import com.hexagonkt.server.servlet.ServletServer
+import com.hexagonkt.server.undertow.UndertowEngine
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.templates.pebble.PebbleEngine
 
@@ -86,6 +84,13 @@ private fun router(): Router = router {
 
 internal var server: Server? = null
 
+internal fun createEngine(engine: String): ServerEngine = when (engine) {
+    "jetty" -> JettyServletEngine()
+    "undertow" -> UndertowEngine()
+    else -> error("Unsupported server engine")
+}
+
 fun main(vararg args: String) {
-    server = Server(JettyServletEngine(), settings, router()).apply { run() }
+    val engine = createEngine(getProperty("WEBENGINE") ?: getenv("WEBENGINE") ?: "jetty")
+    server = Server(engine, settings, router()).apply { run() }
 }
