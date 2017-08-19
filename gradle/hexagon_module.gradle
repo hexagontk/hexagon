@@ -11,8 +11,5 @@ dependencies {
 }
 
 test {
-    useTestNG {
-        parallel = 'methods'
-        threadCount = 4
-    }
+    useTestNG ()
 }
