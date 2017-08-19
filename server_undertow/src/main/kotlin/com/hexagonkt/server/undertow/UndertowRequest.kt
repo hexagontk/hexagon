@@ -33,7 +33,7 @@ class UndertowRequest(private val e: HttpServerExchange) : EngineRequest {
     override val cookies: Map<String, HttpCookie> get() = e.requestCookies
         .map {
             val c = it.value
-            val k = it.key ?: error("Error reading request cookies")
+            val k = it.key
             k to HttpCookie(c.name, c.value)
         }
         .toMap()

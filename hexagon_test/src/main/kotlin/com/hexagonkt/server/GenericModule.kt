@@ -3,6 +3,7 @@ package com.hexagonkt.server
 import com.hexagonkt.client.Client
 import com.hexagonkt.server.HttpMethod.GET
 import com.hexagonkt.templates.pebble.PebbleEngine
+import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
 
@@ -44,6 +45,11 @@ internal class GenericModule : TestModule() {
             request.cookies["host"]?.value = request.ip
             request.cookies["uri"]?.value = request.url
             request.cookies["params"]?.value = request.parameters.size.toString()
+
+            response.addHeader("method", request.method.toString())
+            response.addHeader("ip", request.ip)
+            response.addHeader("uri", request.url)
+            response.addHeader("params", request.parameters.size.toString())
 
             response.addHeader("agent", request.userAgent)
             response.addHeader("scheme", request.scheme)
@@ -224,13 +230,15 @@ internal class GenericModule : TestModule() {
 
     fun requestData(client: Client) {
         val response = client.get ("/request/data?query")
-        val port = client.endpointUrl.port.toString ()
+        val port = URL(client.endpoint).port.toString ()
         val host = response.headers["host"]
+        val ip = response.headers["ip"]
         val protocol = "http"
 
         assert("AHC/2.0" == response.headers["agent"])
         assert(protocol == response.headers["scheme"])
         assert("127.0.0.1" == host || "localhost" == host)
+        assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
         assert("query" == response.headers["query"])
         assert(port == response.headers["port"])
 
@@ -240,6 +248,18 @@ internal class GenericModule : TestModule() {
         assert(response.headers["contentLength"].isNotEmpty())
 
         assert(response.responseBody == "$protocol://localhost:$port/request/data!!!")
+        assert(200 == response.statusCode)
+    }
+
+    fun requestDataWithDifferentHeaders(client: Client) {
+        val response = client.get ("/request/data?query", linkedMapOf(
+            "Referer" to listOf("/"),
+            "User-Agent" to listOf("ua")
+        ))
+
+        assert("ua" == response.headers["agent"])
+        assert("/" == response.headers["referer"])
+
         assert(200 == response.statusCode)
     }
 

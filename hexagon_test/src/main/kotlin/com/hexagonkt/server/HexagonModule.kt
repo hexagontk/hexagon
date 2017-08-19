@@ -6,7 +6,7 @@ import com.hexagonkt.client.Client
 internal class HexagonModule : TestModule() {
     override fun initialize(): Router = router {
         get ("/hexagon/books/{id}") {
-            ok ("${request ["id"]}:${request.body}")
+            ok ("${request ["id"]}")
         }
         get ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
         trace ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
@@ -26,11 +26,6 @@ internal class HexagonModule : TestModule() {
         assertResponseContains (client.trace ("/hexagon/books/101/Hamlet"), "101", "Hamlet")
         assertResponseContains (client.patch ("/hexagon/books/101/Hamlet"), "101", "Hamlet")
         assertResponseContains (client.head ("/hexagon/books/101/Hamlet"))
-
-        assertResponseContains (client.get ("/hexagon/books/101/Hamlet", "body"), "101", "Hamlet", "body")
-        assertResponseContains (client.trace ("/hexagon/books/101/Hamlet", "body"), "101", "Hamlet", "body")
-        assertResponseContains (client.patch ("/hexagon/books/101/Hamlet", "body"), "101", "Hamlet", "body")
-        assertResponseContains (client.head ("/hexagon/books/101/Hamlet", "body"))
     }
 
     override fun validate(client: Client) {

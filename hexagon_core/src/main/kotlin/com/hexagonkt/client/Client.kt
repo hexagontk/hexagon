@@ -4,66 +4,72 @@ import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.HttpMethod
 import com.hexagonkt.server.HttpMethod.*
 import io.netty.handler.ssl.SslContextBuilder
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
 import org.asynchttpclient.DefaultAsyncHttpClient
 import org.asynchttpclient.DefaultAsyncHttpClientConfig.Builder
 import org.asynchttpclient.Response
 import org.asynchttpclient.cookie.Cookie
 import java.io.File
-import java.net.URL
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
 import java.util.*
 import java.util.Base64.Encoder
+import kotlin.collections.LinkedHashMap
 import org.asynchttpclient.request.body.multipart.Part as AsyncHttpPart
 
 /**
  * Client to use other REST services.
  */
 class Client (
-    val endpointUrl: URL,
+    val endpoint: String = "",
     val contentType: String? = null,
     val useCookies: Boolean = true,
+    val headers: Map<String, List<String>> = LinkedHashMap(),
     user: String? = null,
     password: String? = null,
     insecure: Boolean = false) {
 
-    val base64encoder: Encoder = Base64.getEncoder()
-    val authorization: String? =
-        if (user != null)
-        base64encoder.encodeToString("$user:$password".toByteArray(UTF_8))
+    private val base64encoder: Encoder = Base64.getEncoder()
+
+    private val authorization: String? =
+        if (user != null) base64encoder.encodeToString("$user:$password".toByteArray(UTF_8))
         else null
 
-    val endpoint = endpointUrl.toString()
-    val client = DefaultAsyncHttpClient(Builder()
+    private val client = DefaultAsyncHttpClient(Builder()
         .setConnectTimeout(5000)
         .setSslContext(
-            if (insecure)
-                SslContextBuilder
-                    .forClient()
-                    .trustManager(InsecureTrustManagerFactory.INSTANCE)
-                    .build()
+            if (insecure) SslContextBuilder.forClient().trustManager(InsecureTrustManager).build()
             else SslContextBuilder.forClient().build()
         )
-        .build())
-    val cookies: MutableMap<String, Cookie> = mutableMapOf()
+        .build()
+    )
 
-    constructor(endpointUrl: String, contentType: String? = null, useCookies: Boolean = true):
-        this(URL(endpointUrl), contentType, useCookies)
+    val cookies: MutableMap<String, Cookie> = mutableMapOf()
 
     /**
      * Synchronous execution.
      */
     fun send (
         method: HttpMethod,
-        url: String = "/",
-        body: String? = null,
-        contentType: String? = this.contentType): Response {
+        url: String = "",
+        body: Any? = null,
+        contentType: String? = this.contentType,
+        callHeaders: Map<String, List<String>> = LinkedHashMap()): Response {
 
         val request = createRequest(method, url, contentType)
 
-        if (body != null)
-            request.setBody(body)
+        val bodyValue = when (body) {
+            null -> null
+            is File -> Base64.getEncoder().encodeToString(body.readBytes())
+            else ->
+                if (contentType == null) body.toString()
+                else body.serialize(contentType)
+        }
+
+        if (bodyValue != null)
+            request.setBody(bodyValue)
+
+        (headers + callHeaders).forEach { request.addHeader(it.key, it.value) }
 
         if (useCookies)
             cookies.forEach { request.addCookie(it.value) }
@@ -82,73 +88,29 @@ class Client (
         return response
     }
 
-    fun sendObject(
-        method: HttpMethod,
-        url: String,
-        contentType: String = requireContentType(),
-        body: Any) = when (body) {
-            is File -> send(method, url, Base64.getEncoder().encodeToString(body.readBytes()), contentType)
-            else -> send(method, url, body.serialize(contentType), contentType)
-        }
+    fun get (url: String, callHeaders: Map<String, List<String>> = LinkedHashMap()) =
+        send (GET, url, null, callHeaders = callHeaders)
 
-    private fun requireContentType() = this.contentType ?: error("Missing content type")
+    fun head (url: String, callHeaders: Map<String, List<String>> = LinkedHashMap()) =
+        send (HEAD, url, null, callHeaders = callHeaders)
 
-    fun get (url: String, body: String? = null) = send (GET, url, body)
-    fun head (url: String, body: String? = null) = send (HEAD, url, body)
-    fun post (url: String, body: String? = null) = send (POST, url, body)
-    fun put (url: String, body: String? = null) = send (PUT, url, body)
-    fun delete (url: String, body: String? = null) = send (DELETE, url, body)
-    fun trace (url: String, body: String? = null) = send (TRACE, url, body)
-    fun options (url: String, body: String? = null) = send (OPTIONS, url, body)
-    fun patch (url: String, body: String? = null) = send (PATCH, url, body)
+    fun post (url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send (POST, url, body, contentType)
 
-    fun get (url: String, contentType: String = requireContentType(), body: Any) =
-        sendObject(GET, url, contentType, body)
+    fun put (url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send (PUT, url, body, contentType)
 
-    fun get (url: String, contentType: String = requireContentType(), body: () -> Any) =
-        get(url, contentType, body())
+    fun delete (url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send (DELETE, url, body, contentType)
 
-    fun head (url: String, contentType: String = requireContentType(), body: Any) =
-        sendObject(HEAD, url, contentType, body)
+    fun trace (url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send (TRACE, url, body, contentType)
 
-    fun head (url: String, contentType: String = requireContentType(), body: () -> Any) =
-        head(url, contentType, body())
+    fun options (url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send (OPTIONS, url, body, contentType)
 
-    fun post (url: String, contentType: String = requireContentType(), body: Any) =
-        sendObject(POST, url, contentType, body)
-
-    fun post (url: String, contentType: String = requireContentType(), body: () -> Any) =
-        post(url, contentType, body())
-
-    fun put (url: String, contentType: String = requireContentType(), body: Any) =
-        sendObject(PUT, url, contentType, body)
-
-    fun put (url: String, contentType: String = requireContentType(), body: () -> Any) =
-        put(url, contentType, body())
-
-    fun delete (url: String, contentType: String = requireContentType(), body: Any) =
-        sendObject(DELETE, url, contentType, body)
-
-    fun delete (url: String, contentType: String = requireContentType(), body: () -> Any) =
-        delete(url, contentType, body())
-
-    fun trace (url: String, contentType: String = requireContentType(), body: Any) =
-        sendObject(TRACE, url, contentType, body)
-
-    fun trace (url: String, contentType: String = requireContentType(), body: () -> Any) =
-        trace(url, contentType, body())
-
-    fun options (url: String, contentType: String = requireContentType(), body: Any) =
-        sendObject(OPTIONS, url, contentType, body)
-
-    fun options (url: String, contentType: String = requireContentType(), body: () -> Any) =
-        options(url, contentType, body())
-
-    fun patch (url: String, contentType: String = requireContentType(), body: Any) =
-        sendObject(PATCH, url, contentType, body)
-
-    fun patch (url: String, contentType: String = requireContentType(), body: () -> Any) =
-        patch(url, contentType, body())
+    fun patch (url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send (PATCH, url, body, contentType)
 
     private fun createRequest(method: HttpMethod, url: String, contentType: String? = null) =
         (endpoint + url).let {

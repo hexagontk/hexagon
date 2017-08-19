@@ -1,7 +1,6 @@
 package com.hexagonkt.client
 
 import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options as wmoptions
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
@@ -49,26 +48,26 @@ class ClientTest {
         val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
-        val body = client.post("/", "application/json", requestBody).responseBody
+        val body = client.post("/", requestBody, "application/json").responseBody
         assert(body.trim() == expectedBody)
 
         val body2 = client.post("/", body = requestBody).responseBody
         assert(body2.trim() == expectedBody)
 
-        client.get("/", "application/json") { "foo" }
-        client.get("/") { "foo" }
+        client.get("/")
+        client.get("/")
     }
 
     fun http_methods_with_objects_work_ok() {
         val parameter = mapOf("key" to "value")
-        checkResponse(client.get("/") { parameter }, parameter)
-        checkResponse(client.head("/") { parameter }, null)
-        checkResponse(client.post("/") { parameter }, parameter)
-        checkResponse(client.put("/") { parameter }, parameter)
-        checkResponse(client.delete("/") { parameter }, parameter)
-        checkResponse(client.trace("/") { parameter }, parameter)
-        checkResponse(client.options("/") { parameter }, parameter)
-        checkResponse(client.patch("/") { parameter }, parameter)
+        checkResponse(client.get("/"), null)
+        checkResponse(client.head("/"), null)
+        checkResponse(client.post("/", parameter), parameter)
+        checkResponse(client.put("/", parameter), parameter)
+        checkResponse(client.delete("/", parameter), parameter)
+        checkResponse(client.trace("/", parameter), parameter)
+        checkResponse(client.options("/", parameter), parameter)
+        checkResponse(client.patch("/", parameter), parameter)
     }
 
     private fun checkResponse(response: Response, parameter: Map<String, String>?) {
