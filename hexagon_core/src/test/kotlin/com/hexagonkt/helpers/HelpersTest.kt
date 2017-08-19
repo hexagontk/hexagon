@@ -1,20 +1,27 @@
 package com.hexagonkt.helpers
 
 import org.testng.annotations.Test
-import java.nio.file.FileSystems.newFileSystem
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 import java.util.*
 import java.util.Calendar.MILLISECOND
-import java.util.Collections.emptyMap
 import kotlin.test.assertFailsWith
 
 @Test class HelpersTest {
+    fun system_setting_works_ok () {
+        System.setProperty("system_property", "value")
+
+        assert(systemSetting("system_property") == "value")
+
+        assert(systemSetting("PATH")?.isNotEmpty() ?: false)
+        assert(systemSetting("_not_defined_") == null)
+
+        System.setProperty("PATH", "path override")
+        assert(systemSetting("PATH") == "path override")
+    }
+
     fun time_nanos_gets_the_elapsed_nanoseconds () {
         val nanos = System.nanoTime()
         val timeNanos = formatNanos(nanos)
