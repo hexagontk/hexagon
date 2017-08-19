@@ -1,5 +1,6 @@
 package com.hexagonkt
 
+import com.hexagonkt.helpers.systemSetting
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.*
@@ -9,8 +10,6 @@ import com.hexagonkt.server.undertow.UndertowEngine
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.templates.pebble.PebbleEngine
 
-import java.lang.System.getProperty
-import java.lang.System.getenv
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import javax.servlet.annotation.WebListener
@@ -81,7 +80,7 @@ private fun router(): Router = router {
 @WebListener class Web : ServletServer () {
     init {
         if (benchmarkStore == null)
-            benchmarkStore = createStore(getProperty("DBSTORE") ?: getenv("DBSTORE") ?: "mongodb")
+            benchmarkStore = createStore(systemSetting("DBSTORE", "mongodb"))
     }
 
     override fun createRouter() = router()
@@ -97,7 +96,7 @@ internal fun createEngine(engine: String): ServerEngine = when (engine) {
 }
 
 fun main(vararg args: String) {
-    val engine = createEngine(getProperty("WEBENGINE") ?: getenv("WEBENGINE") ?: "jetty")
-    benchmarkStore = createStore(getProperty("DBSTORE") ?: getenv("DBSTORE") ?: "mongodb")
+    val engine = createEngine(systemSetting("WEBENGINE", "jetty"))
+    benchmarkStore = createStore(systemSetting("DBSTORE", "mongodb"))
     benchmarkServer = Server(engine, settings, router()).apply { run() }
 }

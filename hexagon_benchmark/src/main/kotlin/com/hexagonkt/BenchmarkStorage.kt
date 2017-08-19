@@ -1,6 +1,8 @@
 package com.hexagonkt
 
+import com.hexagonkt.helpers.systemSetting
 import com.hexagonkt.settings.SettingsManager.settings
+import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.store.MongoIdRepository
 import com.hexagonkt.store.mongoCollection
 import com.hexagonkt.store.mongoDatabase
@@ -8,21 +10,19 @@ import com.hexagonkt.store.mongoDatabase
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 
-import java.lang.System.getenv
 import java.sql.Connection
 import java.sql.ResultSet.CONCUR_READ_ONLY
 import java.sql.ResultSet.TYPE_FORWARD_ONLY
-import javax.sql.DataSource
 import kotlin.reflect.KClass
 
 import kotlin.reflect.KProperty1
 
 internal const val WORLD_ROWS = 10000
 
-private val DB_HOST = getenv("DBHOST") ?: "localhost"
-private val DB_NAME = settings["database"] as? String ?: "hello_world"
-private val WORLD_NAME: String = settings["worldCollection"] as? String ?: "world"
-private val FORTUNE_NAME: String = settings["fortuneCollection"] as? String ?: "fortune"
+private val DB_HOST = systemSetting("DBHOST", "localhost")
+private val DB_NAME = setting("database", "hello_world")
+private val WORLD_NAME: String = setting("worldCollection", "world")
+private val FORTUNE_NAME: String = setting("fortuneCollection", "fortune")
 
 private val postgresqlUrl = "jdbc:postgresql://$DB_HOST/$DB_NAME?" +
     "jdbcCompliantTruncation=false&" +

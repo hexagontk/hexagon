@@ -9,6 +9,7 @@ import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.net.InetAddress.getLocalHost
 import java.net.URL
 import java.util.*
+import kotlin.text.Typography.times
 
 /** Default timezone. */
 val timeZone: TimeZone = TimeZone.getDefault()
@@ -41,6 +42,10 @@ internal const val flarePrefix = ">>>>>>>>"
 
 /** Default logger when you are lazy to declare one. */
 object Log : CachedLogger(Log::class)
+
+fun systemSetting (name: String): String? = System.getProperty(name) ?: System.getenv(name)
+
+fun systemSetting (name: String, defaultValue: String): String = systemSetting(name) ?: defaultValue
 
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
