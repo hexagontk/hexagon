@@ -113,9 +113,8 @@ task benchmarkConfig() {
             String server = it[0]
             String database = it[1]
             String databaseCode = database == 'PostgreSQL'? 'postgres' : database.toLowerCase ()
-            String name = server + '_' + database
-            if (server == servers.first () && database == databases.first ())
-                name = 'default'
+            String name = server == servers.first () && database == databases.first ()?
+                'default' : server + '_' + database
             int port = server == 'Resin'? 8080 : 9090
             test[name.toLowerCase()] = [
                 json_url : '/json',
@@ -179,6 +178,7 @@ task setupScripts() {
 
                 ./gradlew -x test
                 export DBSTORE='$database'
+                export WEBENGINE='$server'
                 $command
             """.stripIndent ()
         }
