@@ -1,43 +1,47 @@
 package com.hexagonkt.client
 
-//import com.hexagonkt.rest.files
+import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options as wmoptions
+import com.github.tomakehurst.wiremock.client.WireMock.*
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration
+import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer
 import com.hexagonkt.serialization.serialize
-import com.hexagonkt.server.Server
-import com.hexagonkt.server.jetty.JettyServletEngine
-import com.hexagonkt.settings.SettingsManager.settings
+
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
-@Test class ClientTest {
-    val server = Server(JettyServletEngine(), settings)
-    val client by lazy {
-        Client("http://${server.bindAddress.hostAddress}:${server.runtimePort}", "application/json")
+@Test
+class ClientTest {
+    val templateTransformer = ResponseTemplateTransformer(true)
+    val options: WireMockConfiguration = wmoptions().extensions(templateTransformer).dynamicPort()
+    val server = WireMockServer(options)
+    val client by lazy { Client("http://localhost:${server.port()}", "application/json") }
+
+    @BeforeClass
+    fun startup() {
+        server.start()
+        configureFor(server.port())
+
+        val resp = aResponse()
+            .withHeader("content-type", "application/json;charset=utf-8")
+            .withBody("{{{request.body}}}")
+
+        stubFor(post(anyUrl()).willReturn(resp))
+        stubFor(post(anyUrl()).willReturn(resp))
+        stubFor(get(anyUrl()).willReturn(resp))
+        stubFor(head(anyUrl()).willReturn(resp))
+        stubFor(put(anyUrl()).willReturn(resp))
+        stubFor(delete(anyUrl()).willReturn(resp))
+        stubFor(trace(anyUrl()).willReturn(resp))
+        stubFor(options(anyUrl()).willReturn(resp))
+        stubFor(patch(anyUrl()).willReturn(resp))
     }
 
-    @BeforeClass fun startup() {
-//        server.files()
-
-        server.router.apply {
-            post {
-                response.contentType = "application/json; charset=utf-8"
-                ok(request.body)
-            }
-
-            get { ok(request.body) }
-            head { ok(request.body) }
-            put { ok(request.body) }
-            delete { ok(request.body) }
-            trace { ok(request.body) }
-            options { ok(request.body) }
-            patch { ok(request.body) }
-        }
-
-        server.run()
-    }
-
-    @AfterClass fun shutdown() {
+    @AfterClass
+    fun shutdown() {
         server.stop()
     }
 
@@ -66,8 +70,6 @@ import org.testng.annotations.Test
         checkResponse(client.options("/") { parameter }, parameter)
         checkResponse(client.patch("/") { parameter }, parameter)
     }
-
-    fun files_can_be_fetched_and_downloaded() {}
 
     private fun checkResponse(response: Response, parameter: Map<String, String>?) {
         assert(response.statusCode == 200)

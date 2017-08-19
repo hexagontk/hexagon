@@ -8,9 +8,10 @@ apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
 ext.slf4jVersion = '1.7.25'
-ext.jacksonVersion = '2.8.9'
+ext.jacksonVersion = '2.9.0'
 
 ext.ahcVersion = '2.0.32'
+ext.wiremockVersion = '2.7.1'
 
 dependencies {
     // COMPILE
@@ -29,17 +30,14 @@ dependencies {
 
     // TEST
     testCompile project(':hexagon_test')
-    testCompile project(':server_jetty')
 
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
+    testCompile ("com.github.tomakehurst:wiremock:$wiremockVersion")
 }
 
 test {
-    useTestNG {
-        parallel = "methods"
-        threadCount = 4
-    }
+    useTestNG ()
 
     doFirst {
         File environmentFile = file("${System.getProperty('user.home')}/.environment")
