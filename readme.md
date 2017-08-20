@@ -1,11 +1,11 @@
 
-<h2 align="center">
+<h1 align="center">
   <a href="http://hexagonkt.com">
     <img alt="Hexagon" src="hexagon_site/assets/tile-small.png" />
   </a>
   <br>
   Hexagon
-</h2>
+</h1>
 
 <h4 align="center">The atoms of your platform</h4>
 
@@ -26,6 +26,8 @@
       alt="Bintray" />
   </a>
 </p>
+
+---
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [RabbitMQ] and [MongoDB]. It takes care of:
