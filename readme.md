@@ -1,11 +1,11 @@
 
-<h1 style="color: #0073BB; border-bottom: none; text-align: center;">
+<h2 align="center">
   <a href="http://hexagonkt.com">
     <img alt="Hexagon" src="hexagon_site/assets/tile-small.png" />
   </a>
   <br>
   Hexagon
-</h1>
+</h2>
 
 <h4 align="center">The atoms of your platform</h4>
 
