@@ -1,7 +1,40 @@
-<center><img src="hexagon_site/assets/tile-small.png" /></center>
 
-# <center>Hexagon</center>
-#### <center>The atoms of your platform</center>
+<!--
+https://raw.githubusercontent.com/hexagonkt/hexagon/master/hexagon_site/assets/tile-small.png
+-->
+
+<h1 align="center">
+  <a href="http://hexagonkt.com">
+    <img alt="Hexagon" src="hexagon_site/assets/tile-small.png" />
+  </a>
+  <br>
+  Hexagon
+</h1>
+
+<h4 align="center">The atoms of your platform</h4>
+
+<p align="center">
+  <a href="https://travis-ci.org/hexagonkt/hexagon">
+    <img
+      src="https://img.shields.io/travis/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square" 
+      alt="Travis CI" />
+  </a>
+  <a href="https://codecov.io/gh/hexagonkt/hexagon">
+    <img
+      src="https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square"
+      alt="Codecov" />
+  </a>
+  <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
+    <img
+      src="https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square"
+      alt="Bintray" />
+  </a>
+</p>
+
+![logo](hexagon_site/assets/tile-small.png)
+
+# Hexagon
+#### The atoms of your platform
 
 [![BuildImg]][Build] [![CoverageImg]][Coverage] [![DownloadImg]][Download]
 
@@ -15,6 +48,9 @@
 [DownloadImg]:
   https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square
 [Download]: https://bintray.com/jamming/maven/hexagon_core/_latestVersion
+
+
+
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [RabbitMQ] and [MongoDB]. It takes care of:
