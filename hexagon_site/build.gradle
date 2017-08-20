@@ -4,7 +4,7 @@ ext.siteHost = 'http://hexagonkt.com'
 ext.siteColor = '#135AA1'
 
 ext.logoSmall = 'assets/img/logo.svg'
-ext.logoWide = 'assets/img/logo_text.svg'
+ext.logoWide = 'assets/img/logo_wide.svg'
 ext.logoLarge = 'assets/img/logo.svg'
 
 apply plugin: 'org.xbib.gradle.plugin.jbake'
