@@ -1,5 +1,5 @@
 
-<h1 align="center">
+<h1 style="color: #0073BB; border-bottom: none; text-align: center;">
   <a href="http://hexagonkt.com">
     <img alt="Hexagon" src="hexagon_site/assets/tile-small.png" />
   </a>
