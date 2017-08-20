@@ -9,10 +9,10 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.3-2'
+    id 'org.jetbrains.kotlin.jvm' version '1.1.4-2'
     id 'jacoco'
 
-    id 'org.ajoberstar.git-publish' version '0.2.1' apply false
+    id 'org.ajoberstar.git-publish' version '0.3.0' apply false
     id 'com.jfrog.bintray' version '1.7.3' apply false
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
@@ -31,7 +31,6 @@ task publish(
         ':hexagon_rest:bintrayUpload',
         ':hexagon_scheduler:bintrayUpload',
         ':hexagon_store:bintrayUpload',
-        ':hexagon_starters:bintrayUpload',
         ':hexagon_test:bintrayUpload',
 
         ':events_rabbitmq:bintrayUpload',
@@ -42,37 +41,16 @@ task publish(
     ]
 )
 
-task publishLocal (dependsOn: [ 'build', 'publishToMavenLocal' ])
-
 repositories {
     jcenter ()
 }
 
-task jacocoMerge(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoMerge) {
-    executionData fileTree (rootDir).include ('**/build/jacoco/test.exec')
-}
+task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoReport) {
+    executionData = files(fileTree(rootDir.absolutePath).include("**/build/jacoco/test.exec"))
 
-task jacocoReport(dependsOn: jacocoMerge, type: JacocoReport) {
-    sourceDirectories = files(subprojects.collectMany { it.sourceSets.main.allSource.srcDirs })
-    // TODO Replace by method that filter modules
-    classDirectories = files(
-        rootDir.absolutePath + '/hexagon_benchmark/build/classes/java/main',
-
-        rootDir.absolutePath + '/hexagon_rest/build/classes/java/main',
-        rootDir.absolutePath + '/hexagon_scheduler/build/classes/java/main',
-        rootDir.absolutePath + '/hexagon_store/build/classes/java/main',
-        rootDir.absolutePath + '/hexagon_test/build/classes/java/main',
-        rootDir.absolutePath + '/hexagon_core/build/classes/java/main',
-
-        rootDir.absolutePath + '/events_rabbitmq/build/classes/java/main',
-        rootDir.absolutePath + '/server_servlet/build/classes/java/main',
-        rootDir.absolutePath + '/server_jetty/build/classes/java/main',
-        rootDir.absolutePath + '/server_undertow/build/classes/java/main'
-
-//        rootDir.absolutePath + '/templates_pebble/build/classes/java/main'
-    )
-
-    executionData = files(jacocoMerge.destinationFile)
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
 
     reports {
         html.enabled = true

@@ -5,12 +5,12 @@ apply from: "../gradle/service.gradle"
 apply plugin: 'war'
 apply plugin: 'me.champeau.gradle.jmh'
 
-mainClassName = "co.there4.hexagon.BenchmarkKt"
+mainClassName = "com.hexagonkt.BenchmarkKt"
 applicationDefaultJvmArgs = [
     '-Xms2G', '-Xmx2G', '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts'
 ]
 
-ext.hikariVersion = '2.6.1'
+ext.hikariVersion = '2.6.2'
 ext.postgresqlVersion = '42.0.0'
 ext.mongodbVersion = '3.4.2'
 ext.jettyVersion = '9.4.6.v20170531'
@@ -31,6 +31,7 @@ installDist.dependsOn 'war'
 dependencies {
     compile project(':hexagon_store')
     compile project(':server_jetty')
+    compile project(':server_undertow')
     compile project(':templates_pebble')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
@@ -48,10 +49,7 @@ dependencies {
 }
 
 test {
-    useTestNG {
-        parallel = "methods"
-        threadCount = 4
-    }
+    useTestNG {}
 }
 
 jmh {
@@ -115,9 +113,8 @@ task benchmarkConfig() {
             String server = it[0]
             String database = it[1]
             String databaseCode = database == 'PostgreSQL'? 'postgres' : database.toLowerCase ()
-            String name = server + '_' + database
-            if (server == servers.first () && database == databases.first ())
-                name = 'default'
+            String name = server == servers.first () && database == databases.first ()?
+                'default' : server + '_' + database
             int port = server == 'Resin'? 8080 : 9090
             test[name.toLowerCase()] = [
                 json_url : '/json',
@@ -140,7 +137,7 @@ task benchmarkConfig() {
                 os : 'Linux',
                 database_os : 'Linux',
                 display_name : "Hexagon $server $database",
-                notes : 'http://there4.co/hexagon',
+                notes : 'http://hexagonkt.com',
 
                 setup_file : "setup_${server.toLowerCase ()}_${database.toLowerCase ()}",
                 versus : 'servlet'
@@ -181,6 +178,7 @@ task setupScripts() {
 
                 ./gradlew -x test
                 export DBSTORE='$database'
+                export WEBENGINE='$server'
                 $command
             """.stripIndent ()
         }

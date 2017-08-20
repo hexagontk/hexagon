@@ -3,7 +3,7 @@
 
 The module shows the Dokka syntax usage.
 
-# Package co.there4.hexagon.server
+# Package com.hexagonkt.server
 
 Contains assorted useful stuff.
 
@@ -11,6 +11,6 @@ Contains assorted useful stuff.
 
 More docs
 
-# Package co.there4.hexagon.server.servlet
+# Package com.hexagonkt.server.servlet
 
 Useful stuff in another package.

@@ -30,18 +30,32 @@ services:
     depends_on: [ mongodb ]
     environment: [ "DBHOST=mongodb", "DBSTORE=mongodb" ]
     links: [ "mongodb:mongodb" ]
-    ports: [ "9070:8080" ]
+    ports: [ "9010:8080" ]
 
   benchmark_jetty_mongodb:
     build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
     depends_on: [ mongodb ]
     environment: [ "DBHOST=mongodb", "DBSTORE=mongodb" ]
     links: [ "mongodb:mongodb" ]
-    ports: [ "9090:9090" ]
+    ports: [ "9020:9090" ]
 
   benchmark_jetty_postgresql:
     build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
     depends_on: [ postgresql ]
     environment: [ "DBHOST=postgresql", "DBSTORE=postgresql" ]
     links: [ "postgresql:postgresql" ]
-    ports: [ "9080:9090" ]
+    ports: [ "9030:9090" ]
+
+  benchmark_undertow_mongodb:
+    build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
+    depends_on: [ mongodb ]
+    environment: [ "DBHOST=mongodb", "WEBENGINE=undertow", "DBSTORE=mongodb" ]
+    links: [ "mongodb:mongodb" ]
+    ports: [ "9040:9090" ]
+
+  benchmark_undertow_postgresql:
+    build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
+    depends_on: [ postgresql ]
+    environment: [ "DBHOST=postgresql", "WEBENGINE=undertow", "DBSTORE=postgresql" ]
+    links: [ "postgresql:postgresql" ]
+    ports: [ "9050:9090" ]

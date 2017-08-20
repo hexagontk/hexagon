@@ -3,13 +3,15 @@
 
 [![BuildImg]][Build] [![CoverageImg]][Coverage] [![DownloadImg]][Download]
 
-[BuildImg]: https://travis-ci.org/hexagonkt/hexagon.svg?branch=master
+[BuildImg]: https://img.shields.io/travis/hexagonkt/hexagon.svg?colorA=0000FF&style=flat-square
 [Build]: https://travis-ci.org/hexagonkt/hexagon
 
-[CoverageImg]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graph/badge.svg
+[CoverageImg]:
+  https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0000FF&style=flat-square
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
 
-[DownloadImg]: https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg
+[DownloadImg]:
+  https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0000FF&style=flat-square
 [Download]: https://bintray.com/jamming/maven/hexagon_core/_latestVersion
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
@@ -68,15 +70,15 @@ repositories {
 }
 
 dependencies {
-    compile ("co.there4.hexagon:server_jetty:0.14.0")
+    compile ("com.hexagonkt:server_jetty:0.14.0")
 }
 ```
 
 `src/main/kotlin/Hello.kt`:
 
 ```kotlin
-import co.there4.hexagon.server.*
-import co.there4.hexagon.server.jetty.*
+import com.hexagonkt.server.*
+import com.hexagonkt.server.jetty.*
 
 fun main(vararg args: String) {
     serve(JettyServletEngine()) {
@@ -107,15 +109,15 @@ Now you can run the service with `gradle run` and view the results at:
 [Pebble]: http://www.mitchellbosecke.com/pebble/home
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
 
-[Service Life Cycle]: http://there4.co/hexagon/life_cycle.html
-[HTTP]: http://there4.co/hexagon/rest.html
-[Serialization]: http://there4.co/hexagon/serialization.html
-[Storage]: http://there4.co/hexagon/storage.html
-[Events]: http://there4.co/hexagon/events.html
-[Configuration]: http://there4.co/hexagon/configuration.html
-[Templates]: http://there4.co/hexagon/templates.html
-[Scheduling]: http://there4.co/hexagon/scheduling.html
-[Testing]: http://there4.co/hexagon/testing.html
+[Service Life Cycle]: http://hexagonkt.com/life_cycle.html
+[HTTP]: http://hexagonkt.com/rest.html
+[Serialization]: http://hexagonkt.com/serialization.html
+[Storage]: http://hexagonkt.com/storage.html
+[Events]: http://hexagonkt.com/events.html
+[Configuration]: http://hexagonkt.com/configuration.html
+[Templates]: http://hexagonkt.com/templates.html
+[Scheduling]: http://hexagonkt.com/scheduling.html
+[Testing]: http://hexagonkt.com/testing.html
 
 ## Contribute
 

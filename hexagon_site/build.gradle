@@ -1,6 +1,6 @@
 
 ext.siteSource = '.'
-ext.siteHost = 'http://there4.co/hexagon'
+ext.siteHost = 'http://hexagonkt.com'
 ext.siteColor = '#135AA1'
 
 ext.logoSmall = 'assets/img/logo.svg'

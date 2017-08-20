@@ -30,7 +30,7 @@
     <level value="trace" />
   </logger>
 
-  <logger name="co.there4.hexagon">
+  <logger name="com.hexagonkt">
     <level value="info" />
   </logger>
 </configuration>

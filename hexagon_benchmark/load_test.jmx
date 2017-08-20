@@ -3,7 +3,7 @@
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Load Test Plan" enabled="true">
       <stringProp name="TestPlan.comments">Hexagon&apos;s TechEmpower benchmark stress tests</stringProp>
-      <boolProp name="TestPlan.functional_mode">true</boolProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
@@ -14,7 +14,7 @@
           </elementProp>
           <elementProp name="port" elementType="Argument">
             <stringProp name="Argument.name">port</stringProp>
-            <stringProp name="Argument.value">9080</stringProp>
+            <stringProp name="Argument.value">9040</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="users" elementType="Argument">
@@ -55,7 +55,7 @@
         <stringProp name="HTTPSampler.embedded_url_re">${protocol}://${host}.*</stringProp>
       </ConfigTestElement>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Check" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Check" enabled="false">
         <stringProp name="TestPlan.comments">Concurrent users for the test</stringProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -331,14 +331,14 @@
         </hashTree>
         <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
           <collectionProp name="Asserion.test_strings">
-            <stringProp name="-1821959325">Server</stringProp>
-            <stringProp name="982865141">Transfer-Encoding</stringProp>
-            <stringProp name="2122702">Date</stringProp>
-            <stringProp name="949037134">Content-Type</stringProp>
+            <stringProp name="1341324890">(?i)Server</stringProp>
+            <stringProp name="160350622">(?i)Transfer-Encoding</stringProp>
+            <stringProp name="-177825659">(?i)Date</stringProp>
+            <stringProp name="1800320517">(?i)Content-Type</stringProp>
           </collectionProp>
           <stringProp name="Assertion.test_field">Assertion.response_headers</stringProp>
           <boolProp name="Assertion.assume_success">false</boolProp>
-          <intProp name="Assertion.test_type">16</intProp>
+          <intProp name="Assertion.test_type">2</intProp>
           <stringProp name="Assertion.scope">all</stringProp>
         </ResponseAssertion>
         <hashTree/>
