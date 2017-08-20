@@ -1,9 +1,7 @@
-<p style="text-align: center">
+<center><img src="hexagon_site/assets/tile-small.png" /></center>
 
-![logo](hexagon_site/assets/tile-small.png)
-
-# Hexagon
-#### The atoms of your platform
+# <center>Hexagon</center>
+#### <center>The atoms of your platform</center>
 
 [![BuildImg]][Build] [![CoverageImg]][Coverage] [![DownloadImg]][Download]
 
@@ -17,8 +15,6 @@
 [DownloadImg]:
   https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square
 [Download]: https://bintray.com/jamming/maven/hexagon_core/_latestVersion
-
-</p>
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [RabbitMQ] and [MongoDB]. It takes care of:
