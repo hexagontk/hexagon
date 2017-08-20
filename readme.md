@@ -1,6 +1,6 @@
 <p style="text-align: center">
 
-![logo](hexagon_site/assets/img/tile_wide.svg)
+![logo](hexagon_site/assets/tile-small.png)
 
 # Hexagon
 #### The atoms of your platform
