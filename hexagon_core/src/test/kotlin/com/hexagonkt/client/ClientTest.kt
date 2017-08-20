@@ -11,6 +11,7 @@ import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
+import java.io.File
 
 @Test
 class ClientTest {
@@ -68,6 +69,43 @@ class ClientTest {
         checkResponse(client.trace("/", parameter), parameter)
         checkResponse(client.options("/", parameter), parameter)
         checkResponse(client.patch("/", parameter), parameter)
+    }
+
+    fun parameters_are_set_properly () {
+        val endpoint = "http://localhost:${server.port()}"
+        val h = mapOf("header1" to listOf("val1", "val2"))
+        val c = Client(endpoint, "application/json", false, h, "user", "password", true)
+
+        assert(c.contentType == "application/json")
+        assert(!c.useCookies)
+        assert(c.headers == h)
+
+        val rn = "request.headers.header1"
+
+        stubFor(get("/auth")
+            .willReturn(aResponse()
+                .withHeader("auth", "{{request.headers.Authorization}}")
+                .withHeader("head1", "{{$rn.[0]}}{{$rn.[1]}}")
+            )
+        )
+
+        val r = c.get("/auth")
+        assert (r.headers.get("auth").startsWith("Basic"))
+        assert (r.headers.get("head1").contains("val1"))
+        assert (r.headers.get("head1").contains("val2"))
+        assert (r.statusCode == 200)
+    }
+
+    fun files_are_sent_in_base64 () {
+        stubFor(post("/file")
+            .willReturn(aResponse()
+                .withHeader("file64", "{{request.body}}")
+            )
+        )
+
+        val r = client.post("/file", File("src/test/resources/data/tag.yaml"))
+        assert (r.headers.get("file64").isNotEmpty())
+        assert (r.statusCode == 200)
     }
 
     private fun checkResponse(response: Response, parameter: Map<String, String>?) {

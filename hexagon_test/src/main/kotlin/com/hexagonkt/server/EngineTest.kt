@@ -8,7 +8,7 @@ abstract class EngineTest(serverEngine: ServerEngine) {
     protected val server: Server = Server(serverEngine, SettingsManager.settings)
     protected val client by lazy { Client ("http://localhost:${server.runtimePort}") }
 
-    internal val modules: List<TestModule> by lazy {
+    private val modules: List<TestModule> by lazy {
         listOf(
             BooksModule(),
             CookiesModule(),
