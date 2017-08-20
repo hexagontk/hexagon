@@ -1,18 +1,24 @@
-![logo](hexagon_site/assets/tile-wide.png)
+<p style="text-align: center">
+
+![logo](hexagon_site/assets/tile-wide.svg)
+
+# Hexagon
 #### The atoms of your platform
 
 [![BuildImg]][Build] [![CoverageImg]][Coverage] [![DownloadImg]][Download]
 
-[BuildImg]: https://img.shields.io/travis/hexagonkt/hexagon.svg?colorA=0000FF&style=flat-square
+[BuildImg]: https://img.shields.io/travis/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square
 [Build]: https://travis-ci.org/hexagonkt/hexagon
 
 [CoverageImg]:
-  https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0000FF&style=flat-square
+  https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
 
 [DownloadImg]:
-  https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0000FF&style=flat-square
+  https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square
 [Download]: https://bintray.com/jamming/maven/hexagon_core/_latestVersion
+
+</p>
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [RabbitMQ] and [MongoDB]. It takes care of:
@@ -38,7 +44,7 @@ in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchm
 
 [![CoverageGrid]][Coverage]
 
-[CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/tree.svg
+[CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
 [Kotlin]: http://kotlinlang.org
 [RabbitMQ]: http://www.rabbitmq.com
 [MongoDB]: https://www.mongodb.com
