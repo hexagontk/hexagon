@@ -8,7 +8,19 @@
 
   <defs>
     <style type="text/css">
-      #pathUp { fill: url(#gradient); }
+      .gradient { fill: url(#gradient); }
+
+      .lightBlue { fill: #008FFE; }
+      .darkBlue { fill: #183965; }
+
+      .lightBlue1 { fill: #1072B9; }
+      .darkBlue1 { fill: #054680; }
+
+      .lightBlue2 { fill: #2B9EE6; }
+      .darkBlue2 { fill: #0073BB; }
+
+      .lightBlue3 { fill: #488ECA; }
+      .darkBlue3 { fill: #0053A4; }
     </style>
 
     <linearGradient
@@ -21,13 +33,17 @@
       y2="250" />
 
     <linearGradient id="gradient2">
-      <stop style="stop-color:#135aa1" offset="0" />
-      <stop style="stop-color:#1aa8f0" offset="1" />
+      <stop style="stop-color:#183965" offset="0" />
+      <stop style="stop-color:#008FFE" offset="1" />
     </linearGradient>
+
+    <symbol id="logoPart">
+      <path d="M 0,177 102,0 l 205,0 L 329,35 265,142 l -81,0 42,-71 -81,0 L 40,248 Z" />
+    </symbol>
   </defs>
 
   <g>
-    <path d="M 0,177 102,0 l 205,0 L 329,35 265,142 l -81,0 42,-71 -81,0 L 40,248 Z" id="pathUp" />
-    <use xlink:href="#pathUp" transform="matrix(-1,0,0,-1,409,354)" />
+    <use id="up" class="lightBlue2" xlink:href="#logoPart" />
+    <use id="down" class="darkBlue2" xlink:href="#logoPart" transform="matrix(-1,0,0,-1,409,354)" />
   </g>
 </svg>
