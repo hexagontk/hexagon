@@ -35,6 +35,7 @@ internal class GenericModule : TestModule() {
 
     override fun initialize(): Router = router {
         before("/protected/*") { halt(401, "Go Away!") }
+        before("/attribute") { attributes += "attr1" to "attr" }
 
         assets("public")
 
@@ -93,9 +94,8 @@ internal class GenericModule : TestModule() {
         get("/halt") { halt("halted") }
         get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
         get("/template") {
-            val locale = defaultLocale()
             val now = LocalDateTime.now()
-            template(PebbleEngine, "pebble_template.html", locale, mapOf("date" to now))
+            template(PebbleEngine, "pebble_template.html", "date" to now)
         }
 
         get("/tworoutes/${part.toUpperCase()}/{param}") {
@@ -103,12 +103,21 @@ internal class GenericModule : TestModule() {
         }
 
         get("/reqres") { ok (request.method) }
-
         get("/redirect") { redirect("http://example.com") }
+        get("/attribute") { attributes["attr1"] ?: "not found" }
+        get("/content/type") {
+            val responseType = request.headers["responseType"]?.first()
+
+            if (responseType != null)
+                response.contentType = responseType
+
+            contentType()
+        }
 
         after("/hi") {
             response.addHeader ("after", "foobar")
         }
+
         apply {
             GET at "/return/status" by { 201 }
             GET at "/return/body" by { "body" }
@@ -301,6 +310,23 @@ internal class GenericModule : TestModule() {
         checkMethod (client, "TRACE")
     }
 
+    fun contentType (client: Client) {
+        fun contentType(vararg params: Pair<String, String>) = client.get(
+            "/content/type",
+            params.map { it.first to listOf(it.second) }.toMap()
+        )
+        .responseBody
+
+        assert(contentType("responseType" to "application/yaml") == "application/yaml")
+        assert(contentType("Accept" to "text/plain") == "text/plain")
+        assert(contentType("Content-Type" to "text/html") == "text/html")
+        assert(contentType() == "application/json")
+    }
+
+    fun attributes (client: Client) {
+        assert(client.get("/attribute").responseBody == "attr")
+    }
+
     private fun checkMethod (client: Client, methodName: String, headerName: String? = null) {
         val res = client.send(HttpMethod.valueOf (methodName), "/method")
         assert (
@@ -336,6 +362,8 @@ internal class GenericModule : TestModule() {
         not_registered_error_handler(client)
         return_values (client)
         methods(client)
+        attributes(client)
+        contentType(client)
     }
 }
 

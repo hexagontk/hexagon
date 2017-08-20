@@ -37,7 +37,10 @@ class Call(
     }
 
     fun contentType(): String =
-        response.contentType ?: request["accept"] ?: request.contentType ?: contentTypes.first()
+        response.contentType ?:
+        request.headers["Accept"]?.first()?.let { if (it == "*/*") null else it } ?:
+        request.contentType ?:
+        contentTypes.first()
 
     fun template(
         engine: TemplateEngine,
