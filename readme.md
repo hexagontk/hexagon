@@ -1,8 +1,4 @@
 
-<!--
-https://raw.githubusercontent.com/hexagonkt/hexagon/master/hexagon_site/assets/tile-small.png
--->
-
 <h1 align="center">
   <a href="http://hexagonkt.com">
     <img alt="Hexagon" src="hexagon_site/assets/tile-small.png" />
@@ -30,27 +26,6 @@ https://raw.githubusercontent.com/hexagonkt/hexagon/master/hexagon_site/assets/t
       alt="Bintray" />
   </a>
 </p>
-
-![logo](hexagon_site/assets/tile-small.png)
-
-# Hexagon
-#### The atoms of your platform
-
-[![BuildImg]][Build] [![CoverageImg]][Coverage] [![DownloadImg]][Download]
-
-[BuildImg]: https://img.shields.io/travis/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square
-[Build]: https://travis-ci.org/hexagonkt/hexagon
-
-[CoverageImg]:
-  https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square
-[Coverage]: https://codecov.io/gh/hexagonkt/hexagon
-
-[DownloadImg]:
-  https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square
-[Download]: https://bintray.com/jamming/maven/hexagon_core/_latestVersion
-
-
-
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
 uses [RabbitMQ] and [MongoDB]. It takes care of:
