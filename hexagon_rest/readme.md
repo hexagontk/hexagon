@@ -1,8 +1,8 @@
 
-# Module events_rabbitmq
+# Module hexagon_rest
 
-Hexagon's event bus implementation based in RabbitMQ.
+TODO
 
-# Package com.hexagonkt.events.rabbitmq
+# Package com.hexagonkt.rest
 
-Contains a RabbitMQ Client and a Hexagon events implementation backed by it. 
+TODO

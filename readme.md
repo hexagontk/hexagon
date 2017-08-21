@@ -27,10 +27,24 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://travis-ci.org/hexagonkt/hexagon">
+    HTTP Routing
+  </a>
+  |
+  <a href="https://codecov.io/gh/hexagonkt/hexagon">
+    Data Serialization
+  </a>
+  |
+  <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
+    Settings Loading
+  </a>
+</p>
+
 ---
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
-uses [RabbitMQ] and [MongoDB]. It takes care of:
+aims to implement the [Microservice Chassis Pattern] for a given platform. It takes care of:
 
 * HTTP routing and HTML templates.
 * Serialization and storage of domain classes.
@@ -44,19 +58,7 @@ The purpose of the project is to provide a microservices framework with the foll
 2. Easily hackable
 3. Be small
 
-## Performance
-
-Performance is not the primary goal, but it is taken seriously. You can check performance numbers
-in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks)
-
-**DISCLAIMER**: The project status is beta. Use it at your own risk. This is the coverage grid:
-
-[![CoverageGrid]][Coverage]
-
-[CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
-[Kotlin]: http://kotlinlang.org
-[RabbitMQ]: http://www.rabbitmq.com
-[MongoDB]: https://www.mongodb.com
+[Microservice Chassis Pattern]: http://microservices.io/patterns/microservice-chassis.html
 
 ## Getting Started
 
@@ -133,6 +135,24 @@ Now you can run the service with `gradle run` and view the results at:
 [Templates]: http://hexagonkt.com/templates.html
 [Scheduling]: http://hexagonkt.com/scheduling.html
 [Testing]: http://hexagonkt.com/testing.html
+
+## Status
+
+**DISCLAIMER**: The project status is beta. Use it at your own risk. There are some modules not
+started yet (ie: service registry) and the API is subject to change any time prior to release 1.0.
+
+Performance is not the primary goal, but it is taken seriously. You can check performance numbers
+in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks)
+
+This is the coverage grid:
+
+[![CoverageGrid]][Coverage]
+
+[CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
+[Coverage]: https://codecov.io/gh/hexagonkt/hexagon
+[Kotlin]: http://kotlinlang.org
+[RabbitMQ]: http://www.rabbitmq.com
+[MongoDB]: https://www.mongodb.com
 
 ## Contribute
 

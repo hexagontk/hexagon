@@ -1,8 +1,8 @@
 
-# Module events_rabbitmq
+# Module hexagon_store
 
-Hexagon's event bus implementation based in RabbitMQ.
+Hexagon's storage utilities for data classes.
 
-# Package com.hexagonkt.events.rabbitmq
+# Package com.hexagonkt.store
 
-Contains a RabbitMQ Client and a Hexagon events implementation backed by it. 
+TODO

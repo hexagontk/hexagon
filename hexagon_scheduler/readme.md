@@ -1,8 +1,8 @@
 
-# Module events_rabbitmq
+# Module hexagon_scheduler
 
-Hexagon's event bus implementation based in RabbitMQ.
+Repeated tasks execution for Hexagon framework.
 
-# Package com.hexagonkt.events.rabbitmq
+# Package com.hexagonkt.scheduler
 
-Contains a RabbitMQ Client and a Hexagon events implementation backed by it. 
+TODO

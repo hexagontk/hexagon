@@ -100,3 +100,5 @@ Templates: Pebble (optional dependencies)
 ## Deploy on Systemd
 
 ## Deploy on Servlet engine
+
+## Deploy on Docker
