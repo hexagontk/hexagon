@@ -29,15 +29,19 @@
 
 <p align="center">
   <a href="https://travis-ci.org/hexagonkt/hexagon">
-    HTTP Routing
+    Quick Start
   </a>
   |
   <a href="https://codecov.io/gh/hexagonkt/hexagon">
-    Data Serialization
+    Guides
   </a>
   |
   <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
-    Settings Loading
+    API Reference
+  </a>
+  |
+  <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
+    Community
   </a>
 </p>
 
@@ -62,19 +66,13 @@ The purpose of the project is to provide a microservices framework with the foll
 
 ## Getting Started
 
-For detailed information about how to create a service, please refer to the [Service Life Cycle]
-documentation.
-
-You can create a service from a [Lazybones] template. To do so type:
-`lazybones create hexagon-service service`
-
-Or you can write a [Gradle] project from scratch (Gradle 3 is required):
+You can write a [Gradle] project from scratch (Gradle 3 or newer is required):
 
 `build.gradle`:
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.2-2'
+    id 'org.jetbrains.kotlin.jvm' version '1.1.4-2'
 }
 
 apply plugin: "kotlin"
@@ -87,7 +85,7 @@ repositories {
 }
 
 dependencies {
-    compile ("com.hexagonkt:server_jetty:0.14.0")
+    compile ("com.hexagonkt:server_jetty:0.20.0")
 }
 ```
 
@@ -158,6 +156,10 @@ This is the coverage grid:
 
 Refer to the [contributing.md](contributing.md) file for detailed information about Hexagon's
 development.
+
+TODO Project board
+
+TODO Slack channel
 
 ## License
 
