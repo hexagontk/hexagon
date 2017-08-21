@@ -9,6 +9,8 @@ import com.hexagonkt.server.servlet.ServletServer
 import com.hexagonkt.server.undertow.UndertowEngine
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.templates.pebble.PebbleEngine
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory.getLogger
 
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
@@ -24,6 +26,8 @@ internal data class World(val _id: Int, val id: Int, val randomNumber: Int)
 private const val TEXT_MESSAGE: String = "Hello, World!"
 private const val CONTENT_TYPE_JSON = "application/json"
 private const val QUERIES_PARAM = "queries"
+
+private val LOGGER: Logger = getLogger("BENCHMARK_LOGGER")
 
 // UTILITIES
 internal fun randomWorld() = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
@@ -98,5 +102,14 @@ internal fun createEngine(engine: String): ServerEngine = when (engine) {
 fun main(vararg args: String) {
     val engine = createEngine(systemSetting("WEBENGINE", "jetty"))
     benchmarkStore = createStore(systemSetting("DBSTORE", "mongodb"))
+
+    LOGGER.info("""
+            Benchmark set up:
+                - Engine: {}
+                - Store: {}
+        """.trimIndent(),
+        engine.javaClass.name,
+        benchmarkStore?.javaClass?.name)
+
     benchmarkServer = Server(engine, settings, router()).apply { run() }
 }

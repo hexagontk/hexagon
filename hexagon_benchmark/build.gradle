@@ -67,7 +67,7 @@ jmh {
 }
 
 //noinspection GroovyAssignabilityCheck
-task setupTfb(dependsOn: [ 'benchmarkCode', 'benchmarkConfig', 'setupScripts' ])
+task tfb(dependsOn: [ 'benchmarkCode', 'benchmarkConfig', 'setupScripts' ])
 
 //noinspection GroovyAssignabilityCheck
 task copyTfb(type: Copy) {
