@@ -33,6 +33,6 @@ install:
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
-script: ./gradlew --no-daemon --full-stacktrace build site jacocoReport
+script: ./gradlew --no-daemon clean site installDist jacocoReport installAllTemplates tfb
 
 after_success: bash <(curl -s https://codecov.io/bash)
