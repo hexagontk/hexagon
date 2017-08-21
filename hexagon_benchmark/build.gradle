@@ -19,7 +19,7 @@ ext.ahcVersion = '2.0.31'
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
-ext.servers = [ 'Jetty', 'Resin' ]
+ext.servers = [ 'Jetty', 'Undertow' ]
 ext.tests = [servers, databases].combinations ()
 
 war {
