@@ -37,10 +37,10 @@ script: ./gradlew clean site installDist jacocoReport installAllTemplates tfb
 
 after_success: bash <(curl -s https://codecov.io/bash)
 
-deploy:
-  provider: script
+#deploy:
+#  provider: script
 #  script: ./gradlew release
 #  script: echo "ext.ci = true" >local.gradle && ./gradlew hexagon_site:gitPublishPush
-  script: echo "ext.ci = true" >local.gradle && ls -AlF && git push --tag
-  on:
-    branch: develop
+#  script: echo "ext.ci = true" >local.gradle && ls -AlF && git push --tag
+#  on:
+#    branch: develop
