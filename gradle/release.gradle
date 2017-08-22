@@ -16,6 +16,8 @@ task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
             name = version
             message = "Release $version"
         }
+        // TODO Check version was changed
+        // TODO Push tags
     }
 }
 
