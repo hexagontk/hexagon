@@ -40,6 +40,8 @@ after_success: bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: script
 #  script: ./gradlew --no-daemon release
-  script: ./gradlew --no-daemon hexagon_site:gitPublishPush
+  script:
+    - echo "ext.ci = true" >local.gradle
+    - ./gradlew --no-daemon hexagon_site:gitPublishPush
   on:
     branch: master
