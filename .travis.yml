@@ -42,4 +42,4 @@ deploy:
 #  script: ./gradlew release
   script: echo "ext.ci = true" >local.gradle && ./gradlew hexagon_site:gitPublishPush
   on:
-    branch: master
+    branch: develop
