@@ -16,6 +16,9 @@ To build Hexagon services you have some Gradle helpers that you can use on your 
 use them, you can use the online versions, or copy them to your `gradle` directory.
 
 ### From a template
+
+You can create a service from a [Lazybones] template. To do so type:
+`lazybones create hexagon-service service`
   
 ```bash
 curl -s get.sdkman.io | bash && source ~/.sdkman/bin/sdkman-init.sh
@@ -100,3 +103,5 @@ Templates: Pebble (optional dependencies)
 ## Deploy on Systemd
 
 ## Deploy on Servlet engine
+
+## Deploy on Docker

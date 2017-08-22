@@ -1,16 +1,16 @@
 
 # Module hexagon_core
 
-The module shows the Dokka syntax usage.
+TODO
 
 # Package com.hexagonkt.server
 
-Contains assorted useful stuff.
+TODO
 
 ## Level 2 heading
 
 More docs
 
-# Package com.hexagonkt.server.servlet
+# Package com.hexagonkt.settings
 
-Useful stuff in another package.
+TODO

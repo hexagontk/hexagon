@@ -159,11 +159,16 @@ class UndertowEngine : ServerEngine {
         }
 
         // TODO Code a proper handler
-        val resourceHandler = PredicateHandler(
-            Predicates.suffixes(".css", ".js", ".txt"),
-            ResourceHandler(ClassPathResourceManager (getSystemClassLoader (), "public")),
-            sessionHandler
-        )
+        val hasAssets = requestHandlers.filterIsInstance<AssetsHandler>().isNotEmpty()
+        val resourceHandler =
+            if (hasAssets)
+                PredicateHandler(
+                    Predicates.suffixes(".css", ".js", ".txt"),
+                    ResourceHandler(ClassPathResourceManager (getSystemClassLoader (), "public")),
+                    sessionHandler
+                )
+            else
+                sessionHandler
 
         val bindPort = server.bindPort
         val hostName = server.bindAddress.hostName

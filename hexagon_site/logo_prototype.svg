@@ -1,0 +1,66 @@
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="415"
+  height="360"
+  viewBox="0 0 415 360">
+
+  <defs>
+    <style type="text/css">
+      .gradient { fill: url(#gradient); }
+
+      .lightBlue { fill: #008FFE; }
+      .darkBlue { fill: #183965; }
+
+      .lightBlue1 { fill: #1072B9; }
+      .darkBlue1 { fill: #054680; }
+
+      .lightBlue2 { fill: #2B9EE6; }
+      .darkBlue2 { fill: #0073BB; }
+
+      .lightBlue3 { fill: #488ECA; }
+      .darkBlue3 { fill: #0053A4; }
+    </style>
+
+    <linearGradient
+      xlink:href="#gradient2"
+      id="gradient"
+      gradientUnits="userSpaceOnUse"
+      x1="225"
+      y1="70"
+      x2="40"
+      y2="250" />
+
+    <linearGradient id="gradient2">
+      <stop style="stop-color:#183965" offset="0" />
+      <stop style="stop-color:#008FFE" offset="1" />
+    </linearGradient>
+
+    <filter id="shadow">
+      <feOffset in="SourceAlpha" dx="3" dy="3" />
+      <feGaussianBlur stdDeviation="3" result="blurResult" />
+      <feBlend in="SourceGraphic" in2="blurResult" />
+    </filter>
+
+    <filter id="glow">
+      <feFlood flood-color="#2CE1CD" />
+      <feComposite in2="SourceGraphic" operator="in" />
+      <feMorphology operator="dilate" radius="2" />
+      <feGaussianBlur stdDeviation="10 10" result="blurResult"/>
+      <feMerge>
+        <feMergeNode in="blurResult"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <symbol id="logoPart">
+      <path d="M 0,177 102,0 l 205,0 L 329,35 265,142 l -81,0 42,-71 -81,0 L 40,248 Z" />
+    </symbol>
+  </defs>
+
+  <g>
+    <use id="up" class="lightBlue2" xlink:href="#logoPart" />
+    <use id="down" class="darkBlue2" xlink:href="#logoPart" transform="matrix(-1,0,0,-1,409,354)" />
+  </g>
+</svg>

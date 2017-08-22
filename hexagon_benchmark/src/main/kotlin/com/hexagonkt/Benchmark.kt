@@ -9,6 +9,8 @@ import com.hexagonkt.server.servlet.ServletServer
 import com.hexagonkt.server.undertow.UndertowEngine
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.templates.pebble.PebbleEngine
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory.getLogger
 
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
@@ -25,14 +27,15 @@ private const val TEXT_MESSAGE: String = "Hello, World!"
 private const val CONTENT_TYPE_JSON = "application/json"
 private const val QUERIES_PARAM = "queries"
 
+private val LOGGER: Logger = getLogger("BENCHMARK_LOGGER")
+private val defaultLocale: Locale = Locale.getDefault()
+
 // UTILITIES
 internal fun randomWorld() = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
 
 private fun Call.returnWorlds(worldsList: List<World>) {
     val worlds = worldsList.map { it.convertToMap() - "_id" }
-    val result = if (worlds.size == 1) worlds.first().serialize() else worlds.serialize()
-
-    ok(result, CONTENT_TYPE_JSON)
+    ok(worlds.serialize(), CONTENT_TYPE_JSON)
 }
 
 private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1).let {
@@ -46,9 +49,14 @@ private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1)
 // HANDLERS
 private fun Call.listFortunes(store: Store) {
     val fortunes = store.findAllFortunes() + Fortune(0, "Additional fortune added at request time.")
-    val locale = Locale.getDefault()
+    val sortedFortunes = fortunes.sortedBy { it.message }
     response.contentType = "text/html;charset=utf-8"
-    template(PebbleEngine, "fortunes.html", locale, "fortunes" to fortunes.sortedBy { it.message })
+    template(PebbleEngine, "fortunes.html", defaultLocale, "fortunes" to sortedFortunes)
+}
+
+private fun Call.dbQuery(store: Store) {
+    val world = store.findWorlds(1).first().convertToMap() - "_id"
+    ok(world.serialize(), CONTENT_TYPE_JSON)
 }
 
 private fun Call.getWorlds(store: Store) {
@@ -72,7 +80,7 @@ private fun router(): Router = router {
     get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
     get("/json") { ok(Message(TEXT_MESSAGE).serialize(), CONTENT_TYPE_JSON) }
     get("/fortunes") { listFortunes(store) }
-    get("/db") { getWorlds(store) }
+    get("/db") { dbQuery(store) }
     get("/query") { getWorlds(store) }
     get("/update") { updateWorlds(store) }
 }
@@ -98,5 +106,14 @@ internal fun createEngine(engine: String): ServerEngine = when (engine) {
 fun main(vararg args: String) {
     val engine = createEngine(systemSetting("WEBENGINE", "jetty"))
     benchmarkStore = createStore(systemSetting("DBSTORE", "mongodb"))
+
+    LOGGER.info("""
+            Benchmark set up:
+                - Engine: {}
+                - Store: {}
+        """.trimIndent(),
+        engine.javaClass.name,
+        benchmarkStore?.javaClass?.name)
+
     benchmarkServer = Server(engine, settings, router()).apply { run() }
 }
