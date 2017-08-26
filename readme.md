@@ -161,6 +161,11 @@ TODO Project board
 
 TODO Slack channel
 
+Eventually I will thank all [contributors], but now it's just [me].
+
+[contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
+[me]: https://github.com/jaguililla
+
 ## License
 
 The project is licensed under the [MIT License](license.md).

@@ -11,11 +11,20 @@ branches:
     - master
     - develop
 
+env:
+  global:
+  - secure: MvPoJFYt982lIyRkwZgKpkdTQlcEE36xPtYXX95jT2z3Q32l67/DBcetQjNIiz4laBtg3KFLFDsXlgfcHEAJM1VQZQ5b3HwLPhGlruTpDI6lkUy2RejbYv1R5MOtADYMtr4hkz+U9zHk54jDBCVy8vxTTwMUbVEw33u/GeeHmxGm2GBGcMqoFEDvLq7bZKizcne59BFK+PPYOKVxbUW27Pn6i3UBTGvZJQ1i8Y3HE3qM8ZjU7/SQWObqKVVmv32E2Ra2yaUCc3wan5iqXfAWQJqDTRqHVbfAnqPTQZSRMkyWrOnifDLQpYneMiLmk5SVTUuPVmkLBVl6ehFNoeE2jVIb0ptVmfnu51tq3ffMzZwr2qS2J+YCVle2ULzW1qZ9H8AucZC5lelPpX6aUnTtLH1qQgI4ZMYLvkUYdggqH1+OzXTJnFwWW3FZCADFtirpSTxzu8lvFfvPxdV9JvUCmBVKpjtugsIjxMfzQq6xbqcoSORH+m14bHziPn9kyQ2vW0hseCJk0yVCrf2lBBibT5dEDS0GBAwLu2MM3CaDkt+dQnVawmpOx61Jhugc8wBR8qYjrVg8YGZPxldxAlyfp7Njgt8O6v7o0ZQlxZlaJ1cMgNQz0wm327pxf1CNdN8A9EtPAP/5SvxFFInNuqfx4t649OmlF5enAuaX350hJDg=
+  - secure: eSXj2TZxgfR5xcpIf8vxpOysatO7HDdVodT/IWWTbM3EHG+3Iv6mjYGD8bebkjy9p56AkKaxSQqHqWJPZzYL2elkmJsaecvtsLJKVnWpwud62R2O/pK6/BxDmQ2Dm1xjamltbrJZ4EWnwpVWqWp1txeqFzp5IXGAzhzDGcNtwnDWC485NW04zR+ptdZeFGfUPqqZtxBFPiitYXuZ4maI3q72Q+128wy09GXxF3Vp07Tk6FqcT3fUHK2psSsDmqBbFSAqitssjxvpoLHv5eQ3JRa6rp/FAywhviZsL6Lom1PIdXA+PVyUNmH7ghOBKC1O/LtaWbHkom1acik6XUAMoBcxy8KLy1VLvJyDYFT742brw9pPU6Mu4EdPZaPWiDHDi5p1mA4FVtPfH1lqbe4D/TQ/MyuTz67am6o7Nm+FiQ33wyGuffnTVvCZn5FOMjfHPngXHnWUbC2uzCNpQYUER8kRR5dXfc9M749Ue4tt62WO7U13nUtZ5TtIRhKS8v9FBFLHDCM8CD154BVG5c/tiSPEGkZ0Io5x5GgGVDgxhGLqRDCoUkjAAlT9Rz321cOVG/vWxlJX/DYrYpRnyO2NNyKsYsJvu2m/cdCKV6Csb4QupYNkMcyfwhNbfRQ0qvs4gwk5U7TefXQshGCDUUi4y1/qILEPbqASPLb/MnckASo=
+  - secure: yx0BKcznqBoYGo2Jz6dVqCzWlwo+chMCfP5YlYAryH0ttdKztng+q0Ej+ft6VD94Go+wLfEyIo549PcNx5AcMTNhG/DYdE1KF+3KTc5pq3mGw98VZyxv2gjFfcLw955QX3QnmvCVLC7y5oGq9uyEhSFEII2KQ4yRNscAN9t/P8YL6ziFhscRQb1p+2UljCtfqBHuD9Ys+s9Stm8BQav/We6Jh2Z19FJL+EnQCoKqCdU2RTbBA4+wAOscs76F8Y+fYHkvhW7MkQ7rwqqwyjKTNTSxXqjW2r2XqyZosddYquiliq6r1QB97wG8g9B35bwWbE+mUmoF+P1fU65uVP9JFsIGe+O8bTSDMjQA/QXxc+ijr5/99rJ/XP77xF9PfNRX7V1N7Ru5MDcqKHM/Ov4HPfd+176GGAPz5FwAmJkLAZbT2jkN1dfovWtXlfFSrg/IgJhRZtNG5U5OYFkLWOC7MOX8fxFqN4DsBrwDzP0vvsx125DrgU5PtVfyqEy1V2Tow+k3m76l6kiKwrXxO1NhN/ttaJe92oPB5XQdGRX216+uGRHqrsW1ZrZzK2IhqXDt/U5KJdL9D6FHklJfo9D653bGqEodVp0TQ2hQpECDVIYgyyA7mGK2fPRztLRrgt4NFyVWMG+mrcD2KwAd5ahxh1gz9a4QIDDbBey3FwW4K+s=
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/*/*.lock
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_628a7ded2ce2_key -iv $encrypted_628a7ded2ce2_iv -in release.enc -out local.gradle -d
 
 cache:
   directories:
@@ -41,6 +50,6 @@ deploy:
   provider: script
 #  script: ./gradlew release
 #  script: echo "ext.ci = true" >local.gradle && ./gradlew hexagon_site:gitPublishPush
-  script: echo "ext.ci = true" >local.gradle && ls -AlF && git remote -vv && git push --tag origin
+  script: git push --tag origin
   on:
     branch: develop

@@ -59,6 +59,10 @@ ext.bintrayKey = 'cafebabe'
 
 NOTE: For the package to be accepted in JCenter, you need to include sources (sourceJar task).
 
+For continuous deployment, keys are encrypted using [Travis] file [encryption functionality].
+
+[encryption functionality]: https://docs.travis-ci.com/user/encrypting-files
+
 ## Contribute
 
 * For code, file names, tags and branches use either camel case or snake case only. Ie: avoid `-` in
