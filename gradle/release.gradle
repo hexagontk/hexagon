@@ -10,7 +10,7 @@ import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.Credentials
 
 ext.githubToken = System.getenv ('GRGIT_USER') ?: 'token'
-ext.grgit = Grgit.open(credentials: new Credentials(githubToken, null))
+ext.grgit = Grgit.open()
 
 // TODO Check version was changed
 task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
@@ -26,8 +26,9 @@ task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
 task checkGitStatus () {
     doLast {
         checkCleanRepository(grgit)
-        grgit.pull (remote: 'origin', branch: 'master')
-        grgit.pull (remote: 'origin', branch: 'develop')
+        Credentials credentials = new Credentials(ext.githubToken.toString(), null)
+        grgit.pull (remote: 'origin', branch: 'master', credentials: credentials)
+        grgit.pull (remote: 'origin', branch: 'develop', credentials: credentials)
         checkCleanRepository(grgit)
     }
 }
