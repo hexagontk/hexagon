@@ -2,7 +2,7 @@
 buildscript {
     repositories { jcenter () }
     dependencies {
-        classpath 'org.ajoberstar:gradle-git:1.7.2'
+        classpath 'org.ajoberstar:gradle-git:2.0.0'
     }
 }
 
@@ -10,7 +10,7 @@ import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.Credentials
 
 ext.githubToken = System.getenv ('GRGIT_USER') ?: 'token'
-ext.grgit = Grgit.open(credentials: new Credentials(username: githubToken))
+ext.grgit = Grgit.open(credentials: new Credentials(githubToken, null))
 
 // TODO Check version was changed
 task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
