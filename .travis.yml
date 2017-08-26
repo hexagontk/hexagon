@@ -49,7 +49,6 @@ after_success: bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: script
 #  script: ./gradlew release
-#  script: echo "ext.ci = true" >local.gradle && ./gradlew hexagon_site:gitPublishPush
-  script: git push --tag origin
+  script: ./gradlew checkGitStatus hexagon_site:gitPublishPush
   on:
     branch: develop
