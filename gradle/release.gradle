@@ -7,16 +7,18 @@ buildscript {
 }
 
 import org.ajoberstar.grgit.Grgit
+import org.ajoberstar.grgit.Credentials
 
-ext.grgit = Grgit.open()
+ext.githubToken = System.getenv ('GRGIT_USER') ?: 'token'
+ext.grgit = Grgit.open(credentials: new Credentials(username: githubToken))
 
+// TODO Check version was changed
 task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
     doLast {
         grgit.tag.add {
             name = version
             message = "Release $version"
         }
-        // TODO Check version was changed
         // TODO Push tags
     }
 }
