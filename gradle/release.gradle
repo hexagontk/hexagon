@@ -9,7 +9,6 @@ buildscript {
 import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.Credentials
 
-ext.githubToken = System.getenv ('GRGIT_USER') ?: 'token'
 ext.grgit = Grgit.open()
 
 // TODO Check version was changed
@@ -26,7 +25,7 @@ task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
 task checkGitStatus () {
     doLast {
         checkCleanRepository(grgit)
-        Credentials credentials = new Credentials(ext.githubToken.toString(), null)
+        Credentials credentials = new Credentials(System.getenv ('GRGIT_USER') ?: 'token', null)
         grgit.pull (remote: 'origin', branch: 'master', credentials: credentials)
         grgit.pull (remote: 'origin', branch: 'develop', credentials: credentials)
         checkCleanRepository(grgit)
