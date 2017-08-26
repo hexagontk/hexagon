@@ -50,6 +50,7 @@ after_success: bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: script
 #  script: ./gradlew release
-  script: ./gradlew checkGitStatus hexagon_site:gitPublishPush
+#  script: ./gradlew checkGitStatus hexagon_site:gitPublishPush
+  script: git pull https://${GRGIT_USER}@github.com/hexagonkt/hexagon develop
   on:
     branch: develop
