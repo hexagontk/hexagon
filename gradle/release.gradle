@@ -25,9 +25,9 @@ task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
 task checkGitStatus () {
     doLast {
         checkCleanRepository(grgit)
-        Credentials credentials = new Credentials(System.getenv ('GRGIT_USER') ?: 'token', null)
-        grgit.pull (remote: 'origin', branch: 'master', credentials: credentials)
-        grgit.pull (remote: 'origin', branch: 'develop', credentials: credentials)
+//        Credentials credentials = new Credentials(System.getenv ('GRGIT_USER') ?: 'token', null)
+        grgit.pull (remote: 'origin', branch: 'master')//, credentials: credentials)
+        grgit.pull (remote: 'origin', branch: 'develop')//, credentials: credentials)
         checkCleanRepository(grgit)
     }
 }
