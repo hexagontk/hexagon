@@ -45,6 +45,8 @@ install:
 script: ./gradlew clean site installDist jacocoReport installAllTemplates tfb
 
 after_success:
+  - ls -AlF
+  - git remote -vv
   - bash <(curl -s https://codecov.io/bash)
   - git pull https://$GRGIT_USER@github.com/hexagonkt/hexagon.git
   - git push https://$GRGIT_USER@github.com/hexagonkt/hexagon.git --tag
