@@ -26,8 +26,8 @@ class RabbitMqClient(
     private val connectionFactory: ConnectionFactory,
     private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
 
-    internal companion object : CachedLogger(com.hexagonkt.events.rabbitmq.RabbitMqClient::class) {
-        internal fun <T> setVar(value: T?, setter: (T) -> Unit) {
+    internal companion object : CachedLogger(RabbitMqClient::class) {
+        private fun <T> setVar(value: T?, setter: (T) -> Unit) {
             if (value != null)
                 setter(value)
         }
@@ -39,10 +39,10 @@ class RabbitMqClient(
             cf.setUri(uri)
 
             val params = parseQueryParameters(uri.query ?: "")
-            com.hexagonkt.events.rabbitmq.RabbitMqClient.Companion.setVar(params["automaticRecovery"]?.toBoolean()) { cf.isAutomaticRecoveryEnabled = it }
-            com.hexagonkt.events.rabbitmq.RabbitMqClient.Companion.setVar(params["recoveryInterval"]?.toLong()) { cf.networkRecoveryInterval = it }
-            com.hexagonkt.events.rabbitmq.RabbitMqClient.Companion.setVar(params["shutdownTimeout"]?.toInt()) { cf.shutdownTimeout = it }
-            com.hexagonkt.events.rabbitmq.RabbitMqClient.Companion.setVar(params["heartbeat"]?.toInt()) { cf.requestedHeartbeat = it }
+            setVar(params["automaticRecovery"]?.toBoolean()) { cf.isAutomaticRecoveryEnabled = it }
+            setVar(params["recoveryInterval"]?.toLong()) { cf.networkRecoveryInterval = it }
+            setVar(params["shutdownTimeout"]?.toInt()) { cf.shutdownTimeout = it }
+            setVar(params["heartbeat"]?.toInt()) { cf.requestedHeartbeat = it }
 
             return cf
         }
@@ -53,7 +53,7 @@ class RabbitMqClient(
     private var connection: Connection? = connectionFactory.newConnection()
 
     /** . */
-    constructor (uri: URI) : this(com.hexagonkt.events.rabbitmq.RabbitMqClient.Companion.createConnectionFactory(uri))
+    constructor (uri: URI) : this(createConnectionFactory(uri))
 
     /** . */
     val connected: Boolean get() = connection?.isOpen ?: false
@@ -98,7 +98,7 @@ class RabbitMqClient(
     /** . */
     fun <T : Any, R : Any> consume(queueName: String, type: KClass<T>, handler: (T) -> R) {
         val channel = createChannel()
-        val callback = com.hexagonkt.events.rabbitmq.Handler(connectionFactory, channel, threadPool, type, handler)
+        val callback = Handler(connectionFactory, channel, threadPool, type, handler)
         channel.basicConsume(queueName, false, callback)
         info("Consuming messages in $queueName")
     }
@@ -111,7 +111,7 @@ class RabbitMqClient(
      */
     private fun createChannel(): Channel =
         retry(times = 3, delay = 50) {
-            if (!(connection?.isOpen ?: false)) {
+            if (connection?.isOpen != true) {
                 connection = connectionFactory.newConnection()
                 warn("Rabbit connection RESTORED")
             }
@@ -146,7 +146,7 @@ class RabbitMqClient(
         }
     }
 
-    internal fun publish(
+    private fun publish(
         channel: Channel,
         exchange: String,
         routingKey: String,

@@ -8,7 +8,7 @@ import java.net.URI
 import kotlin.test.assertFailsWith
 
 @Test class RabbitMqClientTest {
-    companion object : CachedLogger(com.hexagonkt.events.rabbitmq.RabbitMqClientTest::class)
+    companion object : CachedLogger(RabbitMqClientTest::class)
 
     fun create_a_connection_factory_with_empty_URI_fails() {
         assertFailsWith(IllegalArgumentException::class) {
@@ -59,7 +59,7 @@ import kotlin.test.assertFailsWith
     }
 
     fun rabbit_client_disconnects_properly() {
-        val client = com.hexagonkt.events.rabbitmq.RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         assert(client.connected)
         client.close()
         assert(!client.connected)
@@ -68,7 +68,7 @@ import kotlin.test.assertFailsWith
     }
 
     fun consumers_handle_numbers_properly() {
-        val consumer = com.hexagonkt.events.rabbitmq.RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         consumer.declareQueue("int_op")
         consumer.declareQueue("long_op")
         consumer.declareQueue("list_op")
@@ -76,7 +76,7 @@ import kotlin.test.assertFailsWith
         consumer.consume("long_op", String::class, String::toLong)
         consumer.consume("list_op", List::class) { it }
 
-        val client = com.hexagonkt.events.rabbitmq.RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         assert(client.call("int_op", "123") == "123")
         assert(client.call("long_op", "456") == "456")
         assert(client.call("list_op", listOf(1, 3, 4).serialize()) == listOf(1, 3, 4).serialize())
@@ -89,7 +89,7 @@ import kotlin.test.assertFailsWith
     }
 
     fun consumers_handle_no_reply_messages() {
-        val consumer = com.hexagonkt.events.rabbitmq.RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         consumer.declareQueue("int_handler")
         consumer.declareQueue("long_handler")
         consumer.declareQueue("exception_handler")
@@ -97,7 +97,7 @@ import kotlin.test.assertFailsWith
         consumer.consume("long_handler", String::class) { info(it) }
         consumer.consume("exception_handler", String::class) { throw RuntimeException(it) }
 
-        val client = com.hexagonkt.events.rabbitmq.RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         client.publish("int_handler", "123")
         client.publish("long_handler", "456")
         client.publish("exception_handler", "error")
