@@ -1,7 +1,6 @@
 package com.hexagonkt
 
 import com.hexagonkt.helpers.systemSetting
-import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.store.MongoIdRepository
 import com.hexagonkt.store.mongoCollection
@@ -119,7 +118,7 @@ private class SqlStore(jdbcUrl: String) : Store {
         DATA_SOURCE.connection.use { con: Connection ->
             val stmtSelect = con.prepareStatement(SELECT_WORLD)
 
-            for (ii in 0..count - 1) {
+            for (ii in 0 until count) {
                 stmtSelect.setInt(1, randomWorld())
                 val rs = stmtSelect.executeQuery()
                 rs.next()
@@ -138,7 +137,7 @@ private class SqlStore(jdbcUrl: String) : Store {
             val stmtSelect = con.prepareStatement(SELECT_WORLD, TYPE_FORWARD_ONLY, CONCUR_READ_ONLY)
             val stmtUpdate = con.prepareStatement(UPDATE_WORLD)
 
-            for (ii in 0..count - 1) {
+            for (ii in 0 until count) {
                 stmtSelect.setInt(1, randomWorld())
                 val rs = stmtSelect.executeQuery()
                 rs.next()
