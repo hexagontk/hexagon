@@ -38,19 +38,16 @@ services:
 
 install:
   - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
-  - git pull origin master
-  - git pull origin develop
+  - git pull origin master develop
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
 script: ./gradlew clean site installDist jacocoReport installAllTemplates tfb
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-  - ./gradlew release
+after_success: bash <(curl -s https://codecov.io/bash)
 
 deploy:
   provider: script
-  script: git remote -vv && git push --tags
+  script: ./gradlew release && git push --tags
   on:
     branch: develop
