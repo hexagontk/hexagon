@@ -85,7 +85,7 @@ repositories {
 }
 
 dependencies {
-    compile ("com.hexagonkt:server_jetty:0.20.1")
+    compile ("com.hexagonkt:server_jetty:0.20.2")
 }
 ```
 
@@ -160,6 +160,11 @@ development.
 TODO Project board
 
 TODO Slack channel
+
+Eventually I will thank all [contributors], but now it's just [me].
+
+[contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
+[me]: https://github.com/jaguililla
 
 ## License
 

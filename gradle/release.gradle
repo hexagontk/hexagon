@@ -10,27 +10,11 @@ import org.ajoberstar.grgit.Grgit
 
 ext.grgit = Grgit.open()
 
-task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
+task release(dependsOn: [ 'publish' ]) {
     doLast {
         grgit.tag.add {
             name = version
             message = "Release $version"
         }
-        // TODO Check version was changed
-        // TODO Push tags
     }
-}
-
-task checkGitStatus () {
-    doLast {
-        checkCleanRepository(grgit)
-        grgit.pull (remote: 'origin', branch: 'master')
-        grgit.pull (remote: 'origin', branch: 'develop')
-        checkCleanRepository(grgit)
-    }
-}
-
-static void checkCleanRepository(Grgit gitRepository) {
-    if (!gitRepository.status ().clean)
-        throw new GradleException ('Repository not clean')
 }

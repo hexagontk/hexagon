@@ -27,12 +27,12 @@ internal class Handler<T : Any, R : Any> internal constructor (
     private val type: KClass<T>,
     private val handler: (T) -> R) : DefaultConsumer(channel) {
 
-    private companion object : CachedLogger(com.hexagonkt.events.rabbitmq.Handler::class) {
+    private companion object : CachedLogger(Handler::class) {
         private const val RETRIES = 5
         private const val DELAY = 50L
     }
 
-    private val client: com.hexagonkt.events.rabbitmq.RabbitMqClient by lazy { com.hexagonkt.events.rabbitmq.RabbitMqClient(connectionFactory) }
+    private val client: RabbitMqClient by lazy { RabbitMqClient(connectionFactory) }
 
     /** @see DefaultConsumer.handleDelivery */
     override fun handleDelivery(
@@ -62,7 +62,9 @@ internal class Handler<T : Any, R : Any> internal constructor (
                     handleError(ex, replyTo, correlationId)
             }
             finally {
-                retry(com.hexagonkt.events.rabbitmq.Handler.Companion.RETRIES, com.hexagonkt.events.rabbitmq.Handler.Companion.DELAY) { channel.basicAck(envelope.deliveryTag, false) }
+                retry(Handler.Companion.RETRIES, Handler.Companion.DELAY) {
+                    channel.basicAck(envelope.deliveryTag, false)
+                }
             }
         }
     }
