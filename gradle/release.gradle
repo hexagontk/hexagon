@@ -21,16 +21,16 @@ task release(dependsOn: [ 'publish' ]) {
     }
 }
 
-task checkGitStatus () {
-    doLast {
-        checkCleanRepository(grgit)
-        grgit.pull (remote: 'origin', branch: 'master')
-        grgit.pull (remote: 'origin', branch: 'develop')
-        checkCleanRepository(grgit)
-    }
-}
-
-static void checkCleanRepository(Grgit gitRepository) {
-    if (!gitRepository.status ().clean)
-        throw new GradleException ('Repository not clean')
-}
+//task checkGitStatus () {
+//    doLast {
+//        checkCleanRepository(grgit)
+//        grgit.pull (remote: 'origin', branch: 'master')
+//        grgit.pull (remote: 'origin', branch: 'develop')
+//        checkCleanRepository(grgit)
+//    }
+//}
+//
+//static void checkCleanRepository(Grgit gitRepository) {
+//    if (!gitRepository.status ().clean)
+//        throw new GradleException ('Repository not clean')
+//}

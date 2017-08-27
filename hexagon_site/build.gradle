@@ -14,10 +14,8 @@ apply from: '../gradle/site.gradle'
 gitPublish {
     final String grgitUser = System.getenv ('GRGIT_USER') ?: 'user'
     final String grgitPass = System.getenv ('GRGIT_PASS') ?: 'pass'
-    final String remote = "https://$grgitUser:$grgitPass@github.com/hexagonkt/hexagon.git"
 
-    repoUri = remote
-//    repoUri = 'hexagon.github.com:hexagonkt/hexagon.git'
+    repoUri = "https://$grgitUser:$grgitPass@github.com/hexagonkt/hexagon.git"
     branch = 'gh-pages'
 
     contents {
