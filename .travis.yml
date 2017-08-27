@@ -2,7 +2,7 @@
 language: java
 jdk: oraclejdk8
 
-sudo: required # Container build is slower than sudo
+#sudo: required # Container build is slower than sudo
 
 branches:
   only:
