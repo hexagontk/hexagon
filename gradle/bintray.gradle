@@ -21,9 +21,9 @@ publishing {
 }
 
 //noinspection GroovyAssignabilityCheck
-bintray {
-    key = findProperty ('bintrayKey') ?: 'anonymous'
-    user = findProperty ('bintrayUser') ?: 'anonymous'
+bintray { //bt ->
+    key = findProperty ('bintrayKey') ?: System.getenv('BINTRAY_KEY') ?: 'anonymous'
+    user = findProperty ('bintrayUser') ?: System.getenv('BINTRAY_USER') ?: 'anonymous'
     publications = [ 'mavenJava' ]
     //noinspection GroovyAssignabilityCheck TODO Check this warning. Try `it.publish`
     publish = true

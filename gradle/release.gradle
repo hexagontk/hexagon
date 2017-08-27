@@ -17,16 +17,15 @@ task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
             name = version
             message = "Release $version"
         }
-        // TODO Push tags
+//        grgit.push (tags: true)
     }
 }
 
 task checkGitStatus () {
     doLast {
         checkCleanRepository(grgit)
-//        Credentials credentials = new Credentials(System.getenv ('GRGIT_USER') ?: 'token', null)
-//        grgit.pull (remote: 'origin', branch: 'master')
-//        grgit.pull (remote: 'origin', branch: 'develop')
+        grgit.pull (remote: 'origin', branch: 'master')
+        grgit.pull (remote: 'origin', branch: 'develop')
         checkCleanRepository(grgit)
     }
 }
