@@ -19,7 +19,6 @@ plugins {
     id 'me.champeau.gradle.jmh' version '0.4.4' apply false
 }
 
-//apply from: 'local.gradle'
 apply from: 'gradle/release.gradle'
 
 task publish(
