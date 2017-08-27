@@ -6,8 +6,8 @@ apply plugin: 'uk.co.cacoethes.lazybones-templates'
 // TODO Replace version in template `gradle.properties`
 // TODO Include all subdirs as templateDirs
 lazybones {
-    final String btKey = findProperty ('bintrayKey') ?: getenv('BINTRAY_KEY') ?: 'anonymous'
     final String btUser = findProperty ('bintrayUser') ?: getenv('BINTRAY_USER') ?: 'anonymous'
+    final String btKey = findProperty ('bintrayKey') ?: getenv('BINTRAY_KEY') ?: 'anonymous'
 
     repositoryName = "$btUser/maven"
     publish = true

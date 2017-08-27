@@ -60,7 +60,7 @@ private void createIco (String svg, String ico, int... widths) {
     widths.each { extendImage svg, "${it}x${it}", it, "_${it}.png" }
     List<String> images = widths.collect { "$buildDir/_${it}.png" }
     List<String> cmd = ['convert', images, "$buildDir/$ico" ].flatten().collect { it.toString() }
-    exec { commandLine cmd }
+    exec { commandLine cmd.iterator () }
 }
 
 private void extendImage (
