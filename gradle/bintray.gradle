@@ -21,11 +21,11 @@ publishing {
 }
 
 //noinspection GroovyAssignabilityCheck
-bintray { //bt ->
+bintray {
     key = findProperty ('bintrayKey') ?: System.getenv('BINTRAY_KEY') ?: 'anonymous'
     user = findProperty ('bintrayUser') ?: System.getenv('BINTRAY_USER') ?: 'anonymous'
     publications = [ 'mavenJava' ]
-    //noinspection GroovyAssignabilityCheck TODO Check this warning. Try `bt.publish`
+    //noinspection GroovyAssignabilityCheck
     publish = true
 
     pkg {

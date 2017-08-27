@@ -39,12 +39,12 @@ install:
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
-script: ./gradlew clean site installDist jacocoReport installAllTemplates tfb
+script: ./gradlew -q clean site installDist jacocoReport installAllTemplates tfb
 
 after_success: bash <(curl -s https://codecov.io/bash)
 
 deploy:
   provider: script
-  script: ./gradlew release && git push --tags
+  script: ./gradlew -q release && git push --tags
   on:
     branch: master
