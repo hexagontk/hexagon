@@ -47,19 +47,13 @@ install:
 script: ./gradlew clean site installDist jacocoReport installAllTemplates tfb
 
 after_success:
-  - ls -AlF
-  - git remote -vv
   - bash <(curl -s https://codecov.io/bash)
   - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
-  - git remote -vv
-  - git pull
-  - git push --tag
-  - echo "Pull Request = $TRAVIS_PULL_REQUEST; Branch = $TRAVIS_BRANCH"
   - ./gradlew release
 #  - "[ \"$TRAVIS_PULL_REQUEST\" == \"false\" -a \"$TRAVIS_BRANCH\" == \"master\" ] && ./gradlew release"
 
-#deploy:
-#  provider: script
-#  script: ./gradlew release
-#  on:
-#    branch: develop
+deploy:
+  provider: script
+  script: git remote -vv
+  on:
+    branch: develop

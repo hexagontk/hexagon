@@ -11,7 +11,7 @@ import org.ajoberstar.grgit.Grgit
 ext.grgit = Grgit.open()
 
 // TODO Check version was changed
-task release(dependsOn: [ 'checkGitStatus', 'publish' ]) {
+task release(dependsOn: [ 'publish' ]) {
     doLast {
         grgit.tag.add {
             name = version
