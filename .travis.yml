@@ -45,6 +45,6 @@ after_success: bash <(curl -s https://codecov.io/bash)
 
 deploy:
   provider: script
-  script: ./gradlew -q release && git push --tags
+  script: ./gradlew -q site release && git push --tags
   on:
     branch: master
