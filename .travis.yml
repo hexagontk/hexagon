@@ -43,14 +43,16 @@ install:
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
 #script: ./gradlew clean site installDist jacocoReport installAllTemplates tfb
-script: ./gradlew clean installDist -x test
+script: ./gradlew clean
 
-after_success: bash <(curl -s https://codecov.io/bash)
+after_success:
+#  - bash <(curl -s https://codecov.io/bash)
+  - ./gradlew hexagon_site:gitPublishPush
 
-deploy:
-  provider: script
+#deploy:
+#  provider: script
 #  script: ./gradlew release
 #  script: ./gradlew checkGitStatus hexagon_site:gitPublishPush
-  script: git pull https://${GRGIT_USER}@github.com/hexagonkt/hexagon develop
-  on:
-    branch: develop
+#  script: git pull https://${GRGIT_USER}@github.com/hexagonkt/hexagon develop
+#  on:
+#    branch: develop
