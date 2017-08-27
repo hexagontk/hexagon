@@ -13,9 +13,10 @@ branches:
 
 env:
   global:
-    - secure: MvPoJFYt982lIyRkwZgKpkdTQlcEE36xPtYXX95jT2z3Q32l67/DBcetQjNIiz4laBtg3KFLFDsXlgfcHEAJM1VQZQ5b3HwLPhGlruTpDI6lkUy2RejbYv1R5MOtADYMtr4hkz+U9zHk54jDBCVy8vxTTwMUbVEw33u/GeeHmxGm2GBGcMqoFEDvLq7bZKizcne59BFK+PPYOKVxbUW27Pn6i3UBTGvZJQ1i8Y3HE3qM8ZjU7/SQWObqKVVmv32E2Ra2yaUCc3wan5iqXfAWQJqDTRqHVbfAnqPTQZSRMkyWrOnifDLQpYneMiLmk5SVTUuPVmkLBVl6ehFNoeE2jVIb0ptVmfnu51tq3ffMzZwr2qS2J+YCVle2ULzW1qZ9H8AucZC5lelPpX6aUnTtLH1qQgI4ZMYLvkUYdggqH1+OzXTJnFwWW3FZCADFtirpSTxzu8lvFfvPxdV9JvUCmBVKpjtugsIjxMfzQq6xbqcoSORH+m14bHziPn9kyQ2vW0hseCJk0yVCrf2lBBibT5dEDS0GBAwLu2MM3CaDkt+dQnVawmpOx61Jhugc8wBR8qYjrVg8YGZPxldxAlyfp7Njgt8O6v7o0ZQlxZlaJ1cMgNQz0wm327pxf1CNdN8A9EtPAP/5SvxFFInNuqfx4t649OmlF5enAuaX350hJDg=
-    - secure: eSXj2TZxgfR5xcpIf8vxpOysatO7HDdVodT/IWWTbM3EHG+3Iv6mjYGD8bebkjy9p56AkKaxSQqHqWJPZzYL2elkmJsaecvtsLJKVnWpwud62R2O/pK6/BxDmQ2Dm1xjamltbrJZ4EWnwpVWqWp1txeqFzp5IXGAzhzDGcNtwnDWC485NW04zR+ptdZeFGfUPqqZtxBFPiitYXuZ4maI3q72Q+128wy09GXxF3Vp07Tk6FqcT3fUHK2psSsDmqBbFSAqitssjxvpoLHv5eQ3JRa6rp/FAywhviZsL6Lom1PIdXA+PVyUNmH7ghOBKC1O/LtaWbHkom1acik6XUAMoBcxy8KLy1VLvJyDYFT742brw9pPU6Mu4EdPZaPWiDHDi5p1mA4FVtPfH1lqbe4D/TQ/MyuTz67am6o7Nm+FiQ33wyGuffnTVvCZn5FOMjfHPngXHnWUbC2uzCNpQYUER8kRR5dXfc9M749Ue4tt62WO7U13nUtZ5TtIRhKS8v9FBFLHDCM8CD154BVG5c/tiSPEGkZ0Io5x5GgGVDgxhGLqRDCoUkjAAlT9Rz321cOVG/vWxlJX/DYrYpRnyO2NNyKsYsJvu2m/cdCKV6Csb4QupYNkMcyfwhNbfRQ0qvs4gwk5U7TefXQshGCDUUi4y1/qILEPbqASPLb/MnckASo=
-    - secure: yx0BKcznqBoYGo2Jz6dVqCzWlwo+chMCfP5YlYAryH0ttdKztng+q0Ej+ft6VD94Go+wLfEyIo549PcNx5AcMTNhG/DYdE1KF+3KTc5pq3mGw98VZyxv2gjFfcLw955QX3QnmvCVLC7y5oGq9uyEhSFEII2KQ4yRNscAN9t/P8YL6ziFhscRQb1p+2UljCtfqBHuD9Ys+s9Stm8BQav/We6Jh2Z19FJL+EnQCoKqCdU2RTbBA4+wAOscs76F8Y+fYHkvhW7MkQ7rwqqwyjKTNTSxXqjW2r2XqyZosddYquiliq6r1QB97wG8g9B35bwWbE+mUmoF+P1fU65uVP9JFsIGe+O8bTSDMjQA/QXxc+ijr5/99rJ/XP77xF9PfNRX7V1N7Ru5MDcqKHM/Ov4HPfd+176GGAPz5FwAmJkLAZbT2jkN1dfovWtXlfFSrg/IgJhRZtNG5U5OYFkLWOC7MOX8fxFqN4DsBrwDzP0vvsx125DrgU5PtVfyqEy1V2Tow+k3m76l6kiKwrXxO1NhN/ttaJe92oPB5XQdGRX216+uGRHqrsW1ZrZzK2IhqXDt/U5KJdL9D6FHklJfo9D653bGqEodVp0TQ2hQpECDVIYgyyA7mGK2fPRztLRrgt4NFyVWMG+mrcD2KwAd5ahxh1gz9a4QIDDbBey3FwW4K+s=
+    - secure: RO3fvGp6orwCoPtV5v/lUwxbFomsSxdficUHFbYGEXB+NuxpjES5Ukd9D/4zn1WytL/h1mlgcML+gSR57OKODX9SJXyMYMSRQslbOSYVle4sxGf5sp54bkGaaHI6aZr2ZbjzBwVYemR+zFpWQMew2Q4cZ4pn5HfQQa7WlJ/qNnOZ2KXqgEaIuw++aQg0QEaddleMTzMDZpFUdESIY/ptAjve2BAbsHw07AI9tX08qYFJ+fzZWKmKY2EBHd4HztZcU1lQwMuxxTzDmjFKksrjSH37wmHg/D2t7ptlQIaKJuTgD9HFqMd7Gf7DFeNdadoHLxWuqa7Yt9y2plMykRctYLCBr5z6ofq+RWFlXFS/bEwzHGxDkT9PLbhWewPF/JsmERj4x/DYLRQYPq2d/3VOCrpoLKagmLzOGusbaLr15ISel0bDXhNyXg1jdQXY7EZUksbM90Ny+CuAHP4nsW0PUgNLBVb1CjGhi4OGW4ohXj0a2cG/lGMeeZXGUEwwd6xKXcWwGBKm/mqZJsIQDJX+he1P23hrtaV/mbhh1U4zjKqVwRzBXYhjAQwnulVS7JC5dFeYifXEjib30Vz3QCnssMg7hzYSBu1IvvukHjkMoPaULWiGIvgdVN+Hy7syrqe48GGdYLbgbzLhn6I6aklPh6Y9z9vPhFtQiHMf1k6tA30=
+    - secure: 36z73CBVF2FZzndNUxhfc8T2ty3ebX4sWLYyR5DdCyDfOGjgZlJtcX8DZ9StRvnZptgs/mcma93ihQ4OCWLyTEjBom+PYoeHkE2/gUwCzYA4g5xnw0eEUd1+ZKiNPmrfHu41wsPjPSgqiptlhqTvzpenJlXVqmt/jGEiXvfruwPWYX3ZGpzroczaWh24WCDyoGb19O5HN4GxBt5keR7aI9j0AJdEc7GHKDD9v0y0yXzSOSZ/vNGHJuDiPSf5sg8FcjvV+LVsP8Ge31CpK51AKbJqDo4gmgaEAi1p+cRAYba9bUUIY6GXpH25hImLtNqKmSZLRyOdH9hA8vM7c1+Zgk3CSyeWuh9fhUtNQt0JKj6iJ7ZqhFzVId2qn4fe+aEIYo2KLUxSKfs9Jcfh89QRDDdWPL8oWVg7+bos692zIOR+bgOnikHqNbOuWFiRINdBgs+DIvUsF6qZNQJftd+8D+TlRDJ1HBjLsy71TIAgOyhrc1SKTlB7CLiWZitrWkJy+IoeLqd6wRp1h6uOvS0syiQAoadnzcyuWG4xA1pdGypNcR8ebfycTa0bBi0FppZt0e5uxI5lBsONrGEujTEtFJ0rT92rfjxZpZQ+ruN0OI48z2QBE5UmyVCNSnQVnUPI7/JYGcJ/RDiqoaZqZU3XR8WnJ70PZsb8P0xpNyASFLw=
+    - secure: QueSN/tSIcihbF8JIWHu1piFpuzSQggtnMFwSqZ3Yjzip1SyAUNe5HaP2BU+3EaWQBG8jgxsFQqRl/ldsrUUTXc29OtgQRiI+Ybo0O/5IdmnmTpeWjiBRdBYEY1t4ROyvVRP7Fs2VRFNL2L8fJdjOsjUyxdBItuGaW7bPeU6Gd3SlTPZ3F/uNSNv+zC9ek/JziYWlVryUV5so8ymhuzMfTBoj7qnlOKn9Xo4JNJlfIVPsZAFtYQNkgEAqhztpikILfyWXYYI1NM0gMo5qycksnFmZCvNWIQBT5wKuLfZGyQB5529mT/wAbVnUyjX3+y6bBr7COKkjeyYz1UYc/dYX6afP1ss19Pm9iKKTwo+S4qx7FjTaF1eov0W3Y5+o8Xk5TQa5cOe3Y6nWTXypm93UgMU0EyXbnJ9cF44dlQ0Ls+DjHb0TToiPLxyRwm67zPEC+XQ4ne5lm7Xbkx5AYpaH90Y0PPCLdwlL9AzMehFGox/L2U8RAcDz2e/v0Ekmy1/Vqtg8FUcF1k1Jl+7k7ipu6xMO1mFVUxBHc4XPww7tMMxfwOcjh2go5jTLYwENA6GbYnkPW/ktQRmf7VarnSFkZnVLZ9AJ7tR0qZos5zomaQLi4eZhtfEKO5Cq3H7x8lCnca7Sf2nCqvLz9yxbTGga4JLEzeupw+rhj4HI+jOxyk=
+    - secure: QbVp2q32kFmy6bUiXDA1IcFREsV15j/VepWnnv29+Jz4I/Kwsfc5d/CSHkwQ+kArokRTKdOyYAm5FdCgDHeRwQwAuy+n/hydDfjORxMOjzcEf9JSoqsc+EqLOi9y0tqUIMEuSOY/MHX+zV10O/GmvuLxEArc8zzrUn240jRHOUwtgfKyTN8TuoS3wzd/h4l8UY2bh+KrqROwEV5nztWEUvCJ1UcCzg1c9ItDJhXLLTrHhWw7tz5dCHyvot2jOYiUCB8/QRd77Nu6n8cMrFe9Nm0v98cOaDExMqgOM1/XAzrjHK/mlqmU1HjPNRCZ5jZ3mgy99mTAuSpVMwPLoeogOYDPnaUMSInBPVeU+cWVvsp/AlpttzDwLbRLAiPoqBmTBN1OoFCT1LgXt8dQ+9uR6V5qnnUv5WRDikPRQ/nwnXGyIz10pFbISaJmO74h5Nk74Ec4swX+x3mMekN0bZDXdLykCk4mQsDnDMojYxCYb6+OG0chQ7BcXP9TH44YrLrgYDe67dYPHga1+n1kCfuIGx8jp99uuKnMOUazaHa6Du9WyuPt1VaJSTd+Eh/Q1VJHsBoCpveCJPmGDYcw8slKsOIBI1dv1Yu9pgcF2tRd36nzUVyQ5bL51roWD55ul0Kv068jW5d1uiX2dNdYxjAyVM5zhoOV3G+X4yb7ldY8Ok8=
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/*/*.lock
@@ -23,8 +24,8 @@ before_cache:
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
 
-before_install:
-  - openssl aes-256-cbc -K $encrypted_628a7ded2ce2_key -iv $encrypted_628a7ded2ce2_iv -in release.enc -out local.gradle -d
+#before_install:
+#  - openssl aes-256-cbc -K $encrypted_628a7ded2ce2_key -iv $encrypted_628a7ded2ce2_iv -in release.enc -out local.gradle -d
 
 cache:
   directories:
@@ -38,7 +39,7 @@ services:
   - postgresql
 
 install:
-  - echo "ext.ci = true" >local.gradle
+#  - echo "ext.ci = true" >local.gradle
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
@@ -48,9 +49,11 @@ after_success:
   - ls -AlF
   - git remote -vv
   - bash <(curl -s https://codecov.io/bash)
-  - git pull https://$GRGIT_USER@github.com/hexagonkt/hexagon.git
-  - git push https://$GRGIT_USER@github.com/hexagonkt/hexagon.git --tag
-#  - ./gradlew checkGitStatus hexagon_site:gitPublishPush -Dorg.ajoberstar.grgit.auth.username=$GRGIT_USER
+  - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
+  - git pull
+  - git push --tag
+  - echo "Pull Request = $TRAVIS_PULL_REQUEST; Branch = $TRAVIS_BRANCH"
+  - ./gradlew checkGitStatus hexagon_site:gitPublishPush
 #  - "[ \"$TRAVIS_PULL_REQUEST\" == \"false\" -a \"$TRAVIS_BRANCH\" == \"master\" ] && ./gradlew release"
 
 #deploy:
