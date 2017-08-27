@@ -48,7 +48,6 @@ script: ./gradlew clean site installDist jacocoReport installAllTemplates tfb
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - ./gradlew release
-#  - "[ \"$TRAVIS_PULL_REQUEST\" == \"false\" -a \"$TRAVIS_BRANCH\" == \"master\" ] && ./gradlew release"
 
 deploy:
   provider: script
