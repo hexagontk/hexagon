@@ -17,100 +17,92 @@
   </a>
   <a href="https://codecov.io/gh/hexagonkt/hexagon">
     <img
-      src="https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square"
+      src=
+        "https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square"
       alt="Codecov" />
   </a>
   <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
     <img
-      src="https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square"
+      src=
+        "https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square"
       alt="Bintray" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/hexagonkt/hexagon">
-    Quick Start
-  </a>
-  |
-  <a href="https://codecov.io/gh/hexagonkt/hexagon">
-    Guides
-  </a>
-  |
-  <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
-    API Reference
-  </a>
-  |
-  <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
-    Community
-  </a>
+  <a href="http://hexagonkt.com">Quick Start</a> |
+  <a href="http://hexagonkt.com">Guides</a> |
+  <a href="http://hexagonkt.com">API Reference</a> |
+  <a href="http://hexagonkt.com">Community</a>
 </p>
 
 ---
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
-aims to implement the [Microservice Chassis Pattern] for a given platform. It takes care of:
+its pursose is to ease the building of services (Web applications, APIs or Queue consumers). To 
+achieve this goal, it takes care of:
 
 * HTTP routing and HTML templates.
-* Serialization and storage of domain classes.
+* Serialization and storage of data.
 * Asynchronous communication through events.
 * Task scheduling using Cron expressions.
 
 The purpose of the project is to provide a microservices framework with the following priorities
 (in order):
 
-1. Simple to use
-2. Easily hackable
-3. Be small
-
-[Microservice Chassis Pattern]: http://microservices.io/patterns/microservice-chassis.html
+1. Simple to use: make it easy to develop user services fast.
+2. Easy to hack: allow the user to add extensions or change the framework.
+3. Be small: this is really a requirement for the previous points.
 
 ## Getting Started
 
-You can write a [Gradle] project from scratch (Gradle 3 or newer is required):
+1. Setup Kotlin in [Gradle][Setup Gradle] or [Maven][Setup Maven].
+2. Setup the [JCenter repository](https://bintray.com/bintray/jcenter) (click on the `Set me up!`
+   button).
+3. Add the dependency:
 
-`build.gradle`:
+  * In [Gradle]. Import it inside `build.gradle`:
 
-```groovy
-plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.4-2'
-}
-
-apply plugin: "kotlin"
-apply plugin: "application"
-
-mainClassName = 'HelloKt'
-
-repositories {
-    jcenter ()
-}
-
-dependencies {
+    ```groovy
     compile ("com.hexagonkt:server_jetty:0.21.0")
-}
-```
+    ```
 
-`src/main/kotlin/Hello.kt`:
+  * In [Maven]. Declare the dependency in `pom.xml`:
 
-```kotlin
-import com.hexagonkt.server.*
-import com.hexagonkt.server.jetty.*
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>server_jetty</artifactId>
+      <version>0.21.0</version>
+    </dependency>
+    ```
 
-fun main(vararg args: String) {
-    serve(JettyServletEngine()) {
-        get("/hello/{name}") { "Hello ${request["name"]}!" }
+4. Write the code in the `src/main/kotlin/Hello.kt` file:
+
+    ```kotlin
+    import com.hexagonkt.server.*
+    import com.hexagonkt.server.jetty.*
+
+    fun main(vararg args: String) {
+        serve(JettyServletEngine()) {
+            get("/hello/{name}") { "Hello ${request["name"]}!" }
+        }
     }
-}
-```
+    ```
 
-Now you can run the service with `gradle run` and view the results at:
-[http://localhost:2010/hello/world](http://localhost:2010/hello/world)
+5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-[Lazybones]: https://github.com/pledbrook/lazybones
-[Gradle]: https://gradle.org/
+You can read more details at the [Service Creation] guide.
 
-## Further Resources
+[Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
+[Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
+[Endpoint]: http://localhost:2010/hello/world
+[Maven]: https://maven.apache.org
+[Gradle]: https://gradle.org
 
-* [Service Life Cycle]: provide helpers to create, build and package your services.
+## Guides
+
+* [Service Creation]: utilities to create, build and package your services.
 * [HTTP]: Web routing and filters. It is handled like the [Sinatra] Ruby framework.
 * [Serialization]: helper methods to serialize/deserialize `data classes` using different formats.
 * [Storage]: utilities to persist Kotlin objects into [MongoDB] collections.
@@ -124,7 +116,7 @@ Now you can run the service with `gradle run` and view the results at:
 [Pebble]: http://www.mitchellbosecke.com/pebble/home
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
 
-[Service Life Cycle]: http://hexagonkt.com/life_cycle.html
+[Service Creation]: http://hexagonkt.com/life_cycle.html
 [HTTP]: http://hexagonkt.com/rest.html
 [Serialization]: http://hexagonkt.com/serialization.html
 [Storage]: http://hexagonkt.com/storage.html
@@ -157,9 +149,9 @@ This is the coverage grid:
 Refer to the [contributing.md](contributing.md) file for detailed information about Hexagon's
 development.
 
-TODO Project board
+[Project board](https://github.com/hexagonkt/hexagon/projects/1)
 
-TODO Slack channel
+[Slack channel](https://kotlinlang.slack.com/messages/hexagon)
 
 Eventually I will thank all [contributors], but now it's just [me].
 
