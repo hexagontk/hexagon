@@ -1,3 +1,4 @@
+import static java.lang.System.getenv
 
 apply plugin: 'uk.co.cacoethes.lazybones-templates'
 
@@ -5,12 +6,14 @@ apply plugin: 'uk.co.cacoethes.lazybones-templates'
 // TODO Replace version in template `gradle.properties`
 // TODO Include all subdirs as templateDirs
 lazybones {
-    String btUser = findProperty ('bintrayUser') ?: 'anonymous'
+    final String btKey = findProperty ('bintrayKey') ?: getenv('BINTRAY_KEY') ?: 'anonymous'
+    final String btUser = findProperty ('bintrayUser') ?: getenv('BINTRAY_USER') ?: 'anonymous'
+
     repositoryName = "$btUser/maven"
     publish = true
 
-    setRepositoryUsername findProperty ('bintrayUser').toString () ?: 'anonymous'
-    setRepositoryApiKey findProperty ('bintrayKey').toString () ?: 'anonymous'
+    setRepositoryUsername btUser.toString () ?: 'anonymous'
+    setRepositoryApiKey btKey.toString () ?: 'anonymous'
 
     licenses = [ 'MIT' ]
     setTemplateDirs(files("$projectDir/hexagon-service"))

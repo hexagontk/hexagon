@@ -25,7 +25,7 @@ bintray { //bt ->
     key = findProperty ('bintrayKey') ?: System.getenv('BINTRAY_KEY') ?: 'anonymous'
     user = findProperty ('bintrayUser') ?: System.getenv('BINTRAY_USER') ?: 'anonymous'
     publications = [ 'mavenJava' ]
-    //noinspection GroovyAssignabilityCheck TODO Check this warning. Try `it.publish`
+    //noinspection GroovyAssignabilityCheck TODO Check this warning. Try `bt.publish`
     publish = true
 
     pkg {
