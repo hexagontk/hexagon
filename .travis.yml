@@ -1,6 +1,3 @@
-#
-# TODO Generate site and deploy from Travis CI (use `deploy` option to deploy on `master` push)
-#
 
 language: java
 jdk: oraclejdk8
@@ -44,12 +41,10 @@ install:
 
 script: ./gradlew clean site installDist jacocoReport installAllTemplates tfb
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-  - rm -rf build/ .gradle/
+after_success: bash <(curl -s https://codecov.io/bash)
 
 deploy:
   provider: script
   script: ./gradlew release && git push --tags
   on:
-    branch: develop
+    branch: master
