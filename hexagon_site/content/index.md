@@ -63,7 +63,7 @@ mainClassName = 'HelloKt'
 repositories { jcenter () }
 
 dependencies {
-    compile ("com.hexagonkt:hexagon_core:0.20.3")
+    compile ("com.hexagonkt:hexagon_core:0.20.4")
     compile ("org.eclipse.jetty:jetty-webapp:9.3.16.v20170120")
 }
 ```
