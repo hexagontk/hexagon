@@ -25,8 +25,8 @@ task checkGitStatus () {
     doLast {
         checkCleanRepository(grgit)
 //        Credentials credentials = new Credentials(System.getenv ('GRGIT_USER') ?: 'token', null)
-        grgit.pull (remote: 'origin', branch: 'master')
-        grgit.pull (remote: 'origin', branch: 'develop')
+//        grgit.pull (remote: 'origin', branch: 'master')
+//        grgit.pull (remote: 'origin', branch: 'develop')
         checkCleanRepository(grgit)
     }
 }
