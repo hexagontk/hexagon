@@ -19,32 +19,32 @@ import java.net.URI
         private const val DELAY = 10L
     }
 
-    private val consumer: com.hexagonkt.events.rabbitmq.RabbitMqClient = com.hexagonkt.events.rabbitmq.RabbitMqClient(URI(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.URI))
-    private val client: com.hexagonkt.events.rabbitmq.RabbitMqClient = com.hexagonkt.events.rabbitmq.RabbitMqClient(URI(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.URI))
+    private val consumer: RabbitMqClient = RabbitMqClient(URI(URI))
+    private val client: RabbitMqClient = RabbitMqClient(URI(URI))
 
     @BeforeClass fun startConsumer() {
-        consumer.declareQueue(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.QUEUE)
-        consumer.consume(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.QUEUE, String::class) { a ->
-            Thread.sleep(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.DELAY)
-            a + com.hexagonkt.events.rabbitmq.RabbitTest.Companion.SUFFIX
+        consumer.declareQueue(QUEUE)
+        consumer.consume(QUEUE, String::class) { a ->
+            Thread.sleep(DELAY)
+            a + SUFFIX
         }
 
-        consumer.declareQueue(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.QUEUE_ERROR)
-        consumer.consume(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.QUEUE_ERROR, String::class) { a ->
+        consumer.declareQueue(QUEUE_ERROR)
+        consumer.consume(QUEUE_ERROR, String::class) { a ->
             throw RuntimeException("Error with: $a")
         }
     }
 
     @AfterClass fun deleteTestQueue() {
-        consumer.deleteQueue(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.QUEUE)
-        consumer.deleteQueue(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.QUEUE_ERROR)
+        consumer.deleteQueue(QUEUE)
+        consumer.deleteQueue(QUEUE_ERROR)
         consumer.close()
     }
 
     fun call_return_expected_results() {
         val ts = currentTimeMillis().toString()
-        assert(client.call(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.QUEUE, ts) == ts + com.hexagonkt.events.rabbitmq.RabbitTest.Companion.SUFFIX)
-        val result = client.call(com.hexagonkt.events.rabbitmq.RabbitTest.Companion.QUEUE_ERROR, ts)
+        assert(client.call(QUEUE, ts) == ts + SUFFIX)
+        val result = client.call(QUEUE_ERROR, ts)
         assert(result.contains(ts) && result.contains("Error with: $ts"))
     }
 
