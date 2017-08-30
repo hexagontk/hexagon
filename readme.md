@@ -50,9 +50,17 @@ achieve this goal, it takes care of:
 The purpose of the project is to provide a microservices framework with the following priorities
 (in order):
 
+* Implement small services via RPC (HTTP) or Async (message based) (MQ)
+* Change engines easily
+
 1. Simple to use: make it easy to develop user services fast.
 2. Easy to hack: allow the user to add extensions or change the framework.
 3. Be small: this is really a requirement for the previous points.
+
+Goals
+
+* To prototype services quickly
+* 
 
 ## Quick Start
 
@@ -102,11 +110,16 @@ You can read more details at the [Services] guide.
 
 ## Guides
 
-* [Services]: explains how to create, build, run and package your services.
-* [HTTP]: describes how to use Web routing and filters for HTTP services.
+* HTTP routing and HTML templates.
+* Serialization and storage of data.
+* Asynchronous communication through events.
+* Task scheduling using Cron expressions.
 
-* [Serialization]: helper methods to serialize/deserialize `data classes` using different formats.
-* [Storage]: utilities to persist Kotlin objects into data stores.
+* [Services]: explains how to create, build, test, package and run your services.
+* [HTTP]: describes how to use Web routing and filters for HTTP services.
+* [Serialization]: details how to serialize/deserialize object instances using different formats.
+* [Storage]: gives an overview of how to store data using different data stores.
+
 * [Events]: support asynchronous communication with events through message brokers.
 * [Configuration]: allow the configuration of the engine by using YAML files.
 * [Scheduling]: supports the execution of tasks periodically using Cron expressions.
@@ -129,12 +142,13 @@ You can read more details at the [Services] guide.
 ## Status
 
 **DISCLAIMER**: The project status is beta. Use it at your own risk. There are some modules not
-started yet (ie: service registry) and the API is subject to change any time prior to release 1.0.
+started yet (ie: metrics and remote configuration) and the API is subject to change any time prior
+ to release 1.0.
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks)
 
-This is the coverage grid:
+Test, of course, are taken into account. This is the coverage grid:
 
 [![CoverageGrid]][Coverage]
 
@@ -144,8 +158,16 @@ This is the coverage grid:
 
 ## Contribute
 
-By using the project and sharing your thoughs you are helping the project. Spread the word and let
-more people use it, and if you are really pleased... just click on the star!
+If you like this project and want to support it, the easiest way is to give it a star :victory:.
+TODO Link to add star.
+
+If you feel like you can do more. You can contribute to the framework in different ways:
+
+* By using it and spreading the word.
+* Giving feedback by Twitter or Slack.
+* Requesting new features, submitting bugs.
+* Adding documentation to the project.
+
 
 Refer to the [contributing.md](contributing.md) file for detailed information about Hexagon's
 development and how to help.
