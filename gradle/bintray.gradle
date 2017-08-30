@@ -13,6 +13,7 @@ publishing {
         mavenJava (MavenPublication) {
             from components.java
 
+            // For the package to be accepted in JCenter, you need to include sources
             artifact sourceJar {
                 classifier 'sources'
             }

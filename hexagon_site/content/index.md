@@ -87,7 +87,7 @@ Now you can run the service with `gradle run` and view the results at:
 
 ## Further resources
 
-* [Service Life Cycle]: provide helpers to create, build and package your services.
+* [Services]: provide helpers to create, build and package your services.
 * [HTTP]: Web routing and filters. It is handled like the [Sinatra] Ruby framework.
 * [Serialization]: helper methods to serialize/deserialize `data classes` using different formats.
 * [Storage]: utilities to persist Kotlin objects into [MongoDB] collections.
@@ -101,7 +101,7 @@ Now you can run the service with `gradle run` and view the results at:
 [Pebble]: http://www.mitchellbosecke.com/pebble/home
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
 
-[Service Life Cycle]: life_cycle.html
+[Services]: services.html
 [HTTP]: rest.html
 [Serialization]: serialization.html
 [Storage]: storage.html

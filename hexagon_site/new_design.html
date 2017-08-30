@@ -22,6 +22,18 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
 
+  <meta name="twitter:image" content="http://hexagonkt.com/tile-large.png" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:site" content="@hexagon_kt" />
+
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Hexagon" />
+  <meta property="og:description" content="Hexagon, the atoms of your platform." />
+  <meta property="og:url" content="https://hexagonkt.com/" />
+  <meta property="og:site_name" content="Hexagon" />
+  <meta property="og:image" content="http://hexagonkt.com/img/tile-large.png" />
+
   <title>Hexagon</title>
 
   <link
@@ -31,9 +43,6 @@
     rel="stylesheet"
     href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     type="text/css" />
-  <link
-    href="css/base.css"
-    rel="stylesheet" />
   <link
     href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"
     rel="stylesheet" />
@@ -55,142 +64,26 @@
   <![endif]-->
 </head>
 
-<body onload="prettyPrint()">
-  <div id="wrap">
-
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <a href="https://github.com/hexagonkt/hexagon" class="hidden-sm hidden-xs">
-        <img
-          style="position: absolute; top: 0; right: 0; border: 0;"
-          src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
-          alt="Fork me on GitHub"
-          data-canonical-src=
-            "https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
-      </a>
-      <div class="container">
-        <div class="navbar-header">
-          <button
-            type="button"
-            class="navbar-toggle"
-            data-toggle="collapse"
-            data-target=".navbar-collapse">
-
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="pull-left" href="">
-            <img id="logo" src="img/logo.svg">
-          </a>
-        </div>
-
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="index.html">Quick Start</a></li>
-            <li><a href="dokka/hexagon/index.html">API</a></li>
-            <li><a href="contribute.html">Contribute</a></li>
-            <li><a href="license.html">License</a></li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="https://travis-ci.org/hexagonkt/hexagon">
-                <img
-                  src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master"
-                  alt="BuildImg" />
-              </a>
-            </li>
-            <li>
-              <a href="https://codecov.io/github/hexagonkt/hexagon?branch=master">
-                <img
-                  src="https://codecov.io/github/hexagonkt/hexagon/coverage.svg?branch=master"
-                  alt="CoverageImg" />
-              </a>
-            </li>
-            <li>
-              <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
-                <img
-                  src=
-                    "https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg"
-                  alt="DownloadImg" />
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
+<body><!-- onload="prettyPrint() "class="uk-background-primary"-->
+  <nav class="uk-navbar-container">
+    <div class="uk-navbar-left">
+      <ul class="uk-navbar-nav">
+        <li class="uk-active"><a href=""></a></li>
+        <li class="uk-parent"><a href=""></a></li>
+        <li><a href=""></a></li>
+      </ul>
     </div>
+  </nav>
 
-    <div class="container">
-
-<h1>HEXAGON 0.21.0</h1>
-<h3>The atoms of your platform</h3>
-<p>Hexagon is a microservices framework that doesn't follow the flock. It is written in <a href="http://kotlinlang.org">Kotlin</a> and<br/>uses <a href="http://www.rabbitmq.com">RabbitMQ</a> and <a href="https://www.mongodb.com">MongoDB</a>. It takes care of:</p>
-<ul>
-  <li>HTTP routing and HTML templates.</li>
-  <li>Serialization and storage of domain classes.</li>
-  <li>Asynchronous communication through events.</li>
-  <li>Task scheduling using Cron expressions.</li>
-</ul>
-<p>The purpose of the project is to provide a microservices framework with the following priorities<br/>(in order):</p>
-<ol>
-  <li>Simple to use</li>
-  <li>Easily hackable</li>
-  <li>Be small</li>
-</ol>
-<h2>Performance</h2>
-<p>Performance is not the primary goal, but it is taken seriously. You can check performance numbers<br/>in the <a href="https://www.techempower.com/benchmarks">TechEmpower Web Framework Benchmarks</a></p>
-<p><strong>DISCLAIMER</strong>: The project status is beta. Use it at your own risk. This is the coverage grid:</p>
-<p><img src="https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/tree.svg" alt="coverage" /></p>
-<h2>Getting started</h2>
-<p>For detailed information about how to create a service, please refer to the <a href="life_cycle.html">Service Life Cycle</a><br/>documentation.</p>
-<p>You can create a service from a <a href="https://github.com/pledbrook/lazybones">Lazybones</a> template. To do so type:<br/><code>lazybones create hexagon-service service</code></p>
-<p>Or you can write a <a href="https://gradle.org/">Gradle</a> project from scratch (Gradle 3 is required):</p>
-<p><code>build.gradle</code>:</p>
-<pre><code class="groovy">buildscript {
-    repositories { jcenter () }
-    dependencies { classpath &quot;org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6&quot; }
-}
-
-apply plugin: &quot;kotlin&quot;
-apply plugin: &quot;application&quot;
-
-mainClassName = &#39;HelloKt&#39;
-
-repositories { jcenter () }
-
-dependencies {
-    compile (&quot;com.hexagonkt:hexagon_core:0.21.0&quot;)
-    compile (&quot;org.eclipse.jetty:jetty-webapp:9.3.16.v20170120&quot;)
-}
-</code></pre>
-<p><code>src/main/kotlin/Hello.kt</code>:</p>
-<pre><code class="kotlin">import com.hexagonkt.server.*
-
-fun main(args: Array&lt;String&gt;) {
-    get(&quot;/hello/{name}&quot;) { ok(&quot;Hello ${request[&quot;name&quot;]}!&quot;) }
-    run()
-}
-</code></pre>
-<p>Now you can run the service with <code>gradle run</code> and view the results at:<br/><a href="http://localhost:2010/hello/world">http://localhost:2010/hello/world</a></p>
-<h2>Further resources</h2>
-<ul>
-  <li><a href="life_cycle.html">Service Life Cycle</a>: provide helpers to create, build and package your services.</li>
-  <li><a href="rest.html">HTTP</a>: Web routing and filters. It is handled like the <a href="http://sinatrarb.com">Sinatra</a> Ruby framework.</li>
-  <li><a href="serialization.html">Serialization</a>: helper methods to serialize/deserialize <code>data classes</code> using different formats.</li>
-  <li><a href="storage.html">Storage</a>: utilities to persist Kotlin objects into <a href="https://www.mongodb.com">MongoDB</a> collections.</li>
-  <li><a href="events.html">Events</a>: support asynchronous communication with events through the <a href="http://www.rabbitmq.com">RabbitMQ</a> message broker.</li>
-  <li><a href="configuration.html">Configuration</a>: allow the configuration of the engine by using YAML files.</li>
-  <li><a href="scheduling.html">Scheduling</a>: supports the execution of tasks periodically using Cron expressions.</li>
-  <li><a href="templates.html">Templates</a>: allow the service to render results using <a href="http://www.mitchellbosecke.com/pebble/home">Pebble</a> or <a href="https://github.com/Kotlin/kotlinx.html">kotlinx.html</a>.</li>
-  <li><a href="testing.html">Testing</a>: Hexagon adds utilities to ease the testing of its services.</li>
-</ul>
-<h2>Build and Contribute</h2>
-<p>Refer to the <a href="contribute.html">contribute</a> section for detailed information about Hexagon's development.</p>
-
-    <div id="push"></div>
-  </div>
+  <a href="https://travis-ci.org/hexagonkt/hexagon">
+    <img src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master" alt="BuildImg" />
+  </a>
+  <a href="https://codecov.io/github/hexagonkt/hexagon?branch=master">
+    <img src="https://codecov.io/github/hexagonkt/hexagon/coverage.svg?branch=master" alt="CoverageImg" />
+  </a>
+  <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
+    <img src="https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg" alt="DownloadImg" />
+  </a>
 
 
   <footer class="footer">
@@ -227,8 +120,12 @@ fun main(args: Array&lt;String&gt;) {
   </footer>
 
   <!-- Javascript: Placed at the end of the document so the pages load faster -->
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/js/uikit.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/js/uikit-icons.min.js"></script>
+
   <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/groovy.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/gradle.min.js"></script>

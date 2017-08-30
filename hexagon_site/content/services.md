@@ -5,8 +5,8 @@ status=published
 ~~~~~~
 
 
-Service Lifecycle
-=================
+Services
+========
 
 ## Create a service
 

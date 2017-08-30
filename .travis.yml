@@ -1,3 +1,7 @@
+#
+# For continuous deployment, keys are encrypted using Travis file encryption functionality:
+# https://docs.travis-ci.com/user/encrypting-files
+#
 
 language: java
 jdk: oraclejdk8

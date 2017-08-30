@@ -30,7 +30,7 @@
 </p>
 
 <p align="center">
-  <a href="http://hexagonkt.com">Quick Start</a> |
+  <a href="http://hexagonkt.com">Getting Started</a> |
   <a href="http://hexagonkt.com">Guides</a> |
   <a href="http://hexagonkt.com">API Reference</a> |
   <a href="http://hexagonkt.com">Community</a>
@@ -54,7 +54,7 @@ The purpose of the project is to provide a microservices framework with the foll
 2. Easy to hack: allow the user to add extensions or change the framework.
 3. Be small: this is really a requirement for the previous points.
 
-## Getting Started
+## Quick Start
 
 1. Setup Kotlin in [Gradle][Setup Gradle] or [Maven][Setup Maven].
 2. Setup the [JCenter repository](https://bintray.com/bintray/jcenter) (click on the `Set me up!`
@@ -92,7 +92,7 @@ The purpose of the project is to provide a microservices framework with the foll
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-You can read more details at the [Service Creation] guide.
+You can read more details at the [Services] guide.
 
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
@@ -102,21 +102,21 @@ You can read more details at the [Service Creation] guide.
 
 ## Guides
 
-* [Service Creation]: utilities to create, build and package your services.
-* [HTTP]: Web routing and filters. It is handled like the [Sinatra] Ruby framework.
+* [Services]: explains how to create, build, run and package your services.
+* [HTTP]: describes how to use Web routing and filters for HTTP services.
+
 * [Serialization]: helper methods to serialize/deserialize `data classes` using different formats.
-* [Storage]: utilities to persist Kotlin objects into [MongoDB] collections.
-* [Events]: support asynchronous communication with events through the [RabbitMQ] message broker.
+* [Storage]: utilities to persist Kotlin objects into data stores.
+* [Events]: support asynchronous communication with events through message brokers.
 * [Configuration]: allow the configuration of the engine by using YAML files.
 * [Scheduling]: supports the execution of tasks periodically using Cron expressions.
 * [Templates]: allow the service to render results using [Pebble] or [kotlinx.html].
 * [Testing]: Hexagon adds utilities to ease the testing of its services.
 
-[Sinatra]: http://sinatrarb.com
 [Pebble]: http://www.mitchellbosecke.com/pebble/home
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
 
-[Service Creation]: http://hexagonkt.com/life_cycle.html
+[Services]: http://hexagonkt.com/services.html
 [HTTP]: http://hexagonkt.com/rest.html
 [Serialization]: http://hexagonkt.com/serialization.html
 [Storage]: http://hexagonkt.com/storage.html
@@ -141,23 +141,29 @@ This is the coverage grid:
 [CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
 [Kotlin]: http://kotlinlang.org
-[RabbitMQ]: http://www.rabbitmq.com
-[MongoDB]: https://www.mongodb.com
 
 ## Contribute
 
+By using the project and sharing your thoughs you are helping the project. Spread the word and let
+more people use it, and if you are really pleased... just click on the star!
+
 Refer to the [contributing.md](contributing.md) file for detailed information about Hexagon's
-development.
+development and how to help.
 
-[Project board](https://github.com/hexagonkt/hexagon/projects/1)
+To know what issues are currently open and be aware of the next features yo can check the 
+[Project board](https://github.com/hexagonkt/hexagon/projects/1) at [Github].
 
-[Slack channel](https://kotlinlang.slack.com/messages/hexagon)
+You can ask any question, suggestion or complaint at the project's [Slack channel]. And be up to 
+date of project's news following [@hexagon_kt] in [Twitter].
 
 Eventually I will thank all [contributors], but now it's just [me].
 
+[@hexagon_kt]: https://twitter.com/hexagon_kt
+[Slack channel]: https://kotlinlang.slack.com/messages/hexagon
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
 [me]: https://github.com/jaguililla
 
 ## License
 
-The project is licensed under the [MIT License](license.md).
+The project is licensed under the [MIT License](license.md). This license lets you use the source
+for free or commercial purposes as long as you provide attribution and don’t hold anyone liable.
