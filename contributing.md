@@ -8,8 +8,9 @@ typing:
 
     git clone https://github.com/hexagonkt/hexagon.git
     cd hexagon
+    ./gradlew installDist -x test
     docker-compose up -d
-    ./gradlew clean site installDist installAllTemplates publishToMavenLocal
+    ./gradlew clean site installDist installAllTemplates publishToMavenLocal tfb
 
 The binaries are located in the `/build` directory. And the site in `/hexagon_site/build`.
 

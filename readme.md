@@ -48,14 +48,14 @@ The goals of the project are:
    is focused on making the usual tasks easy, rather than making a complex tool with a lot of
    features.
 2. Make it easy to hack: allow the user to add extensions or change the framework itself. The code
-   is meant to be simple for the users to understand it, instead of having to read blogs,
-   documentation or getting certified to use it efectiveliy.
+   is meant to be simple for the users to understand it. Avoid having to read blogs, documentation
+   or getting certified to use it efectively.
 
 What are NOT project goals:
 
 1. To be the fastest framework. Write the code fast and optimize only the critical parts. It is
-   [not slow][benchmark] anyway, and it will be faster when it fully support asynchronous non 
-   blocking operation.
+   [not slow][benchmark] anyway, and it will be faster when it supports asynchronous non blocking
+   operation.
 2. Support all available technologies and tools: the spirit is to define simple interfaces for
    the framework's features, so users can implement integrations with different tools easily.
 
@@ -87,8 +87,7 @@ What are NOT project goals:
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
     ```kotlin
-    import com.hexagonkt.server.*
-    import com.hexagonkt.server.jetty.*
+    import com.hexagonkt.server.jetty.serve
 
     fun main(vararg args: String) {
         serve {
