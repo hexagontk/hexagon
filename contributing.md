@@ -9,9 +9,9 @@ typing:
     git clone https://github.com/hexagonkt/hexagon.git
     cd hexagon
     docker-compose up -d
-    ./gradlew clean site installDist installAllTemplates publishLocal
+    ./gradlew clean site installDist installAllTemplates publishToMavenLocal
 
-The results are located in the `/build` directory. And the site in `/hexagon_site/build`.
+The binaries are located in the `/build` directory. And the site in `/hexagon_site/build`.
 
 ## Local Setup
 
@@ -19,11 +19,10 @@ You can define some useful aliases like:
 
     alias gw='./gradlew'
     alias dcupd='docker-compose up -d'
-    alias hx='cd ${hexagonHome}'
-    alias hxall='hx && gw clean site installDist installAllTemplates'
 
 It is recommended that you add: `gradlew clean site installDist installAllTemplates` to
-your `.git/hooks/pre-push` script. As this command will be checked by [Travis] before the PRs.
+your `.git/hooks/pre-push` script. As this command will be executed before pushing code to the
+repository (saving time fixing [Travis] build errors).
 
 If you want to commit to the project. It is convenient to setup your own [Travis] account to execute
 the CI job defined in `.travis.yml` when code is pushed to your fork.
@@ -48,6 +47,8 @@ Inside Idea IDE, you need to review Kotlin's settings to make sure JVM 1.8 and A
 
 ## Contribute
 
+* New features should be discussed within an issue in the issue tracker before actual coding.
+
 * For code, file names, tags and branches use either camel case or snake case only. Ie: avoid `-` in
   file names if it is possible.
 
@@ -67,7 +68,8 @@ Inside Idea IDE, you need to review Kotlin's settings to make sure JVM 1.8 and A
   [Description]
   ```
 
-* Bug format: when filing bugs please use the given, when, then format. Ie:
+* Bug format: when filing bugs please use the given, when, then format, including the expected 
+  result. Ie:
 
   ```
   Given a condition
@@ -75,13 +77,14 @@ Inside Idea IDE, you need to review Kotlin's settings to make sure JVM 1.8 and A
   When an action is taken
   And other after the first
   Then something happened
+  And I expected this other thing
   ```
-
-* New features should be discussed within an issue in the issue tracker before actual coding.
 
 ## Tasks and Milestones
 
 Project's tasks and milestones are tracked in a [Github board]. You can use that board to check the
-roadmap or pick tasks that you wish to contribute.
+roadmap, vote the features you want (using [issue ractions]) or to pick tasks that you wish to 
+contribute.
 
 [Github board]: https://github.com/hexagonkt/hexagon/projects/1
+[issue reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments

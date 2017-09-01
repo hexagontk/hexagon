@@ -30,6 +30,8 @@ The heavy lifting is done by these ones (Undertow, Jetty, RabbitMQ, MongoDB)
 
 # Concepts
 
+Service (API, Web, Consumer)
+
 Paths
 
 Routes

@@ -30,37 +30,36 @@
 </p>
 
 <p align="center">
-  <a href="http://hexagonkt.com">Getting Started</a> |
-  <a href="http://hexagonkt.com">Guides</a> |
-  <a href="http://hexagonkt.com">API Reference</a> |
-  <a href="http://hexagonkt.com">Community</a>
+  <a href="http://hexagonkt.com/TODO">Getting Started</a> |
+  <a href="http://hexagonkt.com/TODO">Guides</a> |
+  <a href="http://hexagonkt.com/TODO">API Reference</a> |
+  <a href="http://hexagonkt.com/TODO">Community</a>
 </p>
 
 ---
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
-its pursose is to ease the building of services (Web applications, APIs or Queue consumers). To 
-achieve this goal, it takes care of:
+its pursose is to ease the building of services (Web applications, APIs or queue consumers) that run
+inside a cloud platform.
 
-* HTTP routing and HTML templates.
-* Serialization and storage of data.
-* Asynchronous communication through events.
-* Task scheduling using Cron expressions.
+The goals of the project are:
 
-The purpose of the project is to provide a microservices framework with the following priorities
-(in order):
+1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It
+   is focused on making the usual tasks easy, rather than making a complex tool with a lot of
+   features.
+2. Make it easy to hack: allow the user to add extensions or change the framework itself. The code
+   is meant to be simple for the users to understand it, instead of having to read blogs,
+   documentation or getting certified to use it efectiveliy.
 
-* Implement small services via RPC (HTTP) or Async (message based) (MQ)
-* Change engines easily
+What are NOT project goals:
 
-1. Simple to use: make it easy to develop user services fast.
-2. Easy to hack: allow the user to add extensions or change the framework.
-3. Be small: this is really a requirement for the previous points.
+1. Code the fastest framework. Write the code fast and optimize only the critical parts. It is
+   [not slow][benchmark] anyway, and it will be faster when it fully support asynchronous non 
+   blocking operation.
+2. Support all available technologies and tools: the spirit is to define simple interfaces for
+   the framework's features, so users can implement integrations with different tools easily.
 
-Goals
-
-* To prototype services quickly
-* 
+[not slow]:
 
 ## Quick Start
 
@@ -100,7 +99,7 @@ Goals
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-You can read more details at the [Services] guide.
+You can read more details in the [Services] guide.
 
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
@@ -110,18 +109,15 @@ You can read more details at the [Services] guide.
 
 ## Guides
 
-* HTTP routing and HTML templates.
-* Serialization and storage of data.
-* Asynchronous communication through events.
 * Task scheduling using Cron expressions.
 
 * [Services]: explains how to create, build, test, package and run your services.
-* [HTTP]: describes how to use Web routing and filters for HTTP services.
+* [Configuration]: how to load service's configuration from different sources and data formats.
+* [HTTP]: describes how to use HTTP routing and HTML templates for Web services.
 * [Serialization]: details how to serialize/deserialize object instances using different formats.
 * [Storage]: gives an overview of how to store data using different data stores.
+* [Events]: how to support asynchronous communication with events through message brokers.
 
-* [Events]: support asynchronous communication with events through message brokers.
-* [Configuration]: allow the configuration of the engine by using YAML files.
 * [Scheduling]: supports the execution of tasks periodically using Cron expressions.
 * [Templates]: allow the service to render results using [Pebble] or [kotlinx.html].
 * [Testing]: Hexagon adds utilities to ease the testing of its services.
@@ -146,12 +142,13 @@ started yet (ie: metrics and remote configuration) and the API is subject to cha
  to release 1.0.
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
-in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks)
+in the [TechEmpower Web Framework Benchmarks][benchmark]
 
 Test, of course, are taken into account. This is the coverage grid:
 
 [![CoverageGrid]][Coverage]
 
+[benchmark]: https://www.techempower.com/benchmarks
 [CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
 [Kotlin]: http://kotlinlang.org
@@ -164,10 +161,11 @@ TODO Link to add star.
 If you feel like you can do more. You can contribute to the framework in different ways:
 
 * By using it and spreading the word.
-* Giving feedback by Twitter or Slack.
+* Giving feedback by [Twitter] or [Slack].
 * Requesting new features, submitting bugs.
+* Vote for the features you want in the issue tracker
 * Adding documentation to the project.
-
+* Submitting code
 
 Refer to the [contributing.md](contributing.md) file for detailed information about Hexagon's
 development and how to help.
@@ -188,4 +186,5 @@ Eventually I will thank all [contributors], but now it's just [me].
 ## License
 
 The project is licensed under the [MIT License](license.md). This license lets you use the source
-for free or commercial purposes as long as you provide attribution and don’t hold anyone liable.
+for free or commercial purposes as long as you provide attribution and don’t hold any project member
+liable.
