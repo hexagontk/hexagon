@@ -10,20 +10,20 @@ import java.nio.charset.Charset.defaultCharset
 /**
  * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)
  */
-fun Server.crud(repository: MongoIdRepository<*, *>) {
+fun Router.crud(repository: MongoIdRepository<*, *>) {
     this.crud(repository as MongoRepository<*>)
 
     val collectionName = repository.namespace.collectionName
 
-    router.get("/$collectionName/ids") { findIds(repository) }
-    router.get("/$collectionName/*,*") { findList (repository) }
-    router.get("/$collectionName/{id}") { find (repository) }
+    get("/$collectionName/ids") { findIds(repository) }
+    get("/$collectionName/*,*") { findList (repository) }
+    get("/$collectionName/{id}") { find (repository) }
 
-    router.put("/$collectionName/list") { replaceList (repository) }
-    router.put("/$collectionName") { replace (repository) }
+    put("/$collectionName/list") { replaceList (repository) }
+    put("/$collectionName") { replace (repository) }
 
-    router.delete("/$collectionName/*,*") { deleteList (repository) }
-    router.delete("/$collectionName/{id}") { delete (repository) }
+    delete("/$collectionName/*,*") { deleteList (repository) }
+    delete("/$collectionName/{id}") { delete (repository) }
 }
 
 private fun Call.findIds(repository: MongoIdRepository<*, *>) {
@@ -102,7 +102,7 @@ private fun <K : Any, T : Any> parseKeys(
     call.request.path.substringAfterLast("/").split(",").map { it.trim() }.map {
         @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
         when (repository.keyType) {
-            String::class -> "$it"
+            String::class -> it
             Int::class -> it.toInt()
             else -> it
         } as K

@@ -30,7 +30,7 @@ import kotlin.reflect.KProperty1
 
         val server = Server(JettyServletEngine(), bindPort = 0)
 
-        server.crud(repo)
+        server.router.crud(repo)
         server.run()
 
         fun param (json: String?) = json?.parse (Country::class) ?: error
@@ -66,7 +66,7 @@ import kotlin.reflect.KProperty1
         val repo = MongoIdRepository (Parameter::class, parameters, Parameter::name)
 
         val server = Server(JettyServletEngine(), bindPort = 0)
-        server.crud(repo)
+        server.router.crud(repo)
         server.run()
 
         fun param (json: String?) = json?.parse (Parameter::class) ?: error
@@ -93,7 +93,7 @@ import kotlin.reflect.KProperty1
         val addresses = mongoRepository<Address>()
 
         val server = Server(JettyServletEngine(), bindPort = 0)
-        server.crud(addresses)
+        server.router.crud(addresses)
         server.run()
 
         fun param (json: String?) = json?.parse (Address::class) ?: error

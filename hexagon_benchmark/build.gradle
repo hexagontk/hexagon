@@ -6,8 +6,18 @@ apply plugin: 'war'
 apply plugin: 'me.champeau.gradle.jmh'
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
+
+/*
+ * Check: https://www.infoq.com/articles/G1-One-Garbage-Collector-To-Rule-Them-All
+ */
 applicationDefaultJvmArgs = [
-    '-Xms2G', '-Xmx2G', '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts'
+    '-Xms2G',
+    '-Xmx2G',
+    '-XX:+UseNUMA',
+    '-XX:+UseParallelGC',
+//    '-XX:+UseG1GC',
+//    '-XX:+UseStringDeduplicationJVM',
+    '-XX:+AggressiveOpts'
 ]
 
 ext.hikariVersion = '2.6.2'

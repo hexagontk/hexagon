@@ -1,6 +1,7 @@
 package com.hexagonkt.server.undertow
 
 import com.hexagonkt.server.EngineTest
+import com.hexagonkt.server.Server
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -18,5 +19,20 @@ class UndertowEngineTest : EngineTest(UndertowEngine()) {
         assertFailsWith<IllegalStateException>(message) { engine.runtimePort() }
         engine.shutdown()
         assert(!engine.started())
+    }
+
+    @Test fun start_server() {
+        val s: Server = server {}
+        s.run()
+        assert(s.started())
+        s.stop()
+        assert(!s.started())
+    }
+
+    @Test fun test_serve() {
+        val s: Server = serve {}
+        assert(s.started())
+        s.stop()
+        assert(!s.started())
     }
 }

@@ -39,6 +39,9 @@ open class Settings {
 
     fun <T : Any> setting(name: String, defaultValue: T): T = setting(name) ?: defaultValue
 
+    fun <T : Any> requireSetting(name: String): T? =
+        SettingsManager.setting(name) ?: error("$name required setting not found")
+
     private fun loadSettings() =
         loadProps("service.yaml") +
         loadProps("service_test.yaml") +
