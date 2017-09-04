@@ -1,6 +1,7 @@
 package com.hexagonkt.settings
 
 import com.hexagonkt.serialization.parse
+import com.hexagonkt.helpers.get
 import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.EOL
 import com.hexagonkt.helpers.resourceAsStream
@@ -35,12 +36,10 @@ open class Settings {
     val settings: Map<String, *> = loadSettings()
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : Any> setting(name: String): T? = settings[name] as? T
+    fun <T : Any> setting(vararg name: String): T? = settings[name] as? T
 
-    fun <T : Any> setting(name: String, defaultValue: T): T = setting(name) ?: defaultValue
-
-    fun <T : Any> requireSetting(name: String): T? =
-        SettingsManager.setting(name) ?: error("$name required setting not found")
+    fun <T : Any> requireSetting(vararg name: String): T? =
+        setting(*name) ?: error("$name required setting not found")
 
     private fun loadSettings() =
         loadProps("service.yaml") +

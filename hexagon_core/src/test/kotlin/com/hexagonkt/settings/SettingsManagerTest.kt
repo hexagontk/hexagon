@@ -14,8 +14,6 @@ import org.testng.annotations.Test
         assert(setting<String>("property") == "changed")
         assert(setting<Int>("intProperty") == 42)
         assert(setting<String>("foo") == "bar")
-
-        assert(setting("_invalid_", "default") == "default")
     }
 
     fun get_configuration_properties() {
@@ -29,7 +27,7 @@ import org.testng.annotations.Test
         assert(requireSetting<String>("property") == "changed")
         assert(requireSetting<Int>("intProperty") == 42)
         assert(requireSetting<String>("foo") == "bar")
-//        assert(requireSetting<String>("parent", "key") == "val")
+        assert(requireSetting<String>("parent", "key") == "val")
     }
 
     @Test(expectedExceptions = arrayOf(IllegalStateException::class))
