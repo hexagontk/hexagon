@@ -1,4 +1,4 @@
-package com.hexagonkt.server
+package com.hexagonkt.store
 
 import com.hexagonkt.server.Server
 import com.hexagonkt.server.ServerEngine

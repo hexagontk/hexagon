@@ -9,7 +9,6 @@ import java.lang.management.ManagementFactory.getRuntimeMXBean
 import java.net.InetAddress.getLocalHost
 import java.net.URL
 import java.util.*
-import kotlin.text.Typography.times
 
 /** Default timezone. */
 val timeZone: TimeZone = TimeZone.getDefault()

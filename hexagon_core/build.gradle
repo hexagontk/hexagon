@@ -29,11 +29,12 @@ dependencies {
     }
 
     // TEST
-    testCompile project(':hexagon_test')
-
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     testCompile ("com.github.tomakehurst:wiremock:$wiremockVersion")
+    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
+        exclude module: 'slf4j-api'
+    }
 }
 
 test {

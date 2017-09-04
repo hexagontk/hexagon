@@ -19,9 +19,9 @@ import kotlin.reflect.KProperty1
 internal const val WORLD_ROWS = 10000
 
 private val DB_HOST = systemSetting("DBHOST", "localhost")
-private val DB_NAME = setting("database", "hello_world")
-private val WORLD_NAME: String = setting("worldCollection", "world")
-private val FORTUNE_NAME: String = setting("fortuneCollection", "fortune")
+private val DB_NAME = defaultSetting("database", value = "hello_world")
+private val WORLD_NAME: String = defaultSetting("worldCollection", value = "world")
+private val FORTUNE_NAME: String = defaultSetting("fortuneCollection", value = "fortune")
 
 private val postgresqlUrl = "jdbc:postgresql://$DB_HOST/$DB_NAME?" +
     "jdbcCompliantTruncation=false&" +
@@ -39,6 +39,8 @@ private val postgresqlUrl = "jdbc:postgresql://$DB_HOST/$DB_NAME?" +
     "maintainTimeStats=false&" +
     "useServerPrepStmts=true&" +
     "cacheRSMetadata=true"
+
+internal fun <T : Any> defaultSetting(vararg name: String, value: T): T = setting(*name) ?: value
 
 internal fun createStore(engine: String): Store = when (engine) {
     "mongodb" -> MongoDbStore()
@@ -90,9 +92,9 @@ private class SqlStore(jdbcUrl: String) : Store {
     init {
         val config = HikariConfig()
         config.jdbcUrl = jdbcUrl
-        config.maximumPoolSize =  setting("maximumPoolSize", 16)
-        config.username = setting("databaseUsername", "benchmarkdbuser")
-        config.password = setting("databasePassword", "benchmarkdbpass")
+        config.maximumPoolSize =  defaultSetting("maximumPoolSize", value = 16)
+        config.username = defaultSetting("databaseUsername", value = "benchmarkdbuser")
+        config.password = defaultSetting("databasePassword", value = "benchmarkdbpass")
         DATA_SOURCE = HikariDataSource(config)
     }
 

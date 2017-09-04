@@ -30,6 +30,8 @@ The heavy lifting is done by these ones (Undertow, Jetty, RabbitMQ, MongoDB)
 
 # Concepts
 
+Service (API, Web, Consumer)
+
 Paths
 
 Routes
@@ -64,7 +66,7 @@ Project templates (AKA starters)
 
 # Scope of the release
 
-1.0 Will maintain compatibility. But It will not be supported after 2.0
+1.0 Will maintain compatibility. But It won't be supported after 2.0
 
 # Teaser / Roadmap
 
@@ -93,6 +95,8 @@ HTTP/2
 Websockets
 
 CBOR
+
+Swagger
 
 Clients and Servers contracts... when you define routes, and route documentation is in place
 

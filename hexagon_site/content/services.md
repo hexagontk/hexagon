@@ -5,8 +5,8 @@ status=published
 ~~~~~~
 
 
-Service Lifecycle
-=================
+Services
+========
 
 ## Create a service
 
@@ -14,6 +14,32 @@ Service Lifecycle
 
 To build Hexagon services you have some Gradle helpers that you can use on your own project. To
 use them, you can use the online versions, or copy them to your `gradle` directory.
+
+You can write a [Gradle] project from scratch (Gradle 3 or newer is required):
+
+`build.gradle`:
+
+```groovy
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.1.4-2'
+}
+
+apply plugin: "kotlin"
+apply plugin: "application"
+
+mainClassName = 'HelloKt'
+
+repositories {
+    jcenter ()
+}
+
+dependencies {
+    compile ("com.hexagonkt:server_jetty:0.21.1")
+}
+```
+
+Now you can run the service with `gradle run` and view the results at:
+[http://localhost:2010/hello/world](http://localhost:2010/hello/world)
 
 ### From a template
 

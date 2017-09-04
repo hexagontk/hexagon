@@ -2,7 +2,6 @@ package com.hexagonkt.store
 
 import com.hexagonkt.store.Department.*
 import com.hexagonkt.rest.CrudTest
-import com.hexagonkt.server.VoidEngine
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer
