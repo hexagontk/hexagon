@@ -71,7 +71,7 @@ What are NOT project goals:
   * In [Gradle]. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.21.1")
+    compile ("com.hexagonkt:server_jetty:0.21.2")
     ```
 
   * In [Maven]. Declare the dependency in `pom.xml`:
@@ -80,7 +80,7 @@ What are NOT project goals:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.21.1</version>
+      <version>0.21.2</version>
     </dependency>
     ```
 

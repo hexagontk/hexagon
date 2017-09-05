@@ -38,7 +38,7 @@ open class Settings {
     @Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
     fun <T : Any> setting(vararg name: String): T? = settings.get(*name) as? T
 
-    fun <T : Any> requireSetting(vararg name: String): T? =
+    fun <T : Any> requireSetting(vararg name: String): T =
         setting(*name) ?: error("$name required setting not found")
 
     private fun loadSettings() =
