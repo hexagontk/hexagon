@@ -61,6 +61,7 @@ class Client (
         val bodyValue = when (body) {
             null -> null
             is File -> Base64.getEncoder().encodeToString(body.readBytes())
+            is String -> body.toString() // TODO Add test!!!
             else ->
                 if (contentType == null) body.toString()
                 else body.serialize(contentType)
