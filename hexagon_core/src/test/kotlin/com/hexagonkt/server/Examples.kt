@@ -4,7 +4,7 @@ import java.net.InetAddress.getByName as address
 import com.hexagonkt.server.HttpMethod.*
 import java.net.HttpCookie
 
-/** A route, available in the server (to be handled) or in the client (to be * called). */
+/** A route, available in the server (to be handled) or in the client (to be called). */
 val getIndex = get()
 /** Another syntax to create a route. */
 val postIndex = POST at "/"
@@ -23,7 +23,9 @@ val usernamePasswords = mapOf (
  */
 val serverExample = server(VoidEngine) {
     // Adds 'foo' header to all requests
-    before { response.addHeader("foo", "bar") }
+    before {
+        response.addHeader("foo", "bar")
+    }
 
     // Before POST / check 'pass' header, if present, pass to the next filter
     postIndex before {
@@ -34,7 +36,9 @@ val serverExample = server(VoidEngine) {
     }
 
     // Another syntax for a before filter
-    ALL at "/" before { response.addCookie(HttpCookie("cookie", "jar")) }
+    ALL at "/" before {
+        response.addCookie(HttpCookie("cookie", "jar"))
+    }
 
     // Map '/public' classpath resources to '/' path
     assets ("/public")
