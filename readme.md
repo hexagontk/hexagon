@@ -17,155 +17,177 @@
   </a>
   <a href="https://codecov.io/gh/hexagonkt/hexagon">
     <img
-      src="https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square"
+      src=
+        "https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square"
       alt="Codecov" />
   </a>
   <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
     <img
-      src="https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square"
+      src=
+        "https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square"
       alt="Bintray" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/hexagonkt/hexagon">
-    Quick Start
-  </a>
-  |
-  <a href="https://codecov.io/gh/hexagonkt/hexagon">
-    Guides
-  </a>
-  |
-  <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
-    API Reference
-  </a>
-  |
-  <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
-    Community
-  </a>
+  <a href="http://hexagonkt.com/TODO">Getting Started</a> |
+  <a href="http://hexagonkt.com/TODO">Guides</a> |
+  <a href="http://hexagonkt.com/TODO">API Reference</a> |
+  <a href="http://hexagonkt.com/TODO">Community</a>
 </p>
 
 ---
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
-aims to implement the [Microservice Chassis Pattern] for a given platform. It takes care of:
+its pursose is to ease the building of services (Web applications, APIs or queue consumers) that run
+inside a cloud platform.
 
-* HTTP routing and HTML templates.
-* Serialization and storage of domain classes.
-* Asynchronous communication through events.
-* Task scheduling using Cron expressions.
+It is meant to provide abstraction from underlying technoligies to be able to change them with
+minimum impact.
 
-The purpose of the project is to provide a microservices framework with the following priorities
-(in order):
+The goals of the project are:
 
-1. Simple to use
-2. Easily hackable
-3. Be small
+1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It
+   is focused on making the usual tasks easy, rather than making a complex tool with a lot of
+   features.
+2. Make it easy to hack: allow the user to add extensions or change the framework itself. The code
+   is meant to be simple for the users to understand it. Avoid having to read blogs, documentation
+   or getting certified to use it efectively.
 
-[Microservice Chassis Pattern]: http://microservices.io/patterns/microservice-chassis.html
+What are NOT project goals:
 
-## Getting Started
+1. To be the fastest framework. Write the code fast and optimize only the critical parts. It is
+   [not slow][benchmark] anyway, and it will be faster when it supports asynchronous non blocking
+   operation.
+2. Support all available technologies and tools: the spirit is to define simple interfaces for
+   the framework's features, so users can implement integrations with different tools easily.
+3. To be usable from Java. Hexagon is *Kotlin first*.
 
-You can write a [Gradle] project from scratch (Gradle 3 or newer is required):
+[Kotlin]: http://kotlinlang.org
+[benchmark]: https://www.techempower.com/benchmarks
 
-`build.gradle`:
+## Quick Start
 
-```groovy
-plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.4-2'
-}
+1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
+2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
+3. Add the dependency:
 
-apply plugin: "kotlin"
-apply plugin: "application"
+  * In [Gradle]. Import it inside `build.gradle`:
 
-mainClassName = 'HelloKt'
+    ```groovy
+    compile ("com.hexagonkt:server_jetty:0.21.2")
+    ```
 
-repositories {
-    jcenter ()
-}
+  * In [Maven]. Declare the dependency in `pom.xml`:
 
-dependencies {
-    compile ("com.hexagonkt:server_jetty:0.21.0")
-}
-```
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>server_jetty</artifactId>
+      <version>0.21.2</version>
+    </dependency>
+    ```
 
-`src/main/kotlin/Hello.kt`:
+4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-```kotlin
-import com.hexagonkt.server.*
-import com.hexagonkt.server.jetty.*
+    ```kotlin
+    import com.hexagonkt.server.jetty.serve
 
-fun main(vararg args: String) {
-    serve(JettyServletEngine()) {
-        get("/hello/{name}") { "Hello ${request["name"]}!" }
+    fun main(vararg args: String) {
+        serve {
+            get("/hello/{name}") { "Hello ${request["name"]}!" }
+        }
     }
-}
-```
+    ```
 
-Now you can run the service with `gradle run` and view the results at:
-[http://localhost:2010/hello/world](http://localhost:2010/hello/world)
+5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-[Lazybones]: https://github.com/pledbrook/lazybones
-[Gradle]: https://gradle.org/
+You can read more details in the [Services] guide.
 
-## Further Resources
+[Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
+[Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
+[JCenter]: https://bintray.com/bintray/jcenter
+[Gradle]: https://gradle.org
+[Maven]: https://maven.apache.org
+[Endpoint]: http://localhost:2010/hello/world
 
-* [Service Life Cycle]: provide helpers to create, build and package your services.
-* [HTTP]: Web routing and filters. It is handled like the [Sinatra] Ruby framework.
-* [Serialization]: helper methods to serialize/deserialize `data classes` using different formats.
-* [Storage]: utilities to persist Kotlin objects into [MongoDB] collections.
-* [Events]: support asynchronous communication with events through the [RabbitMQ] message broker.
-* [Configuration]: allow the configuration of the engine by using YAML files.
-* [Scheduling]: supports the execution of tasks periodically using Cron expressions.
-* [Templates]: allow the service to render results using [Pebble] or [kotlinx.html].
-* [Testing]: Hexagon adds utilities to ease the testing of its services.
+## Guides
 
-[Sinatra]: http://sinatrarb.com
-[Pebble]: http://www.mitchellbosecke.com/pebble/home
-[kotlinx.html]: https://github.com/Kotlin/kotlinx.html
+* [Services]: explains how to create, build, test, package and run your services.
+* [Configuration]: how to load service's configuration from different sources and data formats.
+* [HTTP]: describes how to use HTTP routing and HTML templates for Web services.
+* [Serialization]: details how to serialize/deserialize object instances using different formats.
+* [Storage]: gives an overview of how to store data using different data stores.
+* [Events]: how to support asynchronous communication with events through message brokers.
+* [Scheduling]: explains how to execute tasks periodically using Cron expressions.
+* [Templates]: describes how to render pages using template engines like [Pebble] or [kotlinx.html].
+* [Testing]: explains how to the test Hexagon's services.
 
-[Service Life Cycle]: http://hexagonkt.com/life_cycle.html
+[Services]: http://hexagonkt.com/services.html
+[Configuration]: http://hexagonkt.com/configuration.html
 [HTTP]: http://hexagonkt.com/rest.html
 [Serialization]: http://hexagonkt.com/serialization.html
 [Storage]: http://hexagonkt.com/storage.html
 [Events]: http://hexagonkt.com/events.html
-[Configuration]: http://hexagonkt.com/configuration.html
-[Templates]: http://hexagonkt.com/templates.html
 [Scheduling]: http://hexagonkt.com/scheduling.html
+[Templates]: http://hexagonkt.com/templates.html
 [Testing]: http://hexagonkt.com/testing.html
+
+[Pebble]: http://www.mitchellbosecke.com/pebble/home
+[kotlinx.html]: https://github.com/Kotlin/kotlinx.html
 
 ## Status
 
 **DISCLAIMER**: The project status is beta. Use it at your own risk. There are some modules not
-started yet (ie: service registry) and the API is subject to change any time prior to release 1.0.
+started yet (ie: metrics and remote configuration) and the API is subject to change any time prior
+to release 1.0.
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
-in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks)
+in the [TechEmpower Web Framework Benchmarks][benchmark]
 
-This is the coverage grid:
+Tests, of course, are taken into account. This is the coverage grid:
 
 [![CoverageGrid]][Coverage]
 
 [CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
-[Kotlin]: http://kotlinlang.org
-[RabbitMQ]: http://www.rabbitmq.com
-[MongoDB]: https://www.mongodb.com
 
 ## Contribute
 
-Refer to the [contributing.md](contributing.md) file for detailed information about Hexagon's
-development.
+If you like this project and want to support it, the easiest way is to [give it a star] :v:.
 
-TODO Project board
+If you feel like you can do more. You can contribute to the framework in different ways:
 
-TODO Slack channel
+* By using it and [spreading the word][@hexagon_kt].
+* Giving feedback by [Twitter][@hexagon_kt] or [Slack].
+* Requesting [new features][issues] or [submitting bugs][issues].
+* Vote for the features you want in the [issue tracker][issues] (using [reactions]).
+* And... Drum roll... Submitting [code][contributing] or [documentation][contributing].
+
+Refer to the [contributing.md][contributing] file for detailed information about Hexagon's
+development and how to help.
+
+To know what issues are currently open and be aware of the next features yo can check the 
+[Project Board] at Github.
+
+You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
+to date of project's news following [@hexagon_kt] in Twitter.
 
 Eventually I will thank all [contributors], but now it's just [me].
 
+[give it a star]: https://github.com/hexagonkt/hexagon/stargazers
+[@hexagon_kt]: https://twitter.com/hexagon_kt
+[Slack]: https://kotlinlang.slack.com/messages/hexagon
+[issues]: https://github.com/hexagonkt/hexagon/issues
+[reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
+[contributing]: contributing.md
+[Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
 [me]: https://github.com/jaguililla
 
 ## License
 
-The project is licensed under the [MIT License](license.md).
+The project is licensed under the [MIT License]. This license lets you use the source for free or
+commercial purposes as long as you provide attribution and don’t hold any project member liable.
+
+[MIT License]: license.md

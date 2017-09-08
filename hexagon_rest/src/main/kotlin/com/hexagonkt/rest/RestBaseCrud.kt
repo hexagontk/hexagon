@@ -5,7 +5,7 @@ import com.hexagonkt.store.eq
 import com.hexagonkt.store.isIn
 import com.hexagonkt.serialization.*
 import com.hexagonkt.server.Call
-import com.hexagonkt.server.Server
+import com.hexagonkt.server.Router
 import com.mongodb.MongoWriteException
 import com.mongodb.client.FindIterable
 import com.mongodb.client.model.Filters
@@ -17,15 +17,15 @@ import kotlin.reflect.full.declaredMemberProperties
  * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)
  * TODO Implement pattern delete with filters made from query strings (see above)
  */
-fun Server.crud(repository: MongoRepository<*>) {
+fun Router.crud(repository: MongoRepository<*>) {
     val collectionName = repository.namespace.collectionName
 
-    router.get("/$collectionName") { findAll (repository) }
-    router.get("/$collectionName/count") { ok(repository.count()) }
+    get("/$collectionName") { findAll (repository) }
+    get("/$collectionName/count") { ok(repository.count()) }
 
-    router.post("/$collectionName/list") { insertList (repository) }
-    router.post("/$collectionName") { insert (repository) }
-    router.delete("/$collectionName") { deleteByExample (repository) }
+    post("/$collectionName/list") { insertList (repository) }
+    post("/$collectionName") { insert (repository) }
+    delete("/$collectionName") { deleteByExample (repository) }
 }
 
 internal fun contentType (call: Call) = call.request.contentType ?: defaultFormat
