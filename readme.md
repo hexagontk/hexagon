@@ -42,6 +42,9 @@ Hexagon is a microservices framework that doesn't follow the flock. It is writte
 its pursose is to ease the building of services (Web applications, APIs or queue consumers) that run
 inside a cloud platform.
 
+It is meant to provide abstraction from underlying technoligies to be able to change them with
+minimum impact.
+
 The goals of the project are:
 
 1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It
@@ -58,6 +61,7 @@ What are NOT project goals:
    operation.
 2. Support all available technologies and tools: the spirit is to define simple interfaces for
    the framework's features, so users can implement integrations with different tools easily.
+3. To be usable from Java. Hexagon is *Kotlin first*.
 
 [Kotlin]: http://kotlinlang.org
 [benchmark]: https://www.techempower.com/benchmarks
@@ -71,7 +75,7 @@ What are NOT project goals:
   * In [Gradle]. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.21.1")
+    compile ("com.hexagonkt:server_jetty:0.21.2")
     ```
 
   * In [Maven]. Declare the dependency in `pom.xml`:
@@ -80,7 +84,7 @@ What are NOT project goals:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.21.1</version>
+      <version>0.21.2</version>
     </dependency>
     ```
 

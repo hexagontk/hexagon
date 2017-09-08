@@ -1,12 +1,13 @@
 
 # What is Hexagon
 
-It is a µS fw focused on creating µS sync/async
+Hexagon is a microservices framework written in [Kotlin] which pursose is to ease the building of
+services (Web applications, APIs or queue consumers) that run inside cloud platforms.
 
 It is meant to provide abstraction from underlying technoligies to be able to change them with
 minimum impact.
 
-Only Kotlin support
+It only supports Kotlin use, Java is not a targeted language for the framework.
 
 # Why it was created
 
@@ -18,13 +19,23 @@ Only Kotlin support
 
 # How it works
 
-modules (components and engines)
+The framework is build upon smaller pieces:
 
-components (events, core, templates)
+## Modules
 
-Needed infrastructure for µS
+components and engines
 
-engines (feature implementations)
+## Components
+
+events, core, templates
+
+Features
+
+Add Needed infrastructure for µS
+
+## Engines
+
+feature implementations
 
 The heavy lifting is done by these ones (Undertow, Jetty, RabbitMQ, MongoDB)
 
@@ -63,10 +74,6 @@ Well tested
 Performance tests (TechEmpower and JMeter)
 
 Project templates (AKA starters)
-
-# Scope of the release
-
-1.0 Will maintain compatibility. But It won't be supported after 2.0
 
 # Teaser / Roadmap
 
@@ -109,5 +116,4 @@ Tasks picking
 Bugs
 
 # Spread the word
-
 
