@@ -108,6 +108,18 @@ class ClientTest {
         assert (r.statusCode == 200)
     }
 
+    fun strings_are_sent_properly () {
+        stubFor(post("/string")
+            .willReturn(aResponse()
+                .withHeader("body", "{{request.body}}")
+            )
+        )
+
+        val r = client.post("/string", "text")
+        assert (r.headers.get("body").isNotEmpty())
+        assert (r.statusCode == 200)
+    }
+
     private fun checkResponse(response: Response, parameter: Map<String, String>?) {
         assert(response.statusCode == 200)
         assert(response.responseBody.trim() == parameter?.serialize()?.trim() ?: "")
