@@ -42,7 +42,7 @@ Hexagon is a microservices framework that doesn't follow the flock. It is writte
 its pursose is to ease the building of services (Web applications, APIs or queue consumers) that run
 inside a cloud platform.
 
-It is meant to provide abstraction from underlying technoligies to be able to change them with
+It is meant to provide abstraction from underlying technologies to be able to change them with
 minimum impact.
 
 The goals of the project are:
