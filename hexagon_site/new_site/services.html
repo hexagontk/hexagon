@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="application-name" content="hexagon" />
+  <meta name="author" content="Juanjo Aguililla" />
+  <meta name="description" content="The atoms of your platform" />
+  <meta name="keywords" content="Hexagon, microservices, Java, Kotlin" />
+  <meta name="generator" content="JBake" />
+
+  <meta name="theme-color" content="#135AA1" />
+  <meta name="msapplication-navbutton-color" content="#135AA1" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#135AA1" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <title>
+    Hexagon
+  </title>
+
+
+  <link
+    href="http://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css"
+    rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    type="text/css" />
+  <link
+    href="css/base.css"
+    rel="stylesheet" />
+  <link
+    href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"
+    rel="stylesheet" />
+
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="apple-touch-icon.png" />
+  <link
+    rel="shortcut icon"
+    sizes="32x32"
+    href="favicon.ico" />
+
+  <link rel="author" href="/humans.txt" />
+
+  <!--[if lt IE 9]>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body onload="prettyPrint()">
+  <div id="wrap">
+
+
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <a href="https://github.com/hexagonkt/hexagon" class="hidden-sm hidden-xs">
+        <img
+          style="position: absolute; top: 0; right: 0; border: 0;"
+          src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+          alt="Fork me on GitHub"
+          data-canonical-src=
+            "https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+      </a>
+      <div class="container">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target=".navbar-collapse">
+
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="pull-left" href="">
+            <img id="logo" src="img/logo.svg">
+          </a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Quick Start</a></li>
+            <li><a href="dokka/hexagon/index.html">API</a></li>
+            <li><a href="contribute.html">Contribute</a></li>
+            <li><a href="license.html">License</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="https://travis-ci.org/hexagonkt/hexagon">
+                <img
+                  src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master"
+                  alt="BuildImg" />
+              </a>
+            </li>
+            <li>
+              <a href="https://codecov.io/github/hexagonkt/hexagon?branch=master">
+                <img
+                  src="https://codecov.io/github/hexagonkt/hexagon/coverage.svg?branch=master"
+                  alt="CoverageImg" />
+              </a>
+            </li>
+            <li>
+              <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
+                <img
+                  src=
+                    "https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg"
+                  alt="DownloadImg" />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+<h1>Services</h1>
+<h2>Create a service</h2>
+<h3>From scratch</h3>
+<p>To build Hexagon services you have some Gradle helpers that you can use on your own project. To<br/>use them, you can use the online versions, or copy them to your <code>gradle</code> directory.</p>
+<p>You can write a [Gradle] project from scratch (Gradle 3 or newer is required):</p>
+<p><code>build.gradle</code>:</p>
+<pre><code class="groovy">plugins {
+    id &#39;org.jetbrains.kotlin.jvm&#39; version &#39;1.1.4-2&#39;
+}
+
+apply plugin: &quot;kotlin&quot;
+apply plugin: &quot;application&quot;
+
+mainClassName = &#39;HelloKt&#39;
+
+repositories {
+    jcenter ()
+}
+
+dependencies {
+    compile (&quot;com.hexagonkt:server_jetty:0.21.2&quot;)
+}
+</code></pre>
+<p>Now you can run the service with <code>gradle run</code> and view the results at:<br/><a href="http://localhost:2010/hello/world">http://localhost:2010/hello/world</a></p>
+<h3>From a template</h3>
+<p>You can create a service from a [Lazybones] template. To do so type:<br/><code>lazybones create hexagon-service service</code></p>
+<pre><code class="bash">curl -s get.sdkman.io | bash &amp;&amp; source ~/.sdkman/bin/sdkman-init.sh
+sdk i lazybones
+mkdir ~/.lazybones # Bug with Lazybones?
+lazybones config set bintrayRepositories pledbrook/lazybones-templates jamming/maven
+lazybones create hexagon-service service -Pgroup=org.example -Pversion=0.1 -Pdescription=Description
+cd service
+gradle/wrapper
+</code></pre>
+<h2>Directory structure</h2>
+<p>The project uses the standard Gradle structure. Gradle wrapper changed to be stored in the <code>gradle</code><br/>folder instead of the project root</p>
+<h2>Running and Testing</h2>
+<p>gw run<br/>gw -x test -t runService # Continuous mode AKA watch</p>
+<h2>Packaging and Deployment</h2>
+<p>Build scripts:</p>
+<ul>
+  <li><code>kotlin.gradle</code>: Sets up Kotlin's Gradle plugin: Adds Kotlin libraries, setup coverage report,<br/>filter project resources with build variables. To use it you need to:
+    <ul>
+      <li>Define the <code>kotlinVersion</code> variable to <code>gradle.properties</code> file.</li>
+      <li>Add the following code to <code>build.gradle</code></li>
+    </ul>
+  </li>
+</ul>
+<pre><code class="Groovy">      buildscript {
+          repositories {
+              jcenter ()
+          }
+      
+          dependencies {
+              classpath &quot;org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion&quot;
+          }
+      }
+</code></pre>
+<ul>
+  <li>
+    <p><code>service.gradle</code>: Gradle's script for a service or application.</p>
+    <p>Tasks:<br/>- runService: for continuous run (AKA "Watch")<br/>- install: <code>systemdService</code>: script that support start/stop/status<br/>- buildInfo / processResources</p>
+    <p>Variables:<br/>- deployDir<br/>- serviceUser<br/>- serviceGroup</p>
+    <p>Use Systemd service:</p>
+    <p>Copy this file to '/etc/systemd/system' and then:<br/> - To start the service execute: sudo systemctl start hexagon<br/> - To run the service at boot type: sudo systemctl enable hexagon</p>
+  </li>
+  <li>
+    <p><code>site.gradle</code>: Adds support for site generation (with API documentation and reports).</p>
+    <ul>
+      <li>siteSource</li>
+      <li>siteTarget</li>
+    </ul>
+    <p>To apply this script, you need to add the JBake plugin manually at the top of your build script<br/>as that is not possible in included scripts like this one. These are the required lines to do so:</p>
+    <pre><code class="gradle">plugins {
+    id &#39;org.xbib.gradle.plugin.jbake&#39; version &#39;1.2.1&#39;
+}
+</code></pre>
+  </li>
+</ul>
+<h2>Configuration files</h2>
+<ul>
+  <li>service.yaml (see configuration.md)</li>
+  <li>logback.xml</li>
+</ul>
+<p>Templates: Pebble (optional dependencies)</p>
+<h2>Deploy on Systemd</h2>
+<h2>Deploy on Servlet engine</h2>
+<h2>Deploy on Docker</h2>
+
+    <div id="push"></div>
+  </div>
+
+  
+  <footer class="footer">
+    <div id="footerContent" class="container muted credit">
+      Made with <i class="fa fa-heart heart"></i> by <a href="http://there4.co">Juanjo Aguililla</a>
+      | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.3.7</a>
+      | Baked with <a href="http://jbake.org">JBake v2.5.0</a> |
+      <a
+        class="github-button"
+        href="https://github.com/hexagonkt/hexagon"
+        data-icon="octicon-star"
+        data-count-href="/hexagonkt/hexagon/stargazers"
+        data-count-api="/repos/hexagonkt/hexagon#stargazers_count">Star</a>
+      <a
+        class="github-button"
+        href="https://github.com/hexagonkt/hexagon"
+        data-icon="octicon-eye"
+        data-count-href="/hexagonkt/hexagon/watchers"
+        data-count-api="/repos/hexagonkt/hexagon#subscribers_count"
+        data-count-aria-label="# watchers on GitHub"
+        aria-label="Watch hexagonkt/hexagon on GitHub">Watch</a>
+      <a
+        class="github-button"
+        href="https://github.com/hexagonkt/hexagon/fork"
+        data-icon="octicon-git-branch"
+        data-count-href="/hexagonkt/hexagon/network"
+        data-count-api="/repos/hexagonkt/hexagon#forks_count">Fork</a>
+      <a
+        class="github-button"
+        href="https://github.com/hexagonkt/hexagon/issues"
+        data-icon="octicon-issue-opened"
+        data-count-api="/repos/hexagonkt/hexagon#open_issues_count">Issue</a>
+    </div>
+  </footer>
+
+  <!-- Javascript: Placed at the end of the document so the pages load faster -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/groovy.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/gradle.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/xml.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/kotlin.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- For Github links -->
+  <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="application-name" content="hexagon" />
+  <meta name="author" content="Juanjo Aguililla" />
+  <meta name="description" content="The atoms of your platform" />
+  <meta name="keywords" content="Hexagon, microservices, Java, Kotlin" />
+  <meta name="generator" content="JBake" />
+
+  <meta name="theme-color" content="#135AA1" />
+  <meta name="msapplication-navbutton-color" content="#135AA1" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="#135AA1" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <title>
+    Hexagon
+  </title>
+
+
+  <link
+    href="http://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css"
+    rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    type="text/css" />
+  <link
+    href="css/base.css"
+    rel="stylesheet" />
+  <link
+    href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"
+    rel="stylesheet" />
+
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="apple-touch-icon.png" />
+  <link
+    rel="shortcut icon"
+    sizes="32x32"
+    href="favicon.ico" />
+
+  <link rel="author" href="/humans.txt" />
+
+  <!--[if lt IE 9]>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body onload="prettyPrint()">
+  <div id="wrap">
+
+
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <a href="https://github.com/hexagonkt/hexagon" class="hidden-sm hidden-xs">
+        <img
+          style="position: absolute; top: 0; right: 0; border: 0;"
+          src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+          alt="Fork me on GitHub"
+          data-canonical-src=
+            "https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+      </a>
+      <div class="container">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target=".navbar-collapse">
+
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="pull-left" href="">
+            <img id="logo" src="img/logo.svg">
+          </a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Quick Start</a></li>
+            <li><a href="dokka/hexagon/index.html">API</a></li>
+            <li><a href="contribute.html">Contribute</a></li>
+            <li><a href="license.html">License</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="https://travis-ci.org/hexagonkt/hexagon">
+                <img
+                  src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master"
+                  alt="BuildImg" />
+              </a>
+            </li>
+            <li>
+              <a href="https://codecov.io/github/hexagonkt/hexagon?branch=master">
+                <img
+                  src="https://codecov.io/github/hexagonkt/hexagon/coverage.svg?branch=master"
+                  alt="CoverageImg" />
+              </a>
+            </li>
+            <li>
+              <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
+                <img
+                  src=
+                    "https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg"
+                  alt="DownloadImg" />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+<h1>HEXAGON 0.21.2</h1>
+<h3>The atoms of your platform</h3>
+<p>Hexagon is a microservices framework that doesn't follow the flock. It is written in <a href="http://kotlinlang.org">Kotlin</a> and<br/>uses <a href="http://www.rabbitmq.com">RabbitMQ</a> and <a href="https://www.mongodb.com">MongoDB</a>. It takes care of:</p>
+<ul>
+  <li>HTTP routing and HTML templates.</li>
+  <li>Serialization and storage of domain classes.</li>
+  <li>Asynchronous communication through events.</li>
+  <li>Task scheduling using Cron expressions.</li>
+</ul>
+<p>The purpose of the project is to provide a microservices framework with the following priorities<br/>(in order):</p>
+<ol>
+  <li>Simple to use</li>
+  <li>Easily hackable</li>
+  <li>Be small</li>
+</ol>
+<h2>Performance</h2>
+<p>Performance is not the primary goal, but it is taken seriously. You can check performance numbers<br/>in the <a href="https://www.techempower.com/benchmarks">TechEmpower Web Framework Benchmarks</a></p>
+<p><strong>DISCLAIMER</strong>: The project status is beta. Use it at your own risk. This is the coverage grid:</p>
+<p><img src="https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/tree.svg" alt="coverage" /></p>
+<h2>Getting started</h2>
+<p>For detailed information about how to create a service, please refer to the [Service Life Cycle]<br/>documentation.</p>
+<p>You can create a service from a <a href="https://github.com/pledbrook/lazybones">Lazybones</a> template. To do so type:<br/><code>lazybones create hexagon-service service</code></p>
+<p>Or you can write a <a href="https://gradle.org/">Gradle</a> project from scratch (Gradle 3 is required):</p>
+<p><code>build.gradle</code>:</p>
+<pre><code class="groovy">buildscript {
+    repositories { jcenter () }
+    dependencies { classpath &quot;org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.6&quot; }
+}
+
+apply plugin: &quot;kotlin&quot;
+apply plugin: &quot;application&quot;
+
+mainClassName = &#39;HelloKt&#39;
+
+repositories { jcenter () }
+
+dependencies {
+    compile (&quot;com.hexagonkt:hexagon_core:0.21.2&quot;)
+    compile (&quot;org.eclipse.jetty:jetty-webapp:9.3.16.v20170120&quot;)
+}
+</code></pre>
+<p><code>src/main/kotlin/Hello.kt</code>:</p>
+<pre><code class="kotlin">import com.hexagonkt.server.*
+
+fun main(args: Array&lt;String&gt;) {
+    get(&quot;/hello/{name}&quot;) { ok(&quot;Hello ${request[&quot;name&quot;]}!&quot;) }
+    run()
+}
+</code></pre>
+<p>Now you can run the service with <code>gradle run</code> and view the results at:<br/><a href="http://localhost:2010/hello/world">http://localhost:2010/hello/world</a></p>
+<h2>Further resources</h2>
+<ul>
+  <li><a href="services.html">Services</a>: provide helpers to create, build and package your services.</li>
+  <li><a href="rest.html">HTTP</a>: Web routing and filters. It is handled like the <a href="http://sinatrarb.com">Sinatra</a> Ruby framework.</li>
+  <li><a href="serialization.html">Serialization</a>: helper methods to serialize/deserialize <code>data classes</code> using different formats.</li>
+  <li><a href="storage.html">Storage</a>: utilities to persist Kotlin objects into <a href="https://www.mongodb.com">MongoDB</a> collections.</li>
+  <li><a href="events.html">Events</a>: support asynchronous communication with events through the <a href="http://www.rabbitmq.com">RabbitMQ</a> message broker.</li>
+  <li><a href="configuration.html">Configuration</a>: allow the configuration of the engine by using YAML files.</li>
+  <li><a href="scheduling.html">Scheduling</a>: supports the execution of tasks periodically using Cron expressions.</li>
+  <li><a href="templates.html">Templates</a>: allow the service to render results using <a href="http://www.mitchellbosecke.com/pebble/home">Pebble</a> or <a href="https://github.com/Kotlin/kotlinx.html">kotlinx.html</a>.</li>
+  <li><a href="testing.html">Testing</a>: Hexagon adds utilities to ease the testing of its services.</li>
+</ul>
+<h2>Build and Contribute</h2>
+<p>Refer to the <a href="contribute.html">contribute</a> section for detailed information about Hexagon's development.</p>
+
+    <div id="push"></div>
+  </div>
+
+  
+  <footer class="footer">
+    <div id="footerContent" class="container muted credit">
+      Made with <i class="fa fa-heart heart"></i> by <a href="http://there4.co">Juanjo Aguililla</a>
+      | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.3.7</a>
+      | Baked with <a href="http://jbake.org">JBake v2.5.0</a> |
+      <a
+        class="github-button"
+        href="https://github.com/hexagonkt/hexagon"
+        data-icon="octicon-star"
+        data-count-href="/hexagonkt/hexagon/stargazers"
+        data-count-api="/repos/hexagonkt/hexagon#stargazers_count">Star</a>
+      <a
+        class="github-button"
+        href="https://github.com/hexagonkt/hexagon"
+        data-icon="octicon-eye"
+        data-count-href="/hexagonkt/hexagon/watchers"
+        data-count-api="/repos/hexagonkt/hexagon#subscribers_count"
+        data-count-aria-label="# watchers on GitHub"
+        aria-label="Watch hexagonkt/hexagon on GitHub">Watch</a>
+      <a
+        class="github-button"
+        href="https://github.com/hexagonkt/hexagon/fork"
+        data-icon="octicon-git-branch"
+        data-count-href="/hexagonkt/hexagon/network"
+        data-count-api="/repos/hexagonkt/hexagon#forks_count">Fork</a>
+      <a
+        class="github-button"
+        href="https://github.com/hexagonkt/hexagon/issues"
+        data-icon="octicon-issue-opened"
+        data-count-api="/repos/hexagonkt/hexagon#open_issues_count">Issue</a>
+    </div>
+  </footer>
+
+  <!-- Javascript: Placed at the end of the document so the pages load faster -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/groovy.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/gradle.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/xml.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/kotlin.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- For Github links -->
+  <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+</body>
+</html>
