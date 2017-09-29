@@ -39,7 +39,7 @@
 ---
 
 Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
-its pursose is to ease the building of services (Web applications, APIs or queue consumers) that run
+its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run
 inside a cloud platform.
 
 It is meant to provide abstraction from underlying technologies to be able to change them with
