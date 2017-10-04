@@ -2,6 +2,7 @@ rootProject.name = name
 
 include (
     'hexagon_site',
+    'hexagon_site_new',
     'hexagon_starters',
 
     'hexagon_benchmark',

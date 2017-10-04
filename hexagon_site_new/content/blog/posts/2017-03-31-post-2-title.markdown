@@ -1,0 +1,24 @@
+---
+layout: post
+title: I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
+subtitle: ''
+image: post-bg.jpg
+date: 2017-04-02 15:27
+author: John Doe
+author_email: johndoe@somemail.com
+author_link: '#'
+published: false
+---
+
+Lid est **laborum dolo** rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo
+minima rerums unsers sadips amets.
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae
+vitae dicta sunt explicabo.
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae
+vitae dicta sunt explicabo. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae
+vitae dicta sunt explicabo.
