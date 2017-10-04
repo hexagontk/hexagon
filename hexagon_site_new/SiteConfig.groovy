@@ -1,3 +1,4 @@
+
 import com.sysgears.theme.ResourceMapper
 import com.sysgears.theme.deploy.GHPagesDeployer
 import com.sysgears.theme.taglib.ThemeTagLib
@@ -5,8 +6,8 @@ import com.sysgears.theme.taglib.ThemeTagLib
 /**
  * Resource mapper and tag libs.
  */
-resource_mapper = new ResourceMapper(site).map
-tag_libs = [ThemeTagLib]
+resource_mapper = new ResourceMapper (site).map
+tag_libs = [ ThemeTagLib ]
 
 /**
  * Theme features management.
@@ -17,7 +18,7 @@ features {
      *  - none - code highlighting is disabled for the theme.
      *  - pygments - code highlighting is enabled and provided by Python Pygments.
      */
-    highlight = 'none'
+    highlight = 'pygments'
 
     /**
      * Defines the tool for Markdown documents processing. Accepts the following values:
@@ -28,8 +29,9 @@ features {
 
     /**
      * Defines Compass behavior. This property accepts the following values:
-     * - auto, ruby, jruby - Default value. For any of these values the specified Ruby interpreter (ruby.interpreter
-     *                       config value)  is used. Otherwise, if no interpreter is defined, falls back to JRuby.
+     * - auto, ruby, jruby - Default value. For any of these values the specified Ruby interpreter
+     *                       (ruby.interpreter config value)  is used. Otherwise, if no interpreter
+     *                       is defined, falls back to JRuby.
      * - shell - Uses command shell to execute compass.
      * - none - compass is disabled.
      */
@@ -37,16 +39,17 @@ features {
 }
 
 /**
- * A list of regular expressions that match locations of files or directories that must be completely excluded from processing.
- * These files are ignored by Grain and won't be copied to the destination directory.
+ * A list of regular expressions that match locations of files or directories that must be
+ * completely excluded from processing. These files are ignored by Grain and won't be copied to the
+ * destination directory.
  */
-excludes += ['/_[^/]*/.*']
+excludes += [ '/_[^/]*/.*' ]
 
 /**
- * Defines the set of variables, appended to the 'site' global variable, depending on environment that is used.
+ * Defines the set of variables, appended to the 'site' global variable, depending on environment
+ * that is used.
  */
 environments {
-
     /**
      * Dev configuration.
      */
@@ -54,9 +57,10 @@ environments {
         log.info 'Development environment is used'
 
         /**
-         * Base URL for the site. This value will be automatically prepended to any asset path of the theme.
+         * Base URL for the site. This value will be automatically prepended to any asset path of
+         * the theme.
          */
-        url = "http://localhost:${jetty_port}"
+        url = "http://localhost:$jetty_port"
 
         /**
          * Should posts with "published = false" be processed.
@@ -71,7 +75,8 @@ environments {
         log.info 'Production environment is used'
 
         /**
-         * Base URL for the site. This value will be automatically prepended to any asset path of the theme.
+         * Base URL for the site. This value will be automatically prepended to any asset path of
+         * the theme.
          */
         url = ''
 
@@ -92,7 +97,8 @@ environments {
     }
 
     /**
-     * Theme-specific command-mode environment, used when running a custom command defined in SiteConfig.groovy
+     * Theme-specific command-mode environment, used when running a custom command defined in
+     * SiteConfig.groovy
      */
     cmd {
         features {
@@ -107,16 +113,18 @@ environments {
  */
 python {
     /**
-     * An interpreter that is used for executing Python scripts (e.g. for Python Pygments). This property accepts the following values:
+     * An interpreter that is used for executing Python scripts (e.g. for Python Pygments). This
+     * property accepts the following values:
      * - python - Uses Python that is installed on your system.
      * - jython - uses Jython integrated in Grain.
-     * - auto - Default value. Uses Python that is installed on your system. If its not available, then falls back to Jython.
+     * - auto - Default value. Uses Python that is installed on your system. If its not available,
+     *   then falls back to Jython.
      */
     interpreter = 'jython'
 
     /**
-     * If native system python distribution is used, then this value defines the paths to python executables. If any of
-     * these fails, then the attempt to use next one takes place.
+     * If native system python distribution is used, then this value defines the paths to python
+     * executables. If any of these fails, then the attempt to use next one takes place.
      */
     //cmd_candidates = ['python2', 'python', 'python2.7']
 
@@ -164,9 +172,8 @@ posts_base_url = '/blog/posts/'
 
 /**
  * Blog functionality configuration.
-  */
+ */
 blog {
-
     /**
      * An email, where a mail from a contact form will be sent.
      */
