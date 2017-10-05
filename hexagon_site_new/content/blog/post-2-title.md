@@ -7,7 +7,7 @@ date: 2017-04-02 15:27
 author: John Doe
 author_email: johndoe@somemail.com
 author_link: '#'
-published: false
+published: true
 ---
 
 Lid est **laborum dolo** rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo

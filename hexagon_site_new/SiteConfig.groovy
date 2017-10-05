@@ -9,6 +9,8 @@ import com.sysgears.theme.taglib.ThemeTagLib
 resource_mapper = new ResourceMapper (site).map
 tag_libs = [ ThemeTagLib ]
 
+siteColor = '#135AA1'
+
 /**
  * Theme features management.
  */
