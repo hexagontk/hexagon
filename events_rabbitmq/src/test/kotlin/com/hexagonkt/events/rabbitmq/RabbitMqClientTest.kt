@@ -10,40 +10,40 @@ import kotlin.test.assertFailsWith
 @Test class RabbitMqClientTest {
     companion object : CachedLogger(RabbitMqClientTest::class)
 
-    fun create_a_connection_factory_with_empty_URI_fails() {
+    fun `create a connection factory with empty URI fails` () {
         assertFailsWith(IllegalArgumentException::class) {
             createConnectionFactory(URI(""))
         }
     }
 
-    fun create_a_connection_factory_with_invalid_URI_fails() {
+    fun `create a connection factory with invalid URI fails` () {
         assertFailsWith(IllegalArgumentException::class) {
             createConnectionFactory(URI("http://localhost"))
         }
     }
 
-    fun create_a_connection_factory_without_parameters_succeed() {
+    fun `create a connection factory without parameters succeed` () {
         val uri = "amqp://user:pass@localhost:12345"
         val cf = createConnectionFactory(URI(uri))
         assert(cf.host == "localhost")
         assert(cf.port == 12345)
     }
 
-    fun create_a_connection_factory_with_one_parameter_succeed() {
+    fun `create a connection factory with one parameter succeed` () {
         val uri = "amqp://user:pass@localhost:12345?channelCacheSize=50"
         val cf = createConnectionFactory(URI(uri))
         assert(cf.host == "localhost")
         assert(cf.port == 12345)
     }
 
-    fun create_a_connection_factory_with_two_parameter_succeed() {
+    fun `create a connection factory with two parameter succeed` () {
         val uri = "amqp://user:pass@localhost:12345?channelCacheSize=50&heartbeat=25"
         val cf = createConnectionFactory(URI(uri))
         assert(cf.host == "localhost")
         assert(cf.port == 12345)
     }
 
-    fun create_a_connection_factory_with_all_parameters_succeed() {
+    fun `create a connection factory with all parameters succeed` () {
         val opts = listOf(
             "channelCacheSize=50",
             "heartbeat=25",
@@ -58,7 +58,7 @@ import kotlin.test.assertFailsWith
         assert(cf.port == 12345)
     }
 
-    fun rabbit_client_disconnects_properly() {
+    fun `rabbit client disconnects properly` () {
         val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         assert(client.connected)
         client.close()
@@ -67,7 +67,7 @@ import kotlin.test.assertFailsWith
         assert(!client.connected)
     }
 
-    fun consumers_handle_numbers_properly() {
+    fun `consumers handle numbers properly` () {
         val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         consumer.declareQueue("int_op")
         consumer.declareQueue("long_op")
@@ -88,7 +88,7 @@ import kotlin.test.assertFailsWith
         consumer.close()
     }
 
-    fun consumers_handle_no_reply_messages() {
+    fun `consumers_handle_no_reply_messages` () {
         val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         consumer.declareQueue("int_handler")
         consumer.declareQueue("long_handler")

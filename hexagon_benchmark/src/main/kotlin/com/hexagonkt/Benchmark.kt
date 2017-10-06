@@ -27,7 +27,7 @@ private const val TEXT_MESSAGE: String = "Hello, World!"
 private const val CONTENT_TYPE_JSON = "application/json"
 private const val QUERIES_PARAM = "queries"
 
-private val LOGGER: Logger = getLogger("BENCHMARK_LOGGER")
+private val logger: Logger = getLogger("BENCHMARK_LOGGER")
 private val defaultLocale: Locale = Locale.getDefault()
 
 // UTILITIES
@@ -107,7 +107,7 @@ fun main(vararg args: String) {
     val engine = createEngine(systemSetting("WEBENGINE", "jetty"))
     benchmarkStore = createStore(systemSetting("DBSTORE", "mongodb"))
 
-    LOGGER.info("""
+    logger.info("""
             Benchmark set up:
                 - Engine: {}
                 - Store: {}

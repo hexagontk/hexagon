@@ -1,8 +1,8 @@
 
-# Module hexagon_rest
+# Module hexagon_events
 
 TODO
 
-# Package com.hexagonkt.rest
+# Package com.hexagonkt.events
 
 TODO
