@@ -20,7 +20,8 @@ features {
      *  - none - code highlighting is disabled for the theme.
      *  - pygments - code highlighting is enabled and provided by Python Pygments.
      */
-    highlight = 'pygments'
+//    highlight = 'pygments'
+    highlight = 'none'
 
     /**
      * Defines the tool for Markdown documents processing. Accepts the following values:
@@ -196,72 +197,3 @@ blog {
      */
     posts_per_page = 4
 }
-
-/**
- * S3 Deployment configurations.
- *
- * @attr s3bucket - your s3 bucket name
- * @attr deploy_s3 - a command to deploy to Amazon S3.
- */
-s3_bucket = ''
-deploy_s3 = "s3cmd sync --acl-public --reduced-redundancy ${destination_dir}/ s3://${s3_bucket}/"
-
-/**
- * GitHubPages deployment configuration.
- * @attr gh_pages_url Path to GitHub repository in format git@github.com:{username}/{repo}.git
- * @attr deploy a command to deploy to GitHubPages.
- */
-gh_pages_url = ''
-deploy = new GHPagesDeployer(site).deploy
-
-/**
- * List of custom command-line commands.
-  */
-commands = [
-/**
- * Creates new page. Syntax: ./grainw create-page /path/to/the/page "Page Title"
- *
- * location - relative path to the new page, should start with the /, i.e. /pages/index.html.
- * pageTitle - new page title
- */
-'create-page': { String location, String pageTitle ->
-        file = new File(content_dir, location)
-        file.parentFile.mkdirs()
-        file.exists() || file.write("""---
-layout: site_page
-title: "${pageTitle}"
-heading: "${pageTitle}"
-image: post-bg.jpg
-subheading: ""
-published: false
----
-""")},
-
-/**
- * Creates new post. Syntax: ./grainw create-post "Post Title"
- *
- * postTitle - new post title
- */
-'create-post': { String postTitle ->
-    def date = new Date()
-    def fileDate = date.format("yyyy-MM-dd")
-    def filename = fileDate + "-" + postTitle.encodeAsSlug() + ".markdown"
-    def blogDir = new File(content_dir + "${posts_base_url}")
-    if (!blogDir.exists()) {
-        blogDir.mkdirs()
-    }
-    def file = new File(blogDir, filename)
-
-    file.exists() || file.write("""---
-layout: post
-title: "${postTitle}"
-subtitle: ""
-image: "post-bg.jpg"
-date: "${date.format(datetime_format)}"
-author: "John Doe"
-author_email: ""
-author_link: "#"
-published: false
----
-""")}
-]

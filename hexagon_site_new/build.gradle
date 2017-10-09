@@ -21,7 +21,7 @@ ext {
 }
 
 clean {
-    delete '.cache', 'target'
+    delete '.cache', 'target', 'out', 'null'
 }
 
 repositories {
