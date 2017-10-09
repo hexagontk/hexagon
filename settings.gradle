@@ -2,11 +2,13 @@ rootProject.name = name
 
 include (
     'hexagon_site',
+    'hexagon_site_new',
     'hexagon_starters',
 
     'hexagon_benchmark',
 
     'hexagon_core',
+    'hexagon_events',
     'hexagon_rest',
     'hexagon_scheduler',
     'hexagon_store',
