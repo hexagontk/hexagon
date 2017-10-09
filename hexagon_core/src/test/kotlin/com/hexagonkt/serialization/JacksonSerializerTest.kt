@@ -7,7 +7,7 @@ import kotlin.test.assertFailsWith
 @Test class JacksonSerializerTest {
     fun serializing_an_unsupported_content_type_fails() {
         assertFailsWith<IllegalStateException> {
-            JacksonSerializer.serialize("text", "invalid/type")
+            serializeObject("text", "invalid/type")
         }
     }
 

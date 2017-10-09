@@ -6,7 +6,7 @@ abstract class SerializationTest<T : Any> (val type: KClass<T>) {
     abstract val testObjects: List<T>
 
     fun object_is_mapped_and_parsed_back_without_error () {
-        JacksonSerializer.contentTypes.forEach { contentType ->
+        contentTypes.forEach { contentType ->
             testObjects.forEach {
                 val map = it.convertToMap ()
 

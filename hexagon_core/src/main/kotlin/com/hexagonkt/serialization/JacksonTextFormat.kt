@@ -4,14 +4,17 @@ import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.*
+import com.hexagonkt.serialization.JacksonSerializer.createObjectMapper
 
 import java.io.InputStream
+import java.io.OutputStream
 import kotlin.reflect.KClass
 
-internal class JacksonSerializationFormat(
+internal class JacksonTextFormat(
     extension: String, factoryGenerator: (() -> JsonFactory)? = null) : SerializationFormat {
 
     override val contentType = "application/$extension"
+    override val isBinary = false
 
     private val mapper =
         if (factoryGenerator == null) JacksonSerializer.mapper
@@ -19,11 +22,12 @@ internal class JacksonSerializationFormat(
 
     private val writer = createObjectWriter()
 
-    fun createObjectWriter (): ObjectWriter {
+    private fun createObjectWriter (): ObjectWriter {
         val printer = DefaultPrettyPrinter ().withArrayIndenter (SYSTEM_LINEFEED_INSTANCE)
         return mapper.writer (printer)
     }
 
+    override fun serialize(obj: Any, output: OutputStream) = writer.writeValue(output, obj)
     override fun serialize(obj: Any): String = writer.writeValueAsString (obj)
 
     override fun <T : Any> parse(input: InputStream, type: KClass<T>): T =

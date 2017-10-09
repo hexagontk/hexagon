@@ -8,10 +8,10 @@ apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
 ext.slf4jVersion = '1.7.25'
-ext.jacksonVersion = '2.9.0'
+ext.jacksonVersion = '2.9.1'
 
-ext.ahcVersion = '2.0.32'
-ext.wiremockVersion = '2.7.1'
+ext.ahcVersion = '2.0.37'
+ext.wiremockVersion = '2.8.0'
 
 dependencies {
     // COMPILE
