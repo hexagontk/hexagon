@@ -26,7 +26,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.*
 
-object JacksonSerializer {
+internal object JacksonSerializer {
     val mapper: ObjectMapper = createObjectMapper ()
 
     fun toMap(obj: Any): Map<*, *> =
@@ -35,7 +35,7 @@ object JacksonSerializer {
     fun <T : Any> toObject(obj: Map<*, *>, type: KClass<T>): T =
         mapper.convertValue (obj, type.java)
 
-    internal fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()) =
+    fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
         ObjectMapper (mapperFactory)
             .configure (FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure (FAIL_ON_EMPTY_BEANS, false)
@@ -60,55 +60,59 @@ object JacksonSerializer {
                 .addDeserializer (ClosedRange::class.java, ClosedRangeDeserializer)
             )
 
-    private fun JsonToken.checkIs(expected: JsonToken) {
-        check (this == expected) { "${this.name} should be: ${expected.name}" }
-    }
+    private object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
+        override fun serialize(
+            value: ByteBuffer, gen: JsonGenerator, serializers: SerializerProvider) {
 
-    internal object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
-        override fun serialize(value: ByteBuffer, gen: JsonGenerator, serializers: SerializerProvider) {
             gen.writeString (Base64.getEncoder ().encodeToString (value.array()))
         }
     }
 
-    internal object ByteBufferDeserializer: JsonDeserializer<ByteBuffer>() {
+    private object ByteBufferDeserializer: JsonDeserializer<ByteBuffer>() {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ByteBuffer =
             ByteBuffer.wrap (Base64.getDecoder ().decode (p.text))
     }
 
-    internal object LocalTimeSerializer: JsonSerializer<LocalTime> () {
-        override fun serialize(value: LocalTime, gen: JsonGenerator, serializers: SerializerProvider) {
+    private object LocalTimeSerializer: JsonSerializer<LocalTime> () {
+        override fun serialize(
+            value: LocalTime, gen: JsonGenerator, serializers: SerializerProvider) {
+
             gen.writeNumber(value.asNumber())
         }
     }
 
-    internal object LocalTimeDeserializer: JsonDeserializer<LocalTime> () {
+    private object LocalTimeDeserializer: JsonDeserializer<LocalTime> () {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalTime =
             p.intValue.toLocalTime()
     }
 
-    internal object LocalDateSerializer: JsonSerializer<LocalDate> () {
-        override fun serialize(value: LocalDate, gen: JsonGenerator, serializers: SerializerProvider) {
+    private object LocalDateSerializer: JsonSerializer<LocalDate> () {
+        override fun serialize(
+            value: LocalDate, gen: JsonGenerator, serializers: SerializerProvider) {
+
             gen.writeNumber(value.asNumber())
         }
     }
 
-    internal object LocalDateDeserializer: JsonDeserializer<LocalDate> () {
+    private object LocalDateDeserializer: JsonDeserializer<LocalDate> () {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDate =
             p.intValue.toLocalDate()
     }
 
-    internal object LocalDateTimeSerializer: JsonSerializer<LocalDateTime> () {
-        override fun serialize(value: LocalDateTime, gen: JsonGenerator, serializers: SerializerProvider) {
+    private object LocalDateTimeSerializer: JsonSerializer<LocalDateTime> () {
+        override fun serialize(
+            value: LocalDateTime, gen: JsonGenerator, serializers: SerializerProvider) {
+
             gen.writeNumber(value.asNumber())
         }
     }
 
-    internal object LocalDateTimeDeserializer: JsonDeserializer<LocalDateTime> () {
+    private object LocalDateTimeDeserializer: JsonDeserializer<LocalDateTime> () {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDateTime =
             p.longValue.toLocalDateTime()
     }
 
-    internal object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
+    private object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
         override fun serialize(
             value: ClosedRange<*>, gen: JsonGenerator, serializers: SerializerProvider) {
 
@@ -129,7 +133,7 @@ object JacksonSerializer {
     }
 
     // TODO Not thread safe!!! (as proved by parallel tests)
-    internal object ClosedRangeDeserializer :
+    private object ClosedRangeDeserializer :
         JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
 
         private val valueType: ThreadLocal<JavaType?> = ThreadLocal.withInitial { null }
@@ -142,12 +146,15 @@ object JacksonSerializer {
         }
 
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ClosedRange<*> {
-            p.currentToken.checkIs(START_OBJECT)
+            val token = p.currentToken
+            check (token == START_OBJECT) { "${token.name} should be: ${START_OBJECT.name}" }
             check(p.nextFieldName() == "start") { "Ranges should start with 'start' field" }
             p.nextToken() // Start object
             val type = valueType.get()
             @Suppress("UNCHECKED_CAST") val start = ctxt.readValue<Any>(p, type) as Comparable<Any>
-            check(p.nextFieldName() == "endInclusive") { "Ranges should end with 'endInclusive' field" }
+            check(p.nextFieldName() == "endInclusive") {
+                "Ranges should end with 'endInclusive' field"
+            }
             p.nextToken() // End array
             @Suppress("UNCHECKED_CAST") val end = ctxt.readValue<Any>(p, type) as Comparable<Any>
             p.nextToken() // End array

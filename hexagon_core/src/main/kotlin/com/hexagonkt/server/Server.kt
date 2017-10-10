@@ -82,10 +82,10 @@ data class Server (
             Served at http://${bindAddress.canonicalHostName}:$runtimePort
         """
 
-        val banner = EOL + EOL + (readResource("banner.txt") ?: "") + information
+        val banner = eol + eol + (readResource("banner.txt") ?: "") + information
             .replaceIndent(" ".repeat(4)).lines()
             .map { if (it.isBlank()) it.trim() else it }
-            .joinToString(EOL) + EOL
+            .joinToString(eol) + eol
 
         return banner
     }
