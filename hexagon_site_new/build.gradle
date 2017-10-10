@@ -1,0 +1,72 @@
+
+apply plugin: 'groovy'
+apply plugin: 'org.ajoberstar.git-publish'
+apply from: '../gradle/icons.gradle'
+
+ext {
+    grainProps = new Properties ()
+    grainProps.load (new FileInputStream ("$projectDir/application.properties"))
+
+    mainClassName = 'com.sysgears.grain.Main'
+    grainVersion = grainProps['grain.version']
+    classpath = sourceSets.main.runtimeClasspath
+
+    siteSource = '.'
+    siteHost = 'http://hexagonkt.com'
+    siteColor = '#135AA1'
+
+    logoSmall = 'assets/img/logo.svg'
+    logoWide = 'assets/img/logo_wide.svg'
+    logoLarge = 'assets/img/logo.svg'
+}
+
+clean {
+    delete '.cache', 'target', 'out', 'null'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "com.sysgears.grain:grain:$grainVersion"
+    compile 'org.codehaus.groovy:groovy:2.4.12'
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = [ 'theme/src' ]
+        }
+    }
+}
+
+gitPublishPush.dependsOn 'site'
+
+gitPublish {
+    final String grgitUser = System.getenv ('GRGIT_USER') ?: 'user'
+    final String grgitPass = System.getenv ('GRGIT_PASS') ?: 'pass'
+
+    repoUri = "https://$grgitUser:$grgitPass@github.com/hexagonkt/hexagon.git"
+    branch = 'gh-pages'
+
+    contents {
+        from buildDir
+    }
+}
+
+task site()
+
+site.dependsOn ':hexagon_core:dokka', ':hexagon_core:jacocoTestReport'
+
+task generate (type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = mainClassName
+    args name
+}
+
+task preview (type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = mainClassName
+    args name
+}

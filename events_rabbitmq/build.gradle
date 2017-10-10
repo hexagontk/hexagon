@@ -5,6 +5,7 @@ ext.rabbitVersion = '4.2.0'
 ext.qpidVersion = '6.1.4'
 
 dependencies {
+    compile project(':hexagon_events')
     compile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: 'slf4j-api' }
 
     testCompile ("org.apache.qpid:qpid-broker:$qpidVersion") {

@@ -2,9 +2,9 @@
 <svg
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   width="1550"
-   height="360"
-   viewBox="0 0 1550 360">
+   width="558"
+   height="270"
+   viewBox="0 0 558 270">
 
   <defs>
     <style type="text/css">
@@ -26,12 +26,8 @@
     </symbol>
   </defs>
 
-  <g>
-    <g>
-        <use id="logoUp" xlink:href="#logoPart" />
-        <use id="logoDown" xlink:href="#logoPart" transform="matrix(-1, 0, 0, -1, 410, 355)" />
-    </g>
-
-    <text x="410" y="285" id="logoText">Hexagon</text>
+  <g transform="scale(0.75) translate(175, 2)">
+    <use id="logoUp" xlink:href="#logoPart" />
+    <use id="logoDown" xlink:href="#logoPart" transform="matrix(-1, 0, 0, -1, 410, 355)" />
   </g>
 </svg>

@@ -11,6 +11,7 @@ import javax.servlet.ServletContextListener
  * Not a standard engine as it is not started/stopped
  * TODO Take care of wildcards (review servlet specs) to group filters
  * TODO Take care of wildcards (review servlet specs) to group routes in servlets
+ * TODO Receive router in parameter (easier to use in Servlet containers)
  */
 abstract class ServletServer(private val async: Boolean = false) : ServletContextListener {
     val serverRouter by lazy { createRouter() }

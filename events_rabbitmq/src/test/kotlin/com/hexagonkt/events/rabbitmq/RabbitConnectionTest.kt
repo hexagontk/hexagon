@@ -49,7 +49,7 @@ import java.net.URI
         broker.shutdown()
     }
 
-    fun call_return_expected_results() {
+    fun `call return expected results` () {
         val ts = currentTimeMillis().toString()
         assert(client.call(QUEUE, ts) == ts + SUFFIX)
         val result = client.call(QUEUE_ERROR, ts)
