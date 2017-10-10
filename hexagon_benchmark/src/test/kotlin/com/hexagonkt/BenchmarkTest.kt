@@ -16,18 +16,24 @@ internal const val TIMES = 2
 
 class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
 class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
+class BenchmarkJettyPostgreSqlRockerTest : BenchmarkTest("jetty", "postgresql", "rocker")
 
 class BenchmarkUndertowMongoDbTest : BenchmarkTest("undertow", "mongodb")
 class BenchmarkUndertowPostgreSqlTest : BenchmarkTest("undertow", "postgresql")
 
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
 @Suppress("MemberVisibilityCanPrivate")
-abstract class BenchmarkTest(private val webEngine: String, private val databaseEngine: String) {
+abstract class BenchmarkTest(
+    private val webEngine: String,
+    private val databaseEngine: String,
+    private val templateEngine: String = "pebble"
+) {
     private val client by lazy { Client("http://localhost:${benchmarkServer?.runtimePort}") }
 
     @BeforeClass fun warmup() {
         setProperty("DBSTORE", databaseEngine)
         setProperty("WEBENGINE", webEngine)
+        setProperty("TEMPLATE_ENGINE", templateEngine)
         main()
 
         @Suppress("ConstantConditionIf")
