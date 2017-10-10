@@ -16,5 +16,6 @@ include (
     'server_servlet',
     'server_jetty',
     'server_undertow',
-    'templates_pebble'
+    'templates_pebble',
+    'templates_rocker'
 )
