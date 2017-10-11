@@ -1,0 +1,8 @@
+
+apply from: '../gradle/hexagon_module.gradle'
+
+ext.rockerVersion = '0.22.0'
+
+dependencies {
+    compile ("com.fizzed:rocker-runtime:$rockerVersion")
+}
