@@ -12,6 +12,7 @@ branches:
   only:
     - master
     - develop
+    - test_travis_secrets_master
 
 env:
   global:
