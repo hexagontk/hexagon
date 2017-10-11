@@ -21,10 +21,10 @@ object RockerEngine : TemplateEngine {
             .render().toString()
     }
 
-    private fun getModelAgumentNames(resource: String, model: RockerModel): Array<String> {
+    private fun getModelAgumentNames(resource: String, model: RockerModel): Array<*> {
         // based on Rocker.getModelArgumentNames()
         try {
-            return model.javaClass.getField("ARGUMENT_NAMES").get(null) as Array<String>
+            return model.javaClass.getField("ARGUMENT_NAMES").get(null) as Array<*>
         } catch (ex: Exception) {
             throw TemplateBindException(resource, model.javaClass.canonicalName,
                 "Unable to read ARGUMENT_NAMES static field from template", ex)
