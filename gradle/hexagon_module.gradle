@@ -4,9 +4,6 @@ apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
 dependencies {
-    // TODO Move this dependency to needed modules and use this script also in Core
-    compile project(':hexagon_core')
-
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
