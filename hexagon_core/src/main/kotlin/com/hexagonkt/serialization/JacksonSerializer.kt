@@ -142,14 +142,16 @@ internal object JacksonSerializer {
             val token = p.currentToken
             check (token == START_OBJECT) { "${token.name} should be: ${START_OBJECT.name}" }
             check(p.nextFieldName() == "start") { "Ranges should start with 'start' field" }
+
             p.nextToken() // Start object
             val type = valueType.get()
-            @Suppress("UNCHECKED_CAST") val start = ctxt.readValue<Any>(p, type) as Comparable<Any>
+            val start = ctxt.readValue<Comparable<Any>>(p, type)
             check(p.nextFieldName() == "endInclusive") {
                 "Ranges should end with 'endInclusive' field"
             }
+
             p.nextToken() // End array
-            @Suppress("UNCHECKED_CAST") val end = ctxt.readValue<Any>(p, type) as Comparable<Any>
+            val end = ctxt.readValue<Comparable<Any>>(p, type)
             p.nextToken() // End array
             return start .. end
         }
