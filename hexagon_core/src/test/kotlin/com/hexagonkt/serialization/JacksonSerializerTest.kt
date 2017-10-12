@@ -5,13 +5,13 @@ import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 
 @Test class JacksonSerializerTest {
-    fun serializing_an_unsupported_content_type_fails() {
+    fun `serializing an unsupported content type fails`() {
         assertFailsWith<IllegalStateException> {
             "text".serialize("invalid/type")
         }
     }
 
-    fun parse_resource_works_ok() {
+    fun `parse resource works ok`() {
         assert(requireResource("data/companies.json").parseList().isNotEmpty())
         assert(requireResource("data/tags.json").parseList().isNotEmpty())
         assert(requireResource("data/companies.yaml").parseList().isNotEmpty())

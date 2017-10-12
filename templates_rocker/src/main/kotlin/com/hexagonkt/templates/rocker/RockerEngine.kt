@@ -2,7 +2,6 @@ package com.hexagonkt.templates.rocker
 
 import com.fizzed.rocker.Rocker
 import com.fizzed.rocker.RockerModel
-import com.fizzed.rocker.TemplateBindException
 import com.hexagonkt.templates.TemplateEngine
 import java.util.*
 
@@ -13,7 +12,7 @@ object RockerEngine : TemplateEngine {
         // filter the context to only include properties declared via
         // `@args` in the template; rocker throws TemplateBindException
         // if any undeclared args are passed
-        val modelArgs = getModelAgumentNames(resource, bindableRockerModel.model)
+        val modelArgs = getModelAgumentNames(bindableRockerModel.model)
         val contextEntries = context.filterKeys { modelArgs.contains(it) }
 
         return bindableRockerModel
@@ -21,13 +20,7 @@ object RockerEngine : TemplateEngine {
             .render().toString()
     }
 
-    private fun getModelAgumentNames(resource: String, model: RockerModel): Array<*> {
-        // based on Rocker.getModelArgumentNames()
-        try {
-            return model.javaClass.getField("ARGUMENT_NAMES").get(null) as Array<*>
-        } catch (ex: Exception) {
-            throw TemplateBindException(resource, model.javaClass.canonicalName,
-                "Unable to read ARGUMENT_NAMES static field from template", ex)
-        }
-    }
+    // based on Rocker.getModelArgumentNames() without wrapping generated exceptions
+    private fun getModelAgumentNames(model: RockerModel): Array<*> =
+        model.javaClass.getField("ARGUMENT_NAMES").get(null) as Array<*>
 }

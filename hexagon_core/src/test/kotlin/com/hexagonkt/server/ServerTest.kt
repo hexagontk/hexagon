@@ -5,7 +5,7 @@ import kotlin.test.assertFailsWith
 import java.net.InetAddress.getByName as address
 
 @Test class ServerTest {
-    fun default_parameters() {
+    fun `default parameters`() {
         val server = Server(VoidEngine, "name", address("localhost"), 9999, router {})
 
         assert(server.serverName == "name")
@@ -13,7 +13,7 @@ import java.net.InetAddress.getByName as address
         assert(server.bindPort == 9999)
     }
 
-    fun runtime_port() {
+    fun `runtime port`() {
         val server = Server(VoidEngine, "name", address("localhost"), 9999, router {})
 
         assertFailsWith<IllegalStateException>("Server is not running") { server.runtimePort }
@@ -25,7 +25,7 @@ import java.net.InetAddress.getByName as address
         assert(server.runtimePort == 12345)
     }
 
-    fun parameters_map() {
+    fun `parameters map`() {
         val router = router {}
         val server = Server(VoidEngine, router = router)
         assert(equal (server, Server(VoidEngine, mapOf<String, Any>(), router)))

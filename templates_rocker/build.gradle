@@ -1,9 +1,18 @@
 
 apply from: '../gradle/hexagon_module.gradle'
+apply plugin: 'com.fizzed.rocker'
 
 ext.rockerVersion = '0.22.0'
 
 dependencies {
     compile project(':hexagon_core')
     compile ("com.fizzed:rocker-runtime:$rockerVersion")
+}
+
+sourceSets {
+    test {
+        rocker {
+            srcDir('src/test/resources')
+        }
+    }
 }
