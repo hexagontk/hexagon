@@ -25,6 +25,7 @@ services:
       - 5672:5672
       - 15672:15672
 
+  # TODO Make it optional
   benchmark_resin_mongodb:
     build: { context: "./hexagon_benchmark", dockerfile: "resin.dockerfile" }
     depends_on: [ mongodb ]

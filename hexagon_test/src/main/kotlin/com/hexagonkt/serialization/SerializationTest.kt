@@ -1,5 +1,6 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.serialization.SerializationManager.contentTypes
 import kotlin.reflect.KClass
 
 abstract class SerializationTest<T : Any> (val type: KClass<T>) {
