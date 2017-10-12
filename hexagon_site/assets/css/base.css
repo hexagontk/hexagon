@@ -1,11 +1,9 @@
 
-/*noinspection CssUnknownTarget*/
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-/*noinspection CssUnknownTarget*/
-@import url(https://fonts.googleapis.com/css?family=Oxygen+Mono);
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto+Mono|Roboto+Slab');
 
 pre, code {
-  font-family: 'Oxygen Mono', monospace;
+  font-family: 'Roboto Mono', monospace;
   border: none;
 }
 
@@ -34,7 +32,7 @@ body {
 
 .footer .heart { color: #FF3B30; }
 
-body, h1, h2, h3, h4 { font-family: Montserrat, helvetica, sans-serif; }
+body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
 
 body {
   font-weight: 300;
