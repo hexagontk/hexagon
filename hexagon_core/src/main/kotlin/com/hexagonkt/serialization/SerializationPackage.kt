@@ -9,11 +9,8 @@ import java.io.InputStream
 import java.net.URL
 import kotlin.reflect.KClass
 
-fun Any.convertToMap(): Map<*, *> =
-    mapper.convertValue (this, Map::class.java) ?: error("Error mapping object")
-
-fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T =
-    mapper.convertValue(this, type.java)
+fun Any.convertToMap(): Map<*, *> = mapper.convertValue (this, Map::class.java)
+fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = mapper.convertValue(this, type.java)
 
 fun <T : Any> List<Map<*, *>>.convertToObjects(type: KClass<T>): List<T> =
     this.map { it: Map<*, *> -> it.convertToObject(type) }

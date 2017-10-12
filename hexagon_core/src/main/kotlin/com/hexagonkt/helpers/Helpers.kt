@@ -13,12 +13,10 @@ import java.util.*
 /** Default timezone. */
 val timeZone: TimeZone = TimeZone.getDefault()
 
-/** Unknown host name. */
-const val UNKNOWN_LOCALHOST = "UNKNOWN_LOCALHOST"
 /** The hostname of the machine running this program. */
-val hostname = getLocalHost()?.hostName ?: UNKNOWN_LOCALHOST
+val hostname: String = getLocalHost().hostName
 /** The IP address of the machine running this program. */
-val ip = getLocalHost()?.hostAddress ?: UNKNOWN_LOCALHOST
+val ip: String = getLocalHost().hostAddress
 
 /** Syntax sugar to throw errors. */
 val error: Nothing get() = error("Invalid state")
