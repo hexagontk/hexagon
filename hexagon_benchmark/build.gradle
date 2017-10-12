@@ -1,4 +1,8 @@
 
+plugins {
+    id 'com.fizzed.rocker' version '0.22.0'
+}
+
 apply from: "../gradle/kotlin.gradle"
 apply from: "../gradle/service.gradle"
 
@@ -43,6 +47,7 @@ dependencies {
     compile project(':server_jetty')
     compile project(':server_undertow')
     compile project(':templates_pebble')
+    compile project(':templates_rocker')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     compile ("org.mongodb:mongodb-driver:$mongodbVersion")
@@ -56,6 +61,14 @@ dependencies {
 
     jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
     jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
+}
+
+sourceSets {
+    main {
+        rocker {
+            srcDir('src/main/resources')
+        }
+    }
 }
 
 test {

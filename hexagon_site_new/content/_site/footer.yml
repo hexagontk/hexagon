@@ -1,9 +1,0 @@
-footer:
-  text: Copyright &copy; Your Website 2017
-  social_links:
-    - link:  '#'
-      fontawesome_icon_class: fa-twitter
-    - link: '#'
-      fontawesome_icon_class: fa-facebook
-    - link: '#'
-      fontawesome_icon_class: fa-github

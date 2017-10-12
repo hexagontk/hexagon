@@ -1,8 +1,9 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
+ext.rockerVersion = '0.22.0'
+
 dependencies {
     compile project(':hexagon_core')
-
-    testCompile project(':events_rabbitmq')
+    compile ("com.fizzed:rocker-runtime:$rockerVersion")
 }

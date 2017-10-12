@@ -1,7 +1,6 @@
 
 ignore:
   - hexagon_test
-  - hexagon_site_new
   # TODO Enable these modules once they are finished
   - hexagon_store
   - hexagon_rest

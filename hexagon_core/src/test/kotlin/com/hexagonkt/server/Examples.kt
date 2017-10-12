@@ -151,7 +151,7 @@ fun main(vararg args: String) {
         // Handlers can be nested
         path("/inline") {
             get { "Inline router" }
-            post {}
+            post { 201 to "Created!" }
         }
     }
 

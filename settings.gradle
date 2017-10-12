@@ -2,7 +2,6 @@ rootProject.name = name
 
 include (
     'hexagon_site',
-    'hexagon_site_new',
     'hexagon_starters',
 
     'hexagon_benchmark',
@@ -18,5 +17,6 @@ include (
     'server_servlet',
     'server_jetty',
     'server_undertow',
-    'templates_pebble'
+    'templates_pebble',
+    'templates_rocker'
 )
