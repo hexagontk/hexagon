@@ -85,7 +85,7 @@ import org.testng.annotations.Test
         assert(banner.contains("*********"))
 
         banner = "".banner()
-        assert(banner == EOL + EOL)
+        assert(banner == eol + eol)
 
         banner =
             """alfa

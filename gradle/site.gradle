@@ -1,8 +1,11 @@
 
 // Generate service documentation site
 jbake {
+    siteHost = findProperty ('siteHost') ?: ''
     srcDirName = findProperty ('siteSource') ?: 'site'
     destDirName = findProperty ('siteTarget') ?: srcDirName // It is relative to `buildDir`
+
+    version  = '2.5.1'
 
     configuration['site.host'] = siteHost
 
@@ -11,6 +14,8 @@ jbake {
     configuration['render.archive'] = false
     configuration['render.feed'] = false
     configuration['render.sitemap'] = true
+
+    configuration['markdown.extensions'] = 'ALL,-HARDWRAPS'
 
     // Custom properties
     configuration['projectName'] = rootProject.name // Applied in templates, not content

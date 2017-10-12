@@ -7,7 +7,7 @@ import org.testng.annotations.Test
     /**
      * TODO Add asserts
      */
-    fun event_manager() {
+    fun `event manager` () {
         EventManager.engine = com.hexagonkt.events.rabbitmq.RabbitMqEventEngine()
         EventManager.consume(com.hexagonkt.events.rabbitmq.RabbitTest.Sample::class) {
             if (it.str == "no message error")

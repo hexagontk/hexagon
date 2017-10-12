@@ -4,6 +4,8 @@ import com.hexagonkt.store.MongoRepository
 import com.hexagonkt.store.eq
 import com.hexagonkt.store.isIn
 import com.hexagonkt.serialization.*
+import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.serialization.SerializationManager.contentTypes
 import com.hexagonkt.server.Call
 import com.hexagonkt.server.Router
 import com.mongodb.MongoWriteException
@@ -29,6 +31,7 @@ fun Router.crud(repository: MongoRepository<*>) {
 }
 
 internal fun contentType (call: Call) = call.request.contentType ?: defaultFormat
+
 internal fun accept (call: Call) = call.request.accept()?.first().let {
     if (it != null && contentTypes.contains(it)) it
     else defaultFormat

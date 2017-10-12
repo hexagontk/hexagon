@@ -3,7 +3,7 @@ package com.hexagonkt.settings
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.helpers.get
 import com.hexagonkt.helpers.CachedLogger
-import com.hexagonkt.helpers.EOL
+import com.hexagonkt.helpers.eol
 import com.hexagonkt.helpers.resourceAsStream
 import java.io.File
 import java.lang.System.getProperty
@@ -23,6 +23,8 @@ open class Settings {
 
     private val environmentFile = File("${getProperty("user.home")}/.environment")
 
+    // TODO Handle environment like another setting (if it is loaded, then look for special
+    // resources
     val environment: Environment? = if (environmentFile.exists() && environmentFile.isFile) {
         val environmentContent = environmentFile.readText().trim()
         info("Loading '$environmentContent' environment from '${environmentFile.absolutePath}'")
@@ -56,9 +58,11 @@ open class Settings {
             }
             else {
                 val props = it.parse(Map::class, "application/yaml") as Map<String, *>
-                val separator = EOL + " ".repeat(4)
+                val separator = eol + " ".repeat(4)
                 info("Settings loaded from '$resName':" +
-                    props.map { it.key + " : " + it.value }.joinToString(separator, separator, EOL)
+                    props
+                        .map { it.key + " : " + it.value }
+                        .joinToString(separator, separator, eol)
                 )
                 props
             }

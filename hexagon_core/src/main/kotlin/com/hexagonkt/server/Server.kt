@@ -65,11 +65,11 @@ data class Server (
 
     private fun createBanner(): String {
         val heap = getMemoryMXBean().heapMemoryUsage
-        val environment = environment ?: "N/A"
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
 
+        // TODO Handle environment not found (when Settings is finished)
         val information = """
             SERVICE:     $serverName
             ENVIRONMENT: $environment
@@ -82,11 +82,12 @@ data class Server (
             Served at http://${bindAddress.canonicalHostName}:$runtimePort
         """
 
-        val banner = EOL + EOL + (readResource("banner.txt") ?: "") + information
-            .replaceIndent(" ".repeat(4)).lines()
-            .map { if (it.isBlank()) it.trim() else it }
-            .joinToString(EOL) + EOL
-
+        // TODO Load banner from settings (when Settings is finished)
+        // TODO Do not trim the banner (it could break ASCII art ;)
+        val banner = (readResource("banner.txt") ?: "") + information
         return banner
+            .trimIndent()
+            .lines()
+            .joinToString(eol, eol + eol, eol) { " ".repeat(4) + it.trim() }
     }
 }

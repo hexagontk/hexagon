@@ -3,8 +3,12 @@ package com.hexagonkt.events
 import com.hexagonkt.events.EventManager.consume
 import com.hexagonkt.events.EventManager.publish
 import com.hexagonkt.helpers.Log
+import com.hexagonkt.helpers.hostname
+import com.hexagonkt.helpers.ip
+import com.hexagonkt.helpers.jvmId
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
+import java.lang.System.currentTimeMillis
 import java.lang.System.nanoTime
 import kotlin.reflect.KClass
 import java.lang.Thread.`yield` as threadYield
@@ -13,7 +17,7 @@ import java.lang.Thread.`yield` as threadYield
     class TickEvent (val nanos: Long) : Event ()
 
     object VoidEngine : EventEngine {
-        var registry: Map<KClass<out Event>, (Event) -> Unit> = mapOf()
+        private var registry: Map<KClass<out Event>, (Event) -> Unit> = mapOf()
 
         override fun <T : Event> consume(type: KClass<T>, address: String, consumer: (T) -> Unit) {
             @Suppress("UNCHECKED_CAST")
@@ -32,11 +36,17 @@ import java.lang.Thread.`yield` as threadYield
 
         consume(TickEvent::class) {
             Log.info("Tick: ${it.nanos}")
+            assert(it.timestamp <= currentTimeMillis())
+            assert(it.dateTime > 2017_00_00_00_00_00_000L)
+            assert(it.hostname == hostname)
+            assert(it.ip == ip)
+            assert(it.jvmid == jvmId)
+            assert(it.thread.isNotEmpty())
             tick = it.nanos
         }
     }
 
-    fun events_are_published_properly() {
+    fun `events are published properly` () {
         val nanos = nanoTime()
         publish(TickEvent(nanos))
         assert(tick == nanos)

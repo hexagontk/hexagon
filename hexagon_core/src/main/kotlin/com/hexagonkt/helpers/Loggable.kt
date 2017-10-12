@@ -49,7 +49,7 @@ interface Loggable {
     }
 
     fun flare (message: String = "") {
-        logger().apply { if (isTraceEnabled) trace("$flarePrefix $message") }
+        logger().apply { if (isTraceEnabled) trace("$FLARE_PREFIX $message") }
     }
 
     fun time (startNanos: Long, message: String?) {

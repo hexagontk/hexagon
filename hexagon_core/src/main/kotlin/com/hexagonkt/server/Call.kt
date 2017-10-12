@@ -1,7 +1,7 @@
 package com.hexagonkt.server
 
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.serialization.contentTypes
+import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now
@@ -40,7 +40,7 @@ class Call(
         response.contentType ?:
         request.headers["Accept"]?.first()?.let { if (it == "*/*") null else it } ?:
         request.contentType ?:
-        contentTypes.first()
+        defaultFormat
 
     fun template(
         engine: TemplateEngine,

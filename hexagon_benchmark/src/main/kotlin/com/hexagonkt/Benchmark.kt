@@ -8,7 +8,9 @@ import com.hexagonkt.server.jetty.JettyServletEngine
 import com.hexagonkt.server.servlet.ServletServer
 import com.hexagonkt.server.undertow.UndertowEngine
 import com.hexagonkt.settings.SettingsManager.settings
+import com.hexagonkt.templates.TemplateEngine
 import com.hexagonkt.templates.pebble.PebbleEngine
+import com.hexagonkt.templates.rocker.RockerEngine
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getLogger
 
@@ -27,7 +29,7 @@ private const val TEXT_MESSAGE: String = "Hello, World!"
 private const val CONTENT_TYPE_JSON = "application/json"
 private const val QUERIES_PARAM = "queries"
 
-private val LOGGER: Logger = getLogger("BENCHMARK_LOGGER")
+private val logger: Logger = getLogger("BENCHMARK_LOGGER")
 private val defaultLocale: Locale = Locale.getDefault()
 
 // UTILITIES
@@ -48,10 +50,17 @@ private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1)
 
 // HANDLERS
 private fun Call.listFortunes(store: Store) {
+    val templateEngine = systemSetting("TEMPLATE_ENGINE", "pebble")
+    val templateEngineType = getTemplateEngine(templateEngine)
     val fortunes = store.findAllFortunes() + Fortune(0, "Additional fortune added at request time.")
     val sortedFortunes = fortunes.sortedBy { it.message }
     response.contentType = "text/html;charset=utf-8"
-    template(PebbleEngine, "fortunes.html", defaultLocale, "fortunes" to sortedFortunes)
+    template(
+        templateEngineType,
+        "fortunes.$templateEngine.html",
+        defaultLocale,
+        "fortunes" to sortedFortunes
+    )
 }
 
 private fun Call.dbQuery(store: Store) {
@@ -94,6 +103,12 @@ private fun router(): Router = router {
     override fun createRouter() = router()
 }
 
+fun getTemplateEngine(engine: String): TemplateEngine = when (engine) {
+    "pebble" -> PebbleEngine
+    "rocker" -> RockerEngine
+    else -> error("Unsupported template engine: $engine")
+}
+
 internal var benchmarkStore: Store? = null
 internal var benchmarkServer: Server? = null
 
@@ -107,12 +122,14 @@ fun main(vararg args: String) {
     val engine = createEngine(systemSetting("WEBENGINE", "jetty"))
     benchmarkStore = createStore(systemSetting("DBSTORE", "mongodb"))
 
-    LOGGER.info("""
+    logger.info("""
             Benchmark set up:
                 - Engine: {}
+                - Templates: {}
                 - Store: {}
         """.trimIndent(),
         engine.javaClass.name,
+        systemSetting("TEMPLATE_ENGINE", "pebble"),
         benchmarkStore?.javaClass?.name)
 
     benchmarkServer = Server(engine, settings, router()).apply { run() }

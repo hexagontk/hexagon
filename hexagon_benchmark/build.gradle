@@ -4,6 +4,7 @@ apply from: "../gradle/service.gradle"
 
 apply plugin: 'war'
 apply plugin: 'me.champeau.gradle.jmh'
+apply plugin: 'com.fizzed.rocker'
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
 
@@ -43,6 +44,7 @@ dependencies {
     compile project(':server_jetty')
     compile project(':server_undertow')
     compile project(':templates_pebble')
+    compile project(':templates_rocker')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     compile ("org.mongodb:mongodb-driver:$mongodbVersion")
@@ -56,6 +58,14 @@ dependencies {
 
     jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
     jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
+}
+
+sourceSets {
+    main {
+        rocker {
+            srcDir('src/main/resources')
+        }
+    }
 }
 
 test {

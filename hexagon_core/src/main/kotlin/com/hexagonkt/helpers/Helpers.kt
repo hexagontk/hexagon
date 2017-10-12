@@ -13,12 +13,10 @@ import java.util.*
 /** Default timezone. */
 val timeZone: TimeZone = TimeZone.getDefault()
 
-/** Unknown host name. */
-const val UNKNOWN_LOCALHOST = "UNKNOWN_LOCALHOST"
 /** The hostname of the machine running this program. */
-val hostname = getLocalHost()?.hostName ?: UNKNOWN_LOCALHOST
+val hostname: String = getLocalHost().hostName
 /** The IP address of the machine running this program. */
-val ip = getLocalHost()?.hostAddress ?: UNKNOWN_LOCALHOST
+val ip: String = getLocalHost().hostAddress
 
 /** Syntax sugar to throw errors. */
 val error: Nothing get() = error("Invalid state")
@@ -37,7 +35,7 @@ val locale: String = "%s_%s.%s".format(
     getProperty("file.encoding")
 )
 
-internal const val flarePrefix = ">>>>>>>>"
+internal const val FLARE_PREFIX = ">>>>>>>>"
 
 /** Default logger when you are lazy to declare one. */
 object Log : CachedLogger(Log::class)
@@ -86,7 +84,7 @@ fun parseQueryParameters(query: String): Map<String, String> =
                 val kv = it.split("=")
                 kv[0].trim () to (if (kv.size == 2) kv[1].trim() else "")
             }
-            .toMap(LinkedHashMap<String, String>())
+            .toMap(LinkedHashMap())
 
 // ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
 /**
@@ -103,11 +101,11 @@ fun Throwable.filterStackTrace (prefix: String): Array<out StackTraceElement> =
  */
 fun Throwable.toText (prefix: String = ""): String =
     "${this.javaClass.name}: ${this.message}" +
-        this.filterStackTrace(prefix).map { "\tat $it" }.joinToString(EOL, EOL) +
+        this.filterStackTrace(prefix).joinToString(eol, eol) { "\tat $it" } +
         if (this.cause == null)
             ""
         else
-            "${EOL}Caused by: " + (this.cause as Throwable).toText (prefix)
+            "${eol}Caused by: " + (this.cause as Throwable).toText (prefix)
 
 // MAP OPERATIONS //////////////////////////////////////////////////////////////////////////////////
 /**

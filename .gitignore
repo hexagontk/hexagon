@@ -1,7 +1,9 @@
 
 # Gradle
 .gradle/
+.cache/
 build/
+target/
 local.*
 
 # Eclipse

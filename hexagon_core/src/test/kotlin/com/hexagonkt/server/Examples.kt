@@ -130,7 +130,17 @@ val session = router {
     }
 }
 
-fun main(args: Array<String>) {
+fun main(vararg args: String) {
+    // Setup formats
+
+    // Load settings
+    // Set service name
+    System.getenv()
+    System.getProperties()
+    // Resources
+    // Files
+    //
+
     serve(VoidEngine) {
         // You can mount routers in paths
         path("/filter", filter)
@@ -141,9 +151,10 @@ fun main(args: Array<String>) {
         // Handlers can be nested
         path("/inline") {
             get { "Inline router" }
-            post {}
+            post { 201 to "Created!" }
         }
     }
 
+    // You can run many servers in one JVM process
     serverExample.run()
 }

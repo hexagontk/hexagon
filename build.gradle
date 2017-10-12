@@ -3,13 +3,14 @@
  */
 
 buildscript {
-    dependencies {
-        classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.9.14'
+    repositories {
+        jcenter ()
     }
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.4-3'
+    id 'org.jetbrains.kotlin.jvm' version '1.1.51'
+    id 'org.jetbrains.dokka' version '0.9.15'
     id 'jacoco'
 
     id 'org.ajoberstar.git-publish' version '0.3.0' apply false
@@ -17,6 +18,7 @@ plugins {
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
     id 'me.champeau.gradle.jmh' version '0.4.4' apply false
+    id 'com.fizzed.rocker' version '0.22.0' apply false
 }
 
 apply from: 'gradle/release.gradle'

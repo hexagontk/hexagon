@@ -41,7 +41,7 @@ import java.net.URI
         consumer.close()
     }
 
-    fun call_return_expected_results() {
+    fun `call return expected results` () {
         val ts = currentTimeMillis().toString()
         assert(client.call(QUEUE, ts) == ts + SUFFIX)
         val result = client.call(QUEUE_ERROR, ts)
@@ -49,7 +49,7 @@ import java.net.URI
     }
 
     // TODO Test call errors
-    @Test(enabled = false) fun call_errors() {
+    @Test(enabled = false) fun `call errors` () {
         consumer.consume("aq", Sample::class) {
             if (it.str == "no message error")
                 throw IllegalStateException()

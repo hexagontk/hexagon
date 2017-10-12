@@ -1,11 +1,11 @@
 package com.hexagonkt.helpers
 
+import java.awt.SystemColor.text
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.lang.System.getProperty
 import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
-
-/** Runtime specific end of line. */
-val EOL: String = getProperty("line.separator")
 
 /** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
 private const val VARIABLE_PREFIX = "#{"
@@ -29,6 +29,9 @@ const val BACKGROUND = 40
 
 /** ANSI modifier to switch and effect (add to enable substract todisable). */
 const val SWITCH_EFFECT = 20
+
+/** Runtime specific end of line. */
+val eol: String = getProperty("line.separator")
 
 /**
  * Filters the target string substituting each key by its value. The keys format is:
@@ -66,8 +69,7 @@ fun Regex.findGroups (str: String): List<MatchGroup> =
 fun String.snakeToCamel () =
     this.split ("_")
         .filter(String::isNotEmpty)
-        .map(String::capitalize)
-        .joinToString("")
+        .joinToString("", transform = String::capitalize)
         .decapitalize ()
 
 /**
@@ -76,8 +78,7 @@ fun String.snakeToCamel () =
 fun String.camelToSnake () =
     this.split ("(?=\\p{Upper}\\p{Lower})".toRegex())
         .filter(String::isNotEmpty)
-        .map(String::toLowerCase)
-        .joinToString ("_")
+        .joinToString ("_", transform = String::toLowerCase)
         .decapitalize ()
 
 /**
@@ -88,10 +89,12 @@ fun String.camelToSnake () =
  */
 fun String.banner (bannerDelimiter: String = "*"): String {
     val separator = bannerDelimiter.repeat (this.lines().map { it.length }.max() ?: 0)
-    return "$separator$EOL$this$EOL$separator"
+    return "$separator$eol$this$eol$separator"
 }
 
 fun String.stripAccents() = normalize(this, NFD).replace("\\p{M}".toRegex(), "")
+
+fun String.toStream(): InputStream = ByteArrayInputStream(this.toByteArray())
 
 fun readResource(resource: String) = resourceAsStream(resource)?.reader()?.readText()
 
