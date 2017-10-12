@@ -1,39 +1,22 @@
 package com.hexagonkt.serialization
 
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
 import com.hexagonkt.helpers.toStream
+import com.hexagonkt.serialization.JacksonSerializer.mapper
+import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.serialization.SerializationManager.getFormat
 import java.io.File
 import java.io.InputStream
 import java.net.URL
 import kotlin.reflect.KClass
 
-/** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
-private val formatList = listOf (
-    JacksonTextFormat("json"),
-    JacksonTextFormat("yaml") {
-        with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) }
-    }
-)
-
-private val formats = mapOf (*formatList.map { it.contentType to it }.toTypedArray())
-
-val contentTypes = formatList.map { it.contentType }
-var defaultFormat: String = contentTypes.first()
-    set(value) {
-        check(contentTypes.contains(value))
-        field = value
-    }
-
-fun Any.convertToMap(): Map<*, *> = JacksonSerializer.toMap (this)
+fun Any.convertToMap(): Map<*, *> =
+    mapper.convertValue (this, Map::class.java) ?: error("Error mapping object")
 
 fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T =
-    JacksonSerializer.toObject(this, type)
+    mapper.convertValue(this, type.java)
 
 fun <T : Any> List<Map<*, *>>.convertToObjects(type: KClass<T>): List<T> =
     this.map { it: Map<*, *> -> it.convertToObject(type) }
-
-private fun getFormat(contentType: String) = formats[contentType] ?: error("$contentType not found")
 
 fun Any.serialize (contentType: String = defaultFormat) = getFormat(contentType).serialize(this)
 

@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.core.JsonToken.START_OBJECT
-import kotlin.reflect.KClass
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.hexagonkt.helpers.asNumber
 import com.hexagonkt.helpers.toLocalDate
@@ -28,12 +27,6 @@ import java.util.*
 
 internal object JacksonSerializer {
     val mapper: ObjectMapper = createObjectMapper ()
-
-    fun toMap(obj: Any): Map<*, *> =
-        mapper.convertValue (obj, Map::class.java) ?: error("Error mapping object")
-
-    fun <T : Any> toObject(obj: Map<*, *>, type: KClass<T>): T =
-        mapper.convertValue (obj, type.java)
 
     fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
         ObjectMapper (mapperFactory)
