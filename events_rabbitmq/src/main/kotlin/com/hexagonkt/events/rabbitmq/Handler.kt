@@ -2,7 +2,7 @@ package com.hexagonkt.events.rabbitmq
 
 import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.retry
-import com.hexagonkt.serialization.defaultFormat
+import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
 import com.rabbitmq.client.AMQP.BasicProperties

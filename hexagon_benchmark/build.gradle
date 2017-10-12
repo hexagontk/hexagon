@@ -1,13 +1,10 @@
 
-plugins {
-    id 'com.fizzed.rocker' version '0.22.0'
-}
-
 apply from: "../gradle/kotlin.gradle"
 apply from: "../gradle/service.gradle"
 
 apply plugin: 'war'
 apply plugin: 'me.champeau.gradle.jmh'
+apply plugin: 'com.fizzed.rocker'
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
 
