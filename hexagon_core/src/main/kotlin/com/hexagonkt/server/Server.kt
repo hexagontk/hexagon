@@ -65,7 +65,6 @@ data class Server (
 
     private fun createBanner(): String {
         val heap = getMemoryMXBean().heapMemoryUsage
-        val environment = environment ?: "N/A"
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
@@ -82,11 +81,10 @@ data class Server (
             Served at http://${bindAddress.canonicalHostName}:$runtimePort
         """
 
-        val banner = eol + eol + (readResource("banner.txt") ?: "") + information
-            .replaceIndent(" ".repeat(4)).lines()
-            .map { if (it.isBlank()) it.trim() else it }
-            .joinToString(eol) + eol
-
+        val banner = (readResource("banner.txt") ?: "") + information
         return banner
+            .trimIndent()
+            .lines()
+            .joinToString(eol, eol + eol, eol) { " ".repeat(4) + it.trim() }
     }
 }

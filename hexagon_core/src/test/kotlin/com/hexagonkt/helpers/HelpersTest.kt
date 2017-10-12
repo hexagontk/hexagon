@@ -3,6 +3,7 @@ package com.hexagonkt.helpers
 import org.testng.annotations.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalDateTime.of as dateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 import java.util.*
@@ -29,9 +30,9 @@ import kotlin.test.assertFailsWith
     }
 
     fun `a local date time returns a valid int timestamp` () {
-        assert(LocalDateTime.of (2015, 12, 31, 23, 59, 59).asNumber() == 20151231235959000)
-        assert(LocalDateTime.of (2015, 12, 31, 23, 59, 59, 101000000).asNumber() == 20151231235959101)
-        assert(LocalDateTime.of (2015, 12, 31, 23, 59, 59, 101000000).asNumber() != 20151231235959100)
+        assert(dateTime (2015, 12, 31, 23, 59, 59).asNumber() == 2015_12_31_23_59_59_000)
+        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).asNumber() == 2015_12_31_23_59_59_101)
+        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).asNumber() != 2015_12_31_23_59_59_100)
     }
 
     fun `filtering an exception with an empty string do not change the stack` () {
