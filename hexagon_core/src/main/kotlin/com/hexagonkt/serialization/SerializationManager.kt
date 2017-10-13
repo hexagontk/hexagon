@@ -1,27 +1,32 @@
 package com.hexagonkt.serialization
 
-import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-
 object SerializationManager {
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
-    private val formatList = listOf (
-        JacksonTextFormat("json"),
-        JacksonTextFormat("yaml") {
-            with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) }
+    var formats: LinkedHashSet<SerializationFormat> = coreFormats
+        set(value) {
+            require(value.isNotEmpty()) { "Formats list can not be empty" }
+            field = value
+            contentTypes = contentTypes()
+            formatsMap = formatsMap()
         }
-    )
 
-    private val formats = mapOf (*formatList.map { it.contentType to it }.toTypedArray())
+    var contentTypes: LinkedHashSet<String> = contentTypes()
+        private set
 
-    val contentTypes = formatList.map { it.contentType }
+    var formatsMap: LinkedHashMap<String, SerializationFormat> = formatsMap()
+        private set
 
     var defaultFormat: String = contentTypes.first()
         set(value) {
-            check(contentTypes.contains(value))
+            require(contentTypes.contains(value)) {
+                "'$value' not available in: ${contentTypes.joinToString(", ")}"
+            }
             field = value
         }
 
     internal fun getFormat(contentType: String) =
-        formats[contentType] ?: error("$contentType not found")
+        formatsMap[contentType] ?: error("$contentType not found")
+
+    private fun contentTypes () = LinkedHashSet(formats.map { it.contentType })
+    private fun formatsMap () = linkedMapOf (*formats.map { it.contentType to it }.toTypedArray())
 }

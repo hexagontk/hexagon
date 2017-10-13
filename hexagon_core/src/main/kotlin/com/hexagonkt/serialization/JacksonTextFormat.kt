@@ -10,7 +10,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import kotlin.reflect.KClass
 
-internal class JacksonTextFormat(
+internal open class JacksonTextFormat(
     extension: String, factoryGenerator: (() -> JsonFactory)? = null) : SerializationFormat {
 
     override val contentType = "application/$extension"

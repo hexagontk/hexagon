@@ -1,5 +1,7 @@
 package com.hexagonkt.serialization
 
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.hexagonkt.helpers.toStream
 import com.hexagonkt.serialization.JacksonSerializer.mapper
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
@@ -8,6 +10,14 @@ import java.io.File
 import java.io.InputStream
 import java.net.URL
 import kotlin.reflect.KClass
+
+object JsonFormat : SerializationFormat by JacksonTextFormat("json")
+
+object YamlFormat : SerializationFormat by JacksonTextFormat("yaml", {
+    with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) }
+})
+
+val coreFormats: LinkedHashSet<SerializationFormat> = linkedSetOf (JsonFormat, YamlFormat)
 
 fun Any.convertToMap(): Map<*, *> = mapper.convertValue (this, Map::class.java)
 fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = mapper.convertValue(this, type.java)
