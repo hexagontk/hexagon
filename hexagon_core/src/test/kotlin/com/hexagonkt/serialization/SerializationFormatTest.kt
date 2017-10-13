@@ -9,6 +9,7 @@ import kotlin.reflect.KClass
 @Test class SerializationFormatTest {
     class TextTestFormat : SerializationFormat {
         override val contentType = "text/test"
+        override val extensions = setOf("test")
         override val isBinary = false
 
         override fun serialize(obj: Any, output: OutputStream) {
@@ -23,6 +24,7 @@ import kotlin.reflect.KClass
 
     class BinaryTestFormat : SerializationFormat {
         override val contentType = "binary/test"
+        override val extensions = setOf("test")
         override val isBinary = true
 
         override fun serialize(obj: Any, output: OutputStream) { TODO("not used") }

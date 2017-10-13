@@ -11,14 +11,16 @@ import java.io.OutputStream
 import kotlin.reflect.KClass
 
 internal open class JacksonTextFormat(
-    extension: String, factoryGenerator: (() -> JsonFactory)? = null) : SerializationFormat {
-
-    override val contentType = "application/$extension"
-    override val isBinary = false
+    final override val extensions: LinkedHashSet<String>,
+    factoryGenerator: (() -> JsonFactory)? = null) :
+        SerializationFormat {
 
     private val mapper =
         if (factoryGenerator == null) JacksonSerializer.mapper
         else createObjectMapper(factoryGenerator())
+
+    override val contentType = "application/${extensions.first()}"
+    override val isBinary = false
 
     private val writer = createObjectWriter()
 

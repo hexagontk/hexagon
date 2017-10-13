@@ -5,15 +5,15 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.hexagonkt.helpers.toStream
 import com.hexagonkt.serialization.JacksonSerializer.mapper
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
-import com.hexagonkt.serialization.SerializationManager.getFormat
+import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
 import java.io.File
 import java.io.InputStream
 import java.net.URL
 import kotlin.reflect.KClass
 
-object JsonFormat : SerializationFormat by JacksonTextFormat("json")
+object JsonFormat : SerializationFormat by JacksonTextFormat(linkedSetOf("json"))
 
-object YamlFormat : SerializationFormat by JacksonTextFormat("yaml", {
+object YamlFormat : SerializationFormat by JacksonTextFormat(linkedSetOf("yaml", "yml"), {
     with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) }
 })
 
@@ -25,13 +25,14 @@ fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = mapper.convertValu
 fun <T : Any> List<Map<*, *>>.convertToObjects(type: KClass<T>): List<T> =
     this.map { it: Map<*, *> -> it.convertToObject(type) }
 
-fun Any.serialize (contentType: String = defaultFormat) = getFormat(contentType).serialize(this)
+fun Any.serialize (contentType: String = defaultFormat) =
+    getContentTypeFormat(contentType).serialize(this)
 
 fun <T : Any> InputStream.parse (type: KClass<T>, contentType: String = defaultFormat) =
-    getFormat(contentType).parse(this, type)
+    getContentTypeFormat(contentType).parse(this, type)
 fun InputStream.parse (contentType: String = defaultFormat) = this.parse (Map::class, contentType)
 fun <T : Any> InputStream.parseList (type: KClass<T>, contentType: String = defaultFormat) =
-    getFormat(contentType).parseList(this, type)
+    getContentTypeFormat(contentType).parseList(this, type)
 fun InputStream.parseList (contentType: String = defaultFormat) =
     this.parseList (Map::class, contentType)
 

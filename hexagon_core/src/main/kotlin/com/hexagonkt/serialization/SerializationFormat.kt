@@ -7,6 +7,7 @@ import kotlin.reflect.KClass
 
 interface SerializationFormat {
     val contentType: String
+    val extensions: Set<String>
     val isBinary: Boolean
 
     fun serialize(obj: Any, output: OutputStream)
