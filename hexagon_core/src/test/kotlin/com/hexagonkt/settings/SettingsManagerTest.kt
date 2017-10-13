@@ -10,20 +10,20 @@ import org.testng.annotations.Test
  * Check `gradle.build` to see the related files creation.
  */
 @Test class SettingsManagerTest {
-    fun setting_works_as_expected() {
+    fun `setting works as expected`() {
         assert(setting<String>("property") == "changed")
         assert(setting<Int>("intProperty") == 42)
         assert(setting<String>("foo") == "bar")
     }
 
-    fun get_configuration_properties() {
+    fun `get configuration properties`() {
         assert(settings["property"] as String == "changed")
         assert(settings["intProperty"] as Int == 42)
         assert(settings["foo"] as String == "bar")
         assert(settings["parent", "key"] as String == "val")
     }
 
-    fun require_configuration_properties() {
+    fun `require configuration properties`() {
         assert(requireSetting<String>("property") == "changed")
         assert(requireSetting<Int>("intProperty") == 42)
         assert(requireSetting<String>("foo") == "bar")
@@ -31,7 +31,7 @@ import org.testng.annotations.Test
     }
 
     @Test(expectedExceptions = arrayOf(IllegalStateException::class))
-    fun require_not_found_setting() {
+    fun `require not found setting`() {
         requireSetting<String>("not_found")
     }
 }

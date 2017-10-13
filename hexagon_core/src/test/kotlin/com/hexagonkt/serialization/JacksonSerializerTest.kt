@@ -2,13 +2,11 @@ package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.requireResource
 import org.testng.annotations.Test
-import kotlin.test.assertFailsWith
 
 @Test class JacksonSerializerTest {
+    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
     fun `serializing an unsupported content type fails`() {
-        assertFailsWith<IllegalStateException> {
-            "text".serialize("invalid/type")
-        }
+        "text".serialize("invalid/type")
     }
 
     fun `parse resource works ok`() {

@@ -5,7 +5,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import kotlin.reflect.KClass
 
-internal interface SerializationFormat {
+interface SerializationFormat {
     val contentType: String
     val isBinary: Boolean
 

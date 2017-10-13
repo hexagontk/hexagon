@@ -1,7 +1,7 @@
 package com.hexagonkt.client
 
 import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options as wmoptions
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options as wmOptions
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer
@@ -15,15 +15,16 @@ import java.io.File
 
 @Test
 class ClientTest {
-    val templateTransformer = ResponseTemplateTransformer(true)
-    val options: WireMockConfiguration = wmoptions().extensions(templateTransformer).dynamicPort()
-    val server = WireMockServer(options)
-    val client by lazy { Client("http://localhost:${server.port()}", "application/json") }
+    private val templateTransformer = ResponseTemplateTransformer(true)
+    private val wmExtensions = wmOptions().extensions(templateTransformer)
+    private val wmOptions: WireMockConfiguration = wmExtensions.dynamicPort()
+    private val wmServer = WireMockServer(wmOptions)
+    private val client by lazy { Client("http://localhost:${wmServer.port()}", "application/json") }
 
     @BeforeClass
     fun startup() {
-        server.start()
-        configureFor(server.port())
+        wmServer.start()
+        configureFor(wmServer.port())
 
         val resp = aResponse()
             .withHeader("content-type", "application/json;charset=utf-8")
@@ -42,10 +43,10 @@ class ClientTest {
 
     @AfterClass
     fun shutdown() {
-        server.stop()
+        wmServer.stop()
     }
 
-    fun json_requests_works_as_expected() {
+    fun `json requests works as expected`() {
         val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
@@ -59,7 +60,7 @@ class ClientTest {
         client.get("/")
     }
 
-    fun http_methods_with_objects_work_ok() {
+    fun `http methods with objects work ok`() {
         val parameter = mapOf("key" to "value")
         checkResponse(client.get("/"), null)
         checkResponse(client.head("/"), null)
@@ -71,8 +72,8 @@ class ClientTest {
         checkResponse(client.patch("/", parameter), parameter)
     }
 
-    fun parameters_are_set_properly () {
-        val endpoint = "http://localhost:${server.port()}"
+    fun `parameters are set properly` () {
+        val endpoint = "http://localhost:${wmServer.port()}"
         val h = mapOf("header1" to listOf("val1", "val2"))
         val c = Client(endpoint, "application/json", false, h, "user", "password", true)
 
@@ -96,7 +97,7 @@ class ClientTest {
         assert (r.statusCode == 200)
     }
 
-    fun files_are_sent_in_base64 () {
+    fun `files are sent in base64` () {
         stubFor(post("/file")
             .willReturn(aResponse()
                 .withHeader("file64", "{{request.body}}")
@@ -108,7 +109,7 @@ class ClientTest {
         assert (r.statusCode == 200)
     }
 
-    fun strings_are_sent_properly () {
+    fun `strings are sent properly` () {
         stubFor(post("/string")
             .willReturn(aResponse()
                 .withHeader("body", "{{request.body}}")
