@@ -1,0 +1,11 @@
+
+apply from: '../gradle/hexagon_module.gradle'
+
+ext.slf4jVersion = '1.7.25'
+ext.jacksonVersion = '2.9.2'
+
+dependencies {
+    compile project(':hexagon_core')
+
+    testCompile project(':hexagon_client')
+}

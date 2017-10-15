@@ -31,6 +31,7 @@ task publish(
         ':hexagon_client:bintrayUpload',
         ':hexagon_core:bintrayUpload',
         ':hexagon_rest:bintrayUpload',
+        ':hexagon_server:bintrayUpload',
         ':hexagon_scheduler:bintrayUpload',
         ':hexagon_store:bintrayUpload',
         ':hexagon_test:bintrayUpload',

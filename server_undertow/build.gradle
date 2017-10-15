@@ -4,7 +4,7 @@ apply from: '../gradle/hexagon_module.gradle'
 ext.undertowVersion = '1.4.20.Final'
 
 dependencies {
-    compile project(':hexagon_core')
+    compile project(':hexagon_server')
     compile ("io.undertow:undertow-core:$undertowVersion")
 
     testCompile project(':hexagon_test')

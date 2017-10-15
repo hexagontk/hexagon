@@ -5,7 +5,7 @@ ext.servletVersion = '3.1.0'
 ext.jettyVersion = '9.4.7.v20170914'
 
 dependencies {
-    compile project(':hexagon_core')
+    compile project(':hexagon_server')
     compileOnly ("javax.servlet:javax.servlet-api:$servletVersion")
 
     testCompile project(':hexagon_client')
