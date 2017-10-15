@@ -57,6 +57,11 @@ import org.testng.annotations.Test
 
     fun `serialization manager can get the content type by an extension` () {
         assert(SerializationManager.getFileFormat("a.json").contentType == "application/json")
-//        assert(SerializationManager.getExtensionFormat("a.yaml").contentType == "application/yaml")
+        assert(SerializationManager.getFileFormat("a.yaml").contentType == "application/yaml")
+        assert(SerializationManager.getFileFormat("a.yml").contentType == "application/yaml")
+
+        assert(SerializationManager.getFileFormat(".json").contentType == "application/json")
+        assert(SerializationManager.getFileFormat(".yaml").contentType == "application/yaml")
+        assert(SerializationManager.getFileFormat(".yml").contentType == "application/yaml")
     }
 }

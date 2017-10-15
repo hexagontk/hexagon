@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.*
-import com.hexagonkt.serialization.JacksonSerializer.createObjectMapper
+import com.hexagonkt.serialization.JacksonHelper.createObjectMapper
 
 import java.io.InputStream
 import java.io.OutputStream
@@ -16,7 +16,7 @@ internal open class JacksonTextFormat(
         SerializationFormat {
 
     private val mapper =
-        if (factoryGenerator == null) JacksonSerializer.mapper
+        if (factoryGenerator == null) JacksonHelper.mapper
         else createObjectMapper(factoryGenerator())
 
     override val contentType = "application/${extensions.first()}"

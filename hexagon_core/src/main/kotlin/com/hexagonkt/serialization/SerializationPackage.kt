@@ -3,7 +3,7 @@ package com.hexagonkt.serialization
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.hexagonkt.helpers.toStream
-import com.hexagonkt.serialization.JacksonSerializer.mapper
+import com.hexagonkt.serialization.JacksonHelper.mapper
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
 import java.io.File
@@ -39,20 +39,22 @@ fun InputStream.parseList (contentType: String = defaultFormat) =
 fun <T : Any> String.parse (type: KClass<T>, contentType: String = defaultFormat) =
     this.toStream().parse (type, contentType)
 fun String.parse (contentType: String = defaultFormat) = this.parse (Map::class, contentType)
+fun String.parseList(contentType: String = defaultFormat) = this.parseList (Map::class, contentType)
 fun <T : Any> String.parseList (type: KClass<T>, contentType: String = defaultFormat) =
     this.toStream().parseList (type, contentType)
-fun String.parseList(contentType: String = defaultFormat) = this.parseList (Map::class, contentType)
 
-fun <T : Any> File.parse (type: KClass<T>) =
-    this.inputStream().parse (type, "application/" + this.extension)
+fun <T : Any> File.parse (type: KClass<T>) = this.inputStream().parse(type, contentType(this))
 fun File.parse () = this.parse (Map::class)
-fun <T : Any> File.parseList (type: KClass<T>): List<T> =
-    this.inputStream().parseList (type, "application/" + this.extension)
 fun File.parseList () = this.parseList (Map::class)
+fun <T : Any> File.parseList(type: KClass<T>): List<T> =
+    this.inputStream().parseList(type, contentType(this))
 
-fun <T : Any> URL.parse (type: KClass<T>) =
-    this.openStream().parse (type, "application/" + this.file.substringAfterLast('.'))
+fun <T : Any> URL.parse(type: KClass<T>) = this.openStream().parse(type, contentType(this))
 fun URL.parse () = this.parse (Map::class)
-fun <T : Any> URL.parseList (type: KClass<T>): List<T> =
-    this.openStream().parseList (type, "application/" + this.file.substringAfterLast('.'))
 fun URL.parseList () = this.parseList (Map::class)
+fun <T : Any> URL.parseList(type: KClass<T>): List<T> =
+    this.openStream().parseList(type, contentType(this))
+
+private fun contentType(url: URL): String = SerializationManager.getContentType(url.file)
+private fun contentType(file: File): String = SerializationManager.getContentType(file.absolutePath)
+

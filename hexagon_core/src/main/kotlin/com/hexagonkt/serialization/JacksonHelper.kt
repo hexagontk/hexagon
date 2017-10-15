@@ -25,7 +25,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.*
 
-internal object JacksonSerializer {
+internal object JacksonHelper {
     val mapper: ObjectMapper = createObjectMapper ()
 
     fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
