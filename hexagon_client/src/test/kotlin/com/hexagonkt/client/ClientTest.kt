@@ -104,7 +104,7 @@ class ClientTest {
             )
         )
 
-        val r = client.post("/file", File("src/test/resources/data/tag.yaml"))
+        val r = client.post("/file", File("src/test/resources/logback-test.xml"))
         assert (r.headers.get("file64").isNotEmpty())
         assert (r.statusCode == 200)
     }

@@ -1,5 +1,8 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.helpers.eol
+import com.hexagonkt.helpers.mimeTypes
+
 object SerializationManager {
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     var formats: LinkedHashSet<SerializationFormat> = coreFormats
@@ -8,7 +11,18 @@ object SerializationManager {
             field = value
             contentTypes = contentTypes()
             formatsMap = formatsMap()
+            loadMimeTypes()
         }
+
+    init {
+        loadMimeTypes()
+    }
+
+    private fun loadMimeTypes() {
+        mimeTypes.addMimeTypes(
+            formats.joinToString(eol) { it.contentType + " " + it.extensions.joinToString(" ") }
+        )
+    }
 
     var contentTypes: LinkedHashSet<String> = contentTypes()
         private set
@@ -24,9 +38,16 @@ object SerializationManager {
             field = value
         }
 
-    internal fun getFormat(contentType: String) =
+    internal fun getContentTypeFormat(contentType: String): SerializationFormat =
         formatsMap[contentType] ?: error("$contentType not found")
 
+    internal fun getContentType(contentType: String): String =
+        mimeTypes.getContentType(contentType)
+
+    internal fun getFileFormat(extension: String): SerializationFormat =
+        getContentTypeFormat(mimeTypes.getContentType(extension))
+
     private fun contentTypes () = LinkedHashSet(formats.map { it.contentType })
+
     private fun formatsMap () = linkedMapOf (*formats.map { it.contentType to it }.toTypedArray())
 }
