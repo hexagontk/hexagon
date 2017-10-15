@@ -12,7 +12,7 @@ class UndertowEngineTest : EngineTest(UndertowEngine()) {
     @AfterClass fun stop () { stopServers() }
     @Test fun validateEngine() { validate() }
 
-    @Test fun start_test() {
+    @Test fun `start test`() {
         val engine = UndertowEngine()
         val message = "Undertow port uninitialized. Use lazy evaluation for HTTP client ;)"
         assert(!engine.started())
@@ -21,7 +21,7 @@ class UndertowEngineTest : EngineTest(UndertowEngine()) {
         assert(!engine.started())
     }
 
-    @Test fun start_server() {
+    @Test fun `start server`() {
         val s: Server = server {}
         s.run()
         assert(s.started())
@@ -29,7 +29,7 @@ class UndertowEngineTest : EngineTest(UndertowEngine()) {
         assert(!s.started())
     }
 
-    @Test fun test_serve() {
+    @Test fun `test serve`() {
         val s: Server = serve {}
         assert(s.started())
         s.stop()
