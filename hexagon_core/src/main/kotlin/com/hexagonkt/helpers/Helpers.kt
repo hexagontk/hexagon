@@ -38,10 +38,12 @@ val locale: String = "%s_%s.%s".format(
 
 internal const val FLARE_PREFIX = ">>>>>>>>"
 
+// TODO Move types to resources: application.types, audio.types... YAML and JSON are *REQUIRED HERE*
+// TODO Add extension function to load resources/files
 val mimeTypes = MimetypesFileTypeMap().also {
     it.addMimeTypes("""
-        application/yaml yaml yml
         application/json json
+        application/yaml yaml yml
 
         application/msword doc
         application/octet-stream bin dms lha lzh exe class
@@ -82,8 +84,6 @@ val mimeTypes = MimetypesFileTypeMap().also {
         audio/x-realaudio ra
         audio/x-wav wav
 
-        chemical/x-pdb pdb xyz
-
         image/gif gif
         image/jpeg jpeg jpg jpe
         image/png png
@@ -116,6 +116,7 @@ val mimeTypes = MimetypesFileTypeMap().also {
         video/x-msvideo avi
         video/x-sgi-movie movie
 
+        chemical/x-pdb pdb xyz
         x-world/x-vrml wrl vrml
     """.trim().trimIndent())
 }

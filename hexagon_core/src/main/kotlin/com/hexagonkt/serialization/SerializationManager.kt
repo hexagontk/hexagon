@@ -11,18 +11,10 @@ object SerializationManager {
             field = value
             contentTypes = contentTypes()
             formatsMap = formatsMap()
-            loadMimeTypes()
+            mimeTypes.addMimeTypes(
+                formats.joinToString(eol) { it.contentType + " " + it.extensions.joinToString(" ") }
+            )
         }
-
-    init {
-        loadMimeTypes()
-    }
-
-    private fun loadMimeTypes() {
-        mimeTypes.addMimeTypes(
-            formats.joinToString(eol) { it.contentType + " " + it.extensions.joinToString(" ") }
-        )
-    }
 
     var contentTypes: LinkedHashSet<String> = contentTypes()
         private set
@@ -40,9 +32,6 @@ object SerializationManager {
 
     internal fun getContentTypeFormat(contentType: String): SerializationFormat =
         formatsMap[contentType] ?: error("$contentType not found")
-
-    internal fun getContentType(contentType: String): String =
-        mimeTypes.getContentType(contentType)
 
     internal fun getFileFormat(extension: String): SerializationFormat =
         getContentTypeFormat(mimeTypes.getContentType(extension))
