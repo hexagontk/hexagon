@@ -1,5 +1,6 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.helpers.toStream
 import org.testng.annotations.Test
 
 @Test class JacksonYamlFormatTest {
@@ -51,5 +52,14 @@ import org.testng.annotations.Test
         """
         .trimIndent()
         .parse(Player::class, "application/yaml")
+    }
+
+    fun `parse valid YAML` () {
+        val parse = """
+            - a: b
+            - b: c
+            - c: d
+        """.trimIndent().toStream().parseList("application/yaml")
+        assert(parse[0]["a"] == "b")
     }
 }

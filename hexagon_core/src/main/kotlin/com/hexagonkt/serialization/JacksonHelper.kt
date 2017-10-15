@@ -25,7 +25,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.*
 
-internal object JacksonSerializer {
+internal object JacksonHelper {
     val mapper: ObjectMapper = createObjectMapper ()
 
     fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
@@ -141,18 +141,17 @@ internal object JacksonSerializer {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ClosedRange<*> {
             val token = p.currentToken
             check (token == START_OBJECT) { "${token.name} should be: ${START_OBJECT.name}" }
-            check(p.nextFieldName() == "start") { "Ranges should start with 'start' field" }
+            check(p.nextFieldName() == "start") { "Ranges start with 'start' field" }
 
             p.nextToken() // Start object
             val type = valueType.get()
             val start = ctxt.readValue<Comparable<Any>>(p, type)
-            check(p.nextFieldName() == "endInclusive") {
-                "Ranges should end with 'endInclusive' field"
-            }
+            check(p.nextFieldName() == "endInclusive") { "Ranges end with 'endInclusive' field" }
 
             p.nextToken() // End array
             val end = ctxt.readValue<Comparable<Any>>(p, type)
             p.nextToken() // End array
+
             return start .. end
         }
     }

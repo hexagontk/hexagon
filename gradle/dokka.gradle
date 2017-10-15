@@ -3,4 +3,7 @@ apply plugin: 'org.jetbrains.dokka'
 
 dokka {
     reportNotDocumented = false
+    // TODO Include all `.md` files in module's root
+    includes = [ 'readme.md' ]
+    samples = [ 'src/test/kotlin' ]
 }

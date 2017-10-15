@@ -23,10 +23,7 @@ applicationDefaultJvmArgs = [
 
 ext.hikariVersion = '2.6.2'
 ext.postgresqlVersion = '42.0.0'
-ext.mongodbVersion = '3.4.2'
-ext.jettyVersion = '9.4.6.v20170531'
-
-ext.ahcVersion = '2.0.31'
+ext.jettyVersion = '9.4.7.v20170914'
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
@@ -47,14 +44,11 @@ dependencies {
     compile project(':templates_rocker')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
-    compile ("org.mongodb:mongodb-driver:$mongodbVersion")
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
+    testCompile project(':hexagon_client')
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
-        exclude module: 'slf4j-api'
-    }
 
     jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
     jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
@@ -109,8 +103,6 @@ task gradleSettings(type: WriteProperties) {
         hexagonVersion : rootProject.version,
         kotlinVersion : kotlinVersion,
         logbackVersion : logbackVersion,
-        mongodbVersion : mongodbVersion,
-        ahcVersion : ahcVersion,
 
         jettyVersion : jettyVersion,
         hikariVersion : hikariVersion,

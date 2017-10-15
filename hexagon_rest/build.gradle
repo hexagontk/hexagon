@@ -1,13 +1,9 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
-ext.ahcVersion = '2.0.32'
-
 dependencies {
     compile project(':hexagon_store')
 
+    testCompile project(':hexagon_client')
     testCompile project(':server_jetty')
-    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
-        exclude module: 'slf4j-api'
-    }
 }

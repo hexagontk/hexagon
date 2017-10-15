@@ -11,20 +11,16 @@
 
 <p align="center">
   <a href="https://travis-ci.org/hexagonkt/hexagon">
-    <img
-      src="https://img.shields.io/travis/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square" 
-      alt="Travis CI" />
+    <img src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master" alt="Travis CI" />
   </a>
   <a href="https://codecov.io/gh/hexagonkt/hexagon">
     <img
-      src=
-        "https://img.shields.io/codecov/c/github/hexagonkt/hexagon.svg?colorA=0073BB&style=flat-square"
+      src="https://codecov.io/gh/hexagonkt/hexagon/branch/master/graph/badge.svg"
       alt="Codecov" />
   </a>
   <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
     <img
-      src=
-        "https://img.shields.io/bintray/v/jamming/maven/hexagon_core.svg?colorA=0073BB&style=flat-square"
+      src="https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg"
       alt="Bintray" />
   </a>
 </p>
@@ -75,7 +71,7 @@ What are NOT project goals:
   * In [Gradle]. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.22.0")
+    compile ("com.hexagonkt:server_jetty:0.22.1")
     ```
 
   * In [Maven]. Declare the dependency in `pom.xml`:
@@ -84,7 +80,7 @@ What are NOT project goals:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.22.0</version>
+      <version>0.22.1</version>
     </dependency>
     ```
 

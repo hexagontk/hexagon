@@ -11,6 +11,20 @@ import java.util.Calendar.MILLISECOND
 import kotlin.test.assertFailsWith
 
 @Test class HelpersTest {
+    fun `mime types return correct content type`() {
+        assert(mimeTypes.getContentType("a.json") == "application/json")
+        assert(mimeTypes.getContentType("a.yaml") == "application/yaml")
+        assert(mimeTypes.getContentType("a.yml") == "application/yaml")
+        assert(mimeTypes.getContentType("a.png") == "image/png")
+        assert(mimeTypes.getContentType("a.rtf") == "application/rtf")
+
+        assert(mimeTypes.getContentType(".json") == "application/json")
+        assert(mimeTypes.getContentType(".yaml") == "application/yaml")
+        assert(mimeTypes.getContentType(".yml") == "application/yaml")
+        assert(mimeTypes.getContentType(".png") == "image/png")
+        assert(mimeTypes.getContentType(".rtf") == "application/rtf")
+    }
+
     fun `system setting works ok` () {
         System.setProperty("system_property", "value")
 

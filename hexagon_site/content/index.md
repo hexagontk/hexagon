@@ -31,7 +31,7 @@ in the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchm
 
 **DISCLAIMER**: The project status is beta. Use it at your own risk. This is the coverage grid:
 
-![coverage](https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/tree.svg)
+![coverage](https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg)
 
 [Kotlin]: http://kotlinlang.org
 [RabbitMQ]: http://www.rabbitmq.com
@@ -63,7 +63,7 @@ mainClassName = 'HelloKt'
 repositories { jcenter () }
 
 dependencies {
-    compile ("com.hexagonkt:hexagon_core:0.22.0")
+    compile ("com.hexagonkt:hexagon_core:0.22.1")
     compile ("org.eclipse.jetty:jetty-webapp:9.3.16.v20170120")
 }
 ```
