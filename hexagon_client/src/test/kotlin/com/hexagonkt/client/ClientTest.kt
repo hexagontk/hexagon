@@ -5,6 +5,7 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options as wmO
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer
+import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.serialization.serialize
 
 import org.asynchttpclient.Response
@@ -19,7 +20,9 @@ class ClientTest {
     private val wmExtensions = wmOptions().extensions(templateTransformer)
     private val wmOptions: WireMockConfiguration = wmExtensions.dynamicPort()
     private val wmServer = WireMockServer(wmOptions)
-    private val client by lazy { Client("http://localhost:${wmServer.port()}", "application/json") }
+    private val client by lazy {
+        Client("http://localhost:${wmServer.port()}", JsonFormat.contentType)
+    }
 
     @BeforeClass
     fun startup() {
@@ -50,7 +53,7 @@ class ClientTest {
         val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
-        val body = client.post("/", requestBody, "application/json").responseBody
+        val body = client.post("/", requestBody, JsonFormat.contentType).responseBody
         assert(body.trim() == expectedBody)
 
         val body2 = client.post("/", body = requestBody).responseBody
@@ -75,9 +78,9 @@ class ClientTest {
     fun `parameters are set properly` () {
         val endpoint = "http://localhost:${wmServer.port()}"
         val h = mapOf("header1" to listOf("val1", "val2"))
-        val c = Client(endpoint, "application/json", false, h, "user", "password", true)
+        val c = Client(endpoint, JsonFormat.contentType, false, h, "user", "password", true)
 
-        assert(c.contentType == "application/json")
+        assert(c.contentType == JsonFormat.contentType)
         assert(!c.useCookies)
         assert(c.headers == h)
 

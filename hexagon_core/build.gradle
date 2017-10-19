@@ -17,11 +17,3 @@ dependencies {
         exclude module: 'kotlin-reflect'
     }
 }
-
-test {
-    doFirst {
-        File environmentFile = file("${System.getProperty('user.home')}/.environment")
-        if (!environmentFile.exists())
-            environmentFile.write('DEVELOPMENT\n')
-    }
-}

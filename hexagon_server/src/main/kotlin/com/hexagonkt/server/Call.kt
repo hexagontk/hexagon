@@ -1,7 +1,9 @@
 package com.hexagonkt.server
 
 import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now
@@ -40,7 +42,9 @@ class Call(
         response.contentType ?:
         request.headers["Accept"]?.first()?.let { if (it == "*/*") null else it } ?:
         request.contentType ?:
-        defaultFormat
+        defaultFormat.contentType
+
+    fun serializationFormat(): SerializationFormat = getContentTypeFormat(contentType())
 
     fun template(
         engine: TemplateEngine,

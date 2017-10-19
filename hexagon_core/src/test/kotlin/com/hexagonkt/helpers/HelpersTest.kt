@@ -1,5 +1,7 @@
 package com.hexagonkt.helpers
 
+import com.hexagonkt.serialization.JsonFormat
+import com.hexagonkt.serialization.YamlFormat
 import org.testng.annotations.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -11,16 +13,25 @@ import java.util.Calendar.MILLISECOND
 import kotlin.test.assertFailsWith
 
 @Test class HelpersTest {
+    private val m = mapOf(
+        "alpha" to "bravo",
+        "tango" to 0,
+        "nested" to mapOf(
+            "zulu" to "charlie"
+        ),
+        0 to 1
+    )
+
     fun `mime types return correct content type`() {
-        assert(mimeTypes.getContentType("a.json") == "application/json")
-        assert(mimeTypes.getContentType("a.yaml") == "application/yaml")
-        assert(mimeTypes.getContentType("a.yml") == "application/yaml")
+        assert(mimeTypes.getContentType("a.json") == JsonFormat.contentType)
+        assert(mimeTypes.getContentType("a.yaml") == YamlFormat.contentType)
+        assert(mimeTypes.getContentType("a.yml") == YamlFormat.contentType)
         assert(mimeTypes.getContentType("a.png") == "image/png")
         assert(mimeTypes.getContentType("a.rtf") == "application/rtf")
 
-        assert(mimeTypes.getContentType(".json") == "application/json")
-        assert(mimeTypes.getContentType(".yaml") == "application/yaml")
-        assert(mimeTypes.getContentType(".yml") == "application/yaml")
+        assert(mimeTypes.getContentType(".json") == JsonFormat.contentType)
+        assert(mimeTypes.getContentType(".yaml") == YamlFormat.contentType)
+        assert(mimeTypes.getContentType(".yml") == YamlFormat.contentType)
         assert(mimeTypes.getContentType(".png") == "image/png")
         assert(mimeTypes.getContentType(".rtf") == "application/rtf")
     }
@@ -108,20 +119,33 @@ import kotlin.test.assertFailsWith
     }
 
     fun `test get`() {
-        val m = mapOf(
-            "alpha" to "bravo",
-            "tango" to 0,
-            "nested" to mapOf(
-                "zulu" to "charlie"
-            ),
-            0 to 1
-        )
         assert(m["nested", "zulu"] == "charlie")
         assert(m["nested", "zulu", "tango"] == null)
         assert(m["nested", "empty"] == null)
         assert(m["empty"] == null)
         assert(m["alpha"] == "bravo")
         assert(m[0] == 1)
+    }
+
+    fun `test require`() {
+        assert(m.require<String>("nested", "zulu") == "charlie")
+        assert(m.require<String>("alpha") == "bravo")
+        assert(m.require<Int>(0) == 1)
+    }
+
+    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
+    fun `test require not found keys`() {
+        m.require<Any>("nested", "zulu", "tango")
+    }
+
+    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
+    fun `test require not found map`() {
+        m.require<Any>("nested", "empty")
+    }
+
+    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
+    fun `test require not found first level`() {
+        m.require<Any>("empty")
     }
 
     fun `date conversion`() {

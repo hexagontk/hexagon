@@ -22,15 +22,19 @@ object SerializationManager {
     var formatsMap: LinkedHashMap<String, SerializationFormat> = formatsMap()
         private set
 
-    var defaultFormat: String = contentTypes.first()
+    var defaultFormat: SerializationFormat = formats.first()
         set(value) {
-            require(contentTypes.contains(value)) {
+            require(formats.contains(value)) {
                 "'$value' not available in: ${contentTypes.joinToString(", ")}"
             }
             field = value
         }
 
-    internal fun getContentTypeFormat(contentType: String): SerializationFormat =
+    fun setFormats(vararg formats: SerializationFormat) {
+        this.formats = linkedSetOf(*formats)
+    }
+
+    fun getContentTypeFormat(contentType: String): SerializationFormat =
         formatsMap[contentType] ?: error("$contentType not found")
 
     internal fun getFileFormat(extension: String): SerializationFormat =

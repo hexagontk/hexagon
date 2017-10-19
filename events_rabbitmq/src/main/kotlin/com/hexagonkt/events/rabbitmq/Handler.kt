@@ -2,6 +2,7 @@ package com.hexagonkt.events.rabbitmq
 
 import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.retry
+import com.hexagonkt.serialization.SerializationManager.formatsMap
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
@@ -42,7 +43,7 @@ internal class Handler<T : Any, R : Any> internal constructor (
             val charset = properties.contentEncoding ?: defaultCharset().name()
             val correlationId = properties.correlationId
             val replyTo = properties.replyTo
-            val contentType = properties.contentType ?: defaultFormat
+            val contentType = formatsMap[properties.contentType] ?: defaultFormat
 
             try {
                 trace("Received message ($correlationId) in $charset")

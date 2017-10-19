@@ -32,10 +32,10 @@ import org.testng.annotations.Test
     }
 
     fun `user can change default format` () {
-        assert (defaultFormat == JsonFormat.contentType)
+        assert (defaultFormat == JsonFormat)
 
-        defaultFormat = YamlFormat.contentType
-        assert (defaultFormat == YamlFormat.contentType)
+        defaultFormat = YamlFormat
+        assert (defaultFormat == YamlFormat)
     }
 
     @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
@@ -46,7 +46,7 @@ import org.testng.annotations.Test
     @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
     fun `user can not set a default format not loaded` () {
         formats = linkedSetOf(YamlFormat)
-        defaultFormat = JsonFormat.contentType
+        defaultFormat = JsonFormat
     }
 
     @Test(expectedExceptions = arrayOf(IllegalStateException::class))
@@ -56,12 +56,12 @@ import org.testng.annotations.Test
     }
 
     fun `serialization manager can get the content type by an extension` () {
-        assert(SerializationManager.getFileFormat("a.json").contentType == "application/json")
-        assert(SerializationManager.getFileFormat("a.yaml").contentType == "application/yaml")
-        assert(SerializationManager.getFileFormat("a.yml").contentType == "application/yaml")
+        assert(SerializationManager.getFileFormat("a.json") == JsonFormat)
+        assert(SerializationManager.getFileFormat("a.yaml") == YamlFormat)
+        assert(SerializationManager.getFileFormat("a.yml") == YamlFormat)
 
-        assert(SerializationManager.getFileFormat(".json").contentType == "application/json")
-        assert(SerializationManager.getFileFormat(".yaml").contentType == "application/yaml")
-        assert(SerializationManager.getFileFormat(".yml").contentType == "application/yaml")
+        assert(SerializationManager.getFileFormat(".json") == JsonFormat)
+        assert(SerializationManager.getFileFormat(".yaml") == YamlFormat)
+        assert(SerializationManager.getFileFormat(".yml") == YamlFormat)
     }
 }
