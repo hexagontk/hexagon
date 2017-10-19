@@ -227,4 +227,15 @@ import kotlin.test.assertFailsWith
     fun `resource folder`() {
         assert(resource("data")?.readText()?.lines()?.size ?: 0 > 0)
     }
+
+    @Test(
+        expectedExceptions = arrayOf(IllegalStateException::class),
+        expectedExceptionsMessageRegExp = "Invalid state"
+    )
+    fun `error generates the correct exception`() { error }
+
+    fun `readResource returns resource's text` () {
+        val resourceText = readResource("logback-test.xml")
+        assert (resourceText?.contains("Logback configuration for tests") ?:false)
+    }
 }

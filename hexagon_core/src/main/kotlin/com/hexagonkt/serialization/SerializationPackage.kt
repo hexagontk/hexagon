@@ -22,54 +22,56 @@ val coreFormats: LinkedHashSet<SerializationFormat> = linkedSetOf (JsonFormat, Y
 
 // MAPPING /////////////////////////////////////////////////////////////////////////////////////////
 fun Any.convertToMap(): Map<*, *> = mapper.convertValue (this, Map::class.java)
+
 fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = mapper.convertValue(this, type.java)
 
 fun <T : Any> List<Map<*, *>>.convertToObjects(type: KClass<T>): List<T> =
     this.map { it: Map<*, *> -> it.convertToObject(type) }
 
-fun Any.serialize (format: SerializationFormat = defaultFormat) = format.serialize(this)
+fun Any.serialize (format: SerializationFormat = defaultFormat): String = format.serialize(this)
 
 // INPUT STREAM ////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> InputStream.parse (type: KClass<T>, format: SerializationFormat = defaultFormat) =
+fun <T : Any> InputStream.parse (type: KClass<T>, format: SerializationFormat = defaultFormat): T =
     format.parse(this, type)
 
-fun InputStream.parse (format: SerializationFormat = defaultFormat) =
+fun InputStream.parse (format: SerializationFormat = defaultFormat): Map<*, *> =
     this.parse (Map::class, format)
 
 fun <T : Any> InputStream.parseList (type: KClass<T>, format: SerializationFormat = defaultFormat) =
     format.parseList(this, type)
 
-fun InputStream.parseList (format: SerializationFormat = defaultFormat) =
+fun InputStream.parseList (format: SerializationFormat = defaultFormat): List<Map<*, *>> =
     this.parseList (Map::class, format)
 
 // STRING //////////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> String.parse (type: KClass<T>, format: SerializationFormat = defaultFormat) =
+fun <T : Any> String.parse (type: KClass<T>, format: SerializationFormat = defaultFormat): T =
     this.toStream().parse (type, format)
 
-fun String.parse (format: SerializationFormat = defaultFormat) = this.parse (Map::class, format)
+fun String.parse (format: SerializationFormat = defaultFormat): Map<*, *> =
+    this.toStream().parse (format)
 
-fun String.parseList(format: SerializationFormat = defaultFormat) =
+fun String.parseList(format: SerializationFormat = defaultFormat): List<Map<*, *>> =
     this.parseList (Map::class, format)
 
 fun <T : Any> String.parseList (type: KClass<T>, format: SerializationFormat = defaultFormat) =
     this.toStream().parseList (type, format)
 
 // FILE ////////////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> File.parse (type: KClass<T>) = this.inputStream().parse(type, contentType(this))
+fun <T : Any> File.parse (type: KClass<T>): T = this.inputStream().parse(type, contentType(this))
 
-fun File.parse () = this.parse (Map::class)
+fun File.parse (): Map<*, *> = this.parse (Map::class)
 
-fun File.parseList () = this.parseList (Map::class)
+fun File.parseList (): List<Map<*, *>> = this.parseList (Map::class)
 
 fun <T : Any> File.parseList(type: KClass<T>): List<T> =
     this.inputStream().parseList(type, contentType(this))
 
 // URL /////////////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> URL.parse(type: KClass<T>) = this.openStream().parse(type, contentType(this))
+fun <T : Any> URL.parse(type: KClass<T>): T = this.openStream().parse(type, contentType(this))
 
-fun URL.parse () = this.parse (Map::class)
+fun URL.parse (): Map<*, *> = this.parse (Map::class)
 
-fun URL.parseList () = this.parseList (Map::class)
+fun URL.parseList (): List<Map<*, *>> = this.parseList (Map::class)
 
 fun <T : Any> URL.parseList(type: KClass<T>): List<T> =
     this.openStream().parseList(type, contentType(this))

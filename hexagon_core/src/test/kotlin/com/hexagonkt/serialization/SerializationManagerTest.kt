@@ -5,6 +5,7 @@ import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.SerializationManager.formatsMap
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
+import com.hexagonkt.serialization.SerializationManager.setFormats
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
@@ -29,6 +30,14 @@ import org.testng.annotations.Test
         assert (formats == linkedSetOf(JsonFormat))
         assert (contentTypes == linkedSetOf(JsonFormat.contentType))
         assert (formatsMap == linkedMapOf(JsonFormat.contentType to JsonFormat))
+
+        setFormats (JsonFormat, YamlFormat)
+        assert (formats == linkedSetOf(JsonFormat, YamlFormat))
+        assert (contentTypes == linkedSetOf(JsonFormat.contentType, YamlFormat.contentType))
+        assert (formatsMap == linkedMapOf(
+            JsonFormat.contentType to JsonFormat,
+            YamlFormat.contentType to YamlFormat
+        ))
     }
 
     fun `user can change default format` () {

@@ -8,16 +8,19 @@ object SettingsManager : Loggable {
     var environment: String? = null
         private set
 
-    var settings: Map<String, *> = loadResource("service.yaml") + loadResource("service_test.yaml")
-        private set
+    var settings: Map<String, *> = defaultSettings()
 
-    init {
+    fun defaultSettings(): Map<String, *> {
+        val settings = loadResource("service.yaml") + loadResource("service_test.yaml")
         environment = settings["ENVIRONMENT"] as? String
         environment = "DEVELOPMENT"
         // Examples
 //        environment += loadProps("")
 //        environment += "foo" to loadProps("")
-        if (environment != null) settings += loadResource("${environment?.toLowerCase()}.yaml")
+        if (environment != null)
+            return settings + loadResource("${environment?.toLowerCase()}.yaml")
+        else
+            return settings
     }
 
 //    private fun loadEnvironmentVariables (): Map<String, *> = TODO()
