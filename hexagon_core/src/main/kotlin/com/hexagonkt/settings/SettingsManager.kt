@@ -8,7 +8,8 @@ object SettingsManager : Loggable {
     var environment: String? = null
         private set
 
-    val settings: Map<String, *> = loadResource("service.yaml") + loadResource("service_test.yaml")
+    var settings: Map<String, *> = loadResource("service.yaml") + loadResource("service_test.yaml")
+        private set
 
     init {
         environment = settings["ENVIRONMENT"] as? String
@@ -16,14 +17,14 @@ object SettingsManager : Loggable {
         // Examples
 //        environment += loadProps("")
 //        environment += "foo" to loadProps("")
-        if (environment != null) loadResource("${environment?.toLowerCase()}.yaml")
+        if (environment != null) settings += loadResource("${environment?.toLowerCase()}.yaml")
     }
 
-    private fun loadEnvironmentVariables (): Map<String, *> = TODO()
-    private fun loadEnvironmentVariables (prefix: String): Map<String, *> = TODO()
-    private fun loadCommandLineArguments (vararg args: String): Map<String, *> = TODO()
-    private fun loadSystemProperties (vararg args: String): Map<String, *> = TODO()
-    private fun loadFiles (vararg args: String): Map<String, *> = TODO()
+//    private fun loadEnvironmentVariables (): Map<String, *> = TODO()
+//    private fun loadEnvironmentVariables (prefix: String): Map<String, *> = TODO()
+//    private fun loadCommandLineArguments (vararg args: String): Map<String, *> = TODO()
+//    private fun loadSystemProperties (vararg args: String): Map<String, *> = TODO()
+//    private fun loadFiles (vararg args: String): Map<String, *> = TODO()
 
     @Suppress("UNCHECKED_CAST")
     private fun loadResource(resName: String): Map<String, *> =
