@@ -2,6 +2,7 @@ package com.hexagonkt
 
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.client.Client
+import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.serialization.parseList
 import com.hexagonkt.server.HttpMethod.GET
 import org.asynchttpclient.Response
@@ -96,7 +97,7 @@ abstract class BenchmarkTest(
         val response = client.get("/json")
         val content = response.responseBody
 
-        checkResponse(response, "application/json")
+        checkResponse(response, JsonFormat.contentType)
         assert("Hello, World!" == content.parse(Message::class).message)
     }
 
@@ -122,7 +123,7 @@ abstract class BenchmarkTest(
         val response = client.get("/db")
         val body = response.responseBody
 
-        checkResponse(response, "application/json")
+        checkResponse(response, JsonFormat.contentType)
         val bodyMap = body.parse(Map::class)
         assert(bodyMap.containsKey(World::id.name))
         assert(bodyMap.containsKey(World::randomNumber.name))
@@ -132,7 +133,7 @@ abstract class BenchmarkTest(
         val response = client.get("/update")
         val body = response.responseBody
 
-        checkResponse(response, "application/json")
+        checkResponse(response, JsonFormat.contentType)
         val bodyMap = body.parseList(Map::class).first()
         assert(bodyMap.containsKey(World::id.name))
         assert(bodyMap.containsKey(World::randomNumber.name))
@@ -160,7 +161,7 @@ abstract class BenchmarkTest(
         val response = client.get(path)
         val content = response.responseBody
 
-        checkResponse(response, "application/json")
+        checkResponse(response, JsonFormat.contentType)
 
         val resultsList = content.parse(List::class)
         assert(itemsCount == resultsList.size)

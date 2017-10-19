@@ -9,6 +9,7 @@ include (
     'hexagon_core',
     'hexagon_events',
     'hexagon_rest',
+    'hexagon_server',
     'hexagon_scheduler',
     'hexagon_store',
     'hexagon_test',

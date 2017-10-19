@@ -5,7 +5,7 @@ apply plugin: 'com.fizzed.rocker'
 ext.rockerVersion = '0.22.0'
 
 dependencies {
-    compile project(':hexagon_core')
+    compile project(':hexagon_server')
     compile ("com.fizzed:rocker-runtime:$rockerVersion")
 }
 

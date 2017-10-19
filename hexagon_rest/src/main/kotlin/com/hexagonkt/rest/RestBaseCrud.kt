@@ -30,15 +30,13 @@ fun Router.crud(repository: MongoRepository<*>) {
     delete("/$collectionName") { deleteByExample (repository) }
 }
 
-internal fun contentType (call: Call) = call.request.contentType ?: defaultFormat
-
-internal fun accept (call: Call) = call.request.accept()?.first().let {
-    if (it != null && contentTypes.contains(it)) it
+internal fun accept (call: Call): SerializationFormat = call.request.accept()?.first().let {
+    if (it != null && contentTypes.contains(it)) SerializationManager.getContentTypeFormat(it)
     else defaultFormat
 }
 
 internal fun <T : Any> Call.insertList (repository: MongoRepository<T>) {
-    val obj = request.body.parseList(repository.type, contentType(this))
+    val obj = request.body.parseList(repository.type, serializationFormat())
     try {
         repository.insertManyObjects(obj)
         ok(201) // Created
@@ -52,7 +50,7 @@ internal fun <T : Any> Call.insertList (repository: MongoRepository<T>) {
 }
 
 internal fun <T : Any> Call.insert (repository: MongoRepository<T>) {
-    val obj = request.body.parse(repository.type, contentType(this))
+    val obj = request.body.parse(repository.type, serializationFormat())
     try {
         repository.insertOneObject(obj)
         ok(201) // Created
@@ -71,7 +69,7 @@ internal fun <T : Any> Call.findAll (repository: MongoRepository<T>) {
         if (exampleFilter == null) repository.findObjects { pageResults(this@findAll) }.toList()
         else repository.findObjects (exampleFilter) { pageResults(this@findAll) }.toList()
     val contentType = accept(this)
-    response.contentType = contentType + "; charset=${defaultCharset().name()}"
+    response.contentType = contentType.contentType + "; charset=${defaultCharset().name()}"
     ok(objects.serialize(contentType))
 }
 

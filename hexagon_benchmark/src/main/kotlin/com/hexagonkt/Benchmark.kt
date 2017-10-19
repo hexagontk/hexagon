@@ -1,6 +1,7 @@
 package com.hexagonkt
 
 import com.hexagonkt.helpers.systemSetting
+import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.*
@@ -26,9 +27,9 @@ internal data class World(val _id: Int, val id: Int, val randomNumber: Int)
 
 // CONSTANTS
 private const val TEXT_MESSAGE: String = "Hello, World!"
-private const val CONTENT_TYPE_JSON = "application/json"
 private const val QUERIES_PARAM = "queries"
 
+private val contentTypeJson = JsonFormat.contentType
 private val logger: Logger = getLogger("BENCHMARK_LOGGER")
 private val defaultLocale: Locale = Locale.getDefault()
 
@@ -37,7 +38,7 @@ internal fun randomWorld() = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
 
 private fun Call.returnWorlds(worldsList: List<World>) {
     val worlds = worldsList.map { it.convertToMap() - "_id" }
-    ok(worlds.serialize(), CONTENT_TYPE_JSON)
+    ok(worlds.serialize(), contentTypeJson)
 }
 
 private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1).let {
@@ -65,7 +66,7 @@ private fun Call.listFortunes(store: Store) {
 
 private fun Call.dbQuery(store: Store) {
     val world = store.findWorlds(1).first().convertToMap() - "_id"
-    ok(world.serialize(), CONTENT_TYPE_JSON)
+    ok(world.serialize(), contentTypeJson)
 }
 
 private fun Call.getWorlds(store: Store) {
@@ -87,7 +88,7 @@ private fun router(): Router = router {
     }
 
     get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
-    get("/json") { ok(Message(TEXT_MESSAGE).serialize(), CONTENT_TYPE_JSON) }
+    get("/json") { ok(Message(TEXT_MESSAGE).serialize(), contentTypeJson) }
     get("/fortunes") { listFortunes(store) }
     get("/db") { dbQuery(store) }
     get("/query") { getWorlds(store) }

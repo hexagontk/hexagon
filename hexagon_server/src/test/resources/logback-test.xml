@@ -1,5 +1,7 @@
 <!--
  | Logback configuration for tests
+ |
+ | All output is ignored by default, to enable logs change root logger level.
  !-->
 <configuration>
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -8,16 +10,9 @@
     </encoder>
   </appender>
 
-  <root>
-    <level value="off" />
+  <root level="off">
     <appender-ref ref="console" />
   </root>
 
-  <logger name="${group}">
-    <level value="off" />
-  </logger>
-
-  <logger name="com.hexagonkt">
-    <level value="off" />
-  </logger>
+  <logger name="com.hexagonkt" level="off" />
 </configuration>

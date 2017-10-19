@@ -2,6 +2,7 @@
 apply from: '../gradle/hexagon_module.gradle'
 
 dependencies {
+    compile project(':hexagon_server')
     compile project(':hexagon_store')
 
     testCompile project(':hexagon_client')

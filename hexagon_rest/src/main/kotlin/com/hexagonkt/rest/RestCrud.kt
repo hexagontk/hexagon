@@ -35,13 +35,13 @@ private fun Call.findIds(repository: MongoIdRepository<*, *>) {
 }
 
 private fun <T : Any, K : Any> Call.replaceList (repository: MongoIdRepository<T, K>) {
-    val obj = request.body.parseList(repository.type, contentType(this))
+    val obj = request.body.parseList(repository.type, serializationFormat())
     repository.replaceObjects(obj, request.parameters.containsKey("upsert"))
     ok(200) // Created
 }
 
 private fun <T : Any, K : Any> Call.replace (repository: MongoIdRepository<T, K>) {
-    val obj = request.body.parse(repository.type, contentType(this))
+    val obj = request.body.parse(repository.type, serializationFormat())
     repository.replaceObject(obj, request.parameters.containsKey("upsert"))
     ok(200) // Created
 }
@@ -61,7 +61,7 @@ private fun <T : Any, K : Any> Call.findList (repository: MongoIdRepository<T, K
     }
     else {
         val contentType = accept(this)
-        response.contentType = contentType + "; charset=${defaultCharset().name()}"
+        response.contentType = contentType.contentType + "; charset=${defaultCharset().name()}"
         ok(obj.serialize(contentType))
     }
 }
@@ -81,7 +81,7 @@ private fun <T : Any, K : Any> Call.find (repository: MongoIdRepository<T, K>) {
     }
     else {
         val contentType = accept(this)
-        response.contentType = contentType + "; charset=${defaultCharset().name()}"
+        response.contentType = contentType.contentType + "; charset=${defaultCharset().name()}"
         ok(obj.serialize(contentType))
     }
 }
@@ -93,7 +93,7 @@ private fun <K : Any, T : Any> parseKey(
     return when (repository.keyType) {
         String::class -> """"$id""""
         else -> id
-    }.parse(repository.keyType, contentType(call))
+    }.parse(repository.keyType, call.serializationFormat())
 }
 
 private fun <K : Any, T : Any> parseKeys(

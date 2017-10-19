@@ -8,8 +8,8 @@ package com.hexagonkt.helpers
  *
  * @author jam
  */
-class CodedException(val code: Int, message: String = "", vararg causes: Throwable) :
+class CodedException (val code: Int, message: String = "", vararg causes: Throwable) :
     RuntimeException (message, causes.firstOrNull()) {
 
-    val causes = causes.toList()
+    val causes: List<Throwable> = causes.toList()
 }

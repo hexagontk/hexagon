@@ -1,6 +1,5 @@
 package com.hexagonkt.helpers
 
-import java.awt.SystemColor.text
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.lang.System.getProperty
@@ -42,7 +41,7 @@ val eol: String = getProperty("line.separator")
  * @param parameters The map with the list of key/value tuples.
  * @return The filtered text or the same string if no values are passed or found in the text.
  */
-fun String.filterVars(parameters: Map<*, *>) =
+fun String.filterVars (parameters: Map<*, *>): String =
     parameters.entries
         .filter { it.key.toString().isNotEmpty() }
         .fold(this) { result, pair ->
@@ -51,12 +50,13 @@ fun String.filterVars(parameters: Map<*, *>) =
             result.replace ("$VARIABLE_PREFIX$key$VARIABLE_SUFFIX", value)
         }
 
-fun String.filterVars(vararg parameters: Pair<*, *>) = this.filterVars (mapOf (*parameters))
+fun String.filterVars (vararg parameters: Pair<*, *>) = this.filterVars(mapOf (*parameters))
 
-fun String.filter(prefix: String, suffix: String, vararg parameters: Pair<String, String>) =
-    parameters.fold(this) { result, (first, second) ->
-        result.replace (prefix + first + suffix, second)
-    }
+fun String.filter (
+    prefix: String, suffix: String, vararg parameters: Pair<String, String>): String =
+        parameters.fold(this) { result, (first, second) ->
+            result.replace (prefix + first + suffix, second)
+        }
 
 fun Regex.findGroups (str: String): List<MatchGroup> =
     (this.find (str)?.groups ?: listOf<MatchGroup> ())
@@ -66,7 +66,7 @@ fun Regex.findGroups (str: String): List<MatchGroup> =
 /**
  * Transforms the target string from snake case to camel case.
  */
-fun String.snakeToCamel () =
+fun String.snakeToCamel (): String =
     this.split ("_")
         .filter(String::isNotEmpty)
         .joinToString("", transform = String::capitalize)
@@ -75,7 +75,7 @@ fun String.snakeToCamel () =
 /**
  * Transforms the target string from camel case to snake case.
  */
-fun String.camelToSnake () =
+fun String.camelToSnake (): String =
     this.split ("(?=\\p{Upper}\\p{Lower})".toRegex())
         .filter(String::isNotEmpty)
         .joinToString ("_", transform = String::toLowerCase)
@@ -92,15 +92,13 @@ fun String.banner (bannerDelimiter: String = "*"): String {
     return "$separator$eol$this$eol$separator"
 }
 
-fun String.stripAccents() = normalize(this, NFD).replace("\\p{M}".toRegex(), "")
+fun String.stripAccents(): String = normalize(this, NFD).replace("\\p{M}".toRegex(), "")
 
 fun String.toStream(): InputStream = ByteArrayInputStream(this.toByteArray())
 
-fun readResource(resource: String) = resourceAsStream(resource)?.reader()?.readText()
+fun utf8(vararg bytes: Int): String = String(bytes.map(Int::toByte).toByteArray())
 
-fun utf8(vararg bytes: Int) = String(bytes.map(Int::toByte).toByteArray())
-
-private fun ansiCode(fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): String {
+private fun ansiCode (fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): String {
     fun fgString (color: AnsiColor?) = (color?.fg ?: "").toString()
     fun bgString (color: AnsiColor?) = (color?.bg ?: "").toString()
 
@@ -121,6 +119,8 @@ private fun ansiCode(fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): St
  * @param fxs List of affects
  * @return The ANSI sequence
  */
-fun ansi(fg: AnsiColor, bg: AnsiColor, vararg fxs: AnsiEffect) = ansiCode (fg, bg, *fxs)
-fun ansi(fg: AnsiColor, vararg fxs: AnsiEffect) = ansiCode (fg, null, *fxs)
-fun ansi(vararg fxs: AnsiEffect) = ansiCode (null, null, *fxs)
+fun ansi (fg: AnsiColor, bg: AnsiColor, vararg fxs: AnsiEffect): String = ansiCode (fg, bg, *fxs)
+
+fun ansi (fg: AnsiColor, vararg fxs: AnsiEffect): String = ansiCode (fg, null, *fxs)
+
+fun ansi (vararg fxs: AnsiEffect): String = ansiCode (null, null, *fxs)

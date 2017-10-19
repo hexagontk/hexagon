@@ -110,10 +110,12 @@ class UndertowEngine : ServerEngine {
                                 is Pair<*, *> -> call.ok(
                                     code = result.first as? Int ?: 200,
                                     content = result.second.let {
-                                        it as? String ?: it?.serialize(call.contentType()) ?: ""
+                                        it as? String
+                                            ?: it?.serialize(call.serializationFormat())
+                                            ?: ""
                                     }
                                 )
-                                else -> call.ok(result.serialize(call.contentType()))
+                                else -> call.ok(result.serialize(call.serializationFormat()))
                             }
                         })
                     }

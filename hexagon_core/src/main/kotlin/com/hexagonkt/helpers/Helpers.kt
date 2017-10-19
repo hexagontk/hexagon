@@ -11,6 +11,8 @@ import java.net.URL
 import java.util.*
 import javax.activation.MimetypesFileTypeMap
 
+internal const val FLARE_PREFIX = ">>>>>>>>"
+
 /** Default timezone. */
 val timeZone: TimeZone = TimeZone.getDefault()
 
@@ -36,12 +38,12 @@ val locale: String = "%s_%s.%s".format(
     getProperty("file.encoding")
 )
 
-internal const val FLARE_PREFIX = ">>>>>>>>"
-
+// TODO Move types to resources: application.types, audio.types... YAML and JSON are *REQUIRED HERE*
+// TODO Add extension function to load resources/files
 val mimeTypes = MimetypesFileTypeMap().also {
     it.addMimeTypes("""
-        application/yaml yaml yml
         application/json json
+        application/yaml yaml yml
 
         application/msword doc
         application/octet-stream bin dms lha lzh exe class
@@ -82,8 +84,6 @@ val mimeTypes = MimetypesFileTypeMap().also {
         audio/x-realaudio ra
         audio/x-wav wav
 
-        chemical/x-pdb pdb xyz
-
         image/gif gif
         image/jpeg jpeg jpg jpe
         image/png png
@@ -116,6 +116,7 @@ val mimeTypes = MimetypesFileTypeMap().also {
         video/x-msvideo avi
         video/x-sgi-movie movie
 
+        chemical/x-pdb pdb xyz
         x-world/x-vrml wrl vrml
     """.trim().trimIndent())
 }
@@ -158,7 +159,7 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
 /**
  * TODO .
  */
-fun parseQueryParameters(query: String): Map<String, String> =
+fun parseQueryParameters (query: String): Map<String, String> =
     if (query.isBlank())
         mapOf()
     else
@@ -195,7 +196,7 @@ fun Throwable.toText (prefix: String = ""): String =
  * TODO .
  */
 @Suppress("UNCHECKED_CAST")
-operator fun Map<*, *>.get(vararg keys: Any): Any? =
+operator fun Map<*, *>.get (vararg keys: Any): Any? =
     if (keys.size > 1)
         keys
             .dropLast(1)
@@ -211,10 +212,15 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
     else
         (this as Map<Any, Any>).getOrElse(keys.first()) { null }
 
-fun <K, V> Map<K, V>.filterEmpty(): Map<K, V> = this.filterValues(::notEmpty)
-fun <V> List<V>.filterEmpty(): List<V> = this.filter(::notEmpty)
+@Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
+fun <T : Any> Map<*, *>.require (vararg name: Any): T =
+    this.get(*name) as? T ?: error("$name required setting not found")
 
-fun <V> notEmpty(it: V): Boolean {
+fun <K, V> Map<K, V>.filterEmpty (): Map<K, V> = this.filterValues(::notEmpty)
+
+fun <V> List<V>.filterEmpty (): List<V> = this.filter(::notEmpty)
+
+fun <V> notEmpty (it: V): Boolean {
     return when (it) {
         null -> false
         is List<*> -> it.isNotEmpty()
@@ -228,6 +234,11 @@ fun <V> notEmpty(it: V): Boolean {
  * TODO Fix class loader issues, use thread class loader or whatever
  * http://www.javaworld.com/article/2077344/core-java/find-a-way-out-of-the-classloader-maze.html
  */
-fun resourceAsStream(resName: String): InputStream? = systemClassLoader.getResourceAsStream(resName)
-fun resource(resName: String): URL? = systemClassLoader.getResource(resName)
-fun requireResource(resName: String): URL = resource(resName) ?: error("$resName not found")
+fun resourceAsStream(resource: String): InputStream? =
+    systemClassLoader.getResourceAsStream(resource)
+
+fun resource(resource: String): URL? = systemClassLoader.getResource(resource)
+
+fun requireResource(resource: String): URL = resource(resource) ?: error("$resource not found")
+
+fun readResource(resource: String): String? = resourceAsStream(resource)?.reader()?.readText()
