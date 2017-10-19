@@ -236,6 +236,15 @@ import kotlin.test.assertFailsWith
 
     fun `readResource returns resource's text` () {
         val resourceText = readResource("logback-test.xml")
-        assert (resourceText?.contains("Logback configuration for tests") ?:false)
+        assert(resourceText?.contains("Logback configuration for tests") ?:false)
+    }
+
+    fun `parse key only query parameters return correct data` () {
+        assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
+            "a" to "1",
+            "b" to "",
+            "c" to "",
+            "d" to "e"
+        ))
     }
 }

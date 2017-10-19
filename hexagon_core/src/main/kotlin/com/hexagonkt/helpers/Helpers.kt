@@ -22,7 +22,7 @@ val hostname: String = getLocalHost().hostName
 val ip: String = getLocalHost().hostAddress
 
 /** Syntax sugar to throw errors. */
-inline val error: Nothing get() = error("Invalid state")
+val error: Nothing get() = error("Invalid state")
 
 /** System class loader. */
 val systemClassLoader: ClassLoader = getSystemClassLoader()
