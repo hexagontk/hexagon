@@ -4,6 +4,7 @@ jbake {
     siteHost = findProperty ('siteHost') ?: ''
     srcDirName = findProperty ('siteSource') ?: 'site'
     destDirName = findProperty ('siteTarget') ?: srcDirName // It is relative to `buildDir`
+    configData = findProperty ('configData') ?: [:]
 
     version  = '2.5.1'
 
@@ -22,6 +23,12 @@ jbake {
     configuration['projectDescription'] = rootProject.description
     configuration['projectVersion'] = rootProject.version.toString()
     configuration['siteColor'] = siteColor
+
+    // Custom extra data
+    configuration['siteHost'] = siteHost
+    configData.each { entry ->
+        configuration[entry.key] = entry.value
+    }
 }
 
 // Site processing is required because JBake does not filter content with configuration properties

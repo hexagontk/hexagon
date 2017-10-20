@@ -247,4 +247,13 @@ import kotlin.test.assertFailsWith
             "d" to "e"
         ))
     }
+
+    fun example () {
+        assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
+            "a" to "1",
+            "b" to "",
+            "c" to "",
+            "d" to "e"
+        ))
+    }
 }
