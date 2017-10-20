@@ -59,6 +59,6 @@ import java.time.LocalTime
         replace_object_stores_modified_data_in_db()
         find_and_replace_object_stores_modified_data_in_db()
 
-        object_is_mapped_and_parsed_back_without_error()
+        `object is mapped and parsed back without error`()
     }
 }

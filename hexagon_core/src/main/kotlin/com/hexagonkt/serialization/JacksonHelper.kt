@@ -14,7 +14,10 @@ import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.core.JsonToken.START_OBJECT
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import com.hexagonkt.helpers.asNumber
 import com.hexagonkt.helpers.toLocalDate
 import com.hexagonkt.helpers.toLocalDateTime
@@ -39,8 +42,12 @@ internal object JacksonHelper {
             .configure (FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
             .configure (ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
             .setSerializationInclusion (NON_EMPTY)
+            .registerModule (ParameterNamesModule())
+            .registerModule (Jdk8Module())
+            .registerModule (JavaTimeModule())
             .registerModule (KotlinModule ())
             .registerModule (SimpleModule("SerializationModule", Version.unknownVersion())
+                // TODO Check how many custom serializers can be removed
                 .addSerializer (ByteBuffer::class.java, ByteBufferSerializer)
                 .addDeserializer (ByteBuffer::class.java, ByteBufferDeserializer)
                 .addSerializer (LocalTime::class.java, LocalTimeSerializer)

@@ -1,6 +1,6 @@
 package com.hexagonkt.templates
 
-import com.hexagonkt.helpers.resourceAsStream
+import com.hexagonkt.helpers.resource
 import com.hexagonkt.helpers.toDate
 import com.hexagonkt.serialization.parse
 import java.time.LocalDateTime
@@ -12,7 +12,7 @@ object TemplateManager {
     private var parametersCache: Map<String, Map<String, Any?>> = mapOf()
 
     private fun loadProps (path: String) =
-        resourceAsStream("$basePath/$path.yaml")?.parse ("application/yaml") ?: mapOf<String, Any>()
+        resource("$basePath/$path.yaml")?.parse () ?: mapOf<String, Any>()
 
     @Suppress("UNCHECKED_CAST")
     private fun loadBundle (path: String, locale: Locale): Map<String, *> = loadProps(path).let {

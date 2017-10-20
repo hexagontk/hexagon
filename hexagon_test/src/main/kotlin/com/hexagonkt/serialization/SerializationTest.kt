@@ -1,13 +1,13 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.serialization.SerializationManager.contentTypes
+import com.hexagonkt.serialization.SerializationManager.formats
 import kotlin.reflect.KClass
 
 abstract class SerializationTest<T : Any> (val type: KClass<T>) {
     abstract val testObjects: List<T>
 
-    fun object_is_mapped_and_parsed_back_without_error () {
-        contentTypes.forEach { contentType ->
+    fun `object is mapped and parsed back without error` () {
+        formats.forEach { contentType ->
             testObjects.forEach {
                 val map = it.convertToMap ()
 
@@ -20,7 +20,7 @@ abstract class SerializationTest<T : Any> (val type: KClass<T>) {
 
                 assert(modelString.parse(contentType) == map)
 
-                val tempFile = createTempFile(suffix = contentType.replace('/', '.'))
+                val tempFile = createTempFile(suffix = contentType.contentType.replace('/', '.'))
                 tempFile.deleteOnExit()
                 tempFile.writeText(modelString)
 
@@ -28,7 +28,7 @@ abstract class SerializationTest<T : Any> (val type: KClass<T>) {
             }
 
             val serializedObjects = testObjects.serialize(contentType)
-            val tempFile = createTempFile(suffix = contentType.replace('/', '.'))
+            val tempFile = createTempFile(suffix = contentType.contentType.replace('/', '.'))
             tempFile.deleteOnExit()
             tempFile.writeText(serializedObjects)
             val testMaps = testObjects.map { it.convertToMap() }

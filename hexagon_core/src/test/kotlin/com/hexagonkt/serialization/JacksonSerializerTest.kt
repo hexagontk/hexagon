@@ -4,11 +4,6 @@ import com.hexagonkt.helpers.requireResource
 import org.testng.annotations.Test
 
 @Test class JacksonSerializerTest {
-    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
-    fun `serializing an unsupported content type fails`() {
-        "text".serialize("invalid/type")
-    }
-
     fun `parse resource works ok`() {
         assert(requireResource("data/companies.json").parseList().isNotEmpty())
         assert(requireResource("data/tags.json").parseList().isNotEmpty())

@@ -5,6 +5,7 @@ import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.SerializationManager.formatsMap
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
+import com.hexagonkt.serialization.SerializationManager.setFormats
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
@@ -29,13 +30,21 @@ import org.testng.annotations.Test
         assert (formats == linkedSetOf(JsonFormat))
         assert (contentTypes == linkedSetOf(JsonFormat.contentType))
         assert (formatsMap == linkedMapOf(JsonFormat.contentType to JsonFormat))
+
+        setFormats (JsonFormat, YamlFormat)
+        assert (formats == linkedSetOf(JsonFormat, YamlFormat))
+        assert (contentTypes == linkedSetOf(JsonFormat.contentType, YamlFormat.contentType))
+        assert (formatsMap == linkedMapOf(
+            JsonFormat.contentType to JsonFormat,
+            YamlFormat.contentType to YamlFormat
+        ))
     }
 
     fun `user can change default format` () {
-        assert (defaultFormat == JsonFormat.contentType)
+        assert (defaultFormat == JsonFormat)
 
-        defaultFormat = YamlFormat.contentType
-        assert (defaultFormat == YamlFormat.contentType)
+        defaultFormat = YamlFormat
+        assert (defaultFormat == YamlFormat)
     }
 
     @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
@@ -46,7 +55,7 @@ import org.testng.annotations.Test
     @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
     fun `user can not set a default format not loaded` () {
         formats = linkedSetOf(YamlFormat)
-        defaultFormat = JsonFormat.contentType
+        defaultFormat = JsonFormat
     }
 
     @Test(expectedExceptions = arrayOf(IllegalStateException::class))
@@ -56,12 +65,12 @@ import org.testng.annotations.Test
     }
 
     fun `serialization manager can get the content type by an extension` () {
-        assert(SerializationManager.getFileFormat("a.json").contentType == "application/json")
-        assert(SerializationManager.getFileFormat("a.yaml").contentType == "application/yaml")
-        assert(SerializationManager.getFileFormat("a.yml").contentType == "application/yaml")
+        assert(SerializationManager.getFileFormat("a.json") == JsonFormat)
+        assert(SerializationManager.getFileFormat("a.yaml") == YamlFormat)
+        assert(SerializationManager.getFileFormat("a.yml") == YamlFormat)
 
-        assert(SerializationManager.getFileFormat(".json").contentType == "application/json")
-        assert(SerializationManager.getFileFormat(".yaml").contentType == "application/yaml")
-        assert(SerializationManager.getFileFormat(".yml").contentType == "application/yaml")
+        assert(SerializationManager.getFileFormat(".json") == JsonFormat)
+        assert(SerializationManager.getFileFormat(".yaml") == YamlFormat)
+        assert(SerializationManager.getFileFormat(".yml") == YamlFormat)
     }
 }
