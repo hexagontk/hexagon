@@ -1,3 +1,4 @@
+import com.sun.xml.internal.bind.v2.model.annotation.Quick
 
 ext.siteSource = '.'
 ext.siteHost = 'http://hexagonkt.com'
@@ -9,12 +10,20 @@ ext.logoLarge = 'assets/img/logo.svg'
 
 ext.configData = [
     bootstrapVersion : '3.3.7',
-    theme : 'paper',
+//    theme : 'paper',
+    theme : 'cerulean',
     cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
     author : 'Juanjo Aguililla',
     keywords : 'Hexagon\\, microservices\\, Java\\, Kotlin',
     twitterUser : 'hexagon_kt',
-    githubRepo : 'hexagonkt/hexagon'
+    githubRepo : 'hexagonkt/hexagon',
+    bintrayRepo : 'jamming/maven/hexagon_core',
+    menu : [
+        'Quick Start' : 'index.html',
+        'API' : 'dokka/hexagon/index.html',
+        'Contribute' : 'contribute.html',
+        'License' : 'license.html'
+    ]
 ]
 
 apply plugin: 'org.xbib.gradle.plugin.jbake'
