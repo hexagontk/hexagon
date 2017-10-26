@@ -4,31 +4,21 @@ import com.hexagonkt.helpers.Loggable
 import com.hexagonkt.helpers.get
 
 object SettingsManager : Loggable {
-//    val environment: String? get() = setting("ENVIRONMENT")
+    val environment: String? get() = setting("ENVIRONMENT")
 
-    var environment: String? = null
-        private set
+    var settings: Map<String, *> = emptyMap<String, Any>()
+        set(value) {
+            val newEnvironment = value["ENVIRONMENT"] as? String
 
-    var settings: Map<String, *> = defaultSettings()
-
-//    init {
-//        this.settings += "ENVIRONMENT" to "DEVELOPMENT"
-//    }
-
-    private fun defaultSettings(): Map<String, *> {
-        val settings = loadResource("service.yaml") + loadResource("service_test.yaml")
-
-//        this.settings += "ENVIRONMENT" to "DEVELOPMENT"
-
-        environment = settings["ENVIRONMENT"] as? String
-        environment = "DEVELOPMENT"
-
-        return LinkedHashMap(
-            if (environment != null)
-                settings + loadResource("${environment?.toLowerCase()}.yaml")
+            if (newEnvironment != null && environment != newEnvironment)
+                field += value + loadResource("${newEnvironment.toLowerCase()}.yaml")
             else
-                settings
-        )
+                field = value
+        }
+
+    init {
+        settings = loadResource("service.yaml") + loadResource("service_test.yaml")
+        settings += "ENVIRONMENT" to "DEVELOPMENT" // TODO Move from here
     }
 
     @Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
