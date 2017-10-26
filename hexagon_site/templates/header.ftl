@@ -23,7 +23,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
 
-  <title>${content.title!Hexagon}</title>
+  <title>${content.title!"Hexagon"}</title>
 
   <link rel="stylesheet" href="${bootstrap}/bootstrap.min.css" />
   <link rel="stylesheet" href="${config.cloudflare}/font-awesome/4.7.0/css/font-awesome.min.css" />

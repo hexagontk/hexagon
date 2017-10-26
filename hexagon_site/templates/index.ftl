@@ -9,9 +9,7 @@
     <#include "menu.ftl">
 
     <div class="container">
-      <!-- BODY BEGIN -->
-      ${content.body}
-      <!-- BODY END -->
+      <h1>INDEX PAGE</h1>
     </div>
 
     <div id="push"></div>
