@@ -10,7 +10,7 @@ jbake {
 
     configuration['site.host'] = siteHost
 
-    configuration['render.index'] = false
+    configuration['render.index'] = file("$projectDir/templates/index.ftl").exists()
     configuration['render.tags'] = false
     configuration['render.archive'] = false
     configuration['render.feed'] = false
