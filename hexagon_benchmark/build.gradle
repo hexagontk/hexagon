@@ -133,7 +133,7 @@ task benchmarkConfig() {
                 json_url : '/json',
                 db_url : "/$databaseEngine/db",
                 query_url : "/$databaseEngine/query?queries=",
-                fortune_url : "/$databaseEngine/fortunes",
+                fortune_url : "/$databaseEngine/pebble/fortunes",
                 update_url : "/$databaseEngine/update?queries=",
                 plaintext_url : '/plaintext',
 

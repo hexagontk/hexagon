@@ -20,12 +20,17 @@ In URLs replace `${DB_ENGINE}` with one of:
 * mongodb
 * postgresql
 
+and `${TEMPLATE_ENGINE}` with one of:
+
+* pebble
+* rocker
+
 ### Jetty
 
 * JSON Encoding Test: http://localhost:9090/json
 * Plain Text Test: http://localhost:9090/plaintext 
 * Data-Store/Database Mapping Test: http://localhost:9090/${DB_ENGINE}/db?queries=5 
-* Fortunes: http://localhost:9090/${DB_ENGINE}/fortunes
+* Fortunes: http://localhost:9090/${DB_ENGINE}/${TEMPLATE_ENGINE}/fortunes
 * Database updates: http://localhost:9090/${DB_ENGINE}/update
 * Database queries: http://localhost:9090/${DB_ENGINE}/query
 
@@ -34,7 +39,7 @@ In URLs replace `${DB_ENGINE}` with one of:
 * JSON Encoding Test: http://localhost:8080/json
 * Plain Text Test: http://localhost:8080/plaintext 
 * Data-Store/Database Mapping Test: http://localhost:8080/${DB_ENGINE}/db?queries=5 
-* Fortunes: http://localhost:8080/${DB_ENGINE}/fortunes
+* Fortunes: http://localhost:8080/${DB_ENGINE}/${TEMPLATE_ENGINE}/fortunes
 * Database updates: http://localhost:8080/${DB_ENGINE}/update
 * Database queries: http://localhost:8080/${DB_ENGINE}/query
 

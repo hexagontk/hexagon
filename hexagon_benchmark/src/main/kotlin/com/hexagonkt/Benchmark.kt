@@ -33,6 +33,7 @@ private val contentTypeJson = JsonFormat.contentType
 private val logger: Logger = getLogger("BENCHMARK_LOGGER")
 private val defaultLocale: Locale = Locale.getDefault()
 private val storageEngines = listOf("mongodb", "postgresql")
+private val templateEngines = listOf("pebble", "rocker")
 
 // UTILITIES
 internal fun randomWorld() = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
@@ -51,8 +52,7 @@ private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1)
 }
 
 // HANDLERS
-private fun Call.listFortunes(store: Store) {
-    val templateEngine = systemSetting("TEMPLATE_ENGINE", "pebble")
+private fun Call.listFortunes(store: Store, templateEngine: String) {
     val templateEngineType = getTemplateEngine(templateEngine)
     val fortunes = store.findAllFortunes() + Fortune(0, "Additional fortune added at request time.")
     val sortedFortunes = fortunes.sortedBy { it.message }
@@ -93,7 +93,10 @@ private fun router(): Router = router {
     get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
     get("/json") { ok(Message(TEXT_MESSAGE).serialize(), contentTypeJson) }
     benchmarkStores?.forEach({ (storeEngine, store) ->
-        get("/$storeEngine/fortunes") { listFortunes(store) }
+        templateEngines.forEach({ templateEngine ->
+            get("/$storeEngine/$templateEngine/fortunes") { listFortunes(store, templateEngine) }
+        })
+
         get("/$storeEngine/db") { dbQuery(store) }
         get("/$storeEngine/query") { getWorlds(store) }
         get("/$storeEngine/update") { updateWorlds(store) }
@@ -136,7 +139,7 @@ fun main(vararg args: String) {
                 - Stores: {}
         """.trimIndent(),
         engine.javaClass.name,
-        systemSetting("TEMPLATE_ENGINE", "pebble"),
+        templateEngines,
         storageEngines)
 
     benchmarkServer = Server(engine, settings, router()).apply { run() }

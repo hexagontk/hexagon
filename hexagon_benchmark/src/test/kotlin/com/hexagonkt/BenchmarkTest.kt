@@ -33,7 +33,6 @@ abstract class BenchmarkTest(
 
     @BeforeClass fun warmup() {
         setProperty("WEBENGINE", webEngine)
-        setProperty("TEMPLATE_ENGINE", templateEngine)
         main()
 
         @Suppress("ConstantConditionIf")
@@ -83,7 +82,7 @@ abstract class BenchmarkTest(
         val benchmarkRoutes = listOf(
             GET to "/plaintext",
             GET to "/json",
-            GET to "/$databaseEngine/fortunes",
+            GET to "/$databaseEngine/$templateEngine/fortunes",
             GET to "/$databaseEngine/db",
             GET to "/$databaseEngine/query",
             GET to "/$databaseEngine/update"
@@ -109,7 +108,7 @@ abstract class BenchmarkTest(
     }
 
     fun fortunes() {
-        val response = client.get("/$databaseEngine/fortunes")
+        val response = client.get("/$databaseEngine/$templateEngine/fortunes")
         val content = response.responseBody
 
         checkResponse(response, "text/html;charset=utf-8")
