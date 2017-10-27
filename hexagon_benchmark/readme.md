@@ -15,23 +15,28 @@ development platforms. The test utilizes Hexagon routes, serialization and datab
 
 ## Test URLs
 
+In URLs replace `${DB_ENGINE}` with one of:
+
+* mongodb
+* postgresql
+
 ### Jetty
 
 * JSON Encoding Test: http://localhost:9090/json
-* Data-Store/Database Mapping Test: http://localhost:9090/db?queries=5 
 * Plain Text Test: http://localhost:9090/plaintext 
-* Fortunes: http://localhost:9090/fortunes
-* Database updates: http://localhost:9090/update
-* Database queries: http://localhost:9090/query
+* Data-Store/Database Mapping Test: http://localhost:9090/${DB_ENGINE}/db?queries=5 
+* Fortunes: http://localhost:9090/${DB_ENGINE}/fortunes
+* Database updates: http://localhost:9090/${DB_ENGINE}/update
+* Database queries: http://localhost:9090/${DB_ENGINE}/query
 
 ### Resin
 
 * JSON Encoding Test: http://localhost:8080/json
-* Data-Store/Database Mapping Test: http://localhost:8080/db?queries=5 
 * Plain Text Test: http://localhost:8080/plaintext 
-* Fortunes: http://localhost:8080/fortunes
-* Database updates: http://localhost:8080/update
-* Database queries: http://localhost:8080/query
+* Data-Store/Database Mapping Test: http://localhost:8080/${DB_ENGINE}/db?queries=5 
+* Fortunes: http://localhost:8080/${DB_ENGINE}/fortunes
+* Database updates: http://localhost:8080/${DB_ENGINE}/update
+* Database queries: http://localhost:8080/${DB_ENGINE}/query
 
 ## Run inside vagrant
 

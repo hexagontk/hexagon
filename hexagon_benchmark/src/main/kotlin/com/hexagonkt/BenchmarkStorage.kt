@@ -18,34 +18,41 @@ import kotlin.reflect.KProperty1
 
 internal const val WORLD_ROWS = 10000
 
-private val dbHost = systemSetting("DBHOST", "localhost")
-private val dbName = defaultSetting("database", value = "hello_world")
 private val worldName: String = defaultSetting("worldCollection", value = "world")
 private val fortuneName: String = defaultSetting("fortuneCollection", value = "fortune")
-
-private val postgresqlUrl = "jdbc:postgresql://$dbHost/$dbName?" +
-    "jdbcCompliantTruncation=false&" +
-    "elideSetAutoCommits=true&" +
-    "useLocalSessionState=true&" +
-    "cachePrepStmts=true&" +
-    "cacheCallableStmts=true&" +
-    "alwaysSendSetIsolation=false&" +
-    "prepStmtCacheSize=4096&" +
-    "cacheServerConfiguration=true&" +
-    "prepStmtCacheSqlLimit=2048&" +
-    "traceProtocol=false&" +
-    "useUnbufferedInput=false&" +
-    "useReadAheadInput=false&" +
-    "maintainTimeStats=false&" +
-    "useServerPrepStmts=true&" +
-    "cacheRSMetadata=true"
 
 internal fun <T : Any> defaultSetting(vararg name: String, value: T): T = setting(*name) ?: value
 
 internal fun createStore(engine: String): Store = when (engine) {
-    "mongodb" -> MongoDbStore()
-    "postgresql" -> SqlStore(postgresqlUrl)
+    "mongodb" -> MongoDbStore(getDbUrl(engine))
+    "postgresql" -> SqlStore(getDbUrl(engine))
     else -> error("Unsupported database")
+}
+
+private fun getDbUrl(engine: String): String {
+    val dbHost = systemSetting("${engine.toUpperCase()}_DB_HOST", "localhost")
+    val dbName = defaultSetting("database", value = "hello_world")
+
+    return when (engine) {
+        "mongodb" -> "mongodb://$dbHost/$dbName"
+        "postgresql" -> "jdbc:postgresql://$dbHost/$dbName?" +
+            "jdbcCompliantTruncation=false&" +
+            "elideSetAutoCommits=true&" +
+            "useLocalSessionState=true&" +
+            "cachePrepStmts=true&" +
+            "cacheCallableStmts=true&" +
+            "alwaysSendSetIsolation=false&" +
+            "prepStmtCacheSize=4096&" +
+            "cacheServerConfiguration=true&" +
+            "prepStmtCacheSqlLimit=2048&" +
+            "traceProtocol=false&" +
+            "useUnbufferedInput=false&" +
+            "useReadAheadInput=false&" +
+            "maintainTimeStats=false&" +
+            "useServerPrepStmts=true&" +
+            "cacheRSMetadata=true"
+        else -> error("Unsupported database")
+    }
 }
 
 internal interface Store {
@@ -55,8 +62,8 @@ internal interface Store {
     fun close()
 }
 
-private class MongoDbStore : Store {
-    private val database = mongoDatabase("mongodb://$dbHost/$dbName")
+private class MongoDbStore(dbUrl: String) : Store {
+    private val database = mongoDatabase(dbUrl)
 
     private val worldRepository = repository(worldName, World::class, World::_id)
     private val fortuneRepository = repository(fortuneName, Fortune::class, Fortune::_id)
