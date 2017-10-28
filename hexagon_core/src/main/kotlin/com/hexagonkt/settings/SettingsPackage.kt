@@ -5,6 +5,8 @@ import com.hexagonkt.helpers.resource
 import com.hexagonkt.serialization.YamlFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
+import java.io.File
+import java.io.FileNotFoundException
 
 private object Log : CachedLogger(SettingsManager::class)
 
@@ -18,18 +20,36 @@ fun loadResource(resName: String): Map<String, *> = logSettings(
 
 fun loadEnvironmentVariables (vararg prefixes: String): Map<String, *> = logSettings(
     "'${prefixes.joinToString(", ") { it + "*" }}' environment variables",
-    emptyMap<String, Any>()
+    System.getenv()
+        .filter { property ->
+            prefixes.filter { property.key.startsWith(it) }.any()
+        }
+        .map { it.key to it.value }
+        .toMap()
 )
 
 fun loadSystemProperties (vararg prefixes: String): Map<String, *> = logSettings(
     "'${prefixes.joinToString(", ") { it + "*" }}' system properties",
-    emptyMap<String, Any>()
+    System.getProperties()
+        .mapKeys { it.key.toString() }
+        .filter { property ->
+            prefixes.filter { property.key.startsWith(it) }.any()
+        }
+        .map { it.key to it.value }
+        .toMap()
 )
 
-fun loadFile (name: String): Map<String, *> = logSettings(
-    "'$name' file",
-    emptyMap<String, Any>()
+fun loadFile (file: File): Map<String, *> = logSettings(
+    "'${file.absolutePath}' file",
+    try {
+        file.parse().mapKeys { e -> e.key.toString() }
+    }
+    catch (e: FileNotFoundException) {
+        emptyMap<String, Any>()
+    }
 )
+
+fun loadFile (name: String): Map<String, *> = loadFile(File(name))
 
 fun loadCommandLineArguments (vararg args: String): Map<String, *> = logSettings(
     "command line arguments",
@@ -37,7 +57,7 @@ fun loadCommandLineArguments (vararg args: String): Map<String, *> = logSettings
         .map { it.removePrefix("--") }
         .filter { !it.startsWith("=") }
         .map { it.split("=") }
-        .filter { it.size in 1..2 }
+        .filter { it.size <= 2 }
         .map { if (it.size == 1) it[0] to true else it[0] to it[1] }
         .toMap()
 )
