@@ -4,12 +4,18 @@ import com.hexagonkt.helpers.get
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.settings.SettingsManager.requireSetting
+import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
 /**
  * Check `gradle.build` to see the related files creation.
  */
 @Test class SettingsManagerTest {
+    @BeforeClass fun setUpEnvironment() {
+        // TODO Required to fully qualify `settings` because of compiler bug. Check when is fixed
+        SettingsManager.settings += "SERVICE_ENVIRONMENT" to "DEVELOPMENT"
+    }
+
     fun `setting works as expected`() {
         assert(setting<String>("property") == "changed")
         assert(setting<Int>("intProperty") == 42)

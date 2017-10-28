@@ -1,31 +1,54 @@
 package com.hexagonkt.settings
 
-import com.hexagonkt.helpers.eol
+import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.resource
+import com.hexagonkt.serialization.YamlFormat
 import com.hexagonkt.serialization.parse
+import com.hexagonkt.serialization.serialize
 
-//private fun loadEnvironmentVariables (vararg prefixes: String): Map<String, *> = TODO()
-//private fun loadCommandLineArguments (vararg args: String): Map<String, *> = TODO()
-//private fun loadSystemProperties (vararg prefixes: String): Map<String, *> = TODO()
-//private fun loadFiles (vararg args: String): Map<String, *> = TODO()
+private object Log : CachedLogger(SettingsManager::class)
 
-@Suppress("UNCHECKED_CAST")
-fun loadResource(resName: String): Map<String, *> =
+fun loadResource(resName: String): Map<String, *> = logSettings(
+    "'$resName' resource",
     resource(resName).let {
-        if (it == null) {
-//            info("No environment settings found '$resName'")
-            linkedMapOf<String, Any>()
+        if (it == null) linkedMapOf<String, Any>()
+        else LinkedHashMap(it.parse().mapKeys { e -> e.key.toString() })
+    }
+)
+
+fun loadEnvironmentVariables (vararg prefixes: String): Map<String, *> = logSettings(
+    "'${prefixes.joinToString(", ") { it + "*" }}' environment variables",
+    emptyMap<String, Any>()
+)
+
+fun loadSystemProperties (vararg prefixes: String): Map<String, *> = logSettings(
+    "'${prefixes.joinToString(", ") { it + "*" }}' system properties",
+    emptyMap<String, Any>()
+)
+
+fun loadFile (name: String): Map<String, *> = logSettings(
+    "'$name' file",
+    emptyMap<String, Any>()
+)
+
+fun loadCommandLineArguments (vararg args: String): Map<String, *> = logSettings(
+    "command line arguments",
+    args
+        .map { it.removePrefix("--") }
+        .filter { !it.startsWith("=") }
+        .map { it.split("=") }
+        .filter { it.size in 1..2 }
+        .map { if (it.size == 1) it[0] to true else it[0] to it[1] }
+        .toMap()
+)
+
+private fun logSettings(resName: String, settings: Map<String, *>): Map<String, *> =
+    settings.also {
+        if (it.isEmpty()) {
+            Log.info("No settings found for $resName")
         }
         else {
-            val props: LinkedHashMap<String, *> = LinkedHashMap(
-                it.parse().mapKeys { e -> e.key.toString() }
-            )
-            val separator = eol + " ".repeat(4)
-//            info("Settings loaded from '$resName':" +
-//                props
-//                    .map { it.key + " : " + it.value }
-//                    .joinToString(separator, separator, eol)
-//            )
-            props
+            val serialize = it.serialize(YamlFormat).prependIndent(" ".repeat(4))
+            Log.info("Settings loaded from $resName:\n\n$serialize")
         }
     }
