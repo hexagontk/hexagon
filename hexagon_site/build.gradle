@@ -7,6 +7,24 @@ ext.logoSmall = 'assets/img/logo.svg'
 ext.logoWide = 'assets/img/logo_wide.svg'
 ext.logoLarge = 'assets/img/logo.svg'
 
+ext.configData = [
+    bootstrapVersion : '3.3.7',
+//    theme : 'paper',
+    theme : 'cerulean',
+    cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
+    author : 'Juanjo Aguililla',
+    keywords : 'Hexagon\\, microservices\\, Java\\, Kotlin',
+    twitterUser : 'hexagon_kt',
+    githubRepo : 'hexagonkt/hexagon',
+    bintrayRepo : 'jamming/maven/hexagon_core',
+    menu : [
+        'Quick Start' : 'index.html',
+        'API' : 'dokka/hexagon/index.html',
+        'Contribute' : 'contribute.html',
+        'License' : 'license.html'
+    ]
+]
+
 apply plugin: 'org.xbib.gradle.plugin.jbake'
 apply plugin: 'org.ajoberstar.git-publish'
 apply from: '../gradle/site.gradle'

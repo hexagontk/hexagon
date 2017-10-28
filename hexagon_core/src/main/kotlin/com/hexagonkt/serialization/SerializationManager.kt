@@ -12,7 +12,7 @@ object SerializationManager {
             contentTypes = contentTypes()
             formatsMap = formatsMap()
             mimeTypes.addMimeTypes(
-                formats.joinToString(eol) { it.contentType + " " + it.extensions.joinToString(" ") }
+                formats.joinToString(eol) { "${it.contentType} ${it.extensions.joinToString(" ")}" }
             )
         }
 
@@ -30,9 +30,7 @@ object SerializationManager {
             field = value
         }
 
-    fun setFormats(vararg formats: SerializationFormat) {
-        this.formats = linkedSetOf(*formats)
-    }
+    fun setFormats(vararg formats: SerializationFormat) { this.formats = linkedSetOf(*formats) }
 
     fun getContentTypeFormat(contentType: String): SerializationFormat =
         formatsMap[contentType] ?: error("$contentType not found")

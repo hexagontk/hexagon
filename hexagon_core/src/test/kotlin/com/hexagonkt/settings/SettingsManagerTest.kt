@@ -4,12 +4,17 @@ import com.hexagonkt.helpers.get
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.settings.SettingsManager.requireSetting
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 
 /**
  * Check `gradle.build` to see the related files creation.
  */
 @Test class SettingsManagerTest {
+    @BeforeMethod fun setUpEnvironment() {
+        SettingsManager.setDefaultSettings("SERVICE_ENVIRONMENT=DEVELOPMENT")
+    }
+
     fun `setting works as expected`() {
         assert(setting<String>("property") == "changed")
         assert(setting<Int>("intProperty") == 42)
@@ -33,5 +38,19 @@ import org.testng.annotations.Test
     @Test(expectedExceptions = arrayOf(IllegalStateException::class))
     fun `require not found setting`() {
         requireSetting<String>("not_found")
+    }
+
+    fun `set default settings add command line arguments`() {
+        SettingsManager.setDefaultSettings("key=val", "param=data")
+        assert(settings.size == 12)
+        assert(requireSetting<String>("key") == "val")
+        assert(requireSetting<String>("param") == "data")
+        assert(requireSetting<String>("property") == "value")
+    }
+
+    fun `settings remains the same if the environment is not changed`() {
+        val size = SettingsManager.settings.size
+        SettingsManager.settings += "SERVICE_ENVIRONMENT" to "DEVELOPMENT"
+        assert(settings.size == size)
     }
 }

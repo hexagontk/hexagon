@@ -1,5 +1,5 @@
 
-serviceName : Jetty Servlet Tests
+serviceName : Undertow
 
 bindPort : 0
 bindAddress : 0.0.0.0

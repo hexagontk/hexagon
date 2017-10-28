@@ -1,52 +1,41 @@
 package com.hexagonkt.settings
 
-import com.hexagonkt.helpers.*
-import com.hexagonkt.serialization.parse
+import com.hexagonkt.helpers.Loggable
+import com.hexagonkt.helpers.get
 
 object SettingsManager : Loggable {
-    // TODO Handle environment like a setting (if it is loaded, then look for special resources
-    var environment: String? = null
-        private set
+    private const val SETTINGS = "service"
+    private const val ENVIRONMENT_PREFIX = "SERVICE_"
 
-    var settings: Map<String, *> = defaultSettings()
+    val environment: String? get() = setting("${ENVIRONMENT_PREFIX}ENVIRONMENT")
 
-    fun defaultSettings(): Map<String, *> {
-        val settings = loadResource("service.yaml") + loadResource("service_test.yaml")
-        environment = settings["ENVIRONMENT"] as? String
-        environment = "DEVELOPMENT"
-        // Examples
-//        environment += loadProps("")
-//        environment += "foo" to loadProps("")
-        if (environment != null)
-            return settings + loadResource("${environment?.toLowerCase()}.yaml")
-        else
-            return settings
+    var settings: Map<String, *> = emptyMap<String, Any>()
+        set(value) {
+            val newEnvironment = value["${ENVIRONMENT_PREFIX}ENVIRONMENT"] as? String
+
+            if (newEnvironment != null && environment != newEnvironment)
+                field += value + loadResource("${newEnvironment.toLowerCase()}.yaml")
+            else
+                field = value
+        }
+
+    init {
+        settings = loadDefaultSettings()
     }
 
-//    private fun loadEnvironmentVariables (): Map<String, *> = TODO()
-//    private fun loadEnvironmentVariables (prefix: String): Map<String, *> = TODO()
-//    private fun loadCommandLineArguments (vararg args: String): Map<String, *> = TODO()
-//    private fun loadSystemProperties (vararg args: String): Map<String, *> = TODO()
-//    private fun loadFiles (vararg args: String): Map<String, *> = TODO()
-
     @Suppress("UNCHECKED_CAST")
-    private fun loadResource(resName: String): Map<String, *> =
-        resource(resName).let {
-            if (it == null) {
-                info("No environment settings found '$resName'")
-                mapOf<String, Any>()
-            }
-            else {
-                val props: Map<String, *> = it.parse().mapKeys { e -> e.key.toString() }
-                val separator = eol + " ".repeat(4)
-                info("Settings loaded from '$resName':" +
-                    props
-                        .map { it.key + " : " + it.value }
-                        .joinToString(separator, separator, eol)
-                )
-                props
-            }
-        }
+    fun loadDefaultSettings(vararg args: String): Map<String, *> =
+        loadResource("$SETTINGS.yaml") +
+        loadEnvironmentVariables(ENVIRONMENT_PREFIX) +
+        loadSystemProperties(SETTINGS) +
+        loadFile("$SETTINGS.yaml") +
+        loadCommandLineArguments(*args) +
+        loadResource("${SETTINGS}_test.yaml")
+
+    fun setDefaultSettings(vararg args: String) {
+        settings = emptyMap<String, Any>()
+        settings = loadDefaultSettings(*args)
+    }
 
     @Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
     fun <T : Any> setting(vararg name: String): T? = settings.get(*name) as? T

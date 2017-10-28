@@ -124,6 +124,9 @@ val mimeTypes = MimetypesFileTypeMap().also {
 /** Default logger when you are lazy to declare one. */
 object Log : CachedLogger(Log::class)
 
+/**
+ * @sample com.hexagonkt.helpers.HelpersTest.example
+ */
 fun systemSetting (name: String): String? = System.getProperty(name) ?: System.getenv(name)
 
 fun systemSetting (name: String, defaultValue: String): String = systemSetting(name) ?: defaultValue
