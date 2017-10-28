@@ -23,12 +23,6 @@ private val fortuneName: String = defaultSetting("fortuneCollection", value = "f
 
 internal fun <T : Any> defaultSetting(vararg name: String, value: T): T = setting(*name) ?: value
 
-internal fun createStore(engine: String): Store = when (engine) {
-    "mongodb" -> MongoDbStore(getDbUrl(engine))
-    "postgresql" -> SqlStore(getDbUrl(engine))
-    else -> error("Unsupported database")
-}
-
 private fun getDbUrl(engine: String): String {
     val dbHost = systemSetting("${engine.toUpperCase()}_DB_HOST", "localhost")
     val dbName = defaultSetting("database", value = "hello_world")
@@ -53,6 +47,12 @@ private fun getDbUrl(engine: String): String {
             "cacheRSMetadata=true"
         else -> error("Unsupported database")
     }
+}
+
+internal fun createStore(engine: String): Store = when (engine) {
+    "mongodb" -> MongoDbStore(getDbUrl(engine))
+    "postgresql" -> SqlStore(getDbUrl(engine))
+    else -> error("Unsupported database")
 }
 
 internal interface Store {
