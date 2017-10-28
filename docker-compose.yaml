@@ -26,37 +26,20 @@ services:
       - 15672:15672
 
   # TODO Make it optional
-  benchmark_resin_mongodb:
+  benchmark_resin:
     build: { context: "./hexagon_benchmark", dockerfile: "resin.dockerfile" }
-    depends_on: [ mongodb ]
-    environment: [ "DBHOST=mongodb", "DBSTORE=mongodb" ]
-    links: [ "mongodb:mongodb" ]
+    depends_on: [ mongodb, postgresql ]
+    environment: [ "MONGODB_DB_HOST=mongodb", "POSTGRESQL_DB_HOST=postgresql" ]
     ports: [ "9010:8080" ]
 
-  benchmark_jetty_mongodb:
+  benchmark_jetty:
     build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
-    depends_on: [ mongodb ]
-    environment: [ "DBHOST=mongodb", "DBSTORE=mongodb" ]
-    links: [ "mongodb:mongodb" ]
+    depends_on: [ mongodb, postgresql ]
+    environment: [ "MONGODB_DB_HOST=mongodb", "POSTGRESQL_DB_HOST=postgresql" ]
     ports: [ "9020:9090" ]
 
-  benchmark_jetty_postgresql:
+  benchmark_undertow:
     build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
-    depends_on: [ postgresql ]
-    environment: [ "DBHOST=postgresql", "DBSTORE=postgresql" ]
-    links: [ "postgresql:postgresql" ]
-    ports: [ "9030:9090" ]
-
-  benchmark_undertow_mongodb:
-    build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
-    depends_on: [ mongodb ]
-    environment: [ "DBHOST=mongodb", "WEBENGINE=undertow", "DBSTORE=mongodb" ]
-    links: [ "mongodb:mongodb" ]
+    depends_on: [ mongodb, postgresql ]
+    environment: [ "MONGODB_DB_HOST=mongodb", "POSTGRESQL_DB_HOST=postgresql", "WEBENGINE=undertow" ]
     ports: [ "9040:9090" ]
-
-  benchmark_undertow_postgresql:
-    build: { context: "./hexagon_benchmark", dockerfile: "java.dockerfile" }
-    depends_on: [ postgresql ]
-    environment: [ "DBHOST=postgresql", "WEBENGINE=undertow", "DBSTORE=postgresql" ]
-    links: [ "postgresql:postgresql" ]
-    ports: [ "9050:9090" ]
