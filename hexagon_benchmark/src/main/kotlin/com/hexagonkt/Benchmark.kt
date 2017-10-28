@@ -32,6 +32,8 @@ private const val QUERIES_PARAM = "queries"
 private val contentTypeJson = JsonFormat.contentType
 private val logger: Logger = getLogger("BENCHMARK_LOGGER")
 private val defaultLocale: Locale = Locale.getDefault()
+private val storageEngines = listOf("mongodb", "postgresql")
+private val templateEngines = listOf("pebble", "rocker")
 
 // UTILITIES
 internal fun randomWorld() = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
@@ -50,8 +52,7 @@ private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1)
 }
 
 // HANDLERS
-private fun Call.listFortunes(store: Store) {
-    val templateEngine = systemSetting("TEMPLATE_ENGINE", "pebble")
+private fun Call.listFortunes(store: Store, templateEngine: String) {
     val templateEngineType = getTemplateEngine(templateEngine)
     val fortunes = store.findAllFortunes() + Fortune(0, "Additional fortune added at request time.")
     val sortedFortunes = fortunes.sortedBy { it.message }
@@ -79,7 +80,9 @@ private fun Call.updateWorlds(store: Store) {
 
 // CONTROLLER
 private fun router(): Router = router {
-    val store = benchmarkStore ?: error("Invalid Store")
+    if (benchmarkStores == null) {
+        error("Invalid Stores")
+    }
 
     before {
         response.addHeader("Server", "Servlet/3.1")
@@ -89,16 +92,22 @@ private fun router(): Router = router {
 
     get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
     get("/json") { ok(Message(TEXT_MESSAGE).serialize(), contentTypeJson) }
-    get("/fortunes") { listFortunes(store) }
-    get("/db") { dbQuery(store) }
-    get("/query") { getWorlds(store) }
-    get("/update") { updateWorlds(store) }
+    benchmarkStores?.forEach({ (storeEngine, store) ->
+        templateEngines.forEach({ templateEngine ->
+            get("/$storeEngine/$templateEngine/fortunes") { listFortunes(store, templateEngine) }
+        })
+
+        get("/$storeEngine/db") { dbQuery(store) }
+        get("/$storeEngine/query") { getWorlds(store) }
+        get("/$storeEngine/update") { updateWorlds(store) }
+    })
 }
 
 @WebListener class Web : ServletServer () {
     init {
-        if (benchmarkStore == null)
-            benchmarkStore = createStore(systemSetting("DBSTORE", "mongodb"))
+        if (benchmarkStores == null) {
+            benchmarkStores = storageEngines.map { it to createStore(it) }.toMap()
+        }
     }
 
     override fun createRouter() = router()
@@ -110,7 +119,7 @@ fun getTemplateEngine(engine: String): TemplateEngine = when (engine) {
     else -> error("Unsupported template engine: $engine")
 }
 
-internal var benchmarkStore: Store? = null
+internal var benchmarkStores: Map<String, Store>? = null
 internal var benchmarkServer: Server? = null
 
 internal fun createEngine(engine: String): ServerEngine = when (engine) {
@@ -121,17 +130,17 @@ internal fun createEngine(engine: String): ServerEngine = when (engine) {
 
 fun main(vararg args: String) {
     val engine = createEngine(systemSetting("WEBENGINE", "jetty"))
-    benchmarkStore = createStore(systemSetting("DBSTORE", "mongodb"))
+    benchmarkStores = storageEngines.map { it to createStore(it) }.toMap()
 
     logger.info("""
             Benchmark set up:
                 - Engine: {}
                 - Templates: {}
-                - Store: {}
+                - Stores: {}
         """.trimIndent(),
         engine.javaClass.name,
-        systemSetting("TEMPLATE_ENGINE", "pebble"),
-        benchmarkStore?.javaClass?.name)
+        templateEngines,
+        storageEngines)
 
     benchmarkServer = Server(engine, settings, router()).apply { run() }
 }
