@@ -1,6 +1,6 @@
 
     <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button
@@ -17,7 +17,7 @@
           <a class="pull-left" href="${content.rootpath!}"><img id="logo" src="img/logo.svg"></a>
         </div>
 
-        <div class="navbar-collapse collapse">
+        <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <#list config.menu?keys as title>
             <li><a href="${content.rootpath!}${config.menu[title]}">${title}</a></li>
@@ -49,5 +49,5 @@
           </ul>
         </div>
       </div>
-    </div>
+    </nav>
 

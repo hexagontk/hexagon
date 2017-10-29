@@ -9,8 +9,7 @@ ext.logoLarge = 'assets/img/logo.svg'
 
 ext.configData = [
     bootstrapVersion : '3.3.7',
-//    theme : 'paper',
-    theme : 'cerulean',
+    theme : 'flatly', // also 'paper' or 'cerulean'
     cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
     author : 'Juanjo Aguililla',
     keywords : 'Hexagon\\, microservices\\, Java\\, Kotlin',
