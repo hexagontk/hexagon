@@ -2,14 +2,21 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto+Mono|Roboto+Slab');
 
-pre, code {
-  font-family: 'Roboto Mono', monospace;
-  border: none;
+body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
+
+h1, h2, h3, h4 { color: ${siteColor}; }
+
+pre, code { font-family: 'Roboto Mono', monospace; }
+
+footer .heart { color: #FF3B30; }
+
+img#logo {
+  margin-top: 7px;
+  margin-right: 15px;
+  height: 48px;
 }
 
-.navbar-right > li > a { padding-left: 0; }
-
-footer.footer { padding-top: 1em; }
+div#wrap { margin-top: 75px; }
 
 html {
   position: relative;
@@ -21,7 +28,8 @@ body {
   margin-bottom: 60px;
 }
 
-.footer {
+footer {
+  padding-top: 1em;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -30,33 +38,377 @@ body {
   background-color: #f5f5f5;
 }
 
-.footer .heart { color: #FF3B30; }
+/*
+ * Theme over Flatly
+ */
 
-body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
-
-body {
-  font-weight: 300;
-  font-size: 16px;
+.bg-light-blue {
+    background-image: linear-gradient(-1deg, rgba(63,157,216,0.08) 0%, rgba(163, 195, 215, 0.08) 97%);
 }
 
-h1, h2, h3, h4 {
-  color: ${siteColor};
-  font-weight: bold;
+section h2.section-heading,
+section h2.section-subheading,
+section h3.section-heading,
+section h3.section-subheading {
+    text-transform: none;
+    font-family: HelveticaNeue-Thin,Helvetica,Arial,sans-serif;
+    font-weight: normal;
+    font-style: normal;
 }
 
-div#wrap { margin-top: 75px; }
+section h2.section-heading,
+section h3.section-heading {
+    font-size: 50px;
+    color: #3F9DD8;
+    margin-bottom: 5px;
+}
 
-img#logo {
-  margin-top: 7px;
-  margin-right: 15px;
-  height: 48px;
+section h2.section-subheading,
+section h3.section-subheading {
+    line-height: 26px;
+    margin-top: 0;
+}
+
+.text-muted {
+    color: #303030;
 }
 
 .navbar-default {
-  font-size: large;
+    background-color: #3F9DD8;
+    padding: 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-.navbar-brand {
-  padding-top: 11px;
-  padding-left: 5px;
+
+.navbar-default .navbar-header {
+    margin-left: 13px;
+}
+
+.navbar-default .navbar-brand {
+    background: transparent url(/img/logo.svg) no-repeat;
+    background-size: contain;
+    direction: ltr;
+    text-indent: -9000px;
+    height: 28px;
+    width: 100px;
+    display: inline-block;
+    font-family: HelveticaNeue,Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    color: #188fff;
+    margin-top: 16px;
+    margin-left: 10px;
+}
+
+.navbar-default .nav li a {
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    text-transform: none;
+    font-family: HelveticaNeue,Helvetica,Arial,sans-serif;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover {
+    color: #FFC43C;
+}
+
+.navbar-toggle {
+    margin-right: 45px;
+}
+
+/* Trick to prevent anchored links to hide heading behind navbar */
+section[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -80px;
+    height: 100px;
+    visibility: hidden;
+}
+
+header {
+    background-image: linear-gradient(0deg, #98C1DB 7%, #3F9DD8 100%);
+    min-height: 1150px;
+}
+
+@media (max-height: 1150px) {
+    header {
+        min-height: 100vh;
+    }
+}
+
+header .intro {
+    max-width: 350px;
+    padding-top: 100px;
+    padding-bottom: 50px;
+}
+
+header .intro-logo {
+    max-width: 120px;
+    padding-bottom: 30px;
+}
+
+header .intro-button {
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+header .intro-long {
+    line-height: 27px;
+    font-size: 16px;
+    padding-bottom: 60px;
+}
+
+header .intro .intro-lead-in {
+    font-style: normal;
+    font-size: 22px;
+    line-height: 50px;
+    margin-bottom: 25px;
+    font-family: HelveticaNeue-Thin,Helvetica,Arial,sans-serif;
+}
+
+header .intro .intro-heading {
+    font-style: normal;
+}
+
+header .intro-button {
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
+}
+
+header .intro .btn-xl {
+    background: #FFFFFF;
+    border: 1px solid #3F9DD8;
+    border-radius: 2px;
+    font-size: 20px;
+    color: #3F9DD8;
+    font-weight: normal;
+    text-transform: none;
+    font-family: HelveticaNeue,Helvetica,Arial,sans-serif;
+}
+
+header .intro-down-arrow {
+    display: inherit;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media (min-height: 1150px) {
+    header .intro-down-arrow {
+        /* Hard code top: 1150 (height of top section) - 20 (bottom) - 36 (image height) = 1094 */
+        top: 1094px;
+    }
+}
+
+@media (max-height: 825px) {
+    header .intro-down-arrow {
+        display: none;
+    }
+}
+
+@media(min-width: 768px) {
+    header .intro {
+        padding-top: 200px;
+        padding-bottom: 200px;
+        max-width: 620px;
+    }
+
+    header .intro-logo {
+        max-width: 238px;
+        padding-bottom: 70px;
+    }
+
+    header .intro .intro-lead-in {
+        font-size: 51px;
+        font-style: normal;
+        line-height: 50px;
+    }
+
+    header .intro .intro-long {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+
+    header .intro .intro-heading {
+        margin-bottom: 25px;
+        font-size: 90px;
+        font-weight: 600;
+    }
+}
+
+section {
+    padding: 50px 0;
+}
+
+section h3.section-subheading {
+    margin-bottom: 50px;
+    font-weight: normal;
+}
+
+@media(min-width: 768px) {
+    section {
+        padding: 50px 0;
+    }
+}
+
+footer .row {
+    font-size: 12px;
+    text-align: left;
+}
+
+footer .row h4 {
+    font-size: 14px;
+    padding-left: 40px;
+}
+
+footer .row .quicklinks {
+    line-height: 25px;
+    list-style: none;
+    text-align: left;
+}
+
+footer .credits {
+    font-size: 10px;
+    text-align: center;
+}
+
+#description p {
+    font-weight: 300;
+    font-size: 25px;
+}
+
+#features .feature-text {
+    color: #303030;
+    font-family: HelveticaNeue,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+#features .feature-title {
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+#features .feature-icon {
+    height: 130px;
+    position: relative;
+}
+
+#features .feature-icon img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 80px;
+}
+
+#features .link {
+    min-height: 235px;
+}
+
+#features .link a {
+    text-decoration: none;
+}
+
+#features .link:hover {
+    background: #E1F3FD;
+}
+
+#features .feature-row {
+    padding-bottom: 30px;
+}
+
+#features .features-button {
+    text-align: center;
+    padding-top: 20px;
+}
+
+#features .features-button a {
+    background: #FFFFFF;
+    border: 1px solid #3C99EF;
+    border-radius: 2px;
+    color: #3C99EF;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+#featurematrix .table {
+    font-weight: normal;
+    line-height: 57px;
+    font-family: HelveticaNeue-Thin,Helvetica,Arial,sans-serif;
+
+}
+
+#featurematrix .table th {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgba(48, 48, 48, 0.5);
+}
+
+#featurematrix .table tbody tr {
+    border-top: 1px solid #D8D8D8;
+}
+
+footer {
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #3F9DD8;
+    line-height: 22px;
+    letter-spacing: 0;
+}
+
+footer .footer-row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+footer quicklinks {
+    font-size: 14px;
+    color: #FFFFFF;
+}
+
+
+footer ul.quicklinks {
+    margin: 0;
+    padding: 0;
+}
+
+footer .footer-title {
+    color: #FFC43C;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+footer ul.quicklinks a {
+    font-size: 14px;
+    color: #FFFFFF;
+}
+
+footer .quicklink-section {
+    padding: 0;
+    min-width: 120px;
+}
+
+footer .credits {
+    font-size: 12px;
+    font-weight: normal;
+    text-align: right;
+    font-family: HelveticaNeue-Thin,Helvetica,Arial,sans-serif;
+}
+
+footer .credits a {
+    color: #FFFFFF;
+}
+
+footer .credits span {
+    color: #FFC43C;
 }

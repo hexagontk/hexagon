@@ -4,7 +4,7 @@
 <html lang="en">
 <#include "header.ftl">
 
-<body onload="prettyPrint()">
+<body>
   <div id="wrap">
     <#include "menu.ftl">
 
