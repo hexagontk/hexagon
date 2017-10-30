@@ -5,15 +5,9 @@
 <#include "header.ftl">
 
 <body>
-  <div id="wrap">
-    <#include "menu.ftl">
+  <#include "menu.ftl">
 
-    <div class="container">
-      <h1>INDEX PAGE</h1>
-    </div>
-
-    <div id="push"></div>
-  </div>
+  <h1>INDEX PAGE</h1>
 
   <#include "footer.ftl">
   <#include "scripts.ftl">

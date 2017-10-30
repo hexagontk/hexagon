@@ -5,17 +5,9 @@
 <#include "header.ftl">
 
 <body>
-  <div id="wrap">
-    <#include "menu.ftl">
+  <#include "menu.ftl">
 
-    <div class="container">
-      <!-- BODY BEGIN -->
-      ${content.body}
-      <!-- BODY END -->
-    </div>
-
-    <div id="push"></div>
-  </div>
+  ${content.body}
 
   <#include "footer.ftl">
   <#include "scripts.ftl">
