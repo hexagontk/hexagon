@@ -18,7 +18,7 @@
         </div>
 
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav navbar-right">
             <#list config.menu?keys as title>
             <li><a href="${content.rootpath!}${config.menu[title]}">${title}</a></li>
             </#list>
