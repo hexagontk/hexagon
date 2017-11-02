@@ -1,7 +1,6 @@
 
 ext.siteSource = '.'
 ext.siteHost = 'http://hexagonkt.com'
-ext.siteColor = '#135AA1'
 
 ext.logoSmall = 'assets/img/logo.svg'
 ext.logoWide = 'assets/img/logo_wide.svg'
@@ -13,9 +12,19 @@ ext.configData = [
     cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
     author : 'Juanjo Aguililla',
     keywords : 'Hexagon\\, microservices\\, Java\\, Kotlin',
+
     twitterUser : 'hexagon_kt',
     githubRepo : 'hexagonkt/hexagon',
+    slackChannel : 'TODO',
     bintrayRepo : 'jamming/maven/hexagon_core',
+
+    siteColor : '#135AA1',
+    siteLogoDark : '#0073BB',
+    siteLogoLight : '#2B9EE6',
+    siteBackgroundDark : '#31415C', // #3F9DD8
+    siteBackgroundLight : '#546691',
+    siteAccentColor : '#2B9EE6', // #FFC43C
+
     menu : [
         'Quick Start' : 'index.html',
         'API' : 'dokka/hexagon/index.html',
