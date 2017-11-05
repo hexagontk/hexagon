@@ -1,27 +1,44 @@
 package com.hexagonkt.serialization
 
-import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.hexagonkt.helpers.eol
+import com.hexagonkt.helpers.mimeTypes
 
 object SerializationManager {
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
-    private val formatList = listOf (
-        JacksonTextFormat("json"),
-        JacksonTextFormat("yaml") {
-            with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) }
-        }
-    )
-
-    private val formats = mapOf (*formatList.map { it.contentType to it }.toTypedArray())
-
-    val contentTypes = formatList.map { it.contentType }
-
-    var defaultFormat: String = contentTypes.first()
+    var formats: LinkedHashSet<SerializationFormat> = coreFormats
         set(value) {
-            check(contentTypes.contains(value))
+            require(value.isNotEmpty()) { "Formats list can not be empty" }
+            field = value
+            contentTypes = contentTypes()
+            formatsMap = formatsMap()
+            mimeTypes.addMimeTypes(
+                formats.joinToString(eol) { "${it.contentType} ${it.extensions.joinToString(" ")}" }
+            )
+        }
+
+    var contentTypes: LinkedHashSet<String> = contentTypes()
+        private set
+
+    var formatsMap: LinkedHashMap<String, SerializationFormat> = formatsMap()
+        private set
+
+    var defaultFormat: SerializationFormat = formats.first()
+        set(value) {
+            require(formats.contains(value)) {
+                "'$value' not available in: ${contentTypes.joinToString(", ")}"
+            }
             field = value
         }
 
-    internal fun getFormat(contentType: String) =
-        formats[contentType] ?: error("$contentType not found")
+    fun setFormats(vararg formats: SerializationFormat) { this.formats = linkedSetOf(*formats) }
+
+    fun getContentTypeFormat(contentType: String): SerializationFormat =
+        formatsMap[contentType] ?: error("$contentType not found")
+
+    internal fun getFileFormat(extension: String): SerializationFormat =
+        getContentTypeFormat(mimeTypes.getContentType(extension))
+
+    private fun contentTypes () = LinkedHashSet(formats.map { it.contentType })
+
+    private fun formatsMap () = linkedMapOf (*formats.map { it.contentType to it }.toTypedArray())
 }

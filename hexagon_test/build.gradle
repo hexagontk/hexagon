@@ -1,14 +1,9 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
-ext.ahcVersion = '2.0.31'
-ext.mongodbVersion = '3.4.2'
-
 dependencies {
-    compile project(':hexagon_core')
-    compile ("org.asynchttpclient:async-http-client:$ahcVersion") { exclude module: 'slf4j-api' }
-    // TODO Remove when storages become modular
-    compile ("org.mongodb:mongodb-driver:$mongodbVersion")
+    compile project(':hexagon_client')
+    compile project(':hexagon_server')
     // TODO Remove when templates become modular
     compile project(':templates_pebble')
     // TODO Remove when storages become modular

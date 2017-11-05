@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    compile ("com.hexagonkt:server_jetty:0.22.0")
+    compile ("com.hexagonkt:server_jetty:0.22.2")
 }
 ```
 

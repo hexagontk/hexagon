@@ -2,15 +2,8 @@ package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.requireResource
 import org.testng.annotations.Test
-import kotlin.test.assertFailsWith
 
 @Test class JacksonSerializerTest {
-    fun `serializing an unsupported content type fails`() {
-        assertFailsWith<IllegalStateException> {
-            "text".serialize("invalid/type")
-        }
-    }
-
     fun `parse resource works ok`() {
         assert(requireResource("data/companies.json").parseList().isNotEmpty())
         assert(requireResource("data/tags.json").parseList().isNotEmpty())

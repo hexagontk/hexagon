@@ -68,6 +68,7 @@ data class Server (
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
+        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
 
         // TODO Handle environment not found (when Settings is finished)
         val information = """
@@ -79,12 +80,13 @@ data class Server (
             Locale $locale Timezone $timezone
 
             Started in $bootTime s using $usedMemory KB
-            Served at http://${bindAddress.canonicalHostName}:$runtimePort
+            Served at http://$hostName:$runtimePort
         """
 
-        // TODO Load banner from settings (when Settings is finished)
+        // TODO Load banner from ${serverName}.txt
         // TODO Do not trim the banner (it could break ASCII art ;)
-        val banner = (readResource("banner.txt") ?: "") + information
+        val bannerResource = serverName.toLowerCase().replace(' ', '_')
+        val banner = (readResource("$bannerResource.txt") ?: "") + information
         return banner
             .trimIndent()
             .lines()

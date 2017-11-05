@@ -28,17 +28,14 @@ dependencies {
     compile ("com.hexagonkt:templates_pebble:$hexagonVersion")
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion")
-    compile ("org.mongodb:mongodb-driver:$mongodbVersion")
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
     // providedCompile excludes the dependency only in the WAR, not in the distribution
     providedCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
+    testCompile ("com.hexagonkt:hexagon_client:$hexagonVersion")
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
-        exclude module: 'slf4j-api'
-    }
 }
 
 test {

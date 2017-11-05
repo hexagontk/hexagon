@@ -1,5 +1,7 @@
 package com.hexagonkt.helpers
 
+import com.hexagonkt.serialization.JsonFormat
+import com.hexagonkt.serialization.YamlFormat
 import org.testng.annotations.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -11,6 +13,29 @@ import java.util.Calendar.MILLISECOND
 import kotlin.test.assertFailsWith
 
 @Test class HelpersTest {
+    private val m = mapOf(
+        "alpha" to "bravo",
+        "tango" to 0,
+        "nested" to mapOf(
+            "zulu" to "charlie"
+        ),
+        0 to 1
+    )
+
+    fun `mime types return correct content type`() {
+        assert(mimeTypes.getContentType("a.json") == JsonFormat.contentType)
+        assert(mimeTypes.getContentType("a.yaml") == YamlFormat.contentType)
+        assert(mimeTypes.getContentType("a.yml") == YamlFormat.contentType)
+        assert(mimeTypes.getContentType("a.png") == "image/png")
+        assert(mimeTypes.getContentType("a.rtf") == "application/rtf")
+
+        assert(mimeTypes.getContentType(".json") == JsonFormat.contentType)
+        assert(mimeTypes.getContentType(".yaml") == YamlFormat.contentType)
+        assert(mimeTypes.getContentType(".yml") == YamlFormat.contentType)
+        assert(mimeTypes.getContentType(".png") == "image/png")
+        assert(mimeTypes.getContentType(".rtf") == "application/rtf")
+    }
+
     fun `system setting works ok` () {
         System.setProperty("system_property", "value")
 
@@ -94,20 +119,33 @@ import kotlin.test.assertFailsWith
     }
 
     fun `test get`() {
-        val m = mapOf(
-            "alpha" to "bravo",
-            "tango" to 0,
-            "nested" to mapOf(
-                "zulu" to "charlie"
-            ),
-            0 to 1
-        )
         assert(m["nested", "zulu"] == "charlie")
         assert(m["nested", "zulu", "tango"] == null)
         assert(m["nested", "empty"] == null)
         assert(m["empty"] == null)
         assert(m["alpha"] == "bravo")
         assert(m[0] == 1)
+    }
+
+    fun `test require`() {
+        assert(m.require<String>("nested", "zulu") == "charlie")
+        assert(m.require<String>("alpha") == "bravo")
+        assert(m.require<Int>(0) == 1)
+    }
+
+    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
+    fun `test require not found keys`() {
+        m.require<Any>("nested", "zulu", "tango")
+    }
+
+    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
+    fun `test require not found map`() {
+        m.require<Any>("nested", "empty")
+    }
+
+    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
+    fun `test require not found first level`() {
+        m.require<Any>("empty")
     }
 
     fun `date conversion`() {
@@ -188,5 +226,34 @@ import kotlin.test.assertFailsWith
 
     fun `resource folder`() {
         assert(resource("data")?.readText()?.lines()?.size ?: 0 > 0)
+    }
+
+    @Test(
+        expectedExceptions = arrayOf(IllegalStateException::class),
+        expectedExceptionsMessageRegExp = "Invalid state"
+    )
+    fun `error generates the correct exception`() { error }
+
+    fun `readResource returns resource's text` () {
+        val resourceText = readResource("logback-test.xml")
+        assert(resourceText?.contains("Logback configuration for tests") ?:false)
+    }
+
+    fun `parse key only query parameters return correct data` () {
+        assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
+            "a" to "1",
+            "b" to "",
+            "c" to "",
+            "d" to "e"
+        ))
+    }
+
+    fun example () {
+        assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
+            "a" to "1",
+            "b" to "",
+            "c" to "",
+            "d" to "e"
+        ))
     }
 }

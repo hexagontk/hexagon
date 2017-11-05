@@ -23,10 +23,7 @@ applicationDefaultJvmArgs = [
 
 ext.hikariVersion = '2.6.2'
 ext.postgresqlVersion = '42.0.0'
-ext.mongodbVersion = '3.4.2'
-ext.jettyVersion = '9.4.6.v20170531'
-
-ext.ahcVersion = '2.0.31'
+ext.jettyVersion = '9.4.7.v20170914'
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
@@ -47,14 +44,11 @@ dependencies {
     compile project(':templates_rocker')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
-    compile ("org.mongodb:mongodb-driver:$mongodbVersion")
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
+    testCompile project(':hexagon_client')
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("org.asynchttpclient:async-http-client:$ahcVersion") {
-        exclude module: 'slf4j-api'
-    }
 
     jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
     jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
@@ -109,8 +103,6 @@ task gradleSettings(type: WriteProperties) {
         hexagonVersion : rootProject.version,
         kotlinVersion : kotlinVersion,
         logbackVersion : logbackVersion,
-        mongodbVersion : mongodbVersion,
-        ahcVersion : ahcVersion,
 
         jettyVersion : jettyVersion,
         hikariVersion : hikariVersion,
@@ -132,23 +124,23 @@ task benchmarkConfig() {
         tests.forEach {
             String server = it[0]
             String database = it[1]
-            String databaseCode = database == 'PostgreSQL'? 'postgres' : database.toLowerCase ()
+            String databaseEngine = database.toLowerCase()
             String name = server == servers.first () && database == databases.first ()?
                 'default' : server + '_' + database
             int port = server == 'Resin'? 8080 : 9090
             test[name.toLowerCase()] = [
                 json_url : '/json',
-                db_url : '/db',
-                query_url : '/query?queries=',
-                fortune_url : '/fortunes',
-                update_url : '/update?queries=',
+                db_url : "/$databaseEngine/db",
+                query_url : "/$databaseEngine/query?queries=",
+                fortune_url : "/$databaseEngine/pebble/fortunes",
+                update_url : "/$databaseEngine/update?queries=",
                 plaintext_url : '/plaintext',
 
                 port : port,
 
                 approach : 'Realistic',
                 classification : 'Micro',
-                database : databaseCode,
+                database : database == 'PostgreSQL'? 'postgres' : databaseEngine,
                 framework : 'Hexagon',
                 language : 'Kotlin',
                 orm : 'Raw',
@@ -159,7 +151,7 @@ task benchmarkConfig() {
                 display_name : "Hexagon $server $database",
                 notes : 'http://hexagonkt.com',
 
-                setup_file : "setup_${server.toLowerCase ()}_${database.toLowerCase ()}",
+                setup_file : "setup_${server.toLowerCase ()}_$databaseEngine",
                 versus : 'servlet'
             ]
         }
@@ -197,7 +189,6 @@ task setupScripts() {
                 fw_depends java $database
 
                 ./gradlew -x test
-                export DBSTORE='$database'
                 export WEBENGINE='$server'
                 $command
             """.stripIndent ()

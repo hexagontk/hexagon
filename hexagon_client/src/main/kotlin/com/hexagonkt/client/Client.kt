@@ -1,5 +1,6 @@
 package com.hexagonkt.client
 
+import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.HttpMethod
 import com.hexagonkt.server.HttpMethod.*
@@ -64,7 +65,7 @@ class Client (
             is String -> body.toString() // TODO Add test!!!
             else ->
                 if (contentType == null) body.toString()
-                else body.serialize(contentType)
+                else body.serialize(getContentTypeFormat(contentType))
         }
 
         if (bodyValue != null)

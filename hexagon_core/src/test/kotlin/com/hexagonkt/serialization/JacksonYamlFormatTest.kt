@@ -1,5 +1,6 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.helpers.toStream
 import org.testng.annotations.Test
 
 @Test class JacksonYamlFormatTest {
@@ -7,8 +8,8 @@ import org.testng.annotations.Test
 
     fun `yaml is serialized properly` () {
         val player = Player("Michael", 23, 18..65)
-        val serializedPlayer = player.serialize("application/yaml")
-        val deserializedPlayer = serializedPlayer.parse(Player::class, "application/yaml")
+        val serializedPlayer = player.serialize(YamlFormat)
+        val deserializedPlayer = serializedPlayer.parse(Player::class, YamlFormat)
 
         assert (player.name == deserializedPlayer.name)
         assert (player.number == deserializedPlayer.number)
@@ -24,7 +25,7 @@ import org.testng.annotations.Test
             category: error
         """
         .trimIndent()
-        .parse(Player::class, "application/yaml")
+        .parse(Player::class, YamlFormat)
     }
 
     @Test(expectedExceptions = arrayOf(IllegalStateException::class))
@@ -37,7 +38,7 @@ import org.testng.annotations.Test
                 endInclusive: 65
         """
         .trimIndent()
-        .parse(Player::class, "application/yaml")
+        .parse(Player::class, YamlFormat)
     }
 
     @Test(expectedExceptions = arrayOf(IllegalStateException::class))
@@ -50,6 +51,15 @@ import org.testng.annotations.Test
                 error: 65
         """
         .trimIndent()
-        .parse(Player::class, "application/yaml")
+        .parse(Player::class, YamlFormat)
+    }
+
+    fun `parse valid YAML` () {
+        val parse = """
+            - a: b
+            - b: c
+            - c: d
+        """.trimIndent().toStream().parseList(YamlFormat)
+        assert(parse[0]["a"] == "b")
     }
 }

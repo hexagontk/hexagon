@@ -10,15 +10,21 @@ import java.lang.System.nanoTime
  * TODO Check performance penalty of fetching the logger instead storing it.
  */
 interface Loggable {
-    fun logger(): Logger = getLogger(this::class.java)
+    fun logger (): Logger = getLogger(this::class.java)
 
-    fun traceEnabled() = logger().isTraceEnabled
-    fun debugEnabled() = logger().isDebugEnabled
-    fun infoEnabled() = logger().isInfoEnabled
-    fun warnEnabled() = logger().isWarnEnabled
-    fun errEnabled() = logger().isErrorEnabled
-    fun flareEnabled() = traceEnabled()
-    fun timeEnabled() = traceEnabled()
+    fun traceEnabled (): Boolean = logger().isTraceEnabled
+
+    fun debugEnabled (): Boolean = logger().isDebugEnabled
+
+    fun infoEnabled (): Boolean = logger().isInfoEnabled
+
+    fun warnEnabled (): Boolean = logger().isWarnEnabled
+
+    fun errEnabled (): Boolean = logger().isErrorEnabled
+
+    fun flareEnabled (): Boolean = traceEnabled()
+
+    fun timeEnabled (): Boolean = traceEnabled()
 
     fun trace (message: String, vararg arguments: Any) {
         logger().apply { if (isTraceEnabled) trace(message, arguments) }
@@ -36,7 +42,7 @@ interface Loggable {
         logger().apply { if (isWarnEnabled) warn(message, arguments) }
     }
 
-    fun err(message: String, vararg arguments: Any) {
+    fun err (message: String, vararg arguments: Any) {
         logger().apply { if (isErrorEnabled) error(message, arguments) }
     }
 
@@ -44,7 +50,7 @@ interface Loggable {
         logger().apply { if (isWarnEnabled) warn(message, exception) }
     }
 
-    fun error(message: String, exception: Throwable) {
+    fun error (message: String, exception: Throwable) {
         logger().apply { if (isErrorEnabled) error(message, exception) }
     }
 

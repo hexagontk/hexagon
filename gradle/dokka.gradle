@@ -2,5 +2,12 @@
 apply plugin: 'org.jetbrains.dokka'
 
 dokka {
+//    outputFormat = 'gfm'
     reportNotDocumented = false
+    includes = filesCollection projectDir, '**/*.md'
+    samples = filesCollection "$projectDir/src/test/kotlin", '**/*Test.kt'
+}
+
+private List<File> filesCollection (Object dir, String pattern) {
+    return fileTree(dir: dir, include: pattern).getFiles().toList()
 }

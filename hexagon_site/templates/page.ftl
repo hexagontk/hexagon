@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
 <#include "header.ftl">
 
 <body onload="prettyPrint()">
@@ -10,7 +9,9 @@
     <#include "menu.ftl">
 
     <div class="container">
+      <!-- BODY BEGIN -->
       ${content.body}
+      <!-- BODY END -->
     </div>
 
     <div id="push"></div>
@@ -21,4 +22,3 @@
 </body>
 
 </html>
-
