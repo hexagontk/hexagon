@@ -62,7 +62,6 @@ section h3.section-subheading {
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-
 .navbar-default .navbar-header {
     margin-left: 13px;
 }
@@ -119,6 +118,7 @@ header .intro {
     max-width: 350px;
     padding-top: 100px;
     padding-bottom: 50px;
+    text-align: center;
 }
 
 header .intro-logo {

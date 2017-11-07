@@ -13,13 +13,7 @@
         <div class="intro-logo container">
           <img src="img/logo.svg" class="img-responsive center-block"/>
         </div>
-        <div class="intro-lead-in">The atoms of your platform</div>
-        <div class="intro-long">
-          Hexagon is a microservices framework that doesn't follow the flock. It is written in
-          Kotlin and its purpose is to ease the building of services (Web applications, APIs or
-          queue consumers) that run inside a cloud platform.
-        </div>
-        <div class="intro-lead-in">
+        <div class="intro-lead-in>
           <a href="https://travis-ci.org/${config.githubRepo}">
             <img
               src="https://travis-ci.org/${config.githubRepo}.svg?branch=master"
@@ -37,6 +31,12 @@
               src="https://api.bintray.com/packages/${config.bintrayRepo}/images/download.svg"
               alt="DownloadImg" />
           </a>
+        </div>
+        <div class="intro-lead-in">The atoms of your platform</div>
+        <div class="intro-long">
+          Hexagon is a microservices framework that doesn't follow the flock. It is written in
+          Kotlin and its purpose is to ease the building of services (Web applications, APIs or
+          queue consumers) that run inside a cloud platform.
         </div>
         <a href="http://hexagonkt.com/quick_start" class="btn btn-xl intro-button">
           Get Started Now

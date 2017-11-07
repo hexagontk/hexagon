@@ -29,6 +29,8 @@ ext.configData = [
         'Quick Start' : 'index.html',
         'API' : 'dokka/hexagon/index.html',
         'Contribute' : 'contribute.html',
+        'Status' : 'contribute.html',
+        'Roadmap' : 'contribute.html',
         'License' : 'license.html'
     ]
 ]
