@@ -4,7 +4,6 @@
 .cache/
 build/
 target/
-local.*
 
 # Eclipse
 .settings/
@@ -17,7 +16,6 @@ out/
 *.iml
 
 # Runtime
-**/*.class
 *.log
 *.hprof
 log/

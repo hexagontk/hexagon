@@ -23,7 +23,6 @@ applicationDefaultJvmArgs = [
 
 ext.hikariVersion = '2.6.2'
 ext.postgresqlVersion = '42.0.0'
-ext.jettyVersion = '9.4.7.v20170914'
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
@@ -104,7 +103,6 @@ task gradleSettings(type: WriteProperties) {
         kotlinVersion : kotlinVersion,
         logbackVersion : logbackVersion,
 
-        jettyVersion : jettyVersion,
         hikariVersion : hikariVersion,
         postgresqlVersion : postgresqlVersion,
 

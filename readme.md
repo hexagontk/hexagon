@@ -71,7 +71,7 @@ What are NOT project goals:
   * In [Gradle]. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.22.2")
+    compile ("com.hexagonkt:server_jetty:0.22.3")
     ```
 
   * In [Maven]. Declare the dependency in `pom.xml`:
@@ -80,7 +80,7 @@ What are NOT project goals:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.22.2</version>
+      <version>0.22.3</version>
     </dependency>
     ```
 
@@ -163,7 +163,7 @@ If you feel like you can do more. You can contribute to the framework in differe
 Refer to the [contributing.md][contributing] file for detailed information about Hexagon's
 development and how to help.
 
-To know what issues are currently open and be aware of the next features yo can check the 
+To know what issues are currently open and be aware of the next features yo can check the
 [Project Board] at Github.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up

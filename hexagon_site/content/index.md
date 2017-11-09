@@ -63,7 +63,7 @@ mainClassName = 'HelloKt'
 repositories { jcenter () }
 
 dependencies {
-    compile ("com.hexagonkt:server_jetty:0.22.2")
+    compile ("com.hexagonkt:server_jetty:0.22.3")
 }
 ```
 

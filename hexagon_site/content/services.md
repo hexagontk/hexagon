@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    compile ("com.hexagonkt:server_jetty:0.22.2")
+    compile ("com.hexagonkt:server_jetty:0.22.3")
 }
 ```
 
@@ -45,7 +45,7 @@ Now you can run the service with `gradle run` and view the results at:
 
 You can create a service from a [Lazybones] template. To do so type:
 `lazybones create hexagon-service service`
-  
+
 ```bash
 curl -s get.sdkman.io | bash && source ~/.sdkman/bin/sdkman-init.sh
 sdk i lazybones
@@ -75,13 +75,13 @@ Build scripts:
 
     - Define the `kotlinVersion` variable to `gradle.properties` file.
     - Add the following code to `build.gradle`
- 
+
 ```Groovy
       buildscript {
           repositories {
               jcenter ()
           }
-      
+
           dependencies {
               classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
           }
@@ -112,7 +112,7 @@ Build scripts:
 
     To apply this script, you need to add the JBake plugin manually at the top of your build script
     as that is not possible in included scripts like this one. These are the required lines to do so:
-     
+
     ```gradle
     plugins {
         id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
