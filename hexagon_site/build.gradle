@@ -8,6 +8,8 @@ ext.logoLarge = 'assets/img/logo.svg'
 
 ext.configData = [
     bootstrapVersion : '3.3.7',
+    jqueryVersion : '3.2.1',
+    highlightVersion : '9.12.0',
     theme : 'flatly', // also 'paper' or 'cerulean'
     cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
     author : 'Juanjo Aguililla',
@@ -27,11 +29,11 @@ ext.configData = [
 
     menu : [
         'Quick Start' : 'index.html',
+        'Guides' : 'index.html',
         'API' : 'dokka/hexagon/index.html',
-        'Contribute' : 'contribute.html',
-        'Status' : 'contribute.html',
         'Roadmap' : 'contribute.html',
-        'License' : 'license.html'
+//        'Status' : 'contribute.html', // TODO Define final items list
+//        'Roadmap' : 'contribute.html',
     ]
 ]
 

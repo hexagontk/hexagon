@@ -5,7 +5,11 @@
 <#include "header.ftl">
 
 <body>
-  <#include "menu.ftl">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <#include "menu.ftl">
+    </div>
+  </nav>
 
   <header>
     <div class="layer">
@@ -13,7 +17,7 @@
         <div class="intro-logo container">
           <img src="img/logo.svg" class="img-responsive center-block"/>
         </div>
-        <div class="intro-lead-in>
+        <div class="intro-lead-in">
           <a href="https://travis-ci.org/${config.githubRepo}">
             <img
               src="https://travis-ci.org/${config.githubRepo}.svg?branch=master"
@@ -165,6 +169,27 @@
       <div class="row">
         <div class="col-md-12 features-button">
           <a href="http://hexagonkt.com" class="btn btn-default">See more</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="architecture">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">Architecture</h2>
+          <h3 class="section-subheading text-muted">
+            The high level architecture of Hexagon in a picture.
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <img
+            src="img/architecture.png"
+            class="img-responsive center-block"
+            alt="Hexagon architecture diagram" />
         </div>
       </div>
     </div>

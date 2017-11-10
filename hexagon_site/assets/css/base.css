@@ -10,7 +10,7 @@ a { color: ${siteAccentColor}; }
 
 pre, code { font-family: 'Roboto Mono', monospace; }
 
-footer .heart { color: #FF3B30; }
+footer .heart { color: ${siteAccentColor}; }
 
 .navbar-brand img { height: 36px; }
 
@@ -18,7 +18,13 @@ footer .heart { color: #FF3B30; }
 
 body {
   /* Margin to avoid being covered by sticky navbar */
-  margin-top: 60px;
+  padding-top: 60px;
+  font-size: 16px;
+  background-color: #F5F5F5;
+}
+
+html {
+  background-color: ${siteBackgroundDark};
 }
 
 @media (min-width: 768px) {
@@ -59,7 +65,6 @@ section h3.section-subheading {
 .navbar-default {
     background-color: ${siteBackgroundDark};
     padding: 0;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .navbar-default .navbar-header {
@@ -145,6 +150,8 @@ header .intro .intro-lead-in {
     margin-bottom: 25px;
     font-family: 'Roboto Condensed', helvetica, sans-serif;
 }
+
+header .intro .intro-lead-in a:hover { text-decoration: none; }
 
 header .intro .intro-heading {
     font-style: normal;
@@ -322,12 +329,19 @@ footer .credits {
     border-top: 1px solid #D8D8D8;
 }
 
+.github-buttons {
+  text-align: right;
+  margin-top: 1em;
+}
+
 footer {
+    padding: 2em 0;
     font-size: 14px;
     color: #F5F5F5;
     background-color: ${siteBackgroundDark};
     line-height: 22px;
     letter-spacing: 0;
+    margin-top: 3em;
 }
 
 footer .footer-row {
@@ -367,7 +381,7 @@ footer .quicklink-section {
 }
 
 footer .credits {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     text-align: right;
     font-family: 'Roboto Condensed', helvetica, sans-serif;
@@ -379,4 +393,63 @@ footer .credits a {
 
 footer .credits span {
     color: ${siteAccentColor};
+}
+
+/*
+ * Sidebar
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #3D4E6E; /* ${siteBackgroundLight}; */
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+
+/*
+ * Main content
+ */
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
 }
