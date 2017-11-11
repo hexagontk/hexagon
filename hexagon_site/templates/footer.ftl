@@ -33,7 +33,8 @@
         <div class="col-md-6 col-xs-12 quicklink-section">
           <div class="credits">
             Made with <i class="fa fa-heart heart"></i> by <a href="#">${config.author}</a> at
-            <a href="#">Madrid, Spain</a>. Licensed under <a href="license.html">MIT License</a>.
+            <a href="https://www.google.com/search?q=madrid+spain">Madrid, Spain</a>. Licensed under
+            <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md">MIT License</a>.
           </div>
 
           <div class="github-buttons">

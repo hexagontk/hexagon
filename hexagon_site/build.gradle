@@ -28,12 +28,10 @@ ext.configData = [
     siteAccentColor : '#2B9EE6', // #FFC43C
 
     menu : [
-        'Quick Start' : 'index.html',
+        'Quick Start' : 'quick_start.html',
         'Guides' : 'index.html',
         'API' : 'dokka/hexagon/index.html',
-        'Roadmap' : 'contribute.html',
-//        'Status' : 'contribute.html', // TODO Define final items list
-//        'Roadmap' : 'contribute.html',
+        'Roadmap' : 'contribute.html'
     ]
 ]
 
@@ -57,3 +55,16 @@ gitPublish {
 }
 
 site.dependsOn ':hexagon_core:dokka', ':hexagon_core:jacocoTestReport'
+
+site.doLast {
+    rootProject.subprojects { module ->
+        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> $module.name | $module.buildDir"
+
+        copy {
+            from module.buildDir.absolutePath + '/dokka'
+            include '**/*'
+            into buildDir
+//            into file (buildDir.absolutePath + "/$module.name")
+        }
+    }
+}

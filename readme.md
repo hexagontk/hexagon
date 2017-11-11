@@ -26,10 +26,10 @@
 </p>
 
 <p align="center">
-  <a href="http://hexagonkt.com/TODO">Getting Started</a> |
+  <a href="http://hexagonkt.com/TODO">Quick Start</a> |
   <a href="http://hexagonkt.com/TODO">Guides</a> |
   <a href="http://hexagonkt.com/TODO">API Reference</a> |
-  <a href="http://hexagonkt.com/TODO">Community</a>
+  <a href="http://hexagonkt.com/TODO">Roadmap</a>
 </p>
 
 ---

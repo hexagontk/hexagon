@@ -12,7 +12,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="${content.rootpath!}">
-          <img src="img/logo_white.svg">
+          <img src="img/logo_white.svg"><!-- TODO Add 'Hexagon' for documentation pages only -->
         </a>
       </div>
 

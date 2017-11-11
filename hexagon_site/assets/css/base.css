@@ -4,7 +4,7 @@
 
 body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
 
-h1, h2, h3, h4 { color: ${siteColor}; }
+h1, h2, h3, h4 { color: ${siteBackgroundLight}; }
 
 a { color: ${siteAccentColor}; }
 
@@ -48,7 +48,6 @@ section h3.section-subheading {
 section h2.section-heading,
 section h3.section-heading {
     font-size: 50px;
-    color: ${siteBackgroundDark};
     margin-bottom: 5px;
 }
 
@@ -272,6 +271,11 @@ footer .credits {
 #features .feature-icon {
     height: 130px;
     position: relative;
+    text-align: center;
+}
+
+#features .feature-icon .fa {
+    font-size: 7em;
 }
 
 #features .feature-icon img {
@@ -290,6 +294,10 @@ footer .credits {
     text-decoration: none;
 }
 
+#features .link a:hover {
+    color: ${siteAccentColor};
+}
+
 #features .link:hover {
     background: #E1F3FD;
 }
@@ -301,6 +309,10 @@ footer .credits {
 #features .features-button {
     text-align: center;
     padding-top: 20px;
+}
+
+#features {
+  background-color: #EFF2F9;
 }
 
 #features .features-button a {

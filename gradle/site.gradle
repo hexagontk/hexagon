@@ -1,5 +1,7 @@
 
 // Generate service documentation site
+// TODO Generate clean URLs (without '.html'). `configuration['uri.noExtension'] = true` Don't work!
+// TODO Add 'clean' task
 jbake {
     siteHost = findProperty ('siteHost') ?: ''
     srcDirName = findProperty ('siteSource') ?: 'site'

@@ -66,8 +66,9 @@
         <div class="col-md-3">
             <div class="link">
                 <a href="http://hexagonkt.com">
-                    <!-- TODO Use Fontawesome -->
-                    <div class="feature-icon"></div>
+                    <div class="feature-icon">
+                      <i class="fa fa-handshake-o fa-4" aria-hidden="true"></i>
+                    </div>
                     <div class="feature-text feature-title">Search and filter</div>
                     <div class="feature-text">
                         Combine structured queries and text search to select data.
@@ -78,8 +79,9 @@
         <div class="col-md-3">
             <div class="link">
                 <a href="http://hexagonkt.com">
-                    <!-- TODO Use Fontawesome -->
-                    <div class="feature-icon"></div>
+                    <div class="feature-icon">
+                      <i class="fa fa-space-shuttle fa-4" aria-hidden="true"></i>
+                    </div>
                     <div class="feature-text feature-title">Advanced ranking</div>
                     <div class="feature-text">
                         Deploy machine learned models for ranking/recommendation.
@@ -90,8 +92,9 @@
         <div class="col-md-3">
             <div class="link">
                 <a href="http://hexagonkt.com">
-                    <!-- TODO Use Fontawesome -->
-                    <div class="feature-icon"></div>
+                    <div class="feature-icon">
+                      <i class="fa fa-trophy fa-4" aria-hidden="true"></i>
+                    </div>
                     <div class="feature-text feature-title">Organize and aggregate</div>
                     <div class="feature-text">
                         Group and aggregate all data matching queries, in real time.
@@ -102,8 +105,9 @@
         <div class="col-md-3">
             <div class="link">
                 <a href="http://hexagonkt.com">
-                    <!-- TODO Use Fontawesome -->
-                    <div class="feature-icon"></div>
+                    <div class="feature-icon">
+                      <i class="fa fa-umbrella fa-4" aria-hidden="true"></i>
+                    </div>
                     <div class="feature-text feature-title">Realtime</div>
                     <div class="feature-text">
                         UI friendly response times, instant writes at high volume.
@@ -118,8 +122,9 @@
         <div class="col-md-3">
             <div class="link">
                 <a href="http://hexagonkt.com">
-                    <!-- TODO Use Fontawesome -->
-                    <div class="feature-icon"></div>
+                    <div class="feature-icon">
+                      <i class="fa fa-ship fa-4" aria-hidden="true"></i>
+                    </div>
                     <div class="feature-text feature-title">Scalable and fast</div>
                     <div class="feature-text">
                         Optimized for Thousands of queries/sec, billions of documents.
@@ -130,8 +135,9 @@
         <div class="col-md-3">
             <div class="link">
                 <a href="http://hexagonkt.com">
-                    <!-- TODO Use Fontawesome -->
-                    <div class="feature-icon"></div>
+                    <div class="feature-icon">
+                      <i class="fa fa-rocket fa-4" aria-hidden="true"></i>
+                    </div>
                     <div class="feature-text feature-title">Elastic and fault tolerant</div>
                     <div class="feature-text">
                         Add, remove and replace machines while live and without losing data.
@@ -142,8 +148,9 @@
         <div class="col-md-3">
             <div class="link">
                 <a href="http://hexagonkt.com">
-                    <!-- TODO Use Fontawesome -->
-                    <div class="feature-icon"></div>
+                    <div class="feature-icon">
+                      <i class="fa fa-skyatlas fa-4" aria-hidden="true"></i>
+                    </div>
                     <div class="feature-text feature-title">Pluggable</div>
                     <div class="feature-text">
                         Deploy your own Java components to implement custom logic.
@@ -154,8 +161,9 @@
         <div class="col-md-3">
             <div class="link">
                 <a href="http://hexagonkt.com">
-                    <!-- TODO Use Fontawesome -->
-                    <div class="feature-icon"></div>
+                    <div class="feature-icon">
+                      <i class="fa fa-rebel fa-4" aria-hidden="true"></i>
+                    </div>
                     <div class="feature-text feature-title">Easy to operate</div>
                     <div class="feature-text">
                         Configure systems with a few lines of text, change anything live.
@@ -194,6 +202,58 @@
       </div>
     </div>
   </section>
+
+
+
+
+
+  <section id="featurematrix">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading">Ports</h2>
+          <h3 class="section-subheading text-muted">Ports with their base implementations.</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <table class="table">
+          <colgroup>
+            <col class="col-xs-4">
+            <col class="col-xs-8">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Port</th>
+              <th class="text-center">Adapters</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>HTTP</td>
+              <td class="text-center">Jetty, Serlvet, Undertow</td>
+            </tr>
+            <tr>
+              <td>Templates</td>
+              <td class="text-center">Pebble, Rocker</td>
+            </tr>
+            <tr>
+              <td>Serialization formats</td>
+              <td class="text-center">JSON, YAML</td>
+            </tr>
+            <tr>
+              <td>Settings</td>
+              <td class="text-center">Environment, Files, Resources and URLs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+
+
 
   <#include "footer.ftl">
   <#include "scripts.ftl">

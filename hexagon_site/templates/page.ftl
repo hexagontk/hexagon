@@ -13,6 +13,7 @@
 
   <div class="container-fluid">
     <div class="row">
+      <!-- 'Status' : 'contribute.html', // TODO Add status section (coverage, metrics, etc.) -->
       <aside class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
           <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
