@@ -24,25 +24,10 @@ plugins {
 apply from: 'gradle/release.gradle'
 
 task publish(
-    dependsOn: [
-        ':hexagon_site:gitPublishPush',
-        ':hexagon_starters:publishAllTemplates',
-
-        ':hexagon_client:bintrayUpload',
-        ':hexagon_core:bintrayUpload',
-        ':hexagon_rest:bintrayUpload',
-        ':hexagon_server:bintrayUpload',
-        ':hexagon_scheduler:bintrayUpload',
-        ':hexagon_store:bintrayUpload',
-        ':hexagon_test:bintrayUpload',
-
-        ':events_rabbitmq:bintrayUpload',
-        ':server_servlet:bintrayUpload',
-        ':server_jetty:bintrayUpload',
-        ':server_undertow:bintrayUpload',
-        ':templates_pebble:bintrayUpload',
-        ':templates_rocker:bintrayUpload'
-    ]
+    dependsOn:
+        project.getTasksByName ('bintrayUpload', true) +
+        tasks.getByPath(':hexagon_site:gitPublishPush') +
+        tasks.getByPath(':hexagon_starters:publishAllTemplates')
 )
 
 repositories {

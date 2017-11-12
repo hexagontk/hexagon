@@ -1,7 +1,7 @@
 
+apply plugin: 'org.xbib.gradle.plugin.jbake'
+
 // Generate service documentation site
-// TODO Generate clean URLs (without '.html'). `configuration['uri.noExtension'] = true` Don't work!
-// TODO Add 'clean' task
 jbake {
     siteHost = findProperty ('siteHost') ?: ''
     srcDirName = findProperty ('siteSource') ?: 'site'
@@ -18,6 +18,8 @@ jbake {
     configuration['render.feed'] = false
     configuration['render.sitemap'] = true
 
+    configuration['uri.noExtension'] = true
+    configuration['uri.noExtension.prefix'] = '/'
     configuration['markdown.extensions'] = 'ALL,-HARDWRAPS'
 
     // Custom properties
