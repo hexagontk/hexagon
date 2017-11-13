@@ -55,12 +55,13 @@ gitPublish {
     }
 }
 
-//jbake {
-//    configuration['content.folder'] = 'out/content'
-//}
-
 tasks.jbake.doFirst {
     println 'TODO Copy content to out/content (adding front matter)'
+
+    copy {
+        from project.file('pages')
+        into projectDir.absolutePath + '/content'
+    }
 }
 
 site.dependsOn (
