@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<#include "header.ftl">
+<#include "head.ftl">
 
 <body>
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">

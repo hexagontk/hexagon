@@ -11,24 +11,24 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="${content.rootpath!}">
-          <img src="img/logo_white.svg"><!-- TODO Add 'Hexagon' for documentation pages only -->
+        <a class="navbar-brand" href="/">
+          <img src="/img/logo_white.svg"><!-- TODO Add 'Hexagon' for documentation pages only -->
         </a>
       </div>
 
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
           <#list config.menu?keys as title>
-          <li><a href="${content.rootpath!}${config.menu[title]}">${title}</a></li>
+          <li><a href="${config.menu[title]}">${title}</a></li>
           </#list>
 
           <li>
-            <a href="${config.githubRepo}">
+            <a href="https://github.com/${config.githubRepo}">
               <i class="fa fa-github fa-2x" aria-hidden="true" style="font-size: 26px;"></i>
             </a>
           </li>
           <li>
-            <a href="${config.twitterUser}">
+            <a href="https://twitter.com/${config.twitterUser}">
               <i class="fa fa-twitter fa-2x" aria-hidden="true" style="font-size: 26px;"></i>
             </a>
           </li>

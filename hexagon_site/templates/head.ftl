@@ -18,7 +18,7 @@
   <meta name="msapplication-navbutton-color" content="${config.siteColor}" />
   <meta name="msapplication-config" content="/browserconfig.xml">
   <meta name="msapplication-TileColor" content="${config.siteColor}">
-  <meta name="msapplication-TileImage" content="${content.rootpath!}apple-touch-icon.png">
+  <meta name="msapplication-TileImage" content="/apple-touch-icon.png">
 
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -28,12 +28,11 @@
   <link rel="stylesheet" href="${bootstrap}/bootstrap.min.css" />
   <link rel="stylesheet" href="${config.cloudflare}/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-  <link rel="stylesheet" href="${content.rootpath!}css/base.css" />
+  <link rel="stylesheet" href="/css/base.css" />
   <link rel="stylesheet" href="${config.cloudflare}/highlight.js/9.12.0/styles/github.min.css" />
 
-  <link rel="apple-touch-icon" sizes="180x180" href="${content.rootpath!}apple-touch-icon.png" />
-  <link rel="shortcut icon" sizes="32x32" href="${content.rootpath!}favicon.ico" />
-
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="shortcut icon" sizes="32x32" href="/favicon.ico" />
   <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
 
   <meta name="twitter:card" content="summary_large_image">

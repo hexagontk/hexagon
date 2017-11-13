@@ -1,4 +1,6 @@
 
+// TODO Add `serve` task to start an HTTP server with `build` contents
+
 ext.siteSource = '.'
 ext.siteHost = 'http://hexagonkt.com'
 
@@ -13,29 +15,28 @@ ext.configData = [
     theme : 'flatly', // also 'paper' or 'cerulean'
     cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
     author : 'Juanjo Aguililla',
-    keywords : 'Hexagon\\, microservices\\, Java\\, Kotlin',
+    authorMail : 'juanjoaguililla@gmail.com',
+    keywords : 'Hexagon\\, microservices\\, Kotlin\\, RabbitMQ\\, MongoDB\\, JVM\\, Web',
 
     twitterUser : 'hexagon_kt',
     githubRepo : 'hexagonkt/hexagon',
-    slackChannel : 'TODO',
+    slackChannel : 'https://kotlinlang.slack.com/messages/hexagon',
     bintrayRepo : 'jamming/maven/hexagon_core',
 
     siteColor : '#135AA1',
     siteLogoDark : '#0073BB',
     siteLogoLight : '#2B9EE6',
-    siteBackgroundDark : '#31415C', // #3F9DD8
+    siteBackgroundDark : '#31415C',
     siteBackgroundLight : '#546691',
-    siteAccentColor : '#2B9EE6', // #FFC43C
+    siteAccentColor : '#2B9EE6',
 
     menu : [
-        'Quick Start' : 'quick_start.html',
-        'Guides' : 'index.html',
-        'API' : 'dokka/hexagon/index.html',
-        'Roadmap' : 'contribute.html'
+        'Quick Start' : '/quick_start',
+        'Guides' : '/guides',
+        'API' : '/dokka/hexagon_core'
     ]
 ]
 
-apply plugin: 'org.xbib.gradle.plugin.jbake'
 apply plugin: 'org.ajoberstar.git-publish'
 apply from: '../gradle/site.gradle'
 apply from: '../gradle/icons.gradle'
@@ -54,17 +55,26 @@ gitPublish {
     }
 }
 
-site.dependsOn ':hexagon_core:dokka', ':hexagon_core:jacocoTestReport'
+//jbake {
+//    configuration['content.folder'] = 'out/content'
+//}
+
+tasks.jbake.doFirst {
+    println 'TODO Copy content to out/content (adding front matter)'
+}
+
+site.dependsOn (
+    rootProject.getTasksByName ('dokka', true).toArray () +
+    rootProject.getTasksByName ('jacocoTestReport', true).toArray ()
+)
 
 site.doLast {
-    rootProject.subprojects { module ->
-        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> $module.name | $module.buildDir"
+    final String projectBuildDir = project.buildDir.absolutePath
 
+    rootProject.subprojects { module ->
         copy {
-            from module.buildDir.absolutePath + '/dokka'
-            include '**/*'
-            into buildDir
-//            into file (buildDir.absolutePath + "/$module.name")
+            from "$module.buildDir.absolutePath/dokka"
+            into "$projectBuildDir/dokka"
         }
     }
 }
