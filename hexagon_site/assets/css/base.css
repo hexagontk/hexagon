@@ -88,6 +88,7 @@ section h3.section-subheading {
 }
 
 .navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus,
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover {
     color: ${siteAccentColor};

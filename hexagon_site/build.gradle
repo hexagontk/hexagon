@@ -70,11 +70,10 @@ site.dependsOn (
 
 site.doLast {
     final String projectBuildDir = project.buildDir.absolutePath
+    final List<String> dirs = rootProject.subprojects.collect { "$it.name/build/dokka" }
 
-    rootProject.subprojects { module ->
-        copy {
-            from "$module.buildDir.absolutePath/dokka"
-            into "$projectBuildDir/dokka"
-        }
+    copy {
+        dirs.each { dir -> from rootProject.file(dir) }
+        into "$projectBuildDir/dokka"
     }
 }
