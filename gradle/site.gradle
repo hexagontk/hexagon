@@ -2,6 +2,9 @@
 apply plugin: 'org.xbib.gradle.plugin.jbake'
 
 // Generate service documentation site
+// To generate clean URLs, add the following settings:
+//    configuration['uri.noExtension'] = true
+//    configuration['uri.noExtension.prefix'] = '/'
 jbake {
     siteHost = findProperty ('siteHost') ?: ''
     srcDirName = findProperty ('siteSource') ?: 'site'
@@ -18,8 +21,6 @@ jbake {
     configuration['render.feed'] = false
     configuration['render.sitemap'] = true
 
-    configuration['uri.noExtension'] = true
-    configuration['uri.noExtension.prefix'] = '/'
     configuration['markdown.extensions'] = 'ALL,-HARDWRAPS'
 
     // Custom properties

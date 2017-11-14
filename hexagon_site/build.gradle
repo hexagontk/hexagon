@@ -1,5 +1,6 @@
 
 // TODO Add `serve` task to start an HTTP server with `build` contents
+// JBake 'content' folder can not be changed (it seems a bug)
 
 ext.siteSource = '.'
 ext.siteHost = 'http://hexagonkt.com'
@@ -31,15 +32,19 @@ ext.configData = [
     siteAccentColor : '#2B9EE6',
 
     menu : [
-        'Quick Start' : '/quick_start',
-        'Guides' : '/guides',
-        'API' : '/dokka/hexagon_core'
+        'Quick Start' : '/quick_start.html',
+        'Guides' : '/guides.html',
+        'API' : '/api/hexagon_core.html'
     ]
 ]
 
 apply plugin: 'org.ajoberstar.git-publish'
 apply from: '../gradle/site.gradle'
 apply from: '../gradle/icons.gradle'
+
+clean {
+    delete 'build', 'content', 'out'
+}
 
 gitPublishPush.dependsOn 'site'
 
@@ -58,9 +63,27 @@ gitPublish {
 tasks.jbake.doFirst {
     println 'TODO Copy content to out/content (adding front matter)'
 
+    final String frontMatter =
+        '''title=Hexagon\ndate=2016-04-13\ntype=page\nstatus=published\n~~~~~~\n'''
+
     copy {
         from project.file('pages')
         into projectDir.absolutePath + '/content'
+//        eachFile { fcd ->
+//            String content = fcd.file.text
+//            fcd.file.text = fcd.file.name.endsWith ('.md')? frontMatter + content : content
+//        }
+    }
+
+    final List<String> dirs = rootProject.subprojects.collect { "$it.name/build/dokka" }
+
+    copy {
+        dirs.each { dir -> from rootProject.file(dir) }
+        into projectDir.absolutePath + '/content/api'
+        eachFile { fcd ->
+            String content = fcd.file.text
+            fcd.file.text = fcd.file.name.endsWith ('.md')? frontMatter + content : content
+        }
     }
 }
 
@@ -69,12 +92,13 @@ site.dependsOn (
     rootProject.getTasksByName ('jacocoTestReport', true).toArray ()
 )
 
-site.doLast {
-    final String projectBuildDir = project.buildDir.absolutePath
-    final List<String> dirs = rootProject.subprojects.collect { "$it.name/build/dokka" }
-
-    copy {
-        dirs.each { dir -> from rootProject.file(dir) }
-        into "$projectBuildDir/dokka"
-    }
-}
+// Add API documentation in HTML format
+//site.doLast {
+//    final String projectBuildDir = project.buildDir.absolutePath
+//    final List<String> dirs = rootProject.subprojects.collect { "$it.name/build/dokka" }
+//
+//    copy {
+//        dirs.each { dir -> from rootProject.file(dir) }
+//        into "$projectBuildDir/api"
+//    }
+//}
