@@ -1,9 +1,3 @@
-title=Ideas
-date=2017-04-22
-type=page
-status=published
-~~~~~~
-
 
 Composition over inheritance
 
