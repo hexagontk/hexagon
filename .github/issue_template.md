@@ -1,4 +1,6 @@
 
+<!--
+
 ### For an Issue
 
 Detailed description.
@@ -17,3 +19,5 @@ Acceptance criteria:
     And *other after the first*
     Then *something happened*
     And I expected *this other thing*
+
+-->

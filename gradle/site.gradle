@@ -21,7 +21,7 @@ jbake {
     configuration['render.feed'] = false
     configuration['render.sitemap'] = true
 
-    configuration['markdown.extensions'] = 'ALL,-HARDWRAPS'
+    configuration['markdown.extensions'] = 'ALL,-HARDWRAPS,-AUTOLINKS,-EXTANCHORLINKS'
 
     // Custom properties
     configuration['projectName'] = rootProject.name // Applied in templates, not content

@@ -34,7 +34,7 @@ ext.configData = [
     menu : [
         'Quick Start' : '/quick_start.html',
         'Guides' : '/guides.html',
-        'API' : '/api/hexagon_core.html'
+        'API' : '/api/hexagon_core/index.html'
     ]
 ]
 
@@ -61,29 +61,25 @@ gitPublish {
 }
 
 tasks.jbake.doFirst {
-    println 'TODO Copy content to out/content (adding front matter)'
-
     final String frontMatter =
         '''title=Hexagon\ndate=2016-04-13\ntype=page\nstatus=published\n~~~~~~\n'''
+    final String contentTarget = projectDir.absolutePath + '/content'
 
     copy {
-        from project.file('pages')
-        into projectDir.absolutePath + '/content'
-//        eachFile { fcd ->
-//            String content = fcd.file.text
-//            fcd.file.text = fcd.file.name.endsWith ('.md')? frontMatter + content : content
-//        }
+        from rootProject.file('hexagon_site/pages')
+        into contentTarget
     }
 
     final List<String> dirs = rootProject.subprojects.collect { "$it.name/build/dokka" }
 
     copy {
         dirs.each { dir -> from rootProject.file(dir) }
-        into projectDir.absolutePath + '/content/api'
-        eachFile { fcd ->
-            String content = fcd.file.text
-            fcd.file.text = fcd.file.name.endsWith ('.md')? frontMatter + content : content
-        }
+        into contentTarget + '/api'
+    }
+
+    fileTree(dir: contentTarget, include: '**/*.md').each { fcd ->
+        final String content = fcd.text
+        fcd.text = frontMatter + content
     }
 }
 
