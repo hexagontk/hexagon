@@ -81,20 +81,22 @@ tasks.jbake.doFirst {
         final String content = fcd.text
         fcd.text = frontMatter + content
     }
+
+    fileTree(dir: "$contentTarget/api", include: '**/*.md').each { fcd ->
+        final String content = fcd.text
+        final String title = '[. a-zA-Z_\\-]'
+        final String link = '[./a-zA-Z_\\-]'
+        final String regex = /\[($title*)]\(($link*)\.md\)/
+        final String replacement = '[$1]($2.html)'
+
+        final String output = content.replaceAll (regex, replacement)
+        println output
+
+        fcd.text = output
+    }
 }
 
 site.dependsOn (
     rootProject.getTasksByName ('dokka', true).toArray () +
     rootProject.getTasksByName ('jacocoTestReport', true).toArray ()
 )
-
-// Add API documentation in HTML format
-//site.doLast {
-//    final String projectBuildDir = project.buildDir.absolutePath
-//    final List<String> dirs = rootProject.subprojects.collect { "$it.name/build/dokka" }
-//
-//    copy {
-//        dirs.each { dir -> from rootProject.file(dir) }
-//        into "$projectBuildDir/api"
-//    }
-//}
