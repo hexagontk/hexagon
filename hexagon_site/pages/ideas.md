@@ -50,13 +50,7 @@ Add auto parsing/serializing of body/response based on a type
 Add `Exchange.body/headers/params` as Sinatra. Ie: headers["Date"] = date
 Streaming support if returning a stream
 
-Settings load order:
-  resources <- system properties <- environment variables <- files <- command line arguments
-
 Render template if no route found and template with that name exist (after filter)
-
-Use Hexagon static site builder (to be developed) to generate site
-Create kjava.gradle, kjavascript.gradle, kandroid.gradle
 
 Server contains a list of RequestHandler (a router is only a list of RequestHandler)
 Move router funtions to package as functions that produce RequestHandlers

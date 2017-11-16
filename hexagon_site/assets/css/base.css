@@ -6,7 +6,11 @@ body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
 
 h1, h2, h3, h4 { color: ${siteBackgroundLight}; }
 
-a { color: ${siteAccentColor}; }
+a, a:hover, a:focus { color: ${siteAccentColor}; }
+
+div.layer a:hover, div.layer a:focus {
+    text-decoration: none;
+}
 
 pre, code { font-family: 'Roboto Mono', monospace; }
 
@@ -150,8 +154,6 @@ header .intro .intro-lead-in {
     margin-bottom: 25px;
     font-family: 'Roboto Condensed', helvetica, sans-serif;
 }
-
-header .intro .intro-lead-in a:hover { text-decoration: none; }
 
 header .intro .intro-heading {
     font-style: normal;
@@ -391,6 +393,12 @@ footer ul.quicklinks a {
 footer .quicklink-section {
     padding: 0;
     min-width: 120px;
+}
+
+@media (max-width: 768px) {
+  footer .quicklink-section { padding-top: 1em; }
+  footer .quicklink-section .credits { text-align: center; }
+  footer .quicklink-section .github-buttons { text-align: center; }
 }
 
 footer .credits {

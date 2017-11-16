@@ -42,9 +42,7 @@
           Kotlin and its purpose is to ease the building of services (Web applications, APIs or
           queue consumers) that run inside a cloud platform.
         </div>
-        <a href="http://hexagonkt.com/quick_start" class="btn btn-xl intro-button">
-          Get Started Now
-        </a>
+        <a href="/quick_start.html" class="btn btn-xl intro-button">Get Started Now</a>
         <div class="intro-down-arrow">
           <a href="#features"><i class="fa fa-angle-double-down fa-5x" aria-hidden="true"></i></a>
         </div>
@@ -176,7 +174,7 @@
       <!-- Features button -->
       <div class="row">
         <div class="col-md-12 features-button">
-          <a href="http://hexagonkt.com" class="btn btn-default">See more</a>
+          <a href="/guides.html" class="btn btn-default">See more</a>
         </div>
       </div>
     </div>
@@ -195,17 +193,13 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <img
-            src="img/architecture.png"
+            src="img/architecture.svg"
             class="img-responsive center-block"
             alt="Hexagon architecture diagram" />
         </div>
       </div>
     </div>
   </section>
-
-
-
-
 
   <section id="featurematrix">
     <div class="container">
@@ -217,43 +211,41 @@
       </div>
 
       <div class="row">
-        <table class="table">
-          <colgroup>
-            <col class="col-xs-4">
-            <col class="col-xs-8">
-          </colgroup>
-          <thead>
-            <tr>
-              <th>Port</th>
-              <th class="text-center">Adapters</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>HTTP</td>
-              <td class="text-center">Jetty, Serlvet, Undertow</td>
-            </tr>
-            <tr>
-              <td>Templates</td>
-              <td class="text-center">Pebble, Rocker</td>
-            </tr>
-            <tr>
-              <td>Serialization formats</td>
-              <td class="text-center">JSON, YAML</td>
-            </tr>
-            <tr>
-              <td>Settings</td>
-              <td class="text-center">Environment, Files, Resources and URLs</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8">
+          <table class="table">
+            <colgroup>
+              <col class="col-xs-2 col-md-4">
+              <col class="col-xs-4 col-md-4">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Port</th>
+                <th>Adapters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>HTTP</td>
+                <td>Jetty, Serlvet, Undertow</td>
+              </tr>
+              <tr>
+                <td>Templates</td>
+                <td>Pebble, Rocker</td>
+              </tr>
+              <tr>
+                <td>Serialization formats</td>
+                <td>JSON, YAML</td>
+              </tr>
+              <tr>
+                <td>Settings</td>
+                <td>Environment, Files, Resources and URLs</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
-
-
-
-
 
   <#include "footer.ftl">
   <#include "scripts.ftl">

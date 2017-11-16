@@ -34,7 +34,7 @@ ext.configData = [
     menu : [
         'Quick Start' : '/quick_start.html',
         'Guides' : '/guides.html',
-        'API' : '/api/hexagon_core/index.html'
+        'API' : '/api.html'
     ]
 ]
 
@@ -88,9 +88,7 @@ tasks.jbake.doFirst {
         final String link = '[./a-zA-Z_\\-]'
         final String regex = /\[($title*)]\(($link*)\.md\)/
         final String replacement = '[$1]($2.html)'
-
         final String output = content.replaceAll (regex, replacement)
-        println output
 
         fcd.text = output
     }
