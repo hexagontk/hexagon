@@ -5,6 +5,7 @@ APIs
 
 ## Ports
 
-[http://localhost:2010/hello/world](http://localhost:2010/hello/world)
+* [hexagon_core](/api/hexagon_core/index.html)
+* [hexagon_events](/api/hexagon_events/index.html)
 
 ## Adapters

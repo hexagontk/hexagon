@@ -6,6 +6,14 @@ import java.util.*
 import org.testng.annotations.Test
 
 @Test class StringsTest {
+    fun filterVarsExample () {
+        val template = "User #{user}"
+        val parameters = mapOf<Any, Any>("user" to "John")
+
+        assert (template.filterVars(parameters) == "User John")
+        assert (template.filterVars() == template)
+    }
+
     fun filter_returns_the_given_string_if_no_parameters_are_set () {
         val template = "User #{user}"
 

@@ -6,6 +6,11 @@ body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
 
 h1, h2, h3, h4 { color: ${siteBackgroundLight}; }
 
+h1 a, h2 a, h3 a, h4 a {
+  color: ${siteBackgroundLight};
+  text-decoration: none;
+}
+
 a, a:hover, a:focus { color: ${siteAccentColor}; }
 
 div.layer a:hover, div.layer a:focus {

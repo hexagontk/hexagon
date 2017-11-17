@@ -38,6 +38,9 @@ ext.configData = [
     ]
 ]
 
+// TODO Define tagline, description, features to be passed to templates
+// TODO Generate the ports and adapters tree from modules (exclude Benchmark, site and starters)
+
 apply plugin: 'org.ajoberstar.git-publish'
 apply from: '../gradle/site.gradle'
 apply from: '../gradle/icons.gradle'
