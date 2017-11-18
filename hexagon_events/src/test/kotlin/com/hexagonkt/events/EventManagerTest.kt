@@ -16,7 +16,7 @@ import java.lang.Thread.`yield` as threadYield
 @Test class EventManagerTest {
     class TickEvent (val nanos: Long) : Event ()
 
-    object VoidEngine : EventEngine {
+    object VoidEngine : EventsPort {
         private var registry: Map<KClass<out Event>, (Event) -> Unit> = mapOf()
 
         override fun <T : Event> consume(type: KClass<T>, address: String, consumer: (T) -> Unit) {

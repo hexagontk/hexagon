@@ -4,7 +4,7 @@ import com.hexagonkt.helpers.CachedLogger
 import kotlin.reflect.KClass
 
 object EventManager : CachedLogger(EventManager::class) {
-    var engine: EventEngine? = null
+    var engine: EventsPort? = null
 
     fun <T : Event> consume(type: KClass<T>, address: String, consumer: (T) -> Unit) {
         engine?.consume(type, address, consumer) ?: error("Event engine not set")

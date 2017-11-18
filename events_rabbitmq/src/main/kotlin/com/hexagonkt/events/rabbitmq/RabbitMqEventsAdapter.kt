@@ -1,7 +1,7 @@
 package com.hexagonkt.events.rabbitmq
 
 import com.hexagonkt.events.Event
-import com.hexagonkt.events.EventEngine
+import com.hexagonkt.events.EventsPort
 import com.hexagonkt.serialization.serialize
 import java.net.URI
 import kotlin.reflect.KClass
@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 /**
  * TODO .
  */
-class RabbitMqEventEngine : EventEngine {
+class RabbitMqEventsAdapter : EventsPort {
     private companion object {
         private const val exchange = "events"
     }
