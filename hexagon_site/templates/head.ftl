@@ -39,17 +39,17 @@
   <meta name="twitter:site" content="@${config.twitterUser}">
   <meta name="twitter:creator" content="@${config.twitterUser}">
   <meta name="twitter:title" content="${config.projectName}">
-  <meta name="twitter:description" content="${config.projectDescription}">
+  <meta name="twitter:description" content="${config.longDescription}">
   <meta name="twitter:image" content="${config.siteHost}/apple-touch-icon.png">
 
   <meta property="og:title" content="${config.projectName}" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="${config.siteHost}" />
   <meta property="og:image" content="${config.siteHost}/apple-touch-icon.png" />
-  <meta property="og:description" content="${config.projectDescription}" />
+  <meta property="og:description" content="${config.longDescription}" />
 
   <meta itemprop="name" content="${config.projectName}">
-  <meta itemprop="description" content="${config.projectDescription}">
+  <meta itemprop="description" content="${config.longDescription}">
   <meta itemprop="image" content="${config.siteHost}/apple-touch-icon.png">
 
   <link rel="author" href="/humans.txt" />

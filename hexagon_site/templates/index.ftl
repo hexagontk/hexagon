@@ -30,18 +30,20 @@
               alt="CoverageImg" />
           </a>
 
+          <a href="https://codebeat.co/projects/github-com-hexagonkt-hexagon-master">
+            <img
+              src="https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971"
+              alt="Codebeat" />
+          </a>
+
           <a href="https://bintray.com/${config.bintrayRepo}/_latestVersion">
             <img
               src="https://api.bintray.com/packages/${config.bintrayRepo}/images/download.svg"
               alt="DownloadImg" />
           </a>
         </div>
-        <div class="intro-lead-in">The atoms of your platform</div>
-        <div class="intro-long">
-          Hexagon is a microservices framework that doesn't follow the flock. It is written in
-          Kotlin and its purpose is to ease the building of services (Web applications, APIs or
-          queue consumers) that run inside a cloud platform.
-        </div>
+        <div class="intro-lead-in">${config.projectDescription}</div>
+        <div class="intro-long">${config.longDescription}</div>
         <a href="/quick_start.html" class="btn btn-xl intro-button">Get Started Now</a>
         <div class="intro-down-arrow">
           <a href="#features"><i class="fa fa-angle-double-down fa-5x" aria-hidden="true"></i></a>

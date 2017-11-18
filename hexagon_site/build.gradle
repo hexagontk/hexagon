@@ -19,6 +19,11 @@ ext.configData = [
     authorMail : 'juanjoaguililla@gmail.com',
     keywords : 'Hexagon\\, microservices\\, Kotlin\\, RabbitMQ\\, MongoDB\\, JVM\\, Web',
 
+    longDescription : '''
+        Hexagon is a microservices library written in Kotlin. Its purpose is to ease the building
+        of services (Web applications\\, APIs or queue consumers) that run inside a cloud platform
+    ''',
+
     twitterUser : 'hexagon_kt',
     githubRepo : 'hexagonkt/hexagon',
     slackChannel : 'https://kotlinlang.slack.com/messages/hexagon',
@@ -35,10 +40,42 @@ ext.configData = [
         'Quick Start' : '/quick_start.html',
         'Guides' : '/guides.html',
         'API' : '/api.html'
+    ],
+
+    features : [
+        [
+            link : 'http://hexagonkt.com',
+            icon : 'handshake-o',
+            title : 'Search and filter',
+            description : 'Combine structured queries and text search to select data.'
+        ],
+        [
+            link : 'http://hexagonkt.com',
+            icon : 'space-shuttle',
+            title : 'Advanced ranking',
+            description : 'Deploy machine learned models for ranking/recommendation.'
+        ],
+        [
+            link : 'http://hexagonkt.com',
+            icon : 'trophy',
+            title : 'Organize and aggregate',
+            description : 'Group and aggregate all data matching queries, in real time.'
+        ],
+        [
+            link : 'http://hexagonkt.com',
+            icon : 'umbrella',
+            title : 'Realtime',
+            description : 'UI friendly response times, instant writes at high volume.'
+        ],
+        [
+            icon : '',
+            title : '',
+            link : '',
+            description : ''
+        ]
     ]
 ]
 
-// TODO Define tagline, description, features to be passed to templates
 // TODO Generate the ports and adapters tree from modules (exclude Benchmark, site and starters)
 
 apply plugin: 'org.ajoberstar.git-publish'
