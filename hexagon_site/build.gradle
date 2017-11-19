@@ -47,25 +47,27 @@ ext.configData = [
             link : 'http://hexagonkt.com',
             icon : 'handshake-o',
             title : 'Simple to Use',
-            description : ''
+            description : '''
+                Hexagon is focused in allowing you to use the features you use the most in your 
+                daily coding in the easiest way.
+            '''
         ],
         [
             link : 'http://hexagonkt.com',
             icon : 'space-shuttle',
             title : 'Easy to Hack',
-            description : ''
-        ],
-        [
-            link : 'http://hexagonkt.com',
-            icon : 'trophy',
-            title : 'Well Tested',
-            description : 'TechEmpower benchmark passed, coverage and code beat'
+            description : '''
+                The library is done to be lean and simple so you can tweak it to suit your needs
+                instead handling all cases to suit everyone.
+            '''
         ],
         [
             link : 'http://hexagonkt.com',
             icon : 'umbrella',
             title : 'Pluggable Adapters',
-            description : 'UI friendly response times, instant writes at high volume. CHANGED'
+            description : '''
+                You can code your own adapters easily, or tune the existing ones to fit your needs.
+            '''
         ]
     ],
 
@@ -74,25 +76,26 @@ ext.configData = [
             link : 'http://hexagonkt.com',
             icon : 'handshake-o',
             title : 'Kotlin First',
-            description : ''
+            description : '''
+            '''
+        ],
+        [
+            link : 'http://hexagonkt.com',
+            icon : 'trophy',
+            title : 'Properly Tested',
+            description : '''
+                This project's coverage is checked in every Pull Request to ensure the code behaves
+                as it should. It is also stress tested at TechEmpower Frameworks Benchmark.
+            '''
         ],
         [
             link : 'http://hexagonkt.com',
             icon : 'space-shuttle',
             title : 'Modular',
-            description : 'Use only modules you need only required libs are CORE, SLF4J and Jackson'
-        ],
-        [
-            link : 'http://hexagonkt.com',
-            icon : 'trophy',
-            title : 'Documented TODO',
-            description : ''
-        ],
-        [
-            link : 'http://hexagonkt.com',
-            icon : 'umbrella',
-            title : 'Examples TODO',
-            description : ''
+            description : '''
+                Each feature (and each feature's implementations) is isolated in its own module.
+                Use only modules you need only required libs are CORE, SLF4J and Jackson
+            '''
         ]
     ]
 ]

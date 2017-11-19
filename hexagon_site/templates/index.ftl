@@ -64,7 +64,7 @@
       <!-- First row of features -->
       <div class="row feature-row">
         <#list config.features1 as feature>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="link">
             <a href="${feature["link"]}">
               <div class="feature-icon">
@@ -81,7 +81,7 @@
       <!-- Second row of features -->
       <div class="row feature-row">
         <#list config.features2 as feature>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="link">
             <a href="${feature["link"]}">
               <div class="feature-icon">
@@ -130,7 +130,7 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading">Ports</h2>
-          <h3 class="section-subheading text-muted">Ports with their base implementations.</h3>
+          <h3 class="section-subheading text-muted">Ports with their provided implementations.</h3>
         </div>
       </div>
 
