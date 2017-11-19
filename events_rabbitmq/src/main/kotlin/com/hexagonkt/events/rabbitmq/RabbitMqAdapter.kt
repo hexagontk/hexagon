@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 /**
  * TODO .
  */
-class RabbitMqEventsAdapter : EventsPort {
+class RabbitMqAdapter : EventsPort {
     private companion object {
         private const val exchange = "events"
     }
