@@ -63,10 +63,10 @@ What are NOT project goals:
 3. To be usable from Java. Hexagon is *Kotlin first*.
 
 [Kotlin]: http://kotlinlang.org
+[Hexagonal Architecture]: http://culttt.com/2014/12/31/hexagonal-architecture
+[Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
+[Ports and Adapters Architecture]: https://dzone.com/articles/hexagonal-architecture-is-powerful
 [benchmark]: https://www.techempower.com/benchmarks
-[Hexagonal Architecture]: https://www
-[Clean Architecture]: https://www
-[Ports and Adapters Architecture]: https://www
 
 ## Quick Start
 
@@ -112,6 +112,8 @@ You can read more details reading the [Quick Start] page, or checking the [guide
 [Gradle]: https://gradle.org
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello/world
+[Quick Start]: http://hexagonkt.com/quick_start.html
+[guides]: http://hexagonkt.com/guides.html
 
 ## Status
 
@@ -141,16 +143,13 @@ If you feel like you can do more. You can contribute to the framework in differe
 * Vote for the features you want in the [issue tracker][issues] (using [reactions]).
 * And... Drum roll... Submitting [code][contributing] or [documentation][contributing].
 
-Refer to the [contributing.md][contributing] file for detailed information about Hexagon's
-development and how to help.
-
 To know what issues are currently open and be aware of the next features yo can check the
 [Project Board] at Github.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
 to date of project's news following [@hexagon_kt] in Twitter.
 
-Eventually I will thank all [contributors], but now it's just [me].
+Thanks to all project's [contributors]!
 
 [give it a star]: https://github.com/hexagonkt/hexagon/stargazers
 [@hexagon_kt]: https://twitter.com/hexagon_kt
@@ -160,7 +159,6 @@ Eventually I will thank all [contributors], but now it's just [me].
 [contributing]: contributing.md
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
-[me]: https://github.com/jaguililla
 
 ## License
 

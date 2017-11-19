@@ -61,6 +61,9 @@
               data-icon="octicon-git-branch"
               data-show-count="true"
               aria-label="Fork ${config.githubRepo} on GitHub">Fork</a>
+            <a class="twitter-share-button" href="https://twitter.com/share">
+              Tweet
+            </a>
           </div>
         </div>
       </div>

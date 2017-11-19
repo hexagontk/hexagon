@@ -54,7 +54,7 @@
 
   <link rel="author" href="/humans.txt" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-  <link rel="canonical" href="${config.siteHost}/" />
+  <link rel="canonical" href="${config.siteHost}" />
 
   <!--[if lt IE 9]>
     <script src="${config.cloudflare}/html5shiv/3.7.3/html5shiv.min.js"></script>

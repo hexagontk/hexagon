@@ -12,5 +12,6 @@
   <script src="${highlight}/languages/kotlin.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
-  <!-- For Github links -->
+  <!-- For share links -->
   <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+  <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
