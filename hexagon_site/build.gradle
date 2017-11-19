@@ -42,7 +42,34 @@ ext.configData = [
         'API' : '/api.html'
     ],
 
-    features : [
+    features1 : [
+        [
+            link : 'http://hexagonkt.com',
+            icon : 'handshake-o',
+            title : 'Search and filter',
+            description : 'Combine structured queries and text search to select data. CHANGED'
+        ],
+        [
+            link : 'http://hexagonkt.com',
+            icon : 'space-shuttle',
+            title : 'Advanced ranking',
+            description : 'Deploy machine learned models for ranking/recommendation. CHANGED'
+        ],
+        [
+            link : 'http://hexagonkt.com',
+            icon : 'trophy',
+            title : 'Organize and aggregate',
+            description : 'Group and aggregate all data matching queries, in real time. CHANGED'
+        ],
+        [
+            link : 'http://hexagonkt.com',
+            icon : 'umbrella',
+            title : 'Realtime',
+            description : 'UI friendly response times, instant writes at high volume. CHANGED'
+        ]
+    ],
+
+    features2 : [
         [
             link : 'http://hexagonkt.com',
             icon : 'handshake-o',
@@ -66,12 +93,6 @@ ext.configData = [
             icon : 'umbrella',
             title : 'Realtime',
             description : 'UI friendly response times, instant writes at high volume.'
-        ],
-        [
-            icon : '',
-            title : '',
-            link : '',
-            description : ''
         ]
     ]
 ]
