@@ -161,6 +161,7 @@ site.dependsOn (
 class HexagonModule {
     private static final List<String> infrastructureModules =
         [ 'benchmark', 'site', 'starters' ].collect { "hexagon_$it" }
+    // TODO Handle not port modules (rest, scheduler, test)
 
     public String moduleName
     public File moduleRoot
