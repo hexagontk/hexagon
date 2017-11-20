@@ -16,7 +16,6 @@ ext.configData = [
     theme : 'flatly', // also 'paper' or 'cerulean'
     cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
     author : 'Juanjo Aguililla',
-    authorMail : 'juanjoaguililla@gmail.com',
     keywords : 'Hexagon\\, microservices\\, Kotlin\\, RabbitMQ\\, MongoDB\\, JVM\\, Web',
 
     longDescription : '''
@@ -36,7 +35,7 @@ ext.configData = [
     siteBackgroundLight : '#546691',
     siteAccentColor : '#2B9EE6',
 
-    menu : [
+    navigationLinks : [
         'Quick Start' : '/quick_start.html',
         'Guides' : '/guides.html',
         'API' : '/api.html'
@@ -58,7 +57,7 @@ ext.configData = [
             title : 'Easy to Hack',
             description : '''
                 The library is done to be lean and simple so you can tweak it to suit your needs
-                instead handling all cases to suit everyone.
+                instead relying on third parties.
             '''
         ],
         [
@@ -66,7 +65,8 @@ ext.configData = [
             icon : 'umbrella',
             title : 'Pluggable Adapters',
             description : '''
-                You can code your own adapters easily, or tune the existing ones to fit your needs.
+                Adding an adapter is just implementing the port's interface. You can code your own
+                adapters from scratch or tune the existing ones.
             '''
         ]
     ],
@@ -77,6 +77,8 @@ ext.configData = [
             icon : 'handshake-o',
             title : 'Kotlin First',
             description : '''
+                The library is coded in Kotlin for coding with Kotlin. No strings attached to 
+                Java (as a Language).
             '''
         ],
         [
@@ -84,7 +86,7 @@ ext.configData = [
             icon : 'trophy',
             title : 'Properly Tested',
             description : '''
-                This project's coverage is checked in every Pull Request to ensure the code behaves
+                Project's coverage is checked in every Pull Request to ensure the code behaves
                 as it should. It is also stress tested at TechEmpower Frameworks Benchmark.
             '''
         ],
@@ -94,7 +96,7 @@ ext.configData = [
             title : 'Modular',
             description : '''
                 Each feature (and each feature's implementations) is isolated in its own module.
-                Use only modules you need only required libs are CORE, SLF4J and Jackson
+                Use only the modules you need without unneeded dependencies.
             '''
         ]
     ]

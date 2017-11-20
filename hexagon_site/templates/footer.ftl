@@ -5,8 +5,8 @@
         <div class="col-xs-offset-1 col-xs-3 col-md-offset-0 col-md-2 quicklink-section">
           <div class="footer-title">Documentation</div>
           <ul class="quicklinks">
-            <#list config.menu?keys as title>
-            <li><a href="${config.menu[title]}">${title}</a></li>
+            <#list config.navigationLinks?keys as title>
+            <li><a href="${config.navigationLinks[title]}">${title}</a></li>
             </#list>
           </ul>
         </div>
@@ -36,9 +36,8 @@
         <div class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-6 quicklink-section">
           <div class="credits">
             Made with <i class="fa fa-heart heart"></i> by
-            <a href="mailto:${config.authorMail}?subject=Hexagon">
-            ${config.author}</a> at
-            <a href="https://www.google.com/search?q=madrid+spain">Madrid, Spain</a>. Licensed under
+            <a href="https://github.com/${config.githubRepo}/graphs/contributors">
+            OSS contributors</a>. Licensed under
             <a href="https://github.com/${config.githubRepo}/blob/master/license.md">MIT License</a>
           </div>
 

@@ -18,8 +18,8 @@
 
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <#list config.menu?keys as title>
-          <li><a href="${config.menu[title]}">${title}</a></li>
+          <#list config.navigationLinks?keys as title>
+          <li><a href="${config.navigationLinks[title]}">${title}</a></li>
           </#list>
 
           <li>

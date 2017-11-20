@@ -11,3 +11,12 @@ dependencies {
 test {
     useTestNG ()
 }
+
+List<String> allPorts
+boolean isPort() { return project.name.startsWith ('hexagon_') && !isInfrastrucure () }
+boolean isInfrastrucure() { return project.ext.isInfrastructure }
+boolean isAdapter() { return !isPort () && !isInfrastrucure () }
+
+boolean hasApi() { return project.file('build/dokka').exists () }
+String portName() { return project.name.split ('_')[isAdapter ()? 0 : 1] }
+String adapterName() { return project.name.split ('_')[isAdapter ()? 1 : 0] }
