@@ -12,7 +12,6 @@ test {
     useTestNG ()
 }
 
-List<String> allPorts
 boolean isPort() { return project.name.startsWith ('hexagon_') && !isInfrastrucure () }
 boolean isInfrastrucure() { return project.ext.isInfrastructure }
 boolean isAdapter() { return !isPort () && !isInfrastrucure () }

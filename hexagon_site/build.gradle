@@ -44,7 +44,7 @@ ext.configData = [
     features1 : [
         [
             link : 'http://hexagonkt.com',
-            icon : 'handshake-o',
+            icon : 'smile-o',
             title : 'Simple to Use',
             description : '''
                 Hexagon is focused in allowing you to use the features you use the most in your 
@@ -53,7 +53,7 @@ ext.configData = [
         ],
         [
             link : 'http://hexagonkt.com',
-            icon : 'space-shuttle',
+            icon : 'keyboard-o',
             title : 'Easy to Hack',
             description : '''
                 The library is done to be lean and simple so you can tweak it to suit your needs
@@ -62,7 +62,7 @@ ext.configData = [
         ],
         [
             link : 'http://hexagonkt.com',
-            icon : 'umbrella',
+            icon : 'plug',
             title : 'Pluggable Adapters',
             description : '''
                 Adding an adapter is just implementing the port's interface. You can code your own
@@ -74,7 +74,7 @@ ext.configData = [
     features2 : [
         [
             link : 'http://hexagonkt.com',
-            icon : 'handshake-o',
+            icon : 'code',
             title : 'Kotlin First',
             description : '''
                 The library is coded in Kotlin for coding with Kotlin. No strings attached to 
@@ -83,20 +83,20 @@ ext.configData = [
         ],
         [
             link : 'http://hexagonkt.com',
-            icon : 'trophy',
+            icon : 'bug',
             title : 'Properly Tested',
             description : '''
-                Project's coverage is checked in every Pull Request to ensure the code behaves
-                as it should. It is also stress tested at TechEmpower Frameworks Benchmark.
+                Project's coverage is checked in every Pull Request. It is also stress tested at
+                TechEmpower Frameworks Benchmark.
             '''
         ],
         [
             link : 'http://hexagonkt.com',
-            icon : 'space-shuttle',
+            icon : 'cubes',
             title : 'Modular',
             description : '''
-                Each feature (and each feature's implementations) is isolated in its own module.
-                Use only the modules you need without unneeded dependencies.
+                Each feature is isolated in its own module. Use only the modules you need without
+                unneeded dependencies.
             '''
         ]
     ]
@@ -162,23 +162,3 @@ site.dependsOn (
     rootProject.getTasksByName ('dokka', true).toArray () +
     rootProject.getTasksByName ('jacocoTestReport', true).toArray ()
 )
-
-class HexagonModule {
-    private static final List<String> infrastructureModules =
-        [ 'benchmark', 'site', 'starters' ].collect { "hexagon_$it" }
-    // TODO Handle not port modules (rest, scheduler, test)
-
-    public String moduleName
-    public File moduleRoot
-
-    public boolean isPort() { return moduleName.startsWith ('hexagon_') && !isInfrastrucure () }
-    public boolean isInfrastrucure() { return moduleName in infrastructureModules }
-    public boolean isAdapter() { return !isPort () && !isInfrastrucure () }
-    public boolean hasReadme() { return file(moduleRoot.absolutePath + '/readme.md').exists () }
-    public String portName() { return moduleName.split ('_')[isAdapter ()? 0 : 1] }
-    public String adapterName() { return moduleName.split ('_')[isAdapter ()? 1 : 0] }
-}
-
-private static List<HexagonModule> portsAndAdapters () {
-    return []
-}
