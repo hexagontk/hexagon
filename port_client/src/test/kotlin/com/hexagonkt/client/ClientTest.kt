@@ -107,7 +107,11 @@ class ClientTest {
             )
         )
 
-        val r = client.post("/file", File("src/test/resources/logback-test.xml"))
+        val file = File("src/test/resources/logback-test.xml").let {
+            if (it.exists()) it
+            else File("port_client/src/test/resources/logback-test.xml")
+        }
+        val r = client.post("/file", file)
         assert (r.headers.get("file64").isNotEmpty())
         assert (r.statusCode == 200)
     }
