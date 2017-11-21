@@ -4,7 +4,7 @@ apply from: "../gradle/service.gradle"
 
 apply plugin: 'war'
 
-mainClassName = "com.hexagonkt.BenchmarkKt"
+mainClassName = "com.hexagonkt.ExamplesKt"
 
 applicationDefaultJvmArgs = [
     '-Xms2G',
@@ -14,9 +14,6 @@ applicationDefaultJvmArgs = [
     '-XX:+AggressiveOpts'
 ]
 
-ext.hikariVersion = '2.6.2'
-ext.postgresqlVersion = '42.0.0'
-
 war {
     archiveName = "ROOT.war"
 }
@@ -24,15 +21,13 @@ war {
 installDist.dependsOn 'war'
 
 dependencies {
+    compile project(':port_client')
     compile project(':port_store')
-    compile project(':server_jetty')
     compile project(':server_undertow')
     compile project(':templates_pebble')
-    compile project(':templates_rocker')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 
-    testCompile project(':port_client')
     testCompile project(':hexagon_test')
     testCompile ("org.testng:testng:$testngVersion")
 }
