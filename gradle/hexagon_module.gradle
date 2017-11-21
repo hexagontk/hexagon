@@ -12,8 +12,8 @@ test {
     useTestNG ()
 }
 
-boolean isPort() { return project.name.startsWith ('hexagon_') && !isInfrastrucure () }
-boolean isInfrastrucure() { return project.ext.isInfrastructure }
+// TODO Use this logic to get list of ports and their adapters
+boolean isPort() { return project.name.startsWith ('port_') }
 boolean isAdapter() { return !isPort () && !isInfrastrucure () }
 
 boolean hasApi() { return project.file('build/dokka').exists () }

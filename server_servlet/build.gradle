@@ -5,9 +5,9 @@ ext.servletVersion = '3.1.0' // TODO Upgrade to '4.0.0'
 ext.jettyVersion = '9.4.7.v20170914'
 
 dependencies {
-    compile project(':hexagon_server')
+    compile project(':port_server')
     compileOnly ("javax.servlet:javax.servlet-api:$servletVersion")
 
-    testCompile project(':hexagon_client')
+    testCompile project(':port_client')
     testCompile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 }

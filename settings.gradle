@@ -1,20 +1,25 @@
 rootProject.name = name
 
 include (
+    // Infrastructure
     'hexagon_site',
     'hexagon_starters',
     'hexagon_benchmark',
+    'hexagon_examples',
 
+    // Internal modules
     'hexagon_core',
     'hexagon_rest',
     'hexagon_scheduler',
     'hexagon_test',
 
-    'hexagon_client',
-    'hexagon_events',
-    'hexagon_server',
-    'hexagon_store',
+    // Ports
+    'port_client',
+    'port_events',
+    'port_server',
+    'port_store',
 
+    // Adapters
     'events_rabbitmq',
     'server_servlet',
     'server_jetty',

@@ -3,5 +3,5 @@ apply from: '../gradle/hexagon_module.gradle'
 
 dependencies {
     compile project(':hexagon_core')
-    testCompile project(':hexagon_client')
+    testCompile project(':port_client')
 }

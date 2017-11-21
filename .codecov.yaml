@@ -2,5 +2,5 @@
 ignore:
   - hexagon_test
   # TODO Enable these modules once they are finished
-  - hexagon_store
+  - port_store
   - hexagon_rest

@@ -1,5 +1,5 @@
 
-# Module hexagon_store
+# Module port_store
 
 Hexagon's storage utilities for data classes.
 

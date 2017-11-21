@@ -2,16 +2,6 @@
 Guides
 ======
 
-## Create a service
-
-### From scratch
-
-[http://localhost:2010/hello/world](http://localhost:2010/hello/world)
-
-### From a template
-
-## Guides
-
 * [Services]: explains how to create, build, test, package and run your services.
 * [Configuration]: how to load service's configuration from different sources and data formats.
 * [HTTP]: describes how to use HTTP routing and HTML templates for Web services.
