@@ -1,7 +1,9 @@
-package com.hexagonkt.server
+package com.hexagonkt.examples
 
+import com.hexagonkt.server.*
 import java.net.InetAddress.getByName as address
 import com.hexagonkt.server.HttpMethod.*
+import com.hexagonkt.server.undertow.UndertowEngine
 import java.net.HttpCookie
 
 /** A route, available in the server (to be handled) or in the client (to be called). */
@@ -21,7 +23,7 @@ val usernamePasswords = mapOf (
  *
  * Each call defines a route handler or filter, they are evaluated in order at runtime.
  */
-val serverExample = server(VoidEngine) {
+val serverExample = server(UndertowEngine()) {
     // Adds 'foo' header to all requests
     before {
         response.addHeader("foo", "bar")
@@ -29,7 +31,7 @@ val serverExample = server(VoidEngine) {
 
     // Before POST / check 'pass' header, if present, pass to the next filter
     postIndex before {
-        if(request.headers["odd"] != null)
+        if (request.headers["odd"] != null)
             response.addHeader("odd", "true")
         else
             response.addHeader("even", "true")
@@ -41,9 +43,9 @@ val serverExample = server(VoidEngine) {
     }
 
     // Map '/public' classpath resources to '/' path
-    assets ("/public")
+    assets("/public")
     // Map '/css' classpath resources to '/css' path (only if not found in '/public' before!)
-    assets ("/css", "/public")
+    assets("/css", "/public")
 
     get { "Hi" }
 
@@ -64,36 +66,36 @@ private fun reference(@Suppress("UNUSED_PARAMETER") e: Call): Any = 200 to "Done
 
 val filter = router {
     before {
-        val user = request.parameters ["user"] ?: ""
-        val password = request.parameters ["password"] ?: ""
+        val user = request.parameters["user"] ?: ""
+        val password = request.parameters["password"] ?: ""
 
         val dbPassword = usernamePasswords[user]
         if (password != dbPassword)
             401 to "You are not welcome here!!!"
     }
 
-    before ("/hello") { response.addHeader ("Foo", "Set by second before filter") }
-    get ("/hello") { "Hello World!" }
-    after ("/hello") { response.addHeader ("hexagon", "added by after-filter") }
+    before("/hello") { response.addHeader("Foo", "Set by second before filter") }
+    get("/hello") { "Hello World!" }
+    after("/hello") { response.addHeader("hexagon", "added by after-filter") }
 }
 
 val helloWorld = router {
-    get ("/") { "Hello World!" }
+    get("/") { "Hello World!" }
 }
 
 val simple = router {
-    get ("/news/{section}") {
-        val list = request.parameters ["section"]?.first() ?: "not found"
+    get("/news/{section}") {
+        val list = request.parameters["section"]?.first() ?: "not found"
         ok("""<?xml version="1.0" encoding="UTF-8"?><news>$list</news>""", "text/xml")
     }
 
-    get ("/hello") { "Hello World!" }
-    post ("/hello") { "Hello World: " + response.body }
+    get("/hello") { "Hello World!" }
+    post("/hello") { "Hello World: " + response.body }
     // Returning a tuple sets the code and the body
-    get ("/private") { 401 to "Go Away!!!" }
-    get ("/users/{name}") { "Selected user: " + request.parameters ["name"] }
-    get ("/protected") { 403 to "I don't think so!!!" }
-    get ("/redirect") { redirect ("/news/world") }
+    get("/private") { 401 to "Go Away!!!" }
+    get("/users/{name}") { "Selected user: " + request.parameters["name"] }
+    get("/protected") { 403 to "I don't think so!!!" }
+    get("/redirect") { redirect("/news/world") }
     get { "root" }
 }
 
@@ -116,17 +118,17 @@ val session = router {
     }
 
     post {
-        val name = request.parameters ["name"]?.first()
+        val name = request.parameters["name"]?.first()
 
         if (name != null)
             session[SESSION_NAME] = name
 
-        redirect ("/")
+        redirect("/")
     }
 
     get {
-        session.removeAttribute (SESSION_NAME)
-        redirect ("/")
+        session.removeAttribute(SESSION_NAME)
+        redirect("/")
     }
 }
 
@@ -141,7 +143,7 @@ fun main(vararg args: String) {
     // Files
     //
 
-    serve(VoidEngine) {
+    serve(UndertowEngine()) {
         // You can mount routers in paths
         path("/filter", filter)
         path("/hello", helloWorld)
