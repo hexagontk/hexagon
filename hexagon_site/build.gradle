@@ -1,5 +1,7 @@
 
-// TODO Add `serve` task to start an HTTP server with `build` contents
+// TODO Add `serve` task to start an HTTP server with `build` contents (can be using a Ruby command)
+// TODO Generate `api.md` from modules with `build/hexagon` directory
+// TODO Create ports and adapters map to populate index's table instead hardcoding it
 // JBake 'content' folder can not be changed (it seems a bug)
 
 ext.siteSource = '.'

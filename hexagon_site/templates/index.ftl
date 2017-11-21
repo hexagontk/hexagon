@@ -150,7 +150,7 @@
             <tbody>
               <tr>
                 <td>HTTP</td>
-                <td>Jetty, Serlvet, Undertow</td>
+                <td>Undertow, Jetty, Serlvet</td>
               </tr>
               <tr>
                 <td>Templates</td>
