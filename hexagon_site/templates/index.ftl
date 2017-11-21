@@ -162,7 +162,7 @@
               </tr>
               <tr>
                 <td>Settings</td>
-                <td>Environment, Files, Resources and URLs</td>
+                <td>Environment, Files, Resources, URLs</td>
               </tr>
             </tbody>
           </table>

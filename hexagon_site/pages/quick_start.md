@@ -23,7 +23,7 @@ The framework is build upon smaller pieces:
 
 ## Modules
 
-components and engines
+ports and adapters
 
 ## Components
 
@@ -33,7 +33,7 @@ Features
 
 Add Needed infrastructure for µS
 
-## Engines
+## Adapters
 
 feature implementations
 
@@ -62,18 +62,6 @@ Templates
 Events
 
 ... Stores + Rest
-
-# Status
-
-Used in projects (not released yet)
-
-Used to develop APIs and Web applications
-
-Well tested
-
-Performance tests (TechEmpower and JMeter)
-
-Project templates (AKA starters)
 
 # Teaser / Roadmap
 
@@ -106,14 +94,3 @@ CBOR
 Swagger
 
 Clients and Servers contracts... when you define routes, and route documentation is in place
-
-# Contributing
-
-Github's panel
-
-Tasks picking
-
-Bugs
-
-# Spread the word
-

@@ -2,6 +2,8 @@
 // TODO Add `serve` task to start an HTTP server with `build` contents (can be using a Ruby command)
 // TODO Generate `api.md` from modules with `build/hexagon` directory
 // TODO Create ports and adapters map to populate index's table instead hardcoding it
+// TODO Update all feature's links
+// TODO Update architecture diagram
 // JBake 'content' folder can not be changed (it seems a bug)
 
 ext.siteSource = '.'
@@ -45,7 +47,7 @@ ext.configData = [
 
     features1 : [
         [
-            link : 'http://hexagonkt.com',
+            link : '/quick_start.html',
             icon : 'smile-o',
             title : 'Simple to Use',
             description : '''
@@ -54,7 +56,7 @@ ext.configData = [
             '''
         ],
         [
-            link : 'http://hexagonkt.com',
+            link : 'https://github.com/hexagonkt/hexagon/blob/master/contributing.md',
             icon : 'keyboard-o',
             title : 'Easy to Hack',
             description : '''
@@ -63,7 +65,7 @@ ext.configData = [
             '''
         ],
         [
-            link : 'http://hexagonkt.com',
+            link : '/quick_start.html',
             icon : 'plug',
             title : 'Pluggable Adapters',
             description : '''
@@ -75,7 +77,7 @@ ext.configData = [
 
     features2 : [
         [
-            link : 'http://hexagonkt.com',
+            link : 'http://kotlinlang.org',
             icon : 'code',
             title : 'Kotlin First',
             description : '''
@@ -84,7 +86,7 @@ ext.configData = [
             '''
         ],
         [
-            link : 'http://hexagonkt.com',
+            link : '/status.html',
             icon : 'bug',
             title : 'Properly Tested',
             description : '''
@@ -93,7 +95,7 @@ ext.configData = [
             '''
         ],
         [
-            link : 'http://hexagonkt.com',
+            link : '/quick_start.html',
             icon : 'cubes',
             title : 'Modular',
             description : '''
