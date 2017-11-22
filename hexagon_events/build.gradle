@@ -1,8 +1,0 @@
-
-apply from: '../gradle/hexagon_module.gradle'
-
-dependencies {
-    compile project(':hexagon_core')
-
-    testCompile project(':events_rabbitmq')
-}

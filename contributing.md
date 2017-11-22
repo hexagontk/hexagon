@@ -34,6 +34,19 @@ Create separate module per source set` in order to compile JMH tests.
 Inside Idea IDE, you need to review Kotlin's settings to make sure JVM 1.8 and API 1.1 is used
 (`Project Structure > Modules > <Any Module> > Kotlin > Target Platform`).
 
+## Benchmarking
+
+The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], to run them:
+
+1. Start the benchmark's compose file. From the project's root execute:
+   `docker-compose -f docker-compose.yaml -f hexagon_benchmark/docker-compose.yaml up -d`
+2. Run [JMeter] with the `hexagon_benchmark/load_test.jmx` file.
+3. Tune benchmark variables in the `Load Test Plan` tree node.
+4. Run and check results in the `Load Test Plan > Profile > Summary Report` node.
+
+[TFB]: https://www.techempower.com/benchmarks
+[JMeter]: http://jmeter.apache.org
+
 ## Tools Used
 
 * [Travis]: For continuous integration.

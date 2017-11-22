@@ -2,7 +2,7 @@ package com.hexagonkt.server
 
 import com.hexagonkt.client.Client
 import com.hexagonkt.server.HttpMethod.GET
-import com.hexagonkt.templates.pebble.PebbleEngine
+import com.hexagonkt.templates.pebble.PebbleAdapter
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
@@ -95,7 +95,7 @@ internal class GenericModule : TestModule() {
         get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
         get("/template") {
             val now = LocalDateTime.now()
-            template(PebbleEngine, "pebble_template.html", "date" to now)
+            template(PebbleAdapter, "pebble_template.html", "date" to now)
         }
 
         get("/tworoutes/${part.toUpperCase()}/{param}") {

@@ -1,8 +1,9 @@
 
 FROM openjdk
-RUN curl http://caucho.com/download/resin-4.0.54.tar.gz | tar xvz -C /opt
-COPY build/libs/ROOT.war /opt/resin-4.0.54/webapps
-WORKDIR /opt/resin-4.0.54
+ENV RESIN 4.0.54
+RUN curl http://caucho.com/download/resin-$RESIN.tar.gz | tar xvz -C /opt
+COPY build/libs/ROOT.war /opt/resin-$RESIN/webapps
+WORKDIR /opt/resin-$RESIN
 EXPOSE 8080
-ENTRYPOINT [ "/opt/resin-4.0.54/bin/resin.sh" ]
+ENTRYPOINT /opt/resin-$RESIN/bin/resin.sh
 CMD [ "console" ]
