@@ -15,7 +15,7 @@ import java.util.*
  * templates/freemarker/file
  * ...
  */
-object PebbleEngine : TemplatePort {
+object PebbleAdapter : TemplatePort {
     val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()
 
     override fun render(resource: String, locale: Locale, context: Map<String, *>): String {

@@ -25,8 +25,8 @@ import java.net.InetAddress.getByName as address
 import io.undertow.server.handlers.PredicateHandler
 import io.undertow.server.handlers.resource.ClassPathResourceManager
 
-class UndertowEngine : ServerPort {
-    companion object : CachedLogger(UndertowEngine::class)
+class UndertowAdapter : ServerPort {
+    companion object : CachedLogger(UndertowAdapter::class)
 
     private val callKey = AttachmentKey.create(Call::class.java)
 

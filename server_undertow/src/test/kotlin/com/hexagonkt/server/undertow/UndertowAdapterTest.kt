@@ -7,13 +7,13 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 
-class UndertowEngineTest : EngineTest(UndertowEngine()) {
+class UndertowAdapterTest : EngineTest(UndertowAdapter()) {
     @BeforeClass fun start () { startServers() }
     @AfterClass fun stop () { stopServers() }
     @Test fun validateEngine() { validate() }
 
     @Test fun `start test`() {
-        val engine = UndertowEngine()
+        val engine = UndertowAdapter()
         val message = "Undertow port uninitialized. Use lazy evaluation for HTTP client ;)"
         assert(!engine.started())
         assertFailsWith<IllegalStateException>(message) { engine.runtimePort() }

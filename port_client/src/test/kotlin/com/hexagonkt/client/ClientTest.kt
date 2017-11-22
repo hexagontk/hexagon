@@ -1,8 +1,9 @@
 package com.hexagonkt.client
 
 import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options as wmOptions
 import com.github.tomakehurst.wiremock.client.WireMock.*
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options as wmOptions
+import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer
 import com.hexagonkt.serialization.JsonFormat
@@ -33,15 +34,15 @@ class ClientTest {
             .withHeader("content-type", "application/json;charset=utf-8")
             .withBody("{{{request.body}}}")
 
-        stubFor(post(anyUrl()).willReturn(resp))
-        stubFor(post(anyUrl()).willReturn(resp))
-        stubFor(get(anyUrl()).willReturn(resp))
-        stubFor(head(anyUrl()).willReturn(resp))
-        stubFor(put(anyUrl()).willReturn(resp))
-        stubFor(delete(anyUrl()).willReturn(resp))
-        stubFor(trace(anyUrl()).willReturn(resp))
-        stubFor(options(anyUrl()).willReturn(resp))
-        stubFor(patch(anyUrl()).willReturn(resp))
+        stubFor(WireMock.post(anyUrl()).willReturn(resp))
+        stubFor(WireMock.post(anyUrl()).willReturn(resp))
+        stubFor(WireMock.get(anyUrl()).willReturn(resp))
+        stubFor(WireMock.head(anyUrl()).willReturn(resp))
+        stubFor(WireMock.put(anyUrl()).willReturn(resp))
+        stubFor(WireMock.delete(anyUrl()).willReturn(resp))
+        stubFor(WireMock.trace(anyUrl()).willReturn(resp))
+        stubFor(WireMock.options(anyUrl()).willReturn(resp))
+        stubFor(WireMock.patch(anyUrl()).willReturn(resp))
     }
 
     @AfterClass
@@ -86,7 +87,7 @@ class ClientTest {
 
         val rn = "request.headers.header1"
 
-        stubFor(get("/auth")
+        stubFor(WireMock.get("/auth")
             .willReturn(aResponse()
                 .withHeader("auth", "{{request.headers.Authorization}}")
                 .withHeader("head1", "{{$rn.[0]}}{{$rn.[1]}}")
@@ -101,7 +102,7 @@ class ClientTest {
     }
 
     fun `files are sent in base64` () {
-        stubFor(post("/file")
+        stubFor(WireMock.post("/file")
             .willReturn(aResponse()
                 .withHeader("file64", "{{request.body}}")
             )
@@ -117,7 +118,7 @@ class ClientTest {
     }
 
     fun `strings are sent properly` () {
-        stubFor(post("/string")
+        stubFor(WireMock.post("/string")
             .willReturn(aResponse()
                 .withHeader("body", "{{request.body}}")
             )

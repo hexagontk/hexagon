@@ -2,7 +2,7 @@
 apply from: '../gradle/hexagon_module.gradle'
 
 ext.rabbitVersion = '5.0.0'
-ext.qpidVersion = '6.1.4'
+ext.qpidVersion = '6.1.4' // TODO Check 7.0.0
 
 dependencies {
     compile project(':port_events')

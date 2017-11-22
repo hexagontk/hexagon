@@ -23,6 +23,16 @@ plugins {
 
 apply from: 'gradle/release.gradle'
 
+clean {
+    delete 'build', '.gradle', 'log', 'out'
+
+    delete (
+        fileTree(rootDir) { include '**/*.log' },
+        fileTree(rootDir) { include '**/*.hprof' },
+        fileTree(rootDir) { include '**/*.class' }
+    )
+}
+
 task publish(
     dependsOn:
         project.getTasksByName ('bintrayUpload', true) +

@@ -5,7 +5,7 @@ import com.fizzed.rocker.RockerModel
 import com.hexagonkt.templates.TemplatePort
 import java.util.*
 
-object RockerEngine : TemplatePort {
+object RockerAdapter : TemplatePort {
     override fun render(resource: String, locale: Locale, context: Map<String, *>): String {
         val bindableRockerModel = Rocker.template(resource)
 

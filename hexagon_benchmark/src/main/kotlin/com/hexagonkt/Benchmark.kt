@@ -7,11 +7,11 @@ import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.*
 import com.hexagonkt.server.jetty.JettyServletAdapter
 import com.hexagonkt.server.servlet.ServletServer
-import com.hexagonkt.server.undertow.UndertowEngine
+import com.hexagonkt.server.undertow.UndertowAdapter
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.templates.TemplatePort
-import com.hexagonkt.templates.pebble.PebbleEngine
-import com.hexagonkt.templates.rocker.RockerEngine
+import com.hexagonkt.templates.pebble.PebbleAdapter
+import com.hexagonkt.templates.rocker.RockerAdapter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getLogger
 
@@ -114,8 +114,8 @@ private fun router(): Router = router {
 }
 
 fun getTemplateEngine(engine: String): TemplatePort = when (engine) {
-    "pebble" -> PebbleEngine
-    "rocker" -> RockerEngine
+    "pebble" -> PebbleAdapter
+    "rocker" -> RockerAdapter
     else -> error("Unsupported template engine: $engine")
 }
 
@@ -124,7 +124,7 @@ internal var benchmarkServer: Server? = null
 
 internal fun createEngine(engine: String): ServerPort = when (engine) {
     "jetty" -> JettyServletAdapter()
-    "undertow" -> UndertowEngine()
+    "undertow" -> UndertowAdapter()
     else -> error("Unsupported server engine")
 }
 

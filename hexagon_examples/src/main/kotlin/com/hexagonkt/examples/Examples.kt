@@ -3,7 +3,7 @@ package com.hexagonkt.examples
 import com.hexagonkt.server.*
 import java.net.InetAddress.getByName as address
 import com.hexagonkt.server.HttpMethod.*
-import com.hexagonkt.server.undertow.UndertowEngine
+import com.hexagonkt.server.undertow.UndertowAdapter
 import java.net.HttpCookie
 
 /** A route, available in the server (to be handled) or in the client (to be called). */
@@ -23,7 +23,7 @@ val usernamePasswords = mapOf (
  *
  * Each call defines a route handler or filter, they are evaluated in order at runtime.
  */
-val serverExample = server(UndertowEngine()) {
+val serverExample = server(UndertowAdapter()) {
     // Adds 'foo' header to all requests
     before {
         response.addHeader("foo", "bar")
@@ -143,7 +143,7 @@ fun main(vararg args: String) {
     // Files
     //
 
-    serve(UndertowEngine()) {
+    serve(UndertowAdapter()) {
         // You can mount routers in paths
         path("/filter", filter)
         path("/hello", helloWorld)
