@@ -76,6 +76,18 @@ class ClientTest {
         checkResponse(client.patch("/", parameter), parameter)
     }
 
+    fun `http methods with objects work ok with default client`() {
+        val parameter = mapOf("key" to "value")
+        checkResponse(get("http://localhost:${wmServer.port()}"), null)
+        checkResponse(head("http://localhost:${wmServer.port()}"), null)
+        checkResponse(post("http://localhost:${wmServer.port()}", parameter), parameter)
+        checkResponse(put("http://localhost:${wmServer.port()}", parameter), parameter)
+        checkResponse(delete("http://localhost:${wmServer.port()}", parameter), parameter)
+        checkResponse(trace("http://localhost:${wmServer.port()}", parameter), parameter)
+        checkResponse(options("http://localhost:${wmServer.port()}", parameter), parameter)
+        checkResponse(patch("http://localhost:${wmServer.port()}", parameter), parameter)
+    }
+
     fun `parameters are set properly` () {
         val endpoint = "http://localhost:${wmServer.port()}"
         val h = mapOf("header1" to listOf("val1", "val2"))
