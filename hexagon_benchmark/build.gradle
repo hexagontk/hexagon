@@ -23,7 +23,6 @@ applicationDefaultJvmArgs = [
 
 ext.hikariVersion = '2.6.2'
 ext.postgresqlVersion = '42.0.0'
-ext.jettyVersion = '9.4.7.v20170914'
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
@@ -37,7 +36,7 @@ war {
 installDist.dependsOn 'war'
 
 dependencies {
-    compile project(':hexagon_store')
+    compile project(':port_store')
     compile project(':server_jetty')
     compile project(':server_undertow')
     compile project(':templates_pebble')
@@ -47,7 +46,7 @@ dependencies {
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
-    testCompile project(':hexagon_client')
+    testCompile project(':port_client')
     testCompile ("org.testng:testng:$testngVersion")
 
     jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
@@ -104,7 +103,6 @@ task gradleSettings(type: WriteProperties) {
         kotlinVersion : kotlinVersion,
         logbackVersion : logbackVersion,
 
-        jettyVersion : jettyVersion,
         hikariVersion : hikariVersion,
         postgresqlVersion : postgresqlVersion,
 

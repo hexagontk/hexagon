@@ -4,6 +4,6 @@ apply from: '../gradle/hexagon_module.gradle'
 ext.pebbleVersion = '2.4.0'
 
 dependencies {
-    compile project(':hexagon_server')
+    compile project(':port_server')
     compile ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
 }

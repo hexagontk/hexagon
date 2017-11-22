@@ -3,6 +3,7 @@ package com.hexagonkt.helpers
 import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.serialization.YamlFormat
 import org.testng.annotations.Test
+import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalDateTime.of as dateTime
@@ -51,7 +52,9 @@ import kotlin.test.assertFailsWith
     fun `time nanos gets the elapsed nanoseconds` () {
         val nanos = System.nanoTime()
         val timeNanos = formatNanos(nanos)
-        assert (timeNanos.endsWith("ms") && timeNanos.contains("."))
+
+        val decimalSeparator = DecimalFormat().decimalFormatSymbols.decimalSeparator
+        assert (timeNanos.endsWith("ms") && timeNanos.contains(decimalSeparator))
     }
 
     fun `a local date time returns a valid int timestamp` () {

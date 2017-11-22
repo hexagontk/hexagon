@@ -1,0 +1,37 @@
+
+apply from: "../gradle/kotlin.gradle"
+apply from: "../gradle/service.gradle"
+
+apply plugin: 'war'
+
+mainClassName = "com.hexagonkt.ExamplesKt"
+
+applicationDefaultJvmArgs = [
+    '-Xms2G',
+    '-Xmx2G',
+    '-XX:+UseNUMA',
+    '-XX:+UseParallelGC',
+    '-XX:+AggressiveOpts'
+]
+
+war {
+    archiveName = "ROOT.war"
+}
+
+installDist.dependsOn 'war'
+
+dependencies {
+    compile project(':port_client')
+    compile project(':port_store')
+    compile project(':server_undertow')
+    compile project(':templates_pebble')
+
+    compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
+
+    testCompile project(':hexagon_test')
+    testCompile ("org.testng:testng:$testngVersion")
+}
+
+test {
+    useTestNG {}
+}

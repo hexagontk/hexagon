@@ -1,12 +1,12 @@
 package com.hexagonkt.store
 
 import com.hexagonkt.server.Server
-import com.hexagonkt.server.ServerEngine
+import com.hexagonkt.server.ServerPort
 
 /**
  * TODO Replace with TestEngine
  */
-object VoidEngine : ServerEngine {
+object VoidEngine : ServerPort {
     var started = false
 
     override fun runtimePort() = 12345

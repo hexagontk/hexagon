@@ -4,7 +4,7 @@ import com.hexagonkt.client.Client
 import com.hexagonkt.settings.SettingsManager
 import java.net.InetAddress.getByName as address
 
-abstract class EngineTest(serverEngine: ServerEngine) {
+abstract class EngineTest(serverEngine: ServerPort) {
     protected val server: Server = Server(serverEngine, SettingsManager.settings)
     protected val client by lazy { Client ("http://localhost:${server.runtimePort}") }
 

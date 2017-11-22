@@ -1,0 +1,14 @@
+
+apply from: '../gradle/hexagon_module.gradle'
+
+ext.ahcVersion = '2.0.37'
+ext.wiremockVersion = '2.10.1'
+
+dependencies {
+    compile project(':port_server') // TODO Change to `core` once HttpMethod has been moved
+    compile ("org.asynchttpclient:async-http-client:$ahcVersion") {
+        exclude module: 'slf4j-api'
+    }
+
+    testCompile ("com.github.tomakehurst:wiremock:$wiremockVersion")
+}

@@ -1,7 +1,12 @@
 
+// TODO Generate `api.md` from modules with `build/hexagon` directory
+// TODO Create ports and adapters map to populate index's table instead hardcoding it
+// TODO Update all feature's links
+// TODO Update architecture diagram
+// JBake 'content' folder can not be changed (it seems a bug)
+
 ext.siteSource = '.'
 ext.siteHost = 'http://hexagonkt.com'
-ext.siteColor = '#135AA1'
 
 ext.logoSmall = 'assets/img/logo.svg'
 ext.logoWide = 'assets/img/logo_wide.svg'
@@ -9,26 +14,104 @@ ext.logoLarge = 'assets/img/logo.svg'
 
 ext.configData = [
     bootstrapVersion : '3.3.7',
-//    theme : 'paper',
-    theme : 'cerulean',
+    jqueryVersion : '3.2.1',
+    highlightVersion : '9.12.0',
+    theme : 'flatly',
     cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
     author : 'Juanjo Aguililla',
-    keywords : 'Hexagon\\, microservices\\, Java\\, Kotlin',
+    keywords : 'Hexagon\\, microservices\\, Kotlin\\, RabbitMQ\\, MongoDB\\, JVM\\, Web',
+
+    longDescription : '''
+        Hexagon is a microservices library written in Kotlin. Its purpose is to ease the building
+        of services (Web applications\\, APIs or queue consumers) that run inside a cloud platform
+    ''',
+
     twitterUser : 'hexagon_kt',
     githubRepo : 'hexagonkt/hexagon',
+    slackChannel : 'https://kotlinlang.slack.com/messages/hexagon',
     bintrayRepo : 'jamming/maven/hexagon_core',
-    menu : [
-        'Quick Start' : 'index.html',
-        'API' : 'dokka/hexagon/index.html',
-        'Contribute' : 'contribute.html',
-        'License' : 'license.html'
+
+    siteColor : '#135AA1',
+    siteLogoDark : '#0073BB',
+    siteLogoLight : '#2B9EE6',
+    siteBackgroundDark : '#31415C',
+    siteBackgroundLight : '#546691',
+    siteAccentColor : '#2B9EE6',
+
+    navigationLinks : [
+        'Quick Start' : '/quick_start.html',
+        'Guides' : '/guides.html',
+        'API' : '/api.html'
+    ],
+
+    features1 : [
+        [
+            link : '/quick_start.html',
+            icon : 'smile-o',
+            title : 'Simple to Use',
+            description : '''
+                Hexagon is focused in allowing you to use the features you use the most in your 
+                daily coding in the easiest way.
+            '''
+        ],
+        [
+            link : 'https://github.com/hexagonkt/hexagon/blob/master/contributing.md',
+            icon : 'keyboard-o',
+            title : 'Easy to Hack',
+            description : '''
+                The library is done to be lean and simple so you can tweak it to suit your needs
+                instead relying on third parties.
+            '''
+        ],
+        [
+            link : '/quick_start.html',
+            icon : 'plug',
+            title : 'Pluggable Adapters',
+            description : '''
+                Adding an adapter is just implementing the port's interface. You can code your own
+                adapters from scratch or tune the existing ones.
+            '''
+        ]
+    ],
+
+    features2 : [
+        [
+            link : 'http://kotlinlang.org',
+            icon : 'code',
+            title : 'Kotlin First',
+            description : '''
+                The library is coded in Kotlin for coding with Kotlin. No strings attached to 
+                Java (as a Language).
+            '''
+        ],
+        [
+            link : '/status.html',
+            icon : 'bug',
+            title : 'Properly Tested',
+            description : '''
+                Project's coverage is checked in every Pull Request. It is also stress tested at
+                TechEmpower Frameworks Benchmark.
+            '''
+        ],
+        [
+            link : '/guides.html',
+            icon : 'cubes',
+            title : 'Modular',
+            description : '''
+                Each feature is isolated in its own module. Use only the modules you need without
+                unneeded dependencies.
+            '''
+        ]
     ]
 ]
 
-apply plugin: 'org.xbib.gradle.plugin.jbake'
 apply plugin: 'org.ajoberstar.git-publish'
 apply from: '../gradle/site.gradle'
 apply from: '../gradle/icons.gradle'
+
+clean {
+    delete 'build', 'content', 'out'
+}
 
 gitPublishPush.dependsOn 'site'
 
@@ -44,4 +127,49 @@ gitPublish {
     }
 }
 
-site.dependsOn ':hexagon_core:dokka', ':hexagon_core:jacocoTestReport'
+tasks.jbake.doFirst {
+    final String frontMatter =
+        '''title=Hexagon\ndate=2016-04-13\ntype=page\nstatus=published\n~~~~~~\n'''
+    final String contentTarget = projectDir.absolutePath + '/content'
+
+    copy {
+        from rootProject.file('hexagon_site/pages')
+        into contentTarget
+    }
+
+    final List<String> dirs = rootProject.subprojects.collect { "$it.name/build/dokka" }
+
+    copy {
+        dirs.each { dir -> from rootProject.file(dir) }
+        into contentTarget + '/api'
+    }
+
+    fileTree(dir: contentTarget, include: '**/*.md').each { fcd ->
+        final String content = fcd.text
+        fcd.text = frontMatter + content
+    }
+
+    fileTree(dir: "$contentTarget/api", include: '**/*.md').each { fcd ->
+        final String content = fcd.text
+        final String title = '[. a-zA-Z_\\-]'
+        final String link = '[./a-zA-Z_\\-]'
+        final String regex = /\[($title*)]\(($link*)\.md\)/
+        final String replacement = '[$1]($2.html)'
+        final String output = content.replaceAll (regex, replacement)
+
+        fcd.text = output
+    }
+}
+
+site.dependsOn (
+    rootProject.getTasksByName ('dokka', true).toArray () +
+    rootProject.getTasksByName ('jacocoTestReport', true).toArray ()
+)
+
+task serve(dependsOn: 'site') {
+    doLast {
+        exec {
+            commandLine 'ruby', '-run', '-ehttpd', project.buildDir.absolutePath, '-p8888'
+        }
+    }
+}

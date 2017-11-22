@@ -2,9 +2,9 @@
 apply plugin: 'org.jetbrains.dokka'
 
 dokka {
-//    outputFormat = 'gfm'
+    outputFormat = 'gfm'
     reportNotDocumented = false
-    includes = filesCollection projectDir, '**/*.md'
+    includes = filesCollection projectDir, '*.md'
     samples = filesCollection "$projectDir/src/test/kotlin", '**/*Test.kt'
 }
 
