@@ -1,11 +1,7 @@
 
 # Status
 
-Used in projects (not released yet)
-
-Used to develop APIs and Web applications
-
-Well tested
+Used in not released projects. To develop APIs and Web applications.
 
 Performance tests (TechEmpower and JMeter)
 

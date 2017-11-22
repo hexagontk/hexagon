@@ -7,7 +7,7 @@ Role:
 Permission: action:type:id
 User: physical human user
 
-Settings/Configuration: a component will have its credentials (as a user) to login in services
+A component will have its credentials (as a user) to login in services
 it will have a subject (its project name)
 
 System:
@@ -21,6 +21,7 @@ Managers: singletons to manage across an application and/or between services
     SettingsManager
     TemplatesManager
 
+TODO
 Packaging and deployment
 
 TODO

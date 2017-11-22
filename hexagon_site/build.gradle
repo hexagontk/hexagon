@@ -1,5 +1,4 @@
 
-// TODO Add `serve` task to start an HTTP server with `build` contents (can be using a Ruby command)
 // TODO Generate `api.md` from modules with `build/hexagon` directory
 // TODO Create ports and adapters map to populate index's table instead hardcoding it
 // TODO Update all feature's links
@@ -17,7 +16,7 @@ ext.configData = [
     bootstrapVersion : '3.3.7',
     jqueryVersion : '3.2.1',
     highlightVersion : '9.12.0',
-    theme : 'flatly', // also 'paper' or 'cerulean'
+    theme : 'flatly',
     cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
     author : 'Juanjo Aguililla',
     keywords : 'Hexagon\\, microservices\\, Kotlin\\, RabbitMQ\\, MongoDB\\, JVM\\, Web',
@@ -95,7 +94,7 @@ ext.configData = [
             '''
         ],
         [
-            link : '/quick_start.html',
+            link : '/guides.html',
             icon : 'cubes',
             title : 'Modular',
             description : '''
@@ -166,3 +165,11 @@ site.dependsOn (
     rootProject.getTasksByName ('dokka', true).toArray () +
     rootProject.getTasksByName ('jacocoTestReport', true).toArray ()
 )
+
+task serve(dependsOn: 'site') {
+    doLast {
+        exec {
+            commandLine 'ruby', '-run', '-ehttpd', project.buildDir.absolutePath, '-p8888'
+        }
+    }
+}
