@@ -3,7 +3,7 @@ package com.hexagonkt.server
 /**
  * Represents a server instance of one kind.
  */
-interface ServerEngine {
+interface ServerPort {
     /**
      * Gets the runtime port if started, throw an exception otherwise.
      */

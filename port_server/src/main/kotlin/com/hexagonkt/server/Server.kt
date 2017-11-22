@@ -17,7 +17,7 @@ import java.net.InetAddress.getByName as address
  */
 data class Server (
     /** Engine used to run this HTTP server. */
-    private val serverEngine: ServerEngine,
+    private val serverEngine: ServerPort,
     val serverName: String = Server.DEFAULT_NAME,
     val bindAddress: InetAddress = address(Server.DEFAULT_ADDRESS),
     val bindPort: Int = Server.DEFAULT_PORT,
@@ -29,7 +29,7 @@ data class Server (
         internal const val DEFAULT_PORT = 2010
     }
 
-    constructor(serverEngine: ServerEngine, settings: Map<String, *>, router: Router = Router()) :
+    constructor(serverEngine: ServerPort, settings: Map<String, *>, router: Router = Router()) :
         this (
             serverEngine,
             settings["serviceName"] as? String ?: DEFAULT_NAME,

@@ -13,7 +13,7 @@ import java.util.*
 import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 import java.util.Locale.forLanguageTag as localeFor
 import com.hexagonkt.settings.SettingsManager.settings
-import com.hexagonkt.templates.TemplateEngine
+import com.hexagonkt.templates.TemplatePort
 import com.hexagonkt.templates.TemplateManager.render
 
 /**
@@ -47,7 +47,7 @@ class Call(
     fun serializationFormat(): SerializationFormat = getContentTypeFormat(contentType())
 
     fun template(
-        engine: TemplateEngine,
+        engine: TemplatePort,
         template: String,
         locale: Locale,
         context: Map<String, *>) {
@@ -67,16 +67,16 @@ class Call(
     }
 
     fun template(
-        engine: TemplateEngine,
+        engine: TemplatePort,
         template: String,
         locale: Locale = obtainLocale(),
         vararg context: Pair<String, *>) =
             template(engine, template, locale, context.toMap())
 
-    fun template(engine: TemplateEngine, template: String, context: Map<String, *>) =
+    fun template(engine: TemplatePort, template: String, context: Map<String, *>) =
         template(engine, template, obtainLocale(), context)
 
-    fun template(engine: TemplateEngine, template: String, vararg context: Pair<String, *>) =
+    fun template(engine: TemplatePort, template: String, vararg context: Pair<String, *>) =
         template(engine, template, obtainLocale(), context.toMap())
 
     /**

@@ -6,9 +6,9 @@ import com.hexagonkt.settings.SettingsManager
 fun serve(
     settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
-        serve(JettyServletEngine(), settings, block)
+        serve(JettyServletAdapter(), settings, block)
 
 fun server(
     settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
-        server(JettyServletEngine(), settings, block)
+        server(JettyServletAdapter(), settings, block)

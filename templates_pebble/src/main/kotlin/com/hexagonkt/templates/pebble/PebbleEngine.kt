@@ -1,7 +1,7 @@
 package com.hexagonkt.templates.pebble
 
 import com.hexagonkt.helpers.toDate
-import com.hexagonkt.templates.TemplateEngine
+import com.hexagonkt.templates.TemplatePort
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.io.StringWriter
 import java.time.LocalDateTime
@@ -15,7 +15,7 @@ import java.util.*
  * templates/freemarker/file
  * ...
  */
-object PebbleEngine : TemplateEngine {
+object PebbleEngine : TemplatePort {
     val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()
 
     override fun render(resource: String, locale: Locale, context: Map<String, *>): String {

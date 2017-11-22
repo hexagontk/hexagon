@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-internal object VoidEngine : ServerEngine {
+internal object VoidEngine : ServerPort {
     private var started = false
 
     override fun runtimePort() = 12345

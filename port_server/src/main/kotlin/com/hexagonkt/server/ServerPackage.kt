@@ -25,7 +25,7 @@ val ALL: LinkedHashSet<HttpMethod> = linkedSetOf(*HttpMethod.values())
  * @return A new server with the built router.
  */
 fun server(
-    engine: ServerEngine,
+    engine: ServerPort,
     settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
         Server(engine, settings, router(block))
@@ -39,7 +39,7 @@ fun server(
  * @return The running server with the built router.
  */
 fun serve(
-    engine: ServerEngine,
+    engine: ServerPort,
     settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
         server(engine, settings, block).apply { run() }

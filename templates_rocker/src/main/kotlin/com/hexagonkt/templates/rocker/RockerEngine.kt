@@ -2,10 +2,10 @@ package com.hexagonkt.templates.rocker
 
 import com.fizzed.rocker.Rocker
 import com.fizzed.rocker.RockerModel
-import com.hexagonkt.templates.TemplateEngine
+import com.hexagonkt.templates.TemplatePort
 import java.util.*
 
-object RockerEngine : TemplateEngine {
+object RockerEngine : TemplatePort {
     override fun render(resource: String, locale: Locale, context: Map<String, *>): String {
         val bindableRockerModel = Rocker.template(resource)
 

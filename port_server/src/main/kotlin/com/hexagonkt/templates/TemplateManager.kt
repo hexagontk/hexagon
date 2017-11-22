@@ -38,6 +38,6 @@ object TemplateManager {
     }
 
     fun render(
-        engine: TemplateEngine, resource: String, locale: Locale, context: Map<String, *>): String =
+        engine: TemplatePort, resource: String, locale: Locale, context: Map<String, *>): String =
             engine.render("$basePath/$resource", locale, context(resource, locale, context))
 }

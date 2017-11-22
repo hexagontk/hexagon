@@ -2,7 +2,7 @@ package com.hexagonkt.server.jetty
 
 import com.hexagonkt.helpers.error
 import com.hexagonkt.server.Server
-import com.hexagonkt.server.ServerEngine
+import com.hexagonkt.server.ServerPort
 import com.hexagonkt.server.servlet.ServletFilter
 import org.eclipse.jetty.server.ServerConnector
 import org.eclipse.jetty.servlet.ServletContextHandler
@@ -18,7 +18,7 @@ import java.net.InetAddress.getByName as address
 /**
  * TODO .
  */
-class JettyServletEngine(private val async: Boolean = false) : ServerEngine {
+class JettyServletAdapter(private val async: Boolean = false) : ServerPort {
     private var jettyServer: JettyServer? = null
 
     override fun runtimePort(): Int =
