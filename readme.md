@@ -18,6 +18,11 @@
       src="https://codecov.io/gh/hexagonkt/hexagon/branch/master/graph/badge.svg"
       alt="Codecov" />
   </a>
+  <a href="https://codebeat.co/projects/github-com-hexagonkt-hexagon-master">
+    <img
+      src="https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971"
+      alt="Codebeat" />
+  </a>
   <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
     <img
       src="https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg"
@@ -26,20 +31,19 @@
 </p>
 
 <p align="center">
-  <a href="http://hexagonkt.com/TODO">Getting Started</a> |
-  <a href="http://hexagonkt.com/TODO">Guides</a> |
-  <a href="http://hexagonkt.com/TODO">API Reference</a> |
-  <a href="http://hexagonkt.com/TODO">Community</a>
+  <a href="http://hexagonkt.com/quick_start.html">Quick Start</a> |
+  <a href="http://hexagonkt.com/guides.html">Guides</a> |
+  <a href="http://hexagonkt.com/api.html">API Reference</a>
 </p>
 
 ---
 
-Hexagon is a microservices framework that doesn't follow the flock. It is written in [Kotlin] and
-its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run
-inside a cloud platform.
+Hexagon is a microservices library written in [Kotlin]. Its purpose is to ease the building of
+services (Web applications, APIs or queue consumers) that run inside a cloud platform.
 
 It is meant to provide abstraction from underlying technologies to be able to change them with
-minimum impact.
+minimum impact. It is designed to fit in applications that conforms to the [Hexagonal Architecture]
+(also called [Clean Architecture] or [Ports and Adapters Architecture]).
 
 The goals of the project are:
 
@@ -53,13 +57,15 @@ The goals of the project are:
 What are NOT project goals:
 
 1. To be the fastest framework. Write the code fast and optimize only the critical parts. It is
-   [not slow][benchmark] anyway, and it will be faster when it supports asynchronous non blocking
-   operation.
+   [not slow][benchmark] anyway.
 2. Support all available technologies and tools: the spirit is to define simple interfaces for
-   the framework's features, so users can implement integrations with different tools easily.
+   the most common features , so users can implement integrations with different tools easily.
 3. To be usable from Java. Hexagon is *Kotlin first*.
 
 [Kotlin]: http://kotlinlang.org
+[Hexagonal Architecture]: http://culttt.com/2014/12/31/hexagonal-architecture
+[Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
+[Ports and Adapters Architecture]: https://dzone.com/articles/hexagonal-architecture-is-powerful
 [benchmark]: https://www.techempower.com/benchmarks
 
 ## Quick Start
@@ -71,7 +77,7 @@ What are NOT project goals:
   * In [Gradle]. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.22.2")
+    compile ("com.hexagonkt:server_jetty:0.22.3")
     ```
 
   * In [Maven]. Declare the dependency in `pom.xml`:
@@ -80,7 +86,7 @@ What are NOT project goals:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.22.2</version>
+      <version>0.22.3</version>
     </dependency>
     ```
 
@@ -98,7 +104,7 @@ What are NOT project goals:
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-You can read more details in the [Services] guide.
+You can read more details reading the [Quick Start] page, or checking the [guides].
 
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
@@ -106,31 +112,8 @@ You can read more details in the [Services] guide.
 [Gradle]: https://gradle.org
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello/world
-
-## Guides
-
-* [Services]: explains how to create, build, test, package and run your services.
-* [Configuration]: how to load service's configuration from different sources and data formats.
-* [HTTP]: describes how to use HTTP routing and HTML templates for Web services.
-* [Serialization]: details how to serialize/deserialize object instances using different formats.
-* [Storage]: gives an overview of how to store data using different data stores.
-* [Events]: how to support asynchronous communication with events through message brokers.
-* [Scheduling]: explains how to execute tasks periodically using Cron expressions.
-* [Templates]: describes how to render pages using template engines like [Pebble] or [kotlinx.html].
-* [Testing]: explains how to the test Hexagon's services.
-
-[Services]: http://hexagonkt.com/services.html
-[Configuration]: http://hexagonkt.com/configuration.html
-[HTTP]: http://hexagonkt.com/rest.html
-[Serialization]: http://hexagonkt.com/serialization.html
-[Storage]: http://hexagonkt.com/storage.html
-[Events]: http://hexagonkt.com/events.html
-[Scheduling]: http://hexagonkt.com/scheduling.html
-[Templates]: http://hexagonkt.com/templates.html
-[Testing]: http://hexagonkt.com/testing.html
-
-[Pebble]: http://www.mitchellbosecke.com/pebble/home
-[kotlinx.html]: https://github.com/Kotlin/kotlinx.html
+[Quick Start]: http://hexagonkt.com/quick_start.html
+[guides]: http://hexagonkt.com/guides.html
 
 ## Status
 
@@ -160,16 +143,13 @@ If you feel like you can do more. You can contribute to the framework in differe
 * Vote for the features you want in the [issue tracker][issues] (using [reactions]).
 * And... Drum roll... Submitting [code][contributing] or [documentation][contributing].
 
-Refer to the [contributing.md][contributing] file for detailed information about Hexagon's
-development and how to help.
-
-To know what issues are currently open and be aware of the next features yo can check the 
+To know what issues are currently open and be aware of the next features yo can check the
 [Project Board] at Github.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
 to date of project's news following [@hexagon_kt] in Twitter.
 
-Eventually I will thank all [contributors], but now it's just [me].
+Thanks to all project's [contributors]!
 
 [give it a star]: https://github.com/hexagonkt/hexagon/stargazers
 [@hexagon_kt]: https://twitter.com/hexagon_kt
@@ -179,7 +159,6 @@ Eventually I will thank all [contributors], but now it's just [me].
 [contributing]: contributing.md
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
-[me]: https://github.com/jaguililla
 
 ## License
 

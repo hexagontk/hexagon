@@ -1,0 +1,7 @@
+
+FROM openjdk
+ENV PROJECT hexagon_examples
+COPY build/install/$PROJECT /opt/$PROJECT
+WORKDIR /opt/$PROJECT
+EXPOSE 9090
+ENTRYPOINT /opt/$PROJECT/bin/$PROJECT

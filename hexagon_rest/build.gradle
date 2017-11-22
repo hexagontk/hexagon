@@ -2,9 +2,9 @@
 apply from: '../gradle/hexagon_module.gradle'
 
 dependencies {
-    compile project(':hexagon_server')
-    compile project(':hexagon_store')
+    compile project(':port_server')
+    compile project(':port_store')
 
-    testCompile project(':hexagon_client')
+    testCompile project(':port_client')
     testCompile project(':server_jetty')
 }

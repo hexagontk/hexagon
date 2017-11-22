@@ -1,5 +1,10 @@
 
+apply plugin: 'org.xbib.gradle.plugin.jbake'
+
 // Generate service documentation site
+// To generate clean URLs, add the following settings:
+//    configuration['uri.noExtension'] = true
+//    configuration['uri.noExtension.prefix'] = '/'
 jbake {
     siteHost = findProperty ('siteHost') ?: ''
     srcDirName = findProperty ('siteSource') ?: 'site'
@@ -16,16 +21,16 @@ jbake {
     configuration['render.feed'] = false
     configuration['render.sitemap'] = true
 
-    configuration['markdown.extensions'] = 'ALL,-HARDWRAPS'
+    configuration['markdown.extensions'] = 'ALL,-HARDWRAPS,-AUTOLINKS,-EXTANCHORLINKS'
 
     // Custom properties
     configuration['projectName'] = rootProject.name // Applied in templates, not content
     configuration['projectDescription'] = rootProject.description
     configuration['projectVersion'] = rootProject.version.toString()
-    configuration['siteColor'] = siteColor
+    configuration['projectGroup'] = rootProject.group.toString ()
+    configuration['siteHost'] = configuration['site.host']
 
     // Custom extra data
-    configuration['siteHost'] = siteHost
     configData.each { entry ->
         configuration[entry.key] = entry.value
     }
@@ -35,13 +40,17 @@ jbake {
 task site (dependsOn: 'jbake') {
     doLast {
         file ("$buildDir/$jbake.destDirName").traverse (nameFilter: ~/.+\.(html|xml|css|svg)$/) {
-            it.write (it.getText ()
-                .replace ('${projectVersion}', rootProject.version.toString ())
-                .replace ('${projectName}', rootProject.name)
-                .replace ('${projectGroup}', rootProject.group.toString ())
-                .replace ('${projectDescription}', rootProject.description)
-                .replace ('${siteColor}', siteColor.toString())
-            )
+            filterFile (it, jbake.configuration)
         }
     }
+}
+
+private static void filterFile (final File file, final Map<?, ?> data) {
+    String text = file.getText ()
+
+    data.each { entry ->
+        text = text.replace ("\${$entry.key}", entry.value.toString ())
+    }
+
+    file.write (text)
 }

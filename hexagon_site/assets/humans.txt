@@ -9,7 +9,8 @@
 
     To all open source coders that make the Internet possible.
 
-    For the Web design, thanks to the people of http://bootswatch.com/ for their fabulous templates.
+    For the Web design, thanks to the people of http://bootswatch.com/ for their fabulous templates
+    and to vespa.ai theme maker (Rick K.) which I borrowed.
 
 # LICENSES
 
@@ -20,5 +21,5 @@
 # TECHNOLOGY COLOPHON
 
     HTML5, CSS3
-    jQuery, Modernizr, Bootstrap
+    jQuery, Modernizr, Bootstrap, JBake
     Kotlin, MongoDB, RabbitMQ

@@ -24,7 +24,7 @@ import javax.servlet.annotation.WebListener
         jettyServer.stop()
     }
 
-    @BeforeClass fun run_server() {
+    @BeforeClass fun `Run server`() {
         val context = WebAppContext()
         context.contextPath = "/"
         context.war = "."
@@ -34,7 +34,7 @@ import javax.servlet.annotation.WebListener
         jettyServer.start()
     }
 
-    fun servlet_server_starts() {
+    fun `Servlet server starts`() {
         val response = Client("http://127.0.0.1:9897").get("/")
         assert(response.responseBody == "Hello Servlet!")
     }

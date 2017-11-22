@@ -1,0 +1,49 @@
+#
+# Services needed for benchmarking. This file will not run on its own, it needs to be started after
+# root's `docker-compose .yaml`. To do so, execute the following command from the root directory:
+#
+#    docker-compose -f docker-compose.yaml -f hexagon_benchmark/docker-compose.yaml up -d
+#
+
+version: '3'
+
+services:
+  benchmark_resin:
+    build:
+      context: ./hexagon_benchmark
+      dockerfile: resin.dockerfile
+    depends_on:
+      - mongodb
+      - postgresql
+    environment:
+      - MONGODB_DB_HOST=mongodb
+      - POSTGRESQL_DB_HOST=postgresql
+    ports:
+      - 9010:8080
+
+  benchmark_jetty:
+    build:
+      context: ./hexagon_benchmark
+      dockerfile: java.dockerfile
+    depends_on:
+      - mongodb
+      - postgresql
+    environment:
+      - MONGODB_DB_HOST=mongodb
+      - POSTGRESQL_DB_HOST=postgresql
+    ports:
+      - 9020:9090
+
+  benchmark_undertow:
+    build:
+      context: ./hexagon_benchmark
+      dockerfile: java.dockerfile
+    depends_on:
+      - mongodb
+      - postgresql
+    environment:
+      - MONGODB_DB_HOST=mongodb
+      - POSTGRESQL_DB_HOST=postgresql
+      - WEBENGINE=undertow
+    ports:
+      - 9040:9090
