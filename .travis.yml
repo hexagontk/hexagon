@@ -45,6 +45,6 @@ after_success: bash <(curl -s https://codecov.io/bash)
 deploy:
   skip_cleanup: true
   provider: script
-  script: ./gradlew -q release && git push --tags
+  script: ./gradlew --stacktrace --info release && git push --tags
   on:
     branch: master
