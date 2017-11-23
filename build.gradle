@@ -37,6 +37,7 @@ task publish(
     dependsOn:
         project.getTasksByName ('bintrayUpload', true) +
         tasks.getByPath(':hexagon_starters:publishAllTemplates')
+
 //        tasks.getByPath(':hexagon_site:gitPublishPush')
 )
 
