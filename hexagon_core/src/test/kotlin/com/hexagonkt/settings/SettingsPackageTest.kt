@@ -5,7 +5,7 @@ import org.testng.annotations.Test
 @Test class SettingsPackageTest {
     fun `load environment variables add settings with provided prefixes`() {
         assert(loadEnvironmentVariables("PATH", "INVALID").size == 1)
-        assert(loadEnvironmentVariables("PATH", "SHELL", "USER").size == 3)
+        assert(loadEnvironmentVariables("PATH", "USER").size == 2)
     }
 
     fun `load system properties add variables with provided prefixes`() {
