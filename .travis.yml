@@ -42,9 +42,9 @@ script: ./gradlew -q clean check site installDist jacocoReport installAllTemplat
 
 after_success: bash <(curl -s https://codecov.io/bash)
 
-deploy:
-  skip_cleanup: true
-  provider: script
-  script: ./gradlew --stacktrace --info release && git push --tags
-  on:
-    branch: master
+#deploy:
+  #skip_cleanup: true
+  #provider: script
+  #script: ./gradlew --stacktrace --info release && git push --tags
+  #on:
+    #branch: master
