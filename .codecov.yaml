@@ -2,6 +2,7 @@
 ignore:
   - hexagon_test
   # TODO Enable these modules once they are finished
+  - templates_kotlinx
   - hexagon_examples
   - port_store
   - hexagon_rest

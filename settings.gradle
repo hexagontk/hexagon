@@ -24,6 +24,7 @@ include (
     'server_servlet',
     'server_jetty',
     'server_undertow',
+    'templates_kotlinx',
     'templates_pebble',
     'templates_rocker'
 )
