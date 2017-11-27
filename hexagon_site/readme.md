@@ -1,8 +1,10 @@
 
-To run server ruby 1.8+ must be installed
+# Project Site
 
-To test site:
+To run the documentation in a local server, ruby 1.8+ must be installed.
 
-    ruby -run -ehttpd hexagon_site/build -p8888
+To test the site run:
 
-* Use side menu like [Kikaha](http://get.kikaha.io)
+    gw serve
+
+The site will be served at: [http://localhost:8888](http://localhost:8888)

@@ -63,9 +63,9 @@ What are NOT project goals:
 3. To be usable from Java. Hexagon is *Kotlin first*.
 
 [Kotlin]: http://kotlinlang.org
-[Hexagonal Architecture]: http://culttt.com/2014/12/31/hexagonal-architecture
+[Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
-[Ports and Adapters Architecture]: https://dzone.com/articles/hexagonal-architecture-is-powerful
+[Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 [benchmark]: https://www.techempower.com/benchmarks
 
 ## Quick Start
@@ -74,19 +74,19 @@ What are NOT project goals:
 2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
 3. Add the dependency:
 
-  * In [Gradle]. Import it inside `build.gradle`:
+  * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.22.3")
+    compile ("com.hexagonkt:server_jetty:0.22.4")
     ```
 
-  * In [Maven]. Declare the dependency in `pom.xml`:
+  * In Maven. Declare the dependency in `pom.xml`:
 
     ```xml
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.22.3</version>
+      <version>0.22.4</version>
     </dependency>
     ```
 
@@ -109,8 +109,6 @@ You can read more details reading the [Quick Start] page, or checking the [guide
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
-[Gradle]: https://gradle.org
-[Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello/world
 [Quick Start]: http://hexagonkt.com/quick_start.html
 [guides]: http://hexagonkt.com/guides.html
@@ -118,8 +116,8 @@ You can read more details reading the [Quick Start] page, or checking the [guide
 ## Status
 
 **DISCLAIMER**: The project status is beta. Use it at your own risk. There are some modules not
-started yet (ie: metrics and remote configuration) and the API is subject to change any time prior
-to release 1.0.
+finished yet (e.g: storage and HTTP client) and the API is subject to change any time prior to
+release 1.0.
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark]
@@ -139,9 +137,9 @@ If you feel like you can do more. You can contribute to the framework in differe
 
 * By using it and [spreading the word][@hexagon_kt].
 * Giving feedback by [Twitter][@hexagon_kt] or [Slack].
-* Requesting [new features][issues] or [submitting bugs][issues].
-* Vote for the features you want in the [issue tracker][issues] (using [reactions]).
-* And... Drum roll... Submitting [code][contributing] or [documentation][contributing].
+* Requesting [new features or submitting bugs][issues].
+* Voting for the features you want in the [issue tracker][issues] (using [reactions]).
+* And... Drum roll... Submitting [code or documentation][contributing].
 
 To know what issues are currently open and be aware of the next features yo can check the
 [Project Board] at Github.

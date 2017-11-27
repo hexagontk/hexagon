@@ -1,6 +1,3 @@
-#
-# Services needed for testing (check `site/content/contribute.md`).
-#
 
 version: '3'
 
