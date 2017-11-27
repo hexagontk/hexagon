@@ -15,7 +15,7 @@ You can write a [Gradle] project from scratch (Gradle 3 or newer is required):
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.4-2'
+    id 'org.jetbrains.kotlin.jvm' version '1.1.61'
 }
 
 apply plugin: "kotlin"
@@ -119,8 +119,6 @@ Build scripts:
 * logback.xml
 
 Templates: Pebble (optional dependencies)
-
-## Deploy on Systemd
 
 ## Deploy on Servlet engine
 

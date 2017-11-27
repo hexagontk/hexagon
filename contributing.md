@@ -10,7 +10,7 @@ typing:
     cd hexagon
     ./gradlew installDist -x test
     docker-compose up -d
-    ./gradlew clean site installDist installAllTemplates publishToMavenLocal tfb
+    ./gradlew clean check site installDist jacocoReport installAllTemplates publishToMavenLocal tfb
 
 The binaries are located in the `/build` directory. And the site in `/hexagon_site/build`.
 
@@ -21,7 +21,7 @@ You can define some useful aliases like:
     alias gw='./gradlew'
     alias dcupd='docker-compose up -d'
 
-It is recommended that you add: `gradlew clean site installDist installAllTemplates` to
+It is recommended that you add: `gradlew clean check site installDist installAllTemplates tfb` to
 your `.git/hooks/pre-push` script. As this command will be executed before pushing code to the
 repository (saving time fixing [Travis] build errors).
 
@@ -51,11 +51,13 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
 
 * [Travis]: For continuous integration.
 * [Codecov]: To check code coverage.
+* [Codebeat]: To measure code quality.
 * [Github]: Web hosting, project board and code hosting.
 * [Bintray]: Artifact repository for JARs.
 
 [Travis]: https://travis-ci.org
 [Codecov]: https://codecov.io
+[Codebeat]: https://codebeat.co
 [Github]: https://github.com
 [Bintray]: https://bintray.com
 
