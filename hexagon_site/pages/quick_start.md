@@ -78,15 +78,11 @@ Events
 
 ... Stores + Rest
 
-# Teaser / Roadmap
+# Roadmap
 
-Froze interface
 The focus will be library ease of use and API freeze
 
 Async
-
-Tools (generate
-Support Coreos, Docker, Systemd, CoreOS Fleet
 
 Metrics
 
@@ -100,12 +96,8 @@ Web to download starters
 
 Tool for client requests
 
-HTTP/2
-
-Websockets
-
 CBOR
 
-Swagger
+Take out templates port
 
-Clients and Servers contracts... when you define routes, and route documentation is in place
+Code examples (take Spark ones)

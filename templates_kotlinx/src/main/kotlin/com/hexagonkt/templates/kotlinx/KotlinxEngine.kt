@@ -1,4 +1,4 @@
-package co.there4.hexagon.templates.kotlinx
+package com.hexagonkt.templates.kotlinx
 
 import com.hexagonkt.server.Call
 import kotlinx.html.TagConsumer

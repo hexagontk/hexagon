@@ -1,7 +1,7 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
-ext.kotlinxVersion = '0.6.6'
+ext.kotlinxVersion = '0.6.8'
 
 dependencies {
     compile (project (':port_server'))

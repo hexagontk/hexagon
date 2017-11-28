@@ -1,7 +1,7 @@
 
 import com.hexagonkt.helpers.Log
 import com.hexagonkt.server.Call
-import co.there4.hexagon.templates.kotlinx.KotlinxEngine.page
+import com.hexagonkt.templates.kotlinx.KotlinxEngine.page
 import kotlinx.html.*
 import javax.script.Compilable
 import javax.script.ScriptEngineManager

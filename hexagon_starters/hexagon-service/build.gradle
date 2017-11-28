@@ -1,6 +1,6 @@
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.1.51'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.0'
 }
 
 apply from: "\$gradleScripts/kotlin.gradle"
@@ -14,13 +14,19 @@ applicationDefaultJvmArgs = [
 
 installDist.dependsOn 'war'
 
+// TODO Provisional (until all packages are in JCenter)
+repositories {
+    maven { url  "https://dl.bintray.com/jamming/maven" }
+}
+
 dependencies {
     compile ("com.hexagonkt:server_jetty:\$hexagonVersion")
 
     // Optional dependencies. Can be removed if not used
-    compile ("com.mitchellbosecke:pebble:\$pebbleVersion")
-    compile ("org.jetbrains.kotlinx:kotlinx.html.jvm:\$kotlinxHtmlVersion")
-    compile ("org.mongodb:mongodb-driver:\$mongodbVersion")
+    compile ("com.hexagonkt:port_client:\$hexagonVersion")
+    compile ("com.hexagonkt:port_store:\$hexagonVersion")
+    compile ("com.hexagonkt:templates_pebble:\$hexagonVersion")
+    compile ("com.hexagonkt:templates_kotlinx:\$hexagonVersion")
 
     // providedCompile excludes the dependency only in the WAR, not in the distribution
     providedCompile ("org.eclipse.jetty:jetty-webapp:\$jettyVersion") {
@@ -28,6 +34,6 @@ dependencies {
     }
 
     testCompile ("org.testng:testng:\$testngVersion")
-    testCompile ("com.hexagonkt:hexagon_test:\$hexagonVersion:test")
+    testCompile ("com.hexagonkt:hexagon_test:\$hexagonVersion")
     testCompile ("com.rabbitmq:amqp-client:\$rabbitVersion")
 }
