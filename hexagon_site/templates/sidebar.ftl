@@ -9,7 +9,6 @@
 <!--
 
 Motivation
-Internal Project Structure (modules, site generation, benchmark, templates, starters, gradle...)
 Ports and Adapters
 Status
 Contribute

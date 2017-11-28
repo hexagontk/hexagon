@@ -95,6 +95,14 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
   Then something happened
   And I expected this other thing
   ```
+  
+## Project Structure
+
+modules
+site generation
+benchmark
+starters
+gradle
 
 ## Tasks and Milestones
 
