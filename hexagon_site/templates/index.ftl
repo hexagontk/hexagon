@@ -21,13 +21,13 @@
           <a href="https://travis-ci.org/${config.githubRepo}">
             <img
               src="https://travis-ci.org/${config.githubRepo}.svg?branch=master"
-              alt="BuildImg" />
+              alt="Travis CI" />
           </a>
 
           <a href="https://codecov.io/github/${config.githubRepo}?branch=master">
             <img
               src="https://codecov.io/github/${config.githubRepo}/coverage.svg?branch=master"
-              alt="CoverageImg" />
+              alt="Codecov" />
           </a>
 
           <a href="https://codebeat.co/projects/github-com-hexagonkt-hexagon-master">
@@ -39,7 +39,7 @@
           <a href="https://bintray.com/${config.bintrayRepo}/_latestVersion">
             <img
               src="https://api.bintray.com/packages/${config.bintrayRepo}/images/download.svg"
-              alt="DownloadImg" />
+              alt="Bintray" />
           </a>
         </div>
         <div class="intro-lead-in">${config.projectDescription}</div>
