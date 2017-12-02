@@ -105,31 +105,37 @@ ext.configData = [
     ],
 
     ports : [
-        [
-            title : '',
-            link : '/ports/status.html',
+        HTTP : [
+            link : '',
             adapters : [
-                a : '/'
+                Undertow : '',
+                Jetty : '',
+                Serlvet : ''
+            ]
+        ],
+        Templates : [
+            link : '',
+            adapters : [
+                Pebble : '',
+                Rocker : ''
+            ]
+        ],
+        'Serialization formats' : [
+            link : '',
+            adapters : [
+                JSON : '',
+                YAML : ''
+            ]
+        ],
+        Settings : [
+            link : '',
+            adapters : [
+                Environment : '',
+                Files : '',
+                Resources : '',
+                URLs : ''
             ]
         ]
-        /*
-        [
-            title : 'HTTP',
-            <td>Undertow, Jetty, Serlvet</td>
-        ],
-        [
-            title : 'Templates',
-            <td>Pebble, Rocker</td>
-        ],
-        [
-            title : 'Serialization formats',
-            <td>JSON, YAML</td>
-        ],
-        [
-            title : 'Settings',
-            <td>Environment, Files, Resources, URLs</td>
-        ]
-         */
     ]
 ]
 

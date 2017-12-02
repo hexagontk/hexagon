@@ -1,9 +1,4 @@
 
-[![codebeat badge]][codebeat page]
-
-[codebeat badge]: https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971
-[codebeat page]: https://codebeat.co/projects/github-com-hexagonkt-hexagon-master
-
 ## Status
 
 **DISCLAIMER**: The project status is beta. Use it at your own risk. There are some modules not
@@ -24,6 +19,13 @@ Tests, of course, are taken into account. This is the coverage grid:
 [JMeter]: http://jmeter.apache.org
 [CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
+
+The code quality is checked by Codebeat:
+
+[![codebeat badge]][codebeat page]
+
+[codebeat badge]: https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971
+[codebeat page]: https://codebeat.co/projects/github-com-hexagonkt-hexagon-master
 
 ## Contribute
 

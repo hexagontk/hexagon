@@ -63,6 +63,9 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
 
 ## Contribute
 
+* Make sure you read the project [Quick Start] guide to know the project structure before picking a
+  task.
+
 * New features should be discussed within an issue in the issue tracker before actual coding.
 
 * For code, file names, tags and branches use either camel case or snake case only. Ie: avoid `-` in
@@ -96,13 +99,7 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
   And I expected this other thing
   ```
   
-## Project Structure
-
-modules
-site generation
-benchmark
-starters
-gradle
+[Quick Start]: /quick_start.html
 
 ## Tasks and Milestones
 

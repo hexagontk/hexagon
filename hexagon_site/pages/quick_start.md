@@ -1,20 +1,42 @@
 
 # What is Hexagon
 
-Hexagon is a microservices framework written in [Kotlin] which pursose is to ease the building of
+Hexagon is a microservices library written in [Kotlin] which pursose is to ease the building of
 services (Web applications, APIs or queue consumers) that run inside cloud platforms.
 
-It is meant to provide abstraction from underlying technoligies to be able to change them with
-minimum impact.
+It is meant to provide abstraction from underlying technoligies (data storage, HTTP server 
+engines, etc.) to be able to change them with minimum impact.
 
-It only supports Kotlin use, Java is not a targeted language for the framework.
+It only supports Kotlin, Java is not a targeted language for the framework.
+  
+## Project Structure
+
+The Hexagon is a multiple module project. There are several kind of modules:
+
+* The ones that provide a single functionality (which doesn't depend on different implementations).
+  Like Scheduling or Core.
+* Modules that define a "Port": An interface to use a feature that may have different 
+  implementations.
+* "Ports", which are ports implementations for a given tool.
+* Infrastructure modules. Components used by the project itself, like the benchmark, the examples
+  and the site generator.
+
+### Site Generation
+
+### Benchmark
+
+Code for the benchmark
+
+### Starters
+
+Gradle utility scripts
 
 
 
 System:
 
 Service: API, message broker
-Application: are a kind of component which is final (meant for users)
+Application: are a kind of service which is final (meant for users)
 WebApplication, Desktop Application, Mobile Application or Browser Aplication
 
 Managers: singletons to manage across an application and/or between services
@@ -23,6 +45,9 @@ Managers: singletons to manage across an application and/or between services
     TemplatesManager
     
     
+
+Motivation
+Ports and Adapters
 
 # Why it was created
 

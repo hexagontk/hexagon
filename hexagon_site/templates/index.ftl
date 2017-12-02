@@ -148,22 +148,12 @@
               </tr>
             </thead>
             <tbody>
+              <#list config.ports?keys as port>
               <tr>
-                <td>HTTP</td>
-                <td>Undertow, Jetty, Serlvet</td>
+                <td>${port}</td>
+                <td>${config.ports[port]['adapters']?keys?join(", ")}</td>
               </tr>
-              <tr>
-                <td>Templates</td>
-                <td>Pebble, Rocker</td>
-              </tr>
-              <tr>
-                <td>Serialization formats</td>
-                <td>JSON, YAML</td>
-              </tr>
-              <tr>
-                <td>Settings</td>
-                <td>Environment, Files, Resources, URLs</td>
-              </tr>
+              </#list>
             </tbody>
           </table>
         </div>

@@ -9,7 +9,7 @@ Services
 To build Hexagon services you have some Gradle helpers that you can use on your own project. To
 use them, you can use the online versions, or copy them to your `gradle` directory.
 
-You can write a [Gradle] project from scratch (Gradle 3 or newer is required):
+You can write a [Gradle] project from scratch (Gradle 4 or newer is required):
 
 `build.gradle`:
 
@@ -18,8 +18,8 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.0'
 }
 
-apply plugin: "kotlin"
-apply plugin: "application"
+apply plugin: 'kotlin'
+apply plugin: 'application'
 
 mainClassName = 'HelloKt'
 
@@ -86,19 +86,7 @@ Build scripts:
 
     Tasks:
     - runService: for continuous run (AKA "Watch")
-    - install: `systemdService`: script that support start/stop/status
     - buildInfo / processResources
-
-    Variables:
-    - deployDir
-    - serviceUser
-    - serviceGroup
-
-    Use Systemd service:
-
-    Copy this file to '/etc/systemd/system' and then:
-      - To start the service execute: sudo systemctl start ${projectName}
-      - To run the service at boot type: sudo systemctl enable ${projectName}
 
   * `site.gradle`: Adds support for site generation (with API documentation and reports).
     - siteSource
