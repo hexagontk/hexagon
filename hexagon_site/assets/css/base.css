@@ -2,6 +2,17 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto+Mono|Roboto+Slab');
 
+html {
+  background-color: ${siteBackgroundDark};
+}
+
+body {
+  /* Margin to avoid being covered by sticky navbar */
+  padding-top: 60px;
+  font-size: 16px;
+  background-color: #F5F5F5;
+}
+
 body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
 
 h1, h2, h3, h4 { color: ${siteBackgroundLight}; }
@@ -24,17 +35,6 @@ footer .heart { color: ${siteAccentColor}; }
 .navbar-brand img { height: 36px; }
 
 .navbar-brand { padding-top: 12px; }
-
-body {
-  /* Margin to avoid being covered by sticky navbar */
-  padding-top: 60px;
-  font-size: 16px;
-  background-color: #F5F5F5;
-}
-
-html {
-  background-color: ${siteBackgroundDark};
-}
 
 @media (min-width: 768px) {
   .navbar-nav > li > a { padding-bottom: 0; }
@@ -155,7 +155,7 @@ header .intro-long {
 header .intro .intro-lead-in {
     font-style: normal;
     font-size: 22px;
-    line-height: 50px;
+    /*line-height: 50px;*/
     margin-bottom: 25px;
     font-family: 'Roboto Condensed', helvetica, sans-serif;
 }
@@ -372,12 +372,10 @@ footer .footer-row {
     flex-wrap: wrap;
 }
 
-
 footer quicklinks {
     font-size: 14px;
     color: #F5F5F5;
 }
-
 
 footer ul.quicklinks {
     margin: 0;
@@ -425,11 +423,6 @@ footer .credits span {
  * Sidebar
  */
 
-.sub-header {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
-}
-
 /* Hide for mobile, show later */
 .sidebar {
   display: none;
@@ -437,38 +430,27 @@ footer .credits span {
 
 @media (min-width: 768px) {
   .sidebar {
-    border-top: 2px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     position: fixed;
     top: 51px;
     bottom: 0;
     left: 0;
-    z-index: 1000;
     display: block;
     padding: 20px;
     overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background-color: #3D4E6E; /* ${siteBackgroundLight}; */
+    overflow-y: auto;
   }
 }
 
 /* Sidebar navigation */
-.nav-sidebar {
-  margin-right: -21px; /* 20px padding + 1px border */
-  margin-bottom: 20px;
-  margin-left: -20px;
-}
-.nav-sidebar > li > a {
-  padding-right: 20px;
-  padding-left: 20px;
-}
+.nav-sidebar { margin-bottom: 20px; }
+.nav-sidebar > li > a { padding: 0; }
+
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
   color: #fff;
   background-color: #428bca;
 }
-
 
 /*
  * Main content

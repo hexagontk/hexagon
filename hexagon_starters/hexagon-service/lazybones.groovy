@@ -16,6 +16,7 @@ String description = askParameter ('description', "Service's description")
 String bindPort = askParameter ('bindPort', "Service's port")
 
 Map<Object, Object> props = [
+    projectDir : projectDir,
     group : group,
     version : version,
     description : description,

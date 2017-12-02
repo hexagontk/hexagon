@@ -102,6 +102,40 @@ ext.configData = [
                 unneeded dependencies.
             '''
         ]
+    ],
+
+    ports : [
+        HTTP : [
+            link : '',
+            adapters : [
+                Undertow : '',
+                Jetty : '',
+                Serlvet : ''
+            ]
+        ],
+        Templates : [
+            link : '',
+            adapters : [
+                Pebble : '',
+                Rocker : ''
+            ]
+        ],
+        'Serialization formats' : [
+            link : '',
+            adapters : [
+                JSON : '',
+                YAML : ''
+            ]
+        ],
+        Settings : [
+            link : '',
+            adapters : [
+                Environment : '',
+                Files : '',
+                Resources : '',
+                URLs : ''
+            ]
+        ]
     ]
 ]
 

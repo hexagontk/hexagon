@@ -5,6 +5,9 @@ This is an Hexagon service created from a template.
 
 ## Usage
 
+Prior to run the tests you need to start required services (declared in `docker-compose.yaml`).
+You can do so executing: `docker-compose up -d`
+
 * Build: `gradle/wrapper install`
 * Rebuild: `gradle/wrapper clean install`
 * Run: `gradle/wrapper run`
@@ -27,24 +30,4 @@ This is an Hexagon service created from a template.
 
 ## Gradle wrapper setup
 
-You can change Gradle version in `gradle/wrapper.properties`, but if you need to regenerate the
-wrapper, follow the next steps:
-
-1. Add this to `build.gradle`:
-
-```groovy
-    wrapper {
-        String wrapperBaseFile = "$projectDir/gradle/wrapper"
-
-        gradleVersion = '3.5'
-        jarFile = wrapperBaseFile + '.jar'
-        scriptFile = wrapperBaseFile
-        distributionType = org.gradle.api.tasks.wrapper.Wrapper.DistributionType.ALL
-    }
-```
-
-2. Execute `gradle wrapper`
-
-3. Remove the lines added in point 1 as they may cause problems in continuous integration
-   environments
-
+You can change Gradle version in `gradle/wrapper.properties`.

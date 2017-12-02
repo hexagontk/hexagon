@@ -1,33 +1,31 @@
 
-# Status
-
-Used in not released projects. To develop APIs and Web applications.
-
-Performance tests (TechEmpower and JMeter)
-
-Project templates (AKA starters)
-
-[![codebeat badge]][codebeat page]
-
-[codebeat badge]: https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971
-[codebeat page]: https://codebeat.co/projects/github-com-hexagonkt-hexagon-master
-
 ## Status
 
 **DISCLAIMER**: The project status is beta. Use it at your own risk. There are some modules not
 started yet (ie: metrics and remote configuration) and the API is subject to change any time prior
 to release 1.0.
 
+It is used in personal not released projects to develop APIs and Web applications.
+
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
-in the [TechEmpower Web Framework Benchmarks][benchmark]
+in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests using
+[JMeter] with the `hexagon_benchmark/load_test.jmx` file.
 
 Tests, of course, are taken into account. This is the coverage grid:
 
 [![CoverageGrid]][Coverage]
 
 [benchmark]: https://www.techempower.com/benchmarks
+[JMeter]: http://jmeter.apache.org
 [CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
+
+The code quality is checked by Codebeat:
+
+[![codebeat badge]][codebeat page]
+
+[codebeat badge]: https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971
+[codebeat page]: https://codebeat.co/projects/github-com-hexagonkt-hexagon-master
 
 ## Contribute
 

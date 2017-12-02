@@ -1,6 +1,3 @@
-#
-# Services needed for testing
-#
 
 mongodb:
   image: mongo

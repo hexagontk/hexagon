@@ -21,13 +21,13 @@
           <a href="https://travis-ci.org/${config.githubRepo}">
             <img
               src="https://travis-ci.org/${config.githubRepo}.svg?branch=master"
-              alt="BuildImg" />
+              alt="Travis CI" />
           </a>
 
           <a href="https://codecov.io/github/${config.githubRepo}?branch=master">
             <img
               src="https://codecov.io/github/${config.githubRepo}/coverage.svg?branch=master"
-              alt="CoverageImg" />
+              alt="Codecov" />
           </a>
 
           <a href="https://codebeat.co/projects/github-com-hexagonkt-hexagon-master">
@@ -39,7 +39,7 @@
           <a href="https://bintray.com/${config.bintrayRepo}/_latestVersion">
             <img
               src="https://api.bintray.com/packages/${config.bintrayRepo}/images/download.svg"
-              alt="DownloadImg" />
+              alt="Bintray" />
           </a>
         </div>
         <div class="intro-lead-in">${config.projectDescription}</div>
@@ -148,22 +148,12 @@
               </tr>
             </thead>
             <tbody>
+              <#list config.ports?keys as port>
               <tr>
-                <td>HTTP</td>
-                <td>Undertow, Jetty, Serlvet</td>
+                <td>${port}</td>
+                <td>${config.ports[port]['adapters']?keys?join(", ")}</td>
               </tr>
-              <tr>
-                <td>Templates</td>
-                <td>Pebble, Rocker</td>
-              </tr>
-              <tr>
-                <td>Serialization formats</td>
-                <td>JSON, YAML</td>
-              </tr>
-              <tr>
-                <td>Settings</td>
-                <td>Environment, Files, Resources, URLs</td>
-              </tr>
+              </#list>
             </tbody>
           </table>
         </div>
