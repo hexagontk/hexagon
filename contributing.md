@@ -1,15 +1,8 @@
 
 # Contributing
 
-If you like this project and want to support it, the easiest way is to [give it a star] :v:.
-
-If you feel like you can do more. You can contribute to the framework in different ways:
-
-* By using it and [spreading the word][@hexagon_kt].
-* Giving feedback by [Twitter][@hexagon_kt] or [Slack].
-* Requesting [new features or submitting bugs][issues].
-* Voting for the features you want in the [issue tracker][issues] (using [reactions]).
-* And... Drum roll... Submitting [code or documentation][contributing].
+You can contribute code or documentation to the framework. This document will guide you through the
+process or picking a task or building the code.
 
 To know what issues are currently open and be aware of the next features yo can check the
 [Project Board] at Github.
@@ -20,16 +13,9 @@ task.
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
 to date of project's news following [@hexagon_kt] in Twitter.
 
-Thanks to all project's [contributors]!
-
-[give it a star]: https://github.com/hexagonkt/hexagon/stargazers
 [@hexagon_kt]: https://twitter.com/hexagon_kt
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
-[issues]: https://github.com/hexagonkt/hexagon/issues
-[reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
-[contributing]: contributing.md
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
-[contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
 
 ## Build Hexagon
 
