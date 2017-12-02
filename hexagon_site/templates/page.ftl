@@ -20,7 +20,6 @@
           <li><a href="/services.html">Create services</a></li>
           <li><a href="/api.html">API Reference</a></li>
           <li><a href="/quick_start.html">Quick Start</a></li>
-          <li><a href="/status.html">Status</a></li>
           <li>
             <a href="https://github.com/hexagonkt/hexagon/blob/master/contributing.md">
               Contribute

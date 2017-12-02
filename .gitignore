@@ -20,5 +20,5 @@ out/
 *.hprof
 log/
 
-# Build
+# Added because of JBake settings
 hexagon_site/content/

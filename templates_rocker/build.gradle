@@ -2,7 +2,7 @@
 apply from: '../gradle/hexagon_module.gradle'
 apply plugin: 'com.fizzed.rocker'
 
-ext.rockerVersion = '0.22.0'
+ext.rockerVersion = '0.23.0'
 
 dependencies {
     compile project(':port_server')

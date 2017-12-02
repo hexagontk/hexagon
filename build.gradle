@@ -10,11 +10,11 @@ plugins {
     id 'org.jetbrains.dokka' version '0.9.15'
     id 'jacoco'
 
-    id 'com.jfrog.bintray' version '1.7.3' apply false
+    id 'com.jfrog.bintray' version '1.8.0' apply false
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
-    id 'me.champeau.gradle.jmh' version '0.4.4' apply false
-    id 'com.fizzed.rocker' version '0.22.0' apply false
+    id 'me.champeau.gradle.jmh' version '0.4.5' apply false
+    id 'com.fizzed.rocker' version '0.23.0' apply false
 }
 
 clean {
@@ -41,7 +41,7 @@ task release(dependsOn: 'publish') {
 }
 
 repositories {
-    jcenter ()
+    jcenter () // Repository required by Jacoco Report
 }
 
 task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoReport) {
