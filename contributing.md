@@ -1,14 +1,31 @@
 
+# Contributing
+
+You can contribute code or documentation to the framework. This document will guide you through the
+process or picking a task or building the code.
+
+To know what issues are currently open and be aware of the next features yo can check the
+[Project Board] at Github.
+
+Make sure you read the project [Quick Start] guide to know the project structure before picking a
+task.
+
+You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
+to date of project's news following [@hexagon_kt] in Twitter.
+
+[@hexagon_kt]: https://twitter.com/hexagon_kt
+[Slack]: https://kotlinlang.slack.com/messages/hexagon
+[Project Board]: https://github.com/hexagonkt/hexagon/projects/1
+
 ## Build Hexagon
 
-Requires [Docker Compose installed](https://docs.docker.com/compose/install)
+Hexagon build process requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
 You can build the project, generate the documentation and install it in your local repository
 typing:
 
     git clone https://github.com/hexagonkt/hexagon.git
     cd hexagon
-    ./gradlew installDist -x test
     docker-compose up -d
     ./gradlew clean check site installDist jacocoReport installAllTemplates publishToMavenLocal tfb
 
@@ -21,7 +38,8 @@ You can define some useful aliases like:
     alias gw='./gradlew'
     alias dcupd='docker-compose up -d'
 
-It is recommended that you add: `gradlew clean check site installDist installAllTemplates tfb` to
+It is recommended that you add:
+`gradlew clean check site installDist jacocoReport installAllTemplates publishToMavenLocal tfb` to
 your `.git/hooks/pre-push` script. As this command will be executed before pushing code to the
 repository (saving time fixing [Travis] build errors).
 

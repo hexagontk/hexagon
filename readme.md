@@ -77,7 +77,7 @@ What are NOT project goals:
   * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.22.5")
+    compile ("com.hexagonkt:server_jetty:0.22.6")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
@@ -86,7 +86,7 @@ What are NOT project goals:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.22.5</version>
+      <version>0.22.6</version>
     </dependency>
     ```
 
@@ -119,15 +119,25 @@ You can read more details reading the [Quick Start] page, or checking the [guide
 finished yet (e.g: storage and HTTP client) and the API is subject to change any time prior to
 release 1.0.
 
+It is used in personal not released projects to develop APIs and Web applications.
+
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
-in the [TechEmpower Web Framework Benchmarks][benchmark]
+in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests using
+[JMeter] with the `hexagon_benchmark/load_test.jmx` file.
 
 Tests, of course, are taken into account. This is the coverage grid:
 
 [![CoverageGrid]][Coverage]
 
+The code quality is checked by Codebeat:
+
+[![codebeat badge]][codebeat page]
+
+[JMeter]: http://jmeter.apache.org
 [CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
+[codebeat badge]: https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971
+[codebeat page]: https://codebeat.co/projects/github-com-hexagonkt-hexagon-master
 
 ## Contribute
 

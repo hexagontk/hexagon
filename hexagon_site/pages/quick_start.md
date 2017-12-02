@@ -8,6 +8,8 @@ It is meant to provide abstraction from underlying technoligies (data storage, H
 engines, etc.) to be able to change them with minimum impact.
 
 It only supports Kotlin, Java is not a targeted language for the framework.
+
+[Kotlin]: http://kotlinlang.org
   
 ## Project Structure
 
@@ -21,33 +23,9 @@ The Hexagon is a multiple module project. There are several kind of modules:
 * Infrastructure modules. Components used by the project itself, like the benchmark, the examples
   and the site generator.
 
-### Site Generation
-
-### Benchmark
-
-Code for the benchmark
-
 ### Starters
 
-Gradle utility scripts
-
-
-
-System:
-
-Service: API, message broker
-Application: are a kind of service which is final (meant for users)
-WebApplication, Desktop Application, Mobile Application or Browser Aplication
-
-Managers: singletons to manage across an application and/or between services
-    EventManager
-    SettingsManager
-    TemplatesManager
-    
-    
-
-Motivation
-Ports and Adapters
+### Gradle utility scripts
 
 # Why it was created
 
@@ -56,6 +34,7 @@ Ports and Adapters
 * Easy to hack better than work ok for every use case
 * For fun!
 * To learn Kotlin
+* Managed services of public clouds (cheaper, but tie you to them)
 
 # How it works
 
@@ -64,20 +43,6 @@ The framework is build upon smaller pieces:
 ## Modules
 
 ports and adapters
-
-## Components
-
-events, core, templates
-
-Features
-
-Add Needed infrastructure for µS
-
-## Adapters
-
-feature implementations
-
-The heavy lifting is done by these ones (Undertow, Jetty, RabbitMQ, MongoDB)
 
 # Concepts
 
@@ -105,15 +70,11 @@ Events
 
 # Roadmap
 
-The focus will be library ease of use and API freeze
-
 Async
 
 Metrics
 
 Registering
-
-Logging
 
 Health checks
 
@@ -124,5 +85,3 @@ Tool for client requests
 CBOR
 
 Take out templates port
-
-Code examples (take Spark ones)

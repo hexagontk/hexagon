@@ -85,7 +85,7 @@ ext.configData = [
             '''
         ],
         [
-            link : '/status.html',
+            link : 'https://github.com/hexagonkt/hexagon#status',
             icon : 'bug',
             title : 'Properly Tested',
             description : '''
