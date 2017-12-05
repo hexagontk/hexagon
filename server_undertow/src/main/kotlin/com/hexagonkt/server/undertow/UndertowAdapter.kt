@@ -92,31 +92,7 @@ class UndertowAdapter : ServerPort {
                         root.add(m.toString (), route.path.path, BlockingHandler {
                             val call = it.getAttachment(callKey)
                             val handlerCallback = handler.callback
-                            val result = call.handlerCallback()
-                            val response = call.response
-
-                            // TODO warn if body has been set
-                            when (result) {
-                                is Unit -> {
-                                    if (!response.statusChanged && response.status != 302)
-                                        response.status = 200
-                                }
-                                is Nothing -> {
-                                    if (!response.statusChanged && response.status != 302)
-                                        response.status = 200
-                                }
-                                is Int -> response.status = result
-                                is String -> call.ok(result)
-                                is Pair<*, *> -> call.ok(
-                                    code = result.first as? Int ?: 200,
-                                    content = result.second.let {
-                                        it as? String
-                                            ?: it?.serialize(call.serializationFormat())
-                                            ?: ""
-                                    }
-                                )
-                                else -> call.ok(result.serialize(call.serializationFormat()))
-                            }
+                            call.handleResult(call.handlerCallback())
                         })
                     }
                 }
@@ -204,7 +180,8 @@ class UndertowAdapter : ServerPort {
             is CodedException -> {
                 val handler: ErrorCodeCallback =
                     codedErrors[exception.code] ?: { error(it, exception.message ?: "") }
-                call.handler(exception.code)
+
+                call.handleResult(call.handler(exception.code))
             }
             else -> {
                 error("Error processing request", exception)
@@ -212,13 +189,37 @@ class UndertowAdapter : ServerPort {
                 val handler = exceptionErrors[type]
 
                 if (handler != null)
-                    call.handler(exception)
+                    call.handleResult(call.handler(exception))
                 else
                     type.superclass.also {
                         if (it != null)
                             handleException(exception, call, codedErrors, exceptionErrors, it)
                     }
             }
+        }
+    }
+
+    private fun Call.handleResult(result: Any) {
+        when (result) {
+            is Unit -> {
+                if (!response.statusChanged && response.status != 302)
+                    response.status = 200
+            }
+            is Nothing -> {
+                if (!response.statusChanged && response.status != 302)
+                    response.status = 200
+            }
+            is Int -> response.status = result
+            is String -> ok(result)
+            is Pair<*, *> -> ok(
+                code = result.first as? Int ?: 200,
+                content = result.second.let {
+                    it as? String
+                        ?: it?.serialize(serializationFormat())
+                        ?: ""
+                }
+            )
+            else -> ok(result.serialize(serializationFormat()))
         }
     }
 }

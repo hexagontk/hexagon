@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
 abstract class SerializationTest<T : Any> (val type: KClass<T>) {
     abstract val testObjects: List<T>
 
-    fun `object is mapped and parsed back without error` () {
+    fun `Object is mapped and parsed back without error` () {
         formats.forEach { contentType ->
             testObjects.forEach {
                 val map = it.convertToMap ()

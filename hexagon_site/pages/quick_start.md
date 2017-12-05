@@ -48,8 +48,6 @@ ports and adapters
 
 Service (API, Web, Consumer)
 
-Paths
-
 Routes
 
 Filters

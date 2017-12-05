@@ -17,6 +17,11 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
  * @author jam
  */
 class ServletFilter (router: List<RequestHandler>) : Filter {
+    /**
+     * Exception used for stopping the execution. It is used only for flow control.
+     */
+    internal class PassException: RuntimeException ()
+
     companion object : CachedLogger(ServletFilter::class)
 
     private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
@@ -86,23 +91,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         for ((first, second) in methodRoutes) {
             try {
                 bRequest.actionPath = first.path
-                val result = call.second()
-
-                // TODO Handle result (warn if body has been set)
-                when (result) {
-                    is Unit -> { if (!call.response.statusChanged) call.response.status = 200 }
-                    is Nothing -> { if (!call.response.statusChanged) call.response.status = 200 }
-                    is Int -> call.response.status = result
-                    is String -> call.ok(result)
-                    is Pair<*, *> -> call.ok(
-                        code = result.first as? Int ?: 200,
-                        content = result.second.let {
-                            it as? String ?: it?.serialize(call.serializationFormat()) ?: ""
-                        }
-                    )
-                    else -> call.ok(
-                        result.serialize(call.serializationFormat()))
-                }
+                call.handleResult(call.second())
 
                 trace("Route for path '${bRequest.actionPath}' executed")
                 return true
@@ -181,7 +170,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             is CodedException -> {
                 val handler: ErrorCodeCallback =
                     codedErrors[exception.code] ?: { error(it, exception.message ?: "") }
-                call.handler(exception.code)
+                call.handleResult(call.handler(exception.code))
             }
             else -> {
                 error("Error processing request", exception)
@@ -189,7 +178,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 val handler = exceptionErrors[type]
 
                 if (handler != null)
-                    call.handler(exception)
+                    call.handleResult(call.handler(exception))
                 else
                     type.superclass.also { if (it != null) handleException(exception, call, it) }
             }
@@ -221,9 +210,28 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             response.outputStream.flush()
         }
     }
-}
 
-/**
- * Exception used for stopping the execution. It is used only for flow control.
- */
-class PassException: RuntimeException ()
+    private fun Call.handleResult(result: Any) {
+        when (result) {
+            is Unit -> {
+                if (!response.statusChanged && response.status != 302)
+                    response.status = 200
+            }
+            is Nothing -> {
+                if (!response.statusChanged && response.status != 302)
+                    response.status = 200
+            }
+            is Int -> response.status = result
+            is String -> ok(result)
+            is Pair<*, *> -> ok(
+                code = result.first as? Int ?: 200,
+                content = result.second.let {
+                    it as? String
+                        ?: it?.serialize(serializationFormat())
+                        ?: ""
+                }
+            )
+            else -> ok(result.serialize(serializationFormat()))
+        }
+    }
+}
