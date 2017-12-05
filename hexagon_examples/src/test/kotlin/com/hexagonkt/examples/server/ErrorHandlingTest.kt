@@ -12,10 +12,11 @@ import org.testng.annotations.Test
  * TODO .
  */
 @Test class ErrorHandlingTest {
-    var server: Server = server(UndertowAdapter()) {}
+    //var server: Server = server(UndertowAdapter()) {}
 
     @BeforeTest fun errorHandling() {
-        server = serve {
+        //server = serve {
+        serve {
             get("/error") {
                 throw IllegalStateException("Serious error")
             }
