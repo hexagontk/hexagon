@@ -2,6 +2,9 @@
 apply from: '../gradle/hexagon_module.gradle'
 
 dependencies {
+    compile project(':port_templates')
     compile project(':hexagon_core')
+
     testCompile project(':port_client')
+    testCompile project(':templates_pebble')
 }
