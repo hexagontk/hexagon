@@ -9,6 +9,4 @@ dependencies {
 
     testCompile project(':port_client')
     testCompile project(':server_jetty')
-
-    testCompile project(':port_store').sourceSets.test.output.classesDirs
 }

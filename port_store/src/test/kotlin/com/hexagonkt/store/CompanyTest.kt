@@ -1,7 +1,6 @@
-package com.hexagonkt.rest
+package com.hexagonkt.store
 
-import com.hexagonkt.server.jetty.JettyServletAdapter
-import com.hexagonkt.rest.Department.*
+import com.hexagonkt.store.Department.*
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer
@@ -9,10 +8,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@Test class CompanyTest :
-    CrudTest<Company, String>(Company::class, Company::id, JettyServletAdapter()) {
+@Test class CompanyTest : IdRepositoryTest<Company, String>(Company::class, Company::id) {
 
-    val testObjects: List<Company> = listOf (
+    override val testObjects: List<Company> = listOf (
         createObject(),
         Company(
             id = "id1",
@@ -27,11 +25,11 @@ import java.time.LocalTime
         )
     )
 
-    fun setObjectKey(obj: Company, id: Int) = obj.copy (id = id.toString ())
+    override fun setObjectKey(obj: Company, id: Int) = obj.copy (id = id.toString ())
 
-    fun changeObject(obj: Company) = obj.copy (notes = obj.notes + "_modified")
+    override fun changeObject(obj: Company) = obj.copy (notes = obj.notes + "_modified")
 
-    fun createObject() = Company(
+    override fun createObject() = Company(
         id = "id",
         foundation = LocalDate.of(2014, 1, 25),
         closeTime = LocalTime.of(11, 42),
@@ -52,6 +50,13 @@ import java.time.LocalTime
     )
 
     fun check() {
-        crud_operations_behave_properly()
+        performing_crud_operations_with_lists_of_objects_behaves_as_expected()
+
+        one_object_is_stored_and_loaded_without_error()
+        many_objects_are_stored_and_loaded_without_error()
+        replace_object_stores_modified_data_in_db()
+        find_and_replace_object_stores_modified_data_in_db()
+
+        `Object is mapped and parsed back without error`()
     }
 }
