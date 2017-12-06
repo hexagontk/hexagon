@@ -34,6 +34,5 @@ dependencies {
     }
 
     testCompile ("org.testng:testng:\$testngVersion")
-    testCompile ("com.hexagonkt:hexagon_test:\$hexagonVersion")
     testCompile ("com.rabbitmq:amqp-client:\$rabbitVersion")
 }

@@ -10,13 +10,13 @@ include (
     'hexagon_core',
     'hexagon_rest',
     'hexagon_scheduler',
-    'hexagon_test',
 
     // Ports
     'port_client',
     'port_events',
     'port_server',
     'port_store',
+    'port_templates',
 
     // Adapters
     'events_rabbitmq',

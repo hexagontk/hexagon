@@ -1,3 +1,0 @@
-
-# Hexagon Examples
-
