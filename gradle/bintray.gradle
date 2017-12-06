@@ -11,8 +11,7 @@ task sourceJar (type: Jar) {
 
 task testJar(type: Jar, dependsOn: testClasses) {
     classifier 'test'
-    from sourceSets.test.output
-    exclude ([ '**/*.json', '**/*.yaml', '**/*.yml', '**/*.xml', '**/*.properties' ])
+    from sourceSets.test.output.classesDirs
 }
 
 publishing {
