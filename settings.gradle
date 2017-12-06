@@ -5,7 +5,6 @@ include (
     'hexagon_site',
     'hexagon_starters',
     'hexagon_benchmark',
-    'hexagon_examples',
 
     // Internal modules
     'hexagon_core',
