@@ -5,10 +5,12 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 task sourceJar (type: Jar) {
+    classifier 'sources'
     from sourceSets.main.allJava
 }
 
 task testJar(type: Jar, dependsOn: testClasses) {
+    classifier 'test'
     from sourceSets.test.output
 }
 
@@ -17,14 +19,8 @@ publishing {
         mavenJava (MavenPublication) {
             from components.java
 
-            // For the package to be accepted in JCenter, you need to include sources
-            artifact sourceJar {
-                classifier 'sources'
-            }
-
-            artifact testJar {
-                classifier 'test'
-            }
+            artifact sourceJar // To be accepted in JCenter, the package need to include sources
+            artifact testJar
         }
     }
 }
