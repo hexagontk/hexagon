@@ -8,6 +8,10 @@ task sourceJar (type: Jar) {
     from sourceSets.main.allJava
 }
 
+task testJar(type: Jar, dependsOn: testClasses) {
+    from sourceSets.test.output
+}
+
 publishing {
     publications {
         mavenJava (MavenPublication) {
@@ -16,6 +20,10 @@ publishing {
             // For the package to be accepted in JCenter, you need to include sources
             artifact sourceJar {
                 classifier 'sources'
+            }
+
+            artifact testJar {
+                classifier 'test'
             }
         }
     }
