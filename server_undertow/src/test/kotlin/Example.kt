@@ -1,7 +1,7 @@
 import com.hexagonkt.client.*
 import com.hexagonkt.server.undertow.serve
 
-data class Person (val name: String, val age: Int)
+data class Hero(val name: String, val age: Int)
 
 fun main(vararg args: String) {
     serve {
@@ -9,7 +9,7 @@ fun main(vararg args: String) {
 
         get { 400 to "Bad Request" }
         get("/hi") { 200 to "Hello" }
-        get("/person") { 200 to Person("Pete", 28) }
+        get("/person") { 200 to Hero("Peter Parker", 28) }
     }
 
     val response = get("http://localhost:9090")

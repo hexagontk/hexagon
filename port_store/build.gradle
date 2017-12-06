@@ -6,4 +6,6 @@ ext.mongodbVersion = '3.5.0'
 dependencies {
     compile project(':hexagon_core')
     compile ("org.mongodb:mongodb-driver:$mongodbVersion")
+
+    testCompile project(':hexagon_core').sourceSets.test.output.classesDirs
 }

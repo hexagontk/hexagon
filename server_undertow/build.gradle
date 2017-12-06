@@ -7,5 +7,6 @@ dependencies {
     compile project(':port_server')
     compile ("io.undertow:undertow-core:$undertowVersion")
 
-    testCompile project(':hexagon_test')
+    testCompile project(':port_client')
+    testCompile project(':port_server').sourceSets.test.output.classesDirs
 }

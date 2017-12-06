@@ -1,6 +1,6 @@
 package com.hexagonkt.server.undertow
 
-import com.hexagonkt.server.HttpMethod
+import com.hexagonkt.HttpMethod
 import com.hexagonkt.server.Part
 import io.undertow.server.HttpServerExchange
 

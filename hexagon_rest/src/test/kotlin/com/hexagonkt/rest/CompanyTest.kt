@@ -1,7 +1,9 @@
-package com.hexagonkt.store
+package com.hexagonkt.rest
 
+import com.hexagonkt.server.VoidEngine
+import com.hexagonkt.store.Company
 import com.hexagonkt.store.Department.*
-import com.hexagonkt.rest.CrudTest
+import com.hexagonkt.store.Person
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer
@@ -14,9 +16,9 @@ import java.time.LocalTime
         createObject(),
         Company(
             id = "id1",
-            foundation = LocalDate.of (2014, 1, 25),
+            foundation = LocalDate.of(2014, 1, 25),
             closeTime = LocalTime.of(11, 42),
-            openTime = LocalTime.of(8, 30) .. LocalTime.of(14, 36),
+            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
             web = URL("http://example.org"),
             people = setOf(
                 Person(name = "John"),
@@ -29,24 +31,24 @@ import java.time.LocalTime
 
     override fun changeObject(obj: Company) = obj.copy (notes = obj.notes + "_modified")
 
-    override fun createObject() = Company (
+    override fun createObject() = Company(
         id = "id",
-        foundation = LocalDate.of (2014, 1, 25),
+        foundation = LocalDate.of(2014, 1, 25),
         closeTime = LocalTime.of(11, 42),
-        openTime = LocalTime.of(8, 30) .. LocalTime.of(14, 51),
-        web = URL ("http://example.org"),
-        clients = listOf (
-            URL ("http://c1.example.org"),
-            URL ("http://c2.example.org")
+        openTime = LocalTime.of(8, 30)..LocalTime.of(14, 51),
+        web = URL("http://example.org"),
+        clients = listOf(
+            URL("http://c1.example.org"),
+            URL("http://c2.example.org")
         ),
-        logo = ByteBuffer.wrap (byteArrayOf (0, 1, 2)),
+        logo = ByteBuffer.wrap(byteArrayOf(0, 1, 2)),
         notes = "notes",
-        people = setOf (
-            Person (name = "John"),
-            Person (name = "Mike")
+        people = setOf(
+            Person(name = "John"),
+            Person(name = "Mike")
         ),
-        departments = setOf (DESIGN, DEVELOPMENT),
-        creationDate = LocalDateTime.of (2016, 1, 1, 0, 0, 0)
+        departments = setOf(DESIGN, DEVELOPMENT),
+        creationDate = LocalDateTime.of(2016, 1, 1, 0, 0, 0)
     )
 
     fun check() {

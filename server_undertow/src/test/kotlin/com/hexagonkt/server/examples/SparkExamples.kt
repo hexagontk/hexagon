@@ -1,4 +1,4 @@
-package com.hexagonkt.examples.server
+package com.hexagonkt.server.examples
 
 import com.hexagonkt.server.Server
 import com.hexagonkt.server.undertow.serve

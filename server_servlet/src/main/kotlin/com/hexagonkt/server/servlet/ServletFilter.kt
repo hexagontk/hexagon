@@ -1,5 +1,6 @@
 package com.hexagonkt.server.servlet
 
+import com.hexagonkt.HttpMethod
 import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.serialization.serialize
