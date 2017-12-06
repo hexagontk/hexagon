@@ -1,6 +1,6 @@
 //package com.hexagonkt.rest
 //
-//import com.hexagonkt.server.VoidEngine
+//import com.hexagonkt.server.VoidAdapter
 //import com.hexagonkt.store.Company
 //import com.hexagonkt.store.Department.*
 //import com.hexagonkt.store.Person
@@ -11,7 +11,7 @@
 //import java.time.LocalDateTime
 //import java.time.LocalTime
 //
-//@Test class CompanyTest : CrudTest<Company, String>(Company::class, Company::id, VoidEngine) {
+//@Test class CompanyTest : CrudTest<Company, String>(Company::class, Company::id, VoidAdapter) {
 //    override val testObjects: List<Company> = listOf (
 //        createObject(),
 //        Company(

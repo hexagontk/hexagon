@@ -9,7 +9,7 @@ import org.testng.annotations.Test
 @Test class ServerPackageTest {
 
     fun package_routes_are_stored_in_server () {
-        val server = server(VoidEngine) {
+        val server = server(VoidAdapter) {
             assets ("assets")
 
             after ("/after") {}

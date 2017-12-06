@@ -23,7 +23,7 @@ val usernamePasswords = mapOf (
  *
  * Each call defines a route handler or filter, they are evaluated in order at runtime.
  */
-val serverExample = server(VoidEngine) {
+val serverExample = server(VoidAdapter) {
     // Adds 'foo' header to all requests
     before {
         response.addHeader("foo", "bar")
