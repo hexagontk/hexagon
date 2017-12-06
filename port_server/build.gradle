@@ -6,5 +6,5 @@ dependencies {
     compile project(':hexagon_core')
 
     testCompile project(':port_client')
-    testCompile project(':templates_pebble')
+    testCompile project(':port_templates')
 }

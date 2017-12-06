@@ -2,17 +2,18 @@ package com.hexagonkt.server
 
 import com.hexagonkt.client.Client
 import com.hexagonkt.settings.SettingsManager
+import com.hexagonkt.templates.TemplatePort
 import java.net.InetAddress.getByName as address
 
-abstract class EngineTest(serverEngine: ServerPort) {
-    protected val server: Server = Server(serverEngine, SettingsManager.settings)
+abstract class EngineTest(serverAdapter: ServerPort, templateAdapter: TemplatePort) {
+    protected val server: Server = Server(serverAdapter, SettingsManager.settings)
     protected val client by lazy { Client ("http://localhost:${server.runtimePort}") }
 
     private val modules: List<TestModule> by lazy {
         listOf(
             BooksModule(),
             CookiesModule(),
-            GenericModule(),
+            GenericModule(templateAdapter),
             HexagonModule(),
             SessionModule()
         )

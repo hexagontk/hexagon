@@ -3,13 +3,13 @@ package com.hexagonkt.server
 import com.hexagonkt.HttpMethod
 import com.hexagonkt.client.Client
 import com.hexagonkt.HttpMethod.GET
-import com.hexagonkt.templates.pebble.PebbleAdapter
+import com.hexagonkt.templates.TemplatePort
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
 
 @Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
-internal class GenericModule : TestModule() {
+internal class GenericModule(private val templateAdapter: TemplatePort) : TestModule() {
     internal class CustomException : IllegalArgumentException()
 
     internal data class Tag(
@@ -98,7 +98,7 @@ internal class GenericModule : TestModule() {
         get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
         get("/template") {
             val now = LocalDateTime.now()
-            template(PebbleAdapter, "pebble_template.html", "date" to now)
+            template(templateAdapter, "pebble_template.html", "date" to now)
         }
 
         get("/tworoutes/${part.toUpperCase()}/{param}") {

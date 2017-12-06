@@ -8,5 +8,6 @@ dependencies {
     compile ("io.undertow:undertow-core:$undertowVersion")
 
     testCompile project(':port_client')
-    testCompile project(':port_server').sourceSets.test.output.classesDirs
+    testCompile project(':templates_pebble')
+    testCompile project(':port_server').sourceSets.test.output
 }
