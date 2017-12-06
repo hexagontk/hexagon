@@ -1,6 +1,8 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
+compileTestKotlin.dependsOn ':port_store:testClasses'
+
 dependencies {
     compile project(':port_server')
     compile project(':port_store')
@@ -8,6 +10,5 @@ dependencies {
     testCompile project(':port_client')
     testCompile project(':server_jetty')
 
-    testCompile project(':port_server').sourceSets.test.output.classesDirs
     testCompile project(':port_store').sourceSets.test.output.classesDirs
 }
