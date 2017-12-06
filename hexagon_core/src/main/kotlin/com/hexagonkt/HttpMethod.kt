@@ -1,4 +1,4 @@
-package com.hexagonkt.server
+package com.hexagonkt
 
 /**
  * Enum for the supported HTTP methods.

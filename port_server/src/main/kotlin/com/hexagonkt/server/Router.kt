@@ -4,7 +4,7 @@ import com.hexagonkt.server.FilterOrder.AFTER
 import com.hexagonkt.server.FilterOrder.BEFORE
 
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.server.HttpMethod.GET
+import com.hexagonkt.HttpMethod.GET
 import com.hexagonkt.server.RequestHandler.*
 
 import kotlin.reflect.KClass

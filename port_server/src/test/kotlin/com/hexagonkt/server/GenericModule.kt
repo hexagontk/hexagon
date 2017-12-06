@@ -1,7 +1,8 @@
 package com.hexagonkt.server
 
+import com.hexagonkt.HttpMethod
 import com.hexagonkt.client.Client
-import com.hexagonkt.server.HttpMethod.GET
+import com.hexagonkt.HttpMethod.GET
 import com.hexagonkt.templates.pebble.PebbleAdapter
 import java.net.URL
 import java.time.LocalDateTime

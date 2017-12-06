@@ -1,7 +1,8 @@
 package com.hexagonkt.server
 
+import com.hexagonkt.HttpMethod
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.server.HttpMethod.*
+import com.hexagonkt.HttpMethod.*
 import org.testng.annotations.Test
 
 /**
