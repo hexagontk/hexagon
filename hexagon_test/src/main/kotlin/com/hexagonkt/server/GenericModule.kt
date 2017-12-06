@@ -68,10 +68,12 @@ internal class GenericModule : TestModule() {
 
         error(UnsupportedOperationException::class) {
             response.addHeader("error", it.message ?: it.javaClass.name)
+            599 to "Unsupported"
         }
 
         error(IllegalArgumentException::class) {
             response.addHeader("runtimeError", it.message ?: it.javaClass.name)
+            598 to "Runtime"
         }
 
         get("/exception") { throw UnsupportedOperationException("error message") }
@@ -275,11 +277,13 @@ internal class GenericModule : TestModule() {
     fun handleException(client: Client) {
         val response = client.get ("/exception")
         assert("error message" == response.headers["error"]?.toString())
+        assertResponseContains(response, 599, "Unsupported")
     }
 
     fun base_error_handler(client: Client) {
         val response = client.get ("/baseException")
         assert(response.headers["runtimeError"]?.toString() == CustomException::class.java.name)
+        assertResponseContains(response, 598, "Runtime")
     }
 
     fun not_registered_error_handler(client: Client) {

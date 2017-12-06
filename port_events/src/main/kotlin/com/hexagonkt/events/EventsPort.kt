@@ -2,6 +2,7 @@ package com.hexagonkt.events
 
 import kotlin.reflect.KClass
 
+// TODO 'unsubscribe' and 'call' (publish and wait response)
 interface EventsPort {
     fun <T : Event> consume(type: KClass<T>, address: String, consumer: (T) -> Unit)
 

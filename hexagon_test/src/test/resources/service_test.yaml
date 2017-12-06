@@ -1,7 +1,7 @@
 
 serviceName : Hexagon Benchmark
 
-bindPort : 9090
+bindPort : 0
 bindAddress : 0.0.0.0
 
 database : hello_world
@@ -10,5 +10,3 @@ fortuneCollection : fortune
 
 databaseUsername : benchmarkdbuser
 databasePassword : benchmarkdbpass
-
-maximumPoolSize : 32

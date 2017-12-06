@@ -3,6 +3,5 @@
 ignore:
   - hexagon_test
   - templates_kotlinx
-  - hexagon_examples
   - port_store
   - hexagon_rest
