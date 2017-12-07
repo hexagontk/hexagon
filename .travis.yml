@@ -8,6 +8,10 @@ jdk: oraclejdk8
 
 sudo: required # Container build is slower than sudo
 
+branches:
+  except:
+  - /^\d+.*$/
+
 env:
   global:
     - secure: RO3fvGp6orwCoPtV5v/lUwxbFomsSxdficUHFbYGEXB+NuxpjES5Ukd9D/4zn1WytL/h1mlgcML+gSR57OKODX9SJXyMYMSRQslbOSYVle4sxGf5sp54bkGaaHI6aZr2ZbjzBwVYemR+zFpWQMew2Q4cZ4pn5HfQQa7WlJ/qNnOZ2KXqgEaIuw++aQg0QEaddleMTzMDZpFUdESIY/ptAjve2BAbsHw07AI9tX08qYFJ+fzZWKmKY2EBHd4HztZcU1lQwMuxxTzDmjFKksrjSH37wmHg/D2t7ptlQIaKJuTgD9HFqMd7Gf7DFeNdadoHLxWuqa7Yt9y2plMykRctYLCBr5z6ofq+RWFlXFS/bEwzHGxDkT9PLbhWewPF/JsmERj4x/DYLRQYPq2d/3VOCrpoLKagmLzOGusbaLr15ISel0bDXhNyXg1jdQXY7EZUksbM90Ny+CuAHP4nsW0PUgNLBVb1CjGhi4OGW4ohXj0a2cG/lGMeeZXGUEwwd6xKXcWwGBKm/mqZJsIQDJX+he1P23hrtaV/mbhh1U4zjKqVwRzBXYhjAQwnulVS7JC5dFeYifXEjib30Vz3QCnssMg7hzYSBu1IvvukHjkMoPaULWiGIvgdVN+Hy7syrqe48GGdYLbgbzLhn6I6aklPh6Y9z9vPhFtQiHMf1k6tA30=
@@ -39,7 +43,7 @@ install:
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
-script: ./gradlew clean check site installDist jacocoReport installAllTemplates tfb
+script: ./gradlew clean check jmh site installDist jacocoReport installAllTemplates tfb
 
 after_success: bash <(curl -s https://codecov.io/bash)
 

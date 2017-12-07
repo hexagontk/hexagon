@@ -1,6 +1,7 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.server.HttpMethod.*
+import com.hexagonkt.HttpMethod
+import com.hexagonkt.HttpMethod.*
 import com.hexagonkt.settings.SettingsManager
 import java.util.*
 

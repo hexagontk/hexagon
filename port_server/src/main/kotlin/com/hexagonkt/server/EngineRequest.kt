@@ -1,5 +1,7 @@
 package com.hexagonkt.server
 
+import com.hexagonkt.HttpMethod
+
 /**
  * Lists would be initialized loading all elements when they are used (set it as lazy in
  * implementations) this will have a performace penalty in favor of ease of use. The alternative

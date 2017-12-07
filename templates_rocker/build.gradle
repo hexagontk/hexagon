@@ -5,7 +5,7 @@ apply plugin: 'com.fizzed.rocker'
 ext.rockerVersion = '0.23.0'
 
 dependencies {
-    compile project(':port_server')
+    compile project(':port_templates')
     compile ("com.fizzed:rocker-runtime:$rockerVersion")
 }
 

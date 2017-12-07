@@ -1,9 +1,7 @@
 
 # Gradle
 .gradle/
-.cache/
 build/
-target/
 
 # Eclipse
 .settings/

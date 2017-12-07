@@ -16,7 +16,7 @@ import java.util.*
  * ...
  */
 object PebbleAdapter : TemplatePort {
-    val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()
+    private val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()
 
     override fun render(resource: String, locale: Locale, context: Map<String, *>): String {
         val contextEntries = context.map {

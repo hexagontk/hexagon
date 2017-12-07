@@ -39,7 +39,7 @@ processResources {
 }
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
-tasks.compileKotlin.kotlinOptions.apiVersion = '1.1'
+tasks.compileKotlin.kotlinOptions.apiVersion = '1.2'
 
 tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion

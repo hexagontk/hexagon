@@ -5,7 +5,7 @@ ext.ahcVersion = '2.0.37'
 ext.wiremockVersion = '2.10.1'
 
 dependencies {
-    compile project(':port_server') // TODO Change to `core` once HttpMethod has been moved
+    compile project(':hexagon_core')
     compile ("org.asynchttpclient:async-http-client:$ahcVersion") {
         exclude module: 'slf4j-api'
     }

@@ -1,7 +1,6 @@
 
 # TODO Enable these modules once they are finished (remove this file)
 ignore:
-  - hexagon_test
   - templates_kotlinx
   - port_store
   - hexagon_rest

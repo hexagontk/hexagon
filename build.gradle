@@ -1,10 +1,4 @@
 
-buildscript {
-    repositories {
-        jcenter ()
-    }
-}
-
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.0'
     id 'org.jetbrains.dokka' version '0.9.15'
@@ -22,8 +16,7 @@ clean {
 
     delete (
         fileTree(rootDir) { include '**/*.log' },
-        fileTree(rootDir) { include '**/*.hprof' },
-        fileTree(rootDir) { include '**/*.class' }
+        fileTree(rootDir) { include '**/*.hprof' }
     )
 }
 

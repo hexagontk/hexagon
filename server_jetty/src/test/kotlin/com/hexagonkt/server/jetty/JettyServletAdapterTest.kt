@@ -2,12 +2,13 @@ package com.hexagonkt.server.jetty
 
 import com.hexagonkt.server.EngineTest
 import com.hexagonkt.server.Server
+import com.hexagonkt.templates.pebble.PebbleAdapter
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 
-class JettyServletAdapterTest : EngineTest(JettyServletAdapter()) {
+class JettyServletAdapterTest : EngineTest(JettyServletAdapter(), PebbleAdapter) {
     @BeforeClass fun start () { startServers() }
     @AfterClass fun stop () { stopServers() }
     @Test fun validateEngine() { validate() }

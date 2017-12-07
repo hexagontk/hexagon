@@ -1,7 +1,16 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
+// Overridden because this test bundle requires the templates
+testJar {
+    classifier 'test'
+    from sourceSets.test.output
+    exclude ([ '*.yaml', '*.yml', '*.properties', '*.xml' ])
+}
+
 dependencies {
+    compile project(':port_templates')
     compile project(':hexagon_core')
+
     testCompile project(':port_client')
 }

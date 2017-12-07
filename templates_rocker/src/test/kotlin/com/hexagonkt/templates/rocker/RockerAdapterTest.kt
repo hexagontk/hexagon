@@ -11,7 +11,7 @@ import java.util.*
         assert (template.contains("Test"))
     }
 
-    @Test(expectedExceptions = arrayOf(TemplateBindException::class))
+    @Test(expectedExceptions = [ TemplateBindException::class ])
     fun `render template with bad parameters fails` () {
         RockerAdapter.render("template.rocker.html", Locale.getDefault(), mapOf("param" to 0))
     }
