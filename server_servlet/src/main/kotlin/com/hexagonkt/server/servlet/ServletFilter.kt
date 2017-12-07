@@ -21,7 +21,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     /**
      * Exception used for stopping the execution. It is used only for flow control.
      */
-    internal class PassException: RuntimeException ()
+    private class PassException: RuntimeException ()
 
     companion object : CachedLogger(ServletFilter::class)
 

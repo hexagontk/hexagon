@@ -19,7 +19,5 @@ import java.lang.System.currentTimeMillis
         many_objects_are_stored_and_loaded_without_error()
         replace_object_stores_modified_data_in_db()
         find_and_replace_object_stores_modified_data_in_db()
-
-        `Object is mapped and parsed back without error`()
     }
 }

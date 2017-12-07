@@ -1,6 +1,5 @@
 package com.hexagonkt.store
 
-import com.hexagonkt.serialization.SerializationTest
 import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.serialization.convertToMap
 import com.mongodb.client.model.Filters.eq
@@ -16,8 +15,7 @@ import kotlin.reflect.KProperty1
 /**
  * TODO Check events
  */
-abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: KProperty1<T, K>) :
-    SerializationTest<T> (type) {
+abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: KProperty1<T, K>) {
 
     companion object : CachedLogger(RepositoryTest::class)
 
@@ -31,6 +29,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: K
 
     protected open fun <T : Any> setupCollection (collection: MongoRepository<T>) {}
 
+    protected abstract val testObjects: List<T>
     protected abstract fun setObjectKey (obj: T, id: Int): T
     protected abstract fun getObjectKey (obj: T): K
     protected abstract fun createObject(): T
