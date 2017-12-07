@@ -21,7 +21,7 @@ object TemplateManager {
     }
 
     private fun context(resource: String, locale: Locale, context: Map<String, *>): Map<String, *> {
-        val bundlePath = resource.substringBefore('.')
+        val bundlePath = resource.substringBeforeLast('.')
 
         val key = locale.country + locale.language + bundlePath
         if (!parametersCache.containsKey(key)) {
