@@ -14,11 +14,6 @@ applicationDefaultJvmArgs = [
 
 installDist.dependsOn 'war'
 
-// TODO Provisional (until all packages are in JCenter)
-repositories {
-    maven { url  "https://dl.bintray.com/jamming/maven" }
-}
-
 dependencies {
     compile ("com.hexagonkt:server_jetty:\$hexagonVersion")
 
