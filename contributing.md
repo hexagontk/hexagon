@@ -24,10 +24,12 @@ Hexagon build process requires [Docker Compose installed](https://docs.docker.co
 You can build the project, generate the documentation and install it in your local repository
 typing:
 
-    git clone https://github.com/hexagonkt/hexagon.git
-    cd hexagon
-    docker-compose up -d
-    ./gradlew clean check site installDist jacocoReport installAllTemplates publishToMavenLocal tfb
+```bash
+git clone https://github.com/hexagonkt/hexagon.git
+cd hexagon
+docker-compose up -d
+./gradlew clean check jmh site installDist jacocoReport installAllTemplates publishToMavenLocal tfb
+```
 
 The binaries are located in the `/build` directory. And the site in `/hexagon_site/build`.
 
@@ -35,19 +37,18 @@ The binaries are located in the `/build` directory. And the site in `/hexagon_si
 
 You can define some useful aliases like:
 
-    alias gw='./gradlew'
-    alias dcupd='docker-compose up -d'
+```bash
+alias gw='./gradlew'
+alias dcupd='docker-compose up -d'
+```
 
 It is recommended that you add:
-`gradlew clean check site installDist jacocoReport installAllTemplates publishToMavenLocal tfb` to
-your `.git/hooks/pre-push` script. As this command will be executed before pushing code to the
+`gradlew clean check jmh site installDist jacocoReport installAllTemplates publishToMavenLocal tfb`
+to your `.git/hooks/pre-push` script. As this command will be executed before pushing code to the
 repository (saving time fixing [Travis] build errors).
 
 If you want to commit to the project. It is convenient to setup your own [Travis] account to execute
 the CI job defined in `.travis.yml` when code is pushed to your fork.
-
-To use IntelliJ Idea you need to enable `Build, Execution, Deployment > Build Tools > Gradle >
-Create separate module per source set` in order to compile JMH tests.
 
 Inside Idea IDE, you need to review Kotlin's settings to make sure JVM 1.8 and API 1.1 is used
 (`Project Structure > Modules > <Any Module> > Kotlin > Target Platform`).

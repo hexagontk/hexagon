@@ -13,11 +13,13 @@ Acceptance criteria:
 
 ### For a Bug
 
-    Given *a condition*
-    And *another condition*
-    When *an action is taken*
-    And *other after the first*
-    Then *something happened*
-    And I expected *this other thing*
+```
+Given *a condition*
+And *another condition*
+When *an action is taken*
+And *other after the first*
+Then *something happened*
+And I expected *this other thing*
+```
 
 -->
