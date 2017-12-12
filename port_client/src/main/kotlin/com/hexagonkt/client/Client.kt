@@ -2,8 +2,8 @@ package com.hexagonkt.client
 
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
 import com.hexagonkt.serialization.serialize
-import com.hexagonkt.server.HttpMethod
-import com.hexagonkt.server.HttpMethod.*
+import com.hexagonkt.HttpMethod
+import com.hexagonkt.HttpMethod.*
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
 import org.asynchttpclient.DefaultAsyncHttpClient

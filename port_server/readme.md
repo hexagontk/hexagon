@@ -10,7 +10,3 @@ TODO
 ## Level 2 heading
 
 More docs
-
-# Package com.hexagonkt.templates
-
-TODO

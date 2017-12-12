@@ -1,5 +1,6 @@
 package com.hexagonkt.server.servlet
 
+import com.hexagonkt.HttpMethod
 import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.serialization.serialize
@@ -20,7 +21,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     /**
      * Exception used for stopping the execution. It is used only for flow control.
      */
-    internal class PassException: RuntimeException ()
+    private class PassException: RuntimeException ()
 
     companion object : CachedLogger(ServletFilter::class)
 

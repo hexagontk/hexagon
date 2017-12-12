@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.server.HttpMethod.*
+import com.hexagonkt.HttpMethod.*
 import com.hexagonkt.server.FilterOrder.*
 import com.hexagonkt.server.RequestHandler.*
 
@@ -9,7 +9,7 @@ import org.testng.annotations.Test
 @Test class ServerPackageTest {
 
     fun package_routes_are_stored_in_server () {
-        val server = server(VoidEngine) {
+        val server = server(VoidAdapter) {
             assets ("assets")
 
             after ("/after") {}

@@ -46,6 +46,10 @@ dependencies {
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
+    // Added for IntelliJ IDEA to compile JMH tests inside the IDE
+    compileOnly ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
+    compileOnly ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
+
     testCompile project(':port_client')
     testCompile ("org.testng:testng:$testngVersion")
 

@@ -7,5 +7,7 @@ dependencies {
     compile project(':server_servlet')
     compile ("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
-    testCompile project(':hexagon_test')
+    testCompile project(':port_client')
+    testCompile project(':templates_pebble')
+    testCompile project(':port_server').sourceSets.test.output
 }
