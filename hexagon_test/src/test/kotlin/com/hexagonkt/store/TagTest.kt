@@ -20,6 +20,6 @@ import java.lang.System.currentTimeMillis
         replace_object_stores_modified_data_in_db()
         find_and_replace_object_stores_modified_data_in_db()
 
-        `object is mapped and parsed back without error`()
+        `Object is mapped and parsed back without error`()
     }
 }
