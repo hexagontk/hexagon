@@ -13,10 +13,14 @@ import javax.servlet.ServletContextListener
  * TODO Take care of wildcards (review servlet specs) to group routes in servlets
  * TODO Receive router in parameter (easier to use in Servlet containers)
  */
-abstract class ServletServer(private val async: Boolean = false) : ServletContextListener {
+abstract class ServletServer(
+    private val router: Router = Router(),
+    private val async: Boolean = false) :
+        ServletContextListener {
+
     val serverRouter by lazy { createRouter() }
 
-    abstract fun createRouter(): Router
+    open fun createRouter(): Router = router
 
     override fun contextInitialized(sce: ServletContextEvent) {
         val servletFilter = ServletFilter(serverRouter.flatRequestHandlers())

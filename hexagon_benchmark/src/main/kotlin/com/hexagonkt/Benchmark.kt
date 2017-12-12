@@ -103,14 +103,12 @@ private fun router(): Router = router {
     })
 }
 
-@WebListener class Web : ServletServer () {
+@WebListener class Web : ServletServer (router()) {
     init {
         if (benchmarkStores == null) {
             benchmarkStores = storageEngines.map { it to createStore(it) }.toMap()
         }
     }
-
-    override fun createRouter() = router()
 }
 
 fun getTemplateEngine(engine: String): TemplatePort = when (engine) {
