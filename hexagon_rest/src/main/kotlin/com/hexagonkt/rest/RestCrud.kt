@@ -1,32 +1,12 @@
 package com.hexagonkt.rest
 
 import com.hexagonkt.store.MongoIdRepository
-import com.hexagonkt.store.MongoRepository
 import com.hexagonkt.serialization.*
 import com.hexagonkt.server.*
 import com.mongodb.client.model.Projections.include
 import java.nio.charset.Charset.defaultCharset
 
-/**
- * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)
- */
-fun Router.crud(repository: MongoIdRepository<*, *>) {
-    this.crud(repository as MongoRepository<*>)
-
-    val collectionName = repository.namespace.collectionName
-
-    get("/$collectionName/ids") { findIds(repository) }
-    get("/$collectionName/*,*") { findList (repository) }
-    get("/$collectionName/{id}") { find (repository) }
-
-    put("/$collectionName/list") { replaceList (repository) }
-    put("/$collectionName") { replace (repository) }
-
-    delete("/$collectionName/*,*") { deleteList (repository) }
-    delete("/$collectionName/{id}") { delete (repository) }
-}
-
-private fun Call.findIds(repository: MongoIdRepository<*, *>) {
+fun Call.findIds(repository: MongoIdRepository<*, *>) {
     val keyName = repository.key.name
     val projection = include(keyName)
     val ids = repository.find().projection(projection)
@@ -34,25 +14,7 @@ private fun Call.findIds(repository: MongoIdRepository<*, *>) {
     ok(idValues.toList().serialize())
 }
 
-private fun <T : Any, K : Any> Call.replaceList (repository: MongoIdRepository<T, K>) {
-    val obj = request.body.parseList(repository.type, serializationFormat())
-    repository.replaceObjects(obj, request.parameters.containsKey("upsert"))
-    ok(200) // Created
-}
-
-private fun <T : Any, K : Any> Call.replace (repository: MongoIdRepository<T, K>) {
-    val obj = request.body.parse(repository.type, serializationFormat())
-    repository.replaceObject(obj, request.parameters.containsKey("upsert"))
-    ok(200) // Created
-}
-
-private fun <T : Any, K : Any> Call.deleteList (repository: MongoIdRepository<T, K>) {
-    val key = parseKeys(repository, this)
-    repository.deleteIds(key)
-    ok(200)
-}
-
-private fun <T : Any, K : Any> Call.findList (repository: MongoIdRepository<T, K>) {
+fun <T : Any, K : Any> Call.findList (repository: MongoIdRepository<T, K>) {
     val keys: List<K> = parseKeys(repository, this)
     val obj = repository.find(keys) { pageResults(this@findList) }.toList()
 
@@ -66,13 +28,7 @@ private fun <T : Any, K : Any> Call.findList (repository: MongoIdRepository<T, K
     }
 }
 
-private fun <T : Any, K : Any> Call.delete (repository: MongoIdRepository<T, K>) {
-    val key = parseKey(repository, this)
-    repository.deleteId(key)
-    ok(200)
-}
-
-private fun <T : Any, K : Any> Call.find (repository: MongoIdRepository<T, K>) {
+fun <T : Any, K : Any> Call.find (repository: MongoIdRepository<T, K>) {
     val key = parseKey(repository, this)
     val obj = repository.find(key)
 
@@ -84,6 +40,30 @@ private fun <T : Any, K : Any> Call.find (repository: MongoIdRepository<T, K>) {
         response.contentType = contentType.contentType + "; charset=${defaultCharset().name()}"
         ok(obj.serialize(contentType))
     }
+}
+
+fun <T : Any, K : Any> Call.replaceList (repository: MongoIdRepository<T, K>) {
+    val obj = request.body.parseList(repository.type, serializationFormat())
+    repository.replaceObjects(obj, request.parameters.containsKey("upsert"))
+    ok(200) // Created
+}
+
+fun <T : Any, K : Any> Call.replace (repository: MongoIdRepository<T, K>) {
+    val obj = request.body.parse(repository.type, serializationFormat())
+    repository.replaceObject(obj, request.parameters.containsKey("upsert"))
+    ok(200) // Created
+}
+
+fun <T : Any, K : Any> Call.deleteList (repository: MongoIdRepository<T, K>) {
+    val key = parseKeys(repository, this)
+    repository.deleteIds(key)
+    ok(200)
+}
+
+fun <T : Any, K : Any> Call.delete (repository: MongoIdRepository<T, K>) {
+    val key = parseKey(repository, this)
+    repository.deleteId(key)
+    ok(200)
 }
 
 private fun <K : Any, T : Any> parseKey(

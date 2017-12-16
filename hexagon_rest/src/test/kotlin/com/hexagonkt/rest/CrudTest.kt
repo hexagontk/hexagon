@@ -17,7 +17,7 @@ abstract class CrudTest <T : Any, K : Any> (
     val client by lazy { Client("http://${server.bindAddress.hostAddress}:${server.runtimePort}") }
 
     fun startServer() {
-        server.router.crud(idCollection)
+        server.router.path(crud(idCollection))
         server.run()
     }
 

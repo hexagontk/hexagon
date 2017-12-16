@@ -70,16 +70,11 @@ Events
 
 Async
 
-Metrics
-
 Registering
 
 Health checks
-
-Web to download starters
 
 Tool for client requests
 
 CBOR
 
-Take out templates port
