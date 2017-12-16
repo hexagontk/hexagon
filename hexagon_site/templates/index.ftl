@@ -98,7 +98,7 @@
       <!-- Features button -->
       <div class="row">
         <div class="col-md-12 features-button">
-          <a href="/guides.html" class="btn btn-default">See more</a>
+          <a href="/quick_start.html" class="btn btn-default">See more</a>
         </div>
       </div>
     </div>

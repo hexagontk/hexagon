@@ -27,18 +27,18 @@ Guides
 * [Events]: how to support asynchronous communication with events through message brokers.
 * [Templates]: describes how to render pages using template engines like [Pebble] or [kotlinx.html].
 
-[Building]: http://hexagonkt.com/core/building.html
-[Services]: http://hexagonkt.com/services.html
-[Configuration]: http://hexagonkt.com/core/configuration.html
-[REST]: http://hexagonkt.com/modules/rest.html
-[HTTP]: http://hexagonkt.com/ports/server.html
-[Client]: http://hexagonkt.com/ports/client.html
-[Serialization]: http://hexagonkt.com/core/serialization.html
-[Storage]: http://hexagonkt.com/ports/storage.html
-[Events]: http://hexagonkt.com/ports/events.html
-[Scheduling]: http://hexagonkt.com/modules/scheduling.html
-[Templates]: http://hexagonkt.com/ports/templates.html
-[Testing]: http://hexagonkt.com/modules/testing.html
+[Building]: /building.html
+[Services]: /services.html
+[Configuration]: /core/configuration.html
+[REST]: /modules/rest.html
+[HTTP]: /ports/server.html
+[Client]: /ports/client.html
+[Serialization]: /core/serialization.html
+[Storage]: /ports/storage.html
+[Events]: /ports/events.html
+[Scheduling]: /modules/scheduling.html
+[Templates]: /ports/templates.html
+[Testing]: /modules/testing.html
 
 [Pebble]: http://www.mitchellbosecke.com/pebble/home
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
