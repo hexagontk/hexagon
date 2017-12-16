@@ -19,8 +19,15 @@ dependencies {
     compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion") {
         exclude module: 'kotlin-stdlib'
     }
+    compile ('org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20')
 
-    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    testCompile ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+}
+
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
 }
 
 // Replace build variables in resource files
