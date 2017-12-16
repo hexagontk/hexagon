@@ -4,7 +4,7 @@ import com.hexagonkt.client.Client
 import com.hexagonkt.server.Server
 import com.hexagonkt.server.ServerPort
 import com.hexagonkt.settings.SettingsManager.settings
-import com.hexagonkt.store.MongoIdRepository
+import com.hexagonkt.store.mongodb.MongoIdRepository
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 

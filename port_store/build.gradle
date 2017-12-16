@@ -1,10 +1,6 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
-ext.mongodbVersion = '3.6.0'
-
 dependencies {
     compile project(':hexagon_core')
-    compile ("org.mongodb:mongodb-driver:$mongodbVersion")
-    compile ("org.mongodb:mongodb-driver-async:$mongodbVersion")
 }

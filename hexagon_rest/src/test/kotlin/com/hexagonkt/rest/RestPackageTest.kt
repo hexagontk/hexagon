@@ -1,15 +1,15 @@
 package com.hexagonkt.rest
 
 import com.hexagonkt.client.Client
-import com.hexagonkt.store.MongoIdRepository
-import com.hexagonkt.store.mongoDatabase
-import com.hexagonkt.store.mongoRepository
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseList
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.helpers.error
 import com.hexagonkt.server.*
 import com.hexagonkt.server.jetty.JettyServletAdapter
+import com.hexagonkt.store.mongodb.MongoIdRepository
+import com.hexagonkt.store.mongodb.mongoDatabase
+import com.hexagonkt.store.mongodb.mongoRepository
 import org.testng.annotations.Test
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1

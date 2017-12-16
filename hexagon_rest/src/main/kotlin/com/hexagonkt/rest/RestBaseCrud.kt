@@ -1,8 +1,8 @@
 package com.hexagonkt.rest
 
-import com.hexagonkt.store.MongoRepository
-import com.hexagonkt.store.eq
-import com.hexagonkt.store.isIn
+import com.hexagonkt.store.mongodb.MongoRepository
+import com.hexagonkt.store.mongodb.eq
+import com.hexagonkt.store.mongodb.isIn
 import com.hexagonkt.serialization.*
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.contentTypes

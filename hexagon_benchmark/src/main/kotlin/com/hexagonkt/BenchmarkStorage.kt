@@ -2,9 +2,9 @@ package com.hexagonkt
 
 import com.hexagonkt.helpers.systemSetting
 import com.hexagonkt.settings.SettingsManager.setting
-import com.hexagonkt.store.MongoIdRepository
-import com.hexagonkt.store.mongoCollection
-import com.hexagonkt.store.mongoDatabase
+import com.hexagonkt.store.mongodb.MongoIdRepository
+import com.hexagonkt.store.mongodb.mongoCollection
+import com.hexagonkt.store.mongodb.mongoDatabase
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
