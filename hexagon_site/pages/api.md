@@ -18,6 +18,7 @@ Interfaces to a certain feature that must be implemented by an adapter:
 * [Events Port](/api/port_events/index.html)
 * [Server Port](/api/port_server/index.html)
 * [Store Port](/api/port_store/index.html)
+* [Templates Port](/api/port_templates/index.html)
 
 ## Adapters
 
@@ -30,6 +31,9 @@ Concrete ports implementations:
 * [Servlet Server Adapter](/api/server_servlet/index.html)
 * [Jetty Server Adapter](/api/server_jetty/index.html)
 * [Undertow Server Adapter](/api/server_undertow/index.html)
+
+### Store
+* [MongoDB Store Adapter](/api/store_mongodb/index.html)
 
 ### Templates
 * [Pebble Templates Adapter](/api/templates_pebble/index.html)
