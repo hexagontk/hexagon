@@ -9,6 +9,7 @@ import com.hexagonkt.server.jetty.JettyServletAdapter
 import com.hexagonkt.server.servlet.ServletServer
 import com.hexagonkt.server.undertow.UndertowAdapter
 import com.hexagonkt.settings.SettingsManager.settings
+import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.TemplatePort
 import com.hexagonkt.templates.pebble.PebbleAdapter
 import com.hexagonkt.templates.rocker.RockerAdapter
@@ -52,16 +53,16 @@ private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1)
 }
 
 // HANDLERS
-private fun Call.listFortunes(store: Store, templateEngine: String) {
+private fun Call.listFortunes(store: Store, templateEngine: String): String {
     val templateEngineType = getTemplateEngine(templateEngine)
     val fortunes = store.findAllFortunes() + Fortune(0, "Additional fortune added at request time.")
     val sortedFortunes = fortunes.sortedBy { it.message }
     response.contentType = "text/html;charset=utf-8"
-    template(
+    return render(
         templateEngineType,
         "fortunes.$templateEngine.html",
         defaultLocale,
-        "fortunes" to sortedFortunes
+        mapOf("fortunes" to sortedFortunes)
     )
 }
 
