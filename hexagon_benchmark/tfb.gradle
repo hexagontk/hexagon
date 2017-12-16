@@ -24,7 +24,7 @@ war {
 installDist.dependsOn 'war'
 
 dependencies {
-    compile ("com.hexagonkt:port_store:$hexagonVersion")
+    compile ("com.hexagonkt:store_mongodb:$hexagonVersion")
     compile ("com.hexagonkt:server_jetty:$hexagonVersion")
     compile ("com.hexagonkt:server_undertow:$hexagonVersion")
     compile ("com.hexagonkt:templates_pebble:$hexagonVersion")

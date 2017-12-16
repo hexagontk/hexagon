@@ -19,7 +19,7 @@ dependencies {
 
     // Optional dependencies. Can be removed if not used
     compile ("com.hexagonkt:port_client:\$hexagonVersion")
-    compile ("com.hexagonkt:port_store:\$hexagonVersion")
+    compile ("com.hexagonkt:store_mongodb:\$hexagonVersion")
     compile ("com.hexagonkt:templates_pebble:\$hexagonVersion")
     compile ("com.hexagonkt:templates_kotlinx:\$hexagonVersion")
 

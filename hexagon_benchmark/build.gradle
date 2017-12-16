@@ -36,7 +36,7 @@ war {
 installDist.dependsOn 'war'
 
 dependencies {
-    compile project(':port_store')
+    compile project(':store_mongodb')
     compile project(':server_jetty')
     compile project(':server_undertow')
     compile project(':templates_pebble')
