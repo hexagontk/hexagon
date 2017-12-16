@@ -11,4 +11,6 @@ dependencies {
     compile ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
         exclude module: "kotlin-stdlib"
     }
+
+    testCompile (project (':port_server'))
 }
