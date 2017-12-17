@@ -49,7 +49,11 @@ You can find a performance comparison in the [TechEmpower Web Frameworks Bechmar
 [Spark]: http://sparkjava.com
 [Jooby]: http://jooby.org
 [Ratpack]: http://ratpack.io
-  
+
+# Middleware definition
+
+TODO Mounting routers you can accomplish this
+
 # Project Structure
 
 The Hexagon is a multiple module project. There are several kind of modules:
