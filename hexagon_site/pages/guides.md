@@ -9,6 +9,7 @@ Guides
 
 ## Utilities
 * [Services]: explains how to create, build, test, package and run your services.
+* [Building]: build script tools (only Gradle now).
 
 ## Core
 * [Serialization]: details how to serialize/deserialize object instances using different formats.
@@ -17,22 +18,27 @@ Guides
 ## Modules
 * [Scheduling]: explains how to execute tasks periodically using Cron expressions.
 * [Testing]: explains how to the test Hexagon's services.
+* [REST]: utilities to build REST services over HTTP servers.
 
 ## Ports
 * [HTTP]: describes how to use HTTP routing and HTML templates for Web services.
+* [Client]: documentaion to use the HTTP client module to connect to other services.
 * [Storage]: gives an overview of how to store data using different data stores.
 * [Events]: how to support asynchronous communication with events through message brokers.
 * [Templates]: describes how to render pages using template engines like [Pebble] or [kotlinx.html].
 
-[Services]: http://hexagonkt.com/services.html
-[Configuration]: http://hexagonkt.com/core/configuration.html
-[HTTP]: http://hexagonkt.com/modules/rest.html
-[Serialization]: http://hexagonkt.com/core/serialization.html
-[Storage]: http://hexagonkt.com/ports/storage.html
-[Events]: http://hexagonkt.com/ports/events.html
-[Scheduling]: http://hexagonkt.com/modules/scheduling.html
-[Templates]: http://hexagonkt.com/ports/templates.html
-[Testing]: http://hexagonkt.com/modules/testing.html
+[Building]: /building.html
+[Services]: /services.html
+[Configuration]: /core/configuration.html
+[REST]: /modules/rest.html
+[HTTP]: /ports/server.html
+[Client]: /ports/client.html
+[Serialization]: /core/serialization.html
+[Storage]: /ports/storage.html
+[Events]: /ports/events.html
+[Scheduling]: /modules/scheduling.html
+[Templates]: /ports/templates.html
+[Testing]: /modules/testing.html
 
 [Pebble]: http://www.mitchellbosecke.com/pebble/home
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html

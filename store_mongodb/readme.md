@@ -3,6 +3,6 @@
 
 Hexagon's storage utilities for data classes.
 
-# Package com.hexagonkt.store
+# Package com.hexagonkt.store.mongodb
 
 TODO

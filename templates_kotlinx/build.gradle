@@ -4,11 +4,13 @@ apply from: '../gradle/hexagon_module.gradle'
 ext.kotlinxVersion = '0.6.8'
 
 dependencies {
-    compile (project (':port_server'))
+    compile (project (':port_templates'))
     compile ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxVersion") {
         exclude module: "kotlin-stdlib"
     }
     compile ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
         exclude module: "kotlin-stdlib"
     }
+
+    testCompile (project (':port_server'))
 }

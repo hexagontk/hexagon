@@ -33,16 +33,16 @@ interface Store<T : Any, K : Any> {
 
     suspend fun findMany(
         filter: Map<String, List<*>>,
-        limit: Int?,
-        skip: Int?,
-        sort: Map<String, Boolean>): Channel<T>
+        limit: Int? = null,
+        skip: Int? = null,
+        sort: Map<String, Boolean> = emptyMap()): Channel<T>
 
     suspend fun findMany(
         filter: Map<String, List<*>>,
         fields: List<String>,
-        limit: Int?,
-        skip: Int?,
-        sort: Map<String, Boolean>): Channel<Map<String, *>>
+        limit: Int? = null,
+        skip: Int? = null,
+        sort: Map<String, Boolean> = emptyMap()): Channel<Map<String, *>>
 
-    suspend fun count(filter: Map<String, List<*>>): Long
+    suspend fun count(filter: Map<String, List<*>> = emptyMap()): Long
 }

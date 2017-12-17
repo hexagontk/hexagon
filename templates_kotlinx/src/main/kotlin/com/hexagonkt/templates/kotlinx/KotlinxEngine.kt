@@ -1,10 +1,8 @@
 package com.hexagonkt.templates.kotlinx
 
-import com.hexagonkt.server.Call
 import kotlinx.html.TagConsumer
-
 import kotlinx.html.stream.createHTML
-import java.nio.charset.Charset.defaultCharset
+
 import java.lang.ClassLoader.getSystemResourceAsStream as resourceAsStream
 
 /**
@@ -16,9 +14,8 @@ import java.lang.ClassLoader.getSystemResourceAsStream as resourceAsStream
  * ...
  */
 object KotlinxEngine {
-    fun Call.page(callback: TagConsumer<String>.() -> String) {
-        val html = createHTML().callback()
-        response.contentType = "text/html; charset=${defaultCharset().name()}"
-        ok("<!DOCTYPE html>\n\n$html")
-    }
+    fun page(callback: TagConsumer<String>.() -> String): String = """
+        <!DOCTYPE html>
+        ${createHTML().callback()}
+        """.trimMargin()
 }

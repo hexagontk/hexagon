@@ -3,6 +3,7 @@ package com.hexagonkt.server
 import com.hexagonkt.HttpMethod
 import com.hexagonkt.client.Client
 import com.hexagonkt.HttpMethod.GET
+import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.TemplatePort
 import java.net.URL
 import java.time.LocalDateTime
@@ -98,7 +99,9 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
         get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
         get("/template") {
             val now = LocalDateTime.now()
-            template(templateAdapter, "pebble_template.html", "date" to now)
+            setContentTypeFor("pebble_template.html")
+            val fullContext = fullContext(obtainLocale(), mapOf("date" to now))
+            render(templateAdapter, "pebble_template.html", obtainLocale(), fullContext)
         }
 
         get("/tworoutes/${part.toUpperCase()}/{param}") {

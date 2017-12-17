@@ -1,15 +1,14 @@
 
 import com.hexagonkt.helpers.Log
-import com.hexagonkt.server.Call
 import com.hexagonkt.templates.kotlinx.KotlinxEngine.page
 import kotlinx.html.*
+import org.testng.annotations.Test
 import javax.script.Compilable
 import javax.script.ScriptEngineManager
 import java.util.Locale.getDefault as defaultLocale
 
-@Suppress("unused") // Test methods are flagged as unused
-class GenericIT {
-    private val FORTUNE_MESSAGES = setOf(
+@Test class GenericIT {
+    private val fortuneMessages = setOf(
         "fortune: No such file or directory",
         "A computer scientist is someone who fixes things that aren't broken.",
         "After enough decimal places, nobody gives a damn.",
@@ -34,7 +33,7 @@ class GenericIT {
         }
     }
 
-    fun Call.initialize() {
+    fun initialize() {
         page {
             html {
                 head {
@@ -46,7 +45,7 @@ class GenericIT {
                             th { +"id" }
                             th { +"message" }
                         }
-                        FORTUNE_MESSAGES.forEachIndexed { index, fortune ->
+                        fortuneMessages.forEachIndexed { index, fortune ->
                             tr {
                                 td { +index }
                                 td { +fortune }

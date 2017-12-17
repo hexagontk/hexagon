@@ -1,6 +1,6 @@
 package com.hexagonkt.rest
 
-import com.hexagonkt.store.MongoIdRepository
+import com.hexagonkt.store.mongodb.MongoIdRepository
 import com.hexagonkt.serialization.*
 import com.hexagonkt.server.*
 import com.mongodb.client.model.Projections.include

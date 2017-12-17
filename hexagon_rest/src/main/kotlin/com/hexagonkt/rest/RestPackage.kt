@@ -2,8 +2,8 @@ package com.hexagonkt.rest
 
 import com.hexagonkt.server.Router
 import com.hexagonkt.server.router
-import com.hexagonkt.store.MongoIdRepository
-import com.hexagonkt.store.MongoRepository
+import com.hexagonkt.store.mongodb.MongoIdRepository
+import com.hexagonkt.store.mongodb.MongoRepository
 
 /**
  * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)

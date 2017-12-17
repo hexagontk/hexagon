@@ -65,7 +65,7 @@ ext.configData = [
             '''
         ],
         [
-            link : '/quick_start.html',
+            link : '/guides.html',
             icon : 'plug',
             title : 'Pluggable Adapters',
             description : '''

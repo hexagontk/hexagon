@@ -5,7 +5,8 @@ compileTestKotlin.dependsOn ':port_store:testClasses'
 
 dependencies {
     compile project(':port_server')
-    compile project(':port_store')
+//    compile project(':port_store')
+    compile project(':store_mongodb') // TODO Remove when 'port_store' is finished
 
     testCompile project(':port_client')
     testCompile project(':server_jetty')
