@@ -25,11 +25,12 @@ abstract class CrudTest <T : Any, K : Any> (
         server.stop()
     }
 
+    abstract val testObjects: List<T>
+
     fun crud_operations_behave_properly() {
-//        val objects = createObjects ()
-//        val changedObjects = objects.map { this.changeObject(it) }
-//        val ids = objects.map { idCollection.getKey(it) }
-//
-//        client.post("/")
+//        testObjects.forEach {
+//            val result = client.post("/$idCollection", it)
+//            assert(result.statusCode == 201)
+//        }
     }
 }

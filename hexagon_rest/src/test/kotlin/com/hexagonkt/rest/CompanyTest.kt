@@ -12,7 +12,7 @@ import java.time.LocalTime
 @Test class CompanyTest :
     CrudTest<Company, String>(Company::class, Company::id, JettyServletAdapter()) {
 
-    val testObjects: List<Company> = listOf (
+    override val testObjects: List<Company> = listOf (
         createObject(),
         Company(
             id = "id1",
