@@ -1,18 +1,42 @@
 package com.hexagonkt.rest
 
 import com.hexagonkt.client.Client
-import com.hexagonkt.store.MongoIdRepository
-import com.hexagonkt.store.mongoDatabase
-import com.hexagonkt.store.mongoRepository
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseList
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.helpers.error
 import com.hexagonkt.server.*
 import com.hexagonkt.server.jetty.JettyServletAdapter
+import com.hexagonkt.store.mongodb.MongoIdRepository
+import com.hexagonkt.store.mongodb.mongoDatabase
+import com.hexagonkt.store.mongodb.mongoRepository
 import org.testng.annotations.Test
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
+
+import java.net.URL
+import java.nio.ByteBuffer
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+
+enum class Department { DESIGN, DEVELOPMENT }
+
+data class Person(val name: String)
+
+data class Company(
+    val id: String,
+    val foundation: LocalDate,
+    val closeTime: LocalTime,
+    val openTime: ClosedRange<LocalTime>,
+    val web: URL?,
+    val clients: List<URL> = listOf(),
+    val logo: ByteBuffer? = null,
+    val notes: String? = null,
+    val people: Set<Person>,
+    val departments: Set<Department> = setOf(),
+    val creationDate: LocalDateTime = LocalDateTime.now()
+)
 
 @Test class RestPackageTest {
     data class Parameter (val name: String, val value: String)
@@ -25,12 +49,12 @@ import kotlin.reflect.KProperty1
     private fun <T : Any, K : Any> createCollection (type: KClass<T>, key: KProperty1<T, K>) =
         MongoIdRepository(type, mongoDatabase(), key)
 
-    fun int_keyed_repositories_are_handled_properly () {
+    fun `Int keyed repositories are handled properly`() {
         val repo = MongoIdRepository (Country::class, countries, Country::id)
 
         val server = Server(JettyServletAdapter(), bindPort = 0)
 
-        server.router.crud(repo)
+        server.router.path(crud(repo))
         server.run()
 
         fun param (json: String?) = json?.parse (Country::class) ?: error
@@ -66,7 +90,7 @@ import kotlin.reflect.KProperty1
         val repo = MongoIdRepository (Parameter::class, parameters, Parameter::name)
 
         val server = Server(JettyServletAdapter(), bindPort = 0)
-        server.router.crud(repo)
+        server.router.path(crud(repo))
         server.run()
 
         fun param (json: String?) = json?.parse (Parameter::class) ?: error
@@ -89,11 +113,11 @@ import kotlin.reflect.KProperty1
         server.stop()
     }
 
-    fun simple_crud_starts_correctly () {
+    fun `Simple crud starts correctly`() {
         val addresses = mongoRepository<Address>()
 
         val server = Server(JettyServletAdapter(), bindPort = 0)
-        server.router.crud(addresses)
+        server.router.path(crud(addresses))
         server.run()
 
         fun param (json: String?) = json?.parse (Address::class) ?: error

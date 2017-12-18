@@ -1,4 +1,4 @@
-package com.hexagonkt.store
+package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.settings.SettingsManager.settings
 import com.mongodb.MongoClient
@@ -58,9 +58,6 @@ inline fun <reified T : Any, reified K : Any> mongoIdRepository(
             it.setup()
             it
         }
-
-inline fun <reified T : Any> mongoObjectIdRepository(key: KProperty1<T, String>) =
-    MongoObjectIdRepository (T::class, mongoDatabase(), key)
 
 // TODO Check that parameter is simple type... Ie: fails with LocalDate
 infix fun <T> String.eq(value: T): Bson = Filters.eq(this, value)

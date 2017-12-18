@@ -1,4 +1,4 @@
-package com.hexagonkt.store
+package com.hexagonkt.store.mongodb
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1

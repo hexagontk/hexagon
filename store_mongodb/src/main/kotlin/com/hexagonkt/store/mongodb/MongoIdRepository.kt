@@ -1,4 +1,4 @@
-package com.hexagonkt.store
+package com.hexagonkt.store.mongodb
 
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection

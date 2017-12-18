@@ -4,7 +4,7 @@ import com.hexagonkt.client.Client
 import com.hexagonkt.server.Server
 import com.hexagonkt.server.ServerPort
 import com.hexagonkt.settings.SettingsManager.settings
-import com.hexagonkt.store.MongoIdRepository
+import com.hexagonkt.store.mongodb.MongoIdRepository
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -17,7 +17,7 @@ abstract class CrudTest <T : Any, K : Any> (
     val client by lazy { Client("http://${server.bindAddress.hostAddress}:${server.runtimePort}") }
 
     fun startServer() {
-        server.router.crud(idCollection)
+        server.router.path(crud(idCollection))
         server.run()
     }
 
@@ -25,11 +25,12 @@ abstract class CrudTest <T : Any, K : Any> (
         server.stop()
     }
 
+    abstract val testObjects: List<T>
+
     fun crud_operations_behave_properly() {
-//        val objects = createObjects ()
-//        val changedObjects = objects.map { this.changeObject(it) }
-//        val ids = objects.map { idCollection.getKey(it) }
-//
-//        client.post("/")
+//        testObjects.forEach {
+//            val result = client.post("/$idCollection", it)
+//            assert(result.statusCode == 201)
+//        }
     }
 }

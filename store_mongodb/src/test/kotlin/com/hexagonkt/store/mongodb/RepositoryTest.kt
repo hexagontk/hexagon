@@ -1,4 +1,4 @@
-package com.hexagonkt.store
+package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.serialization.convertToMap

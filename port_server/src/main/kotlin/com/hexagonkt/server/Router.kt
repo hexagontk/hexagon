@@ -40,6 +40,9 @@ class Router {
     fun options(path: String = "/", block: RouteCallback) = options(path) by block
     fun patch(path: String = "/", block: RouteCallback) = patch(path) by block
 
+//    inline fun <reified O> get(path: String = "/", block: () -> O): Nothing = TODO()
+//    inline fun <reified I, O> post(path: String = "/", block: (I) -> O): Nothing = TODO()
+
     fun error(code: Int, block: ErrorCodeCallback) {
         requestHandlers += CodeHandler(Route(Path("/"), ALL), code, block)
     }

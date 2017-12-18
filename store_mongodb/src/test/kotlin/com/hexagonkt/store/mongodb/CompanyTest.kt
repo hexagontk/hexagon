@@ -1,6 +1,6 @@
-package com.hexagonkt.store
+package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.store.Department.*
+import com.hexagonkt.store.mongodb.Department.*
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer

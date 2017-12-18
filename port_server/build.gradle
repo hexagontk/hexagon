@@ -9,8 +9,8 @@ testJar {
 }
 
 dependencies {
-    compile project(':port_templates')
     compile project(':hexagon_core')
 
     testCompile project(':port_client')
+    testCompile project(':port_templates')
 }

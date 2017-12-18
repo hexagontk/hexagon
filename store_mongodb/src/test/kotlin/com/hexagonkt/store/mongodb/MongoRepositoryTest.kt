@@ -1,4 +1,4 @@
-package com.hexagonkt.store
+package com.hexagonkt.store.mongodb
 
 import org.testng.annotations.Test
 import java.io.File

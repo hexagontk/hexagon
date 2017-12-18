@@ -1,6 +1,6 @@
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.10'
 }
 
 apply from: "\$gradleScripts/kotlin.gradle"
@@ -14,17 +14,12 @@ applicationDefaultJvmArgs = [
 
 installDist.dependsOn 'war'
 
-// TODO Provisional (until all packages are in JCenter)
-repositories {
-    maven { url  "https://dl.bintray.com/jamming/maven" }
-}
-
 dependencies {
     compile ("com.hexagonkt:server_jetty:\$hexagonVersion")
 
     // Optional dependencies. Can be removed if not used
     compile ("com.hexagonkt:port_client:\$hexagonVersion")
-    compile ("com.hexagonkt:port_store:\$hexagonVersion")
+    compile ("com.hexagonkt:store_mongodb:\$hexagonVersion")
     compile ("com.hexagonkt:templates_pebble:\$hexagonVersion")
     compile ("com.hexagonkt:templates_kotlinx:\$hexagonVersion")
 

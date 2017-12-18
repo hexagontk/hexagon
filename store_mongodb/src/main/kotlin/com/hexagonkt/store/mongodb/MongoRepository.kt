@@ -1,4 +1,4 @@
-package com.hexagonkt.store
+package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
@@ -6,7 +6,6 @@ import com.hexagonkt.serialization.parseList
 import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.requireResource
 import com.hexagonkt.helpers.resourceAsStream
-import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
 import com.mongodb.client.*
 import com.mongodb.client.model.*

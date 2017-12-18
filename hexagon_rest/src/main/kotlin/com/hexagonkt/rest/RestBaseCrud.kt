@@ -1,13 +1,12 @@
 package com.hexagonkt.rest
 
-import com.hexagonkt.store.MongoRepository
-import com.hexagonkt.store.eq
-import com.hexagonkt.store.isIn
+import com.hexagonkt.store.mongodb.MongoRepository
+import com.hexagonkt.store.mongodb.eq
+import com.hexagonkt.store.mongodb.isIn
 import com.hexagonkt.serialization.*
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.contentTypes
 import com.hexagonkt.server.Call
-import com.hexagonkt.server.Router
 import com.mongodb.MongoWriteException
 import com.mongodb.client.FindIterable
 import com.mongodb.client.model.Filters
@@ -15,19 +14,12 @@ import org.bson.conversions.Bson
 import java.nio.charset.Charset.defaultCharset
 import kotlin.reflect.full.declaredMemberProperties
 
-/**
- * TODO Implement pattern find with filters made from query strings (?<fieldName>=<val1>,<val2>...&)
- * TODO Implement pattern delete with filters made from query strings (see above)
- */
-fun Router.crud(repository: MongoRepository<*>) {
-    val collectionName = repository.namespace.collectionName
-
-    get("/$collectionName") { findAll (repository) }
-    get("/$collectionName/count") { ok(repository.count()) }
-
-    post("/$collectionName/list") { insertList (repository) }
-    post("/$collectionName") { insert (repository) }
-    delete("/$collectionName") { deleteByExample (repository) }
+fun Call.deleteByExample(repository: MongoRepository<*>) {
+    val exampleFilter = filterByExample(repository, this)
+    if (exampleFilter == null)
+        error(400, "A filter is required")
+    else
+        repository.deleteMany(exampleFilter)
 }
 
 internal fun accept (call: Call): SerializationFormat = call.request.accept()?.first().let {
@@ -71,14 +63,6 @@ internal fun <T : Any> Call.findAll (repository: MongoRepository<T>) {
     val contentType = accept(this)
     response.contentType = contentType.contentType + "; charset=${defaultCharset().name()}"
     ok(objects.serialize(contentType))
-}
-
-private fun Call.deleteByExample(repository: MongoRepository<*>) {
-    val exampleFilter = filterByExample(repository, this)
-    if (exampleFilter == null)
-        error(400, "A filter is required")
-    else
-        repository.deleteMany(exampleFilter)
 }
 
 internal fun filterByExample(repository: MongoRepository<*>, call: Call): Bson? {

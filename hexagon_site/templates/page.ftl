@@ -17,7 +17,8 @@
         <ul class="nav nav-sidebar">
           <li><a href="#">Motivation</a></li>
           <li><a href="#">Ports and Adapters</a></li>
-          <li><a href="/services.html">Create services</a></li>
+          <li><a href="/services.html">Create Services</a></li>
+          <li><a href="/building.html">Gradle Helpers</a></li>
           <li><a href="/api.html">API Reference</a></li>
           <li><a href="/quick_start.html">Quick Start</a></li>
           <li>
@@ -37,11 +38,13 @@
           <li>Modules</li>
           <li><a href="/modules/scheduling.html">Scheduling</a></li>
           <li><a href="/modules/testing.html">Testing</a></li>
+          <li><a href="/modules/rest.html">REST Helpers</a></li>
         </ul>
 
         <ul class="nav nav-sidebar">
           <li>Ports</li>
           <li><a href="/ports/server.html">HTTP</a></li>
+          <li><a href="/ports/client.html">Client</a></li>
           <li><a href="/ports/storage.html">Storage</a></li>
           <li><a href="/ports/events.html">Events</a></li>
           <li><a href="/ports/templates.html">Templates</a></li>
