@@ -23,16 +23,15 @@ import org.bson.codecs.EncoderContext
 import org.bson.codecs.configuration.CodecProvider
 import org.bson.codecs.configuration.CodecRegistry
 import org.bson.types.ObjectId
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
 /**
  * Provide codecs that use Jackson Object Mapper for all Java classes.
  */
-internal  class JacksonCodecProvider<T : Any, K : Any> internal constructor(
-    private val entity: KClass<T>,
+internal  class JacksonCodecProvider<T : Any, K : Any> constructor(
     private val key: KProperty1<T, K>,
-    private val generateKey: Boolean = true) : CodecProvider {
+    private val useObjectId: Boolean = true,
+    private val useUnderscoreId: Boolean = true) : CodecProvider {
 
     /** {@inheritDoc} */
     override fun <TC> get(clazz: Class<TC>, registry: CodecRegistry): Codec<TC> = object : Codec<TC> {
@@ -40,16 +39,17 @@ internal  class JacksonCodecProvider<T : Any, K : Any> internal constructor(
 
         /** {@inheritDoc} */
         override fun encode(writer: BsonWriter, value: TC, encoderContext: EncoderContext) {
-            val map = mapper.convertValue(value, Map::class.java) as Map<String, Any>
+            @Suppress("UNCHECKED_CAST")
+            val valueMap = mapper.convertValue(value, Map::class.java) as Map<String, *>
+            val map = HashMap(valueMap)
 
-            if (generateKey) {
-                val id = if (map[key.name] == null)
-                    ObjectId()
-                else
-                    ObjectId(map[key.name].toString())
+            if (useObjectId) {
+                val id =
+                    if (map[key.name] == null) ObjectId()
+                    else ObjectId(map[key.name].toString())
 
-//                if (clazz == key.returnType)
-//                    map.put(key.name, id)
+                if (clazz == key.returnType)
+                    map.put(key.name, id)
             }
 
             documentCodec.encode(writer, Document(map), encoderContext)
@@ -59,8 +59,10 @@ internal  class JacksonCodecProvider<T : Any, K : Any> internal constructor(
         override fun decode(reader: BsonReader, decoderContext: DecoderContext): TC {
             val document: Document = documentCodec.decode(reader, decoderContext)
 
-            if (generateKey)
-                document.computeIfPresent(key.name) { _, value -> (value as ObjectId).toHexString() }
+            if (useObjectId)
+                document.computeIfPresent(key.name) { _, value ->
+                    (value as ObjectId).toHexString()
+                }
 
             return mapper.convertValue(document, clazz)
         }

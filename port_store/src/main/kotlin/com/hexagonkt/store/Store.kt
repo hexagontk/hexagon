@@ -5,21 +5,26 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
 interface Store<T : Any, K : Any> {
-    fun getName(): String
+    val type: KClass<T>
+    val key: KProperty1<T, K>
+    val name: String
 
-    fun getType(): KClass<T>
+    suspend fun insertOne(instance: T): K
 
-    fun getKey(): KProperty1<T, K>
+    suspend fun insertMany(instances: List<T>): Channel<K>
 
-    suspend fun insertOne(`object`: T): K
+    suspend fun insertMany(vararg instances: T): Channel<K> = insertMany(instances.toList())
 
-    suspend fun insertMany(objects: List<T>): Channel<K>
+    suspend fun replaceOne(instance: T): Boolean
 
-    suspend fun replaceOne(`object`: T): Boolean
+    suspend fun replaceMany(instances: List<T>): Channel<T>
 
-    suspend fun replaceMany(objects: List<T>): Channel<T>
+    suspend fun replaceMany(vararg instances: T): Channel<T> = replaceMany(instances.toList())
 
     suspend fun updateOne(key: K, updates: Map<String, *>): Boolean
+
+    suspend fun updateOne(key: K, vararg updates: Pair<String, *>): Boolean =
+        updateOne(key, updates.toMap())
 
     suspend fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long
 
