@@ -26,6 +26,12 @@ interface Store<T : Any, K : Any> {
     suspend fun updateOne(key: K, vararg updates: Pair<String, *>): Boolean =
         updateOne(key, updates.toMap())
 
+    suspend fun updateOne_(key: K, updates: Map<KProperty1<T, *>, *>): Boolean =
+        updateOne(key, updates.mapKeys { it.key.name })
+
+    suspend fun updateOne_(key: K, vararg updates: Pair<KProperty1<T, *>, *>): Boolean =
+        updateOne(key, updates.map { it.first.name to it.second }.toMap())
+
     suspend fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long
 
     suspend fun deleteOne(id: K): Boolean

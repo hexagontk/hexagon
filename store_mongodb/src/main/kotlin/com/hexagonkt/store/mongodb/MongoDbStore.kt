@@ -14,6 +14,7 @@ import org.bson.codecs.configuration.CodecRegistries.fromProviders
 import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import org.bson.types.ObjectId
 import java.util.Objects.requireNonNull
+import kotlin.coroutines.experimental.suspendCoroutine
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -53,30 +54,24 @@ class MongoDbStore <T : Any, K : Any>(
         )
     }
 
-    suspend override fun insertOne(instance: T): K {
-        requireNonNull(instance)
-//        val future = Future.future()
-//        typedCollection.insertOne(instance) { result, error ->
-//            if (error == null)
-//                future.complete(getKey(instance) as K) // TODO Check type! this can fail!
-//            else
-//                future.fail(error)
-//        }
-//        return future
-        TODO("not implemented")
+    suspend override fun insertOne(instance: T): K = suspendCoroutine {
+        typedCollection.insertOne(instance) { _, error ->
+            if (error == null)
+                it.resume(key.get(instance))
+            else
+                it.resumeWithException(error)
+        }
     }
 
-    suspend override fun insertMany(instances: List<T>): Channel<K> {
-//        requireNonNull(objects)
-//        val future = Future.future()
-//        if (!objects.isEmpty())
-//            typedCollection.insertMany(objects, singleResultCallback(future))
-//        return future
+    suspend override fun insertMany(instances: List<T>): Channel<K> = suspendCoroutine {
+//        if (!instances.isEmpty())
+//            typedCollection.insertMany(instances, singleResultCallback(future))
+//        else
+//            it.resume(Channel())
         TODO("not implemented")
     }
 
     suspend override fun replaceOne(instance: T): Boolean {
-//        requireNonNull(`object`)
 //        val future = Future.future()
 //        val filter = eq(entity.keyName, getKey(`object`))
 //        typedCollection.replaceOne(filter, `object`) { result, error ->
@@ -90,7 +85,7 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     suspend override fun replaceMany(instances: List<T>): Channel<T> {
-//        requireNonNull(objects)
+        requireNonNull(instances)
 //        return CompositeFuture.join(
 //            objects.stream().map<Any> { `object` ->
 //                val future = Future.future()
@@ -143,5 +138,7 @@ class MongoDbStore <T : Any, K : Any>(
     private fun convertKey(instance: K): Any =
         if (useObjectId) ObjectId(instance.toString()) else instance
 
-    private fun getKey(instance: T): Any = key.get(instance).let (::convertKey)
+    private fun getKey(instance: T): Any = key.get(instance).let {
+        if (useObjectId) ObjectId(it.toString()) else it
+    }
 }
