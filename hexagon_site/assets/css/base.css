@@ -2,9 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto+Mono|Roboto+Slab');
 
-html {
-  background-color: ${siteBackgroundDark};
-}
+html { background-color: ${siteBackgroundDark}; }
 
 body {
   /* Margin to avoid being covered by sticky navbar */
@@ -24,9 +22,7 @@ h1 a, h2 a, h3 a, h4 a {
 
 a, a:hover, a:focus { color: ${siteAccentColor}; }
 
-div.layer a:hover, div.layer a:focus {
-    text-decoration: none;
-}
+div.layer a:hover, div.layer a:focus { text-decoration: none; }
 
 pre, code { font-family: 'Roboto Mono', monospace; }
 
@@ -48,52 +44,48 @@ section h2.section-heading,
 section h2.section-subheading,
 section h3.section-heading,
 section h3.section-subheading {
-    text-transform: none;
-    font-family: 'Roboto Condensed', helvetica, sans-serif;
-    font-weight: normal;
-    font-style: normal;
+  text-transform: none;
+  font-family: 'Roboto Condensed', helvetica, sans-serif;
+  font-weight: normal;
+  font-style: normal;
 }
 
 section h2.section-heading,
 section h3.section-heading {
-    font-size: 50px;
-    margin-bottom: 5px;
+  font-size: 50px;
+  margin-bottom: 5px;
 }
 
 section h2.section-subheading,
 section h3.section-subheading {
-    line-height: 26px;
-    margin-top: 0;
+  line-height: 26px;
+  margin-top: 0;
 }
 
-.text-muted {
-    color: #303030;
-}
+.text-muted { color: #303030; }
 
 .navbar-default {
-    background-color: ${siteBackgroundDark};
-    padding: 0;
+  background-color: ${siteBackgroundDark};
+  padding: 0;
 }
 
-.navbar-default .navbar-header {
-    margin-left: 13px;
-}
+.navbar-default .navbar-header { margin-left: 13px; }
 
 .navbar-default .navbar-brand {
-    background-size: contain;
-    direction: ltr;
-    height: 28px;
-    width: 100px;
-    display: inline-block;
-    font-weight: bold;
+  background-size: contain;
+  direction: ltr;
+  height: 28px;
+  width: 100px;
+  display: inline-block;
+  font-weight: bold;
 }
 
 .navbar-default .nav li a {
-    font-weight: bold;
-    font-size: 14px;
-    letter-spacing: 1px;
-    color: #F5F5F5;
-    text-transform: none;
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #F5F5F5;
+  text-transform: none;
 }
 
 .navbar-default .navbar-nav > li > a:hover,
@@ -123,9 +115,9 @@ header {
 }
 
 @media (max-height: 1150px) {
-    header {
-        min-height: 100vh;
-    }
+  header {
+      min-height: 100vh;
+  }
 }
 
 header .intro {
@@ -431,7 +423,7 @@ footer .credits span {
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
-    top: 51px;
+    top: 60px;
     bottom: 0;
     left: 0;
     display: block;
@@ -443,6 +435,7 @@ footer .credits span {
 
 /* Sidebar navigation */
 .nav-sidebar { margin-bottom: 20px; }
+.nav-sidebar > li.title { text-transform: uppercase; }
 .nav-sidebar > li > a { padding: 0; }
 
 .nav-sidebar > .active > a,
