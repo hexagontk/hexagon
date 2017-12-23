@@ -83,9 +83,7 @@ Async
 
 Registering
 
-Health checks
-
 Tool for client requests
 
-CBOR
+CBOR and Avro
 
