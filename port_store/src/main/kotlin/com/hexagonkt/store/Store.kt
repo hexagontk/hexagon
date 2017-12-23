@@ -1,6 +1,6 @@
 package com.hexagonkt.store
 
-import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -11,15 +11,15 @@ interface Store<T : Any, K : Any> {
 
     suspend fun insertOne(instance: T): K
 
-    suspend fun insertMany(instances: List<T>): Channel<K>
+    fun insertMany(instances: List<T>): ReceiveChannel<K>
 
-    suspend fun insertMany(vararg instances: T): Channel<K> = insertMany(instances.toList())
+    fun insertMany(vararg instances: T): ReceiveChannel<K> = insertMany(instances.toList())
 
     suspend fun replaceOne(instance: T): Boolean
 
-    suspend fun replaceMany(instances: List<T>): Channel<T>
+    fun replaceMany(instances: List<T>): ReceiveChannel<T>
 
-    suspend fun replaceMany(vararg instances: T): Channel<T> = replaceMany(instances.toList())
+    fun replaceMany(vararg instances: T): ReceiveChannel<T> = replaceMany(instances.toList())
 
     suspend fun updateOne(key: K, updates: Map<String, *>): Boolean
 
@@ -42,18 +42,18 @@ interface Store<T : Any, K : Any> {
 
     suspend fun findOne(key: K, fields: List<String>): Map<String, *>
 
-    suspend fun findMany(
+    fun findMany(
         filter: Map<String, List<*>>,
         limit: Int? = null,
         skip: Int? = null,
-        sort: Map<String, Boolean> = emptyMap()): Channel<T>
+        sort: Map<String, Boolean> = emptyMap()): ReceiveChannel<T>
 
-    suspend fun findMany(
+    fun findMany(
         filter: Map<String, List<*>>,
         fields: List<String>,
         limit: Int? = null,
         skip: Int? = null,
-        sort: Map<String, Boolean> = emptyMap()): Channel<Map<String, *>>
+        sort: Map<String, Boolean> = emptyMap()): ReceiveChannel<Map<String, *>>
 
     suspend fun count(filter: Map<String, List<*>> = emptyMap()): Long
 }

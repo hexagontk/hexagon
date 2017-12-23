@@ -8,12 +8,14 @@ import com.mongodb.async.client.MongoDatabase
 import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.client.model.IndexOptions
 import com.mongodb.client.model.Indexes
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.experimental.channels.produce
 import org.bson.Document
 import org.bson.codecs.configuration.CodecRegistries.fromProviders
 import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import org.bson.types.ObjectId
-import java.util.Objects.requireNonNull
 import kotlin.coroutines.experimental.suspendCoroutine
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -28,7 +30,7 @@ class MongoDbStore <T : Any, K : Any>(
     database: MongoDatabase,
     private val useObjectId: Boolean = true,
     useUnderscoreId: Boolean = true,
-    indexOrder: Int? = null) : Store<T, K> {
+    indexOrder: Int = 1) : Store<T, K> {
 
     private val database = database.withCodecRegistry(
         fromRegistries(getDefaultCodecRegistry(),
@@ -48,7 +50,7 @@ class MongoDbStore <T : Any, K : Any>(
             )
 
         typedCollection.createIndex(
-            Indexes.ascending(key.name),
+            if (indexOrder == 1) Indexes.ascending(key.name) else Indexes.descending(key.name),
             IndexOptions().unique(true).background(true),
             { _, _ -> Log.info("Index created for: {} with field: {}", name, key.name) } // TODO Log
         )
@@ -63,34 +65,33 @@ class MongoDbStore <T : Any, K : Any>(
         }
     }
 
-    suspend override fun insertMany(instances: List<T>): Channel<K> = suspendCoroutine {
-//        if (!instances.isEmpty())
-//            typedCollection.insertMany(instances, singleResultCallback(future))
-//        else
-//            it.resume(Channel())
-        TODO("not implemented")
+    override fun insertMany(instances: List<T>): ReceiveChannel<K> = produce {
+        if (!instances.isEmpty())
+            typedCollection.insertMany(instances) { _, error ->
+                if (error == null)
+                    instances.forEach { async { send(key.get(it)) } }
+                else
+                    error("Error inserting instances")
+            }
     }
 
     suspend override fun replaceOne(instance: T): Boolean {
-//        val future = Future.future()
-//        val filter = eq(entity.keyName, getKey(`object`))
-//        typedCollection.replaceOne(filter, `object`) { result, error ->
+//        val filter = eq(entity.keyName, getKey(instance))
+//        typedCollection.replaceOne(filter, instance) { result, error ->
 //            if (error == null)
 //                future.complete(result.modifiedCount == 1L)
 //            else
 //                future.fail(error)
 //        }
-//        return future
         TODO("not implemented")
     }
 
-    suspend override fun replaceMany(instances: List<T>): Channel<T> {
-        requireNonNull(instances)
+    override fun replaceMany(instances: List<T>): ReceiveChannel<T> {
 //        return CompositeFuture.join(
-//            objects.stream().map<Any> { `object` ->
+//            instances.stream().map<Any> { instance ->
 //                val future = Future.future()
-//                val filter = eq(entity.keyName, getKey(`object`))
-//                typedCollection.replaceOne(filter, `object`, singleResultCallback(future))
+//                val filter = eq(entity.keyName, getKey(instance))
+//                typedCollection.replaceOne(filter, instance, singleResultCallback(future))
 //                future
 //            }
 //                .collect<R, A>(toList<T>())
@@ -123,11 +124,11 @@ class MongoDbStore <T : Any, K : Any>(
         TODO("not implemented")
     }
 
-    suspend override fun findMany(filter: Map<String, List<*>>, limit: Int?, skip: Int?, sort: Map<String, Boolean>): Channel<T> {
+    override fun findMany(filter: Map<String, List<*>>, limit: Int?, skip: Int?, sort: Map<String, Boolean>): Channel<T> {
         TODO("not implemented")
     }
 
-    suspend override fun findMany(filter: Map<String, List<*>>, fields: List<String>, limit: Int?, skip: Int?, sort: Map<String, Boolean>): Channel<Map<String, *>> {
+    override fun findMany(filter: Map<String, List<*>>, fields: List<String>, limit: Int?, skip: Int?, sort: Map<String, Boolean>): Channel<Map<String, *>> {
         TODO("not implemented")
     }
 
