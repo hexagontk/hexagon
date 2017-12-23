@@ -15,12 +15,14 @@
     <div class="row">
       <aside class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
-          <li><a href="#">Motivation</a></li>
-          <li><a href="#">Ports and Adapters</a></li>
+          <li class="title">Documentation</li>
+          <li><a href="/quick_start.html">Quick Start</a></li>
+          <li><a href="/motivation.html">Motivation</a></li>
+          <li><a href="/alternatives.html">Alternatives</a></li>
+          <li><a href="/ports_and_adapters.html">Ports and Adapters</a></li>
           <li><a href="/services.html">Create Services</a></li>
           <li><a href="/building.html">Gradle Helpers</a></li>
           <li><a href="/api.html">API Reference</a></li>
-          <li><a href="/quick_start.html">Quick Start</a></li>
           <li>
             <a href="https://github.com/hexagonkt/hexagon/blob/master/contributing.md">
               Contribute
@@ -29,20 +31,20 @@
         </ul>
 
         <ul class="nav nav-sidebar">
-          <li>Core</li>
+          <li class="title">Core</li>
           <li><a href="/core/serialization.html">Serialization</a></li>
           <li><a href="/core/configuration.html">Configuration</a></li>
         </ul>
 
         <ul class="nav nav-sidebar">
-          <li>Modules</li>
+          <li class="title">Modules</li>
           <li><a href="/modules/scheduling.html">Scheduling</a></li>
           <li><a href="/modules/testing.html">Testing</a></li>
           <li><a href="/modules/rest.html">REST Helpers</a></li>
         </ul>
 
         <ul class="nav nav-sidebar">
-          <li>Ports</li>
+          <li class="title">Ports</li>
           <li><a href="/ports/server.html">HTTP</a></li>
           <li><a href="/ports/client.html">Client</a></li>
           <li><a href="/ports/storage.html">Storage</a></li>
