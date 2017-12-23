@@ -24,6 +24,7 @@ import java.net.InetSocketAddress
 import java.net.InetAddress.getByName as address
 import io.undertow.server.handlers.PredicateHandler
 import io.undertow.server.handlers.resource.ClassPathResourceManager
+import kotlinx.coroutines.experimental.runBlocking
 
 class UndertowAdapter : ServerPort {
     companion object : CachedLogger(UndertowAdapter::class)
@@ -78,7 +79,7 @@ class UndertowAdapter : ServerPort {
             filterRoute.methods.forEach { method ->
                 before.add(method.toString(), filterRoute.path.path, BlockingHandler {
                     val call = it.getAttachment(callKey)
-                    call.handlerCallback()
+                    runBlocking { call.handlerCallback() }
                 })
             }
         }
@@ -92,7 +93,7 @@ class UndertowAdapter : ServerPort {
                         root.add(m.toString (), route.path.path, BlockingHandler {
                             val call = it.getAttachment(callKey)
                             val handlerCallback = handler.callback
-                            call.handleResult(call.handlerCallback())
+                            call.handleResult(runBlocking { call.handlerCallback() })
                         })
                     }
                 }
@@ -104,7 +105,7 @@ class UndertowAdapter : ServerPort {
             filterRoute.methods.forEach { method ->
                 after.add(method.toString(), filterRoute.path.path, BlockingHandler {
                     val call = it.getAttachment(callKey)
-                    call.handlerCallback()
+                    runBlocking { call.handlerCallback() }
                 })
             }
         }
@@ -181,7 +182,7 @@ class UndertowAdapter : ServerPort {
                 val handler: ErrorCodeCallback =
                     codedErrors[exception.code] ?: { error(it, exception.message ?: "") }
 
-                call.handleResult(call.handler(exception.code))
+                call.handleResult(runBlocking { call.handler(exception.code) })
             }
             else -> {
                 error("Error processing request", exception)
@@ -189,7 +190,7 @@ class UndertowAdapter : ServerPort {
                 val handler = exceptionErrors[type]
 
                 if (handler != null)
-                    call.handleResult(call.handler(exception))
+                    call.handleResult(runBlocking { call.handler(exception) })
                 else
                     type.superclass.also {
                         if (it != null)

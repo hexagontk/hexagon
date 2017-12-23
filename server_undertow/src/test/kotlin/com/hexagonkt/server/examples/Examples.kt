@@ -56,13 +56,9 @@ val serverExample = server(VoidAdapter) {
 
     // The return object is the response (String sets body, Int sets code, Pair<Int, Any> both)
     POST at "/foo" by { "Done" }
-    // Handling a route with a method reference (note that 'Call' cannot be used as the receiver)
-    POST at "/foo" by ::reference
 
     ALL at "/" after {}
 }
-
-private fun reference(@Suppress("UNUSED_PARAMETER") e: Call): Any = 200 to "Done"
 
 val filter = router {
     before {
