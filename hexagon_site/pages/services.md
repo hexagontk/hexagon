@@ -106,8 +106,3 @@ Build scripts:
 * service.yaml (see configuration.md)
 * logback.xml
 
-Templates: Pebble (optional dependencies)
-
-## Deploy on Servlet engine
-
-## Deploy on Docker

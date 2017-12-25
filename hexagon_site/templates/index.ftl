@@ -130,7 +130,9 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading">Ports</h2>
-          <h3 class="section-subheading text-muted">Ports with their provided implementations.</h3>
+          <h3 class="section-subheading text-muted">
+            Ports with their provided implementations (Adapters).
+          </h3>
         </div>
       </div>
 
