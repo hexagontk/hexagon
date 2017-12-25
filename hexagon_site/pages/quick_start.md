@@ -32,21 +32,6 @@ The Hexagon is a multiple module project. There are several kind of modules:
 * Infrastructure modules. Components used by the project itself, like the benchmark, the examples
   and the site generator.
 
-# Starters
-
-# Gradle utility scripts
-
-# Examples
-
-# Why it was created
-
-* More time reading framework docs than coding
-* Frameworks targeted to everyone instead my custom needs
-* Easy to hack better than work ok for every use case
-* For fun!
-* To learn Kotlin
-* Managed services of public clouds (cheaper, but tie you to them)
-
 # How it works
 
 The framework is build upon smaller pieces:
@@ -58,32 +43,3 @@ ports and adapters
 # Concepts
 
 Service (API, Web, Consumer)
-
-Routes
-
-Filters
-
-Handlers
-
-Callbacks
-
-Routers
-
-Servers
-
-Templates
-
-Events
-
-... Stores + Rest
-
-# Roadmap
-
-Async
-
-Registering
-
-Tool for client requests
-
-CBOR and Avro
-

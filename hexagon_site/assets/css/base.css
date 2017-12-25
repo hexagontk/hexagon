@@ -22,6 +22,11 @@ h1 a, h2 a, h3 a, h4 a {
 
 a, a:hover, a:focus { color: ${siteAccentColor}; }
 
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus {
+  color: ${siteBackgroundLight};
+  text-decoration: none;
+}
+
 div.layer a:hover, div.layer a:focus { text-decoration: none; }
 
 pre, code { font-family: 'Roboto Mono', monospace; }

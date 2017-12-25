@@ -35,3 +35,21 @@ Context (ctx)
     Cookie Store
 Access manager
 Lifecycle events
+
+Routes
+
+Filters
+
+Handlers
+
+Callbacks
+
+Routers
+
+Servers
+
+Templates
+
+Events
+
+... Stores + Rest
