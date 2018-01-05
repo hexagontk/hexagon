@@ -22,7 +22,7 @@ task buildInfo {
     }
 }
 
-installDist.dependsOn 'check'
+installDist.dependsOn 'build'
 
 /*
  * Run the service in another thread. This allow the possibility to 'watch' source changes
