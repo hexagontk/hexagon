@@ -13,8 +13,6 @@ import java.util.*
 import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 import java.util.Locale.forLanguageTag as localeFor
 import com.hexagonkt.settings.SettingsManager.settings
-import com.hexagonkt.templates.TemplatePort
-import com.hexagonkt.templates.TemplateManager.render
 
 /**
  * HTTP request context. It holds client supplied data and methods to change the response.
@@ -46,38 +44,21 @@ class Call(
 
     fun serializationFormat(): SerializationFormat = getContentTypeFormat(contentType())
 
-    fun template(
-        engine: TemplatePort,
-        template: String,
-        locale: Locale,
-        context: Map<String, *>) {
-
+    fun setContentTypeFor(template: String) {
         if (response.contentType == null) {
             val mimeType = response.getMimeType(template)
             response.contentType = "$mimeType; charset=${defaultCharset().name()}"
         }
+    }
 
+    fun fullContext(locale: Locale, context: Map<String, *>): Map<String, *> {
         val extraParameters = mapOf(
             "path" to request.path.removeSuffix("/"), // Do not allow trailing slash
             "lang" to locale.language
         )
 
-        val fullContext = settings + context + session.attributes + extraParameters
-        ok(render(engine, template, locale, fullContext))
+        return settings + context + session.attributes + extraParameters
     }
-
-    fun template(
-        engine: TemplatePort,
-        template: String,
-        locale: Locale = obtainLocale(),
-        vararg context: Pair<String, *>) =
-            template(engine, template, locale, context.toMap())
-
-    fun template(engine: TemplatePort, template: String, context: Map<String, *>) =
-        template(engine, template, obtainLocale(), context)
-
-    fun template(engine: TemplatePort, template: String, vararg context: Pair<String, *>) =
-        template(engine, template, obtainLocale(), context.toMap())
 
     /**
      * TODO Review order precedence and complete code (now only taking request attribute)
@@ -88,7 +69,7 @@ class Call(
      * 4. Accept-language
      * 5. Server default locale
      */
-    private fun obtainLocale() = when {
+    fun obtainLocale(): Locale = when {
         attributes["lang"] as? String != null -> localeFor(attributes["lang"] as String)
         else -> Locale.getDefault()
     }

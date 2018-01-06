@@ -13,16 +13,16 @@ task buildInfo {
     doLast {
         file ("$buildDir/resources/main").mkdirs ()
         file ("$buildDir/resources/main/service.properties").write """
-        project=$rootProject.name
-        module=$project.name
-        version=${project.version.toString()}
-        group=$project.group
-        description=$project.description
+            project=$rootProject.name
+            module=$project.name
+            version=${project.version.toString()}
+            group=$project.group
+            description=$project.description
         """.stripIndent ()
     }
 }
 
-installDist.dependsOn 'check'
+installDist.dependsOn 'build'
 
 /*
  * Run the service in another thread. This allow the possibility to 'watch' source changes

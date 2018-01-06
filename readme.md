@@ -77,7 +77,7 @@ What are NOT project goals:
   * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.22.9")
+    compile ("com.hexagonkt:server_jetty:0.22.10")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
@@ -86,7 +86,7 @@ What are NOT project goals:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.22.9</version>
+      <version>0.22.10</version>
     </dependency>
     ```
 
@@ -151,7 +151,7 @@ If you feel like you can do more. You can contribute to the framework in differe
 * Voting for the features you want in the [issue tracker][issues] (using [reactions]).
 * And... Drum roll... Submitting [code or documentation][contributing].
 
-To know what issues are currently open and be aware of the next features yo can check the
+To know what issues are currently open and be aware of the next features you can check the
 [Project Board] at Github.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up

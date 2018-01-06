@@ -6,13 +6,13 @@ import com.hexagonkt.settings.SettingsManager
 import java.util.*
 
 /** Alias for filters' callbacks. Functions executed before/after routes. */
-typealias FilterCallback = Call.() -> Unit
+typealias FilterCallback = suspend Call.() -> Unit
 /** Alias for routes' callbacks. Functions executed when a route is matched. */
-typealias RouteCallback = Call.() -> Any
+typealias RouteCallback = suspend Call.() -> Any
 /** Alias for exceptions' callbacks. Functions executed when an exception is thrown. */
-typealias ExceptionCallback = Call.(Exception) -> Any
+typealias ExceptionCallback = suspend Call.(Exception) -> Any
 /** Alias for errors' callbacks. Functions executed to handle a HTTP error code. */
-typealias ErrorCodeCallback = Call.(Int) -> Any
+typealias ErrorCodeCallback = suspend Call.(Int) -> Any
 
 /** Set containing all HTTP methods. */
 val ALL: LinkedHashSet<HttpMethod> = linkedSetOf(*HttpMethod.values())

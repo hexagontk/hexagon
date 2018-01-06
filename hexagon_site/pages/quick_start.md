@@ -4,14 +4,23 @@
 Hexagon is a microservices library written in [Kotlin] which pursose is to ease the building of
 services (Web applications, APIs or queue consumers) that run inside cloud platforms.
 
+The project is developed as a [library][frameworks] that you call as oposed to [frameworks] that 
+call your code inside them. Being a library means that you won't need special build settings or
+tools.
+
 It is meant to provide abstraction from underlying technoligies (data storage, HTTP server 
 engines, etc.) to be able to change them with minimum impact.
 
-It only supports Kotlin, Java is not a targeted language for the framework.
+It only supports [Kotlin], Java is not a targeted language for the framework.
 
 [Kotlin]: http://kotlinlang.org
-  
-## Project Structure
+[frameworks]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
+
+# Middleware definition
+
+TODO Mounting routers you can accomplish this
+
+# Project Structure
 
 The Hexagon is a multiple module project. There are several kind of modules:
 
@@ -22,19 +31,6 @@ The Hexagon is a multiple module project. There are several kind of modules:
 * "Ports", which are ports implementations for a given tool.
 * Infrastructure modules. Components used by the project itself, like the benchmark, the examples
   and the site generator.
-
-### Starters
-
-### Gradle utility scripts
-
-# Why it was created
-
-* More time reading framework docs than coding
-* Frameworks targeted to everyone instead my custom needs
-* Easy to hack better than work ok for every use case
-* For fun!
-* To learn Kotlin
-* Managed services of public clouds (cheaper, but tie you to them)
 
 # How it works
 
@@ -47,34 +43,3 @@ ports and adapters
 # Concepts
 
 Service (API, Web, Consumer)
-
-Routes
-
-Filters
-
-Handlers
-
-Callbacks
-
-Routers
-
-Servers
-
-Templates
-
-Events
-
-... Stores + Rest
-
-# Roadmap
-
-Async
-
-Registering
-
-Health checks
-
-Tool for client requests
-
-CBOR
-

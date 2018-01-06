@@ -1,6 +1,6 @@
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.10'
 }
 
 apply from: "$gradleScripts/kotlin.gradle"
@@ -15,7 +15,7 @@ applicationDefaultJvmArgs = [
     '-Xms2G', '-Xmx2G', '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts'
 ]
 
-ext.jettyVersion = '9.4.7.v20170914'
+ext.jettyVersion = '9.4.8.v20171121'
 
 war {
     archiveName = "ROOT.war"

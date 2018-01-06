@@ -7,9 +7,9 @@ import com.hexagonkt.settings.SettingsManager
 fun serve(
     settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
-    com.hexagonkt.server.serve(UndertowAdapter(), settings, block)
+        com.hexagonkt.server.serve(UndertowAdapter(), settings, block)
 
 fun server(
     settings: Map<String, *> = SettingsManager.settings,
     block: Router.() -> Unit): Server =
-    com.hexagonkt.server.server(UndertowAdapter(), settings, block)
+        com.hexagonkt.server.server(UndertowAdapter(), settings, block)

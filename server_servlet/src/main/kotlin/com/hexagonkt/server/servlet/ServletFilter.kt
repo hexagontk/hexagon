@@ -8,6 +8,7 @@ import com.hexagonkt.server.*
 import com.hexagonkt.server.FilterOrder.AFTER
 import com.hexagonkt.server.FilterOrder.BEFORE
 import com.hexagonkt.server.RequestHandler.*
+import kotlinx.coroutines.experimental.runBlocking
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.servlet.*
@@ -76,7 +77,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 .filter { it.first.path.matches(req.path) }
                 .map {
                     req.actionPath = it.first.path
-                    call.(it.second)()
+                    runBlocking { call.(it.second)() }
                     trace("Filter for path '${it.first.path}' executed")
                     true
                 }
@@ -92,7 +93,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         for ((first, second) in methodRoutes) {
             try {
                 bRequest.actionPath = first.path
-                call.handleResult(call.second())
+                call.handleResult(runBlocking { call.second() })
 
                 trace("Route for path '${bRequest.actionPath}' executed")
                 return true
@@ -171,7 +172,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             is CodedException -> {
                 val handler: ErrorCodeCallback =
                     codedErrors[exception.code] ?: { error(it, exception.message ?: "") }
-                call.handleResult(call.handler(exception.code))
+                call.handleResult(runBlocking { call.handler(exception.code) })
             }
             else -> {
                 error("Error processing request", exception)
@@ -179,7 +180,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 val handler = exceptionErrors[type]
 
                 if (handler != null)
-                    call.handleResult(call.handler(exception))
+                    call.handleResult(runBlocking { call.handler(exception) })
                 else
                     type.superclass.also { if (it != null) handleException(exception, call, it) }
             }
