@@ -33,44 +33,6 @@ internal  class JacksonCodecProvider<T : Any, K : Any> constructor(
     private val useObjectId: Boolean = true,
     private val useUnderscoreId: Boolean = true) : CodecProvider {
 
-    /** {@inheritDoc} */
-    override fun <TC> get(clazz: Class<TC>, registry: CodecRegistry): Codec<TC> = object : Codec<TC> {
-        internal var documentCodec = registry.get(Document::class.java)
-
-        /** {@inheritDoc} */
-        override fun encode(writer: BsonWriter, value: TC, encoderContext: EncoderContext) {
-            @Suppress("UNCHECKED_CAST")
-            val valueMap = mapper.convertValue(value, Map::class.java) as Map<String, *>
-            val map = HashMap(valueMap)
-
-            if (useObjectId) {
-                val id =
-                    if (map[key.name] == null) ObjectId()
-                    else ObjectId(map[key.name].toString())
-
-                if (clazz == key.returnType)
-                    map.put(key.name, id)
-            }
-
-            documentCodec.encode(writer, Document(map), encoderContext)
-        }
-
-        /** {@inheritDoc} */
-        override fun decode(reader: BsonReader, decoderContext: DecoderContext): TC {
-            val document: Document = documentCodec.decode(reader, decoderContext)
-
-            if (useObjectId)
-                document.computeIfPresent(key.name) { _, value ->
-                    (value as ObjectId).toHexString()
-                }
-
-            return mapper.convertValue(document, clazz)
-        }
-
-        /** {@inheritDoc} */
-        override fun getEncoderClass(): Class<TC> = clazz
-    }
-
     companion object {
         val mapper: ObjectMapper = ObjectMapper()
             .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
@@ -96,4 +58,43 @@ internal  class JacksonCodecProvider<T : Any, K : Any> constructor(
             DefaultPrettyPrinter().withArrayIndenter(SYSTEM_LINEFEED_INSTANCE)
         )
     }
+
+    /** {@inheritDoc} */
+    override fun <TC> get(clazz: Class<TC>, registry: CodecRegistry): Codec<TC> =
+        object : Codec<TC> {
+            internal var documentCodec = registry.get(Document::class.java)
+
+            /** {@inheritDoc} */
+            override fun encode(writer: BsonWriter, value: TC, encoderContext: EncoderContext) {
+                @Suppress("UNCHECKED_CAST")
+                val valueMap = mapper.convertValue(value, Map::class.java) as Map<String, *>
+                val map = HashMap(valueMap)
+
+                if (useObjectId) {
+                    val id =
+                        if (map[key.name] == null) ObjectId()
+                        else ObjectId(map[key.name].toString())
+
+                    if (clazz == key.returnType)
+                        map.put(key.name, id)
+                }
+
+                documentCodec.encode(writer, Document(map), encoderContext)
+            }
+
+            /** {@inheritDoc} */
+            override fun decode(reader: BsonReader, decoderContext: DecoderContext): TC {
+                val document: Document = documentCodec.decode(reader, decoderContext)
+
+                if (useObjectId)
+                    document.computeIfPresent(key.name) { _, value ->
+                        (value as ObjectId).toHexString()
+                    }
+
+                return mapper.convertValue(document, clazz)
+            }
+
+            /** {@inheritDoc} */
+            override fun getEncoderClass(): Class<TC> = clazz
+        }
 }

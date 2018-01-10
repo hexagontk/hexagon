@@ -58,20 +58,16 @@ class MongoDbStore <T : Any, K : Any>(
 
     suspend override fun insertOne(instance: T): K = suspendCoroutine {
         typedCollection.insertOne(instance) { _, error ->
-            if (error == null)
-                it.resume(key.get(instance))
-            else
-                it.resumeWithException(error)
+            if (error == null) it.resume(key.get(instance))
+            else it.resumeWithException(error)
         }
     }
 
     override fun insertMany(instances: List<T>): ReceiveChannel<K> = produce {
         if (!instances.isEmpty())
             typedCollection.insertMany(instances) { _, error ->
-                if (error == null)
-                    instances.forEach { async { send(key.get(it)) } }
-                else
-                    error("Error inserting instances")
+                if (error == null) instances.forEach { async { send(key.get(it)) } }
+                else error("Error inserting instances")
             }
     }
 
