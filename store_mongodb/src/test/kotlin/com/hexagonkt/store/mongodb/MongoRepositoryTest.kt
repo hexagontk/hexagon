@@ -4,10 +4,10 @@ import org.testng.annotations.Test
 import java.io.File
 
 @Test class MongoRepositoryTest {
-    val repository = mongoIdRepository(Company::id)
+    private val repository: MongoIdRepository<Company, String> = mongoIdRepository(Company::id)
 
     // TODO Check inserted data
-    fun resources_are_loaded() {
+    fun `Resources are loaded`() {
         repository.loadData("companies.json")
         repository.delete()
         repository.importResource("companies.json")

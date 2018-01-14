@@ -24,7 +24,7 @@ data class Company(
     val clients: List<URL> = listOf(),
     val logo: ByteBuffer? = null,
     val notes: String? = null,
-    val people: Set<Person>,
+    val people: Set<Person> = setOf(),
     val departments: Set<Department> = setOf(),
     val creationDate: LocalDateTime = LocalDateTime.now()
 )
