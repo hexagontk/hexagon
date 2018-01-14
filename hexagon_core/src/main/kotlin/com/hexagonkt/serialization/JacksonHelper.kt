@@ -18,17 +18,11 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
-import com.hexagonkt.helpers.asNumber
-import com.hexagonkt.helpers.toLocalDate
-import com.hexagonkt.helpers.toLocalDateTime
-import com.hexagonkt.helpers.toLocalTime
 import java.nio.ByteBuffer
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
+import java.text.SimpleDateFormat
 import java.util.*
 
-internal object JacksonHelper {
+object JacksonHelper {
     val mapper: ObjectMapper = createObjectMapper ()
 
     fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
@@ -42,22 +36,16 @@ internal object JacksonHelper {
             .configure (FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
             .configure (ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
             .setSerializationInclusion (NON_EMPTY)
-            .registerModule (ParameterNamesModule())
-            .registerModule (Jdk8Module())
-            .registerModule (JavaTimeModule())
+            .setDateFormat (SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"))
             .registerModule (KotlinModule ())
+            .registerModule (ParameterNamesModule())
+            .registerModule (JavaTimeModule())
+            .registerModule (Jdk8Module())
             .registerModule (SimpleModule("SerializationModule", Version.unknownVersion())
-                // TODO Check how many custom serializers can be removed
                 .addSerializer (ByteBuffer::class.java, ByteBufferSerializer)
                 .addDeserializer (ByteBuffer::class.java, ByteBufferDeserializer)
-                .addSerializer (LocalTime::class.java, LocalTimeSerializer)
-                .addDeserializer (LocalTime::class.java, LocalTimeDeserializer)
-                .addSerializer (LocalDate::class.java, LocalDateSerializer)
-                .addDeserializer (LocalDate::class.java, LocalDateDeserializer)
-                .addSerializer (LocalDateTime::class.java, LocalDateTimeSerializer)
-                .addDeserializer (LocalDateTime::class.java, LocalDateTimeDeserializer)
                 .addSerializer (ClosedRange::class.java, ClosedRangeSerializer)
-                .addDeserializer (ClosedRange::class.java, ClosedRangeDeserializer)
+                .addDeserializer (ClosedRange::class.java, ClosedRangeDeserializer())
             )
 
     private object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
@@ -71,45 +59,6 @@ internal object JacksonHelper {
     private object ByteBufferDeserializer: JsonDeserializer<ByteBuffer>() {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ByteBuffer =
             ByteBuffer.wrap (Base64.getDecoder ().decode (p.text))
-    }
-
-    private object LocalTimeSerializer: JsonSerializer<LocalTime> () {
-        override fun serialize(
-            value: LocalTime, gen: JsonGenerator, serializers: SerializerProvider) {
-
-            gen.writeNumber(value.asNumber())
-        }
-    }
-
-    private object LocalTimeDeserializer: JsonDeserializer<LocalTime> () {
-        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalTime =
-            p.intValue.toLocalTime()
-    }
-
-    private object LocalDateSerializer: JsonSerializer<LocalDate> () {
-        override fun serialize(
-            value: LocalDate, gen: JsonGenerator, serializers: SerializerProvider) {
-
-            gen.writeNumber(value.asNumber())
-        }
-    }
-
-    private object LocalDateDeserializer: JsonDeserializer<LocalDate> () {
-        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDate =
-            p.intValue.toLocalDate()
-    }
-
-    private object LocalDateTimeSerializer: JsonSerializer<LocalDateTime> () {
-        override fun serialize(
-            value: LocalDateTime, gen: JsonGenerator, serializers: SerializerProvider) {
-
-            gen.writeNumber(value.asNumber())
-        }
-    }
-
-    private object LocalDateTimeDeserializer: JsonDeserializer<LocalDateTime> () {
-        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): LocalDateTime =
-            p.longValue.toLocalDateTime()
     }
 
     private object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
@@ -132,18 +81,12 @@ internal object JacksonHelper {
         }
     }
 
-    // TODO Not thread safe!!! (as proved by parallel tests)
-    private object ClosedRangeDeserializer :
+    private class ClosedRangeDeserializer(private val type: JavaType? = null) :
         JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
 
-        private val valueType: ThreadLocal<JavaType?> = ThreadLocal.withInitial { null }
-
         override fun createContextual(
-            ctxt: DeserializationContext, property: BeanProperty): JsonDeserializer<*> {
-
-            valueType.set(property.type.containedType(0))
-            return ClosedRangeDeserializer
-        }
+            ctxt: DeserializationContext, property: BeanProperty): JsonDeserializer<*> =
+                ClosedRangeDeserializer(property.type.containedType(0))
 
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ClosedRange<*> {
             val token = p.currentToken
@@ -151,7 +94,6 @@ internal object JacksonHelper {
             check(p.nextFieldName() == "start") { "Ranges start with 'start' field" }
 
             p.nextToken() // Start object
-            val type = valueType.get()
             val start = ctxt.readValue<Comparable<Any>>(p, type)
             check(p.nextFieldName() == "endInclusive") { "Ranges end with 'endInclusive' field" }
 
