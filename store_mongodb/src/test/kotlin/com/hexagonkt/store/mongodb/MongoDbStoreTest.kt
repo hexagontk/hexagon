@@ -73,5 +73,8 @@ import java.time.LocalTime
         channel.consumeEach {
             println(it)
         }
+
+        for (ii in 0..50)
+            println("Test$ii")
     }
 }
