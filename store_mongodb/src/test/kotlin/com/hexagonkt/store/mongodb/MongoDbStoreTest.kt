@@ -4,7 +4,6 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientURI
 import com.mongodb.async.client.MongoClients
 import com.mongodb.async.client.MongoDatabase
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.channels.consumeEach
 import kotlinx.coroutines.experimental.runBlocking
 import org.bson.types.ObjectId
