@@ -3,7 +3,7 @@ apply plugin: 'application'
 
 defaultTasks 'installDist'
 
-processResources.dependsOn 'buildInfo'
+classes.dependsOn 'buildInfo'
 
 /*
  * Add configuration file with build variables to the package

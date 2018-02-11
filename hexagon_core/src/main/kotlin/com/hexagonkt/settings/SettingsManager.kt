@@ -23,7 +23,6 @@ object SettingsManager : Loggable {
         settings = loadDefaultSettings()
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun loadDefaultSettings(vararg args: String): Map<String, *> =
         loadResource("$SETTINGS.yaml") +
         loadEnvironmentVariables(ENVIRONMENT_PREFIX) +

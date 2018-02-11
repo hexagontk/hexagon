@@ -1,3 +1,4 @@
+package com.hexagonkt.templates.kotlinx
 
 import com.hexagonkt.helpers.Log
 import com.hexagonkt.templates.kotlinx.KotlinxEngine.page

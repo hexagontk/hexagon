@@ -1,6 +1,7 @@
 package com.hexagonkt.settings
 
 import com.hexagonkt.helpers.get
+import com.hexagonkt.settings.SettingsManager.loadDefaultSettings
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.settings.SettingsManager.requireSetting
@@ -52,5 +53,10 @@ import org.testng.annotations.Test
         val size = SettingsManager.settings.size
         SettingsManager.settings += "SERVICE_ENVIRONMENT" to "DEVELOPMENT"
         assert(settings.size == size)
+    }
+
+    fun `Load default settings`() {
+        // TODO !!!
+        SettingsManager.settings = loadDefaultSettings("--arg1=val1", "--arg2=val2")
     }
 }

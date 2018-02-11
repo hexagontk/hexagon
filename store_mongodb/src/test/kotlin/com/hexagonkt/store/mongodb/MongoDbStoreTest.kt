@@ -3,7 +3,8 @@ package com.hexagonkt.store.mongodb
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientURI
 import com.mongodb.async.client.MongoClients
-import kotlinx.coroutines.experimental.async
+import com.mongodb.async.client.MongoDatabase
+import kotlinx.coroutines.experimental.channels.consumeEach
 import kotlinx.coroutines.experimental.runBlocking
 import org.bson.types.ObjectId
 import org.testng.annotations.Test
@@ -15,27 +16,64 @@ import java.time.LocalTime
  * TODO .
  */
 @Test class MongoDbStoreTest {
-    fun `New records are stored`() {
-        val db = MongoClients.create(ConnectionString(mongodbUrl))
-            .getDatabase(MongoClientURI(mongodbUrl).database)
-        val store = MongoDbStore(Company::class, Company::id, "companies", db)
+    private val database: String = MongoClientURI(mongodbUrl).database
+    private val db: MongoDatabase =
+        MongoClients.create(ConnectionString(mongodbUrl)).getDatabase(database)
+    private val store: MongoDbStore<Company, String> =
+        MongoDbStore(Company::class, Company::id, "companies", db)
 
-        runBlocking {
-        println(async {
-            store.insertOne(
+    fun `New records are stored`() = runBlocking {
+        val id = ObjectId().toHexString()
+        val company = Company(
+            id = id,
+            foundation = LocalDate.of(2014, 1, 25),
+            closeTime = LocalTime.of(11, 42),
+            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+            web = URL("http://example.org"),
+            people = setOf(
+                Person(name = "John"),
+                Person(name = "Mike")
+            )
+        )
+
+        store.asyncInsertOne(company).await()
+        val storedCompany = store.asyncFindOne(id).await()
+        assert(storedCompany == company)
+
+        val changedCompany = company.copy(web = URL("http://change.example.org"))
+        assert(store.asyncReplaceOne(changedCompany).await())
+        val storedModifiedCompany = store.asyncFindOne(id).await()
+        assert(storedModifiedCompany == changedCompany)
+    }
+
+    fun `Many records are stored`() = runBlocking {
+        val companies = (0..9)
+            .map { ObjectId().toHexString() }
+            .map {
                 Company(
-                    id = ObjectId().toHexString(),
+                    id = it,
                     foundation = LocalDate.of(2014, 1, 25),
                     closeTime = LocalTime.of(11, 42),
                     openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
-                    web = URL("http://example.org"),
+                    web = URL("http://$it.example.org"),
                     people = setOf(
                         Person(name = "John"),
                         Person(name = "Mike")
                     )
                 )
-            )
-        }.await())
+            }
+
+        val keys = store.insertMany(companies)
+
+        for (key in keys)
+            println(key)
+
+        val channel = store.replaceMany(companies.map { it.copy(web = URL("http://changed.org")) })
+        channel.consumeEach {
+            println(it)
         }
+
+        for (ii in 0..50)
+            println("Test$ii")
     }
 }

@@ -215,7 +215,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
 
     private fun Call.handleResult(result: Any) {
         when (result) {
-            is Unit -> {
+            Unit -> {
                 if (!response.statusChanged && response.status != 302)
                     response.status = 200
             }

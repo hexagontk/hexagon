@@ -8,6 +8,7 @@ dependencies {
     compile ("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxVersion") {
         exclude module: "kotlin-stdlib"
     }
+    compile ("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
     compile ("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion") {
         exclude module: "kotlin-stdlib"
     }
