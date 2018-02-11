@@ -4,7 +4,7 @@ import com.hexagonkt.server.EngineSession
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
-internal class BServletSession(val req: HttpServletRequest) : EngineSession {
+internal class BServletSession(private val req: HttpServletRequest) : EngineSession {
 
     override fun getAttribute(name: String): Any? = req.session.getAttribute(name)
 
