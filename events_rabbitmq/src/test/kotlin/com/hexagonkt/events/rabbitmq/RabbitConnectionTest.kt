@@ -1,6 +1,8 @@
 package com.hexagonkt.events.rabbitmq
 
-import com.hexagonkt.helpers.CachedLogger
+import com.hexagonkt.helpers.Loggable
+import com.hexagonkt.helpers.loggerOf
+import org.slf4j.Logger
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -8,7 +10,9 @@ import java.lang.System.currentTimeMillis
 import java.net.URI
 
 @Test class RabbitConnectionTest {
-    private companion object : CachedLogger(RabbitConnectionTest::class) {
+    private companion object : Loggable {
+        override val log: Logger = loggerOf<RabbitConnectionTest>()
+
         private const val port = 5673
         private const val user = "guest"
         private const val password = "guest"
@@ -60,7 +64,7 @@ import java.net.URI
             client.call(QUEUE_ERROR, ts)
         }
         catch (e: Exception) {
-            error("Consumer error", e)
+            fail("Consumer error", e)
         }
 
         startConsumer()

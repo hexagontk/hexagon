@@ -1,71 +1,42 @@
 package com.hexagonkt.helpers
 
 import org.slf4j.Logger
-import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.nanoTime
 
 /**
  * Ease the logger definition and usage. Note the logger is fetched in each call.
- *
- * TODO Check performance penalty of fetching the logger instead storing it.
  */
 interface Loggable {
-    fun logger (): Logger = getLogger(this::class.java)
+    val log: Logger
 
-    fun traceEnabled (): Boolean = logger().isTraceEnabled
+    fun trace (message: Any?) { if (log.isTraceEnabled) log.trace(message.toString()) }
 
-    fun debugEnabled (): Boolean = logger().isDebugEnabled
+    fun debug (message: Any?) { if (log.isDebugEnabled) log.debug(message.toString()) }
 
-    fun infoEnabled (): Boolean = logger().isInfoEnabled
+    fun info (message: Any?) { if (log.isInfoEnabled) log.info(message.toString()) }
 
-    fun warnEnabled (): Boolean = logger().isWarnEnabled
+    fun warn (message: Any?) { if (log.isWarnEnabled) log.warn(message.toString()) }
 
-    fun errEnabled (): Boolean = logger().isErrorEnabled
+    fun fail (message: Any?) { if (log.isErrorEnabled) log.error(message.toString()) }
 
-    fun flareEnabled (): Boolean = traceEnabled()
-
-    fun timeEnabled (): Boolean = traceEnabled()
-
-    fun trace (message: String, vararg arguments: Any) {
-        logger().apply { if (isTraceEnabled) trace(message, arguments) }
+    fun warn (message: Any?, exception: Throwable) {
+        if (log.isWarnEnabled) log.warn(message.toString(), exception)
     }
 
-    fun debug (message: String, vararg arguments: Any) {
-        logger().apply { if (isDebugEnabled) debug(message, arguments) }
+    fun fail (message: Any?, exception: Throwable) {
+        if (log.isErrorEnabled) log.error(message.toString(), exception)
     }
 
-    fun info (message: String, vararg arguments: Any) {
-        logger().apply { if (isInfoEnabled) info(message, arguments) }
+    fun flare (message: Any? = "") {
+        if (log.isTraceEnabled) trace("$FLARE_PREFIX $message")
     }
 
-    fun warn (message: String, vararg arguments: Any) {
-        logger().apply { if (isWarnEnabled) warn(message, arguments) }
+    fun time (startNanos: Long, message: Any?) {
+        if (log.isTraceEnabled)
+            log.trace("${message ?: "TIME"} : ${formatNanos(nanoTime() - startNanos)}")
     }
 
-    fun err (message: String, vararg arguments: Any) {
-        logger().apply { if (isErrorEnabled) error(message, arguments) }
-    }
-
-    fun warn (message: String, exception: Throwable) {
-        logger().apply { if (isWarnEnabled) warn(message, exception) }
-    }
-
-    fun error (message: String, exception: Throwable) {
-        logger().apply { if (isErrorEnabled) error(message, exception) }
-    }
-
-    fun flare (message: String = "") {
-        logger().apply { if (isTraceEnabled) trace("$FLARE_PREFIX $message") }
-    }
-
-    fun time (startNanos: Long, message: String?) {
-        logger().apply {
-            if (isTraceEnabled)
-                trace("${message ?: "TIME"} : ${formatNanos(nanoTime() - startNanos)}")
-        }
-    }
-
-    fun <T> time (message: String? = null, block: () -> T): T {
+    fun <T> time (message: Any? = null, block: () -> T): T {
         val start = nanoTime()
         return block().also { time (start, message) }
     }

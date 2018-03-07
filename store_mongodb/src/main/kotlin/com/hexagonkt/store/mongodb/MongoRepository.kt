@@ -1,9 +1,10 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.Loggable
+import com.hexagonkt.helpers.loggerOf
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parseList
-import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.requireResource
 import com.hexagonkt.helpers.resourceAsStream
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
@@ -13,6 +14,7 @@ import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.bson.conversions.Bson
+import org.slf4j.Logger
 import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -21,10 +23,10 @@ open class MongoRepository <T : Any> (
     val type: KClass<T>,
     collection: MongoCollection<Document>,
     protected val onStore: (Document) -> Document = { it },
-    protected val onLoad: (Document) -> Document = { it }) :
-        MongoCollection<Document> by collection {
+    protected val onLoad: (Document) -> Document = { it }
+) : MongoCollection<Document> by collection, Loggable {
 
-    companion object : CachedLogger(MongoRepository::class)
+    override val log: Logger = loggerOf<MongoRepository<T>>()
 
     constructor (type: KClass<T>, database: MongoDatabase = mongoDatabase()) :
         this(type, mongoCollection(type.simpleName ?: error("Error getting type name"), database))

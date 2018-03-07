@@ -2,6 +2,7 @@ package com.hexagonkt.server
 
 import com.hexagonkt.helpers.*
 import com.hexagonkt.settings.SettingsManager.environment
+import org.slf4j.Logger
 
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
@@ -23,7 +24,9 @@ data class Server (
     val bindPort: Int = Server.DEFAULT_PORT,
     val router: Router = Router()) {
 
-    internal companion object : CachedLogger(Server::class) {
+    internal companion object : Loggable {
+        override val log: Logger = loggerOf<Server>()
+
         internal const val DEFAULT_NAME = "<undefined>"
         internal const val DEFAULT_ADDRESS = "127.0.0.1"
         internal const val DEFAULT_PORT = 2010

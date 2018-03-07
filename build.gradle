@@ -1,14 +1,7 @@
 
 buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-        maven { url  "https://dl.bintray.com/kotlin/kotlin-eap" }
-    }
-
-    dependencies {
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16-eap-3"
-    }
+    repositories { maven { url  "https://dl.bintray.com/kotlin/kotlin-eap" } }
+    dependencies { classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16-eap-3" }
 }
 
 plugins {

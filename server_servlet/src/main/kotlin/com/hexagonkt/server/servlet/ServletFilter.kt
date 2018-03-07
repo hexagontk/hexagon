@@ -1,14 +1,16 @@
 package com.hexagonkt.server.servlet
 
 import com.hexagonkt.HttpMethod
-import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.helpers.Loggable
+import com.hexagonkt.helpers.loggerOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.*
 import com.hexagonkt.server.FilterOrder.AFTER
 import com.hexagonkt.server.FilterOrder.BEFORE
 import com.hexagonkt.server.RequestHandler.*
 import kotlinx.coroutines.experimental.runBlocking
+import org.slf4j.Logger
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.servlet.*
@@ -24,7 +26,9 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
      */
     private class PassException: RuntimeException ()
 
-    companion object : CachedLogger(ServletFilter::class)
+    companion object : Loggable {
+        override val log: Logger = loggerOf<(ServletFilter)>()
+    }
 
     private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
     private val baseExceptionHandler: ExceptionCallback =
@@ -165,7 +169,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         }
     }
 
-    internal fun handleException(
+    private fun handleException(
         exception: Exception, call: Call, type: Class<*> = exception.javaClass) {
 
         when (exception) {
@@ -175,7 +179,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 call.handleResult(runBlocking { call.handler(exception.code) })
             }
             else -> {
-                error("Error processing request", exception)
+                fail("Error processing request", exception)
 
                 val handler = exceptionErrors[type]
 

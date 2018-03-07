@@ -3,8 +3,9 @@ package com.hexagonkt.server.undertow
 import java.lang.ClassLoader.getSystemClassLoader
 
 import com.hexagonkt.helpers.error
-import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.helpers.Loggable
+import com.hexagonkt.helpers.loggerOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.*
 import com.hexagonkt.server.FilterOrder.AFTER
@@ -25,9 +26,10 @@ import java.net.InetAddress.getByName as address
 import io.undertow.server.handlers.PredicateHandler
 import io.undertow.server.handlers.resource.ClassPathResourceManager
 import kotlinx.coroutines.experimental.runBlocking
+import org.slf4j.Logger
 
-class UndertowAdapter : ServerPort {
-    companion object : CachedLogger(UndertowAdapter::class)
+class UndertowAdapter : ServerPort, Loggable {
+    override val log: Logger = loggerOf<UndertowAdapter>()
 
     private val callKey = AttachmentKey.create(Call::class.java)
 
@@ -43,7 +45,7 @@ class UndertowAdapter : ServerPort {
     override fun runtimePort(): Int =
         (undertow?.listenerInfo?.get(0)?.address as? InetSocketAddress)?.port ?: error
 
-    fun build(server: Server) {
+    private fun build(server: Server) {
         val root = routing()
         val before = routing()
         val after = routing()
@@ -185,7 +187,7 @@ class UndertowAdapter : ServerPort {
                 call.handleResult(runBlocking { call.handler(exception.code) })
             }
             else -> {
-                error("Error processing request", exception)
+                fail("Error processing request", exception)
 
                 val handler = exceptionErrors[type]
 
@@ -202,7 +204,7 @@ class UndertowAdapter : ServerPort {
 
     private fun Call.handleResult(result: Any) {
         when (result) {
-            is Unit -> {
+            Unit -> {
                 if (!response.statusChanged && response.status != 302)
                     response.status = 200
             }
