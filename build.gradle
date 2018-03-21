@@ -1,9 +1,4 @@
 
-//buildscript {
-//    repositories { maven { url  "https://dl.bintray.com/kotlin/kotlin-eap" } }
-//    dependencies { classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16-eap-3" }
-//}
-
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.30'
     id 'org.jetbrains.dokka' version '0.9.16'
