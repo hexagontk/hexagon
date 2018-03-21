@@ -1,26 +1,29 @@
 package com.hexagonkt.settings
 
 import org.testng.annotations.Test
+import java.io.File
 
 @Test class SettingsPackageTest {
-    fun `load environment variables add settings with provided prefixes`() {
+    fun `Load environment variables add settings with provided prefixes`() {
         assert(loadEnvironmentVariables("PATH", "INVALID").size == 1)
         assert(loadEnvironmentVariables("PATH", "USER").size == 2)
     }
 
-    fun `load system properties add variables with provided prefixes`() {
+    fun `Load system properties add variables with provided prefixes`() {
         System.setProperty("systemPrefixTest", "testing")
         System.setProperty("systemPrefixBenchmark", "benchmarking")
 
         assert(loadSystemProperties("systemPrefix", "invalid").size == 2)
     }
 
-    fun `load file add variables contained in that file`() {
+    fun `Load file add variables contained in that file`() {
         assert(loadFile("invalid").isEmpty())
-        assert(loadFile("src/test/resources/development.yaml").size == 2)
+        val file = "src/test/resources/development.yaml"
+        val fileName = if (File(file).exists()) file else "hexagon_core/$file"
+        assert(loadFile(fileName).size == 2)
     }
 
-    fun `load command line arguments adds correct settings `() {
+    fun `Load command line arguments adds correct settings `() {
         val cases = mapOf(
             listOf("a", "=X") to mapOf ("a" to true),
             listOf("a", "x=y=z") to mapOf ("a" to true),

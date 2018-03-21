@@ -8,38 +8,40 @@ import org.testng.annotations.Test
  * As the logger is only a facade and it is hard to check outputs, the only check is that
  * no exceptions are thrown.
  */
-@Test class LoggableTest : Loggable {
-    override val log: Logger = loggerOf<LoggableTest>()
+@Test class LoggableTest {
+    object LoggableObject : Loggable {
+        override val log: Logger = loggerOf<LoggableTest>()
+    }
 
     fun messages_are_logged_without_errors () {
-        if(log !is ch.qos.logback.classic.Logger)
+        if(LoggableObject.log !is ch.qos.logback.classic.Logger)
             error
 
-        log.level = Level.TRACE
+        LoggableObject.log.level = Level.TRACE
 
-        trace ("message")
-        debug ("message")
-        info ("message")
-        warn ("message")
-        fail ("message")
-        warn ("message", RuntimeException ())
-        fail("message", RuntimeException ())
-        flare ("message")
-        time ("message") {}
-        time {}
+        LoggableObject.trace ("message")
+        LoggableObject.debug ("message")
+        LoggableObject.info ("message")
+        LoggableObject.warn ("message")
+        LoggableObject.fail ("message")
+        LoggableObject.warn ("message", RuntimeException ())
+        LoggableObject.fail("message", RuntimeException ())
+        LoggableObject.flare ("message")
+        LoggableObject.time ("message") {}
+        LoggableObject.time {}
 
-        log.level = Level.OFF
+        LoggableObject.log.level = Level.OFF
 
-        trace ("message")
-        debug ("message")
-        info ("message")
-        warn ("message")
-        fail ("message")
-        warn ("message", RuntimeException ())
-        fail("message", RuntimeException ())
-        flare ("message")
-        time ("message") {}
-        time {}
+        LoggableObject.trace ("message")
+        LoggableObject.debug ("message")
+        LoggableObject.info ("message")
+        LoggableObject.warn ("message")
+        LoggableObject.fail ("message")
+        LoggableObject.warn ("message", RuntimeException ())
+        LoggableObject.fail("message", RuntimeException ())
+        LoggableObject.flare ("message")
+        LoggableObject.time ("message") {}
+        LoggableObject.time {}
     }
 
     fun general_purpose_messages_are_logged_without_errors () {
