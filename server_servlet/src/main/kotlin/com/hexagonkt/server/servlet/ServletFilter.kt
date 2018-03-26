@@ -153,17 +153,15 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             handleException(e, exchange)
         }
         finally {
-            response.status = exchange.response.status
-
             // TODO Try needed because of a problem with Jetty's response redirect: fix and remove
             try {
+                response.status = exchange.response.status
                 response.outputStream.write(exchange.response.body.toString().toByteArray())
+                response.outputStream.flush()
             }
             catch (e: Exception) {
                 warn("Error handling request", e)
             }
-
-            response.outputStream.flush()
 
             trace("Status ${response.status} <${if (handled) "" else "NOT "}HANDLED>")
         }
