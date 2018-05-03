@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compile ("org.jetbrains.kotlin:kotlin-stdlib-jre$javaVersion:$kotlinVersion")
+    compile ("org.jetbrains.kotlin:kotlin-stdlib-jdk$javaVersion:$kotlinVersion")
     compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion") {
         exclude module: 'kotlin-stdlib'
     }
