@@ -11,12 +11,11 @@ build/
 # Idea
 .idea/
 out/
-*.iml
 
 # Runtime
+log/
 *.log
 *.hprof
-log/
 
 # Added because of JBake settings
 hexagon_site/content/
