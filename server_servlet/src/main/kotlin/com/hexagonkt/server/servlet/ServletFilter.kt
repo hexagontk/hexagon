@@ -9,7 +9,6 @@ import com.hexagonkt.server.*
 import com.hexagonkt.server.FilterOrder.AFTER
 import com.hexagonkt.server.FilterOrder.BEFORE
 import com.hexagonkt.server.RequestHandler.*
-import kotlinx.coroutines.experimental.runBlocking
 import org.slf4j.Logger
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -81,7 +80,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 .filter { it.first.path.matches(req.path) }
                 .map {
                     req.actionPath = it.first.path
-                    runBlocking { call.(it.second)() }
+                    call.(it.second)()
                     trace("Filter for path '${it.first.path}' executed")
                     true
                 }
@@ -97,7 +96,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         for ((first, second) in methodRoutes) {
             try {
                 bRequest.actionPath = first.path
-                call.handleResult(runBlocking { call.second() })
+                call.handleResult(call.second())
 
                 trace("Route for path '${bRequest.actionPath}' executed")
                 return true
@@ -114,17 +113,17 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     override fun destroy() { /* Not implemented */ }
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-        if (request.isAsyncSupported) {
-            val asyncContext = request.startAsync()
-            val context = request.servletContext // Must be passed and fetched outside executor
-            executor.execute {
-                doFilter(asyncContext.request, asyncContext.response, context)
-                asyncContext.complete()
-            }
-        }
-        else {
+//        if (request.isAsyncSupported) {
+//            val asyncContext = request.startAsync()
+//            val context = request.servletContext // Must be passed and fetched outside executor
+//            executor.execute {
+//                doFilter(asyncContext.request, asyncContext.response, context)
+//                asyncContext.complete()
+//            }
+//        }
+//        else {
             doFilter(request, response)
-        }
+//        }
     }
 
     private fun doFilter(
@@ -160,7 +159,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 response.outputStream.flush()
             }
             catch (e: Exception) {
-                warn("Error handling request", e)
+                warn("Error handling request: ${bRequest.actionPath}", e)
             }
 
             trace("Status ${response.status} <${if (handled) "" else "NOT "}HANDLED>")
@@ -174,7 +173,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             is CodedException -> {
                 val handler: ErrorCodeCallback =
                     codedErrors[exception.code] ?: { error(it, exception.message ?: "") }
-                call.handleResult(runBlocking { call.handler(exception.code) })
+                call.handleResult(call.handler(exception.code))
             }
             else -> {
                 fail("Error processing request", exception)
@@ -182,7 +181,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 val handler = exceptionErrors[type]
 
                 if (handler != null)
-                    call.handleResult(runBlocking { call.handler(exception) })
+                    call.handleResult(call.handler(exception))
                 else
                     type.superclass.also { if (it != null) handleException(exception, call, it) }
             }
