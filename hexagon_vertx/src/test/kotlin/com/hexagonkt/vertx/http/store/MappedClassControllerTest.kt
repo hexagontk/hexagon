@@ -8,6 +8,12 @@ import io.vertx.core.json.JsonObject
 import io.vertx.ext.mongo.MongoClient
 
 class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
+    override val testEntities: List<MappedClass> get() = listOf(
+        createEntity(),
+        createEntity(),
+        createEntity()
+    )
+
     override fun store(vertx: Vertx, config: JsonObject): Store<MappedClass, String> =
         MongoDbStore(
             MongoClient.createShared(vertx, config),

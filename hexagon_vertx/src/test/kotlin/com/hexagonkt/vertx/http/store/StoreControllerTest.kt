@@ -1,5 +1,6 @@
 package com.hexagonkt.vertx.http.store
 
+import com.hexagonkt.flare
 import com.hexagonkt.logger
 import com.hexagonkt.sync
 import com.hexagonkt.time
@@ -12,6 +13,7 @@ import com.hexagonkt.vertx.http.client.sendBuffer
 import com.hexagonkt.vertx.serialization.SerializationFormat
 import com.hexagonkt.vertx.serialization.SerializationManager.formats
 import com.hexagonkt.vertx.serialization.parse
+import com.hexagonkt.vertx.serialization.parseList
 import com.hexagonkt.vertx.serialization.serialize
 import com.hexagonkt.vertx.store.Store
 import io.vertx.core.Vertx
@@ -23,6 +25,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.slf4j.Logger
+import kotlin.test.fail
 
 abstract class StoreControllerTest<T : Any, K : Any> {
     private val logger: Logger = logger()
@@ -65,29 +68,39 @@ abstract class StoreControllerTest<T : Any, K : Any> {
      */
     @Test fun `Entities are stored and retrieved without error` () = sync {
         dropStore()
-        assert(countRecords() == 0)
+        assert(countRecords() == 0L)
 
         formats.forEach { contentType ->
             logger.info("Content Type: ${contentType.contentType}")
 
-            testEntities.forEach {
-                val entityKey = createEntity(it, contentType)
+            val createdEntities = createEntities(testEntities, contentType)
+            assert(createdEntities == testEntities.size.toLong())
+            val countRecords = countRecords()
+            logger.flare(countRecords)
+            assert(countRecords == testEntities.size.toLong())
 
-                val entity = getEntity(entityKey, contentType)
-                assert(entity == it)
+            val records = getEntities(contentType, "")
+            logger.flare(records.serialize(contentType))
 
-                val modifiedEntity = modifyEntity(entity)
-                replaceEntity(modifiedEntity, contentType)
-                assert(modifiedEntity == getEntity(entityKey, contentType))
+            dropStore() // TODO Provisional
 
-                deleteEntity(entityKey)
-            }
+//            val entity = getEntity(entityKey, contentType) ?: fail("Entity expected")
+//            assert(entity == it)
+//
+//            val modifiedEntity = modifyEntity(entity)
+//            replaceEntity(modifiedEntity, contentType)
+//            assert(modifiedEntity == getEntity(entityKey, contentType))
+//
+//            deleteEntity(entityKey)
         }
     }
 
+    /**
+     * TODO Patch
+     */
     @Test fun `Entity is stored and retrieved without error` () = sync {
         dropStore()
-        assert(countRecords() == 0)
+        assert(countRecords() == 0L)
 
         val response = client.post("/$endpoint").send().await()
         assert(response.statusCode() == 400)
@@ -103,7 +116,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
             testEntities.forEach {
                 val entityKey = createEntity(it, contentType)
 
-                val entity = getEntity(entityKey, contentType)
+                val entity = getEntity(entityKey, contentType) ?: fail("Entity expected")
                 assert(entity == it)
 
                 val modifiedEntity = modifyEntity(entity)
@@ -111,27 +124,47 @@ abstract class StoreControllerTest<T : Any, K : Any> {
                 assert(modifiedEntity == getEntity(entityKey, contentType))
 
                 deleteEntity(entityKey)
+
+                getEntity(entityKey, contentType, 404)
+                deleteEntity(entityKey, 404)
             }
         }
     }
 
-    private suspend fun deleteEntity(entityKey: String) {
+    private suspend fun deleteEntity(entityKey: String, expectedStatus: Int = 200) {
         logger.info("Deleting: $entityKey")
 
         val response = client.delete("/$endpoint/$entityKey").send().await()
-        assert(response.statusCode() == 200)
+        assert(response.statusCode() == expectedStatus)
     }
 
-    private suspend fun getEntity(entityKey: String, contentType: SerializationFormat): T {
+    private suspend fun getEntity(
+        entityKey: String = "", contentType: SerializationFormat, expectedStatus: Int = 200): T? {
+
         logger.info("Getting: $entityKey")
 
         val response = client.get("/$endpoint/$entityKey")
             .putHeader("Accept", contentType.contentType)
             .send().await()
 
-        val body = response.body().toString()
+        assert(response.statusCode() == expectedStatus)
+        val body = response.body()?.toString()
+        return body?.parse(controller.store.type, contentType)
+    }
+
+    private suspend fun getEntities(
+        contentType: SerializationFormat, queryString: String = ""): List<T> {
+
+        logger.info("Getting: $queryString")
+
+        val path = if (queryString.isBlank()) "" else "?$queryString"
+        val response = client.get("/$endpoint$path")
+            .putHeader("Accept", contentType.contentType)
+            .send().await()
+
         assert(response.statusCode() == 200)
-        return body.parse(controller.store.type, contentType)
+        val body = response.body()?.toString()
+        return body?.parseList(controller.store.type, contentType) ?: emptyList()
     }
 
     private suspend fun replaceEntity(entity: T, contentType: SerializationFormat): Boolean {
@@ -146,6 +179,18 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         return response.body().toString().toBoolean()
     }
 
+    private suspend fun createEntities(entity: List<T>, contentType: SerializationFormat): Long {
+        logger.info("Create: $entity")
+
+        val response = client
+            .post("/$endpoint")
+            .putHeader("Content-Type", contentType.contentType)
+            .sendBuffer(Buffer.factory.buffer(entity.serialize(contentType))).await()
+
+        assert(response.statusCode() == 200)
+        return response.body().toString().trim().toLong()
+    }
+
     private suspend fun createEntity(entity: T, contentType: SerializationFormat): String {
         logger.info("Create: $entity")
 
@@ -158,11 +203,11 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         return response.body().toString()
     }
 
-    private suspend fun countRecords(): Int {
+    private suspend fun countRecords(): Long {
         val response = client.get("/$endpoint:count").send().await()
         val body = response.body().toString()
         assert(response.statusCode() == 200)
-        return body.toInt()
+        return body.toLong()
     }
 
     private suspend fun dropStore() {
