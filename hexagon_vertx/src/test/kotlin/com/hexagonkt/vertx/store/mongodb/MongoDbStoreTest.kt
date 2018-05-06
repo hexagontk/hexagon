@@ -12,7 +12,7 @@ import org.junit.Test
 
 class MongoDbStoreTest {
     private val vertx: Vertx = createVertx()
-    private val jsonObject: JsonObject = JsonObject("connection_string" to "mongodb://10.5.0.20/db")
+    private val jsonObject: JsonObject = JsonObject("connection_string" to "mongodb://localhost/db")
     private val client: MongoClient = MongoClient.createShared(vertx, jsonObject)
 
     @Test fun `Insert one record returns the proper key`() = sync {
