@@ -1,0 +1,47 @@
+
+apply from: "../gradle/kotlin.gradle"
+apply from: "../gradle/service.gradle"
+
+mainClassName = "com.hexagonkt.vertx.DevicesKt"
+
+applicationDefaultJvmArgs = [
+    '-XX:+UseNUMA',
+    '-XX:+UseParallelGC',
+    '-XX:+AggressiveOpts',
+    '-Dvertx.disableMetrics=true',
+    '-Dvertx.disableH2c=true',
+    '-Dvertx.disableWebsockets=true',
+    '-Dvertx.flashPolicyHandler=false',
+    '-Dvertx.threadChecks=false',
+    '-Dvertx.disableContextTimings=true',
+    '-Dvertx.disableTCCL=true'
+]
+
+ext.vertxVersion = '3.5.1'
+ext.jacksonVersion = '2.9.5'
+
+ext.junitVersion = '4.12'
+ext.cucumberVersion = '2.3.1'
+ext.embedMongoVersion = '2.0.1'
+
+dependencies {
+    compile ("ch.qos.logback:logback-classic:$logbackVersion")
+    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
+    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+    compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+    compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+
+    compile ("io.vertx:vertx-lang-kotlin:$vertxVersion")
+    compile ("io.vertx:vertx-lang-kotlin-coroutines:$vertxVersion")
+    compile ("io.vertx:vertx-config-yaml:$vertxVersion")
+    compile ("io.vertx:vertx-web:$vertxVersion")
+    compile ("io.vertx:vertx-web-client:$vertxVersion")
+    compile ("io.vertx:vertx-mongo-client:$vertxVersion")
+    compile ("io.vertx:vertx-redis-client:$vertxVersion")
+
+    testCompile ("junit:junit:$junitVersion")
+    testCompile ("io.vertx:vertx-unit:$vertxVersion")
+    testCompile ("io.cucumber:cucumber-junit:$cucumberVersion")
+    testCompile ("io.cucumber:cucumber-java8:$cucumberVersion")
+    testCompile ("de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embedMongoVersion")
+}

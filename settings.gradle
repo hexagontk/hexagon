@@ -11,6 +11,7 @@ include (
     'hexagon_core',
     'hexagon_rest',
     'hexagon_scheduler',
+    'hexagon_vertx',
 
     // Ports
     'port_client',
