@@ -13,7 +13,7 @@ plugins {
 }
 
 clean {
-    delete 'build', '.gradle', 'log', 'out'
+    delete 'build', '.gradle', 'log', 'out', '.vertx', 'file-uploads'
 
     delete (
         fileTree(rootDir) { include '**/*.log' },
