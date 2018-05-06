@@ -43,7 +43,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     fun deleteOne(context: RoutingContext) {
         store.deleteOne(parseKey(context) ?: error("Required key not found")).setHandler {
             if (it.result()) context.end(200, "")
-            else context.end(400, "")
+            else context.end(404, "")
         }
     }
 
@@ -63,7 +63,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
         store.findOne(parseKey(context) ?: error("Required key not found")).setHandler {
             val entity = it.result()
             if (entity != null) context.end(200, entity.serialize(context.acceptFormat()))
-            else context.end(400, "")
+            else context.end(404, "")
         }
     }
 

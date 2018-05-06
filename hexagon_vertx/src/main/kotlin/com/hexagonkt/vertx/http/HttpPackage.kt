@@ -123,11 +123,14 @@ fun RoutingContext.endWith(r: Any?) {
         is Future<*> -> result.setHandler {
             val result1 = it.result()
             when (result1) {
-                is String -> end(200, result1)
+                is String, Long, Int, Float, Double -> end(200, result1.toString())
+                is Boolean -> end(200, result1.toString())
                 else -> end(200, result1.serialize(contentFormat))
             }
 
         }
+        is String, Long, Int, Float, Double -> end(200, result.toString())
+        is Boolean -> end(200, result.toString())
         else -> end(200, result.serialize(contentFormat))
     }
 }
