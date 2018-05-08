@@ -79,7 +79,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
             logger.flare(countRecords)
             assert(countRecords == testEntities.size.toLong())
 
-            val records = getEntities(contentType, "")
+            val records = getEntitiesMaps(contentType, "")
 //            assert(testEntities.containsAll(records))
 //            assert(records.containsAll(testEntities))
 
@@ -151,6 +151,21 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         assert(response.statusCode() == expectedStatus)
         val body = response.body()?.toString()
         return body?.parse(controller.store.type, contentType)
+    }
+
+    private suspend fun getEntitiesMaps(
+        contentType: SerializationFormat, queryString: String = ""): List<Map<*, *>> {
+
+        logger.info("Getting: $queryString")
+
+        val path = if (queryString.isBlank()) "" else "?$queryString"
+        val response = client.get("/$endpoint$path")
+            .putHeader("Accept", contentType.contentType)
+            .send().await()
+
+        assert(response.statusCode() == 200)
+        val body = response.body()?.toString()
+        return body?.parseList(contentType) ?: emptyList()
     }
 
     private suspend fun getEntities(
