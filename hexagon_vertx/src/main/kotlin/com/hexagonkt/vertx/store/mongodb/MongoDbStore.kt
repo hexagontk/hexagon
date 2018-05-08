@@ -128,7 +128,12 @@ class MongoDbStore<T : Any, K : Any>(
         skip: Int?,
         sort: Map<String, Boolean>): Future<List<T>> =
             find(filter, emptyList(), limit, skip, sort)
-                .map { it.map { mapper.fromStore(remap(it)) } }
+                .map { rows ->
+                    rows.map { row ->
+                        val rowMap = remap(row)
+                        mapper.fromStore(rowMap)
+                    }
+                }
 
     override fun findMany(
         filter: Map<String, List<*>>,
@@ -136,7 +141,10 @@ class MongoDbStore<T : Any, K : Any>(
         limit: Int?,
         skip: Int?,
         sort: Map<String, Boolean>): Future<List<Map<String, *>>> =
-            find(filter, fields, limit, skip, sort).map { it.map { row -> row.map } }
+            find(filter, fields, limit, skip, sort)
+                .map { rows ->
+                    rows.map { row -> row.map }
+                }
 
     override fun count(filter: Map<String, List<*>>): Future<Long> {
         val future = Future.future<Long>()

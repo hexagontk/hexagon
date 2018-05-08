@@ -7,6 +7,7 @@ import com.hexagonkt.vertx.http.handleList
 import com.hexagonkt.vertx.http.response
 import com.hexagonkt.vertx.serialization.serialize
 import com.hexagonkt.vertx.store.Store
+import io.vertx.core.Future
 import io.vertx.ext.web.RoutingContext
 import kotlin.reflect.jvm.javaType
 
@@ -77,14 +78,19 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
         val sort = createSort(context)
 
         store.count(pattern)
-            .map { count ->
+            .compose { count ->
                 context.response.putHeader("X-total", count.toString())
 
-                if (projection.isEmpty()) store.findMany(pattern, max, offset, sort)
-                else store.findMany(pattern, projection, max, offset, sort)
+                val future =
+                    if (projection.isEmpty()) store.findMany(pattern, max, offset, sort)
+                    else store.findMany(pattern, projection, max, offset, sort)
+
+                @Suppress("UNCHECKED_CAST")
+                future as Future<List<*>>
             }
             .setHandler {
-                context.end(200, it.result().serialize(context.acceptFormat()))
+                val result = it.result()
+                context.end(200, result.serialize(context.acceptFormat()))
             }
     }
 

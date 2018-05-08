@@ -80,7 +80,8 @@ abstract class StoreControllerTest<T : Any, K : Any> {
             assert(countRecords == testEntities.size.toLong())
 
             val records = getEntities(contentType, "")
-            logger.flare(records.serialize(contentType))
+//            assert(testEntities.containsAll(records))
+//            assert(records.containsAll(testEntities))
 
             dropStore() // TODO Provisional
 
