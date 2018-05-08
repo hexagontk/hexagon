@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject
 import io.vertx.ext.mongo.MongoClient
 
 class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
-    override val testEntities: List<MappedClass> get() = listOf(
+    override fun createTestEntities(): List<MappedClass> = listOf(
         createEntity(),
         createEntity(),
         createEntity()

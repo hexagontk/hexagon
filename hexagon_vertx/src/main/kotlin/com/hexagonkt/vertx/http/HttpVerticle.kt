@@ -35,7 +35,7 @@ abstract class HttpVerticle(
 
     private val bodyHandler: BodyHandler = BodyHandler.create()
 
-    protected lateinit var server: HttpServer
+    private lateinit var server: HttpServer
 
     protected abstract fun router(): Router
 
@@ -109,14 +109,7 @@ abstract class HttpVerticle(
     protected open fun failureHandler(context: RoutingContext) {
         val exception = context.failure()
 
-        val statusCode = context.statusCode().let {
-            when {
-                exception is CodedException -> exception.code
-                it == -1 -> 500
-                else -> it
-            }
-        }
-
+        val statusCode = (exception as? CodedException)?.code ?: 500
         val message = exception?.message ?: "Error"
 
         val request = context.request()

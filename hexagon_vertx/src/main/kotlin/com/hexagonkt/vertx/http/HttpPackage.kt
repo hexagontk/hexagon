@@ -39,45 +39,30 @@ val RoutingContext.request: HttpServerRequest get() = this.request()
 
 val RoutingContext.response: HttpServerResponse get() = this.response()
 
-operator fun HttpServerResponse.get(status: Int, message: String) {
-    statusCode = status
-    end(message)
-}
-
 fun HttpServerResponse.end(status: Int, message: String) {
     statusCode = status
     end(message)
 }
 
-fun Router.get(callback: Callback = ::notImplemented): Route =
-    this.get().handler(callback)
+fun Router.get(callback: Callback): Route = this.get().handler(callback)
 
-fun Router.get(path: String, callback: Callback = ::notImplemented): Route =
-    this.get(path).handler(callback)
+fun Router.get(path: String, callback: Callback): Route = this.get(path).handler(callback)
 
-fun Router.put(callback: Callback = ::notImplemented): Route =
-    this.put().handler(callback)
+fun Router.put(callback: Callback): Route = this.put().handler(callback)
 
-fun Router.put(path: String, callback: Callback = ::notImplemented): Route =
-    this.put(path).handler(callback)
+fun Router.put(path: String, callback: Callback): Route = this.put(path).handler(callback)
 
-fun Router.patch(callback: Callback = ::notImplemented): Route =
-    this.patch().handler(callback)
+fun Router.patch(callback: Callback): Route = this.patch().handler(callback)
 
-fun Router.patch(path: String, callback: Callback = ::notImplemented): Route =
-    this.patch(path).handler(callback)
+fun Router.patch(path: String, callback: Callback): Route = this.patch(path).handler(callback)
 
-fun Router.delete(callback: Callback = ::notImplemented): Route =
-    this.delete().handler(callback)
+fun Router.delete(callback: Callback): Route = this.delete().handler(callback)
 
-fun Router.delete(path: String, callback: Callback = ::notImplemented): Route =
-    this.delete(path).handler(callback)
+fun Router.delete(path: String, callback: Callback): Route = this.delete(path).handler(callback)
 
-fun Router.post(callback: Callback = ::notImplemented): Route =
-    this.post().handler(callback)
+fun Router.post(callback: Callback): Route = this.post().handler(callback)
 
-fun Router.post(path: String, callback: Callback = ::notImplemented): Route =
-    this.post(path).handler(callback)
+fun Router.post(path: String, callback: Callback): Route = this.post(path).handler(callback)
 
 fun Router.put(callback: Handler<RoutingContext>): Route =
     this.put().handler(callback)

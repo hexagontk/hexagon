@@ -53,7 +53,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     abstract fun store(vertx: Vertx, config: JsonObject): Store<T, K>
     abstract fun createEntity(): T
     abstract fun modifyEntity(entity: T): T
-    open val testEntities: List<T> get() = listOf(createEntity())
+    open fun createTestEntities(): List<T> = listOf(createEntity())
 
     @Before fun startVerticle () {
         application.start()
@@ -70,18 +70,22 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         dropStore()
         assert(countRecords() == 0L)
 
+        val testEntities = createTestEntities()
+
         formats.forEach { contentType ->
             logger.info("Content Type: ${contentType.contentType}")
 
             val createdEntities = createEntities(testEntities, contentType)
             assert(createdEntities == testEntities.size.toLong())
             val countRecords = countRecords()
-            logger.flare(countRecords)
             assert(countRecords == testEntities.size.toLong())
 
-            val records = getEntitiesMaps(contentType, "")
-//            assert(testEntities.containsAll(records))
-//            assert(records.containsAll(testEntities))
+            val records = getEntities(contentType, "")
+            assert(testEntities.containsAll(records))
+            assert(records.containsAll(testEntities))
+
+            val recordsMaps = getEntitiesMaps(contentType, "include=oneBoolean,oneString")
+            logger.flare(recordsMaps)
 
             dropStore() // TODO Provisional
 
@@ -114,7 +118,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         formats.forEach { contentType ->
             logger.info("Content Type: ${contentType.contentType}")
 
-            testEntities.forEach {
+            createTestEntities().forEach {
                 val entityKey = createEntity(it, contentType)
 
                 val entity = getEntity(entityKey, contentType) ?: fail("Entity expected")
