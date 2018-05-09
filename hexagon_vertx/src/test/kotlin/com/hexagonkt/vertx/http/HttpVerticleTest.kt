@@ -1,5 +1,6 @@
 package com.hexagonkt.vertx.http
 
+import com.hexagonkt.flare
 import com.hexagonkt.logger
 import com.hexagonkt.sync
 import com.hexagonkt.vertx.VertxApplication
@@ -9,6 +10,9 @@ import com.hexagonkt.vertx.http.client.send
 import com.hexagonkt.vertx.http.client.sendBuffer
 import com.hexagonkt.vertx.serialization.JsonFormat
 import com.hexagonkt.vertx.serialization.serialize
+import gherkin.deps.com.google.gson.JsonObject
+import io.vertx.core.AsyncResult
+import io.vertx.core.Future
 import io.vertx.core.buffer.Buffer
 import io.vertx.ext.web.client.WebClient
 import io.vertx.kotlin.coroutines.await
@@ -38,6 +42,11 @@ class HttpVerticleTest {
                 put { end(200, "put") }
                 patch { end(200, "patch") }
                 post(Player::class) { it?.name ?: "John Doe" }
+                get("/handler") {
+                    val handler: (AsyncResult<JsonObject>) -> Unit =
+                        handler { end(200, it?.serialize(JsonFormat) ?: "") }
+                    handler(Future.succeededFuture(JsonObject()))
+                }
             }
         }
 
@@ -94,5 +103,11 @@ class HttpVerticleTest {
             .sendBuffer(Buffer.factory.buffer(Player("Michael", 23).serialize(JsonFormat))).await()
         assert(responsePost.statusCode() == 200)
         assert(responsePost.body().toString() == "Michael")
+
+        val responseHandler = client.get("/handler").send().await()
+        logger.flare(responseHandler.statusCode())
+        logger.flare(responseHandler.body().toString())
+        assert(responseHandler.statusCode() == 200)
+        assert(responseHandler.body().toString().contains("{ }"))
     }
 }
