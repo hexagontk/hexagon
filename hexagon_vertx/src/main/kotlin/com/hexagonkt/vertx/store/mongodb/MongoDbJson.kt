@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.Version
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.hexagonkt.vertx.serialization.JacksonHelper
-import java.util.*
 import kotlin.reflect.KClass
 
 /**
@@ -27,17 +26,6 @@ object MongoDbJson {
 
     private object FloatDeserializer : JsonDeserializer<Float>() {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Float = p.floatValue
-    }
-
-    private object DateSerializer: JsonSerializer<Date>() {
-        override fun serialize(value: Date, gen: JsonGenerator, serializers: SerializerProvider) {
-            TODO()
-        }
-    }
-
-    private object DateDeserializer: JsonDeserializer<Date>() {
-        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Date =
-            TODO()
     }
 
     fun convertToMap(value: Any): Map<String, *> = mapper.convertValue (value, Map::class.java)
