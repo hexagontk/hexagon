@@ -1,5 +1,6 @@
 package com.hexagonkt.vertx.store.mongodb
 
+import com.hexagonkt.error
 import com.hexagonkt.filterEmpty
 import com.hexagonkt.logger
 import com.hexagonkt.time
@@ -143,7 +144,10 @@ class MongoDbStore<T : Any, K : Any>(
         sort: Map<String, Boolean>): Future<List<Map<String, *>>> =
             find(filter, fields, limit, skip, sort)
                 .map { rows ->
-                    rows.map { row -> row.map }
+                    rows.map { row ->
+                        // TODO Move this to mapper
+                        remap(row) + (key.name to (row.map["_id"] as? K ?: error)) - "_id"
+                    }
                 }
 
     override fun count(filter: Map<String, List<*>>): Future<Long> {
@@ -191,6 +195,10 @@ class MongoDbStore<T : Any, K : Any>(
 
                 if (value.size > 1) key to mapOf("\$in" to value)
                 else key to value[0]
+            }
+            .map {
+                if (it.first == key.name) "_id" to it.second
+                else it
             }
             .toMap()
             .toJsonObject()
