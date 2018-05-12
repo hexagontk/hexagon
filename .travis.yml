@@ -46,6 +46,8 @@ install:
 script: ./gradlew clean check jmh site installDist jacocoReport installAllTemplates tfb
 
 after_success: bash <(curl -s https://codecov.io/bash)
+after_failure:
+  - cat /home/travis/build/hexagonkt/hexagon/hexagon_vertx/build/reports/tests/test/index.html
 
 deploy:
 
