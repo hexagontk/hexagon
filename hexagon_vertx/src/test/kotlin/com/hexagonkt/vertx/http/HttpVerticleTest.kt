@@ -44,7 +44,7 @@ class HttpVerticleTest {
                 post(Player::class) { it?.name ?: "John Doe" }
                 get("/handler") {
                     val handler: (AsyncResult<JsonObject>) -> Unit =
-                        handler { end(200, it?.serialize(JsonFormat) ?: "") }
+                        handler { end(200, it?.toString() ?: "") }
                     handler(Future.succeededFuture(JsonObject()))
                 }
             }
@@ -108,6 +108,6 @@ class HttpVerticleTest {
         logger.flare(responseHandler.statusCode())
         logger.flare(responseHandler.body().toString())
         assert(responseHandler.statusCode() == 200)
-        assert(responseHandler.body().toString().contains("{ }"))
+        assert(responseHandler.body().toString().contains("{}"))
     }
 }

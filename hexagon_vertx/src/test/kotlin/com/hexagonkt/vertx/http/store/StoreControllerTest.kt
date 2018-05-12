@@ -71,6 +71,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         assert(countRecords() == 0L)
 
         val testEntities = createTestEntities()
+        val keyName = controller.store.key.name
 
         formats.forEach { contentType ->
             logger.info("Content Type: ${contentType.contentType}")
@@ -84,19 +85,17 @@ abstract class StoreControllerTest<T : Any, K : Any> {
             assert(testEntities.containsAll(records))
             assert(records.containsAll(testEntities))
 
-            val recordsMaps = getEntitiesMaps(contentType, "include=oneBoolean,oneString")
-            logger.flare(recordsMaps)
+            val modifiedEntities = records.map { modifyEntity(it) }
+            replaceEntities(modifiedEntities, contentType)
+            val modifiedRecords = getEntities(contentType, "")
+            assert(modifiedEntities.containsAll(modifiedRecords))
+            assert(modifiedRecords.containsAll(modifiedEntities))
 
-            dropStore() // TODO Provisional
-
-//            val entity = getEntity(entityKey, contentType) ?: fail("Entity expected")
-//            assert(entity == it)
-//
-//            val modifiedEntity = modifyEntity(entity)
-//            replaceEntity(modifiedEntity, contentType)
-//            assert(modifiedEntity == getEntity(entityKey, contentType))
-//
-//            deleteEntity(entityKey)
+            val recordsMaps = getEntitiesMaps(contentType, "include=$keyName")
+            val recordIds = recordsMaps
+                .map { it.values.first() ?: error("Key field not found") }
+                .joinToString (separator = ",")
+            deleteEntities("$keyName=$recordIds")
         }
     }
 
@@ -141,6 +140,14 @@ abstract class StoreControllerTest<T : Any, K : Any> {
 
         val response = client.delete("/$endpoint/$entityKey").send().await()
         assert(response.statusCode() == expectedStatus)
+    }
+
+    private suspend fun deleteEntities(entityKey: String, expectedStatus: Int = 204) {
+        logger.info("Deleting: $entityKey")
+
+        val response = client.delete("/$endpoint?$entityKey").send().await()
+        val statusCode = response.statusCode()
+        assert(statusCode == expectedStatus)
     }
 
     private suspend fun getEntity(
@@ -188,6 +195,18 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     }
 
     private suspend fun replaceEntity(entity: T, contentType: SerializationFormat): Boolean {
+        logger.info("Create: $entity")
+
+        val response = client
+            .put("/$endpoint")
+            .putHeader("Content-Type", contentType.contentType)
+            .sendBuffer(Buffer.factory.buffer(entity.serialize(contentType))).await()
+
+        assert(response.statusCode() == 200)
+        return response.body().toString().toBoolean()
+    }
+
+    private suspend fun replaceEntities(entity: List<T>, contentType: SerializationFormat): Boolean {
         logger.info("Create: $entity")
 
         val response = client
