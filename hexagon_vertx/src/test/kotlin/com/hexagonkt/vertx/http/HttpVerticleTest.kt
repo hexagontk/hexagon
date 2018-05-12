@@ -18,6 +18,7 @@ import io.vertx.ext.web.client.WebClient
 import io.vertx.kotlin.coroutines.await
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.slf4j.Logger
 
@@ -68,6 +69,7 @@ class HttpVerticleTest {
     @Test fun `Check errors starting verticles` () = sync {
     }
 
+    @Ignore
     @Test fun `Test handlers` () = sync {
         val responseBoolean = client.get("/boolean").send().await()
         assert(responseBoolean.statusCode() == 200)
