@@ -34,11 +34,19 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     }
 
     fun update(context: RoutingContext) {
-        TODO()
+        val pattern = createPatternMap(context)
+        val updates = createUpdate(context)
+        store.updateMany(pattern, updates).setHandler {
+            context.end(200, "")
+        }
     }
 
     fun updateOne(context: RoutingContext) {
-        TODO()
+        val key = parseKey(context) ?: error("Required key not found")
+        val updates = createUpdate(context)
+        store.updateOne(key, updates).setHandler {
+            context.end(200, "")
+        }
     }
 
     fun deleteOne(context: RoutingContext) {
@@ -61,7 +69,13 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     }
 
     fun findOne(context: RoutingContext) {
-        store.findOne(parseKey(context) ?: error("Required key not found")).setHandler {
+        val projection = createProjection(context)
+        val key = parseKey(context) ?: error("Required key not found")
+        val handler =
+            if (projection.isEmpty()) store.findOne(key)
+            else store.findOne(key, projection)
+
+        handler.setHandler {
             val entity = it.result()
             if (entity != null) context.end(200, entity.serialize(context.acceptFormat()))
             else context.end(404, "")
@@ -130,6 +144,14 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
                 val values = param.value.split(",".toRegex()).dropLastWhile { it.isEmpty() }
                 key to values
             }
+    }
+
+    private fun createUpdate(context: RoutingContext): Map<String, *> {
+        return context.request().params()
+            .filter { it -> it.key.endsWith(':') }
+            .map { it -> it.key.removeSuffix(":") to it.value }
+            .filter { it -> store.fields.contains(it.first) }
+            .toMap()
     }
 
     private fun getIntegerParam(context: RoutingContext, name: String): Int? {

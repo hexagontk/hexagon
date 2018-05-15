@@ -20,7 +20,7 @@ import kotlin.reflect.full.declaredMemberProperties
 
 class MongoDbStore<T : Any, K : Any>(
     @Suppress("MemberVisibilityCanBePrivate")
-    val mongoDbClient: MongoClient,
+    private val mongoDbClient: MongoClient,
     override val type: KClass<T>,
     override val key: KProperty1<T, K>,
     override val name: String = type.simpleName ?: error("Type name cannot be 'null'"),
