@@ -14,11 +14,11 @@ import gherkin.deps.com.google.gson.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Future
 import io.vertx.core.buffer.Buffer
+import io.vertx.core.http.HttpServerOptions
 import io.vertx.ext.web.client.WebClient
 import io.vertx.kotlin.coroutines.await
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.slf4j.Logger
 
@@ -29,7 +29,7 @@ class HttpVerticleTest {
     private lateinit var verticle: HttpVerticle
 
     private val application : VertxApplication by lazy {
-        verticle = object : HttpVerticle() {
+        verticle = object : HttpVerticle(HttpServerOptions().setPort(0)) {
             override fun router() = router {
                 get("/not_implemented", ::notImplemented)
                 get("/boolean") { handle { true } }
@@ -69,7 +69,6 @@ class HttpVerticleTest {
     @Test fun `Check errors starting verticles` () = sync {
     }
 
-    @Ignore
     @Test fun `Test handlers` () = sync {
         val responseBoolean = client.get("/boolean").send().await()
         assert(responseBoolean.statusCode() == 200)

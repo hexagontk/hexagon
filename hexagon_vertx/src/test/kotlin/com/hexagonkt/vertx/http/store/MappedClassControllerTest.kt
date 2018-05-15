@@ -8,6 +8,10 @@ import io.vertx.core.json.JsonObject
 import io.vertx.ext.mongo.MongoClient
 
 class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
+    override fun patchEntity(entity: MappedClass): Pair<String, *> {
+        TODO("not implemented")
+    }
+
     override fun createTestEntities(): List<MappedClass> = listOf(
         createEntity(),
         createEntity(),

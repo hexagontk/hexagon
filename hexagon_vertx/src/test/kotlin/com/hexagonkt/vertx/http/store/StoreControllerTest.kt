@@ -53,6 +53,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     abstract fun store(vertx: Vertx, config: JsonObject): Store<T, K>
     abstract fun createEntity(): T
     abstract fun modifyEntity(entity: T): T
+    abstract fun patchEntity(entity: T): Pair<String, *>
     open fun createTestEntities(): List<T> = listOf(createEntity())
 
     @Before fun startVerticle () {
