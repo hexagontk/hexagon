@@ -68,10 +68,10 @@ class HttpVerticleTest {
 
     @Test fun `Test handlers` () = sync {
         try {
-//            val responseBoolean = client.get("/boolean").send().await()
-//            assert(responseBoolean.statusCode() == 200)
-//            assert(responseBoolean.body().toString() == "true")
-//
+            val responseBoolean = client.get("/boolean").send().await()
+            assert(responseBoolean.statusCode() == 200)
+            assert(responseBoolean.body().toString() == "true")
+
 //            val responseLong = client.get("/long").send().await()
 //            assert(responseLong.statusCode() == 200)
 //            assert(responseLong.body().toString() == "1")
