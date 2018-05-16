@@ -66,9 +66,6 @@ class HttpVerticleTest {
         application.stop()
     }
 
-    @Test fun `Check errors starting verticles` () = sync {
-    }
-
     @Test fun `Test handlers` () = sync {
         try {
             val responseBoolean = client.get("/boolean").send().await()

@@ -1,6 +1,5 @@
 package com.hexagonkt.vertx.http.store
 
-import com.hexagonkt.flare
 import com.hexagonkt.logger
 import com.hexagonkt.sync
 import com.hexagonkt.time
