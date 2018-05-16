@@ -70,45 +70,51 @@ class HttpVerticleTest {
     }
 
     @Test fun `Test handlers` () = sync {
-        val responseBoolean = client.get("/boolean").send().await()
-        assert(responseBoolean.statusCode() == 200)
-        assert(responseBoolean.body().toString() == "true")
+        try {
+            val responseBoolean = client.get("/boolean").send().await()
+            assert(responseBoolean.statusCode() == 200)
+            assert(responseBoolean.body().toString() == "true")
 
-        val responseLong = client.get("/long").send().await()
-        assert(responseLong.statusCode() == 200)
-        assert(responseLong.body().toString() == "1")
+            val responseLong = client.get("/long").send().await()
+            assert(responseLong.statusCode() == 200)
+            assert(responseLong.body().toString() == "1")
 
-        val responseException = client.get("/exception").send().await()
-        assert(responseException.statusCode() == 500)
-        assert(responseException.body().toString() == "Fail")
+            val responseException = client.get("/exception").send().await()
+            assert(responseException.statusCode() == 500)
+            assert(responseException.body().toString() == "Fail")
 
-        val responseContentType = client.get("/content_type").send().await()
-        assert(responseContentType.headers()["Content-Type"] == "text/rtf")
-        assert(responseContentType.statusCode() == 200)
-        assert(responseContentType.body().toString() == "end")
+            val responseContentType = client.get("/content_type").send().await()
+            assert(responseContentType.headers()["Content-Type"] == "text/rtf")
+            assert(responseContentType.statusCode() == 200)
+            assert(responseContentType.body().toString() == "end")
 
-        val responseNotImplemented = client.get("/not_implemented").send().await()
-        assert(responseNotImplemented.statusCode() == 501)
-        assert(responseNotImplemented.body().toString() == "Not implemented")
+            val responseNotImplemented = client.get("/not_implemented").send().await()
+            assert(responseNotImplemented.statusCode() == 501)
+            assert(responseNotImplemented.body().toString() == "Not implemented")
 
-        val responsePut = client.put("/").send().await()
-        assert(responsePut.statusCode() == 200)
-        assert(responsePut.body().toString() == "put")
+            val responsePut = client.put("/").send().await()
+            assert(responsePut.statusCode() == 200)
+            assert(responsePut.body().toString() == "put")
 
-        val responsePatch = client.patch("/").send().await()
-        assert(responsePatch.statusCode() == 200)
-        assert(responsePatch.body().toString() == "patch")
+            val responsePatch = client.patch("/").send().await()
+            assert(responsePatch.statusCode() == 200)
+            assert(responsePatch.body().toString() == "patch")
 
-        val responsePost = client.post("/")
-            .putHeader("Content-Type", JsonFormat.contentType)
-            .sendBuffer(Buffer.factory.buffer(Player("Michael", 23).serialize(JsonFormat))).await()
-        assert(responsePost.statusCode() == 200)
-        assert(responsePost.body().toString() == "Michael")
+            val serializedPlayer = Player("Michael", 23).serialize(JsonFormat)
+            val responsePost = client.post("/")
+                .putHeader("Content-Type", JsonFormat.contentType)
+                .sendBuffer(Buffer.factory.buffer(serializedPlayer)).await()
+            assert(responsePost.statusCode() == 200)
+            assert(responsePost.body().toString() == "Michael")
 
-        val responseHandler = client.get("/handler").send().await()
-        logger.flare(responseHandler.statusCode())
-        logger.flare(responseHandler.body().toString())
-        assert(responseHandler.statusCode() == 200)
-        assert(responseHandler.body().toString().contains("{}"))
+            val responseHandler = client.get("/handler").send().await()
+            logger.flare(responseHandler.statusCode())
+            logger.flare(responseHandler.body().toString())
+            assert(responseHandler.statusCode() == 200)
+            assert(responseHandler.body().toString().contains("{}"))
+        }
+        catch (e: Exception) {
+            logger.error(">>>>>>>>>>>> ${e.message}", e)
+        }
     }
 }
