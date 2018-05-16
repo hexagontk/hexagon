@@ -3,7 +3,9 @@ package com.hexagonkt.vertx.http.store
 import com.hexagonkt.flare
 import com.hexagonkt.logger
 import com.hexagonkt.sync
+import com.hexagonkt.vertx.http.client.send
 import com.hexagonkt.vertx.serialization.SerializationManager.formats
+import com.hexagonkt.vertx.serialization.parse
 import com.hexagonkt.vertx.serialization.serialize
 import com.hexagonkt.vertx.store.Store
 import com.hexagonkt.vertx.store.mongodb.MongoDbMapperTest.MappedClass
@@ -11,6 +13,7 @@ import com.hexagonkt.vertx.store.mongodb.MongoDbStore
 import io.vertx.core.Vertx
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.mongo.MongoClient
+import io.vertx.kotlin.coroutines.await
 import org.junit.Test
 import org.slf4j.Logger
 
@@ -53,6 +56,44 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
             logger.flare(page2.serialize(contentType))
             assert(testEntities.containsAll(page2))
             assert(page2.size == 1)
+        }
+    }
+
+    @Test fun `Find fields of a single entity returns only requested fields` () = sync {
+        val testEntities = createTestEntities()
+
+        formats.forEach { contentType ->
+            dropStore()
+            logger.info("Content Type: ${contentType.contentType}")
+
+            val createdEntities = createEntities(testEntities, contentType)
+            assert(createdEntities == testEntities.size.toLong())
+
+            testEntities.forEach { entity ->
+                val entityKey = entity.oneString
+                val response = client.get("/$endpoint/$entityKey?include=otherData,anInt")
+                    .putHeader("Accept", contentType.contentType)
+                    .send().await()
+
+                assert(response.statusCode() == 200)
+                val body = response.body()?.toString()
+                val map = body?.parse(contentType) ?: error("")
+                logger.flare(map.serialize(contentType))
+                assert(map.containsKey("otherData") )
+                assert(map.containsKey("anInt"))
+            }
+        }
+    }
+
+    @Test fun `Entities are updated without error` () = sync {
+        val testEntities = createTestEntities()
+
+        formats.forEach { contentType ->
+            dropStore()
+            logger.info("Content Type: ${contentType.contentType}")
+
+            val createdEntities = createEntities(testEntities, contentType)
+            assert(createdEntities == testEntities.size.toLong())
         }
     }
 }
