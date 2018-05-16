@@ -42,10 +42,9 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
             val createdEntities = createEntities(testEntities, contentType)
             assert(createdEntities == testEntities.size.toLong())
 
-//            val records = getEntities(contentType, "")
-//            assert(testEntities.containsAll(records))
-//            assert(records.containsAll(testEntities))
-//
+            val records = getEntities(contentType, "")
+            assert(testEntities.containsAll(records))
+
 //            val modifiedEntities = records.map { modifyEntity(it) }
 //            replaceEntities(modifiedEntities, contentType)
 //            val modifiedRecords = getEntities(contentType, "")
