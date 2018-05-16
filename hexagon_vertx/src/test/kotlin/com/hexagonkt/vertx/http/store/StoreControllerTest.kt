@@ -48,6 +48,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     }
 
     protected val endpoint by lazy { controller.store.name }
+    protected val keyName by lazy { controller.store.key.name }
 
     abstract fun store(vertx: Vertx, config: JsonObject): Store<T, K>
     abstract fun createEntity(index: Int): T
@@ -70,7 +71,6 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         assert(countRecords() == 0L)
 
         val testEntities = createTestEntities()
-        val keyName = controller.store.key.name
 
         formats.forEach { contentType ->
             logger.info("Content Type: ${contentType.contentType}")
@@ -217,7 +217,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         return response.body().toString().toBoolean()
     }
 
-    private suspend fun createEntities(entity: List<T>, contentType: SerializationFormat): Long {
+    protected suspend fun createEntities(entity: List<T>, contentType: SerializationFormat): Long {
         logger.info("Create: $entity")
 
         val response = client
@@ -248,7 +248,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         return body.toLong()
     }
 
-    private suspend fun dropStore() {
+    protected suspend fun dropStore() {
         val response = client.delete("/$endpoint:drop").send().await()
         assert(response.statusCode() == 200)
         assert(response.body().toString() == "Store deleted")
