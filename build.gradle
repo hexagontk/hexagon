@@ -1,9 +1,10 @@
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.41'
-    id 'org.jetbrains.dokka' version '0.9.16'
+    id 'java'
     id 'jacoco'
 
+    id 'org.jetbrains.kotlin.jvm' version '1.2.41' apply false
+    id 'org.jetbrains.dokka' version '0.9.16' apply false
     id 'com.jfrog.bintray' version '1.8.0' apply false
     // TODO Use 'official' plugin from JBake: https://github.com/jbake-org/jbake-gradle-plugin
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
@@ -33,6 +34,14 @@ task release(dependsOn: 'publish') {
         exec { commandLine 'git', 'push', '--tags' }
     }
 }
+
+// clean check site installDist jacocoReport installAllTemplates tfb
+//task all (dependsOn:
+//    project.getTasksByName ('icons', true) +
+//        project.getTasksByName ('site', true) +
+//        project.getTasksByName ('build', true) +
+//        project.getTasksByName ('installDist', true)
+//)
 
 repositories {
     jcenter () // Repository required by Jacoco Report
