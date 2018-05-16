@@ -15,7 +15,11 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
             MappedClass::oneString
         )
 
-    override fun createEntity(index: Int) = MappedClass(oneString = "key_${System.nanoTime()}")
+    override fun createEntity(index: Int) = MappedClass(
+        oneString = "key_${System.nanoTime()}",
+        anInt = index,
+        otherData = if (index % 2 == 0) "even" else "odd"
+    )
 
     override fun modifyEntity(entity: MappedClass): MappedClass = entity.copy(
         oneBoolean = !entity.oneBoolean

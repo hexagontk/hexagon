@@ -67,44 +67,47 @@ class HttpVerticleTest {
     }
 
     @Test fun `Test handlers` () = sync {
-            val responseBoolean = client.get("/boolean").send().await()
-            assert(responseBoolean.statusCode() == 200)
-            assert(responseBoolean.body().toString() == "true")
+        val responseBoolean = client.get("/boolean").send().await()
+        assert(responseBoolean.statusCode() == 200)
+        assert(responseBoolean.body().toString() == "true")
+        logger.flare("/boolean OK")
 
-//            val responseLong = client.get("/long").send().await()
-//            assert(responseLong.statusCode() == 200)
-//            assert(responseLong.body().toString() == "1")
+//        val responseLong = client.get("/long").send().await()
+//        assert(responseLong.statusCode() == 200)
+//        assert(responseLong.body().toString() == "1")
+//        logger.flare("/long OK")
 
-//            val responseException = client.get("/exception").send().await()
-//            assert(responseException.statusCode() == 500)
-//            assert(responseException.body().toString() == "Fail")
-//
-//            val responseContentType = client.get("/content_type").send().await()
-//            assert(responseContentType.headers()["Content-Type"] == "text/rtf")
-//            assert(responseContentType.statusCode() == 200)
-//            assert(responseContentType.body().toString() == "end")
-//
-//            val responseNotImplemented = client.get("/not_implemented").send().await()
-//            assert(responseNotImplemented.statusCode() == 501)
-//            assert(responseNotImplemented.body().toString() == "Not implemented")
-//
-//            val responsePut = client.put("/").send().await()
-//            assert(responsePut.statusCode() == 200)
-//            assert(responsePut.body().toString() == "put")
-//
-//            val responsePatch = client.patch("/").send().await()
-//            assert(responsePatch.statusCode() == 200)
-//            assert(responsePatch.body().toString() == "patch")
-//
-//            val serializedPlayer = Player("Michael", 23).serialize(JsonFormat)
-//            val responsePost = client.post("/")
-//                .putHeader("Content-Type", JsonFormat.contentType)
-//                .sendBuffer(Buffer.factory.buffer(serializedPlayer)).await()
-//            assert(responsePost.statusCode() == 200)
-//            assert(responsePost.body().toString() == "Michael")
+        val responseException = client.get("/exception").send().await()
+        assert(responseException.statusCode() == 500)
+        assert(responseException.body().toString() == "Fail")
+        logger.flare("/exception OK")
 
-//            val responseHandler = client.get("/handler").send().await()
-//            assert(responseHandler.statusCode() == 200)
-//            assert(responseHandler.body().toString().contains("{}"))
+//        val responseContentType = client.get("/content_type").send().await()
+//        assert(responseContentType.headers()["Content-Type"] == "text/rtf")
+//        assert(responseContentType.statusCode() == 200)
+//        assert(responseContentType.body().toString() == "end")
+//
+//        val responseNotImplemented = client.get("/not_implemented").send().await()
+//        assert(responseNotImplemented.statusCode() == 501)
+//        assert(responseNotImplemented.body().toString() == "Not implemented")
+//
+//        val responsePut = client.put("/").send().await()
+//        assert(responsePut.statusCode() == 200)
+//        assert(responsePut.body().toString() == "put")
+//
+//        val responsePatch = client.patch("/").send().await()
+//        assert(responsePatch.statusCode() == 200)
+//        assert(responsePatch.body().toString() == "patch")
+//
+//        val serializedPlayer = Player("Michael", 23).serialize(JsonFormat)
+//        val responsePost = client.post("/")
+//            .putHeader("Content-Type", JsonFormat.contentType)
+//            .sendBuffer(Buffer.factory.buffer(serializedPlayer)).await()
+//        assert(responsePost.statusCode() == 200)
+//        assert(responsePost.body().toString() == "Michael")
+
+//        val responseHandler = client.get("/handler").send().await()
+//        assert(responseHandler.statusCode() == 200)
+//        assert(responseHandler.body().toString().contains("{}"))
     }
 }
