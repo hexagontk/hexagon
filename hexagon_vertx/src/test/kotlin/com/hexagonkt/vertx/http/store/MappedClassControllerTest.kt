@@ -94,6 +94,21 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
 
             val createdEntities = createEntities(testEntities, contentType)
             assert(createdEntities == testEntities.size.toLong())
+
+            testEntities.forEach { entity ->
+                val entityKey = entity.oneString
+                val response =
+                    client.patch("/$endpoint/$entityKey?otherData:=even&anInt:=0").send().await()
+
+                assert(response.statusCode() == 200)
+            }
+
+//            assert(getEntities(contentType).all { it.otherData == "even" })
+//            assert(getEntities(contentType).all { it.anInt == 0 })
+
+            val response = client.patch("/$endpoint?otherData:=odd&anInt:=1").send().await()
+
+            assert(response.statusCode() == 200)
         }
     }
 }

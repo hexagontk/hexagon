@@ -1,6 +1,8 @@
 package com.hexagonkt.vertx.http.store
 
 import com.hexagonkt.CodedException
+import com.hexagonkt.flare
+import com.hexagonkt.logger
 import com.hexagonkt.vertx.http.acceptFormat
 import com.hexagonkt.vertx.http.end
 import com.hexagonkt.vertx.http.handleList
@@ -44,6 +46,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     fun updateOne(context: RoutingContext) {
         val key = parseKey(context) ?: error("Required key not found")
         val updates = createUpdate(context)
+        logger.flare(updates)
         store.updateOne(key, updates).setHandler {
             context.end(200, "")
         }
