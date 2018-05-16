@@ -19,9 +19,6 @@ class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
 class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
 class BenchmarkJettyPostgreSqlRockerTest : BenchmarkTest("jetty", "postgresql", "rocker")
 
-class BenchmarkUndertowMongoDbTest : BenchmarkTest("undertow", "mongodb")
-class BenchmarkUndertowPostgreSqlTest : BenchmarkTest("undertow", "postgresql")
-
 @Test(threadPoolSize = THREADS, invocationCount = TIMES)
 @Suppress("MemberVisibilityCanPrivate")
 abstract class BenchmarkTest(

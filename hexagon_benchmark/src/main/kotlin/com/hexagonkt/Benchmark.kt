@@ -7,7 +7,6 @@ import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.*
 import com.hexagonkt.server.jetty.JettyServletAdapter
 import com.hexagonkt.server.servlet.ServletServer
-import com.hexagonkt.server.undertow.UndertowAdapter
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.TemplatePort
@@ -123,7 +122,6 @@ internal var benchmarkServer: Server? = null
 
 internal fun createEngine(engine: String): ServerPort = when (engine) {
     "jetty" -> JettyServletAdapter()
-    "undertow" -> UndertowAdapter()
     else -> error("Unsupported server engine")
 }
 

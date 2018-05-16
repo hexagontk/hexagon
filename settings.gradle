@@ -23,7 +23,6 @@ include (
     'events_rabbitmq',
     'server_servlet',
     'server_jetty',
-    'server_undertow',
     'store_mongodb',
     'templates_kotlinx',
     'templates_pebble',
