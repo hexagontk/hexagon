@@ -50,10 +50,9 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     protected val endpoint by lazy { controller.store.name }
 
     abstract fun store(vertx: Vertx, config: JsonObject): Store<T, K>
-    abstract fun createEntity(): T
+    abstract fun createEntity(index: Int): T
     abstract fun modifyEntity(entity: T): T
-    abstract fun patchEntity(entity: T): Pair<String, *>
-    open fun createTestEntities(): List<T> = listOf(createEntity())
+    open fun createTestEntities(): List<T> = (0..9).map { createEntity(it) }
 
     @Before fun startVerticle () {
         application.start()

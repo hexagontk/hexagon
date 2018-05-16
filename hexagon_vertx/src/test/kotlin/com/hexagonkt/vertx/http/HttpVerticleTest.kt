@@ -71,9 +71,9 @@ class HttpVerticleTest {
             assert(responseBoolean.statusCode() == 200)
             assert(responseBoolean.body().toString() == "true")
 
-            val responseLong = client.get("/long").send().await()
-            assert(responseLong.statusCode() == 200)
-            assert(responseLong.body().toString() == "1")
+//            val responseLong = client.get("/long").send().await()
+//            assert(responseLong.statusCode() == 200)
+//            assert(responseLong.body().toString() == "1")
 
 //            val responseException = client.get("/exception").send().await()
 //            assert(responseException.statusCode() == 500)
