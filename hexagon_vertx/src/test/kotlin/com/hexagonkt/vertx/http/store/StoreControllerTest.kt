@@ -64,7 +64,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     }
 
     /**
-     * TODO Sorts, Filters, Projections, Pagination
+     * TODO Sorts, Filters, Pagination
      */
     @Test fun `Entities are stored and retrieved without error` () = sync {
         dropStore()
