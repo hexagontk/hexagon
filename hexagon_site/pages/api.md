@@ -7,7 +7,6 @@ API Reference
 Modules that provide features without the need of custom implementations:
 
 * [Hexagon Core](/api/hexagon_core/index.html)
-* [Hexagon REST](/api/hexagon_rest/index.html)
 * [Hexagon Scheduler](/api/hexagon_scheduler/index.html)
 
 ## Ports

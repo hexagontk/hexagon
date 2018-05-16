@@ -4,4 +4,3 @@ ignore:
   - templates_kotlinx
   - port_store
   - store_mongodb
-  - hexagon_rest

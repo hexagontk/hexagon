@@ -9,7 +9,6 @@ include (
 
     // Internal modules
     'hexagon_core',
-    'hexagon_rest',
     'hexagon_scheduler',
     'hexagon_vertx',
 
