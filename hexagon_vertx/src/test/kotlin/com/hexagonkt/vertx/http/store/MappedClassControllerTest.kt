@@ -1,8 +1,10 @@
 package com.hexagonkt.vertx.http.store
 
+import com.hexagonkt.flare
 import com.hexagonkt.logger
 import com.hexagonkt.sync
 import com.hexagonkt.vertx.serialization.SerializationManager.formats
+import com.hexagonkt.vertx.serialization.serialize
 import com.hexagonkt.vertx.store.Store
 import com.hexagonkt.vertx.store.mongodb.MongoDbMapperTest.MappedClass
 import com.hexagonkt.vertx.store.mongodb.MongoDbStore
@@ -42,20 +44,15 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
             val createdEntities = createEntities(testEntities, contentType)
             assert(createdEntities == testEntities.size.toLong())
 
-            val records = getEntities(contentType, "")
-            assert(testEntities.containsAll(records))
+            val page1 = getEntities(contentType, "sort=-anInt&otherData=even&max=2&offset=2")
+            logger.flare(page1.serialize(contentType))
+            assert(testEntities.containsAll(page1))
+            assert(page1.size == 2)
 
-//            val modifiedEntities = records.map { modifyEntity(it) }
-//            replaceEntities(modifiedEntities, contentType)
-//            val modifiedRecords = getEntities(contentType, "")
-//            assert(modifiedEntities.containsAll(modifiedRecords))
-//            assert(modifiedRecords.containsAll(modifiedEntities))
-//
-//            val recordsMaps = getEntitiesMaps(contentType, "include=$keyName")
-//            val recordIds = recordsMaps
-//                .map { it.values.first() ?: error("Key field not found") }
-//                .joinToString (separator = ",")
-//            deleteEntities("$keyName=$recordIds")
+            val page2 = getEntities(contentType, "sort=-anInt&otherData=even&max=2&offset=4")
+            logger.flare(page2.serialize(contentType))
+            assert(testEntities.containsAll(page2))
+            assert(page2.size == 1)
         }
     }
 }
