@@ -72,10 +72,12 @@ class HttpVerticleTest {
         assert(responseBoolean.body().toString() == "true")
         logger.flare("/boolean OK")
 
-//        val responseLong = client.get("/long").send().await()
-//        assert(responseLong.statusCode() == 200)
-//        assert(responseLong.body().toString() == "1")
-//        logger.flare("/long OK")
+        val responseLong = client.get("/long").send().await()
+        logger.flare("/long response OK")
+        assert(responseLong.statusCode() == 200)
+        logger.flare("/long response body ${responseLong.body()}")
+        assert(responseLong.body().toString() == "1")
+        logger.flare("/long OK")
 
         val responseException = client.get("/exception").send().await()
         assert(responseException.statusCode() == 500)
