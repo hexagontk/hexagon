@@ -103,12 +103,14 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
                 assert(response.statusCode() == 200)
             }
 
+            // TODO Fix
 //            assert(getEntities(contentType).all { it.otherData == "even" })
 //            assert(getEntities(contentType).all { it.anInt == 0 })
 
             val response = client.patch("/$endpoint?otherData:=odd&anInt:=1").send().await()
 
             assert(response.statusCode() == 200)
+            // TODO Complete asserts
         }
     }
 }
