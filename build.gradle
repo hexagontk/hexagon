@@ -35,13 +35,15 @@ task release(dependsOn: 'publish') {
     }
 }
 
-// clean check site installDist jacocoReport installAllTemplates tfb
-//task all (dependsOn:
-//    project.getTasksByName ('icons', true) +
-//        project.getTasksByName ('site', true) +
-//        project.getTasksByName ('build', true) +
-//        project.getTasksByName ('installDist', true)
-//)
+task all (dependsOn:
+    project.getTasksByName ('build', true) +
+    project.getTasksByName ('jmh', true) +
+    project.getTasksByName ('site', true) +
+    project.getTasksByName ('jacocoReport', true) +
+    project.getTasksByName ('installDist', true) +
+    project.getTasksByName ('installAllTemplates', true) +
+    project.getTasksByName ('tfb', true)
+)
 
 repositories {
     jcenter () // Repository required by Jacoco Report
