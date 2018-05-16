@@ -178,7 +178,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         return body?.parseList(contentType) ?: emptyList()
     }
 
-    private suspend fun getEntities(
+    protected suspend fun getEntities(
         contentType: SerializationFormat, queryString: String = ""): List<T> {
 
         logger.info("Getting: $queryString")
