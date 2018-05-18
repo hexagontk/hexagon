@@ -167,7 +167,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
         return parseKey(id)
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
     private fun parseKey(keyObject: String): K =
         when (store.key.returnType.javaType) {
             keyObject.javaClass -> keyObject
