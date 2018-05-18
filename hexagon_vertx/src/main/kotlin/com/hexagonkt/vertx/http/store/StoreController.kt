@@ -44,7 +44,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     }
 
     fun updateOne(context: RoutingContext) {
-        val key = parseKey(context) ?: error("Required key not found")
+        val key = parseKey(context)
         val updates = createUpdate(context)
         logger.flare(updates)
         store.updateOne(key, updates).setHandler {
@@ -53,7 +53,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     }
 
     fun deleteOne(context: RoutingContext) {
-        store.deleteOne(parseKey(context) ?: error("Required key not found")).setHandler {
+        store.deleteOne(parseKey(context)).setHandler {
             if (it.result()) context.end(200, "")
             else context.end(404, "")
         }
@@ -73,7 +73,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
 
     fun findOne(context: RoutingContext) {
         val projection = createProjection(context)
-        val key = parseKey(context) ?: error("Required key not found")
+        val key = parseKey(context)
         val handler =
             if (projection.isEmpty()) store.findOne(key)
             else store.findOne(key, projection)
@@ -162,16 +162,16 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
         return if (integer == null) null else Integer.valueOf(integer)
     }
 
-    private fun parseKey(context: RoutingContext): K? {
-        return parseKey(context.request().getParam("id"))
+    private fun parseKey(context: RoutingContext): K {
+        val id = context.request().getParam("id") ?: error("Required key not found")
+        return parseKey(id)
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun parseKey(keyObject: Any): K? =
+    private fun parseKey(keyObject: String): K =
         when (store.key.returnType.javaType) {
             keyObject.javaClass -> keyObject
-            String::class.java -> keyObject.toString()
-            Int::class.java -> Integer.valueOf(keyObject.toString())
+            Int::class.java -> Integer.valueOf(keyObject)
             else -> error("Unsupported key type: ${store.key.returnType.javaType.typeName}")
-        } as K?
+        } as K
 }

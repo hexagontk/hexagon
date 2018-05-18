@@ -9,8 +9,7 @@ jdk: oraclejdk8
 sudo: required # Container build is slower than sudo
 
 branches:
-  except:
-    - /^\d+.*$/
+  except: /^\d+.*$/
 
 env:
   global:
