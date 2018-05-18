@@ -13,6 +13,10 @@ plugins {
     id 'com.fizzed.rocker' version '0.24.0' apply false
 }
 
+repositories {
+    jcenter () // Repository required by Jacoco Report
+}
+
 clean {
     delete 'build', '.gradle', 'log', 'out', '.vertx', 'file-uploads'
 
@@ -35,20 +39,6 @@ task release(dependsOn: 'publish') {
     }
 }
 
-task all (dependsOn:
-    project.getTasksByName ('build', true) +
-    project.getTasksByName ('jmh', true) +
-    project.getTasksByName ('site', true) +
-    project.getTasksByName ('jacocoReport', true) +
-    project.getTasksByName ('installDist', true) +
-    project.getTasksByName ('installAllTemplates', true) +
-    project.getTasksByName ('tfb', true)
-)
-
-repositories {
-    jcenter () // Repository required by Jacoco Report
-}
-
 task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoReport) {
     executionData = files(fileTree(rootDir.absolutePath).include("**/build/jacoco/test.exec"))
 
@@ -61,3 +51,13 @@ task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: Ja
         xml.enabled = true
     }
 }
+
+task all (dependsOn:
+    project.getTasksByName ('build', true) +
+    project.getTasksByName ('jmh', true) +
+    project.getTasksByName ('site', true) +
+    project.getTasksByName ('jacocoReport', true) +
+    project.getTasksByName ('installDist', true) +
+    project.getTasksByName ('installAllTemplates', true) +
+    project.getTasksByName ('tfb', true)
+)
