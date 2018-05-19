@@ -1,5 +1,5 @@
 
-apply from: "../gradle/kotlin.gradle"
+apply from: "../gradle/hexagon_module.gradle"
 apply from: "../gradle/service.gradle"
 
 mainClassName = "com.hexagonkt.vertx.DevicesKt"
