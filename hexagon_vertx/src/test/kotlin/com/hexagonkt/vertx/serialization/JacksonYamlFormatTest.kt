@@ -103,8 +103,31 @@ class JacksonYamlFormatTest {
             """.parse(Device::class)
 
             fail("Exception expected")
-        } catch (e: ParseException) {
+        }
+        catch (e: ParseException) {
             assert(e.field == "")
+        }
+    }
+
+    @Test fun `Parse an invalid class throws exception`() {
+        try {
+            """
+            [
+                {
+                  "id" : "f",
+                  "brand" : "br",
+                  "model" : "mo",
+                  "os" : "ANDROI",
+                  "osVersion" : "v",
+                  "alias" : "al"
+                }
+            ]
+            """.parseList(Device::class)
+
+            fail("Exception expected")
+        }
+        catch (e: ParseException) {
+            assert(e.field == "java.util.ArrayList[0]->com.hexagonkt.vertx.Device[\"os\"]")
         }
     }
 }
