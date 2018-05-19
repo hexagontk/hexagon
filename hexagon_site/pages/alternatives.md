@@ -11,7 +11,7 @@ You can find a performance comparison in the [TechEmpower Web Frameworks Bechmar
 
 |                 | [Hexagon]           | [Ktor] | [http4k] | [Spark] | [Jooby] | [Ratpack]
 |-----------------|---------------------|--------|----------|---------|---------|----------
-|HTTP Engines     |**Jetty, Undertow, Servlet**              |        |          |         |      
+|HTTP Engines     |**Jetty, Servlet**   |        |          |         |      
    |
 |DSL Routes       |**YES**              |        |          |         |         |
 |Annotated Routes |NO                   |        |          |         |         |

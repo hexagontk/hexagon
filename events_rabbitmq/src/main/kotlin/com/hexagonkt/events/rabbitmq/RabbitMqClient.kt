@@ -1,11 +1,10 @@
 package com.hexagonkt.events.rabbitmq
 
-import com.hexagonkt.helpers.CachedLogger
-import com.hexagonkt.helpers.error
-import com.hexagonkt.helpers.parseQueryParameters
-import com.hexagonkt.helpers.retry
+import com.hexagonkt.helpers.*
 import com.rabbitmq.client.*
 import com.rabbitmq.client.AMQP.BasicProperties
+import org.slf4j.Logger
+import java.awt.SystemColor.info
 import java.io.Closeable
 import java.lang.Runtime.getRuntime
 import java.lang.Thread.sleep
@@ -26,7 +25,9 @@ class RabbitMqClient(
     private val connectionFactory: ConnectionFactory,
     private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
 
-    internal companion object : CachedLogger(RabbitMqClient::class) {
+    internal companion object : Loggable {
+        override val log: Logger = loggerOf<RabbitMqClient>()
+
         private fun <T> setVar(value: T?, setter: (T) -> Unit) {
             if (value != null)
                 setter(value)

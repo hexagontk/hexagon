@@ -1,14 +1,18 @@
 package com.hexagonkt.events.rabbitmq
 
 import com.hexagonkt.events.rabbitmq.RabbitMqClient.Companion.createConnectionFactory
-import com.hexagonkt.helpers.CachedLogger
+import com.hexagonkt.helpers.Loggable
+import com.hexagonkt.helpers.loggerOf
 import com.hexagonkt.serialization.serialize
+import org.slf4j.Logger
 import org.testng.annotations.Test
 import java.net.URI
 import kotlin.test.assertFailsWith
 
 @Test class RabbitMqClientTest {
-    companion object : CachedLogger(RabbitMqClientTest::class)
+    companion object : Loggable {
+        override val log: Logger = loggerOf<RabbitMqClientTest>()
+    }
 
     fun `create a connection factory with empty URI fails` () {
         assertFailsWith(IllegalArgumentException::class) {

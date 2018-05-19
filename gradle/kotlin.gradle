@@ -15,11 +15,11 @@ repositories {
 }
 
 dependencies {
-    compile ("org.jetbrains.kotlin:kotlin-stdlib-jre$javaVersion:$kotlinVersion")
+    compile ("org.jetbrains.kotlin:kotlin-stdlib-jdk$javaVersion:$kotlinVersion")
     compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion") {
         exclude module: 'kotlin-stdlib'
     }
-    compile ('org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20')
+    compile ('org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5')
 
     testCompile ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
 }
@@ -53,7 +53,7 @@ tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOpt
 
 // Clean the project taking care of logs and runtime files
 clean {
-    delete 'build', '.gradle', 'log', 'out'
+    delete 'build', '.gradle', 'log', 'out', '.vertx', 'file-uploads'
 
     delete (
         fileTree(rootDir) { include '**/*.log' },

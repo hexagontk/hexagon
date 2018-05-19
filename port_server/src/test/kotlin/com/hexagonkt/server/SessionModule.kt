@@ -2,9 +2,13 @@ package com.hexagonkt.server
 
 import com.hexagonkt.client.Client
 import com.hexagonkt.helpers.Loggable
+import com.hexagonkt.helpers.loggerOf
+import org.slf4j.Logger
 
 @Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
 internal class SessionModule : TestModule(), Loggable {
+    override val log: Logger = loggerOf<SessionModule>()
+
     override fun initialize(): Router = router {
         get("/session/id") {
             val id: String = session.id ?: "null"

@@ -1,14 +1,11 @@
 package com.hexagonkt.settings
 
-import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.resource
 import com.hexagonkt.serialization.YamlFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
 import java.io.File
 import java.io.FileNotFoundException
-
-private object Log : CachedLogger(SettingsManager::class)
 
 fun loadResource(resName: String): Map<String, *> = logSettings(
     "'$resName' resource",
@@ -65,10 +62,10 @@ fun loadCommandLineArguments (vararg args: String): Map<String, *> = logSettings
 private fun logSettings(resName: String, settings: Map<String, *>): Map<String, *> =
     settings.also {
         if (it.isEmpty()) {
-            Log.info("No settings found for $resName")
+            SettingsManager.log.info("No settings found for $resName")
         }
         else {
             val serialize = it.serialize(YamlFormat).prependIndent(" ".repeat(4))
-            Log.info("Settings loaded from $resName:\n\n$serialize")
+            SettingsManager.log.info("Settings loaded from $resName:\n\n$serialize")
         }
     }

@@ -1,5 +1,7 @@
 package com.hexagonkt.helpers
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.*
 
 import java.io.InputStream
@@ -121,8 +123,12 @@ val mimeTypes = MimetypesFileTypeMap().also {
     """.trim().trimIndent())
 }
 
+inline fun <reified T : Any> loggerOf(): Logger = getLogger(T::class.java)
+
 /** Default logger when you are lazy to declare one. */
-object Log : CachedLogger(Log::class)
+object Log : Loggable {
+    override val log: Logger = loggerOf<Log>()
+}
 
 /**
  * @sample com.hexagonkt.helpers.HelpersTest.example

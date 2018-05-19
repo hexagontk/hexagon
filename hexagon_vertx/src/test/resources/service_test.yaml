@@ -1,0 +1,6 @@
+
+serviceName : vertx_kotlin
+
+bindPort : 0
+bindAddress : 0.0.0.0
+connection_string : mongodb://localhost/devices

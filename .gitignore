@@ -14,9 +14,11 @@ out/
 *.iml
 
 # Runtime
+log/
+.vertx/
+file-uploads/
 *.log
 *.hprof
-log/
 
 # Added because of JBake settings
 hexagon_site/content/

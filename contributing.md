@@ -118,7 +118,7 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
   And I expected this other thing
   ```
   
-[Quick Start]: /quick_start.html
+[Quick Start]: http://hexagonkt.com/quick_start.html
 
 ## Tasks and Milestones
 

@@ -1,14 +1,15 @@
 package com.hexagonkt.server.servlet
 
 import com.hexagonkt.HttpMethod
-import com.hexagonkt.helpers.CachedLogger
 import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.helpers.Loggable
+import com.hexagonkt.helpers.loggerOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.*
 import com.hexagonkt.server.FilterOrder.AFTER
 import com.hexagonkt.server.FilterOrder.BEFORE
 import com.hexagonkt.server.RequestHandler.*
-import kotlinx.coroutines.experimental.runBlocking
+import org.slf4j.Logger
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.servlet.*
@@ -24,7 +25,9 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
      */
     private class PassException: RuntimeException ()
 
-    companion object : CachedLogger(ServletFilter::class)
+    companion object : Loggable {
+        override val log: Logger = loggerOf<(ServletFilter)>()
+    }
 
     private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
     private val baseExceptionHandler: ExceptionCallback =
@@ -77,7 +80,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 .filter { it.first.path.matches(req.path) }
                 .map {
                     req.actionPath = it.first.path
-                    runBlocking { call.(it.second)() }
+                    call.(it.second)()
                     trace("Filter for path '${it.first.path}' executed")
                     true
                 }
@@ -93,7 +96,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         for ((first, second) in methodRoutes) {
             try {
                 bRequest.actionPath = first.path
-                call.handleResult(runBlocking { call.second() })
+                call.handleResult(call.second())
 
                 trace("Route for path '${bRequest.actionPath}' executed")
                 return true
@@ -110,17 +113,17 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     override fun destroy() { /* Not implemented */ }
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-        if (request.isAsyncSupported) {
-            val asyncContext = request.startAsync()
-            val context = request.servletContext // Must be passed and fetched outside executor
-            executor.execute {
-                doFilter(asyncContext.request, asyncContext.response, context)
-                asyncContext.complete()
-            }
-        }
-        else {
+//        if (request.isAsyncSupported) {
+//            val asyncContext = request.startAsync()
+//            val context = request.servletContext // Must be passed and fetched outside executor
+//            executor.execute {
+//                doFilter(asyncContext.request, asyncContext.response, context)
+//                asyncContext.complete()
+//            }
+//        }
+//        else {
             doFilter(request, response)
-        }
+//        }
     }
 
     private fun doFilter(
@@ -149,38 +152,36 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             handleException(e, exchange)
         }
         finally {
-            response.status = exchange.response.status
-
             // TODO Try needed because of a problem with Jetty's response redirect: fix and remove
             try {
+                response.status = exchange.response.status
                 response.outputStream.write(exchange.response.body.toString().toByteArray())
+                response.outputStream.flush()
             }
             catch (e: Exception) {
-                warn("Error handling request", e)
+                warn("Error handling request: ${bRequest.actionPath}", e)
             }
-
-            response.outputStream.flush()
 
             trace("Status ${response.status} <${if (handled) "" else "NOT "}HANDLED>")
         }
     }
 
-    internal fun handleException(
+    private fun handleException(
         exception: Exception, call: Call, type: Class<*> = exception.javaClass) {
 
         when (exception) {
             is CodedException -> {
                 val handler: ErrorCodeCallback =
                     codedErrors[exception.code] ?: { error(it, exception.message ?: "") }
-                call.handleResult(runBlocking { call.handler(exception.code) })
+                call.handleResult(call.handler(exception.code))
             }
             else -> {
-                error("Error processing request", exception)
+                fail("Error processing request", exception)
 
                 val handler = exceptionErrors[type]
 
                 if (handler != null)
-                    call.handleResult(runBlocking { call.handler(exception) })
+                    call.handleResult(call.handler(exception))
                 else
                     type.superclass.also { if (it != null) handleException(exception, call, it) }
             }
@@ -214,6 +215,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     }
 
     private fun Call.handleResult(result: Any) {
+        trace("Result of type: ${result.javaClass.name}")
         when (result) {
             Unit -> {
                 if (!response.statusChanged && response.status != 302)

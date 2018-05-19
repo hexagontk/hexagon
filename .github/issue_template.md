@@ -1,7 +1,8 @@
 
 <!--
 
-### For an Issue
+For an Issue
+============
 
 Detailed description.
     
@@ -10,8 +11,8 @@ Acceptance criteria:
 * When *action* then *result*
 * When this is done then other thing should happen
 
-
-### For a Bug
+For a Bug
+=========
 
 ```
 Given *a condition*

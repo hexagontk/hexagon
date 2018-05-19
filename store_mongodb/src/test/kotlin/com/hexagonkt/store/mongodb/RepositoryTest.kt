@@ -1,6 +1,6 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.CachedLogger
+import com.hexagonkt.helpers.Loggable
 import com.hexagonkt.serialization.convertToMap
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.FindOneAndReplaceOptions
@@ -15,9 +15,8 @@ import kotlin.reflect.KProperty1
 /**
  * TODO Check events
  */
-abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: KProperty1<T, K>) {
-
-    companion object : CachedLogger(RepositoryTest::class)
+abstract class RepositoryTest<T : Any, out K : Any> (type: KClass<T>, val key: KProperty1<T, K>) :
+    Loggable {
 
     protected val collection: MongoRepository<T> = createCollection(type)
 

@@ -1,6 +1,7 @@
 package com.hexagonkt.events.rabbitmq
 
-import com.hexagonkt.helpers.CachedLogger
+import com.hexagonkt.helpers.Loggable
+import com.hexagonkt.helpers.loggerOf
 import com.hexagonkt.helpers.retry
 import com.hexagonkt.serialization.SerializationManager.formatsMap
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
@@ -11,6 +12,7 @@ import com.rabbitmq.client.Channel
 import com.rabbitmq.client.ConnectionFactory
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
+import org.slf4j.Logger
 import java.nio.charset.Charset
 import java.nio.charset.Charset.defaultCharset
 import java.util.concurrent.ExecutorService
@@ -28,7 +30,9 @@ internal class Handler<T : Any, R : Any> internal constructor (
     private val type: KClass<T>,
     private val handler: (T) -> R) : DefaultConsumer(channel) {
 
-    private companion object : CachedLogger(Handler::class) {
+    private companion object : Loggable {
+        override val log: Logger = loggerOf<Handler<*, *>>()
+
         private const val RETRIES = 5
         private const val DELAY = 50L
     }

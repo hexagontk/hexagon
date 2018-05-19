@@ -1,8 +1,10 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.helpers.CachedLogger
+import com.hexagonkt.helpers.Loggable
 import com.hexagonkt.helpers.filter
 import com.hexagonkt.helpers.findGroups
+import com.hexagonkt.helpers.loggerOf
+import org.slf4j.Logger
 
 /**
  * A path definition. It parses path patterns and extract values for parameters.
@@ -13,7 +15,9 @@ import com.hexagonkt.helpers.findGroups
  *   * Delimiter is {var} to conform with [RFC 6570](https://tools.ietf.org/html/rfc6570)
  */
 data class Path (val path: String) {
-    private companion object : CachedLogger(Path::class) {
+    private companion object : Loggable {
+        override val log: Logger = loggerOf<Path>()
+
         internal const val PARAMETER_PREFIX = "{"
         internal const val PARAMETER_SUFFIX = "}"
 

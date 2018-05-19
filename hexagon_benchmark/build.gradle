@@ -26,7 +26,7 @@ ext.postgresqlVersion = '42.0.0'
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
-ext.servers = [ 'Jetty', 'Undertow' ]
+ext.servers = [ 'Jetty' ]
 ext.tests = [servers, databases].combinations ()
 
 war {
@@ -38,7 +38,6 @@ installDist.dependsOn 'war'
 dependencies {
     compile project(':store_mongodb')
     compile project(':server_jetty')
-    compile project(':server_undertow')
     compile project(':templates_pebble')
     compile project(':templates_rocker')
 

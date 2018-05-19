@@ -1,6 +1,8 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.loggerOf
 import com.hexagonkt.store.mongodb.Department.*
+import org.slf4j.Logger
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer
@@ -9,6 +11,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Test class CompanyTest : IdRepositoryTest<Company, String>(Company::class, Company::id) {
+    override val log: Logger = loggerOf<CompanyTest>()
 
     override val testObjects: List<Company> = listOf (
         createObject(),

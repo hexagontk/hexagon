@@ -9,8 +9,8 @@ include (
 
     // Internal modules
     'hexagon_core',
-    'hexagon_rest',
     'hexagon_scheduler',
+    'hexagon_vertx',
 
     // Ports
     'port_client',
@@ -23,7 +23,6 @@ include (
     'events_rabbitmq',
     'server_servlet',
     'server_jetty',
-    'server_undertow',
     'store_mongodb',
     'templates_kotlinx',
     'templates_pebble',

@@ -6,11 +6,8 @@
 language: java
 jdk: oraclejdk8
 
-sudo: required # Container build is slower than sudo
-
 branches:
-  except:
-  - /^\d+.*$/
+  except: /^\d+.*$/
 
 env:
   global:
@@ -43,9 +40,10 @@ install:
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
-script: ./gradlew clean check jmh site installDist jacocoReport installAllTemplates tfb
+script: ./gradlew --stacktrace clean all
 
 after_success: bash <(curl -s https://codecov.io/bash)
+after_failure: echo 'Look for FAILURE in tests'
 
 deploy:
 
@@ -59,6 +57,6 @@ deploy:
 
   - provider: script
     skip_cleanup: true
-    script: ./gradlew release
+    script: ./gradlew --stacktrace release
     on:
       branch: master

@@ -1,30 +1,24 @@
 
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-        maven { url  "https://dl.bintray.com/kotlin/kotlin-eap" }
-    }
-
-    dependencies {
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16-eap-3"
-    }
-}
-
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.21'
+    id 'java'
     id 'jacoco'
 
+    id 'org.jetbrains.kotlin.jvm' version '1.2.41' apply false
+    id 'org.jetbrains.dokka' version '0.9.16' apply false
     id 'com.jfrog.bintray' version '1.8.0' apply false
-    // TODO Replace with 'official' plugin from JBake
+    // TODO Use 'official' plugin from JBake: https://github.com/jbake-org/jbake-gradle-plugin
     id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
     id 'me.champeau.gradle.jmh' version '0.4.5' apply false
-    id 'com.fizzed.rocker' version '0.23.0' apply false
+    id 'com.fizzed.rocker' version '0.24.0' apply false
+}
+
+repositories {
+    jcenter () // Repository required by Jacoco Report
 }
 
 clean {
-    delete 'build', '.gradle', 'log', 'out'
+    delete 'build', '.gradle', 'log', 'out', '.vertx', 'file-uploads'
 
     delete (
         fileTree(rootDir) { include '**/*.log' },
@@ -45,15 +39,11 @@ task release(dependsOn: 'publish') {
     }
 }
 
-repositories {
-    jcenter () // Repository required by Jacoco Report
-}
-
 task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoReport) {
     executionData = files(fileTree(rootDir.absolutePath).include("**/build/jacoco/test.exec"))
 
     subprojects.each {
-        sourceSets it.sourceSets.main
+        sourceSets it.sourceSets.main as SourceSet
     }
 
     reports {
@@ -61,3 +51,13 @@ task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: Ja
         xml.enabled = true
     }
 }
+
+task all (dependsOn:
+    project.getTasksByName ('build', true) +
+    project.getTasksByName ('jmh', true) +
+    project.getTasksByName ('site', true) +
+    project.getTasksByName ('jacocoReport', true) +
+    project.getTasksByName ('installDist', true) +
+    project.getTasksByName ('installAllTemplates', true) +
+    project.getTasksByName ('tfb', true)
+)
