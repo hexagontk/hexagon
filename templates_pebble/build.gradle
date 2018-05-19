@@ -7,3 +7,7 @@ dependencies {
     compile project(':port_templates')
     compile ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
 }
+
+test {
+    useTestNG ()
+}

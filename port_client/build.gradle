@@ -12,3 +12,7 @@ dependencies {
 
     testCompile ("com.github.tomakehurst:wiremock:$wiremockVersion")
 }
+
+test {
+    useTestNG ()
+}

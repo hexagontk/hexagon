@@ -65,7 +65,7 @@ sourceSets {
 }
 
 test {
-    useTestNG {}
+    useTestNG ()
 }
 
 jmh {

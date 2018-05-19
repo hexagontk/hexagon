@@ -7,3 +7,7 @@ dependencies {
     compile project(':hexagon_core')
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: 'slf4j-api' }
 }
+
+test {
+    useTestNG ()
+}
