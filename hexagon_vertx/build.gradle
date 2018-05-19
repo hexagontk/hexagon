@@ -1,6 +1,5 @@
 
-//apply from: "../gradle/hexagon_module.gradle"
-apply from: "../gradle/kotlin.gradle"
+apply from: "../gradle/hexagon_module.gradle"
 apply from: "../gradle/service.gradle"
 
 mainClassName = "com.hexagonkt.vertx.DevicesKt"
@@ -45,4 +44,8 @@ dependencies {
     testCompile ("io.cucumber:cucumber-junit:$cucumberVersion")
     testCompile ("io.cucumber:cucumber-java8:$cucumberVersion")
     testCompile ("de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embedMongoVersion")
+}
+
+test {
+    useJUnit ()
 }
