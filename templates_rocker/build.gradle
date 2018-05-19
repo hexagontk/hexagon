@@ -16,3 +16,7 @@ sourceSets {
         }
     }
 }
+
+test {
+    useTestNG ()
+}

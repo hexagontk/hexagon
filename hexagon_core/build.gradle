@@ -17,3 +17,7 @@ dependencies {
         exclude module: 'kotlin-reflect'
     }
 }
+
+test {
+    useTestNG ()
+}

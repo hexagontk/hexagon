@@ -8,10 +8,6 @@ dependencies {
     testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
-test {
-    useTestNG ()
-}
-
 boolean isPort() { return project.name.startsWith ('port_') }
 boolean isInfrastructure() { return project.name.startsWith ('hexagon_') }
 boolean isAdapter() { return !isPort () && !isInfrastructure () }

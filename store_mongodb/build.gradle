@@ -8,3 +8,7 @@ dependencies {
     compile ("org.mongodb:mongodb-driver:$mongodbVersion")
     compile ("org.mongodb:mongodb-driver-async:$mongodbVersion")
 }
+
+test {
+    useTestNG ()
+}

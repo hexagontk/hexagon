@@ -14,3 +14,7 @@ dependencies {
     testCompile project(':port_client')
     testCompile project(':port_templates')
 }
+
+test {
+    useTestNG ()
+}

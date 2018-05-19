@@ -45,7 +45,3 @@ dependencies {
     testCompile ("io.cucumber:cucumber-java8:$cucumberVersion")
     testCompile ("de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embedMongoVersion")
 }
-
-test {
-    useJUnit ()
-}
