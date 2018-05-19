@@ -23,7 +23,6 @@ fun String.snakeToCamel (): String =
  */
 fun String.camelToSnake (): String =
     this.split ("(?=\\p{Upper}\\p{Lower})".toRegex())
-        .filter(String::isNotEmpty)
         .joinToString ("_", transform = String::toLowerCase)
         .decapitalize ()
 

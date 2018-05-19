@@ -2,6 +2,7 @@ package com.hexagonkt.vertx.config
 
 import com.hexagonkt.vertx.toJsonObject
 import io.vertx.core.Vertx
+import io.vertx.kotlin.core.json.JsonObject
 import org.junit.Test
 
 class OptionalFileStoreFactoryTest {
@@ -10,14 +11,20 @@ class OptionalFileStoreFactoryTest {
         OptionalFileStoreFactory().create(Vertx.vertx(), mapOf("bad" to "parameter").toJsonObject())
     }
 
-    @Test fun `Create an 'OptionalFileStore' with that requires the file works`() {
+    @Test fun `Create an 'OptionalFileStore' which requires the file works OK`() {
         OptionalFileStoreFactory().create(
             Vertx.vertx(),
-            mapOf(
+            JsonObject(
                 "path" to "/not_found",
                 "allowNotFound" to false
             )
-            .toJsonObject()
+        )
+    }
+
+    @Test fun `Create an 'OptionalFileStore' works OK`() {
+        OptionalFileStoreFactory().create(
+            Vertx.vertx(),
+            JsonObject("path" to "/path")
         )
     }
 }
