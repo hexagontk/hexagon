@@ -24,7 +24,6 @@ include (
     'server_servlet',
     'server_jetty',
     'store_mongodb',
-    'templates_kotlinx',
     'templates_pebble',
     'templates_rocker'
 )
