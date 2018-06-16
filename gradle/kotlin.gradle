@@ -53,7 +53,7 @@ tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOpt
 
 // Clean the project taking care of logs and runtime files
 clean {
-    delete 'build', '.gradle', 'log', 'out', '.vertx', 'file-uploads'
+    delete 'build', 'log', 'out', '.vertx', 'file-uploads'
 
     delete (
         fileTree(rootDir) { include '**/*.log' },
