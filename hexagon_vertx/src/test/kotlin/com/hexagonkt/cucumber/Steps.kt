@@ -7,24 +7,10 @@ import com.hexagonkt.vertx.main
 import cucumber.api.java.After
 import cucumber.api.java.Before
 import cucumber.api.java8.En
-import de.flapdoodle.embed.mongo.MongodExecutable
-import de.flapdoodle.embed.mongo.MongodProcess
-import de.flapdoodle.embed.mongo.MongodStarter
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder
-import de.flapdoodle.embed.mongo.distribution.Version.Main.PRODUCTION
 import io.vertx.core.http.HttpClient
-
 
 @Suppress("unused")
 class Steps : En {
-    companion object {
-        private val mongodStarter = MongodStarter.getDefaultInstance()
-    }
-
-    private val mongodConfig = MongodConfigBuilder().version(PRODUCTION).build()
-    private val mongodExecutable: MongodExecutable = mongodStarter.prepare(mongodConfig)
-    private val mongod: MongodProcess = mongodExecutable.start()
-
     private val webClient: HttpClient = devicesApplication.vertx.createHttpClient()
     private lateinit var device: Device
     private var result: Int = 0
@@ -35,8 +21,6 @@ class Steps : En {
 
     @After fun stop() = sync {
         devicesApplication.stop()
-        mongod.stop()
-        mongodExecutable.stop()
     }
 
     init {

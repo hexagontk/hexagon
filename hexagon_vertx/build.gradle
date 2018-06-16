@@ -17,7 +17,7 @@ applicationDefaultJvmArgs = [
     '-Dvertx.disableTCCL=true'
 ]
 
-ext.vertxVersion = '3.5.1'
+ext.vertxVersion = '3.5.1' // TODO Update to 3.5.2 (it fails on DELETE HTTP method ???)
 ext.jacksonVersion = '2.9.5'
 
 ext.junitVersion = '4.12'
@@ -43,5 +43,4 @@ dependencies {
     testCompile ("io.vertx:vertx-unit:$vertxVersion")
     testCompile ("io.cucumber:cucumber-junit:$cucumberVersion")
     testCompile ("io.cucumber:cucumber-java8:$cucumberVersion")
-    testCompile ("de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embedMongoVersion")
 }
