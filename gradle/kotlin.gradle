@@ -61,11 +61,24 @@ clean {
     )
 }
 
-// Show useful testing information while running tests
-test {
-    testLogging {
+tasks.withType (Test).each { testTask ->
+    // Show useful testing information while running tests
+    testTask.testLogging {
         events 'skipped', 'failed', 'standardOut', 'standardError'
     }
+
+    testTask.options {
+        System.properties['user.dir'] = testTask.workingDir // Required for Jacoco to work properly
+        testTask.systemProperties(System.properties as Map<String, ?>)
+    }
+}
+
+test {
+    exclude '**/*IT.*'
+}
+
+task verify(dependsOn: 'test', type: Test) {
+    include '**/*IT.*'
 }
 
 // Generate coverage reports properly
@@ -75,4 +88,27 @@ jacocoTestReport {
         xml.enabled = true
         html.enabled = true
     }
+}
+
+task jarAll (type: Jar, dependsOn: 'build') {
+    baseName = "$baseName-all"
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+
+task sourceJar (type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allJava
+}
+
+task testJar(type: Jar, dependsOn: testClasses) {
+    classifier 'test'
+    from sourceSets.test.output.classesDirs
+}
+
+task dokkaJar(type: Jar, dependsOn: 'dokka') {
+    classifier 'javadoc'
+    from fileTree ("$buildDir/dokka")
 }

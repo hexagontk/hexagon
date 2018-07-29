@@ -232,7 +232,7 @@ import kotlin.test.assertFailsWith
     }
 
     @Test(
-        expectedExceptions = arrayOf(IllegalStateException::class),
+        expectedExceptions = [ IllegalStateException::class ],
         expectedExceptionsMessageRegExp = "Invalid state"
     )
     fun `error generates the correct exception`() { error }
@@ -243,15 +243,6 @@ import kotlin.test.assertFailsWith
     }
 
     fun `parse key only query parameters return correct data` () {
-        assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
-            "a" to "1",
-            "b" to "",
-            "c" to "",
-            "d" to "e"
-        ))
-    }
-
-    fun example () {
         assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
             "a" to "1",
             "b" to "",

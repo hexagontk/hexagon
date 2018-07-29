@@ -4,16 +4,6 @@ apply plugin: 'jacoco'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
-task sourceJar (type: Jar) {
-    classifier 'sources'
-    from sourceSets.main.allJava
-}
-
-task testJar(type: Jar, dependsOn: testClasses) {
-    classifier 'test'
-    from sourceSets.test.output.classesDirs
-}
-
 publishing {
     publications {
         mavenJava (MavenPublication) {
