@@ -67,10 +67,10 @@ tasks.withType (Test).each { testTask ->
         events 'skipped', 'failed', 'standardOut', 'standardError'
     }
 
-    testTask.options {
-        System.properties['user.dir'] = testTask.workingDir // Required for Jacoco to work properly
-        testTask.systemProperties(System.properties as Map<String, ?>)
-    }
+//    testTask.options {
+//        System.properties['user.dir'] = testTask.workingDir // Required for Jacoco to work properly
+//        testTask.systemProperties(System.properties as Map<String, ?>)
+//    }
 }
 
 test {
