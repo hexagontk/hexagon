@@ -61,7 +61,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
 
     fun deleteByPattern(context: RoutingContext) {
         store.deleteMany(createPatternMap(context)).setHandler {
-            context.end(204, "Deleted: ${it.result()}")
+            context.end(200, "Deleted: ${it.result()}")
         }
     }
 

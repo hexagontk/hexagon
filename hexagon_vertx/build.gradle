@@ -17,12 +17,11 @@ applicationDefaultJvmArgs = [
     '-Dvertx.disableTCCL=true'
 ]
 
-ext.vertxVersion = '3.5.1' // TODO Update to 3.5.2 (it fails on DELETE HTTP method ???)
-ext.jacksonVersion = '2.9.5'
+ext.vertxVersion = '3.5.3'
+ext.jacksonVersion = '2.9.6'
 
 ext.junitVersion = '4.12'
 ext.cucumberVersion = '2.3.1'
-ext.embedMongoVersion = '2.0.1'
 
 dependencies {
     compile ("ch.qos.logback:logback-classic:$logbackVersion")

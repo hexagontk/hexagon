@@ -141,7 +141,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         assert(response.statusCode() == expectedStatus)
     }
 
-    private suspend fun deleteEntities(entityKey: String, expectedStatus: Int = 204) {
+    private suspend fun deleteEntities(entityKey: String, expectedStatus: Int = 200) {
         logger.info("Deleting: $entityKey")
 
         val response = client.delete("/$endpoint?$entityKey").send().await()
