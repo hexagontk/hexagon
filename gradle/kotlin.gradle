@@ -61,16 +61,11 @@ clean {
     )
 }
 
+// Show useful testing information while running tests
 tasks.withType (Test).each { testTask ->
-    // Show useful testing information while running tests
     testTask.testLogging {
         events 'skipped', 'failed', 'standardOut', 'standardError'
     }
-
-//    testTask.options {
-//        System.properties['user.dir'] = testTask.workingDir // Required for Jacoco to work properly
-//        testTask.systemProperties(System.properties as Map<String, ?>)
-//    }
 }
 
 test {
