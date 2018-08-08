@@ -3,7 +3,7 @@ plugins {
     id 'java'
     id 'jacoco'
 
-    id 'org.jetbrains.kotlin.jvm' version '1.2.51' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.2.60' apply false
     id 'org.jetbrains.dokka' version '0.9.16' apply false
     id 'com.jfrog.bintray' version '1.8.0' apply false
     // TODO Use 'official' plugin from JBake: https://github.com/jbake-org/jbake-gradle-plugin
