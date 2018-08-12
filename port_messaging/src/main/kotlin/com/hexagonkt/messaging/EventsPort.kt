@@ -1,4 +1,4 @@
-package com.hexagonkt.events
+package com.hexagonkt.messaging
 
 import kotlin.reflect.KClass
 

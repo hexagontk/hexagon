@@ -1,7 +1,7 @@
-package com.hexagonkt.events.rabbitmq
+package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.events.Event
-import com.hexagonkt.events.EventsPort
+import com.hexagonkt.messaging.Event
+import com.hexagonkt.messaging.EventsPort
 import com.hexagonkt.serialization.serialize
 import java.net.URI
 import kotlin.reflect.KClass

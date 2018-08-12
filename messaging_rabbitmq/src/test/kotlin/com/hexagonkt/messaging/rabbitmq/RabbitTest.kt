@@ -1,6 +1,6 @@
-package com.hexagonkt.events.rabbitmq
+package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.events.Event
+import com.hexagonkt.messaging.Event
 import com.hexagonkt.serialization.serialize
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass

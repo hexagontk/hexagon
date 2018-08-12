@@ -1,4 +1,4 @@
-package com.hexagonkt.events
+package com.hexagonkt.messaging
 
 import java.lang.System.currentTimeMillis
 import java.lang.Thread.currentThread

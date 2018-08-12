@@ -1,6 +1,6 @@
-package com.hexagonkt.events.rabbitmq
+package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.events.rabbitmq.RabbitMqClient.Companion.createConnectionFactory
+import com.hexagonkt.messaging.rabbitmq.RabbitMqClient.Companion.createConnectionFactory
 import com.hexagonkt.helpers.Loggable
 import com.hexagonkt.helpers.loggerOf
 import com.hexagonkt.serialization.serialize

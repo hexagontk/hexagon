@@ -1,10 +1,9 @@
-package com.hexagonkt.events.rabbitmq
+package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.helpers.*
 import com.rabbitmq.client.*
 import com.rabbitmq.client.AMQP.BasicProperties
 import org.slf4j.Logger
-import java.awt.SystemColor.info
 import java.io.Closeable
 import java.lang.Runtime.getRuntime
 import java.lang.Thread.sleep

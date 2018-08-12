@@ -1,4 +1,4 @@
-package com.hexagonkt.events.rabbitmq
+package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.helpers.resource
 import org.apache.qpid.server.Broker

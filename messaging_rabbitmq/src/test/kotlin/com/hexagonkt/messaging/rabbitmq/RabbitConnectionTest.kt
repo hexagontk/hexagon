@@ -1,4 +1,4 @@
-package com.hexagonkt.events.rabbitmq
+package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.helpers.Loggable
 import com.hexagonkt.helpers.loggerOf
