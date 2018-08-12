@@ -24,7 +24,7 @@ Guides
 * [HTTP]: describes how to use HTTP routing and HTML templates for Web services.
 * [Client]: documentaion to use the HTTP client module to connect to other services.
 * [Storage]: gives an overview of how to store data using different data stores.
-* [Events]: how to support asynchronous communication with events through message brokers.
+* [Messaging]: how to support asynchronous communication with messages through message brokers.
 * [Templates]: describes how to render pages using template engines like [Pebble] or [kotlinx.html].
 
 [Building]: /building.html
@@ -35,7 +35,7 @@ Guides
 [Client]: /ports/client.html
 [Serialization]: /core/serialization.html
 [Storage]: /ports/storage.html
-[Events]: /ports/events.html
+[Messaging]: /ports/messaging.html
 [Scheduling]: /modules/scheduling.html
 [Templates]: /ports/templates.html
 [Testing]: /modules/testing.html

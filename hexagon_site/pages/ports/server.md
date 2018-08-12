@@ -50,6 +50,6 @@ Servers
 
 Templates
 
-Events
+Messaging
 
 ... Stores + Rest

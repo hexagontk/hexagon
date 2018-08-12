@@ -23,7 +23,7 @@ Interfaces to a certain feature that must be implemented by an adapter:
 
 Concrete ports implementations:
 
-### Events
+### Messaging
 * [RabbitMQ Messaging Adapter](/api/messaging_rabbitmq/index.html)
 
 ### Server

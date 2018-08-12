@@ -1,6 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.messaging.Event
+import com.hexagonkt.messaging.Message
 import com.hexagonkt.serialization.serialize
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -9,7 +9,7 @@ import java.lang.System.currentTimeMillis
 import java.net.URI
 
 @Test class RabbitTest {
-    data class Sample(val str: String, val int: Int) : Event()
+    data class Sample(val str: String, val int: Int) : Message()
 
     private companion object {
         private const val URI = "amqp://guest:guest@localhost"

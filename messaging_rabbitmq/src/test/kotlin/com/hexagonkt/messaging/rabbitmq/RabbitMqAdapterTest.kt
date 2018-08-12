@@ -1,6 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.messaging.EventsPort
+import com.hexagonkt.messaging.MessagingPort
 import org.testng.annotations.Test
 
 @Test class RabbitMqAdapterTest {
@@ -8,7 +8,7 @@ import org.testng.annotations.Test
      * TODO Add asserts
      */
     fun `event manager` () {
-        val engine: EventsPort = RabbitMqAdapter()
+        val engine: MessagingPort = RabbitMqAdapter()
         engine.consume(com.hexagonkt.messaging.rabbitmq.RabbitTest.Sample::class) {
             if (it.str == "no message error")
                 throw IllegalStateException()
