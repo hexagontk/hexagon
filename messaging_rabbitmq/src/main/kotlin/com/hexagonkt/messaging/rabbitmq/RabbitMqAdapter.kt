@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
  */
 class RabbitMqAdapter : MessagingPort {
     private companion object {
-        private const val exchange = "events"
+        private const val exchange = "messages"
     }
 
     private val client by lazy { RabbitMqClient(URI("amqp://guest:guest@localhost")) }

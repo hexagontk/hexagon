@@ -3,6 +3,6 @@
 
 Hexagon's event bus implementation based in RabbitMQ.
 
-# Package com.hexagonkt.events.rabbitmq
+# Package com.hexagonkt.messaging.rabbitmq
 
-Contains a RabbitMQ Client and a Hexagon events implementation backed by it. 
+Contains a RabbitMQ Client and a Hexagon messaging implementation backed by it. 

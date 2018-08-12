@@ -3,6 +3,6 @@
 
 TODO
 
-# Package com.hexagonkt.events
+# Package com.hexagonkt.messaging
 
 TODO
