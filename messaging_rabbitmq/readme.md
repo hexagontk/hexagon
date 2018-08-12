@@ -1,5 +1,5 @@
 
-# Module events_rabbitmq
+# Module messaging_rabbitmq
 
 Hexagon's event bus implementation based in RabbitMQ.
 

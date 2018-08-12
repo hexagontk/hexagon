@@ -20,7 +20,7 @@ include (
     'port_templates',
 
     // Adapters
-    'events_rabbitmq',
+    'messaging_rabbitmq',
     'server_servlet',
     'server_jetty',
     'store_mongodb',

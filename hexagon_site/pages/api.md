@@ -24,7 +24,7 @@ Interfaces to a certain feature that must be implemented by an adapter:
 Concrete ports implementations:
 
 ### Events
-* [RabbitMQ Events Adapter](/api/events_rabbitmq/index.html)
+* [RabbitMQ Messaging Adapter](/api/messaging_rabbitmq/index.html)
 
 ### Server
 * [Servlet Server Adapter](/api/server_servlet/index.html)
