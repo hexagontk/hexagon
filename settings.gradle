@@ -14,7 +14,7 @@ include (
 
     // Ports
     'port_client',
-    'port_events',
+    'port_messaging',
     'port_server',
     'port_store',
     'port_templates',

@@ -5,7 +5,7 @@ ext.rabbitVersion = '5.3.0'
 ext.qpidVersion = '6.1.4' // TODO Upgrade to 7.0.x
 
 dependencies {
-    compile project(':port_events')
+    compile project(':port_messaging')
     compile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: 'slf4j-api' }
 
     testCompile ("org.apache.qpid:qpid-broker:$qpidVersion") {
