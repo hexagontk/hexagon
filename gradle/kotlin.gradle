@@ -1,6 +1,7 @@
 
 apply plugin: 'kotlin'
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
 
 defaultTasks 'build'
 
@@ -16,10 +17,8 @@ repositories {
 
 dependencies {
     compile ("org.jetbrains.kotlin:kotlin-stdlib-jdk$javaVersion:$kotlinVersion")
-    compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion") {
-        exclude module: 'kotlin-stdlib'
-    }
-    compile ('org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5')
+    compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    compile ("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
 
     testCompile ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
 }
@@ -106,4 +105,16 @@ task testJar(type: Jar, dependsOn: testClasses) {
 task dokkaJar(type: Jar, dependsOn: 'dokka') {
     classifier 'javadoc'
     from fileTree ("$buildDir/dokka")
+}
+
+publishing {
+    publications {
+        mavenJava (MavenPublication) {
+            from components.java
+
+            artifact sourceJar // To be accepted in JCenter, the package need to include sources
+            artifact testJar
+            artifact dokkaJar
+        }
+    }
 }

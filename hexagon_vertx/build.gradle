@@ -1,21 +1,5 @@
 
 apply from: "../gradle/hexagon_module.gradle"
-apply from: "../gradle/service.gradle"
-
-mainClassName = "com.hexagonkt.vertx.DevicesKt"
-
-applicationDefaultJvmArgs = [
-    '-XX:+UseNUMA',
-    '-XX:+UseParallelGC',
-    '-XX:+AggressiveOpts',
-    '-Dvertx.disableMetrics=true',
-    '-Dvertx.disableH2c=true',
-    '-Dvertx.disableWebsockets=true',
-    '-Dvertx.flashPolicyHandler=false',
-    '-Dvertx.threadChecks=false',
-    '-Dvertx.disableContextTimings=true',
-    '-Dvertx.disableTCCL=true'
-]
 
 ext.vertxVersion = '3.5.3'
 ext.jacksonVersion = '2.9.6'
@@ -28,10 +12,17 @@ dependencies {
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
-    compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
+        exclude group: 'org.jetbrains.kotlin'
+    }
 
-    compile ("io.vertx:vertx-lang-kotlin:$vertxVersion")
-    compile ("io.vertx:vertx-lang-kotlin-coroutines:$vertxVersion")
+    compile ("io.vertx:vertx-lang-kotlin:$vertxVersion") {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    compile ("io.vertx:vertx-lang-kotlin-coroutines:$vertxVersion") {
+        exclude group: 'org.jetbrains.kotlin'
+        exclude group: 'org.jetbrains.kotlinx'
+    }
     compile ("io.vertx:vertx-config-yaml:$vertxVersion")
     compile ("io.vertx:vertx-web:$vertxVersion")
     compile ("io.vertx:vertx-web-client:$vertxVersion")

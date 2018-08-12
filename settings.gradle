@@ -1,4 +1,6 @@
 
+enableFeaturePreview 'STABLE_PUBLISHING'
+
 rootProject.name = name
 
 include (
