@@ -53,7 +53,7 @@ dependencies {
     testCompile ("org.testng:testng:$testngVersion")
 
     jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
-    jmh ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
+    annotationProcessor ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
 }
 
 sourceSets {
