@@ -21,4 +21,16 @@ import java.util.*
 
         assert(contextMap["a"] == "b")
     }
+
+    fun `Invalid resource path will return empty map`() {
+        val locale = Locale.getDefault()
+        val resource = "invalid.html"
+        val context = emptyMap<String, Any>()
+        val render = TemplateManager.render(VoidTemplateAdapter, resource, locale, context)
+        val contextMap = render.parse()
+
+        assert(contextMap.size == 2)
+        assert(contextMap.containsKey("_template_"))
+        assert(contextMap.containsKey("_now_"))
+    }
 }
