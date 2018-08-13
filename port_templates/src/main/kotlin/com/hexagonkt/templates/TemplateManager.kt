@@ -7,12 +7,17 @@ import java.time.LocalDateTime
 import java.util.*
 
 object TemplateManager {
-    var basePath = "templates"
+    private var basePath = "templates"
 
     private var parametersCache: Map<String, Map<String, Any?>> = mapOf()
 
     private fun loadProps (path: String) =
-        resource("$basePath/$path.yaml")?.parse () ?: mapOf<String, Any>()
+        try {
+            resource("$basePath/$path.yaml")?.parse () ?: mapOf<String, Any>()
+        }
+        catch (e: Exception) {
+            mapOf<String, Any>()
+        }
 
     @Suppress("UNCHECKED_CAST")
     private fun loadBundle (path: String, locale: Locale): Map<String, *> = loadProps(path).let {
