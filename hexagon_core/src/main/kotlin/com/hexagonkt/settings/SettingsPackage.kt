@@ -16,7 +16,7 @@ fun loadResource(resName: String): Map<String, *> = logSettings(
 )
 
 fun loadEnvironmentVariables (vararg prefixes: String): Map<String, *> = logSettings(
-    "'${prefixes.joinToString(", ") { it + "*" }}' environment variables",
+    "'${prefixes.joinToString(", ") { "$it*" }}' environment variables",
     System.getenv()
         .filter { property ->
             prefixes.filter { property.key.startsWith(it) }.any()
@@ -26,7 +26,7 @@ fun loadEnvironmentVariables (vararg prefixes: String): Map<String, *> = logSett
 )
 
 fun loadSystemProperties (vararg prefixes: String): Map<String, *> = logSettings(
-    "'${prefixes.joinToString(", ") { it + "*" }}' system properties",
+    "'${prefixes.joinToString(", ") { "$it*" }}' system properties",
     System.getProperties()
         .mapKeys { it.key.toString() }
         .filter { property ->

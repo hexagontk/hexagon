@@ -9,7 +9,7 @@ import kotlin.reflect.KProperty1
 abstract class IdRepositoryTest <T : Any, K : Any> (type: KClass<T>, key: KProperty1<T, K>) :
     RepositoryTest<T, K>(type, key) {
 
-    val idCollection: MongoIdRepository<T, K> = MongoIdRepository(type, key)
+    private val idCollection: MongoIdRepository<T, K> = MongoIdRepository(type, key)
 
     override fun getObjectKey (obj: T) = idCollection.getKey (obj)
 

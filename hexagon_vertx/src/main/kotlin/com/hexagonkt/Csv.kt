@@ -50,14 +50,12 @@ fun parseLine(
                     inQuotes = true
 
                     // Allow "" in empty quote enclosed
-                    if (chars[0] != '"' && customQuote == '"') {
+                    if (chars[0] != '"' && customQuote == '"')
                         curVal.append('"')
-                    }
 
                     // Double quotes in column will hit this!
-                    if (startCollectChar) {
+                    if (startCollectChar)
                         curVal.append('"')
-                    }
                 }
                 separators -> {
                     result.add(curVal.toString())

@@ -48,7 +48,7 @@
           <li><a href="/ports/server.html">HTTP</a></li>
           <li><a href="/ports/client.html">Client</a></li>
           <li><a href="/ports/storage.html">Storage</a></li>
-          <li><a href="/ports/events.html">Events</a></li>
+          <li><a href="/ports/messaging.html">Messaging</a></li>
           <li><a href="/ports/templates.html">Templates</a></li>
         </ul>
       </aside>

@@ -2,7 +2,7 @@
 apply from: '../gradle/hexagon_module.gradle'
 
 ext.slf4jVersion = '1.7.25'
-ext.jacksonVersion = '2.9.2'
+ext.jacksonVersion = '2.9.6'
 
 dependencies {
     compile ("org.slf4j:slf4j-api:$slf4jVersion")

@@ -1,4 +1,6 @@
 
+enableFeaturePreview 'STABLE_PUBLISHING' // TODO Remove when this feature becomes enabled by default
+
 rootProject.name = name
 
 include (
@@ -14,17 +16,16 @@ include (
 
     // Ports
     'port_client',
-    'port_events',
+    'port_messaging',
     'port_server',
     'port_store',
     'port_templates',
 
     // Adapters
-    'events_rabbitmq',
+    'messaging_rabbitmq',
     'server_servlet',
     'server_jetty',
     'store_mongodb',
-    'templates_kotlinx',
     'templates_pebble',
     'templates_rocker'
 )

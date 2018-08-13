@@ -1,6 +1,7 @@
 
 apply plugin: 'kotlin'
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
 
 defaultTasks 'build'
 
@@ -16,10 +17,8 @@ repositories {
 
 dependencies {
     compile ("org.jetbrains.kotlin:kotlin-stdlib-jdk$javaVersion:$kotlinVersion")
-    compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion") {
-        exclude module: 'kotlin-stdlib'
-    }
-    compile ('org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5')
+    compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    compile ("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
 
     testCompile ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
 }
@@ -53,7 +52,7 @@ tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOpt
 
 // Clean the project taking care of logs and runtime files
 clean {
-    delete 'build', '.gradle', 'log', 'out', '.vertx', 'file-uploads'
+    delete 'build', 'log', 'out', '.vertx', 'file-uploads'
 
     delete (
         fileTree(rootDir) { include '**/*.log' },
@@ -62,10 +61,18 @@ clean {
 }
 
 // Show useful testing information while running tests
-test {
-    testLogging {
+tasks.withType (Test).each { testTask ->
+    testTask.testLogging {
         events 'skipped', 'failed', 'standardOut', 'standardError'
     }
+}
+
+test {
+    exclude '**/*IT.*'
+}
+
+task verify(dependsOn: 'test', type: Test) {
+    include '**/*IT.*'
 }
 
 // Generate coverage reports properly
@@ -74,5 +81,40 @@ jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
+    }
+}
+
+task jarAll (type: Jar, dependsOn: 'build') {
+    baseName = "$baseName-all"
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+
+task sourceJar (type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allJava
+}
+
+task testJar(type: Jar, dependsOn: testClasses) {
+    classifier 'test'
+    from sourceSets.test.output.classesDirs
+}
+
+task dokkaJar(type: Jar, dependsOn: 'dokka') {
+    classifier 'javadoc'
+    from fileTree ("$buildDir/dokka")
+}
+
+publishing {
+    publications {
+        mavenJava (MavenPublication) {
+            from components.java
+
+            artifact sourceJar // To be accepted in JCenter, the package need to include sources
+            artifact testJar
+            artifact dokkaJar
+        }
     }
 }
