@@ -1,9 +1,9 @@
 
 apply from: "../gradle/kotlin.gradle"
 apply from: "../gradle/service.gradle"
+apply from: "../gradle/jmh.gradle"
 
 apply plugin: 'war'
-apply plugin: 'me.champeau.gradle.jmh'
 apply plugin: 'com.fizzed.rocker'
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
@@ -45,15 +45,8 @@ dependencies {
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
-    // Added for IntelliJ IDEA to compile JMH tests inside the IDE
-    compileOnly ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
-    compileOnly ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
-
     testCompile project(':port_client')
     testCompile ("org.testng:testng:$testngVersion")
-
-    jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
-    annotationProcessor ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
 }
 
 sourceSets {
@@ -66,20 +59,6 @@ sourceSets {
 
 test {
     useTestNG ()
-}
-
-jmh {
-    iterations = 5
-    benchmarkMode = [ 'all' ]
-    batchSize = 1
-    fork = 1
-    operationsPerInvocation = 5
-    timeOnIteration = '1s'
-    warmup = '1s'
-    warmupBatchSize = 5
-    warmupIterations = 1
-
-    jmhVersion = jmhBenchmarkVersion
 }
 
 //noinspection GroovyAssignabilityCheck

@@ -1,0 +1,54 @@
+
+/*
+ * In `build.gradle` it is needed to add the following lines:
+ *
+ * plugins {
+ *     id 'me.champeau.gradle.jmh' version '0.4.7' apply false
+ * }
+ */
+
+/*
+ * Sample benchmark (src/jmh/kotlin/Benchmark.kt):
+ *
+ * ```kotlin
+ * import org.openjdk.jmh.annotations.Benchmark
+ *
+ * open class Benchmark {
+ *     @Benchmark fun foo() {
+ *         println("foo bench")
+ *         Thread.sleep(100L)
+ *     }
+ *
+ *     @Benchmark fun bar() {
+ *         println("bar bench")
+ *         Thread.sleep(100L)
+ *     }
+ * }
+ * ```
+ */
+apply plugin: 'me.champeau.gradle.jmh'
+
+ext.jmhBenchmarkVersion = findProperty('jmhBenchmarkVersion') ?: '1.21'
+
+dependencies {
+    // Added for IntelliJ IDEA to compile JMH tests inside the IDE
+    compileOnly ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
+    compileOnly ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
+
+    jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
+    annotationProcessor ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
+}
+
+jmh {
+    iterations = 5
+    benchmarkMode = [ 'all' ]
+    batchSize = 1
+    fork = 1
+    operationsPerInvocation = 5
+    timeOnIteration = '1s'
+    warmup = '1s'
+    warmupBatchSize = 5
+    warmupIterations = 1
+
+    jmhVersion = jmhBenchmarkVersion
+}
