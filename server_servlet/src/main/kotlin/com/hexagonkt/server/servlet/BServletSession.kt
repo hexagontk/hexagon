@@ -17,13 +17,11 @@ internal class BServletSession(private val req: HttpServletRequest) : EngineSess
     override val creationTime: Long? by lazy { session (req)?.creationTime }
     override val lastAccessedTime: Long? by lazy { session (req)?.lastAccessedTime }
 
-    override var id: String?
+    override var id: String? = ""
         get() = session (req)?.id
-        set(value) { }
 
-    override var maxInactiveInterval: Int?
+    override var maxInactiveInterval: Int? = 0
         get() = session (req)?.maxInactiveInterval
-        set(value) { }
 
     override fun invalidate() = req.session.invalidate()
 
