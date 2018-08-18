@@ -16,7 +16,7 @@ class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
 class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
 class BenchmarkJettyPostgreSqlRockerTest : BenchmarkTest("jetty", "postgresql", "rocker")
 
-@Suppress("MemberVisibilityCanPrivate")
+@Test
 abstract class BenchmarkTest(
     private val webEngine: String,
     private val databaseEngine: String,
