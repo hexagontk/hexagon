@@ -16,42 +16,19 @@ class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
 class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
 class BenchmarkJettyPostgreSqlRockerTest : BenchmarkTest("jetty", "postgresql", "rocker")
 
-@Test
-abstract class BenchmarkTest(
+@Test abstract class BenchmarkTest(
     private val webEngine: String,
     private val databaseEngine: String,
     private val templateEngine: String = "pebble"
 ) {
     private val client by lazy { Client("http://localhost:${benchmarkServer?.runtimePort}") }
 
-    @BeforeClass fun warmup() {
+    @BeforeClass fun startUp() {
         setProperty("WEBENGINE", webEngine)
         main()
-
-        json()
-        plaintext()
-        `no query parameter`()
-        `empty query parameter`()
-        `text query parameter`()
-        `zero queries`()
-        `one thousand queries`()
-        `one query`()
-        `ten queries`()
-        `one hundred queries`()
-        `five hundred queries`()
-        fortunes()
-        `no updates parameter`()
-        `empty updates parameter`()
-        `text updates parameter`()
-        `zero updates`()
-        `one thousand updates`()
-        `one update`()
-        `ten updates`()
-        `one hundred updates`()
-        `five hundred updates`()
     }
 
-    @AfterClass fun cooldown() {
+    @AfterClass fun shutDown() {
         benchmarkStores?.get(databaseEngine)?.close()
         benchmarkServer?.stop()
     }
