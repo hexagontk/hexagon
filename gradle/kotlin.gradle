@@ -62,6 +62,11 @@ clean {
 
 // Show useful testing information while running tests
 tasks.withType (Test).each { testTask ->
+    testTask.outputs.upToDateWhen { false }
+    // TODO Use this also in `processResources`
+    // TODO Add more useful variables
+    testTask.systemProperties (project.getProperties().subMap ('projectDir', 'buildDir'))
+
     testTask.testLogging {
         events 'skipped', 'failed', 'standardOut', 'standardError'
     }

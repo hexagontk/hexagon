@@ -8,11 +8,13 @@ import org.testng.annotations.Test
 
   @Test def runGatlingStressTests () {
 
-    val props = new GatlingPropertiesBuilder
-    props.simulationClass (classOf [HexagonSimulation].getName)
-    props.outputDirectoryBaseName ("gatling")
-    props.resultsDirectory("build")
+    val properties = new GatlingPropertiesBuilder
+    val buildDir = System.getProperty("buildDir")
 
-    Gatling.fromMap (props.build)
+    properties.simulationClass (classOf [HexagonSimulation].getName)
+    properties.outputDirectoryBaseName ("gatling")
+    properties.resultsDirectory(if (buildDir == null) "build" else buildDir)
+
+    Gatling.fromMap (properties.build)
   }
 }
