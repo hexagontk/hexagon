@@ -6,7 +6,6 @@
 // TODO Update architecture diagram
 // JBake 'content' folder can not be changed (it seems a bug)
 
-ext.siteSource = '.'
 ext.siteHost = 'http://hexagonkt.com'
 
 ext.logoSmall = 'assets/img/logo.svg'
@@ -146,7 +145,7 @@ clean {
     delete 'build', 'content', 'out'
 }
 
-tasks.jbake.doFirst {
+tasks.bake.doFirst {
     final String frontMatter =
         '''title=Hexagon\ndate=2016-04-13\ntype=page\nstatus=published\n~~~~~~\n'''
     final String contentTarget = projectDir.absolutePath + '/content'
@@ -156,7 +155,8 @@ tasks.jbake.doFirst {
         into contentTarget
     }
 
-    final List<String> dirs = rootProject.subprojects.collect { "$it.name/build/dokka" }
+    final Set<Project> modules = rootProject.subprojects
+    final List<String> dirs = modules.collect { "$it.name/build/dokka" } as List<String>
 
     copy {
         dirs.each { dir -> from rootProject.file(dir) }

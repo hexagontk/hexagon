@@ -1,17 +1,17 @@
 
-apply plugin: 'org.xbib.gradle.plugin.jbake'
+apply plugin: 'org.jbake.site'
 
 // Generate service documentation site
 // To generate clean URLs, add the following settings:
 //    configuration['uri.noExtension'] = true
 //    configuration['uri.noExtension.prefix'] = '/'
-jbake {
-    siteHost = findProperty ('siteHost') ?: ''
-    srcDirName = findProperty ('siteSource') ?: 'site'
-    destDirName = findProperty ('siteTarget') ?: srcDirName // It is relative to `buildDir`
-    configData = findProperty ('configData') ?: [:]
+bake {
+    String siteHost = findProperty ('siteHost') ?: ''
+    Map<String, ?> configData = findProperty ('configData') as Map<String, Object> ?: [:]
 
-    version  = '2.5.1'
+    input = projectDir
+    output = project.buildDir
+    version  = findProperty ('jbakeVersion') ?: '2.6.1'
 
     configuration['site.host'] = siteHost
 
@@ -37,10 +37,10 @@ jbake {
 }
 
 // Site processing is required because JBake does not filter content with configuration properties
-task site (dependsOn: 'jbake') {
+task site (dependsOn: 'bake') {
     doLast {
-        file ("$buildDir/$jbake.destDirName").traverse (nameFilter: ~/.+\.(html|xml|css|svg)$/) {
-            filterFile (it, jbake.configuration)
+        file (buildDir).traverse (nameFilter: ~/.+\.(html|xml|css|svg)$/) {
+            filterFile (it, bake.configuration)
         }
     }
 }
