@@ -2,19 +2,12 @@
 apply from: "../gradle/hexagon_module.gradle"
 
 ext.vertxVersion = '3.5.3'
-ext.jacksonVersion = '2.9.6'
 
 ext.junitVersion = '4.12'
 ext.cucumberVersion = '2.3.1'
 
 dependencies {
-    compile ("ch.qos.logback:logback-classic:$logbackVersion")
-    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
-    compile ("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-    compile ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
-    compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
-        exclude group: 'org.jetbrains.kotlin'
-    }
+    compile (project(':hexagon_core'))
 
     compile ("io.vertx:vertx-lang-kotlin:$vertxVersion") {
         exclude group: 'org.jetbrains.kotlin'
