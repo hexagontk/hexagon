@@ -25,7 +25,9 @@ task buildInfo {
 installDist.dependsOn 'build'
 
 /*
- * Run the service in another thread. This allow the possibility to 'watch' source changes
+ * Run the service in another thread. This allow the possibility to 'watch' source changes.
+ * To run the services and watch for changes you need to execute this task with the `--continuous`
+ * (`-t`) Gradle flag. Ie: `gw -t runService`
  */
 //noinspection GroovyAssignabilityCheck
 task runService(dependsOn: 'classes') {

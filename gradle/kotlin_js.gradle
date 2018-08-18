@@ -1,4 +1,5 @@
 
+// TODO Applying this script won't work until it allows dependencies to be merged (a bug)
 apply plugin: 'kotlin2js'
 
 defaultTasks 'build'
