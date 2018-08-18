@@ -12,4 +12,6 @@ class CodedException (val code: Int, message: String = "", vararg causes: Throwa
     RuntimeException (message, causes.firstOrNull()) {
 
     val causes: List<Throwable> = causes.toList()
+
+    constructor(message: String = "", vararg causes: Throwable) : this(0, message, *causes)
 }

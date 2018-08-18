@@ -1,8 +1,8 @@
 package com.hexagonkt.vertx.http
 
-import com.hexagonkt.flare
-import com.hexagonkt.logger
-import com.hexagonkt.sync
+import com.hexagonkt.helpers.logger
+import com.hexagonkt.helpers.flare
+import com.hexagonkt.helpers.sync
 import com.hexagonkt.vertx.VertxApplication
 import com.hexagonkt.vertx.createVertx
 import com.hexagonkt.vertx.http.client.createWebClient

@@ -1,8 +1,8 @@
 package com.hexagonkt.vertx.http.store
 
-import com.hexagonkt.CodedException
-import com.hexagonkt.flare
-import com.hexagonkt.logger
+import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.helpers.flare
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.vertx.http.acceptFormat
 import com.hexagonkt.vertx.http.end
 import com.hexagonkt.vertx.http.handleList

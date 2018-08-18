@@ -1,6 +1,5 @@
 package com.hexagonkt.helpers
 
-import org.omg.CORBA.Environment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.nanoTime

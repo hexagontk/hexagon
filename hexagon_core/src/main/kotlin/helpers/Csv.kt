@@ -1,4 +1,4 @@
-package com.hexagonkt
+package com.hexagonkt.helpers
 
 import java.util.ArrayList
 

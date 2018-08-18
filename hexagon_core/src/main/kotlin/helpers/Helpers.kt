@@ -1,5 +1,10 @@
 package com.hexagonkt.helpers
 
+import kotlin.coroutines.experimental.CoroutineContext
+import kotlin.coroutines.experimental.EmptyCoroutineContext
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.runBlocking
+
 import java.io.InputStream
 import java.lang.ClassLoader.getSystemClassLoader
 import java.net.URL
@@ -170,7 +175,7 @@ fun Throwable.toText (prefix: String = ""): String =
  * TODO .
  */
 @Suppress("UNCHECKED_CAST")
-operator fun Map<*, *>.get (vararg keys: Any): Any? =
+operator fun Map<*, *>.get(vararg keys: Any): Any? =
     if (keys.size > 1)
         keys
             .dropLast(1)
@@ -179,7 +184,7 @@ operator fun Map<*, *>.get (vararg keys: Any): Any? =
                 val value = r.getOrElse(element) { mapOf<Any, Any>() }
                 when (value) {
                     is Map<*, *> -> value
-                    is List<*> -> value.mapIndexed { ii, item -> ii to item  }.toMap()
+                    is List<*> -> value.mapIndexed { ii, item -> ii to item }.toMap()
                     else -> mapOf<Any, Any>()
                 }
             }[keys.last()]
@@ -187,14 +192,14 @@ operator fun Map<*, *>.get (vararg keys: Any): Any? =
         (this as Map<Any, Any>).getOrElse(keys.first()) { null }
 
 @Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
-fun <T : Any> Map<*, *>.require (vararg name: Any): T =
+fun <T : Any> Map<*, *>.require(vararg name: Any): T =
     this.get(*name) as? T ?: error("$name required setting not found")
 
-fun <K, V> Map<K, V>.filterEmpty (): Map<K, V> = this.filterValues(::notEmpty)
+fun <K, V> Map<K, V>.filterEmpty(): Map<K, V> = this.filterValues(::notEmpty)
 
-fun <V> List<V>.filterEmpty (): List<V> = this.filter(::notEmpty)
+fun <V> List<V>.filterEmpty(): List<V> = this.filter(::notEmpty)
 
-fun <V> notEmpty (it: V): Boolean {
+fun <V> notEmpty(it: V): Boolean {
     return when (it) {
         null -> false
         is List<*> -> it.isNotEmpty()
@@ -216,3 +221,10 @@ fun resource(resource: String): URL? = systemClassLoader.getResource(resource)
 fun requireResource(resource: String): URL = resource(resource) ?: error("$resource not found")
 
 fun readResource(resource: String): String? = resourceAsStream(resource)?.reader()?.readText()
+
+// KOTLIN //////////////////////////////////////////////////////////////////////////////////////////
+fun sync(
+    context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> Unit) {
+
+    runBlocking(context, block)
+}

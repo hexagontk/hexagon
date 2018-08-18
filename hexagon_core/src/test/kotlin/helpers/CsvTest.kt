@@ -1,6 +1,6 @@
-package com.hexagonkt
+package com.hexagonkt.helpers
 
-import org.junit.Test
+import org.testng.annotations.Test
 
 /**
  * TODO Test fields and lines with spaces

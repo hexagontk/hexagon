@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx.store;
 
-import com.hexagonkt.sync
+import com.hexagonkt.helpers.sync
 import com.hexagonkt.vertx.createVertx
 import io.vertx.core.Vertx
 import io.vertx.kotlin.coroutines.await

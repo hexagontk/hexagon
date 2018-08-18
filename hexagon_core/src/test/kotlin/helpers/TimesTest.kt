@@ -1,6 +1,6 @@
-package com.hexagonkt
+package com.hexagonkt.helpers
 
-import org.junit.Test
+import org.testng.annotations.Test
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.LocalDateTime

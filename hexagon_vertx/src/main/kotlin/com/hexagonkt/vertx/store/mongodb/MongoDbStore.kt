@@ -1,9 +1,9 @@
 package com.hexagonkt.vertx.store.mongodb
 
-import com.hexagonkt.error
-import com.hexagonkt.filterEmpty
-import com.hexagonkt.logger
-import com.hexagonkt.time
+import com.hexagonkt.helpers.error
+import com.hexagonkt.helpers.filterEmpty
+import com.hexagonkt.helpers.time
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.vertx.store.Mapper
 import com.hexagonkt.vertx.store.Store
 import com.hexagonkt.vertx.toJsonObject

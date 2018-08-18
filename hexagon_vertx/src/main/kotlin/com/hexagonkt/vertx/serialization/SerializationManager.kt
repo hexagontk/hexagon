@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx.serialization
 
-import com.hexagonkt.error
+import com.hexagonkt.helpers.error
 import io.vertx.core.http.impl.MimeMapping
 
 object SerializationManager {

@@ -1,8 +1,8 @@
 package com.hexagonkt.vertx.http.store
 
-import com.hexagonkt.logger
-import com.hexagonkt.sync
-import com.hexagonkt.time
+import com.hexagonkt.helpers.logger
+import com.hexagonkt.helpers.sync
+import com.hexagonkt.helpers.time
 import com.hexagonkt.vertx.VertxApplication
 import com.hexagonkt.vertx.createVertx
 import com.hexagonkt.vertx.http.HttpVerticle
@@ -48,7 +48,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     }
 
     protected val endpoint by lazy { controller.store.name }
-    protected val keyName by lazy { controller.store.key.name }
+    private val keyName by lazy { controller.store.key.name }
 
     abstract fun store(vertx: Vertx, config: JsonObject): Store<T, K>
     abstract fun createEntity(index: Int): T

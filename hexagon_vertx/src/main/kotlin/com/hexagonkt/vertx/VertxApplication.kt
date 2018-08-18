@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx
 
-import com.hexagonkt.sync
+import com.hexagonkt.helpers.sync
 import com.hexagonkt.vertx.config.retrieveConfig
 import io.vertx.core.Future
 import io.vertx.core.Verticle

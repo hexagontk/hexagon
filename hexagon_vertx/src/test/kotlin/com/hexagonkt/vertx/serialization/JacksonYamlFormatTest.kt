@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx.serialization
 
-import com.hexagonkt.toStream
+import com.hexagonkt.helpers.toStream
 import com.hexagonkt.vertx.Device
 import org.junit.Test
 import kotlin.test.fail

@@ -59,6 +59,8 @@ import org.testng.annotations.Test
 
     fun `Converting valid snake case texts to camel case succeed` () {
         assert ("alfa_beta".snakeToCamel () == "alfaBeta")
+        assert ("alfa__beta".snakeToCamel () == "alfaBeta")
+        assert ("alfa___beta".snakeToCamel () == "alfaBeta")
     }
 
     fun `Converting valid camel case texts to snake case succeed` () {
