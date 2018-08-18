@@ -12,14 +12,10 @@ import org.testng.annotations.Test
 import java.lang.System.setProperty
 import kotlin.test.assertFailsWith
 
-internal const val THREADS = 4
-internal const val TIMES = 2
-
 class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
 class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
 class BenchmarkJettyPostgreSqlRockerTest : BenchmarkTest("jetty", "postgresql", "rocker")
 
-@Test(threadPoolSize = THREADS, invocationCount = TIMES)
 @Suppress("MemberVisibilityCanPrivate")
 abstract class BenchmarkTest(
     private val webEngine: String,
@@ -32,31 +28,27 @@ abstract class BenchmarkTest(
         setProperty("WEBENGINE", webEngine)
         main()
 
-        @Suppress("ConstantConditionIf")
-        val warmupRounds = if (THREADS > 1) 2 else 0
-        (1..warmupRounds).forEach {
-            json()
-            plaintext()
-            `no query parameter`()
-            `empty query parameter`()
-            `text query parameter`()
-            `zero queries`()
-            `one thousand queries`()
-            `one query`()
-            `ten queries`()
-            `one hundred queries`()
-            `five hundred queries`()
-            fortunes()
-            `no updates parameter`()
-            `empty updates parameter`()
-            `text updates parameter`()
-            `zero updates`()
-            `one thousand updates`()
-            `one update`()
-            `ten updates`()
-            `one hundred updates`()
-            `five hundred updates`()
-        }
+        json()
+        plaintext()
+        `no query parameter`()
+        `empty query parameter`()
+        `text query parameter`()
+        `zero queries`()
+        `one thousand queries`()
+        `one query`()
+        `ten queries`()
+        `one hundred queries`()
+        `five hundred queries`()
+        fortunes()
+        `no updates parameter`()
+        `empty updates parameter`()
+        `text updates parameter`()
+        `zero updates`()
+        `one thousand updates`()
+        `one update`()
+        `ten updates`()
+        `one hundred updates`()
+        `five hundred updates`()
     }
 
     @AfterClass fun cooldown() {
@@ -64,13 +56,13 @@ abstract class BenchmarkTest(
         benchmarkServer?.stop()
     }
 
-    fun store() {
+    @Test fun store() {
         assertFailsWith<IllegalStateException> {
             createStore("invalid")
         }
     }
 
-    fun web() {
+    @Test fun web() {
         val web = Web()
 
         val webRoutes = web.serverRouter.requestHandlers
@@ -88,7 +80,7 @@ abstract class BenchmarkTest(
         assert(webRoutes.containsAll(benchmarkRoutes))
     }
 
-    fun json() {
+    @Test fun json() {
         val response = client.get("/json")
         val content = response.responseBody
 
@@ -96,7 +88,7 @@ abstract class BenchmarkTest(
         assert("Hello, World!" == content.parse(Message::class).message)
     }
 
-    fun plaintext() {
+    @Test fun plaintext() {
         val response = client.get("/plaintext")
         val content = response.responseBody
 
@@ -104,7 +96,7 @@ abstract class BenchmarkTest(
         assert("Hello, World!" == content)
     }
 
-    fun fortunes() {
+    @Test fun fortunes() {
         val response = client.get("/$databaseEngine/$templateEngine/fortunes")
         val content = response.responseBody
 
@@ -114,7 +106,7 @@ abstract class BenchmarkTest(
         assert(content.contains("<td>フレームワークのベンチマーク</td>"))
     }
 
-    fun `no query parameter`() {
+    @Test fun `no query parameter`() {
         val response = client.get("/$databaseEngine/db")
         val body = response.responseBody
 
@@ -124,7 +116,7 @@ abstract class BenchmarkTest(
         assert(bodyMap.containsKey(World::randomNumber.name))
     }
 
-    fun `no updates parameter`() {
+    @Test fun `no updates parameter`() {
         val response = client.get("/$databaseEngine/update")
         val body = response.responseBody
 
@@ -134,23 +126,23 @@ abstract class BenchmarkTest(
         assert(bodyMap.containsKey(World::randomNumber.name))
     }
 
-    fun `empty query parameter`() = checkDbRequest("/$databaseEngine/query?queries", 1)
-    fun `text query parameter`() = checkDbRequest("/$databaseEngine/query?queries=text", 1)
-    fun `zero queries`() = checkDbRequest("/$databaseEngine/query?queries=0", 1)
-    fun `one thousand queries`() = checkDbRequest("/$databaseEngine/query?queries=1000", 500)
-    fun `one query`() = checkDbRequest("/$databaseEngine/query?queries=1", 1)
-    fun `ten queries`() = checkDbRequest("/$databaseEngine/query?queries=10", 10)
-    fun `one hundred queries`() = checkDbRequest("/$databaseEngine/query?queries=100", 100)
-    fun `five hundred queries`() = checkDbRequest("/$databaseEngine/query?queries=500", 500)
+    @Test fun `empty query parameter`() = checkDbRequest("/$databaseEngine/query?queries", 1)
+    @Test fun `text query parameter`() = checkDbRequest("/$databaseEngine/query?queries=text", 1)
+    @Test fun `zero queries`() = checkDbRequest("/$databaseEngine/query?queries=0", 1)
+    @Test fun `one thousand queries`() = checkDbRequest("/$databaseEngine/query?queries=1000", 500)
+    @Test fun `one query`() = checkDbRequest("/$databaseEngine/query?queries=1", 1)
+    @Test fun `ten queries`() = checkDbRequest("/$databaseEngine/query?queries=10", 10)
+    @Test fun `one hundred queries`() = checkDbRequest("/$databaseEngine/query?queries=100", 100)
+    @Test fun `five hundred queries`() = checkDbRequest("/$databaseEngine/query?queries=500", 500)
 
-    fun `empty updates parameter`() = checkDbRequest("/$databaseEngine/update?queries", 1)
-    fun `text updates parameter`() = checkDbRequest("/$databaseEngine/update?queries=text", 1)
-    fun `zero updates`() = checkDbRequest("/$databaseEngine/update?queries=0", 1)
-    fun `one thousand updates`() = checkDbRequest("/$databaseEngine/update?queries=1000", 500)
-    fun `one update`() = checkDbRequest("/$databaseEngine/update?queries=1", 1)
-    fun `ten updates`() = checkDbRequest("/$databaseEngine/update?queries=10", 10)
-    fun `one hundred updates`() = checkDbRequest("/$databaseEngine/update?queries=100", 100)
-    fun `five hundred updates`() = checkDbRequest("/$databaseEngine/update?queries=500", 500)
+    @Test fun `empty updates parameter`() = checkDbRequest("/$databaseEngine/update?queries", 1)
+    @Test fun `text updates parameter`() = checkDbRequest("/$databaseEngine/update?queries=text", 1)
+    @Test fun `zero updates`() = checkDbRequest("/$databaseEngine/update?queries=0", 1)
+    @Test fun `one thousand updates`() = checkDbRequest("/$databaseEngine/update?queries=1000", 500)
+    @Test fun `one update`() = checkDbRequest("/$databaseEngine/update?queries=1", 1)
+    @Test fun `ten updates`() = checkDbRequest("/$databaseEngine/update?queries=10", 10)
+    @Test fun `one hundred updates`() = checkDbRequest("/$databaseEngine/update?queries=100", 100)
+    @Test fun `five hundred updates`() = checkDbRequest("/$databaseEngine/update?queries=500", 500)
 
     private fun checkDbRequest(path: String, itemsCount: Int) {
         val response = client.get(path)

@@ -91,9 +91,9 @@ private class MongoDbStore(dbUrl: String) : Store {
 
 private class SqlStore(jdbcUrl: String) : Store {
     companion object {
-        private val SELECT_WORLD = "select * from world where id = ?"
-        private val UPDATE_WORLD = "update world set randomNumber = ? where id = ?"
-        private val SELECT_ALL_FORTUNES = "select * from fortune"
+        private const val SELECT_WORLD = "select * from world where id = ?"
+        private const val UPDATE_WORLD = "update world set randomNumber = ? where id = ?"
+        private const val SELECT_ALL_FORTUNES = "select * from fortune"
     }
 
     private val dataSource: HikariDataSource

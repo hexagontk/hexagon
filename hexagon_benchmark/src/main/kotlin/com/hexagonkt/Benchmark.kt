@@ -27,16 +27,16 @@ internal data class World(val _id: Int, val id: Int, val randomNumber: Int)
 
 // CONSTANTS
 private const val TEXT_MESSAGE: String = "Hello, World!"
-private const val QUERIES_PARAM = "queries"
+private const val QUERIES_PARAM: String = "queries"
 
-private val contentTypeJson = JsonFormat.contentType
+private val contentTypeJson: String = JsonFormat.contentType
 private val logger: Logger = getLogger("BENCHMARK_LOGGER")
 private val defaultLocale: Locale = Locale.getDefault()
-private val storageEngines = listOf("mongodb", "postgresql")
-private val templateEngines = listOf("pebble", "rocker")
+private val storageEngines: List<String> = listOf("mongodb", "postgresql")
+private val templateEngines: List<String> = listOf("pebble", "rocker")
 
 // UTILITIES
-internal fun randomWorld() = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
+internal fun randomWorld(): Int = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
 
 private fun Call.returnWorlds(worldsList: List<World>) {
     val worlds = worldsList.map { it.convertToMap() - "_id" }
@@ -52,17 +52,13 @@ private fun Call.getWorldsCount() = (request[QUERIES_PARAM]?.toIntOrNull() ?: 1)
 }
 
 // HANDLERS
-private fun Call.listFortunes(store: Store, templateEngine: String): String {
+private fun Call.listFortunes(store: Store, templateEngine: String) {
     val templateEngineType = getTemplateEngine(templateEngine)
     val fortunes = store.findAllFortunes() + Fortune(0, "Additional fortune added at request time.")
     val sortedFortunes = fortunes.sortedBy { it.message }
+    val context = mapOf("fortunes" to sortedFortunes)
     response.contentType = "text/html;charset=utf-8"
-    return render(
-        templateEngineType,
-        "fortunes.$templateEngine.html",
-        defaultLocale,
-        mapOf("fortunes" to sortedFortunes)
-    )
+    ok(render(templateEngineType, "fortunes.$templateEngine.html", defaultLocale, context))
 }
 
 private fun Call.dbQuery(store: Store) {
@@ -92,15 +88,15 @@ private fun router(): Router = router {
 
     get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
     get("/json") { ok(Message(TEXT_MESSAGE).serialize(), contentTypeJson) }
-    benchmarkStores?.forEach({ (storeEngine, store) ->
-        templateEngines.forEach({ templateEngine ->
+    benchmarkStores?.forEach { (storeEngine, store) ->
+        templateEngines.forEach { templateEngine ->
             get("/$storeEngine/$templateEngine/fortunes") { listFortunes(store, templateEngine) }
-        })
+        }
 
         get("/$storeEngine/db") { dbQuery(store) }
         get("/$storeEngine/query") { getWorlds(store) }
         get("/$storeEngine/update") { updateWorlds(store) }
-    })
+    }
 }
 
 @WebListener class Web : ServletServer (router()) {
