@@ -5,9 +5,9 @@ import java.lang.Thread.currentThread
 import java.time.LocalDateTime
 
 import com.hexagonkt.helpers.asNumber
-import com.hexagonkt.helpers.hostname as utilHostname
-import com.hexagonkt.helpers.ip as utilIp
-import com.hexagonkt.helpers.jvmId as utilJvmId
+import com.hexagonkt.helpers.Environment.hostname as utilHostname
+import com.hexagonkt.helpers.Environment.ip as utilIp
+import com.hexagonkt.helpers.Environment.jvmId as utilJvmId
 
 open class Message (
     val timestamp: Long = currentTimeMillis (),

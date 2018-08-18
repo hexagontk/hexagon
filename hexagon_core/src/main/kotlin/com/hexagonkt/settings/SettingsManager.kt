@@ -1,12 +1,11 @@
 package com.hexagonkt.settings
 
-import com.hexagonkt.helpers.Loggable
 import com.hexagonkt.helpers.get
-import com.hexagonkt.helpers.loggerOf
+import com.hexagonkt.helpers.logger
 import org.slf4j.Logger
 
-object SettingsManager : Loggable {
-    override val log: Logger = loggerOf<SettingsManager>()
+object SettingsManager {
+    val log: Logger = logger()
 
     private const val SETTINGS = "service"
     private const val ENVIRONMENT_PREFIX = "SERVICE_"

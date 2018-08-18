@@ -1,44 +1,19 @@
 package com.hexagonkt.helpers
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory.getLogger
-import java.lang.System.*
-
 import java.io.InputStream
 import java.lang.ClassLoader.getSystemClassLoader
-import java.lang.Runtime.getRuntime
-import java.lang.management.ManagementFactory.getRuntimeMXBean
-import java.net.InetAddress.getLocalHost
 import java.net.URL
 import java.util.*
 import javax.activation.MimetypesFileTypeMap
 
-internal const val FLARE_PREFIX = ">>>>>>>>"
-
 /** Default timezone. */
 val timeZone: TimeZone = TimeZone.getDefault()
-
-/** The hostname of the machine running this program. */
-val hostname: String = getLocalHost().hostName
-/** The IP address of the machine running this program. */
-val ip: String = getLocalHost().hostAddress
 
 /** Syntax sugar to throw errors. */
 val error: Nothing get() = error("Invalid state")
 
 /** System class loader. */
 val systemClassLoader: ClassLoader = getSystemClassLoader()
-
-val jvmId: String = getRuntimeMXBean().name
-val jvmName: String = getRuntimeMXBean().vmName
-val jvmVersion: String = getRuntimeMXBean().specVersion
-val cpuCount: Int = getRuntime().availableProcessors()
-val timezone: String = getProperty("user.timezone")
-val locale: String = "%s_%s.%s".format(
-    getProperty("user.language"),
-    getProperty("user.country"),
-    getProperty("file.encoding")
-)
 
 // TODO Move types to resources: application.types, audio.types... YAML and JSON are *REQUIRED HERE*
 // TODO Add extension function to load resources/files
@@ -121,13 +96,6 @@ val mimeTypes = MimetypesFileTypeMap().also {
         chemical/x-pdb pdb xyz
         x-world/x-vrml wrl vrml
     """.trim().trimIndent())
-}
-
-inline fun <reified T : Any> loggerOf(): Logger = getLogger(T::class.java)
-
-/** Default logger when you are lazy to declare one. */
-object Log : Loggable {
-    override val log: Logger = loggerOf<Log>()
 }
 
 /**

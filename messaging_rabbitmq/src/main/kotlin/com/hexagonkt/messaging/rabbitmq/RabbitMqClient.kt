@@ -24,8 +24,7 @@ class RabbitMqClient(
     private val connectionFactory: ConnectionFactory,
     private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {
 
-    internal companion object : Loggable {
-        override val log: Logger = loggerOf<RabbitMqClient>()
+    internal companion object {
 
         private fun <T> setVar(value: T?, setter: (T) -> Unit) {
             if (value != null)
@@ -48,8 +47,10 @@ class RabbitMqClient(
         }
     }
 
+    private val log: Logger = logger()
+
     @Volatile private var count: Int = 0
-    private val threadPool = newFixedThreadPool(poolSize, { Thread(it, "rabbitmq-" + count++) })
+    private val threadPool = newFixedThreadPool(poolSize) { Thread(it, "rabbitmq-" + count++) }
     private var connection: Connection? = connectionFactory.newConnection()
 
     /** . */
@@ -62,7 +63,7 @@ class RabbitMqClient(
     override fun close() {
         connection?.close()
         connection = null
-        info("RabbitMQ client closed")
+        log.info("RabbitMQ client closed")
     }
 
     /** . */
@@ -100,7 +101,7 @@ class RabbitMqClient(
         val channel = createChannel()
         val callback = Handler(connectionFactory, channel, threadPool, type, handler)
         channel.basicConsume(queueName, false, callback)
-        info("Consuming messages in $queueName")
+        log.info("Consuming messages in $queueName")
     }
 
     /**
@@ -113,7 +114,7 @@ class RabbitMqClient(
         retry(times = 3, delay = 50) {
             if (connection?.isOpen != true) {
                 connection = connectionFactory.newConnection()
-                warn("Rabbit connection RESTORED")
+                log.warn("Rabbit connection RESTORED")
             }
             val channel = connection?.createChannel() ?: error
             channel.basicQos(poolSize)
@@ -171,7 +172,7 @@ class RabbitMqClient(
         val charset = if (encoding == null) defaultCharset() else charset(encoding)
         channel.basicPublish(exchange, routingKey, props, message.toByteArray(charset))
 
-        debug(
+        log.debug(
             """
             EXCHANGE: $exchange ROUTING KEY: $routingKey
             REPLY TO: $replyQueueName CORRELATION ID: $correlationId

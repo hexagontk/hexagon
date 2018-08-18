@@ -1,6 +1,6 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.Log
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.store.Store
 import com.mongodb.async.client.MongoClients.getDefaultCodecRegistry
 import com.mongodb.async.client.MongoCollection
@@ -53,7 +53,7 @@ class MongoDbStore <T : Any, K : Any>(
         typedCollection.createIndex(
             if (indexOrder == 1) Indexes.ascending(key.name) else Indexes.descending(key.name),
             IndexOptions().unique(true).background(true),
-            { _, _ -> Log.info("Index created for: $name with field: ${key.name}") } // TODO Log
+            { _, _ -> logger.info("Index created for: $name with field: ${key.name}") } // TODO Log
         )
     }
 

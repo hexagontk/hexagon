@@ -1,8 +1,7 @@
 package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.messaging.rabbitmq.RabbitMqClient.Companion.createConnectionFactory
-import com.hexagonkt.helpers.Loggable
-import com.hexagonkt.helpers.loggerOf
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.serialize
 import org.slf4j.Logger
 import org.testng.annotations.Test
@@ -10,44 +9,42 @@ import java.net.URI
 import kotlin.test.assertFailsWith
 
 @Test class RabbitMqClientTest {
-    companion object : Loggable {
-        override val log: Logger = loggerOf<RabbitMqClientTest>()
-    }
+    private val log: Logger = logger()
 
-    fun `create a connection factory with empty URI fails` () {
+    @Test fun `Create a connection factory with empty URI fails` () {
         assertFailsWith(IllegalArgumentException::class) {
             createConnectionFactory(URI(""))
         }
     }
 
-    fun `create a connection factory with invalid URI fails` () {
+    @Test fun `Create a connection factory with invalid URI fails` () {
         assertFailsWith(IllegalArgumentException::class) {
             createConnectionFactory(URI("http://localhost"))
         }
     }
 
-    fun `create a connection factory without parameters succeed` () {
+    @Test fun `Create a connection factory without parameters succeed` () {
         val uri = "amqp://user:pass@localhost:12345"
         val cf = createConnectionFactory(URI(uri))
         assert(cf.host == "localhost")
         assert(cf.port == 12345)
     }
 
-    fun `create a connection factory with one parameter succeed` () {
+    @Test fun `Create a connection factory with one parameter succeed` () {
         val uri = "amqp://user:pass@localhost:12345?channelCacheSize=50"
         val cf = createConnectionFactory(URI(uri))
         assert(cf.host == "localhost")
         assert(cf.port == 12345)
     }
 
-    fun `create a connection factory with two parameter succeed` () {
+    @Test fun `Create a connection factory with two parameter succeed` () {
         val uri = "amqp://user:pass@localhost:12345?channelCacheSize=50&heartbeat=25"
         val cf = createConnectionFactory(URI(uri))
         assert(cf.host == "localhost")
         assert(cf.port == 12345)
     }
 
-    fun `create a connection factory with all parameters succeed` () {
+    @Test fun `Create a connection factory with all parameters succeed` () {
         val opts = listOf(
             "channelCacheSize=50",
             "heartbeat=25",
@@ -62,7 +59,7 @@ import kotlin.test.assertFailsWith
         assert(cf.port == 12345)
     }
 
-    fun `rabbit client disconnects properly` () {
+    @Test fun `Rabbit client disconnects properly` () {
         val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         assert(client.connected)
         client.close()
@@ -71,7 +68,7 @@ import kotlin.test.assertFailsWith
         assert(!client.connected)
     }
 
-    fun `consumers handle numbers properly` () {
+    @Test fun `Consumers handle numbers properly` () {
         val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         consumer.declareQueue("int_op")
         consumer.declareQueue("long_op")
@@ -92,13 +89,13 @@ import kotlin.test.assertFailsWith
         consumer.close()
     }
 
-    fun `consumers_handle_no_reply_messages` () {
+    @Test fun `Consumers handle no reply messages` () {
         val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         consumer.declareQueue("int_handler")
         consumer.declareQueue("long_handler")
         consumer.declareQueue("exception_handler")
-        consumer.consume("int_handler", String::class) { info(it) }
-        consumer.consume("long_handler", String::class) { info(it) }
+        consumer.consume("int_handler", String::class) { log.info(it) }
+        consumer.consume("long_handler", String::class) { log.info(it) }
         consumer.consume("exception_handler", String::class) { throw RuntimeException(it) }
 
         val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))

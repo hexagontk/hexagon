@@ -1,7 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.helpers.Loggable
-import com.hexagonkt.helpers.loggerOf
+import com.hexagonkt.helpers.logger
 import org.slf4j.Logger
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -10,9 +9,7 @@ import java.lang.System.currentTimeMillis
 import java.net.URI
 
 @Test class RabbitConnectionTest {
-    private companion object : Loggable {
-        override val log: Logger = loggerOf<RabbitConnectionTest>()
-
+    private companion object {
         private const val port = 5673
         private const val user = "guest"
         private const val password = "guest"
@@ -24,6 +21,8 @@ import java.net.URI
         private const val SUFFIX = "DONE"
         private const val DELAY = 10L
     }
+
+    private val log: Logger = logger()
 
     private val broker = EmbeddedAMQPBroker(port, user, password, vhost)
 
@@ -64,7 +63,7 @@ import java.net.URI
             client.call(QUEUE_ERROR, ts)
         }
         catch (e: Exception) {
-            fail("Consumer error", e)
+            log.error("Consumer error", e)
         }
 
         startConsumer()

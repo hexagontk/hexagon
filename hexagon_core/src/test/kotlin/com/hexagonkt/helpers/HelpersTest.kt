@@ -1,5 +1,7 @@
 package com.hexagonkt.helpers
 
+import com.hexagonkt.helpers.Environment.hostname
+import com.hexagonkt.helpers.Environment.ip
 import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.serialization.YamlFormat
 import org.testng.annotations.Test
@@ -23,7 +25,7 @@ import kotlin.test.assertFailsWith
         0 to 1
     )
 
-    fun `mime types return correct content type`() {
+    fun `MIME types return correct content type`() {
         assert(mimeTypes.getContentType("a.json") == JsonFormat.contentType)
         assert(mimeTypes.getContentType("a.yaml") == YamlFormat.contentType)
         assert(mimeTypes.getContentType("a.yml") == YamlFormat.contentType)
@@ -37,7 +39,7 @@ import kotlin.test.assertFailsWith
         assert(mimeTypes.getContentType(".rtf") == "application/rtf")
     }
 
-    fun `system setting works ok` () {
+    fun `System setting works ok` () {
         System.setProperty("system_property", "value")
 
         assert(systemSetting("system_property") == "value")
@@ -49,7 +51,7 @@ import kotlin.test.assertFailsWith
         assert(systemSetting("PATH") == "path override")
     }
 
-    fun `time nanos gets the elapsed nanoseconds` () {
+    fun `Time nanos gets the elapsed nanoseconds` () {
         val nanos = System.nanoTime()
         val timeNanos = formatNanos(nanos)
 
@@ -57,71 +59,71 @@ import kotlin.test.assertFailsWith
         assert (timeNanos.endsWith("ms") && timeNanos.contains(decimalSeparator))
     }
 
-    fun `a local date time returns a valid int timestamp` () {
+    fun `A local date time returns a valid int timestamp` () {
         assert(dateTime (2015, 12, 31, 23, 59, 59).asNumber() == 2015_12_31_23_59_59_000)
         assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).asNumber() == 2015_12_31_23_59_59_101)
         assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).asNumber() != 2015_12_31_23_59_59_100)
     }
 
-    fun `filtering an exception with an empty string do not change the stack` () {
+    fun `Filtering an exception with an empty string do not change the stack` () {
         val t = RuntimeException ()
         assert (Arrays.equals (t.stackTrace, t.filterStackTrace ("")))
     }
 
-    fun `filtering an exception with a package only returns frames of that package` () {
+    fun `Filtering an exception with a package only returns frames of that package` () {
         val t = RuntimeException ()
         t.filterStackTrace ("com.hexagonkt").forEach {
             assert (it.className.startsWith ("com.hexagonkt"))
         }
     }
 
-    fun `hostname and ip contains valid values` () {
+    fun `Hostname and ip contains valid values` () {
         assert(hostname != "")
         assert(ip != "")
     }
 
-    fun `printing an exception returns its stack trace in the string` () {
+    fun `Printing an exception returns its stack trace in the string` () {
         val e = RuntimeException ("Runtime error")
         val trace = e.toText ()
         assert (trace.startsWith ("java.lang.RuntimeException"))
         assert (trace.contains ("\tat ${HelpersTest::class.java.name}"))
     }
 
-    fun `printing an exception with a cause returns its stack trace in the string` () {
+    fun `Printing an exception with a cause returns its stack trace in the string` () {
         val e = RuntimeException ("Runtime error", IllegalStateException ("invalid state"))
         val trace = e.toText ()
         assert (trace.startsWith ("java.lang.RuntimeException"))
         assert (trace.contains ("\tat ${HelpersTest::class.java.name}"))
     }
 
-    fun `multiple retry errors throw an exception` () {
+    fun `Multiple retry errors throw an exception` () {
         val retries = 3
         try {
-            retry(retries, 1, { throw RuntimeException ("Retry error") })
+            retry(retries, 1) { throw RuntimeException ("Retry error") }
         }
         catch (e: CodedException) {
             assert (e.causes.size == retries)
         }
     }
 
-    fun `retry does not allow invalid parameters` () {
-        assertFailsWith<IllegalArgumentException> { retry(0, 1, { }) }
-        assertFailsWith<IllegalArgumentException> { retry(1, -1, { }) }
-        retry(1, 0, { }) // Ok case
+    fun `Retry does not allow invalid parameters` () {
+        assertFailsWith<IllegalArgumentException> { retry(0, 1) { } }
+        assertFailsWith<IllegalArgumentException> { retry(1, -1) { } }
+        retry(1, 0) { } // Ok case
     }
 
-    fun `error utilities work as expected` () {
+    fun `Error utilities work as expected` () {
         assertFailsWith<IllegalStateException> { error }
     }
 
-    fun `dates are parsed from ints`() {
+    fun `Dates are parsed from ints`() {
         assert(2016_09_05_17_45_59_101.toLocalDateTime() ==
             LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
         assert(2016_09_05_17_45_58_101.toLocalDateTime() !=
             LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
     }
 
-    fun `test get`() {
+    fun `Test get`() {
         assert(m["nested", "zulu"] == "charlie")
         assert(m["nested", "zulu", "tango"] == null)
         assert(m["nested", "empty"] == null)
@@ -130,28 +132,28 @@ import kotlin.test.assertFailsWith
         assert(m[0] == 1)
     }
 
-    fun `test require`() {
+    fun `Test require`() {
         assert(m.require<String>("nested", "zulu") == "charlie")
         assert(m.require<String>("alpha") == "bravo")
         assert(m.require<Int>(0) == 1)
     }
 
-    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
-    fun `test require not found keys`() {
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `Test require not found keys`() {
         m.require<Any>("nested", "zulu", "tango")
     }
 
-    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
-    fun `test require not found map`() {
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `Test require not found map`() {
         m.require<Any>("nested", "empty")
     }
 
-    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
-    fun `test require not found first level`() {
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `Test require not found first level`() {
         m.require<Any>("empty")
     }
 
-    fun `date conversion`() {
+    fun `Date conversion`() {
         val cal = Calendar.getInstance()
         cal.set(2017, 11, 31, 0, 0, 0)
         cal.set(MILLISECOND, 0)
@@ -162,21 +164,21 @@ import kotlin.test.assertFailsWith
         assert(ld == d.toLocalDate())
     }
 
-    fun `format date`() {
+    fun `Format date`() {
         val now = LocalDateTime.now()
         assert(now.formatToIso() == now.format(ISO_DATE_TIME))
     }
 
-    fun `zoned date`() {
+    fun `Zoned date`() {
         val now = LocalDateTime.now()
         assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
     }
 
-    fun `error utilities`() {
+    fun `Error utilities`() {
         assertFailsWith<IllegalStateException>("Invalid state") { error }
     }
 
-    fun `filtered maps`() {
+    fun `Filtered maps`() {
         assert(
             mapOf(
                 "a" to "b",
@@ -199,7 +201,7 @@ import kotlin.test.assertFailsWith
         )
     }
 
-    fun `filtered lists`() {
+    fun `Filtered lists`() {
         assert(
             listOf(
                 "a",
@@ -220,14 +222,14 @@ import kotlin.test.assertFailsWith
         )
     }
 
-    fun `require resource`() {
+    fun `Require resource`() {
         assert(requireResource("service_test.yaml").file == resource("service_test.yaml")?.file)
         assertFailsWith<IllegalStateException>("foo.txt not found") {
             requireResource("foo.txt")
         }
     }
 
-    fun `resource folder`() {
+    fun `Resource folder`() {
         assert(resource("data")?.readText()?.lines()?.size ?: 0 > 0)
     }
 
@@ -235,14 +237,14 @@ import kotlin.test.assertFailsWith
         expectedExceptions = [ IllegalStateException::class ],
         expectedExceptionsMessageRegExp = "Invalid state"
     )
-    fun `error generates the correct exception`() { error }
+    fun `Error generates the correct exception`() { error }
 
     fun `readResource returns resource's text` () {
         val resourceText = readResource("logback-test.xml")
         assert(resourceText?.contains("Logback configuration for tests") ?:false)
     }
 
-    fun `parse key only query parameters return correct data` () {
+    fun `Parse key only query parameters return correct data` () {
         assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
             "a" to "1",
             "b" to "",

@@ -2,16 +2,13 @@ package com.hexagonkt.server.servlet
 
 import com.hexagonkt.HttpMethod
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.helpers.Loggable
-import com.hexagonkt.helpers.loggerOf
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.*
 import com.hexagonkt.server.FilterOrder.AFTER
 import com.hexagonkt.server.FilterOrder.BEFORE
 import com.hexagonkt.server.RequestHandler.*
 import org.slf4j.Logger
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest as HttpRequest
 import javax.servlet.http.HttpServletResponse as HttpResponse
@@ -25,9 +22,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
      */
     private class PassException: RuntimeException ()
 
-    companion object : Loggable {
-        override val log: Logger = loggerOf<(ServletFilter)>()
-    }
+    private val log: Logger = logger()
 
     private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
     private val baseExceptionHandler: ExceptionCallback =
@@ -52,7 +47,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     private val filtersByOrder = router
         .filterIsInstance(FilterHandler::class.java)
         .groupBy { it.order }
-        .mapValues { it.value.map { it.route to it.callback } }
+        .mapValues { entry -> entry.value.map { it.route to it.callback } }
 
     private val beforeFilters = filtersByOrder[BEFORE] ?: listOf()
     private val afterFilters = filtersByOrder[AFTER] ?: listOf()
@@ -67,8 +62,6 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         .map { it.exception to it.callback }
         .toMap()
 
-    private val executor: ExecutorService = Executors.newFixedThreadPool(8)
-
     /**
      * TODO Take care of filters that throw exceptions
      */
@@ -81,7 +74,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 .map {
                     req.actionPath = it.first.path
                     call.(it.second)()
-                    trace("Filter for path '${it.first.path}' executed")
+                    log.trace("Filter for path '${it.first.path}' executed")
                     true
                 }
                 .isNotEmpty()
@@ -98,11 +91,11 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 bRequest.actionPath = first.path
                 call.handleResult(call.second())
 
-                trace("Route for path '${bRequest.actionPath}' executed")
+                log.trace("Route for path '${bRequest.actionPath}' executed")
                 return true
             }
             catch (e: PassException) {
-                trace("Handler for path '${bRequest.actionPath}' passed")
+                log.trace("Handler for path '${bRequest.actionPath}' passed")
                 continue
             }
         }
@@ -159,10 +152,10 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 response.outputStream.flush()
             }
             catch (e: Exception) {
-                warn("Error handling request: ${bRequest.actionPath}", e)
+                log.warn("Error handling request: ${bRequest.actionPath}", e)
             }
 
-            trace("Status ${response.status} <${if (handled) "" else "NOT "}HANDLED>")
+            log.trace("Status ${response.status} <${if (handled) "" else "NOT "}HANDLED>")
         }
     }
 
@@ -176,7 +169,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 call.handleResult(call.handler(exception.code))
             }
             else -> {
-                fail("Error processing request", exception)
+                log.error("Error processing request", exception)
 
                 val handler = exceptionErrors[type]
 
@@ -207,7 +200,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             if (response.contentType == null && contentType != null)
                 response.contentType = contentType
 
-            trace("Resource for '$resourcePath' (${response.contentType}) found and returned")
+            log.trace("Resource for '$resourcePath' (${response.contentType}) found and returned")
             val bytes = stream.readBytes()
             response.outputStream.write(bytes)
             response.outputStream.flush()
@@ -215,7 +208,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     }
 
     private fun Call.handleResult(result: Any) {
-        trace("Result of type: ${result.javaClass.name}")
+        log.trace("Result of type: ${result.javaClass.name}")
         when (result) {
             Unit -> {
                 if (!response.statusChanged && response.status != 302)

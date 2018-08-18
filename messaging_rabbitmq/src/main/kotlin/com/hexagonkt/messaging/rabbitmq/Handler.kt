@@ -1,7 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.helpers.Loggable
-import com.hexagonkt.helpers.loggerOf
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.retry
 import com.hexagonkt.serialization.SerializationManager.formatsMap
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
@@ -30,12 +29,13 @@ internal class Handler<T : Any, R : Any> internal constructor (
     private val type: KClass<T>,
     private val handler: (T) -> R) : DefaultConsumer(channel) {
 
-    private companion object : Loggable {
-        override val log: Logger = loggerOf<Handler<*, *>>()
+    private companion object {
 
         private const val RETRIES = 5
         private const val DELAY = 50L
     }
+
+    private val log: Logger = logger()
 
     private val client: RabbitMqClient by lazy { RabbitMqClient(connectionFactory) }
 
@@ -50,9 +50,9 @@ internal class Handler<T : Any, R : Any> internal constructor (
             val contentType = formatsMap[properties.contentType] ?: defaultFormat
 
             try {
-                trace("Received message ($correlationId) in $charset")
+                log.trace("Received message ($correlationId) in $charset")
                 val request = String(body, Charset.forName(charset))
-                trace("Message body:\n$request")
+                log.trace("Message body:\n$request")
                 val input = request.parse(type, contentType)
 
                 val response = handler(input)
@@ -61,13 +61,13 @@ internal class Handler<T : Any, R : Any> internal constructor (
                     handleResponse(response, replyTo, correlationId)
             }
             catch (ex: Exception) {
-                warn("Error processing message ($correlationId) in $charset", ex)
+                log.warn("Error processing message ($correlationId) in $charset", ex)
 
                 if (replyTo != null)
                     handleError(ex, replyTo, correlationId)
             }
             finally {
-                retry(Handler.Companion.RETRIES, Handler.Companion.DELAY) {
+                retry(Handler.RETRIES, Handler.DELAY) {
                     channel.basicAck(envelope.deliveryTag, false)
                 }
             }

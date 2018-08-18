@@ -4,7 +4,7 @@ import org.testng.annotations.Test
 import java.lang.Thread.sleep
 
 @Test class CronSchedulerTest {
-    fun callback_is_executed_properly () {
+    @Test fun `Callback is executed properly` () {
         val cron = CronScheduler()
         val times = 1
         var count = 0
@@ -16,7 +16,7 @@ import java.lang.Thread.sleep
         assert (count == times)
     }
 
-    fun failing_callback_does_not_prevent_future_executions () {
+    @Test fun `Failing callback does not prevent future executions` () {
         val cron = CronScheduler()
         val times = 2
         var count = 0
