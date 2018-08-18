@@ -102,11 +102,6 @@ task testJar(type: Jar, dependsOn: testClasses) {
     from sourceSets.test.output.classesDirs
 }
 
-task dokkaJar(type: Jar, dependsOn: 'dokka') {
-    classifier 'javadoc'
-    from fileTree ("$buildDir/dokka")
-}
-
 publishing {
     publications {
         mavenJava (MavenPublication) {
@@ -114,7 +109,6 @@ publishing {
 
             artifact sourceJar // To be accepted in JCenter, the package need to include sources
             artifact testJar
-            artifact dokkaJar
         }
     }
 }
