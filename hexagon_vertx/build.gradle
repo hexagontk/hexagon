@@ -4,7 +4,7 @@ apply from: "../gradle/hexagon_module.gradle"
 ext.vertxVersion = '3.5.3'
 
 ext.junitVersion = '4.12'
-ext.cucumberVersion = '2.3.1'
+ext.cucumberVersion = '3.0.2'
 
 dependencies {
     compile (project(':hexagon_core'))
