@@ -1,11 +1,10 @@
 
-// NOTE: This import is *NEEDED* even not used
+// NOTE: This import is *NEEDED* for the `HYPHENATED` and `CAMEL_CASE` references
 import static uk.co.cacoethes.util.NameType.*
 
-import java.nio.file.Files
 import java.nio.file.Path
 
-String askParameter (String name, String value) {
+String askParameter (final String name, final String value) {
     return ask ("Define value for '$name' [$value]: ", value, name)
 }
 
@@ -15,7 +14,7 @@ String className = transformText (projectName.tr ('_', '-'), from: HYPHENATED, t
 String group = askParameter ('group', 'org.example')
 String version = askParameter ('version', '0.1')
 String description = askParameter ('description', "Service's description")
-String bindPort = askParameter ('bindPort', "Service's port")
+String bindPort = askParameter ('bindPort', "9090")
 
 Map<Object, Object> props = [
     projectDir : projectDir,
@@ -41,14 +40,9 @@ processTemplates 'src/test/resources/logback-test.xml', props
 Path projectPath = projectDir.toPath ()
 Path mainKotlin = projectPath.resolve ('src/main/kotlin')
 Path testKotlin = projectPath.resolve ('src/test/kotlin')
-Path mainPackage = mainKotlin.resolve (group.toString ().tr ('.', '/'))
-Path testPackage = testKotlin.resolve (group.toString ().tr ('.', '/'))
 
-mainPackage.toFile ().mkdirs ()
-testPackage.toFile ().mkdirs ()
-
-Files.move (mainKotlin.resolve ('Service.kt'), mainPackage.resolve ("${className}.kt"))
-Files.move (testKotlin.resolve ('ServiceTest.kt'), testPackage.resolve ("${className}Test.kt"))
+mainKotlin.toFile ().mkdirs ()
+testKotlin.toFile ().mkdirs ()
 
 /*
  * It would be good to be able to change the readme file in the settings

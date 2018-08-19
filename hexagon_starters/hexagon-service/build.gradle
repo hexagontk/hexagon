@@ -21,7 +21,6 @@ dependencies {
     compile ("com.hexagonkt:port_client:\$hexagonVersion")
     compile ("com.hexagonkt:store_mongodb:\$hexagonVersion")
     compile ("com.hexagonkt:templates_pebble:\$hexagonVersion")
-    compile ("com.hexagonkt:templates_kotlinx:\$hexagonVersion")
 
     // providedCompile excludes the dependency only in the WAR, not in the distribution
     providedCompile ("org.eclipse.jetty:jetty-webapp:\$jettyVersion") {
@@ -29,5 +28,5 @@ dependencies {
     }
 
     testCompile ("org.testng:testng:\$testngVersion")
-    testCompile ("com.rabbitmq:amqp-client:\$rabbitVersion")
+    testCompile ("junit:junit:\$junitVersion")
 }

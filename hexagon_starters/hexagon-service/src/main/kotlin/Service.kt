@@ -20,8 +20,6 @@ val router = router {
     }
 
     get("/text") { ok("Hello, World!", "text/plain") }
-
-    get("/template") { template("page.html") }
 }
 
 /**
