@@ -1,4 +1,4 @@
-package ${group}
+package starter
 
 import java.time.LocalDateTime.now
 import javax.servlet.annotation.WebListener
@@ -34,4 +34,3 @@ val server = Server(serverEngine = JettyServletAdapter(), router = router)
 fun main(vararg args: String) {
     server.run()
 }
-
