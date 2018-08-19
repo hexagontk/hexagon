@@ -1,12 +1,13 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.serialization.SerializationManager.formats
+import org.testng.annotations.Test
 import kotlin.reflect.KClass
 
-abstract class SerializationTest<T : Any> (val type: KClass<T>) {
+abstract class SerializationTest<out T : Any> (private val type: KClass<T>) {
     abstract val testObjects: List<T>
 
-    fun `Object is mapped and parsed back without error` () {
+    @Test fun `Object is mapped and parsed back without error` () {
         formats.forEach { contentType ->
             testObjects.forEach {
                 val map = it.convertToMap ()

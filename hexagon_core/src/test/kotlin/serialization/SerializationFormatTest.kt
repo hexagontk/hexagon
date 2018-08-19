@@ -34,16 +34,16 @@ import kotlin.reflect.KClass
         }
     }
 
-    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
-    fun `a binary format fails to serialize to a string` () {
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `A binary format fails to serialize to a string` () {
         BinaryTestFormat().serialize("foo")
     }
 
-    fun `a text format can be serialized to a string` () {
+    @Test fun `A text format can be serialized to a string` () {
         assert (TextTestFormat().serialize("foo") == "foo")
     }
 
-    fun `test Jackson test format` () {
+    @Test fun `Test Jackson text format` () {
         assert(!YamlFormat.isBinary)
         val output = ByteArrayOutputStream()
         YamlFormat.serialize(mapOf("key" to "value"), output)

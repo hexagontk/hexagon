@@ -1,6 +1,7 @@
 package com.hexagonkt.serialization
 
 import com.fasterxml.jackson.core.JsonFactory
+import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.*
@@ -16,7 +17,7 @@ internal open class JacksonTextFormat(
         SerializationFormat {
 
     private val mapper =
-        if (factoryGenerator == null) JacksonHelper.mapper
+        if (factoryGenerator == null) com.hexagonkt.serialization.mapper
         else createObjectMapper(factoryGenerator())
 
     override val contentType = "application/${extensions.first()}"
@@ -33,10 +34,20 @@ internal open class JacksonTextFormat(
     override fun serialize(obj: Any): String = writer.writeValueAsString (obj)
 
     override fun <T : Any> parse(input: InputStream, type: KClass<T>): T =
-        mapper.readValue (input, type.java)
+        try {
+            mapper.readValue (input, type.java)
+        }
+        catch (e: JsonProcessingException) {
+            throw ParseException(e)
+        }
 
     override fun <T : Any> parseList(input: InputStream, type: KClass<T>): List<T> =
-        mapper.readValue (input, collectionType(List::class, type))
+        try {
+            mapper.readValue (input, collectionType(List::class, type))
+        }
+        catch (e: JsonProcessingException) {
+            throw ParseException(e)
+        }
 
     private fun <T : Collection<*>> collectionType(coll: KClass<T>, type: KClass<*>) =
         mapper.typeFactory.constructCollectionType(coll.java, type.java)

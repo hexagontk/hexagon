@@ -1,6 +1,7 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.serialization.SerializationManager.contentTypes
+import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.SerializationManager.formatsMap
@@ -13,7 +14,7 @@ import org.testng.annotations.Test
 @Test class SerializationManagerTest {
     @BeforeMethod @AfterMethod fun resetSerializationFormats () { formats = coreFormats }
 
-    fun `user can add and remove serialization formats` () {
+    @Test fun `User can add and remove serialization formats` () {
         assert (formats == coreFormats)
         assert (contentTypes == linkedSetOf(JsonFormat.contentType, YamlFormat.contentType))
         assert (formatsMap == linkedMapOf(
@@ -40,31 +41,31 @@ import org.testng.annotations.Test
         ))
     }
 
-    fun `user can change default format` () {
+    @Test fun `User can change default format` () {
         assert (defaultFormat == JsonFormat)
 
         defaultFormat = YamlFormat
         assert (defaultFormat == YamlFormat)
     }
 
-    @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
-    fun `user can not set an empty list of formats` () {
+    @Test(expectedExceptions = [ IllegalArgumentException::class ])
+    fun `User can not set an empty list of formats` () {
         formats = linkedSetOf()
     }
 
-    @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
-    fun `user can not set a default format not loaded` () {
+    @Test(expectedExceptions = [ IllegalArgumentException::class ])
+    fun `User can not set a default format not loaded` () {
         formats = linkedSetOf(YamlFormat)
         defaultFormat = JsonFormat
     }
 
-    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
-    fun `searching a format not loaded raises an exception` () {
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `Searching a format not loaded raises an exception` () {
         formats = linkedSetOf(YamlFormat)
         getContentTypeFormat(JsonFormat.contentType)
     }
 
-    fun `serialization manager can get the content type by an extension` () {
+    @Test fun `Serialization manager can get the content type by an extension` () {
         assert(SerializationManager.getFileFormat("a.json") == JsonFormat)
         assert(SerializationManager.getFileFormat("a.yaml") == YamlFormat)
         assert(SerializationManager.getFileFormat("a.yml") == YamlFormat)

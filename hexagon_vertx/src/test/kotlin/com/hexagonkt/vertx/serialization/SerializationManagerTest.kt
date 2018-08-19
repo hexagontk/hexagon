@@ -1,6 +1,8 @@
 package com.hexagonkt.vertx.serialization
 
-import com.hexagonkt.vertx.serialization.SerializationManager.coreFormats
+import com.hexagonkt.serialization.JsonFormat
+import com.hexagonkt.serialization.SerializationManager.coreFormats
+import com.hexagonkt.serialization.YamlFormat
 import com.hexagonkt.vertx.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.vertx.serialization.SerializationManager.formats
 import com.hexagonkt.vertx.serialization.SerializationManager.formatsMap

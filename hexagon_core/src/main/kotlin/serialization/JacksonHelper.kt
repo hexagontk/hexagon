@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonParser.Feature.*
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.fasterxml.jackson.core.*
 import com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY
-import com.fasterxml.jackson.databind.DeserializationFeature.WRAP_EXCEPTIONS
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES
 import com.fasterxml.jackson.databind.SerializationFeature.*
@@ -17,42 +16,39 @@ import com.fasterxml.jackson.core.JsonToken.START_OBJECT
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
 
 object JacksonHelper {
-    val mapper: ObjectMapper = createObjectMapper ()
-
     fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
-        ObjectMapper (mapperFactory)
-            .configure (FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .configure (FAIL_ON_EMPTY_BEANS, false)
-            .configure (ALLOW_UNQUOTED_FIELD_NAMES, true)
-            .configure (ALLOW_COMMENTS, true)
-            .configure (ALLOW_SINGLE_QUOTES, true)
-            .configure (WRAP_EXCEPTIONS, false)
-            .configure (FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
-            .configure (ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
-            .setSerializationInclusion (NON_EMPTY)
-            .setDateFormat (SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"))
-            .registerModule (KotlinModule ())
-            .registerModule (ParameterNamesModule())
-            .registerModule (JavaTimeModule())
-            .registerModule (Jdk8Module())
-            .registerModule (SimpleModule("SerializationModule", Version.unknownVersion())
-                .addSerializer (ByteBuffer::class.java, ByteBufferSerializer)
-                .addDeserializer (ByteBuffer::class.java, ByteBufferDeserializer)
-                .addSerializer (ClosedRange::class.java, ClosedRangeSerializer)
-                .addDeserializer (ClosedRange::class.java, ClosedRangeDeserializer())
-            )
+        setupObjectMapper(ObjectMapper(mapperFactory))
+
+    fun setupObjectMapper(objectMapper: ObjectMapper): ObjectMapper = objectMapper
+        .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(FAIL_ON_EMPTY_BEANS, false)
+        .configure(ALLOW_UNQUOTED_FIELD_NAMES, true)
+        .configure(ALLOW_COMMENTS, true)
+        .configure(ALLOW_SINGLE_QUOTES, true)
+        .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
+        .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
+        .setSerializationInclusion(NON_EMPTY)
+        .setDateFormat(SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"))
+        .registerModule(KotlinModule ())
+        .registerModule(JavaTimeModule())
+        .registerModule(Jdk8Module())
+        .registerModule(SimpleModule("SerializationModule", Version.unknownVersion())
+            .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)
+            .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)
+            .addSerializer(ClosedRange::class.java, ClosedRangeSerializer)
+            .addDeserializer(ClosedRange::class.java, ClosedRangeDeserializer())
+        )
 
     private object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
         override fun serialize(
             value: ByteBuffer, gen: JsonGenerator, serializers: SerializerProvider) {
 
-            gen.writeString (Base64.getEncoder ().encodeToString (value.array()))
+            gen.writeString(Base64.getEncoder ().encodeToString (value.array()))
         }
     }
 

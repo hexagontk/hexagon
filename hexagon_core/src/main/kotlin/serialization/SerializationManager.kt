@@ -4,6 +4,8 @@ import com.hexagonkt.helpers.eol
 import com.hexagonkt.helpers.mimeTypes
 
 object SerializationManager {
+    val coreFormats: LinkedHashSet<SerializationFormat> = linkedSetOf (JsonFormat, YamlFormat)
+
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     var formats: LinkedHashSet<SerializationFormat> = coreFormats
         set(value) {
@@ -11,6 +13,7 @@ object SerializationManager {
             field = value
             contentTypes = contentTypes()
             formatsMap = formatsMap()
+            extensions = value.flatMap { f -> f.extensions.map { it to f.contentType } }.toMap()
             mimeTypes.addMimeTypes(
                 formats.joinToString(eol) { "${it.contentType} ${it.extensions.joinToString(" ")}" }
             )
@@ -25,15 +28,28 @@ object SerializationManager {
     var defaultFormat: SerializationFormat = formats.first()
         set(value) {
             require(formats.contains(value)) {
-                "'$value' not available in: ${contentTypes.joinToString(", ")}"
+                val contentTypes = formats.joinToString(", ") { it.contentType }
+                "'$value' not available in: $contentTypes"
             }
             field = value
         }
 
-    fun setFormats(vararg formats: SerializationFormat) { this.formats = linkedSetOf(*formats) }
+    private var extensions: Map<String, String> = extensions(coreFormats)
+
+    fun setFormats(vararg formats: SerializationFormat) {
+        SerializationManager.formats = linkedSetOf(*formats)
+    }
 
     fun getContentTypeFormat(contentType: String): SerializationFormat =
         formatsMap[contentType] ?: error("$contentType not found")
+
+//    fun getMimeTypeForExtension(ext: String): String =
+//        extensions[ext] ?: MimeMapping.getMimeTypeForExtension(ext)
+//
+//    fun getMimeTypeForFilename(filename: String): String {
+//        val ext = filename.substringAfterLast('.')
+//        return extensions[ext] ?: MimeMapping.getMimeTypeForFilename(filename) ?: error
+//    }
 
     internal fun getFileFormat(extension: String): SerializationFormat =
         getContentTypeFormat(mimeTypes.getContentType(extension))
@@ -41,4 +57,7 @@ object SerializationManager {
     private fun contentTypes () = LinkedHashSet(formats.map { it.contentType })
 
     private fun formatsMap () = linkedMapOf (*formats.map { it.contentType to it }.toTypedArray())
+
+    private fun extensions (formats: HashSet<SerializationFormat>) =
+        formats.flatMap { f -> f.extensions.map { it to f.contentType } }.toMap()
 }

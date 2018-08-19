@@ -3,13 +3,13 @@ package com.hexagonkt.vertx.http.store
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.sync
 import com.hexagonkt.helpers.time
+import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.vertx.VertxApplication
 import com.hexagonkt.vertx.createVertx
 import com.hexagonkt.vertx.http.HttpVerticle
 import com.hexagonkt.vertx.http.client.createWebClient
 import com.hexagonkt.vertx.http.client.send
 import com.hexagonkt.vertx.http.client.sendBuffer
-import com.hexagonkt.vertx.serialization.SerializationFormat
 import com.hexagonkt.vertx.serialization.SerializationManager.formats
 import com.hexagonkt.vertx.serialization.parse
 import com.hexagonkt.vertx.serialization.parseList

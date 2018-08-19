@@ -1,4 +1,4 @@
-package com.hexagonkt.vertx.serialization
+package com.hexagonkt.serialization
 
 import com.fasterxml.jackson.databind.JsonMappingException
 

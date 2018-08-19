@@ -1,10 +1,11 @@
 package com.hexagonkt.serialization
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.hexagonkt.helpers.mimeTypes
 import com.hexagonkt.helpers.toStream
-import com.hexagonkt.serialization.JacksonHelper.mapper
+import com.hexagonkt.serialization.JacksonHelper.createObjectMapper
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
 import java.io.File
@@ -14,14 +15,18 @@ import kotlin.reflect.KClass
 
 object JsonFormat : SerializationFormat by JacksonTextFormat(linkedSetOf("json"))
 
-object YamlFormat : SerializationFormat by JacksonTextFormat(linkedSetOf("yaml", "yml"), {
-    with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) }
-})
+@Suppress("MoveLambdaOutsideParentheses") // In this case that syntax cannot be used
+object YamlFormat : SerializationFormat by JacksonTextFormat(
+    linkedSetOf("yaml", "yml"),
+    { with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) } }
+)
 
-val coreFormats: LinkedHashSet<SerializationFormat> = linkedSetOf (JsonFormat, YamlFormat)
+val mapper: ObjectMapper by lazy { createObjectMapper () }
 
 // MAPPING /////////////////////////////////////////////////////////////////////////////////////////
-fun Any.convertToMap(): Map<*, *> = mapper.convertValue (this, Map::class.java)
+fun Any.convertToMap(): Map<String, *> = mapper.convertValue (this, Map::class.java)
+    .filter { it.key is String }
+    .mapKeys { it.key.toString() }
 
 fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = mapper.convertValue(this, type.java)
 
@@ -29,6 +34,8 @@ fun <T : Any> List<Map<*, *>>.convertToObjects(type: KClass<T>): List<T> =
     this.map { it: Map<*, *> -> it.convertToObject(type) }
 
 fun Any.serialize (format: SerializationFormat = defaultFormat): String = format.serialize(this)
+
+fun Any.serialize (contentType: String): String = this.serialize(getContentTypeFormat(contentType))
 
 // INPUT STREAM ////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> InputStream.parse (type: KClass<T>, format: SerializationFormat = defaultFormat): T =

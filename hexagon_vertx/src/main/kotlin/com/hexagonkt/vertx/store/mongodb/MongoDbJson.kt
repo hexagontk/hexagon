@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.Version
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.hexagonkt.vertx.serialization.JacksonHelper
+import com.hexagonkt.serialization.JacksonHelper
 import kotlin.reflect.KClass
 
 /**

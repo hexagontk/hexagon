@@ -1,11 +1,11 @@
 package com.hexagonkt.vertx.serialization
 
 import com.hexagonkt.helpers.error
+import com.hexagonkt.serialization.SerializationFormat
 import io.vertx.core.http.impl.MimeMapping
+import com.hexagonkt.serialization.SerializationManager.coreFormats
 
 object SerializationManager {
-    val coreFormats: LinkedHashSet<SerializationFormat> = linkedSetOf (JsonFormat, YamlFormat)
-
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     var formats: LinkedHashSet<SerializationFormat> = coreFormats
         set(value) {
