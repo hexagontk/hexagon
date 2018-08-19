@@ -15,7 +15,7 @@ applicationDefaultJvmArgs = [
     '-Xms2G', '-Xmx2G', '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts'
 ]
 
-ext.jettyVersion = '9.4.8.v20171121'
+ext.jettyVersion = '9.4.8.v20180619'
 
 war {
     archiveName = "ROOT.war"
