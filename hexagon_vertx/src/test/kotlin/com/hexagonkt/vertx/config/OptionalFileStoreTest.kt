@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx.config
 
-import com.hexagonkt.sync
+import com.hexagonkt.helpers.sync
 import io.vertx.config.ConfigRetriever
 import io.vertx.core.Future.future
 import io.vertx.kotlin.config.ConfigRetrieverOptions

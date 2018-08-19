@@ -28,7 +28,7 @@ typing:
 git clone https://github.com/hexagonkt/hexagon.git
 cd hexagon
 docker-compose up -d
-./gradlew clean check jmh site installDist jacocoReport installAllTemplates publishToMavenLocal tfb
+./gradlew clean all publishToMavenLocal
 ```
 
 The binaries are located in the `/build` directory. And the site in `/hexagon_site/build`.
@@ -43,9 +43,8 @@ alias dcupd='docker-compose up -d'
 ```
 
 It is recommended that you add:
-`gradlew clean check jmh site installDist jacocoReport installAllTemplates publishToMavenLocal tfb`
-to your `.git/hooks/pre-push` script. As this command will be executed before pushing code to the
-repository (saving time fixing [Travis] build errors).
+`gradlew clean all publishToMavenLocal` to your `.git/hooks/pre-push` script. As this command will
+be executed before pushing code to the repository (saving time fixing [Travis] build errors).
 
 If you want to commit to the project. It is convenient to setup your own [Travis] account to execute
 the CI job defined in `.travis.yml` when code is pushed to your fork.

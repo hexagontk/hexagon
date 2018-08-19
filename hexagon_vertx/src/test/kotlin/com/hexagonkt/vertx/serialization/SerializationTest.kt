@@ -16,6 +16,7 @@ abstract class SerializationTest<out T : Any> (private val type: KClass<T>) {
                 assert(it == object2)
 
                 val modelString = it.serialize(contentType)
+                assert(modelString == it.serialize(contentType.contentType))
                 val object3 = modelString.parse(type, contentType)
                 assert(it == object3)
 

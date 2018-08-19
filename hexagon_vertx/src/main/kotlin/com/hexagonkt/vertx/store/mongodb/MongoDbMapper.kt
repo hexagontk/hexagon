@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx.store.mongodb
 
-import com.hexagonkt.error
+import com.hexagonkt.helpers.error
 import com.hexagonkt.vertx.store.Mapper
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1

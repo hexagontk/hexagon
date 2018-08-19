@@ -1,6 +1,6 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.Log
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.store.Store
 import com.mongodb.async.client.MongoClients.getDefaultCodecRegistry
 import com.mongodb.async.client.MongoCollection
@@ -13,7 +13,6 @@ import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.channels.produce
 import kotlinx.coroutines.experimental.runBlocking
-import org.bson.Document
 import org.bson.codecs.configuration.CodecRegistries.fromProviders
 import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import org.bson.types.ObjectId
@@ -38,39 +37,39 @@ class MongoDbStore <T : Any, K : Any>(
         fromProviders(JacksonCodecProvider(key, useObjectId, useUnderscoreId)))
     )
 
-    private val collection: MongoCollection<Document> = this.database.getCollection(name)
     private val typedCollection: MongoCollection<T> =
         this.database.getCollection<T>(name, type.java)
 
     init {
         if (useObjectId)
-            database.createCollection(
-                this.name,
-                CreateCollectionOptions().autoIndex(false),
-                { _, t -> t } // TODO Make it sync
-            )
+            // TODO Make it sync
+            database.createCollection(name, CreateCollectionOptions().autoIndex(false)) { _, _ ->
+               logger.info("Collection without auto index created for: $name")
+            }
 
-        typedCollection.createIndex(
-            if (indexOrder == 1) Indexes.ascending(key.name) else Indexes.descending(key.name),
-            IndexOptions().unique(true).background(true),
-            { _, _ -> Log.info("Index created for: $name with field: ${key.name}") } // TODO Log
-        )
+        val index =
+            if (indexOrder == 1) Indexes.ascending(key.name)
+            else Indexes.descending(key.name)
+
+        typedCollection.createIndex(index, IndexOptions().unique(true).background(true)) { _, _ ->
+            logger.info("Index created for: $name with field: ${key.name}")
+        }
     }
 
-    suspend override fun insertOne(instance: T): K = suspendCoroutine {
+    override suspend fun insertOne(instance: T): K = suspendCoroutine {
         typedCollection.insertOne(instance) { _, error ->
             if (error == null) it.resume(key.get(instance))
             else it.resumeWithException(error)
         }
     }
 
-    suspend override fun insertMany(instances: List<T>): ReceiveChannel<K> = produce {
+    override suspend fun insertMany(instances: List<T>): ReceiveChannel<K> = produce {
         if (!instances.isEmpty())
             suspendCoroutine<Unit> {
                 typedCollection.insertMany(instances) { _, error ->
                     if (error == null) {
                         runBlocking {
-                            instances.forEach { send(key.get(it))}
+                            instances.forEach { instance -> send(key.get(instance))}
                         }
                         it.resume(Unit)
                     }
@@ -79,46 +78,46 @@ class MongoDbStore <T : Any, K : Any>(
             }
     }
 
-    suspend override fun replaceOne(instance: T): Boolean = suspendCoroutine {
+    override suspend fun replaceOne(instance: T): Boolean = suspendCoroutine {
         typedCollection.replaceOne(eq(key.name, getKey(instance)), instance) { result, error ->
             if (error == null) it.resume(result.modifiedCount == 1L)
             else it.resumeWithException(error)
         }
     }
 
-    suspend override fun replaceMany(instances: List<T>): ReceiveChannel<T> = produce {
+    override suspend fun replaceMany(instances: List<T>): ReceiveChannel<T> = produce {
         instances.map { if (replaceOne(it)) send(it) }
     }
 
-    suspend override fun updateOne(key: K, updates: Map<String, *>): Boolean = suspendCoroutine {
+    override suspend fun updateOne(key: K, updates: Map<String, *>): Boolean = suspendCoroutine {
  //        return updateOne(key, createUpdate(updates))
         TODO("not implemented")
     }
 
-    suspend override fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long {
+    override suspend fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long {
         TODO("not implemented")
     }
 
-    suspend override fun deleteOne(id: K): Boolean {
+    override suspend fun deleteOne(id: K): Boolean {
         TODO("not implemented")
     }
 
-    suspend override fun deleteMany(filter: Map<String, List<*>>): Long {
+    override suspend fun deleteMany(filter: Map<String, List<*>>): Long {
         TODO("not implemented")
     }
 
-    suspend override fun findOne(key: K): T? = suspendCoroutine {
+    override suspend fun findOne(key: K): T? = suspendCoroutine {
         typedCollection.find (eq (this.key.name, convertKey (key))).first { result, error ->
             if (error == null) it.resume(result)
             else it.resumeWithException(error)
         }
     }
 
-    suspend override fun findOne(key: K, fields: List<String>): Map<String, *> {
+    override suspend fun findOne(key: K, fields: List<String>): Map<String, *> {
         TODO("not implemented")
     }
 
-    suspend override fun findMany(
+    override suspend fun findMany(
         filter: Map<String, List<*>>,
         limit: Int?,
         skip: Int?,
@@ -127,7 +126,7 @@ class MongoDbStore <T : Any, K : Any>(
         TODO("not implemented")
     }
 
-    suspend override fun findMany(
+    override suspend fun findMany(
         filter: Map<String, List<*>>,
         fields: List<String>,
         limit: Int?,
@@ -137,7 +136,7 @@ class MongoDbStore <T : Any, K : Any>(
         TODO("not implemented")
     }
 
-    suspend override fun count(filter: Map<String, List<*>>): Long {
+    override suspend fun count(filter: Map<String, List<*>>): Long {
         TODO("not implemented")
     }
 

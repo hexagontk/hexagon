@@ -1,7 +1,7 @@
 package com.hexagonkt.vertx.http
 
-import com.hexagonkt.CodedException
-import com.hexagonkt.vertx.serialization.SerializationFormat
+import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.vertx.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.vertx.serialization.SerializationManager.formatsMap
 import com.hexagonkt.vertx.serialization.parse

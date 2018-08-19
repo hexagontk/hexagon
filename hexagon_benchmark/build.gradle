@@ -2,8 +2,8 @@
 apply from: "../gradle/kotlin.gradle"
 apply from: "../gradle/service.gradle"
 
+apply plugin: 'scala'
 apply plugin: 'war'
-apply plugin: 'me.champeau.gradle.jmh'
 apply plugin: 'com.fizzed.rocker'
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
@@ -23,6 +23,8 @@ applicationDefaultJvmArgs = [
 
 ext.hikariVersion = '2.6.2'
 ext.postgresqlVersion = '42.0.0'
+ext.gatlingVersion = "2.3.1"
+ext.junitVersion = "4.12"
 
 ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 ext.databases = [ 'MongoDB', 'PostgreSQL' ]
@@ -45,15 +47,10 @@ dependencies {
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
-    // Added for IntelliJ IDEA to compile JMH tests inside the IDE
-    compileOnly ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
-    compileOnly ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
-
     testCompile project(':port_client')
     testCompile ("org.testng:testng:$testngVersion")
-
-    jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
-    annotationProcessor ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
+    testCompile ("junit:junit:$junitVersion")
+    testCompile ("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 }
 
 sourceSets {
@@ -68,20 +65,6 @@ test {
     useTestNG ()
 }
 
-jmh {
-    iterations = 5
-    benchmarkMode = [ 'all' ]
-    batchSize = 1
-    fork = 1
-    operationsPerInvocation = 5
-    timeOnIteration = '1s'
-    warmup = '1s'
-    warmupBatchSize = 5
-    warmupIterations = 1
-
-    jmhVersion = jmhBenchmarkVersion
-}
-
 //noinspection GroovyAssignabilityCheck
 task tfb(dependsOn: [ 'benchmarkCode', 'benchmarkConfig', 'setupScripts' ])
 
@@ -89,7 +72,6 @@ task tfb(dependsOn: [ 'benchmarkCode', 'benchmarkConfig', 'setupScripts' ])
 task copyTfb(type: Copy) {
     from projectDir
     include 'src/**', 'tfb.gradle', 'readme.md'
-    exclude 'src/jmh'
     into tfbBuildDir
     rename 'tfb.gradle', 'build.gradle'
 }

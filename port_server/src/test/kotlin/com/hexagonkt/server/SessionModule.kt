@@ -1,13 +1,12 @@
 package com.hexagonkt.server
 
 import com.hexagonkt.client.Client
-import com.hexagonkt.helpers.Loggable
-import com.hexagonkt.helpers.loggerOf
+import com.hexagonkt.helpers.logger
 import org.slf4j.Logger
 
-@Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
-internal class SessionModule : TestModule(), Loggable {
-    override val log: Logger = loggerOf<SessionModule>()
+@Suppress("unused", "MemberVisibilityCanBePrivate") // Test methods are flagged as unused
+internal class SessionModule : TestModule() {
+    private val log: Logger = logger()
 
     override fun initialize(): Router = router {
         get("/session/id") {
@@ -16,7 +15,7 @@ internal class SessionModule : TestModule(), Loggable {
                 session.id = "sessionId"
             }
             catch (e: UnsupportedOperationException) {
-                info("Unsupported by framework")
+                log.info("Unsupported by framework")
             }
             assert(id == session.id ?: "null")
             ok(id)

@@ -1,8 +1,8 @@
+
 import static java.lang.System.getenv
 
 apply plugin: 'uk.co.cacoethes.lazybones-templates'
 
-// TODO Write version to template `VERSION` file
 // TODO Replace version in template `gradle.properties`
 // TODO Include all subdirs as templateDirs
 lazybones {
@@ -16,5 +16,36 @@ lazybones {
     setRepositoryApiKey btKey.toString () ?: 'anonymous'
 
     licenses = [ 'MIT' ]
-    setTemplateDirs(files("$projectDir/hexagon-service"))
+    setTemplateDirs(files("$buildDir/hexagon-service"))
 }
+
+// This is required because of a flaw in this Gradle plugin :/
+clean {
+    doLast {
+        mkdir ("$buildDir/hexagon-service")
+        new File("$buildDir/hexagon-service/VERSION").text = rootProject.version
+    }
+}
+
+task processTemplate() {
+    // This must be done in *CONFIGURATION* phase because of a flaw in this Gradle plugin :/
+    copy {
+        from "$projectDir/hexagon-service"
+        into "$buildDir/hexagon-service"
+    }
+
+    copy {
+        from "$rootDir/gradle/wrapper"
+        into "$buildDir/hexagon-service/gradle/wrapper"
+    }
+
+    copy {
+        from rootDir
+        into "$buildDir/hexagon-service"
+        include 'gradlew', 'gradlew.bat', '.editorconfig'
+    }
+
+    new File("$buildDir/hexagon-service/VERSION").text = rootProject.version
+}
+
+packageAllTemplates.dependsOn 'processTemplate'

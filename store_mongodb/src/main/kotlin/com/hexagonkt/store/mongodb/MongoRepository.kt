@@ -1,7 +1,6 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.Loggable
-import com.hexagonkt.helpers.loggerOf
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parseList
@@ -19,14 +18,15 @@ import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
+@Suppress("MemberVisibilityCanBePrivate") // This class has public methods for library clients use
 open class MongoRepository <T : Any> (
     val type: KClass<T>,
     collection: MongoCollection<Document>,
     protected val onStore: (Document) -> Document = { it },
     protected val onLoad: (Document) -> Document = { it }
-) : MongoCollection<Document> by collection, Loggable {
+) : MongoCollection<Document> by collection {
 
-    override val log: Logger = loggerOf<MongoRepository<T>>()
+    private val log: Logger = logger()
 
     constructor (type: KClass<T>, database: MongoDatabase = mongoDatabase()) :
         this(type, mongoCollection(type.simpleName ?: error("Error getting type name"), database))
@@ -53,35 +53,26 @@ open class MongoRepository <T : Any> (
         insertMany (map (documents), options)
     }
 
-    fun replaceOneObject (filter: Bson, replacement: T): UpdateResult {
-        val result = replaceOne (filter, map (replacement))
-        return result
-    }
+    fun replaceOneObject (filter: Bson, replacement: T): UpdateResult =
+        replaceOne (filter, map (replacement))
 
-    fun replaceOneObject (filter: Bson, replacement: T, options: UpdateOptions): UpdateResult {
-        val result = replaceOne (filter, map (replacement), options)
-        return result
-    }
+    fun replaceOneObject (filter: Bson, replacement: T, options: UpdateOptions): UpdateResult =
+        replaceOne (filter, map (replacement), options)
 
-    fun findOneObjectAndReplace (filter: Bson, replacement: T): T {
-        val result = unmap (findOneAndReplace (filter, map (replacement)))
-        return result
-    }
+    fun findOneObjectAndReplace (filter: Bson, replacement: T): T =
+        unmap (findOneAndReplace (filter, map (replacement)))
 
     fun findOneObjectAndReplace (
-        filter: Bson, replacement: T, options: FindOneAndReplaceOptions): T {
-
-        val result = unmap (findOneAndReplace (filter, map (replacement), options))
-        return result
-    }
+        filter: Bson, replacement: T, options: FindOneAndReplaceOptions): T =
+            unmap (findOneAndReplace (filter, map (replacement), options))
 
     fun findObjects (setup: FindIterable<*>.() -> Unit = {}) = fo(null, setup)
     fun findObjects (filter: Bson, setup: FindIterable<*>.() -> Unit = {}) = fo(filter, setup)
 
     private fun fo (filter: Bson?, setup: FindIterable<*>.() -> Unit = {}): MongoIterable<T> =
-        (if (filter == null) find() else find (filter)).let {
-            it.setup()
-            it.map { unmap(it) }
+        (if (filter == null) find() else find (filter)).let { findIterable ->
+            findIterable.setup()
+            findIterable.map { unmap(it) }
         }
 
     fun findOneObject (filter: Bson, setup: FindIterable<*>.() -> Unit = {}): T? =
@@ -120,7 +111,7 @@ open class MongoRepository <T : Any> (
                 this.insertOneObject(it)
             }
             catch (e: Exception) {
-                warn("$it already inserted")
+                log.warn("$it already inserted")
             }
         }
     }

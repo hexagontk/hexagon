@@ -1,6 +1,13 @@
 package com.hexagonkt.server
 
 import com.hexagonkt.helpers.*
+import com.hexagonkt.helpers.Environment.cpuCount
+import com.hexagonkt.helpers.Environment.hostname
+import com.hexagonkt.helpers.Environment.ip
+import com.hexagonkt.helpers.Environment.jvmName
+import com.hexagonkt.helpers.Environment.jvmVersion
+import com.hexagonkt.helpers.Environment.locale
+import com.hexagonkt.helpers.Environment.timezone
 import com.hexagonkt.settings.SettingsManager.environment
 import org.slf4j.Logger
 
@@ -24,13 +31,13 @@ data class Server (
     val bindPort: Int = Server.DEFAULT_PORT,
     val router: Router = Router()) {
 
-    internal companion object : Loggable {
-        override val log: Logger = loggerOf<Server>()
-
+    internal companion object {
         internal const val DEFAULT_NAME = "<undefined>"
         internal const val DEFAULT_ADDRESS = "127.0.0.1"
         internal const val DEFAULT_PORT = 2010
     }
+
+    private val log: Logger = logger()
 
     constructor(serverEngine: ServerPort, settings: Map<String, *>, router: Router = Router()) :
         this (
@@ -58,12 +65,12 @@ data class Server (
         )
 
         serverEngine.startup (this)
-        info ("$serverName started${createBanner()}")
+        log.info ("$serverName started${createBanner()}")
     }
 
     fun stop() {
         serverEngine.shutdown ()
-        info ("$serverName stopped")
+        log.info ("$serverName stopped")
     }
 
     private fun createBanner(): String {

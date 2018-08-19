@@ -1,10 +1,10 @@
 package com.hexagonkt.vertx
 
 import com.fasterxml.jackson.databind.ObjectWriter
-import com.hexagonkt.CodedException
-import com.hexagonkt.info
-import com.hexagonkt.logger
-import com.hexagonkt.sync
+import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.helpers.info
+import com.hexagonkt.helpers.logger
+import com.hexagonkt.helpers.sync
 import com.hexagonkt.vertx.http.*
 import com.hexagonkt.vertx.http.store.StoreController
 import com.hexagonkt.vertx.store.Store

@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx
 
-import com.hexagonkt.vertx.serialization.JacksonHelper.setupObjectMapper
+import com.hexagonkt.serialization.JacksonHelper.setupObjectMapper
 import io.vertx.core.Future
 import io.vertx.core.Verticle
 import io.vertx.core.Vertx

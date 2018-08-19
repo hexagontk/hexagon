@@ -1,9 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.helpers.Loggable
-import com.hexagonkt.helpers.filter
-import com.hexagonkt.helpers.findGroups
-import com.hexagonkt.helpers.loggerOf
+import com.hexagonkt.helpers.*
 import org.slf4j.Logger
 
 /**
@@ -15,9 +12,7 @@ import org.slf4j.Logger
  *   * Delimiter is {var} to conform with [RFC 6570](https://tools.ietf.org/html/rfc6570)
  */
 data class Path (val path: String) {
-    private companion object : Loggable {
-        override val log: Logger = loggerOf<Path>()
-
+    private companion object {
         internal const val PARAMETER_PREFIX = "{"
         internal const val PARAMETER_SUFFIX = "}"
 

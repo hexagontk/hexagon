@@ -6,10 +6,8 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.60' apply false
     id 'org.jetbrains.dokka' version '0.9.17' apply false
     id 'com.jfrog.bintray' version '1.8.4' apply false
-    // TODO Use 'official' plugin from JBake: https://github.com/jbake-org/jbake-gradle-plugin
-    id 'org.xbib.gradle.plugin.jbake' version '1.2.1' apply false
+    id 'org.jbake.site' version '1.2.0' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
-    id 'me.champeau.gradle.jmh' version '0.4.7' apply false
     id 'com.fizzed.rocker' version '0.24.0' apply false
 }
 
@@ -54,7 +52,6 @@ task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: Ja
 
 task all (dependsOn:
     project.getTasksByName ('build', true) +
-    project.getTasksByName ('jmh', true) +
     project.getTasksByName ('site', true) +
     project.getTasksByName ('jacocoReport', true) +
     project.getTasksByName ('installDist', true) +

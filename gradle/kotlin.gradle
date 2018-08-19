@@ -62,6 +62,11 @@ clean {
 
 // Show useful testing information while running tests
 tasks.withType (Test).each { testTask ->
+    testTask.outputs.upToDateWhen { false }
+    // TODO Use this also in `processResources`
+    // TODO Add more useful variables
+    testTask.systemProperties (project.getProperties().subMap ('projectDir', 'buildDir'))
+
     testTask.testLogging {
         events 'skipped', 'failed', 'standardOut', 'standardError'
     }
@@ -102,11 +107,6 @@ task testJar(type: Jar, dependsOn: testClasses) {
     from sourceSets.test.output.classesDirs
 }
 
-task dokkaJar(type: Jar, dependsOn: 'dokka') {
-    classifier 'javadoc'
-    from fileTree ("$buildDir/dokka")
-}
-
 publishing {
     publications {
         mavenJava (MavenPublication) {
@@ -114,7 +114,6 @@ publishing {
 
             artifact sourceJar // To be accepted in JCenter, the package need to include sources
             artifact testJar
-            artifact dokkaJar
         }
     }
 }

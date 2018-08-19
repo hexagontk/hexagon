@@ -1,7 +1,7 @@
 
 apply from: '../gradle/hexagon_module.gradle'
 
-ext.cronutilsVersion = '6.0.1' // TODO Upgrade to '6.0.4'
+ext.cronutilsVersion = '7.0.4'
 
 dependencies {
     compile project(':hexagon_core')

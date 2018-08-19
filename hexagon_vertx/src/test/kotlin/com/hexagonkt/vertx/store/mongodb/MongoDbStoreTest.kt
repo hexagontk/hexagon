@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx.store.mongodb
 
-import com.hexagonkt.sync
+import com.hexagonkt.helpers.sync
 import com.hexagonkt.vertx.createVertx
 import com.hexagonkt.vertx.store.mongodb.MongoDbMapperTest.MappedClass
 import io.vertx.core.Vertx

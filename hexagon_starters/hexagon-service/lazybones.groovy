@@ -1,4 +1,3 @@
-import static uk.co.cacoethes.util.NameType.*
 
 import java.nio.file.Files
 import java.nio.file.Path

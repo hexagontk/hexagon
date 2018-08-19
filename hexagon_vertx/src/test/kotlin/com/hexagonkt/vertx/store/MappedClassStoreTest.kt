@@ -1,16 +1,12 @@
 package com.hexagonkt.vertx.store
 
-import com.hexagonkt.logger
 import com.hexagonkt.vertx.store.mongodb.MongoDbMapperTest.MappedClass
 import com.hexagonkt.vertx.store.mongodb.MongoDbStore
 import io.vertx.core.Vertx
 import io.vertx.ext.mongo.MongoClient
 import io.vertx.kotlin.core.json.JsonObject
-import org.slf4j.Logger
 
 class MappedClassStoreTest : StoreTest<MappedClass, String>() {
-    private val logger: Logger = logger()
-
     override fun store(vertx: Vertx): Store<MappedClass, String> =
         MongoDbStore(
             MongoClient.createShared(

@@ -1,14 +1,14 @@
 package com.hexagonkt.vertx.http
 
-import com.hexagonkt.flare
-import com.hexagonkt.logger
-import com.hexagonkt.sync
+import com.hexagonkt.helpers.logger
+import com.hexagonkt.helpers.flare
+import com.hexagonkt.helpers.sync
 import com.hexagonkt.vertx.VertxApplication
 import com.hexagonkt.vertx.createVertx
 import com.hexagonkt.vertx.http.client.createWebClient
 import com.hexagonkt.vertx.http.client.send
 import com.hexagonkt.vertx.http.client.sendBuffer
-import com.hexagonkt.vertx.serialization.JsonFormat
+import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.vertx.serialization.serialize
 import gherkin.deps.com.google.gson.JsonObject
 import io.vertx.core.AsyncResult

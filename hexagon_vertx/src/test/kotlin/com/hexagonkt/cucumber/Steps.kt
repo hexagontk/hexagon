@@ -1,6 +1,6 @@
 package com.hexagonkt.cucumber
 
-import com.hexagonkt.sync
+import com.hexagonkt.helpers.sync
 import com.hexagonkt.vertx.Device
 import com.hexagonkt.vertx.devicesApplication
 import com.hexagonkt.vertx.main

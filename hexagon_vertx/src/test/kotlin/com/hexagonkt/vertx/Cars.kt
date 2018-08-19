@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx
 
-import com.hexagonkt.logger
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.vertx.http.HttpVerticle
 import com.hexagonkt.vertx.http.store.StoreController
 import com.hexagonkt.vertx.http.store.storeRouter
