@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 import static java.lang.System.getenv
 
 apply plugin: 'uk.co.cacoethes.lazybones-templates'
@@ -16,5 +18,29 @@ lazybones {
     setRepositoryApiKey btKey.toString () ?: 'anonymous'
 
     licenses = [ 'MIT' ]
-    setTemplateDirs(files("$projectDir/hexagon-service"))
+    setTemplateDirs(files("$buildDir/hexagon-service"))
 }
+
+task processTemplate() {
+    doLast {
+        copy {
+            from "$projectDir/hexagon-service"
+            into "$buildDir/hexagon-service"
+        }
+
+        copy {
+            from "$rootDir/gradle/wrapper"
+            into "$buildDir/hexagon-service/gradle/wrapper"
+        }
+
+        copy {
+            from rootDir
+            into "$buildDir/hexagon-service"
+            include 'gradlew', 'gradlew.bat', '.editorconfig'
+        }
+
+        new File("$buildDir/hexagon-service/VERSION").text = rootProject.version
+    }
+}
+
+packageAllTemplates.dependsOn 'processTemplate'
