@@ -7,6 +7,7 @@ import com.hexagonkt.vertx.http.acceptFormat
 import com.hexagonkt.vertx.http.end
 import com.hexagonkt.vertx.http.handleList
 import com.hexagonkt.vertx.http.response
+import com.hexagonkt.vertx.serialization.convertToMap
 import com.hexagonkt.vertx.serialization.serialize
 import com.hexagonkt.vertx.store.Store
 import io.vertx.core.Future
@@ -98,12 +99,13 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
             .compose { count ->
                 context.response.putHeader("X-total", count.toString())
 
-                val future =
-                    if (projection.isEmpty()) store.findMany(pattern, max, offset, sort)
-                    else store.findMany(pattern, projection, max, offset, sort)
+                val future: Future<List<Map<String, *>>> =
+                    if (projection.isEmpty())
+                        store.findMany(pattern, max, offset, sort).map (::objectsToMaps)
+                    else
+                        store.findMany(pattern, projection, max, offset, sort)
 
-                @Suppress("UNCHECKED_CAST")
-                future as Future<List<*>>
+                future
             }
             .setHandler {
                 val result = it.result()
@@ -116,6 +118,9 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
             context.end(200, it.result().toString())
         }
     }
+
+    private fun objectsToMaps(objects: List<T>): List<Map<String, *>> =
+        objects.map { it.convertToMap() }
 
     private fun createSort(context: RoutingContext): Map<String, Boolean> {
         val include = context.request().getParam("sort") ?: ""

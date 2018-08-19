@@ -146,6 +146,7 @@ class MongoDbStore<T : Any, K : Any>(
                 .map { rows ->
                     rows.map { row ->
                         // TODO Move this to mapper
+                        @Suppress("UNCHECKED_CAST")
                         remap(row) + (key.name to (row.map["_id"] as? K ?: error)) - "_id"
                     }
                 }
