@@ -1,4 +1,7 @@
 
+// NOTE: This import is *NEEDED* even not used
+import static uk.co.cacoethes.util.NameType.*
+
 import java.nio.file.Files
 import java.nio.file.Path
 
