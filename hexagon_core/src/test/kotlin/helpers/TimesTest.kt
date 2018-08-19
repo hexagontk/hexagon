@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 import java.util.*
 import java.util.Calendar.MILLISECOND
 
-class TimesTest {
+@Test class TimesTest {
 
     @Test fun `Time nanos gets the elapsed nanoseconds` () {
         val nanos = System.nanoTime()

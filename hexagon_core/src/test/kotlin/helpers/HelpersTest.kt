@@ -126,7 +126,8 @@ import kotlin.test.assertFailsWith
         assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
     }
 
-    @Test fun `Error utilities`() {
+    // TODO Use expectedExceptions
+    @Test fun `Error utilities work as expected` () {
         assertFailsWith<IllegalStateException>("Invalid state") { error }
     }
 
@@ -205,5 +206,42 @@ import kotlin.test.assertFailsWith
             "c" to "",
             "d" to "e"
         ))
+    }
+
+    @Test fun `Printing an exception returns its stack trace in the string` () {
+        val e = RuntimeException ("Runtime error")
+        val trace = e.toText ()
+        assert (trace.startsWith ("java.lang.RuntimeException"))
+        assert (trace.contains ("\tat ${HelpersTest::class.java.name}"))
+    }
+
+    @Test fun `Printing an exception with a cause returns its stack trace in the string` () {
+        val e = RuntimeException ("Runtime error", IllegalStateException ("invalid state"))
+        val trace = e.toText ()
+        assert (trace.startsWith ("java.lang.RuntimeException"))
+        assert (trace.contains ("\tat ${HelpersTest::class.java.name}"))
+    }
+
+    @Test fun `Multiple retry errors throw an exception` () {
+        val retries = 3
+        try {
+            retry(retries, 1) { throw RuntimeException ("Retry error") }
+        }
+        catch (e: CodedException) {
+            assert (e.causes.size == retries)
+        }
+    }
+
+    @Test fun `Retry does not allow invalid parameters` () {
+        assertFailsWith<IllegalArgumentException> { retry(0, 1) {} }
+        assertFailsWith<IllegalArgumentException> { retry(1, -1) {} }
+        retry(1, 0) {} // Ok case
+    }
+
+    @Test fun `Dates are parsed from ints`() {
+        assert(2016_09_05_17_45_59_101.toLocalDateTime() ==
+            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
+        assert(2016_09_05_17_45_58_101.toLocalDateTime() !=
+            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
     }
 }

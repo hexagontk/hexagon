@@ -6,7 +6,7 @@ import java.util.*
 import org.testng.annotations.Test
 
 @Test class StringsTest {
-    fun filterVarsExample () {
+    @Test fun filterVarsExample () {
         val template = "User #{user}"
         val parameters = mapOf<Any, Any>("user" to "John")
 
@@ -14,14 +14,14 @@ import org.testng.annotations.Test
         assert (template.filterVars() == template)
     }
 
-    fun `Filter returns the given string if no parameters are set` () {
+    @Test fun `Filter returns the given string if no parameters are set` () {
         val template = "User #{user}"
 
         assert (template.filterVars(mapOf<Any, Any> ()) == template)
         assert (template.filterVars() == template)
     }
 
-    fun `Filter returns the same string if no variables are defined in it` () {
+    @Test fun `Filter returns the same string if no variables are defined in it` () {
         val template = "User no vars"
 
         assert (template.filterVars () == template)
@@ -29,13 +29,13 @@ import org.testng.annotations.Test
         assert (template.filterVars (mapOf<Any, Any> ()) == template)
     }
 
-    fun `Filter returns the same string if variable values are not found` () {
+    @Test fun `Filter returns the same string if variable values are not found` () {
         val template = "User #{user}"
 
         assert (template.filterVars ("key" to "value") == template)
     }
 
-    fun `Filter ignores empty parameters` () {
+    @Test fun `Filter ignores empty parameters` () {
         val result = "#{email}: User #{user} aka #{user} <#{email}>".filterVars (
             "" to "John",
             "email" to "john@example.co"
@@ -44,7 +44,7 @@ import org.testng.annotations.Test
         assert (result == "john@example.co: User #{user} aka #{user} <john@example.co>")
     }
 
-    fun `Filter replaces all occurences of variables with their values` () {
+    @Test fun `Filter replaces all occurences of variables with their values` () {
         val result = "#{email}: User #{user} aka #{user} <#{email}>".filterVars (
             "user" to "John",
             "email" to "john@example.co"
@@ -53,43 +53,43 @@ import org.testng.annotations.Test
         assert (result == "john@example.co: User John aka John <john@example.co>")
     }
 
-    fun `Converting empty text to camel case fails` () {
+    @Test fun `Converting empty text to camel case fails` () {
         assert ("".snakeToCamel () == "")
     }
 
-    fun `Converting valid snake case texts to camel case succeed` () {
+    @Test fun `Converting valid snake case texts to camel case succeed` () {
         assert ("alfa_beta".snakeToCamel () == "alfaBeta")
         assert ("alfa__beta".snakeToCamel () == "alfaBeta")
         assert ("alfa___beta".snakeToCamel () == "alfaBeta")
     }
 
-    fun `Converting valid camel case texts to snake case succeed` () {
+    @Test fun `Converting valid camel case texts to snake case succeed` () {
         assert ("alfaBeta".camelToSnake () == "alfa_beta")
     }
 
-    fun `Ansi code without elements returns ansi reset code` () {
+    @Test fun `Ansi code without elements returns ansi reset code` () {
         assert (ansi () == "\u001B[0m")
     }
 
-    fun `Ansi code with a single effect has the proper format` () {
+    @Test fun `Ansi code with a single effect has the proper format` () {
         assert (ansi (BOLD) == "\u001B[1m")
         assert (ansi (BOLD_OFF) == "\u001B[21m")
     }
 
-    fun `Ansi code with two effects has the proper format` () {
+    @Test fun `Ansi code with two effects has the proper format` () {
         assert (ansi (BOLD, UNDERLINE_OFF) == "\u001B[1;24m")
         assert (ansi (BLINK_OFF, INVERSE_OFF) == "\u001B[25;27m")
     }
 
-    fun `Ansi code with foreground and effects returns the correct code` () {
+    @Test fun `Ansi code with foreground and effects returns the correct code` () {
         assert (ansi (RED, BOLD, UNDERLINE) == "\u001B[31;1;4m")
     }
 
-    fun `Ansi code with foreground background and effects returns the correct code` () {
+    @Test fun `Ansi code with foreground background and effects returns the correct code` () {
         assert (ansi (RED, BLACK, BLINK, INVERSE) == "\u001B[31;40;5;7m")
     }
 
-    fun `Banner logs the proper message`() {
+    @Test fun `Banner logs the proper message`() {
         var banner = "alfa line".banner()
         assert(banner.contains("alfa line"))
         assert(banner.contains("*********"))
@@ -138,12 +138,12 @@ import org.testng.annotations.Test
         println ("Back to normal")
     }
 
-    fun `Normalize works as expected`() {
+    @Test fun `Normalize works as expected`() {
         val striped = "áéíóúñçÁÉÍÓÚÑÇ".stripAccents()
         assert(striped == "aeiouncAEIOUNC")
     }
 
-    fun `Utf8 returns proper characters`() {
+    @Test fun `Utf8 returns proper characters`() {
         assert(utf8(0xF0, 0x9F, 0x91, 0x8D) == "👍")
         assert(utf8(0xF0, 0x9F, 0x91, 0x8E) == "👎")
     }
