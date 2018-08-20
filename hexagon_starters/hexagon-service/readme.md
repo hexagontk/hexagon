@@ -8,11 +8,11 @@ This is an Hexagon service created from a template.
 Prior to run the tests you need to start required services (declared in `docker-compose.yaml`).
 You can do so executing: `docker-compose up -d`
 
-* Build: `gradle/wrapper install`
-* Rebuild: `gradle/wrapper clean install`
-* Run: `gradle/wrapper run`
-* Watch: `gradle/wrapper --no-daemon -t runService`
-* Test: `gradle/wrapper check`
+* Build: `./gradlew build`
+* Rebuild: `./gradlew clean build`
+* Run: `./gradlew run`
+* Watch: `./gradlew --no-daemon --continuous runService`
+* Test: `./gradlew test`
 
 ## Optional features
 
@@ -25,9 +25,9 @@ You can do so executing: `docker-compose up -d`
   - Remove the `main` method.
   - Delete the `mainClassName` and `applicationDefaultJvmArgs ` properties from `build.gradle`.
 
-* HTML templates: if you don't use templates you can remove the `pebble` and `kotlinx.html.jvm`
-  dependencies from `build.gradle`.
+* HTML templates: if you don't use templates you can remove the `pebble` dependency from
+  `build.gradle`.
 
 ## Gradle wrapper setup
 
-You can change Gradle version in `gradle/wrapper.properties`.
+You can change Gradle version in `gradle/wrapper/gradle-wrapper.properties`.
