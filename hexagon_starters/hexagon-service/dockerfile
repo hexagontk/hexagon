@@ -1,7 +1,8 @@
 
 FROM openjdk:8
 ENV PROJECT ${projectName}
+
 COPY build/install/\$PROJECT /opt/\$PROJECT
 WORKDIR /opt/\$PROJECT
 EXPOSE ${bindPort}
-ENTRYPOINT ["/opt/\$PROJECT/bin/\$PROJECT"]
+ENTRYPOINT /opt/\$PROJECT/bin/\$PROJECT
