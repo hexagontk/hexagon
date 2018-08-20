@@ -15,18 +15,18 @@ applicationDefaultJvmArgs = [
 installDist.dependsOn 'war'
 
 dependencies {
-    compile ("com.hexagonkt:server_jetty:\$hexagonVersion")
+    compile("com.hexagonkt:server_jetty:\$hexagonVersion")
 
     // Optional dependencies. Can be removed if not used
-    compile ("com.hexagonkt:port_client:\$hexagonVersion")
-    compile ("com.hexagonkt:store_mongodb:\$hexagonVersion")
-    compile ("com.hexagonkt:templates_pebble:\$hexagonVersion")
+    compile("com.hexagonkt:port_client:\$hexagonVersion")
+    compile("com.hexagonkt:store_mongodb:\$hexagonVersion")
+    compile("com.hexagonkt:templates_pebble:\$hexagonVersion")
 
     // providedCompile excludes the dependency only in the WAR, not in the distribution
-    providedCompile ("org.eclipse.jetty:jetty-webapp:\$jettyVersion") {
-        exclude module: "slf4j-api"
-    }
+    providedCompile("org.eclipse.jetty:jetty-webapp:\$jettyVersion") { exclude module: "slf4j-api" }
 
-    testCompile ("org.testng:testng:\$testngVersion")
-    testCompile ("junit:junit:\$junitVersion")
+    // To use Logback inside the application (not only in tests) change this dependency to 'compile'
+    testCompile("ch.qos.logback:logback-classic:\$logbackVersion") { exclude module: 'slf4j-api' }
+    testCompile("org.testng:testng:\$testngVersion")
+    testCompile("junit:junit:\$junitVersion")
 }
