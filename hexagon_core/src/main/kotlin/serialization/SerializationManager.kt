@@ -43,14 +43,6 @@ object SerializationManager {
     fun getContentTypeFormat(contentType: String): SerializationFormat =
         formatsMap[contentType] ?: error("$contentType not found")
 
-//    fun getMimeTypeForExtension(ext: String): String =
-//        extensions[ext] ?: MimeMapping.getMimeTypeForExtension(ext)
-//
-//    fun getMimeTypeForFilename(filename: String): String {
-//        val ext = filename.substringAfterLast('.')
-//        return extensions[ext] ?: MimeMapping.getMimeTypeForFilename(filename) ?: error
-//    }
-
     internal fun getFileFormat(extension: String): SerializationFormat =
         getContentTypeFormat(mimeTypes.getContentType(extension))
 
