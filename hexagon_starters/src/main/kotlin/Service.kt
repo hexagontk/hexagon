@@ -1,4 +1,3 @@
-package starter
 
 import java.time.LocalDateTime.now
 

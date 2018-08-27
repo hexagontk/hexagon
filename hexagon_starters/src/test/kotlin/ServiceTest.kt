@@ -1,4 +1,3 @@
-package starter
 
 import com.hexagonkt.client.Client
 import org.testng.annotations.AfterClass
