@@ -9,7 +9,7 @@ import com.hexagonkt.vertx.http.client.createWebClient
 import com.hexagonkt.vertx.http.client.send
 import com.hexagonkt.vertx.http.client.sendBuffer
 import com.hexagonkt.serialization.JsonFormat
-import com.hexagonkt.vertx.serialization.serialize
+import com.hexagonkt.serialization.serialize
 import gherkin.deps.com.google.gson.JsonObject
 import io.vertx.core.AsyncResult
 import io.vertx.core.Future
