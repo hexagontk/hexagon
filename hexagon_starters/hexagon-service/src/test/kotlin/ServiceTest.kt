@@ -5,7 +5,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class ${className}Test {
+class ServiceTest {
     private val client by lazy { Client("http://localhost:\${server.runtimePort}") }
 
     @Before fun startup() {

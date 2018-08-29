@@ -12,7 +12,6 @@ dependencies {
     // To use Logback inside the application (not only in tests) change this dependency to 'compile'
     testCompile("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     testCompile("org.testng:testng:$testngVersion")
-//    testCompile("junit:junit:$junitVersion")
 }
 
 test {
