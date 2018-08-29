@@ -23,6 +23,6 @@ publishing {
     }
 }
 
-private List<File> filesCollection (Object dir, String pattern) {
+private List<File> filesCollection (final Object dir, final String pattern) {
     return fileTree(dir: dir, include: pattern).getFiles().toList()
 }

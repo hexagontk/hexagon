@@ -1,12 +1,10 @@
 
 apply plugin: 'com.jfrog.bintray'
 
-//noinspection GroovyAssignabilityCheck
 bintray {
     key = findProperty ('bintrayKey') ?: System.getenv('BINTRAY_KEY') ?: 'anonymous'
     user = findProperty ('bintrayUser') ?: System.getenv('BINTRAY_USER') ?: 'anonymous'
     publications = [ 'mavenJava' ]
-    //noinspection GroovyAssignabilityCheck
     publish = true
 
     pkg {
