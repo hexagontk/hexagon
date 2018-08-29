@@ -24,10 +24,9 @@ clean {
     )
 }
 
-task publish(
-    dependsOn:
-        project.getTasksByName ('bintrayUpload', true) +
-        tasks.getByPath(':hexagon_starters:publishAllTemplates')
+task publish(dependsOn:
+    project.getTasksByName ('bintrayUpload', true) +
+    tasks.getByPath(':hexagon_starters:publishAllTemplates')
 )
 
 task release(dependsOn: 'publish') {

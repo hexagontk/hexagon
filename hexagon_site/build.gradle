@@ -12,6 +12,7 @@ ext.logoSmall = 'assets/img/logo.svg'
 ext.logoWide = 'assets/img/logo_wide.svg'
 ext.logoLarge = 'assets/img/logo.svg'
 
+// TODO Move to YAML
 ext.configData = [
     bootstrapVersion : '3.3.7',
     jqueryVersion : '3.2.1',
@@ -192,3 +193,25 @@ task serve(dependsOn: 'site') {
         }
     }
 }
+
+task testModuleSettings {
+    doLast {
+        rootProject.subprojects {
+            println """
+                ${it.name}
+                ---------- 
+                MODULE: ${isModule it}
+                PORT: ${isPort it}
+                ADAPTER: ${isAdapter it}
+            """
+        }
+    }
+}
+
+private boolean isPort(final Project module) { return module.name.startsWith ('port_') }
+private boolean isModule(final Project module) { return module.name.startsWith ('hexagon_') }
+private boolean isAdapter(final Project module) { return !isPort (module) && !isModule (module) }
+
+private boolean hasApi(final Project module) { return module.file('build/dokka').exists () }
+private String portName(final Project module) { return module.name.split ('_')[isAdapter ()? 0 : 1] }
+private String adapterName(final Project module) { return module.name.split ('_')[isAdapter ()? 1 : 0] }
