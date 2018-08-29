@@ -1,0 +1,32 @@
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
+}
+
+apply from: "\$gradleScripts/kotlin.gradle"
+apply from: "\$gradleScripts/service.gradle"
+apply plugin: 'war'
+
+mainClassName = '${group}.ServiceKt'
+applicationDefaultJvmArgs = [
+    '-Xms64M', '-Xmx2G', '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts'
+]
+
+installDist.dependsOn 'war'
+
+dependencies {
+    compile("com.hexagonkt:server_jetty:\$hexagonVersion")
+
+    // Optional dependencies. Can be removed if not used
+    compile("com.hexagonkt:port_client:\$hexagonVersion")
+    compile("com.hexagonkt:store_mongodb:\$hexagonVersion")
+    compile("com.hexagonkt:templates_pebble:\$hexagonVersion")
+
+    // providedCompile excludes the dependency only in the WAR, not in the distribution
+    providedCompile("org.eclipse.jetty:jetty-webapp:\$jettyVersion") { exclude module: "slf4j-api" }
+
+    // To use Logback inside the application (not only in tests) change this dependency to 'compile'
+    testCompile("ch.qos.logback:logback-classic:\$logbackVersion") { exclude module: 'slf4j-api' }
+    testCompile("org.testng:testng:\$testngVersion")
+    testCompile("junit:junit:\$junitVersion")
+}
