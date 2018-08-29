@@ -4,6 +4,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 
 class HexagonSimulation extends Simulation {
+  // TODO Port JMeter tests
   val httpConf = http
     .baseURL ("http://computer-database.gatling.io")
     .acceptHeader ("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")

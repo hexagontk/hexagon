@@ -1,6 +1,7 @@
 
 FROM openjdk:8
 ENV PROJECT hexagon_benchmark
+
 COPY build/install/$PROJECT /opt/$PROJECT
 WORKDIR /opt/$PROJECT
 EXPOSE 9090
