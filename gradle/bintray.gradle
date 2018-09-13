@@ -8,10 +8,10 @@ bintray {
     publish = true
 
     pkg {
-        repo = 'maven'
+        repo = findProperty ('bintrayRepo') ?: 'maven'
         name = project.name
-        licenses = [ 'MIT' ]
-        vcsUrl = 'https://github.com/hexagonkt/hexagon.git'
+        licenses = [ (findProperty ('license') ?: 'MIT') ]
+        vcsUrl = findProperty ('vcsUrl') ?: 'https://github.com/hexagonkt/hexagon.git'
     }
 }
 
