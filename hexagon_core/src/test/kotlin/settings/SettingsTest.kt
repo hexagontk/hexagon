@@ -3,7 +3,7 @@ package com.hexagonkt.settings
 import org.testng.annotations.Test
 import java.io.File
 
-@Test class SettingsPackageTest {
+@Test class SettingsTest {
     fun `Load environment variables add settings with provided prefixes`() {
         assert(loadEnvironmentVariables("PATH", "INVALID").size == 1)
         assert(loadEnvironmentVariables("PATH", "USER").size == 2)
