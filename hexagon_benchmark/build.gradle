@@ -101,7 +101,7 @@ task gradleSettings(type: WriteProperties) {
 import groovy.json.JsonOutput
 
 //noinspection GroovyAssignabilityCheck
-task benchmarkConfig() {
+task benchmarkConfig {
     doLast {
         Map<String, Map<String, Object>> test = [:]
         tests.forEach {
@@ -152,7 +152,7 @@ task benchmarkConfig() {
 }
 
 //noinspection GroovyAssignabilityCheck
-task setupScripts() {
+task setupScripts {
     doLast {
         tests.forEach {
             String server = ((String)it[0]).toLowerCase()
