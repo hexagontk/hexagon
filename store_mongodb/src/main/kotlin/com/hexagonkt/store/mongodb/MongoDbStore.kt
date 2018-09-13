@@ -29,12 +29,11 @@ class MongoDbStore <T : Any, K : Any>(
     override val name: String = type.simpleName ?: error("Invalid name"),
     database: MongoDatabase,
     private val useObjectId: Boolean = false,
-    useUnderscoreId: Boolean = true,
     indexOrder: Int = 1) : Store<T, K> {
 
     private val database = database.withCodecRegistry(
         fromRegistries(getDefaultCodecRegistry(),
-        fromProviders(JacksonCodecProvider(key, useObjectId, useUnderscoreId)))
+        fromProviders(JacksonCodecProvider(key, useObjectId)))
     )
 
     private val typedCollection: MongoCollection<T> =
