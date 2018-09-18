@@ -32,13 +32,18 @@ kotlin {
 // Replace build variables in resource files
 processResources {
     [ 'properties', 'ini', 'cfg', 'txt', 'html', 'xml', 'json', 'yaml' ].each { String ext ->
+        final Map<String, ?> stringProperties = project.getProperties()
+            .findAll { it.value instanceof String }
+
         filesMatching ("**/*.$ext") {
             filter {
-                it
-                    .replace ('${projectVersion}', project.version.toString())
-                    .replace ('${projectName}', project.name)
-                    .replace ('${projectGroup}', project.group.toString ())
-                    .replace ('${projectDescription}', project.description ?: '')
+                String content = it
+
+                stringProperties.entrySet ().forEach { entry ->
+                    content = content.replace ("\${project.${entry.key}}", entry.value.toString())
+                }
+
+                content
             }
         }
     }
@@ -63,9 +68,7 @@ clean {
 // Show useful testing information while running tests
 tasks.withType (Test).each { testTask ->
     testTask.outputs.upToDateWhen { false }
-    // TODO Use this also in `processResources`
-    // TODO Add more useful variables
-    testTask.systemProperties (project.getProperties().subMap ('projectDir', 'buildDir'))
+    testTask.systemProperties (project.getProperties().findAll { it.value instanceof String })
 
     testTask.testLogging {
         events 'skipped', 'failed', 'standardOut', 'standardError'
