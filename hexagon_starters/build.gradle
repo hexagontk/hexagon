@@ -42,7 +42,7 @@ clean {
     }
 }
 
-task processTemplate() {
+task processTemplate {
     // This must be done in *CONFIGURATION* phase because of a flaw in this Gradle plugin :/
     copy {
         from "$projectDir/hexagon-service"
