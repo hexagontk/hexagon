@@ -43,12 +43,27 @@ class BenchmarkSimulation extends Simulation {
       .check(regex(".*フレームワークのベンチマーク.*"))
     )
 
-//  setUp(checkScenario.inject(atOnceUsers(1))).protocols(httpConfiguration)
-  setUp(checkScenario.inject(atOnceUsers(users))).protocols(httpConfiguration)
+  before {
+    println(s"Simulation is about to start! $port")
+    BenchmarkKt.main()
+    val p = BenchmarkKt.getBenchmarkServer.getRuntimePort
+    println(s"Runtime port: $p")
+  }
+
+  after {
+    BenchmarkKt.getBenchmarkServer.stop()
+  }
+
+  setUp(checkScenario.inject(rampUsers(users) over 2)).protocols(httpConfiguration)
 
   private def property(name: String, default: String): String =
     if (getProperty(name) != null) getProperty(name)
     else default
 
-  private def get(name: String, url: String): HttpRequestBuilder = http(name + "Request").get(url)
+  private def get(name: String, url: String): HttpRequestBuilder =
+    http(name + "Request").get(url)
+      .check(header("Server"))
+      .check(header("Transfer-Encoding"))
+      .check(header("Date"))
+      .check(header("Content-Type"))
 }

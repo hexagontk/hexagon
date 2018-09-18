@@ -2,9 +2,9 @@ package com.hexagonkt
 
 import io.gatling.app.Gatling
 import io.gatling.core.config.GatlingPropertiesBuilder
-import org.testng.annotations.{Ignore, Test}
+import org.testng.annotations.Test
 
-@Test @Ignore class GatlingTest {
+@Test class GatlingTest {
 
   @Test def runGatlingStressTests () {
 
