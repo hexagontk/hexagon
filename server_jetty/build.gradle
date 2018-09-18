@@ -1,5 +1,7 @@
 
-apply from: '../gradle/hexagon_module.gradle'
+apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
+apply from: '../gradle/dokka.gradle'
 
 ext.jettyVersion = '9.4.8.v20180619'
 
@@ -9,7 +11,10 @@ dependencies {
 
     testCompile project(':port_client')
     testCompile project(':templates_pebble')
-    testCompile project(':port_server').sourceSets.test.output
+    testCompile (project(':port_server').sourceSets.test.output)
+
+    testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
 test {

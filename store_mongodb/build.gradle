@@ -1,5 +1,7 @@
 
-apply from: '../gradle/hexagon_module.gradle'
+apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
+apply from: '../gradle/dokka.gradle'
 
 ext.mongodbVersion = '3.6.0'
 
@@ -7,6 +9,9 @@ dependencies {
     compile project(':port_store')
     compile ("org.mongodb:mongodb-driver:$mongodbVersion")
     compile ("org.mongodb:mongodb-driver-async:$mongodbVersion")
+
+    testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
 test {

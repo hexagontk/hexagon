@@ -1,5 +1,5 @@
 
-// TODO Use 'hexagon_module' logic to get list of ports and their adapters
+// TODO Use functions (check the end of this file) to get list of ports and their adapters
 // TODO Generate `api.md` from modules with `build/hexagon` directory
 // TODO Create ports and adapters map to populate index's table instead hardcoding it
 // TODO Update all feature's links

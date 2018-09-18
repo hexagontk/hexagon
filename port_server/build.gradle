@@ -1,5 +1,7 @@
 
-apply from: '../gradle/hexagon_module.gradle'
+apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
+apply from: '../gradle/dokka.gradle'
 
 // Overridden because this test bundle requires the templates
 testJar {
@@ -13,6 +15,9 @@ dependencies {
 
     testCompile project(':port_client')
     testCompile project(':port_templates')
+
+    testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
 test {

@@ -1,5 +1,7 @@
 
-apply from: "../gradle/hexagon_module.gradle"
+apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
+apply from: '../gradle/dokka.gradle'
 
 ext.vertxVersion = '3.5.3'
 
@@ -23,6 +25,7 @@ dependencies {
     compile ("io.vertx:vertx-redis-client:$vertxVersion")
 
     testCompile ("junit:junit:$junitVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     testCompile ("io.vertx:vertx-unit:$vertxVersion")
     testCompile ("io.cucumber:cucumber-junit:$cucumberVersion")
     testCompile ("io.cucumber:cucumber-java8:$cucumberVersion")

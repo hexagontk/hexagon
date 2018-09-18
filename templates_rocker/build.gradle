@@ -1,5 +1,8 @@
 
-apply from: '../gradle/hexagon_module.gradle'
+apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
+apply from: '../gradle/dokka.gradle'
+
 apply plugin: 'com.fizzed.rocker'
 
 ext.rockerVersion = '0.23.0'
@@ -7,6 +10,9 @@ ext.rockerVersion = '0.23.0'
 dependencies {
     compile project(':port_templates')
     compile ("com.fizzed:rocker-runtime:$rockerVersion")
+
+    testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
 sourceSets {
