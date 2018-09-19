@@ -116,8 +116,7 @@ ext.configData = [
         Templates : [
             link : '',
             adapters : [
-                Pebble : '',
-                Rocker : ''
+                Pebble : ''
             ]
         ],
         'Serialization formats' : [

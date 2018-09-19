@@ -14,7 +14,6 @@ import kotlin.test.assertFailsWith
 
 class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
 class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
-class BenchmarkJettyPostgreSqlRockerTest : BenchmarkTest("jetty", "postgresql", "rocker")
 
 @Test abstract class BenchmarkTest(
     private val webEngine: String,
@@ -78,7 +77,7 @@ class BenchmarkJettyPostgreSqlRockerTest : BenchmarkTest("jetty", "postgresql", 
         val content = response.responseBody
 
         checkResponse(response, "text/html;charset=utf-8")
-        assert(content.contains("<td>&lt;script&gt;alert(&quot;This should not be "))
+        assert(content.contains("<td>&lt;script&gt;alert(&quot;This should not be"))
         assert(content.contains(" displayed in a browser alert box.&quot;);&lt;/script&gt;</td>"))
         assert(content.contains("<td>フレームワークのベンチマーク</td>"))
     }

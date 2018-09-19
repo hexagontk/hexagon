@@ -8,7 +8,6 @@ plugins {
     id 'com.jfrog.bintray' version '1.8.4' apply false
     id 'org.jbake.site' version '1.2.0' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
-    id 'com.fizzed.rocker' version '0.24.0' apply false
 }
 
 repositories {

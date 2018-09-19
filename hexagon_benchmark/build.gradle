@@ -4,7 +4,6 @@ apply from: "../gradle/service.gradle"
 
 apply plugin: 'scala'
 apply plugin: 'war'
-apply plugin: 'com.fizzed.rocker'
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
 
@@ -41,7 +40,6 @@ dependencies {
     compile project(':store_mongodb')
     compile project(':server_jetty')
     compile project(':templates_pebble')
-    compile project(':templates_rocker')
 
     compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     compile ("com.zaxxer:HikariCP:$hikariVersion")
@@ -51,14 +49,6 @@ dependencies {
     testCompile ("org.testng:testng:$testngVersion")
     testCompile ("junit:junit:$junitVersion")
     testCompile ("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
-}
-
-sourceSets {
-    main {
-        rocker {
-            srcDir('src/main/resources')
-        }
-    }
 }
 
 test {

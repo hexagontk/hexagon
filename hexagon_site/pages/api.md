@@ -35,4 +35,3 @@ Concrete ports implementations:
 
 ### Templates
 * [Pebble Templates Adapter](/api/templates_pebble/index.html)
-* [Rocker Templates Adapter](/api/templates_rocker/index.html)

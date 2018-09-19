@@ -11,7 +11,6 @@ import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.TemplatePort
 import com.hexagonkt.templates.pebble.PebbleAdapter
-import com.hexagonkt.templates.rocker.RockerAdapter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getLogger
 
@@ -33,7 +32,7 @@ private val contentTypeJson: String = JsonFormat.contentType
 private val logger: Logger = getLogger("BENCHMARK_LOGGER")
 private val defaultLocale: Locale = Locale.getDefault()
 private val storageEngines: List<String> = listOf("mongodb", "postgresql")
-private val templateEngines: List<String> = listOf("pebble", "rocker")
+private val templateEngines: List<String> = listOf("pebble")
 
 // UTILITIES
 internal fun randomWorld(): Int = ThreadLocalRandom.current().nextInt(WORLD_ROWS) + 1
@@ -109,7 +108,6 @@ private fun router(): Router = router {
 
 fun getTemplateEngine(engine: String): TemplatePort = when (engine) {
     "pebble" -> PebbleAdapter
-    "rocker" -> RockerAdapter
     else -> error("Unsupported template engine: $engine")
 }
 
