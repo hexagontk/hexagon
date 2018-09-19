@@ -5,9 +5,8 @@ apply plugin: 'maven-publish'
 
 defaultTasks 'build'
 
-ext.javaVersion = findProperty ('javaVersion') ?: '8'
-
-targetCompatibility = "1.$javaVersion"
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories {
     jcenter ()
@@ -16,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compile ("org.jetbrains.kotlin:kotlin-stdlib-jdk$javaVersion:$kotlinVersion")
+    compile ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     compile ("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     compile ("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
 
