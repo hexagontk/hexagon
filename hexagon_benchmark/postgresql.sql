@@ -1,3 +1,4 @@
+
 CREATE USER benchmarkdbuser WITH PASSWORD 'benchmarkdbpass';
 
 DROP DATABASE IF EXISTS hello_world;

@@ -1,3 +1,4 @@
+
 db = db.getSiblingDB('hello_world');
 
 db.world.drop();
