@@ -1,7 +1,22 @@
 
 import static java.lang.System.getenv
 
+apply from: '../gradle/kotlin.gradle'
+
 apply plugin: 'uk.co.cacoethes.lazybones-templates'
+
+dependencies {
+    compile project(':server_jetty')
+    compile project(':port_client')
+
+    // To use Logback inside the application (not only in tests) change this dependency to 'compile'
+    testCompile("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
+    testCompile("org.testng:testng:$testngVersion")
+}
+
+test {
+    useTestNG ()
+}
 
 // TODO Replace version in template `gradle.properties`
 // TODO Include all subdirs as templateDirs
@@ -27,7 +42,7 @@ clean {
     }
 }
 
-task processTemplate() {
+task processTemplate {
     // This must be done in *CONFIGURATION* phase because of a flaw in this Gradle plugin :/
     copy {
         from "$projectDir/hexagon-service"

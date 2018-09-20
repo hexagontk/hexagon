@@ -1,11 +1,16 @@
 
-apply from: '../gradle/hexagon_module.gradle'
+apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
+apply from: '../gradle/dokka.gradle'
 
 ext.cronutilsVersion = '7.0.4'
 
 dependencies {
     compile project(':hexagon_core')
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: 'slf4j-api' }
+
+    testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
 test {

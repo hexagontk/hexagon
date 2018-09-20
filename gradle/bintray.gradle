@@ -1,19 +1,20 @@
+/*
+ * Check usage information at: http://hexagonkt.com/build_helpers/bintray.html
+ */
 
 apply plugin: 'com.jfrog.bintray'
 
-//noinspection GroovyAssignabilityCheck
 bintray {
-    key = findProperty ('bintrayKey') ?: System.getenv('BINTRAY_KEY') ?: 'anonymous'
-    user = findProperty ('bintrayUser') ?: System.getenv('BINTRAY_USER') ?: 'anonymous'
+    key = findProperty ('bintrayKey') ?: System.getenv('BINTRAY_KEY')
+    user = findProperty ('bintrayUser') ?: System.getenv('BINTRAY_USER')
     publications = [ 'mavenJava' ]
-    //noinspection GroovyAssignabilityCheck
     publish = true
 
     pkg {
-        repo = 'maven'
+        repo = project.findProperty ('bintrayRepo')
         name = project.name
-        licenses = [ 'MIT' ]
-        vcsUrl = 'https://github.com/hexagonkt/hexagon.git'
+        licenses = [ project.findProperty ('license') ]
+        vcsUrl = project.findProperty ('vcsUrl')
     }
 }
 

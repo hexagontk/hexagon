@@ -1,4 +1,3 @@
-package ${group}
 
 import java.time.LocalDateTime.now
 

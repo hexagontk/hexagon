@@ -93,6 +93,8 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
   - It should be done to the `develop` branch.
   - The code has to pass all PR checks.
   - All public methods and field must be documented using [Dokka](https://github.com/Kotlin/dokka).
+  - The code should follow the [Kotlin Coding Conventions]. With the exception of final brace
+    position in `else`, `catch` and `finally` (in its own line).
 
 * Commit format: the preferred commit format would have:
   - Summary: small summary of the change. In imperative form.
@@ -116,8 +118,8 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
   Then something happened
   And I expected this other thing
   ```
-  
 [Quick Start]: http://hexagonkt.com/quick_start.html
+[Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
 
 ## Tasks and Milestones
 

@@ -3,12 +3,11 @@ plugins {
     id 'java'
     id 'jacoco'
 
-    id 'org.jetbrains.kotlin.jvm' version '1.2.60' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.2.70' apply false
     id 'org.jetbrains.dokka' version '0.9.17' apply false
     id 'com.jfrog.bintray' version '1.8.4' apply false
     id 'org.jbake.site' version '1.2.0' apply false
     id 'uk.co.cacoethes.lazybones-templates' version '1.2.3' apply false
-    id 'com.fizzed.rocker' version '0.24.0' apply false
 }
 
 repositories {
@@ -24,10 +23,9 @@ clean {
     )
 }
 
-task publish(
-    dependsOn:
-        project.getTasksByName ('bintrayUpload', true) +
-        tasks.getByPath(':hexagon_starters:publishAllTemplates')
+task publish(dependsOn:
+    project.getTasksByName ('bintrayUpload', true) +
+    tasks.getByPath(':hexagon_starters:publishAllTemplates')
 )
 
 task release(dependsOn: 'publish') {

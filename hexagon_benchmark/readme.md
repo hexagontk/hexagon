@@ -20,10 +20,7 @@ In URLs replace `${DB_ENGINE}` with one of:
 * mongodb
 * postgresql
 
-and `${TEMPLATE_ENGINE}` with one of:
-
-* pebble
-* rocker
+and `${TEMPLATE_ENGINE}` with: `pebble`
 
 ### Jetty
 

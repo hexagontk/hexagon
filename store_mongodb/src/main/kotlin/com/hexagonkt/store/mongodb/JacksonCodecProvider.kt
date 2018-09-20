@@ -25,8 +25,7 @@ import kotlin.reflect.KProperty1
 internal  class JacksonCodecProvider<T : Any, K : Any> constructor(
 //    private val type: KClass<T>,
     private val key: KProperty1<T, K>,
-    private val useObjectId: Boolean = true,
-    private val useUnderscoreId: Boolean = true) : CodecProvider {
+    private val useObjectId: Boolean = true) : CodecProvider {
 
 //    init {
 //        type.declaredMemberProperties
@@ -47,7 +46,7 @@ internal  class JacksonCodecProvider<T : Any, K : Any> constructor(
     /** {@inheritDoc} */
     override fun <TC> get(clazz: Class<TC>, registry: CodecRegistry): Codec<TC> =
         object : Codec<TC> {
-            internal var documentCodec = registry.get(Document::class.java)
+            var documentCodec = registry.get(Document::class.java)
 
             /** {@inheritDoc} */
             override fun encode(writer: BsonWriter, value: TC, encoderContext: EncoderContext) {

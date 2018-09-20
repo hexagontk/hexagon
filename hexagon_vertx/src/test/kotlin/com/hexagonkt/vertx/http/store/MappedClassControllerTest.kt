@@ -3,10 +3,10 @@ package com.hexagonkt.vertx.http.store
 import com.hexagonkt.helpers.flare
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.sync
+import com.hexagonkt.serialization.SerializationManager.formats
+import com.hexagonkt.serialization.parse
+import com.hexagonkt.serialization.serialize
 import com.hexagonkt.vertx.http.client.send
-import com.hexagonkt.vertx.serialization.SerializationManager.formats
-import com.hexagonkt.vertx.serialization.parse
-import com.hexagonkt.vertx.serialization.serialize
 import com.hexagonkt.vertx.store.Store
 import com.hexagonkt.vertx.store.mongodb.MongoDbMapperTest.MappedClass
 import com.hexagonkt.vertx.store.mongodb.MongoDbStore

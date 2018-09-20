@@ -18,3 +18,8 @@ You can find out more about creating templates on [the GitHub wiki].
 
 [the GitHub wiki]: https://github.com/pledbrook/lazybones/wiki/Template-developers-guide
 [Lazybones]: https://github.com/pledbrook/lazybones
+
+## Starters Code
+
+For convenience, the code used to generate the templates is in
+`hexagon_benchmark/src/test/kotlin/starter`. TODO Copy it to the template before generating it.

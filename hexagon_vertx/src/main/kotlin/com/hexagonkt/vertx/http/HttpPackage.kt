@@ -2,11 +2,11 @@ package com.hexagonkt.vertx.http
 
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.serialization.SerializationFormat
-import com.hexagonkt.vertx.serialization.SerializationManager.defaultFormat
-import com.hexagonkt.vertx.serialization.SerializationManager.formatsMap
-import com.hexagonkt.vertx.serialization.parse
-import com.hexagonkt.vertx.serialization.parseList
-import com.hexagonkt.vertx.serialization.serialize
+import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.serialization.SerializationManager.formatsMap
+import com.hexagonkt.serialization.parse
+import com.hexagonkt.serialization.parseList
+import com.hexagonkt.serialization.serialize
 import io.vertx.core.AsyncResult
 import io.vertx.core.Future
 import io.vertx.core.Handler

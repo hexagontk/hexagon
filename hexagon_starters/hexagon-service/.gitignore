@@ -14,8 +14,14 @@ local.*
 out/
 *.iml
 
+# VS Code
+.vscode/
+
+# Other Tools
+.lazybones/
+.java-version
+
 # Runtime
-**/*.class
+log/
 *.log
 *.hprof
-log/

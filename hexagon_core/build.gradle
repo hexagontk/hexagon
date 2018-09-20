@@ -1,10 +1,14 @@
 
-apply from: '../gradle/hexagon_module.gradle'
+apply from: '../gradle/kotlin.gradle'
+apply from: '../gradle/bintray.gradle'
+apply from: '../gradle/dokka.gradle'
 
+ext.activationVersion = '1.1.1'
 ext.slf4jVersion = '1.7.25'
 ext.jacksonVersion = '2.9.6'
 
 dependencies {
+    compile ("javax.activation:activation:$activationVersion")
     compile ("org.slf4j:slf4j-api:$slf4jVersion")
     compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion") { exclude module: 'slf4j-api' }
     compile ("org.slf4j:jul-to-slf4j:$slf4jVersion") { exclude module: 'slf4j-api' }
@@ -16,6 +20,9 @@ dependencies {
     compile ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
         exclude group: 'org.jetbrains.kotlin'
     }
+
+    testCompile ("org.testng:testng:$testngVersion")
+    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
 test {

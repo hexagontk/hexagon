@@ -1,6 +1,7 @@
 
 FROM openjdk:8
 ENV RESIN 4.0.54
+
 RUN curl http://caucho.com/download/resin-$RESIN.tar.gz | tar xvz -C /opt
 COPY build/libs/ROOT.war /opt/resin-$RESIN/webapps
 WORKDIR /opt/resin-$RESIN

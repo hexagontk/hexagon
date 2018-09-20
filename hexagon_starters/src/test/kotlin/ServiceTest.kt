@@ -1,18 +1,17 @@
-package ${group}
 
 import com.hexagonkt.client.Client
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.testng.annotations.AfterClass
+import org.testng.annotations.BeforeClass
+import org.testng.annotations.Test
 
-class ServiceTest {
-    private val client by lazy { Client("http://localhost:\${server.runtimePort}") }
+@Test class ServiceTest {
+    private val client by lazy { Client("http://localhost:${server.runtimePort}") }
 
-    @Before fun startup() {
+    @BeforeClass fun startup() {
         main()
     }
 
-    @After fun shutdown() {
+    @AfterClass fun shutdown() {
         server.stop()
     }
 

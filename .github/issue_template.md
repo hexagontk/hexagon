@@ -1,8 +1,8 @@
 
 <!--
 
-For an Issue
-============
+For an Improvement
+==================
 
 Detailed description.
     
@@ -22,5 +22,8 @@ And *other after the first*
 Then *something happened*
 And I expected *this other thing*
 ```
+
+If it is possible, please add a link to the code that produced the error. And the stack trace if
+available.
 
 -->

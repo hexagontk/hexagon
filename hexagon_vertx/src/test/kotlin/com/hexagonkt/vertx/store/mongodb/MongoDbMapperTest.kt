@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx.store.mongodb
 
-import com.hexagonkt.vertx.serialization.mapper
+import com.hexagonkt.serialization.mapper
 import com.hexagonkt.vertx.createVertx
 import org.junit.Test
 

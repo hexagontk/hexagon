@@ -20,7 +20,7 @@ You can find a performance comparison in the [TechEmpower Web Frameworks Bechmar
 |WebSockets       |*Planned*            |        |          |         |         |
 |Non blocking I/O |*Planned*            |        |          |         |         |
 |Serialization    |**JSON, YAML**       |        |          |         |         |
-|Templates        |**Pebble, Rocker**   |        |          |         |         |
+|Templates        |**Pebble**           |        |          |         |         |
 |Security         |*JWT*                |        |          |         |         |
 |API Documentation|*RAML*               |        |          |         |         |
 |Data Stores      |**MongoDB**          |        |          |         |         |

@@ -77,7 +77,7 @@ What are NOT project goals:
   * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.23.4")
+    compile ("com.hexagonkt:server_jetty:0.23.5")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
@@ -86,7 +86,7 @@ What are NOT project goals:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.23.4</version>
+      <version>0.23.5</version>
     </dependency>
     ```
 
@@ -122,8 +122,8 @@ release 1.0.
 It is used in personal not released projects to develop APIs and Web applications.
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
-in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests using
-[JMeter] with the `hexagon_benchmark/load_test.jmx` file.
+in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
+so, read the [contributing.md Benchmarking section](contributing.md#benchmarking)
 
 Tests, of course, are taken into account. This is the coverage grid:
 
@@ -133,7 +133,6 @@ The code quality is checked by Codebeat:
 
 [![codebeat badge]][codebeat page]
 
-[JMeter]: http://jmeter.apache.org
 [CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
 [Coverage]: https://codecov.io/gh/hexagonkt/hexagon
 [codebeat badge]: https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971
