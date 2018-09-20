@@ -123,7 +123,7 @@ It is used in personal not released projects to develop APIs and Web application
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
-so, read the [contributing.md Benchmarking section](contributing.md#Benchmarking)
+so, read the [contributing.md Benchmarking section](contributing.md#benchmarking)
 
 Tests, of course, are taken into account. This is the coverage grid:
 
