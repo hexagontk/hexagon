@@ -12,7 +12,6 @@ import org.testng.annotations.Test
     val buildDir = System.getProperty("buildDir")
 
     properties.simulationClass (classOf [BenchmarkSimulation].getName)
-    properties.outputDirectoryBaseName ("gatling")
     properties.resultsDirectory(if (buildDir == null) "build" else buildDir)
 
     Gatling.fromMap (properties.build)
