@@ -43,8 +43,8 @@ alias dcupd='docker-compose up -d'
 ```
 
 It is recommended that you add:
-`gradlew clean all publishToMavenLocal` to your `.git/hooks/pre-push` script. As this command will
-be executed before pushing code to the repository (saving time fixing [Travis] build errors).
+`gw clean all publishToMavenLocal` to your `.git/hooks/pre-push` script. As this command will be
+executed before pushing code to the repository (saving time fixing [Travis] build errors).
 
 If you want to commit to the project. It is convenient to setup your own [Travis] account to execute
 the CI job defined in `.travis.yml` when code is pushed to your fork.
@@ -58,12 +58,10 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
 
 1. Start the benchmark's compose file. From the project's root execute:
    `docker-compose -f docker-compose.yaml -f hexagon_benchmark/docker-compose.yaml up -d`
-2. Run [JMeter] with the `hexagon_benchmark/load_test.jmx` file.
-3. Tune benchmark variables in the `Load Test Plan` tree node.
-4. Run and check results in the `Load Test Plan > Profile > Summary Report` node.
+2. Run `gw hexagon_benchmark:test -Phost=localhost -Pport=9020` where "localhost" and "9020" should
+   point to the endpoint with the benchmark application you want to test.
 
 [TFB]: https://www.techempower.com/benchmarks
-[JMeter]: http://jmeter.apache.org
 
 ## Tools Used
 

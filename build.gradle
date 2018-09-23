@@ -1,3 +1,14 @@
+/*
+ * Main build script, responsible for:
+ *
+ *  1. Publish: upload binaries and templates to Bintray
+ *  2. Release: tag source code in GitHub
+ *  3. Jacoco report: aggregated coverage report for all modules
+ *  4. Group all tasks: shortcut for all tasks to ease the release process
+ *  
+ * Plugins that are not used in the root project (this one) are only applied by the modules that use
+ * them.
+ */
 
 plugins {
     id 'java'
