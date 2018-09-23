@@ -5,21 +5,17 @@ import java.lang.System.getProperty
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
-import io.gatling.http.protocol.HttpProtocolBuilder
 import io.gatling.http.request.builder.HttpRequestBuilder
 
+// TODO Make this test fail when the assertions are not meet (now prints KO but test pass)
 class BenchmarkSimulation extends Simulation {
   private val host: String = property("host", "127.0.0.1")
-  private val port: Int = property("port", "9020").toInt
+  private val port: Int = property("port", "0").toInt
   private val databaseEngine: String = property("databaseEngine", "mongodb")
   private val templateEngine: String = property("templateEngine", "pebble")
   private val users: Int = property("users", "256").toInt
   private val protocol: String = property("protocol", "http")
   private val count: Int = property("count", "32").toInt
-
-  private val baseUrl: String = s"$protocol://$host:$port"
-  private val httpConfiguration: HttpProtocolBuilder =
-    http.baseURL(baseUrl).contentTypeHeader("text/plain")
 
   private val jsonRequest = get("json", "/json")
   private val plaintextRequest = get("plaintext", "/plaintext")
@@ -43,18 +39,21 @@ class BenchmarkSimulation extends Simulation {
       .check(regex(".*フレームワークのベンチマーク.*"))
     )
 
-  before {
-    println(s"Simulation is about to start! $port")
-    BenchmarkKt.main()
-    val p = BenchmarkKt.getBenchmarkServer.getRuntimePort
-    println(s"Runtime port: $p")
-  }
+  private val runtimePort =
+    if (port == 0) {
+      BenchmarkKt.main()
+      BenchmarkKt.getBenchmarkServer.getRuntimePort
+    }
+    else port
 
   after {
-    BenchmarkKt.getBenchmarkServer.stop()
+    if (BenchmarkKt.getBenchmarkServer != null)
+      BenchmarkKt.getBenchmarkServer.stop()
   }
 
-  setUp(checkScenario.inject(rampUsers(users) over 2)).protocols(httpConfiguration)
+  setUp(checkScenario.inject(rampUsers(users) over 2))
+    .protocols(http.baseURL(s"$protocol://$host:$runtimePort").contentTypeHeader("text/plain"))
+    .assertions(global.successfulRequests.percent.gte(100))
 
   private def property(name: String, default: String): String =
     if (getProperty(name) != null) getProperty(name)
