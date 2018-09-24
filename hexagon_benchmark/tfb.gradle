@@ -1,6 +1,6 @@
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.2.70'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.71'
 }
 
 apply from: "$gradleScripts/kotlin.gradle"
