@@ -1,5 +1,7 @@
+/*
+ * Check usage information at: http://hexagonkt.com/build_helpers/kotlin_js.html
+ */
 
-// TODO Applying this script won't work until it allows dependencies to be merged (a bug)
 apply plugin: 'kotlin2js'
 
 defaultTasks 'build'
@@ -48,4 +50,4 @@ task assembleWeb(type: Sync, dependsOn: classes) {
     into "$buildDir/web"
 }
 
-assemble.dependsOn assembleWeb
+assemble.dependsOn 'assembleWeb'

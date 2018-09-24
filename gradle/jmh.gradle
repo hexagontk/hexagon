@@ -1,34 +1,10 @@
-
 /*
- * In `build.gradle` it is needed to add the following lines:
- *
- * plugins {
- *     id 'me.champeau.gradle.jmh' version '0.4.7' apply false
- * }
+ * Check usage information at: http://hexagonkt.com/build_helpers/jmh.html
  */
 
-/*
- * Sample benchmark (src/jmh/kotlin/Benchmark.kt):
- *
- * ```kotlin
- * import org.openjdk.jmh.annotations.Benchmark
- *
- * open class Benchmark {
- *     @Benchmark fun foo() {
- *         println("foo bench")
- *         Thread.sleep(100L)
- *     }
- *
- *     @Benchmark fun bar() {
- *         println("bar bench")
- *         Thread.sleep(100L)
- *     }
- * }
- * ```
- */
 apply plugin: 'me.champeau.gradle.jmh'
 
-ext.jmhBenchmarkVersion = findProperty('jmhBenchmarkVersion') ?: '1.21'
+project.ext.jmhBenchmarkVersion = findProperty('jmhBenchmarkVersion') ?: '1.21'
 
 dependencies {
     // Added for IntelliJ IDEA to compile JMH tests inside the IDE
@@ -40,15 +16,29 @@ dependencies {
 }
 
 jmh {
-    iterations = 5
-    benchmarkMode = [ 'all' ]
-    batchSize = 1
-    fork = 1
-    operationsPerInvocation = 5
-    timeOnIteration = '1s'
-    warmup = '1s'
-    warmupBatchSize = 5
-    warmupIterations = 1
+    final String projectIterations = findProjectProperty('iterations')
+    final String projectBenchmarkModes = findProjectProperty('benchmarkModes')
+    final String projectBatchSize = findProjectProperty('batchSize')
+    final String projectFork = findProjectProperty('fork')
+    final String projectOperationsPerInvocation = findProjectProperty('operationsPerInvocation')
+    final String projectTimeOnIteration = findProjectProperty('timeOnIteration')
+    final String projectWarmup = findProjectProperty('warmup')
+    final String projectWarmupBatchSize = findProjectProperty('warmupBatchSize')
+    final String projectWarmupIterations = findProjectProperty('warmupIterations')
 
-    jmhVersion = jmhBenchmarkVersion
+    iterations = projectIterations.toInteger() ?: 5
+    benchmarkMode = projectBenchmarkModes.split (',').collect { it.trim() } ?: [ 'all' ]
+    batchSize = projectBatchSize.toInteger () ?: 1
+    fork = projectFork.toInteger () ?: 1
+    operationsPerInvocation = projectOperationsPerInvocation.toInteger () ?: 5
+    timeOnIteration = projectTimeOnIteration ?: '1s'
+    warmup = projectWarmup ?: '1s'
+    warmupBatchSize = projectWarmupBatchSize.toInteger () ?: 5
+    warmupIterations = projectWarmupIterations.toInteger () ?: 1
+
+    jmhVersion = project.ext.jmhBenchmarkVersion
+}
+
+private String findProjectProperty(final String name) {
+    return findProperty("$project.name${name.capitalize ()}").toString()
 }

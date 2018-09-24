@@ -1,3 +1,6 @@
+/*
+ * Check usage information at: http://hexagonkt.com/build_helpers/service.html
+ */
 
 apply plugin: 'application'
 
@@ -5,9 +8,6 @@ defaultTasks 'installDist'
 
 classes.dependsOn 'buildInfo'
 
-/*
- * Add configuration file with build variables to the package
- */
 task buildInfo {
     doLast {
         file ("$buildDir/resources/main").mkdirs ()
@@ -23,11 +23,6 @@ task buildInfo {
 
 installDist.dependsOn 'build'
 
-/*
- * Run the service in another thread. This allow the possibility to 'watch' source changes.
- * To run the services and watch for changes you need to execute this task with the `--continuous`
- * (`-t`) Gradle flag. Ie: `gw -t runService`
- */
 task runService(dependsOn: 'classes') {
     doLast {
         final JavaExec runTask = run
