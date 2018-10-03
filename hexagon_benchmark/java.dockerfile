@@ -1,5 +1,5 @@
 
-FROM openjdk:10
+FROM openjdk:11
 ENV PROJECT hexagon_benchmark
 
 COPY build/install/$PROJECT /opt/$PROJECT
