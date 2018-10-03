@@ -18,14 +18,14 @@ import kotlin.reflect.KProperty1
 
 internal const val WORLD_ROWS = 10000
 
-private val worldName: String = defaultSetting("worldCollection", value = "world")
-private val fortuneName: String = defaultSetting("fortuneCollection", value = "fortune")
+private val worldName: String = defaultSetting("worldCollection", "world")
+private val fortuneName: String = defaultSetting("fortuneCollection", "fortune")
 
-internal fun <T : Any> defaultSetting(vararg name: String, value: T): T = setting(*name) ?: value
+internal fun <T : Any> defaultSetting(name: String, value: T): T = setting(name) ?: value
 
 private fun getDbUrl(engine: String): String {
     val dbHost = systemSetting("${engine.toUpperCase()}_DB_HOST", "localhost")
-    val dbName = defaultSetting("database", value = "hello_world")
+    val dbName = defaultSetting("database", "hello_world")
 
     return when (engine) {
         "mongodb" -> "mongodb://$dbHost/$dbName"
@@ -101,9 +101,9 @@ private class SqlStore(jdbcUrl: String) : Store {
     init {
         val config = HikariConfig()
         config.jdbcUrl = jdbcUrl
-        config.maximumPoolSize = defaultSetting("maximumPoolSize", value = 16)
-        config.username = defaultSetting("databaseUsername", value = "benchmarkdbuser")
-        config.password = defaultSetting("databasePassword", value = "benchmarkdbpass")
+        config.maximumPoolSize = defaultSetting("maximumPoolSize", 16)
+        config.username = defaultSetting("databaseUsername", "benchmarkdbuser")
+        config.password = defaultSetting("databasePassword", "benchmarkdbpass")
         dataSource = HikariDataSource(config)
     }
 
