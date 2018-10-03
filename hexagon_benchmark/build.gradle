@@ -84,7 +84,7 @@ import groovy.json.JsonOutput
 
 task benchmarkConfig {
     doLast {
-        Map<String, Map<String, Object>> test = [:]
+        Map<String, Object> testsMap = [:]
         tests.collect { it as List<List<String>> }.forEach {
             final String server = it[0]
             final String database = it[1]
@@ -93,7 +93,7 @@ task benchmarkConfig {
                 'default' : server + '_' + database
             final int port = server == 'Resin'? 8080 : 9090
 
-            test[name.toLowerCase()] = [
+            testsMap[name.toLowerCase()] = [
                 json_url : '/json',
                 db_url : "/$databaseEngine/db",
                 query_url : "/$databaseEngine/query?queries=",
@@ -123,7 +123,7 @@ task benchmarkConfig {
 
         final Map<String, ?> config = [
             framework : 'hexagon',
-            tests : [ test ]
+            tests : [ testsMap ]
         ]
 
         final String json = JsonOutput.toJson(config)
