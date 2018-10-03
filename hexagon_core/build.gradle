@@ -3,11 +3,11 @@ apply from: '../gradle/kotlin.gradle'
 apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
-ext.activationVersion = '1.1.1'
-ext.slf4jVersion = '1.7.25'
-ext.jacksonVersion = '2.9.6'
-
 dependencies {
+    final String activationVersion = '1.1.1'
+    final String slf4jVersion = '1.7.25'
+    final String jacksonVersion = '2.9.6'
+
     compile ("javax.activation:activation:$activationVersion")
     compile ("org.slf4j:slf4j-api:$slf4jVersion")
     compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion") { exclude module: 'slf4j-api' }
