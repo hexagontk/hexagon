@@ -1,10 +1,5 @@
 package com.hexagonkt.helpers
 
-import com.hexagonkt.helpers.Environment.hostname
-import com.hexagonkt.helpers.Environment.ip
-import com.hexagonkt.helpers.Environment.jvmMemory
-import com.hexagonkt.helpers.Environment.uptime
-import com.hexagonkt.helpers.Environment.usedMemory
 import org.testng.annotations.Test
 import java.net.Inet4Address
 

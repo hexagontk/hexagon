@@ -6,7 +6,7 @@ import java.lang.System.nanoTime
 import kotlin.reflect.KClass
 
 /** Default logger when you are lazy to declare one. */
-val logger: Logger = loggerOf(Environment::class)
+val logger: Logger = loggerOf(System::class)
 
 internal const val FLARE_PREFIX = ">>>>>>>>"
 

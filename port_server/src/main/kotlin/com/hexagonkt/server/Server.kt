@@ -1,13 +1,13 @@
 package com.hexagonkt.server
 
 import com.hexagonkt.helpers.*
-import com.hexagonkt.helpers.Environment.cpuCount
-import com.hexagonkt.helpers.Environment.hostname
-import com.hexagonkt.helpers.Environment.ip
-import com.hexagonkt.helpers.Environment.jvmName
-import com.hexagonkt.helpers.Environment.jvmVersion
-import com.hexagonkt.helpers.Environment.locale
-import com.hexagonkt.helpers.Environment.timezone
+import com.hexagonkt.helpers.cpuCount
+import com.hexagonkt.helpers.hostname
+import com.hexagonkt.helpers.ip
+import com.hexagonkt.helpers.jvmName
+import com.hexagonkt.helpers.jvmVersion
+import com.hexagonkt.helpers.locale
+import com.hexagonkt.helpers.timezone
 import com.hexagonkt.settings.SettingsManager.environment
 import org.slf4j.Logger
 
