@@ -7,6 +7,8 @@ apply plugin: 'me.champeau.gradle.jmh'
 project.ext.jmhBenchmarkVersion = findProperty('jmhBenchmarkVersion') ?: '1.21'
 
 dependencies {
+    final String jmhBenchmarkVersion = project.ext.jmhBenchmarkVersion // To avoid undefined warning
+
     // Added for IntelliJ IDEA to compile JMH tests inside the IDE
     compileOnly ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
     compileOnly ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
