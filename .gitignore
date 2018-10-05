@@ -17,6 +17,7 @@ out/
 # Runtime
 log/
 .vertx/
+.java-version
 file-uploads/
 *.log
 *.hprof
