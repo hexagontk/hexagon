@@ -10,12 +10,8 @@ dependencies {
     compile project(':port_client')
 
     // To use Logback inside the application (not only in tests) change this dependency to 'compile'
+    testCompile("junit:junit:$junitVersion")
     testCompile("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
-    testCompile("org.testng:testng:$testngVersion")
-}
-
-test {
-    useTestNG ()
 }
 
 // TODO Replace version in template `gradle.properties`
