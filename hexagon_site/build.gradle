@@ -6,14 +6,14 @@
 // TODO Update architecture diagram
 // JBake 'content' folder can not be changed (it seems a bug)
 
-ext.siteHost = 'http://hexagonkt.com'
+project.ext.siteHost = 'http://hexagonkt.com'
 
-ext.logoSmall = 'assets/img/logo.svg'
-ext.logoWide = 'assets/img/logo_wide.svg'
-ext.logoLarge = 'assets/img/logo.svg'
+project.ext.logoSmall = 'assets/img/logo.svg'
+project.ext.logoWide = 'assets/img/logo_wide.svg'
+project.ext.logoLarge = 'assets/img/logo.svg'
 
 // TODO Move to YAML
-ext.configData = [
+project.ext.configData = [
     bootstrapVersion : '3.3.7',
     jqueryVersion : '3.2.1',
     highlightVersion : '9.12.0',
