@@ -1,7 +1,5 @@
 package com.hexagonkt.helpers
 
-import com.hexagonkt.serialization.JsonFormat
-import com.hexagonkt.serialization.YamlFormat
 import org.testng.annotations.Test
 import java.text.DecimalFormat
 import java.time.LocalDate
@@ -22,20 +20,6 @@ import kotlin.test.assertFailsWith
         ),
         0 to 1
     )
-
-    @Test fun `MIME types return correct content type`() {
-        assert(mimeTypes.getContentType("a.json") == JsonFormat.contentType)
-        assert(mimeTypes.getContentType("a.yaml") == YamlFormat.contentType)
-        assert(mimeTypes.getContentType("a.yml") == YamlFormat.contentType)
-        assert(mimeTypes.getContentType("a.png") == "image/png")
-        assert(mimeTypes.getContentType("a.rtf") == "application/rtf")
-
-        assert(mimeTypes.getContentType(".json") == JsonFormat.contentType)
-        assert(mimeTypes.getContentType(".yaml") == YamlFormat.contentType)
-        assert(mimeTypes.getContentType(".yml") == YamlFormat.contentType)
-        assert(mimeTypes.getContentType(".png") == "image/png")
-        assert(mimeTypes.getContentType(".rtf") == "application/rtf")
-    }
 
     @Test fun `System setting works ok` () {
         System.setProperty("system_property", "value")
@@ -126,11 +110,6 @@ import kotlin.test.assertFailsWith
         assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
     }
 
-    // TODO Use expectedExceptions
-    @Test fun `Error utilities work as expected` () {
-        assertFailsWith<IllegalStateException>("Invalid state") { error }
-    }
-
     @Test fun `Filtered maps do not contain empty elements`() {
         assert(
             mapOf(
@@ -175,28 +154,12 @@ import kotlin.test.assertFailsWith
         )
     }
 
-    @Test fun `Require resource`() {
-        assert(requireResource("service_test.yaml").file == resource("service_test.yaml")?.file)
-        assertFailsWith<IllegalStateException>("foo.txt not found") {
-            requireResource("foo.txt")
-        }
-    }
-
-    @Test fun `Resource folder`() {
-        assert(resource("data")?.readText()?.lines()?.size ?: 0 > 0)
-    }
-
     @Test(
         expectedExceptions = [ IllegalStateException::class ],
         expectedExceptionsMessageRegExp = "Invalid state"
     )
     fun `'error' generates the correct exception`() {
         error
-    }
-
-    @Test fun `readResource returns resource's text` () {
-        val resourceText = readResource("logback-test.xml")
-        assert(resourceText?.contains("Logback configuration for tests") ?:false)
     }
 
     @Test fun `Parse key only query parameters return correct data` () {

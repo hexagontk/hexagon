@@ -1,6 +1,5 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.serialization.SerializationManager.contentTypes
 import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
@@ -16,7 +15,6 @@ import org.testng.annotations.Test
 
     @Test fun `User can add and remove serialization formats` () {
         assert (formats == coreFormats)
-        assert (contentTypes == linkedSetOf(JsonFormat.contentType, YamlFormat.contentType))
         assert (formatsMap == linkedMapOf(
             JsonFormat.contentType to JsonFormat,
             YamlFormat.contentType to YamlFormat
@@ -24,17 +22,14 @@ import org.testng.annotations.Test
 
         formats = linkedSetOf(YamlFormat)
         assert (formats == linkedSetOf(YamlFormat))
-        assert (contentTypes == linkedSetOf(YamlFormat.contentType))
         assert (formatsMap == linkedMapOf(YamlFormat.contentType to YamlFormat))
 
         formats = linkedSetOf(JsonFormat)
         assert (formats == linkedSetOf(JsonFormat))
-        assert (contentTypes == linkedSetOf(JsonFormat.contentType))
         assert (formatsMap == linkedMapOf(JsonFormat.contentType to JsonFormat))
 
         setFormats (JsonFormat, YamlFormat)
         assert (formats == linkedSetOf(JsonFormat, YamlFormat))
-        assert (contentTypes == linkedSetOf(JsonFormat.contentType, YamlFormat.contentType))
         assert (formatsMap == linkedMapOf(
             JsonFormat.contentType to JsonFormat,
             YamlFormat.contentType to YamlFormat

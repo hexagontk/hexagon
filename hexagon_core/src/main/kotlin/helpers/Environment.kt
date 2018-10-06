@@ -4,6 +4,11 @@ import java.lang.management.ManagementFactory
 import java.lang.management.MemoryUsage
 import java.net.InetAddress
 
+import java.util.TimeZone
+
+/** Default timezone. */
+val timeZone: TimeZone = TimeZone.getDefault()
+
 /** The hostname of the machine running this program. */
 val hostname: String = InetAddress.getLocalHost().hostName
 /** The IP address of the machine running this program. */

@@ -3,6 +3,7 @@ package com.hexagonkt.serialization
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.mimeTypes
 import com.hexagonkt.helpers.toStream
 import com.hexagonkt.serialization.JacksonHelper.createObjectMapper
@@ -85,7 +86,7 @@ fun <T : Any> URL.parseList(type: KClass<T>): List<T> =
 
 // UTILITIES
 private fun contentType(url: URL): SerializationFormat =
-    getContentTypeFormat(mimeTypes.getContentType(url.file))
+    getContentTypeFormat(mimeTypes[url.file.substringAfterLast('.')] ?: error)
 
 private fun contentType(file: File): SerializationFormat =
-    getContentTypeFormat(mimeTypes.getContentType(file))
+    getContentTypeFormat(mimeTypes[file.extension] ?: error)

@@ -1,6 +1,6 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.helpers.eol
+import com.hexagonkt.helpers.extensions
 import com.hexagonkt.helpers.mimeTypes
 
 object SerializationManager {
@@ -11,16 +11,12 @@ object SerializationManager {
         set(value) {
             require(value.isNotEmpty()) { "Formats list can not be empty" }
             field = value
-            contentTypes = contentTypes()
             formatsMap = formatsMap()
-            extensions = value.flatMap { f -> f.extensions.map { it to f.contentType } }.toMap()
-            mimeTypes.addMimeTypes(
-                formats.joinToString(eol) { "${it.contentType} ${it.extensions.joinToString(" ")}" }
-            )
+            formats.forEach { format ->
+                extensions += format.contentType to format.extensions.toList()
+                mimeTypes += format.extensions.map { ext -> ext to format.contentType }
+            }
         }
-
-    var contentTypes: LinkedHashSet<String> = contentTypes()
-        private set
 
     var formatsMap: LinkedHashMap<String, SerializationFormat> = formatsMap()
         private set
@@ -34,8 +30,6 @@ object SerializationManager {
             field = value
         }
 
-    private var extensions: Map<String, String> = extensions(coreFormats)
-
     fun setFormats(vararg formats: SerializationFormat) {
         SerializationManager.formats = linkedSetOf(*formats)
     }
@@ -43,13 +37,8 @@ object SerializationManager {
     fun getContentTypeFormat(contentType: String): SerializationFormat =
         formatsMap[contentType] ?: error("$contentType not found")
 
-    internal fun getFileFormat(extension: String): SerializationFormat =
-        getContentTypeFormat(mimeTypes.getContentType(extension))
-
-    private fun contentTypes () = LinkedHashSet(formats.map { it.contentType })
+    internal fun getFileFormat(file: String): SerializationFormat =
+        getContentTypeFormat(mimeTypes[file.substringAfterLast('.')] ?: error("No mime type found for '$file'"))
 
     private fun formatsMap () = linkedMapOf (*formats.map { it.contentType to it }.toTypedArray())
-
-    private fun extensions (formats: HashSet<SerializationFormat>) =
-        formats.flatMap { f -> f.extensions.map { it to f.contentType } }.toMap()
 }

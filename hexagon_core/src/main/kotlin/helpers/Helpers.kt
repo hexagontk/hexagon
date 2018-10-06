@@ -5,19 +5,10 @@ import kotlin.coroutines.experimental.EmptyCoroutineContext
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.runBlocking
 
-import java.io.InputStream
-import java.lang.ClassLoader.getSystemClassLoader
-import java.net.URL
 import java.util.*
-
-/** Default timezone. */
-val timeZone: TimeZone = TimeZone.getDefault()
 
 /** Syntax sugar to throw errors. */
 val error: Nothing get() = error("Invalid state")
-
-/** System class loader. */
-val systemClassLoader: ClassLoader = getSystemClassLoader()
 
 fun systemSetting (name: String): String? = System.getProperty(name) ?: System.getenv(name)
 
@@ -123,20 +114,6 @@ fun <V> notEmpty(it: V): Boolean {
         else -> true
     }
 }
-
-// I/O /////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * TODO Fix class loader issues, use thread class loader or whatever
- * http://www.javaworld.com/article/2077344/core-java/find-a-way-out-of-the-classloader-maze.html
- */
-fun resourceAsStream(resource: String): InputStream? =
-    systemClassLoader.getResourceAsStream(resource)
-
-fun resource(resource: String): URL? = systemClassLoader.getResource(resource)
-
-fun requireResource(resource: String): URL = resource(resource) ?: error("$resource not found")
-
-fun readResource(resource: String): String? = resourceAsStream(resource)?.reader()?.readText()
 
 // KOTLIN //////////////////////////////////////////////////////////////////////////////////////////
 fun sync(
