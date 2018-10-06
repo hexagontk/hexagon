@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest as HttpRequest
 import javax.servlet.http.HttpServletResponse as HttpResponse
 
 /**
- * @author jam
+ * TODO .
  */
 class ServletFilter (router: List<RequestHandler>) : Filter {
     /**
