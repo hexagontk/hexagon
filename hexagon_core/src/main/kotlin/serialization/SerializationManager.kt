@@ -4,7 +4,7 @@ import com.hexagonkt.helpers.extensions
 import com.hexagonkt.helpers.mimeTypes
 
 object SerializationManager {
-    val coreFormats: LinkedHashSet<SerializationFormat> = linkedSetOf (JsonFormat, YamlFormat)
+    val coreFormats: LinkedHashSet<SerializationFormat> = linkedSetOf (JsonFormat, YamlFormat, CsvFormat)
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     var formats: LinkedHashSet<SerializationFormat> = coreFormats

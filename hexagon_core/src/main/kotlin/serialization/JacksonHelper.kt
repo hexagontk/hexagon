@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.SerializationFeature.*
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.core.JsonToken.START_OBJECT
@@ -32,6 +33,7 @@ object JacksonHelper {
         .configure(ALLOW_SINGLE_QUOTES, true)
         .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
         .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
+        .configure(SORT_PROPERTIES_ALPHABETICALLY, false)
         .setSerializationInclusion(NON_EMPTY)
         .setDateFormat(SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"))
         .registerModule(KotlinModule ())

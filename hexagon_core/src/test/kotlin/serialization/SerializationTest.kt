@@ -7,8 +7,11 @@ import kotlin.reflect.KClass
 abstract class SerializationTest<out T : Any> (private val type: KClass<T>) {
     abstract val testObjects: List<T>
 
+    // Some formats are excluded because they don't support all features
+    private val ignoredFormats: Set<SerializationFormat> = setOf(CsvFormat)
+
     @Test fun `Object is mapped and parsed back without error` () {
-        formats.forEach { contentType ->
+        (formats - ignoredFormats).forEach { contentType ->
             testObjects.forEach {
                 val map = it.convertToMap ()
 

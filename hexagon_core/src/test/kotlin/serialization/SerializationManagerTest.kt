@@ -17,7 +17,8 @@ import org.testng.annotations.Test
         assert (formats == coreFormats)
         assert (formatsMap == linkedMapOf(
             JsonFormat.contentType to JsonFormat,
-            YamlFormat.contentType to YamlFormat
+            YamlFormat.contentType to YamlFormat,
+            CsvFormat.contentType to CsvFormat
         ))
 
         formats = linkedSetOf(YamlFormat)
