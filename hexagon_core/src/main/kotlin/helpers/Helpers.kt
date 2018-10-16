@@ -38,7 +38,7 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
         }
     }
 
-    throw CodedException(0, "Error retrying $times times ($delay ms)", *exceptions.toTypedArray())
+    throw MultipleException("Error retrying $times times ($delay ms)", exceptions)
 }
 
 // NETWORKING //////////////////////////////////////////////////////////////////////////////////////

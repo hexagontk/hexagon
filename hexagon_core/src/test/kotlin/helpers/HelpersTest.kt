@@ -190,7 +190,7 @@ import kotlin.test.assertFailsWith
         try {
             retry(retries, 1) { throw RuntimeException ("Retry error") }
         }
-        catch (e: CodedException) {
+        catch (e: MultipleException) {
             assert (e.causes.size == retries)
         }
     }
