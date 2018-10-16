@@ -4,7 +4,7 @@ import java.io.InputStream
 
 /** Content Type -> Extensions. */
 var extensions: Map<String, List<String>> =
-    loadExtensions(resourceAsStream("helpers/mime.types") ?: error)
+    loadExtensions(resourceAsStream("serialization/mime.types") ?: error)
 
 /** Extension -> Content Type. */
 var mimeTypes: Map<String, String> =

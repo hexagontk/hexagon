@@ -1,5 +1,5 @@
 
-# Serialization Formats
+# Application Serialization Formats
 application/json json
 application/yaml yaml yml
 
@@ -65,6 +65,10 @@ multipart/appledouble
 multipart/digest
 multipart/mixed
 multipart/parallel
+
+# Text Serialization Formats
+text/csv csv
+text/x-java-properties properties
 
 # Text
 text/html html htm
