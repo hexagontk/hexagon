@@ -3,22 +3,23 @@ package com.hexagonkt.helpers
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 
-@Test class IoTest {
+@Test class ResourceTest {
 
     @Test
     fun `Require resource`() {
-        assert(requireResource("service_test.yaml").file == resource("service_test.yaml")?.file)
+        val resource = Resource("service_test.yaml")
+        assert(resource.requireUrl().file == resource.url()?.file)
         assertFailsWith<IllegalStateException>("foo.txt not found") {
-            requireResource("foo.txt")
+            Resource("foo.txt").requireUrl()
         }
     }
 
     @Test fun `Resource folder`() {
-        assert(resource("data")?.readText()?.lines()?.size ?: 0 > 0)
+        assert(Resource("data").url()?.readText()?.lines()?.size ?: 0 > 0)
     }
 
     @Test fun `readResource returns resource's text` () {
-        val resourceText = readResource("logback-test.xml")
+        val resourceText = Resource("logback-test.xml").readText()
         assert(resourceText?.contains("Logback configuration for tests") ?:false)
     }
 }

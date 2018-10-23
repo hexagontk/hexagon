@@ -17,8 +17,8 @@ import org.testng.annotations.Test
         assert (formats == coreFormats)
         assert (formatsMap == linkedMapOf(
             JsonFormat.contentType to JsonFormat,
-            YamlFormat.contentType to YamlFormat,
-            CsvFormat.contentType to CsvFormat
+            YamlFormat.contentType to YamlFormat//,
+//            CsvFormat.contentType to CsvFormat
         ))
 
         formats = linkedSetOf(YamlFormat)
@@ -69,5 +69,13 @@ import org.testng.annotations.Test
         assert(SerializationManager.getFileFormat(".json") == JsonFormat)
         assert(SerializationManager.getFileFormat(".yaml") == YamlFormat)
         assert(SerializationManager.getFileFormat(".yml") == YamlFormat)
+    }
+
+    @Test fun `MIME types return correct content type`() {
+        assert(SerializationManager.mimeTypes["json"] == JsonFormat.contentType)
+        assert(SerializationManager.mimeTypes["yaml"] == YamlFormat.contentType)
+        assert(SerializationManager.mimeTypes["yml"] == YamlFormat.contentType)
+        assert(SerializationManager.mimeTypes["png"] == "image/png")
+        assert(SerializationManager.mimeTypes["rtf"] == "application/rtf")
     }
 }

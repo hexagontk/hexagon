@@ -96,7 +96,7 @@ data class Server (
         // TODO Load banner from ${serverName}.txt
         // TODO Do not trim the banner (it could break ASCII art ;)
         val bannerResource = serverName.toLowerCase().replace(' ', '_')
-        val banner = (readResource("$bannerResource.txt") ?: "") + information
+        val banner = (Resource("$bannerResource.txt").readText() ?: "") + information
         return banner
             .trimIndent()
             .lines()

@@ -1,11 +1,10 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parseList
-import com.hexagonkt.helpers.requireResource
-import com.hexagonkt.helpers.resourceAsStream
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
 import com.mongodb.client.*
 import com.mongodb.client.model.*
@@ -93,7 +92,7 @@ open class MongoRepository <T : Any> (
         aggregate(bson.map(::Document))
 
     fun importFile(input: File) { insertManyObjects(input.parseList(type)) }
-    fun importResource(input: String) { insertManyObjects(requireResource(input).parseList(type)) }
+    fun importResource(input: String) { insertManyObjects(Resource(input).requireUrl().parseList(type)) }
 
     fun delete(): DeleteResult = deleteMany(Document())
 
@@ -102,7 +101,7 @@ open class MongoRepository <T : Any> (
      * @param file .
      */
     fun loadData(file: String) {
-        val resourceAsStream = resourceAsStream(file)
+        val resourceAsStream = Resource(file).stream()
         val extension = file.substringAfterLast('.')
         val objects = resourceAsStream?.parseList(
             type, getContentTypeFormat("application/$extension")) ?: listOf()
@@ -119,7 +118,7 @@ open class MongoRepository <T : Any> (
     protected open fun map (document: T): Document {
         return onStore (
             Document (document.convertToMap ().mapKeys {
-                val key = it.key ?: error("Key can not be 'null'")
+                val key = it.key
                 key as? String ?: error("Key must be 'String' not '${key.javaClass.name}'")
             })
         )

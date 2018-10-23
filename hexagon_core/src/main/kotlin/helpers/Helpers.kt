@@ -1,14 +1,10 @@
 package com.hexagonkt.helpers
 
+import kotlinx.coroutines.experimental.*
 import kotlin.coroutines.experimental.CoroutineContext
 import kotlin.coroutines.experimental.EmptyCoroutineContext
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.runBlocking
 
 import java.util.*
-
-/** Syntax sugar to throw errors. */
-val error: Nothing get() = error("Invalid state")
 
 fun systemSetting (name: String): String? = System.getProperty(name) ?: System.getenv(name)
 
@@ -57,6 +53,9 @@ fun parseQueryParameters (query: String): Map<String, String> =
             .toMap(LinkedHashMap())
 
 // ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
+/** Syntax sugar to throw errors. */
+val error: Nothing get() = error("Invalid state")
+
 /**
  * Returns the stack trace array of the frames that starts with the given prefix.
  */
@@ -116,8 +115,9 @@ fun <V> notEmpty(it: V): Boolean {
 }
 
 // KOTLIN //////////////////////////////////////////////////////////////////////////////////////////
-fun sync(
-    context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> Unit) {
+fun <T> sync(
+    context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> T) =
+        runBlocking(context, block)
 
-    runBlocking(context, block)
-}
+fun <T> async(block: suspend CoroutineScope.() -> T) =
+    GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT, null, block)

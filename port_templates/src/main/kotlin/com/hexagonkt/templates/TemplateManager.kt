@@ -1,6 +1,6 @@
 package com.hexagonkt.templates
 
-import com.hexagonkt.helpers.resource
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.toDate
 import com.hexagonkt.serialization.parse
 import java.time.LocalDateTime
@@ -13,7 +13,7 @@ object TemplateManager {
 
     private fun loadProps (path: String) =
         try {
-            resource("$basePath/$path.yaml")?.parse () ?: mapOf<String, Any>()
+            Resource("$basePath/$path.yaml").url()?.parse () ?: mapOf<String, Any>()
         }
         catch (e: Exception) {
             mapOf<String, Any>()

@@ -3,10 +3,9 @@ package com.hexagonkt.serialization
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-import com.hexagonkt.helpers.error
-import com.hexagonkt.helpers.mimeTypes
 import com.hexagonkt.helpers.toStream
 import com.hexagonkt.serialization.JacksonHelper.createObjectMapper
+import com.hexagonkt.serialization.SerializationManager.contentType
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
 import java.io.File
@@ -83,10 +82,3 @@ fun URL.parseList (): List<Map<*, *>> = this.parseList (Map::class)
 
 fun <T : Any> URL.parseList(type: KClass<T>): List<T> =
     this.openStream().parseList(type, contentType(this))
-
-// UTILITIES
-private fun contentType(url: URL): SerializationFormat =
-    getContentTypeFormat(mimeTypes[url.file.substringAfterLast('.')] ?: error)
-
-private fun contentType(file: File): SerializationFormat =
-    getContentTypeFormat(mimeTypes[file.extension] ?: error)

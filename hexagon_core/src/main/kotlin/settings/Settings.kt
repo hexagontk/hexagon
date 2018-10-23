@@ -1,6 +1,6 @@
 package com.hexagonkt.settings
 
-import com.hexagonkt.helpers.resource
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.serialization.YamlFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
@@ -9,7 +9,7 @@ import java.io.FileNotFoundException
 
 fun loadResource(resName: String): Map<String, *> = logSettings(
     "'$resName' resource",
-    resource(resName).let {
+    Resource(resName).url().let {
         if (it == null) linkedMapOf<String, Any>()
         else LinkedHashMap(it.parse().mapKeys { e -> e.key.toString() })
     }
