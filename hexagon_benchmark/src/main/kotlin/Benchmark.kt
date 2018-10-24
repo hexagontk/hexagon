@@ -1,6 +1,6 @@
 package com.hexagonkt
 
-import com.hexagonkt.helpers.systemSetting
+import com.hexagonkt.helpers.Environment
 import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.serialize
@@ -124,7 +124,7 @@ internal fun createEngine(engine: String): ServerPort = when (engine) {
 }
 
 fun main(vararg args: String) {
-    val engine = createEngine(systemSetting("WEBENGINE", "jetty"))
+    val engine = createEngine(Environment.systemSetting("WEBENGINE", "jetty"))
     benchmarkStores = storageEngines.map { it to createStore(it) }.toMap()
 
     logger.info("""

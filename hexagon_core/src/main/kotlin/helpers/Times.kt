@@ -29,7 +29,7 @@ fun LocalTime.asNumber (): Int =
 
 fun LocalDateTime.formatToIso (): String = this.format(ISO_DATE_TIME)
 
-fun LocalDateTime.withZone (zoneId: ZoneId = timeZone.toZoneId()): ZonedDateTime =
+fun LocalDateTime.withZone (zoneId: ZoneId = Environment.timeZone.toZoneId()): ZonedDateTime =
     ZonedDateTime.of(this, zoneId)
 
 /**
@@ -54,9 +54,9 @@ fun Int.toLocalTime (): LocalTime = LocalTime.of(
 
 fun ZonedDateTime.toDate (): Date = Date.from(this.toInstant())
 
-fun LocalDateTime.toDate (): Date = this.atZone(timeZone.toZoneId()).toDate()
+fun LocalDateTime.toDate (): Date = this.atZone(Environment.timeZone.toZoneId()).toDate()
 
-fun LocalDate.toDate (): Date = this.atStartOfDay(timeZone.toZoneId()).toDate()
+fun LocalDate.toDate (): Date = this.atStartOfDay(Environment.timeZone.toZoneId()).toDate()
 
 fun Date.toLocalDateTime (): LocalDateTime =
     LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), ZoneId.systemDefault())

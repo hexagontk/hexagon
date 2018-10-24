@@ -1,6 +1,6 @@
 package com.hexagonkt
 
-import com.hexagonkt.helpers.systemSetting
+import com.hexagonkt.helpers.Environment
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.store.mongodb.MongoIdRepository
 import com.hexagonkt.store.mongodb.mongoCollection
@@ -24,7 +24,7 @@ private val fortuneName: String = defaultSetting("fortuneCollection", "fortune")
 internal fun <T : Any> defaultSetting(name: String, value: T): T = setting(name) ?: value
 
 private fun getDbUrl(engine: String): String {
-    val dbHost = systemSetting("${engine.toUpperCase()}_DB_HOST", "localhost")
+    val dbHost = Environment.systemSetting("${engine.toUpperCase()}_DB_HOST", "localhost")
     val dbName = defaultSetting("database", "hello_world")
 
     return when (engine) {

@@ -5,15 +5,13 @@ import java.lang.Thread.currentThread
 import java.time.LocalDateTime
 
 import com.hexagonkt.helpers.asNumber
-import com.hexagonkt.helpers.hostname as utilHostname
-import com.hexagonkt.helpers.ip as utilIp
-import com.hexagonkt.helpers.jvmId as utilJvmId
+import com.hexagonkt.helpers.Environment
 
 open class Message (
     val timestamp: Long = currentTimeMillis (),
     val dateTime: Long = LocalDateTime.now().asNumber(),
-    val hostname: String = utilHostname,
-    val ip: String = utilIp,
-    val jvmid: String = utilJvmId,
+    val hostname: String = Environment.hostname,
+    val ip: String = Environment.ip,
+    val jvmid: String = Environment.jvmId,
     val thread: String = currentThread ().name
 )
