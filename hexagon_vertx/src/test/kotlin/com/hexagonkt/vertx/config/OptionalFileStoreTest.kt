@@ -20,6 +20,7 @@ class OptionalFileStoreTest {
             assert(it.result().getString("name") == "bar")
         }
         f.await()
+        Unit
     }
 
     @Test fun `Optional non existing config file does not fail`() = sync {
@@ -32,6 +33,7 @@ class OptionalFileStoreTest {
             assert(it.result().getString("name") == null)
         }
         f.await()
+        Unit
     }
 
     @Test fun `Required non existing config file throws an error`() = sync {
