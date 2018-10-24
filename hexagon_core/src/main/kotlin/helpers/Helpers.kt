@@ -6,10 +6,6 @@ import kotlin.coroutines.experimental.EmptyCoroutineContext
 
 import java.util.*
 
-fun systemSetting (name: String): String? = System.getProperty(name) ?: System.getenv(name)
-
-fun systemSetting (name: String, defaultValue: String): String = systemSetting(name) ?: defaultValue
-
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
  * Executes a lambda until no exception is thrown or a number of times is reached.

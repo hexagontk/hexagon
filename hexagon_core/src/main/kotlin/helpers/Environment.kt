@@ -28,5 +28,15 @@ val locale: String = "%s_%s.%s".format(
 private val heap: MemoryUsage = ManagementFactory.getMemoryMXBean().heapMemoryUsage
 
 fun jvmMemory(): String = "%,d".format(heap.init / 1024)
+
 fun usedMemory(): String = "%,d".format(heap.used / 1024)
+
 fun uptime(): String = "%01.3f".format(ManagementFactory.getRuntimeMXBean().uptime / 1e3)
+
+fun systemSetting(name: String): String? = System.getProperty(name) ?: System.getenv(name)
+
+fun systemSetting(name: String, defaultValue: String): String = systemSetting(name) ?: defaultValue
+
+object Environment {
+
+}
