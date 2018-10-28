@@ -8,7 +8,7 @@ import io.vertx.core.Vertx as Vx
 fun Vertx(block: Vertx.() -> Unit) = Vertx().apply(block)
 
 class Vertx : Vx by Vx.vertx() {
-    fun Verticle(block: Verticle.() -> Unit): V = Verticle()
+    fun Verticle(block: Verticle.() -> Unit): V = Verticle().also(block)
 }
 
 class Verticle : V {
