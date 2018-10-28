@@ -42,9 +42,9 @@ import kotlin.test.assertFailsWith
     }
 
     @Test fun `A local date time returns a valid int timestamp` () {
-        assert(dateTime (2015, 12, 31, 23, 59, 59).asNumber() == 2015_12_31_23_59_59_000)
-        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).asNumber() == 2015_12_31_23_59_59_101)
-        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).asNumber() != 2015_12_31_23_59_59_100)
+        assert(dateTime (2015, 12, 31, 23, 59, 59).toNumber() == 2015_12_31_23_59_59_000)
+        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).toNumber() == 2015_12_31_23_59_59_101)
+        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).toNumber() != 2015_12_31_23_59_59_100)
     }
 
     @Test fun `Filtering an exception with an empty string do not change the stack` () {

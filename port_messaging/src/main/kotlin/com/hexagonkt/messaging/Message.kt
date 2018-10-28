@@ -4,12 +4,12 @@ import java.lang.System.currentTimeMillis
 import java.lang.Thread.currentThread
 import java.time.LocalDateTime
 
-import com.hexagonkt.helpers.asNumber
+import com.hexagonkt.helpers.toNumber
 import com.hexagonkt.helpers.Environment
 
 open class Message (
     val timestamp: Long = currentTimeMillis (),
-    val dateTime: Long = LocalDateTime.now().asNumber(),
+    val dateTime: Long = LocalDateTime.now().toNumber(),
     val hostname: String = Environment.hostname,
     val ip: String = Environment.ip,
     val jvmid: String = Environment.jvmId,
