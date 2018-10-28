@@ -8,7 +8,7 @@ import java.text.Normalizer.normalize
 
 /** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
 private const val VARIABLE_PREFIX = "#{"
-/** Variable sufix for string filtering. */
+/** Variable suffix for string filtering. */
 private const val VARIABLE_SUFFIX = "}"
 
 /** Start of ANSI sequence. */
