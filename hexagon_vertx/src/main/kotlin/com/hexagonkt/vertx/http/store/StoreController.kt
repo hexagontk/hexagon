@@ -47,7 +47,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     fun updateOne(context: RoutingContext) {
         val key = parseKey(context)
         val updates = createUpdate(context)
-        logger.flare(updates)
+        logger.flare { updates }
         store.updateOne(key, updates).setHandler {
             context.end(200, "")
         }

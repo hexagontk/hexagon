@@ -73,7 +73,7 @@ class HttpVerticleTest {
 
         val responseLong = client.get("/long").send().await()
         assert(responseLong.statusCode() == 200)
-        logger.flare("/long response body ${responseLong.body()}")
+        logger.flare { "/long response body ${responseLong.body()}" }
         // TODO Fix in Travis
 //        assert(responseLong.body().toString() == "1")
 //        logger.flare("/long OK")

@@ -48,12 +48,12 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
             assert(createdEntities == testEntities.size.toLong())
 
             val page1 = getEntities(contentType, "sort=-anInt&otherData=even&max=2&offset=2")
-            logger.flare(page1.serialize(contentType))
+            logger.flare { page1.serialize(contentType) }
             assert(testEntities.containsAll(page1))
             assert(page1.size == 2)
 
             val page2 = getEntities(contentType, "sort=-anInt&otherData=even&max=2&offset=4")
-            logger.flare(page2.serialize(contentType))
+            logger.flare { page2.serialize(contentType) }
             assert(testEntities.containsAll(page2))
             assert(page2.size == 1)
         }
@@ -78,7 +78,7 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
                 assert(response.statusCode() == 200)
                 val body = response.body()?.toString()
                 val map = body?.parse(contentType) ?: error("")
-                logger.flare(map.serialize(contentType))
+                logger.flare { map.serialize(contentType) }
                 assert(map.containsKey("otherData") )
                 assert(map.containsKey("anInt"))
             }

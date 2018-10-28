@@ -19,21 +19,21 @@ import org.testng.annotations.Test
         appender.start()
         log.addAppender(appender)
 
-        log.trace (42)
+        log.trace { 42 }
         assert(appender.length == 1)
-        log.debug (true)
+        log.debug { true }
         assert(appender.length == 2)
-        log.info (0.0)
+        log.info { 0.0 }
         assert(appender.length == 3)
-        log.warn (listOf(0, 1))
+        log.warn { listOf(0, 1) }
         assert(appender.length == 4)
-        log.error (mapOf(0 to 1, 2 to 3))
+        log.error { mapOf(0 to 1, 2 to 3) }
         assert(appender.length == 5)
-        log.warn ('c', RuntimeException ())
+        log.warn ({ 'c' }, RuntimeException ())
         assert(appender.length == 6)
-        log.error(0..100, RuntimeException ())
+        log.error({ 0..100 }, RuntimeException ())
         assert(appender.length == 7)
-        log.flare ("message")
+        log.flare { "message" }
         assert(appender.length == 8)
         log.time ("message") {}
         assert(appender.length == 9)
@@ -42,14 +42,14 @@ import org.testng.annotations.Test
 
         log.level = Level.OFF
 
-        log.trace (42)
-        log.debug (true)
-        log.info (0.0)
-        log.warn (listOf(0, 1))
-        log.error (mapOf(0 to 1, 2 to 3))
-        log.warn ('c', RuntimeException ())
-        log.error(0..100, RuntimeException ())
-        log.flare ("message")
+        log.trace { 42 }
+        log.debug { true }
+        log.info { 0.0 }
+        log.warn { listOf(0, 1) }
+        log.error { mapOf(0 to 1, 2 to 3) }
+        log.warn({ 'c' }, RuntimeException ())
+        log.error({ 0..100 }, RuntimeException ())
+        log.flare { "message" }
         log.time ("message") {}
         log.time {}
         assert(appender.length == 10)

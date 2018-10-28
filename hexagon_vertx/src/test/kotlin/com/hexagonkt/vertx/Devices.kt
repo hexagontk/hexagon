@@ -64,7 +64,7 @@ class DevicesVerticle : HttpVerticle() {
         get("/types/empty") { handle { emptyList<String>() } }
         get("/types/error") { handle { throw CodedException(400, "Booooo") } }
         get("/types/object") { handle { Device("id", "brand", "model", DeviceOs.ANDROID, "1.0") } }
-        post(Device::class, "/types/object") { log.info(it) }
+        post(Device::class, "/types/object") { log.info { it } }
 
         get("/map/:deviceId", ::getOneDeviceMap) // Map cache test
         get("/redis/:deviceId", ::getOneDeviceRedis) // Resdis test
