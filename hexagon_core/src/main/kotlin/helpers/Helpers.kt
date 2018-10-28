@@ -7,9 +7,9 @@ import kotlin.coroutines.experimental.EmptyCoroutineContext
 import java.util.*
 
 /** Default logger when you are lazy to declare one. */
-val logger: Logger = Logger.of(System::class)
+val logger: Logger = Logger(System::class)
 
-fun Any.logger(): Logger = Logger.of(this::class)
+fun Any.logger(): Logger = Logger(this::class)
 
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**

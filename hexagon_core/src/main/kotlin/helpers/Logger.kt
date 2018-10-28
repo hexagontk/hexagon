@@ -5,13 +5,13 @@ import java.lang.System.nanoTime
 import kotlin.reflect.KClass
 import org.slf4j.Logger as Slf4jLogger
 
-class Logger(internal val log: Slf4jLogger) {
+class Logger(type: KClass<*>) {
 
-    companion object {
-        internal const val FLARE_PREFIX = ">>>>>>>>"
-
-        fun of(type: KClass<*>): Logger = Logger(getLogger(type.java))
+    private companion object {
+        const val FLARE_PREFIX = ">>>>>>>>"
     }
+
+    internal val log: Slf4jLogger = getLogger(type.java)
 
     fun trace(message: () -> Any?) {
         if (log.isTraceEnabled) log.trace(message().toString())
