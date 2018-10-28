@@ -12,50 +12,50 @@ import org.testng.annotations.Test
 @Test class LoggingTest {
 
     @Test fun messages_are_logged_without_errors () {
-        val log = logger as? ch.qos.logback.classic.Logger ?: error
+        val log = logger.log as? ch.qos.logback.classic.Logger ?: error
 
         log.level = Level.TRACE
         val appender = CyclicBufferAppender<ILoggingEvent>()
         appender.start()
         log.addAppender(appender)
 
-        log.trace { 42 }
+        logger.trace { 42 }
         assert(appender.length == 1)
-        log.debug { true }
+        logger.debug { true }
         assert(appender.length == 2)
-        log.info { 0.0 }
+        logger.info { 0.0 }
         assert(appender.length == 3)
-        log.warn { listOf(0, 1) }
+        logger.warn { listOf(0, 1) }
         assert(appender.length == 4)
-        log.error { mapOf(0 to 1, 2 to 3) }
+        logger.error { mapOf(0 to 1, 2 to 3) }
         assert(appender.length == 5)
-        log.warn ({ 'c' }, RuntimeException ())
+        logger.warn ({ 'c' }, RuntimeException ())
         assert(appender.length == 6)
-        log.error({ 0..100 }, RuntimeException ())
+        logger.error({ 0..100 }, RuntimeException ())
         assert(appender.length == 7)
-        log.flare { "message" }
+        logger.flare { "message" }
         assert(appender.length == 8)
-        log.time ("message") {}
+        logger.time ("message") {}
         assert(appender.length == 9)
-        log.time {}
+        logger.time {}
         assert(appender.length == 10)
 
         log.level = Level.OFF
 
-        log.trace { 42 }
-        log.debug { true }
-        log.info { 0.0 }
-        log.warn { listOf(0, 1) }
-        log.error { mapOf(0 to 1, 2 to 3) }
-        log.warn({ 'c' }, RuntimeException ())
-        log.error({ 0..100 }, RuntimeException ())
-        log.flare { "message" }
-        log.time ("message") {}
-        log.time {}
+        logger.trace { 42 }
+        logger.debug { true }
+        logger.info { 0.0 }
+        logger.warn { listOf(0, 1) }
+        logger.error { mapOf(0 to 1, 2 to 3) }
+        logger.warn({ 'c' }, RuntimeException ())
+        logger.error({ 0..100 }, RuntimeException ())
+        logger.flare { "message" }
+        logger.time ("message") {}
+        logger.time {}
         assert(appender.length == 10)
     }
 
     @Test fun `A logger for an instance has the proper name`() {
-        assert("".logger().name == "java.lang.String")
+        assert("".logger().log.name == "java.lang.String")
     }
 }

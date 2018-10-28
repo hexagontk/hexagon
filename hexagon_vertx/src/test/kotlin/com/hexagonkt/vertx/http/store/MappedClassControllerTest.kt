@@ -1,6 +1,6 @@
 package com.hexagonkt.vertx.http.store
 
-import com.hexagonkt.helpers.flare
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.sync
 import com.hexagonkt.serialization.SerializationManager.formats
@@ -15,7 +15,6 @@ import io.vertx.core.json.JsonObject
 import io.vertx.ext.mongo.MongoClient
 import io.vertx.kotlin.coroutines.await
 import org.junit.Test
-import org.slf4j.Logger
 
 class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
     private val logger: Logger = logger()
@@ -42,7 +41,7 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
 
         formats.forEach { contentType ->
             dropStore()
-            logger.info("Content Type: ${contentType.contentType}")
+            logger.info { "Content Type: ${contentType.contentType}" }
 
             val createdEntities = createEntities(testEntities, contentType)
             assert(createdEntities == testEntities.size.toLong())
@@ -64,7 +63,7 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
 
         formats.forEach { contentType ->
             dropStore()
-            logger.info("Content Type: ${contentType.contentType}")
+            logger.info { "Content Type: ${contentType.contentType}" }
 
             val createdEntities = createEntities(testEntities, contentType)
             assert(createdEntities == testEntities.size.toLong())
@@ -90,7 +89,7 @@ class MappedClassControllerTest : StoreControllerTest<MappedClass, String>() {
 
         formats.forEach { contentType ->
             dropStore()
-            logger.info("Content Type: ${contentType.contentType}")
+            logger.info { "Content Type: ${contentType.contentType}" }
 
             val createdEntities = createEntities(testEntities, contentType)
             assert(createdEntities == testEntities.size.toLong())

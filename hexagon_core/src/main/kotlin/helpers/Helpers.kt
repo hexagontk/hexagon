@@ -6,6 +6,11 @@ import kotlin.coroutines.experimental.EmptyCoroutineContext
 
 import java.util.*
 
+/** Default logger when you are lazy to declare one. */
+val logger: Logger = Logger.of(System::class)
+
+fun Any.logger(): Logger = Logger.of(this::class)
+
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
  * Executes a lambda until no exception is thrown or a number of times is reached.
@@ -34,9 +39,6 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
 }
 
 // NETWORKING //////////////////////////////////////////////////////////////////////////////////////
-/**
- * TODO .
- */
 fun parseQueryParameters (query: String): Map<String, String> =
     if (query.isBlank())
         mapOf()
@@ -73,9 +75,6 @@ fun Throwable.toText (prefix: String = ""): String =
             "${eol}Caused by: " + (this.cause as Throwable).toText (prefix)
 
 // MAP OPERATIONS //////////////////////////////////////////////////////////////////////////////////
-/**
- * TODO .
- */
 @Suppress("UNCHECKED_CAST")
 operator fun Map<*, *>.get(vararg keys: Any): Any? =
     if (keys.size > 1)

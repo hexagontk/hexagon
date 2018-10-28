@@ -9,7 +9,6 @@ import com.hexagonkt.helpers.Environment.jvmVersion
 import com.hexagonkt.helpers.Environment.locale
 import com.hexagonkt.helpers.Environment.timezone
 import com.hexagonkt.settings.SettingsManager.environment
-import org.slf4j.Logger
 
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
@@ -65,12 +64,12 @@ data class Server (
         )
 
         serverEngine.startup (this)
-        log.info ("$serverName started${createBanner()}")
+        log.info { "$serverName started${createBanner()}" }
     }
 
     fun stop() {
         serverEngine.shutdown ()
-        log.info ("$serverName stopped")
+        log.info { "$serverName stopped" }
     }
 
     private fun createBanner(): String {

@@ -1,7 +1,6 @@
 package com.hexagonkt.vertx.http.store
 
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.helpers.flare
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.serialize
@@ -127,6 +126,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
         return include
             .split(",".toRegex())
             .dropLastWhile { it.isEmpty() }
+            .asSequence()
             .map { it.trim() }
             .map {
                 if (it.startsWith("-")) it.substring(1).trim() to true

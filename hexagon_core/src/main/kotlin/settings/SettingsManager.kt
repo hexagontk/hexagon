@@ -1,8 +1,8 @@
 package com.hexagonkt.settings
 
 import com.hexagonkt.helpers.get
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
-import org.slf4j.Logger
 
 object SettingsManager {
     val log: Logger = logger()

@@ -43,7 +43,7 @@ class MongoDbStore <T : Any, K : Any>(
         if (useObjectId)
             // TODO Make it sync
             database.createCollection(name, CreateCollectionOptions().autoIndex(false)) { _, _ ->
-               logger.info("Collection without auto index created for: $name")
+               logger.info { "Collection without auto index created for: $name" }
             }
 
         val index =
@@ -51,7 +51,7 @@ class MongoDbStore <T : Any, K : Any>(
             else Indexes.descending(key.name)
 
         typedCollection.createIndex(index, IndexOptions().unique(true).background(true)) { _, _ ->
-            logger.info("Index created for: $name with field: ${key.name}")
+            logger.info { "Index created for: $name with field: ${key.name}" }
         }
     }
 

@@ -2,7 +2,7 @@ package com.hexagonkt.vertx
 
 import com.fasterxml.jackson.databind.ObjectWriter
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.helpers.info
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.sync
 import com.hexagonkt.vertx.http.*
@@ -20,7 +20,6 @@ import io.vertx.kotlin.core.json.JsonObject
 import io.vertx.redis.RedisClient
 import io.vertx.redis.RedisOptions
 
-import org.slf4j.Logger
 import com.fasterxml.jackson.core.type.TypeReference as Type
 
 enum class DeviceOs { ANDROID, IOS }
@@ -133,7 +132,7 @@ class DevicesVerticle : HttpVerticle() {
 
                 val mongodbHandler = context.handler<String> {
                     map += devices.first().id to devices.first()
-                    val redisHandler = context.handler<Void> { end(201, "OK") }
+                    val redisHandler = context.handler<Void> { _ -> end(201, "OK") }
                     val id = device["_id"].toString()
                     redis.set(id, writer.writeValueAsString(device), redisHandler)
                 }

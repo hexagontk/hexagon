@@ -1,8 +1,8 @@
 package com.hexagonkt.vertx.store.mongodb
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.filterEmpty
-import com.hexagonkt.helpers.time
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.vertx.store.Mapper
 import com.hexagonkt.vertx.store.Store
@@ -13,7 +13,7 @@ import io.vertx.core.json.JsonObject
 import io.vertx.ext.mongo.*
 import io.vertx.ext.mongo.BulkOperation.*
 import io.vertx.kotlin.core.json.JsonObject
-import org.slf4j.Logger
+
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
@@ -38,7 +38,7 @@ class MongoDbStore<T : Any, K : Any>(
         val future = Future.future<String>()
         mongoDbClient.insert(name, JsonObject(mapper.toStore(instance)), future)
         return future.map {
-            logger.info("Record inserted in '$name' with key: $it")
+            logger.info { "Record inserted in '$name' with key: $it" }
             // TODO This works only if key is not generated
             @Suppress("UNCHECKED_CAST")
             if (it == null) key.get(instance)
@@ -217,6 +217,7 @@ class MongoDbStore<T : Any, K : Any>(
         if(fields.isEmpty ()) JsonObject()
         else
             fields
+                .asSequence()
                 .filter { fields.contains(it) }
                 .map { it to 1 }
                 .toMap()

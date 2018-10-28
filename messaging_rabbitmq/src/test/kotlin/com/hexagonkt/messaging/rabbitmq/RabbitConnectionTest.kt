@@ -1,7 +1,8 @@
 package com.hexagonkt.messaging.rabbitmq
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
-import org.slf4j.Logger
+
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -63,7 +64,7 @@ import java.net.URI
             client.call(QUEUE_ERROR, ts)
         }
         catch (e: Exception) {
-            log.error("Consumer error", e)
+            log.error({ "Consumer error" }, e)
         }
 
         startConsumer()

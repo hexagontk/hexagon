@@ -62,10 +62,10 @@ fun loadCommandLineArguments (vararg args: String): Map<String, *> = logSettings
 private fun logSettings(resName: String, settings: Map<String, *>): Map<String, *> =
     settings.also {
         if (it.isEmpty()) {
-            SettingsManager.log.info("No settings found for $resName")
+            SettingsManager.log.info { "No settings found for $resName" }
         }
         else {
             val serialize = it.serialize(YamlFormat).prependIndent(" ".repeat(4))
-            SettingsManager.log.info("Settings loaded from $resName:\n\n$serialize")
+            SettingsManager.log.info { "Settings loaded from $resName:\n\n$serialize" }
         }
     }

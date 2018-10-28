@@ -1,5 +1,6 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
@@ -12,7 +13,6 @@ import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.bson.conversions.Bson
-import org.slf4j.Logger
 import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -110,7 +110,7 @@ open class MongoRepository <T : Any> (
                 this.insertOneObject(it)
             }
             catch (e: Exception) {
-                log.warn("$it already inserted")
+                log.warn { "$it already inserted" }
             }
         }
     }

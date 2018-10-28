@@ -1,8 +1,8 @@
 package com.hexagonkt.server
 
 import com.hexagonkt.client.Client
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
-import org.slf4j.Logger
 
 @Suppress("unused", "MemberVisibilityCanBePrivate") // Test methods are flagged as unused
 internal class SessionModule : TestModule() {
@@ -15,7 +15,7 @@ internal class SessionModule : TestModule() {
                 session.id = "sessionId"
             }
             catch (e: UnsupportedOperationException) {
-                log.info("Unsupported by framework")
+                log.info { "Unsupported by framework" }
             }
             assert(id == session.id ?: "null")
             ok(id)
