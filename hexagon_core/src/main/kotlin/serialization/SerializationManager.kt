@@ -7,7 +7,7 @@ import java.io.InputStream
 import java.net.URL
 
 object SerializationManager {
-    val coreFormats: LinkedHashSet<SerializationFormat> =
+    internal val coreFormats: LinkedHashSet<SerializationFormat> =
         linkedSetOf (JsonFormat, YamlFormat)//, CsvFormat)
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
