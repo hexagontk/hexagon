@@ -118,7 +118,7 @@ open class MongoRepository <T : Any> (
     protected open fun map (document: T): Document {
         return onStore (
             Document (document.convertToMap ().mapKeys {
-                val key = it.key
+                val key = it.key ?: error("Key can not be 'null'")
                 key as? String ?: error("Key must be 'String' not '${key.javaClass.name}'")
             })
         )

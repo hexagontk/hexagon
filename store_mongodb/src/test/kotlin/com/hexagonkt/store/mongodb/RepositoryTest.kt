@@ -58,7 +58,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (
             assert(result == object2)
 
             deleteAll()
-            collection.insertOne(it.convertToMap().mapKeys { entry -> entry.key })
+            collection.insertOne(it.convertToMap().mapKeys { entry -> entry.key as String })
             result = collection.findObjects().first()
 
             assert(result == it)

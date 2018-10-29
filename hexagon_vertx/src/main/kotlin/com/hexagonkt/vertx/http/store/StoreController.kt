@@ -119,7 +119,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     }
 
     private fun objectsToMaps(objects: List<T>): List<Map<String, *>> =
-        objects.map { it.convertToMap() }
+        objects.map { it.convertToMap().mapKeys { entry -> entry.key as String } }
 
     private fun createSort(context: RoutingContext): Map<String, Boolean> {
         val include = context.request().getParam("sort") ?: ""

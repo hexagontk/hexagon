@@ -12,9 +12,7 @@ import java.net.URL
 import kotlin.reflect.KClass
 
 // MAPPING /////////////////////////////////////////////////////////////////////////////////////////
-fun Any.convertToMap(): Map<String, *> = mapper.convertValue (this, Map::class.java)
-    .filter { it.key is String }
-    .mapKeys { it.key.toString() }
+fun Any.convertToMap(): Map<*, *> = mapper.convertValue (this, Map::class.java)
 
 fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T = mapper.convertValue(this, type.java)
 
