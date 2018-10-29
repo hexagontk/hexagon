@@ -1,10 +1,8 @@
 package com.hexagonkt.serialization
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.toStream
-import com.hexagonkt.serialization.JacksonHelper.createObjectMapper
+import com.hexagonkt.serialization.JacksonHelper.mapper
 import com.hexagonkt.serialization.SerializationManager.contentType
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
@@ -12,16 +10,6 @@ import java.io.File
 import java.io.InputStream
 import java.net.URL
 import kotlin.reflect.KClass
-
-object JsonFormat : SerializationFormat by JacksonTextFormat(linkedSetOf("json"))
-
-@Suppress("MoveLambdaOutsideParentheses") // In this case that syntax cannot be used
-object YamlFormat : SerializationFormat by JacksonTextFormat(
-    linkedSetOf("yaml", "yml"),
-    { with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) } }
-)
-
-val mapper: ObjectMapper by lazy { createObjectMapper () }
 
 // MAPPING /////////////////////////////////////////////////////////////////////////////////////////
 fun Any.convertToMap(): Map<String, *> = mapper.convertValue (this, Map::class.java)
@@ -82,3 +70,12 @@ fun URL.parseList (): List<Map<*, *>> = this.parseList (Map::class)
 
 fun <T : Any> URL.parseList(type: KClass<T>): List<T> =
     this.openStream().parseList(type, contentType(this))
+
+// RESOURCE ////////////////////////////////////////////////////////////////////////////////////////
+fun <T : Any> Resource.parse(type: KClass<T>): T = this.requireUrl().parse(type)
+
+fun Resource.parse (): Map<*, *> = this.parse (Map::class)
+
+fun Resource.parseList (): List<Map<*, *>> = this.parseList (Map::class)
+
+fun <T : Any> Resource.parseList(type: KClass<T>): List<T> = this.requireUrl().parseList(type)

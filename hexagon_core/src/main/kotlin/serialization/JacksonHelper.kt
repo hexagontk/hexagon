@@ -22,6 +22,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object JacksonHelper {
+
+    internal val mapper: ObjectMapper by lazy { createObjectMapper () }
+
     fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
         setupObjectMapper(ObjectMapper(mapperFactory))
 
