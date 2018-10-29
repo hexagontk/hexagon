@@ -3,9 +3,8 @@ package com.hexagonkt.serialization
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.toStream
 import com.hexagonkt.serialization.JacksonHelper.mapper
-import com.hexagonkt.serialization.SerializationManager.contentType
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
-import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
+import com.hexagonkt.serialization.SerializationManager.formatOf
 import java.io.File
 import java.io.InputStream
 import java.net.URL
@@ -21,7 +20,7 @@ fun <T : Any> List<Map<*, *>>.convertToObjects(type: KClass<T>): List<T> =
 
 fun Any.serialize (format: SerializationFormat = defaultFormat): String = format.serialize(this)
 
-fun Any.serialize (contentType: String): String = this.serialize(getContentTypeFormat(contentType))
+fun Any.serialize (contentType: String): String = this.serialize(formatOf(contentType))
 
 // INPUT STREAM ////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> InputStream.parse (type: KClass<T>, format: SerializationFormat = defaultFormat): T =
@@ -50,24 +49,24 @@ fun <T : Any> String.parseList (type: KClass<T>, format: SerializationFormat = d
     this.toStream().parseList (type, format)
 
 // FILE ////////////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> File.parse (type: KClass<T>): T = this.inputStream().parse(type, contentType(this))
+fun <T : Any> File.parse (type: KClass<T>): T = this.inputStream().parse(type, formatOf(this))
 
 fun File.parse (): Map<*, *> = this.parse (Map::class)
 
 fun File.parseList (): List<Map<*, *>> = this.parseList (Map::class)
 
 fun <T : Any> File.parseList(type: KClass<T>): List<T> =
-    this.inputStream().parseList(type, contentType(this))
+    this.inputStream().parseList(type, formatOf(this))
 
 // URL /////////////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> URL.parse(type: KClass<T>): T = this.openStream().parse(type, contentType(this))
+fun <T : Any> URL.parse(type: KClass<T>): T = this.openStream().parse(type, formatOf(this))
 
 fun URL.parse (): Map<*, *> = this.parse (Map::class)
 
 fun URL.parseList (): List<Map<*, *>> = this.parseList (Map::class)
 
 fun <T : Any> URL.parseList(type: KClass<T>): List<T> =
-    this.openStream().parseList(type, contentType(this))
+    this.openStream().parseList(type, formatOf(this))
 
 // RESOURCE ////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> Resource.parse(type: KClass<T>): T = this.requireUrl().parse(type)

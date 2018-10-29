@@ -3,7 +3,7 @@ package com.hexagonkt.vertx.http
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
-import com.hexagonkt.serialization.SerializationManager.formatsMap
+import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseList
 import com.hexagonkt.serialization.serialize
@@ -77,13 +77,13 @@ fun <T : Any> Router.post(type: KClass<T>, path: String, block: TypedCallback<T>
     post(path) { handle(type, block) }
 
 fun <T : Any> RoutingContext.handle(type: KClass<T>, block: RoutingContext.(T?) -> Any?) {
-    val requestContentFormat = formatsMap[this.request().contentType] ?: defaultFormat
+    val requestContentFormat = formatOf(this.request().contentType, defaultFormat)
     val entity = bodyAsString.parse(type, requestContentFormat)
     endWith(block(entity))
 }
 
 fun <T : Any> RoutingContext.handleList(type: KClass<T>, block: RoutingContext.(List<T>) -> Any?) {
-    val requestContentFormat = formatsMap[this.request().contentType] ?: defaultFormat
+    val requestContentFormat = formatOf(this.request().contentType, defaultFormat)
     val entities =
         if (bodyAsString.isNullOrBlank()) emptyList()
         else bodyAsString.parseList(type, requestContentFormat)
@@ -96,7 +96,7 @@ fun RoutingContext.handle(block: RoutingContext.() -> Any?) {
 
 fun RoutingContext.acceptFormat(): SerializationFormat {
     val s = response.contentType ?: request().getHeader("Accept") ?: request.contentType
-    return formatsMap[s] ?: defaultFormat
+    return formatOf(s, defaultFormat)
 }
 
 fun RoutingContext.endWith(r: Any?) {

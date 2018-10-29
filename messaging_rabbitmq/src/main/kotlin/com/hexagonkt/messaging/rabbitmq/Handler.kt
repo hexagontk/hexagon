@@ -3,8 +3,8 @@ package com.hexagonkt.messaging.rabbitmq
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.retry
-import com.hexagonkt.serialization.SerializationManager.formatsMap
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
 import com.rabbitmq.client.AMQP.BasicProperties
@@ -48,7 +48,7 @@ internal class Handler<T : Any, R : Any> internal constructor (
             val charset = properties.contentEncoding ?: defaultCharset().name()
             val correlationId = properties.correlationId
             val replyTo = properties.replyTo
-            val contentType = formatsMap[properties.contentType] ?: defaultFormat
+            val contentType = formatOf(properties.contentType, defaultFormat)
 
             try {
                 log.trace { "Received message ($correlationId) in $charset" }

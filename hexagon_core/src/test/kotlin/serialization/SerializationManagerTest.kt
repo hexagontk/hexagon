@@ -4,7 +4,7 @@ import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.SerializationManager.formatsMap
-import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
+import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.SerializationManager.setFormats
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.BeforeMethod
@@ -58,17 +58,7 @@ import org.testng.annotations.Test
     @Test(expectedExceptions = [ IllegalStateException::class ])
     fun `Searching a format not loaded raises an exception` () {
         formats = linkedSetOf(YamlFormat)
-        getContentTypeFormat(JsonFormat.contentType)
-    }
-
-    @Test fun `Serialization manager can get the content type by an extension` () {
-        assert(SerializationManager.getFileFormat("a.json") == JsonFormat)
-        assert(SerializationManager.getFileFormat("a.yaml") == YamlFormat)
-        assert(SerializationManager.getFileFormat("a.yml") == YamlFormat)
-
-        assert(SerializationManager.getFileFormat(".json") == JsonFormat)
-        assert(SerializationManager.getFileFormat(".yaml") == YamlFormat)
-        assert(SerializationManager.getFileFormat(".yml") == YamlFormat)
+        formatOf(JsonFormat.contentType)
     }
 
     @Test fun `MIME types return correct content type`() {

@@ -6,7 +6,7 @@ import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parseList
-import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
+import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.mongodb.client.*
 import com.mongodb.client.model.*
 import com.mongodb.client.result.DeleteResult
@@ -104,7 +104,7 @@ open class MongoRepository <T : Any> (
         val resourceAsStream = Resource(file).stream()
         val extension = file.substringAfterLast('.')
         val objects = resourceAsStream?.parseList(
-            type, getContentTypeFormat("application/$extension")) ?: listOf()
+            type, formatOf("application/$extension")) ?: listOf()
         objects.forEach {
             try {
                 this.insertOneObject(it)

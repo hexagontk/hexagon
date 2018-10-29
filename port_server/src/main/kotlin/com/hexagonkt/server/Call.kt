@@ -3,7 +3,7 @@ package com.hexagonkt.server
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
-import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
+import com.hexagonkt.serialization.SerializationManager.formatOf
 import java.nio.charset.Charset.defaultCharset
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now
@@ -42,7 +42,7 @@ class Call(
         request.contentType ?:
         defaultFormat.contentType
 
-    fun serializationFormat(): SerializationFormat = getContentTypeFormat(contentType())
+    fun serializationFormat(): SerializationFormat = formatOf(contentType())
 
     fun setContentTypeFor(template: String) {
         if (response.contentType == null) {
