@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 import java.io.File
 import java.net.URL
+import kotlin.test.assertFailsWith
 
 @Test class SerializationManagerTest {
     @BeforeMethod @AfterMethod fun resetSerializationFormats () { formats = coreFormats }
@@ -100,5 +101,16 @@ import java.net.URL
         assert(SerializationManager.contentTypeOf(Resource("r.yml")) == YamlFormat.contentType)
         assert(SerializationManager.contentTypeOf(Resource("r.png")) == "image/png")
         assert(SerializationManager.contentTypeOf(Resource("r.rtf")) == "application/rtf")
+    }
+
+    @Test fun `Not found Serialization format throws an exception`() {
+        assertFailsWith<IllegalStateException> { SerializationManager.formatOf(Resource("r._")) }
+        assertFailsWith<IllegalStateException> { SerializationManager.formatOf(File("r._")) }
+        assertFailsWith<IllegalStateException> { SerializationManager.formatOf(URL("http://r._")) }
+        assertFailsWith<IllegalStateException> { SerializationManager.formatOf("_") }
+    }
+
+    @Test fun `Not found Serialization format returns the default`() {
+        assert(SerializationManager.formatOf("_", JsonFormat) == JsonFormat)
     }
 }
