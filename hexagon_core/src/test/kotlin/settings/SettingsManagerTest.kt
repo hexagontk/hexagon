@@ -36,7 +36,7 @@ import org.testng.annotations.Test
         assert(requireSetting<String>("parent", "key") == "val")
     }
 
-    @Test(expectedExceptions = arrayOf(IllegalStateException::class))
+    @Test(expectedExceptions = [ IllegalStateException::class ])
     fun `require not found setting`() {
         requireSetting<String>("not_found")
     }
