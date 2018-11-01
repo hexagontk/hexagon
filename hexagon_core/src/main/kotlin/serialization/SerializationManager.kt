@@ -8,7 +8,7 @@ import java.net.URL
 
 object SerializationManager {
     internal val coreFormats: LinkedHashSet<SerializationFormat> =
-        linkedSetOf (JsonFormat, YamlFormat)//, CsvFormat)
+        linkedSetOf (JsonFormat, YamlFormat)
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     var formats: LinkedHashSet<SerializationFormat> = coreFormats

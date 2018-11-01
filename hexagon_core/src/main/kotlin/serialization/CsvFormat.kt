@@ -23,7 +23,12 @@ object CsvFormat : SerializationFormat {
     ) as CsvMapper
 
     override fun serialize(obj: Any, output: OutputStream) {
-        mapper.writerWithTypedSchemaFor(obj.javaClass).writeValue(output, obj)
+        val schema = when (obj) {
+            is Collection<*> -> mapper.schemaFor(obj.first()?.javaClass)
+            else -> mapper.schemaFor(obj.javaClass)
+        }
+
+        mapper.writer(schema).writeValue(output, obj)
     }
 
     override fun <T : Any> parse(input: InputStream, type: KClass<T>): T =
