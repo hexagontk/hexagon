@@ -57,7 +57,7 @@ import kotlin.test.assertFailsWith
 
     @Test fun `Parse an invalid class list throws exception`() {
         assertFailsWith<ParseException> {
-            "f,br,mo,ANDROI,v,al".parseList(Device::class)
+            "f,br,mo,ANDROI,v,al".parseList(Device::class, CsvFormat)
         }
     }
 
