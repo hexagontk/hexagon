@@ -1,6 +1,7 @@
 package com.hexagonkt.serialization
 
 import org.testng.annotations.Test
+import kotlin.test.assertFailsWith
 
 @Test class CsvFormatTest {
     data class Player (val name: String, val number: Int, val category: Int)
@@ -52,5 +53,15 @@ import org.testng.annotations.Test
         catch (e: ParseException) {
             assert(e.field == "")
         }
+    }
+
+    @Test fun `Parse an invalid class list throws exception`() {
+        assertFailsWith<ParseException> {
+            "f,br,mo,ANDROI,v,al".parseList(Device::class)
+        }
+    }
+
+    @Test fun `Serialize an empty list works as expected`() {
+        assert(emptyList<Any>().serialize(CsvFormat) == "")
     }
 }

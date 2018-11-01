@@ -24,7 +24,7 @@ object CsvFormat : SerializationFormat {
 
     override fun serialize(obj: Any, output: OutputStream) {
         val schema = when (obj) {
-            is Collection<*> -> mapper.schemaFor(obj.first()?.javaClass)
+            is Collection<*> -> mapper.schemaFor(obj.firstOrNull()?.javaClass ?: Any::class.java)
             else -> mapper.schemaFor(obj.javaClass)
         }
 
