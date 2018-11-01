@@ -33,11 +33,11 @@ class Logger(type: KClass<*>) {
         if (log.isErrorEnabled) log.error(message().toString())
     }
 
-    fun warn(message: () -> Any?, exception: Throwable) {
+    fun warn(exception: Throwable, message: () -> Any?) {
         if (log.isWarnEnabled) log.warn(message().toString(), exception)
     }
 
-    fun error(message: () -> Any?, exception: Throwable) {
+    fun error(exception: Throwable, message: () -> Any?) {
         if (log.isErrorEnabled) log.error(message().toString(), exception)
     }
 

@@ -39,7 +39,7 @@ class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
             callback()
         }
         catch (e: Exception) {
-            log.error({ "Error executing cron job" }, e)
+            log.error(e) { "Error executing cron job" }
         }
 
         scheduler.schedule ({ function (callback, cronExecution) }, delay(cronExecution), SECONDS)

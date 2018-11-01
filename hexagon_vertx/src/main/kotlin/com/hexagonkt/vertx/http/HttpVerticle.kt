@@ -77,7 +77,7 @@ abstract class HttpVerticle(
             }
             else {
                 future.fail(it.cause())
-                log.error({ "Error starting $name Verticle" }, it.cause())
+                log.error(it.cause()) { "Error starting $name Verticle" }
             }
         }
     }
@@ -101,7 +101,7 @@ abstract class HttpVerticle(
             }
             else {
                 future.fail(it.cause())
-                log.error({ "Error stopping $name Verticle" }, it.cause())
+                log.error(it.cause()) { "Error stopping $name Verticle" }
             }
         }
     }
@@ -113,7 +113,7 @@ abstract class HttpVerticle(
         val message = exception?.message ?: "Error"
 
         val request = context.request()
-        log.error({ "${request.method()} ${request.path()} -> $statusCode $message" }, exception)
+        log.error(exception) { "${request.method()} ${request.path()} -> $statusCode $message" }
 
         context.response().end(statusCode, message)
     }

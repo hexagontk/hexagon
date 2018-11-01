@@ -64,7 +64,7 @@ import java.net.URI
             client.call(QUEUE_ERROR, ts)
         }
         catch (e: Exception) {
-            log.error({ "Consumer error" }, e)
+            log.error(e) { "Consumer error" }
         }
 
         startConsumer()

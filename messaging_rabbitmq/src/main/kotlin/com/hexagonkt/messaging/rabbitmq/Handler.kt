@@ -63,7 +63,7 @@ internal class Handler<T : Any, R : Any> internal constructor (
                     handleResponse(response, replyTo, correlationId)
             }
             catch (ex: Exception) {
-                log.warn({ "Error processing message ($correlationId) in $charset" }, ex)
+                log.warn(ex) { "Error processing message ($correlationId) in $charset" }
 
                 if (replyTo != null)
                     handleError(ex, replyTo, correlationId)

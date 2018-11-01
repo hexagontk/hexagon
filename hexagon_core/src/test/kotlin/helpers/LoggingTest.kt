@@ -29,9 +29,9 @@ import org.testng.annotations.Test
         assert(appender.length == 4)
         logger.error { mapOf(0 to 1, 2 to 3) }
         assert(appender.length == 5)
-        logger.warn ({ 'c' }, RuntimeException ())
+        logger.warn (RuntimeException ()) { 'c' }
         assert(appender.length == 6)
-        logger.error({ 0..100 }, RuntimeException ())
+        logger.error(RuntimeException ()) { 0..100 }
         assert(appender.length == 7)
         logger.flare { "message" }
         assert(appender.length == 8)
@@ -47,8 +47,8 @@ import org.testng.annotations.Test
         logger.info { 0.0 }
         logger.warn { listOf(0, 1) }
         logger.error { mapOf(0 to 1, 2 to 3) }
-        logger.warn({ 'c' }, RuntimeException ())
-        logger.error({ 0..100 }, RuntimeException ())
+        logger.warn(RuntimeException (), { 'c' })
+        logger.error(RuntimeException (), { 0..100 })
         logger.flare { "message" }
         logger.time ("message") {}
         logger.time {}

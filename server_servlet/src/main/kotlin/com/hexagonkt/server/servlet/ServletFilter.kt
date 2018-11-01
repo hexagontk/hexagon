@@ -157,7 +157,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 response.outputStream.flush()
             }
             catch (e: Exception) {
-                log.warn({ "Error handling request: ${bRequest.actionPath}" }, e)
+                log.warn(e) { "Error handling request: ${bRequest.actionPath}" }
             }
 
             log.trace { "Status ${response.status} <${if (handled) "" else "NOT "}HANDLED>" }
@@ -174,7 +174,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 call.handleResult(call.handler(exception.code))
             }
             else -> {
-                log.error({ "Error processing request" }, exception)
+                log.error(exception) { "Error processing request" }
 
                 val handler = exceptionErrors[type]
 
