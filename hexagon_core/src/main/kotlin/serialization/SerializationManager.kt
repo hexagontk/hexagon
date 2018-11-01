@@ -40,14 +40,18 @@ object SerializationManager {
         loadContentTypeExtensions(Resource("serialization/mime.types").stream() ?: error)
 
     /** Extension -> Content Type. */
-    internal var mimeTypes: Map<String, String> =
+    private var mimeTypes: Map<String, String> =
         extensions.flatMap { it.value.map { ext -> ext to it.key } }.toMap()
 
-    fun contentTypeOf(url: URL): String? = mimeTypes[url.file?.substringAfterLast('.')]
+    private fun pathExtension(path: String): String = path.substringAfterLast('.')
+
+    fun contentTypeOf(extension: String): String? = mimeTypes[extension]
+
+    fun contentTypeOf(url: URL): String? = contentTypeOf(pathExtension(url.file))
 
     fun contentTypeOf(file: File): String? = mimeTypes[file.extension]
 
-    fun contentTypeOf(resource: Resource): String? = contentTypeOf(resource.requireUrl())
+    fun contentTypeOf(resource: Resource): String? = contentTypeOf(pathExtension(resource.path))
 
     fun formatOf(contentType: String): SerializationFormat =
         formatsMap[contentType] ?: error("$contentType not found")
@@ -59,7 +63,8 @@ object SerializationManager {
 
     fun formatOf(file: File): SerializationFormat = formatOf(contentTypeOf(file) ?: error)
 
-    fun formatOf(resource: Resource): SerializationFormat = formatOf(resource.requireUrl())
+    fun formatOf(resource: Resource): SerializationFormat =
+        formatOf(contentTypeOf(resource) ?: error)
 
     private fun loadContentTypeExtensions(input: InputStream): Map<String, List<String>> =
         input

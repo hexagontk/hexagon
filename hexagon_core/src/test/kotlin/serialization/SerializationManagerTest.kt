@@ -1,5 +1,6 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
@@ -8,6 +9,8 @@ import com.hexagonkt.serialization.SerializationManager.formatOf
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
+import java.io.File
+import java.net.URL
 
 @Test class SerializationManagerTest {
     @BeforeMethod @AfterMethod fun resetSerializationFormats () { formats = coreFormats }
@@ -60,11 +63,42 @@ import org.testng.annotations.Test
         formatOf(JsonFormat.contentType)
     }
 
-    @Test fun `MIME types return correct content type`() {
-        assert(SerializationManager.mimeTypes["json"] == JsonFormat.contentType)
-        assert(SerializationManager.mimeTypes["yaml"] == YamlFormat.contentType)
-        assert(SerializationManager.mimeTypes["yml"] == YamlFormat.contentType)
-        assert(SerializationManager.mimeTypes["png"] == "image/png")
-        assert(SerializationManager.mimeTypes["rtf"] == "application/rtf")
+    fun `Searching serialization format for content types, URLs, files and resources works` () {
+        assert(formatOf(JsonFormat.contentType) == JsonFormat)
+        assert(formatOf(URL("http://l/a.yaml")) == YamlFormat)
+        assert(formatOf(File("f.json")) == JsonFormat)
+        assert(formatOf(Resource("r.yaml")) == YamlFormat)
+    }
+
+    @Test fun `MIME types return correct content type for extensions`() {
+        assert(SerializationManager.contentTypeOf("json") == JsonFormat.contentType)
+        assert(SerializationManager.contentTypeOf("yaml") == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf("yml") == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf("png") == "image/png")
+        assert(SerializationManager.contentTypeOf("rtf") == "application/rtf")
+    }
+
+    @Test fun `MIME types return correct content type for URLs`() {
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.json")) == JsonFormat.contentType)
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.yaml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.yml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.png")) == "image/png")
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.rtf")) == "application/rtf")
+    }
+
+    @Test fun `MIME types return correct content type for files`() {
+        assert(SerializationManager.contentTypeOf(File("f.json")) == JsonFormat.contentType)
+        assert(SerializationManager.contentTypeOf(File("f.yaml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(File("f.yml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(File("f.png")) == "image/png")
+        assert(SerializationManager.contentTypeOf(File("f.rtf")) == "application/rtf")
+    }
+
+    @Test fun `MIME types return correct content type for resources`() {
+        assert(SerializationManager.contentTypeOf(Resource("r.json")) == JsonFormat.contentType)
+        assert(SerializationManager.contentTypeOf(Resource("r.yaml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(Resource("r.yml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(Resource("r.png")) == "image/png")
+        assert(SerializationManager.contentTypeOf(Resource("r.rtf")) == "application/rtf")
     }
 }
