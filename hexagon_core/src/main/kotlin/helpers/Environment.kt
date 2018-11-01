@@ -34,6 +34,7 @@ object Environment {
 
     fun uptime(): String = "%01.3f".format(ManagementFactory.getRuntimeMXBean().uptime / 1e3)
 
+    // TODO Replace by Settings
     fun systemSetting(name: String): String? = System.getProperty(name) ?: System.getenv(name)
 
     fun systemSetting(name: String, defaultValue: String): String =

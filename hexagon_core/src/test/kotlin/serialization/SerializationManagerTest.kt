@@ -5,7 +5,6 @@ import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.SerializationManager.formatsMap
 import com.hexagonkt.serialization.SerializationManager.formatOf
-import com.hexagonkt.serialization.SerializationManager.setFormats
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
@@ -29,7 +28,7 @@ import org.testng.annotations.Test
         assert (formats == linkedSetOf(JsonFormat))
         assert (formatsMap == linkedMapOf(JsonFormat.contentType to JsonFormat))
 
-        setFormats (JsonFormat, YamlFormat)
+        formats = linkedSetOf(JsonFormat, YamlFormat)
         assert (formats == linkedSetOf(JsonFormat, YamlFormat))
         assert (formatsMap == linkedMapOf(
             JsonFormat.contentType to JsonFormat,

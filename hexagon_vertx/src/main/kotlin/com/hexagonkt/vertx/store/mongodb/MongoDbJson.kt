@@ -5,14 +5,14 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.Version
 import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.hexagonkt.serialization.JacksonHelper
+import com.hexagonkt.vertx.setupObjectMapper
 import kotlin.reflect.KClass
 
 /**
  * TODO .
  */
 object MongoDbJson {
-    val mapper: ObjectMapper = JacksonHelper.setupObjectMapper(ObjectMapper())
+    private val mapper: ObjectMapper = setupObjectMapper(ObjectMapper())
         .registerModule(SimpleModule("MongoDbModule", Version.unknownVersion())
             .addSerializer(Float::class.java, FloatSerializer)
             .addDeserializer(Float::class.java, FloatDeserializer)
