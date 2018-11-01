@@ -12,6 +12,9 @@ import kotlin.test.assertFailsWith
         assertFailsWith<IllegalStateException>("foo.txt not found") {
             Resource("foo.txt").requireUrl()
         }
+        assertFailsWith<IllegalStateException>("foo.txt not found") {
+            Resource("foo.txt").requireStream()
+        }
     }
 
     @Test fun `Resource folder`() {

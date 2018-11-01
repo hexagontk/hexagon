@@ -18,6 +18,8 @@ class Resource(val path: String) {
 
     fun stream(): InputStream? = systemClassLoader.getResourceAsStream(path)
 
+    fun requireStream() = stream() ?: error("$path not found")
+
     fun url(): URL? = systemClassLoader.getResource(path)
 
     fun requireUrl(): URL = url() ?: error("$path not found")

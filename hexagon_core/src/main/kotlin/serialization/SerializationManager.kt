@@ -37,7 +37,7 @@ object SerializationManager {
 
     /** Content Type -> Extensions. */
     private var extensions: Map<String, List<String>> =
-        loadContentTypeExtensions(Resource("serialization/mime.types").stream() ?: error)
+        loadContentTypeExtensions(Resource("serialization/mime.types").requireStream())
 
     /** Extension -> Content Type. */
     private var mimeTypes: Map<String, String> =
