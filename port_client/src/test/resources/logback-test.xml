@@ -14,6 +14,5 @@
     <appender-ref ref="console" />
   </root>
 
-  <logger name="com.rabbitmq" level="off" />
-  <logger name="com.hexagonkt" level="off" />
+  <logger name="com.hexagonkt" level="trace" />
 </configuration>
