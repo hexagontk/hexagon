@@ -1,14 +1,20 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.helpers.Logger
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.error
 import java.io.File
-import java.io.InputStream
 import java.net.URL
 
 object SerializationManager {
+
+    private val logger: Logger = logger()
+
+    private val mimeTypesResource = Resource("serialization/mime.types")
+
     internal val coreFormats: LinkedHashSet<SerializationFormat> =
-        linkedSetOf (JsonFormat, YamlFormat)
+        linkedSetOf(JsonFormat, YamlFormat)
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     var formats: LinkedHashSet<SerializationFormat> = coreFormats
@@ -21,10 +27,13 @@ object SerializationManager {
                 extensions += format.contentType to format.extensions.toList()
                 mimeTypes += format.extensions.map { ext -> ext to format.contentType }
             }
-        }
 
-    internal var formatsMap: LinkedHashMap<String, SerializationFormat> = formatsMap()
-        private set
+            logger.info {
+                formats.joinToString("\n", "Serialization formats loaded:\n") {
+                    "* ${it.contentType} (${it.extensions.joinToString(", ")})"
+                }
+            }
+        }
 
     var defaultFormat: SerializationFormat = formats.first()
         set(value) {
@@ -33,17 +42,30 @@ object SerializationManager {
                 "'$value' not available in: $contentTypes"
             }
             field = value
+
+            logger.info { "Default serialization format set to '${field.contentType}'" }
         }
 
+    private var formatsMap: LinkedHashMap<String, SerializationFormat> = formatsMap()
+
     /** Content Type -> Extensions. */
-    private var extensions: Map<String, List<String>> =
-        loadContentTypeExtensions(Resource("serialization/mime.types").requireStream())
+    private var extensions: Map<String, List<String>> = loadContentTypeExtensions(mimeTypesResource)
 
     /** Extension -> Content Type. */
     private var mimeTypes: Map<String, String> =
         extensions.flatMap { it.value.map { ext -> ext to it.key } }.toMap()
 
-    private fun pathExtension(path: String): String = path.substringAfterLast('.')
+    init {
+        logger.info {
+            formats.joinToString("\n", "Serialization formats loaded:\n") {
+                "* ${it.contentType} (${it.extensions.joinToString(", ")})"
+            }
+        }
+
+        logger.info { "Default serialization format set to '${defaultFormat.contentType}'" }
+
+        logger.info { "${extensions.size} Content types loaded from: ${mimeTypesResource.path}" }
+    }
 
     fun contentTypeOf(extension: String): String? = mimeTypes[extension]
 
@@ -66,8 +88,11 @@ object SerializationManager {
     fun formatOf(resource: Resource): SerializationFormat =
         formatOf(contentTypeOf(resource) ?: error)
 
-    private fun loadContentTypeExtensions(input: InputStream): Map<String, List<String>> =
+    private fun pathExtension(path: String): String = path.substringAfterLast('.')
+
+    private fun loadContentTypeExtensions(input: Resource): Map<String, List<String>> =
         input
+            .requireStream()
             .bufferedReader()
             .readLines()
             .asSequence()
