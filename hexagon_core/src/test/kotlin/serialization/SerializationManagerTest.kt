@@ -4,7 +4,6 @@ import com.hexagonkt.helpers.Resource
 import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
-import com.hexagonkt.serialization.SerializationManager.formatsMap
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.BeforeMethod
@@ -17,27 +16,24 @@ import kotlin.test.assertFailsWith
     @BeforeMethod @AfterMethod fun resetSerializationFormats () { formats = coreFormats }
 
     @Test fun `User can add and remove serialization formats` () {
-        assert (formats == coreFormats)
-        assert (formatsMap == linkedMapOf(
-            JsonFormat.contentType to JsonFormat,
-            YamlFormat.contentType to YamlFormat//,
-//            CsvFormat.contentType to CsvFormat
-        ))
+        assert(formats == coreFormats)
+        assert(formatOf(JsonFormat.contentType) == JsonFormat)
+        assert(formatOf(YamlFormat.contentType) == YamlFormat)
 
         formats = linkedSetOf(YamlFormat)
-        assert (formats == linkedSetOf(YamlFormat))
-        assert (formatsMap == linkedMapOf(YamlFormat.contentType to YamlFormat))
+        assert(formats == linkedSetOf(YamlFormat))
+        assert(formatOf(JsonFormat.contentType, YamlFormat) == YamlFormat)
+        assert(formatOf(YamlFormat.contentType) == YamlFormat)
 
         formats = linkedSetOf(JsonFormat)
         assert (formats == linkedSetOf(JsonFormat))
-        assert (formatsMap == linkedMapOf(JsonFormat.contentType to JsonFormat))
+        assert(formatOf(JsonFormat.contentType) == JsonFormat)
+        assert(formatOf(YamlFormat.contentType, JsonFormat) == JsonFormat)
 
         formats = linkedSetOf(JsonFormat, YamlFormat)
         assert (formats == linkedSetOf(JsonFormat, YamlFormat))
-        assert (formatsMap == linkedMapOf(
-            JsonFormat.contentType to JsonFormat,
-            YamlFormat.contentType to YamlFormat
-        ))
+        assert(formatOf(JsonFormat.contentType) == JsonFormat)
+        assert(formatOf(YamlFormat.contentType) == YamlFormat)
     }
 
     @Test fun `User can change default format` () {
