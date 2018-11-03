@@ -1,9 +1,10 @@
 package com.hexagonkt.vertx
 
 import com.hexagonkt.helpers.sync
-import com.hexagonkt.vertx.config.retrieveConfig
+import com.hexagonkt.settings.SettingsManager
 import io.vertx.core.Future
 import io.vertx.core.Verticle
+import io.vertx.core.json.JsonObject
 import io.vertx.kotlin.coroutines.await
 
 class VertxApplication(private val supplier: () -> Verticle) {
@@ -12,8 +13,7 @@ class VertxApplication(private val supplier: () -> Verticle) {
     private lateinit var deploymentId: String
 
     fun start(vararg args: String) = sync {
-        val config = vertx.retrieveConfig(*args).await()
-        deploymentId = vertx.deployVerticle(supplier, config).await()
+        deploymentId = vertx.deployVerticle(supplier, JsonObject(SettingsManager.settings)).await()
     }
 
     fun stop() = sync {
