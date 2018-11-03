@@ -4,7 +4,12 @@ import java.lang.management.ManagementFactory
 import java.lang.management.MemoryUsage
 import java.net.InetAddress
 
+import java.util.TimeZone
+
 object Environment {
+    /** Default timezone. */
+    val timeZone: TimeZone = TimeZone.getDefault()
+
     /** The hostname of the machine running this program. */
     val hostname: String = InetAddress.getLocalHost().hostName
     /** The IP address of the machine running this program. */
@@ -24,6 +29,12 @@ object Environment {
     private val heap: MemoryUsage = ManagementFactory.getMemoryMXBean().heapMemoryUsage
 
     fun jvmMemory(): String = "%,d".format(heap.init / 1024)
+
     fun usedMemory(): String = "%,d".format(heap.used / 1024)
+
     fun uptime(): String = "%01.3f".format(ManagementFactory.getRuntimeMXBean().uptime / 1e3)
+
+    fun systemSetting(name: String): String? = System.getProperty(name) ?: System.getenv(name)
+
+    fun systemSetting(name: String, default: String): String = systemSetting(name) ?: default
 }

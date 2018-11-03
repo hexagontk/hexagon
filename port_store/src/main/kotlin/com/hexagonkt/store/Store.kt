@@ -1,7 +1,7 @@
 package com.hexagonkt.store
 
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
+import com.hexagonkt.helpers.async
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1

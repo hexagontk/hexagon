@@ -3,7 +3,7 @@ package com.hexagonkt.messaging.rabbitmq
 import com.hexagonkt.helpers.*
 import com.rabbitmq.client.*
 import com.rabbitmq.client.AMQP.BasicProperties
-import org.slf4j.Logger
+
 import java.io.Closeable
 import java.lang.Runtime.getRuntime
 import java.lang.Thread.sleep
@@ -63,7 +63,7 @@ class RabbitMqClient(
     override fun close() {
         connection?.close()
         connection = null
-        log.info("RabbitMQ client closed")
+        log.info { "RabbitMQ client closed" }
     }
 
     /** . */
@@ -101,7 +101,7 @@ class RabbitMqClient(
         val channel = createChannel()
         val callback = Handler(connectionFactory, channel, threadPool, type, handler)
         channel.basicConsume(queueName, false, callback)
-        log.info("Consuming messages in $queueName")
+        log.info { "Consuming messages in $queueName" }
     }
 
     /**
@@ -114,7 +114,7 @@ class RabbitMqClient(
         retry(times = 3, delay = 50) {
             if (connection?.isOpen != true) {
                 connection = connectionFactory.newConnection()
-                log.warn("Rabbit connection RESTORED")
+                log.warn { "Rabbit connection RESTORED" }
             }
             val channel = connection?.createChannel() ?: error
             channel.basicQos(poolSize)
@@ -172,12 +172,13 @@ class RabbitMqClient(
         val charset = if (encoding == null) defaultCharset() else charset(encoding)
         channel.basicPublish(exchange, routingKey, props, message.toByteArray(charset))
 
-        log.debug(
+        log.debug {
             """
             EXCHANGE: $exchange ROUTING KEY: $routingKey
             REPLY TO: $replyQueueName CORRELATION ID: $correlationId
             BODY:
-            $message""".trimIndent())
+            $message""".trimIndent()
+        }
     }
 
     fun call(requestQueue: String, message: String): String =

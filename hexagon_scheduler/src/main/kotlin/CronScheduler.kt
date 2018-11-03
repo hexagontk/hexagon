@@ -5,8 +5,9 @@ import com.cronutils.model.CronType.QUARTZ
 import com.cronutils.model.definition.CronDefinitionBuilder.instanceDefinitionFor as cronDefinition
 import com.cronutils.model.time.ExecutionTime
 import com.cronutils.parser.CronParser
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
-import org.slf4j.Logger
+
 import java.lang.Runtime.getRuntime
 import java.time.ZonedDateTime
 import java.util.concurrent.ScheduledThreadPoolExecutor
@@ -38,7 +39,7 @@ class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
             callback()
         }
         catch (e: Exception) {
-            log.error("Error executing cron job", e)
+            log.error(e) { "Error executing cron job" }
         }
 
         scheduler.schedule ({ function (callback, cronExecution) }, delay(cronExecution), SECONDS)

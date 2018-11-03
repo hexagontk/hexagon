@@ -1,19 +1,18 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.Logger
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parseList
-import com.hexagonkt.helpers.requireResource
-import com.hexagonkt.helpers.resourceAsStream
-import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
+import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.mongodb.client.*
 import com.mongodb.client.model.*
 import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.bson.conversions.Bson
-import org.slf4j.Logger
 import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -93,7 +92,7 @@ open class MongoRepository <T : Any> (
         aggregate(bson.map(::Document))
 
     fun importFile(input: File) { insertManyObjects(input.parseList(type)) }
-    fun importResource(input: String) { insertManyObjects(requireResource(input).parseList(type)) }
+    fun importResource(input: String) { insertManyObjects(Resource(input).requireUrl().parseList(type)) }
 
     fun delete(): DeleteResult = deleteMany(Document())
 
@@ -102,16 +101,16 @@ open class MongoRepository <T : Any> (
      * @param file .
      */
     fun loadData(file: String) {
-        val resourceAsStream = resourceAsStream(file)
+        val resourceAsStream = Resource(file).stream()
         val extension = file.substringAfterLast('.')
         val objects = resourceAsStream?.parseList(
-            type, getContentTypeFormat("application/$extension")) ?: listOf()
+            type, formatOf("application/$extension")) ?: listOf()
         objects.forEach {
             try {
                 this.insertOneObject(it)
             }
             catch (e: Exception) {
-                log.warn("$it already inserted")
+                log.warn { "$it already inserted" }
             }
         }
     }

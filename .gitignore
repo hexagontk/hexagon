@@ -21,5 +21,9 @@ file-uploads/
 *.log
 *.hprof
 
+# Others
+.DS_Store
+.java-version
+
 # Added because of JBake settings
 hexagon_site/content/

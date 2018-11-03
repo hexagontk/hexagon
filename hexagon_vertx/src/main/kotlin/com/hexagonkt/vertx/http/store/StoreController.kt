@@ -1,7 +1,6 @@
 package com.hexagonkt.vertx.http.store
 
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.helpers.flare
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.serialize
@@ -47,7 +46,7 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     fun updateOne(context: RoutingContext) {
         val key = parseKey(context)
         val updates = createUpdate(context)
-        logger.flare(updates)
+        logger.flare { updates }
         store.updateOne(key, updates).setHandler {
             context.end(200, "")
         }
@@ -120,13 +119,14 @@ class StoreController<T : Any, K : Any>(val store: Store<T, K>) {
     }
 
     private fun objectsToMaps(objects: List<T>): List<Map<String, *>> =
-        objects.map { it.convertToMap() }
+        objects.map { it.convertToMap().mapKeys { entry -> entry.key as String } }
 
     private fun createSort(context: RoutingContext): Map<String, Boolean> {
         val include = context.request().getParam("sort") ?: ""
         return include
             .split(",".toRegex())
             .dropLastWhile { it.isEmpty() }
+            .asSequence()
             .map { it.trim() }
             .map {
                 if (it.startsWith("-")) it.substring(1).trim() to true

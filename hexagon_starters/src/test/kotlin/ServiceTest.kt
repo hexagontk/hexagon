@@ -1,21 +1,24 @@
 
 import com.hexagonkt.client.Client
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.Test
+import org.junit.AfterClass
+import org.junit.BeforeClass
+import org.junit.Test
 
-@Test class ServiceTest {
+class ServiceTest {
     private val client by lazy { Client("http://localhost:${server.runtimePort}") }
 
-    @BeforeClass fun startup() {
-        main()
+    companion object {
+        @BeforeClass @JvmStatic fun startup() {
+            main()
+        }
+
+        @AfterClass @JvmStatic fun shutdown() {
+            server.stop()
+        }
     }
 
-    @AfterClass fun shutdown() {
-        server.stop()
-    }
-
-    @Test fun httpRequest() {
+    @Test
+    fun httpRequest() {
         val response = client.get("/text")
         val content = response.responseBody
 

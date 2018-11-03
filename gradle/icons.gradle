@@ -1,8 +1,7 @@
-
 /*
- * NOTE: For image rendering you will need 'rsvg' (librsvg2-bin) and 'imagemagick' installed in the
- * development machine.
+ * Check usage information at: http://hexagonkt.com/build_helpers/icons.html
  */
+
 task icons {
     doLast {
         try {

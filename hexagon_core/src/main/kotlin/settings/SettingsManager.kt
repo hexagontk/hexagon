@@ -1,47 +1,56 @@
 package com.hexagonkt.settings
 
 import com.hexagonkt.helpers.get
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
-import org.slf4j.Logger
+import com.hexagonkt.serialization.YamlFormat
+import com.hexagonkt.serialization.serialize
 
 object SettingsManager {
+
     val log: Logger = logger()
 
-    private const val SETTINGS = "service"
-    private const val ENVIRONMENT_PREFIX = "SERVICE_"
+    internal const val SETTINGS = "service"
+    internal const val ENVIRONMENT_PREFIX = "SERVICE_"
 
-    val environment: String? get() = setting("${ENVIRONMENT_PREFIX}ENVIRONMENT")
+    val defaultSettingsSources: List<SettingsSource> = listOf(
+        ResourceSource("$SETTINGS.yaml"),
+        EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
+        SystemPropertiesSource(SETTINGS),
+        FileSource("$SETTINGS.yaml"),
+//        CommandLineArgumentsSource(*args),
+        ResourceSource("${SETTINGS}_test.yaml")
+    )
 
-    var settings: Map<String, *> = emptyMap<String, Any>()
+    var settingsSources: List<SettingsSource> = defaultSettingsSources
         set(value) {
-            val newEnvironment = value["${ENVIRONMENT_PREFIX}ENVIRONMENT"] as? String
-
-            if (newEnvironment != null && environment != newEnvironment)
-                field += value + loadResource("${newEnvironment.toLowerCase()}.yaml")
-            else
-                field = value
+            field = value
+            settings = loadDefaultSettings()
         }
 
-    init {
-        settings = loadDefaultSettings()
-    }
-
-    fun loadDefaultSettings(vararg args: String): Map<String, *> =
-        loadResource("$SETTINGS.yaml") +
-        loadEnvironmentVariables(ENVIRONMENT_PREFIX) +
-        loadSystemProperties(SETTINGS) +
-        loadFile("$SETTINGS.yaml") +
-        loadCommandLineArguments(*args) +
-        loadResource("${SETTINGS}_test.yaml")
-
-    fun setDefaultSettings(vararg args: String) {
-        settings = emptyMap<String, Any>()
-        settings = loadDefaultSettings(*args)
-    }
+    var settings: Map<String, *> = loadDefaultSettings()
+        private set(value) {
+            field = value
+        }
 
     @Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
     fun <T : Any> setting(vararg name: String): T? = settings.get(*name) as? T
 
     fun <T : Any> requireSetting(vararg name: String): T =
         setting(*name) ?: error("$name required setting not found")
+
+    private fun loadDefaultSettings(): Map<String, *> =
+        settingsSources
+            .map {
+                it.load().also { s ->
+                    if (s.isEmpty()) {
+                        log.info { "No settings found for $it" }
+                    }
+                    else {
+                        val serialize = s.serialize(YamlFormat).prependIndent(" ".repeat(4))
+                        log.info { "Settings loaded from $it:\n\n$serialize" }
+                    }
+                }
+            }
+            .reduce { a, b -> b + a }
 }

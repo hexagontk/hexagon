@@ -8,7 +8,7 @@ import java.text.Normalizer.normalize
 
 /** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
 private const val VARIABLE_PREFIX = "#{"
-/** Variable sufix for string filtering. */
+/** Variable suffix for string filtering. */
 private const val VARIABLE_SUFFIX = "}"
 
 /** Start of ANSI sequence. */
@@ -26,7 +26,7 @@ const val FOREGROUND = 30
 /** ANSI background color base. */
 const val BACKGROUND = 40
 
-/** ANSI modifier to switch and effect (add to enable substract todisable). */
+/** ANSI modifier to switch and effect (add to enable subtract to disable). */
 const val SWITCH_EFFECT = 20
 
 /** Runtime specific end of line. */
@@ -44,6 +44,7 @@ val eol: String = getProperty("line.separator")
  */
 fun String.filterVars (parameters: Map<*, *>): String =
     parameters.entries
+        .asSequence()
         .filter { it.key.toString().isNotEmpty() }
         .fold(this) { result, pair ->
             val key = pair.key.toString()
@@ -69,6 +70,7 @@ fun Regex.findGroups (str: String): List<MatchGroup> =
  */
 fun String.snakeToCamel (): String =
     this.split ("_")
+        .asSequence()
         .filter(String::isNotEmpty)
         .joinToString("", transform = String::capitalize)
         .decapitalize ()
@@ -88,7 +90,7 @@ fun String.camelToSnake (): String =
  * @param bannerDelimiter Delimiter char for banners.
  */
 fun String.banner (bannerDelimiter: String = "*"): String {
-    val separator = bannerDelimiter.repeat (this.lines().map { it.length }.max() ?: 0)
+    val separator = bannerDelimiter.repeat (this.lines().asSequence().map { it.length }.max() ?: 0)
     return "$separator$eol$this$eol$separator"
 }
 
@@ -104,7 +106,7 @@ private fun ansiCode (fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): S
 
     val colors = listOf (fgString(fg), bgString(bg))
     val elements = colors + fxs.map { it.code.toString() }
-    val body = elements.filter(String::isNotEmpty).joinToString (ANSI_SEPARATOR)
+    val body = elements.asSequence().filter(String::isNotEmpty).joinToString (ANSI_SEPARATOR)
 
     return ANSI_PREFIX + (if (body.isEmpty()) ANSI_RESET else body) + ANSI_END
 }

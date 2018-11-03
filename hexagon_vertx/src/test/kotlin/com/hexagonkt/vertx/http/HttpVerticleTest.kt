@@ -1,7 +1,7 @@
 package com.hexagonkt.vertx.http
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
-import com.hexagonkt.helpers.flare
 import com.hexagonkt.helpers.sync
 import com.hexagonkt.vertx.VertxApplication
 import com.hexagonkt.vertx.createVertx
@@ -20,7 +20,6 @@ import io.vertx.kotlin.coroutines.await
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.slf4j.Logger
 
 class HttpVerticleTest {
     private data class Player(val name: String, val number: Int)
@@ -73,7 +72,7 @@ class HttpVerticleTest {
 
         val responseLong = client.get("/long").send().await()
         assert(responseLong.statusCode() == 200)
-        logger.flare("/long response body ${responseLong.body()}")
+        logger.flare { "/long response body ${responseLong.body()}" }
         // TODO Fix in Travis
 //        assert(responseLong.body().toString() == "1")
 //        logger.flare("/long OK")

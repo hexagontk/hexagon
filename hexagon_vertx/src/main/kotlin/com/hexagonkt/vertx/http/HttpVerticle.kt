@@ -12,6 +12,7 @@ import com.hexagonkt.helpers.Environment.locale
 import com.hexagonkt.helpers.Environment.timezone
 import com.hexagonkt.helpers.Environment.uptime
 import com.hexagonkt.helpers.Environment.usedMemory
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future
@@ -20,7 +21,6 @@ import io.vertx.core.http.HttpServerOptions
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.handler.BodyHandler
-import org.slf4j.Logger
 
 /**
  * Extension functions MUST be public to work on crossinline blocks (a rough guess...)
@@ -65,7 +65,7 @@ abstract class HttpVerticle(
     override fun start(future: Future<Void>) {
         this.server = vertx.createHttpServer(options)
 
-        log.info("SETTINGS ${config().encodePrettily()}")
+        log.info { "SETTINGS ${config().encodePrettily()}" }
 
         val router = router()
         router.route().failureHandler(::failureHandler)
@@ -73,11 +73,11 @@ abstract class HttpVerticle(
         server.requestHandler(router::accept).listen {
             if (it.succeeded()) {
                 future.complete()
-                log.info(runMessage())
+                log.info { runMessage() }
             }
             else {
                 future.fail(it.cause())
-                log.error("Error starting $name Verticle", it.cause())
+                log.error(it.cause()) { "Error starting $name Verticle" }
             }
         }
     }
@@ -97,11 +97,11 @@ abstract class HttpVerticle(
         server.close {
             if (it.succeeded()) {
                 future.complete()
-                log.info("$name Verticle stopped")
+                log.info { "$name Verticle stopped" }
             }
             else {
                 future.fail(it.cause())
-                log.error("Error stopping $name Verticle", it.cause())
+                log.error(it.cause()) { "Error stopping $name Verticle" }
             }
         }
     }
@@ -113,7 +113,7 @@ abstract class HttpVerticle(
         val message = exception?.message ?: "Error"
 
         val request = context.request()
-        log.error("${request.method()} ${request.path()} -> $statusCode $message", exception)
+        log.error(exception) { "${request.method()} ${request.path()} -> $statusCode $message" }
 
         context.response().end(statusCode, message)
     }

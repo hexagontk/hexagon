@@ -1,4 +1,0 @@
-
-com.hexagonkt.vertx.config.ClasspathStoreFactory
-com.hexagonkt.vertx.config.CommandLineStore
-com.hexagonkt.vertx.config.OptionalFileStoreFactory

@@ -1,9 +1,5 @@
-package serialization
+package com.hexagonkt.serialization
 
-import com.hexagonkt.serialization.Company
-import com.hexagonkt.serialization.Department
-import com.hexagonkt.serialization.Person
-import com.hexagonkt.serialization.SerializationTest
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer

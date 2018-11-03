@@ -9,6 +9,7 @@ import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.IndexOptions
 import com.mongodb.client.model.Indexes
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.ReceiveChannel
 import kotlinx.coroutines.experimental.channels.produce
@@ -43,7 +44,7 @@ class MongoDbStore <T : Any, K : Any>(
         if (useObjectId)
             // TODO Make it sync
             database.createCollection(name, CreateCollectionOptions().autoIndex(false)) { _, _ ->
-               logger.info("Collection without auto index created for: $name")
+               logger.info { "Collection without auto index created for: $name" }
             }
 
         val index =
@@ -51,7 +52,7 @@ class MongoDbStore <T : Any, K : Any>(
             else Indexes.descending(key.name)
 
         typedCollection.createIndex(index, IndexOptions().unique(true).background(true)) { _, _ ->
-            logger.info("Index created for: $name with field: ${key.name}")
+            logger.info { "Index created for: $name with field: ${key.name}" }
         }
     }
 
@@ -62,7 +63,7 @@ class MongoDbStore <T : Any, K : Any>(
         }
     }
 
-    override suspend fun insertMany(instances: List<T>): ReceiveChannel<K> = produce {
+    override suspend fun insertMany(instances: List<T>): ReceiveChannel<K> = GlobalScope.produce {
         if (!instances.isEmpty())
             suspendCoroutine<Unit> {
                 typedCollection.insertMany(instances) { _, error ->
@@ -84,7 +85,7 @@ class MongoDbStore <T : Any, K : Any>(
         }
     }
 
-    override suspend fun replaceMany(instances: List<T>): ReceiveChannel<T> = produce {
+    override suspend fun replaceMany(instances: List<T>): ReceiveChannel<T> = GlobalScope.produce {
         instances.map { if (replaceOne(it)) send(it) }
     }
 

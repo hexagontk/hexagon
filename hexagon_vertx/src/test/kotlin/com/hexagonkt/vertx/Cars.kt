@@ -1,5 +1,6 @@
 package com.hexagonkt.vertx
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.vertx.http.HttpVerticle
 import com.hexagonkt.vertx.http.store.StoreController
@@ -7,7 +8,6 @@ import com.hexagonkt.vertx.http.store.storeRouter
 import com.hexagonkt.vertx.store.mongodb.MongoDbStore
 import io.vertx.ext.mongo.MongoClient
 import io.vertx.ext.web.Router
-import org.slf4j.Logger
 import java.net.URL
 import java.time.LocalDate
 
@@ -83,7 +83,7 @@ class CarsVerticle : HttpVerticle() {
 
         storeRouter(vehicleController)
 
-        log.info("Router loaded")
+        log.info { "Router loaded" }
     }
 }
 

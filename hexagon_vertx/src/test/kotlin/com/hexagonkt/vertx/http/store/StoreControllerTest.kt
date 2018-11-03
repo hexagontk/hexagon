@@ -1,8 +1,8 @@
 package com.hexagonkt.vertx.http.store
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.sync
-import com.hexagonkt.helpers.time
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.parse
@@ -23,7 +23,6 @@ import io.vertx.kotlin.coroutines.await
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.slf4j.Logger
 import kotlin.test.fail
 
 abstract class StoreControllerTest<T : Any, K : Any> {
@@ -73,7 +72,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         val testEntities = createTestEntities()
 
         formats.forEach { contentType ->
-            logger.info("Content Type: ${contentType.contentType}")
+            logger.info { "Content Type: ${contentType.contentType}" }
 
             val createdEntities = createEntities(testEntities, contentType)
             assert(createdEntities == testEntities.size.toLong())
@@ -92,6 +91,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
 
             val recordsMaps = getEntitiesMaps(contentType, "include=$keyName")
             val recordIds = recordsMaps
+                .asSequence()
                 .map { it.values.first() ?: error("Key field not found") }
                 .joinToString (separator = ",")
             deleteEntities("$keyName=$recordIds")
@@ -114,7 +114,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
         assert(putResponse.body().toString() == "Entity expected")
 
         formats.forEach { contentType ->
-            logger.info("Content Type: ${contentType.contentType}")
+            logger.info { "Content Type: ${contentType.contentType}" }
 
             createTestEntities().forEach {
                 val entityKey = createEntity(it, contentType)
@@ -135,14 +135,14 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     }
 
     private suspend fun deleteEntity(entityKey: String, expectedStatus: Int = 200) {
-        logger.info("Deleting: $entityKey")
+        logger.info { "Deleting: $entityKey" }
 
         val response = client.delete("/$endpoint/$entityKey").send().await()
         assert(response.statusCode() == expectedStatus)
     }
 
     private suspend fun deleteEntities(entityKey: String, expectedStatus: Int = 200) {
-        logger.info("Deleting: $entityKey")
+        logger.info { "Deleting: $entityKey" }
 
         val response = client.delete("/$endpoint?$entityKey").send().await()
         val statusCode = response.statusCode()
@@ -152,7 +152,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     private suspend fun getEntity(
         entityKey: String = "", contentType: SerializationFormat, expectedStatus: Int = 200): T? {
 
-        logger.info("Getting: $entityKey")
+        logger.info { "Getting: $entityKey" }
 
         val response = client.get("/$endpoint/$entityKey")
             .putHeader("Accept", contentType.contentType)
@@ -166,7 +166,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     private suspend fun getEntitiesMaps(
         contentType: SerializationFormat, queryString: String = ""): List<Map<*, *>> {
 
-        logger.info("Getting: $queryString")
+        logger.info { "Getting: $queryString" }
 
         val path = if (queryString.isBlank()) "" else "?$queryString"
         val response = client.get("/$endpoint$path")
@@ -181,7 +181,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     protected suspend fun getEntities(
         contentType: SerializationFormat, queryString: String = ""): List<T> {
 
-        logger.info("Getting: $queryString")
+        logger.info { "Getting: $queryString" }
 
         val path = if (queryString.isBlank()) "" else "?$queryString"
         val response = client.get("/$endpoint$path")
@@ -194,7 +194,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     }
 
     private suspend fun replaceEntity(entity: T, contentType: SerializationFormat): Boolean {
-        logger.info("Create: $entity")
+        logger.info { "Create: $entity" }
 
         val response = client
             .put("/$endpoint")
@@ -206,7 +206,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     }
 
     private suspend fun replaceEntities(entity: List<T>, contentType: SerializationFormat): Boolean {
-        logger.info("Create: $entity")
+        logger.info { "Create: $entity" }
 
         val response = client
             .put("/$endpoint")
@@ -218,7 +218,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     }
 
     protected suspend fun createEntities(entity: List<T>, contentType: SerializationFormat): Long {
-        logger.info("Create: $entity")
+        logger.info { "Create: $entity" }
 
         val response = client
             .post("/$endpoint")
@@ -230,7 +230,7 @@ abstract class StoreControllerTest<T : Any, K : Any> {
     }
 
     private suspend fun createEntity(entity: T, contentType: SerializationFormat): String {
-        logger.info("Create: $entity")
+        logger.info { "Create: $entity" }
 
         val response = client
             .post("/$endpoint")

@@ -1,5 +1,6 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.mongodb.client.model.Filters.eq
@@ -8,7 +9,6 @@ import com.mongodb.client.model.InsertManyOptions
 import com.mongodb.client.model.InsertOneOptions
 import com.mongodb.client.model.UpdateOptions
 import com.mongodb.client.result.DeleteResult
-import org.slf4j.Logger
 import java.lang.System.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -58,7 +58,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (
             assert(result == object2)
 
             deleteAll()
-            collection.insertOne(it.convertToMap().mapKeys { entry -> entry.key.toString() })
+            collection.insertOne(it.convertToMap().mapKeys { entry -> entry.key as String })
             result = collection.findObjects().first()
 
             assert(result == it)
@@ -69,7 +69,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (
 
     @Suppress("unused")
     fun many_objects_are_stored_and_loaded_without_error() {
-        testObjects.forEach {
+        testObjects.forEach { _ ->
             deleteAll()
             val objects = createObjects ()
 
@@ -120,27 +120,27 @@ abstract class RepositoryTest<T : Any, out K : Any> (
             val entity = createObject()
             val replacement = changeObject(entity)
             val query = eq<K>(key.name, getObjectKey(entity))
-            log.trace("Test setup: " + (nanoTime() - t))
+            log.trace { "Test setup: " + (nanoTime() - t) }
 
             t = nanoTime()
             collection.insertOneObject(entity)
-            log.trace("Insert: " + (nanoTime() - t))
+            log.trace { "Insert: " + (nanoTime() - t) }
             t = nanoTime()
             var result = collection.findOneObjectAndReplace(query, replacement)
-            log.trace("Find and replace: " + (nanoTime() - t))
+            log.trace { "Find and replace: " + (nanoTime() - t) }
 
             assert(entity == result)
 
             t = nanoTime()
             val options = FindOneAndReplaceOptions().upsert(false)
             result = collection.findOneObjectAndReplace(query, entity, options)
-            log.trace("Find and replace (params): " + (nanoTime() - t))
+            log.trace { "Find and replace (params): " + (nanoTime() - t) }
             t = nanoTime()
 
             assert(replacement == result)
 
             deleteAll()
-            log.trace("Delete all records: " + (nanoTime() - t))
+            log.trace { "Delete all records: " + (nanoTime() - t) }
         }
     }
 }

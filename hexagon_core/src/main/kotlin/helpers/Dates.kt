@@ -12,16 +12,16 @@ fun formatNanos (timestamp: Long): String = "%1.3f ms".format (timestamp / 1e6)
 /**
  * Formats a date as a formatted integer with this format: `YYYYMMDDHHmmss`.
  */
-fun LocalDateTime.asNumber (): Long =
-    (this.toLocalDate().asNumber() * 1_000_000_000L) +
-        this.toLocalTime().asNumber()
+fun LocalDateTime.toNumber (): Long =
+    (this.toLocalDate().toNumber() * 1_000_000_000L) +
+        this.toLocalTime().toNumber()
 
-fun LocalDate.asNumber (): Int =
+fun LocalDate.toNumber (): Int =
     (this.year       * 10_000) +
         (this.monthValue * 100) +
         this.dayOfMonth
 
-fun LocalTime.asNumber (): Int =
+fun LocalTime.toNumber (): Int =
     (this.hour       * 10_000_000) +
         (this.minute     * 100_000) +
         (this.second     * 1_000) +
@@ -29,7 +29,7 @@ fun LocalTime.asNumber (): Int =
 
 fun LocalDateTime.formatToIso (): String = this.format(ISO_DATE_TIME)
 
-fun LocalDateTime.withZone (zoneId: ZoneId = timeZone.toZoneId()): ZonedDateTime =
+fun LocalDateTime.withZone (zoneId: ZoneId = Environment.timeZone.toZoneId()): ZonedDateTime =
     ZonedDateTime.of(this, zoneId)
 
 /**
@@ -54,9 +54,9 @@ fun Int.toLocalTime (): LocalTime = LocalTime.of(
 
 fun ZonedDateTime.toDate (): Date = Date.from(this.toInstant())
 
-fun LocalDateTime.toDate (): Date = this.atZone(timeZone.toZoneId()).toDate()
+fun LocalDateTime.toDate (): Date = this.atZone(Environment.timeZone.toZoneId()).toDate()
 
-fun LocalDate.toDate (): Date = this.atStartOfDay(timeZone.toZoneId()).toDate()
+fun LocalDate.toDate (): Date = this.atStartOfDay(Environment.timeZone.toZoneId()).toDate()
 
 fun Date.toLocalDateTime (): LocalDateTime =
     LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), ZoneId.systemDefault())

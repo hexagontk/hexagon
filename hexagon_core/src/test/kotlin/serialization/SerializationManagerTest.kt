@@ -1,50 +1,45 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.serialization.SerializationManager.contentTypes
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
-import com.hexagonkt.serialization.SerializationManager.formatsMap
-import com.hexagonkt.serialization.SerializationManager.getContentTypeFormat
-import com.hexagonkt.serialization.SerializationManager.setFormats
+import com.hexagonkt.serialization.SerializationManager.formatOf
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
+import java.io.File
+import java.net.URL
+import kotlin.test.assertFailsWith
 
 @Test class SerializationManagerTest {
     @BeforeMethod @AfterMethod fun resetSerializationFormats () { formats = coreFormats }
 
     @Test fun `User can add and remove serialization formats` () {
-        assert (formats == coreFormats)
-        assert (contentTypes == linkedSetOf(JsonFormat.contentType, YamlFormat.contentType))
-        assert (formatsMap == linkedMapOf(
-            JsonFormat.contentType to JsonFormat,
-            YamlFormat.contentType to YamlFormat
-        ))
+        assert(formats == coreFormats)
+        assert(formatOf(JsonFormat.contentType) == JsonFormat)
+        assert(formatOf(YamlFormat.contentType) == YamlFormat)
 
-        formats = linkedSetOf(YamlFormat)
-        assert (formats == linkedSetOf(YamlFormat))
-        assert (contentTypes == linkedSetOf(YamlFormat.contentType))
-        assert (formatsMap == linkedMapOf(YamlFormat.contentType to YamlFormat))
+        formats(YamlFormat)
+        assert(formats == linkedSetOf(YamlFormat))
+        assert(formatOf(JsonFormat.contentType, YamlFormat) == YamlFormat)
+        assert(formatOf(YamlFormat.contentType) == YamlFormat)
 
-        formats = linkedSetOf(JsonFormat)
+        formats(JsonFormat)
         assert (formats == linkedSetOf(JsonFormat))
-        assert (contentTypes == linkedSetOf(JsonFormat.contentType))
-        assert (formatsMap == linkedMapOf(JsonFormat.contentType to JsonFormat))
+        assert(formatOf(JsonFormat.contentType) == JsonFormat)
+        assert(formatOf(YamlFormat.contentType, JsonFormat) == JsonFormat)
 
-        setFormats (JsonFormat, YamlFormat)
+        formats(JsonFormat, YamlFormat)
         assert (formats == linkedSetOf(JsonFormat, YamlFormat))
-        assert (contentTypes == linkedSetOf(JsonFormat.contentType, YamlFormat.contentType))
-        assert (formatsMap == linkedMapOf(
-            JsonFormat.contentType to JsonFormat,
-            YamlFormat.contentType to YamlFormat
-        ))
+        assert(formatOf(JsonFormat.contentType) == JsonFormat)
+        assert(formatOf(YamlFormat.contentType) == YamlFormat)
     }
 
     @Test fun `User can change default format` () {
         assert (defaultFormat == JsonFormat)
 
-        defaultFormat = YamlFormat
+        defaultFormat(YamlFormat)
         assert (defaultFormat == YamlFormat)
     }
 
@@ -62,16 +57,56 @@ import org.testng.annotations.Test
     @Test(expectedExceptions = [ IllegalStateException::class ])
     fun `Searching a format not loaded raises an exception` () {
         formats = linkedSetOf(YamlFormat)
-        getContentTypeFormat(JsonFormat.contentType)
+        formatOf(JsonFormat.contentType)
     }
 
-    @Test fun `Serialization manager can get the content type by an extension` () {
-        assert(SerializationManager.getFileFormat("a.json") == JsonFormat)
-        assert(SerializationManager.getFileFormat("a.yaml") == YamlFormat)
-        assert(SerializationManager.getFileFormat("a.yml") == YamlFormat)
+    fun `Searching serialization format for content types, URLs, files and resources works` () {
+        assert(formatOf(JsonFormat.contentType) == JsonFormat)
+        assert(formatOf(URL("http://l/a.yaml")) == YamlFormat)
+        assert(formatOf(File("f.json")) == JsonFormat)
+        assert(formatOf(Resource("r.yaml")) == YamlFormat)
+    }
 
-        assert(SerializationManager.getFileFormat(".json") == JsonFormat)
-        assert(SerializationManager.getFileFormat(".yaml") == YamlFormat)
-        assert(SerializationManager.getFileFormat(".yml") == YamlFormat)
+    @Test fun `MIME types return correct content type for extensions`() {
+        assert(SerializationManager.contentTypeOf("json") == JsonFormat.contentType)
+        assert(SerializationManager.contentTypeOf("yaml") == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf("yml") == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf("png") == "image/png")
+        assert(SerializationManager.contentTypeOf("rtf") == "application/rtf")
+    }
+
+    @Test fun `MIME types return correct content type for URLs`() {
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.json")) == JsonFormat.contentType)
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.yaml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.yml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.png")) == "image/png")
+        assert(SerializationManager.contentTypeOf(URL("http://l/a.rtf")) == "application/rtf")
+    }
+
+    @Test fun `MIME types return correct content type for files`() {
+        assert(SerializationManager.contentTypeOf(File("f.json")) == JsonFormat.contentType)
+        assert(SerializationManager.contentTypeOf(File("f.yaml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(File("f.yml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(File("f.png")) == "image/png")
+        assert(SerializationManager.contentTypeOf(File("f.rtf")) == "application/rtf")
+    }
+
+    @Test fun `MIME types return correct content type for resources`() {
+        assert(SerializationManager.contentTypeOf(Resource("r.json")) == JsonFormat.contentType)
+        assert(SerializationManager.contentTypeOf(Resource("r.yaml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(Resource("r.yml")) == YamlFormat.contentType)
+        assert(SerializationManager.contentTypeOf(Resource("r.png")) == "image/png")
+        assert(SerializationManager.contentTypeOf(Resource("r.rtf")) == "application/rtf")
+    }
+
+    @Test fun `Not found Serialization format throws an exception`() {
+        assertFailsWith<IllegalStateException> { SerializationManager.formatOf(Resource("r._")) }
+        assertFailsWith<IllegalStateException> { SerializationManager.formatOf(File("r._")) }
+        assertFailsWith<IllegalStateException> { SerializationManager.formatOf(URL("http://r._")) }
+        assertFailsWith<IllegalStateException> { SerializationManager.formatOf("_") }
+    }
+
+    @Test fun `Not found Serialization format returns the default`() {
+        assert(SerializationManager.formatOf("_", JsonFormat) == JsonFormat)
     }
 }

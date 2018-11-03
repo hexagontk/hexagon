@@ -1,7 +1,5 @@
 package com.hexagonkt.helpers
 
-import com.hexagonkt.serialization.JsonFormat
-import com.hexagonkt.serialization.YamlFormat
 import org.testng.annotations.Test
 import java.text.DecimalFormat
 import java.time.LocalDate
@@ -23,30 +21,16 @@ import kotlin.test.assertFailsWith
         0 to 1
     )
 
-    @Test fun `MIME types return correct content type`() {
-        assert(mimeTypes.getContentType("a.json") == JsonFormat.contentType)
-        assert(mimeTypes.getContentType("a.yaml") == YamlFormat.contentType)
-        assert(mimeTypes.getContentType("a.yml") == YamlFormat.contentType)
-        assert(mimeTypes.getContentType("a.png") == "image/png")
-        assert(mimeTypes.getContentType("a.rtf") == "application/rtf")
-
-        assert(mimeTypes.getContentType(".json") == JsonFormat.contentType)
-        assert(mimeTypes.getContentType(".yaml") == YamlFormat.contentType)
-        assert(mimeTypes.getContentType(".yml") == YamlFormat.contentType)
-        assert(mimeTypes.getContentType(".png") == "image/png")
-        assert(mimeTypes.getContentType(".rtf") == "application/rtf")
-    }
-
     @Test fun `System setting works ok` () {
         System.setProperty("system_property", "value")
 
-        assert(systemSetting("system_property") == "value")
+        assert(Environment.systemSetting("system_property") == "value")
 
-        assert(systemSetting("PATH")?.isNotEmpty() ?: false)
-        assert(systemSetting("_not_defined_") == null)
+        assert(Environment.systemSetting("PATH")?.isNotEmpty() ?: false)
+        assert(Environment.systemSetting("_not_defined_") == null)
 
         System.setProperty("PATH", "path override")
-        assert(systemSetting("PATH") == "path override")
+        assert(Environment.systemSetting("PATH") == "path override")
     }
 
     @Test fun `Time nanos gets the elapsed nanoseconds` () {
@@ -58,9 +42,9 @@ import kotlin.test.assertFailsWith
     }
 
     @Test fun `A local date time returns a valid int timestamp` () {
-        assert(dateTime (2015, 12, 31, 23, 59, 59).asNumber() == 2015_12_31_23_59_59_000)
-        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).asNumber() == 2015_12_31_23_59_59_101)
-        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).asNumber() != 2015_12_31_23_59_59_100)
+        assert(dateTime (2015, 12, 31, 23, 59, 59).toNumber() == 2015_12_31_23_59_59_000)
+        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).toNumber() == 2015_12_31_23_59_59_101)
+        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).toNumber() != 2015_12_31_23_59_59_100)
     }
 
     @Test fun `Filtering an exception with an empty string do not change the stack` () {
@@ -126,11 +110,6 @@ import kotlin.test.assertFailsWith
         assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
     }
 
-    // TODO Use expectedExceptions
-    @Test fun `Error utilities work as expected` () {
-        assertFailsWith<IllegalStateException>("Invalid state") { error }
-    }
-
     @Test fun `Filtered maps do not contain empty elements`() {
         assert(
             mapOf(
@@ -175,28 +154,12 @@ import kotlin.test.assertFailsWith
         )
     }
 
-    @Test fun `Require resource`() {
-        assert(requireResource("service_test.yaml").file == resource("service_test.yaml")?.file)
-        assertFailsWith<IllegalStateException>("foo.txt not found") {
-            requireResource("foo.txt")
-        }
-    }
-
-    @Test fun `Resource folder`() {
-        assert(resource("data")?.readText()?.lines()?.size ?: 0 > 0)
-    }
-
     @Test(
         expectedExceptions = [ IllegalStateException::class ],
         expectedExceptionsMessageRegExp = "Invalid state"
     )
     fun `'error' generates the correct exception`() {
         error
-    }
-
-    @Test fun `readResource returns resource's text` () {
-        val resourceText = readResource("logback-test.xml")
-        assert(resourceText?.contains("Logback configuration for tests") ?:false)
     }
 
     @Test fun `Parse key only query parameters return correct data` () {
@@ -227,7 +190,7 @@ import kotlin.test.assertFailsWith
         try {
             retry(retries, 1) { throw RuntimeException ("Retry error") }
         }
-        catch (e: CodedException) {
+        catch (e: MultipleException) {
             assert (e.causes.size == retries)
         }
     }

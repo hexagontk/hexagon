@@ -1,9 +1,10 @@
 package com.hexagonkt.messaging.rabbitmq
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.messaging.rabbitmq.RabbitMqClient.Companion.createConnectionFactory
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.serialize
-import org.slf4j.Logger
+
 import org.testng.annotations.Test
 import java.net.URI
 import kotlin.test.assertFailsWith
@@ -94,8 +95,8 @@ import kotlin.test.assertFailsWith
         consumer.declareQueue("int_handler")
         consumer.declareQueue("long_handler")
         consumer.declareQueue("exception_handler")
-        consumer.consume("int_handler", String::class) { log.info(it) }
-        consumer.consume("long_handler", String::class) { log.info(it) }
+        consumer.consume("int_handler", String::class) { log.info { it } }
+        consumer.consume("long_handler", String::class) { log.info { it } }
         consumer.consume("exception_handler", String::class) { throw RuntimeException(it) }
 
         val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))

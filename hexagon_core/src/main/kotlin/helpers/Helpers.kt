@@ -1,27 +1,15 @@
 package com.hexagonkt.helpers
 
+import kotlinx.coroutines.experimental.*
 import kotlin.coroutines.experimental.CoroutineContext
 import kotlin.coroutines.experimental.EmptyCoroutineContext
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.runBlocking
 
-import java.io.InputStream
-import java.lang.ClassLoader.getSystemClassLoader
-import java.net.URL
 import java.util.*
 
-/** Default timezone. */
-val timeZone: TimeZone = TimeZone.getDefault()
+/** Default logger when you are lazy to declare one. */
+val logger: Logger = Logger(System::class)
 
-/** Syntax sugar to throw errors. */
-val error: Nothing get() = error("Invalid state")
-
-/** System class loader. */
-val systemClassLoader: ClassLoader = getSystemClassLoader()
-
-fun systemSetting (name: String): String? = System.getProperty(name) ?: System.getenv(name)
-
-fun systemSetting (name: String, defaultValue: String): String = systemSetting(name) ?: defaultValue
+fun Any.logger(): Logger = Logger(this::class)
 
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -47,13 +35,10 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
         }
     }
 
-    throw CodedException(0, "Error retrying $times times ($delay ms)", *exceptions.toTypedArray())
+    throw MultipleException("Error retrying $times times ($delay ms)", exceptions)
 }
 
 // NETWORKING //////////////////////////////////////////////////////////////////////////////////////
-/**
- * TODO .
- */
 fun parseQueryParameters (query: String): Map<String, String> =
     if (query.isBlank())
         mapOf()
@@ -66,6 +51,9 @@ fun parseQueryParameters (query: String): Map<String, String> =
             .toMap(LinkedHashMap())
 
 // ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
+/** Syntax sugar to throw errors. */
+val error: Nothing get() = error("Invalid state")
+
 /**
  * Returns the stack trace array of the frames that starts with the given prefix.
  */
@@ -87,9 +75,6 @@ fun Throwable.toText (prefix: String = ""): String =
             "${eol}Caused by: " + (this.cause as Throwable).toText (prefix)
 
 // MAP OPERATIONS //////////////////////////////////////////////////////////////////////////////////
-/**
- * TODO .
- */
 @Suppress("UNCHECKED_CAST")
 operator fun Map<*, *>.get(vararg keys: Any): Any? =
     if (keys.size > 1)
@@ -124,23 +109,10 @@ fun <V> notEmpty(it: V): Boolean {
     }
 }
 
-// I/O /////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * TODO Fix class loader issues, use thread class loader or whatever
- * http://www.javaworld.com/article/2077344/core-java/find-a-way-out-of-the-classloader-maze.html
- */
-fun resourceAsStream(resource: String): InputStream? =
-    systemClassLoader.getResourceAsStream(resource)
-
-fun resource(resource: String): URL? = systemClassLoader.getResource(resource)
-
-fun requireResource(resource: String): URL = resource(resource) ?: error("$resource not found")
-
-fun readResource(resource: String): String? = resourceAsStream(resource)?.reader()?.readText()
-
 // KOTLIN //////////////////////////////////////////////////////////////////////////////////////////
-fun sync(
-    context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> Unit) {
+fun <T> sync(
+    context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> T) =
+        runBlocking(context, block)
 
-    runBlocking(context, block)
-}
+fun <T> async(block: suspend CoroutineScope.() -> T) =
+    GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT, null, block)

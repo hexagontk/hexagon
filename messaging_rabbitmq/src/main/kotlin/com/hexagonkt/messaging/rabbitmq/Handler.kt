@@ -1,9 +1,10 @@
 package com.hexagonkt.messaging.rabbitmq
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.retry
-import com.hexagonkt.serialization.SerializationManager.formatsMap
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
 import com.rabbitmq.client.AMQP.BasicProperties
@@ -11,7 +12,7 @@ import com.rabbitmq.client.Channel
 import com.rabbitmq.client.ConnectionFactory
 import com.rabbitmq.client.DefaultConsumer
 import com.rabbitmq.client.Envelope
-import org.slf4j.Logger
+
 import java.nio.charset.Charset
 import java.nio.charset.Charset.defaultCharset
 import java.util.concurrent.ExecutorService
@@ -47,12 +48,13 @@ internal class Handler<T : Any, R : Any> internal constructor (
             val charset = properties.contentEncoding ?: defaultCharset().name()
             val correlationId = properties.correlationId
             val replyTo = properties.replyTo
-            val contentType = formatsMap[properties.contentType] ?: defaultFormat
+            val messageContentType = properties.contentType ?: defaultFormat.contentType
+            val contentType = formatOf(messageContentType, defaultFormat)
 
             try {
-                log.trace("Received message ($correlationId) in $charset")
+                log.trace { "Received message ($correlationId) in $charset" }
                 val request = String(body, Charset.forName(charset))
-                log.trace("Message body:\n$request")
+                log.trace { "Message body:\n$request" }
                 val input = request.parse(type, contentType)
 
                 val response = handler(input)
@@ -61,7 +63,7 @@ internal class Handler<T : Any, R : Any> internal constructor (
                     handleResponse(response, replyTo, correlationId)
             }
             catch (ex: Exception) {
-                log.warn("Error processing message ($correlationId) in $charset", ex)
+                log.warn(ex) { "Error processing message ($correlationId) in $charset" }
 
                 if (replyTo != null)
                     handleError(ex, replyTo, correlationId)

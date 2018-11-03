@@ -8,8 +8,6 @@ import com.hexagonkt.helpers.Environment.jvmName
 import com.hexagonkt.helpers.Environment.jvmVersion
 import com.hexagonkt.helpers.Environment.locale
 import com.hexagonkt.helpers.Environment.timezone
-import com.hexagonkt.settings.SettingsManager.environment
-import org.slf4j.Logger
 
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
@@ -65,12 +63,12 @@ data class Server (
         )
 
         serverEngine.startup (this)
-        log.info ("$serverName started${createBanner()}")
+        log.info { "$serverName started${createBanner()}" }
     }
 
     fun stop() {
         serverEngine.shutdown ()
-        log.info ("$serverName stopped")
+        log.info { "$serverName stopped" }
     }
 
     private fun createBanner(): String {
@@ -80,10 +78,8 @@ data class Server (
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
         val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
 
-        // TODO Handle environment not found (when Settings is finished)
         val information = """
             SERVICE:     $serverName
-            ENVIRONMENT: $environment
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
             Java $jvmVersion [$jvmName]
@@ -96,7 +92,7 @@ data class Server (
         // TODO Load banner from ${serverName}.txt
         // TODO Do not trim the banner (it could break ASCII art ;)
         val bannerResource = serverName.toLowerCase().replace(' ', '_')
-        val banner = (readResource("$bannerResource.txt") ?: "") + information
+        val banner = (Resource("$bannerResource.txt").readText() ?: "") + information
         return banner
             .trimIndent()
             .lines()

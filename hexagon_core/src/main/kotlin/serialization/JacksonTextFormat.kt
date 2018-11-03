@@ -17,7 +17,7 @@ internal open class JacksonTextFormat(
         SerializationFormat {
 
     private val mapper =
-        if (factoryGenerator == null) com.hexagonkt.serialization.mapper
+        if (factoryGenerator == null) com.hexagonkt.serialization.JacksonHelper.mapper
         else createObjectMapper(factoryGenerator())
 
     override val contentType = "application/${extensions.first()}"

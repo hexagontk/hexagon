@@ -7,28 +7,23 @@ apply plugin: 'war'
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
 
-/*
- * Check: https://www.infoq.com/articles/G1-One-Garbage-Collector-To-Rule-Them-All
- */
 applicationDefaultJvmArgs = [
     '-Xms2G',
     '-Xmx2G',
     '-XX:+UseNUMA',
     '-XX:+UseParallelGC',
-//    '-XX:+UseG1GC',
-//    '-XX:+UseStringDeduplicationJVM',
     '-XX:+AggressiveOpts'
 ]
 
-ext.hikariVersion = '2.6.2'
-ext.postgresqlVersion = '42.0.0'
-ext.gatlingVersion = "2.3.1"
-ext.junitVersion = "4.12"
+project.ext.hikariVersion = '2.6.2'
+project.ext.postgresqlVersion = '42.0.0'
+project.ext.gatlingVersion = "2.3.1"
+project.ext.junitVersion = "4.12"
 
-ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
-ext.databases = [ 'MongoDB', 'PostgreSQL' ]
-ext.servers = [ 'Jetty' ]
-ext.tests = [servers, databases].combinations ()
+project.ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
+project.ext.databases = [ 'MongoDB', 'PostgreSQL' ]
+project.ext.servers = [ 'Jetty' ]
+project.ext.tests = [ servers, databases ].combinations ()
 
 war {
     archiveName = "ROOT.war"
@@ -55,10 +50,8 @@ test {
     useTestNG ()
 }
 
-//noinspection GroovyAssignabilityCheck
 task tfb(dependsOn: [ 'benchmarkCode', 'benchmarkConfig', 'setupScripts' ])
 
-//noinspection GroovyAssignabilityCheck
 task copyTfb(type: Copy) {
     from projectDir
     include 'src/**', 'tfb.gradle', 'readme.md'
@@ -66,7 +59,6 @@ task copyTfb(type: Copy) {
     rename 'tfb.gradle', 'build.gradle'
 }
 
-//noinspection GroovyAssignabilityCheck
 task gradleSettings(type: WriteProperties) {
     Map<String, ?> settings = [
         description : 'Hexagon web framework\'s benchmark',
@@ -90,18 +82,18 @@ task gradleSettings(type: WriteProperties) {
 
 import groovy.json.JsonOutput
 
-//noinspection GroovyAssignabilityCheck
 task benchmarkConfig {
     doLast {
-        Map<String, Map<String, Object>> test = [:]
-        tests.forEach {
-            String server = it[0]
-            String database = it[1]
-            String databaseEngine = database.toLowerCase()
-            String name = server == servers.first () && database == databases.first ()?
+        Map<String, Object> testsMap = [:]
+        tests.collect { it as List<List<String>> }.forEach {
+            final String server = it[0]
+            final String database = it[1]
+            final String databaseEngine = database.toLowerCase()
+            final String name = server == servers.first () && database == databases.first ()?
                 'default' : server + '_' + database
-            int port = server == 'Resin'? 8080 : 9090
-            test[name.toLowerCase()] = [
+            final int port = server == 'Resin'? 8080 : 9090
+
+            testsMap[name.toLowerCase()] = [
                 json_url : '/json',
                 db_url : "/$databaseEngine/db",
                 query_url : "/$databaseEngine/query?queries=",
@@ -129,24 +121,24 @@ task benchmarkConfig {
             ]
         }
 
-        Map<String, ?> config = [
+        final Map<String, ?> config = [
             framework : 'hexagon',
-            tests : [ test ]
+            tests : [ testsMap ]
         ]
 
-        String json = JsonOutput.toJson(config)
-        File file = file("$tfbBuildDir/benchmark_config.json")
+        final String json = JsonOutput.toJson(config)
+        final File file = file("$tfbBuildDir/benchmark_config.json")
+
         file.createNewFile()
         file.text = JsonOutput.prettyPrint(json)
     }
 }
 
-//noinspection GroovyAssignabilityCheck
 task setupScripts {
     doLast {
-        tests.forEach {
-            String server = ((String)it[0]).toLowerCase()
-            String database = ((String)it[1]).toLowerCase()
+        tests.collect { it as List<List<String>> }.forEach { final List<String> row ->
+            String server = row[0].toLowerCase()
+            String database = row[1].toLowerCase()
             File file = file("$tfbBuildDir/setup_${server}_${database}.sh")
             file.createNewFile()
             String command = server == "resin"?
@@ -169,7 +161,6 @@ task setupScripts {
     }
 }
 
-//noinspection GroovyAssignabilityCheck
 task benchmarkCode(dependsOn: [ 'copyTfb', 'gradleSettings' ]) {
     doLast {
         List<String> extensions = [ 'kt', 'html', 'properties', 'xml', 'yaml', 'yml', 'gradle' ]
