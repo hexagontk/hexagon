@@ -20,17 +20,17 @@ import kotlin.test.assertFailsWith
         assert(formatOf(JsonFormat.contentType) == JsonFormat)
         assert(formatOf(YamlFormat.contentType) == YamlFormat)
 
-        formats = linkedSetOf(YamlFormat)
+        formats(YamlFormat)
         assert(formats == linkedSetOf(YamlFormat))
         assert(formatOf(JsonFormat.contentType, YamlFormat) == YamlFormat)
         assert(formatOf(YamlFormat.contentType) == YamlFormat)
 
-        formats = linkedSetOf(JsonFormat)
+        formats(JsonFormat)
         assert (formats == linkedSetOf(JsonFormat))
         assert(formatOf(JsonFormat.contentType) == JsonFormat)
         assert(formatOf(YamlFormat.contentType, JsonFormat) == JsonFormat)
 
-        formats = linkedSetOf(JsonFormat, YamlFormat)
+        formats(JsonFormat, YamlFormat)
         assert (formats == linkedSetOf(JsonFormat, YamlFormat))
         assert(formatOf(JsonFormat.contentType) == JsonFormat)
         assert(formatOf(YamlFormat.contentType) == YamlFormat)
@@ -39,7 +39,7 @@ import kotlin.test.assertFailsWith
     @Test fun `User can change default format` () {
         assert (defaultFormat == JsonFormat)
 
-        defaultFormat = YamlFormat
+        defaultFormat(YamlFormat)
         assert (defaultFormat == YamlFormat)
     }
 

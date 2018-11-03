@@ -67,6 +67,14 @@ object SerializationManager {
         logger.info { "${extensions.size} Content types loaded from: ${mimeTypesResource.path}" }
     }
 
+    fun formats(vararg formats: SerializationFormat) {
+        this.formats = LinkedHashSet(formats.toList())
+    }
+
+    fun defaultFormat(defaultFormat: SerializationFormat) {
+        this.defaultFormat = defaultFormat
+    }
+
     fun contentTypeOf(extension: String): String? = mimeTypes[extension]
 
     fun contentTypeOf(url: URL): String? = contentTypeOf(pathExtension(url.file))
