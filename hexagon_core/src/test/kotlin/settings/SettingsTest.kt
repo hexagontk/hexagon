@@ -5,22 +5,22 @@ import java.io.File
 
 @Test class SettingsTest {
     fun `Load environment variables add settings with provided prefixes`() {
-        assert(loadEnvironmentVariables("PATH", "INVALID").size == 1)
-        assert(loadEnvironmentVariables("PATH", "USER").size == 2)
+        assert(EnvironmentVariablesSource(listOf("PATH", "INVALID")).load().size == 1)
+        assert(EnvironmentVariablesSource(listOf("PATH", "USER")).load().size == 2)
     }
 
     fun `Load system properties add variables with provided prefixes`() {
         System.setProperty("systemPrefixTest", "testing")
         System.setProperty("systemPrefixBenchmark", "benchmarking")
 
-        assert(loadSystemProperties("systemPrefix", "invalid").size == 2)
+        assert(SystemPropertiesSource(listOf("systemPrefix", "invalid")).load().size == 2)
     }
 
     fun `Load file add variables contained in that file`() {
-        assert(loadFile("invalid").isEmpty())
+        assert(FileSource(File("invalid")).load().isEmpty())
         val file = "src/test/resources/development.yaml"
         val fileName = if (File(file).exists()) file else "hexagon_core/$file"
-        assert(loadFile(fileName).size == 2)
+        assert(FileSource(File(fileName)).load().size == 2)
     }
 
     fun `Load command line arguments adds correct settings `() {
@@ -42,7 +42,7 @@ import java.io.File
         )
 
         cases.forEach {
-            assert(loadCommandLineArguments(*it.key.toTypedArray()) == it.value)
+            assert(CommandLineArgumentsSource(it.key).load() == it.value)
         }
     }
 }
