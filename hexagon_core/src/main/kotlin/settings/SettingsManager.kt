@@ -52,5 +52,5 @@ object SettingsManager {
                     }
                 }
             }
-            .reduceRight { a, b -> a + b }
+            .reduce { a, b -> b + a }
 }

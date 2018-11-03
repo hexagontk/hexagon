@@ -7,6 +7,13 @@ import com.hexagonkt.helpers.error
 import java.io.File
 import java.net.URL
 
+/**
+ * TODO
+ *
+ * Can be a Serializator immutable class and:
+ *
+ * object SerializationManager : Serializator(mimeTypesResource, formats)
+ */
 object SerializationManager {
 
     private val logger: Logger = logger()

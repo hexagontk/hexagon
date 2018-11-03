@@ -15,7 +15,14 @@ import org.testng.annotations.Test
 @Test class SettingsManagerTest {
 
     @BeforeMethod fun resetSettingSources() {
-        SettingsManager.settingsSources = SettingsManager.defaultSettingsSources
+        SettingsManager.settingsSources = listOf(
+            ResourceSource("$SETTINGS.yaml"),
+            ResourceSource("development.yaml"),
+            EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
+            SystemPropertiesSource(SETTINGS),
+            FileSource("$SETTINGS.yaml"),
+            ResourceSource("${SETTINGS}_test.yaml")
+        )
     }
 
     fun `setting works as expected`() {
@@ -54,6 +61,11 @@ import org.testng.annotations.Test
 
     fun `set default settings add command line arguments`() {
         SettingsManager.settingsSources = listOf(
+            ResourceSource("$SETTINGS.yaml"),
+            EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
+            SystemPropertiesSource(SETTINGS),
+            FileSource("$SETTINGS.yaml"),
+            ResourceSource("${SETTINGS}_test.yaml"),
             CommandLineArgumentsSource(listOf("key=val", "param=data"))
         )
 
