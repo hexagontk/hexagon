@@ -2,30 +2,31 @@ package com.hexagonkt.settings
 
 import com.hexagonkt.helpers.get
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.YamlFormat
 import com.hexagonkt.serialization.serialize
-import java.io.File
 
 object SettingsManager {
 
     val log: Logger = logger()
 
-    private const val SETTINGS = "service"
-    private const val ENVIRONMENT_PREFIX = "SERVICE_"
+    internal const val SETTINGS = "service"
+    internal const val ENVIRONMENT_PREFIX = "SERVICE_"
 
-    var settingsSources: List<SettingsSource> = listOf(
-        ResourceSource(Resource("$SETTINGS.yaml")),
-        EnvironmentVariablesSource(listOf(ENVIRONMENT_PREFIX)),
-        SystemPropertiesSource(listOf(SETTINGS)),
-        FileSource(File("$SETTINGS.yaml")),
+    val defaultSettingsSources: List<SettingsSource> = listOf(
+        ResourceSource("$SETTINGS.yaml"),
+        EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
+        SystemPropertiesSource(SETTINGS),
+        FileSource("$SETTINGS.yaml"),
 //        CommandLineArgumentsSource(*args),
-        ResourceSource(Resource("${SETTINGS}_test.yaml"))
+        ResourceSource("${SETTINGS}_test.yaml")
     )
-    set(value) {
-        settings = loadDefaultSettings()
-    }
+
+    var settingsSources: List<SettingsSource> = defaultSettingsSources
+        set(value) {
+            field = value
+            settings = loadDefaultSettings()
+        }
 
     var settings: Map<String, *> = loadDefaultSettings()
         private set(value) {
@@ -43,11 +44,11 @@ object SettingsManager {
             .map {
                 it.load().also { s ->
                     if (s.isEmpty()) {
-                        SettingsManager.log.info { "No settings found for $it" }
+                        log.info { "No settings found for $it" }
                     }
                     else {
                         val serialize = s.serialize(YamlFormat).prependIndent(" ".repeat(4))
-                        SettingsManager.log.info { "Settings loaded from $it:\n\n$serialize" }
+                        log.info { "Settings loaded from $it:\n\n$serialize" }
                     }
                 }
             }

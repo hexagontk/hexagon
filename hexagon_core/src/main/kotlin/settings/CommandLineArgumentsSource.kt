@@ -2,6 +2,8 @@ package com.hexagonkt.settings
 
 class CommandLineArgumentsSource(val args: List<String>) : SettingsSource {
 
+    constructor (args: Array<out String>) : this (args.toList())
+
     override fun toString(): String = "Command Line Arguments"
 
     override fun load(): Map<String, *> =

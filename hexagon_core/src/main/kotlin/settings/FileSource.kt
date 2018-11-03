@@ -6,6 +6,8 @@ import java.io.FileNotFoundException
 
 class FileSource(val file: File) : SettingsSource {
 
+    constructor(file: String) : this(File(file))
+
     override fun toString(): String = "File with path: ${file.absolutePath}"
 
     override fun load(): Map<String, *> =
