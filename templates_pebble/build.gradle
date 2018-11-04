@@ -3,8 +3,6 @@ apply from: '../gradle/kotlin.gradle'
 apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
-ext.pebbleVersion = '2.4.0'
-
 dependencies {
     compile project(':port_templates')
     compile ("com.mitchellbosecke:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
