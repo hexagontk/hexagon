@@ -250,7 +250,7 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
         val ip = response.headers["ip"]
         val protocol = "http"
 
-        assert("AHC/2.0" == response.headers["agent"])
+        assert("AHC/2.1" == response.headers["agent"])
         assert(protocol == response.headers["scheme"])
         assert("127.0.0.1" == host || "localhost" == host)
         assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
@@ -327,7 +327,8 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
 
         assert(contentType("responseType" to "application/yaml") == "application/yaml")
         assert(contentType("Accept" to "text/plain") == "text/plain")
-        assert(contentType("Content-Type" to "text/html") == "text/html")
+        // Check start because http client adds encoding
+        assert(contentType("Content-Type" to "text/html").startsWith("text/html"))
         assert(contentType() == "application/json")
     }
 

@@ -4,12 +4,12 @@ import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.HttpMethod
 import com.hexagonkt.HttpMethod.*
+import io.netty.handler.codec.http.cookie.Cookie
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
 import org.asynchttpclient.DefaultAsyncHttpClient
 import org.asynchttpclient.DefaultAsyncHttpClientConfig.Builder
 import org.asynchttpclient.Response
-import org.asynchttpclient.cookie.Cookie
 import java.io.File
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
@@ -80,10 +80,10 @@ class Client (
 
         if (useCookies) {
             response.cookies.forEach {
-                if (it.value == "")
-                    cookies.remove(it.name)
+                if (it.value() == "")
+                    cookies.remove(it.name())
                 else
-                    cookies[it.name] = it
+                    cookies[it.name()] = it
             }
         }
 
