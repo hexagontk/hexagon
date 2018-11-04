@@ -4,10 +4,6 @@ apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
 dependencies {
-    final String vertxVersion = '3.5.4'
-    final String cucumberVersion = '3.0.2'
-    final String junitVersion = '4.12'
-
     compile (project(':hexagon_core'))
 
     compile ("io.vertx:vertx-lang-kotlin:$vertxVersion") {

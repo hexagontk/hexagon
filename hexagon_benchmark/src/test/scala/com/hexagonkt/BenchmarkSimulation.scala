@@ -51,8 +51,8 @@ class BenchmarkSimulation extends Simulation {
       BenchmarkKt.getBenchmarkServer.stop()
   }
 
-  setUp(checkScenario.inject(rampUsers(users) over 2))
-    .protocols(http.baseURL(s"$protocol://$host:$runtimePort").contentTypeHeader("text/plain"))
+  setUp(checkScenario.inject(rampUsers(users) during 2))
+    .protocols(http.baseUrl(s"$protocol://$host:$runtimePort").contentTypeHeader("text/plain"))
     .assertions(global.successfulRequests.percent.gte(100))
 
   private def property(name: String, default: String): String =
