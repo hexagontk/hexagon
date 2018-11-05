@@ -15,8 +15,8 @@ This helper settings are:
 
 * bintrayKey (REQUIRED): if not defined will try to load BINTRAY_KEY environment variable.
 * bintrayUser (REQUIRED): or BINTRAY_USER environment variable if not defined.
-* bintrayRepo (REQUIRED):
-* license (REQUIRED):
-* vcsUrl (REQUIRED):
+* bintrayRepo (REQUIRED): Bintray's repository to upload the artifacts.
+* license (REQUIRED): the license used to publish into Bintray.
+* vcsUrl (REQUIRED): code repository location.
 
-For more reference, check the usage in `.travis.yaml` and `hexagon_*/build.gradle`
+For more reference, check the usage in `.travis.yaml` and `build.gradle`
