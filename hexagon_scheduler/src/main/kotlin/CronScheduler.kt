@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit.SECONDS
 
 /**
  * Scheduler for processes. After using it, you should call the `shutdown` method.
+ *
+ * TODO Add JVM shutdown hook to call shutdown at JVM termination
  */
 class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
     private val log: Logger = logger()

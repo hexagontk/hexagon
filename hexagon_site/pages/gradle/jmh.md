@@ -1,11 +1,10 @@
 
-In `build.gradle` it is needed to add the following lines:
+JMH
+===
 
-```groovy
-plugins {
-    id 'me.champeau.gradle.jmh' version '0.4.7' apply false
-}
-```
+To use it you should add `apply from: $gradleScripts/jmh.gradle` to your `build.gradle` script
+and `id 'me.champeau.gradle.jmh' version 'VERSION'` to your `plugins` section in the root
+`build.gradle`.
 
 Sample benchmark (src/jmh/kotlin/Benchmark.kt):
 
