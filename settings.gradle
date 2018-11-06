@@ -12,7 +12,6 @@ include (
     // Internal modules
     'hexagon_core',
     'hexagon_scheduler',
-    'hexagon_vertx',
 
     // Ports
     'port_client',
