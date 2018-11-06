@@ -4,8 +4,8 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientURI
 import com.mongodb.async.client.MongoClients
 import com.mongodb.async.client.MongoDatabase
-import kotlinx.coroutines.experimental.channels.consumeEach
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.runBlocking
 import org.bson.types.ObjectId
 import org.testng.annotations.Test
 import java.net.URL

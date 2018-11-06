@@ -1,8 +1,8 @@
 package com.hexagonkt.store
 
 import com.hexagonkt.helpers.async
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.channels.ReceiveChannel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.ReceiveChannel
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 

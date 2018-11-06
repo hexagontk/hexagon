@@ -25,12 +25,6 @@ dependencies {
     testCompile ("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
 }
 
-kotlin {
-    experimental {
-        coroutines 'enable'
-    }
-}
-
 // Replace build variables in resource files
 processResources {
     [ 'properties', 'ini', 'cfg', 'txt', 'html', 'xml', 'json', 'yaml' ].each { String ext ->
@@ -52,7 +46,7 @@ processResources {
 }
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
-tasks.compileKotlin.kotlinOptions.apiVersion = '1.2'
+tasks.compileKotlin.kotlinOptions.apiVersion = '1.3'
 
 tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
