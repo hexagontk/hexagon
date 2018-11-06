@@ -1,5 +1,0 @@
-
-Messaging
-=========
-
-TODO
