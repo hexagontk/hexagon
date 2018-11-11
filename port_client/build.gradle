@@ -3,9 +3,6 @@ apply from: '../gradle/kotlin.gradle'
 apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
-ext.ahcVersion = '2.0.37'
-ext.wiremockVersion = '2.10.1'
-
 dependencies {
     compile project(':hexagon_core')
     compile ("org.asynchttpclient:async-http-client:$ahcVersion") {

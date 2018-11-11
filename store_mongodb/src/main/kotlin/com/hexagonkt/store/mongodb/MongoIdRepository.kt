@@ -7,6 +7,7 @@ import com.mongodb.client.model.BulkWriteOptions
 import com.mongodb.client.model.Indexes.ascending
 import com.mongodb.client.model.Indexes.descending
 import com.mongodb.client.model.ReplaceOneModel
+import com.mongodb.client.model.ReplaceOptions
 import com.mongodb.client.model.UpdateOptions
 import org.bson.Document
 import kotlin.reflect.KClass
@@ -94,7 +95,7 @@ open class MongoIdRepository<T : Any, K : Any> (
         replaceOneObject (
             convertKeyName(key.name) eq convertId((key.getter)(document)),
             document,
-            if (upsert) UpdateOptions().upsert(true) else UpdateOptions()
+            if (upsert) ReplaceOptions().upsert(true) else ReplaceOptions()
         )
 
     fun replaceObjects (vararg document: T, upsert: Boolean = false, bulk: Boolean = false) {
@@ -124,7 +125,7 @@ open class MongoIdRepository<T : Any, K : Any> (
     fun find (documentId: K): T? =
         findObjects (convertKeyName(key.name) eq convertId(documentId)).first ()
 
-    fun isEmpty() = count() == 0L
+    fun isEmpty() = countDocuments() == 0L
 
     fun getKey (obj: T): K = (key.getter)(obj)
 

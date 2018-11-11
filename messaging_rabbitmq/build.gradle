@@ -3,9 +3,6 @@ apply from: '../gradle/kotlin.gradle'
 apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
-ext.rabbitVersion = '5.3.0'
-ext.qpidVersion = '6.1.4' // TODO Upgrade to 7.0.x
-
 dependencies {
     compile project(':port_messaging')
     compile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: 'slf4j-api' }

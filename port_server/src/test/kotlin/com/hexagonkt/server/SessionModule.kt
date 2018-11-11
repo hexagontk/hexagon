@@ -75,6 +75,8 @@ internal class SessionModule : TestModule() {
     }
 
     fun sessionLifecycle(client: Client) {
+        client.post("/session/invalidate")
+
         assert(client.get("/session/id").responseBody == "null")
         assert(client.get("/session/inactive").responseBody == "null")
         assert(client.get("/session/creation").responseBody == "null")

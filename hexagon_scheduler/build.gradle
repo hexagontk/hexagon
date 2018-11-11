@@ -4,8 +4,6 @@ apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
 dependencies {
-    final String cronutilsVersion = '7.0.4'
-
     compile project(':hexagon_core')
     compile ("com.cronutils:cron-utils:$cronutilsVersion") { exclude module: 'slf4j-api' }
 

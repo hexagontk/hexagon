@@ -15,11 +15,6 @@ applicationDefaultJvmArgs = [
     '-XX:+AggressiveOpts'
 ]
 
-project.ext.hikariVersion = '2.6.2'
-project.ext.postgresqlVersion = '42.0.0'
-project.ext.gatlingVersion = "2.3.1"
-project.ext.junitVersion = "4.12"
-
 project.ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 project.ext.databases = [ 'MongoDB', 'PostgreSQL' ]
 project.ext.servers = [ 'Jetty' ]
@@ -72,6 +67,7 @@ task gradleSettings(type: WriteProperties) {
 
         hikariVersion : hikariVersion,
         postgresqlVersion : postgresqlVersion,
+        jettyVersion : jettyVersion,
 
         testngVersion : testngVersion
     ]

@@ -3,9 +3,6 @@ apply from: '../gradle/kotlin.gradle'
 apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
-ext.servletVersion = '3.1.0' // TODO Upgrade to '4.0.0'
-ext.jettyVersion = '9.4.8.v20180619'
-
 dependencies {
     compile project(':port_server')
     compileOnly ("javax.servlet:javax.servlet-api:$servletVersion")

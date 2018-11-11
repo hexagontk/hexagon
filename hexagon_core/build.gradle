@@ -4,9 +4,6 @@ apply from: '../gradle/bintray.gradle'
 apply from: '../gradle/dokka.gradle'
 
 dependencies {
-    final String slf4jVersion = '1.7.25'
-    final String jacksonVersion = '2.9.7'
-
     compile ("org.slf4j:slf4j-api:$slf4jVersion")
     compile ("org.slf4j:jcl-over-slf4j:$slf4jVersion") { exclude module: 'slf4j-api' }
     compile ("org.slf4j:jul-to-slf4j:$slf4jVersion") { exclude module: 'slf4j-api' }

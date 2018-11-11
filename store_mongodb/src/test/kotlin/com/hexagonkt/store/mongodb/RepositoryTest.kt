@@ -1,13 +1,11 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
+import com.mongodb.client.model.*
 import com.mongodb.client.model.Filters.eq
-import com.mongodb.client.model.FindOneAndReplaceOptions
-import com.mongodb.client.model.InsertManyOptions
-import com.mongodb.client.model.InsertOneOptions
-import com.mongodb.client.model.UpdateOptions
 import com.mongodb.client.result.DeleteResult
 import java.lang.System.*
 import kotlin.reflect.KClass
@@ -46,20 +44,20 @@ abstract class RepositoryTest<T : Any, out K : Any> (
         testObjects.forEach {
             deleteAll()
             collection.insertOneObject(it)
-            var result: T = collection.findObjects().first()
+            var result: T = collection.findObjects().first() ?: error
 
             assert(result == it)
 
             deleteAll()
             val object2 = changeObject(it)
             collection.insertOneObject(object2, InsertOneOptions())
-            assert(collection.count() == 1L)
-            result = collection.findObjects().first()
+            assert(collection.countDocuments() == 1L)
+            result = collection.findObjects().first() ?: error
             assert(result == object2)
 
             deleteAll()
             collection.insertOne(it.convertToMap().mapKeys { entry -> entry.key as String })
-            result = collection.findObjects().first()
+            result = collection.findObjects().first() ?: error
 
             assert(result == it)
 
@@ -69,21 +67,21 @@ abstract class RepositoryTest<T : Any, out K : Any> (
 
     @Suppress("unused")
     fun many_objects_are_stored_and_loaded_without_error() {
-        testObjects.forEach { _ ->
+        testObjects.forEach {
             deleteAll()
             val objects = createObjects ()
 
             collection.insertManyObjects(objects)
 
-            assert(collection.count() == 10L)
+            assert(collection.countDocuments() == 10L)
             val firstObject = objects[0]
-            val obj = collection.findObjects(eq<K>(key.name, getObjectKey(firstObject))).first()
+            val obj = collection.findObjects(eq(key.name, getObjectKey(firstObject))).first()
             assert(obj == firstObject)
 
             deleteAll()
 
             collection.insertManyObjects(objects, InsertManyOptions().ordered(false))
-            assert(collection.count() == 10L)
+            assert(collection.countDocuments() == 10L)
 
             deleteAll()
         }
@@ -95,7 +93,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (
             deleteAll()
             val entity = createObject()
             val replacement = changeObject(entity)
-            val query = eq<K>(key.name, getObjectKey(entity))
+            val query = eq(key.name, getObjectKey(entity))
 
             collection.insertOneObject(entity)
             var result = collection.replaceOneObject(query, replacement)
@@ -103,7 +101,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (
 
             assert(collection.findObjects(query).first() == replacement)
 
-            result = collection.replaceOneObject(query, entity, UpdateOptions().upsert(false))
+            result = collection.replaceOneObject(query, entity, ReplaceOptions().upsert(false))
             assert(result.matchedCount == 1L)
 
             assert(collection.findObjects(query).first() == entity)
@@ -119,7 +117,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (
             var t = nanoTime()
             val entity = createObject()
             val replacement = changeObject(entity)
-            val query = eq<K>(key.name, getObjectKey(entity))
+            val query = eq(key.name, getObjectKey(entity))
             log.trace { "Test setup: " + (nanoTime() - t) }
 
             t = nanoTime()

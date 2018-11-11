@@ -1,8 +1,8 @@
 package com.hexagonkt.helpers
 
-import kotlinx.coroutines.experimental.*
-import kotlin.coroutines.experimental.CoroutineContext
-import kotlin.coroutines.experimental.EmptyCoroutineContext
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 import java.util.*
 
@@ -114,5 +114,8 @@ fun <T> sync(
     context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> T) =
         runBlocking(context, block)
 
-fun <T> async(block: suspend CoroutineScope.() -> T) =
-    GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT, null, block)
+fun <T> async(
+    context: CoroutineContext = Dispatchers.Default,
+    coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
+    block: suspend CoroutineScope.() -> T) =
+        GlobalScope.async(context, coroutineStart, block)
