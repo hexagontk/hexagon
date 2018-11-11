@@ -2,6 +2,7 @@ package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.Resource
+import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
@@ -55,15 +56,15 @@ open class MongoRepository <T : Any> (
     fun replaceOneObject (filter: Bson, replacement: T): UpdateResult =
         replaceOne (filter, map (replacement))
 
-    fun replaceOneObject (filter: Bson, replacement: T, options: UpdateOptions): UpdateResult =
+    fun replaceOneObject (filter: Bson, replacement: T, options: ReplaceOptions): UpdateResult =
         replaceOne (filter, map (replacement), options)
 
     fun findOneObjectAndReplace (filter: Bson, replacement: T): T =
-        unmap (findOneAndReplace (filter, map (replacement)))
+        unmap (findOneAndReplace (filter, map (replacement)) ?: error)
 
     fun findOneObjectAndReplace (
         filter: Bson, replacement: T, options: FindOneAndReplaceOptions): T =
-            unmap (findOneAndReplace (filter, map (replacement), options))
+            unmap (findOneAndReplace (filter, map (replacement), options) ?: error)
 
     fun findObjects (setup: FindIterable<*>.() -> Unit = {}) = fo(null, setup)
     fun findObjects (filter: Bson, setup: FindIterable<*>.() -> Unit = {}) = fo(filter, setup)

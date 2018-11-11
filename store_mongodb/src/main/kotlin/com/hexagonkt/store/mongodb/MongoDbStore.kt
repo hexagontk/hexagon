@@ -45,7 +45,7 @@ class MongoDbStore <T : Any, K : Any>(
     init {
         if (useObjectId)
             // TODO Make it sync
-            database.createCollection(name, CreateCollectionOptions().autoIndex(false)) { _, _ ->
+            database.createCollection(name, CreateCollectionOptions()) { _, _ ->
                logger.info { "Collection without auto index created for: $name" }
             }
 
@@ -66,6 +66,7 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override suspend fun insertMany(instances: List<T>): ReceiveChannel<K> = GlobalScope.produce {
+
         if (!instances.isEmpty())
             suspendCoroutine<Unit> {
                 typedCollection.insertMany(instances) { _, error ->

@@ -1,5 +1,6 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.error
 import com.hexagonkt.settings.SettingsManager.settings
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
@@ -15,7 +16,7 @@ import kotlin.reflect.KProperty1
 val mongodbUrl = settings["mongodbUrl"] as? String? ?: "mongodb://localhost/test"
 
 fun mongoDatabase (uri: String = mongodbUrl): MongoDatabase =
-    MongoClient(MongoClientURI(uri)).getDatabase(MongoClientURI(uri).database) ?:
+    MongoClient(MongoClientURI(uri)).getDatabase(MongoClientURI(uri).database ?: error) ?:
         error ("Error connecting to MongoDB at: $uri")
 
 fun mongoCollection (

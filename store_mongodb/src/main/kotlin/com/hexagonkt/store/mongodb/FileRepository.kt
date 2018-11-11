@@ -1,5 +1,6 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.error
 import com.mongodb.client.gridfs.GridFSBucket
 import com.mongodb.client.gridfs.GridFSBuckets
 import com.mongodb.client.gridfs.model.GridFSUploadOptions
@@ -14,7 +15,7 @@ import java.util.Base64.getDecoder as base64Decoder
  */
 object FileRepository {
     /** . */
-    val gridfs: GridFSBucket = GridFSBuckets.create(mongoDatabase())
+    private val gridfs: GridFSBucket = GridFSBuckets.create(mongoDatabase())
 
     private val decoder = base64Decoder()
 
@@ -44,6 +45,6 @@ object FileRepository {
      */
     fun load(name: String, output: OutputStream): Map<String, *> {
         gridfs.downloadToStream(name, output)
-        return gridfs.find("filename" eq name).first().metadata
+        return gridfs.find("filename" eq name).first()?.metadata ?: error
     }
 }

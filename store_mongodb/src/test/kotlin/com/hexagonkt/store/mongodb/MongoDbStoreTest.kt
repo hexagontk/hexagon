@@ -1,10 +1,10 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.error
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientURI
 import com.mongodb.async.client.MongoClients
 import com.mongodb.async.client.MongoDatabase
-import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.runBlocking
 import org.bson.types.ObjectId
 import org.testng.annotations.Test
@@ -16,7 +16,7 @@ import java.time.LocalTime
  * TODO .
  */
 @Test class MongoDbStoreTest {
-    private val database: String = MongoClientURI(mongodbUrl).database
+    private val database: String = MongoClientURI(mongodbUrl).database ?: error
     private val db: MongoDatabase =
         MongoClients.create(ConnectionString(mongodbUrl)).getDatabase(database)
     private val store: MongoDbStore<Company, String> =
@@ -67,13 +67,5 @@ import java.time.LocalTime
 
         for (key in keys)
             println(key)
-
-        val channel = store.replaceMany(companies.map { it.copy(web = URL("http://changed.org")) })
-        channel.consumeEach {
-            println(it)
-        }
-
-        for (ii in 0..50)
-            println("Test$ii")
     }
 }
