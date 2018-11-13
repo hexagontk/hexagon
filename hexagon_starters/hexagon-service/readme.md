@@ -10,6 +10,7 @@ You can do so executing: `docker-compose up -d`
 
 * Build: `./gradlew build`
 * Rebuild: `./gradlew clean build`
+* Assemble: `./gradlew installDist`
 * Run: `./gradlew run`
 * Watch: `./gradlew --no-daemon --continuous runService`
 * Test: `./gradlew test`
