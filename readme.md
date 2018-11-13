@@ -95,7 +95,7 @@ What are NOT project goals:
     ```kotlin
     import com.hexagonkt.server.jetty.serve
 
-    fun main(vararg args: String) {
+    fun main() {
         serve {
             get("/hello/{name}") { "Hello ${request["name"]}!" }
         }

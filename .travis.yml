@@ -7,7 +7,7 @@ language: java
 jdk: oraclejdk8
 
 branches:
-  except: /^\d+.*$/
+  except: [ /^\d+.*$/ ]
 
 env:
   global:
@@ -34,9 +34,9 @@ services:
   - postgresql
 
 install:
-  - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
-  - git pull origin develop
-  - git pull origin master
+#  - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
+#  - git pull origin develop
+#  - git pull origin master
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 

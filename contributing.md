@@ -39,28 +39,30 @@ You can define some useful aliases like:
 
 ```bash
 alias gw='./gradlew'
-alias dcupd='docker-compose up -d'
+alias dcup='docker-compose up -d'
 ```
 
 It is recommended that you add:
-`gw clean all publishToMavenLocal` to your `.git/hooks/pre-push` script. As this command will be
-executed before pushing code to the repository (saving time fixing [Travis] build errors).
+`gw --quiet --stacktrace clean all publishToMavenLocal` to your `.git/hooks/pre-push` script. As
+this command will be executed before pushing code to the repository (saving time fixing [Travis]
+build errors).
 
 If you want to commit to the project. It is convenient to setup your own [Travis] account to execute
 the CI job defined in `.travis.yml` when code is pushed to your fork.
 
-Inside Idea IDE, you need to review Kotlin's settings to make sure JVM 1.8 and API 1.1 is used
-(`Project Structure > Modules > <Any Module> > Kotlin > Target Platform`).
+Inside [IntelliJ Idea IDE], you need to review Kotlin's settings to make sure the JVM version is
+1.8+ and API one is 1.3+ (`Project Structure > Modules > <Any Module> > Kotlin > Target Platform`).
 
 ## Benchmarking
 
-The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], to run them:
+The benchmark is the same that runs inside [TechEmpower Framework Benchmarks][TFB], to run it:
 
 1. Start the benchmark's compose file. From the project's root execute:
    `docker-compose -f docker-compose.yaml -f hexagon_benchmark/docker-compose.yaml up -d`
 2. Run `gw hexagon_benchmark:test -Phost=localhost -Pport=9020` where "localhost" and "9020" should
-   point to the endpoint with the benchmark application you want to test.
+   point to the endpoint with the benchmark instance you want to test.
 
+[IntelliJ Idea IDE]: https://www.jetbrains.com/idea
 [TFB]: https://www.techempower.com/benchmarks
 
 ## Tools Used
@@ -84,10 +86,12 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
 
 * New features should be discussed within an issue in the issue tracker before actual coding.
 
-* For code, file names, tags and branches use either camel case or snake case only. Ie: avoid `-` in
-  file names if it is possible.
+* For code, file names, tags and branches use either camel case or snake case only. Ie: avoid `-` or
+  `.` in file names if it is possible.
 
 * For a Pull Request to be accepted:
+  - The PR should have a meaningful title.
+  - If the PR refers to an issue, it should be referenced with the Github format (*#ID*).
   - It should be done to the `develop` branch.
   - The code has to pass all PR checks.
   - All public methods and field must be documented using [Dokka](https://github.com/Kotlin/dokka).
@@ -116,13 +120,23 @@ The benchmark are the same run inside [TechEmpower Framework Benchmarks][TFB], t
   Then something happened
   And I expected this other thing
   ```
+
+  If it is possible, add a link to the code that produced the error. And the stack trace if
+  available.
+
+* A feature requests: should have a detailed description and Acceptance criteria (a list of
+  requirements) with the following format:
+
+  * When *action* then *result*
+  * When this is done then other thing should happen
+
 [Quick Start]: http://hexagonkt.com/quick_start.html
 [Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
 
 ## Tasks and Milestones
 
 Project's tasks and milestones are tracked in a [Github board]. You can use that board to check the
-roadmap, vote the features you want (using [issue ractions]) or to pick tasks that you wish to 
+roadmap, vote the features you want (using [issue reactions]) or to pick tasks that you wish to 
 contribute.
 
 [Github board]: https://github.com/hexagonkt/hexagon/projects/1

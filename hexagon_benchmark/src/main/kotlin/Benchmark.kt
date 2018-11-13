@@ -123,7 +123,7 @@ internal fun createEngine(engine: String): ServerPort = when (engine) {
     else -> error("Unsupported server engine")
 }
 
-fun main(vararg args: String) {
+fun main() {
     val engine = createEngine(Environment.systemSetting("WEBENGINE", "jetty"))
     benchmarkStores = storageEngines.map { it to createStore(it) }.toMap()
 
