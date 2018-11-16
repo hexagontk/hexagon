@@ -63,6 +63,7 @@ task gradleSettings(type: WriteProperties) {
 
         hexagonVersion : rootProject.version,
         kotlinVersion : kotlinVersion,
+        kotlinCoroutinesVersion : kotlinCoroutinesVersion,
         logbackVersion : logbackVersion,
 
         hikariVersion : hikariVersion,
