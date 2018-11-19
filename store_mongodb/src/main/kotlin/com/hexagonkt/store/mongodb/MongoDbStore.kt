@@ -15,6 +15,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.runBlocking
+import org.bson.Document
 import org.bson.types.ObjectId
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -31,8 +32,7 @@ class MongoDbStore <T : Any, K : Any>(
     indexOrder: Int = 1,
     override val mapper: Mapper<T> = MongoDbMapper(type, key)) : Store<T, K> {
 
-    private val typedCollection: MongoCollection<T> =
-        this.database.getCollection<T>(name, type.java)
+    private val typedCollection: MongoCollection<Document> = this.database.getCollection(name)
 
     override fun saveOne(instance: T): Deferred<K> {
         TODO("not implemented")
@@ -53,17 +53,17 @@ class MongoDbStore <T : Any, K : Any>(
                logger.info { "Collection without auto index created for: $name" }
             }
 
-        val index =
-            if (indexOrder == 1) Indexes.ascending(key.name)
-            else Indexes.descending(key.name)
+//        val index =
+//            if (indexOrder == 1) Indexes.ascending(key.name)
+//            else Indexes.descending(key.name)
 
-        typedCollection.createIndex(index, IndexOptions().unique(true).background(true)) { _, _ ->
-            logger.info { "Index created for: $name with field: ${key.name}" }
-        }
+//        typedCollection.createIndex(index, IndexOptions().unique(true).background(true)) { _, _ ->
+//            logger.info { "Index created for: $name with field: ${key.name}" }
+//        }
     }
 
     override suspend fun insertOne(instance: T): K = suspendCoroutine {
-        typedCollection.insertOne(instance) { _, error ->
+        typedCollection.insertOne(Document(mapper.toStore(instance))) { _, error ->
             if (error == null) it.resume(key.get(instance))
             else it.resumeWithException(error)
         }
@@ -73,7 +73,8 @@ class MongoDbStore <T : Any, K : Any>(
 
         if (!instances.isEmpty())
             suspendCoroutine<Unit> {
-                typedCollection.insertMany(instances) { _, error ->
+                val map = instances.map { instance -> Document(mapper.toStore(instance)) }
+                typedCollection.insertMany(map) { _, error ->
                     if (error == null) {
                         runBlocking {
                             instances.forEach { instance -> send(key.get(instance))}
@@ -86,7 +87,9 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override suspend fun replaceOne(instance: T): Boolean = suspendCoroutine {
-        typedCollection.replaceOne(eq(key.name, getKey(instance)), instance) { result, error ->
+        val document = Document(mapper.toStore(instance))
+//        typedCollection.replaceOne(eq(key.name, getKey(instance)), document) { result, error ->
+        typedCollection.replaceOne(eq("_id", getKey(instance)), document) { result, error ->
             if (error == null) it.resume(result.modifiedCount == 1L)
             else it.resumeWithException(error)
         }
@@ -114,8 +117,10 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override suspend fun findOne(key: K): T? = suspendCoroutine {
-        typedCollection.find (eq (this.key.name, convertKey (key))).first { result, error ->
-            if (error == null) it.resume(result)
+//        typedCollection.find (eq (this.key.name, convertKey (key))).first { result, error ->
+        // TODO Handle null in mapper.fromStore
+        typedCollection.find (eq ("_id", convertKey (key))).first { result, error ->
+            if (error == null) it.resume(mapper.fromStore(result))
             else it.resumeWithException(error)
         }
     }
