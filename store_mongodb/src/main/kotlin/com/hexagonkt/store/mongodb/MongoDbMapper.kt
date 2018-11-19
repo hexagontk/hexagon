@@ -18,12 +18,11 @@ class MongoDbMapper<T : Any, K : Any>(
 
     override fun toStore(instance: T): Map<String, Any?> =
         (instance.convertToMap() + ("_id" to key.get(instance)) - (key.name))
-            .filterKeys { it != null }
             .mapKeys { it.key.toString() }
 
     @Suppress("UNCHECKED_CAST")
     override fun fromStore(map: Map<String, Any?>): T =
-        (map + (key.name to (map["_id"] as? K ?: error))).convertToObject(type)
+        (map + (key.name to (map["_id"] ?: error))).convertToObject(type)
 
 //    override fun fromStore(property: String, value: Any?): Any? {
 //        return mapper.convertValue(value, fieldTypes[property])

@@ -3,7 +3,6 @@ package com.hexagonkt
 import com.hexagonkt.helpers.Environment
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.store.mongodb.MongoIdRepository
-import com.hexagonkt.store.mongodb.mongoCollection
 import com.hexagonkt.store.mongodb.mongoDatabase
 
 import com.zaxxer.hikari.HikariConfig
@@ -70,7 +69,7 @@ private class MongoDbStore(dbUrl: String) : Store {
 
     // TODO Find out why it fails when creating index '_id' with background: true
     private fun <T : Any> repository(name: String, type: KClass<T>, key: KProperty1<T, Int>) =
-        MongoIdRepository(type, mongoCollection(name, database), key, indexOrder = null)
+        MongoIdRepository(type, database.getCollection(name), key, indexOrder = null)
 
     override fun close() { /* Not needed */ }
 

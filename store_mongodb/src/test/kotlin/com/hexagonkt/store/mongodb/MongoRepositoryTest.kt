@@ -14,7 +14,7 @@ import kotlin.reflect.KProperty1
         indexOrder: Int? = 1) =
         MongoIdRepository (
             T::class,
-            mongoCollection(T::class.simpleName ?: error("Error getting type name"), database),
+            database.getCollection(T::class.simpleName ?: error("Error getting type name")),
             key,
             indexOrder
         )

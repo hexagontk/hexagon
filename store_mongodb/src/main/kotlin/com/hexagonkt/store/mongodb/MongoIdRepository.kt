@@ -37,7 +37,7 @@ open class MongoIdRepository<T : Any, K : Any> (
         onLoad: (Document) -> Document = { it }) :
             this (
                 type,
-                mongoCollection(type.simpleName ?: error("Error getting type name"), database),
+                database.getCollection(type.simpleName ?: error("Error getting type name")),
                 key,
                 indexOrder,
                 onStore,

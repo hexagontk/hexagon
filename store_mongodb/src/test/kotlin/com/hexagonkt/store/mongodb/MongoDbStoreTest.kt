@@ -2,6 +2,7 @@ package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.error
 import com.hexagonkt.settings.SettingsManager
+import com.hexagonkt.store.Store
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientURI
 import com.mongodb.async.client.MongoClients
@@ -23,7 +24,7 @@ import java.time.LocalTime
     private val database: String = MongoClientURI(mongodbUrl).database ?: error
     private val db: MongoDatabase =
         MongoClients.create(ConnectionString(mongodbUrl)).getDatabase(database)
-    private val store: MongoDbStore<Company, String> =
+    private val store: Store<Company, String> =
         MongoDbStore(Company::class, Company::id, "companies", db)
 
     fun `New records are stored`() = runBlocking {

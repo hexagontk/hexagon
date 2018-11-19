@@ -7,7 +7,6 @@ import com.mongodb.async.client.MongoDatabase
 import com.mongodb.async.client.MongoCollection
 import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.client.model.Filters.eq
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -32,16 +31,19 @@ class MongoDbStore <T : Any, K : Any>(
 
     private val typedCollection: MongoCollection<Document> = this.database.getCollection(name)
 
-    override fun saveOne(instance: T): Deferred<K> {
+    override suspend fun saveOne(instance: T): K {
         TODO("not implemented")
     }
 
-    override fun saveMany(instances: List<T>): Deferred<Long> {
+    override suspend fun saveMany(instances: List<T>): Long {
         TODO("not implemented")
     }
 
-    override fun drop(): Deferred<Void> {
-        TODO("not implemented")
+    override suspend fun drop(): Unit = suspendCoroutine {
+        typedCollection.drop { _, error ->
+            if (error == null) it.resume(Unit)
+            else it.resumeWithException(error)
+        }
     }
 
     init {

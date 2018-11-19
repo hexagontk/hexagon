@@ -18,9 +18,9 @@ interface Store<T : Any, K : Any> {
 
     suspend fun insertMany(vararg instances: T): ReceiveChannel<K> = insertMany(instances.toList())
 
-    fun saveOne(instance: T): Deferred<K>
+    suspend fun saveOne(instance: T): K
 
-    fun saveMany(instances: List<T>): Deferred<Long> // Returns modified ones inserted + modified
+    suspend fun saveMany(instances: List<T>): Long // Returns modified ones inserted + modified
 
     suspend fun replaceOne(instance: T): Boolean
 
@@ -78,7 +78,7 @@ interface Store<T : Any, K : Any> {
 
     suspend fun count(filter: Map<String, List<*>> = emptyMap()): Long
 
-    fun drop(): Deferred<Void>
+    suspend fun drop()
 
     fun asyncInsertOne(instance: T): Deferred<K> = async { insertOne(instance) }
 

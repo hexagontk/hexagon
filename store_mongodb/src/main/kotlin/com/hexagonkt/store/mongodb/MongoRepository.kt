@@ -28,7 +28,7 @@ open class MongoRepository <T : Any> (
     private val log: Logger = logger()
 
     constructor (type: KClass<T>, database: MongoDatabase) :
-        this(type, mongoCollection(type.simpleName ?: error("Error getting type name"), database))
+        this(type, database.getCollection(type.simpleName ?: error("Error getting type name")))
 
     // TODO Apply to the other MongoCollection's methods to support maps directly
     fun insertOne (document: Map<String, *>) { insertOne(Document(document)) }
