@@ -45,4 +45,3 @@ and `${TEMPLATE_ENGINE}` with: `pebble`
 Follow instructions at: https://github.com/TechEmpower/FrameworkBenchmarks#quick-start-guide-vagrant
 
 And run: `rm -rf ~/FrameworkBenchmarks/results` to clear tests results.
-
