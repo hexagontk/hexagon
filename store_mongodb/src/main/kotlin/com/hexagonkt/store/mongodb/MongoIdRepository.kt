@@ -4,11 +4,13 @@ import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.BulkWriteOptions
+import com.mongodb.client.model.IndexOptions
 import com.mongodb.client.model.Indexes.ascending
 import com.mongodb.client.model.Indexes.descending
 import com.mongodb.client.model.ReplaceOneModel
 import com.mongodb.client.model.ReplaceOptions
 import org.bson.Document
+import org.bson.conversions.Bson
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.KType
@@ -42,25 +44,13 @@ open class MongoIdRepository<T : Any, K : Any> (
                 onLoad
             )
 
-    constructor (
-        type: KClass<T>,
-        key: KProperty1<T, K>,
-        indexOrder: Int? = 1,
-        onStore: (Document) -> Document = { it },
-        onLoad: (Document) -> Document = { it }) :
-            this (
-                type,
-                mongoDatabase(),
-                key,
-                indexOrder,
-                onStore,
-                onLoad
-            )
-
     init {
         if (indexOrder != null)
             createIndex (if(indexOrder == 1) ascending(key.name) else descending(key.name), true)
     }
+
+    private fun createIndex(keys: Bson, unique: Boolean = false, background: Boolean = true): String =
+        createIndex(keys, IndexOptions().unique(unique).background(background))
 
     protected open fun convertKeyName(keyName: String): String = keyName
     protected open fun convertId(id: K): Any = id

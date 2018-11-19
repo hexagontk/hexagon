@@ -4,6 +4,7 @@ import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
+import com.hexagonkt.settings.SettingsManager
 import com.mongodb.client.model.*
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.result.DeleteResult
@@ -17,12 +18,14 @@ import kotlin.reflect.KProperty1
 abstract class RepositoryTest<T : Any, out K : Any> (
     type: KClass<T>, private val key: KProperty1<T, K>) {
 
+    val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String? ?: "mongodb://localhost/test"
+
     private val log: Logger = logger()
 
     private val collection: MongoRepository<T> = createCollection(type)
 
     private fun <T : Any> createCollection (type: KClass<T>): MongoRepository<T> {
-        val repository = MongoRepository(type, mongoDatabase())
+        val repository = MongoRepository(type, mongoDatabase(mongodbUrl))
         setupCollection(repository)
         return repository
     }

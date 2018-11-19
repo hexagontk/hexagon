@@ -1,6 +1,7 @@
 package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.error
+import com.hexagonkt.settings.SettingsManager
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientURI
 import com.mongodb.async.client.MongoClients
@@ -16,6 +17,9 @@ import java.time.LocalTime
  * TODO .
  */
 @Test class MongoDbStoreTest {
+
+    private val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String? ?: "mongodb://localhost/test"
+
     private val database: String = MongoClientURI(mongodbUrl).database ?: error
     private val db: MongoDatabase =
         MongoClients.create(ConnectionString(mongodbUrl)).getDatabase(database)

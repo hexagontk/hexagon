@@ -9,6 +9,7 @@ import java.time.LocalTime
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters.*
 import org.bson.conversions.Bson
+import org.bson.types.ObjectId
 import org.testng.annotations.Test
 
 enum class Department { DESIGN, DEVELOPMENT }
@@ -30,7 +31,7 @@ data class Company(
 )
 
 data class Tag(
-    val id: String = mongoId(),
+    val id: String = ObjectId().toHexString(),
     val name: String
 )
 
