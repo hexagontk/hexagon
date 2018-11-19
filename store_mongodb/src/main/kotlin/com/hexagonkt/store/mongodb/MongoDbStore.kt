@@ -1,21 +1,20 @@
 package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.logger
+import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
-import com.mongodb.async.client.MongoClients.getDefaultCodecRegistry
-import com.mongodb.async.client.MongoCollection
 import com.mongodb.async.client.MongoDatabase
+import com.mongodb.async.client.MongoCollection
 import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.IndexOptions
 import com.mongodb.client.model.Indexes
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.runBlocking
-import org.bson.codecs.configuration.CodecRegistries.fromProviders
-import org.bson.codecs.configuration.CodecRegistries.fromRegistries
 import org.bson.types.ObjectId
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -23,24 +22,29 @@ import kotlin.coroutines.suspendCoroutine
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-/**
- * TODO .
- */
 class MongoDbStore <T : Any, K : Any>(
     override val type: KClass<T>,
     override val key: KProperty1<T, K>,
     override val name: String = type.simpleName ?: error("Invalid name"),
-    database: MongoDatabase,
+    private val database: MongoDatabase,
     private val useObjectId: Boolean = false,
-    indexOrder: Int = 1) : Store<T, K> {
-
-    private val database = database.withCodecRegistry(
-        fromRegistries(getDefaultCodecRegistry(),
-        fromProviders(JacksonCodecProvider(key, useObjectId)))
-    )
+    indexOrder: Int = 1,
+    override val mapper: Mapper<T> = MongoDbMapper(type, key)) : Store<T, K> {
 
     private val typedCollection: MongoCollection<T> =
         this.database.getCollection<T>(name, type.java)
+
+    override fun saveOne(instance: T): Deferred<K> {
+        TODO("not implemented")
+    }
+
+    override fun saveMany(instances: List<T>): Deferred<Long> {
+        TODO("not implemented")
+    }
+
+    override fun drop(): Deferred<Void> {
+        TODO("not implemented")
+    }
 
     init {
         if (useObjectId)

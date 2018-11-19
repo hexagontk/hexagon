@@ -25,20 +25,6 @@ fun mongoCollection (
 
 fun mongoId(): String = ObjectId().toHexString()
 
-inline fun <reified T : Any> mongoRepository(database: MongoDatabase = mongoDatabase()) =
-    MongoRepository(
-        T::class,
-        mongoCollection(T::class.simpleName ?: error("Error fetching class name"), database)
-    )
-
-inline fun <reified T : Any> mongoRepository(
-    database: MongoDatabase = mongoDatabase(),
-    setup: MongoRepository<T>.() -> Unit): MongoRepository<T> =
-        mongoRepository<T>(database).let {
-            it.setup()
-            it
-        }
-
 inline fun <reified T : Any, reified K : Any> mongoIdRepository(
     key: KProperty1<T, K>,
     database: MongoDatabase = mongoDatabase(),
@@ -49,16 +35,6 @@ inline fun <reified T : Any, reified K : Any> mongoIdRepository(
             key,
             indexOrder
         )
-
-inline fun <reified T : Any, reified K : Any> mongoIdRepository(
-    key: KProperty1<T, K>,
-    database: MongoDatabase = mongoDatabase(),
-    indexOrder: Int? = 1,
-    setup: MongoIdRepository<T, K>.() -> Unit) =
-        mongoIdRepository (key, database, indexOrder).let {
-            it.setup()
-            it
-        }
 
 // TODO Check that parameter is simple type... Ie: fails with LocalDate
 infix fun <T> String.eq(value: T): Bson = Filters.eq(this, value)

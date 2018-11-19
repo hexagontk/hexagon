@@ -8,7 +8,6 @@ import com.mongodb.client.model.Indexes.ascending
 import com.mongodb.client.model.Indexes.descending
 import com.mongodb.client.model.ReplaceOneModel
 import com.mongodb.client.model.ReplaceOptions
-import com.mongodb.client.model.UpdateOptions
 import org.bson.Document
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
