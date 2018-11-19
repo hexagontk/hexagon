@@ -8,8 +8,8 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
 class MongoDbMapper<T : Any, K : Any>(
-    val type: KClass<T>,
-    val key: KProperty1<T, K>
+    private val type: KClass<T>,
+    private val key: KProperty1<T, K>
 ): Mapper<T> {
 
 //    private val fieldTypes: Map<String, Class<*>> = type.declaredMemberProperties

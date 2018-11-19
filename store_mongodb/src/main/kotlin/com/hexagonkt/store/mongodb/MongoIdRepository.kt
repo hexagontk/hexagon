@@ -19,7 +19,7 @@ import kotlin.reflect.jvm.javaType
 open class MongoIdRepository<T : Any, K : Any> (
     type: KClass<T>,
     collection: MongoCollection<Document>,
-    val key: KProperty1<T, K>,
+    private val key: KProperty1<T, K>,
     indexOrder: Int? = 1,
     onStore: (Document) -> Document = { it },
     onLoad: (Document) -> Document = { it }) :

@@ -6,7 +6,6 @@ import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Indexes.*
 import org.bson.Document
 import org.bson.conversions.Bson
 import kotlin.reflect.KProperty1
@@ -35,6 +34,3 @@ infix fun <T> KProperty1<*, *>.gte(value: T): Bson = this.name gte value
 infix fun <T> KProperty1<*, *>.gt(value: T): Bson = this.name gt value
 infix fun <T> KProperty1<*, *>.lte(value: T): Bson = this.name lte value
 infix fun <T> KProperty1<*, *>.lt(value: T): Bson = this.name lt value
-
-fun ascending(vararg fields: KProperty1<*, *>): Bson = ascending(fields.map { it.name })
-fun descending(vararg fields: KProperty1<*, *>): Bson = descending(fields.map { it.name })
