@@ -7,8 +7,6 @@ import com.mongodb.async.client.MongoDatabase
 import com.mongodb.async.client.MongoCollection
 import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.client.model.Filters.eq
-import com.mongodb.client.model.IndexOptions
-import com.mongodb.client.model.Indexes
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
