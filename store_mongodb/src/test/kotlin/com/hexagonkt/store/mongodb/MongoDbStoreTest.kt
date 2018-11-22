@@ -5,8 +5,8 @@ import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.Store
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientURI
-import com.mongodb.async.client.MongoClients
-import com.mongodb.async.client.MongoDatabase
+import com.mongodb.client.MongoClients
+import com.mongodb.client.MongoDatabase
 import kotlinx.coroutines.runBlocking
 import org.bson.types.ObjectId
 import org.testng.annotations.Test
@@ -41,13 +41,13 @@ import java.time.LocalTime
             )
         )
 
-        store.asyncInsertOne(company).await()
-        val storedCompany = store.asyncFindOne(id).await()
+        store.insertOne(company)
+        val storedCompany = store.findOne(id)
         assert(storedCompany == company)
 
         val changedCompany = company.copy(web = URL("http://change.example.org"))
-        assert(store.asyncReplaceOne(changedCompany).await())
-        val storedModifiedCompany = store.asyncFindOne(id).await()
+        assert(store.replaceOne(changedCompany))
+        val storedModifiedCompany = store.findOne(id)
         assert(storedModifiedCompany == changedCompany)
     }
 
