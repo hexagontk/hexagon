@@ -3,12 +3,9 @@ package com.hexagonkt.store.mongodb
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
-import com.mongodb.client.model.BulkWriteOptions
-import com.mongodb.client.model.IndexOptions
+import com.mongodb.client.model.*
 import com.mongodb.client.model.Indexes.ascending
 import com.mongodb.client.model.Indexes.descending
-import com.mongodb.client.model.ReplaceOneModel
-import com.mongodb.client.model.ReplaceOptions
 import org.bson.Document
 import org.bson.conversions.Bson
 import kotlin.reflect.KClass
@@ -127,4 +124,8 @@ open class MongoIdRepository<T : Any, K : Any> (
         "float" -> Float::class
         else -> Class.forName(this.javaType.typeName).kotlin
     }
+
+    // TODO Check that parameter is simple type... Ie: fails with LocalDate
+    infix fun <T> String.eq(value: T): Bson = Filters.eq(this, value)
+    infix fun <T> String.isIn(value: Collection<T>): Bson = Filters.`in`(this, value)
 }

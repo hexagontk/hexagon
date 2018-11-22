@@ -12,10 +12,6 @@ class MongoDbMapper<T : Any, K : Any>(
     private val key: KProperty1<T, K>
 ): Mapper<T> {
 
-//    private val fieldTypes: Map<String, Class<*>> = type.declaredMemberProperties
-//        .map { it.name to it.returnType.jvmErasure.java }
-//        .toMap()
-
     override fun toStore(instance: T): Map<String, Any?> =
         (instance.convertToMap() + ("_id" to key.get(instance)) - (key.name))
             .mapKeys { it.key.toString() }

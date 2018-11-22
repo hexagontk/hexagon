@@ -1,5 +1,9 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.error
+import com.mongodb.MongoClient
+import com.mongodb.MongoClientURI
+import com.mongodb.client.MongoDatabase
 import java.net.URL
 import java.nio.ByteBuffer
 import java.time.LocalDate
@@ -30,3 +34,7 @@ data class Tag(
     val id: String = ObjectId().toHexString(),
     val name: String
 )
+
+fun mongoDatabase (uri: String): MongoDatabase = MongoClientURI(uri).let {
+    MongoClient(it).getDatabase(it.database ?: error)
+}
