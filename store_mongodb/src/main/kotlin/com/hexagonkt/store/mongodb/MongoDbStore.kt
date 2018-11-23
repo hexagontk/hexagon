@@ -1,22 +1,13 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.logger
 import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
-import com.mongodb.async.client.MongoDatabase
-import com.mongodb.async.client.MongoCollection
+import com.mongodb.client.MongoDatabase
+import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.client.model.Filters.eq
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ReceiveChannel
-import kotlinx.coroutines.channels.produce
-import kotlinx.coroutines.runBlocking
 import org.bson.Document
 import org.bson.types.ObjectId
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -31,27 +22,21 @@ class MongoDbStore <T : Any, K : Any>(
 
     private val typedCollection: MongoCollection<Document> = this.database.getCollection(name)
 
-    override suspend fun saveOne(instance: T): K {
+    override fun saveOne(instance: T): K {
         TODO("not implemented")
     }
 
-    override suspend fun saveMany(instances: List<T>): Long {
+    override fun saveMany(instances: List<T>): Long {
         TODO("not implemented")
     }
 
-    override suspend fun drop(): Unit = suspendCoroutine {
-        typedCollection.drop { _, error ->
-            if (error == null) it.resume(Unit)
-            else it.resumeWithException(error)
-        }
+    override fun drop() {
+        typedCollection.drop()
     }
 
     init {
         if (useObjectId)
-            // TODO Make it sync
-            database.createCollection(name, CreateCollectionOptions()) { _, _ ->
-               logger.info { "Collection without auto index created for: $name" }
-            }
+            database.createCollection(name, CreateCollectionOptions())
 
 //        val index =
 //            if (indexOrder == 1) Indexes.ascending(key.name)
@@ -62,93 +47,79 @@ class MongoDbStore <T : Any, K : Any>(
 //        }
     }
 
-    override suspend fun insertOne(instance: T): K = suspendCoroutine {
-        typedCollection.insertOne(Document(mapper.toStore(instance))) { _, error ->
-            if (error == null) it.resume(key.get(instance))
-            else it.resumeWithException(error)
+    override fun insertOne(instance: T): K {
+        typedCollection.insertOne(Document(mapper.toStore(instance)))
+        return key.get(instance)
+    }
+
+    override fun insertMany(instances: List<T>): List<K> {
+
+        return if (!instances.isEmpty()) {
+            val map = instances.map { instance -> Document(mapper.toStore(instance)) }
+            typedCollection.insertMany(map)
+            return instances.map { key.get(it) }
+        }
+        else {
+            emptyList()
         }
     }
 
-    override suspend fun insertMany(instances: List<T>): ReceiveChannel<K> = GlobalScope.produce {
-
-        if (!instances.isEmpty())
-            suspendCoroutine<Unit> {
-                val map = instances.map { instance -> Document(mapper.toStore(instance)) }
-                typedCollection.insertMany(map) { _, error ->
-                    if (error == null) {
-                        runBlocking {
-                            instances.forEach { instance -> send(key.get(instance))}
-                        }
-                        it.resume(Unit)
-                    }
-                    else it.resumeWithException(error)
-                }
-            }
-    }
-
-    override suspend fun replaceOne(instance: T): Boolean = suspendCoroutine {
+    override fun replaceOne(instance: T): Boolean {
         val document = Document(mapper.toStore(instance))
 //        typedCollection.replaceOne(eq(key.name, getKey(instance)), document) { result, error ->
-        typedCollection.replaceOne(eq("_id", getKey(instance)), document) { result, error ->
-            if (error == null) it.resume(result.modifiedCount == 1L)
-            else it.resumeWithException(error)
-        }
+        val result = typedCollection.replaceOne(eq("_id", getKey(instance)), document)
+        return result.modifiedCount == 1L
     }
 
-    override suspend fun replaceMany(instances: List<T>): ReceiveChannel<T> = GlobalScope.produce {
-        instances.map { if (replaceOne(it)) send(it) }
-    }
+    override fun replaceMany(instances: List<T>): List<T> =
+        instances.mapNotNull { if (replaceOne(it)) it else null }
 
-    override suspend fun updateOne(key: K, updates: Map<String, *>): Boolean = suspendCoroutine {
- //        return updateOne(key, createUpdate(updates))
+    override fun updateOne(key: K, updates: Map<String, *>): Boolean {
         TODO("not implemented")
     }
 
-    override suspend fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long {
+    override fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long {
         TODO("not implemented")
     }
 
-    override suspend fun deleteOne(id: K): Boolean {
+    override fun deleteOne(id: K): Boolean {
         TODO("not implemented")
     }
 
-    override suspend fun deleteMany(filter: Map<String, List<*>>): Long {
+    override fun deleteMany(filter: Map<String, List<*>>): Long {
         TODO("not implemented")
     }
 
-    override suspend fun findOne(key: K): T? = suspendCoroutine {
-//        typedCollection.find (eq (this.key.name, convertKey (key))).first { result, error ->
+    override fun findOne(key: K): T? {
         // TODO Handle null in mapper.fromStore
-        typedCollection.find (eq ("_id", convertKey (key))).first { result, error ->
-            if (error == null) it.resume(mapper.fromStore(result))
-            else it.resumeWithException(error)
-        }
+        val result = typedCollection.find (eq ("_id", convertKey (key))).first()
+        return mapper.fromStore(result as Map<String, Any?>)
     }
 
-    override suspend fun findOne(key: K, fields: List<String>): Map<String, *> {
+    override fun findOne(key: K, fields: List<String>): Map<String, *> {
         TODO("not implemented")
     }
 
-    override suspend fun findMany(
+    override fun findMany(
         filter: Map<String, List<*>>,
         limit: Int?,
         skip: Int?,
-        sort: Map<String, Boolean>): Channel<T> {
+        sort: Map<String, Boolean>): List<T> {
 
         TODO("not implemented")
     }
 
-    override suspend fun findMany(
+    override fun findMany(
         filter: Map<String, List<*>>,
         fields: List<String>,
         limit: Int?,
         skip: Int?,
-        sort: Map<String, Boolean>): Channel<Map<String, *>> {
+        sort: Map<String, Boolean>): List<Map<String, *>> {
 
         TODO("not implemented")
     }
 
-    override suspend fun count(filter: Map<String, List<*>>): Long {
+    override fun count(filter: Map<String, List<*>>): Long {
         TODO("not implemented")
     }
 

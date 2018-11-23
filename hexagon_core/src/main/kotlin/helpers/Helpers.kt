@@ -108,14 +108,3 @@ fun <V> notEmpty(it: V): Boolean {
         else -> true
     }
 }
-
-// KOTLIN //////////////////////////////////////////////////////////////////////////////////////////
-fun <T> sync(
-    context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> T) =
-        runBlocking(context, block)
-
-fun <T> async(
-    context: CoroutineContext = Dispatchers.Default,
-    coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
-    block: suspend CoroutineScope.() -> T) =
-        GlobalScope.async(context, coroutineStart, block)

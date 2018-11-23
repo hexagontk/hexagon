@@ -5,11 +5,11 @@ import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.Store
 import com.mongodb.ConnectionString
 import com.mongodb.MongoClientURI
-import com.mongodb.async.client.MongoClients
-import com.mongodb.async.client.MongoDatabase
-import kotlinx.coroutines.runBlocking
+import com.mongodb.client.MongoClients
+import com.mongodb.client.MongoDatabase
 import org.bson.types.ObjectId
 import org.testng.annotations.Test
+import sun.java2d.opengl.OGLRenderQueue.sync
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalTime
@@ -27,7 +27,23 @@ import java.time.LocalTime
     private val store: Store<Company, String> =
         MongoDbStore(Company::class, Company::id, "companies", db)
 
-    fun `New records are stored`() = runBlocking {
+    private fun createTestEntities() = (0..9)
+        .map { ObjectId().toHexString() }
+        .map {
+            Company(
+                id = it,
+                foundation = LocalDate.of(2014, 1, 25),
+                closeTime = LocalTime.of(11, 42),
+                openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+                web = URL("http://$it.example.org"),
+                people = setOf(
+                    Person(name = "John"),
+                    Person(name = "Mike")
+                )
+            )
+        }
+
+    @Test fun `New records are stored`() {
         val id = ObjectId().toHexString()
         val company = Company(
             id = id,
@@ -41,17 +57,17 @@ import java.time.LocalTime
             )
         )
 
-        store.asyncInsertOne(company).await()
-        val storedCompany = store.asyncFindOne(id).await()
+        store.insertOne(company)
+        val storedCompany = store.findOne(id)
         assert(storedCompany == company)
 
         val changedCompany = company.copy(web = URL("http://change.example.org"))
-        assert(store.asyncReplaceOne(changedCompany).await())
-        val storedModifiedCompany = store.asyncFindOne(id).await()
+        assert(store.replaceOne(changedCompany))
+        val storedModifiedCompany = store.findOne(id)
         assert(storedModifiedCompany == changedCompany)
     }
 
-    fun `Many records are stored`() = runBlocking {
+    @Test fun `Many records are stored`() {
         val companies = (0..9)
             .map { ObjectId().toHexString() }
             .map {
@@ -72,5 +88,41 @@ import java.time.LocalTime
 
         for (key in keys)
             println(key)
+    }
+
+    @Test(enabled = false) fun `Entities are stored`() {
+        val testEntities = createTestEntities()
+        store.drop()
+
+        store.saveMany(testEntities)
+
+        testEntities.forEach {
+            store.saveOne(it)
+        }
+
+        // TODO Fix this!
+//        store.saveMany(testEntities).await()
+    }
+
+    @Test fun `Insert one record returns the proper key`() {
+        // TODO Do with MappedClass
+        val id = ObjectId().toHexString()
+        val mappedClass = Company(
+            id = id,
+            foundation = LocalDate.of(2014, 1, 25),
+            closeTime = LocalTime.of(11, 42),
+            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+            web = URL("http://example.org"),
+            people = setOf(
+                Person(name = "John"),
+                Person(name = "Mike")
+            )
+        )
+
+        store.drop()
+        val await = store.insertOne(mappedClass)
+        val storedClass = store.findOne(await)
+        assert(await.isNotBlank())
+        assert(mappedClass == storedClass)
     }
 }
