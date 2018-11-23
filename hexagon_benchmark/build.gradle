@@ -31,7 +31,6 @@ dependencies {
     compile project(':server_jetty')
     compile project(':templates_pebble')
 
-    compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
