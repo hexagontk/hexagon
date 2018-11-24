@@ -8,6 +8,7 @@ import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
 import org.bson.types.ObjectId
+import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.net.URL
 import java.time.LocalDate
@@ -41,6 +42,10 @@ import java.time.LocalTime
                 )
             )
         }
+
+    @BeforeClass fun `Drop collection`() {
+        store.drop()
+    }
 
     @Test fun `New records are stored`() {
         val id = ObjectId().toHexString()
@@ -83,7 +88,7 @@ import java.time.LocalTime
                 )
             }
 
-        val keys = store.insertMany(companies)
+        val keys = store.insertMany(*companies.toTypedArray())
 
         for (key in keys)
             println(key)
