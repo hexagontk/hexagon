@@ -1,11 +1,15 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.store.IndexOrder
+import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.CreateCollectionOptions
 import com.mongodb.client.model.Filters.eq
+import com.mongodb.client.model.IndexOptions
+import com.mongodb.client.model.Indexes
 import org.bson.Document
 import org.bson.types.ObjectId
 import kotlin.reflect.KClass
@@ -17,7 +21,7 @@ class MongoDbStore <T : Any, K : Any>(
     override val name: String = type.simpleName ?: error("Invalid name"),
     private val database: MongoDatabase,
     private val useObjectId: Boolean = false,
-    indexOrder: Int = 1,
+    indexOrder: IndexOrder = ASCENDING,
     override val mapper: Mapper<T> = MongoDbMapper(type, key)) : Store<T, K> {
 
     private val collection: MongoCollection<Document> = this.database.getCollection(name)
@@ -26,13 +30,17 @@ class MongoDbStore <T : Any, K : Any>(
         if (useObjectId)
             database.createCollection(name, CreateCollectionOptions())
 
-//        val index =
-//            if (indexOrder == 1) Indexes.ascending(key.name)
-//            else Indexes.descending(key.name)
+//        createIndex(true, key.name to indexOrder)
+    }
 
-//        typedCollection.createIndex(index, IndexOptions().unique(true).background(true)) { _, _ ->
-//            logger.info { "Index created for: $name with field: ${key.name}" }
-//        }
+    override fun createIndex(unique: Boolean, fields: List<Pair<String, IndexOrder>>): String {
+        val indexes = fields.map {
+            if (it.second == ASCENDING) Indexes.ascending(it.first)
+            else Indexes.descending(it.first)
+        }
+
+        val compoundIndex = Indexes.compoundIndex(indexes)
+        return collection.createIndex(compoundIndex, IndexOptions().unique(unique).background(true))
     }
 
     override fun insertOne(instance: T): K {

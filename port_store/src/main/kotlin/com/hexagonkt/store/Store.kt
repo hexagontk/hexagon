@@ -9,6 +9,11 @@ interface Store<T : Any, K : Any> {
     val name: String
     val mapper: Mapper<T>
 
+    fun createIndex(unique: Boolean, fields: List<Pair<String, IndexOrder>>): String
+
+    fun createIndex(unique: Boolean, vararg fields: Pair<String, IndexOrder>): String =
+        createIndex(unique, fields.toList())
+
     fun insertOne(instance: T): K
 
     fun insertMany(instances: List<T>): List<K>
