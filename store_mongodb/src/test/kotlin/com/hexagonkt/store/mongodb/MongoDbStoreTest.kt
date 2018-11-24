@@ -9,7 +9,6 @@ import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
 import org.bson.types.ObjectId
 import org.testng.annotations.Test
-import sun.java2d.opengl.OGLRenderQueue.sync
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalTime

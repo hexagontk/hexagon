@@ -20,19 +20,7 @@ class MongoDbStore <T : Any, K : Any>(
     indexOrder: Int = 1,
     override val mapper: Mapper<T> = MongoDbMapper(type, key)) : Store<T, K> {
 
-    private val typedCollection: MongoCollection<Document> = this.database.getCollection(name)
-
-    override fun saveOne(instance: T): K {
-        TODO("not implemented")
-    }
-
-    override fun saveMany(instances: List<T>): Long {
-        TODO("not implemented")
-    }
-
-    override fun drop() {
-        typedCollection.drop()
-    }
+    private val collection: MongoCollection<Document> = this.database.getCollection(name)
 
     init {
         if (useObjectId)
@@ -48,15 +36,15 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override fun insertOne(instance: T): K {
-        typedCollection.insertOne(Document(mapper.toStore(instance)))
+        collection.insertOne(map(instance))
         return key.get(instance)
     }
 
     override fun insertMany(instances: List<T>): List<K> {
 
         return if (!instances.isEmpty()) {
-            val map = instances.map { instance -> Document(mapper.toStore(instance)) }
-            typedCollection.insertMany(map)
+            val map = instances.map { instance -> map(instance) }
+            collection.insertMany(map)
             return instances.map { key.get(it) }
         }
         else {
@@ -64,10 +52,18 @@ class MongoDbStore <T : Any, K : Any>(
         }
     }
 
+    override fun saveOne(instance: T): K {
+        TODO("not implemented")
+    }
+
+    override fun saveMany(instances: List<T>): Long {
+        TODO("not implemented")
+    }
+
     override fun replaceOne(instance: T): Boolean {
         val document = Document(mapper.toStore(instance))
 //        typedCollection.replaceOne(eq(key.name, getKey(instance)), document) { result, error ->
-        val result = typedCollection.replaceOne(eq("_id", getKey(instance)), document)
+        val result = collection.replaceOne(eq("_id", getKey(instance)), document)
         return result.modifiedCount == 1L
     }
 
@@ -92,7 +88,7 @@ class MongoDbStore <T : Any, K : Any>(
 
     override fun findOne(key: K): T? {
         // TODO Handle null in mapper.fromStore
-        val result = typedCollection.find (eq ("_id", convertKey (key))).first()
+        val result = collection.find (eq ("_id", convertKey (key))).first()
         return mapper.fromStore(result as Map<String, Any?>)
     }
 
@@ -123,10 +119,16 @@ class MongoDbStore <T : Any, K : Any>(
         TODO("not implemented")
     }
 
+    override fun drop() {
+        collection.drop()
+    }
+
     private fun convertKey(instance: K): Any =
         if (useObjectId) ObjectId(instance.toString()) else instance
 
     private fun getKey(instance: T): Any = key.get(instance).let {
         if (useObjectId) ObjectId(it.toString()) else it
     }
+
+    private fun map(instance: T): Document = Document(mapper.toStore(instance))
 }
