@@ -23,5 +23,5 @@
     <appender-ref ref="file" />
   </root>
 
-  <logger name="BENCHMARK_LOGGER" level="info" />
+  <logger name="com.hexagonkt.server.Server" level="info" />
 </configuration>
