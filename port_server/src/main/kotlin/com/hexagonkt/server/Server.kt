@@ -49,6 +49,8 @@ data class Server (
     val runtimePort
         get() = if (started()) serverEngine.runtimePort() else error("Server is not running")
 
+    val portName: String = serverEngine.javaClass.simpleName
+
     fun started (): Boolean = serverEngine.started()
 
     fun run() {
@@ -80,6 +82,7 @@ data class Server (
 
         val information = """
             SERVICE:     $serverName
+            SERVER TYPE: $portName
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
             Java $jvmVersion [$jvmName]
