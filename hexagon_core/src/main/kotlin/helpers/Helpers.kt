@@ -1,9 +1,5 @@
 package com.hexagonkt.helpers
 
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
-
 import java.util.*
 
 /** Default logger when you are lazy to declare one. */
