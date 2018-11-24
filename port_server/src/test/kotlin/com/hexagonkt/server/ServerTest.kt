@@ -9,6 +9,7 @@ import java.net.InetAddress.getByName as address
         val server = Server(VoidAdapter, "name", address("localhost"), 9999, router {})
 
         assert(server.serverName == "name")
+        assert(server.portName == VoidAdapter.javaClass.simpleName)
         assert(server.bindAddress == address("localhost"))
         assert(server.bindPort == 9999)
     }

@@ -1,14 +1,14 @@
 
 # What is Hexagon
 
-Hexagon is a microservices library written in [Kotlin] which pursose is to ease the building of
+Hexagon is a microservices library written in [Kotlin] which purpose is to ease the building of
 services (Web applications, APIs or queue consumers) that run inside cloud platforms.
 
-The project is developed as a [library][frameworks] that you call as oposed to [frameworks] that 
+The project is developed as a [library][frameworks] that you call as opposed to [frameworks] that 
 call your code inside them. Being a library means that you won't need special build settings or
 tools.
 
-It is meant to provide abstraction from underlying technoligies (data storage, HTTP server 
+It is meant to provide abstraction from underlying technologies (data storage, HTTP server 
 engines, etc.) to be able to change them with minimum impact.
 
 It only supports [Kotlin], Java is not a targeted language for the framework.
@@ -24,7 +24,7 @@ TODO Mounting routers you can accomplish this
 
 The Hexagon is a multiple module project. There are several kind of modules:
 
-* The ones that provide a single functionality (which doesn't depend on different implementations).
+* The ones that provide a single functionality (which does not depend on different implementations).
   Like Scheduling or Core.
 * Modules that define a "Port": An interface to use a feature that may have different 
   implementations.

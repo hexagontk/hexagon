@@ -47,7 +47,19 @@ internal object JacksonHelper {
             .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)
             .addSerializer(ClosedRange::class.java, ClosedRangeSerializer)
             .addDeserializer(ClosedRange::class.java, ClosedRangeDeserializer())
+            .addSerializer(Float::class.java, FloatSerializer)
+            .addDeserializer(Float::class.java, FloatDeserializer)
         )
+
+    private object FloatSerializer : JsonSerializer<Float>() {
+        override fun serialize(value: Float, gen: JsonGenerator, serializers: SerializerProvider) {
+            gen.writeNumber(value.toBigDecimal().toDouble()) // BigDecimal needed for good rounding
+        }
+    }
+
+    private object FloatDeserializer : JsonDeserializer<Float>() {
+        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Float = p.floatValue
+    }
 
     private object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
         override fun serialize(

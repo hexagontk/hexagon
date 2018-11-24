@@ -7,7 +7,6 @@ dependencies {
     compile project(':hexagon_core')
 
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
 test {

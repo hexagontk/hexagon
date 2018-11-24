@@ -18,7 +18,7 @@ val server: Server = server(JettyServletAdapter(), SettingsManager.settings) {
 /**
  * Start the service from the command line.
  */
-fun main(vararg args: String) {
+fun main() {
     server.run()
 }
 

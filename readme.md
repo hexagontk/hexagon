@@ -70,6 +70,9 @@ What are NOT project goals:
 
 ## Quick Start
 
+You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
+from scratch following these steps:
+
 1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
 2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
 3. Add the dependency:
@@ -77,7 +80,7 @@ What are NOT project goals:
   * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.23.7")
+    compile ("com.hexagonkt:server_jetty:0.23.8")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
@@ -86,7 +89,7 @@ What are NOT project goals:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>server_jetty</artifactId>
-      <version>0.23.7</version>
+      <version>0.23.8</version>
     </dependency>
     ```
 
@@ -95,7 +98,7 @@ What are NOT project goals:
     ```kotlin
     import com.hexagonkt.server.jetty.serve
 
-    fun main(vararg args: String) {
+    fun main() {
         serve {
             get("/hello/{name}") { "Hello ${request["name"]}!" }
         }
@@ -106,6 +109,8 @@ What are NOT project goals:
 
 You can read more details reading the [Quick Start] page, or checking the [guides].
 
+[Gradle Starter]: https://github.com/hexagonkt/gradle_starter
+[Maven Starter]: https://github.com/hexagonkt/maven_starter
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter

@@ -12,7 +12,6 @@ dependencies {
     testCompile (project(':port_server').sourceSets.test.output)
 
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
 test {

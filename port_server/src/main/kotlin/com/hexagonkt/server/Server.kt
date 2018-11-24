@@ -35,7 +35,7 @@ data class Server (
         internal const val DEFAULT_PORT = 2010
     }
 
-    private val log: Logger = logger()
+    private val log: Logger = Logger(this)
 
     constructor(serverEngine: ServerPort, settings: Map<String, *>, router: Router = Router()) :
         this (
@@ -48,6 +48,8 @@ data class Server (
 
     val runtimePort
         get() = if (started()) serverEngine.runtimePort() else error("Server is not running")
+
+    val portName: String = serverEngine.javaClass.simpleName
 
     fun started (): Boolean = serverEngine.started()
 
@@ -80,6 +82,7 @@ data class Server (
 
         val information = """
             SERVICE:     $serverName
+            SERVER TYPE: $portName
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
             Java $jvmVersion [$jvmName]

@@ -47,7 +47,7 @@ class RabbitMqClient(
         }
     }
 
-    private val log: Logger = logger()
+    private val log: Logger = Logger(this)
 
     @Volatile private var count: Int = 0
     private val threadPool = newFixedThreadPool(poolSize) { Thread(it, "rabbitmq-" + count++) }

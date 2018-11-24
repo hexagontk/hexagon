@@ -1,6 +1,7 @@
 
 version: '3'
 
+# TODO bindPort is not replaced!
 services:
   service:
     build:

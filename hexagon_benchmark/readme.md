@@ -6,8 +6,8 @@ development platforms. The test utilizes Hexagon routes, serialization and datab
 
 ## Tests
 
-* [Hexagon Web](/src/main/java/com/hexagonkt/Benchmark.kt)
-* [Hexagon Storage](/src/main/java/com/hexagonkt/BenchmarkStorage.kt)
+* [Hexagon Web](/src/main/kotlin/Benchmark.kt)
+* [Hexagon Storage](/src/main/kotlin/BenchmarkStorage.kt)
 
 ## Infrastructure Software Versions
 
@@ -42,6 +42,6 @@ and `${TEMPLATE_ENGINE}` with: `pebble`
 
 ## Run inside vagrant
 
-    rm -rf ~/FrameworkBenchmarks/results
-    ~/FrameworkBenchmarks/toolset/run-tests.py --mode verify --test hexagon
-    ~/FrameworkBenchmarks/toolset/run-tests.py --mode verify --test hexagon-resin
+Follow instructions at: https://github.com/TechEmpower/FrameworkBenchmarks#quick-start-guide-vagrant
+
+And run: `rm -rf ~/FrameworkBenchmarks/results` to clear tests results.

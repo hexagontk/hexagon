@@ -31,7 +31,6 @@ dependencies {
     compile project(':server_jetty')
     compile project(':templates_pebble')
 
-    compile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     compile ("com.zaxxer:HikariCP:$hikariVersion")
     compile ("org.postgresql:postgresql:$postgresqlVersion")
 
@@ -45,13 +44,12 @@ test {
     useTestNG ()
 }
 
-task tfb(dependsOn: [ 'benchmarkCode', 'benchmarkConfig', 'setupScripts' ])
-
-task copyTfb(type: Copy) {
+task tfb(type: Copy, dependsOn: [ 'benchmarkConfig', 'setupDockerfiles' ]) {
     from projectDir
     include 'src/**', 'tfb.gradle', 'readme.md'
     into tfbBuildDir
     rename 'tfb.gradle', 'build.gradle'
+    rename 'readme.md', 'README.md'
 }
 
 task gradleSettings(type: WriteProperties) {
@@ -63,6 +61,7 @@ task gradleSettings(type: WriteProperties) {
 
         hexagonVersion : rootProject.version,
         kotlinVersion : kotlinVersion,
+        kotlinCoroutinesVersion : kotlinCoroutinesVersion,
         logbackVersion : logbackVersion,
 
         hikariVersion : hikariVersion,
@@ -86,7 +85,7 @@ task benchmarkConfig {
             final String database = it[1]
             final String databaseEngine = database.toLowerCase()
             final String name = server == servers.first () && database == databases.first ()?
-                'default' : server + '_' + database
+                'default' : server + '-' + database
             final int port = server == 'Resin'? 8080 : 9090
 
             testsMap[name.toLowerCase()] = [
@@ -112,7 +111,6 @@ task benchmarkConfig {
                 display_name : "Hexagon $server $database",
                 notes : 'http://hexagonkt.com',
 
-                setup_file : "setup_${server.toLowerCase ()}_$databaseEngine",
                 versus : 'servlet'
             ]
         }
@@ -125,49 +123,37 @@ task benchmarkConfig {
         final String json = JsonOutput.toJson(config)
         final File file = file("$tfbBuildDir/benchmark_config.json")
 
+        mkdir (tfbBuildDir)
         file.createNewFile()
         file.text = JsonOutput.prettyPrint(json)
     }
 }
 
-task setupScripts {
+task setupDockerfiles {
     doLast {
         tests.collect { it as List<List<String>> }.forEach { final List<String> row ->
-            String server = row[0].toLowerCase()
-            String database = row[1].toLowerCase()
-            File file = file("$tfbBuildDir/setup_${server}_${database}.sh")
+            final String server = row[0].toLowerCase()
+            final String database = row[1].toLowerCase()
+            final String name = row[0] == servers.first () && row[1] == databases.first ()?
+                'hexagon' : "hexagon-${server}-${database}"
+            final File file = file("$tfbBuildDir/${name}.dockerfile")
+
             file.createNewFile()
-            String command = server == "resin"?
-                """
-                rm -rf \$RESIN_HOME/webapps/*
-                cp build/libs/ROOT.war \$RESIN_HOME/webapps
-                resinctl start
-                """:
-                'nohup build/install/hexagon/bin/hexagon &'
+
             file.text = """
-                #!/bin/bash
-
-                fw_depends java $database
-
-                ./gradlew -x test
-                export WEBENGINE='$server'
-                $command
+                FROM gradle:4.10.2-jdk11
+                USER root
+                WORKDIR /hexagon
+                COPY src src
+                COPY build.gradle build.gradle
+                COPY gradle.properties gradle.properties
+                COPY settings.gradle settings.gradle
+                RUN gradle --quiet --exclude-task test
+                ENV DBSTORE $database
+                ENV ${database.toUpperCase ()}_DB_HOST tfb-database
+                ENV WEBENGINE jetty
+                CMD ["build/install/hexagon/bin/hexagon"]
             """.stripIndent ()
         }
-    }
-}
-
-task benchmarkCode(dependsOn: [ 'copyTfb', 'gradleSettings' ]) {
-    doLast {
-        List<String> extensions = [ 'kt', 'html', 'properties', 'xml', 'yaml', 'yml', 'gradle' ]
-        String sources = fileTree (dir: tfbBuildDir, includes: extensions.collect { "**/*.$it" })
-            .filter { it.file }
-            .collect { './hexagon' + it.path.substring (tfbBuildDir.length()) }
-            .sort ()
-            .join ("\n")
-
-        File file = file("$tfbBuildDir/source_code")
-        file.createNewFile()
-        file.text = sources
     }
 }

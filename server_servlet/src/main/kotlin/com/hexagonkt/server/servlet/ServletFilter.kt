@@ -3,7 +3,6 @@ package com.hexagonkt.server.servlet
 import com.hexagonkt.HttpMethod
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.server.*
 import com.hexagonkt.server.FilterOrder.AFTER
@@ -23,7 +22,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
      */
     private class PassException: RuntimeException ()
 
-    private val log: Logger = logger()
+    private val log: Logger = Logger(this)
 
     private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
     private val baseExceptionHandler: ExceptionCallback =

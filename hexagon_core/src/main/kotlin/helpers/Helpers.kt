@@ -1,15 +1,9 @@
 package com.hexagonkt.helpers
 
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
-
 import java.util.*
 
 /** Default logger when you are lazy to declare one. */
 val logger: Logger = Logger(System::class)
-
-fun Any.logger(): Logger = Logger(this::class)
 
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -108,14 +102,3 @@ fun <V> notEmpty(it: V): Boolean {
         else -> true
     }
 }
-
-// KOTLIN //////////////////////////////////////////////////////////////////////////////////////////
-fun <T> sync(
-    context: CoroutineContext = EmptyCoroutineContext, block: suspend CoroutineScope.() -> T) =
-        runBlocking(context, block)
-
-fun <T> async(
-    context: CoroutineContext = Dispatchers.Default,
-    coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
-    block: suspend CoroutineScope.() -> T) =
-        GlobalScope.async(context, coroutineStart, block)

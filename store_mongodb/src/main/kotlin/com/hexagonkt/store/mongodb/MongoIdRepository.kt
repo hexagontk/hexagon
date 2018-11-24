@@ -3,13 +3,11 @@ package com.hexagonkt.store.mongodb
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
-import com.mongodb.client.model.BulkWriteOptions
+import com.mongodb.client.model.*
 import com.mongodb.client.model.Indexes.ascending
 import com.mongodb.client.model.Indexes.descending
-import com.mongodb.client.model.ReplaceOneModel
-import com.mongodb.client.model.ReplaceOptions
-import com.mongodb.client.model.UpdateOptions
 import org.bson.Document
+import org.bson.conversions.Bson
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.KType
@@ -18,7 +16,7 @@ import kotlin.reflect.jvm.javaType
 open class MongoIdRepository<T : Any, K : Any> (
     type: KClass<T>,
     collection: MongoCollection<Document>,
-    val key: KProperty1<T, K>,
+    private val key: KProperty1<T, K>,
     indexOrder: Int? = 1,
     onStore: (Document) -> Document = { it },
     onLoad: (Document) -> Document = { it }) :
@@ -36,22 +34,7 @@ open class MongoIdRepository<T : Any, K : Any> (
         onLoad: (Document) -> Document = { it }) :
             this (
                 type,
-                mongoCollection(type.simpleName ?: error("Error getting type name"), database),
-                key,
-                indexOrder,
-                onStore,
-                onLoad
-            )
-
-    constructor (
-        type: KClass<T>,
-        key: KProperty1<T, K>,
-        indexOrder: Int? = 1,
-        onStore: (Document) -> Document = { it },
-        onLoad: (Document) -> Document = { it }) :
-            this (
-                type,
-                mongoDatabase(),
+                database.getCollection(type.simpleName ?: error("Error getting type name")),
                 key,
                 indexOrder,
                 onStore,
@@ -62,6 +45,9 @@ open class MongoIdRepository<T : Any, K : Any> (
         if (indexOrder != null)
             createIndex (if(indexOrder == 1) ascending(key.name) else descending(key.name), true)
     }
+
+    private fun createIndex(keys: Bson, unique: Boolean = false, background: Boolean = true): String =
+        createIndex(keys, IndexOptions().unique(unique).background(background))
 
     protected open fun convertKeyName(keyName: String): String = keyName
     protected open fun convertId(id: K): Any = id
@@ -138,4 +124,8 @@ open class MongoIdRepository<T : Any, K : Any> (
         "float" -> Float::class
         else -> Class.forName(this.javaType.typeName).kotlin
     }
+
+    // TODO Check that parameter is simple type... Ie: fails with LocalDate
+    infix fun <T> String.eq(value: T): Bson = Filters.eq(this, value)
+    infix fun <T> String.isIn(value: Collection<T>): Bson = Filters.`in`(this, value)
 }

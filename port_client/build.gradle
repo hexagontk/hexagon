@@ -10,7 +10,6 @@ dependencies {
     }
 
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
     testCompile ("com.github.tomakehurst:wiremock:$wiremockVersion")
 }
 

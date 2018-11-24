@@ -9,7 +9,6 @@ dependencies {
     compile ("org.mongodb:mongodb-driver-async:$mongodbVersion")
 
     testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("ch.qos.logback:logback-classic:$logbackVersion") { exclude module: 'slf4j-api' }
 }
 
 test {

@@ -56,6 +56,6 @@ import org.testng.annotations.Test
     }
 
     @Test fun `A logger for an instance has the proper name`() {
-        assert("".logger().log.name == "java.lang.String")
+        assert(Logger("").log.name == "java.lang.String")
     }
 }

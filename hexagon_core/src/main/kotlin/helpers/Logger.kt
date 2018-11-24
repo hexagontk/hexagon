@@ -13,6 +13,8 @@ class Logger(type: KClass<*>) {
 
     internal val log: Slf4jLogger = getLogger(type.java)
 
+    constructor(instance: Any) : this(instance::class)
+
     fun trace(message: () -> Any?) {
         if (log.isTraceEnabled) log.trace(message().toString())
     }

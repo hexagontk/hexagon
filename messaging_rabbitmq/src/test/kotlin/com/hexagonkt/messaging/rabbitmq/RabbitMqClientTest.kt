@@ -2,7 +2,6 @@ package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.messaging.rabbitmq.RabbitMqClient.Companion.createConnectionFactory
-import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.serialize
 
 import org.testng.annotations.Test
@@ -10,7 +9,7 @@ import java.net.URI
 import kotlin.test.assertFailsWith
 
 @Test class RabbitMqClientTest {
-    private val log: Logger = logger()
+    private val log: Logger = Logger(this)
 
     @Test fun `Create a connection factory with empty URI fails` () {
         assertFailsWith(IllegalArgumentException::class) {

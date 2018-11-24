@@ -3,8 +3,8 @@ package com.hexagonkt
 import com.hexagonkt.helpers.Environment
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.store.mongodb.MongoIdRepository
-import com.hexagonkt.store.mongodb.mongoCollection
-import com.hexagonkt.store.mongodb.mongoDatabase
+import com.mongodb.MongoClient
+import com.mongodb.MongoClientURI
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -20,16 +20,16 @@ internal const val WORLD_ROWS = 10000
 
 private val worldName: String = defaultSetting("worldCollection", "world")
 private val fortuneName: String = defaultSetting("fortuneCollection", "fortune")
+private val databaseName = defaultSetting("database", "hello_world")
 
 internal fun <T : Any> defaultSetting(name: String, value: T): T = setting(name) ?: value
 
 private fun getDbUrl(engine: String): String {
     val dbHost = Environment.systemSetting("${engine.toUpperCase()}_DB_HOST", "localhost")
-    val dbName = defaultSetting("database", "hello_world")
 
     return when (engine) {
-        "mongodb" -> "mongodb://$dbHost/$dbName"
-        "postgresql" -> "jdbc:postgresql://$dbHost/$dbName?" +
+        "mongodb" -> "mongodb://$dbHost/$databaseName"
+        "postgresql" -> "jdbc:postgresql://$dbHost/$databaseName?" +
             "jdbcCompliantTruncation=false&" +
             "elideSetAutoCommits=true&" +
             "useLocalSessionState=true&" +
@@ -63,14 +63,14 @@ internal interface Store {
 }
 
 private class MongoDbStore(dbUrl: String) : Store {
-    private val database = mongoDatabase(dbUrl)
+    private val database by lazy { MongoClient(MongoClientURI(dbUrl)).getDatabase(databaseName) }
 
-    private val worldRepository = repository(worldName, World::class, World::_id)
-    private val fortuneRepository = repository(fortuneName, Fortune::class, Fortune::_id)
+    private val worldRepository by lazy { repository(worldName, World::class, World::_id) }
+    private val fortuneRepository by lazy { repository(fortuneName, Fortune::class, Fortune::_id) }
 
     // TODO Find out why it fails when creating index '_id' with background: true
     private fun <T : Any> repository(name: String, type: KClass<T>, key: KProperty1<T, Int>) =
-        MongoIdRepository(type, mongoCollection(name, database), key, indexOrder = null)
+        MongoIdRepository(type, database.getCollection(name), key, indexOrder = null)
 
     override fun close() { /* Not needed */ }
 
@@ -96,15 +96,13 @@ private class SqlStore(jdbcUrl: String) : Store {
         private const val SELECT_ALL_FORTUNES = "select * from fortune"
     }
 
-    private val dataSource: HikariDataSource
-
-    init {
+    private val dataSource: HikariDataSource by lazy {
         val config = HikariConfig()
         config.jdbcUrl = jdbcUrl
         config.maximumPoolSize = defaultSetting("maximumPoolSize", 16)
         config.username = defaultSetting("databaseUsername", "benchmarkdbuser")
         config.password = defaultSetting("databasePassword", "benchmarkdbpass")
-        dataSource = HikariDataSource(config)
+        HikariDataSource(config)
     }
 
     override fun close() {

@@ -1,7 +1,6 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.error
 import java.io.File
@@ -16,7 +15,7 @@ import java.net.URL
  */
 object SerializationManager {
 
-    private val logger: Logger = logger()
+    private val logger: Logger = Logger(this)
 
     private val mimeTypesResource = Resource("serialization/mime.types")
 
