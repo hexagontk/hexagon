@@ -6,7 +6,6 @@ import com.cronutils.model.definition.CronDefinitionBuilder.instanceDefinitionFo
 import com.cronutils.model.time.ExecutionTime
 import com.cronutils.parser.CronParser
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.logger
 
 import java.lang.Runtime.getRuntime
 import java.time.ZonedDateTime
@@ -19,7 +18,7 @@ import java.util.concurrent.TimeUnit.SECONDS
  * TODO Add JVM shutdown hook to call shutdown at JVM termination
  */
 class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
-    private val log: Logger = logger()
+    private val log: Logger = Logger(this)
 
     private val scheduler = ScheduledThreadPoolExecutor(threads)
     private val cronParser = CronParser(cronDefinition (QUARTZ))

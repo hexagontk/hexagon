@@ -2,7 +2,6 @@ package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.settings.SettingsManager
 import com.mongodb.client.model.*
@@ -20,7 +19,7 @@ abstract class RepositoryTest<T : Any, out K : Any> (
 
     val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String? ?: "mongodb://localhost/test"
 
-    private val log: Logger = logger()
+    private val log: Logger = Logger(RepositoryTest::class)
 
     private val collection: MongoRepository<T> = createCollection(type)
 

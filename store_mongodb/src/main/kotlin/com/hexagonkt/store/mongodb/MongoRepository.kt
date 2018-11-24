@@ -3,7 +3,6 @@ package com.hexagonkt.store.mongodb
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.error
-import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parseList
@@ -25,7 +24,7 @@ open class MongoRepository <T : Any> (
     protected val onLoad: (Document) -> Document = { it }
 ) : MongoCollection<Document> by collection {
 
-    private val log: Logger = logger()
+    private val log: Logger = Logger(MongoRepository::class)
 
     constructor (type: KClass<T>, database: MongoDatabase) :
         this(type, database.getCollection(type.simpleName ?: error("Error getting type name")))

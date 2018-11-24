@@ -35,7 +35,7 @@ data class Server (
         internal const val DEFAULT_PORT = 2010
     }
 
-    private val log: Logger = logger()
+    private val log: Logger = Logger(this)
 
     constructor(serverEngine: ServerPort, settings: Map<String, *>, router: Router = Router()) :
         this (

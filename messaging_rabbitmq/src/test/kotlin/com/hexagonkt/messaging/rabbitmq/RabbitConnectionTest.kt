@@ -1,7 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.logger
 
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -23,7 +22,7 @@ import java.net.URI
         private const val DELAY = 10L
     }
 
-    private val log: Logger = logger()
+    private val log: Logger = Logger(this)
 
     private val broker = EmbeddedAMQPBroker(port, user, password, vhost)
 

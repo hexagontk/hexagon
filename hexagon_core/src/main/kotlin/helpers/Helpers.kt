@@ -5,8 +5,6 @@ import java.util.*
 /** Default logger when you are lazy to declare one. */
 val logger: Logger = Logger(System::class)
 
-fun Any.logger(): Logger = Logger(this::class)
-
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
  * Executes a lambda until no exception is thrown or a number of times is reached.

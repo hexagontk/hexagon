@@ -2,13 +2,12 @@ package com.hexagonkt.settings
 
 import com.hexagonkt.helpers.get
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.logger
 import com.hexagonkt.serialization.YamlFormat
 import com.hexagonkt.serialization.serialize
 
 object SettingsManager {
 
-    val log: Logger = logger()
+    val log: Logger = Logger(this)
 
     internal const val SETTINGS = "service"
     internal const val ENVIRONMENT_PREFIX = "SERVICE_"
