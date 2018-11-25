@@ -1,36 +1,36 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.filterEmpty
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.MongoCollection
-import com.mongodb.client.model.CreateCollectionOptions
+import com.mongodb.client.model.*
 import com.mongodb.client.model.Filters.eq
-import com.mongodb.client.model.IndexOptions
-import com.mongodb.client.model.Indexes
 import org.bson.Document
-import org.bson.types.ObjectId
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
+import kotlin.reflect.full.declaredMemberProperties
 
 class MongoDbStore <T : Any, K : Any>(
     override val type: KClass<T>,
     override val key: KProperty1<T, K>,
-    override val name: String = type.simpleName ?: error("Invalid name"),
+    override val name: String = type.java.simpleName,
     private val database: MongoDatabase,
-    private val useObjectId: Boolean = false,
-    indexOrder: IndexOrder = ASCENDING,
     override val mapper: Mapper<T> = MongoDbMapper(type, key)) : Store<T, K> {
 
     private val collection: MongoCollection<Document> = this.database.getCollection(name)
 
-    init {
-        if (useObjectId)
-            database.createCollection(name, CreateCollectionOptions())
+    private val fields: List<String> by lazy {
+        logger.time ("REFLECT") { type.declaredMemberProperties } // TODO This is *VERY* slow
+            .map { it.name }
+    }
 
-//        createIndex(true, key.name to indexOrder)
+    init {
+        createIndex(true, key.name to ASCENDING)
     }
 
     override fun createIndex(unique: Boolean, fields: List<Pair<String, IndexOrder>>): String {
@@ -39,8 +39,11 @@ class MongoDbStore <T : Any, K : Any>(
             else Indexes.descending(it.first)
         }
 
+        val name = fields.joinToString("_") { it.first + "_" + it.second.toString().toLowerCase() }
         val compoundIndex = Indexes.compoundIndex(indexes)
-        return collection.createIndex(compoundIndex, IndexOptions().unique(unique).background(true))
+        val indexOptions = IndexOptions().unique(unique).background(true).name(name)
+
+        return collection.createIndex(compoundIndex, indexOptions)
     }
 
     override fun insertOne(instance: T): K {
@@ -49,29 +52,25 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override fun insertMany(instances: List<T>): List<K> {
-
-        return if (!instances.isEmpty()) {
-            val map = instances.map { instance -> map(instance) }
-            collection.insertMany(map)
-            return instances.map { key.get(it) }
-        }
-        else {
-            emptyList()
-        }
+        collection.insertMany(instances.map { instance -> map(instance) })
+        return instances.map { key.get(it) }
     }
 
-    override fun saveOne(instance: T): K {
-        TODO("not implemented")
+    override fun saveOne(instance: T): K? {
+        val filter = eq("_id", key.get(instance))
+        val options = UpdateOptions().upsert(true)
+        val replaceOptions = ReplaceOptions.createReplaceOptions(options)
+        val result = collection.replaceOne(filter, map(instance), replaceOptions)
+        // TODO
+        return result.upsertedId as? K
     }
 
-    override fun saveMany(instances: List<T>): Long {
-        TODO("not implemented")
-    }
+    override fun saveMany(instances: List<T>): List<K?> =
+        instances.map(this::saveOne)
 
     override fun replaceOne(instance: T): Boolean {
         val document = Document(mapper.toStore(instance))
-//        typedCollection.replaceOne(eq(key.name, getKey(instance)), document) { result, error ->
-        val result = collection.replaceOne(eq("_id", getKey(instance)), document)
+        val result = collection.replaceOne(eq("_id", key.get(instance)), document)
         return result.modifiedCount == 1L
     }
 
@@ -79,7 +78,13 @@ class MongoDbStore <T : Any, K : Any>(
         instances.mapNotNull { if (replaceOne(it)) it else null }
 
     override fun updateOne(key: K, updates: Map<String, *>): Boolean {
-        TODO("not implemented")
+        val filter = eq("_id", key)
+        val u = updates
+            .filterEmpty()
+            .mapValues { mapper.toStore(it.key, it.value as Any) }
+
+        val result = collection.updateOne(filter, Document(u))
+        return result.modifiedCount == 1L
     }
 
     override fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long {
@@ -95,9 +100,8 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override fun findOne(key: K): T? {
-        // TODO Handle null in mapper.fromStore
-        val result = collection.find (eq ("_id", convertKey (key))).first()
-        return mapper.fromStore(result as Map<String, Any?>)
+        val result = collection.find (eq ("_id", key)).first()
+        return mapper.fromStore(result as Map<String, Any>)
     }
 
     override fun findOne(key: K, fields: List<String>): Map<String, *> {
@@ -131,12 +135,54 @@ class MongoDbStore <T : Any, K : Any>(
         collection.drop()
     }
 
-    private fun convertKey(instance: K): Any =
-        if (useObjectId) ObjectId(instance.toString()) else instance
-
-    private fun getKey(instance: T): Any = key.get(instance).let {
-        if (useObjectId) ObjectId(it.toString()) else it
-    }
-
     private fun map(instance: T): Document = Document(mapper.toStore(instance))
+
+    private fun createFilter(filter: Map<String, List<*>>): Document =
+        filter
+            .filterEmpty()
+            .filter {
+                val key = it.key
+                val firstKeySegment = key.split ("\\.")[0]
+                fields.contains (firstKeySegment)
+            }
+            .map {
+                val key = it.key
+                val value = it.value
+
+                if (value.size > 1) key to mapOf("\$in" to value)
+                else key to value[0]
+            }
+            .map {
+                if (it.first == key.name) "_id" to it.second
+                else it
+            }
+            .toMap()
+            .toDocument()
+
+    // TODO Transform values with mapper
+    private fun createUpdate (update: Map<String, *>): Document =
+        update
+            .filterEmpty()
+            .map { "\$set" to it }
+            .toMap()
+            .toDocument()
+
+    // TODO Remove '_id', add "_id" to 0
+    private fun createProjection (fields: List<String>): Document =
+        if(fields.isEmpty ()) Document()
+        else
+            fields
+                .asSequence()
+                .filter { fields.contains(it) }
+                .map { it to 1 }
+                .toMap()
+                .toDocument()
+
+    private fun createSort(fields : Map<String, Boolean>): Document =
+        fields
+            .filter { fields.contains (it.key) }
+            .mapValues { if (it.value) -1 else 1 }
+            .toDocument()
+
+    private fun Map<String, *>.toDocument() = Document(this)
 }

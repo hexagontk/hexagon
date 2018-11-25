@@ -8,7 +8,6 @@ import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
 import org.bson.types.ObjectId
-import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.net.URL
 import java.time.LocalDate
@@ -19,7 +18,8 @@ import java.time.LocalTime
  */
 @Test class MongoDbStoreTest {
 
-    private val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String? ?: "mongodb://localhost/test"
+    private val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String?
+        ?: "mongodb://localhost/test"
 
     private val database: String = MongoClientURI(mongodbUrl).database ?: error
     private val db: MongoDatabase =
@@ -43,9 +43,9 @@ import java.time.LocalTime
             )
         }
 
-    @BeforeClass fun `Drop collection`() {
-        store.drop()
-    }
+//    @BeforeClass fun `Drop collection`() {
+//        store.drop()
+//    }
 
     @Test fun `New records are stored`() {
         val id = ObjectId().toHexString()
@@ -123,7 +123,6 @@ import java.time.LocalTime
             )
         )
 
-        store.drop()
         val await = store.insertOne(mappedClass)
         val storedClass = store.findOne(await)
         assert(await.isNotBlank())

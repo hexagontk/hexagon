@@ -18,17 +18,19 @@ interface Store<T : Any, K : Any> {
 
     fun insertMany(instances: List<T>): List<K>
 
-    fun insertMany(vararg instances: T): List<K> = insertMany(instances.toList())
+    fun insertMany(vararg instances: T): List<K> =
+        insertMany(instances.toList())
 
-    fun saveOne(instance: T): K
+    fun saveOne(instance: T): K? // returns key if created, null if updated
 
-    fun saveMany(instances: List<T>): Long // Returns modified ones inserted + modified
+    fun saveMany(instances: List<T>): List<K?>
 
     fun replaceOne(instance: T): Boolean
 
     fun replaceMany(instances: List<T>): List<T>
 
-    fun replaceMany(vararg instances: T): List<T> = replaceMany(instances.toList())
+    fun replaceMany(vararg instances: T): List<T> =
+        replaceMany(instances.toList())
 
     fun updateOne(key: K, updates: Map<String, *>): Boolean
 
