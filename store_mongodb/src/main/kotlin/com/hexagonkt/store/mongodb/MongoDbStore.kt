@@ -69,8 +69,9 @@ class MongoDbStore <T : Any, K : Any>(
         instances.map(this::saveOne)
 
     override fun replaceOne(instance: T): Boolean {
-        val document = Document(mapper.toStore(instance))
-        val result = collection.replaceOne(eq("_id", key.get(instance)), document)
+        val document = map(instance)
+        val filter = eq("_id", key.get(instance))
+        val result = collection.replaceOne(filter, document)
         return result.modifiedCount == 1L
     }
 
@@ -79,6 +80,7 @@ class MongoDbStore <T : Any, K : Any>(
 
     override fun updateOne(key: K, updates: Map<String, *>): Boolean {
         val filter = eq("_id", key)
+
         val u = updates
             .filterEmpty()
             .mapValues { mapper.toStore(it.key, it.value as Any) }
