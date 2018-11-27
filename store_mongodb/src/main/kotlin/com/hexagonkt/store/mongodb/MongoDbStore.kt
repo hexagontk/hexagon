@@ -11,6 +11,7 @@ import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.*
 import com.mongodb.client.model.Filters.eq
 import org.bson.Document
+import org.bson.conversions.Bson
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
@@ -57,12 +58,13 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override fun saveOne(instance: T): K? {
-        val filter = eq("_id", key.get(instance))
+        val filter = createKeyFilter(key.get(instance))
         val options = UpdateOptions().upsert(true)
         val replaceOptions = ReplaceOptions.createReplaceOptions(options)
         val result = collection.replaceOne(filter, map(instance), replaceOptions)
-        // TODO
-        return result.upsertedId as? K
+        val upsertedId = result.upsertedId
+        return if (upsertedId == null) null
+            else mapper.fromStore(key.name, upsertedId as Any) as K
     }
 
     override fun saveMany(instances: List<T>): List<K?> =
@@ -70,7 +72,7 @@ class MongoDbStore <T : Any, K : Any>(
 
     override fun replaceOne(instance: T): Boolean {
         val document = map(instance)
-        val filter = eq("_id", key.get(instance))
+        val filter = createKeyFilter(key.get(instance))
         val result = collection.replaceOne(filter, document)
         return result.modifiedCount == 1L
     }
@@ -79,35 +81,44 @@ class MongoDbStore <T : Any, K : Any>(
         instances.mapNotNull { if (replaceOne(it)) it else null }
 
     override fun updateOne(key: K, updates: Map<String, *>): Boolean {
-        val filter = eq("_id", key)
-
-        val u = updates
-            .filterEmpty()
-            .mapValues { mapper.toStore(it.key, it.value as Any) }
-
-        val result = collection.updateOne(filter, Document(u))
+        val filter = createKeyFilter(key)
+        val update = createUpdate(updates)
+        val result = collection.updateOne(filter, update)
         return result.modifiedCount == 1L
     }
 
     override fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long {
-        TODO("not implemented")
+        val updateFilter = createFilter(filter)
+        val update = createUpdate(updates)
+        val result = collection.updateOne(updateFilter, update)
+        return result.modifiedCount
     }
 
     override fun deleteOne(id: K): Boolean {
-        TODO("not implemented")
+        val filter = createKeyFilter(id)
+        val result = collection.deleteOne(filter)
+        return result.deletedCount == 1L
     }
 
     override fun deleteMany(filter: Map<String, List<*>>): Long {
-        TODO("not implemented")
+        val deleteFilter = createFilter(filter)
+        val result = collection.deleteMany(deleteFilter)
+        return result.deletedCount
     }
 
     override fun findOne(key: K): T? {
-        val result = collection.find (eq ("_id", key)).first()
+        val result = collection.find(createKeyFilter(key)).first()?.filterEmpty() ?: error("")
         return mapper.fromStore(result as Map<String, Any>)
     }
 
     override fun findOne(key: K, fields: List<String>): Map<String, *> {
-        TODO("not implemented")
+        val filter = createKeyFilter(key)
+        val result = collection
+            .find(filter)
+            .projection(createProjection(fields))
+            .first()?.filterEmpty() ?: error("")
+
+        return result.mapValues { mapper.toStore(it.key, it.value as Any) }
     }
 
     override fun findMany(
@@ -130,7 +141,8 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override fun count(filter: Map<String, List<*>>): Long {
-        TODO("not implemented")
+        val countFilter = createFilter(filter)
+        return collection.countDocuments(countFilter)
     }
 
     override fun drop() {
@@ -139,7 +151,9 @@ class MongoDbStore <T : Any, K : Any>(
 
     private fun map(instance: T): Document = Document(mapper.toStore(instance))
 
-    private fun createFilter(filter: Map<String, List<*>>): Document =
+    private fun createKeyFilter(key: K) = eq("_id", key)
+
+    private fun createFilter(filter: Map<String, List<*>>): Bson =
         filter
             .filterEmpty()
             .filter {
@@ -161,16 +175,15 @@ class MongoDbStore <T : Any, K : Any>(
             .toMap()
             .toDocument()
 
-    // TODO Transform values with mapper
-    private fun createUpdate (update: Map<String, *>): Document =
-        update
-            .filterEmpty()
-            .map { "\$set" to it }
-            .toMap()
-            .toDocument()
+    private fun createUpdate (update: Map<String, *>): Bson =
+        Updates.combine(
+            update
+                .filterEmpty()
+                .mapValues { mapper.toStore(it.key, it.value as Any) }
+                .map { Updates.set(it.key, it.value) }
+        )
 
-    // TODO Remove '_id', add "_id" to 0
-    private fun createProjection (fields: List<String>): Document =
+    private fun createProjection (fields: List<String>): Bson =
         if(fields.isEmpty ()) Document()
         else
             fields
@@ -179,8 +192,9 @@ class MongoDbStore <T : Any, K : Any>(
                 .map { it to 1 }
                 .toMap()
                 .toDocument()
+                .append("_id", 0)
 
-    private fun createSort(fields : Map<String, Boolean>): Document =
+    private fun createSort(fields : Map<String, Boolean>): Bson =
         fields
             .filter { fields.contains (it.key) }
             .mapValues { if (it.value) -1 else 1 }

@@ -30,23 +30,6 @@ class MongoDbStore<T : Any, K : Any>(
 
     private val logger: Logger = logger()
 
-    override val fields: List<String> by lazy {
-        logger.time ("REFLECT") { type.declaredMemberProperties } // TODO This is *VERY* slow
-            .map { it.name }
-    }
-
-    override fun insertOne(instance: T): Future<K> {
-        val future = Future.future<String>()
-        mongoDbClient.insert(name, JsonObject(mapper.toStore(instance)), future)
-        return future.map {
-            logger.info { "Record inserted in '$name' with key: $it" }
-            // TODO This works only if key is not generated
-            @Suppress("UNCHECKED_CAST")
-            if (it == null) key.get(instance)
-            else it as K
-        }
-    }
-
     override fun insertMany(instances: List<T>): Future<Long> =
         executeBulkOperation(instances) {
             createInsert(JsonObject(mapper.toStore(it)))
@@ -151,18 +134,6 @@ class MongoDbStore<T : Any, K : Any>(
                         remap(row) + (key.name to (row.map["_id"] as? K ?: error)) - "_id"
                     }
                 }
-
-    override fun count(filter: Map<String, List<*>>): Future<Long> {
-        val future = Future.future<Long>()
-        mongoDbClient.count(name, createFilter(filter), future)
-        return future
-    }
-
-    override fun drop(): Future<Void> {
-        val future = Future.future<Void>()
-        mongoDbClient.dropCollection(name, future)
-        return future
-    }
 
     private fun find(
         filter: Map<String, List<*>>,

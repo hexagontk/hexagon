@@ -21,8 +21,6 @@ import kotlin.reflect.KProperty1
 
     // TODO Check inserted data
     fun `Resources are loaded`() {
-        repository.loadData("companies.json")
-        repository.delete()
         repository.importResource("companies.json")
         repository.delete()
 

@@ -78,25 +78,6 @@ open class MongoRepository <T : Any> (
 
     fun delete(): DeleteResult = deleteMany(Document())
 
-    /**
-     * Load a file with DB data serialized to a store.
-     * @param file .
-     */
-    fun loadData(file: String) {
-        val resourceAsStream = Resource(file).stream()
-        val extension = file.substringAfterLast('.')
-        val objects = resourceAsStream?.parseList(
-            type, formatOf("application/$extension")) ?: listOf()
-        objects.forEach {
-            try {
-                this.insertOneObject(it)
-            }
-            catch (e: Exception) {
-                log.warn { "$it already inserted" }
-            }
-        }
-    }
-
     protected open fun map (document: T): Document {
         return onStore (
             Document (document.convertToMap ().mapKeys {
