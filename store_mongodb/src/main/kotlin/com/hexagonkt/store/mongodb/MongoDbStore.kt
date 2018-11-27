@@ -31,7 +31,8 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     init {
-        createIndex(true, key.name to ASCENDING)
+        if (key.name != "_id")
+            createIndex(true, key.name to ASCENDING)
     }
 
     override fun createIndex(unique: Boolean, fields: List<Pair<String, IndexOrder>>): String {
@@ -127,7 +128,14 @@ class MongoDbStore <T : Any, K : Any>(
         skip: Int?,
         sort: Map<String, Boolean>): List<T> {
 
-        TODO("not implemented")
+        val findFilter = createFilter(filter)
+//        val sort = createSort(sort)
+        val result = collection
+            .find(findFilter)
+//            .sortedBy(sort)
+            .into(ArrayList())
+
+        return result.map { mapper.fromStore(it.filterEmpty()) }
     }
 
     override fun findMany(
@@ -137,7 +145,18 @@ class MongoDbStore <T : Any, K : Any>(
         skip: Int?,
         sort: Map<String, Boolean>): List<Map<String, *>> {
 
-        TODO("not implemented")
+//        val projection = createProjection(fields)
+
+        val findFilter = createFilter(filter)
+//        val sort = createSort(sort)
+        val result = collection
+            .find(findFilter)
+//            .projection(createProjection(fields))
+//            .sortedBy(sort)
+            .into(ArrayList())
+
+//        return result.map { mapper.fromStore(it.filterEmpty()) }
+        TODO()
     }
 
     override fun count(filter: Map<String, List<*>>): Long {
