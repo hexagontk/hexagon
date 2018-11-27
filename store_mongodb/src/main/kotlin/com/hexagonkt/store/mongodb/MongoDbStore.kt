@@ -129,10 +129,10 @@ class MongoDbStore <T : Any, K : Any>(
         sort: Map<String, Boolean>): List<T> {
 
         val findFilter = createFilter(filter)
-//        val sort = createSort(sort)
+        val findSort = createSort(sort)
         val result = collection
             .find(findFilter)
-//            .sortedBy(sort)
+            .sort(findSort)
             .into(ArrayList())
 
         return result.map { mapper.fromStore(it.filterEmpty()) }
@@ -145,14 +145,13 @@ class MongoDbStore <T : Any, K : Any>(
         skip: Int?,
         sort: Map<String, Boolean>): List<Map<String, *>> {
 
-//        val projection = createProjection(fields)
-
         val findFilter = createFilter(filter)
-//        val sort = createSort(sort)
+        val projection = createProjection(fields)
+        val findSort = createSort(sort)
         val result = collection
             .find(findFilter)
-//            .projection(createProjection(fields))
-//            .sortedBy(sort)
+            .projection(projection)
+            .sort(findSort)
             .into(ArrayList())
 
 //        return result.map { mapper.fromStore(it.filterEmpty()) }
