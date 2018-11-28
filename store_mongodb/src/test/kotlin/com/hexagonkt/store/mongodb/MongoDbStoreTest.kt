@@ -9,9 +9,7 @@ import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
 import org.bson.types.ObjectId
-import org.testng.annotations.BeforeClass
 import org.testng.annotations.BeforeMethod
-import org.testng.annotations.BeforeTest
 import org.testng.annotations.Test
 import java.net.URL
 import java.time.LocalDate
@@ -105,9 +103,13 @@ import java.time.LocalTime
             }
 
         val keys = store.insertMany(*companies.toTypedArray())
+        assert(store.count() == companies.size.toLong())
 
-        for (key in keys)
-            println(key)
+        val changedCompanies = companies.map { it.copy(web = URL("http://change.example.org")) }
+        assert(store.replaceMany(*changedCompanies.toTypedArray()).size == companies.size)
+
+        // Update many
+        // Delete many
     }
 
     @Test fun `Entities are stored`() {
