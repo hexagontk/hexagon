@@ -110,6 +110,8 @@ import java.time.LocalTime
 
         // Update many
         // Delete many
+        // findAll
+        // findMany
     }
 
     @Test fun `Entities are stored`() {
