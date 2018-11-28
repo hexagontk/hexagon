@@ -8,13 +8,11 @@ import com.mongodb.ConnectionString
 import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
-import jdk.nashorn.internal.objects.NativeArray.forEach
 import org.bson.types.ObjectId
 import org.testng.annotations.Test
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalTime
-import kotlin.test.assert
 
 /**
  * TODO .
