@@ -23,12 +23,12 @@ class MongoDbStore <T : Any, K : Any>(
     private val database: MongoDatabase,
     override val mapper: Mapper<T> = MongoDbMapper(type, key)) : Store<T, K> {
 
-    private val collection: MongoCollection<Document> = this.database.getCollection(name)
-
     private val fields: List<String> by lazy {
         logger.time ("REFLECT") { type.declaredMemberProperties } // TODO This is *VERY* slow
             .map { it.name }
     }
+
+    private val collection: MongoCollection<Document> = this.database.getCollection(name)
 
     init {
         if (key.name != "_id")

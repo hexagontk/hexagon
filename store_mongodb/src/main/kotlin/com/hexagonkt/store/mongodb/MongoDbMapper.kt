@@ -5,6 +5,7 @@ import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.store.Mapper
 import org.bson.BsonString
+import java.net.URL
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -22,8 +23,16 @@ class MongoDbMapper<T : Any, K : Any>(
     @Suppress("UNCHECKED_CAST")
     override fun fromStore(map: Map<String, Any>): T = map.filterEmpty().convertToObject(type)
 
+    /*
+     * TODO Pick field types
+     */
     override fun fromStore(property: String, value: Any): Any = when (value) {
         is BsonString -> value.value
+        else -> value
+    }
+
+    override fun toStore(property: String, value: Any): Any = when (value) {
+        is URL -> value.toString()
         else -> value
     }
 }

@@ -10,14 +10,13 @@ import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
 import org.bson.types.ObjectId
 import org.testng.annotations.BeforeClass
+import org.testng.annotations.BeforeMethod
+import org.testng.annotations.BeforeTest
 import org.testng.annotations.Test
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalTime
 
-/**
- * TODO .
- */
 @Test class MongoDbStoreTest {
 
     private val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String?
@@ -45,7 +44,7 @@ import java.time.LocalTime
             )
         }
 
-    @BeforeClass fun dropCollection() {
+    @BeforeMethod fun dropCollection() {
         store.drop()
         store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
     }
@@ -72,6 +71,20 @@ import java.time.LocalTime
         assert(store.replaceOne(changedCompany))
         val storedModifiedCompany = store.findOne(id)
         assert(storedModifiedCompany == changedCompany)
+
+        val key = changedCompany.id
+
+        assert(store.updateOne(key, "web" to URL("http://update.example.org")))
+        assert(store.findOne(key, listOf("web"))["web"] == "http://update.example.org")
+
+        assert(store.updateOne_(key, Company::web to URL("http://update1.example.org")))
+        assert(store.findOne(key, listOf("web"))["web"] == "http://update1.example.org")
+
+        assert(store.count() == 1L)
+
+        assert(store.deleteOne(key))
+
+        assert(store.count() == 0L)
     }
 
     @Test fun `Many records are stored`() {

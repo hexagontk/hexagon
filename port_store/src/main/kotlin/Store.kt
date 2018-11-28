@@ -37,9 +37,6 @@ interface Store<T : Any, K : Any> {
     fun updateOne(key: K, vararg updates: Pair<String, *>): Boolean =
         updateOne(key, updates.toMap())
 
-    fun updateOne_(key: K, updates: Map<KProperty1<T, *>, *>): Boolean =
-        updateOne(key, updates.mapKeys { it.key.name })
-
     fun updateOne_(key: K, vararg updates: Pair<KProperty1<T, *>, *>): Boolean =
         updateOne(key, updates.map { it.first.name to it.second }.toMap())
 
