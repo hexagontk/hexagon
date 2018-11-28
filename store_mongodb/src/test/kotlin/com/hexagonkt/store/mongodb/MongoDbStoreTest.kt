@@ -9,6 +9,7 @@ import com.mongodb.MongoClientURI
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
 import org.bson.types.ObjectId
+import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.net.URL
 import java.time.LocalDate
@@ -44,9 +45,10 @@ import java.time.LocalTime
             )
         }
 
-//    @BeforeClass fun `Drop collection`() {
-//        store.drop()
-//    }
+    @BeforeClass fun dropCollection() {
+        store.drop()
+        store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
+    }
 
     @Test fun `New records are stored`() {
         val id = ObjectId().toHexString()
@@ -97,8 +99,6 @@ import java.time.LocalTime
 
     @Test fun `Entities are stored`() {
         val testEntities = createTestEntities()
-        store.drop()
-        store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
 
         val keys = store.saveMany(testEntities)
 
