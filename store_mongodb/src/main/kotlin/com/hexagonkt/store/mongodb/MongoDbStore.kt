@@ -64,6 +64,8 @@ class MongoDbStore <T : Any, K : Any>(
         val replaceOptions = ReplaceOptions.createReplaceOptions(options)
         val result = collection.replaceOne(filter, map(instance), replaceOptions)
         val upsertedId = result.upsertedId
+
+        @Suppress("UNCHECKED_CAST")
         return if (upsertedId == null) null
             else mapper.fromStore(key.name, upsertedId as Any) as K
     }
@@ -130,11 +132,15 @@ class MongoDbStore <T : Any, K : Any>(
 
         val findFilter = createFilter(filter)
         val findSort = createSort(sort)
-        val result = collection
-            .find(findFilter)
-            .sort(findSort)
-            .into(ArrayList())
+        val query = collection.find(findFilter).sort(findSort)
 
+        if (limit != null)
+            query.limit(limit)
+
+        if (skip != null)
+            query.skip(skip)
+
+        val result = query.into(ArrayList())
         return result.map { mapper.fromStore(it.filterEmpty()) }
     }
 
@@ -148,14 +154,22 @@ class MongoDbStore <T : Any, K : Any>(
         val findFilter = createFilter(filter)
         val projection = createProjection(fields)
         val findSort = createSort(sort)
-        val result = collection
-            .find(findFilter)
-            .projection(projection)
-            .sort(findSort)
-            .into(ArrayList())
+        val query = collection.find(findFilter).projection(projection).sort(findSort)
 
-//        return result.map { mapper.fromStore(it.filterEmpty()) }
-        TODO()
+        if (limit != null)
+            query.limit(limit)
+
+        if (skip != null)
+            query.skip(skip)
+
+        val result = query.into(ArrayList())
+
+        return result.map { resultMap ->
+            resultMap.map { pair ->
+                pair.key to mapper.fromStore(pair.key, pair.value)
+            }
+            .toMap()
+        }
     }
 
     override fun count(filter: Map<String, List<*>>): Long {
@@ -171,27 +185,23 @@ class MongoDbStore <T : Any, K : Any>(
 
     private fun createKeyFilter(key: K) = eq("_id", key)
 
-    private fun createFilter(filter: Map<String, List<*>>): Bson =
-        filter
-            .filterEmpty()
-            .filter {
-                val key = it.key
-                val firstKeySegment = key.split ("\\.")[0]
-                fields.contains (firstKeySegment)
-            }
-            .map {
-                val key = it.key
-                val value = it.value
+    private fun createFilter(filter: Map<String, List<*>>): Bson = filter
+        .filterEmpty()
+        .filter {
+            val firstKeySegment = it.key.split ("\\.")[0]
+            fields.contains (firstKeySegment)
+        }
+        .map {
+            val key = it.key
+            val value = it.value
 
-                if (value.size > 1) key to mapOf("\$in" to value)
-                else key to value[0]
-            }
-            .map {
-                if (it.first == key.name) "_id" to it.second
-                else it
-            }
-            .toMap()
-            .toDocument()
+            if (value.size > 1) Filters.`in`(key, value)
+            else Filters.eq(key, value.first())
+        }
+        .let {
+            if (it.isEmpty()) Document()
+            else Filters.and(it)
+        }
 
     private fun createUpdate (update: Map<String, *>): Bson =
         Updates.combine(
