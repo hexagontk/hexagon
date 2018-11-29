@@ -2,7 +2,6 @@ package com.hexagonkt
 
 import com.hexagonkt.helpers.Environment
 import com.hexagonkt.settings.SettingsManager.setting
-import com.hexagonkt.store.mongodb.MongoIdRepository
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 
@@ -68,23 +67,22 @@ private class MongoDbStore(dbUrl: String) : Store {
     private val worldRepository by lazy { repository(worldName, World::class, World::_id) }
     private val fortuneRepository by lazy { repository(fortuneName, Fortune::class, Fortune::_id) }
 
-    // TODO Find out why it fails when creating index '_id' with background: true
     private fun <T : Any> repository(name: String, type: KClass<T>, key: KProperty1<T, Int>) =
-        MongoIdRepository(type, database.getCollection(name), key, indexOrder = null)
+        com.hexagonkt.store.mongodb.MongoDbStore(type, key, name, database)
 
     override fun close() { /* Not needed */ }
 
-    override fun findAllFortunes() = fortuneRepository.findObjects().toList()
+    override fun findAllFortunes() = fortuneRepository.findAll()
 
     override fun findWorlds(count: Int) =
-        (1..count).mapNotNull { worldRepository.find(randomWorld()) }
+        (1..count).mapNotNull { worldRepository.findOne(randomWorld()) }
 
     override fun replaceWorlds(count: Int) = (1..count)
-        .map { worldRepository.find(randomWorld())?.copy(randomNumber = randomWorld()) }
+        .map { worldRepository.findOne(randomWorld())?.copy(randomNumber = randomWorld()) }
         .toList()
         .filterNotNull()
         .map {
-            worldRepository.replaceObjects(it, bulk = true)
+            worldRepository.replaceOne(it)
             it
         }
 }

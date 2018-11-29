@@ -1,9 +1,6 @@
 package com.hexagonkt.store.mongodb
 
 import org.testng.annotations.Test
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
-import kotlin.test.assertFailsWith
 
 class MongoDbMapperTest {
     data class MappedClass (
@@ -28,19 +25,5 @@ class MongoDbMapperTest {
         val map = mapper.toStore(instance)
 
         assert(instance == mapper.fromStore(map))
-    }
-
-    @Test fun `Map errors are handled properly`() {
-        val instance = MappedClass()
-        val mapper = MongoDbMapper(MappedClass::class, MappedClass::oneBoolean)
-        val map = mapper.toStore(instance)
-
-        assertFailsWith<IllegalStateException> {
-            mapper.fromStore(map + ("_id" to null))
-        }
-
-        assertFailsWith<IllegalArgumentException> {
-            mapper.fromStore(map + ("_id" to "Foo"))
-        }
     }
 }

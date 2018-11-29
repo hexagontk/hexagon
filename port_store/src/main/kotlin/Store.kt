@@ -9,29 +9,33 @@ interface Store<T : Any, K : Any> {
     val name: String
     val mapper: Mapper<T>
 
+    fun createIndex(unique: Boolean, fields: List<Pair<String, IndexOrder>>): String
+
+    fun createIndex(unique: Boolean, vararg fields: Pair<String, IndexOrder>): String =
+        createIndex(unique, fields.toList())
+
     fun insertOne(instance: T): K
 
     fun insertMany(instances: List<T>): List<K>
 
-    fun insertMany(vararg instances: T): List<K> = insertMany(instances.toList())
+    fun insertMany(vararg instances: T): List<K> =
+        insertMany(instances.toList())
 
-    fun saveOne(instance: T): K
+    fun saveOne(instance: T): K? // returns key if created, null if updated
 
-    fun saveMany(instances: List<T>): Long // Returns modified ones inserted + modified
+    fun saveMany(instances: List<T>): List<K?>
 
     fun replaceOne(instance: T): Boolean
 
     fun replaceMany(instances: List<T>): List<T>
 
-    fun replaceMany(vararg instances: T): List<T> = replaceMany(instances.toList())
+    fun replaceMany(vararg instances: T): List<T> =
+        replaceMany(instances.toList())
 
     fun updateOne(key: K, updates: Map<String, *>): Boolean
 
     fun updateOne(key: K, vararg updates: Pair<String, *>): Boolean =
         updateOne(key, updates.toMap())
-
-    fun updateOne_(key: K, updates: Map<KProperty1<T, *>, *>): Boolean =
-        updateOne(key, updates.mapKeys { it.key.name })
 
     fun updateOne_(key: K, vararg updates: Pair<KProperty1<T, *>, *>): Boolean =
         updateOne(key, updates.map { it.first.name to it.second }.toMap())
@@ -50,8 +54,7 @@ interface Store<T : Any, K : Any> {
         filter: Map<String, List<*>>,
         limit: Int? = null,
         skip: Int? = null,
-        sort: Map<String, Boolean> =
-            emptyMap()): List<T>
+        sort: Map<String, Boolean> = emptyMap()): List<T>
 
     fun findMany(
         filter: Map<String, List<*>>,
