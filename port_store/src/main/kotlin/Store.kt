@@ -54,8 +54,7 @@ interface Store<T : Any, K : Any> {
         filter: Map<String, List<*>>,
         limit: Int? = null,
         skip: Int? = null,
-        sort: Map<String, Boolean> =
-            emptyMap()): List<T>
+        sort: Map<String, Boolean> = emptyMap()): List<T>
 
     fun findMany(
         filter: Map<String, List<*>>,

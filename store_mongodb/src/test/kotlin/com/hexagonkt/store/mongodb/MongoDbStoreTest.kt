@@ -107,11 +107,16 @@ import java.time.LocalTime
 
         val changedCompanies = companies.map { it.copy(web = URL("http://change.example.org")) }
         assert(store.replaceMany(*changedCompanies.toTypedArray()).size == companies.size)
+        assert(store.findAll(listOf("web")).all { it["web"] == "http://change.example.org" })
 
-        // Update many
-        // Delete many
-        // findAll
-        // findMany
+        val updateMany = store.updateMany(mapOf("id" to keys), mapOf("web" to "http://update.example.org"))
+        assert(updateMany == keys.size.toLong())
+        val updatedCompanies = store.findMany(mapOf("id" to keys))
+        assert(updatedCompanies.all { it.web.toString() == "http://update.example.org" })
+
+        assert(store.count(mapOf("id" to keys)) == companies.size.toLong())
+        assert(store.deleteMany(mapOf("id" to keys)) == keys.size.toLong())
+        assert(store.count() == 0L)
     }
 
     @Test fun `Entities are stored`() {

@@ -93,7 +93,7 @@ class MongoDbStore <T : Any, K : Any>(
     override fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long {
         val updateFilter = createFilter(filter)
         val update = createUpdate(updates)
-        val result = collection.updateOne(updateFilter, update)
+        val result = collection.updateMany(updateFilter, update)
         return result.modifiedCount
     }
 
