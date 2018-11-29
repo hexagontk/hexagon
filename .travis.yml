@@ -58,6 +58,6 @@ deploy:
 
   - provider: script
     skip_cleanup: true
-    script: ./gradlew --quiet --stacktrace release
+    script: ./gradlew --stacktrace release
     on:
       branch: master
