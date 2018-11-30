@@ -18,9 +18,11 @@ env:
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/*/*.lock
+  - rm -rf $HOME/.gradle/caches/*/*/*.lock
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
+  - rm -rf $HOME/.gradle/caches/*/file-access.bin
 
 cache:
   directories:
@@ -49,7 +51,7 @@ after_failure: echo 'Look for FAILURE in tests'
 deploy:
 
   - provider: script
-    script: ./gradlew --stacktrace debug
+    script: ./gradlew --stacktrace --debug debug
     on:
       branch: develop
 
