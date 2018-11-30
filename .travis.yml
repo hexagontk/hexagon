@@ -11,6 +11,7 @@ branches:
     - /^hotfix.*$/
     - /^feature.*$/
     - develop
+    - master
 
 env:
   global:
@@ -57,7 +58,8 @@ deploy:
 #      branch: develop
 
   - provider: script
-    script: ./gradlew --no-daemon --quiet --stacktrace clean all release
+    skip_cleanup: true
+    script: ./gradlew --no-daemon --quiet --stacktrace -x test release
     on:
       branch: master
 
