@@ -1,7 +1,6 @@
 package com.hexagonkt.helpers
 
 import java.io.InputStream
-import java.lang.ClassLoader.getSystemClassLoader
 import java.net.URL
 
 /**
@@ -12,15 +11,15 @@ class Resource(val path: String) {
 
     private companion object {
 
-        /** System class loader. */
-        private val systemClassLoader: ClassLoader = getSystemClassLoader()
+        /** Thread class loader. Used over System Class Loader because for JEE servers support. */
+        private val threadClassLoader: ClassLoader = Thread.currentThread().contextClassLoader
     }
 
-    fun stream(): InputStream? = systemClassLoader.getResourceAsStream(path)
+    fun stream(): InputStream? = threadClassLoader.getResourceAsStream(path)
 
     fun requireStream() = stream() ?: error("$path not found")
 
-    fun url(): URL? = systemClassLoader.getResource(path)
+    fun url(): URL? = threadClassLoader.getResource(path)
 
     fun requireUrl(): URL = url() ?: error("$path not found")
 

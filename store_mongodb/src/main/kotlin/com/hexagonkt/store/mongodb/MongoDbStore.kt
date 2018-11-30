@@ -6,6 +6,7 @@ import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
+import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.*
@@ -134,11 +135,7 @@ class MongoDbStore <T : Any, K : Any>(
         val findSort = createSort(sort)
         val query = collection.find(findFilter).sort(findSort)
 
-        if (limit != null)
-            query.limit(limit)
-
-        if (skip != null)
-            query.skip(skip)
+        pageQuery(limit, query, skip)
 
         val result = query.into(ArrayList())
         return result.map { mapper.fromStore(it.filterEmpty()) }
@@ -156,11 +153,7 @@ class MongoDbStore <T : Any, K : Any>(
         val findSort = createSort(sort)
         val query = collection.find(findFilter).projection(projection).sort(findSort)
 
-        if (limit != null)
-            query.limit(limit)
-
-        if (skip != null)
-            query.skip(skip)
+        pageQuery(limit, query, skip)
 
         val result = query.into(ArrayList())
 
@@ -179,6 +172,14 @@ class MongoDbStore <T : Any, K : Any>(
 
     override fun drop() {
         collection.drop()
+    }
+
+    private fun pageQuery(limit: Int?, query: FindIterable<Document>, skip: Int?) {
+        if (limit != null)
+            query.limit(limit)
+
+        if (skip != null)
+            query.skip(skip)
     }
 
     private fun map(instance: T): Document = Document(mapper.toStore(instance))
