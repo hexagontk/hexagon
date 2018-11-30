@@ -4,10 +4,13 @@
 #
 
 language: java
-jdk: oraclejdk8
+jdk: openjdk8
 
 branches:
-  except: [ /^\d+.*$/ ]
+  only:
+    - /^hotfix.*$/
+    - /^feature.*$/
+    - develop
 
 env:
   global:
@@ -17,10 +20,12 @@ env:
     - secure: QbVp2q32kFmy6bUiXDA1IcFREsV15j/VepWnnv29+Jz4I/Kwsfc5d/CSHkwQ+kArokRTKdOyYAm5FdCgDHeRwQwAuy+n/hydDfjORxMOjzcEf9JSoqsc+EqLOi9y0tqUIMEuSOY/MHX+zV10O/GmvuLxEArc8zzrUn240jRHOUwtgfKyTN8TuoS3wzd/h4l8UY2bh+KrqROwEV5nztWEUvCJ1UcCzg1c9ItDJhXLLTrHhWw7tz5dCHyvot2jOYiUCB8/QRd77Nu6n8cMrFe9Nm0v98cOaDExMqgOM1/XAzrjHK/mlqmU1HjPNRCZ5jZ3mgy99mTAuSpVMwPLoeogOYDPnaUMSInBPVeU+cWVvsp/AlpttzDwLbRLAiPoqBmTBN1OoFCT1LgXt8dQ+9uR6V5qnnUv5WRDikPRQ/nwnXGyIz10pFbISaJmO74h5Nk74Ec4swX+x3mMekN0bZDXdLykCk4mQsDnDMojYxCYb6+OG0chQ7BcXP9TH44YrLrgYDe67dYPHga1+n1kCfuIGx8jp99uuKnMOUazaHa6Du9WyuPt1VaJSTd+Eh/Q1VJHsBoCpveCJPmGDYcw8slKsOIBI1dv1Yu9pgcF2tRd36nzUVyQ5bL51roWD55ul0Kv068jW5d1uiX2dNdYxjAyVM5zhoOV3G+X4yb7ldY8Ok8=
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/*/*.lock
+  - find $HOME/.gradle/caches -type f -name '*.lock' -delete
+  - find $HOME/.gradle/caches -type f -name 'file-access.bin' -delete
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
+  - rm -rf $HOME/.gradle/caches/*/workerMain/
 
 cache:
   directories:
@@ -36,22 +41,23 @@ services:
 install:
   # Git set up is required for release tag creation
   - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
-  - git pull origin develop
-  - git pull origin master
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
 script: ./gradlew --quiet --stacktrace clean all
-#script: ./gradlew --stacktrace debug
 
 after_success: bash <(curl -s https://codecov.io/bash)
 after_failure: echo 'Look for FAILURE in tests'
 
 deploy:
 
+#  - provider: script
+#    script: ./gradlew --no-daemon --stacktrace --debug debug
+#    on:
+#      branch: develop
+
   - provider: script
-    skip_cleanup: true
-    script: ./gradlew --stacktrace release
+    script: ./gradlew --no-daemon --quiet --stacktrace clean all release
     on:
       branch: master
 
