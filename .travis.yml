@@ -57,12 +57,12 @@ after_failure: echo 'Look for FAILURE in tests'
 deploy:
 
   - provider: script
-    script: ./gradlew --stacktrace --debug debug
+    script: ./gradlew --no-daemon --stacktrace --debug debug
     on:
       branch: develop
 
   - provider: script
-    script: ./gradlew --quiet --stacktrace clean all release
+    script: ./gradlew --no-daemon --quiet --stacktrace clean all release
     on:
       branch: master
 
