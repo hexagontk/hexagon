@@ -25,14 +25,10 @@ env:
 before_cache:
   - find $HOME/.gradle/caches -type f -name '*.lock' -delete
   - find $HOME/.gradle/caches -type f -name 'file-access.bin' -delete
-  - find $HOME/.gradle/caches -type f -name '*.lock'
-  - find $HOME/.gradle/caches -type f -name 'file-access.bin'
-  - rm -f  $HOME/.gradle/caches/*/*.lock
-  - rm -rf $HOME/.gradle/caches/**/*.lock
+  - find $HOME/.gradle/caches -type d -name 'workerMain' -delete
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
-  - rm -rf $HOME/.gradle/caches/*/file-access.bin
 
 cache:
   directories:
@@ -66,8 +62,7 @@ deploy:
       branch: develop
 
   - provider: script
-    skip_cleanup: true
-    script: ./gradlew --stacktrace -x test release
+    script: ./gradlew --quiet --stacktrace clean all release
     on:
       branch: master
 
