@@ -41,7 +41,8 @@ install:
   - mongo hexagon_benchmark/mongodb.js
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
-script: ./gradlew --quiet --stacktrace clean all
+#script: ./gradlew --quiet --stacktrace clean all
+script: ./gradlew --stacktrace debug
 
 after_success: bash <(curl -s https://codecov.io/bash)
 after_failure: echo 'Look for FAILURE in tests'
