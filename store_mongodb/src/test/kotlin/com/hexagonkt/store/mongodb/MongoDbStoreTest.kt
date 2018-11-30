@@ -109,6 +109,10 @@ import java.time.LocalTime
         assert(store.replaceMany(*changedCompanies.toTypedArray()).size == companies.size)
         assert(store.findAll(listOf("web")).all { it["web"] == "http://change.example.org" })
 
+        val results = store.findMany(emptyMap(), listOf("id", "web"), 4, 8, mapOf("id" to false))
+        assert(results.size == 2)
+        assert(results.all { it["web"] == "http://change.example.org" })
+
         val updateMany = store.updateMany(mapOf("id" to keys), mapOf("web" to "http://update.example.org"))
         assert(updateMany == keys.size.toLong())
         val updatedCompanies = store.findMany(mapOf("id" to keys))
