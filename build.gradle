@@ -49,6 +49,7 @@ task release(dependsOn: 'publish') {
 task debug {
     doLast {
         exec { commandLine 'git', 'tag', '-m', "Release $version", version }
+        exec { commandLine 'git', 'push', '--tags' }
     }
 }
 
