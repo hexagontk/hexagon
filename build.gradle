@@ -41,7 +41,7 @@ task publish(dependsOn:
 
 task release(dependsOn: 'publish') {
     doLast {
-        exec { commandLine 'git', 'tag', '-m', "Release $version", version }
+        exec { commandLine 'git', 'tag', '-m', "Release $version".toString (), version }
         exec { commandLine 'git', 'push', '--tags' }
     }
 }
