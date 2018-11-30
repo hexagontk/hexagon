@@ -49,14 +49,13 @@ after_failure: echo 'Look for FAILURE in tests'
 deploy:
 
   - provider: script
-    skip_cleanup: true
     script: ./gradlew --stacktrace debug
     on:
       branch: develop
 
   - provider: script
     skip_cleanup: true
-    script: ./gradlew --stacktrace release
+    script: ./gradlew --stacktrace -x test release
     on:
       branch: master
 
