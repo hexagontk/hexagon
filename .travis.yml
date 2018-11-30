@@ -42,22 +42,23 @@ install:
   - psql -U postgres -f hexagon_benchmark/postgresql.sql
 
 script: ./gradlew --quiet --stacktrace clean all
+#script: ./gradlew --stacktrace debug
 
 after_success: bash <(curl -s https://codecov.io/bash)
 after_failure: echo 'Look for FAILURE in tests'
 
 deploy:
 
+  - provider: script
+    skip_cleanup: true
+    script: ./gradlew --stacktrace release
+    on:
+      branch: master
+
   - provider: pages
     skip_cleanup: true
     github_token: $GRGIT_PASS
     local_dir: hexagon_site/build
     fqdn: hexagonkt.com
-    on:
-      branch: master
-
-  - provider: script
-    skip_cleanup: true
-    script: ./gradlew --stacktrace release
     on:
       branch: master
