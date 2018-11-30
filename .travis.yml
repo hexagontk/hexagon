@@ -52,11 +52,6 @@ after_failure: echo 'Look for FAILURE in tests'
 
 deploy:
 
-#  - provider: script
-#    script: ./gradlew --no-daemon --stacktrace --debug debug
-#    on:
-#      branch: develop
-
   - provider: script
     skip_cleanup: true
     script: ./gradlew --no-daemon --quiet --stacktrace -x test release
