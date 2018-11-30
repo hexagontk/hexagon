@@ -46,13 +46,6 @@ task release(dependsOn: 'publish') {
     }
 }
 
-//task debug {
-//    doLast {
-//        exec { commandLine 'git', 'tag', '-m', "Release $version", version }
-//        exec { commandLine 'git', 'push', '--tags' }
-//    }
-//}
-
 task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoReport) {
     executionData = files(fileTree(rootDir.absolutePath).include("**/build/jacoco/test.exec"))
 
