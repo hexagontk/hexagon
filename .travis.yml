@@ -7,7 +7,13 @@ language: java
 jdk: oraclejdk8
 
 branches:
-  except: [ /^\d+.*$/ ]
+  only:
+    - /^hotfix.*$/
+    - /^feature.*$/
+    - develop
+
+git:
+  depth: false
 
 env:
   global:
@@ -19,6 +25,8 @@ env:
 before_cache:
   - find $HOME/.gradle/caches -type f -name '*.lock' -delete
   - find $HOME/.gradle/caches -type f -name 'file-access.bin' -delete
+  - find $HOME/.gradle/caches -type f -name '*.lock'
+  - find $HOME/.gradle/caches -type f -name 'file-access.bin'
   - rm -f  $HOME/.gradle/caches/*/*.lock
   - rm -rf $HOME/.gradle/caches/**/*.lock
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
@@ -39,7 +47,7 @@ services:
 
 install:
   # Git set up is required for release tag creation
-  - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
+#  - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
   - git pull origin develop
   - git pull origin master
   - mongo hexagon_benchmark/mongodb.js
