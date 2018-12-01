@@ -2,9 +2,9 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/kotlin_js.html
  */
 
-apply plugin: 'kotlin2js'
+apply plugin: "kotlin2js"
 
-defaultTasks 'build'
+defaultTasks "build"
 
 repositories {
     jcenter ()
@@ -24,7 +24,7 @@ compileKotlin2Js {
 }
 
 clean {
-    delete 'build', 'out'
+    delete "build", "out"
 }
 
 task assembleWeb(type: Sync, dependsOn: classes) {
@@ -33,9 +33,9 @@ task assembleWeb(type: Sync, dependsOn: classes) {
             includeEmptyDirs = false
             include { FileTreeElement element ->
                 String path = element.path
-                boolean isInResources = path.startsWith('META-INF/resources/')
-                boolean isJs = path.endsWith('.js')
-                isJs && (isInResources || !path.startsWith('META-INF/'))
+                boolean isInResources = path.startsWith("META-INF/resources/")
+                boolean isJs = path.endsWith(".js")
+                isJs && (isInResources || !path.startsWith("META-INF/"))
             }
         }
     }
@@ -44,10 +44,10 @@ task assembleWeb(type: Sync, dependsOn: classes) {
 
     from (compileKotlin2Js.destinationDir) {
         includeEmptyDirs = false
-        include '**/*.js'
+        include "**/*.js"
     }
 
     into "$buildDir/web"
 }
 
-assemble.dependsOn 'assembleWeb'
+assemble.dependsOn "assembleWeb"

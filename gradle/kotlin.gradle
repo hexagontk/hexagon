@@ -2,14 +2,14 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/kotlin.html
  */
 
-apply plugin: 'kotlin'
-apply plugin: 'jacoco'
-apply plugin: 'maven-publish'
+apply plugin: "kotlin"
+apply plugin: "jacoco"
+apply plugin: "maven-publish"
 
-defaultTasks 'build'
+defaultTasks "build"
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 repositories {
     jcenter ()
@@ -27,7 +27,7 @@ dependencies {
 
 // Replace build variables in resource files
 processResources {
-    [ 'properties', 'ini', 'cfg', 'txt', 'html', 'xml', 'json', 'yaml' ].each { String ext ->
+    [ "properties", "ini", "cfg", "txt", "html", "xml", "json", "yaml" ].each { String ext ->
         final Map<String, ?> stringProperties = project.getProperties()
             .findAll { it.value instanceof String }
 
@@ -46,18 +46,18 @@ processResources {
 }
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
-tasks.compileKotlin.kotlinOptions.apiVersion = '1.3'
+tasks.compileKotlin.kotlinOptions.apiVersion = "1.3"
 
 tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
 
 // Clean the project taking care of logs and runtime files
 clean {
-    delete 'build', 'log', 'out', '.vertx', 'file-uploads'
+    delete "build", "log", "out", ".vertx", "file-uploads"
 
     delete (
-        fileTree(rootDir) { include '**/*.log' },
-        fileTree(rootDir) { include '**/*.hprof' }
+        fileTree(rootDir) { include "**/*.log" },
+        fileTree(rootDir) { include "**/*.hprof" }
     )
 }
 
@@ -67,28 +67,28 @@ tasks.withType (Test).each { testTask ->
     testTask.systemProperties (project.getProperties().findAll { it.value instanceof String })
 
     testTask.testLogging {
-        events 'skipped', 'failed', 'standardOut', 'standardError'
+        events "skipped", "failed", "standardOut", "standardError"
     }
 }
 
 test {
-    exclude '**/*IT.*'
+    exclude "**/*IT.*"
 }
 
-task verify(dependsOn: 'test', type: Test) {
-    include '**/*IT.*'
+task verify(dependsOn: "test", type: Test) {
+    include "**/*IT.*"
 }
 
 // Generate coverage reports properly
 jacocoTestReport {
-    dependsOn 'test'
+    dependsOn "test"
     reports {
         xml.enabled = true
         html.enabled = true
     }
 }
 
-task jarAll (type: Jar, dependsOn: 'build') {
+task jarAll (type: Jar, dependsOn: "build") {
     baseName = "$baseName-all"
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
@@ -97,12 +97,12 @@ task jarAll (type: Jar, dependsOn: 'build') {
 }
 
 task sourceJar (type: Jar) {
-    classifier 'sources'
+    classifier "sources"
     from sourceSets.main.allJava
 }
 
 task testJar(type: Jar, dependsOn: testClasses) {
-    classifier 'test'
+    classifier "test"
     from sourceSets.test.output.classesDirs
 }
 

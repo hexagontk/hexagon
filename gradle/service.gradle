@@ -2,11 +2,11 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/service.html
  */
 
-apply plugin: 'application'
+apply plugin: "application"
 
-defaultTasks 'installDist'
+defaultTasks "installDist"
 
-classes.dependsOn 'buildInfo'
+classes.dependsOn "buildInfo"
 
 task buildInfo {
     doLast {
@@ -21,9 +21,9 @@ task buildInfo {
     }
 }
 
-installDist.dependsOn 'build'
+installDist.dependsOn "build"
 
-task runService(dependsOn: 'classes') {
+task runService(dependsOn: "classes") {
     doLast {
         final JavaExec runTask = run
 
@@ -33,13 +33,13 @@ task runService(dependsOn: 'classes') {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream()
         exec {
-            commandLine 'jps', '-l'
+            commandLine "jps", "-l"
             standardOutput = out
         }
         out.toString ().readLines()
             .findAll { it.endsWith((String)runTask.main) }
-            .collect { it.split(' ')[0] }
-            .each { pid -> exec { commandLine 'kill', pid } }
+            .collect { it.split(" ")[0] }
+            .each { pid -> exec { commandLine "kill", pid } }
 
         Thread.startDaemon {
             runTask.setIgnoreExitValue(true)

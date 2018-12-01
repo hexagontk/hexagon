@@ -2,32 +2,32 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/site.html
  */
 
-apply plugin: 'org.jbake.site'
+apply plugin: "org.jbake.site"
 
 bake {
-    String siteHost = findProperty ('siteHost') ?: ''
-    Map<String, ?> configData = findProperty ('configData') as Map<String, Object> ?: [:]
+    String siteHost = findProperty ("siteHost") ?: ""
+    Map<String, ?> configData = findProperty ("configData") as Map<String, Object> ?: [:]
 
     input = projectDir
     output = project.buildDir
-    version  = findProperty ('jbakeVersion') ?: '2.6.3'
+    version  = findProperty ("jbakeVersion") ?: "2.6.3"
 
-    configuration['site.host'] = siteHost
+    configuration["site.host"] = siteHost
 
-    configuration['render.index'] = file("$projectDir/templates/index.ftl").exists()
-    configuration['render.tags'] = false
-    configuration['render.archive'] = false
-    configuration['render.feed'] = false
-    configuration['render.sitemap'] = true
+    configuration["render.index"] = file("$projectDir/templates/index.ftl").exists()
+    configuration["render.tags"] = false
+    configuration["render.archive"] = false
+    configuration["render.feed"] = false
+    configuration["render.sitemap"] = true
 
-    configuration['markdown.extensions'] = 'ALL,-HARDWRAPS,-AUTOLINKS,-EXTANCHORLINKS'
+    configuration["markdown.extensions"] = "ALL,-HARDWRAPS,-AUTOLINKS,-EXTANCHORLINKS"
 
     // Custom properties
-    configuration['projectName'] = rootProject.name // Applied in templates, not content
-    configuration['projectDescription'] = rootProject.description
-    configuration['projectVersion'] = rootProject.version.toString()
-    configuration['projectGroup'] = rootProject.group.toString ()
-    configuration['siteHost'] = configuration['site.host']
+    configuration["projectName"] = rootProject.name // Applied in templates, not content
+    configuration["projectDescription"] = rootProject.description
+    configuration["projectVersion"] = rootProject.version.toString()
+    configuration["projectGroup"] = rootProject.group.toString ()
+    configuration["siteHost"] = configuration["site.host"]
 
     // Custom extra data
     configData.each { entry ->
@@ -36,7 +36,7 @@ bake {
 }
 
 // Site processing is required because JBake does not filter content with configuration properties
-task site (dependsOn: 'bake') {
+task site (dependsOn: "bake") {
     doLast {
         file (buildDir).traverse (nameFilter: ~/.+\.(html|xml|css|svg)$/) {
             filterFile (it, bake.configuration)

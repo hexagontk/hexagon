@@ -2,19 +2,19 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/dokka.html
  */
 
-apply plugin: 'kotlin'
-apply plugin: 'maven-publish'
-apply plugin: 'org.jetbrains.dokka'
+apply plugin: "kotlin"
+apply plugin: "maven-publish"
+apply plugin: "org.jetbrains.dokka"
 
 dokka {
-    outputFormat = findProperty ('dokkaOutputFormat') ?: 'gfm'
+    outputFormat = findProperty ("dokkaOutputFormat") ?: "gfm"
     reportUndocumented = false
-    includes = filesCollection projectDir, '*.md'
-    samples = filesCollection "$projectDir/src/test/kotlin", '**/*Test.kt'
+    includes = filesCollection projectDir, "*.md"
+    samples = filesCollection "$projectDir/src/test/kotlin", "**/*Test.kt"
 }
 
-task dokkaJar(type: Jar, dependsOn: 'dokka') {
-    classifier 'javadoc'
+task dokkaJar(type: Jar, dependsOn: "dokka") {
+    classifier "javadoc"
     from fileTree ("$buildDir/dokka")
 }
 
