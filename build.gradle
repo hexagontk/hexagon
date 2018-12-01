@@ -5,7 +5,7 @@
  *  2. Release: tag source code in GitHub
  *  3. Jacoco report: aggregated coverage report for all modules
  *  4. Group all tasks: shortcut for all tasks to ease the release process
- *  
+ *
  * Plugins that are not used in the root project (this one) are only applied by the modules that use
  * them.
  */
@@ -47,7 +47,9 @@ task release(dependsOn: 'publish') {
 }
 
 task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoReport) {
-    executionData = files(fileTree(rootDir.absolutePath).include("**/build/jacoco/test.exec"))
+    final String rootPath = rootDir.absolutePath
+    final String execPattern = '**/build/jacoco/test.exec'
+    executionData.setFrom(fileTree(rootPath).include(execPattern))
 
     subprojects.each {
         sourceSets it.sourceSets.main as SourceSet

@@ -17,7 +17,7 @@ applicationDefaultJvmArgs = [
 
 project.ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
 project.ext.databases = [ 'MongoDB', 'PostgreSQL' ]
-project.ext.servers = [ 'Jetty' ]
+project.ext.servers = [ 'Jetty', 'Resin' ]
 project.ext.tests = [ servers, databases ].combinations ()
 
 war {
@@ -140,20 +140,52 @@ task setupDockerfiles {
 
             file.createNewFile()
 
-            file.text = """
-                FROM gradle:4.10.2-jdk11
+            final String dockerfileBuild = """
+                FROM gradle:5.0.0-jdk11 AS gradle_build
                 USER root
                 WORKDIR /hexagon
+
                 COPY src src
                 COPY build.gradle build.gradle
                 COPY gradle.properties gradle.properties
-                COPY settings.gradle settings.gradle
                 RUN gradle --quiet --exclude-task test
+            """
+
+            final String dockerfileRuntime = server == "resin"?
+                """
+                FROM openjdk:11
                 ENV DBSTORE $database
                 ENV ${database.toUpperCase ()}_DB_HOST tfb-database
-                ENV WEBENGINE jetty
-                CMD ["build/install/hexagon/bin/hexagon"]
-            """.stripIndent ()
+                ENV RESIN 4.0.58
+
+                RUN curl http://caucho.com/download/resin-\$RESIN.tar.gz | tar xvz -C /opt
+                COPY --from=gradle_build /hexagon/build/libs/ROOT.war /opt/resin-\$RESIN/webapps
+                ENTRYPOINT /opt/resin-\$RESIN/bin/resin.sh console
+                """ :
+                """
+                FROM openjdk:11
+                ENV DBSTORE $database
+                ENV ${database.toUpperCase ()}_DB_HOST tfb-database
+                ENV WEBENGINE ${server}
+                ENV PROJECT hexagon
+
+                COPY --from=gradle_build /hexagon/build/install/\$PROJECT /opt/\$PROJECT
+                ENTRYPOINT /opt/\$PROJECT/bin/\$PROJECT
+                """
+
+            /*
+             */
+            file.text = """
+                #
+                # BUILD
+                #
+                ${dockerfileBuild.trim()}
+                
+                #
+                # RUNTIME
+                #
+                ${dockerfileRuntime.trim()}
+            """.stripIndent()
         }
     }
 }
