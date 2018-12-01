@@ -7,20 +7,20 @@ apply plugin: "maven-publish"
 apply plugin: "org.jetbrains.dokka"
 
 dokka {
-    outputFormat = findProperty ("dokkaOutputFormat") ?: "gfm"
+    outputFormat = findProperty("dokkaOutputFormat") ?: "gfm"
     reportUndocumented = false
-    includes = filesCollection projectDir, "*.md"
-    samples = filesCollection "$projectDir/src/test/kotlin", "**/*Test.kt"
+    includes = filesCollection(projectDir, "*.md")
+    samples = filesCollection("$projectDir/src/test/kotlin", "**/*Test.kt")
 }
 
 task dokkaJar(type: Jar, dependsOn: "dokka") {
-    classifier "javadoc"
-    from fileTree ("$buildDir/dokka")
+    classifier = "javadoc"
+    from(fileTree("$buildDir/dokka"))
 }
 
 publishing {
     publications {
-        mavenJava (MavenPublication) {
+        mavenJava(MavenPublication) {
             artifact dokkaJar
         }
     }
