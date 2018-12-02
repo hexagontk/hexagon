@@ -4,10 +4,6 @@ import com.hexagonkt.helpers.error
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.Store
-import com.mongodb.ConnectionString
-import com.mongodb.MongoClientURI
-import com.mongodb.client.MongoClients
-import com.mongodb.client.MongoDatabase
 import org.bson.types.ObjectId
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
@@ -20,11 +16,8 @@ import java.time.LocalTime
     private val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String?
         ?: "mongodb://localhost/test"
 
-    private val database: String = MongoClientURI(mongodbUrl).database ?: error
-    private val db: MongoDatabase =
-        MongoClients.create(ConnectionString(mongodbUrl)).getDatabase(database)
     private val store: Store<Company, String> =
-        MongoDbStore(Company::class, Company::id, "companies", db)
+        MongoDbStore(Company::class, Company::id, mongodbUrl, "companies")
 
     private fun createTestEntities() = (0..9)
         .map { ObjectId().toHexString() }
