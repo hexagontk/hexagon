@@ -35,6 +35,12 @@ object SettingsManager {
     @Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
     fun <T : Any> setting(vararg name: String): T? = settings.get(*name) as? T
 
+    fun <T : Any> defaultSetting(name: String, value: T): T =
+        defaultSetting(listOf(name), value)
+
+    fun <T : Any> defaultSetting(name: List<String>, value: T): T =
+        setting(*name.toTypedArray()) ?: value
+
     fun <T : Any> requireSetting(vararg name: String): T =
         setting(*name) ?: error("$name required setting not found")
 
