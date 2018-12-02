@@ -10,7 +10,6 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.lang.System.setProperty
-import kotlin.test.assertFailsWith
 
 class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
 class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
@@ -30,12 +29,6 @@ class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
     @AfterClass fun shutDown() {
         benchmarkStores[databaseEngine]?.close()
         benchmarkServer.stop()
-    }
-
-    @Test fun store() {
-        assertFailsWith<IllegalStateException> {
-            createStore("invalid")
-        }
     }
 
     @Test fun web() {

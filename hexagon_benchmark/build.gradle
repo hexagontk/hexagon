@@ -1,60 +1,60 @@
 
-apply from: "../gradle/kotlin.gradle"
-apply from: "../gradle/service.gradle"
+apply(from: "../gradle/kotlin.gradle")
+apply(from: "../gradle/service.gradle")
 
-apply plugin: 'scala'
-apply plugin: 'war'
+apply(plugin: "scala")
+apply(plugin: "war")
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
 
 applicationDefaultJvmArgs = [
-    '-Xms2G',
-    '-Xmx2G',
-    '-XX:+UseNUMA',
-    '-XX:+UseParallelGC',
-    '-XX:+AggressiveOpts'
+    "-Xms2G",
+    "-Xmx2G",
+    "-XX:+UseNUMA",
+    "-XX:+UseParallelGC",
+    "-XX:+AggressiveOpts"
 ]
 
-project.ext.tfbBuildDir = project.buildDir.absolutePath + '/tfb'
-project.ext.databases = [ 'MongoDB', 'PostgreSQL' ]
-project.ext.servers = [ 'Jetty', 'Resin' ]
+project.ext.tfbBuildDir = project.buildDir.absolutePath + "/tfb"
+project.ext.databases = [ "MongoDB", "PostgreSQL" ]
+project.ext.servers = [ "Jetty", "Resin" ]
 project.ext.tests = [ servers, databases ].combinations ()
 
 war {
     archiveName = "ROOT.war"
 }
 
-installDist.dependsOn 'war'
+installDist.dependsOn("war")
 
 dependencies {
-    compile project(':store_mongodb')
-    compile project(':server_jetty')
-    compile project(':templates_pebble')
+    compile(project(":store_mongodb"))
+    compile(project(":server_jetty"))
+    compile(project(":templates_pebble"))
 
-    compile ("com.zaxxer:HikariCP:$hikariVersion")
-    compile ("org.postgresql:postgresql:$postgresqlVersion")
+    compile("com.zaxxer:HikariCP:$hikariVersion")
+    compile("org.postgresql:postgresql:$postgresqlVersion")
 
-    testCompile project(':port_client')
-    testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("junit:junit:$junitVersion")
-    testCompile ("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
+    testCompile(project(":port_client"))
+    testCompile("org.testng:testng:$testngVersion")
+    testCompile("junit:junit:$junitVersion")
+    testCompile("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 }
 
 test {
-    useTestNG ()
+    useTestNG()
 }
 
-task tfb(type: Copy, dependsOn: [ 'benchmarkConfig', 'setupDockerfiles' ]) {
-    from projectDir
-    include 'src/**', 'tfb.gradle', 'readme.md'
-    into tfbBuildDir
-    rename 'tfb.gradle', 'build.gradle'
-    rename 'readme.md', 'README.md'
+task tfb(type: Copy, dependsOn: [ "benchmarkConfig", "setupDockerfiles" ]) {
+    from(projectDir)
+    include("src/**", "tfb.gradle", "readme.md")
+    into(tfbBuildDir)
+    rename("tfb.gradle", "build.gradle")
+    rename("tfb.md", "README.md")
 }
 
 task gradleSettings(type: WriteProperties) {
     Map<String, ?> settings = [
-        description : 'Hexagon web framework\'s benchmark',
+        description : "Hexagon web framework's benchmark",
 
         gradleScripts :
             "https://raw.githubusercontent.com/hexagonkt/hexagon/$rootProject.version/gradle",
@@ -71,7 +71,7 @@ task gradleSettings(type: WriteProperties) {
         testngVersion : testngVersion
     ]
 
-    properties settings
+    properties = settings
     outputFile = "$tfbBuildDir/gradle.properties"
 }
 
@@ -84,46 +84,46 @@ task benchmarkConfig {
             final String server = it[0]
             final String database = it[1]
             final String databaseEngine = database.toLowerCase()
-            final String name = server == servers.first () && database == databases.first ()?
-                'default' : server + '-' + database
-            final int port = server == 'Resin'? 8080 : 9090
+            final String name = server == servers.first () && database == databases.first()?
+                "default" : server + "-" + database
+            final int port = server == "Resin"? 8080 : 9090
 
             testsMap[name.toLowerCase()] = [
-                json_url : '/json',
+                json_url : "/json",
                 db_url : "/$databaseEngine/db",
                 query_url : "/$databaseEngine/query?queries=",
                 fortune_url : "/$databaseEngine/pebble/fortunes",
                 update_url : "/$databaseEngine/update?queries=",
-                plaintext_url : '/plaintext',
+                plaintext_url : "/plaintext",
 
                 port : port,
 
-                approach : 'Realistic',
-                classification : 'Micro',
-                database : database == 'PostgreSQL'? 'postgres' : databaseEngine,
-                framework : 'Hexagon',
-                language : 'Kotlin',
-                orm : 'Raw',
-                platform : 'Servlet',
-                webserver : 'None',
-                os : 'Linux',
-                database_os : 'Linux',
+                approach : "Realistic",
+                classification : "Micro",
+                database : database == "PostgreSQL"? "postgres" : databaseEngine,
+                framework : "Hexagon",
+                language : "Kotlin",
+                orm : "Raw",
+                platform : "Servlet",
+                webserver : "None",
+                os : "Linux",
+                database_os : "Linux",
                 display_name : "Hexagon $server $database",
-                notes : 'http://hexagonkt.com',
+                notes : "http://hexagonkt.com",
 
-                versus : 'servlet'
+                versus : "servlet"
             ]
         }
 
         final Map<String, ?> config = [
-            framework : 'hexagon',
+            framework : "hexagon",
             tests : [ testsMap ]
         ]
 
         final String json = JsonOutput.toJson(config)
         final File file = file("$tfbBuildDir/benchmark_config.json")
 
-        mkdir (tfbBuildDir)
+        mkdir(tfbBuildDir)
         file.createNewFile()
         file.text = JsonOutput.prettyPrint(json)
     }
@@ -134,8 +134,8 @@ task setupDockerfiles {
         tests.collect { it as List<List<String>> }.forEach { final List<String> row ->
             final String server = row[0].toLowerCase()
             final String database = row[1].toLowerCase()
-            final String name = row[0] == servers.first () && row[1] == databases.first ()?
-                'hexagon' : "hexagon-${server}-${database}"
+            final String name = row[0] == servers.first () && row[1] == databases.first()?
+                "hexagon" : "hexagon-${server}-${database}"
             final File file = file("$tfbBuildDir/${name}.dockerfile")
 
             file.createNewFile()
@@ -155,7 +155,7 @@ task setupDockerfiles {
                 """
                 FROM openjdk:11
                 ENV DBSTORE $database
-                ENV ${database.toUpperCase ()}_DB_HOST tfb-database
+                ENV ${database.toUpperCase()}_DB_HOST tfb-database
                 ENV RESIN 4.0.58
 
                 RUN curl http://caucho.com/download/resin-\$RESIN.tar.gz | tar xvz -C /opt
@@ -165,7 +165,7 @@ task setupDockerfiles {
                 """
                 FROM openjdk:11
                 ENV DBSTORE $database
-                ENV ${database.toUpperCase ()}_DB_HOST tfb-database
+                ENV ${database.toUpperCase()}_DB_HOST tfb-database
                 ENV WEBENGINE ${server}
                 ENV PROJECT hexagon
 
