@@ -2,9 +2,9 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/dokka.html
  */
 
-apply plugin: "kotlin"
-apply plugin: "maven-publish"
-apply plugin: "org.jetbrains.dokka"
+apply(plugin: "kotlin")
+apply(plugin: "maven-publish")
+apply(plugin: "org.jetbrains.dokka")
 
 dokka {
     outputFormat = findProperty("dokkaOutputFormat") ?: "gfm"
@@ -21,11 +21,11 @@ task dokkaJar(type: Jar, dependsOn: "dokka") {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact dokkaJar
+            artifact(dokkaJar)
         }
     }
 }
 
-private List<File> filesCollection (final Object dir, final String pattern) {
+private List<File> filesCollection(final Object dir, final String pattern) {
     return fileTree(dir: dir, include: pattern).getFiles().toList()
 }

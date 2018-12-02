@@ -2,26 +2,26 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/service.html
  */
 
-apply plugin: "application"
+apply(plugin: "application")
 
-defaultTasks "installDist"
+defaultTasks("installDist")
 
-classes.dependsOn "buildInfo"
+classes.dependsOn("buildInfo")
 
 task buildInfo {
     doLast {
-        file ("$buildDir/resources/main").mkdirs ()
-        file ("$buildDir/resources/main/service.properties").write """
+        file("$buildDir/resources/main").mkdirs()
+        file("$buildDir/resources/main/service.properties").write("""
             project=$rootProject.name
             module=$project.name
             version=${project.version.toString()}
             group=$project.group
             description=$project.description
-        """.stripIndent ()
+        """.stripIndent ())
     }
 }
 
-installDist.dependsOn "build"
+installDist.dependsOn("build")
 
 task runService(dependsOn: "classes") {
     doLast {
@@ -33,13 +33,13 @@ task runService(dependsOn: "classes") {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream()
         exec {
-            commandLine "jps", "-l"
+            commandLine("jps", "-l")
             standardOutput = out
         }
-        out.toString ().readLines()
+        out.toString().readLines()
             .findAll { it.endsWith((String)runTask.main) }
             .collect { it.split(" ")[0] }
-            .each { pid -> exec { commandLine "kill", pid } }
+            .each { pid -> exec { commandLine("kill", pid) } }
 
         Thread.startDaemon {
             runTask.setIgnoreExitValue(true)

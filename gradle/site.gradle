@@ -2,15 +2,15 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/site.html
  */
 
-apply plugin: "org.jbake.site"
+apply(plugin: "org.jbake.site")
 
 bake {
-    String siteHost = findProperty ("siteHost") ?: ""
-    Map<String, ?> configData = findProperty ("configData") as Map<String, Object> ?: [:]
+    String siteHost = findProperty("siteHost") ?: ""
+    Map<String, ?> configData = findProperty("configData") as Map<String, Object> ?: [:]
 
     input = projectDir
     output = project.buildDir
-    version  = findProperty ("jbakeVersion") ?: "2.6.3"
+    version  = findProperty("jbakeVersion") ?: "2.6.3"
 
     configuration["site.host"] = siteHost
 
@@ -36,20 +36,20 @@ bake {
 }
 
 // Site processing is required because JBake does not filter content with configuration properties
-task site (dependsOn: "bake") {
+task site(dependsOn: "bake") {
     doLast {
-        file (buildDir).traverse (nameFilter: ~/.+\.(html|xml|css|svg)$/) {
-            filterFile (it, bake.configuration)
+        file(buildDir).traverse(nameFilter: ~/.+\.(html|xml|css|svg)$/) {
+            filterFile(it, bake.configuration)
         }
     }
 }
 
-private static void filterFile (final File file, final Map<?, ?> data) {
-    String text = file.getText ()
+private static void filterFile(final File file, final Map<?, ?> data) {
+    String text = file.getText()
 
     data.each { entry ->
-        text = text.replace ("\${$entry.key}", entry.value.toString ())
+        text = text.replace("\${$entry.key}", entry.value.toString())
     }
 
-    file.write (text)
+    file.write(text)
 }

@@ -2,7 +2,7 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/jmh.html
  */
 
-apply plugin: "me.champeau.gradle.jmh"
+apply(plugin: "me.champeau.gradle.jmh")
 
 project.ext.jmhBenchmarkVersion = findProperty("jmhBenchmarkVersion") ?: "1.21"
 
@@ -10,11 +10,11 @@ dependencies {
     final String jmhBenchmarkVersion = project.ext.jmhBenchmarkVersion // To avoid undefined warning
 
     // Added for IntelliJ IDEA to compile JMH tests inside the IDE
-    compileOnly ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
-    compileOnly ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
+    compileOnly("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
+    compileOnly("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
 
-    jmh ("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
-    annotationProcessor ("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
+    jmh("org.openjdk.jmh:jmh-core:$jmhBenchmarkVersion")
+    annotationProcessor("org.openjdk.jmh:jmh-generator-annprocess:$jmhBenchmarkVersion")
 }
 
 jmh {
@@ -30,13 +30,13 @@ jmh {
 
     iterations = projectIterations.toInteger() ?: 5
     benchmarkMode = projectBenchmarkModes.split (",").collect { it.trim() } ?: [ "all" ]
-    batchSize = projectBatchSize.toInteger () ?: 1
-    fork = projectFork.toInteger () ?: 1
-    operationsPerInvocation = projectOperationsPerInvocation.toInteger () ?: 5
+    batchSize = projectBatchSize.toInteger() ?: 1
+    fork = projectFork.toInteger() ?: 1
+    operationsPerInvocation = projectOperationsPerInvocation.toInteger() ?: 5
     timeOnIteration = projectTimeOnIteration ?: "1s"
     warmup = projectWarmup ?: "1s"
-    warmupBatchSize = projectWarmupBatchSize.toInteger () ?: 5
-    warmupIterations = projectWarmupIterations.toInteger () ?: 1
+    warmupBatchSize = projectWarmupBatchSize.toInteger() ?: 5
+    warmupIterations = projectWarmupIterations.toInteger() ?: 1
 
     jmhVersion = project.ext.jmhBenchmarkVersion
 }

@@ -2,7 +2,7 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/bintray.html
  */
 
-apply plugin: "com.jfrog.bintray"
+apply(plugin: "com.jfrog.bintray")
 
 bintray {
     key = findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY")
@@ -13,7 +13,7 @@ bintray {
     pkg {
         repo = project.findProperty("bintrayRepo")
         name = project.name
-        licenses = project.findProperty("licenses").toString().split (",").collect { it.trim() }
+        licenses = project.findProperty("licenses").toString().split(",").collect {it.trim()}
         vcsUrl = project.findProperty("vcsUrl")
     }
 }
