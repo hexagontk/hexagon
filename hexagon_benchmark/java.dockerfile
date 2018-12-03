@@ -1,8 +1,9 @@
 
 FROM openjdk:11
 LABEL description="Hexagon Benchmark Java"
+USER root
 
-ENV TZ "Europe/Madrid"
+ENV TZ Europe/Madrid
 ENV PROJECT hexagon_benchmark
 
 # Machine setup

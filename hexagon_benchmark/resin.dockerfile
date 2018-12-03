@@ -1,8 +1,9 @@
 
 FROM openjdk:11
 LABEL description="Hexagon Benchmark Resin"
+USER root
 
-ENV TZ "Europe/Madrid"
+ENV TZ Europe/Madrid
 ENV RESIN 4.0.58
 
 # Machine setup

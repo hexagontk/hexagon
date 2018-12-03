@@ -3,6 +3,7 @@ package com.hexagonkt.settings
 import com.hexagonkt.helpers.get
 import com.hexagonkt.settings.SettingsManager.ENVIRONMENT_PREFIX
 import com.hexagonkt.settings.SettingsManager.SETTINGS
+import com.hexagonkt.settings.SettingsManager.defaultSetting
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.settings.SettingsManager.requireSetting
@@ -25,13 +26,18 @@ import org.testng.annotations.Test
         )
     }
 
-    fun `setting works as expected`() {
+    fun `Setting works as expected`() {
         assert(setting<String>("property") == "changed")
         assert(setting<Int>("intProperty") == 42)
         assert(setting<String>("foo") == "bar")
     }
 
-    fun `get configuration properties`() {
+    fun `Get configuration properties with defaults`() {
+        assert(defaultSetting("fakeProperty", "changed") == "changed")
+        assert(defaultSetting("fakeIntProperty", 42) == 42)
+    }
+
+    fun `Get configuration properties`() {
         SettingsManager.settingsSources = listOf(
             ResourceSource("$SETTINGS.yaml"),
             ResourceSource("development.yaml"),
@@ -47,7 +53,7 @@ import org.testng.annotations.Test
         assert(settings["parent", "key"] as String == "val")
     }
 
-    fun `require configuration properties`() {
+    fun `Require configuration properties`() {
         assert(requireSetting<String>("property") == "changed")
         assert(requireSetting<Int>("intProperty") == 42)
         assert(requireSetting<String>("foo") == "bar")
@@ -55,11 +61,11 @@ import org.testng.annotations.Test
     }
 
     @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `require not found setting`() {
+    fun `Require not found setting`() {
         requireSetting<String>("not_found")
     }
 
-    fun `set default settings add command line arguments`() {
+    fun `Set default settings add command line arguments`() {
         SettingsManager.settingsSources = listOf(
             ResourceSource("$SETTINGS.yaml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),

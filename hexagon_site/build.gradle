@@ -107,8 +107,8 @@ project.ext.ports = [
 // TODO Move to YAML
 project.ext.configData = [
     bootstrapVersion : '3.3.7',
-    jqueryVersion : '3.2.1',
-    highlightVersion : '9.12.0',
+    jqueryVersion : '3.3.1',
+    highlightVersion : '9.13.1',
     theme : 'flatly',
     cloudflare : 'http://cdnjs.cloudflare.com/ajax/libs',
     author : 'Juanjo Aguililla',

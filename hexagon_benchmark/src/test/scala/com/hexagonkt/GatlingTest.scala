@@ -14,6 +14,6 @@ import org.testng.annotations.Test
     properties.simulationClass (classOf [BenchmarkSimulation].getName)
     properties.resultsDirectory(if (buildDir == null) "build" else buildDir)
 
-    Gatling.fromMap (properties.build)
+    assert(Gatling.fromMap (properties.build) == 0)
   }
 }

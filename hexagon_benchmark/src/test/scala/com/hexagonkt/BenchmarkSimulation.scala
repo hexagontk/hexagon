@@ -7,7 +7,6 @@ import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 
-// TODO Make this test fail when the assertions are not meet (now prints KO but test pass)
 class BenchmarkSimulation extends Simulation {
   private val host: String = property("host", "127.0.0.1")
   private val port: Int = property("port", "0").toInt

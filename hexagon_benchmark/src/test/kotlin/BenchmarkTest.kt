@@ -11,10 +11,11 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.lang.System.setProperty
 
-class BenchmarkJettyMongoDbTest : BenchmarkTest("jetty", "mongodb")
-class BenchmarkJettyPostgreSqlTest : BenchmarkTest("jetty", "postgresql")
+@Test class BenchmarkJettyMongoDbTest : BenchmarkTestBase("jetty", "mongodb")
 
-@Test abstract class BenchmarkTest(
+@Test class BenchmarkJettyPostgreSqlTest : BenchmarkTestBase("jetty", "postgresql")
+
+@Test abstract class BenchmarkTestBase(
     private val webEngine: String,
     private val databaseEngine: String,
     private val templateEngine: String = "pebble"
