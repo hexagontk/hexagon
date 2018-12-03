@@ -1,5 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
+import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.helpers.*
 import com.rabbitmq.client.*
 import com.rabbitmq.client.AMQP.BasicProperties

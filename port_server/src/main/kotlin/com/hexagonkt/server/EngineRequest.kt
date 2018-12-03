@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.HttpMethod
+import com.hexagonkt.http.HttpMethod
 
 /**
  * Lists would be initialized loading all elements when they are used (set it as lazy in

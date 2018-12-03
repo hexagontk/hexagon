@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.HttpMethod
+import com.hexagonkt.http.HttpMethod
 import java.util.*
 import kotlin.reflect.KClass
 

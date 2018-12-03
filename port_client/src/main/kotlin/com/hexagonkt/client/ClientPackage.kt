@@ -1,6 +1,6 @@
 package com.hexagonkt.client
 
-import com.hexagonkt.HttpMethod.*
+import com.hexagonkt.http.HttpMethod.*
 
 internal val http: Client = Client()
 

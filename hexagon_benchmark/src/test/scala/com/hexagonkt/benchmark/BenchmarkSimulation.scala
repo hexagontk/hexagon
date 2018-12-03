@@ -1,7 +1,8 @@
-package com.hexagonkt
+package com.hexagonkt.benchmark
 
 import java.lang.System.getProperty
 
+import com.hexagonkt.BenchmarkKt
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._

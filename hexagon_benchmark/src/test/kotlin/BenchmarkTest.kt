@@ -4,7 +4,7 @@ import com.hexagonkt.serialization.parse
 import com.hexagonkt.client.Client
 import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.serialization.parseList
-import com.hexagonkt.HttpMethod.GET
+import com.hexagonkt.http.HttpMethod.GET
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass

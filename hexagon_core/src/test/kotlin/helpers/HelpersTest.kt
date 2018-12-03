@@ -162,15 +162,6 @@ import kotlin.test.assertFailsWith
         error
     }
 
-    @Test fun `Parse key only query parameters return correct data` () {
-        assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
-            "a" to "1",
-            "b" to "",
-            "c" to "",
-            "d" to "e"
-        ))
-    }
-
     @Test fun `Printing an exception returns its stack trace in the string` () {
         val e = RuntimeException ("Runtime error")
         val trace = e.toText ()

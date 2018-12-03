@@ -1,8 +1,8 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.HttpMethod
+import com.hexagonkt.http.HttpMethod
 import com.hexagonkt.client.Client
-import com.hexagonkt.HttpMethod.GET
+import com.hexagonkt.http.HttpMethod.GET
 import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.TemplatePort
 import java.net.URL

@@ -1,7 +1,7 @@
 package com.hexagonkt.server.servlet
 
-import com.hexagonkt.helpers.parseQueryParameters
-import com.hexagonkt.HttpMethod
+import com.hexagonkt.http.parseQueryParameters
+import com.hexagonkt.http.HttpMethod
 import com.hexagonkt.server.Part
 import com.hexagonkt.server.Path
 import com.hexagonkt.server.EngineRequest
