@@ -6,7 +6,9 @@ fun parseQueryParameters (query: String): Map<String, String> =
     else
         query.split("&".toRegex())
             .map {
-                val kv = it.split("=")
-                kv[0].trim () to (if (kv.size == 2) kv[1].trim() else "")
+                val keyValue = it.split("=").map(String::trim)
+                val key = keyValue[0]
+                val value = if (keyValue.size == 2) keyValue[1] else ""
+                key to value
             }
             .toMap(LinkedHashMap())

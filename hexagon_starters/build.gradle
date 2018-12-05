@@ -1,60 +1,78 @@
 
 import static java.lang.System.getenv
 
-apply from: '../gradle/kotlin.gradle'
+apply(from: "../gradle/kotlin.gradle")
 
-apply plugin: 'uk.co.cacoethes.lazybones-templates'
+apply(plugin: "uk.co.cacoethes.lazybones-templates")
 
 dependencies {
-    compile project(':server_jetty')
-    compile project(':port_client')
+    compile(project(":server_jetty"))
+    compile(project(":port_client"))
 
-    testCompile("junit:junit:$junitVersion")
+    testCompile("junit:junit:$junitVersion".toString())
 }
 
-// TODO Replace version in template `gradle.properties`
-// TODO Include all subdirs as templateDirs
 lazybones {
-    final String btUser = findProperty ('bintrayUser') ?: getenv('BINTRAY_USER') ?: 'anonymous'
-    final String btKey = findProperty ('bintrayKey') ?: getenv('BINTRAY_KEY') ?: 'anonymous'
+    final String btUser = findProperty("bintrayUser") ?: getenv("BINTRAY_USER") ?: "anonymous"
+    final String btKey = findProperty("bintrayKey") ?: getenv("BINTRAY_KEY") ?: "anonymous"
+    final List<String> templateDirs = listTemplateBuildDirectories()
 
     repositoryName = "$btUser/maven"
     publish = true
 
-    setRepositoryUsername btUser.toString () ?: 'anonymous'
-    setRepositoryApiKey btKey.toString () ?: 'anonymous'
+    setRepositoryUsername(btUser.toString () ?: "anonymous")
+    setRepositoryApiKey(btKey.toString () ?: "anonymous")
 
-    licenses = [ 'MIT' ]
-    setTemplateDirs(files("$buildDir/hexagon-service"))
+    licenses = [ "MIT" ]
+    setTemplateDirs(files(templateDirs))
 }
 
 // This is required because of a flaw in this Gradle plugin :/
 clean {
     doLast {
-        mkdir ("$buildDir/hexagon-service")
-        new File("$buildDir/hexagon-service/VERSION").text = rootProject.version
+        listTemplateBuildDirectories().forEach {
+            mkdir(it)
+            new File("$it/VERSION").text = rootProject.version
+        }
     }
 }
 
+// TODO Replace version in template `gradle.properties`
+// TODO Copy it to the template before generating it.
 task processTemplate {
     // This must be done in *CONFIGURATION* phase because of a flaw in this Gradle plugin :/
-    copy {
-        from "$projectDir/hexagon-service"
-        into "$buildDir/hexagon-service"
-    }
+    listTemplateDirectoryNames().forEach { dir ->
+        copy {
+            from("$projectDir/$dir".toString())
+            into("$buildDir/hexagon-service".toString())
+        }
 
-    copy {
-        from "$rootDir/gradle/wrapper"
-        into "$buildDir/hexagon-service/gradle/wrapper"
-    }
+        copy {
+            from("$rootDir/gradle/wrapper".toString())
+            into("$buildDir/$dir/gradle/wrapper".toString())
+        }
 
-    copy {
-        from rootDir
-        into "$buildDir/hexagon-service"
-        include 'gradlew', 'gradlew.bat', '.editorconfig'
-    }
+        copy {
+            from(rootDir.toString())
+            into("$buildDir/$dir".toString())
+            include("gradlew", "gradlew.bat", ".editorconfig")
+        }
 
-    new File("$buildDir/hexagon-service/VERSION").text = rootProject.version
+        new File("$buildDir/$dir/VERSION").text = rootProject.version
+    }
 }
 
-packageAllTemplates.dependsOn 'processTemplate'
+packageAllTemplates.dependsOn("processTemplate")
+
+private List<String> listTemplateDirectoryNames() {
+    return listTemplateDirectories().collect { it.name }
+}
+
+private List<String> listTemplateBuildDirectories() {
+    return listTemplateDirectories().collect { "$buildDir/$it.name".toString() }
+}
+
+private List<File> listTemplateDirectories() {
+    return projectDir
+        .listFiles({ File f -> f.isDirectory() && f.name.startsWith("hexagon-") } as FileFilter)
+}

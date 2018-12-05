@@ -16,7 +16,6 @@ out/
 
 # Runtime
 log/
-file-uploads/
 *.log
 *.hprof
 

@@ -22,4 +22,4 @@ You can find out more about creating templates on [the GitHub wiki].
 ## Starters Code
 
 For convenience, the code used to generate the templates is in
-`hexagon_benchmark/src/test/kotlin/starter`. TODO Copy it to the template before generating it.
+`hexagon_benchmark/src/test/kotlin/starter`.
