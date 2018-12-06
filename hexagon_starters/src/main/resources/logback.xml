@@ -20,17 +20,11 @@
     </encoder>
   </appender>
 
-  <root>
-    <level value="off" />
+  <root level="off">
     <appender-ref ref="console" />
     <appender-ref ref="file" />
   </root>
 
-  <logger name="${group}">
-    <level value="trace" />
-  </logger>
-
-  <logger name="com.hexagonkt">
-    <level value="info" />
-  </logger>
+  <logger name="com.hexagonkt" level="info" />
+  <logger name="${group}" level="trace" />
 </configuration>

@@ -173,8 +173,6 @@ task setupDockerfiles {
                 ENTRYPOINT /opt/\$PROJECT/bin/\$PROJECT
                 """
 
-            /*
-             */
             file.text = """
                 #
                 # BUILD

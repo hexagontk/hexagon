@@ -15,36 +15,49 @@ dependencies {
 lazybones {
     final String btUser = findProperty("bintrayUser") ?: getenv("BINTRAY_USER") ?: "anonymous"
     final String btKey = findProperty("bintrayKey") ?: getenv("BINTRAY_KEY") ?: "anonymous"
+    final String btRepo = findProperty("bintrayRepo") ?: "maven"
     final List<String> templateDirs = listTemplateBuildDirectories()
 
-    repositoryName = "$btUser/maven"
+    repositoryName = "$btUser/$btRepo"
     publish = true
 
-    setRepositoryUsername(btUser.toString () ?: "anonymous")
-    setRepositoryApiKey(btKey.toString () ?: "anonymous")
+    setRepositoryUsername(btUser.toString ())
+    setRepositoryApiKey(btKey.toString ())
 
-    licenses = [ "MIT" ]
+    licenses = project.findProperty("licenses").toString().split(",").collect {it.trim()}
     setTemplateDirs(files(templateDirs))
 }
 
 // This is required because of a flaw in this Gradle plugin :/
 clean {
-    doLast {
-        listTemplateBuildDirectories().forEach {
-            mkdir(it)
-            new File("$it/VERSION").text = rootProject.version
-        }
-    }
+    doLast { setupTemplate() }
 }
 
-// TODO Replace version in template `gradle.properties`
-// TODO Copy it to the template before generating it.
 task processTemplate {
     // This must be done in *CONFIGURATION* phase because of a flaw in this Gradle plugin :/
+    setupTemplate()
+    
+    final Map<String, ?> stringProperties = project.getProperties()
+        .findAll { it.value instanceof String }
+
     listTemplateDirectoryNames().forEach { dir ->
         copy {
             from("$projectDir/$dir".toString())
-            into("$buildDir/hexagon-service".toString())
+            into("$buildDir/$dir".toString())
+            filter {
+                String content = it
+
+                stringProperties.entrySet().forEach { entry ->
+                    content = content.replace("\${project.${entry.key}}", entry.value.toString())
+                }
+
+                content
+            }
+        }
+
+        copy {
+            from("$projectDir/src".toString())
+            into("$buildDir/$dir/src".toString())
         }
 
         copy {
@@ -57,12 +70,36 @@ task processTemplate {
             into("$buildDir/$dir".toString())
             include("gradlew", "gradlew.bat", ".editorconfig")
         }
+        
+        file("$buildDir/$dir/gradle.properties".toString()).text = """
+            name=\${projectName}
+            version=\${version}
+            group=\${group}
+            description=\${description}
 
-        new File("$buildDir/$dir/VERSION").text = rootProject.version
+            gradleScripts=https://raw.githubusercontent.com/hexagonkt/hexagon/$rootProject.version/gradle
+
+            kotlinVersion=$kotlinVersion
+            kotlinCoroutinesVersion=$kotlinCoroutinesVersion
+            hexagonVersion=$rootProject.version
+            jettyVersion=$jettyVersion
+            logbackVersion=$logbackVersion
+
+            testngVersion=6.11
+            junitVersion=4.12
+        """.stripIndent()
     }
 }
 
-packageAllTemplates.dependsOn("processTemplate")
+packageAllTemplates.dependsOn("build", "processTemplate")
+installAllTemplates.dependsOn("packageAllTemplates")
+
+private void setupTemplate() {
+    listTemplateBuildDirectories().forEach {
+        mkdir(it)
+        file("$it/VERSION".toString()).text = rootProject.version
+    }
+}
 
 private List<String> listTemplateDirectoryNames() {
     return listTemplateDirectories().collect { it.name }

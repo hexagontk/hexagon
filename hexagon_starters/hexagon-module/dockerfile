@@ -1,8 +1,0 @@
-
-FROM openjdk:11
-ENV PROJECT ${projectName}
-
-COPY build/install/\$PROJECT /opt/\$PROJECT
-WORKDIR /opt/\$PROJECT
-EXPOSE ${bindPort}
-ENTRYPOINT /opt/\$PROJECT/bin/\$PROJECT

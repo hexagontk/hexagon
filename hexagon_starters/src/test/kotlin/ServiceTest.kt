@@ -17,8 +17,7 @@ class ServiceTest {
         }
     }
 
-    @Test
-    fun httpRequest() {
+    @Test fun `HTTP request returns the correct body`() {
         val response = client.get("/text")
         val content = response.responseBody
 
