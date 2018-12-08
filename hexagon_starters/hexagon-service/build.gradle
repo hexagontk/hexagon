@@ -14,7 +14,6 @@ applicationDefaultJvmArgs = [
 dependencies {
     compile("com.hexagonkt:server_jetty:\$hexagonVersion")
 
-    testCompile("org.testng:testng:\$testngVersion")
     testCompile("junit:junit:\$junitVersion")
     testCompile("com.hexagonkt:port_client:\$hexagonVersion")
 }

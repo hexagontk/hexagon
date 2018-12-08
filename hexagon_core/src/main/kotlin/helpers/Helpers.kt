@@ -34,6 +34,9 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
 /** Syntax sugar to throw errors. */
 val error: Nothing get() = error("Invalid state")
 
+/** Syntax sugar to throw errors. */
+fun error(): Nothing = error
+
 /**
  * Returns the stack trace array of the frames that starts with the given prefix.
  */

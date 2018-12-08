@@ -85,8 +85,7 @@ task processTemplate {
             jettyVersion=$jettyVersion
             logbackVersion=$logbackVersion
 
-            testngVersion=6.11
-            junitVersion=4.12
+            junitVersion=$junitVersion
         """.stripIndent()
     }
 }

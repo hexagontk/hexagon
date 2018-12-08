@@ -36,7 +36,6 @@ dependencies {
 
     testCompile(project(":port_client"))
     testCompile("org.testng:testng:$testngVersion")
-    testCompile("junit:junit:$junitVersion")
     testCompile("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 }
 

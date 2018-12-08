@@ -1,5 +1,6 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.filterEmpty
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.store.IndexOrder
@@ -28,7 +29,7 @@ class MongoDbStore <T : Any, K : Any>(
 
     companion object {
         fun database(url: String): MongoDatabase = MongoClientURI(url).let {
-            MongoClient(it).getDatabase(it.database ?: error(""))
+            MongoClient(it).getDatabase(it.database ?: error())
         }
     }
 
@@ -123,7 +124,7 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override fun findOne(key: K): T? {
-        val result = collection.find(createKeyFilter(key)).first()?.filterEmpty() ?: error("")
+        val result = collection.find(createKeyFilter(key)).first()?.filterEmpty() ?: error()
         return mapper.fromStore(result as Map<String, Any>)
     }
 
@@ -132,7 +133,7 @@ class MongoDbStore <T : Any, K : Any>(
         val result = collection
             .find(filter)
             .projection(createProjection(fields))
-            .first()?.filterEmpty() ?: error("")
+            .first()?.filterEmpty() ?: error()
 
         return result.mapValues { mapper.toStore(it.key, it.value as Any) }
     }

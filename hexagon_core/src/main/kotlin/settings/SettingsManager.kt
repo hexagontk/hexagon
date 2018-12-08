@@ -12,12 +12,11 @@ object SettingsManager {
     internal const val SETTINGS = "service"
     internal const val ENVIRONMENT_PREFIX = "SERVICE_"
 
-    val defaultSettingsSources: List<SettingsSource> = listOf(
+    private val defaultSettingsSources: List<SettingsSource> = listOf(
         ResourceSource("$SETTINGS.yaml"),
         EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
         SystemPropertiesSource(SETTINGS),
         FileSource("$SETTINGS.yaml"),
-//        CommandLineArgumentsSource(*args),
         ResourceSource("${SETTINGS}_test.yaml")
     )
 

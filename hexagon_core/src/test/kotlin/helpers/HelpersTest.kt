@@ -159,7 +159,7 @@ import kotlin.test.assertFailsWith
         expectedExceptionsMessageRegExp = "Invalid state"
     )
     fun `'error' generates the correct exception`() {
-        error
+        error()
     }
 
     @Test fun `Printing an exception returns its stack trace in the string` () {
