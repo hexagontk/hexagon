@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="${bootstrap}/bootstrap.min.css" />
   <link rel="stylesheet" href="${config.cloudflare}/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/${content.type}.css" />
   <link rel="stylesheet" href="${config.cloudflare}/highlight.js/9.12.0/styles/github.min.css" />
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
