@@ -13,28 +13,46 @@ import java.util.concurrent.ScheduledThreadPoolExecutor
 import java.util.concurrent.TimeUnit.SECONDS
 
 /**
- * Scheduler for processes. After using it, you should call the `shutdown` method.
+ * Scheduler to execute tasks repeatedly. After using it, you should call the [shutdown] method. If
+ * the JVM finishes without calling [shutdown], it will be called upon JVM termination.
  *
- * TODO Add JVM shutdown hook to call shutdown at JVM termination
- * TODO Create `CronManager` or `SchedulerManager`
+ * @param threads Number of threads used by the thread pool. By default it is equals to the number
+ *  of processors.
+ *
+ * @sample com.hexagonkt.scheduler.CronSchedulerTest.callbackExecutedProperly
  */
 class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
     private val log: Logger = Logger(this)
 
     private val scheduler = ScheduledThreadPoolExecutor(threads)
-    private val cronParser = CronParser(cronDefinition (QUARTZ))
+    private val cronParser = CronParser(cronDefinition(QUARTZ))
 
-    fun schedule (cronExpression: String, callback: () -> Unit) {
-        val cron = cronParser.parse (cronExpression)
-        val cronExecution = ExecutionTime.forCron(cron)
-
-        scheduler.schedule ({ function (callback, cronExecution) }, delay(cronExecution), SECONDS)
+    init {
+        Runtime.getRuntime().addShutdownHook(Thread { shutdown() })
     }
 
-    fun shutdown () { scheduler.shutdown() }
+    /**
+     * Schedules a block of code to be executed repeatedly by a
+     * [Cron](https://en.wikipedia.org/wiki/Cron) expresion.
+     *
+     * @param cronExpression Periodicity of the task in Cron format.
+     * @param callback Task code to be executed periodically.
+     */
+    fun schedule(cronExpression: String, callback: () -> Unit) {
+        val cron = cronParser.parse(cronExpression)
+        val cronExecution = ExecutionTime.forCron(cron)
+
+        scheduler.schedule({ function(callback, cronExecution) }, delay(cronExecution), SECONDS)
+    }
+
+    /**
+     * Shuts down this scheduler's thread pool. Calling over an already closed scheduler does not
+     * have any effect. It is called by the JVM when it is shut down.
+     */
+    fun shutdown() { scheduler.shutdown() }
 
     private fun delay(cronExecution: ExecutionTime): Long =
-        cronExecution.timeToNextExecution(ZonedDateTime.now ()).orElseThrow { error }.seconds
+        cronExecution.timeToNextExecution(ZonedDateTime.now()).orElseThrow { error }.seconds
 
     private fun function(callback: () -> Unit, cronExecution: ExecutionTime) {
         try {
@@ -44,6 +62,6 @@ class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
             log.error(e) { "Error executing cron job" }
         }
 
-        scheduler.schedule ({ function (callback, cronExecution) }, delay(cronExecution), SECONDS)
+        scheduler.schedule({ function(callback, cronExecution) }, delay(cronExecution), SECONDS)
     }
 }
