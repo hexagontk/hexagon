@@ -13,9 +13,9 @@ Modules that provide features without the need of custom implementations:
 
 Interfaces to a certain feature that must be implemented by an adapter:
 
-* [Client Port](/api/port_client/index.html)
+* [Client Port](/api/port_http_client/index.html)
 * [Messaging Port](/api/port_messaging/index.html)
-* [Server Port](/api/port_server/index.html)
+* [Server Port](/api/port_http_server/index.html)
 * [Store Port](/api/port_store/index.html)
 * [Templates Port](/api/port_templates/index.html)
 
@@ -27,8 +27,8 @@ Concrete ports implementations:
 * [RabbitMQ Messaging Adapter](/api/messaging_rabbitmq/index.html)
 
 ### Server
-* [Servlet Server Adapter](/api/server_servlet/index.html)
-* [Jetty Server Adapter](/api/server_jetty/index.html)
+* [Servlet Server Adapter](/api/http_server_servlet/index.html)
+* [Jetty Server Adapter](/api/http_server_jetty/index.html)
 
 ### Store
 * [MongoDB Store Adapter](/api/store_mongodb/index.html)

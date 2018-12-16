@@ -22,13 +22,13 @@ installDist.dependsOn("war")
 
 dependencies {
     compile(project(":store_mongodb"))
-    compile(project(":server_jetty"))
+    compile(project(":http_server_jetty"))
     compile(project(":templates_pebble"))
 
     compile("com.zaxxer:HikariCP:$hikariVersion")
     compile("org.postgresql:postgresql:$postgresqlVersion")
 
-    testCompile(project(":port_client"))
+    testCompile(project(":port_http_client"))
     testCompile("org.testng:testng:$testngVersion")
     testCompile("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 }

@@ -1,0 +1,18 @@
+
+apply(from: "../gradle/kotlin.gradle")
+apply(from: "../gradle/bintray.gradle")
+apply(from: "../gradle/dokka.gradle")
+
+dependencies {
+    compile(project(":http_server_servlet"))
+    compile("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude(module: "slf4j-api") }
+
+    testCompile(project(":port_http_client"))
+    testCompile(project(":templates_pebble"))
+    testCompile(project(":port_http_server").sourceSets.test.output)
+    testCompile("org.testng:testng:$testngVersion")
+}
+
+test {
+    useTestNG()
+}

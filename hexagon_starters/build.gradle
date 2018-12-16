@@ -6,8 +6,8 @@ apply(from: "../gradle/kotlin.gradle")
 apply(plugin: "uk.co.cacoethes.lazybones-templates")
 
 dependencies {
-    compile(project(":server_jetty"))
-    compile(project(":port_client"))
+    compile(project(":http_server_jetty"))
+    compile(project(":port_http_client"))
 
     testCompile("junit:junit:$junitVersion".toString())
 }

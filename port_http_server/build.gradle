@@ -13,7 +13,7 @@ testJar {
 dependencies {
     compile project(':hexagon_core')
 
-    testCompile project(':port_client')
+    testCompile project(':port_http_client')
     testCompile project(':port_templates')
 
     testCompile ("org.testng:testng:$testngVersion")
