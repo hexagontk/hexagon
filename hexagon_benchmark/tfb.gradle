@@ -11,9 +11,7 @@ apply(plugin: "war")
 defaultTasks("installDist")
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
-applicationDefaultJvmArgs = [
-    "-Xms2G", "-Xmx2G", "-XX:+UseNUMA", "-XX:+UseParallelGC", "-XX:+AggressiveOpts"
-]
+applicationDefaultJvmArgs = [ "-XX:+UseNUMA", "-XX:+UseParallelGC", "-XX:+AggressiveOpts" ]
 
 war {
     archiveName = "ROOT.war"
