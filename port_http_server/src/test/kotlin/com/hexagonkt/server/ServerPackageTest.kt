@@ -9,7 +9,7 @@ import org.testng.annotations.Test
 @Test class ServerPackageTest {
 
     fun package_routes_are_stored_in_server () {
-        val server = server(VoidAdapter) {
+        val server = Server(VoidAdapter) {
             assets ("assets")
 
             after ("/after") {}
@@ -17,7 +17,7 @@ import org.testng.annotations.Test
             after {}
             before {}
 
-            ALL at "/infix" before { response.addHeader("infix", "before") }
+            before("/infix") { response.addHeader("infix", "before") }
 
             get ("/get") {}
             head ("/head") {}
@@ -36,7 +36,7 @@ import org.testng.annotations.Test
             options { "options" }
             patch { "patch" }
 
-            GET at "/infix" by { "infix" }
+            get("/infix") by { "infix" }
 
             path("/router") mount router {
                 get("/subroute") { "Router" }

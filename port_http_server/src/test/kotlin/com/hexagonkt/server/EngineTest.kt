@@ -6,7 +6,7 @@ import com.hexagonkt.templates.TemplatePort
 import java.net.InetAddress.getByName as address
 
 abstract class EngineTest(serverAdapter: ServerPort, templateAdapter: TemplatePort) {
-    protected val server: Server = Server(serverAdapter, SettingsManager.settings)
+    protected val server: Server = Server(serverAdapter, Router(), SettingsManager.settings)
     protected val client by lazy { Client ("http://localhost:${server.runtimePort}") }
 
     private val modules: List<TestModule> by lazy {

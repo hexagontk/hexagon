@@ -8,6 +8,7 @@ import com.hexagonkt.helpers.Environment.jvmName
 import com.hexagonkt.helpers.Environment.jvmVersion
 import com.hexagonkt.helpers.Environment.locale
 import com.hexagonkt.helpers.Environment.timezone
+import com.hexagonkt.settings.SettingsManager
 
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
@@ -22,12 +23,12 @@ import java.net.InetAddress.getByName as address
  * TODO Write documentation.
  */
 data class Server (
-    /** Engine used to run this HTTP server. */
     private val serverEngine: ServerPort,
+    val router: Router,
     val serverName: String = Server.DEFAULT_NAME,
     val bindAddress: InetAddress = address(Server.DEFAULT_ADDRESS),
-    val bindPort: Int = Server.DEFAULT_PORT,
-    val router: Router = Router()) {
+    val bindPort: Int = Server.DEFAULT_PORT
+) {
 
     internal companion object {
         internal const val DEFAULT_NAME = "<undefined>"
@@ -37,13 +38,27 @@ data class Server (
 
     private val log: Logger = Logger(this)
 
-    constructor(serverEngine: ServerPort, settings: Map<String, *>, router: Router = Router()) :
+    /**
+     * Creates a server with a router. It is a combination of [Server] and [router].
+     *
+     * @param engine The server engine.
+     * @param settings Server settings. Port and address will be searched in this map.
+     * @param block Router's setup block.
+     * @return A new server with the built router.
+     */
+    constructor(
+        engine: ServerPort,
+        settings: Map<String, *> = SettingsManager.settings,
+        block: Router.() -> Unit):
+            this(engine, router(block), settings)
+
+    constructor(serverEngine: ServerPort, router: Router, settings: Map<String, *>) :
         this (
             serverEngine,
+            router,
             settings["serviceName"] as? String ?: DEFAULT_NAME,
             address(settings["bindAddress"] as? String ?: DEFAULT_ADDRESS),
-            settings["bindPort"] as? Int ?: DEFAULT_PORT,
-            router
+            settings["bindPort"] as? Int ?: DEFAULT_PORT
         )
 
     val runtimePort

@@ -1,6 +1,7 @@
 package com.hexagonkt.server.jetty
 
 import com.hexagonkt.server.EngineTest
+import com.hexagonkt.server.Router
 import com.hexagonkt.server.Server
 import com.hexagonkt.templates.pebble.PebbleAdapter
 import org.testng.annotations.AfterClass
@@ -23,15 +24,8 @@ class JettyServletAdapterTest : EngineTest(JettyServletAdapter(), PebbleAdapter)
     }
 
     @Test fun start_server() {
-        val s: Server = server {}
+        val s = Server(JettyServletAdapter(), Router())
         s.run()
-        assert(s.started())
-        s.stop()
-        assert(!s.started())
-    }
-
-    @Test fun test_serve() {
-        val s: Server = serve {}
         assert(s.started())
         s.stop()
         assert(!s.started())

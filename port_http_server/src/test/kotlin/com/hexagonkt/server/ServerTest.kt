@@ -6,7 +6,7 @@ import java.net.InetAddress.getByName as address
 
 @Test class ServerTest {
     fun `default parameters`() {
-        val server = Server(VoidAdapter, "name", address("localhost"), 9999, router {})
+        val server = Server(VoidAdapter, Router(), "name", address("localhost"), 9999)
 
         assert(server.serverName == "name")
         assert(server.portName == VoidAdapter.javaClass.simpleName)
@@ -15,7 +15,7 @@ import java.net.InetAddress.getByName as address
     }
 
     fun `runtime port`() {
-        val server = Server(VoidAdapter, "name", address("localhost"), 9999, router {})
+        val server = Server(VoidAdapter, Router(), "name", address("localhost"), 9999)
 
         assertFailsWith<IllegalStateException>("Server is not running") { server.runtimePort }
         assert(!server.started())
@@ -29,17 +29,17 @@ import java.net.InetAddress.getByName as address
     fun `parameters map`() {
         val router = router {}
         val server = Server(VoidAdapter, router = router)
-        assert(equal (server, Server(VoidAdapter, mapOf<String, Any>(), router)))
+        assert(equal (server, Server(VoidAdapter, router, mapOf<String, Any>())))
         val invalidSettings = mapOf("serviceName" to 0, "bindAddress" to 1, "bindPort" to true)
-        assert(equal(server, Server(VoidAdapter, invalidSettings)))
+        assert(equal(server, Server(VoidAdapter, Router(), invalidSettings)))
 
         val settings = mapOf(
             "serviceName" to "name",
             "bindAddress" to "localhost",
             "bindPort" to 12345
         )
-        val server1 = Server(VoidAdapter, "name", address("localhost"), 12345, router)
-        assert(equal(server1, Server(VoidAdapter, settings)))
+        val server1 = Server(VoidAdapter, router, "name", address("localhost"), 12345)
+        assert(equal(server1, Server(VoidAdapter, Router(), settings)))
     }
 
     private fun equal(server1: Server, server2: Server) =

@@ -2,7 +2,6 @@ package com.hexagonkt.server
 
 import com.hexagonkt.http.HttpMethod
 import com.hexagonkt.http.HttpMethod.*
-import com.hexagonkt.settings.SettingsManager
 import java.util.*
 
 /** Alias for filters' callbacks. Functions executed before/after routes. */
@@ -16,34 +15,6 @@ typealias ErrorCodeCallback = Call.(Int) -> Any
 
 /** Set containing all HTTP methods. */
 val ALL: LinkedHashSet<HttpMethod> = linkedSetOf(*HttpMethod.values())
-
-/**
- * Creates a server with a router. It is a combination of [Server] and [router].
- *
- * @param engine The server engine.
- * @param settings Server settings. Port and address will be searched in this map.
- * @param block Router's setup block.
- * @return A new server with the built router.
- */
-fun server(
-    engine: ServerPort,
-    settings: Map<String, *> = SettingsManager.settings,
-    block: Router.() -> Unit): Server =
-        Server(engine, settings, router(block))
-
-/**
- * Creates and starts a server with a router. It is a combination of [Server] and [router].
- *
- * @param engine The server engine.
- * @param settings Server settings. Port and address will be searched in this map.
- * @param block Router's setup block.
- * @return The running server with the built router.
- */
-fun serve(
-    engine: ServerPort,
-    settings: Map<String, *> = SettingsManager.settings,
-    block: Router.() -> Unit): Server =
-        server(engine, settings, block).apply { run() }
 
 /**
  * Creates and initializes a [Router] based on a code block.
@@ -74,8 +45,3 @@ fun tracer(path: String = "/"): Route = Route(Path(path), TRACE)
 fun options(path: String = "/"): Route = Route(Path(path), OPTIONS)
 /** Shortcut to create a PATCH route. */
 fun patch(path: String = "/"): Route = Route(Path(path), PATCH)
-
-/** Shortcut to create a route from a method and a path. */
-infix fun HttpMethod.at(path: String): Route = Route(Path(path), this)
-/** Shortcut to create a route from a method and a path. */
-infix fun LinkedHashSet<HttpMethod>.at(path: String): Route = Route(Path(path), this)

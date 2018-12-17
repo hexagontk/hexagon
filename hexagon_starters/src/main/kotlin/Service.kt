@@ -3,9 +3,8 @@ import java.time.LocalDateTime.now
 
 import com.hexagonkt.server.*
 import com.hexagonkt.server.jetty.JettyServletAdapter
-import com.hexagonkt.settings.SettingsManager
 
-val server: Server = server(JettyServletAdapter(), SettingsManager.settings) {
+val server: Server = Server(JettyServletAdapter()) {
     before {
         response.addHeader("Server", "Servlet/3.1")
         response.addHeader("Transfer-Encoding", "chunked")

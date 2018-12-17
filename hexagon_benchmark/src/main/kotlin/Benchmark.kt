@@ -67,7 +67,7 @@ private val router: Router by lazy {
     }
 }
 
-internal val benchmarkServer: Server by lazy { Server(engine, SettingsManager.settings, router) }
+internal val benchmarkServer: Server by lazy { Server(engine, router, SettingsManager.settings) }
 
 // UTILITIES
 private fun Call.returnWorlds(worldsList: List<World>) {
