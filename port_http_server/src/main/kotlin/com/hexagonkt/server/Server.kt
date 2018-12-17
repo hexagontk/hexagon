@@ -4,8 +4,8 @@ import com.hexagonkt.helpers.*
 import com.hexagonkt.helpers.Jvm.cpuCount
 import com.hexagonkt.helpers.Jvm.hostname
 import com.hexagonkt.helpers.Jvm.ip
-import com.hexagonkt.helpers.Jvm.jvmName
-import com.hexagonkt.helpers.Jvm.jvmVersion
+import com.hexagonkt.helpers.Jvm.name
+import com.hexagonkt.helpers.Jvm.version
 import com.hexagonkt.helpers.Jvm.locale
 import com.hexagonkt.helpers.Jvm.timezone
 import com.hexagonkt.settings.SettingsManager
@@ -100,7 +100,7 @@ data class Server (
             SERVER TYPE: $portName
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
-            Java $jvmVersion [$jvmName]
+            Java $version [$name]
             Locale $locale Timezone $timezone
 
             Started in $bootTime s using $usedMemory KB

@@ -14,7 +14,7 @@ import java.net.Inet4Address
 
     @Test fun `JVM metrics have valid values` () {
         val numberRegex = Regex("[\\d.,]+")
-        assert(Jvm.jvmMemory().matches(numberRegex))
+        assert(Jvm.initialMemory().matches(numberRegex))
         assert(Jvm.usedMemory().matches(numberRegex))
         assert(Jvm.uptime().matches(numberRegex))
     }

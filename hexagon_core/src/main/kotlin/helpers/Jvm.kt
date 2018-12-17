@@ -16,8 +16,8 @@ object Jvm {
     val ip: String = InetAddress.getLocalHost().hostAddress
 
     val id: String = ManagementFactory.getRuntimeMXBean().name
-    val jvmName: String = ManagementFactory.getRuntimeMXBean().vmName
-    val jvmVersion: String = ManagementFactory.getRuntimeMXBean().specVersion
+    val name: String = ManagementFactory.getRuntimeMXBean().vmName
+    val version: String = ManagementFactory.getRuntimeMXBean().specVersion
     val cpuCount: Int = Runtime.getRuntime().availableProcessors()
     val timezone: String = System.getProperty("user.timezone")
     val locale: String = "%s_%s.%s".format(
@@ -28,7 +28,7 @@ object Jvm {
 
     private val heap: MemoryUsage = ManagementFactory.getMemoryMXBean().heapMemoryUsage
 
-    fun jvmMemory(): String = "%,d".format(heap.init / 1024)
+    fun initialMemory(): String = "%,d".format(heap.init / 1024)
 
     fun usedMemory(): String = "%,d".format(heap.used / 1024)
 
