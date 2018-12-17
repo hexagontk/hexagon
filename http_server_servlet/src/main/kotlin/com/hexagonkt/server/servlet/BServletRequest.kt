@@ -3,7 +3,7 @@ package com.hexagonkt.server.servlet
 import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.http.HttpMethod
 import com.hexagonkt.server.Part
-import com.hexagonkt.server.Path
+import com.hexagonkt.http.Path
 import com.hexagonkt.server.EngineRequest
 import java.io.InputStreamReader
 import java.net.HttpCookie

@@ -1,7 +1,5 @@
-package com.hexagonkt.server
+package com.hexagonkt.http
 
-import com.hexagonkt.http.HttpMethod
-import java.util.*
 import kotlin.reflect.KClass
 
 data class Route (

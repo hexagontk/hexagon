@@ -2,6 +2,8 @@ package com.hexagonkt.server
 
 import com.hexagonkt.http.HttpMethod
 import com.hexagonkt.http.HttpMethod.*
+import com.hexagonkt.http.Path
+import com.hexagonkt.http.Route
 import java.util.*
 
 /** Alias for filters' callbacks. Functions executed before/after routes. */

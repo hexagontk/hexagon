@@ -1,4 +1,4 @@
-package com.hexagonkt.server
+package com.hexagonkt.http
 
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
@@ -8,10 +8,12 @@ import kotlin.test.assertFailsWith
  * TODO Ie: /alfa/{param}/bravo is not matched by /alfa//bravo
  */
 @Test class PathTest {
-    fun `a path without parameters do not have regex neither params table` () {
+
+    fun `A path without parameters do not have regex neither params table`() {
         val pathWithoutData = Path("/alfa/bravo/tango")
         assert (pathWithoutData.path == "/alfa/bravo/tango")
         assert (!pathWithoutData.hasParameters)
+        assert (!pathWithoutData.hasWildcards)
         assert (pathWithoutData.regex == null)
         assert (pathWithoutData.parameterIndex.isEmpty())
 
@@ -22,38 +24,39 @@ import kotlin.test.assertFailsWith
         assert (pathWithoutData.extractParameters("/alfa/bravo/tango").isEmpty())
     }
 
-    fun `invalid path parameters` () {
+    fun `Invalid path parameters`() {
         val slashMessage = "'alfa/bravo' must start with '/'"
-        assertFailsWith<IllegalArgumentException> (slashMessage) {
+        assertFailsWith<IllegalArgumentException>(slashMessage) {
             Path("alfa/bravo")
         }
 
         val colonMessage = "Variables have {var} format. Path cannot have ':' alfa/bravo/:id"
-        assertFailsWith<IllegalArgumentException> (colonMessage) {
+        assertFailsWith<IllegalArgumentException>(colonMessage) {
             Path("alfa/bravo/:id")
         }
     }
 
-    fun `extract parameter from a non matching url fails` () {
+    fun `Extract parameter from a non matching url fails`() {
         val pathWithoutData = Path("/alfa/bravo/tango")
-        assertFailsWith<IllegalArgumentException> ("URL '/alfa/bravo/tango/zulu' does not match path") {
+        assertFailsWith<IllegalArgumentException>("URL '/alfa/bravo/tango/zulu' does not match path") {
             pathWithoutData.extractParameters ("/alfa/bravo/tango/zulu")
         }
 
         val pathWith1Parameter = Path("/alfa/{param}/tango")
-        assertFailsWith<IllegalArgumentException> ("URL 'zulu/alfa/abc/tango' does not match path") {
+        assertFailsWith<IllegalArgumentException>("URL 'zulu/alfa/abc/tango' does not match path") {
             assert (pathWith1Parameter.extractParameters("zulu/alfa/abc/tango").isEmpty())
         }
     }
 
-    fun `a path with parameters have regex and params table` () {
-        assert (!Path("/alfa/{param}/tango").matches ("/alfa/a/tango/zulu"))
+    fun `A path with parameters have regex and params table`() {
+        assert (!Path("/alfa/{param}/tango").matches("/alfa/a/tango/zulu"))
 
         val pathWith1Parameter = Path("/alfa/{param}/tango*")
         assert (pathWith1Parameter.path == "/alfa/{param}/tango*")
         assert (pathWith1Parameter.hasParameters)
+        assert (pathWith1Parameter.hasWildcards)
         assert (pathWith1Parameter.regex?.pattern == "/alfa/(.+?)/tango(.*?)$")
-        assert (pathWith1Parameter.parameterIndex == listOf ("param", ""))
+        assert (pathWith1Parameter.parameterIndex == listOf("param", ""))
 
         assert (pathWith1Parameter.matches ("/alfa/a/tango"))
         assert (pathWith1Parameter.matches ("/alfa/abc/tango"))
@@ -74,7 +77,7 @@ import kotlin.test.assertFailsWith
         assert (params2 == mapOf ("param" to "abc", "arg" to "def"))
     }
 
-    fun `path with a wildcard resolve parameters properly` () {
+    fun `Path with a wildcard resolve parameters properly` () {
         val pathWith1Parameter = Path("/alfa/*/{param}/tango")
         assert (pathWith1Parameter.path == "/alfa/*/{param}/tango")
         assert (pathWith1Parameter.hasParameters)
@@ -88,7 +91,7 @@ import kotlin.test.assertFailsWith
         assert (pathWith2Parameters.parameterIndex == listOf ("param", "arg", ""))
     }
 
-    fun `path with many wildcards resolve parameters properly` () {
+    fun `Path with many wildcards resolve parameters properly` () {
         val pathWith1Parameter = Path("/*/alfa/*/{param}/tango")
         assert (pathWith1Parameter.path == "/*/alfa/*/{param}/tango")
         assert (pathWith1Parameter.hasParameters)
@@ -102,7 +105,7 @@ import kotlin.test.assertFailsWith
         assert (pathWith2Parameters.parameterIndex == listOf ("", "param", "arg", ""))
     }
 
-    fun `create an url with path` () {
+    fun `Create an url with path` () {
         val pathWith1Parameter = Path("/alfa/{param}/tango")
         assert (pathWith1Parameter.create ("param" to "bravo") == "/alfa/bravo/tango")
 
@@ -111,13 +114,13 @@ import kotlin.test.assertFailsWith
         assert (url == "/alfa/bravo/tango/zulu")
     }
 
-    fun `path with wildcards can not create url` () {
+    fun `Path with wildcards can not create url` () {
         assertFailsWith<IllegalStateException> {
             Path("/alfa/*/{param}/tango").create("param" to "val")
         }
     }
 
-    fun `segments of a path are splitted correctly` () {
+    fun `Segments of a path are splitted correctly` () {
         val segments1 = Path("/alfa/{p1}/beta/{p2}").segments
         assert(segments1 == listOf ("/alfa/", "/beta/", ""))
 

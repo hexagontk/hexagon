@@ -1,5 +1,7 @@
 package com.hexagonkt.server
 
+import com.hexagonkt.http.Route
+
 sealed class RequestHandler {
     abstract val route: Route
 

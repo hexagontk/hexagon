@@ -3,6 +3,8 @@ package com.hexagonkt.server
 import com.hexagonkt.http.HttpMethod.*
 import com.hexagonkt.server.FilterOrder.*
 import com.hexagonkt.server.RequestHandler.*
+import com.hexagonkt.http.Path
+import com.hexagonkt.http.Route
 
 import org.testng.annotations.Test
 
@@ -51,30 +53,30 @@ import org.testng.annotations.Test
         assert (assets.any { it.route.path.path == "/*" && it.path == "assets" })
 
         val filters = server.router.requestHandlers.filterIsInstance(FilterHandler::class.java)
-        assert (filters.any { it.route == Route(Path ("/after"), ALL) && it.order == AFTER })
-        assert (filters.any { it.route == Route(Path ("/before"), ALL) && it.order == BEFORE })
-        assert (filters.any { it.route == Route(Path ("/*"), ALL) && it.order == AFTER })
-        assert (filters.any { it.route == Route(Path ("/*"), ALL) && it.order == BEFORE })
-        assert (filters.any { it.route == Route(Path ("/infix"), ALL) && it.order == BEFORE })
+        assert (filters.any { it.route == Route(Path("/after"), ALL) && it.order == AFTER })
+        assert (filters.any { it.route == Route(Path("/before"), ALL) && it.order == BEFORE })
+        assert (filters.any { it.route == Route(Path("/*"), ALL) && it.order == AFTER })
+        assert (filters.any { it.route == Route(Path("/*"), ALL) && it.order == BEFORE })
+        assert (filters.any { it.route == Route(Path("/infix"), ALL) && it.order == BEFORE })
 
         val routes = server.router.requestHandlers.filterIsInstance(RouteHandler::class.java)
-        assert (routes.any { it.route == Route(Path ("/get"), GET) })
-        assert (routes.any { it.route == Route(Path ("/head"), HEAD) })
-        assert (routes.any { it.route == Route(Path ("/post"), POST) })
-        assert (routes.any { it.route == Route(Path ("/put"), PUT) })
-        assert (routes.any { it.route == Route(Path ("/delete"), DELETE) })
-        assert (routes.any { it.route == Route(Path ("/trace"), TRACE) })
-        assert (routes.any { it.route == Route(Path ("/options"), OPTIONS) })
-        assert (routes.any { it.route == Route(Path ("/patch"), PATCH) })
-        assert (routes.any { it.route == Route(Path ("/"), GET) })
-        assert (routes.any { it.route == Route(Path ("/"), HEAD) })
-        assert (routes.any { it.route == Route(Path ("/"), POST) })
-        assert (routes.any { it.route == Route(Path ("/"), PUT) })
-        assert (routes.any { it.route == Route(Path ("/"), DELETE) })
-        assert (routes.any { it.route == Route(Path ("/"), TRACE) })
-        assert (routes.any { it.route == Route(Path ("/"), OPTIONS) })
-        assert (routes.any { it.route == Route(Path ("/"), PATCH) })
-        assert (routes.any { it.route == Route(Path ("/infix"), GET) })
+        assert (routes.any { it.route == Route(Path("/get"), GET) })
+        assert (routes.any { it.route == Route(Path("/head"), HEAD) })
+        assert (routes.any { it.route == Route(Path("/post"), POST) })
+        assert (routes.any { it.route == Route(Path("/put"), PUT) })
+        assert (routes.any { it.route == Route(Path("/delete"), DELETE) })
+        assert (routes.any { it.route == Route(Path("/trace"), TRACE) })
+        assert (routes.any { it.route == Route(Path("/options"), OPTIONS) })
+        assert (routes.any { it.route == Route(Path("/patch"), PATCH) })
+        assert (routes.any { it.route == Route(Path("/"), GET) })
+        assert (routes.any { it.route == Route(Path("/"), HEAD) })
+        assert (routes.any { it.route == Route(Path("/"), POST) })
+        assert (routes.any { it.route == Route(Path("/"), PUT) })
+        assert (routes.any { it.route == Route(Path("/"), DELETE) })
+        assert (routes.any { it.route == Route(Path("/"), TRACE) })
+        assert (routes.any { it.route == Route(Path("/"), OPTIONS) })
+        assert (routes.any { it.route == Route(Path("/"), PATCH) })
+        assert (routes.any { it.route == Route(Path("/infix"), GET) })
 
         val paths = server.router.requestHandlers.filterIsInstance(PathHandler::class.java)
         val subrouter = paths.first { it.route == Route(Path("/router")) }.router

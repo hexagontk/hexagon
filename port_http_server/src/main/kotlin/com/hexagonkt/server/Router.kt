@@ -6,6 +6,8 @@ import com.hexagonkt.server.FilterOrder.BEFORE
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.http.HttpMethod.GET
 import com.hexagonkt.server.RequestHandler.*
+import com.hexagonkt.http.Path
+import com.hexagonkt.http.Route
 
 import kotlin.reflect.KClass
 

@@ -8,6 +8,8 @@ import com.hexagonkt.server.*
 import com.hexagonkt.server.FilterOrder.AFTER
 import com.hexagonkt.server.FilterOrder.BEFORE
 import com.hexagonkt.server.RequestHandler.*
+import com.hexagonkt.http.Path
+import com.hexagonkt.http.Route
 
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest as HttpRequest
@@ -45,7 +47,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         .filterIsInstance(RouteHandler::class.java)
         .groupBy { it.route.methods.first() }
 
-    private val filtersByOrder = router
+    private val filtersByOrder: Map<FilterOrder, List<Pair<Route, FilterCallback>>> = router
         .asSequence()
         .filterIsInstance(FilterHandler::class.java)
         .groupBy { it.order }
