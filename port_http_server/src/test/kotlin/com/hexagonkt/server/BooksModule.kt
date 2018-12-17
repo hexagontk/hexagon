@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.client.Client
+import com.hexagonkt.http.client.Client
 import java.util.*
 import java.util.Collections.synchronizedMap
 

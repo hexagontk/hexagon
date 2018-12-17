@@ -1,5 +1,5 @@
 
-import com.hexagonkt.client.Client
+import com.hexagonkt.http.client.Client
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test

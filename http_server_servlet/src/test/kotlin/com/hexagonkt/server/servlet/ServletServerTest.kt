@@ -1,6 +1,6 @@
 package com.hexagonkt.server.servlet
 
-import com.hexagonkt.client.Client
+import com.hexagonkt.http.client.Client
 import com.hexagonkt.server.router
 import org.eclipse.jetty.server.Server as JettyServer
 import org.eclipse.jetty.webapp.WebAppContext

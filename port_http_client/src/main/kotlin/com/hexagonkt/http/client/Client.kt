@@ -1,4 +1,4 @@
-package com.hexagonkt.client
+package com.hexagonkt.http.client
 
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize

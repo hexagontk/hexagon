@@ -1,4 +1,4 @@
-package com.hexagonkt.client
+package com.hexagonkt.http.client
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*

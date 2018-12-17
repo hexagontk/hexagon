@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.client.Client
+import com.hexagonkt.http.client.Client
 import com.hexagonkt.helpers.Logger
 
 @Suppress("unused", "MemberVisibilityCanBePrivate") // Test methods are flagged as unused

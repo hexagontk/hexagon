@@ -1,7 +1,7 @@
 package com.hexagonkt
 
 import com.hexagonkt.serialization.parse
-import com.hexagonkt.client.Client
+import com.hexagonkt.http.client.Client
 import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.serialization.parseList
 import com.hexagonkt.http.Method.GET

@@ -1,7 +1,7 @@
 package com.hexagonkt.server
 
 import com.hexagonkt.http.Method
-import com.hexagonkt.client.Client
+import com.hexagonkt.http.client.Client
 import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.TemplatePort
 import java.net.URL

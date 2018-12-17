@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.client.Client
+import com.hexagonkt.http.client.Client
 import org.asynchttpclient.Response
 import java.net.InetAddress.getByName as address
 

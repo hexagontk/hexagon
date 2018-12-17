@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.client.Client
+import com.hexagonkt.http.client.Client
 import java.net.HttpCookie
 
 @Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
