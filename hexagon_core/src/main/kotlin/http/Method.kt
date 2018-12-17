@@ -3,7 +3,7 @@ package com.hexagonkt.http
 /**
  * Enum for the supported HTTP methods.
  */
-enum class HttpMethod {
+enum class Method {
     /** HTTP GET method. */
     GET,
     /** HTTP HEAD method. */

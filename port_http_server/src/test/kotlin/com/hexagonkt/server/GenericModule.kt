@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.http.HttpMethod
+import com.hexagonkt.http.Method
 import com.hexagonkt.client.Client
 import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.TemplatePort
@@ -336,7 +336,7 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
     }
 
     private fun checkMethod (client: Client, methodName: String, headerName: String? = null) {
-        val res = client.send(HttpMethod.valueOf (methodName), "/method")
+        val res = client.send(Method.valueOf (methodName), "/method")
         assert (
             if (headerName == null) res.responseBody != null
             else res.headers.get(headerName) == methodName

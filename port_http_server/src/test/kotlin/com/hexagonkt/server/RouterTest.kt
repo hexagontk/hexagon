@@ -1,7 +1,7 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.http.HttpMethod
-import com.hexagonkt.http.HttpMethod.*
+import com.hexagonkt.http.Method
+import com.hexagonkt.http.Method.*
 import com.hexagonkt.helpers.CodedException
 import org.testng.annotations.Test
 
@@ -50,7 +50,7 @@ import org.testng.annotations.Test
         assertHandler(handlers[9], "/foo/files", GET)
     }
 
-    private fun assertHandler(handler: RequestHandler, path: String, vararg methods: HttpMethod) {
+    private fun assertHandler(handler: RequestHandler, path: String, vararg methods: Method) {
         val route = handler.route
         assert(route.path.path == path)
         assert(route.methods.containsAll(methods.toSet()))

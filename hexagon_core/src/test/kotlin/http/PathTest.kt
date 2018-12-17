@@ -38,7 +38,8 @@ import kotlin.test.assertFailsWith
 
     fun `Extract parameter from a non matching url fails`() {
         val pathWithoutData = Path("/alfa/bravo/tango")
-        assertFailsWith<IllegalArgumentException>("URL '/alfa/bravo/tango/zulu' does not match path") {
+        val message = "URL '/alfa/bravo/tango/zulu' does not match path"
+        assertFailsWith<IllegalArgumentException>(message) {
             pathWithoutData.extractParameters("/alfa/bravo/tango/zulu")
         }
 

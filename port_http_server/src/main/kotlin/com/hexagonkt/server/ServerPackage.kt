@@ -1,7 +1,7 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.http.HttpMethod
-import com.hexagonkt.http.HttpMethod.*
+import com.hexagonkt.http.Method
+import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
 import java.util.*
@@ -16,7 +16,7 @@ typealias ExceptionCallback = Call.(Exception) -> Any
 typealias ErrorCodeCallback = Call.(Int) -> Any
 
 /** Set containing all HTTP methods. */
-val ALL: LinkedHashSet<HttpMethod> = linkedSetOf(*HttpMethod.values())
+val ALL: LinkedHashSet<Method> = linkedSetOf(*Method.values())
 
 /**
  * Creates and initializes a [Router] based on a code block.

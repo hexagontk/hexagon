@@ -2,8 +2,8 @@ package com.hexagonkt.client
 
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
-import com.hexagonkt.http.HttpMethod
-import com.hexagonkt.http.HttpMethod.*
+import com.hexagonkt.http.Method
+import com.hexagonkt.http.Method.*
 import io.netty.handler.codec.http.cookie.Cookie
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
@@ -51,7 +51,7 @@ class Client (
      * Synchronous execution.
      */
     fun send (
-        method: HttpMethod,
+        method: Method,
         url: String = "",
         body: Any? = null,
         contentType: String? = this.contentType,
@@ -114,7 +114,7 @@ class Client (
     fun patch (url: String, body: Any? = null, contentType: String? = this.contentType) =
         send (PATCH, url, body, contentType)
 
-    private fun createRequest(method: HttpMethod, url: String, contentType: String? = null) =
+    private fun createRequest(method: Method, url: String, contentType: String? = null) =
         (endpoint + url).let {
             val request = when (method) {
                 GET -> client.prepareGet (it)

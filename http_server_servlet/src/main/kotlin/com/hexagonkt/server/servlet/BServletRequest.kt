@@ -1,7 +1,7 @@
 package com.hexagonkt.server.servlet
 
 import com.hexagonkt.http.parseQueryParameters
-import com.hexagonkt.http.HttpMethod
+import com.hexagonkt.http.Method
 import com.hexagonkt.server.Part
 import com.hexagonkt.http.Path
 import com.hexagonkt.server.EngineRequest
@@ -18,7 +18,7 @@ internal class BServletRequest(private val req: HttpServletRequest) : EngineRequ
     override val body: String by lazy { InputStreamReader(req.inputStream).readText() }
     override val scheme: String by lazy { req.scheme }
     override val port: Int by lazy { req.serverPort }
-    override val method: HttpMethod by lazy { HttpMethod.valueOf (req.method) }
+    override val method: Method by lazy { Method.valueOf (req.method) }
     override val queryString: String by lazy { req.queryString }
     override val contentLength: Long by lazy { req.contentLength.toLong() }
     override val contentType: String? by lazy { req.contentType }

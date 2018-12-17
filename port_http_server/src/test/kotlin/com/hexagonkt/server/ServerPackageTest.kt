@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.http.HttpMethod.*
+import com.hexagonkt.http.Method.*
 import com.hexagonkt.server.FilterOrder.*
 import com.hexagonkt.server.RequestHandler.*
 import com.hexagonkt.http.Path

@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.http.HttpMethod
+import com.hexagonkt.http.Method
 import java.net.HttpCookie
 
 /**
@@ -12,7 +12,7 @@ import java.net.HttpCookie
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
 class Request(private val request: EngineRequest) {
-    val method: HttpMethod by lazy { request.method }
+    val method: Method by lazy { request.method }
     val scheme: String by lazy { request.scheme }
     val host: String by lazy { request.host }
     val port: Int by lazy { request.port }

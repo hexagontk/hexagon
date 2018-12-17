@@ -1,6 +1,6 @@
 package com.hexagonkt.server.servlet
 
-import com.hexagonkt.http.HttpMethod
+import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.serialization.serialize
@@ -35,7 +35,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         ExceptionHandler(Route(Path("/"), ALL), Exception::class.java, baseExceptionHandler)
     ) + router
 
-    private val routesByMethod: Map<HttpMethod, List<RouteHandler>> = router
+    private val routesByMethod: Map<Method, List<RouteHandler>> = router
         .asSequence()
         .map {
             when (it) {

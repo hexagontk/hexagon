@@ -1,6 +1,6 @@
 package com.hexagonkt.http
 
-import com.hexagonkt.http.HttpMethod.GET
+import com.hexagonkt.http.Method.GET
 import org.testng.annotations.Test
 
 @Test class RouteTest {

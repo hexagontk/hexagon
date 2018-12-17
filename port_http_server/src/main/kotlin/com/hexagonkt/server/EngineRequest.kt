@@ -1,6 +1,6 @@
 package com.hexagonkt.server
 
-import com.hexagonkt.http.HttpMethod
+import com.hexagonkt.http.Method
 
 /**
  * Lists would be initialized loading all elements when they are used (set it as lazy in
@@ -15,7 +15,7 @@ interface EngineRequest {
     val body: String          // request body sent by the client
     val scheme: String        // "http"
     val port: Int             // 80
-    val method: HttpMethod    // "GET"
+    val method: Method        // "GET"
     val queryString: String   // ""
     val contentLength: Long   // length of request.body
     val contentType: String?  // media type of request.body
