@@ -69,6 +69,3 @@ task all (dependsOn:
     project.getTasksByName ('installAllTemplates', true) +
     project.getTasksByName ('tfb', true)
 )
-
-rootProject.project("http_server_servlet").compileTestKotlin.dependsOn(":port_http_server:test")
-rootProject.project("http_server_jetty").compileTestKotlin.dependsOn(":port_http_server:test")
