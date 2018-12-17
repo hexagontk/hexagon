@@ -2,7 +2,7 @@ package com.hexagonkt.http
 
 import kotlin.reflect.KClass
 
-data class Route (
+data class Route(
     val path: Path,
     val methods: LinkedHashSet<HttpMethod>,
     val requestType: KClass<*>? = null,
