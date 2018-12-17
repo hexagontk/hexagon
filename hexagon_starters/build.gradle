@@ -48,7 +48,8 @@ task processTemplate {
                 String content = it
 
                 stringProperties.entrySet().forEach { entry ->
-                    content = content.replace("\${project.${entry.key}}", entry.value.toString())
+                    final String entryValue = entry.value.toString()
+                    content = content.replace("\${project.${entry.key}}".toString(), entryValue)
                 }
 
                 content

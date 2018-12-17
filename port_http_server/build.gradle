@@ -1,24 +1,23 @@
 
-apply from: '../gradle/kotlin.gradle'
-apply from: '../gradle/bintray.gradle'
-apply from: '../gradle/dokka.gradle'
+apply(from: "../gradle/kotlin.gradle")
+apply(from: "../gradle/bintray.gradle")
+apply(from: "../gradle/dokka.gradle")
 
 // Overridden because this test bundle requires the templates
 testJar {
-    classifier 'test'
-    from sourceSets.test.output
-    exclude ([ '*.yaml', '*.yml', '*.properties', '*.xml' ])
+    classifier = "test"
+    from(sourceSets.test.output)
+    exclude([ "*.yaml", "*.yml", "*.properties", "*.xml" ])
 }
 
 dependencies {
-    compile project(':hexagon_core')
+    compile(project(":hexagon_core"))
 
-    testCompile project(':port_http_client')
-    testCompile project(':port_templates')
-
-    testCompile ("org.testng:testng:$testngVersion")
+    testCompile(project(":port_http_client"))
+    testCompile(project(":port_templates"))
+    testCompile("org.testng:testng:$testngVersion")
 }
 
 test {
-    useTestNG ()
+    useTestNG()
 }
