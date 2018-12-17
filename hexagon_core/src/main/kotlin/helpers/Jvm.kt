@@ -6,7 +6,7 @@ import java.net.InetAddress
 
 import java.util.TimeZone
 
-object Environment {
+object Jvm {
     /** Default timezone. */
     val timeZone: TimeZone = TimeZone.getDefault()
 
@@ -15,7 +15,7 @@ object Environment {
     /** The IP address of the machine running this program. */
     val ip: String = InetAddress.getLocalHost().hostAddress
 
-    val jvmId: String = ManagementFactory.getRuntimeMXBean().name
+    val id: String = ManagementFactory.getRuntimeMXBean().name
     val jvmName: String = ManagementFactory.getRuntimeMXBean().vmName
     val jvmVersion: String = ManagementFactory.getRuntimeMXBean().specVersion
     val cpuCount: Int = Runtime.getRuntime().availableProcessors()

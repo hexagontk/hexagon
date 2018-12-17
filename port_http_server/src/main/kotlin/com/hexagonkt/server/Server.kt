@@ -1,13 +1,13 @@
 package com.hexagonkt.server
 
 import com.hexagonkt.helpers.*
-import com.hexagonkt.helpers.Environment.cpuCount
-import com.hexagonkt.helpers.Environment.hostname
-import com.hexagonkt.helpers.Environment.ip
-import com.hexagonkt.helpers.Environment.jvmName
-import com.hexagonkt.helpers.Environment.jvmVersion
-import com.hexagonkt.helpers.Environment.locale
-import com.hexagonkt.helpers.Environment.timezone
+import com.hexagonkt.helpers.Jvm.cpuCount
+import com.hexagonkt.helpers.Jvm.hostname
+import com.hexagonkt.helpers.Jvm.ip
+import com.hexagonkt.helpers.Jvm.jvmName
+import com.hexagonkt.helpers.Jvm.jvmVersion
+import com.hexagonkt.helpers.Jvm.locale
+import com.hexagonkt.helpers.Jvm.timezone
 import com.hexagonkt.settings.SettingsManager
 
 import java.lang.Runtime.getRuntime

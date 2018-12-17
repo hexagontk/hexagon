@@ -24,13 +24,13 @@ import kotlin.test.assertFailsWith
     @Test fun `System setting works ok` () {
         System.setProperty("system_property", "value")
 
-        assert(Environment.systemSetting("system_property") == "value")
+        assert(Jvm.systemSetting("system_property") == "value")
 
-        assert(Environment.systemSetting("PATH")?.isNotEmpty() ?: false)
-        assert(Environment.systemSetting("_not_defined_") == null)
+        assert(Jvm.systemSetting("PATH")?.isNotEmpty() ?: false)
+        assert(Jvm.systemSetting("_not_defined_") == null)
 
         System.setProperty("PATH", "path override")
-        assert(Environment.systemSetting("PATH") == "path override")
+        assert(Jvm.systemSetting("PATH") == "path override")
     }
 
     @Test fun `Time nanos gets the elapsed nanoseconds` () {

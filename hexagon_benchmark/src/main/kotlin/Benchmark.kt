@@ -1,6 +1,6 @@
 package com.hexagonkt
 
-import com.hexagonkt.helpers.Environment.systemSetting
+import com.hexagonkt.helpers.Jvm.systemSetting
 import com.hexagonkt.serialization.JsonFormat
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.serialize

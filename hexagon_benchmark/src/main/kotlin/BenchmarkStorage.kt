@@ -1,7 +1,7 @@
 package com.hexagonkt
 
 import com.hexagonkt.helpers.error
-import com.hexagonkt.helpers.Environment.systemSetting
+import com.hexagonkt.helpers.Jvm.systemSetting
 import com.hexagonkt.settings.SettingsManager.defaultSetting
 import com.hexagonkt.store.mongodb.MongoDbStore
 
