@@ -6,7 +6,7 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options as wmO
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer
-import com.hexagonkt.serialization.JsonFormat
+import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.serialize
 
 import org.asynchttpclient.Response
@@ -22,7 +22,7 @@ class ClientTest {
     private val wmOptions: WireMockConfiguration = wmExtensions.dynamicPort()
     private val wmServer = WireMockServer(wmOptions)
     private val client by lazy {
-        Client("http://localhost:${wmServer.port()}", JsonFormat.contentType)
+        Client("http://localhost:${wmServer.port()}", Json.contentType)
     }
 
     @BeforeClass
@@ -54,7 +54,7 @@ class ClientTest {
         val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
-        val body = client.post("/", requestBody, JsonFormat.contentType).responseBody
+        val body = client.post("/", requestBody, Json.contentType).responseBody
         assert(body.trim() == expectedBody)
 
         val body2 = client.post("/", body = requestBody).responseBody
@@ -79,7 +79,7 @@ class ClientTest {
     fun `http methods with objects work ok with default client`() {
         val parameter = mapOf("key" to "value")
         val url = "http://localhost:${wmServer.port()}"
-        val contentType = JsonFormat.contentType
+        val contentType = Json.contentType
         checkResponse(get(url), null)
         checkResponse(head(url), null)
         checkResponse(post(url, parameter, contentType), parameter)
@@ -93,9 +93,9 @@ class ClientTest {
     fun `parameters are set properly` () {
         val endpoint = "http://localhost:${wmServer.port()}"
         val h = mapOf("header1" to listOf("val1", "val2"))
-        val c = Client(endpoint, JsonFormat.contentType, false, h, "user", "password", true)
+        val c = Client(endpoint, Json.contentType, false, h, "user", "password", true)
 
-        assert(c.contentType == JsonFormat.contentType)
+        assert(c.contentType == Json.contentType)
         assert(!c.useCookies)
         assert(c.headers == h)
 

@@ -1,10 +1,10 @@
-package com.hexagonkt.server.servlet
+package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.http.Method
-import com.hexagonkt.server.Part
+import com.hexagonkt.http.server.Part
 import com.hexagonkt.http.Path
-import com.hexagonkt.server.EngineRequest
+import com.hexagonkt.http.server.EngineRequest
 import java.io.InputStreamReader
 import java.net.HttpCookie
 import javax.servlet.http.HttpServletRequest

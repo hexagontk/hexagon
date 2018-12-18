@@ -2,7 +2,7 @@ package com.hexagonkt.settings
 
 import com.hexagonkt.helpers.get
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.serialization.YamlFormat
+import com.hexagonkt.serialization.Yaml
 import com.hexagonkt.serialization.serialize
 
 object SettingsManager {
@@ -51,7 +51,7 @@ object SettingsManager {
                         log.info { "No settings found for $it" }
                     }
                     else {
-                        val serialize = s.serialize(YamlFormat).prependIndent(" ".repeat(4))
+                        val serialize = s.serialize(Yaml).prependIndent(" ".repeat(4))
                         log.info { "Settings loaded from $it:\n\n$serialize" }
                     }
                 }

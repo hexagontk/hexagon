@@ -1,6 +1,6 @@
-package com.hexagonkt.server.servlet
+package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.server.EngineSession
+import com.hexagonkt.http.server.EngineSession
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 

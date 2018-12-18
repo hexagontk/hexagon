@@ -1,7 +1,7 @@
-package com.hexagonkt.server.servlet
+package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.client.Client
-import com.hexagonkt.server.router
+import com.hexagonkt.http.server.router
 import org.eclipse.jetty.server.Server as JettyServer
 import org.eclipse.jetty.webapp.WebAppContext
 import org.testng.annotations.AfterClass

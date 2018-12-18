@@ -20,7 +20,7 @@ object SerializationManager {
     private val mimeTypesResource = Resource("serialization/mime.types")
 
     internal val coreFormats: LinkedHashSet<SerializationFormat> =
-        linkedSetOf(JsonFormat, YamlFormat)
+        linkedSetOf(Json, Yaml)
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
     var formats: LinkedHashSet<SerializationFormat> = coreFormats

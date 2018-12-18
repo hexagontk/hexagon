@@ -1,6 +1,6 @@
-package com.hexagonkt.server.servlet
+package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.server.EngineResponse
+import com.hexagonkt.http.server.EngineResponse
 import java.io.OutputStream
 import java.net.HttpCookie
 import javax.servlet.ServletContext

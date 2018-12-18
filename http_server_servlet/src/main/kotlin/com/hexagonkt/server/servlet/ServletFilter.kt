@@ -1,13 +1,13 @@
-package com.hexagonkt.server.servlet
+package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.serialization.serialize
-import com.hexagonkt.server.*
-import com.hexagonkt.server.FilterOrder.AFTER
-import com.hexagonkt.server.FilterOrder.BEFORE
-import com.hexagonkt.server.RequestHandler.*
+import com.hexagonkt.http.server.*
+import com.hexagonkt.http.server.FilterOrder.AFTER
+import com.hexagonkt.http.server.FilterOrder.BEFORE
+import com.hexagonkt.http.server.RequestHandler.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
 

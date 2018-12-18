@@ -1,12 +1,12 @@
 package com.hexagonkt
 
 import com.hexagonkt.helpers.Jvm.systemSetting
-import com.hexagonkt.serialization.JsonFormat
+import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.serialize
-import com.hexagonkt.server.*
-import com.hexagonkt.server.jetty.JettyServletAdapter
-import com.hexagonkt.server.servlet.ServletServer
+import com.hexagonkt.http.server.*
+import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.http.server.servlet.ServletServer
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.TemplatePort
@@ -51,7 +51,7 @@ private val router: Router by lazy {
         }
 
         get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
-        get("/json") { ok(Message(TEXT_MESSAGE).serialize(), JsonFormat.contentType) }
+        get("/json") { ok(Message(TEXT_MESSAGE).serialize(), Json.contentType) }
 
         benchmarkStores.forEach { storeEngine, store ->
             benchmarkTemplateEngines.forEach { templateKind ->
@@ -73,7 +73,7 @@ internal val benchmarkServer: Server by lazy { Server(engine, router, SettingsMa
 private fun Call.returnWorlds(worldsList: List<World>) {
     val worlds = worldsList.map { it.convertToMap() - "_id" }
 
-    ok(worlds.serialize(), JsonFormat.contentType)
+    ok(worlds.serialize(), Json.contentType)
 }
 
 private fun Call.getWorldsCount() = request[QUERIES_PARAM]?.toIntOrNull().let {
@@ -101,7 +101,7 @@ private fun Call.listFortunes(
 private fun Call.dbQuery(store: BenchmarkStore) {
     val world = store.findWorlds(1).first().convertToMap() - "_id"
 
-    ok(world.serialize(), JsonFormat.contentType)
+    ok(world.serialize(), Json.contentType)
 }
 
 private fun Call.getWorlds(store: BenchmarkStore) {

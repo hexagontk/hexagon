@@ -1,6 +1,6 @@
-package com.hexagonkt.server.servlet
+package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.server.Router
+import com.hexagonkt.http.server.Router
 
 import java.util.*
 import javax.servlet.DispatcherType
