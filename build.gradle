@@ -67,5 +67,6 @@ task all (dependsOn:
     project.getTasksByName ('jacocoReport', true) +
     project.getTasksByName ('installDist', true) +
     project.getTasksByName ('installAllTemplates', true) +
+    project.getTasksByName ('publishToMavenLocal', true) +
     project.getTasksByName ('tfb', true)
 )
