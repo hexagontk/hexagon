@@ -2,15 +2,11 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.serialization.SerializationFormat
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import java.nio.charset.Charset.defaultCharset
-import java.time.LocalDateTime
-import java.time.LocalDateTime.now
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.*
-import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 import java.util.Locale.forLanguageTag as localeFor
 import com.hexagonkt.settings.SettingsManager.settings
 
@@ -23,8 +19,6 @@ class Call(
     val session: Session,
     /** Call attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
     var attributes: Map<String, Any> = linkedMapOf()) {
-
-    fun redirect(url: String) = response.redirect(url)
 
     fun ok(content: Any, type: String? = null) = send(200, content, type)
     fun created(content: Any, type: String? = null) = send(201, content, type)
@@ -44,20 +38,20 @@ class Call(
 
     fun serializationFormat(): SerializationFormat = formatOf(contentType())
 
-    fun setContentTypeFor(template: String) {
+    fun extensionContentType(template: String) {
         if (response.contentType == null) {
-            val mimeType = response.getMimeType(template)
+            val mimeType = SerializationManager.contentTypeOf(template.substringAfterLast('.'))
             response.contentType = "$mimeType; charset=${defaultCharset().name()}"
         }
     }
 
-    fun fullContext(locale: Locale, context: Map<String, *>): Map<String, *> {
+    fun fullContext(locale: Locale): Map<String, *> {
         val extraParameters = mapOf(
             "path" to request.path.removeSuffix("/"), // Do not allow trailing slash
             "lang" to locale.language
         )
 
-        return settings + context + session.attributes + extraParameters
+        return settings + session.attributes + extraParameters
     }
 
     /**
@@ -73,9 +67,6 @@ class Call(
         attributes["lang"] as? String != null -> localeFor(attributes["lang"] as String)
         else -> Locale.getDefault()
     }
-
-    fun httpDate (date: LocalDateTime = now()): String =
-        RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
 
     private fun send(code: Int, content: Any, contentType: String? = null) {
         response.status = code

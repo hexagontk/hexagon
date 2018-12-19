@@ -1,5 +1,10 @@
 package com.hexagonkt.http
 
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
+
 fun parseQueryParameters (query: String): Map<String, String> =
     if (query.isBlank())
         mapOf()
@@ -12,3 +17,6 @@ fun parseQueryParameters (query: String): Map<String, String> =
                 key to value
             }
             .toMap(LinkedHashMap())
+
+fun httpDate (date: LocalDateTime = LocalDateTime.now()): String =
+    RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))

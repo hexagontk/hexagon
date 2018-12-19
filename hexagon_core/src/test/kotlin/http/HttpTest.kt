@@ -1,6 +1,7 @@
 package com.hexagonkt.http
 
 import org.testng.annotations.Test
+import java.time.LocalDateTime
 
 @Test class HttpTest {
 
@@ -20,5 +21,9 @@ import org.testng.annotations.Test
             "c" to "",
             "d" to "e"
         ))
+    }
+
+    @Test fun `HTTP date has the correct format`() {
+        assert(httpDate(LocalDateTime.of(2018, 1, 1, 0, 0)) == "Mon, 1 Jan 2018 00:00:00 GMT")
     }
 }

@@ -98,8 +98,9 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
         get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
         get("/template") {
             val now = LocalDateTime.now()
-            setContentTypeFor("pebble_template.html")
-            val fullContext = fullContext(obtainLocale(), mapOf("date" to now))
+            extensionContentType("pebble_template.html")
+            attributes += "date" to now
+            val fullContext = fullContext(obtainLocale())
             render(templateAdapter, "pebble_template.html", obtainLocale(), fullContext)
         }
 
@@ -108,7 +109,7 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
         }
 
         get("/reqres") { ok (request.method) }
-        get("/redirect") { redirect("http://example.com") }
+        get("/redirect") { response.redirect("http://example.com") }
         get("/attribute") { attributes["attr1"] ?: "not found" }
         get("/content/type") {
             val responseType = request.headers["responseType"]?.first()

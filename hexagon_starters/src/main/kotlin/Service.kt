@@ -1,8 +1,9 @@
 
-import java.time.LocalDateTime.now
-
-import com.hexagonkt.http.server.*
+import com.hexagonkt.http.httpDate
+import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
+
+import java.time.LocalDateTime.now
 
 val server: Server = Server(JettyServletAdapter()) {
     before {
