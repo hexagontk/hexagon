@@ -230,11 +230,11 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 code = result.first as? Int ?: 200,
                 content = result.second.let {
                     it as? String
-                        ?: it?.serialize(serializationFormat())
+                        ?: it?.serialize(responseFormat())
                         ?: ""
                 }
             )
-            else -> ok(result.serialize(serializationFormat()))
+            else -> ok(result.serialize(responseFormat()))
         }
     }
 }

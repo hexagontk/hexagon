@@ -13,12 +13,10 @@ import com.hexagonkt.settings.SettingsManager.settings
 /**
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
-class Call(
-    val request: Request,
-    val response: Response,
-    val session: Session,
+class Call(val request: Request, val response: Response, val session: Session) {
+
     /** Call attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
-    var attributes: Map<String, Any> = linkedMapOf()) {
+    var attributes: Map<String, Any> = linkedMapOf()
 
     fun ok(content: Any, type: String? = null) = send(200, content, type)
     fun created(content: Any, type: String? = null) = send(201, content, type)
@@ -30,25 +28,33 @@ class Call(
         throw CodedException(code, content.toString())
     }
 
-    fun contentType(): String =
+    private fun send(code: Int, content: Any, contentType: String? = null) {
+        response.status = code
+        response.body = content
+
+        if (contentType != null)
+            response.contentType = contentType
+    }
+
+    fun responseType(): String =
         response.contentType ?:
         request.headers["Accept"]?.first()?.let { if (it == "*/*") null else it } ?:
         request.contentType ?:
         defaultFormat.contentType
 
-    fun serializationFormat(): SerializationFormat = formatOf(contentType())
+    fun responseFormat(): SerializationFormat = formatOf(responseType())
 
-    fun extensionContentType(template: String) {
+    fun templateType(template: String) {
         if (response.contentType == null) {
             val mimeType = SerializationManager.contentTypeOf(template.substringAfterLast('.'))
             response.contentType = "$mimeType; charset=${defaultCharset().name()}"
         }
     }
 
-    fun fullContext(locale: Locale): Map<String, *> {
+    fun fullContext(): Map<String, *> {
         val extraParameters = mapOf(
             "path" to request.path.removeSuffix("/"), // Do not allow trailing slash
-            "lang" to locale.language
+            "lang" to obtainLocale().language
         )
 
         return settings + session.attributes + extraParameters
@@ -66,13 +72,5 @@ class Call(
     fun obtainLocale(): Locale = when {
         attributes["lang"] as? String != null -> localeFor(attributes["lang"] as String)
         else -> Locale.getDefault()
-    }
-
-    private fun send(code: Int, content: Any, contentType: String? = null) {
-        response.status = code
-        response.body = content
-
-        if (contentType != null)
-            response.contentType = contentType
     }
 }

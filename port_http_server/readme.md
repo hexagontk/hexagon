@@ -1,6 +1,8 @@
 
 # Module port_http_server
 
+URL trailing slash is ignored and discarded
+
 TODO
 
 Quick Start
