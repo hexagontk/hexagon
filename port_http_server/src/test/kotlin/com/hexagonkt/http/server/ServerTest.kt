@@ -27,7 +27,7 @@ import java.net.InetAddress.getByName as address
     }
 
     fun `parameters map`() {
-        val router = router {}
+        val router = Router {}
         val server = Server(VoidAdapter, router = router)
         assert(equal (server, Server(VoidAdapter, router, mapOf<String, Any>())))
         val invalidSettings = mapOf("serviceName" to 0, "bindAddress" to 1, "bindPort" to true)

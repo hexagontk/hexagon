@@ -4,7 +4,7 @@ import com.hexagonkt.http.client.Client
 
 @Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
 internal class HexagonModule : TestModule() {
-    override fun initialize(): Router = router {
+    override fun initialize(): Router = Router {
         get ("/hexagon/books/{id}") {
             ok ("${request ["id"]}")
         }

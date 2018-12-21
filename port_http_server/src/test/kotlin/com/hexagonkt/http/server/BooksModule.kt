@@ -19,10 +19,10 @@ internal class BooksModule : TestModule() {
         ))
     }
 
-    override fun initialize(): Router = router {
+    override fun initialize(): Router = Router {
         post ("/books") {
             books [id] = Book(request.parameter("author"), request.parameter("title"))
-            created ((id++).toString ())
+            send (201, (id++).toString ())
         }
 
         get ("/books/{id}") {
@@ -31,7 +31,7 @@ internal class BooksModule : TestModule() {
             if (book != null)
                 ok ("Title: ${book.title}, Author: ${book.author}")
             else
-                error (404, "Book not found")
+                send (404, "Book not found")
         }
 
         put ("/books/{id}") {
@@ -49,7 +49,7 @@ internal class BooksModule : TestModule() {
                 ok ("Book with id '$bookId' updated")
             }
             else {
-                error (404, "Book not found")
+                send(404, "Book not found")
             }
         }
 
@@ -59,7 +59,7 @@ internal class BooksModule : TestModule() {
             if (book != null)
                 ok ("Book with id '$bookId' deleted")
             else
-                error (404, "Book not found")
+                send(404, "Book not found")
         }
 
         get ("/books") {

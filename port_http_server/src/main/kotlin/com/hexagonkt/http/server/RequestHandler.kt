@@ -8,7 +8,7 @@ sealed class RequestHandler {
     data class FilterHandler(
         override val route: Route,
         val order: FilterOrder,
-        val callback: FilterCallback) : RequestHandler()
+        val callback: RouteCallback) : RequestHandler()
 
     data class RouteHandler(
         override val route: Route,

@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.client.Client
-import com.hexagonkt.http.server.router
+import com.hexagonkt.http.server.Router
 import org.eclipse.jetty.server.Server as JettyServer
 import org.eclipse.jetty.webapp.WebAppContext
 import org.testng.annotations.AfterClass
@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebListener
 
 @Test class ServletServerTest {
     @WebListener class Serv : ServletServer() {
-        override fun createRouter() = router {
+        override fun createRouter() = Router {
             get { ok("Hello Servlet!") }
         }
     }

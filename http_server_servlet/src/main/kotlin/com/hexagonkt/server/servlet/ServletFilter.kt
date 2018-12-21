@@ -3,13 +3,15 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.serialization.serialize
+import com.hexagonkt.http.ALL
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.FilterOrder.AFTER
 import com.hexagonkt.http.server.FilterOrder.BEFORE
 import com.hexagonkt.http.server.RequestHandler.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.SerializationManager.contentTypeOf
 
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest as HttpRequest
@@ -26,9 +28,9 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
 
     private val log: Logger = Logger(this)
 
-    private val notFoundHandler: ErrorCodeCallback = { error(404, "${request.url} not found") }
+    private val notFoundHandler: ErrorCodeCallback = { send(404, "${request.url} not found") }
     private val baseExceptionHandler: ExceptionCallback =
-        { error(500, "${it.javaClass.simpleName} (${it.message ?: "no details"})") }
+        { send(500, "${it.javaClass.simpleName} (${it.message ?: "no details"})") }
 
     private val allHandlers = listOf(
         CodeHandler(Route(Path("/"), ALL), 404, notFoundHandler),
@@ -47,7 +49,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         .filterIsInstance(RouteHandler::class.java)
         .groupBy { it.route.methods.first() }
 
-    private val filtersByOrder: Map<FilterOrder, List<Pair<Route, FilterCallback>>> = router
+    private val filtersByOrder: Map<FilterOrder, List<Pair<Route, RouteCallback>>> = router
         .asSequence()
         .filterIsInstance(FilterHandler::class.java)
         .groupBy { it.order }
@@ -74,7 +76,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     private fun filter(
         req: BServletRequest,
         call: Call,
-        filters: List<Pair<Route, FilterCallback>>): Boolean =
+        filters: List<Pair<Route, RouteCallback>>): Boolean =
             filters
                 .filter { it.first.path.matches(req.path) }
                 .map {
@@ -95,7 +97,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         for ((first, second) in methodRoutes) {
             try {
                 bRequest.actionPath = first.path
-                call.handleResult(call.second())
+                call.second()
 
                 log.trace { "Route for path '${bRequest.actionPath}' executed" }
                 return true
@@ -171,8 +173,8 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         when (exception) {
             is CodedException -> {
                 val handler: ErrorCodeCallback =
-                    codedErrors[exception.code] ?: { error(it, exception.message ?: "") }
-                call.handleResult(call.handler(exception.code))
+                    codedErrors[exception.code] ?: { send(it, exception.message ?: "") }
+                call.handler(exception.code)
             }
             else -> {
                 log.error(exception) { "Error processing request" }
@@ -180,7 +182,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 val handler = exceptionErrors[type]
 
                 if (handler != null)
-                    call.handleResult(call.handler(exception))
+                    call.handler(exception)
                 else
                     type.superclass.also { if (it != null) handleException(exception, call, it) }
             }
@@ -200,6 +202,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             throw PassException()
         }
         else {
+//            val contentType by lazy { contentTypeOf(request.path.substringAfterLast('.')) }
             val contentType by lazy { response.getMimeType(request.path) }
 
             // Should be done BEFORE flushing the stream (if not content type is ignored)
@@ -210,31 +213,6 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             val bytes = stream.readBytes()
             response.outputStream.write(bytes)
             response.outputStream.flush()
-        }
-    }
-
-    private fun Call.handleResult(result: Any) {
-        log.trace { "Result of type: ${result.javaClass.name}" }
-        when (result) {
-            Unit -> {
-                if (!response.statusChanged && response.status != 302)
-                    response.status = 200
-            }
-            is Nothing -> {
-                if (!response.statusChanged && response.status != 302)
-                    response.status = 200
-            }
-            is Int -> response.status = result
-            is String -> ok(result)
-            is Pair<*, *> -> ok(
-                code = result.first as? Int ?: 200,
-                content = result.second.let {
-                    it as? String
-                        ?: it?.serialize(responseFormat())
-                        ?: ""
-                }
-            )
-            else -> ok(result.serialize(responseFormat()))
         }
     }
 }

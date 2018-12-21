@@ -3,6 +3,7 @@ package com.hexagonkt.http.server
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Method.*
 import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.http.ALL
 import org.testng.annotations.Test
 
 /**
@@ -11,13 +12,13 @@ import org.testng.annotations.Test
 @Test class RouterTest {
     @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
     fun exceptionsInErrorHandlers() {
-        router {
+        Router {
             error(CodedException::class) {}
         }
     }
 
     fun test() {
-        val router = router {
+        val router = Router {
             path {
                 put {}
                 get("/first") {}

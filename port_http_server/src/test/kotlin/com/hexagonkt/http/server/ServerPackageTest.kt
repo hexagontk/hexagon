@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.http.ALL
 import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.server.FilterOrder.*
 import com.hexagonkt.http.server.RequestHandler.*
@@ -29,19 +30,19 @@ import org.testng.annotations.Test
             trace ("/trace") {}
             options ("/options") {}
             patch ("/patch") {}
-            get { "get" }
-            head { "head" }
-            post { "post" }
-            put { "put" }
-            delete { "delete" }
-            trace { "trace" }
-            options { "options" }
-            patch { "patch" }
+            get { ok("get") }
+            head { ok("head") }
+            post { ok("post") }
+            put { ok("put") }
+            delete { ok("delete") }
+            trace { ok("trace") }
+            options { ok("options") }
+            patch { ok("patch") }
 
-            get("/infix") by { "infix" }
+            get("/infix") { ok("infix") }
 
-            path("/router") mount router {
-                get("/subroute") { "Router" }
+            path("/router") {
+                get("/subroute") { ok("Router") }
             }
 
             error(401) {}

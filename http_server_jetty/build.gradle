@@ -11,7 +11,6 @@ dependencies {
     compile("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude(module: "slf4j-api") }
 
     testCompile(project(":port_http_client"))
-    testCompile(project(":templates_pebble"))
     testCompile(project(":port_http_server").sourceSets.test.output)
     testCompile("org.testng:testng:$testngVersion")
 }

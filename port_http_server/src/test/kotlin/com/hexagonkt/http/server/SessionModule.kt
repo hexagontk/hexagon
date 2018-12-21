@@ -7,7 +7,7 @@ import com.hexagonkt.helpers.Logger
 internal class SessionModule : TestModule() {
     private val log: Logger = Logger(this)
 
-    override fun initialize(): Router = router {
+    override fun initialize(): Router = Router {
         get("/session/id") {
             val id: String = session.id ?: "null"
             try {
@@ -62,9 +62,11 @@ internal class SessionModule : TestModule() {
             response.addHeader ("attribute values", session.attributes.values.joinToString(", "))
             response.addHeader ("attribute names", session.attributes.keys.joinToString(", "))
 
-            response.addHeader ("creation",  session.creationTime.toString())
-            response.addHeader ("id",  session.id ?: "")
+            response.addHeader ("creation", session.creationTime.toString())
+            response.addHeader ("id", session.id ?: "")
             response.addHeader ("last access", session.lastAccessedTime.toString())
+
+            response.status = 200
         }
     }
 

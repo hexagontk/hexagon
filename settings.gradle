@@ -10,6 +10,7 @@ include (
     // Internal modules
     "hexagon_core",
     "hexagon_scheduler",
+    "hexagon_web",
 
     // Ports
     "port_http_client",

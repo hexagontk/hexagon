@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.http.*
 import com.hexagonkt.http.server.FilterOrder.AFTER
 import com.hexagonkt.http.server.FilterOrder.BEFORE
 
@@ -15,24 +16,33 @@ import kotlin.reflect.KClass
  * TODO Document.
  * TODO Index routes (ie: GET /foo)
  * TODO Map with routes to all handlers needed
+ * Creates and initializes a [Router] based on a code block.
+ *
+ * @param block Router's setup block.
+ * @return A new router initialized by the passed block.
  */
-class Router {
+class Router(block: Router.() -> Unit = {}) {
+
     var requestHandlers: List<RequestHandler> = emptyList(); private set
 
-    infix fun Route.before(block: FilterCallback) {
+    init {
+        block()
+    }
+
+    private infix fun Route.before(block: RouteCallback) {
         requestHandlers += FilterHandler(this, BEFORE, block)
     }
 
-    infix fun Route.after(block: FilterCallback) {
+    private infix fun Route.after(block: RouteCallback) {
         requestHandlers += FilterHandler(this, AFTER, block)
     }
 
-    infix fun Route.by(block: RouteCallback) {
+    private infix fun Route.by(block: RouteCallback) {
         requestHandlers += RouteHandler(this, block)
     }
 
-    fun before(path: String = "/*", block: FilterCallback) = all(path) before block
-    fun after(path: String = "/*", block: FilterCallback) = all(path) after block
+    fun before(path: String = "/*", block: RouteCallback) = all(path) before block
+    fun after(path: String = "/*", block: RouteCallback) = all(path) after block
     fun get(path: String = "/", block: RouteCallback) = get(path) by block
     fun head(path: String = "/", block: RouteCallback) = head(path) by block
     fun post(path: String = "/", block: RouteCallback) = post(path) by block
@@ -60,13 +70,11 @@ class Router {
         requestHandlers += ExceptionHandler(Route(Path("/"), ALL), exception, block)
     }
 
-    infix fun Path.mount(handler: Router) { requestHandlers += PathHandler(Route(this), handler) }
-
+    fun path(path: Path, router: Router) { requestHandlers += PathHandler(Route(path), router) }
     fun path(handler: Router) { path("/", handler) }
-    fun path(block: Router.() -> Unit) = path(router(block))
-    fun path(path: Path, router: Router) = path mount router
+    fun path(block: Router.() -> Unit) = path(Router(block))
     fun path(path: String, router: Router) = path(Path(path), router)
-    fun path(path: String, block: Router.() -> Unit) = Path(path) mount router(block)
+    fun path(path: String, block: Router.() -> Unit) = path(Path(path), Router(block))
 
     fun assets (resource: String, path: String = "/*") {
         requestHandlers += AssetsHandler(Route(Path(path), GET), resource)

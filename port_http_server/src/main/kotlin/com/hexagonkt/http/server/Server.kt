@@ -50,7 +50,7 @@ data class Server (
         engine: ServerPort,
         settings: Map<String, *> = SettingsManager.settings,
         block: Router.() -> Unit):
-            this(engine, router(block), settings)
+            this(engine, Router(block), settings)
 
     constructor(serverEngine: ServerPort, router: Router, settings: Map<String, *>) :
         this (

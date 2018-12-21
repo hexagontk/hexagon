@@ -5,7 +5,7 @@ import java.net.HttpCookie
 
 @Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
 internal class CookiesModule : TestModule() {
-    override fun initialize(): Router = router {
+    override fun initialize(): Router = Router {
         post("/assertNoCookies") {
             if (!request.cookies.isEmpty())
                 halt(500)

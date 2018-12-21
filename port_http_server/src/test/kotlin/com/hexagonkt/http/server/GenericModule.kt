@@ -2,14 +2,11 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.client.Client
-import com.hexagonkt.templates.TemplateManager.render
-import com.hexagonkt.templates.TemplatePort
 import java.net.URL
-import java.time.LocalDateTime
 import java.util.Locale.getDefault as defaultLocale
 
 @Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
-internal class GenericModule(private val templateAdapter: TemplatePort) : TestModule() {
+internal class GenericModule : TestModule() {
     internal class CustomException : IllegalArgumentException()
 
     internal data class Tag(
@@ -19,7 +16,7 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
 
     private val part = "param"
 
-    private val FORTUNE_MESSAGES = setOf(
+    private val fortuneMessages = setOf(
         "fortune: No such file or directory",
         "A computer scientist is someone who fixes things that aren't broken.",
         "After enough decimal places, nobody gives a damn.",
@@ -34,7 +31,7 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
         "フレームワークのベンチマーク"
     )
 
-    override fun initialize(): Router = router {
+    override fun initialize(): Router = Router {
         before("/protected/*") { halt(401, "Go Away!") }
         before("/attribute") { attributes += "attr1" to "attr" }
 
@@ -69,12 +66,12 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
 
         error(UnsupportedOperationException::class) {
             response.addHeader("error", it.message ?: it.javaClass.name)
-            599 to "Unsupported"
+            send(599, "Unsupported")
         }
 
         error(IllegalArgumentException::class) {
             response.addHeader("runtimeError", it.message ?: it.javaClass.name)
-            598 to "Runtime"
+            send(598, "Runtime")
         }
 
         get("/exception") { throw UnsupportedOperationException("error message") }
@@ -84,7 +81,7 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
         get("/param/{param}") { ok ("echo: ${request ["param"]}") }
         get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request ["paramWithMaj"]}") }
         get("/") { ok("Hello Root!") }
-        post("/poster") { created("Body was: ${request.body}") }
+        post("/poster") { send(201, "Body was: ${request.body}") }
         patch("/patcher") { ok ("Body was: ${request.body}") }
         delete ("/method") { okRequestMethod () }
         options ("/method") { okRequestMethod () }
@@ -96,48 +93,39 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
         head ("/method") { response.addHeader ("header", request.method.toString()) }
         get("/halt") { halt("halted") }
         get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
-        get("/template") {
-            val now = LocalDateTime.now()
-            templateType("pebble_template.html")
-            attributes += "date" to now
-            val fullContext = fullContext()
-            render(templateAdapter, "pebble_template.html", obtainLocale(), fullContext)
-        }
 
         get("/tworoutes/${part.toUpperCase()}/{param}") {
             ok ("${part.toUpperCase()} route: ${request ["param"]}")
         }
 
         get("/reqres") { ok (request.method) }
-        get("/redirect") { response.redirect("http://example.com") }
-        get("/attribute") { attributes["attr1"] ?: "not found" }
+        get("/redirect") { redirect("http://example.com") }
+        get("/attribute") { ok(attributes["attr1"] ?: "not found") }
         get("/content/type") {
-            val responseType = request.headers["responseType"]?.first()
+            val headerResponseType = request.headers["responseType"]?.first()
 
-            if (responseType != null)
-                response.contentType = responseType
+            if (headerResponseType != null)
+                response.contentType = headerResponseType
 
-            responseType()
+            ok(responseType)
         }
 
         after("/hi") {
             response.addHeader ("after", "foobar")
         }
 
-        apply {
-            get("/return/status") by { 201 }
-            get("/return/body") by { "body" }
-            get("/return/pair") by { 202 to "funky status" }
-            get("/return/list") by { listOf("alpha", "beta") }
-            get("/return/map") by { mapOf("alpha" to 0, "beta" to true) }
-            get("/return/object") by { Tag(name = "Message") }
-            get("/return/pair/list") by { 201 to listOf("alpha", "beta") }
-            get("/return/pair/map") by { 201 to mapOf("alpha" to 0, "beta" to true) }
-            get("/return/pair/object") by { 201 to Tag(name = "Message") }
-        }
+        get("/return/status") { send(201) }
+        get("/return/body") { ok("body") }
+        get("/return/pair") { send(202, "funky status") }
+        get("/return/list") { ok(listOf("alpha", "beta")) }
+        get("/return/map") { ok(mapOf("alpha" to 0, "beta" to true)) }
+        get("/return/object") { ok(Tag(name = "Message")) }
+        get("/return/pair/list") { send(201, listOf("alpha", "beta")) }
+        get("/return/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
+        get("/return/pair/object") { send(201, Tag(name = "Message")) }
     }
 
-    private fun Call.okRequestMethod() = ok (request.method)
+    private fun Call.okRequestMethod() = ok(request.method)
 
     fun reqres(client: Client) {
         val response = client.get("/reqres")
@@ -147,11 +135,6 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
     fun getHi(client: Client) {
         val response = client.get("/hi")
         assertResponseEquals(response, "Hello World!")
-    }
-
-    fun template(client: Client) {
-        val response = client.get("/template")
-        assert(response.statusCode == 200)
     }
 
     fun getHiAfterFilter(client: Client) {
@@ -348,7 +331,6 @@ internal class GenericModule(private val templateAdapter: TemplatePort) : TestMo
     override fun validate(client: Client) {
         reqres(client)
         getHi(client)
-        template(client)
         getHiAfterFilter(client)
         getRoot(client)
         echoParam1(client)
