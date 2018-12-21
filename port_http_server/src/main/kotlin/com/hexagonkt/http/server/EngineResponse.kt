@@ -13,7 +13,6 @@ interface EngineResponse {
     var status: Int
     var contentType: String?
 
-    fun getMimeType (file: String): String?
     fun addHeader (name: String, value: String)
     fun addCookie (cookie: java.net.HttpCookie)
     fun removeCookie (name: String)

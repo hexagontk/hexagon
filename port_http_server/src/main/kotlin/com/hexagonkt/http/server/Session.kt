@@ -19,8 +19,8 @@ class Session (private val session: EngineSession) {
         get() = session.maxInactiveInterval
         set(value) { session.maxInactiveInterval = value }
 
-    fun invalidate () = session.invalidate()
-    fun isNew (): Boolean = session.isNew()
+    fun invalidate() = session.invalidate()
+    fun isNew(): Boolean = session.isNew()
     fun removeAttribute(name: String) = session.removeAttribute(name)
 
     operator fun get(name: String): Any? = session.getAttribute(name)

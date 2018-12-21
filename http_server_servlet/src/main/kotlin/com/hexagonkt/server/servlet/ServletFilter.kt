@@ -129,14 +129,13 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
 
     private fun doFilter(
         request: ServletRequest,
-        response: ServletResponse,
-        context: ServletContext = request.servletContext) {
+        response: ServletResponse) {
 
         if (request !is HttpRequest || response !is HttpResponse)
             error("Invalid request/response parameters")
 
         val bRequest = BServletRequest(request)
-        val bResponse = BServletResponse(request, response, context)
+        val bResponse = BServletResponse(request, response)
         val bSession = BServletSession(request)
         val exchange = Call(Request(bRequest), Response(bResponse), Session(bSession))
         var handled = false
@@ -198,12 +197,10 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
 
         if (stream == null) {
             response.status = 404
-            response.statusChanged = false // TODO Handle this in a better way
             throw PassException()
         }
         else {
-//            val contentType by lazy { contentTypeOf(request.path.substringAfterLast('.')) }
-            val contentType by lazy { response.getMimeType(request.path) }
+            val contentType by lazy { contentTypeOf(request.path.substringAfterLast('.')) }
 
             // Should be done BEFORE flushing the stream (if not content type is ignored)
             if (response.contentType == null && contentType != null)

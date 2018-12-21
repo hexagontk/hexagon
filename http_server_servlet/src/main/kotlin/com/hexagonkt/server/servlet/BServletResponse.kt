@@ -3,15 +3,13 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.http.server.EngineResponse
 import java.io.OutputStream
 import java.net.HttpCookie
-import javax.servlet.ServletContext
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 internal class BServletResponse(
     private val req: HttpServletRequest,
-    private val resp: HttpServletResponse,
-    private val context: ServletContext = req.servletContext) : EngineResponse {
+    private val resp: HttpServletResponse) : EngineResponse {
 
     override val outputStream: OutputStream by lazy { resp.outputStream }
 
@@ -24,8 +22,6 @@ internal class BServletResponse(
     override var contentType: String?
         get() = resp.contentType
         set(value) { resp.contentType = value }
-
-    override fun getMimeType (file: String): String? = context.getMimeType(file)
 
     override fun addHeader (name: String, value: String) {
         resp.addHeader(name, value)
