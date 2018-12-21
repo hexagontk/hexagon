@@ -3,7 +3,6 @@ package com.hexagonkt
 import com.hexagonkt.helpers.Jvm.systemSetting
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.convertToMap
-import com.hexagonkt.serialization.serialize
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.http.server.servlet.ServletServer
@@ -36,6 +35,8 @@ internal val benchmarkTemplateEngines: Map<String, TemplatePort> by lazy {
     mapOf("pebble" to PebbleAdapter)
 }
 
+private val defaultLocale = Locale.getDefault()
+
 private val engine by lazy {
     when (systemSetting("WEBENGINE", "jetty")) {
         "jetty" -> JettyServletAdapter()
@@ -44,14 +45,14 @@ private val engine by lazy {
 }
 
 private val router: Router by lazy {
-    router {
+    Router {
         before {
             response.addHeader("Server", "Servlet/3.1")
             response.addHeader("Transfer-Encoding", "chunked")
         }
 
         get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
-        get("/json") { ok(Message(TEXT_MESSAGE).serialize(), Json.contentType) }
+        get("/json") { ok(Message(TEXT_MESSAGE), Json) }
 
         benchmarkStores.forEach { storeEngine, store ->
             benchmarkTemplateEngines.forEach { templateKind ->
@@ -70,11 +71,8 @@ private val router: Router by lazy {
 internal val benchmarkServer: Server by lazy { Server(engine, router, SettingsManager.settings) }
 
 // UTILITIES
-private fun Call.returnWorlds(worldsList: List<World>) {
-    val worlds = worldsList.map { it.convertToMap() - "_id" }
-
-    ok(worlds.serialize(), Json.contentType)
-}
+private fun returnWorlds(worldsList: List<World>): List<Map<Any?, Any?>> =
+    worldsList.map { it.convertToMap() - "_id" }
 
 private fun Call.getWorldsCount() = request[QUERIES_PARAM]?.toIntOrNull().let {
     when {
@@ -87,29 +85,26 @@ private fun Call.getWorldsCount() = request[QUERIES_PARAM]?.toIntOrNull().let {
 
 // HANDLERS
 private fun Call.listFortunes(
-    store: BenchmarkStore, templateKind: String, templateEngine: TemplatePort) {
+    store: BenchmarkStore, templateKind: String, templateAdapter: TemplatePort) {
 
     val fortunes = store.findAllFortunes() + Fortune(0, "Additional fortune added at request time.")
     val sortedFortunes = fortunes.sortedBy { it.message }
     val context = mapOf("fortunes" to sortedFortunes)
-    val defaultLocale = Locale.getDefault()
 
     response.contentType = "text/html;charset=utf-8"
-    ok(render(templateEngine, "fortunes.$templateKind.html", defaultLocale, context))
+    ok(render(templateAdapter, "fortunes.$templateKind.html", defaultLocale, context))
 }
 
 private fun Call.dbQuery(store: BenchmarkStore) {
-    val world = store.findWorlds(1).first().convertToMap() - "_id"
-
-    ok(world.serialize(), Json.contentType)
+    ok(returnWorlds(store.findWorlds(1)).first(), Json)
 }
 
 private fun Call.getWorlds(store: BenchmarkStore) {
-    returnWorlds(store.findWorlds(getWorldsCount()))
+    ok(returnWorlds(store.findWorlds(getWorldsCount())), Json)
 }
 
 private fun Call.updateWorlds(store: BenchmarkStore) {
-    returnWorlds(store.replaceWorlds(getWorldsCount()))
+    ok(returnWorlds(store.replaceWorlds(getWorldsCount())), Json)
 }
 
 // SERVERS
