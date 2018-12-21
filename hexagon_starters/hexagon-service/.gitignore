@@ -4,6 +4,10 @@
 build/
 local.*
 
+# Maven
+/target/
+*.versionsBackup
+
 # Eclipse
 .settings/
 .project

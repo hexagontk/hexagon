@@ -1,26 +1,26 @@
 
-apply from: '../gradle/kotlin.gradle'
-apply from: '../gradle/bintray.gradle'
-apply from: '../gradle/dokka.gradle'
+apply(from: "../gradle/kotlin.gradle")
+apply(from: "../gradle/bintray.gradle")
+apply(from: "../gradle/dokka.gradle")
 
 dependencies {
-    compile project(':port_messaging')
-    compile ("com.rabbitmq:amqp-client:$rabbitVersion") { exclude module: 'slf4j-api' }
+    compile(project(":port_messaging"))
+    compile("com.rabbitmq:amqp-client:$rabbitVersion") { exclude(module: "slf4j-api") }
 
-    testCompile ("org.testng:testng:$testngVersion")
-    testCompile ("org.apache.qpid:qpid-broker:$qpidVersion") {
-        exclude module: 'logback-classic'
-        exclude module: 'jackson-databind'
-        exclude module: 'jackson-core'
-        exclude module: 'slf4j-api'
-        exclude module: 'qpid-broker-plugins-derby-store'
-        exclude module: 'qpid-broker-plugins-jdbc-provider-bone'
-        exclude module: 'qpid-broker-plugins-jdbc-store'
-        exclude module: 'qpid-broker-plugins-management-http'
-        exclude module: 'qpid-broker-plugins-websocket'
+    testCompile("org.testng:testng:$testngVersion")
+    testCompile("org.apache.qpid:qpid-broker:$qpidVersion") {
+        exclude(module: "logback-classic")
+        exclude(module: "jackson-databind")
+        exclude(module: "jackson-core")
+        exclude(module: "slf4j-api")
+        exclude(module: "qpid-broker-plugins-derby-store")
+        exclude(module: "qpid-broker-plugins-jdbc-provider-bone")
+        exclude(module: "qpid-broker-plugins-jdbc-store")
+        exclude(module: "qpid-broker-plugins-management-http")
+        exclude(module: "qpid-broker-plugins-websocket")
     }
 }
 
 test {
-    useTestNG ()
+    useTestNG()
 }

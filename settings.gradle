@@ -3,25 +3,26 @@ rootProject.name = name
 
 include (
     // Infrastructure
-    'hexagon_site',
-    'hexagon_starters',
-    'hexagon_benchmark',
+    "hexagon_site",
+    "hexagon_starters",
+    "hexagon_benchmark",
 
     // Internal modules
-    'hexagon_core',
-    'hexagon_scheduler',
+    "hexagon_core",
+    "hexagon_scheduler",
+    "hexagon_web",
 
     // Ports
-    'port_client',
-    'port_messaging',
-    'port_server',
-    'port_store',
-    'port_templates',
+    "port_http_client",
+    "port_http_server",
+    "port_messaging",
+    "port_store",
+    "port_templates",
 
     // Adapters
-    'messaging_rabbitmq',
-    'server_servlet',
-    'server_jetty',
-    'store_mongodb',
-    'templates_pebble'
+    "messaging_rabbitmq",
+    "http_server_servlet",
+    "http_server_jetty",
+    "store_mongodb",
+    "templates_pebble"
 )

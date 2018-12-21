@@ -1,14 +1,6 @@
 package com.hexagonkt.helpers
 
 import org.testng.annotations.Test
-import java.text.DecimalFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalDateTime.of as dateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter.ISO_DATE_TIME
-import java.util.*
-import java.util.Calendar.MILLISECOND
 import kotlin.test.assertFailsWith
 
 @Test class HelpersTest {
@@ -24,32 +16,18 @@ import kotlin.test.assertFailsWith
     @Test fun `System setting works ok` () {
         System.setProperty("system_property", "value")
 
-        assert(Environment.systemSetting("system_property") == "value")
+        assert(Jvm.systemSetting("system_property") == "value")
 
-        assert(Environment.systemSetting("PATH")?.isNotEmpty() ?: false)
-        assert(Environment.systemSetting("_not_defined_") == null)
+        assert(Jvm.systemSetting("PATH")?.isNotEmpty() ?: false)
+        assert(Jvm.systemSetting("_not_defined_") == null)
 
         System.setProperty("PATH", "path override")
-        assert(Environment.systemSetting("PATH") == "path override")
-    }
-
-    @Test fun `Time nanos gets the elapsed nanoseconds` () {
-        val nanos = System.nanoTime()
-        val timeNanos = formatNanos(nanos)
-
-        val decimalSeparator = DecimalFormat().decimalFormatSymbols.decimalSeparator
-        assert (timeNanos.endsWith("ms") && timeNanos.contains(decimalSeparator))
-    }
-
-    @Test fun `A local date time returns a valid int timestamp` () {
-        assert(dateTime (2015, 12, 31, 23, 59, 59).toNumber() == 2015_12_31_23_59_59_000)
-        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).toNumber() == 2015_12_31_23_59_59_101)
-        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).toNumber() != 2015_12_31_23_59_59_100)
+        assert(Jvm.systemSetting("PATH") == "path override")
     }
 
     @Test fun `Filtering an exception with an empty string do not change the stack` () {
         val t = RuntimeException ()
-        assert (Arrays.equals (t.stackTrace, t.filterStackTrace ("")))
+        assert (t.stackTrace?.contentEquals(t.filterStackTrace ("")) ?: false)
     }
 
     @Test fun `Filtering an exception with a package only returns frames of that package` () {
@@ -87,27 +65,6 @@ import kotlin.test.assertFailsWith
     @Test(expectedExceptions = [ IllegalStateException::class ])
     fun `Require key not found first level throws an error`() {
         m.require<Any>("empty")
-    }
-
-    @Test fun `Date conversion`() {
-        val cal = Calendar.getInstance()
-        cal.set(2017, 11, 31, 0, 0, 0)
-        cal.set(MILLISECOND, 0)
-        val d = cal.time
-        val ld = LocalDate.of(2017, 12, 31)
-
-        assert(ld.toDate() == d)
-        assert(ld == d.toLocalDate())
-    }
-
-    @Test fun `Format date`() {
-        val now = LocalDateTime.now()
-        assert(now.formatToIso() == now.format(ISO_DATE_TIME))
-    }
-
-    @Test fun `Zoned date`() {
-        val now = LocalDateTime.now()
-        assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
     }
 
     @Test fun `Filtered maps do not contain empty elements`() {
@@ -159,16 +116,7 @@ import kotlin.test.assertFailsWith
         expectedExceptionsMessageRegExp = "Invalid state"
     )
     fun `'error' generates the correct exception`() {
-        error
-    }
-
-    @Test fun `Parse key only query parameters return correct data` () {
-        assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
-            "a" to "1",
-            "b" to "",
-            "c" to "",
-            "d" to "e"
-        ))
+        error()
     }
 
     @Test fun `Printing an exception returns its stack trace in the string` () {
@@ -199,12 +147,5 @@ import kotlin.test.assertFailsWith
         assertFailsWith<IllegalArgumentException> { retry(0, 1) {} }
         assertFailsWith<IllegalArgumentException> { retry(1, -1) {} }
         retry(1, 0) {} // Ok case
-    }
-
-    @Test fun `Dates are parsed from ints`() {
-        assert(2016_09_05_17_45_59_101.toLocalDateTime() ==
-            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
-        assert(2016_09_05_17_45_58_101.toLocalDateTime() !=
-            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
     }
 }

@@ -1,0 +1,22 @@
+
+apply(from: "../gradle/kotlin.gradle")
+apply(from: "../gradle/bintray.gradle")
+apply(from: "../gradle/dokka.gradle")
+
+// Overridden because this test bundle requires the templates
+testJar {
+    classifier = "test"
+    from(sourceSets.test.output)
+    exclude([ "*.yaml", "*.yml", "*.properties", "*.xml" ])
+}
+
+dependencies {
+    compile(project(":hexagon_core"))
+
+    testCompile(project(":port_http_client"))
+    testCompile("org.testng:testng:$testngVersion")
+}
+
+test {
+    useTestNG()
+}

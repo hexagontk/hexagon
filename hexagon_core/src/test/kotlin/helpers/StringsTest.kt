@@ -1,8 +1,5 @@
 package com.hexagonkt.helpers
 
-import com.hexagonkt.helpers.AnsiEffect.*
-import com.hexagonkt.helpers.AnsiColor.*
-import java.util.*
 import org.testng.annotations.Test
 
 @Test class StringsTest {
@@ -67,28 +64,6 @@ import org.testng.annotations.Test
         assert ("alfaBeta".camelToSnake () == "alfa_beta")
     }
 
-    @Test fun `Ansi code without elements returns ansi reset code` () {
-        assert (ansi () == "\u001B[0m")
-    }
-
-    @Test fun `Ansi code with a single effect has the proper format` () {
-        assert (ansi (BOLD) == "\u001B[1m")
-        assert (ansi (BOLD_OFF) == "\u001B[21m")
-    }
-
-    @Test fun `Ansi code with two effects has the proper format` () {
-        assert (ansi (BOLD, UNDERLINE_OFF) == "\u001B[1;24m")
-        assert (ansi (BLINK_OFF, INVERSE_OFF) == "\u001B[25;27m")
-    }
-
-    @Test fun `Ansi code with foreground and effects returns the correct code` () {
-        assert (ansi (RED, BOLD, UNDERLINE) == "\u001B[31;1;4m")
-    }
-
-    @Test fun `Ansi code with foreground background and effects returns the correct code` () {
-        assert (ansi (RED, BLACK, BLINK, INVERSE) == "\u001B[31;40;5;7m")
-    }
-
     @Test fun `Banner logs the proper message`() {
         var banner = "alfa line".banner()
         assert(banner.contains("alfa line"))
@@ -107,35 +82,6 @@ import org.testng.annotations.Test
         assert(banner.contains("tango"))
         assert(banner.contains("looong line"))
         assert(banner.contains("***********"))
-    }
-
-    @Test (enabled = false, description = "Only to show the output in a console and check visually")
-    fun `Rainbow table is printed nicely` () {
-        println (" %8s | %-8s".format("FORE", "BACK"))
-
-        AnsiColor.values ().forEach { bg ->
-            AnsiColor.values ().forEach { fg ->
-                print (" %s%8s | %-8s%s".format (ansi (fg, bg), fg, bg, ansi ()))
-            }
-            println ()
-        }
-
-        println ("Back to normal")
-    }
-
-    @Test (enabled = false, description = "Only to show the output in a console and check visually")
-    fun `Effects and foreground color table`() {
-        println (" %14s | %-14s".format ("FOREGROUND", "EFFECT"))
-
-        AnsiColor.values ().forEach { fg ->
-            print (" %s%14s | %-14s%s".format(ansi (fg), fg, "NONE", ansi ()))
-            EnumSet.of (BOLD, UNDERLINE, BLINK, INVERSE).forEach { fx ->
-                print (" %s%14s | %-14s%s".format (ansi (fg, fx), fg, fx, ansi ()))
-            }
-            println ()
-        }
-
-        println ("Back to normal")
     }
 
     @Test fun `Normalize works as expected`() {

@@ -5,7 +5,7 @@
  *  2. Release: tag source code in GitHub
  *  3. Jacoco report: aggregated coverage report for all modules
  *  4. Group all tasks: shortcut for all tasks to ease the release process
- *  
+ *
  * Plugins that are not used in the root project (this one) are only applied by the modules that use
  * them.
  */
@@ -14,7 +14,7 @@ plugins {
     id 'java'
     id 'jacoco'
 
-    id 'org.jetbrains.kotlin.jvm' version '1.3.10' apply false
+    id 'org.jetbrains.kotlin.jvm' version '1.3.11' apply false
     id 'org.jetbrains.dokka' version '0.9.17' apply false
     id 'com.jfrog.bintray' version '1.8.4' apply false
     id 'org.jbake.site' version '1.4.0' apply false
@@ -47,7 +47,9 @@ task release(dependsOn: 'publish') {
 }
 
 task jacocoReport(dependsOn: getTasksByName ('jacocoTestReport', true), type: JacocoReport) {
-    executionData = files(fileTree(rootDir.absolutePath).include("**/build/jacoco/test.exec"))
+    final String rootPath = rootDir.absolutePath
+    final String execPattern = '**/build/jacoco/test.exec'
+    executionData.setFrom(fileTree(rootPath).include(execPattern))
 
     subprojects.each {
         sourceSets it.sourceSets.main as SourceSet
@@ -65,5 +67,6 @@ task all (dependsOn:
     project.getTasksByName ('jacocoReport', true) +
     project.getTasksByName ('installDist', true) +
     project.getTasksByName ('installAllTemplates', true) +
+    project.getTasksByName ('publishToMavenLocal', true) +
     project.getTasksByName ('tfb', true)
 )

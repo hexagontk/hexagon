@@ -16,8 +16,6 @@ out/
 
 # Runtime
 log/
-.vertx/
-file-uploads/
 *.log
 *.hprof
 

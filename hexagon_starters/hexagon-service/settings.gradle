@@ -1,4 +1,2 @@
 
-enableFeaturePreview 'STABLE_PUBLISHING' // TODO Remove when this feature becomes enabled by default
-
 rootProject.name = name

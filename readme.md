@@ -80,7 +80,7 @@ from scratch following these steps:
   * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:server_jetty:0.24.6")
+    compile ("com.hexagonkt:http_server_jetty:0.24.7")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
@@ -88,8 +88,8 @@ from scratch following these steps:
     ```xml
     <dependency>
       <groupId>com.hexagonkt</groupId>
-      <artifactId>server_jetty</artifactId>
-      <version>0.24.6</version>
+      <artifactId>http_server_jetty</artifactId>
+      <version>0.24.7</version>
     </dependency>
     ```
 

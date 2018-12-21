@@ -15,7 +15,7 @@ You can write a [Gradle] project from scratch (Gradle 4 or newer is required):
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.11'
 }
 
 apply plugin: 'kotlin'
@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    compile ("com.hexagonkt:server_jetty:${projectVersion}")
+    compile ("com.hexagonkt:http_server_jetty:${projectVersion}")
 }
 ```
 

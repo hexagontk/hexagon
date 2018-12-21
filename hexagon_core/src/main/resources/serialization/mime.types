@@ -71,6 +71,8 @@ text/csv csv
 text/x-java-properties properties
 
 # Text
+text/javascript js
+text/css css
 text/html html htm
 text/plain txt
 text/richtext rtx

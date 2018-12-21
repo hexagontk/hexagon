@@ -5,48 +5,48 @@
 task icons {
     doLast {
         try {
-            final String logoSmall = findProperty ('logoSmall') ?: ''
-            final String logoLarge = findProperty ('logoLarge') ?: ''
-            final String logoWide = findProperty ('logoWide') ?: ''
+            final String logoSmall = findProperty("logoSmall") ?: ""
+            final String logoLarge = findProperty("logoLarge") ?: ""
+            final String logoWide = findProperty("logoWide") ?: ""
 
-            createIco ((String)logoSmall, 'favicon.ico', 16, 32, 48, 64)
-            extendImage ((String)logoSmall, '180x180', 180, 'apple-touch-icon.png')
-            extendImage ((String)logoSmall, '128x128', 128, 'tile-small.png')
-            extendImage ((String)logoLarge, '270x270', 270, 'tile-medium.png')
-            extendImage ((String)logoWide, '558x270', 558, 'tile-wide.png')
-            extendImage ((String)logoLarge, '558x558', 558, 'tile-large.png')
+            createIco((String)logoSmall, "favicon.ico", 16, 32, 48, 64)
+            extendImage((String)logoSmall, "180x180", 180, "apple-touch-icon.png")
+            extendImage((String)logoSmall, "128x128", 128, "tile-small.png")
+            extendImage((String)logoLarge, "270x270", 270, "tile-medium.png")
+            extendImage((String)logoWide, "558x270", 558, "tile-wide.png")
+            extendImage((String)logoLarge, "558x558", 558, "tile-large.png")
 
             // Sanity
             [ 16, 32, 48, 64, 128, 180, 270, 558 ].each {
-                new File ("$buildDir/_${it}.png").delete ()
+                new File("$buildDir/_${it}.png").delete()
             }
         }
         catch (Exception e) {
-            logger.error (e.message)
+            logger.error(e.message)
         }
     }
 }
 
-private void rasterSvg (final String svg, final int... widths) {
+private void rasterSvg(final String svg, final int... widths) {
     final Project theProject = project // Done to fix warning
 
     widths.each { w ->
-        theProject.exec { commandLine 'rsvg-convert', '-w', w, '-o', "$buildDir/_${w}.png", svg }
+        theProject.exec { commandLine "rsvg-convert", "-w", w, "-o", "$buildDir/_${w}.png", svg }
     }
 }
 
-private void createIco (final String svg, final String ico, final int... widths) {
+private void createIco(final String svg, final String ico, final int... widths) {
     widths.each { extendImage svg, "${it}x${it}", it, "_${it}.png" }
 
-    final List<String> images = widths.collect { "$buildDir/_${it}.png".toString () }
+    final List<String> images = widths.collect { "$buildDir/_${it}.png".toString() }
     final String icoPath = "$buildDir/$ico"
-    final List<String> cmd = [ 'convert', images, icoPath ].flatten().collect { it.toString() }
+    final List<String> cmd = [ "convert", images, icoPath ].flatten().collect { it.toString() }
 
-    exec { commandLine cmd.iterator () }
+    exec { commandLine cmd.iterator() }
 }
 
-private void extendImage (
-    final String bg = 'transparent',
+private void extendImage(
+    final String bg = "transparent",
     final String svg,
     final String size,
     final int width,
@@ -58,6 +58,6 @@ private void extendImage (
     final String dest = "$buildDir/$file"
 
     exec {
-        commandLine 'convert', '-gravity', 'center', '-background', bg, '-extent', size, src, dest
+        commandLine "convert", "-gravity", "center", "-background", bg, "-extent", size, src, dest
     }
 }

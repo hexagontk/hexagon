@@ -2,20 +2,20 @@
  * Check usage information at: http://hexagonkt.com/build_helpers/bintray.html
  */
 
-apply plugin: 'com.jfrog.bintray'
+apply(plugin: "com.jfrog.bintray")
 
 bintray {
-    key = findProperty ('bintrayKey') ?: System.getenv('BINTRAY_KEY')
-    user = findProperty ('bintrayUser') ?: System.getenv('BINTRAY_USER')
-    publications = [ 'mavenJava' ]
+    key = findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY")
+    user = findProperty("bintrayUser") ?: System.getenv("BINTRAY_USER")
+    publications = [ "mavenJava" ]
     publish = true
 
     pkg {
-        repo = project.findProperty ('bintrayRepo')
+        repo = project.findProperty("bintrayRepo")
         name = project.name
-        licenses = project.findProperty ('licenses').toString().split (',').collect { it.trim() }
-        vcsUrl = project.findProperty ('vcsUrl')
+        licenses = project.findProperty("licenses").toString().split(",").collect { it.trim() }
+        vcsUrl = project.findProperty("vcsUrl")
     }
 }
 
-bintrayUpload.dependsOn 'build'
+bintrayUpload.dependsOn "build"

@@ -1,7 +1,5 @@
 package com.hexagonkt.helpers
 
-import java.util.*
-
 /** Default logger when you are lazy to declare one. */
 val logger: Logger = Logger(System::class)
 
@@ -32,21 +30,12 @@ fun <T> retry (times: Int, delay: Long, func: () -> T): T {
     throw MultipleException("Error retrying $times times ($delay ms)", exceptions)
 }
 
-// NETWORKING //////////////////////////////////////////////////////////////////////////////////////
-fun parseQueryParameters (query: String): Map<String, String> =
-    if (query.isBlank())
-        mapOf()
-    else
-        query.split("&".toRegex())
-            .map {
-                val kv = it.split("=")
-                kv[0].trim () to (if (kv.size == 2) kv[1].trim() else "")
-            }
-            .toMap(LinkedHashMap())
-
 // ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
 /** Syntax sugar to throw errors. */
 val error: Nothing get() = error("Invalid state")
+
+/** Syntax sugar to throw errors. */
+fun error(): Nothing = error
 
 /**
  * Returns the stack trace array of the frames that starts with the given prefix.

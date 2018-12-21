@@ -1,5 +1,5 @@
 
-import com.hexagonkt.client.Client
+import com.hexagonkt.http.client.Client
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
@@ -17,8 +17,7 @@ class ServiceTest {
         }
     }
 
-    @Test
-    fun httpRequest() {
+    @Test fun `HTTP request returns the correct body`() {
         val response = client.get("/text")
         val content = response.responseBody
 

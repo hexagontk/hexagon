@@ -1,60 +1,115 @@
 
 import static java.lang.System.getenv
 
-apply from: '../gradle/kotlin.gradle'
+apply(from: "../gradle/kotlin.gradle")
 
-apply plugin: 'uk.co.cacoethes.lazybones-templates'
+apply(plugin: "uk.co.cacoethes.lazybones-templates")
 
 dependencies {
-    compile project(':server_jetty')
-    compile project(':port_client')
+    compile(project(":http_server_jetty"))
+    compile(project(":port_http_client"))
 
-    testCompile("junit:junit:$junitVersion")
+    testCompile("junit:junit:$junitVersion".toString())
 }
 
-// TODO Replace version in template `gradle.properties`
-// TODO Include all subdirs as templateDirs
 lazybones {
-    final String btUser = findProperty ('bintrayUser') ?: getenv('BINTRAY_USER') ?: 'anonymous'
-    final String btKey = findProperty ('bintrayKey') ?: getenv('BINTRAY_KEY') ?: 'anonymous'
+    final String btUser = findProperty("bintrayUser") ?: getenv("BINTRAY_USER") ?: "anonymous"
+    final String btKey = findProperty("bintrayKey") ?: getenv("BINTRAY_KEY") ?: "anonymous"
+    final String btRepo = findProperty("bintrayRepo") ?: "maven"
+    final List<String> templateDirs = listTemplateBuildDirectories()
 
-    repositoryName = "$btUser/maven"
+    repositoryName = "$btUser/$btRepo"
     publish = true
 
-    setRepositoryUsername btUser.toString () ?: 'anonymous'
-    setRepositoryApiKey btKey.toString () ?: 'anonymous'
+    setRepositoryUsername(btUser.toString ())
+    setRepositoryApiKey(btKey.toString ())
 
-    licenses = [ 'MIT' ]
-    setTemplateDirs(files("$buildDir/hexagon-service"))
+    licenses = project.findProperty("licenses").toString().split(",").collect {it.trim()}
+    setTemplateDirs(files(templateDirs))
 }
 
 // This is required because of a flaw in this Gradle plugin :/
 clean {
-    doLast {
-        mkdir ("$buildDir/hexagon-service")
-        new File("$buildDir/hexagon-service/VERSION").text = rootProject.version
-    }
+    doLast { setupTemplate() }
 }
 
 task processTemplate {
     // This must be done in *CONFIGURATION* phase because of a flaw in this Gradle plugin :/
-    copy {
-        from "$projectDir/hexagon-service"
-        into "$buildDir/hexagon-service"
-    }
+    setupTemplate()
+    
+    final Map<String, ?> stringProperties = project.getProperties()
+        .findAll { it.value instanceof String }
 
-    copy {
-        from "$rootDir/gradle/wrapper"
-        into "$buildDir/hexagon-service/gradle/wrapper"
-    }
+    listTemplateDirectoryNames().forEach { dir ->
+        copy {
+            from("$projectDir/$dir".toString())
+            into("$buildDir/$dir".toString())
+            filter {
+                String content = it
 
-    copy {
-        from rootDir
-        into "$buildDir/hexagon-service"
-        include 'gradlew', 'gradlew.bat', '.editorconfig'
-    }
+                stringProperties.entrySet().forEach { entry ->
+                    final String entryValue = entry.value.toString()
+                    content = content.replace("\${project.${entry.key}}".toString(), entryValue)
+                }
 
-    new File("$buildDir/hexagon-service/VERSION").text = rootProject.version
+                content
+            }
+        }
+
+        copy {
+            from("$projectDir/src".toString())
+            into("$buildDir/$dir/src".toString())
+        }
+
+        copy {
+            from("$rootDir/gradle/wrapper".toString())
+            into("$buildDir/$dir/gradle/wrapper".toString())
+        }
+
+        copy {
+            from(rootDir.toString())
+            into("$buildDir/$dir".toString())
+            include("gradlew", "gradlew.bat", ".editorconfig")
+        }
+        
+        file("$buildDir/$dir/gradle.properties".toString()).text = """
+            name=\${projectName}
+            version=\${version}
+            group=\${group}
+            description=\${description}
+
+            gradleScripts=https://raw.githubusercontent.com/hexagonkt/hexagon/$rootProject.version/gradle
+
+            kotlinVersion=$kotlinVersion
+            kotlinCoroutinesVersion=$kotlinCoroutinesVersion
+            hexagonVersion=$rootProject.version
+            jettyVersion=$jettyVersion
+            logbackVersion=$logbackVersion
+
+            junitVersion=$junitVersion
+        """.stripIndent()
+    }
 }
 
-packageAllTemplates.dependsOn 'processTemplate'
+packageAllTemplates.dependsOn("build", "processTemplate")
+installAllTemplates.dependsOn("packageAllTemplates")
+
+private void setupTemplate() {
+    listTemplateBuildDirectories().forEach {
+        mkdir(it)
+        file("$it/VERSION".toString()).text = rootProject.version
+    }
+}
+
+private List<String> listTemplateDirectoryNames() {
+    return listTemplateDirectories().collect { it.name }
+}
+
+private List<String> listTemplateBuildDirectories() {
+    return listTemplateDirectories().collect { "$buildDir/$it.name".toString() }
+}
+
+private List<File> listTemplateDirectories() {
+    return projectDir
+        .listFiles({ File f -> f.isDirectory() && f.name.startsWith("hexagon-") } as FileFilter)
+}

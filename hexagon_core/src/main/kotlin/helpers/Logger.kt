@@ -35,12 +35,12 @@ class Logger(type: KClass<*>) {
         if (log.isErrorEnabled) log.error(message().toString())
     }
 
-    fun warn(exception: Throwable, message: () -> Any?) {
-        if (log.isWarnEnabled) log.warn(message().toString(), exception)
+    fun <E : Throwable> warn(exception: E, message: (E) -> Any?) {
+        if (log.isWarnEnabled) log.warn(message(exception).toString(), exception)
     }
 
-    fun error(exception: Throwable, message: () -> Any?) {
-        if (log.isErrorEnabled) log.error(message().toString(), exception)
+    fun <E : Throwable> error(exception: E, message: (E) -> Any?) {
+        if (log.isErrorEnabled) log.error(message(exception).toString(), exception)
     }
 
     fun flare(message: () -> Any? = { "" }) {
@@ -58,4 +58,6 @@ class Logger(type: KClass<*>) {
     }
 
     fun <T> time(message: Any?, block: () -> T): T = this.time({ message }, block)
+
+    private fun formatNanos (nanoseconds: Long): String = "%1.3f ms".format (nanoseconds / 1e6)
 }

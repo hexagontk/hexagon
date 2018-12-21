@@ -44,9 +44,9 @@ import kotlin.reflect.KClass
     }
 
     @Test fun `Test Jackson text format` () {
-        assert(!YamlFormat.isBinary)
+        assert(!Yaml.isBinary)
         val output = ByteArrayOutputStream()
-        YamlFormat.serialize(mapOf("key" to "value"), output)
+        Yaml.serialize(mapOf("key" to "value"), output)
         val result = output.toString().trim()
         assert(result == """key: "value"""")
     }
