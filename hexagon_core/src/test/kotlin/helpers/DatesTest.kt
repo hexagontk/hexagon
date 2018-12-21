@@ -1,24 +1,14 @@
 package com.hexagonkt.helpers
 
 import org.testng.annotations.Test
-import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalDateTime.of as dateTime
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter.ISO_DATE_TIME
-import java.util.*
+import java.util.Calendar
 import java.util.Calendar.MILLISECOND
 
-@Test class TimesTest {
-
-    @Test fun `Time nanos gets the elapsed nanoseconds` () {
-        val nanos = System.nanoTime()
-        val timeNanos = formatNanos(nanos)
-
-        val decimalSeparator = DecimalFormat().decimalFormatSymbols.decimalSeparator
-        assert (timeNanos.endsWith("ms") && timeNanos.contains(decimalSeparator))
-    }
+@Test class DatesTest {
 
     @Test fun `Date conversion`() {
         val cal = Calendar.getInstance()
@@ -31,11 +21,6 @@ import java.util.Calendar.MILLISECOND
         assert(ld == d.toLocalDate())
     }
 
-    @Test fun `Format date`() {
-        val now = LocalDateTime.now()
-        assert(now.formatToIso() == now.format(ISO_DATE_TIME))
-    }
-
     @Test fun `Zoned date`() {
         val now = LocalDateTime.now()
         assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
@@ -44,5 +29,18 @@ import java.util.Calendar.MILLISECOND
     @Test fun `LocalDateTime can be converted to Date`() {
         val now = LocalDateTime.of(2018, 12, 31, 23, 59, 59)
         assert(now.toDate().toLocalDateTime() == now)
+    }
+
+    @Test fun `A local date time returns a valid int timestamp` () {
+        assert(dateTime (2015, 12, 31, 23, 59, 59).toNumber() == 2015_12_31_23_59_59_000)
+        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).toNumber() == 2015_12_31_23_59_59_101)
+        assert(dateTime (2015, 12, 31, 23, 59, 59, 101000000).toNumber() != 2015_12_31_23_59_59_100)
+    }
+
+    @Test fun `Dates are parsed from ints`() {
+        assert(2016_09_05_17_45_59_101.toLocalDateTime() ==
+            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
+        assert(2016_09_05_17_45_58_101.toLocalDateTime() !=
+            LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
     }
 }

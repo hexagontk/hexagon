@@ -9,7 +9,7 @@ import org.testng.annotations.Test
  * As the logger is only a facade and it is hard to check outputs, the only check is that
  * no exceptions are thrown.
  */
-@Test class LoggingTest {
+@Test class LoggerTest {
 
     @Test fun messages_are_logged_without_errors () {
         val log = logger.log as? ch.qos.logback.classic.Logger ?: error
