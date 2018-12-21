@@ -11,24 +11,6 @@ private const val VARIABLE_PREFIX = "#{"
 /** Variable suffix for string filtering. */
 private const val VARIABLE_SUFFIX = "}"
 
-/** Start of ANSI sequence. */
-private const val ANSI_PREFIX = "\u001B["
-/** End of ANSI sequence. */
-private const val ANSI_END = "m"
-
-/** Separator for commands inside a single ANSI sequence. */
-private const val ANSI_SEPARATOR = ";"
-/** ANSI command to reset all attributes. */
-private const val ANSI_RESET = "0"
-
-/** ANSI foreground color base. */
-const val FOREGROUND = 30
-/** ANSI background color base. */
-const val BACKGROUND = 40
-
-/** ANSI modifier to switch and effect (add to enable subtract to disable). */
-const val SWITCH_EFFECT = 20
-
 /** Runtime specific end of line. */
 val eol: String = getProperty("line.separator")
 
@@ -99,30 +81,3 @@ fun String.stripAccents(): String = normalize(this, NFD).replace("\\p{M}".toRege
 fun String.toStream(): InputStream = ByteArrayInputStream(this.toByteArray())
 
 fun utf8(vararg bytes: Int): String = String(bytes.map(Int::toByte).toByteArray())
-
-private fun ansiCode (fg: AnsiColor?, bg: AnsiColor?, vararg fxs: AnsiEffect): String {
-    fun fgString (color: AnsiColor?) = (color?.fg ?: "").toString()
-    fun bgString (color: AnsiColor?) = (color?.bg ?: "").toString()
-
-    val colors = listOf (fgString(fg), bgString(bg))
-    val elements = colors + fxs.map { it.code.toString() }
-    val body = elements.asSequence().filter(String::isNotEmpty).joinToString (ANSI_SEPARATOR)
-
-    return ANSI_PREFIX + (if (body.isEmpty()) ANSI_RESET else body) + ANSI_END
-}
-
-/**
- * Creates an ANSI sequence composed by a list of commands (colors, effects, etc.).
- *
- * A call with no effect neither color generates an ANSI reset.
- *
- * @param fg Foreground color.
- * @param bg Background color.
- * @param fxs List of affects
- * @return The ANSI sequence
- */
-fun ansi (fg: AnsiColor, bg: AnsiColor, vararg fxs: AnsiEffect): String = ansiCode (fg, bg, *fxs)
-
-fun ansi (fg: AnsiColor, vararg fxs: AnsiEffect): String = ansiCode (fg, null, *fxs)
-
-fun ansi (vararg fxs: AnsiEffect): String = ansiCode (null, null, *fxs)

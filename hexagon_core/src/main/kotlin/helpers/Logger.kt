@@ -58,4 +58,6 @@ class Logger(type: KClass<*>) {
     }
 
     fun <T> time(message: Any?, block: () -> T): T = this.time({ message }, block)
+
+    private fun formatNanos (nanoseconds: Long): String = "%1.3f ms".format (nanoseconds / 1e6)
 }

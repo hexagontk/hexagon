@@ -1,33 +1,24 @@
 package com.hexagonkt.helpers
 
 import java.time.*
-import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 import java.util.Date
-
-/**
- * Returns a time difference in nanoseconds formatted as a string.
- */
-fun formatNanos (timestamp: Long): String = "%1.3f ms".format (timestamp / 1e6)
 
 /**
  * Formats a date as a formatted integer with this format: `YYYYMMDDHHmmss`.
  */
 fun LocalDateTime.toNumber (): Long =
-    (this.toLocalDate().toNumber() * 1_000_000_000L) +
-        this.toLocalTime().toNumber()
+    (this.toLocalDate().toNumber() * 1_000_000_000L) + this.toLocalTime().toNumber()
 
 fun LocalDate.toNumber (): Int =
     (this.year       * 10_000) +
-        (this.monthValue * 100) +
-        this.dayOfMonth
+    (this.monthValue * 100) +
+    this.dayOfMonth
 
 fun LocalTime.toNumber (): Int =
-    (this.hour       * 10_000_000) +
-        (this.minute     * 100_000) +
-        (this.second     * 1_000) +
-        (this.nano / 1_000_000) // Nanos to millis
-
-fun LocalDateTime.formatToIso (): String = this.format(ISO_DATE_TIME)
+    (this.hour   * 10_000_000) +
+    (this.minute * 100_000) +
+    (this.second * 1_000) +
+    (this.nano / 1_000_000) // Nanos to millis
 
 fun LocalDateTime.withZone (zoneId: ZoneId = Jvm.timeZone.toZoneId()): ZonedDateTime =
     ZonedDateTime.of(this, zoneId)
