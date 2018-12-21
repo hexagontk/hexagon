@@ -5,15 +5,14 @@ import java.io.File
 
 @Test class SettingsTest {
     fun `Load environment variables add settings with provided prefixes`() {
-        assert(EnvironmentVariablesSource("PATH", "INVALID").load().size == 1)
-        assert(EnvironmentVariablesSource("PATH", "USER").load().size == 2)
+        assert(EnvironmentVariablesSource("PATH").load().size == 1)
     }
 
     fun `Load system properties add variables with provided prefixes`() {
         System.setProperty("systemPrefixTest", "testing")
         System.setProperty("systemPrefixBenchmark", "benchmarking")
 
-        assert(SystemPropertiesSource("systemPrefix", "invalid").load().size == 2)
+        assert(SystemPropertiesSource("systemPrefix").load().size == 2)
     }
 
     fun `Load file add variables contained in that file`() {
