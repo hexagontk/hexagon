@@ -27,8 +27,6 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:foc
   text-decoration: none;
 }
 
-div.layer a:hover, div.layer a:focus { text-decoration: none; }
-
 pre, code { font-family: 'Roboto Mono', monospace; }
 
 footer .heart { color: ${siteAccentColor}; }
@@ -44,30 +42,6 @@ footer .heart { color: ${siteAccentColor}; }
 /*
  * Theme over Flatly
  */
-
-section h2.section-heading,
-section h2.section-subheading,
-section h3.section-heading,
-section h3.section-subheading {
-  text-transform: none;
-  font-family: 'Roboto Condensed', helvetica, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-}
-
-section h2.section-heading,
-section h3.section-heading {
-  font-size: 50px;
-  margin-bottom: 5px;
-}
-
-section h2.section-subheading,
-section h3.section-subheading {
-  line-height: 26px;
-  margin-top: 0;
-}
-
-.text-muted { color: #303030; }
 
 .navbar-default {
   background-color: ${siteBackgroundDark};
@@ -104,145 +78,9 @@ section h3.section-subheading {
     margin-right: 45px;
 }
 
-/* Trick to prevent anchored links to hide heading behind navbar */
-section[id]:before {
-    display: block;
-    content: " ";
-    margin-top: -80px;
-    height: 100px;
-    visibility: hidden;
-}
-
-header {
-    background-image: linear-gradient(0deg, ${siteBackgroundLight} 7%, ${siteBackgroundDark} 100%);
-    color: #F5F5F5;
-    min-height: 1150px;
-}
-
-@media (max-height: 1150px) {
-  header {
-      min-height: 100vh;
-  }
-}
-
-header .intro {
-    max-width: 350px;
-    padding-top: 100px;
-    padding-bottom: 50px;
-    text-align: center;
-}
-
-header .intro-logo {
-    max-width: 120px;
-    padding-bottom: 30px;
-}
-
-header .intro-button {
-    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
-    padding-left: 50px;
-    padding-right: 50px;
-}
-
-header .intro-long {
-    line-height: 27px;
-    font-size: 16px;
-    padding-bottom: 60px;
-}
-
-header .intro .intro-lead-in {
-    font-style: normal;
-    font-size: 22px;
-    /*line-height: 50px;*/
-    margin-bottom: 25px;
-    font-family: 'Roboto Condensed', helvetica, sans-serif;
-}
-
-header .intro .intro-heading {
-    font-style: normal;
-}
-
-header .intro-button {
-    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
-}
-
-header .intro .btn-xl {
-    background: #F5F5F5;
-    border: 1px solid ${siteBackgroundDark};
-    border-radius: 2px;
-    font-size: 20px;
-    color: ${siteBackgroundDark};
-    font-weight: normal;
-    text-transform: none;
-}
-
-header .intro-down-arrow {
-    display: inherit;
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-@media (min-height: 1150px) {
-    header .intro-down-arrow {
-        /* Hard code top: 1150 (height of top section) - 20 (bottom) - 36 (image height) = 1094 */
-        top: 1094px;
-    }
-}
-
-@media (max-height: 825px) {
-    header .intro-down-arrow {
-        display: none;
-    }
-}
-
-@media(min-width: 768px) {
-    header .intro {
-        padding-bottom: 200px;
-        max-width: 620px;
-    }
-
-    header .intro-logo {
-        max-width: 238px;
-        padding-bottom: 70px;
-    }
-
-    header .intro .intro-lead-in {
-        font-size: 51px;
-        font-style: normal;
-        line-height: 50px;
-    }
-
-    header .intro .intro-heading {
-        margin-bottom: 25px;
-        font-size: 90px;
-        font-weight: 600;
-    }
-}
-
-section {
-    padding: 50px 0;
-}
-
-section h3.section-subheading {
-    margin-bottom: 50px;
-    font-weight: normal;
-}
-
-@media(min-width: 768px) {
-    section {
-        padding: 50px 0;
-    }
-}
-
 footer .row {
     font-size: 12px;
     text-align: left;
-}
-
-footer .row h4 {
-    font-size: 14px;
-    padding-left: 40px;
 }
 
 footer .row .quicklinks {
@@ -269,19 +107,6 @@ footer {
     line-height: 22px;
     letter-spacing: 0;
     margin-top: 3em;
-}
-
-footer .footer-row {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-footer quicklinks {
-    font-size: 14px;
-    color: #F5F5F5;
 }
 
 footer ul.quicklinks {
@@ -322,10 +147,6 @@ footer .credits a {
     color: #F5F5F5;
 }
 
-footer .credits span {
-    color: ${siteAccentColor};
-}
-
 /*
  * Sidebar
  */
@@ -352,13 +173,6 @@ footer .credits span {
 .nav-sidebar { margin-bottom: 20px; }
 .nav-sidebar > li.title { text-transform: uppercase; }
 .nav-sidebar > li > a { padding: 0; }
-
-.nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
-}
 
 /*
  * Main content

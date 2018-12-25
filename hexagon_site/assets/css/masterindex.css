@@ -15,21 +15,7 @@ body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
 
 h1, h2, h3, h4 { color: ${siteBackgroundLight}; }
 
-h1 a, h2 a, h3 a, h4 a {
-  color: ${siteBackgroundLight};
-  text-decoration: none;
-}
-
 a, a:hover, a:focus { color: ${siteAccentColor}; }
-
-h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus {
-  color: ${siteBackgroundLight};
-  text-decoration: none;
-}
-
-div.layer a:hover, div.layer a:focus { text-decoration: none; }
-
-pre, code { font-family: 'Roboto Mono', monospace; }
 
 footer .heart { color: ${siteAccentColor}; }
 
@@ -157,10 +143,6 @@ header .intro .intro-lead-in {
     font-family: 'Roboto Condensed', helvetica, sans-serif;
 }
 
-header .intro .intro-heading {
-    font-style: normal;
-}
-
 header .intro-button {
     box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
 }
@@ -181,13 +163,6 @@ header .intro-down-arrow {
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-}
-
-@media (min-height: 1150px) {
-    header .intro-down-arrow {
-        /* Hard code top: 1150 (height of top section) - 20 (bottom) - 36 (image height) = 1094 */
-        top: 1094px;
-    }
 }
 
 @media (max-height: 825px) {
@@ -212,12 +187,6 @@ header .intro-down-arrow {
         font-style: normal;
         line-height: 50px;
     }
-
-    header .intro .intro-heading {
-        margin-bottom: 25px;
-        font-size: 90px;
-        font-weight: 600;
-    }
 }
 
 section {
@@ -235,14 +204,11 @@ section h3.section-subheading {
     }
 }
 
+.intro-lead-in a:hover { text-decoration: none; }
+
 footer .row {
     font-size: 12px;
     text-align: left;
-}
-
-footer .row h4 {
-    font-size: 14px;
-    padding-left: 40px;
 }
 
 footer .row .quicklinks {
@@ -276,14 +242,6 @@ footer .credits {
 
 #features .feature-icon .fa {
     font-size: 7em;
-}
-
-#features .feature-icon img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    height: 80px;
 }
 
 #features .link {
@@ -356,19 +314,6 @@ footer {
     margin-top: 3em;
 }
 
-footer .footer-row {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-footer quicklinks {
-    font-size: 14px;
-    color: #F5F5F5;
-}
-
 footer ul.quicklinks {
     margin: 0;
     padding: 0;
@@ -405,8 +350,4 @@ footer .credits {
 
 footer .credits a {
     color: #F5F5F5;
-}
-
-footer .credits span {
-    color: ${siteAccentColor};
 }
