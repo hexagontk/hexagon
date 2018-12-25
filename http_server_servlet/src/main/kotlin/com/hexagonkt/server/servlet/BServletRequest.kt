@@ -26,10 +26,6 @@ internal class BServletRequest(private val req: HttpServletRequest) : EngineRequ
     override val url: String by lazy { req.requestURL.toString() }
     override val ip: String by lazy { req.remoteAddr }
 
-    override val userAgent: String by lazy { headers["User-Agent"]?.first() ?: "UNKNOWN" }
-    override val referer: String by lazy { headers["Referer"]?.first() ?: "UNKNOWN" }
-    override val secure: Boolean by lazy { scheme == "https" }
-
     override val parameters: Map<String, List<String>> by lazy {
         val requestUrl = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath
         (actionPath?.extractParameters(requestUrl)?:mapOf()).mapValues { listOf(it.value) } +

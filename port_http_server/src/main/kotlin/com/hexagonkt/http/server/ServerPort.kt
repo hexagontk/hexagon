@@ -4,6 +4,7 @@ package com.hexagonkt.http.server
  * Represents a server instance of one kind.
  */
 interface ServerPort {
+
     /**
      * Gets the runtime port if started, throw an exception otherwise.
      */

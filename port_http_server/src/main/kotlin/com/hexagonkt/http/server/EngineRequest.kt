@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.http.Method
+import java.net.HttpCookie
 
 /**
  * Lists would be initialized loading all elements when they are used (set it as lazy in
@@ -23,12 +24,8 @@ interface EngineRequest {
     val url: String           // "http://example.com/example/foo"
     val ip: String            // client IP address
 
-    val userAgent: String     // user agent (used by :agent condition)
-    val referer: String      // the referrer of the client or '/'
-    val secure: Boolean       // false (would be true over ssl)
-
     val parameters: Map<String, List<String>> // ["some_param"] // value of some_param parameter
     val headers: Map<String, List<String>>    // ["SOME_HEADER"] // value of SOME_HEADER header
-    val cookies: Map<String, java.net.HttpCookie>      // hash of browser cookies
-    val parts: Map<String, com.hexagonkt.http.server.Part>              // hash of multipart parts
+    val cookies: Map<String, HttpCookie>      // hash of browser cookies
+    val parts: Map<String, Part>              // hash of multipart parts
 }
