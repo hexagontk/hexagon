@@ -106,7 +106,7 @@ project.ext.ports = [
 
 // TODO Move to YAML
 project.ext.configData = [
-    bootstrapVersion : '3.3.7',
+    bootstrapVersion : '3.4.0',
     jqueryVersion : '3.3.1',
     highlightVersion : '9.13.1',
     theme : 'flatly',
