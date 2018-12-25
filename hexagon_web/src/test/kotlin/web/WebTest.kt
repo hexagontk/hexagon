@@ -5,11 +5,8 @@ import com.hexagonkt.http.server.Router
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.settings.SettingsManager
-import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.pebble.PebbleAdapter
-import com.hexagonkt.web.fullContext
-import com.hexagonkt.web.obtainLocale
-import com.hexagonkt.web.templateType
+import com.hexagonkt.web.template
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeTest
 import org.testng.annotations.Test
@@ -20,11 +17,8 @@ import java.util.Locale.getDefault as defaultLocale
 
     private val router: Router = Router {
         get("/template") {
-            val now = LocalDateTime.now()
-            templateType("pebble_template.html")
-            attributes += "date" to now
-            val fullContext = fullContext()
-            ok(render(PebbleAdapter, "pebble_template.html", obtainLocale(), fullContext))
+            attributes += "date" to LocalDateTime.now()
+            template(PebbleAdapter, "pebble_template.html")
         }
     }
 

@@ -7,6 +7,8 @@ import com.hexagonkt.serialization.SerializationManager
 import java.nio.charset.Charset.defaultCharset
 import java.util.*
 import com.hexagonkt.settings.SettingsManager.settings
+import com.hexagonkt.templates.TemplateManager.render
+import com.hexagonkt.templates.TemplatePort
 
 fun Call.templateType(template: String) {
     if (response.contentType == null) {
@@ -36,4 +38,15 @@ fun Call.fullContext(): Map<String, *> {
 fun Call.obtainLocale(): Locale = when {
     attributes["lang"] as? String != null -> localeFor(attributes["lang"] as String)
     else -> Locale.getDefault()
+}
+
+fun Call.template(
+    templateAdapter: TemplatePort,
+    templateName: String,
+    locale: Locale = obtainLocale(),
+    context: Map<String, *> = fullContext()
+) {
+
+    templateType(templateName)
+    ok(render(templateAdapter, templateName, locale, context))
 }
