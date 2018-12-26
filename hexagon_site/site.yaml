@@ -1,0 +1,75 @@
+
+bootstrapVersion: 3.4.0
+jqueryVersion: 3.3.1
+highlightVersion: 9.13.1
+theme: flatly
+cloudflare: http://cdnjs.cloudflare.com/ajax/libs
+author: Juanjo Aguililla
+keywords: Hexagon\, microservices\, Kotlin\, RabbitMQ\, MongoDB\, JVM\, Web
+
+longDescription: >
+  Hexagon is a microservices library written in Kotlin. Its purpose is to ease the building of
+  services (Web applications\, APIs or queue consumers) that run inside a cloud platform
+
+twitterUser: hexagon_kt
+githubRepo: hexagonkt/hexagon
+slackChannel: https://kotlinlang.slack.com/messages/hexagon
+bintrayRepo: jamming/maven/hexagon_core
+
+siteColor: '#135AA1'
+siteLogoDark: '#0073BB'
+siteLogoLight: '#2B9EE6'
+siteBackgroundDark: '#31415C'
+siteBackgroundLight: '#546691'
+siteAccentColor: '#2B9EE6'
+
+navigationLinks:
+  Quick Start: /quick_start.html
+  Guides: /guides.html
+  API: /api.html
+
+features1:
+  - link: /quick_start.html
+    icon: smile-o
+    title: Simple to Use
+    description: >
+      Hexagon is focused in allowing you to use the features you use the most in your daily
+      coding in the easiest way.
+  - link: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
+    icon: keyboard-o
+    title: Easy to Hack
+    description: >
+      The library is done to be lean and simple so you can tweak it to suit your needs instead
+      relying on third parties.
+  - link: /guides.html
+    icon: plug
+    title: Pluggable Adapters
+    description: >
+      Adding an adapter is just implementing the port's interface. You can code your own
+      adapters from scratch or tune the existing ones.
+
+features2:
+  - link: http://kotlinlang.org
+    icon: code
+    title: Kotlin First
+    description: >
+      The library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a
+      Language).
+  - link: https://github.com/hexagonkt/hexagon#status
+    icon: bug
+    title: Properly Tested
+    description: >
+      Project's coverage is checked in every Pull Request. It is also stress tested at
+      TechEmpower Frameworks Benchmark.
+  - link : /guides.html
+    icon: cubes
+    title: Modular
+    description: >
+      Each feature is isolated in its own module. Use only the modules you need without unneeded
+      dependencies.
+
+ports:
+  HTTP: [ Jetty, Servlet ]
+  Templates: [ Pebble ]
+  'Serialization formats': [ JSON, YAML ]
+  Settings: [ Environment, Files, Resources, URLs ]

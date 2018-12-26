@@ -10,7 +10,7 @@ bake {
 
     input = projectDir
     output = project.buildDir
-    version  = findProperty("jbakeVersion") ?: "2.6.3"
+    version = findProperty("jbakeVersion") ?: "2.6.3"
 
     configuration["site.host"] = siteHost
 
@@ -35,10 +35,14 @@ bake {
     }
 }
 
+clean {
+    delete("build", "out")
+}
+
 // Site processing is required because JBake does not filter content with configuration properties
 task site(dependsOn: "bake") {
     doLast {
-        file(buildDir).traverse(nameFilter: ~/.+\.(html|xml|css|svg)$/) {
+        bake.output.traverse(nameFilter: ~/.+\.(html|xml|css|svg)$/) {
             filterFile(it, bake.configuration)
         }
     }

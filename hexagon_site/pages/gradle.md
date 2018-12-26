@@ -133,6 +133,8 @@ Extra tasks:
 
 Generate service documentation site
 
+JBake 'content' folder can not be changed (it seems a bug)
+
 To generate clean URLs, add the following settings:
 
 ```groovy

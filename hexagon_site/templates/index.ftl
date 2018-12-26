@@ -153,7 +153,7 @@
               <#list config.ports?keys as port>
               <tr>
                 <td>${port}</td>
-                <td>${config.ports[port]['adapters']?keys?join(", ")}</td>
+                <td>${config.ports[port]?join(", ")}</td>
               </tr>
               </#list>
             </tbody>
