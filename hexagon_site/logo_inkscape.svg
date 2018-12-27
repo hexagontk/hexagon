@@ -10,13 +10,13 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="406.00391mm"
-   height="100.00001mm"
-   viewBox="0 0 1438.5966 354.33074"
+   width="451.9429mm"
+   height="99.700005mm"
+   viewBox="0 0 1601.3726 353.26774"
    id="svg4192"
    version="1.1"
-   inkscape:version="0.92.1 r"
-   sodipodi:docname="logo_text_inkscape.svg">
+   inkscape:version="0.92.2 2405546, 2018-03-11"
+   sodipodi:docname="logo_inkscape.svg">
   <defs
      id="defs4194">
     <linearGradient
@@ -51,11 +51,12 @@
        y1="3.8803675e-05"
        x2="613.14111"
        y2="531.49609"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.90639311,0,0,0.90639311,121.69743,61.960041)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient6763"
-       id="linearGradient4497"
+       id="linearGradient4723"
        gradientUnits="userSpaceOnUse"
        x1="224.45253"
        y1="70.86618"
@@ -69,9 +70,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.851281"
-     inkscape:cx="723.45424"
-     inkscape:cy="188.97638"
+     inkscape:zoom="1.0163157"
+     inkscape:cx="854.06533"
+     inkscape:cy="188.40946"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      showgrid="true"
@@ -94,7 +95,7 @@
        gridanglex="60"
        gridanglez="60"
        originx="0"
-       originy="-1.5363507e-05"
+       originy="-3.4263305e-05"
        snapvisiblegridlinesonly="false" />
   </sodipodi:namedview>
   <metadata
@@ -113,7 +114,7 @@
      inkscape:label="Guide"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0.5776813,-308.26771)"
+     transform="translate(0.5776813,-309.3307)"
      style="opacity:0.10700001"
      sodipodi:insensitive="true">
     <path
@@ -136,9 +137,9 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Logo"
-     transform="translate(0.5776813,6.8119633e-6)">
+     transform="translate(0.5776813,-1.0629872)">
     <path
-       style="fill:url(#linearGradient4497);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:url(#linearGradient4723);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M -0.5776813,177.16534 102.17822,3.4045479e-5 H 307.69004 L 328.94988,35.433105 265.17035,141.73232 H 183.67429 L 226.19397,70.866176 H 144.69791 L 40.17035,248.03153 Z"
        id="path4791"
        inkscape:connector-curvature="0"
@@ -153,14 +154,15 @@
        height="100%" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:297.5px;line-height:1.25;font-family:'Roboto Condensed';-inkscape-font-specification:'Roboto Condensed, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient10021);fill-opacity:1;stroke:none;stroke-width:0.9375"
-       x="408.38995"
-       y="284.55026"
-       id="text4493"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-size:269.65002441px;line-height:1.25;font-family:'Input Mono';-inkscape-font-specification:'Input Mono, Ultra-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient10021);fill-opacity:1;stroke:none;stroke-width:0.84974355"
+       x="491.85925"
+       y="319.87445"
+       id="text4493"
+       transform="matrix(1.103274,0,-0.52330632,0.90639315,0,0)"><tspan
          sodipodi:role="line"
-         id="tspan4491"
-         x="408.38995"
-         y="284.55026"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:297.5px;font-family:'Roboto Condensed';-inkscape-font-specification:'Roboto Condensed, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:url(#linearGradient10021);fill-opacity:1;stroke-width:0.9375">Hexagon</tspan></text>
+         id="tspan4715"
+         x="491.85925"
+         y="319.87445"
+         style="fill:url(#linearGradient10021)">EXAGON</tspan></text>
   </g>
 </svg>

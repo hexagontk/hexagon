@@ -22,11 +22,8 @@ class Request(private val request: EngineRequest) {
 
     val contentLength: Long by lazy { request.contentLength }
     val contentType: String? by lazy { request.contentType }
-    val userAgent: String by lazy { request.userAgent }
     val url: String by lazy { request.url }
     val ip: String by lazy { request.ip }
-    val referer: String by lazy { request.referer }
-    val secure: Boolean by lazy { request.secure }
     val accept: List<String> by lazy { headers["accept"] ?: emptyList() }
     val preferredType: String by lazy { accept.firstOrNull() ?: "text/plain" }
 
@@ -38,4 +35,11 @@ class Request(private val request: EngineRequest) {
     operator fun get(name: String): String? = parameters[name]?.first()
 
     fun parameter(name: String) = get(name) ?: error ("'$name' parameter not found")
+
+    val secure: Boolean by lazy { scheme == "https" }
+    val userAgent: String by lazy { headers["User-Agent"]?.first() ?: "UNKNOWN" }
+    val referer: String by lazy { headers["Referer"]?.first() ?: "UNKNOWN" }
+
+//    val userAgent: String     // user agent (used by :agent condition)
+//    val referer: String      // the referrer of the client or '/'
 }

@@ -104,6 +104,14 @@ open class Benchmark {
 
 ## Kotlin
 
+Sets up Kotlin's Gradle plugin: Adds Kotlin libraries, setup coverage report, filter project
+resources with build variables. To use it you need to:
+
+To use it:
+
+- Define the `kotlinVersion` variable to `gradle.properties` file.
+- Define the `kotlinCoroutinesVersion` variable to `gradle.properties` file.
+
 Helps with:
 
 * Setting Java version
@@ -122,6 +130,8 @@ Applying this script at the beginning won't work until it allows dependencies to
 
 ## Service
 
+Gradle's script for a service or application.
+
 Extra tasks:
 
 * buildInfo : add configuration file with build variables to the package
@@ -131,7 +141,20 @@ Extra tasks:
 
 ## Site
 
+Adds support for site generation (with API documentation and reports).
+
+To apply this script, you need to add the JBake plugin manually at the top of your build script
+as that is not possible in included scripts like this one. These are the required lines to do so:
+
+```gradle
+plugins {
+    id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
+}
+```
+
 Generate service documentation site
+
+JBake 'content' folder can not be changed (it seems a bug)
 
 To generate clean URLs, add the following settings:
 

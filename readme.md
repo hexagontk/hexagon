@@ -32,8 +32,7 @@
 
 <p align="center">
   <a href="http://hexagonkt.com/quick_start.html">Quick Start</a> |
-  <a href="http://hexagonkt.com/guides.html">Guides</a> |
-  <a href="http://hexagonkt.com/api.html">API Reference</a>
+  <a href="http://hexagonkt.com/documentation.html">Documentation</a>
 </p>
 
 ---
@@ -52,7 +51,7 @@ The goals of the project are:
    features.
 2. Make it easy to hack: allow the user to add extensions or change the framework itself. The code
    is meant to be simple for the users to understand it. Avoid having to read blogs, documentation
-   or getting certified to use it efectively.
+   or getting certified to use it effectively.
 
 What are NOT project goals:
 
@@ -80,7 +79,7 @@ from scratch following these steps:
   * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:http_server_jetty:0.24.7")
+    compile ("com.hexagonkt:http_server_jetty:0.24.8")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
@@ -89,7 +88,7 @@ from scratch following these steps:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>http_server_jetty</artifactId>
-      <version>0.24.7</version>
+      <version>0.24.8</version>
     </dependency>
     ```
 
@@ -107,7 +106,7 @@ from scratch following these steps:
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-You can read more details reading the [Quick Start] page, or checking the [guides].
+You can read more details reading the [Quick Start] page, or checking the [documentation].
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
@@ -116,7 +115,7 @@ You can read more details reading the [Quick Start] page, or checking the [guide
 [JCenter]: https://bintray.com/bintray/jcenter
 [Endpoint]: http://localhost:2010/hello/world
 [Quick Start]: http://hexagonkt.com/quick_start.html
-[guides]: http://hexagonkt.com/guides.html
+[documentation]: http://hexagonkt.com/documentation.html
 
 ## Status
 
