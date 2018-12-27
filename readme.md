@@ -51,7 +51,7 @@ The goals of the project are:
    features.
 2. Make it easy to hack: allow the user to add extensions or change the framework itself. The code
    is meant to be simple for the users to understand it. Avoid having to read blogs, documentation
-   or getting certified to use it efectively.
+   or getting certified to use it effectively.
 
 What are NOT project goals:
 

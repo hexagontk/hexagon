@@ -26,7 +26,7 @@
   <title>${content.title!"Hexagon"}</title>
 
   <link rel="stylesheet" href="${bootstrap}/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist/bootstrap-toc.min.css">
+  <link rel="stylesheet" href="${config.bootstrapToc}/bootstrap-toc.min.css">
   <link rel="stylesheet" href="${config.cloudflare}/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <link rel="stylesheet" href="/css/base.css" />

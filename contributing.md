@@ -22,14 +22,20 @@ to date of project's news following [@hexagon_kt] in Twitter.
 The Hexagon project is composed of several modules. There are several kind of modules:
 
 * The ones that provide a single functionality (which does not depend on different implementations).
-  Like Scheduling or Core.
-* Modules that define a "Port": An interface to use a feature that may have different 
-  implementations.
-* Adapters, which are ports implementations for a given tool.
-* Infrastructure modules. Components used by the project itself, like the benchmark, the examples
-  and the site generator.
+  Like [hexagon_scheduler] or [hexagon_core].
+* Modules that define a "Port": An interface to use a feature that may have different
+  implementations (ie: [port_http_server] or [port_store]).
+* Adapters, which are ports implementations for a given tool. [] and [] are adapter modules.
+* Infrastructure modules. Components used by the project itself, like the benchmark or the site
+  generator.
 
-# Design
+[hexagon_scheduler]: http://
+[hexagon_core]: http://
+
+[port_http_server]: http://
+[port_messaging]: http://
+
+## Design
 
 1. Prefer Kotlin STD lib methods
 2. Use named parameters instead builders
@@ -43,18 +49,6 @@ Managers: singletons to manage across an application and/or between services
     EventManager
     SettingsManager
     TemplatesManager
-
-# How it works
-
-The framework is build upon smaller pieces:
-
-## Modules
-
-ports and adapters
-
-# Concepts
-
-Service (API, Web, Consumer)
 
 ## Build Hexagon
 
