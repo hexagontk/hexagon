@@ -5,6 +5,7 @@
   <!-- Javascript: Placed at the end of the document so the pages load faster -->
   <script src="${config.cloudflare}/jquery/${config.jqueryVersion}/jquery.min.js"></script>
   <script src="${bootstrap}/js/bootstrap.min.js"></script>
+  <script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist/bootstrap-toc.min.js"></script>
   <script src="${highlight}/highlight.min.js"></script>
   <script src="${highlight}/languages/groovy.min.js"></script>
   <script src="${highlight}/languages/gradle.min.js"></script>

@@ -32,8 +32,7 @@
 
 <p align="center">
   <a href="http://hexagonkt.com/quick_start.html">Quick Start</a> |
-  <a href="http://hexagonkt.com/guides.html">Guides</a> |
-  <a href="http://hexagonkt.com/api.html">API Reference</a>
+  <a href="http://hexagonkt.com/documentation.html">Documentation</a>
 </p>
 
 ---
@@ -107,7 +106,7 @@ from scratch following these steps:
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-You can read more details reading the [Quick Start] page, or checking the [guides].
+You can read more details reading the [Quick Start] page, or checking the [documentation].
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
@@ -116,7 +115,7 @@ You can read more details reading the [Quick Start] page, or checking the [guide
 [JCenter]: https://bintray.com/bintray/jcenter
 [Endpoint]: http://localhost:2010/hello/world
 [Quick Start]: http://hexagonkt.com/quick_start.html
-[guides]: http://hexagonkt.com/guides.html
+[documentation]: http://hexagonkt.com/documentation.html
 
 ## Status
 

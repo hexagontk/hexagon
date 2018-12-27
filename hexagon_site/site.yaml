@@ -25,8 +25,7 @@ siteAccentColor: '#2B9EE6'
 
 navigationLinks:
   Quick Start: /quick_start.html
-  Guides: /guides.html
-  API: /api.html
+  Documentation: /documentation.html
 
 features1:
   - link: /quick_start.html
@@ -41,7 +40,7 @@ features1:
     description: >
       The library is done to be lean and simple so you can tweak it to suit your needs instead
       relying on third parties.
-  - link: /guides.html
+  - link: /documentation.html
     icon: plug
     title: Pluggable Adapters
     description: >
@@ -61,7 +60,7 @@ features2:
     description: >
       Project's coverage is checked in every Pull Request. It is also stress tested at
       TechEmpower Frameworks Benchmark.
-  - link : /guides.html
+  - link : /documentation.html
     icon: cubes
     title: Modular
     description: >

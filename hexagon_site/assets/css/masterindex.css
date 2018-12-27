@@ -1,36 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css?family=Roboto');
-@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto+Mono|Roboto+Slab');
-
-html { background-color: ${siteBackgroundDark}; }
-
-body {
-  /* Margin to avoid being covered by sticky navbar */
-  padding-top: 60px;
-  font-size: 16px;
-  background-color: #F5F5F5;
-}
-
-body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
-
-h1, h2, h3, h4 { color: ${siteBackgroundLight}; }
-
-a, a:hover, a:focus { color: ${siteAccentColor}; }
-
-footer .heart { color: ${siteAccentColor}; }
-
-.navbar-brand img { height: 36px; }
-
-.navbar-brand { padding-top: 12px; }
-
-@media (min-width: 768px) {
-  .navbar-nav > li > a { padding-bottom: 0; }
-}
-
-/*
- * Theme over Flatly
- */
-
 section h2.section-heading,
 section h2.section-subheading,
 section h3.section-heading,
@@ -55,49 +23,14 @@ section h3.section-subheading {
 
 .text-muted { color: #303030; }
 
-.navbar-default {
-  background-color: ${siteBackgroundDark};
-  padding: 0;
-}
-
-.navbar-default .navbar-header { margin-left: 13px; }
-
-.navbar-default .navbar-brand {
-  background-size: contain;
-  direction: ltr;
-  height: 28px;
-  width: 100px;
-  display: inline-block;
-  font-weight: bold;
-}
-
-.navbar-default .nav li a {
-  font-weight: bold;
-  font-size: 14px;
-  letter-spacing: 1px;
-  color: #F5F5F5;
-  text-transform: none;
-}
-
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus,
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover {
-    color: ${siteAccentColor};
-}
-
-.navbar-toggle {
-    margin-right: 45px;
-}
-
-/* Trick to prevent anchored links to hide heading behind navbar */
-section[id]:before {
-    display: block;
-    content: " ";
-    margin-top: -80px;
-    height: 100px;
-    visibility: hidden;
-}
+/*!* Trick to prevent anchored links to hide heading behind navbar *!*/
+/*section[id]:before {*/
+    /*display: block;*/
+    /*content: " ";*/
+    /*margin-top: -80px;*/
+    /*height: 100px;*/
+    /*visibility: hidden;*/
+/*}*/
 
 header {
     background-image: linear-gradient(0deg, ${siteBackgroundLight} 7%, ${siteBackgroundDark} 100%);
@@ -206,22 +139,6 @@ section h3.section-subheading {
 
 .intro-lead-in a:hover { text-decoration: none; }
 
-footer .row {
-    font-size: 12px;
-    text-align: left;
-}
-
-footer .row .quicklinks {
-    line-height: 25px;
-    list-style: none;
-    text-align: left;
-}
-
-footer .credits {
-    font-size: 10px;
-    text-align: center;
-}
-
 #features .feature-text {
     color: #303030;
     font-size: 16px;
@@ -297,57 +214,4 @@ footer .credits {
 
 #featurematrix .table tbody tr {
     border-top: 1px solid #D8D8D8;
-}
-
-.github-buttons {
-  text-align: right;
-  margin-top: 1em;
-}
-
-footer {
-    padding: 2em 0;
-    font-size: 14px;
-    color: #F5F5F5;
-    background-color: ${siteBackgroundDark};
-    line-height: 22px;
-    letter-spacing: 0;
-    margin-top: 3em;
-}
-
-footer ul.quicklinks {
-    margin: 0;
-    padding: 0;
-}
-
-footer .footer-title {
-    color: ${siteAccentColor};
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-footer ul.quicklinks a {
-    font-size: 14px;
-    color: #F5F5F5;
-}
-
-footer .quicklink-section {
-    padding: 0;
-    min-width: 120px;
-}
-
-@media (max-width: 768px) {
-  footer .quicklink-section { padding-top: 1em; }
-  footer .quicklink-section .credits { text-align: center; }
-  footer .quicklink-section .github-buttons { text-align: center; }
-}
-
-footer .credits {
-    font-size: 14px;
-    font-weight: normal;
-    text-align: right;
-    font-family: 'Roboto Condensed', helvetica, sans-serif;
-}
-
-footer .credits a {
-    color: #F5F5F5;
 }

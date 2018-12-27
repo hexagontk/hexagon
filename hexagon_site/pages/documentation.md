@@ -4,7 +4,16 @@ Start here
 
 If you want to get a quick view of the project, **[start here](/quick_start.html)**
 
-Guides
+# Motivation
+
+* More time reading framework docs than coding
+* Frameworks targeted to everyone instead my custom needs
+* Easy to hack better than work ok for every use case
+* For fun!
+* To learn Kotlin
+* Managed services of public clouds (cheaper, but tie you to them)
+
+Modules
 ======
 
 ## Utilities
@@ -42,3 +51,40 @@ Guides
 
 [Pebble]: http://www.mitchellbosecke.com/pebble/home
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
+
+API Reference
+=============
+
+## Modules
+
+Modules that provide features without the need of custom implementations:
+
+* [Hexagon Core](/api/hexagon_core/index.html)
+* [Hexagon Scheduler](/api/hexagon_scheduler/index.html)
+
+## Ports
+
+Interfaces to a certain feature that must be implemented by an adapter:
+
+* [Client Port](/api/port_http_client/index.html)
+* [Messaging Port](/api/port_messaging/index.html)
+* [Server Port](/api/port_http_server/index.html)
+* [Store Port](/api/port_store/index.html)
+* [Templates Port](/api/port_templates/index.html)
+
+## Adapters
+
+Concrete ports implementations:
+
+### Messaging
+* [RabbitMQ Messaging Adapter](/api/messaging_rabbitmq/index.html)
+
+### Server
+* [Servlet Server Adapter](/api/http_server_servlet/index.html)
+* [Jetty Server Adapter](/api/http_server_jetty/index.html)
+
+### Store
+* [MongoDB Store Adapter](/api/store_mongodb/index.html)
+
+### Templates
+* [Pebble Templates Adapter](/api/templates_pebble/index.html)

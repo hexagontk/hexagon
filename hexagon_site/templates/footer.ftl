@@ -3,15 +3,19 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-offset-1 col-xs-3 col-md-offset-0 col-md-2 quicklink-section">
-          <div class="footer-title">Documentation</div>
+          <div class="footer-title">Usage</div>
           <ul class="quicklinks">
             <#list config.navigationLinks?keys as title>
             <li><a href="${config.navigationLinks[title]}">${title}</a></li>
             </#list>
+
+            <li>
+              <a href="https://github.com/${config.githubRepo}/blob/master/readme.md">Readme</a>
+            </li>
           </ul>
         </div>
 
-        <div class="col-xs-3 col-md-2 quicklink-section">
+        <div class="col-xs-offset-1 col-xs-3 col-md-offset-0 col-md-2 quicklink-section">
           <div class="footer-title">Contribute</div>
           <ul class="quicklinks">
             <li>
@@ -24,7 +28,7 @@
           </ul>
         </div>
 
-        <div class="col-xs-3 col-md-2 quicklink-section">
+        <div class="col-xs-offset-1 col-xs-3 col-md-offset-0 col-md-2 quicklink-section">
           <div class="footer-title">Community</div>
           <ul class="quicklinks">
             <li><a href="https://github.com/${config.githubRepo}">Github</a></li>

@@ -17,6 +17,45 @@ to date of project's news following [@hexagon_kt] in Twitter.
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 
+## Project Structure
+
+The Hexagon project is composed of several modules. There are several kind of modules:
+
+* The ones that provide a single functionality (which does not depend on different implementations).
+  Like Scheduling or Core.
+* Modules that define a "Port": An interface to use a feature that may have different 
+  implementations.
+* Adapters, which are ports implementations for a given tool.
+* Infrastructure modules. Components used by the project itself, like the benchmark, the examples
+  and the site generator.
+
+# Design
+
+1. Prefer Kotlin STD lib methods
+2. Use named parameters instead builders
+3. Use fields instead getter/setter
+
+Service: API, message broker
+Application: are a kind of service which is final (meant for users)
+WebApplication, Desktop Application, Mobile Application or Browser Aplication
+
+Managers: singletons to manage across an application and/or between services
+    EventManager
+    SettingsManager
+    TemplatesManager
+
+# How it works
+
+The framework is build upon smaller pieces:
+
+## Modules
+
+ports and adapters
+
+# Concepts
+
+Service (API, Web, Consumer)
+
 ## Build Hexagon
 
 Hexagon build process requires [Docker Compose installed](https://docs.docker.com/compose/install)
@@ -64,6 +103,8 @@ The benchmark is the same that runs inside [TechEmpower Framework Benchmarks][TF
 
 [IntelliJ Idea IDE]: https://www.jetbrains.com/idea
 [TFB]: https://www.techempower.com/benchmarks
+
+## Site Generation
 
 ## Tools Used
 

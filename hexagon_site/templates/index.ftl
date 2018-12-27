@@ -14,9 +14,11 @@
   <header>
     <div class="layer">
       <div class="intro container">
+
         <div class="intro-logo container">
-          <img src="img/logo.svg" class="img-responsive center-block"/>
+          <img src="/img/logo.svg" class="img-responsive center-block"/>
         </div>
+
         <div class="intro-lead-in">
           <a href="https://travis-ci.org/${config.githubRepo}">
             <img
@@ -42,8 +44,10 @@
               alt="Bintray" />
           </a>
         </div>
+
         <div class="intro-lead-in">${config.projectDescription}</div>
         <div class="intro-long">${config.longDescription}</div>
+
         <a href="/quick_start.html" class="btn btn-xl intro-button">Get Started Now</a>
         <div class="intro-down-arrow">
           <a href="#features"><i class="fa fa-angle-double-down fa-5x" aria-hidden="true"></i></a>
@@ -53,6 +57,7 @@
   </header>
 
   <section id="features">
+
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -106,6 +111,7 @@
 
   <section id="architecture">
     <div class="container">
+
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading">Architecture</h2>
@@ -114,10 +120,11 @@
           </h3>
         </div>
       </div>
+
       <div class="row">
         <div class="col-lg-12 text-center">
           <img
-            src="img/architecture.svg"
+            src="/img/architecture.svg"
             class="img-responsive center-block"
             alt="Hexagon architecture diagram" />
         </div>
