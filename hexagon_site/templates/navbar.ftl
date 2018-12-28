@@ -12,7 +12,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/">
-          <img src="/img/logo_white.svg">
+          <img src="/img/logo_white.svg" alt="Hexagon Logo">
         </a>
       </div>
 
