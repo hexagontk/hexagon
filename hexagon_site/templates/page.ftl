@@ -2,9 +2,15 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<#include "head.ftl">
 
-<body data-spy="scroll" data-target="#toc" data-offset="90">
+<head>
+  <#include "head.ftl">
+  <link rel="stylesheet" href="/css/page.css" />
+  <link rel="stylesheet" href="${config.bootstrapToc}/bootstrap-toc.min.css">
+  <link rel="stylesheet" href="${config.cloudflare}/highlight.js/9.12.0/styles/github.min.css" />
+</head>
+
+<body data-spy="scroll" data-target="#toc" data-offset="90" onload="hljs.initHighlighting()">
 
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
@@ -26,7 +32,14 @@
 
   <#include "footer.ftl">
 
-  <#include "scripts.ftl">
+  <#assign highlight = "${config.cloudflare}/highlight.js/${config.highlightVersion}" />
+
+  <script defer src="${config.bootstrapToc}/bootstrap-toc.min.js"></script>
+  <script defer src="${highlight}/highlight.min.js"></script>
+  <script defer src="${highlight}/languages/groovy.min.js"></script>
+  <script defer src="${highlight}/languages/gradle.min.js"></script>
+  <script defer src="${highlight}/languages/xml.min.js"></script>
+  <script defer src="${highlight}/languages/kotlin.min.js"></script>
 </body>
 
 </html>

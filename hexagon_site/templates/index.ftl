@@ -2,7 +2,11 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<#include "head.ftl">
+
+<head>
+  <#include "head.ftl">
+  <link rel="stylesheet" href="/css/index.css" />
+</head>
 
 <body>
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -16,7 +20,7 @@
       <div class="intro container">
 
         <div class="intro-logo container">
-          <img src="/img/logo.svg" class="img-responsive center-block"/>
+          <img src="/img/logo.svg" class="img-responsive center-block" alt="Hexagon Logo"/>
         </div>
 
         <div class="intro-lead-in">
@@ -171,7 +175,6 @@
   </section>
 
   <#include "footer.ftl">
-  <#include "scripts.ftl">
 </body>
 
 </html>
