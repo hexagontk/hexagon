@@ -13,6 +13,10 @@ project.ext.configData = loadSiteData(project.file("site.yaml"))
 apply(from: "../gradle/site.gradle")
 apply(from: "../gradle/icons.gradle")
 
+clean {
+    delete("content")
+}
+
 tasks.bake.doFirst {
 
     final String contentTarget = project.file("content").absolutePath
@@ -27,7 +31,7 @@ tasks.bake.doFirst {
 
     copy {
         dirs.each { dir -> from rootProject.file(dir) }
-        into contentTarget + "/api"
+        into contentTarget
     }
 
     final String frontMatter = """
@@ -43,7 +47,7 @@ tasks.bake.doFirst {
         fcd.text = frontMatter.stripIndent() + content
     }
 
-    fileTree(dir: "$contentTarget/api", include: "**/*.md").each { fcd ->
+    fileTree(dir: "$contentTarget", include: "**/*.md").each { fcd ->
         final String content = fcd.text
         final String title = "[. a-zA-Z_\\-]"
         final String link = "[./a-zA-Z_\\-]"

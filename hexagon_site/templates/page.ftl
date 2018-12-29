@@ -20,12 +20,20 @@
 
   <section class="container">
     <div class="row">
-      <div class="col-md-9">
+      <div class="col-md-2">
+        <nav class="sticky-top hidden-xs">
+          <ul>
+            <li>Item 1</li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="col-md-8">
         ${content.body}
       </div>
 
-      <div class="col-md-3">
-        <nav id="toc" data-toggle="toc" class="sticky-top"></nav>
+      <div class="col-md-2">
+        <nav id="toc" data-toggle="toc" class="sticky-top hidden-xs"></nav>
       </div>
     </div>
   </section>

@@ -6,7 +6,7 @@ Repeated tasks execution based on [Cron] expressions for Hexagon framework. It u
 
 You can check an usage example in the following method:
 
-@sample com.hexagonkt.scheduler.callbackExecutedProperly
+@sample com.hexagonkt.scheduler.CronSchedulerTest.callbackExecutedProperly
 
 # Package com.hexagonkt.scheduler
 

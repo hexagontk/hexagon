@@ -1,6 +1,6 @@
 
 <h1 align="center">
-  <a href="http://hexagonkt.com">
+  <a href="https://hexagonkt.com">
     <img alt="Hexagon" src="hexagon_site/assets/tile-small.png" />
   </a>
   <br>
@@ -31,8 +31,8 @@
 </p>
 
 <p align="center">
-  <a href="http://hexagonkt.com/quick_start.html">Quick Start</a> |
-  <a href="http://hexagonkt.com/documentation.html">Documentation</a>
+  <a href="https://hexagonkt.com/quick_start.html">Quick Start</a> |
+  <a href="https://hexagonkt.com/documentation.html">Documentation</a>
 </p>
 
 ---
@@ -43,6 +43,12 @@ services (Web applications, APIs or queue consumers) that run inside a cloud pla
 It is meant to provide abstraction from underlying technologies to be able to change them with
 minimum impact. It is designed to fit in applications that conforms to the [Hexagonal Architecture]
 (also called [Clean Architecture] or [Ports and Adapters Architecture]).
+
+Motivation
+
+* More time reading framework docs than coding
+
+* Frameworks targeted to everyone instead my custom needs
 
 The goals of the project are:
 
