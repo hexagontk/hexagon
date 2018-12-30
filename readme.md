@@ -44,11 +44,9 @@ It is meant to provide abstraction from underlying technologies to be able to ch
 minimum impact. It is designed to fit in applications that conforms to the [Hexagonal Architecture]
 (also called [Clean Architecture] or [Ports and Adapters Architecture]).
 
-Motivation
-
-* More time reading framework docs than coding
-
-* Frameworks targeted to everyone instead my custom needs
+The motivation that drove the development of this library was that sometimes you spend more time
+reading framework's documentation than coding. And also, because you lose control of your program:
+you do not call framework's code, framework's code calls you.
 
 The goals of the project are:
 
