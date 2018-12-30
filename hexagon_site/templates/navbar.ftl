@@ -12,7 +12,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/">
-          <img src="/img/logo_white.svg" alt="Hexagon Logo">
+          <img src="/img/logo_white.svg" height="36" alt="Hexagon Logo">
         </a>
       </div>
 
@@ -39,4 +39,3 @@
           </li>
         </ul>
       </div>
-
