@@ -2,9 +2,9 @@
   <footer>
     <div class="container">
       <div class="row">
-        <div class="col-xs-offset-1 col-xs-3 col-md-offset-0 col-md-2 quicklink-section">
-          <div class="footer-title">Usage</div>
-          <ul class="quicklinks">
+        <div class="col-xs-4 col-md-2">
+          <h1>Usage</h1>
+          <ul>
             <#list config.navigationLinks?keys as title>
             <li><a href="${config.navigationLinks[title]}">${title}</a></li>
             </#list>
@@ -15,9 +15,9 @@
           </ul>
         </div>
 
-        <div class="col-xs-offset-1 col-xs-3 col-md-offset-0 col-md-2 quicklink-section">
-          <div class="footer-title">Contribute</div>
-          <ul class="quicklinks">
+        <div class="col-xs-4 col-md-2">
+          <h1>Contribute</h1>
+          <ul>
             <li>
               <a href="https://github.com/${config.githubRepo}/blob/master/contributing.md">
                 Contributing
@@ -28,24 +28,24 @@
           </ul>
         </div>
 
-        <div class="col-xs-offset-1 col-xs-3 col-md-offset-0 col-md-2 quicklink-section">
-          <div class="footer-title">Community</div>
-          <ul class="quicklinks">
+        <div class="col-xs-4 col-md-2">
+          <h1>Community</h1>
+          <ul>
             <li><a href="https://github.com/${config.githubRepo}">Github</a></li>
             <li><a href="https://twitter.com/${config.twitterUser}">Twitter</a></li>
             <li><a href="${config.slackChannel}">Slack</a></li>
           </ul>
         </div>
 
-        <div class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-6 quicklink-section">
+        <div class="col-xs-12 col-md-6">
           <div class="credits">
-            Made with <i class="fa fa-heart heart"></i> by
+            Made with <i class="fa fa-heart"></i> by
             <a href="https://github.com/${config.githubRepo}/graphs/contributors">
             OSS contributors</a>. Licensed under
             <a href="https://github.com/${config.githubRepo}/blob/master/license.md">MIT License</a>
           </div>
 
-          <div class="github-buttons">
+          <div class="social-buttons">
             <a
               class="github-button"
               href="https://github.com/${config.githubRepo}"

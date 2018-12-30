@@ -69,73 +69,48 @@ a, a:hover, a:focus { color: ${siteAccentColor}; }
 /*
  * Footer
  */
-footer .heart { color: ${siteAccentColor}; }
-
-footer .row {
-  font-size: 12px;
-  text-align: left;
-}
-
-footer .row .quicklinks {
-  line-height: 25px;
-  list-style: none;
-  text-align: left;
-}
-
-footer .credits {
-  font-size: 10px;
-  text-align: center;
-}
-
-.github-buttons {
-  text-align: right;
-  margin-top: 1em;
-}
-
 footer {
   padding: 2em 0;
   font-size: 14px;
   color: #F5F5F5;
   background-color: ${siteBackgroundDark};
-  line-height: 22px;
-  letter-spacing: 0;
-  margin-top: 3em;
 }
 
-footer ul.quicklinks {
+footer h1 {
+  color: ${siteAccentColor};
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0 0 3px 0;
+}
+
+footer ul {
+  line-height: 25px;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-footer .footer-title {
-  color: ${siteAccentColor};
-  text-transform: uppercase;
-  font-weight: bold;
-}
+footer a, footer a:hover { color: #F5F5F5; }
 
-footer ul.quicklinks a {
-  font-size: 14px;
-  color: #F5F5F5;
-}
-
-footer .quicklink-section {
-  padding: 0;
-  min-width: 120px;
-}
-
-@media (max-width: 768px) {
-  footer .quicklink-section { padding-top: 1em; }
-  footer .quicklink-section .credits { text-align: center; }
-  footer .quicklink-section .github-buttons { text-align: center; }
-}
+footer .fa-heart { color: ${siteAccentColor}; }
 
 footer .credits {
-  font-size: 14px;
-  font-weight: normal;
   text-align: right;
   font-family: 'Roboto Condensed', helvetica, sans-serif;
 }
 
-footer .credits a {
-  color: #F5F5F5;
+footer .social-buttons {
+  text-align: right;
+  margin-top: 0.5em;
+}
+
+@media (max-width: 768px) {
+
+  footer .credits {
+    margin-top: 0.5em;
+    text-align: center;
+  }
+
+  footer .social-buttons { text-align: center; }
 }
