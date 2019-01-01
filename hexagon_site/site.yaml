@@ -28,7 +28,7 @@ navigationLinks:
   Quick Start: /quick_start.html
   Documentation: /documentation.html
 
-features1:
+features:
   - link: /quick_start.html
     icon: smile-o
     title: Simple to Use
@@ -47,8 +47,6 @@ features1:
     description: >
       Adding an adapter is just implementing the port's interface. You can code your own
       adapters from scratch or tune the existing ones.
-
-features2:
   - link: http://kotlinlang.org
     icon: code
     title: Kotlin First

@@ -8,7 +8,7 @@ buildscript {
     }
 }
 
-project.ext.configData = loadSiteData(project.file("site.yaml"))
+project.ext.configData = loadYaml(project.file("site.yaml"))
 
 apply(from: "../gradle/site.gradle")
 apply(from: "../gradle/icons.gradle")
@@ -72,37 +72,10 @@ task serve(dependsOn: "site") {
     }
 }
 
-task moduleSettings {
-    doLast {
-        rootProject.subprojects { module ->
-            println """
-                ${module.name}
-                ---------- 
-                API: ${hasApi(module)}
-                PORT NAME: ${portName(module)}
-            """
-        }
-    }
-}
-
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-
-private Map<String, ?> loadSiteData(final File yamlFile) {
-    Map<String, ?> config = loadYaml(yamlFile)
-    // TODO Add ports and adapters
-    return config
-}
 
 private static Map<String, ?> loadYaml(final File yamlFile) {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
     return mapper.readValue(yamlFile, Map.class)
-}
-
-private static boolean hasApi(final Project module) {
-    return module.file("build/dokka").exists ()
-}
-
-private static String portName(final Project module) {
-    return module.name.startsWith("port_") ? module.name - "port_" : ""
 }

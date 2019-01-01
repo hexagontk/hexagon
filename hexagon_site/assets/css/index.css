@@ -35,13 +35,6 @@ section h3.section-subheading {
 header {
     background-image: linear-gradient(0deg, ${siteBackgroundLight} 7%, ${siteBackgroundDark} 100%);
     color: #F5F5F5;
-    min-height: 1150px;
-}
-
-@media (max-height: 1150px) {
-  header {
-      min-height: 100vh;
-  }
 }
 
 header .intro {
@@ -69,9 +62,7 @@ header .intro-long {
 }
 
 header .intro .intro-lead-in {
-    font-style: normal;
     font-size: 22px;
-    /*line-height: 50px;*/
     margin-bottom: 25px;
     font-family: 'Roboto Condensed', helvetica, sans-serif;
 }
@@ -117,7 +108,6 @@ header .intro-down-arrow {
 
     header .intro .intro-lead-in {
         font-size: 51px;
-        font-style: normal;
         line-height: 50px;
     }
 }
@@ -129,12 +119,6 @@ section {
 section h3.section-subheading {
     margin-bottom: 50px;
     font-weight: normal;
-}
-
-@media(min-width: 768px) {
-    section {
-        padding: 50px 0;
-    }
 }
 
 .intro-lead-in a:hover { text-decoration: none; }
