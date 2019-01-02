@@ -51,7 +51,7 @@
       <div class="intro-lead-in">${config.projectDescription}</div>
       <div class="intro-long">${config.longDescription}</div>
 
-      <a href="/quick_start.html" class="btn btn-xl intro-button">Get Started Now</a>
+      <a href="/quick_start.html" class="btn btn-xl">Get Started Now</a>
       <div class="intro-down-arrow">
         <a href="#features"><i class="fa fa-angle-double-down fa-5x" aria-hidden="true"></i></a>
       </div>
@@ -105,7 +105,7 @@
     </div>
   </section>
 
-  <section id="featurematrix" class="container">
+  <section id="portAdapters" class="container">
     <div class="row">
       <div class="col-lg-12 text-center">
         <h2>Ports</h2>

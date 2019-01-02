@@ -141,6 +141,11 @@ Extra tasks:
 
 ## Site
 
+To generate the site execute: `gw site` and to test it run: `gw serve`
+
+The site will be served at: [http://localhost:8888](http://localhost:8888). You can change the port
+defining the `sitePort` variable inside `gradle.properties`
+
 Adds support for site generation (with API documentation and reports).
 
 To apply this script, you need to add the JBake plugin manually at the top of your build script

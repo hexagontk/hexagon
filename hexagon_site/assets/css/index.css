@@ -1,4 +1,7 @@
 
+/*
+ * Header
+ */
 header {
     background-image: linear-gradient(0deg, ${siteBackgroundLight} 7%, ${siteBackgroundDark} 100%);
     color: #F5F5F5;
@@ -16,27 +19,19 @@ header .intro-logo {
     padding-bottom: 30px;
 }
 
-header .intro-button {
-    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
-    padding-left: 50px;
-    padding-right: 50px;
-}
-
 header .intro-long {
     line-height: 27px;
     font-size: 16px;
     padding-bottom: 60px;
 }
 
-header .intro .intro-lead-in {
+header .intro-lead-in {
     font-size: 22px;
     margin-bottom: 25px;
     font-family: 'Roboto Condensed', helvetica, sans-serif;
 }
 
-header .intro-button { box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5); }
-
-header .intro .btn-xl {
+header .btn-xl {
     background: #F5F5F5;
     border: 1px solid ${siteBackgroundDark};
     border-radius: 2px;
@@ -44,6 +39,9 @@ header .intro .btn-xl {
     color: ${siteBackgroundDark};
     font-weight: normal;
     text-transform: none;
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 header .intro-down-arrow {
@@ -71,7 +69,7 @@ header .intro-down-arrow {
         padding-bottom: 70px;
     }
 
-    header .intro .intro-lead-in {
+    header .intro-lead-in {
         font-size: 51px;
         line-height: 50px;
     }
@@ -140,15 +138,15 @@ section h3 {
 /*
  * Feature matrix
  */
-#featurematrix .table { font-family: 'Roboto Condensed', helvetica, sans-serif; }
+#portAdapters .table { font-family: 'Roboto Condensed', helvetica, sans-serif; }
 
-#featurematrix .table th {
+#portAdapters .table th {
     text-transform: uppercase;
     font-size: 12px;
     font-weight: bold;
     color: rgba(48, 48, 48, 0.5);
 }
 
-#featurematrix .table tbody tr {
+#portAdapters .table tbody tr {
     border-top: 1px solid #D8D8D8;
 }

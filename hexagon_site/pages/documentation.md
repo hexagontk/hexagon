@@ -1,9 +1,4 @@
 
-Start here
-==========
-
-If you want to get a quick view of the project, **[start here](/quick_start.html)**
-
 Modules
 ======
 

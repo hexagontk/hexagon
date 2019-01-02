@@ -81,8 +81,8 @@ footer .social-buttons {
 @media (max-width: 768px) {
 
   footer .credits {
-    margin-top: 0.5em;
     text-align: center;
+    margin-top: 0.5em;
   }
 
   footer .social-buttons { text-align: center; }
