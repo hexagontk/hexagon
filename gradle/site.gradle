@@ -35,6 +35,13 @@ bake {
     }
 }
 
+bakePreview {
+    dependsOn("site")
+
+    port = findProperty("sitePort")?.toString() ?: "8888"
+    input = project.buildDir
+}
+
 clean {
     delete("build", "out")
 }
@@ -47,6 +54,8 @@ task site(dependsOn: "bake") {
         }
     }
 }
+
+task serve(dependsOn: "bakePreview")
 
 private static void filterFile(final File file, final Map<?, ?> data) {
     String text = file.getText()

@@ -3,8 +3,8 @@ buildscript {
     repositories { jcenter() }
 
     dependencies {
-        classpath("com.fasterxml.jackson.core:jackson-databind:2.9.8")
-        classpath("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.8")
+        classpath("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+        classpath("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
     }
 }
 
@@ -59,18 +59,7 @@ tasks.bake.doFirst {
     }
 }
 
-site.dependsOn (
-    rootProject.getTasksByName("dokka", true).toArray() +
-    rootProject.getTasksByName("jacocoTestReport", true).toArray()
-)
-
-task serve(dependsOn: "site") {
-    doLast {
-        exec {
-            commandLine("ruby", "-run", "-ehttpd", bake.output.absolutePath, "-p8888")
-        }
-    }
-}
+site.dependsOn (rootProject.getTasksByName("dokka", true).toArray())
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
