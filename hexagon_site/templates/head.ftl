@@ -2,6 +2,15 @@
 <#assign bootstrap = "${config.cloudflare}/bootswatch/${config.bootstrapVersion}/${config.theme}" />
 <#assign bootstrapJs = "${config.cloudflare}/twitter-bootstrap/${config.bootstrapVersion}" />
 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${config.analyticsCode}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', '${config.analyticsCode}');
+  </script>
+
   <meta charset="utf-8" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
