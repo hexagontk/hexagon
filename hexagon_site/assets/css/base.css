@@ -7,12 +7,7 @@
  */
 html { background-color: ${siteBackgroundDark}; }
 
-body {
-  /* Margin to avoid being covered by sticky navbar */
-  padding-top: 60px;
-  font-size: 16px;
-  background-color: #F5F5F5;
-}
+body { background-color: #F5F5F5; }
 
 body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
 
@@ -32,6 +27,8 @@ a, a:hover, a:focus { color: ${siteAccentColor}; }
   color: #F5F5F5;
 }
 
+.navbar-default .nav li a i.fa { font-size: 26px; }
+
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus,
 .navbar-default .navbar-nav > .active > a,
@@ -43,6 +40,7 @@ a, a:hover, a:focus { color: ${siteAccentColor}; }
  * Footer
  */
 footer {
+  margin-top: 3em;
   padding: 2em 0;
   font-size: 14px;
   color: #F5F5F5;

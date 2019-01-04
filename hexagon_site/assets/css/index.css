@@ -1,81 +1,71 @@
 
 /*
+ * HTML
+ */
+body {
+  padding-top: 60px;
+  font-size: 16px;
+}
+
+/*
  * Header
  */
 header {
-    background-image: linear-gradient(0deg, ${siteBackgroundLight} 7%, ${siteBackgroundDark} 100%);
-    color: #F5F5F5;
+  background-image: linear-gradient(0deg, ${siteBackgroundLight} 7%, ${siteBackgroundDark} 100%);
 }
 
-header .intro {
-    max-width: 350px;
-    padding-top: 100px;
-    padding-bottom: 50px;
-    text-align: center;
+header a:hover { text-decoration: none; }
+
+header .btn:hover { color: ${siteBackgroundDark}; }
+
+header img#logo {
+  max-width: 200px;
+  margin: 30px 0;
 }
 
-header .intro-logo {
-    max-width: 120px;
-    padding-bottom: 30px;
+header.jumbotron h1 {
+  color: #F5F5F5;
+  font-size: 50px;
+  font-family: 'Roboto Condensed', helvetica, sans-serif;
+  margin: 15px 0 15px 0;
 }
 
-header .intro-long {
-    line-height: 27px;
-    font-size: 16px;
-    padding-bottom: 60px;
-}
-
-header .intro-lead-in {
-    font-size: 22px;
-    margin-bottom: 25px;
-    font-family: 'Roboto Condensed', helvetica, sans-serif;
+header.jumbotron h3 {
+  color: #F5F5F5;
+  font-size: 16px;
+  line-height: 27px;
+  margin: 15px 20% 40px 20%;
 }
 
 header .btn-xl {
-    background: #F5F5F5;
-    border: 1px solid ${siteBackgroundDark};
-    border-radius: 2px;
-    font-size: 20px;
-    color: ${siteBackgroundDark};
-    font-weight: normal;
-    text-transform: none;
-    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
-    padding-left: 50px;
-    padding-right: 50px;
+  background: #F5F5F5;
+  border: 1px solid ${siteBackgroundDark};
+  font-size: 20px;
+  color: ${siteBackgroundDark};
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  padding: 10px 50px;
 }
 
-header .intro-down-arrow {
-    display: inherit;
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+@media (max-width: 768px) {
+
+  header img#logo {
+    max-width: 150px;
+    margin: 10px 0 20px;
+  }
+
+  header.jumbotron h1 {
+    font-size: 30px;
+    margin: 10px 0 10px 0;
+  }
+
+  header.jumbotron h3 {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 10px 0 20px 0;
+  }
+
+  header .fa-angle-double-down { display: none; }
 }
-
-@media (max-height: 825px) {
-    header .intro-down-arrow {
-        display: none;
-    }
-}
-
-@media(min-width: 768px) {
-    header .intro {
-        padding-bottom: 200px;
-        max-width: 620px;
-    }
-
-    header .intro-logo {
-        max-width: 238px;
-        padding-bottom: 70px;
-    }
-
-    header .intro-lead-in {
-        font-size: 51px;
-        line-height: 50px;
-    }
-}
-
-.intro-lead-in a:hover { text-decoration: none; }
 
 /*
  * Sections
@@ -96,57 +86,48 @@ section h3 {
 /*
  * Features
  */
-#features .feature-text {
-    color: #303030;
-    text-align: center;
-    padding-bottom: 5px;
+#features { background-color: #EFF2F9; }
+
+#features .feature:hover { background: #E1F3FD; }
+
+#features .feature p {
+  color: #303030;
+  text-align: center;
+  padding-bottom: 5px;
 }
 
-#features .feature-title { font-weight: bold; }
-
-#features .feature-icon {
-    height: 130px;
-    text-align: center;
+#features .feature h2 {
+  font-weight: bold;
+  font-size: 18px;
 }
 
-#features .feature-icon .fa { font-size: 7em; }
+#features .feature .fa { font-size: 7em; }
 
 #features a { text-decoration: none; }
 
 #features a:hover { color: ${siteAccentColor}; }
 
-#features .link:hover { background: #E1F3FD; }
-
-#features .feature-row { padding-bottom: 30px; }
-
-#features .features-button {
-    text-align: center;
-    padding-top: 20px;
-}
-
-#features { background-color: #EFF2F9; }
-
-#features .features-button a {
-    background: #F5F5F5;
-    border: 1px solid #3C99EF;
-    border-radius: 2px;
-    color: #3C99EF;
-    padding-left: 50px;
-    padding-right: 50px;
+#features .btn-default {
+  margin-top: 50px;
+  background: #F5F5F5;
+  border: 1px solid #3C99EF;
+  color: #3C99EF;
+  padding: 10px 50px;
 }
 
 /*
  * Feature matrix
  */
-#portAdapters .table { font-family: 'Roboto Condensed', helvetica, sans-serif; }
+#portAdapters table { font-family: 'Roboto Condensed', helvetica, sans-serif; }
 
-#portAdapters .table th {
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: bold;
-    color: rgba(48, 48, 48, 0.5);
+#portAdapters table th {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  color: rgba(48, 48, 48, 0.5);
+  padding: 8px;
 }
 
-#portAdapters .table tbody tr {
-    border-top: 1px solid #D8D8D8;
-}
+#portAdapters table tbody tr { border-top: 1px solid #D8D8D8; }
+
+#portAdapters table td { padding: 8px; }

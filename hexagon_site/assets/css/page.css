@@ -1,4 +1,12 @@
 
+/*
+ * HTML
+ */
+body {
+  padding-top: 70px;
+  font-size: 14px;
+}
+
 h1 a, h2 a, h3 a, h4 a {
   color: ${siteBackgroundLight};
   text-decoration: none;
@@ -11,14 +19,17 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:foc
 
 pre, code { font-family: 'Roboto Mono', monospace; }
 
-/*!* Trick to prevent anchored links to hide heading behind navbar *!*/
-/*section[id]:before {*/
-    /*display: block;*/
-    /*content: " ";*/
-    /*margin-top: -80px;*/
-    /*height: 100px;*/
-    /*visibility: hidden;*/
-/*}*/
+/* Trick to prevent anchored links to hide heading behind navbar */
+h1[id]:before,
+h2[id]:before,
+h3[id]:before,
+h4[id]:before {
+  display: block;
+  content: " ";
+  margin-top: -90px;
+  height: 100px;
+  visibility: hidden;
+}
 
 /*
  * Sidebar
@@ -28,8 +39,7 @@ nav h2 {
   text-transform: uppercase;
 }
 
-/* Sidebar navigation */
-.nav-sidebar > li > a { padding: 0; }
+#sidebar .nav > li > a { padding: 0; }
 
 .sticky-top {
   position: fixed;
