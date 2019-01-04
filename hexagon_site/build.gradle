@@ -34,17 +34,16 @@ tasks.bake.doFirst {
         into contentTarget
     }
 
-    final String frontMatter = """
-        title=Hexagon
-        date=2016-04-13
-        type=page
-        status=published
-        ~~~~~~
-    """
-
     fileTree(dir: contentTarget, include: "**/*.md").each { fcd ->
-        final String content = fcd.text
-        fcd.text = frontMatter.stripIndent() + content
+        final String frontMatter = """
+            title=Hexagon ${fcd.name.tr("_", " ").capitalize() - ".md"}
+            date=${LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)}
+            fileName=${fcd.name}
+            type=page
+            status=published
+            ~~~~~~
+        """
+        fcd.text = frontMatter.stripIndent() + fcd.text
     }
 
     fileTree(dir: "$contentTarget", include: "**/*.md").each { fcd ->
@@ -63,6 +62,10 @@ site.dependsOn (rootProject.getTasksByName("dokka", true).toArray())
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 private static Map<String, ?> loadYaml(final File yamlFile) {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
