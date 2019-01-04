@@ -5,6 +5,7 @@
 
 <head>
   <#include "head.ftl">
+
   <link rel="stylesheet" href="/css/index.css" />
 </head>
 
@@ -15,73 +16,61 @@
     </div>
   </nav>
 
-  <header>
-    <div class="intro container">
+  <header class="jumbotron">
+    <div class="container text-center">
+      <img id="logo" src="/img/logo.svg" alt="Hexagon Logo"/>
 
-      <div class="intro-logo container">
-        <img src="/img/logo.svg" class="img-responsive center-block" alt="Hexagon Logo"/>
-      </div>
-
-      <div class="intro-lead-in">
-        <a href="https://travis-ci.org/${config.githubRepo}">
-          <img
-            src="https://travis-ci.org/${config.githubRepo}.svg?branch=master"
-            alt="Travis CI" />
+      <p>
+        <#assign travis = "https://travis-ci.org/${config.githubRepo}" />
+        <a href="${travis}">
+          <img src="${travis}.svg?branch=master" alt="Travis CI" />
         </a>
 
-        <a href="https://codecov.io/github/${config.githubRepo}?branch=master">
-          <img
-            src="https://codecov.io/github/${config.githubRepo}/coverage.svg?branch=master"
-            alt="Codecov" />
+        <#assign codecov = "https://codecov.io/github/${config.githubRepo}" />
+        <a href="${codecov}?branch=master">
+          <img src="${codecov}/coverage.svg?branch=master" alt="Codecov" />
         </a>
 
+        <#assign codebeatBadges = "https://codebeat.co/badges" />
         <a href="https://codebeat.co/projects/github-com-hexagonkt-hexagon-master">
-          <img
-            src="https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971"
-            alt="Codebeat" />
+          <img src="${codebeatBadges}/f8fafe6f-767a-4248-bc34-e6d4a2acb971" alt="Codebeat" />
         </a>
 
+        <#assign bintrayPackages = "https://api.bintray.com/packages/${config.bintrayRepo}" />
         <a href="https://bintray.com/${config.bintrayRepo}/_latestVersion">
-          <img
-            src="https://api.bintray.com/packages/${config.bintrayRepo}/images/download.svg"
-            alt="Bintray" />
+          <img src="${bintrayPackages}/images/download.svg" alt="Bintray" />
         </a>
-      </div>
+      </p>
 
-      <div class="intro-lead-in">${config.projectDescription}</div>
-      <div class="intro-long">${config.longDescription}</div>
-
-      <a href="/quick_start.html" class="btn btn-xl">Get Started Now</a>
-      <div class="intro-down-arrow">
-        <a href="#features"><i class="fa fa-angle-double-down fa-5x" aria-hidden="true"></i></a>
-      </div>
+      <h1>${config.projectDescription}</h1>
+      <h3>${config.longDescription}</h3>
+      <p><a href="/quick_start.html" class="btn btn-xl">Get Started Now</a></p>
+      <a href="#features" aria-hidden="true"><i class="fa fa-angle-double-down fa-5x"></i></a>
     </div>
   </header>
 
   <section id="features" class="container">
     <div class="row">
-      <div class="col-lg-12 text-center">
+      <div class="col-md-12 text-center">
         <h2>Features</h2>
         <h3>Hexagon's high-level features.</h3>
       </div>
     </div>
 
-    <div class="row feature-row">
+    <div class="row">
       <#list config.features as feature>
-      <div class="col-md-4 link">
+      <div class="col-md-4 text-center feature">
         <a href="${feature["link"]}">
-          <div class="feature-icon">
-            <i class="fa fa-${feature["icon"]} fa-4" aria-hidden="true"></i>
-          </div>
-          <div class="feature-text feature-title">${feature["title"]}</div>
-          <div class="feature-text">${feature["description"]}</div>
+          <div><i class="fa fa-${feature["icon"]}" aria-hidden="true"></i></div>
+          <h2>${feature["title"]}</h2>
+          <p>${feature["description"]}</p>
         </a>
       </div>
       </#list>
     </div>
 
     <div class="row">
-      <div class="col-md-12 features-button">
+      <div class="col-md-12 text-center">
         <a href="/quick_start.html" class="btn btn-default">See more</a>
       </div>
     </div>
@@ -89,25 +78,22 @@
 
   <section id="architecture" class="container">
     <div class="row">
-      <div class="col-lg-12 text-center">
+      <div class="col-md-12 text-center">
         <h2>Architecture</h2>
         <h3>The high level architecture of Hexagon in a picture.</h3>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-lg-12 text-center">
-        <img
-          src="/img/architecture.svg"
-          class="img-responsive center-block"
-          alt="Hexagon architecture diagram" />
+      <div class="col-md-12 text-center">
+        <img src="/img/architecture.svg" class="img-responsive" alt="Hexagon architecture diagram" />
       </div>
     </div>
   </section>
 
   <section id="portAdapters" class="container">
     <div class="row">
-      <div class="col-lg-12 text-center">
+      <div class="col-md-12 text-center">
         <h2>Ports</h2>
         <h3>Ports with their provided implementations (Adapters).</h3>
       </div>
@@ -115,7 +101,7 @@
 
     <div class="row">
       <div class="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8">
-        <table class="table">
+        <table>
           <colgroup>
             <col class="col-xs-2 col-md-4">
             <col class="col-xs-4 col-md-4">
