@@ -7,12 +7,7 @@
  */
 html { background-color: ${siteBackgroundDark}; }
 
-body {
-  /* Margin to avoid being covered by sticky navbar */
-  padding-top: 60px;
-  font-size: 16px;
-  background-color: #F5F5F5;
-}
+body { background-color: #F5F5F5; }
 
 body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
 
@@ -23,37 +18,16 @@ a, a:hover, a:focus { color: ${siteAccentColor}; }
 /*
  * Navbar
  */
-.navbar-brand img { height: 36px; }
+.navbar-default { background-color: ${siteBackgroundDark}; }
 
-.navbar-brand { padding-top: 12px; }
-
-@media (min-width: 768px) {
-  .navbar-nav > li > a { padding-bottom: 0; }
-}
-
-.navbar-default {
-  background-color: ${siteBackgroundDark};
-  padding: 0;
-}
-
-.navbar-default .navbar-header { margin-left: 13px; }
-
-.navbar-default .navbar-brand {
-  background-size: contain;
-  direction: ltr;
-  height: 28px;
-  width: 100px;
-  display: inline-block;
-  font-weight: bold;
-}
+.navbar-default .navbar-brand { padding-top: 12px; }
 
 .navbar-default .nav li a {
   font-weight: bold;
-  font-size: 14px;
-  letter-spacing: 1px;
   color: #F5F5F5;
-  text-transform: none;
 }
+
+.navbar-default .nav li a i.fa { font-size: 26px; }
 
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus,
@@ -62,80 +36,52 @@ a, a:hover, a:focus { color: ${siteAccentColor}; }
   color: ${siteAccentColor};
 }
 
-.navbar-toggle {
-  margin-right: 45px;
-}
-
 /*
  * Footer
  */
-footer .heart { color: ${siteAccentColor}; }
-
-footer .row {
-  font-size: 12px;
-  text-align: left;
-}
-
-footer .row .quicklinks {
-  line-height: 25px;
-  list-style: none;
-  text-align: left;
-}
-
-footer .credits {
-  font-size: 10px;
-  text-align: center;
-}
-
-.github-buttons {
-  text-align: right;
-  margin-top: 1em;
-}
-
 footer {
+  margin-top: 3em;
   padding: 2em 0;
   font-size: 14px;
   color: #F5F5F5;
   background-color: ${siteBackgroundDark};
-  line-height: 22px;
-  letter-spacing: 0;
-  margin-top: 3em;
 }
 
-footer ul.quicklinks {
+footer h1 {
+  color: ${siteAccentColor};
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0 0 3px 0;
+}
+
+footer ul {
+  line-height: 25px;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-footer .footer-title {
-  color: ${siteAccentColor};
-  text-transform: uppercase;
-  font-weight: bold;
-}
+footer a, footer a:hover { color: #F5F5F5; }
 
-footer ul.quicklinks a {
-  font-size: 14px;
-  color: #F5F5F5;
-}
-
-footer .quicklink-section {
-  padding: 0;
-  min-width: 120px;
-}
-
-@media (max-width: 768px) {
-  footer .quicklink-section { padding-top: 1em; }
-  footer .quicklink-section .credits { text-align: center; }
-  footer .quicklink-section .github-buttons { text-align: center; }
-}
+footer .fa-heart { color: ${siteAccentColor}; }
 
 footer .credits {
-  font-size: 14px;
-  font-weight: normal;
   text-align: right;
   font-family: 'Roboto Condensed', helvetica, sans-serif;
 }
 
-footer .credits a {
-  color: #F5F5F5;
+footer .social-buttons {
+  text-align: right;
+  margin-top: 0.5em;
+}
+
+@media (max-width: 768px) {
+
+  footer .credits {
+    text-align: center;
+    margin-top: 0.5em;
+  }
+
+  footer .social-buttons { text-align: center; }
 }

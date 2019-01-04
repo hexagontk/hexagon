@@ -2,6 +2,8 @@
 bootstrapVersion: 3.4.0
 jqueryVersion: 3.3.1
 highlightVersion: 9.13.1
+analyticsCode: UA-48216810-3
+disqusCode: hexagonkt-com
 theme: flatly
 cloudflare: https://cdnjs.cloudflare.com/ajax/libs
 bootstrapToc: https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist
@@ -28,7 +30,7 @@ navigationLinks:
   Quick Start: /quick_start.html
   Documentation: /documentation.html
 
-features1:
+features:
   - link: /quick_start.html
     icon: smile-o
     title: Simple to Use
@@ -47,8 +49,6 @@ features1:
     description: >
       Adding an adapter is just implementing the port's interface. You can code your own
       adapters from scratch or tune the existing ones.
-
-features2:
   - link: http://kotlinlang.org
     icon: code
     title: Kotlin First

@@ -12,7 +12,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/">
-          <img src="/img/logo_white.svg" alt="Hexagon Logo">
+          <img src="/img/logo_white.svg" height="36" alt="Hexagon Logo">
         </a>
       </div>
 
@@ -24,19 +24,18 @@
 
           <li>
             <a href="https://github.com/${config.githubRepo}">
-              <i class="fa fa-github fa-2x" aria-hidden="true" style="font-size: 26px;"></i>
+              <i class="fa fa-github" aria-hidden="true"></i>
             </a>
           </li>
           <li>
             <a href="https://twitter.com/${config.twitterUser}">
-              <i class="fa fa-twitter fa-2x" aria-hidden="true" style="font-size: 26px;"></i>
+              <i class="fa fa-twitter" aria-hidden="true"></i>
             </a>
           </li>
           <li>
             <a href="${config.slackChannel}">
-              <i class="fa fa-slack fa-2x" aria-hidden="true" style="font-size: 26px;"></i>
+              <i class="fa fa-slack" aria-hidden="true"></i>
             </a>
           </li>
         </ul>
       </div>
-

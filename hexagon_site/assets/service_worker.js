@@ -4,11 +4,9 @@ var cacheName = dataCacheName;
 
 var filesToCache = [
     '/',
-    "/css",
     "/css/base.css",
     "/css/index.css",
     "/css/page.css",
-    "/img",
     "/img/architecture.svg",
     "/img/logo.svg",
     "/img/logo_white.svg",

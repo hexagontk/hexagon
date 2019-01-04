@@ -1,4 +1,12 @@
 
+/*
+ * HTML
+ */
+body {
+  padding-top: 70px;
+  font-size: 14px;
+}
+
 h1 a, h2 a, h3 a, h4 a {
   color: ${siteBackgroundLight};
   text-decoration: none;
@@ -11,42 +19,27 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:foc
 
 pre, code { font-family: 'Roboto Mono', monospace; }
 
+/* Trick to prevent anchored links to hide heading behind navbar */
+h1[id]:before,
+h2[id]:before,
+h3[id]:before,
+h4[id]:before {
+  display: block;
+  content: " ";
+  margin-top: -90px;
+  height: 100px;
+  visibility: hidden;
+}
+
 /*
  * Sidebar
  */
-
-/* Hide for mobile, show later */
-.sidebar {
-  display: none;
+nav h2 {
+  font-size: 16px;
+  text-transform: uppercase;
 }
 
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 60px;
-    bottom: 0;
-    left: 0;
-    display: block;
-    padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-}
-
-/* Sidebar navigation */
-.nav-sidebar { margin-bottom: 20px; }
-.nav-sidebar > li.title { text-transform: uppercase; }
-.nav-sidebar > li > a { padding: 0; }
-
-/*
- * Main content
- */
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
+#sidebar .nav > li > a { padding: 0; }
 
 .sticky-top {
   position: fixed;

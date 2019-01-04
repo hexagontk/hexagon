@@ -1,3 +1,10 @@
+---
+name: Issue template
+about: Issue template.
+title: Issue
+labels: ''
+assignees: ''
+---
 
 <!--
 

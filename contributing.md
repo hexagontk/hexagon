@@ -7,48 +7,47 @@ process or picking a task or building the code.
 To know what issues are currently open and be aware of the next features yo can check the
 [Project Board] at Github.
 
-Make sure you read the project [Quick Start] guide to know the project structure before picking a
-task.
-
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
 to date of project's news following [@hexagon_kt] in Twitter.
 
-[@hexagon_kt]: https://twitter.com/hexagon_kt
-[Slack]: https://kotlinlang.slack.com/messages/hexagon
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
+[Slack]: https://kotlinlang.slack.com/messages/hexagon
+[@hexagon_kt]: https://twitter.com/hexagon_kt
 
 ## Project Structure
 
 The Hexagon project is composed of several modules. There are several kind of modules:
 
-* The ones that provide a single functionality (which does not depend on different implementations).
-  Like [hexagon_scheduler] or [hexagon_core].
-* Modules that define a "Port": An interface to use a feature that may have different
-  implementations (ie: [port_http_server] or [port_store]).
-* Adapters, which are ports implementations for a given tool. [] and [] are adapter modules.
-* Infrastructure modules. Components used by the project itself, like the benchmark or the site
-  generator.
+* The ones that provide a single functionality that does not depend on different implementations,
+  like [hexagon_scheduler] or [hexagon_core].
+* Modules that define a "Port": An interface to a feature that may have different implementations
+  (ie: [port_http_server] or [port_store]).
+* Adapters modules, which are Port implementations for a given tool. [store_mongodb] and
+  [messaging_rabbitmq] are examples of this type of modules.
+* Infrastructure modules. Components used by the project itself. These are internal modules not
+  intended to be used by users like the [hexagon_benchmark] or the [hexagon_site].
 
-[hexagon_scheduler]: http://
-[hexagon_core]: http://
+[hexagon_scheduler]: https://hexagonkt.com/hexagon_scheduler/index.html
+[hexagon_core]: https://hexagonkt.com/hexagon_core/index.html
 
-[port_http_server]: http://
-[port_messaging]: http://
+[port_http_server]: https://hexagonkt.com/port_http_server/index.html
+[port_store]: https://hexagonkt.com/port_store/index.html
 
-## Design
+[store_mongodb]: https://hexagonkt.com/store_mongodb/index.html
+[messaging_rabbitmq]: https://hexagonkt.com/messaging_rabbitmq/index.html
 
-1. Prefer Kotlin STD lib methods
-2. Use named parameters instead builders
-3. Use fields instead getter/setter
+[hexagon_benchmark]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_benchmark/readme.md
+[hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/readme.md
 
-Service: API, message broker
-Application: are a kind of service which is final (meant for users)
-WebApplication, Desktop Application, Mobile Application or Browser Aplication
+## API Design Principles
 
-Managers: singletons to manage across an application and/or between services
-    EventManager
-    SettingsManager
-    TemplatesManager
+For the public API of the library's classes and methods. The following rules are applied:
+
+1. Prefer Kotlin STD lib methods if they exist.
+2. Use named parameters instead builders.
+3. Use fields instead getters/setters.
+4. Objects used across the library (Singletons) are named 'Managers'. Ie: EventManager,
+   SettingsManager, TemplatesManager.
 
 ## Build Hexagon
 
@@ -86,19 +85,11 @@ the CI job defined in `.travis.yml` when code is pushed to your fork.
 Inside [IntelliJ Idea IDE], you need to review Kotlin's settings to make sure the JVM version is
 1.8+ and API one is 1.3+ (`Project Structure > Modules > <Any Module> > Kotlin > Target Platform`).
 
-## Benchmarking
+To run the benchmarks, refer to the [hexagon_benchmark readme][hexagon_benchmark]
 
-The benchmark is the same that runs inside [TechEmpower Framework Benchmarks][TFB], to run it:
-
-1. Start the benchmark's compose file. From the project's root execute:
-   `docker-compose -f docker-compose.yaml -f hexagon_benchmark/docker-compose.yaml up -d`
-2. Run `gw hexagon_benchmark:test -Phost=localhost -Pport=9020` where "localhost" and "9020" should
-   point to the endpoint with the benchmark instance you want to test.
+If you want to generate the documentation site, check the [site module readme][hexagon_site]
 
 [IntelliJ Idea IDE]: https://www.jetbrains.com/idea
-[TFB]: https://www.techempower.com/benchmarks
-
-## Site Generation
 
 ## Tools Used
 
@@ -115,9 +106,6 @@ The benchmark is the same that runs inside [TechEmpower Framework Benchmarks][TF
 [Bintray]: https://bintray.com
 
 ## Contribute
-
-* Make sure you read the project [Quick Start] guide to know the project structure before picking a
-  task.
 
 * New features should be discussed within an issue in the issue tracker before actual coding.
 
@@ -165,14 +153,12 @@ The benchmark is the same that runs inside [TechEmpower Framework Benchmarks][TF
   * When *action* then *result*
   * When this is done then other thing should happen
 
-[Quick Start]: http://hexagonkt.com/quick_start.html
 [Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
 
 ## Tasks and Milestones
 
-Project's tasks and milestones are tracked in a [Github board]. You can use that board to check the
-roadmap, vote the features you want (using [issue reactions]) or to pick tasks that you wish to 
-contribute.
+Project's tasks and milestones are tracked in a [Github board][Project board]. You can use that
+board to check the roadmap, vote the features you want (using [issue reactions]) or to pick tasks
+that you wish to contribute.
 
-[Github board]: https://github.com/hexagonkt/hexagon/projects/1
 [issue reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
