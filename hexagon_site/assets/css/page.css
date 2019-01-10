@@ -32,6 +32,39 @@ h4[id]:before {
 }
 
 /*
+ * Small Navbar
+ */
+.navbar-default .navbar-brand {
+  height: auto;
+  padding: 5px 15px;
+}
+
+.navbar-default .navbar-brand img {
+  height: 32px;
+  padding: 3px 15px;
+}
+
+.navbar-nav > li > a {
+  padding: 10px 15px 0;
+}
+
+.navbar {
+  height: auto;
+  min-height: auto;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+
+  .navbar-default .navbar-brand { padding-top: 12px; }
+
+  .navbar-default .navbar-brand img {
+    height: 36px;
+    padding: 0;
+  }
+}
+
+/*
  * Sidebar
  */
 nav h2 {
