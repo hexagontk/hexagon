@@ -34,12 +34,19 @@ class Request(private val request: EngineRequest) {
 
     operator fun get(name: String): String? = parameters[name]?.first()
 
-    fun parameter(name: String) = get(name) ?: error ("'$name' parameter not found")
+    fun parameter(name: String): String =
+        singleParameter(name)
 
+    fun singleParameter(name: String): String =
+        singleParameters[name] ?: error("'$name' parameter not found")
+
+    val singleParameters: Map<String, String> by lazy { parameters.mapValues { it.value.first() } }
     val secure: Boolean by lazy { scheme == "https" }
     val userAgent: String by lazy { headers["User-Agent"]?.first() ?: "UNKNOWN" }
     val referer: String by lazy { headers["Referer"]?.first() ?: "UNKNOWN" }
 
-//    val userAgent: String     // user agent (used by :agent condition)
-//    val referer: String      // the referrer of the client or '/'
+//    fun parameter(name: String): List<String> =
+//        parameters[name] ?: error("'$name' parameter not found")
+
+    // parameters, singleParameters, headers, singleHeaders
 }

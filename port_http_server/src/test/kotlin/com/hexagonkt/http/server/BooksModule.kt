@@ -25,8 +25,8 @@ internal class BooksModule : TestModule() {
             send (201, (id++).toString ())
         }
 
-        get ("/books/{id}") {
-            val bookId = request.parameter("id").toInt()
+        get("/books/{id}") {
+            val bookId = request.singleParameter("id").toInt()
             val book = books [bookId]
             if (book != null)
                 ok ("Title: ${book.title}, Author: ${book.author}")
@@ -34,7 +34,7 @@ internal class BooksModule : TestModule() {
                 send (404, "Book not found")
         }
 
-        put ("/books/{id}") {
+        put("/books/{id}") {
             val bookId = request.parameter("id").toInt()
             val book = books[bookId]
             if (book != null) {
