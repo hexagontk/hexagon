@@ -102,7 +102,7 @@ internal class GenericModule : TestModule() {
         get("/redirect") { redirect("http://example.com") }
         get("/attribute") { ok(attributes["attr1"] ?: "not found") }
         get("/content/type") {
-            val headerResponseType = request.headers["responseType"]?.first()
+            val headerResponseType = request.singleHeaders["responseType"]
 
             if (headerResponseType != null)
                 response.contentType = headerResponseType

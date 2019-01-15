@@ -15,7 +15,7 @@ class Call(val request: Request, val response: Response, val session: Session) {
 
     val responseType: String get() =
         response.contentType ?:
-        request.headers["Accept"]?.first()?.let { if (it == "*/*") null else it } ?:
+        request.singleHeaders["Accept"]?.let { if (it == "*/*") null else it } ?:
         request.contentType ?:
         defaultFormat.contentType
 

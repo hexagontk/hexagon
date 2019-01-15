@@ -32,21 +32,17 @@ class Request(private val request: EngineRequest) {
     val cookies: Map<String, HttpCookie> by lazy { request.cookies }
     val parts: Map<String, Part> by lazy { request.parts }
 
-    operator fun get(name: String): String? = parameters[name]?.first()
+    operator fun get(name: String): String? = singleParameters[name]
 
-    fun parameter(name: String): String =
-        singleParameter(name)
+    fun requireParameter(name: String): List<String> =
+        parameters[name] ?: error("'$name' parameter not found")
 
     fun singleParameter(name: String): String =
         singleParameters[name] ?: error("'$name' parameter not found")
 
     val singleParameters: Map<String, String> by lazy { parameters.mapValues { it.value.first() } }
+    val singleHeaders: Map<String, String> by lazy { headers.mapValues { it.value.first() } }
     val secure: Boolean by lazy { scheme == "https" }
-    val userAgent: String by lazy { headers["User-Agent"]?.first() ?: "UNKNOWN" }
-    val referer: String by lazy { headers["Referer"]?.first() ?: "UNKNOWN" }
-
-//    fun parameter(name: String): List<String> =
-//        parameters[name] ?: error("'$name' parameter not found")
-
-    // parameters, singleParameters, headers, singleHeaders
+    val userAgent: String by lazy { singleHeaders["User-Agent"] ?: "UNKNOWN" }
+    val referer: String by lazy { singleHeaders["Referer"] ?: "UNKNOWN" }
 }
