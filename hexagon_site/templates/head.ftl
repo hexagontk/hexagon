@@ -79,9 +79,9 @@
   <script defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
   <!-- Web worker -->
-  <script>
-  if ('serviceWorker' in navigator)
-    navigator.serviceWorker
-      .register('/service_worker.js')
-      .then(function() { console.log('Worker Registered'); });
-  </script>
+  <#--<script>-->
+  <#--if ('serviceWorker' in navigator)-->
+    <#--navigator.serviceWorker-->
+      <#--.register('/service_worker.js')-->
+      <#--.then(function() { console.log('Worker Registered'); });-->
+  <#--</script>-->

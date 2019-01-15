@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.*
+import com.hexagonkt.helpers.Jvm.charset
 import com.hexagonkt.helpers.Jvm.cpuCount
 import com.hexagonkt.helpers.Jvm.hostname
 import com.hexagonkt.helpers.Jvm.ip
@@ -101,7 +102,7 @@ data class Server (
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
             Java $version [$name]
-            Locale $locale Timezone $timezone
+            Locale $locale Timezone $timezone Charset $charset
 
             Started in $bootTime s using $usedMemory KB
             Served at http://$hostName:$runtimePort

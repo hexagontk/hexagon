@@ -12,17 +12,17 @@ internal class CookiesModule : TestModule() {
         }
 
         post("/setCookie") {
-            val name = request ["cookieName"]
-            val value = request ["cookieValue"]
+            val name = request.singleParameters["cookieName"]
+            val value = request.singleParameters["cookieValue"]
             response.addCookie (HttpCookie (name, value))
         }
 
         post("/assertHasCookie") {
-            checkCookie(request ["cookieName"])
+            checkCookie(request.singleParameters["cookieName"])
         }
 
         post("/removeCookie") {
-            val cookieName = request.parameter("cookieName")
+            val cookieName = request.requireSingleParameter("cookieName")
             checkCookie(cookieName)
             response.removeCookie(cookieName)
         }
@@ -57,7 +57,7 @@ internal class CookiesModule : TestModule() {
 
     private fun Call.checkCookie(cookieName: String?) {
         val cookieValue = request.cookies[cookieName]?.value
-        if (request["cookieValue"] != cookieValue)
+        if (request.singleParameters["cookieValue"] != cookieValue)
             halt(500)
     }
 

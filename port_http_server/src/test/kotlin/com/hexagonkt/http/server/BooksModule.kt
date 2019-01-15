@@ -21,12 +21,12 @@ internal class BooksModule : TestModule() {
 
     override fun initialize(): Router = Router {
         post ("/books") {
-            books [id] = Book(request.parameter("author"), request.parameter("title"))
+            books [id] = Book(request.requireSingleParameter("author"), request.requireSingleParameter("title"))
             send (201, (id++).toString ())
         }
 
-        get ("/books/{id}") {
-            val bookId = request.parameter("id").toInt()
+        get("/books/{id}") {
+            val bookId = request.requireSingleParameter("id").toInt()
             val book = books [bookId]
             if (book != null)
                 ok ("Title: ${book.title}, Author: ${book.author}")
@@ -34,8 +34,8 @@ internal class BooksModule : TestModule() {
                 send (404, "Book not found")
         }
 
-        put ("/books/{id}") {
-            val bookId = request.parameter("id").toInt()
+        put("/books/{id}") {
+            val bookId = request.requireSingleParameter("id").toInt()
             val book = books[bookId]
             if (book != null) {
                 books.put(
@@ -54,7 +54,7 @@ internal class BooksModule : TestModule() {
         }
 
         delete ("/books/{id}") {
-            val bookId = request.parameter("id").toInt()
+            val bookId = request.requireSingleParameter("id").toInt()
             val book = books.remove (bookId)
             if (book != null)
                 ok ("Book with id '$bookId' deleted")

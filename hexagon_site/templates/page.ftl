@@ -13,12 +13,7 @@
 </head>
 
 <body data-spy="scroll" data-target="#toc" data-offset="90" onload="hljs.initHighlighting()">
-
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-      <#include "navbar.ftl">
-    </div>
-  </nav>
+  <#include "navbar.ftl">
 
   <section class="container">
     <div class="row">

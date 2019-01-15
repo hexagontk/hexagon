@@ -5,7 +5,7 @@ import java.net.HttpCookie
 
 /**
  * Lists would be initialized loading all elements when they are used (set it as lazy in
- * implementations) this will have a performace penalty in favor of ease of use. The alternative
+ * implementations) this will have a performance penalty in favor of ease of use. The alternative
  * would be using a 'Map/List wrapper that delegates calls to abstract methods in the interface
  * (I won't do this just now).
  *
@@ -32,14 +32,12 @@ class Request(private val request: EngineRequest) {
     val cookies: Map<String, HttpCookie> by lazy { request.cookies }
     val parts: Map<String, Part> by lazy { request.parts }
 
-    operator fun get(name: String): String? = parameters[name]?.first()
+    fun requireSingleParameter(name: String): String =
+        singleParameters[name] ?: error("'$name' parameter not found")
 
-    fun parameter(name: String) = get(name) ?: error ("'$name' parameter not found")
-
+    val singleParameters: Map<String, String> by lazy { parameters.mapValues { it.value.first() } }
+    val singleHeaders: Map<String, String> by lazy { headers.mapValues { it.value.first() } }
     val secure: Boolean by lazy { scheme == "https" }
-    val userAgent: String by lazy { headers["User-Agent"]?.first() ?: "UNKNOWN" }
-    val referer: String by lazy { headers["Referer"]?.first() ?: "UNKNOWN" }
-
-//    val userAgent: String     // user agent (used by :agent condition)
-//    val referer: String      // the referrer of the client or '/'
+    val userAgent: String by lazy { singleHeaders["User-Agent"] ?: "UNKNOWN" }
+    val referer: String by lazy { singleHeaders["Referer"] ?: "UNKNOWN" }
 }

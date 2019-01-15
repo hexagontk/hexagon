@@ -3,10 +3,14 @@ package com.hexagonkt.helpers
 import java.lang.management.ManagementFactory
 import java.lang.management.MemoryUsage
 import java.net.InetAddress
+import java.nio.charset.Charset
 
 import java.util.TimeZone
 
 object Jvm {
+    /** Default character set. */
+    val charset: Charset by lazy { Charset.defaultCharset() }
+
     /** Default timezone. */
     val timeZone: TimeZone = TimeZone.getDefault()
 
