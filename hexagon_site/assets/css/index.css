@@ -120,14 +120,4 @@ section h3 {
  */
 #portAdapters table { font-family: 'Roboto Condensed', helvetica, sans-serif; }
 
-#portAdapters table th {
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: bold;
-  color: rgba(48, 48, 48, 0.5);
-  padding: 8px;
-}
-
-#portAdapters table tbody tr { border-top: 1px solid #D8D8D8; }
-
-#portAdapters table td { padding: 8px; }
+#portAdapters table th { border-top: 0; }

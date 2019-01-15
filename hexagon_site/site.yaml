@@ -1,12 +1,12 @@
 
-bootstrapVersion: 3.4.0
+bootstrapVersion: 4.2.1
 jqueryVersion: 3.3.1
 highlightVersion: 9.13.1
 analyticsCode: UA-48216810-3
 disqusCode: hexagonkt-com
 theme: flatly
 cloudflare: https://cdnjs.cloudflare.com/ajax/libs
-bootstrapToc: https://cdn.rawgit.com/afeld/bootstrap-toc/v0.4.1/dist
+bootstrapToc: https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist
 author: Juanjo Aguililla
 keywords: Hexagon\, microservices\, Kotlin\, RabbitMQ\, MongoDB\, JVM\, Web
 

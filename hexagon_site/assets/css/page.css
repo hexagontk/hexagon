@@ -3,7 +3,7 @@
  * HTML
  */
 body {
-  padding-top: 70px;
+  padding-top: 50px;
   font-size: 14px;
 }
 
@@ -26,7 +26,7 @@ h3[id]:before,
 h4[id]:before {
   display: block;
   content: " ";
-  margin-top: -90px;
+  margin-top: -70px;
   height: 100px;
   visibility: hidden;
 }
@@ -39,14 +39,9 @@ h4[id]:before {
   padding: 5px 15px;
 }
 
-.navbar-default .navbar-brand img {
-  height: 32px;
-  padding: 3px 15px;
-}
+.navbar-default .navbar-brand img { height: 32px; }
 
-.navbar-nav > li > a {
-  padding: 10px 15px 0;
-}
+.navbar-nav > li > a { padding: 10px 15px 0; }
 
 .navbar {
   height: auto;
@@ -76,5 +71,5 @@ nav h2 {
 
 .sticky-top {
   position: fixed;
-  top: 70px;
+  top: 50px;
 }

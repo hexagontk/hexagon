@@ -4,7 +4,7 @@
   <footer>
     <div class="container">
       <div class="row">
-        <div class="col-xs-4 col-md-2">
+        <div class="col-4 col-md-2">
           <h1>Usage</h1>
           <ul>
             <#list config.navigationLinks?keys as title>
@@ -15,7 +15,7 @@
           </ul>
         </div>
 
-        <div class="col-xs-4 col-md-2">
+        <div class="col-4 col-md-2">
           <h1>Contribute</h1>
           <ul>
             <li><a href="${github}/blob/master/contributing.md">Contributing</a></li>
@@ -24,7 +24,7 @@
           </ul>
         </div>
 
-        <div class="col-xs-4 col-md-2">
+        <div class="col-4 col-md-2">
           <h1>Community</h1>
           <ul>
             <li><a href="${github}">Github</a></li>
@@ -33,7 +33,7 @@
           </ul>
         </div>
 
-        <div class="col-xs-12 col-md-6">
+        <div class="col-12 col-md-6">
           <div class="credits">
             Made with <i class="fa fa-heart"></i> by <a href="${github}/graphs/contributors">
             OSS contributors</a>. Licensed under <a href="${github}/blob/master/license.md">

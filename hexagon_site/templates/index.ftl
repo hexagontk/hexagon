@@ -10,11 +10,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-      <#include "navbar.ftl">
-    </div>
-  </nav>
+  <#include "navbar.ftl">
 
   <header class="jumbotron">
     <div class="container text-center">
@@ -99,14 +95,10 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8">
-        <table>
-          <colgroup>
-            <col class="col-xs-2 col-md-4">
-            <col class="col-xs-4 col-md-4">
-          </colgroup>
-          <thead>
+    <div class="row justify-content-center">
+      <div class="col-10 col-md-8">
+        <table class="table table-sm w-100">
+          <thead class="text-uppercase">
             <tr>
               <th>Port</th>
               <th>Adapters</th>
