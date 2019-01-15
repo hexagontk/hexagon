@@ -12,7 +12,7 @@ private const val VARIABLE_PREFIX = "#{"
 private const val VARIABLE_SUFFIX = "}"
 
 /** Runtime specific end of line. */
-val eol: String = getProperty("line.separator")
+val eol: String by lazy { getProperty("line.separator") }
 
 /**
  * Filters the target string substituting each key by its value. The keys format is:

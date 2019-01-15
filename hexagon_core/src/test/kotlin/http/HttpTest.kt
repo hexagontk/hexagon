@@ -26,4 +26,11 @@ import java.time.LocalDateTime
     @Test fun `HTTP date has the correct format`() {
         assert(httpDate(LocalDateTime.of(2018, 1, 1, 0, 0)) == "Mon, 1 Jan 2018 00:00:00 GMT")
     }
+
+    @Test fun `URL encoding and decoding works properly`() {
+        val text = "\\:"
+        val encoded = text.urlEncode()
+        assert(encoded == "%5C%3A")
+        assert(encoded.urlDecode() == text)
+    }
 }

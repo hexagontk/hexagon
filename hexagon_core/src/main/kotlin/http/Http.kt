@@ -1,6 +1,9 @@
 package com.hexagonkt.http
 
+import com.hexagonkt.helpers.Jvm.charset
 import com.hexagonkt.http.Method.*
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -8,7 +11,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 
 /** Set containing all HTTP methods. */
-val ALL: LinkedHashSet<Method> = linkedSetOf(*Method.values())
+val ALL: LinkedHashSet<Method> by lazy { linkedSetOf(*Method.values()) }
 
 /** Shortcut to create a route for a filter (with all methods). */
 fun all(path: String = "/"): Route = Route(Path(path), ALL)
@@ -52,3 +55,8 @@ fun parseQueryParameters (query: String): Map<String, String> =
 
 fun httpDate (date: LocalDateTime = LocalDateTime.now()): String =
     RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
+
+fun String.urlDecode() = URLDecoder.decode(this, charset.name())
+
+fun String.urlEncode() = URLEncoder.encode(this, charset.name())
+
