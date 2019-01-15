@@ -43,16 +43,16 @@ internal class SessionModule : TestModule() {
         post("/session/invalidate") { session.invalidate() }
 
         put("/session/{key}/{value}") {
-            session [request.singleParameter("key")] = request.singleParameter("value")
+            session [request.requireSingleParameter("key")] = request.requireSingleParameter("value")
             Unit
         }
 
         get("/session/{key}") {
-            ok (session [request.singleParameter("key")].toString())
+            ok (session [request.requireSingleParameter("key")].toString())
         }
 
         delete("/session/{key}") {
-            session.removeAttribute(request.singleParameter("key"))
+            session.removeAttribute(request.requireSingleParameter("key"))
         }
 
         get("/session") {

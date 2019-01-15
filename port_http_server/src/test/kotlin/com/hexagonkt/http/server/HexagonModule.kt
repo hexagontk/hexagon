@@ -12,8 +12,8 @@ internal class HexagonModule : TestModule() {
         trace ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
         patch ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
         head ("/hexagon/books/{id}/{title}") {
-            response.addHeader("id", request.singleParameter("id"))
-            response.addHeader("title", request.singleParameter("title"))
+            response.addHeader("id", request.requireSingleParameter("id"))
+            response.addHeader("title", request.requireSingleParameter("title"))
         }
     }
 

@@ -34,10 +34,7 @@ class Request(private val request: EngineRequest) {
 
     operator fun get(name: String): String? = singleParameters[name]
 
-    fun requireParameter(name: String): List<String> =
-        parameters[name] ?: error("'$name' parameter not found")
-
-    fun singleParameter(name: String): String =
+    fun requireSingleParameter(name: String): String =
         singleParameters[name] ?: error("'$name' parameter not found")
 
     val singleParameters: Map<String, String> by lazy { parameters.mapValues { it.value.first() } }

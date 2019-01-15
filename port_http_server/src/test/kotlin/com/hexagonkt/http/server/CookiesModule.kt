@@ -22,7 +22,7 @@ internal class CookiesModule : TestModule() {
         }
 
         post("/removeCookie") {
-            val cookieName = request.singleParameter("cookieName")
+            val cookieName = request.requireSingleParameter("cookieName")
             checkCookie(cookieName)
             response.removeCookie(cookieName)
         }
