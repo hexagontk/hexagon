@@ -78,8 +78,8 @@ internal class GenericModule : TestModule() {
         get("/baseException") { throw CustomException() }
         get("/unhandledException") { error("error message") }
         get("/hi") { ok ("Hello World!") }
-        get("/param/{param}") { ok ("echo: ${request ["param"]}") }
-        get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request ["paramWithMaj"]}") }
+        get("/param/{param}") { ok ("echo: ${request.singleParameters["param"]}") }
+        get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request.singleParameters["paramWithMaj"]}") }
         get("/") { ok("Hello Root!") }
         post("/poster") { send(201, "Body was: ${request.body}") }
         patch("/patcher") { ok ("Body was: ${request.body}") }
@@ -92,10 +92,10 @@ internal class GenericModule : TestModule() {
         trace ("/method") { okRequestMethod () }
         head ("/method") { response.addHeader ("header", request.method.toString()) }
         get("/halt") { halt("halted") }
-        get("/tworoutes/$part/{param}") { ok ("$part route: ${request ["param"]}") }
+        get("/tworoutes/$part/{param}") { ok ("$part route: ${request.singleParameters["param"]}") }
 
         get("/tworoutes/${part.toUpperCase()}/{param}") {
-            ok ("${part.toUpperCase()} route: ${request ["param"]}")
+            ok ("${part.toUpperCase()} route: ${request.singleParameters["param"]}")
         }
 
         get("/reqres") { ok (request.method) }

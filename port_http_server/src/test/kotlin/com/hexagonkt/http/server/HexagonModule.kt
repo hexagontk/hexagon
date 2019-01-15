@@ -6,11 +6,11 @@ import com.hexagonkt.http.client.Client
 internal class HexagonModule : TestModule() {
     override fun initialize(): Router = Router {
         get ("/hexagon/books/{id}") {
-            ok ("${request ["id"]}")
+            ok ("${request.singleParameters["id"]}")
         }
-        get ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        trace ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
-        patch ("/hexagon/books/{id}/{title}") { ok ("${request ["id"]}:${request ["title"]} ${request.body}") }
+        get ("/hexagon/books/{id}/{title}") { ok("${request.singleParameters["id"]}:${request.singleParameters["title"]} ${request.body}") }
+        trace ("/hexagon/books/{id}/{title}") { ok("${request.singleParameters["id"]}:${request.singleParameters["title"]} ${request.body}") }
+        patch ("/hexagon/books/{id}/{title}") { ok("${request.singleParameters["id"]}:${request.singleParameters["title"]} ${request.body}") }
         head ("/hexagon/books/{id}/{title}") {
             response.addHeader("id", request.requireSingleParameter("id"))
             response.addHeader("title", request.requireSingleParameter("title"))

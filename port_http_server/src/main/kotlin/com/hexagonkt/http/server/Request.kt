@@ -5,7 +5,7 @@ import java.net.HttpCookie
 
 /**
  * Lists would be initialized loading all elements when they are used (set it as lazy in
- * implementations) this will have a performace penalty in favor of ease of use. The alternative
+ * implementations) this will have a performance penalty in favor of ease of use. The alternative
  * would be using a 'Map/List wrapper that delegates calls to abstract methods in the interface
  * (I won't do this just now).
  *
@@ -31,8 +31,6 @@ class Request(private val request: EngineRequest) {
     val headers: Map<String, List<String>> by lazy { request.headers }
     val cookies: Map<String, HttpCookie> by lazy { request.cookies }
     val parts: Map<String, Part> by lazy { request.parts }
-
-    operator fun get(name: String): String? = singleParameters[name]
 
     fun requireSingleParameter(name: String): String =
         singleParameters[name] ?: error("'$name' parameter not found")
