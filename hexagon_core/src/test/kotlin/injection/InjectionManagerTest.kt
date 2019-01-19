@@ -4,9 +4,16 @@ import org.testng.annotations.Test
 import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.injection.InjectionManager.bind
 import com.hexagonkt.injection.InjectionManager.bindObject
+import java.lang.IllegalStateException
 
 class InjectionManagerTest {
-    @Test fun di_just_works() {
+
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `Inject not bound class throws exception`() {
+        inject<String>()
+    }
+
+    @Test fun `DI just works`() {
         bind(Foo::class, ::SubFoo1)
         bind<Foo>(::SubFoo1)
 
@@ -64,7 +71,7 @@ class InjectionManagerTest {
         assert(bar3.foo.javaClass == SubFoo3::class.java)
     }
 
-    @Test fun mocks_are_easy_to_build() {
+    @Test fun `Mocks are easy to build`() {
         var aCalled = false
 
         bindObject<Service>(object : Service {
