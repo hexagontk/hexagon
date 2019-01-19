@@ -34,11 +34,7 @@ object SerializationManager {
                 mimeTypes += format.extensions.map { ext -> ext to format.contentType }
             }
 
-            logger.info {
-                formats.joinToString("\n", "Serialization formats loaded:\n") {
-                    "* ${it.contentType} (${it.extensions.joinToString(", ")})"
-                }
-            }
+            logger.info { serializationFormats() }
         }
 
     var defaultFormat: SerializationFormat = formats.first()
@@ -62,11 +58,7 @@ object SerializationManager {
         extensions.flatMap { it.value.map { ext -> ext to it.key } }.toMap()
 
     init {
-        logger.info {
-            formats.joinToString("\n", "Serialization formats loaded:\n") {
-                "* ${it.contentType} (${it.extensions.joinToString(", ")})"
-            }
-        }
+        logger.info { serializationFormats() }
 
         logger.info { "Default serialization format set to '${defaultFormat.contentType}'" }
 
@@ -118,4 +110,9 @@ object SerializationManager {
             .toMap()
 
     private fun formatsMap () = linkedMapOf (*formats.map { it.contentType to it }.toTypedArray())
+
+    private fun serializationFormats(): String =
+        formats.joinToString("\n", "Serialization formats loaded:\n") {
+            "* ${it.contentType} (${it.extensions.joinToString(", ")})"
+        }
 }
