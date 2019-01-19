@@ -1,48 +1,17 @@
 package com.hexagonkt.injection
 
 import org.testng.annotations.Test
+import com.hexagonkt.injection.InjectionManager.inject
+import com.hexagonkt.injection.InjectionManager.bind
+import com.hexagonkt.injection.InjectionManager.bindObject
 
-/*
- * Example interfaces and implementations
- */
-interface Foo
-
-class SubFoo1 : Foo
-class SubFoo2 : Foo
-object SubFoo3 : Foo
-
-interface Bar { val foo: Foo }
-
-class SubBar1(override val foo: Foo) : Bar
-class SubBar2(override val foo: Foo = inject()) : Bar
-class SubBar3(override val foo: Foo = inject()) : Bar
-class SubBar3a(override val foo: Foo) : Bar {
-    constructor() : this(inject())
-}
-
-interface Service {
-    fun a(p: Int)
-    fun b(p: Boolean): Int
-}
-
-class FakeService : Service {
-
-    override fun a(p: Int) {
-        TODO("not implemented")
-    }
-
-    override fun b(p: Boolean): Int {
-        TODO("not implemented")
-    }
-}
-
-/*
- * Tests
- */
-class DiPoC {
+class InjectionManagerTest {
     @Test fun di_just_works() {
         bind(Foo::class, ::SubFoo1)
         bind<Foo>(::SubFoo1)
+
+        bind(Foo::class, 2, ::SubFoo2)
+        bind<Foo>(2, ::SubFoo2)
 
         val foo1 = inject(Foo::class)
         assert(foo1.javaClass == SubFoo1::class.java)
@@ -52,6 +21,15 @@ class DiPoC {
 
         val foo1b: Foo = inject()
         assert(foo1b.javaClass == SubFoo1::class.java)
+
+        val foo12 = inject(Foo::class, 2)
+        assert(foo12.javaClass == SubFoo2::class.java)
+
+        val foo12a = inject<Foo>(2)
+        assert(foo12a.javaClass == SubFoo2::class.java)
+
+        val foo12b: Foo = inject(2)
+        assert(foo12b.javaClass == SubFoo2::class.java)
 
         bind(Foo::class, ::SubFoo2)
         bind<Foo>(::SubFoo2)
@@ -94,10 +72,19 @@ class DiPoC {
             override fun b(p: Boolean) = 100
         })
 
+        bindObject<Service>(2, object : Service {
+            override fun a(p: Int) { aCalled = true }
+            override fun b(p: Boolean) = 200
+        })
+
         val srv = inject<Service>()
 
         assert(srv.b(true) == 100)
         srv.a(0)
         assert(aCalled)
+
+        val srv2 = inject<Service>(2)
+
+        assert(srv2.b(true) == 200)
     }
 }
