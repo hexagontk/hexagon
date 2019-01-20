@@ -1,12 +1,12 @@
 
 <#assign github = "https://github.com/${config.githubRepo}" />
 
-  <footer>
+  <footer class="mt-2 py-4">
     <div class="container">
       <div class="row">
         <div class="col-4 col-md-2">
-          <h1>Usage</h1>
-          <ul>
+          <h1 class="font-weight-bold text-uppercase">Usage</h1>
+          <ul class="p-0 m-0">
             <#list config.navigationLinks?keys as title>
             <li><a href="${config.navigationLinks[title]}">${title}</a></li>
             </#list>
@@ -16,8 +16,8 @@
         </div>
 
         <div class="col-4 col-md-2">
-          <h1>Contribute</h1>
-          <ul>
+          <h1 class="font-weight-bold text-uppercase">Contribute</h1>
+          <ul class="p-0 m-0">
             <li><a href="${github}/blob/master/contributing.md">Contributing</a></li>
             <li><a href="${github}/projects/1">Planning</a></li>
             <li><a href="${github}/milestones">Roadmap</a></li>
@@ -25,8 +25,8 @@
         </div>
 
         <div class="col-4 col-md-2">
-          <h1>Community</h1>
-          <ul>
+          <h1 class="font-weight-bold text-uppercase">Community</h1>
+          <ul class="p-0 m-0">
             <li><a href="${github}">Github</a></li>
             <li><a href="https://twitter.com/${config.twitterUser}">Twitter</a></li>
             <li><a href="${config.slackChannel}">Slack</a></li>
@@ -34,13 +34,13 @@
         </div>
 
         <div class="col-12 col-md-6">
-          <div class="credits">
+          <div id="credits" class="text-center text-lg-right mt-2 mt-lg-0">
             Made with <i class="fa fa-heart"></i> by <a href="${github}/graphs/contributors">
             OSS contributors</a>. Licensed under <a href="${github}/blob/master/license.md">
             MIT License</a>
           </div>
 
-          <div class="social-buttons">
+          <div class="text-center text-lg-right mt-2">
             <a
               class="github-button"
               href="${github}"

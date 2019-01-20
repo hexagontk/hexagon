@@ -20,10 +20,7 @@ a, a:hover, a:focus { color: ${siteAccentColor}; }
  */
 .navbar-dark { background-color: ${siteBackgroundDark}; }
 
-.navbar-dark .navbar-nav > li a {
-  font-weight: bold;
-  color: #F5F5F5;
-}
+.navbar-dark .navbar-nav > li a { color: #F5F5F5; }
 
 .navbar-dark .navbar-nav .nav-link:hover { color: ${siteAccentColor}; }
 
@@ -31,8 +28,6 @@ a, a:hover, a:focus { color: ${siteAccentColor}; }
  * Footer
  */
 footer {
-  margin-top: 3em;
-  padding: 2em 0;
   font-size: 14px;
   color: #F5F5F5;
   background-color: ${siteBackgroundDark};
@@ -40,39 +35,13 @@ footer {
 
 footer h1 {
   color: ${siteAccentColor};
-  text-transform: uppercase;
-  font-weight: bold;
   font-size: 14px;
-  margin: 0 0 3px 0;
 }
 
-footer ul {
-  line-height: 25px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+footer ul { list-style: none; }
 
 footer a, footer a:hover { color: #F5F5F5; }
 
 footer .fa-heart { color: ${siteAccentColor}; }
 
-footer .credits {
-  text-align: right;
-  font-family: 'Roboto Condensed', helvetica, sans-serif;
-}
-
-footer .social-buttons {
-  text-align: right;
-  margin-top: 0.5em;
-}
-
-@media (max-width: 768px) {
-
-  footer .credits {
-    text-align: center;
-    margin-top: 0.5em;
-  }
-
-  footer .social-buttons { text-align: center; }
-}
+footer #credits { font-family: 'Roboto Condensed', helvetica, sans-serif; }

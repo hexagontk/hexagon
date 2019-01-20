@@ -21,22 +21,27 @@
             <ul class="navbar-nav ml-auto">
               <#list config.navigationLinks?keys as title>
               <li class="nav-item">
-                <a class="nav-link" href="${config.navigationLinks[title]}">${title}</a>
+                <a class="nav-link font-weight-bold" href="${config.navigationLinks[title]}">
+                  ${title}
+                </a>
               </li>
               </#list>
 
               <li class="nav-item">
-                <a class="nav-link" href="https://github.com/${config.githubRepo}">
+                <a class="nav-link font-weight-bold" href="https://github.com/${config.githubRepo}">
                   <i class="fa fa-github" aria-hidden="true"></i>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="https://twitter.com/${config.twitterUser}">
+                <a
+                  class="nav-link font-weight-bold"
+                  href="https://twitter.com/${config.twitterUser}">
+
                   <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="${config.slackChannel}">
+                <a class="nav-link font-weight-bold" href="${config.slackChannel}">
                   <i class="fa fa-slack" aria-hidden="true"></i>
                 </a>
               </li>
