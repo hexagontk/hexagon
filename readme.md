@@ -83,7 +83,7 @@ from scratch following these steps:
   * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:http_server_jetty:0.25.1")
+    compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
@@ -92,7 +92,7 @@ from scratch following these steps:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>http_server_jetty</artifactId>
-      <version>0.25.1</version>
+      <version>$hexagonVersion</version>
     </dependency>
     ```
 

@@ -65,7 +65,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 private static Map<String, ?> loadYaml(final File yamlFile) {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())

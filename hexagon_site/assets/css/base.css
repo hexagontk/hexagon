@@ -2,27 +2,36 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto+Mono|Roboto+Slab');
 
+:root {
+  --siteColor: #135AA1;
+  --siteLogoDark: #0073BB;
+  --siteLogoLight: #2B9EE6;
+  --siteBackgroundDark: #31415C;
+  --siteBackgroundLight: #546691;
+  --siteAccentColor: #2B9EE6;
+}
+
 /*
  * HTML
  */
-html { background-color: ${siteBackgroundDark}; }
+html { background-color: var(--siteBackgroundDark); }
 
 body { background-color: #F5F5F5; }
 
 body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
 
-h1, h2, h3, h4 { color: ${siteBackgroundLight}; }
+h1, h2, h3, h4 { color: var(--siteBackgroundLight); }
 
-a, a:hover, a:focus { color: ${siteAccentColor}; }
+a, a:hover, a:focus { color: var(--siteAccentColor); }
 
 /*
  * Navbar
  */
-.navbar-dark { background-color: ${siteBackgroundDark}; }
+.navbar-dark { background-color: var(--siteBackgroundDark); }
 
 .navbar-dark .navbar-nav > li a { color: #F5F5F5; }
 
-.navbar-dark .navbar-nav .nav-link:hover { color: ${siteAccentColor}; }
+.navbar-dark .navbar-nav .nav-link:hover { color: var(--siteAccentColor); }
 
 /*
  * Footer
@@ -30,11 +39,11 @@ a, a:hover, a:focus { color: ${siteAccentColor}; }
 footer {
   font-size: 14px;
   color: #F5F5F5;
-  background-color: ${siteBackgroundDark};
+  background-color: var(--siteBackgroundDark);
 }
 
 footer h1 {
-  color: ${siteAccentColor};
+  color: var(--siteAccentColor);
   font-size: 14px;
 }
 
@@ -42,6 +51,6 @@ footer ul { list-style: none; }
 
 footer a, footer a:hover { color: #F5F5F5; }
 
-footer .fa-heart { color: ${siteAccentColor}; }
+footer .fa-heart { color: var(--siteAccentColor); }
 
 footer #credits { font-family: 'Roboto Condensed', helvetica, sans-serif; }

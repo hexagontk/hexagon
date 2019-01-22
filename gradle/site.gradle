@@ -46,23 +46,6 @@ clean {
     delete("build", "out")
 }
 
-// Site processing is required because JBake does not filter content with configuration properties
-task site(dependsOn: "bake") {
-    doLast {
-        bake.output.traverse(nameFilter: ~/.+\.(html|xml|css|svg)$/) {
-            filterFile(it, bake.configuration)
-        }
-    }
-}
+task site(dependsOn: "bake")
 
 task serve(dependsOn: "bakePreview")
-
-private static void filterFile(final File file, final Map<?, ?> data) {
-    String text = file.getText()
-
-    data.each { entry ->
-        text = text.replace("\${$entry.key}", entry.value.toString())
-    }
-
-    file.write(text)
-}

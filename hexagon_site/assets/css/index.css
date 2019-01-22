@@ -11,23 +11,19 @@ body {
  * Header
  */
 header {
-  background-image: linear-gradient(0deg, ${siteBackgroundLight} 7%, ${siteBackgroundDark} 100%);
+  background-image: linear-gradient(0deg, var(--siteBackgroundLight) 7%, var(--siteBackgroundDark) 100%);
 }
 
 header a:hover { text-decoration: none; }
 
-header .btn:hover { color: ${siteBackgroundDark}; }
+header .btn:hover { color: var(--siteBackgroundDark); }
 
-header img#logo {
-  max-width: 200px;
-  margin: 30px 0;
-}
+header img#logo { max-width: 200px; }
 
 header.jumbotron h1 {
   color: #F5F5F5;
   font-size: 50px;
   font-family: 'Roboto Condensed', helvetica, sans-serif;
-  margin: 15px 0 15px 0;
 }
 
 header.jumbotron h3 {
@@ -39,9 +35,9 @@ header.jumbotron h3 {
 
 header .btn-xl {
   background: #F5F5F5;
-  border: 1px solid ${siteBackgroundDark};
+  border: 1px solid var(--siteBackgroundDark);
   font-size: 20px;
-  color: ${siteBackgroundDark};
+  color: var(--siteBackgroundDark);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   padding: 10px 50px;
 }
@@ -105,7 +101,7 @@ section h3 {
 
 #features a { text-decoration: none; }
 
-#features a:hover { color: ${siteAccentColor}; }
+#features a:hover { color: var(--siteAccentColor); }
 
 #features .btn-default {
   margin-top: 50px;
@@ -119,5 +115,3 @@ section h3 {
  * Feature matrix
  */
 #portAdapters table { font-family: 'Roboto Condensed', helvetica, sans-serif; }
-
-#portAdapters table th { border-top: 0; }

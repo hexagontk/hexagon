@@ -8,12 +8,12 @@ body {
 }
 
 h1 a, h2 a, h3 a, h4 a {
-  color: ${siteBackgroundLight};
+  color: var(--siteBackgroundLight);
   text-decoration: none;
 }
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus {
-  color: ${siteBackgroundLight};
+  color: var(--siteBackgroundLight);
   text-decoration: none;
 }
 
