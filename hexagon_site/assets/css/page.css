@@ -2,10 +2,7 @@
 /*
  * HTML
  */
-body {
-  padding-top: 50px;
-  font-size: 14px;
-}
+body { font-size: 14px; }
 
 h1 a, h2 a, h3 a, h4 a {
   color: var(--siteBackgroundLight);
@@ -17,7 +14,7 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:foc
   text-decoration: none;
 }
 
-pre, code { font-family: 'Roboto Mono', monospace; }
+pre, code { font-family: var(--fontMono); }
 
 /* Trick to prevent anchored links to hide heading behind navbar */
 h1[id]:before,
@@ -29,34 +26,6 @@ h4[id]:before {
   margin-top: -70px;
   height: 100px;
   visibility: hidden;
-}
-
-/*
- * Small Navbar
- */
-.navbar-default .navbar-brand {
-  height: auto;
-  padding: 5px 15px;
-}
-
-.navbar-default .navbar-brand img { height: 32px; }
-
-.navbar-nav > li > a { padding: 10px 15px 0; }
-
-.navbar {
-  height: auto;
-  min-height: auto;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-
-  .navbar-default .navbar-brand { padding-top: 12px; }
-
-  .navbar-default .navbar-brand img {
-    height: 36px;
-    padding: 0;
-  }
 }
 
 /*

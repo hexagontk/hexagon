@@ -12,7 +12,13 @@
   <link rel="stylesheet" href="${highlight}/styles/github.min.css" />
 </head>
 
-<body data-spy="scroll" data-target="#toc" data-offset="90" onload="hljs.initHighlighting()">
+<body
+  class="pt-5"
+  data-spy="scroll"
+  data-target="#toc"
+  data-offset="90"
+  onload="hljs.initHighlighting()">
+
   <#include "navbar.ftl">
 
   <section class="container">

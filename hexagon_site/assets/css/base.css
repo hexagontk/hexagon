@@ -9,6 +9,10 @@
   --siteBackgroundDark: #31415C;
   --siteBackgroundLight: #546691;
   --siteAccentColor: #2B9EE6;
+
+  --font: Roboto, helvetica, sans-serif;
+  --fontSlim: 'Roboto Condensed', helvetica, sans-serif;
+  --fontMono: 'Roboto Mono', monospace;
 }
 
 /*
@@ -18,7 +22,7 @@ html { background-color: var(--siteBackgroundDark); }
 
 body { background-color: #F5F5F5; }
 
-body, h1, h2, h3, h4 { font-family: Roboto, helvetica, sans-serif; }
+body, h1, h2, h3, h4 { font-family: var(--font) }
 
 h1, h2, h3, h4 { color: var(--siteBackgroundLight); }
 
@@ -53,4 +57,4 @@ footer a, footer a:hover { color: #F5F5F5; }
 
 footer .fa-heart { color: var(--siteAccentColor); }
 
-footer #credits { font-family: 'Roboto Condensed', helvetica, sans-serif; }
+footer #credits { font-family: var(--fontSlim); }

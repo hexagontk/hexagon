@@ -2,10 +2,7 @@
 /*
  * HTML
  */
-body {
-  padding-top: 60px;
-  font-size: 16px;
-}
+body { font-size: 16px; }
 
 /*
  * Header
@@ -23,7 +20,7 @@ header img#logo { max-width: 200px; }
 header.jumbotron h1 {
   color: #F5F5F5;
   font-size: 50px;
-  font-family: 'Roboto Condensed', helvetica, sans-serif;
+  font-family: var(--fontSlim);
 }
 
 header.jumbotron h3 {
@@ -68,7 +65,7 @@ header .btn-xl {
  */
 section { padding: 50px 0; }
 
-section h2, section h3 { font-family: 'Roboto Condensed', helvetica, sans-serif; }
+section h2, section h3 { font-family: var(--fontSlim); }
 
 section h2 { font-size: 50px; }
 
@@ -114,4 +111,4 @@ section h3 {
 /*
  * Feature matrix
  */
-#portAdapters table { font-family: 'Roboto Condensed', helvetica, sans-serif; }
+#portAdapters table { font-family: var(--fontSlim); }

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/css/index.css" />
 </head>
 
-<body>
+<body class="pt-5">
   <#include "navbar.ftl">
 
   <header class="jumbotron">
