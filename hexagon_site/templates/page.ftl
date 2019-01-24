@@ -13,7 +13,7 @@
 </head>
 
 <body
-  class="pt-5"
+  class="pt-5 text-small"
   data-spy="scroll"
   data-target="#toc"
   data-offset="90"
