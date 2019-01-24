@@ -1,9 +1,7 @@
 
       <nav class="p-sm-1 navbar navbar-expand-lg navbar-dark fixed-top" role="navigation">
         <div class="container">
-          <a class="navbar-brand" href="/">
-            <img src="/img/logo_white.svg" height="32" alt="Hexagon Logo">
-          </a>
+          <a class="navbar-brand" href="/"><img src="/img/logo_white.svg" alt="Hexagon Logo"></a>
 
           <button
             class="navbar-toggler"

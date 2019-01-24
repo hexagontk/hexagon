@@ -33,7 +33,7 @@ You can write a [Gradle] project from scratch (Gradle 4 or newer is required):
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.11'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.20'
 }
 
 apply plugin: 'kotlin'

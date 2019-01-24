@@ -4,6 +4,8 @@
  */
 body { font-size: 16px; }
 
+a.navbar-brand img { height: 32px; }
+
 /*
  * Header
  */
@@ -17,21 +19,22 @@ header .btn:hover { color: var(--siteBackgroundDark); }
 
 header img#logo { max-width: 200px; }
 
+header.jumbotron { border-radius: 0; }
+
 header.jumbotron h1 {
-  color: #F5F5F5;
+  color: var(--siteGray);
   font-size: 50px;
-  font-family: var(--fontSlim);
 }
 
 header.jumbotron h3 {
-  color: #F5F5F5;
+  color: var(--siteGray);
   font-size: 16px;
   line-height: 27px;
   margin: 15px 20% 40px 20%;
 }
 
 header .btn-xl {
-  background: #F5F5F5;
+  background: var(--siteGray);
   border: 1px solid var(--siteBackgroundDark);
   font-size: 20px;
   color: var(--siteBackgroundDark);
@@ -64,8 +67,6 @@ header .btn-xl {
  * Sections
  */
 section { padding: 50px 0; }
-
-section h2, section h3 { font-family: var(--fontSlim); }
 
 section h2 { font-size: 50px; }
 
@@ -102,7 +103,7 @@ section h3 {
 
 #features .btn-default {
   margin-top: 50px;
-  background: #F5F5F5;
+  background: var(--siteGray);
   border: 1px solid #3C99EF;
   color: #3C99EF;
   padding: 10px 50px;
@@ -111,4 +112,4 @@ section h3 {
 /*
  * Feature matrix
  */
-#portAdapters table { font-family: var(--fontSlim); }
+#portAdapters table { font-family: var(--font-family-sans-serif); }

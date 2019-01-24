@@ -24,34 +24,39 @@
   <section class="container">
     <div class="row">
       <aside class="col-md-2">
-        <nav id="sidebar" class="sticky-top hidden-xs">
-
+        <ul class="nav sticky-top d-none d-sm-block">
           <#assign github = "https://github.com/${config.githubRepo}" />
-          <h2>Documentation</h2>
-          <ul class="nav">
-            <li><a href="/quick_start.html">Quick Start</a></li>
-            <li><a href="/documentation.html">Documentation</a></li>
-            <li><a href="/alternatives.html">Alternatives</a></li>
-            <li><a href="/gradle.html">Gradle Helpers</a></li>
-            <li><a href="${github}/blob/master/contributing.md">Contribute</a></li>
-          </ul>
+          <li class="nav-item"><a class="nav-link" href="/quick_start.html">Quick Start</a></li>
+          <li class="nav-item"><a class="nav-link" href="/documentation.html">Documentation</a></li>
+          <li class="nav-item"><a class="nav-link" href="/alternatives.html">Alternatives</a></li>
+          <li class="nav-item"><a class="nav-link" href="/gradle.html">Gradle Helpers</a></li>
+          <li class="nav-item"><a class="nav-link" href="${github}/blob/master/contributing.md">Contribute</a></li>
 
-          <h2>Modules</h2>
-          <ul class="nav">
-            <li><a href="/hexagon_core/index.html">Core</a></li>
-            <li><a href="/hexagon_scheduler/index.html">Scheduler</a></li>
-            <li><a href="/hexagon_web/index.html">Web</a></li>
-          </ul>
+          <#--<h2>Documentation</h2>-->
+          <#--<ul class="nav">-->
+            <#--<li><a href="/quick_start.html">Quick Start</a></li>-->
+            <#--<li><a href="/documentation.html">Documentation</a></li>-->
+            <#--<li><a href="/alternatives.html">Alternatives</a></li>-->
+            <#--<li><a href="/gradle.html">Gradle Helpers</a></li>-->
+            <#--<li><a href="${github}/blob/master/contributing.md">Contribute</a></li>-->
+          <#--</ul>-->
 
-          <h2>Ports</h2>
-          <ul class="nav">
-            <li><a href="/port_http_server/index.html">HTTP</a></li>
-            <li><a href="/port_http_client/index.html">Client</a></li>
-            <li><a href="/port_storage/index.html">Storage</a></li>
-            <li><a href="/port_messaging/index.html">Messaging</a></li>
-            <li><a href="/port_templates/index.html">Templates</a></li>
-          </ul>
-        </nav>
+          <#--<h2>Modules</h2>-->
+          <#--<ul class="nav">-->
+            <#--<li><a href="/hexagon_core/index.html">Core</a></li>-->
+            <#--<li><a href="/hexagon_scheduler/index.html">Scheduler</a></li>-->
+            <#--<li><a href="/hexagon_web/index.html">Web</a></li>-->
+          <#--</ul>-->
+
+          <#--<h2>Ports</h2>-->
+          <#--<ul class="nav">-->
+            <#--<li><a href="/port_http_server/index.html">HTTP</a></li>-->
+            <#--<li><a href="/port_http_client/index.html">Client</a></li>-->
+            <#--<li><a href="/port_storage/index.html">Storage</a></li>-->
+            <#--<li><a href="/port_messaging/index.html">Messaging</a></li>-->
+            <#--<li><a href="/port_templates/index.html">Templates</a></li>-->
+          <#--</ul>-->
+        </ul>
       </aside>
 
       <main class="col-md-8">
@@ -70,7 +75,7 @@
       </main>
 
       <aside class="col-md-2">
-        <nav id="toc" data-toggle="toc" class="sticky-top hidden-xs"></nav>
+        <nav id="toc" data-toggle="toc" class="sticky-top d-none d-sm-block"></nav>
       </aside>
     </div>
   </section>

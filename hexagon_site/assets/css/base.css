@@ -9,52 +9,55 @@
   --siteBackgroundDark: #31415C;
   --siteBackgroundLight: #546691;
   --siteAccentColor: #2B9EE6;
+  --siteGray: #F5F5F5;
 
-  --font: Roboto, helvetica, sans-serif;
-  --fontSlim: 'Roboto Condensed', helvetica, sans-serif;
-  --fontMono: 'Roboto Mono', monospace;
+  --font-family: Roboto, helvetica, sans-serif;
+  --font-family-sans-serif: 'Roboto Condensed', helvetica, sans-serif;
+  --font-family-monospace: 'Roboto Mono', monospace;
+
+  --font-size-small: 14px;
+  --font-size-big: 16px;
 }
 
-/*
- * HTML
- */
 html { background-color: var(--siteBackgroundDark); }
 
-body { background-color: #F5F5F5; }
+body {
+  background-color: var(--siteGray);
+  font-family: var(--font-family);
+}
 
-body, h1, h2, h3, h4 { font-family: var(--font) }
-
-h1, h2, h3, h4 { color: var(--siteBackgroundLight); }
+h1, h2, h3, h4 {
+  color: var(--siteBackgroundLight);
+  font-family: var(--font-family-sans-serif);
+}
 
 a, a:hover, a:focus { color: var(--siteAccentColor); }
 
-/*
- * Navbar
- */
+.text-small { font-size: var(--font-size-small); }
+
+.text-big { font-size: var(--font-size-big); }
+
 .navbar-dark { background-color: var(--siteBackgroundDark); }
 
-.navbar-dark .navbar-nav > li a { color: #F5F5F5; }
+.navbar-dark .navbar-nav > li a { color: var(--siteGray); }
 
 .navbar-dark .navbar-nav .nav-link:hover { color: var(--siteAccentColor); }
 
-/*
- * Footer
- */
 footer {
-  font-size: 14px;
-  color: #F5F5F5;
+  font-size: var(--font-size-small);
+  color: var(--siteGray);
   background-color: var(--siteBackgroundDark);
 }
 
 footer h1 {
   color: var(--siteAccentColor);
-  font-size: 14px;
+  font-size: var(--font-size-small);
 }
 
 footer ul { list-style: none; }
 
-footer a, footer a:hover { color: #F5F5F5; }
+footer a, footer a:hover { color: var(--siteGray); }
 
 footer .fa-heart { color: var(--siteAccentColor); }
 
-footer #credits { font-family: var(--fontSlim); }
+footer #credits { font-family: var(--font-family-sans-serif); }

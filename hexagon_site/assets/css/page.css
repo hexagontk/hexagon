@@ -14,7 +14,9 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:foc
   text-decoration: none;
 }
 
-pre, code { font-family: var(--fontMono); }
+pre, code { font-family: var(--font-family-monospace); }
+
+a.navbar-brand img { height: 28px; }
 
 /* Trick to prevent anchored links to hide heading behind navbar */
 h1[id]:before,
@@ -23,22 +25,7 @@ h3[id]:before,
 h4[id]:before {
   display: block;
   content: " ";
-  margin-top: -70px;
+  margin-top: -50px;
   height: 100px;
   visibility: hidden;
-}
-
-/*
- * Sidebar
- */
-nav h2 {
-  font-size: 16px;
-  text-transform: uppercase;
-}
-
-#sidebar .nav > li > a { padding: 0; }
-
-.sticky-top {
-  position: fixed;
-  top: 50px;
 }
