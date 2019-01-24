@@ -11,6 +11,8 @@ header {
   background-image: linear-gradient(0deg, var(--siteBackgroundLight) 7%, var(--siteBackgroundDark) 100%);
 }
 
+header .container h3 { font-family: var(--font-family); }
+
 header a:hover { text-decoration: none; }
 
 header .btn:hover { color: var(--siteBackgroundDark); }
