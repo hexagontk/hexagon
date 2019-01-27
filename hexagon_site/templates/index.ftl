@@ -14,7 +14,7 @@
 
   <header class="jumbotron">
     <div class="container text-center">
-      <img id="logo" class="my-3 my-md-5" src="/img/logo.svg" alt="Hexagon Logo"/>
+      <img id="logo" class="my-3 my-sm-4" src="/img/logo.svg" alt="Hexagon Logo"/>
 
       <p>
         <#assign travis = "https://travis-ci.org/${config.githubRepo}" />
@@ -40,7 +40,7 @@
 
       <h1 class="my-2">${config.projectDescription}</h1>
       <h3>${config.longDescription}</h3>
-      <p><a href="/quick_start.html" class="my-2 btn btn-xl">Get Started Now</a></p>
+      <p><a href="/quick_start.html" class="btn btn-xl">Get Started Now</a></p>
       <a href="#features" aria-hidden="true"><i class="fa fa-angle-double-down fa-5x"></i></a>
     </div>
   </header>

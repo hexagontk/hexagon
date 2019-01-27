@@ -5,7 +5,7 @@
     <div class="container">
       <div class="row">
         <div class="col-4 col-md-2">
-          <h1 class="font-weight-bold text-uppercase">Usage</h1>
+          <h3 class="font-weight-bold text-uppercase">Usage</h3>
           <ul class="p-0 m-0">
             <#list config.navigationLinks?keys as title>
             <li><a href="${config.navigationLinks[title]}">${title}</a></li>
@@ -16,7 +16,7 @@
         </div>
 
         <div class="col-4 col-md-2">
-          <h1 class="font-weight-bold text-uppercase">Contribute</h1>
+          <h3 class="font-weight-bold text-uppercase">Contribute</h3>
           <ul class="p-0 m-0">
             <li><a href="${github}/blob/master/contributing.md">Contributing</a></li>
             <li><a href="${github}/projects/1">Planning</a></li>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="col-4 col-md-2">
-          <h1 class="font-weight-bold text-uppercase">Community</h1>
+          <h3 class="font-weight-bold text-uppercase">Community</h3>
           <ul class="p-0 m-0">
             <li><a href="${github}">Github</a></li>
             <li><a href="https://twitter.com/${config.twitterUser}">Twitter</a></li>
@@ -34,13 +34,13 @@
         </div>
 
         <div class="col-12 col-md-6">
-          <div id="credits" class="text-center text-lg-right mt-2 mt-lg-0">
+          <div id="credits" class="text-center text-lg-right mt-3 mt-sm-0">
             Made with <i class="fa fa-heart"></i> by <a href="${github}/graphs/contributors">
             OSS contributors</a>. Licensed under <a href="${github}/blob/master/license.md">
             MIT License</a>
           </div>
 
-          <div class="text-center text-lg-right mt-2">
+          <div class="text-center text-lg-right mt-3 mt-sm-2">
             <a
               class="github-button"
               href="${github}"

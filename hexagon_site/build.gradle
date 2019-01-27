@@ -36,7 +36,7 @@ tasks.bake.doFirst {
 
     fileTree(dir: contentTarget, include: "**/*.md").each { fcd ->
         final String frontMatter = """
-            title=Hexagon ${fcd.name.tr("_", " ").capitalize() - ".md"}
+            title=${fcd.name.tr("_", " ").capitalize() - ".md"}
             date=${LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)}
             fileName=${fcd.name}
             type=page

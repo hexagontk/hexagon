@@ -37,6 +37,8 @@ a, a:hover, a:focus { color: var(--siteAccentColor); }
 
 .text-big { font-size: var(--font-size-big); }
 
+a.navbar-brand img { height: 28px; }
+
 .navbar-dark { background-color: var(--siteBackgroundDark); }
 
 .navbar-dark .navbar-nav > li a { color: var(--siteGray); }
@@ -49,7 +51,7 @@ footer {
   background-color: var(--siteBackgroundDark);
 }
 
-footer h1 {
+footer h3 {
   color: var(--siteAccentColor);
   font-size: var(--font-size-small);
 }

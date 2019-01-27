@@ -3,6 +3,8 @@
  * HTML
  */
 h1 a, h2 a, h3 a, h4 a {
+  font-size: 1.5rem;
+  font-weight: bold;
   color: var(--siteBackgroundLight);
   text-decoration: none;
 }
@@ -14,7 +16,15 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:foc
 
 pre, code { font-family: var(--font-family-monospace); }
 
-a.navbar-brand img { height: 28px; }
+.navbar-dark { border: 1px solid var(--siteBackgroundDark); }
+
+.navbar-text { font-size: 1.5rem; }
+
+header {
+  font-size: 1.5rem;
+  color: var(--siteGray);
+  background-color: var(--siteBackgroundDark);
+}
 
 /* Trick to prevent anchored links to hide heading behind navbar */
 h1[id]:before,
@@ -24,6 +34,30 @@ h4[id]:before {
   display: block;
   content: " ";
   margin-top: -50px;
-  height: 100px;
+  height: 50px;
   visibility: hidden;
+  z-index: 0;
+}
+
+nav#contents, nav#toc {
+  top: 60px;
+}
+
+/* TOC */
+
+nav[data-toggle="toc"] .nav > li > a {
+  color: #212529;
+}
+
+nav[data-toggle="toc"] .nav > li > a:hover,
+nav[data-toggle="toc"] .nav > li > a:focus {
+  color: var(--siteBackgroundLight);
+  border-left: 1px solid var(--siteBackgroundLight);
+}
+
+nav[data-toggle="toc"] .nav-link.active,
+nav[data-toggle="toc"] .nav-link.active:hover,
+nav[data-toggle="toc"] .nav-link.active:focus {
+  color: var(--siteBackgroundLight);
+  border-left: 2px solid var(--siteBackgroundLight);
 }
