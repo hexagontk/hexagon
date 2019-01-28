@@ -89,7 +89,7 @@ jacocoTestReport {
 }
 
 task jarAll(type: Jar, dependsOn: "build") {
-    baseName = "$baseName-all"
+    archiveBaseName.set("${archiveBaseName.orNull}-all".toString())
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
