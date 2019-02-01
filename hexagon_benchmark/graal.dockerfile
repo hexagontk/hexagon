@@ -1,18 +1,18 @@
 
-FROM birdy/graalvm:latest
+FROM oracle/graalvm-ce:latest
 USER root
 WORKDIR /build
 
 ADD . /build
-RUN ./gradlew installDist
+RUN ./gradlew jarAll
 RUN native-image -jar \
-  /build/build/libs/flyhopper.jar \
+  /build/build/libs/hexagon_benchmark-all*.jar \
   -H:ReflectionConfigurationFiles=reflection.json \
   -H:+JNI \
-  -H:Name=flyhopper \
+  -H:Name="Hexagon Benchmark" \
   --static \
-  --delay-class-initialization-to-runtime=flyhopper
+  --delay-class-initialization-to-runtime=hexagonBenchmark
 
 FROM scratch
-COPY --from=0 /build/flyhopper /
-ENTRYPOINT /flyhopper
+COPY --from=0 /build/hexagon_benchmark /
+ENTRYPOINT /hexagon_benchmark
