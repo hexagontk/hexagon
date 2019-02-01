@@ -10,7 +10,7 @@ bake {
 
     input = projectDir
     output = project.buildDir
-    version = findProperty("jbakeVersion") ?: "2.6.3"
+    version = findProperty("jbakeVersion") ?: "2.6.4"
 
     configuration["site.host"] = siteHost
 
