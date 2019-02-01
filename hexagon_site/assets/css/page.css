@@ -20,10 +20,12 @@ pre, code { font-family: var(--font-family-monospace); }
 
 .navbar-text { font-size: 1.5rem; }
 
-header {
-  font-size: 1.5rem;
-  color: var(--siteGray);
-  background-color: var(--siteBackgroundDark);
+a.nav-link { color: #212529; }
+
+a.nav-link:hover { color: var(--siteBackgroundLight); }
+
+main p {
+  margin-bottom: 0.5rem;
 }
 
 /* Trick to prevent anchored links to hide heading behind navbar */
@@ -39,14 +41,13 @@ h4[id]:before {
   z-index: 0;
 }
 
-nav#contents, nav#toc {
-  top: 60px;
-}
+nav#contents, nav#toc { top: 60px; }
 
 /* TOC */
 
 nav[data-toggle="toc"] .nav > li > a {
   color: #212529;
+  font-size: var(--font-size-small);
 }
 
 nav[data-toggle="toc"] .nav > li > a:hover,

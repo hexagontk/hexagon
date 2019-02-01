@@ -1,85 +1,125 @@
 
 # What is Hexagon
 
-Hexagon is a microservices library written in [Kotlin] which purpose is to ease the building of
-services (Web applications, APIs or queue consumers) that run inside cloud platforms.
+Hexagon is a set of microservices libraries written in [Kotlin]. Its purpose is to ease the building
+of services (Web applications, APIs or queue consumers) that run inside a cloud platform.
 
-The project is developed as a [library][frameworks] that you call as opposed to [frameworks] that 
-call your code inside them. Being a library means that you won't need special build settings or
-tools.
+The project is developed as a set of [libraries][frameworks] that you call as opposed to
+[frameworks] that call your code inside them. Being a library means that you won't need special
+build settings or tools.
 
-It is meant to provide abstraction from underlying technologies (data storage, HTTP server 
-engines, etc.) to be able to change them with minimum impact.
+It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
+etc.)to be able to change them with minimum impact. It is designed to fit in applications that
+conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
+[Ports and Adapters Architecture]).
 
-It only supports [Kotlin], Java is not a targeted language for the framework.
+The motivation that drove the development of this library was that sometimes you spend more time
+reading framework's documentation than coding. And also, because you lose control of your program:
+you do not call framework's code, framework's code calls you.
+
+The goals of the project are:
+
+1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It
+   is focused on making the usual tasks easy, rather than making a complex tool with a lot of
+   features.
+2. Make it easy to hack: allow the user to add extensions or change the framework itself. The code
+   is meant to be simple for the users to understand it. Avoid having to read blogs, documentation
+   or getting certified to use it effectively.
+
+Which are NOT project goals:
+
+1. To be the fastest framework. Write the code fast and optimize only the critical parts. It is
+   [not slow][benchmark] anyway.
+2. Support all available technologies and tools: the spirit is to define simple interfaces for
+   the most common features , so users can implement integrations with different tools easily.
+3. To be usable from Java. Hexagon is *Kotlin first*.
 
 [Kotlin]: http://kotlinlang.org
 [frameworks]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
+[Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
+[Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
+[Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
+[benchmark]: https://www.techempower.com/benchmarks
 
-# Middleware definition
+## Hexagon Libraries
 
-TODO Mounting routers you can accomplish this
+Most project's modules provide a library that clients can import. There are three kind of libraries:
 
-## Create a service
+* The ones that provide a single functionality that does not depend on different implementations,
+  like [hexagon_scheduler] or [hexagon_core].
+* Modules that define a "Port": An interface to a feature that may have different implementations
+  (ie: [port_http_server] or [port_store]). These ones can not be used by themselves and in their
+  place, an adapter implementing them should be added to the list of dependencies.
+* Adapter modules, which are Port implementations for a given tool. [store_mongodb] and
+  [messaging_rabbitmq] are examples of this type of modules.
+  
+Ports are independent from each other.
 
-### From scratch
+[hexagon_scheduler]: https://hexagonkt.com/hexagon_scheduler/index.html
+[hexagon_core]: https://hexagonkt.com/hexagon_core/index.html
 
-To build Hexagon services you have some Gradle helpers that you can use on your own project. To
-use them, you can use the online versions, or copy them to your `gradle` directory.
+[port_http_server]: https://hexagonkt.com/port_http_server/index.html
+[port_store]: https://hexagonkt.com/port_store/index.html
 
-You can write a [Gradle] project from scratch (Gradle 4 or newer is required):
+[store_mongodb]: https://hexagonkt.com/store_mongodb/index.html
+[messaging_rabbitmq]: https://hexagonkt.com/messaging_rabbitmq/index.html
 
-`build.gradle`:
+## Hexagon Core
 
-```groovy
-plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.20'
-}
+Hexagon Core module is used by all other libraries, so it would be added to your project anyway.
 
-apply plugin: 'kotlin'
-apply plugin: 'application'
+The main features it has are:
 
-mainClassName = 'HelloKt'
+* Helpers: JVM information, a logger and other useful utilities.
+* Dependency Injection:
+* Instance Serialization:
+* Configuration Settings:
 
-repositories {
-    jcenter ()
-}
+## Write a HTTP service
 
-dependencies {
+You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
+from scratch following these steps:
+
+1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
+2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
+3. Add the dependency:
+
+  * In Gradle. Import it inside `build.gradle`:
+
+    ```groovy
     compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
-}
-```
+    ```
 
-Now you can run the service with `gradle run` and view the results at:
-[http://localhost:2010/hello/world](http://localhost:2010/hello/world)
+  * In Maven. Declare the dependency in `pom.xml`:
 
-### From a template
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>http_server_jetty</artifactId>
+      <version>$hexagonVersion</version>
+    </dependency>
+    ```
 
-You can create a service from a [Lazybones] template. To do so type:
-`lazybones create hexagon-service service`
+4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-```bash
-curl -s get.sdkman.io | bash && source ~/.sdkman/bin/sdkman-init.sh
-sdk i lazybones
-mkdir ~/.lazybones # Bug with Lazybones?
-lazybones config set bintrayRepositories pledbrook/lazybones-templates jamming/maven
-lazybones create hexagon-service service -Pgroup=org.example -Pversion=0.1 -Pdescription=Description
-cd service
-gradle/wrapper
-```
+    ```kotlin
+    import com.hexagonkt.server.jetty.serve
 
-## Directory structure
+    fun main() {
+        serve {
+            get("/hello/{name}") { "Hello ${request["name"]}!" }
+        }
+    }
+    ```
 
-The project uses the standard Gradle structure. Gradle wrapper changed to be stored in the `gradle`
-folder instead of the project root
+5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-## Running and Testing
+You can check the [documentation] for more details.
 
-gw run
-gw -x test -t runService # Continuous mode AKA watch
-
-## Configuration files
-
-* service.yaml (see configuration.md)
-* logback.xml
-
+[Gradle Starter]: https://github.com/hexagonkt/gradle_starter
+[Maven Starter]: https://github.com/hexagonkt/maven_starter
+[Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
+[Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
+[JCenter]: https://bintray.com/bintray/jcenter
+[Endpoint]: http://localhost:2010/hello/world
+[documentation]: http://hexagonkt.com/documentation.html
