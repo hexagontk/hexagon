@@ -1,11 +1,24 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.injection.InjectionManager.bindObject
 import org.testng.annotations.Test
 import kotlin.test.assertFailsWith
 import java.net.InetAddress.getByName as address
 
 @Test class ServerTest {
-    fun `default parameters`() {
+
+    fun `Injected parameters`() {
+        bindObject<ServerPort>(VoidAdapter)
+
+        val server = Server {}
+
+        assert(server.serverName == "Hexagon Tests")
+        assert(server.portName == VoidAdapter.javaClass.simpleName)
+        assert(server.bindAddress == address("0.0.0.0"))
+        assert(server.bindPort == 0)
+    }
+
+    fun `Default parameters`() {
         val server = Server(VoidAdapter, Router(), "name", address("localhost"), 9999)
 
         assert(server.serverName == "name")
@@ -14,7 +27,7 @@ import java.net.InetAddress.getByName as address
         assert(server.bindPort == 9999)
     }
 
-    fun `runtime port`() {
+    fun `Runtime port`() {
         val server = Server(VoidAdapter, Router(), "name", address("localhost"), 9999)
 
         assertFailsWith<IllegalStateException>("Server is not running") { server.runtimePort }
@@ -26,7 +39,7 @@ import java.net.InetAddress.getByName as address
         assert(server.runtimePort == 12345)
     }
 
-    fun `parameters map`() {
+    fun `Parameters map`() {
         val router = Router {}
         val server = Server(VoidAdapter, router = router)
         assert(equal (server, Server(VoidAdapter, router, mapOf<String, Any>())))

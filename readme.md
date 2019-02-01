@@ -150,7 +150,8 @@ from scratch following these steps:
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-You can check the [documentation] for more details.
+You can check the [documentation] for more details. Or you can clone the [Gradle Starter] or
+[Maven Starter] for a minimal fully working example (including tests).
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter

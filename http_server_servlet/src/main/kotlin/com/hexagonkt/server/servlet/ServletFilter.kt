@@ -41,7 +41,6 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         .asSequence()
         .map {
             when (it) {
-                is PathHandler -> it // TODO
                 is AssetsHandler -> RouteHandler(it.route, createResourceHandler(it.path))
                 else -> it
             }

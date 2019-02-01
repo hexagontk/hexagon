@@ -9,6 +9,7 @@ import com.hexagonkt.helpers.Jvm.name
 import com.hexagonkt.helpers.Jvm.version
 import com.hexagonkt.helpers.Jvm.locale
 import com.hexagonkt.helpers.Jvm.timezone
+import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.settings.SettingsManager
 
 import java.lang.Runtime.getRuntime
@@ -61,6 +62,11 @@ data class Server (
             address(settings["bindAddress"] as? String ?: DEFAULT_ADDRESS),
             settings["bindPort"] as? Int ?: DEFAULT_PORT
         )
+
+    constructor(
+        settings: Map<String, *> = SettingsManager.settings,
+        block: Router.() -> Unit) :
+            this(inject(), settings, block = block)
 
     val runtimePort
         get() = if (started()) serverEngine.runtimePort() else error("Server is not running")
