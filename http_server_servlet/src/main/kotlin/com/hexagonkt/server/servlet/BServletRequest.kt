@@ -26,11 +26,16 @@ internal class BServletRequest(private val req: HttpServletRequest) : EngineRequ
     override val url: String by lazy { req.requestURL.toString() }
     override val ip: String by lazy { req.remoteAddr }
 
+    override val pathParameters: Map<String, String> by lazy {
+        val requestUrl =
+            if (req.servletPath.isEmpty()) req.pathInfo
+            else req.servletPath
+
+        actionPath?.extractParameters(requestUrl)?:mapOf()
+    }
+
     override val parameters: Map<String, List<String>> by lazy {
-        val requestUrl = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath
-        (actionPath?.extractParameters(requestUrl)?:mapOf()).mapValues { listOf(it.value) } +
-        req.parameterMap.map { it.key as String to it.value.toList() }.toMap() +
-        parseQueryParameters(req.queryString ?: "").mapValues { listOf(it.value) }
+        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()
     }
 
     override val headers: Map<String, List<String>> by lazy {

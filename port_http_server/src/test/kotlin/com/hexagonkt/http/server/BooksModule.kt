@@ -26,7 +26,7 @@ internal class BooksModule : TestModule() {
         }
 
         get("/books/{id}") {
-            val bookId = request.requireSingleParameter("id").toInt()
+            val bookId = request.pathParameter("id").toInt()
             val book = books [bookId]
             if (book != null)
                 ok ("Title: ${book.title}, Author: ${book.author}")
@@ -35,18 +35,15 @@ internal class BooksModule : TestModule() {
         }
 
         put("/books/{id}") {
-            val bookId = request.requireSingleParameter("id").toInt()
+            val bookId = request.pathParameter("id").toInt()
             val book = books[bookId]
             if (book != null) {
-                books.put(
-                    bookId,
-                    book.copy (
-                        author = request.parameters ["author"]?.first() ?: book.author,
-                        title = request.parameters ["title"]?.first() ?: book.title
-                    )
+                books[bookId] = book.copy (
+                    author = request.parameters["author"]?.first() ?: book.author,
+                    title = request.parameters["title"]?.first() ?: book.title
                 )
 
-                ok ("Book with id '$bookId' updated")
+                ok("Book with id '$bookId' updated")
             }
             else {
                 send(404, "Book not found")
@@ -54,7 +51,7 @@ internal class BooksModule : TestModule() {
         }
 
         delete ("/books/{id}") {
-            val bookId = request.requireSingleParameter("id").toInt()
+            val bookId = request.pathParameter("id").toInt()
             val book = books.remove (bookId)
             if (book != null)
                 ok ("Book with id '$bookId' deleted")

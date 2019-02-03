@@ -27,10 +27,14 @@ class Request(private val request: EngineRequest) {
     val accept: List<String> by lazy { headers["accept"] ?: emptyList() }
     val preferredType: String by lazy { accept.firstOrNull() ?: "text/plain" }
 
+    val pathParameters: Map<String, String> by lazy { request.pathParameters }
     val parameters: Map<String, List<String>> by lazy { request.parameters }
     val headers: Map<String, List<String>> by lazy { request.headers }
     val cookies: Map<String, HttpCookie> by lazy { request.cookies }
     val parts: Map<String, Part> by lazy { request.parts }
+
+    fun pathParameter(name: String): String =
+        pathParameters[name] ?: error("'$name' parameter not found")
 
     fun requireSingleParameter(name: String): String =
         singleParameters[name] ?: error("'$name' parameter not found")

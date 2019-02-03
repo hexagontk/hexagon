@@ -24,7 +24,8 @@ interface EngineRequest {
     val url: String           // "http://example.com/example/foo"
     val ip: String            // client IP address
 
-    val parameters: Map<String, List<String>> // ["some_param"] // value of some_param parameter
+    val pathParameters: Map<String, String>   // ["some_param"] // some_param path parameter
+    val parameters: Map<String, List<String>> // ["some_param"] // some_param query/form parameter
     val headers: Map<String, List<String>>    // ["SOME_HEADER"] // value of SOME_HEADER header
     val cookies: Map<String, HttpCookie>      // hash of browser cookies
     val parts: Map<String, Part>              // hash of multipart parts

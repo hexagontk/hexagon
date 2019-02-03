@@ -1,19 +1,20 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.helpers.error
 import com.hexagonkt.http.client.Client
 
 @Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
 internal class HexagonModule : TestModule() {
     override fun initialize(): Router = Router {
         get ("/hexagon/books/{id}") {
-            ok ("${request.singleParameters["id"]}")
+            ok (request.pathParameter("id"))
         }
-        get ("/hexagon/books/{id}/{title}") { ok("${request.singleParameters["id"]}:${request.singleParameters["title"]} ${request.body}") }
-        trace ("/hexagon/books/{id}/{title}") { ok("${request.singleParameters["id"]}:${request.singleParameters["title"]} ${request.body}") }
-        patch ("/hexagon/books/{id}/{title}") { ok("${request.singleParameters["id"]}:${request.singleParameters["title"]} ${request.body}") }
+        get ("/hexagon/books/{id}/{title}") { ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}") }
+        trace ("/hexagon/books/{id}/{title}") { ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}") }
+        patch ("/hexagon/books/{id}/{title}") { ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}") }
         head ("/hexagon/books/{id}/{title}") {
-            response.addHeader("id", request.requireSingleParameter("id"))
-            response.addHeader("title", request.requireSingleParameter("title"))
+            response.addHeader("id", request.pathParameter("id"))
+            response.addHeader("title", request.pathParameter("title"))
         }
     }
 
