@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.http.server.EngineResponse
+import com.hexagonkt.http.server.Response
 import java.io.OutputStream
 import java.net.HttpCookie
 import javax.servlet.http.Cookie
@@ -9,19 +9,25 @@ import javax.servlet.http.HttpServletResponse
 
 internal class BServletResponse(
     private val req: HttpServletRequest,
-    private val resp: HttpServletResponse) : EngineResponse {
+    private val resp: HttpServletResponse) : Response() {
 
-    override val outputStream: OutputStream by lazy { resp.outputStream }
+    private var bodyValue: Any = ""
 
-    override var body: Any = ""
+    override fun outputStream(): OutputStream = resp.outputStream
 
-    override var status: Int
-        get() = resp.status
-        set(value) { resp.status = value }
+    override fun body(): Any = bodyValue
 
-    override var contentType: String?
-        get() = resp.contentType
-        set(value) { resp.contentType = value }
+    override fun body(value: Any) {
+        bodyValue = value
+    }
+
+    override fun status(): Int = resp.status
+
+    override fun status(value: Int) { resp.status = value }
+
+    override fun contentType(): String? = resp.contentType
+
+    override fun contentType(value: String?) { resp.contentType = value }
 
     override fun addHeader (name: String, value: String) {
         resp.addHeader(name, value)

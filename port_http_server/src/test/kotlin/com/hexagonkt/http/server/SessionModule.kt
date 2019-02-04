@@ -10,12 +10,6 @@ internal class SessionModule : TestModule() {
     override fun initialize(): Router = Router {
         get("/session/id") {
             val id: String = session.id ?: "null"
-            try {
-                session.id = "sessionId"
-            }
-            catch (e: UnsupportedOperationException) {
-                log.info { "Unsupported by framework" }
-            }
             assert(id == session.id ?: "null")
             ok(id)
         }

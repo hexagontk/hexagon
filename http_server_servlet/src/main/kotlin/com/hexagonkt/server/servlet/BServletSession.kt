@@ -1,10 +1,10 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.http.server.EngineSession
+import com.hexagonkt.http.server.Session
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
-internal class BServletSession(private val req: HttpServletRequest) : EngineSession {
+internal class BServletSession(private val req: HttpServletRequest) : Session() {
 
     override fun getAttribute(name: String): Any? = req.session.getAttribute(name)
 
@@ -12,16 +12,18 @@ internal class BServletSession(private val req: HttpServletRequest) : EngineSess
 
     override fun removeAttribute(name: String) { req.session.removeAttribute(name) }
 
-    override val attributeNames: List<String> get() = req.session.attributeNames.toList()
+    override fun attributeNames(): List<String> = req.session.attributeNames.toList()
 
-    override val creationTime: Long? by lazy { session (req)?.creationTime }
-    override val lastAccessedTime: Long? by lazy { session (req)?.lastAccessedTime }
+    override fun creationTime(): Long? = session(req)?.creationTime
+    override fun lastAccessedTime(): Long? = session(req)?.lastAccessedTime
 
-    override var id: String? = ""
-        get() = session (req)?.id
+    override fun id(): String? = session(req)?.id
 
-    override var maxInactiveInterval: Int? = 0
-        get() = session (req)?.maxInactiveInterval
+    override fun maxInactiveInterval(): Int? = session(req)?.maxInactiveInterval
+
+    override fun maxInactiveInterval(value: Int?) {
+        session(req)?.maxInactiveInterval = value ?: 10
+    }
 
     override fun invalidate() = req.session.invalidate()
 

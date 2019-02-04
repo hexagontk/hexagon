@@ -3,26 +3,37 @@ package com.hexagonkt.http.server
 /**
  * Provides session information.
  */
-class Session (private val session: EngineSession) {
+abstract class Session {
     val attributes: Map<String, Any?> get() = attributeNames.map { it to this[it] }.toMap()
 
-    val creationTime: Long? by lazy { session.creationTime }
-    val lastAccessedTime: Long? by lazy { session.lastAccessedTime }
-    val attributeNames: List<String> by lazy { session.attributeNames }
+    val creationTime: Long? by lazy { creationTime() }
+    val lastAccessedTime: Long? by lazy { lastAccessedTime() }
+    val attributeNames: List<String> by lazy { attributeNames() }
 
     /** A string containing the unique identifier assigned to this session (Cookie). */
-    var id: String?
-        get() = session.id
-        set(value) { session.id = value }
+    val id: String? by lazy { id() }
 
     var maxInactiveInterval: Int?
-        get() = session.maxInactiveInterval
-        set(value) { session.maxInactiveInterval = value }
+        get() = maxInactiveInterval()
+        set(value) { maxInactiveInterval(value) }
 
-    fun invalidate() = session.invalidate()
-    fun isNew(): Boolean = session.isNew()
-    fun removeAttribute(name: String) = session.removeAttribute(name)
+    operator fun get(name: String): Any? = getAttribute(name)
+    operator fun set(name: String, value: Any) { setAttribute(name, value) }
 
-    operator fun get(name: String): Any? = session.getAttribute(name)
-    operator fun set(name: String, value: Any) { session.setAttribute(name, value) }
+    protected abstract fun creationTime(): Long?
+    protected abstract fun lastAccessedTime(): Long?
+    protected abstract fun attributeNames(): List<String>
+
+    /** A string containing the unique identifier assigned to this session (Cookie). */
+    protected abstract fun id(): String?
+    protected abstract fun maxInactiveInterval(): Int?
+
+    protected abstract fun maxInactiveInterval(value: Int?)
+
+    protected abstract fun getAttribute(name: String): Any?
+    protected abstract fun setAttribute(name: String, value: Any)
+
+    abstract fun invalidate ()
+    abstract fun isNew (): Boolean
+    abstract fun removeAttribute(name: String)
 }

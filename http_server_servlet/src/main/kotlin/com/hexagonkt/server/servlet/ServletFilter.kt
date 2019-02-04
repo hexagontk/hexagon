@@ -10,7 +10,6 @@ import com.hexagonkt.http.server.FilterOrder.BEFORE
 import com.hexagonkt.http.server.RequestHandler.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
-import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.SerializationManager.contentTypeOf
 
 import javax.servlet.*
@@ -136,7 +135,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         val bRequest = BServletRequest(request)
         val bResponse = BServletResponse(request, response)
         val bSession = BServletSession(request)
-        val exchange = Call(Request(bRequest), Response(bResponse), Session(bSession))
+        val exchange = Call(bRequest, bResponse, bSession)
         var handled = false
 
         try {
