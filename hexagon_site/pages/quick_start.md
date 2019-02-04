@@ -103,12 +103,18 @@ from scratch following these steps:
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
     ```kotlin
-    import com.hexagonkt.server.jetty.serve
+    import com.hexagonkt.http.server.Server
+    import com.hexagonkt.http.server.jetty.JettyServletAdapter
 
     fun main() {
-        serve {
-            get("/hello/{name}") { "Hello ${request["name"]}!" }
+
+        val server = Server(JettyServletAdapter()) {
+            get("/hello/{name}") {
+                ok("Hello ${request.pathParameter("name")}!")
+            }
         }
+
+        server.run()
     }
     ```
 
