@@ -61,4 +61,3 @@ gw -x test -t runService # Continuous mode AKA watch
 
 * service.yaml (see configuration.md)
 * logback.xml
-
