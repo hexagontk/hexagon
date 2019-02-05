@@ -9,9 +9,15 @@ internal class HexagonModule : TestModule() {
         get ("/hexagon/books/{id}") {
             ok (request.pathParameter("id"))
         }
-        get ("/hexagon/books/{id}/{title}") { ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}") }
-        trace ("/hexagon/books/{id}/{title}") { ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}") }
-        patch ("/hexagon/books/{id}/{title}") { ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}") }
+        get ("/hexagon/books/{id}/{title}") {
+            ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}")
+        }
+        trace ("/hexagon/books/{id}/{title}") {
+            ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}")
+        }
+        patch ("/hexagon/books/{id}/{title}") {
+            ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}")
+        }
         head ("/hexagon/books/{id}/{title}") {
             response.addHeader("id", request.pathParameter("id"))
             response.addHeader("title", request.pathParameter("title"))

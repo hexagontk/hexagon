@@ -46,5 +46,21 @@ internal class BServletRequest(private val req: HttpServletRequest) : Request() 
             mapOf()
         }
 
-    override fun parts(): Map<String, Part> = throw UnsupportedOperationException ()
+    override fun parts(): Map<String, Part> =
+        req.parts
+            .map {
+                Part(
+                    contentType = it.contentType,
+                    headers = it.headerNames
+                        .filterNotNull()
+                        .map { hn -> hn to it.getHeaders(hn).toList() }
+                        .toMap(),
+                    inputStream = it.inputStream,
+                    name = it.name,
+                    size = it.size,
+                    submittedFileName = it.submittedFileName
+
+                )
+            }
+            .associateBy { it.name }
 }
