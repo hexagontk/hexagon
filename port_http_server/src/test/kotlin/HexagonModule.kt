@@ -1,24 +1,26 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.helpers.error
 import com.hexagonkt.http.client.Client
 
 @Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
 internal class HexagonModule : TestModule() {
     override fun initialize(): Router = Router {
-        get ("/hexagon/books/{id}") {
-            ok (request.pathParameter("id"))
+        get("/hexagon/files") {
+            ok(request.parts.keys.joinToString(":"))
         }
-        get ("/hexagon/books/{id}/{title}") {
+        get("/hexagon/books/{id}") {
+            ok(request.pathParameter("id"))
+        }
+        get("/hexagon/books/{id}/{title}") {
             ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}")
         }
-        trace ("/hexagon/books/{id}/{title}") {
+        trace("/hexagon/books/{id}/{title}") {
             ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}")
         }
-        patch ("/hexagon/books/{id}/{title}") {
+        patch("/hexagon/books/{id}/{title}") {
             ok("${request.pathParameter("id")}:${request.pathParameter("title")} ${request.body}")
         }
-        head ("/hexagon/books/{id}/{title}") {
+        head("/hexagon/books/{id}/{title}") {
             response.addHeader("id", request.pathParameter("id"))
             response.addHeader("title", request.pathParameter("title"))
         }
@@ -33,6 +35,10 @@ internal class HexagonModule : TestModule() {
         assertResponseContains (client.trace ("/hexagon/books/101/Hamlet"), "101", "Hamlet")
         assertResponseContains (client.patch ("/hexagon/books/101/Hamlet"), "101", "Hamlet")
         assertResponseContains (client.head ("/hexagon/books/101/Hamlet"))
+    }
+
+    fun sendParts(client: Client) {
+        client.get("/hexagon/files")
     }
 
     override fun validate(client: Client) {
