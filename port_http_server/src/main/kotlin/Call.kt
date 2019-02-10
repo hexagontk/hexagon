@@ -12,7 +12,7 @@ import com.hexagonkt.serialization.serialize
 class Call(val request: Request, val response: Response, val session: Session) {
 
     /** Call attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
-    var attributes: Map<String, Any> = emptyMap()
+    val attributes: MutableMap<String, Any> by lazy { LinkedHashMap<String, Any>() }
 
     val responseType: String get() =
         response.contentType ?:

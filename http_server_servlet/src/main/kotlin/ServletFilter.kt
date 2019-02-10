@@ -152,6 +152,11 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         finally {
             // TODO Try needed because of a problem with Jetty's response redirect: fix and remove
             try {
+                call.response.headers.forEach { header ->
+                    header.value.forEach { value ->
+                        response.addHeader(header.key, value)
+                    }
+                }
                 response.status = call.response.status
                 response.outputStream.write(call.response.body.toString().toByteArray())
                 response.outputStream.flush()

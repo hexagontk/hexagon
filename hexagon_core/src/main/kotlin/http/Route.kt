@@ -10,4 +10,6 @@ data class Route(
     val metadata: Map<String, *> = emptyMap<String, Any>()) {
 
     constructor(path: Path, vararg methods: Method) : this(path, linkedSetOf(*methods))
+
+    constructor(path: String, vararg methods: Method) : this(Path(path), linkedSetOf(*methods))
 }

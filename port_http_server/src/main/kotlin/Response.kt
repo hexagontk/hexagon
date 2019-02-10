@@ -12,17 +12,23 @@ import java.net.HttpCookie
 abstract class Response () {
     val outputStream: OutputStream by lazy { outputStream() }
 
-    var body: Any
-        get() = body()
-        set(value) { body(value) }
-
     var status: Int
         get() = status()
         set(value) { status(value) }
 
+    var body: Any
+        get() = body()
+        set(value) { body(value) }
+
     var contentType: String?
         get() = contentType()
         set(value) { contentType(value) }
+
+    val headers: MutableMap<String, List<String>> by lazy { LinkedHashMap<String, List<String>>() }
+
+    fun setHeader(name: String, value: String) {
+        headers[name] = listOf(value)
+    }
 
     protected abstract fun outputStream(): OutputStream
 
@@ -35,7 +41,6 @@ abstract class Response () {
     protected abstract fun contentType(): String?
     protected abstract fun contentType(value: String?)
 
-    abstract fun setHeader (name: String, value: String)
     abstract fun setCookie (cookie: HttpCookie)
     abstract fun removeCookie (name: String)
 
