@@ -12,7 +12,10 @@ internal class BServletSession(private val req: HttpServletRequest) : Session() 
 
     override fun removeAttribute(name: String) { req.session.removeAttribute(name) }
 
-    override fun attributeNames(): List<String> = req.session.attributeNames.toList()
+    override fun attributes(): Map<String, Any?> = req.session.attributeNames
+        .toList()
+        .map { it to this.getAttribute(it) }
+        .toMap()
 
     override fun creationTime(): Long? = session(req)?.creationTime
     override fun lastAccessedTime(): Long? = session(req)?.lastAccessedTime
