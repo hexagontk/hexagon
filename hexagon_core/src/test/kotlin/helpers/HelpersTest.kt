@@ -47,24 +47,33 @@ import kotlin.test.assertFailsWith
     }
 
     @Test fun `Require a value defined by a list of keys return the correct value`() {
-        assert(m.require<String>("nested", "zulu") == "charlie")
-        assert(m.require<String>("alpha") == "bravo")
-        assert(m.require<Int>(0) == 1)
+        assert(m.requireKeys<String>("nested", "zulu") == "charlie")
+        assert(m.requireKeys<String>("alpha") == "bravo")
+        assert(m.requireKeys<Int>(0) == 1)
     }
 
     @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Require not found keys fails`() {
-        m.require<Any>("nested", "zulu", "tango")
+    fun `Require not found key fails`() {
+        m.require("void")
+    }
+
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `Require keys with non existing keys fails`() {
+        m.requireKeys<Any>("nested", "zulu", "tango")
     }
 
     @Test(expectedExceptions = [ IllegalStateException::class ])
     fun `Require not found key in map fails`() {
-        m.require<Any>("nested", "empty")
+        m.requireKeys<Any>("nested", "empty")
     }
 
     @Test(expectedExceptions = [ IllegalStateException::class ])
     fun `Require key not found first level throws an error`() {
-        m.require<Any>("empty")
+        m.requireKeys<Any>("empty")
+    }
+
+    @Test fun `Require existing key returns correct value`() {
+        assert(m.require("alpha") == "bravo")
     }
 
     @Test fun `Filtered maps do not contain empty elements`() {
