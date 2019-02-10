@@ -79,6 +79,10 @@ task verify(dependsOn: "test", type: Test) {
     include("**/*IT.*")
 }
 
+jacoco {
+    toolVersion = "0.8.3"
+}
+
 // Generate coverage reports properly
 jacocoTestReport {
     dependsOn("test")
@@ -89,7 +93,7 @@ jacocoTestReport {
 }
 
 task jarAll(type: Jar, dependsOn: "build") {
-    baseName = "$baseName-all"
+    archiveBaseName.set("${archiveBaseName.orNull}-all".toString())
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }

@@ -2,22 +2,31 @@
 /*
  * HTML
  */
-body {
-  padding-top: 50px;
-  font-size: 14px;
-}
-
 h1 a, h2 a, h3 a, h4 a {
-  color: ${siteBackgroundLight};
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--siteBackgroundLight);
   text-decoration: none;
 }
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus {
-  color: ${siteBackgroundLight};
+  color: var(--siteBackgroundLight);
   text-decoration: none;
 }
 
-pre, code { font-family: 'Roboto Mono', monospace; }
+pre, code { font-family: var(--font-family-monospace); }
+
+.navbar-dark { border: 1px solid var(--siteBackgroundDark); }
+
+.navbar-text { font-size: 1.5rem; }
+
+a.nav-link { color: #212529; }
+
+a.nav-link:hover { color: var(--siteBackgroundLight); }
+
+main p {
+  margin-bottom: 0.5rem;
+}
 
 /* Trick to prevent anchored links to hide heading behind navbar */
 h1[id]:before,
@@ -26,50 +35,30 @@ h3[id]:before,
 h4[id]:before {
   display: block;
   content: " ";
-  margin-top: -70px;
-  height: 100px;
+  margin-top: -40px;
+  height: 40px;
   visibility: hidden;
+  z-index: 0;
 }
 
-/*
- * Small Navbar
- */
-.navbar-default .navbar-brand {
-  height: auto;
-  padding: 5px 15px;
+nav#contents, nav#toc { top: 60px; }
+
+/* TOC */
+
+nav[data-toggle="toc"] .nav > li > a {
+  color: #212529;
+  font-size: var(--font-size-small);
 }
 
-.navbar-default .navbar-brand img { height: 32px; }
-
-.navbar-nav > li > a { padding: 10px 15px 0; }
-
-.navbar {
-  height: auto;
-  min-height: auto;
-  margin: 0;
+nav[data-toggle="toc"] .nav > li > a:hover,
+nav[data-toggle="toc"] .nav > li > a:focus {
+  color: var(--siteBackgroundLight);
+  border-left: 1px solid var(--siteBackgroundLight);
 }
 
-@media (max-width: 768px) {
-
-  .navbar-default .navbar-brand { padding-top: 12px; }
-
-  .navbar-default .navbar-brand img {
-    height: 36px;
-    padding: 0;
-  }
-}
-
-/*
- * Sidebar
- */
-nav h2 {
-  font-size: 16px;
-  text-transform: uppercase;
-}
-
-#sidebar .nav > li > a { padding: 0; }
-
-.sticky-top {
-  position: fixed;
-  top: 50px;
+nav[data-toggle="toc"] .nav-link.active,
+nav[data-toggle="toc"] .nav-link.active:hover,
+nav[data-toggle="toc"] .nav-link.active:focus {
+  color: var(--siteBackgroundLight);
+  border-left: 2px solid var(--siteBackgroundLight);
 }

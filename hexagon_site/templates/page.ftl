@@ -7,64 +7,61 @@
   <#include "head.ftl">
 
   <#assign highlight = "${config.cloudflare}/highlight.js/${config.highlightVersion}" />
-  <link rel="stylesheet" href="/css/page.css" />
   <link rel="stylesheet" href="${config.bootstrapToc}/bootstrap-toc.min.css">
   <link rel="stylesheet" href="${highlight}/styles/github.min.css" />
+  <link rel="stylesheet" href="/css/page.css" />
 </head>
 
-<body data-spy="scroll" data-target="#toc" data-offset="90" onload="hljs.initHighlighting()">
+<body
+  class="pt-5 text-small"
+  data-spy="scroll"
+  data-target="#toc"
+  data-offset="90"
+  onload="hljs.initHighlighting()">
+
   <#include "navbar.ftl">
+  <#assign contributing = "https://github.com/${config.githubRepo}/blob/master/contributing.md" />
 
-  <section class="container">
+  <section class="container-fluid">
     <div class="row">
-      <aside class="col-md-2">
-        <nav id="sidebar" class="sticky-top hidden-xs">
-
-          <#assign github = "https://github.com/${config.githubRepo}" />
-          <h2>Documentation</h2>
-          <ul class="nav">
-            <li><a href="/quick_start.html">Quick Start</a></li>
-            <li><a href="/documentation.html">Documentation</a></li>
-            <li><a href="/alternatives.html">Alternatives</a></li>
-            <li><a href="/gradle.html">Gradle Helpers</a></li>
-            <li><a href="${github}/blob/master/contributing.md">Contribute</a></li>
+      <aside class="col-2">
+        <nav id="contents" class="sticky-top d-none d-sm-block">
+          <h3 class="text-big font-weight-bold" data-toc-skip>Documentation</h3>
+          <ul class="nav navbar-nav">
+            <li><a class="nav-link p-0" href="/quick_start.html">Quick Start</a></li>
+            <li><a class="nav-link p-0" href="/documentation.html">Documentation</a></li>
+            <li><a class="nav-link p-0" href="/alternatives.html">Alternatives</a></li>
+            <li><a class="nav-link p-0" href="/gradle.html">Gradle Helpers</a></li>
+            <li><a class="nav-link p-0" href="${contributing}">Contribute</a></li>
           </ul>
 
-          <h2>Modules</h2>
-          <ul class="nav">
-            <li><a href="/hexagon_core/index.html">Core</a></li>
-            <li><a href="/hexagon_scheduler/index.html">Scheduler</a></li>
-            <li><a href="/hexagon_web/index.html">Web</a></li>
+          <h3 class="text-big font-weight-bold mt-3" data-toc-skip>Modules</h3>
+          <ul class="nav navbar-nav">
+            <li><a class="nav-link p-0" href="/hexagon_core/index.html">Core</a></li>
+            <li><a class="nav-link p-0" href="/hexagon_scheduler/index.html">Scheduler</a></li>
+            <li><a class="nav-link p-0" href="/hexagon_web/index.html">Web</a></li>
           </ul>
 
-          <h2>Ports</h2>
-          <ul class="nav">
-            <li><a href="/port_http_server/index.html">HTTP</a></li>
-            <li><a href="/port_http_client/index.html">Client</a></li>
-            <li><a href="/port_storage/index.html">Storage</a></li>
-            <li><a href="/port_messaging/index.html">Messaging</a></li>
-            <li><a href="/port_templates/index.html">Templates</a></li>
+          <h3 class="text-big font-weight-bold mt-3" data-toc-skip>Ports</h3>
+          <ul class="nav navbar-nav">
+            <li><a class="nav-link p-0" href="/port_http_server/index.html">HTTP</a></li>
+            <li><a class="nav-link p-0" href="/port_http_client/index.html">Client</a></li>
+            <li><a class="nav-link p-0" href="/port_storage/index.html">Storage</a></li>
+            <li><a class="nav-link p-0" href="/port_messaging/index.html">Messaging</a></li>
+            <li><a class="nav-link p-0" href="/port_templates/index.html">Templates</a></li>
           </ul>
         </nav>
       </aside>
 
       <main class="col-md-8">
-        <#assign editBranch = "https://github.com/${config.githubRepo}/edit/develop" />
-        <#assign editUrl = "${editBranch}/hexagon_site/pages/${content.fileName}" />
-        <header>
-          <span class="col-md-10">${content.title}</span>
-          <a href="${editUrl}" class="btn btn-default col-md-2" target="_blank" aria-hidden="true">
-            <i class="fa fa-github"></i> Edit Page
-          </a>
-        </header>
 
         ${content.body}
 
-        <div id="disqus_thread"></div>
+        <div id="disqus_thread" class="mt-5"></div>
       </main>
 
-      <aside class="col-md-2">
-        <nav id="toc" data-toggle="toc" class="sticky-top hidden-xs"></nav>
+      <aside class="col-2">
+        <nav id="toc" data-toggle="toc" class="sticky-top d-none d-sm-block"></nav>
       </aside>
     </div>
   </section>

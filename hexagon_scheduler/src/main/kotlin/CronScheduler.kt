@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit.SECONDS
  * @param threads Number of threads used by the thread pool. By default it is equals to the number
  *  of processors.
  *
- * @sample com.hexagonkt.scheduler.CronSchedulerTest.callbackExecutedProperly
+ * @sample com.hexagonkt.scheduler.CronSchedulerSamplesTest.callbackExecutedProperly
  */
 class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
     private val log: Logger = Logger(this)

@@ -10,7 +10,7 @@ dokka {
     outputFormat = findProperty("dokkaOutputFormat") ?: "gfm"
     reportUndocumented = false
     includes = filesCollection(projectDir, "*.md")
-    samples = filesCollection("$projectDir/src/test/kotlin", "**/*Test.kt")
+    samples = filesCollection("$projectDir/src/test/kotlin", "**/*SamplesTest.kt")
 }
 
 task dokkaJar(type: Jar, dependsOn: "dokka") {

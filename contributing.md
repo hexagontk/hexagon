@@ -16,26 +16,14 @@ to date of project's news following [@hexagon_kt] in Twitter.
 
 ## Project Structure
 
-The Hexagon project is composed of several modules. There are several kind of modules:
+The Hexagon project is composed of several modules. Most of the modules publish libraries for their
+use by other projects (check the [Project Libraries] section of the readme file for more details).
 
-* The ones that provide a single functionality that does not depend on different implementations,
-  like [hexagon_scheduler] or [hexagon_core].
-* Modules that define a "Port": An interface to a feature that may have different implementations
-  (ie: [port_http_server] or [port_store]).
-* Adapters modules, which are Port implementations for a given tool. [store_mongodb] and
-  [messaging_rabbitmq] are examples of this type of modules.
-* Infrastructure modules. Components used by the project itself. These are internal modules not
-  intended to be used by users like the [hexagon_benchmark] or the [hexagon_site].
+Aside of that kind of modules, you can also find infrastructure modules: components used by the
+project itself. These are internal modules not intended to be used by users (like the
+[hexagon_benchmark] or the [hexagon_site]).
 
-[hexagon_scheduler]: https://hexagonkt.com/hexagon_scheduler/index.html
-[hexagon_core]: https://hexagonkt.com/hexagon_core/index.html
-
-[port_http_server]: https://hexagonkt.com/port_http_server/index.html
-[port_store]: https://hexagonkt.com/port_store/index.html
-
-[store_mongodb]: https://hexagonkt.com/store_mongodb/index.html
-[messaging_rabbitmq]: https://hexagonkt.com/messaging_rabbitmq/index.html
-
+[Project Libraries]: https://github.com/hexagonkt/hexagon/blob/master/readme.md#hexagon-libraries
 [hexagon_benchmark]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_benchmark/readme.md
 [hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/readme.md
 
@@ -44,9 +32,10 @@ The Hexagon project is composed of several modules. There are several kind of mo
 For the public API of the library's classes and methods. The following rules are applied:
 
 1. Prefer Kotlin STD lib methods if they exist.
-2. Use named parameters instead builders.
-3. Use fields instead getters/setters.
-4. Objects used across the library (Singletons) are named 'Managers'. Ie: EventManager,
+2. Follow Kotlin language and library conventions. Ie: check methods will be named `require...`
+3. Use named parameters instead builders.
+4. Use fields instead getters/setters.
+5. Objects used across the library (Singletons) are named 'Managers'. Ie: EventManager,
    SettingsManager, TemplatesManager.
 
 ## Build Hexagon
@@ -112,14 +101,9 @@ If you want to generate the documentation site, check the [site module readme][h
 * For code, file names, tags and branches use either camel case or snake case only. Ie: avoid `-` or
   `.` in file names if it is possible.
 
-* For a Pull Request to be accepted:
-  - The PR should have a meaningful title.
-  - If the PR refers to an issue, it should be referenced with the Github format (*#ID*).
-  - It should be done to the `develop` branch.
-  - The code has to pass all PR checks.
-  - All public methods and field must be documented using [Dokka](https://github.com/Kotlin/dokka).
-  - The code should follow the [Kotlin Coding Conventions]. With the exception of final brace
-    position in `else`, `catch` and `finally` (in its own line).
+* For a Pull Request to be accepted, follow the [pull request template] recommendations. And check
+  that the code follows the [Kotlin Coding Conventions], with the exception of final brace
+  position in `else`, `catch` and `finally` (in its own line).
 
 * Commit format: the preferred commit format would have:
   - Summary: small summary of the change. In imperative form.
@@ -132,28 +116,14 @@ If you want to generate the documentation site, check the [site module readme][h
   [Description]
   ```
 
-* Bug format: when filing bugs please use the given, when, then format, including the expected 
-  result. Ie:
+* Bug format: when filing bugs please comply with the [bug template] requirements.
 
-  ```
-  Given a condition
-  And another condition
-  When an action is taken
-  And other after the first
-  Then something happened
-  And I expected this other thing
-  ```
+* A feature requests should follow the [feature template] rules.
 
-  If it is possible, add a link to the code that produced the error. And the stack trace if
-  available.
-
-* A feature requests: should have a detailed description and Acceptance criteria (a list of
-  requirements) with the following format:
-
-  * When *action* then *result*
-  * When this is done then other thing should happen
-
+[pull request template]: https://github.com/hexagonkt/hexagon/blob/master/.github/pull_request_template.md
 [Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
+[bug template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/bug.md
+[feature template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/feature.md
 
 ## Tasks and Milestones
 

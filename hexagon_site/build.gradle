@@ -36,7 +36,7 @@ tasks.bake.doFirst {
 
     fileTree(dir: contentTarget, include: "**/*.md").each { fcd ->
         final String frontMatter = """
-            title=Hexagon ${fcd.name.tr("_", " ").capitalize() - ".md"}
+            title=${fcd.name.tr("_", " ").capitalize() - ".md"}
             date=${LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)}
             fileName=${fcd.name}
             type=page
@@ -65,7 +65,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 private static Map<String, ?> loadYaml(final File yamlFile) {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())

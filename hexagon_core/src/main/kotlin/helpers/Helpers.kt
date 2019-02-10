@@ -76,8 +76,11 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
         (this as Map<Any, Any>).getOrElse(keys.first()) { null }
 
 @Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
-fun <T : Any> Map<*, *>.require(vararg name: Any): T =
-    this.get(*name) as? T ?: error("$name required setting not found")
+fun <T : Any> Map<*, *>.requireKeys(vararg name: Any): T =
+    this.get(*name) as? T ?: error("$name required key not found")
+
+fun <K, V> Map<K, V>.require(name: K): V =
+    this[name] ?: error("$name required key not found")
 
 fun <K, V> Map<K, V>.filterEmpty(): Map<K, V> = this.filterValues(::notEmpty)
 

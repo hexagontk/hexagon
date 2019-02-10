@@ -37,12 +37,17 @@
 
 ---
 
-Hexagon is a microservices library written in [Kotlin]. Its purpose is to ease the building of
-services (Web applications, APIs or queue consumers) that run inside a cloud platform.
+Hexagon is a set of microservices libraries written in [Kotlin]. Its purpose is to ease the building
+of services (Web applications, APIs or queue consumers) that run inside a cloud platform.
 
-It is meant to provide abstraction from underlying technologies to be able to change them with
-minimum impact. It is designed to fit in applications that conforms to the [Hexagonal Architecture]
-(also called [Clean Architecture] or [Ports and Adapters Architecture]).
+The project is developed as a set of [libraries][frameworks] that you call as opposed to
+[frameworks] that call your code inside them. Being a library means that you won't need special
+build settings or tools.
+
+It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
+etc.)to be able to change them with minimum impact. It is designed to fit in applications that
+conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
+[Ports and Adapters Architecture]).
 
 The motivation that drove the development of this library was that sometimes you spend more time
 reading framework's documentation than coding. And also, because you lose control of your program:
@@ -57,7 +62,7 @@ The goals of the project are:
    is meant to be simple for the users to understand it. Avoid having to read blogs, documentation
    or getting certified to use it effectively.
 
-What are NOT project goals:
+Which are NOT project goals:
 
 1. To be the fastest framework. Write the code fast and optimize only the critical parts. It is
    [not slow][benchmark] anyway.
@@ -66,12 +71,48 @@ What are NOT project goals:
 3. To be usable from Java. Hexagon is *Kotlin first*.
 
 [Kotlin]: http://kotlinlang.org
+[frameworks]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 [benchmark]: https://www.techempower.com/benchmarks
 
-## Quick Start
+## Hexagon Libraries
+
+Most project's modules provide a library that clients can import. There are three kind of libraries:
+
+* The ones that provide a single functionality that does not depend on different implementations,
+  like [hexagon_scheduler] or [hexagon_core].
+* Modules that define a "Port": An interface to a feature that may have different implementations
+  (ie: [port_http_server] or [port_store]). These ones can not be used by themselves and in their
+  place, an adapter implementing them should be added to the list of dependencies.
+* Adapter modules, which are Port implementations for a given tool. [store_mongodb] and
+  [messaging_rabbitmq] are examples of this type of modules.
+  
+Ports are independent from each other.
+
+[hexagon_scheduler]: https://hexagonkt.com/hexagon_scheduler/index.html
+[hexagon_core]: https://hexagonkt.com/hexagon_core/index.html
+
+[port_http_server]: https://hexagonkt.com/port_http_server/index.html
+[port_store]: https://hexagonkt.com/port_store/index.html
+
+[store_mongodb]: https://hexagonkt.com/store_mongodb/index.html
+[messaging_rabbitmq]: https://hexagonkt.com/messaging_rabbitmq/index.html
+
+## Hexagon Core
+
+Hexagon Core module is used by all other libraries, so it would be added to your project anyway just
+by using any adapter.
+
+The main features it has are:
+
+* Helpers: JVM information, a logger and other useful utilities.
+* Dependency Injection: bind classes to creation closures or instances and inject them.
+* Instance Serialization: parse/serialize data in different formats to class instances.
+* Configuration Settings: load settings from different data sources and formats.
+
+## Write a HTTP service
 
 You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
 from scratch following these steps:
@@ -83,7 +124,7 @@ from scratch following these steps:
   * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:http_server_jetty:0.25.0")
+    compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
@@ -92,25 +133,32 @@ from scratch following these steps:
     <dependency>
       <groupId>com.hexagonkt</groupId>
       <artifactId>http_server_jetty</artifactId>
-      <version>0.25.0</version>
+      <version>$hexagonVersion</version>
     </dependency>
     ```
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
     ```kotlin
-    import com.hexagonkt.server.jetty.serve
+    import com.hexagonkt.http.server.Server
+    import com.hexagonkt.http.server.jetty.JettyServletAdapter
 
     fun main() {
-        serve {
-            get("/hello/{name}") { "Hello ${request["name"]}!" }
+
+        val server = Server(JettyServletAdapter()) {
+            get("/hello/{name}") {
+                ok("Hello ${request.pathParameter("name")}!")
+            }
         }
+
+        server.run()
     }
     ```
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-You can read more details reading the [Quick Start] page, or checking the [documentation].
+You can check the [documentation] for more details. Or you can clone the [Gradle Starter] or
+[Maven Starter] for a minimal fully working example (including tests).
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter

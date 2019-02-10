@@ -20,11 +20,6 @@ slackChannel: https://kotlinlang.slack.com/messages/hexagon
 bintrayRepo: jamming/maven/hexagon_core
 
 siteColor: '#135AA1'
-siteLogoDark: '#0073BB'
-siteLogoLight: '#2B9EE6'
-siteBackgroundDark: '#31415C'
-siteBackgroundLight: '#546691'
-siteAccentColor: '#2B9EE6'
 
 navigationLinks:
   Quick Start: /quick_start.html
