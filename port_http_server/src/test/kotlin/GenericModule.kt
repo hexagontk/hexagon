@@ -43,12 +43,12 @@ internal class GenericModule : TestModule() {
             request.cookies["method"]?.value = request.method.toString()
             request.cookies["host"]?.value = request.ip
             request.cookies["uri"]?.value = request.url
-            request.cookies["params"]?.value = request.parameters.size.toString()
+            request.cookies["params"]?.value = parameters.size.toString()
 
             response.addHeader("method", request.method.toString())
             response.addHeader("ip", request.ip)
             response.addHeader("uri", request.url)
-            response.addHeader("params", request.parameters.size.toString())
+            response.addHeader("params", parameters.size.toString())
 
             response.addHeader("agent", request.userAgent)
             response.addHeader("scheme", request.scheme)
@@ -78,8 +78,8 @@ internal class GenericModule : TestModule() {
         get("/baseException") { throw CustomException() }
         get("/unhandledException") { error("error message") }
         get("/hi") { ok ("Hello World!") }
-        get("/param/{param}") { ok ("echo: ${request.pathParameter("param")}") }
-        get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${request.pathParameter("paramWithMaj")}") }
+        get("/param/{param}") { ok ("echo: ${pathParameters["param"]}") }
+        get("/paramwithmaj/{paramWithMaj}") { ok ("echo: ${pathParameters["paramWithMaj"]}") }
         get("/") { ok("Hello Root!") }
         post("/poster") { send(201, "Body was: ${request.body}") }
         patch("/patcher") { ok ("Body was: ${request.body}") }
@@ -92,17 +92,17 @@ internal class GenericModule : TestModule() {
         trace ("/method") { okRequestMethod () }
         head ("/method") { response.addHeader ("header", request.method.toString()) }
         get("/halt") { halt("halted") }
-        get("/tworoutes/$part/{param}") { ok ("$part route: ${request.pathParameter("param")}") }
+        get("/tworoutes/$part/{param}") { ok ("$part route: ${pathParameters["param"]}") }
 
         get("/tworoutes/${part.toUpperCase()}/{param}") {
-            ok ("${part.toUpperCase()} route: ${request.pathParameter("param")}")
+            ok ("${part.toUpperCase()} route: ${pathParameters["param"]}")
         }
 
         get("/reqres") { ok (request.method) }
         get("/redirect") { redirect("http://example.com") }
         get("/attribute") { ok(attributes["attr1"] ?: "not found") }
         get("/content/type") {
-            val headerResponseType = request.singleHeaders["responseType"]
+            val headerResponseType = request.headers["responseType"]?.first()
 
             if (headerResponseType != null)
                 response.contentType = headerResponseType

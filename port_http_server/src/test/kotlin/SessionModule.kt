@@ -2,6 +2,7 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.helpers.Logger
+import com.hexagonkt.helpers.require
 
 @Suppress("unused", "MemberVisibilityCanBePrivate") // Test methods are flagged as unused
 internal class SessionModule : TestModule() {
@@ -37,16 +38,15 @@ internal class SessionModule : TestModule() {
         post("/session/invalidate") { session.invalidate() }
 
         put("/session/{key}/{value}") {
-            session [request.pathParameter("key")] = request.pathParameter("value")
-            Unit
+            session.setAttribute(pathParameters["key"], pathParameters["value"])
         }
 
         get("/session/{key}") {
-            ok (session [request.pathParameter("key")].toString())
+            ok (session.getAttribute(pathParameters["key"]).toString())
         }
 
         delete("/session/{key}") {
-            session.removeAttribute(request.pathParameter("key"))
+            session.removeAttribute(pathParameters["key"])
         }
 
         get("/session") {

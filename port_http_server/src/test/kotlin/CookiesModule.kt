@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
 import java.net.HttpCookie
 
@@ -12,17 +13,17 @@ internal class CookiesModule : TestModule() {
         }
 
         post("/setCookie") {
-            val name = request.singleParameters["cookieName"]
-            val value = request.singleParameters["cookieValue"]
+            val name = request.parameters["cookieName"]?.first()
+            val value = request.parameters["cookieValue"]?.first()
             response.addCookie (HttpCookie (name, value))
         }
 
         post("/assertHasCookie") {
-            checkCookie(request.singleParameters["cookieName"])
+            checkCookie(request.parameters["cookieName"]?.first())
         }
 
         post("/removeCookie") {
-            val cookieName = request.requireSingleParameter("cookieName")
+            val cookieName = request.parameters.require("cookieName").first()
             checkCookie(cookieName)
             response.removeCookie(cookieName)
         }
@@ -57,7 +58,7 @@ internal class CookiesModule : TestModule() {
 
     private fun Call.checkCookie(cookieName: String?) {
         val cookieValue = request.cookies[cookieName]?.value
-        if (request.singleParameters["cookieValue"] != cookieValue)
+        if (request.parameters["cookieValue"]?.first() != cookieValue)
             halt(500)
     }
 

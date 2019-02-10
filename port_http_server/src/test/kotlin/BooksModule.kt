@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
 import java.util.*
 import java.util.Collections.synchronizedMap
@@ -21,12 +22,14 @@ internal class BooksModule : TestModule() {
 
     override fun initialize(): Router = Router {
         post ("/books") {
-            books [id] = Book(request.requireSingleParameter("author"), request.requireSingleParameter("title"))
+            val author = parameters.require("author").first()
+            val title = parameters.require("title").first()
+            books [id] = Book(author, title)
             send (201, (id++).toString ())
         }
 
         get("/books/{id}") {
-            val bookId = request.pathParameter("id").toInt()
+            val bookId = pathParameters["id"].toInt()
             val book = books [bookId]
             if (book != null)
                 ok ("Title: ${book.title}, Author: ${book.author}")
@@ -35,12 +38,12 @@ internal class BooksModule : TestModule() {
         }
 
         put("/books/{id}") {
-            val bookId = request.pathParameter("id").toInt()
+            val bookId = pathParameters["id"].toInt()
             val book = books[bookId]
             if (book != null) {
                 books[bookId] = book.copy (
-                    author = request.parameters["author"]?.first() ?: book.author,
-                    title = request.parameters["title"]?.first() ?: book.title
+                    author = parameters["author"]?.first() ?: book.author,
+                    title = parameters["title"]?.first() ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
@@ -51,7 +54,7 @@ internal class BooksModule : TestModule() {
         }
 
         delete ("/books/{id}") {
-            val bookId = request.pathParameter("id").toInt()
+            val bookId = pathParameters["id"].toInt()
             val book = books.remove (bookId)
             if (book != null)
                 ok ("Book with id '$bookId' deleted")

@@ -26,12 +26,13 @@ abstract class Response () {
 
     protected abstract fun outputStream(): OutputStream
 
-    protected abstract fun body(): Any
     protected abstract fun status(): Int
-    protected abstract fun contentType(): String?
-
-    protected abstract fun body(value: Any)
     protected abstract fun status(value: Int)
+
+    protected abstract fun body(): Any
+    protected abstract fun body(value: Any)
+
+    protected abstract fun contentType(): String?
     protected abstract fun contentType(value: String?)
 
     abstract fun addHeader (name: String, value: String)
