@@ -41,7 +41,7 @@ Which are NOT project goals:
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 [benchmark]: https://www.techempower.com/benchmarks
 
-## Hexagon Libraries
+# Hexagon Libraries
 
 Most project's modules provide a library that clients can import. There are three kind of libraries:
 
@@ -64,18 +64,19 @@ Ports are independent from each other.
 [store_mongodb]: https://hexagonkt.com/store_mongodb/index.html
 [messaging_rabbitmq]: https://hexagonkt.com/messaging_rabbitmq/index.html
 
-## Hexagon Core
+# Hexagon Core
 
-Hexagon Core module is used by all other libraries, so it would be added to your project anyway.
+Hexagon Core module is used by all other libraries, so it would be added to your project anyway just
+by using any adapter.
 
 The main features it has are:
 
 * Helpers: JVM information, a logger and other useful utilities.
-* Dependency Injection:
-* Instance Serialization:
-* Configuration Settings:
+* Dependency Injection: bind classes to creation closures or instances and inject them.
+* Instance Serialization: parse/serialize data in different formats to class instances.
+* Configuration Settings: load settings from different data sources and formats.
 
-## Write a HTTP service
+# Write a HTTP service
 
 You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
 from scratch following these steps:
@@ -129,4 +130,4 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
 [Endpoint]: http://localhost:2010/hello/world
-[documentation]: http://hexagonkt.com/documentation.html
+[documentation]: /documentation.html

@@ -5,7 +5,7 @@
     <div class="container">
       <div class="row">
         <div class="col-4 col-md-2">
-          <h3 class="font-weight-bold text-uppercase">Usage</h3>
+          <h3 class="font-weight-bold text-uppercase" data-toc-skip>Usage</h3>
           <ul class="p-0 m-0">
             <#list config.navigationLinks?keys as title>
             <li><a href="${config.navigationLinks[title]}">${title}</a></li>
@@ -16,7 +16,7 @@
         </div>
 
         <div class="col-4 col-md-2">
-          <h3 class="font-weight-bold text-uppercase">Contribute</h3>
+          <h3 class="font-weight-bold text-uppercase" data-toc-skip>Contribute</h3>
           <ul class="p-0 m-0">
             <li><a href="${github}/blob/master/contributing.md">Contributing</a></li>
             <li><a href="${github}/projects/1">Planning</a></li>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="col-4 col-md-2">
-          <h3 class="font-weight-bold text-uppercase">Community</h3>
+          <h3 class="font-weight-bold text-uppercase" data-toc-skip>Community</h3>
           <ul class="p-0 m-0">
             <li><a href="${github}">Github</a></li>
             <li><a href="https://twitter.com/${config.twitterUser}">Twitter</a></li>

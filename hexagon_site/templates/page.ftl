@@ -26,7 +26,7 @@
     <div class="row">
       <aside class="col-2">
         <nav id="contents" class="sticky-top d-none d-sm-block">
-          <h3 class="text-big font-weight-bold">Documentation</h3>
+          <h3 class="text-big font-weight-bold" data-toc-skip>Documentation</h3>
           <ul class="nav navbar-nav">
             <li><a class="nav-link p-0" href="/quick_start.html">Quick Start</a></li>
             <li><a class="nav-link p-0" href="/documentation.html">Documentation</a></li>
@@ -35,14 +35,14 @@
             <li><a class="nav-link p-0" href="${contributing}">Contribute</a></li>
           </ul>
 
-          <h3 class="text-big font-weight-bold mt-3">Modules</h3>
+          <h3 class="text-big font-weight-bold mt-3" data-toc-skip>Modules</h3>
           <ul class="nav navbar-nav">
             <li><a class="nav-link p-0" href="/hexagon_core/index.html">Core</a></li>
             <li><a class="nav-link p-0" href="/hexagon_scheduler/index.html">Scheduler</a></li>
             <li><a class="nav-link p-0" href="/hexagon_web/index.html">Web</a></li>
           </ul>
 
-          <h3 class="text-big font-weight-bold mt-3">Ports</h3>
+          <h3 class="text-big font-weight-bold mt-3" data-toc-skip>Ports</h3>
           <ul class="nav navbar-nav">
             <li><a class="nav-link p-0" href="/port_http_server/index.html">HTTP</a></li>
             <li><a class="nav-link p-0" href="/port_http_client/index.html">Client</a></li>

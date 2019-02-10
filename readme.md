@@ -102,14 +102,15 @@ Ports are independent from each other.
 
 ## Hexagon Core
 
-Hexagon Core module is used by all other libraries, so it would be added to your project anyway.
+Hexagon Core module is used by all other libraries, so it would be added to your project anyway just
+by using any adapter.
 
 The main features it has are:
 
 * Helpers: JVM information, a logger and other useful utilities.
-* Dependency Injection:
-* Instance Serialization:
-* Configuration Settings:
+* Dependency Injection: bind classes to creation closures or instances and inject them.
+* Instance Serialization: parse/serialize data in different formats to class instances.
+* Configuration Settings: load settings from different data sources and formats.
 
 ## Write a HTTP service
 
