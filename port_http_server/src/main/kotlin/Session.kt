@@ -30,8 +30,8 @@ abstract class Session {
 
     abstract fun getAttribute(name: String): Any?
     abstract fun setAttribute(name: String, value: Any)
+    abstract fun removeAttribute(name: String)
 
     abstract fun invalidate ()
     abstract fun isNew (): Boolean
-    abstract fun removeAttribute(name: String)
 }

@@ -15,7 +15,7 @@ internal class CookiesModule : TestModule() {
         post("/setCookie") {
             val name = request.parameters["cookieName"]?.first()
             val value = request.parameters["cookieValue"]?.first()
-            response.addCookie (HttpCookie (name, value))
+            response.setCookie (HttpCookie (name, value))
         }
 
         post("/assertHasCookie") {

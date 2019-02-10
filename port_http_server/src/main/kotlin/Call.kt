@@ -12,13 +12,17 @@ import com.hexagonkt.serialization.serialize
 class Call(val request: Request, val response: Response, val session: Session) {
 
     /** Call attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
-    var attributes: Map<String, Any> = linkedMapOf()
+    var attributes: Map<String, Any> = emptyMap()
 
     val responseType: String get() =
         response.contentType ?:
         request.headers["Accept"]?.firstOrNull()?.let { if (it == "*/*") null else it } ?:
         request.contentType ?:
         defaultFormat.contentType
+
+    // Request shortcuts
+    val pathParameters: RequiredKeysMap<String, String> by lazy { request.pathParameters }
+    val parameters: Map<String, List<String>> by lazy { request.parameters }
 
     fun ok(content: Any = "", contentType: String? = null) = send(200, content, contentType)
 
@@ -43,8 +47,4 @@ class Call(val request: Request, val response: Response, val session: Session) {
     }
 
     fun redirect (url: String) = response.redirect(url)
-
-    // Request shortcuts
-    val pathParameters: RequiredKeysMap<String, String> by lazy { request.pathParameters }
-    val parameters: Map<String, List<String>> by lazy { request.parameters }
 }

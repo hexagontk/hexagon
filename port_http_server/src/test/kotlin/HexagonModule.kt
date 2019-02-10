@@ -1,6 +1,5 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
 
 @Suppress("unused", "MemberVisibilityCanPrivate") // Test methods are flagged as unused
@@ -22,8 +21,8 @@ internal class HexagonModule : TestModule() {
             ok("${pathParameters["id"]}:${pathParameters["title"]} ${request.body}")
         }
         head("/hexagon/books/{id}/{title}") {
-            response.addHeader("id", pathParameters["id"])
-            response.addHeader("title", pathParameters["title"])
+            response.setHeader("id", pathParameters["id"])
+            response.setHeader("title", pathParameters["title"])
         }
     }
 

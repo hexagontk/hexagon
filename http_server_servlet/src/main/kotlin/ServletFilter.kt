@@ -135,25 +135,25 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         val bRequest = BServletRequest(request)
         val bResponse = BServletResponse(request, response)
         val bSession = BServletSession(request)
-        val exchange = Call(bRequest, bResponse, bSession)
+        val call = Call(bRequest, bResponse, bSession)
         var handled = false
 
         try {
-            handled = filter(bRequest, exchange, beforeFilters)
-            handled = route(exchange, bRequest) || handled // Order matters!!!
-            handled = filter(bRequest, exchange, afterFilters) || handled // Order matters!!!
+            handled = filter(bRequest, call, beforeFilters)
+            handled = route(call, bRequest) || handled // Order matters!!!
+            handled = filter(bRequest, call, afterFilters) || handled // Order matters!!!
 
             if (!handled)
                 throw CodedException(404)
         }
         catch (e: Exception) {
-            handleException(e, exchange)
+            handleException(e, call)
         }
         finally {
             // TODO Try needed because of a problem with Jetty's response redirect: fix and remove
             try {
-                response.status = exchange.response.status
-                response.outputStream.write(exchange.response.body.toString().toByteArray())
+                response.status = call.response.status
+                response.outputStream.write(call.response.body.toString().toByteArray())
                 response.outputStream.flush()
             }
             catch (e: Exception) {

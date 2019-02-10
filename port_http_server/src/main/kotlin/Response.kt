@@ -35,8 +35,9 @@ abstract class Response () {
     protected abstract fun contentType(): String?
     protected abstract fun contentType(value: String?)
 
-    abstract fun addHeader (name: String, value: String)
-    abstract fun addCookie (cookie: HttpCookie)
+    abstract fun setHeader (name: String, value: String)
+    abstract fun setCookie (cookie: HttpCookie)
     abstract fun removeCookie (name: String)
+
     abstract fun redirect (url: String)
 }

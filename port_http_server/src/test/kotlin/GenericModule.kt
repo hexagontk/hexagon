@@ -45,32 +45,32 @@ internal class GenericModule : TestModule() {
             request.cookies["uri"]?.value = request.url
             request.cookies["params"]?.value = parameters.size.toString()
 
-            response.addHeader("method", request.method.toString())
-            response.addHeader("ip", request.ip)
-            response.addHeader("uri", request.url)
-            response.addHeader("params", parameters.size.toString())
+            response.setHeader("method", request.method.toString())
+            response.setHeader("ip", request.ip)
+            response.setHeader("uri", request.url)
+            response.setHeader("params", parameters.size.toString())
 
-            response.addHeader("agent", request.userAgent)
-            response.addHeader("scheme", request.scheme)
-            response.addHeader("host", request.host)
-            response.addHeader("query", request.queryString)
-            response.addHeader("port", request.port.toString())
+            response.setHeader("agent", request.userAgent)
+            response.setHeader("scheme", request.scheme)
+            response.setHeader("host", request.host)
+            response.setHeader("query", request.queryString)
+            response.setHeader("port", request.port.toString())
 
-            response.addHeader("secure", request.secure.toString())
-            response.addHeader("referer", request.referer)
-            response.addHeader("preferredType", request.preferredType)
-            response.addHeader("contentLength", request.contentLength.toString())
+            response.setHeader("secure", request.secure.toString())
+            response.setHeader("referer", request.referer)
+            response.setHeader("preferredType", request.preferredType)
+            response.setHeader("contentLength", request.contentLength.toString())
 
             ok ("${response.body}!!!")
         }
 
         error(UnsupportedOperationException::class) {
-            response.addHeader("error", it.message ?: it.javaClass.name)
+            response.setHeader("error", it.message ?: it.javaClass.name)
             send(599, "Unsupported")
         }
 
         error(IllegalArgumentException::class) {
-            response.addHeader("runtimeError", it.message ?: it.javaClass.name)
+            response.setHeader("runtimeError", it.message ?: it.javaClass.name)
             send(598, "Runtime")
         }
 
@@ -90,7 +90,7 @@ internal class GenericModule : TestModule() {
         post ("/method") { okRequestMethod () }
         put ("/method") { okRequestMethod () }
         trace ("/method") { okRequestMethod () }
-        head ("/method") { response.addHeader ("header", request.method.toString()) }
+        head ("/method") { response.setHeader ("header", request.method.toString()) }
         get("/halt") { halt("halted") }
         get("/tworoutes/$part/{param}") { ok ("$part route: ${pathParameters["param"]}") }
 
@@ -111,7 +111,7 @@ internal class GenericModule : TestModule() {
         }
 
         after("/hi") {
-            response.addHeader ("after", "foobar")
+            response.setHeader ("after", "foobar")
         }
 
         get("/return/status") { send(201) }

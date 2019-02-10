@@ -20,7 +20,7 @@ import org.testng.annotations.Test
             after {}
             before {}
 
-            before("/infix") { response.addHeader("infix", "before") }
+            before("/infix") { response.setHeader("infix", "before") }
 
             get ("/get") {}
             head ("/head") {}

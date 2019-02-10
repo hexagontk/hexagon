@@ -47,8 +47,8 @@ private val engine by lazy {
 private val router: Router by lazy {
     Router {
         before {
-            response.addHeader("Server", "Servlet/3.1")
-            response.addHeader("Transfer-Encoding", "chunked")
+            response.setHeader("Server", "Servlet/3.1")
+            response.setHeader("Transfer-Encoding", "chunked")
         }
 
         get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }

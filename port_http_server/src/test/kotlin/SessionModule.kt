@@ -2,7 +2,6 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.require
 
 @Suppress("unused", "MemberVisibilityCanBePrivate") // Test methods are flagged as unused
 internal class SessionModule : TestModule() {
@@ -52,13 +51,13 @@ internal class SessionModule : TestModule() {
         get("/session") {
             val attributeTexts = session.attributes.entries.map { it.key + " : " + it.value }
 
-            response.addHeader ("attributes", attributeTexts.joinToString(", "))
-            response.addHeader ("attribute values", session.attributes.values.joinToString(", "))
-            response.addHeader ("attribute names", session.attributes.keys.joinToString(", "))
+            response.setHeader ("attributes", attributeTexts.joinToString(", "))
+            response.setHeader ("attribute values", session.attributes.values.joinToString(", "))
+            response.setHeader ("attribute names", session.attributes.keys.joinToString(", "))
 
-            response.addHeader ("creation", session.creationTime.toString())
-            response.addHeader ("id", session.id ?: "")
-            response.addHeader ("last access", session.lastAccessedTime.toString())
+            response.setHeader ("creation", session.creationTime.toString())
+            response.setHeader ("id", session.id ?: "")
+            response.setHeader ("last access", session.lastAccessedTime.toString())
 
             response.status = 200
         }
