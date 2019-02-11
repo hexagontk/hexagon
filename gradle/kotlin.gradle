@@ -80,7 +80,7 @@ task verify(dependsOn: "test", type: Test) {
 }
 
 jacoco {
-    toolVersion = "0.8.3"
+    toolVersion = "0.8.2"
 }
 
 // Generate coverage reports properly
