@@ -1,4 +1,4 @@
-package web
+package com.hexagonkt.web
 
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.server.Router
@@ -6,7 +6,6 @@ import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.templates.pebble.PebbleAdapter
-import com.hexagonkt.web.template
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeTest
 import org.testng.annotations.Test
