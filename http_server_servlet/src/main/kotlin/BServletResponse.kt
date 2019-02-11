@@ -29,11 +29,7 @@ internal class BServletResponse(
 
     override fun contentType(value: String?) { resp.contentType = value }
 
-    override fun setHeader (name: String, value: String) {
-        resp.setHeader(name, value)
-    }
-
-    override fun setCookie (cookie: HttpCookie) {
+    override fun addCookie (cookie: HttpCookie) {
         resp.addCookie(Cookie(cookie.name, cookie.value))
     }
 

@@ -14,31 +14,31 @@ import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 val ALL: LinkedHashSet<Method> by lazy { linkedSetOf(*Method.values()) }
 
 /** Shortcut to create a route for a filter (with all methods). */
-fun all(path: String = "/"): Route = Route(Path(path), ALL)
+fun any(path: String = "/"): Route = Route(Path(path), ALL)
 
 /** Shortcut to create a GET route. */
-fun get(path: String = "/"): Route = Route(Path(path), GET)
+fun get(path: String = "/"): Route = Route(path, GET)
 
 /** Shortcut to create a HEAD route. */
-fun head(path: String = "/"): Route = Route(Path(path), HEAD)
+fun head(path: String = "/"): Route = Route(path, HEAD)
 
 /** Shortcut to create a POST route. */
-fun post(path: String = "/"): Route = Route(Path(path), POST)
+fun post(path: String = "/"): Route = Route(path, POST)
 
 /** Shortcut to create a PUT route. */
-fun put(path: String = "/"): Route = Route(Path(path), PUT)
+fun put(path: String = "/"): Route = Route(path, PUT)
 
 /** Shortcut to create a DELETE route. */
-fun delete(path: String = "/"): Route = Route(Path(path), DELETE)
+fun delete(path: String = "/"): Route = Route(path, DELETE)
 
 /** Shortcut to create a TRACE route. */
-fun tracer(path: String = "/"): Route = Route(Path(path), TRACE)
+fun tracer(path: String = "/"): Route = Route(path, TRACE)
 
 /** Shortcut to create a OPTIONS route. */
-fun options(path: String = "/"): Route = Route(Path(path), OPTIONS)
+fun options(path: String = "/"): Route = Route(path, OPTIONS)
 
 /** Shortcut to create a PATCH route. */
-fun patch(path: String = "/"): Route = Route(Path(path), PATCH)
+fun patch(path: String = "/"): Route = Route(path, PATCH)
 
 fun parseQueryParameters (query: String): Map<String, String> =
     if (query.isBlank())

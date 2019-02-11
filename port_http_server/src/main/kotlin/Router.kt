@@ -30,33 +30,43 @@ class Router(block: Router.() -> Unit = {}) {
     }
 
     private infix fun Route.before(block: RouteCallback) {
-        requestHandlers += FilterHandler(this, BEFORE, block)
+        requestHandlers = requestHandlers + FilterHandler(this, BEFORE, block)
     }
 
     private infix fun Route.after(block: RouteCallback) {
-        requestHandlers += FilterHandler(this, AFTER, block)
+        requestHandlers = requestHandlers + FilterHandler(this, AFTER, block)
     }
 
     private infix fun Route.by(block: RouteCallback) {
-        requestHandlers += RouteHandler(this, block)
+        requestHandlers = requestHandlers + RouteHandler(this, block)
     }
 
-    fun before(path: String = "/*", block: RouteCallback) = all(path) before block
-    fun after(path: String = "/*", block: RouteCallback) = all(path) after block
+    fun before(path: String = "/*", block: RouteCallback) = any(path) before block
+
+    fun after(path: String = "/*", block: RouteCallback) = any(path) after block
+
     fun get(path: String = "/", block: RouteCallback) = get(path) by block
+
     fun head(path: String = "/", block: RouteCallback) = head(path) by block
+
     fun post(path: String = "/", block: RouteCallback) = post(path) by block
+
     fun put(path: String = "/", block: RouteCallback) = put(path) by block
+
     fun delete(path: String = "/", block: RouteCallback) = delete(path) by block
+
     fun trace(path: String = "/", block: RouteCallback) = tracer(path) by block
+
     fun options(path: String = "/", block: RouteCallback) = options(path) by block
+
     fun patch(path: String = "/", block: RouteCallback) = patch(path) by block
 
 //    inline fun <reified O> get(path: String = "/", block: () -> O): Nothing = TODO()
+
 //    inline fun <reified I, O> post(path: String = "/", block: (I) -> O): Nothing = TODO()
 
     fun error(code: Int, block: ErrorCodeCallback) {
-        requestHandlers += CodeHandler(Route(Path("/"), ALL), code, block)
+        requestHandlers = requestHandlers + CodeHandler(Route(Path("/"), ALL), code, block)
     }
 
     fun error(exception: KClass<out Exception>, block: ExceptionCallback) {
@@ -67,17 +77,23 @@ class Router(block: Router.() -> Unit = {}) {
         require(exception != CodedException::class.java) {
             "${exception.name} is internal and can't be handled"
         }
-        requestHandlers += ExceptionHandler(Route(Path("/"), ALL), exception, block)
+        requestHandlers = requestHandlers + ExceptionHandler(Route(Path("/"), ALL), exception, block)
     }
 
-    fun path(path: Path, router: Router) { requestHandlers += PathHandler(Route(path), router) }
+    fun path(path: Path, router: Router) {
+        requestHandlers = requestHandlers + PathHandler(Route(path), router)
+    }
+
     fun path(handler: Router) { path("/", handler) }
+
     fun path(block: Router.() -> Unit) = path(Router(block))
+
     fun path(path: String, router: Router) = path(Path(path), router)
+
     fun path(path: String, block: Router.() -> Unit) = path(Path(path), Router(block))
 
     fun assets (resource: String, path: String = "/*") {
-        requestHandlers += AssetsHandler(Route(Path(path), GET), resource)
+        requestHandlers = requestHandlers + AssetsHandler(Route(Path(path), GET), resource)
     }
 
     fun flatRequestHandlers(h: List<RequestHandler> = requestHandlers): List<RequestHandler> = h

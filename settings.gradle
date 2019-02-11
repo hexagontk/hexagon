@@ -3,9 +3,11 @@ rootProject.name = "hexagon"
 
 gradle.rootProject {
 
-    version = "0.25.1"
-    group = "com.hexagonkt"
-    description = "The atoms of your platform"
+    allprojects {
+        version = "0.25.2"
+        group = "com.hexagonkt"
+        description = "The atoms of your platform"
+    }
 
     // Bintray
     extensions.bintrayRepo = "maven"

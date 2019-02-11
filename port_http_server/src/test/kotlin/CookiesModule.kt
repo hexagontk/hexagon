@@ -12,10 +12,10 @@ internal class CookiesModule : TestModule() {
                 halt(500)
         }
 
-        post("/setCookie") {
+        post("/addCookie") {
             val name = request.parameters["cookieName"]?.first()
             val value = request.parameters["cookieValue"]?.first()
-            response.setCookie (HttpCookie (name, value))
+            response.addCookie (HttpCookie (name, value))
         }
 
         post("/assertHasCookie") {
@@ -38,7 +38,7 @@ internal class CookiesModule : TestModule() {
         val cookieValue = "testCookieValue"
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
 
-        client.post("/setCookie?$cookie")
+        client.post("/addCookie?$cookie")
         val result = client.post("/assertHasCookie?$cookie")
         assert (client.cookies.size == 1)
         assert (result.statusCode == 200)
@@ -48,7 +48,7 @@ internal class CookiesModule : TestModule() {
         val cookieName = "testCookie"
         val cookieValue = "testCookieValue"
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
-        client.post("/setCookie?$cookie")
+        client.post("/addCookie?$cookie")
         assert (client.cookies.size == 1)
         assert (client.post("/assertHasCookie?$cookie").statusCode == 200)
         client.post("/removeCookie?$cookie")
