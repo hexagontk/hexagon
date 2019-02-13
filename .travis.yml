@@ -50,12 +50,6 @@ script: ./gradlew --quiet --stacktrace clean all
 after_success: bash <(curl -s https://codecov.io/bash)
 after_failure: echo 'Look for FAILURE in tests'
 
-addons:
-  sonarcloud:
-    organization: hexagonkt
-    token:
-      secure: 0f809a88c7aa85e0ec4fef08c6ae8bbd66d7b840
-
 deploy:
 
   - provider: script
