@@ -79,7 +79,8 @@ Which are NOT project goals:
 
 ## Hexagon Libraries
 
-Most project's modules provide a library that clients can import. There are three kind of libraries:
+Project's modules fall into two categories: the ones for internal use, and the ones that provide a
+functionality that clients can import. There are three kind of client libraries:
 
 * The ones that provide a single functionality that does not depend on different implementations,
   like [hexagon_scheduler] or [hexagon_core].

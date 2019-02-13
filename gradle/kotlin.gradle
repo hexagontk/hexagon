@@ -63,7 +63,6 @@ clean {
 
 // Show useful testing information while running tests
 tasks.withType(Test).each { testTask ->
-    testTask.outputs.upToDateWhen { false }
     testTask.systemProperties(project.getProperties().findAll { it.value instanceof String })
 
     testTask.testLogging {
