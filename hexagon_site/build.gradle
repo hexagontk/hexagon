@@ -43,6 +43,10 @@ tasks.bake.doFirst {
             status=published
             ~~~~~~
         """
+
+        // TODO Replace the following pattern in .md files by method body
+        // @sample com.hexagonkt.scheduler.CronSchedulerSamplesTest.callbackExecutedProperly
+
         fcd.text = frontMatter.stripIndent() + fcd.text
     }
 
