@@ -8,7 +8,7 @@ import java.io.InputStreamReader
 import java.net.HttpCookie
 import javax.servlet.http.HttpServletRequest
 
-internal class BServletRequest(private val req: HttpServletRequest) : Request() {
+internal class Request(private val req: HttpServletRequest) : Request() {
     var actionPath: Path? = null
 
     override fun path(): String = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath

@@ -72,7 +72,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
      * TODO Take care of filters that throw exceptions
      */
     private fun filter(
-        req: BServletRequest,
+        req: Request,
         call: Call,
         filters: List<Pair<Route, RouteCallback>>): Boolean =
             filters
@@ -85,7 +85,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
                 }
                 .isNotEmpty()
 
-    private fun route(call: Call, bRequest: BServletRequest): Boolean {
+    private fun route(call: Call, bRequest: Request): Boolean {
         val routes = routesByMethod[call.request.method]
         val methodRoutes = routes?.filter { it.route.path.matches(call.request.path) } ?: emptyList()
 
@@ -132,9 +132,9 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         if (request !is HttpRequest || response !is HttpResponse)
             error("Invalid request/response parameters")
 
-        val bRequest = BServletRequest(request)
-        val bResponse = BServletResponse(request, response)
-        val bSession = BServletSession(request)
+        val bRequest = Request(request)
+        val bResponse = Response(request, response)
+        val bSession = Session(request)
         val call = Call(bRequest, bResponse, bSession)
         var handled = false
 

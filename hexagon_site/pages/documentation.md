@@ -7,6 +7,7 @@ Modules
 * [Building]: build script tools (only Gradle now).
 
 ## Core
+* [Injection]
 * [Serialization]: details how to serialize/deserialize object instances using different formats.
 * [Configuration]: how to load service's configuration from different sources and data formats.
 
@@ -22,8 +23,8 @@ Modules
 * [Messaging]: how to support asynchronous communication with messages through message brokers.
 * [Templates]: describes how to render pages using template engines like [Pebble] or [kotlinx.html].
 
-[Building]: /building.html
-[Services]: /services.html
+[Building]: /gradle.html
+[Services]: /create_services.html
 [Configuration]: /core/configuration.html
 [REST]: /modules/rest.html
 [HTTP]: /ports/server.html
