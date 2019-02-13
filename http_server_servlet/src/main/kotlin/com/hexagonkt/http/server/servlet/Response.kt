@@ -7,7 +7,7 @@ import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-internal class BServletResponse(
+internal class Response(
     private val req: HttpServletRequest,
     private val resp: HttpServletResponse) : Response() {
 
