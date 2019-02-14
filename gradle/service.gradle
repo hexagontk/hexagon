@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/build_helpers/service.html
+ * Check usage information at: http://hexagonkt.com/gradle.html
  */
 
 apply(plugin: "application")

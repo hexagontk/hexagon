@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/build_helpers/icons.html
+ * Check usage information at: http://hexagonkt.com/gradle.html
  */
 
 task icons {

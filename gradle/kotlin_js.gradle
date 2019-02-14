@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/build_helpers/kotlin_js.html
+ * Check usage information at: http://hexagonkt.com/gradle.html
  */
 
 apply(plugin: "kotlin2js")
