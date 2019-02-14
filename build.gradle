@@ -22,6 +22,8 @@ plugins {
     id "uk.co.cacoethes.lazybones-templates" version "1.2.3" apply false
 }
 
+apply(from: "gradle/sonarqube.gradle")
+
 repositories {
     jcenter() // Repository required by Jacoco Report
 }
@@ -35,20 +37,6 @@ clean {
     )
 }
 
-sonarqube {
-    properties {
-        property("sonar.projectKey", "hexagonkt_hexagon")
-        property("sonar.organization", "hexagonkt")
-        property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.login", "")
-
-//        property("sonar.jacoco.reportPaths", "build/jacoco/test.exec")
-//        property("sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/jacoco.xml")
-    }
-}
-
-project.tasks["sonarqube"].dependsOn("jacocoReport")
-
 task publish(dependsOn:
     project.getTasksByName("bintrayUpload", true) +
     tasks.getByPath(":hexagon_starters:publishAllTemplates")
@@ -56,8 +44,8 @@ task publish(dependsOn:
 
 task release(dependsOn: "publish") {
     doLast {
-        exec { commandLine "git", "tag", "-m", "Release $version".toString(), version }
-        exec { commandLine "git", "push", "--tags" }
+        exec { commandLine("git", "tag", "-m", "Release $version".toString(), version) }
+        exec { commandLine("git", "push", "--tags") }
     }
 }
 
@@ -67,7 +55,7 @@ task jacocoReport(dependsOn: getTasksByName ("jacocoTestReport", true), type: Ja
     executionData.setFrom(fileTree(rootPath).include(execPattern))
 
     subprojects.each {
-        sourceSets it.sourceSets.main as SourceSet
+        sourceSets(it.sourceSets.main as SourceSet)
     }
 
     reports {
@@ -76,11 +64,12 @@ task jacocoReport(dependsOn: getTasksByName ("jacocoTestReport", true), type: Ja
     }
 }
 
+project.tasks["sonarqube"].dependsOn("jacocoReport")
+
 task all(dependsOn:
     project.getTasksByName("build", true) +
     project.getTasksByName("site", true) +
-//    project.getTasksByName("sonarqube", true) +
-    project.getTasksByName("jacocoReport", true) +
+    project.getTasksByName("sonarqube", true) +
     project.getTasksByName("installDist", true) +
     project.getTasksByName("installAllTemplates", true) +
     project.getTasksByName("publishToMavenLocal", true) +
