@@ -167,3 +167,5 @@ To generate clean URLs, add the following settings:
 configuration['uri.noExtension'] = true
 configuration['uri.noExtension.prefix'] = '/'
 ```
+
+## Sonarqube
