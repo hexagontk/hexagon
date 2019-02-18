@@ -1,8 +1,8 @@
 
 # What is Hexagon
 
-Hexagon is a set of microservices libraries written in [Kotlin]. Its purpose is to ease the building
-of services (Web applications, APIs or queue consumers) that run inside a cloud platform.
+Hexagon is a microservices toolkit written in [Kotlin]. Its purpose is to ease the building of
+services (Web applications, APIs or queue consumers) that run inside a cloud platform.
 
 The project is developed as a set of [libraries][frameworks] that you call as opposed to
 [frameworks] that call your code inside them. Being a library means that you won't need special
@@ -72,10 +72,15 @@ by using any adapter.
 
 The main features it has are:
 
-* Helpers: JVM information, a logger and other useful utilities.
-* Dependency Injection: bind classes to creation closures or instances and inject them.
-* Instance Serialization: parse/serialize data in different formats to class instances.
-* Configuration Settings: load settings from different data sources and formats.
+* [Helpers]: JVM information, a logger and other useful utilities.
+* [Dependency Injection]: bind classes to creation closures or instances and inject them.
+* [Instance Serialization]: parse/serialize data in different formats to class instances.
+* [Configuration Settings]: load settings from different data sources and formats.
+
+[Helpers]: /hexagon_core/index.html#helpers
+[Dependency Injection]: /hexagon_core/index.html#dependency-injection
+[Instance Serialization]: /hexagon_core/index.html#instance-serialization
+[Configuration Settings]: /hexagon_core/index.html#configuration-settings
 
 # Write a HTTP service
 
@@ -103,9 +108,6 @@ from scratch following these steps:
     ```
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
-
-    TODO
-    @sample com.hexagonkt.scheduler.CronSchedulerSamplesTest.callbackExecutedProperly
 
     ```kotlin
     import com.hexagonkt.http.server.Server

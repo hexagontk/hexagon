@@ -37,8 +37,8 @@
 
 ---
 
-Hexagon is a set of microservices libraries written in [Kotlin]. Its purpose is to ease the building
-of services (Web applications, APIs or queue consumers) that run inside a cloud platform.
+Hexagon is a microservices toolkit written in [Kotlin]. Its purpose is to ease the building of
+services (Web applications, APIs or queue consumers) that run inside a cloud platform.
 
 The project is developed as a set of [libraries][frameworks] that you call as opposed to
 [frameworks] that call your code inside them. Being a library means that you won't need special
@@ -108,10 +108,15 @@ by using any adapter.
 
 The main features it has are:
 
-* Helpers: JVM information, a logger and other useful utilities.
-* Dependency Injection: bind classes to creation closures or instances and inject them.
-* Instance Serialization: parse/serialize data in different formats to class instances.
-* Configuration Settings: load settings from different data sources and formats.
+* [Helpers]: JVM information, a logger and other useful utilities.
+* [Dependency Injection]: bind classes to creation closures or instances and inject them.
+* [Instance Serialization]: parse/serialize data in different formats to class instances.
+* [Configuration Settings]: load settings from different data sources and formats.
+
+[Helpers]: http://hexagonkt.com/hexagon_core/index.html#helpers
+[Dependency Injection]: http://hexagonkt.com/hexagon_core/index.html#dependency-injection
+[Instance Serialization]: http://hexagonkt.com/hexagon_core/index.html#instance-serialization
+[Configuration Settings]: http://hexagonkt.com/hexagon_core/index.html#configuration-settings
 
 ## Write a HTTP service
 
@@ -167,7 +172,6 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
 [Endpoint]: http://localhost:2010/hello/world
-[Quick Start]: http://hexagonkt.com/quick_start.html
 [documentation]: http://hexagonkt.com/documentation.html
 
 ## Status

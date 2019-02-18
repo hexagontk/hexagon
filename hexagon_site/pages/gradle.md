@@ -1,6 +1,5 @@
 
-Gradle Helpers
-==============
+# Gradle Helpers
 
 ## Build Variables
 
