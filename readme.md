@@ -146,17 +146,32 @@ from scratch following these steps:
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
     ```kotlin
+    import com.hexagonkt.http.httpDate
     import com.hexagonkt.http.server.Server
+    import com.hexagonkt.http.server.ServerPort
     import com.hexagonkt.http.server.jetty.JettyServletAdapter
+    import com.hexagonkt.injection.InjectionManager.bindObject
 
-    fun main() {
-
-        val server = Server(JettyServletAdapter()) {
-            get("/hello/{name}") {
-                ok("Hello ${request.pathParameter("name")}!")
+    /**
+     * Service server. It is created lazily to allow ServerPort injection (set up in main).
+     */
+    val server: Server by lazy {
+        Server {
+            before {
+                response.setHeader("Server", "Servlet/3.1")
+                response.setHeader("Transfer-Encoding", "chunked")
+                response.setHeader("Date", httpDate())
             }
-        }
 
+            get("/text") { ok("Hello, World!", "text/plain") }
+        }
+    }
+
+    /**
+     * Start the service from the command line.
+     */
+    fun main() {
+        bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
         server.run()
     }
     ```
@@ -184,7 +199,7 @@ It is used in personal not released projects to develop APIs and Web application
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
-so, read the [contributing.md Benchmarking section](contributing.md#benchmarking)
+so, read the [Benchmark readme](hexagon_benchmark/readme.md)
 
 Tests, of course, are taken into account. This is the coverage grid:
 
