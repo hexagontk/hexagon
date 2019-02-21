@@ -172,7 +172,7 @@ from scratch following these steps:
      */
     fun main() {
         bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
-        server.run()
+        server.start()
     }
     ```
 
