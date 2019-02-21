@@ -33,7 +33,7 @@ import java.net.InetAddress.getByName as address
         assertFailsWith<IllegalStateException>("Server is not running") { server.runtimePort }
         assert(!server.started())
 
-        server.run()
+        server.start()
 
         assert(server.started())
         assert(server.runtimePort == 12345)

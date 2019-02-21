@@ -26,7 +26,7 @@ import java.util.Locale.getDefault as defaultLocale
     private val client by lazy { Client("http://localhost:${server.runtimePort}") }
 
     @BeforeTest fun start() {
-        server.run()
+        server.start()
     }
 
     @AfterTest fun stop() {
