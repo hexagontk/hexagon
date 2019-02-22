@@ -18,7 +18,7 @@ class ServiceTest {
     }
 
     @Test fun `HTTP request returns the correct body`() {
-        val response = client.get("/text")
+        val response = client.get("/hello/World")
         val content = response.responseBody
 
         assert(response.headers ["Date"] != null)

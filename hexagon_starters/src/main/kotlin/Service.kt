@@ -16,7 +16,7 @@ val server: Server by lazy {
             response.setHeader("Date", httpDate())
         }
 
-        get("/text") { ok("Hello, World!", "text/plain") }
+        get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
     }
 }
 
@@ -27,4 +27,3 @@ fun main() {
     bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
     server.start()
 }
-
