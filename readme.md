@@ -103,8 +103,8 @@ Ports are independent from each other.
 
 ## Hexagon Core
 
-Hexagon Core module is used by all other libraries, so it would be added to your project anyway just
-by using any adapter.
+Hexagon Core is used by all other libraries, so it would be added to your project anyway just by
+using any adapter.
 
 The main features it has are:
 
@@ -118,7 +118,7 @@ The main features it has are:
 [Instance Serialization]: http://hexagonkt.com/hexagon_core/index.html#instance-serialization
 [Configuration Settings]: http://hexagonkt.com/hexagon_core/index.html#configuration-settings
 
-## Write a HTTP service
+## Simple HTTP service
 
 You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
 from scratch following these steps:
@@ -163,7 +163,7 @@ from scratch following these steps:
                 response.setHeader("Date", httpDate())
             }
 
-            get("/text") { ok("Hello, World!", "text/plain") }
+            get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
         }
     }
 
