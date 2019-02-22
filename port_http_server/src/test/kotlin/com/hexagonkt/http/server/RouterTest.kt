@@ -6,18 +6,16 @@ import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.http.ALL
 import org.testng.annotations.Test
 
-/**
- * TODO .
- */
 @Test class RouterTest {
-    @Test(expectedExceptions = arrayOf(IllegalArgumentException::class))
-    fun exceptionsInErrorHandlers() {
+
+    @Test(expectedExceptions = [ IllegalArgumentException::class ])
+    fun `Hexagon internal 'CodedException' can not be handled`() {
         Router {
             error(CodedException::class) {}
         }
     }
 
-    fun test() {
+    @Test fun `Nested routes are flattened properly inside by Router`() {
         val router = Router {
             path {
                 put {}

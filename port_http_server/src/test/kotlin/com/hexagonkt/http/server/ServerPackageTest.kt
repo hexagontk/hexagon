@@ -11,7 +11,7 @@ import org.testng.annotations.Test
 
 @Test class ServerPackageTest {
 
-    fun package_routes_are_stored_in_server () {
+    @Test fun `Package routes are stored in server`() {
         val server = Server(VoidAdapter) {
             assets ("assets")
 

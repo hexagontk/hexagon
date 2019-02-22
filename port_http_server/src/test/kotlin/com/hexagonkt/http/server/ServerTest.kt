@@ -7,7 +7,7 @@ import java.net.InetAddress.getByName as address
 
 @Test class ServerTest {
 
-    fun `Injected parameters`() {
+    @Test fun `Injected parameters`() {
         bindObject<ServerPort>(VoidAdapter)
 
         val server = Server {}
@@ -18,7 +18,7 @@ import java.net.InetAddress.getByName as address
         assert(server.bindPort == 0)
     }
 
-    fun `Default parameters`() {
+    @Test fun `Default parameters`() {
         val server = Server(VoidAdapter, Router(), "name", address("localhost"), 9999)
 
         assert(server.serverName == "name")
@@ -27,7 +27,7 @@ import java.net.InetAddress.getByName as address
         assert(server.bindPort == 9999)
     }
 
-    fun `Runtime port`() {
+    @Test fun `Runtime port`() {
         val server = Server(VoidAdapter, Router(), "name", address("localhost"), 9999)
 
         assertFailsWith<IllegalStateException>("Server is not running") { server.runtimePort }
@@ -39,7 +39,7 @@ import java.net.InetAddress.getByName as address
         assert(server.runtimePort == 12345)
     }
 
-    fun `Parameters map`() {
+    @Test fun `Parameters map`() {
         val router = Router {}
         val server = Server(VoidAdapter, router = router)
         assert(equal (server, Server(VoidAdapter, router, mapOf<String, Any>())))
