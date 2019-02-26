@@ -19,9 +19,20 @@ import org.testng.annotations.Test
         102 to Book("Homer", "The_Odyssey")
     )
 
+    // Parse post body with JSON/YAML
+    // Set start header and attribute (before) and end header (after) with elapsed time
+    // Add auth filters
+    // Errors and exception handling
+    // Templates
+    // Serialize response with accept content type
+    // Static resources
+    // File upload
+    // CORS
+    // Websocket
+    // Middleware (define Call extension functions to add routes/filters)
     private val server: Server by lazy {
         Server(adapter) {
-            post ("/books") {
+            post("/books") {
                 val author = parameters.require("author").first()
                 val title = parameters.require("title").first()
                 val id = (books.keys.max() ?: 0) + 1
