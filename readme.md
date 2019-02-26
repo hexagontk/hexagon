@@ -145,41 +145,42 @@ from scratch following these steps:
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-    ```kotlin
-    import com.hexagonkt.http.httpDate
-    import com.hexagonkt.http.server.Server
-    import com.hexagonkt.http.server.ServerPort
-    import com.hexagonkt.http.server.jetty.JettyServletAdapter
-    import com.hexagonkt.injection.InjectionManager.bindObject
+```kotlin
+import com.hexagonkt.http.httpDate
+import com.hexagonkt.http.server.Server
+import com.hexagonkt.http.server.ServerPort
+import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.injection.InjectionManager.bindObject
 
-    /**
-     * Service server. It is created lazily to allow ServerPort injection (set up in main).
-     */
-    val server: Server by lazy {
-        Server {
-            before {
-                response.setHeader("Server", "Servlet/3.1")
-                response.setHeader("Transfer-Encoding", "chunked")
-                response.setHeader("Date", httpDate())
-            }
-
-            get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
+/**
+ * Service server. It is created lazily to allow ServerPort injection (set up in main).
+ */
+val server: Server by lazy {
+    Server {
+        before {
+            response.setHeader("Date", httpDate())
         }
-    }
 
-    /**
-     * Start the service from the command line.
-     */
-    fun main() {
-        bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
-        server.start()
+        get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
     }
-    ```
+}
+
+/**
+ * Start the service from the command line.
+ */
+fun main() {
+    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
+    server.start()
+}
+```
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
 You can check the [documentation] for more details. Or you can clone the [Gradle Starter] or
 [Maven Starter] for a minimal fully working example (including tests).
+
+# Books Example
+
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter

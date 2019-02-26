@@ -82,7 +82,7 @@ The main features it has are:
 [Instance Serialization]: /hexagon_core/index.html#instance-serialization
 [Configuration Settings]: /hexagon_core/index.html#configuration-settings
 
-# Write a HTTP service
+# Simple HTTP service
 
 You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
 from scratch following these steps:
@@ -109,36 +109,38 @@ from scratch following these steps:
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-    ```kotlin
-    import com.hexagonkt.http.httpDate
-    import com.hexagonkt.http.server.Server
-    import com.hexagonkt.http.server.ServerPort
-    import com.hexagonkt.http.server.jetty.JettyServletAdapter
-    import com.hexagonkt.injection.InjectionManager.bindObject
+@sample ../../hexagon_starters/src/main/kotlin/Service.kt[Service]
 
-    /**
-     * Service server. It is created lazily to allow ServerPort injection (set up in main).
-     */
-    val server: Server by lazy {
-        Server {
-            before {
-                response.setHeader("Server", "Servlet/3.1")
-                response.setHeader("Transfer-Encoding", "chunked")
-                response.setHeader("Date", httpDate())
-            }
+```kotlin
+import com.hexagonkt.http.httpDate
+import com.hexagonkt.http.server.Server
+import com.hexagonkt.http.server.ServerPort
+import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.injection.InjectionManager.bindObject
 
-            get("/text") { ok("Hello, World!", "text/plain") }
+/**
+ * Service server. It is created lazily to allow ServerPort injection (set up in main).
+ */
+val server: Server by lazy {
+    Server {
+        before {
+            response.setHeader("Server", "Servlet/3.1")
+            response.setHeader("Transfer-Encoding", "chunked")
+            response.setHeader("Date", httpDate())
         }
-    }
 
-    /**
-     * Start the service from the command line.
-     */
-    fun main() {
-        bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
-        server.run()
+        get("/text") { ok("Hello, World!", "text/plain") }
     }
-    ```
+}
+
+/**
+ * Start the service from the command line.
+ */
+fun main() {
+    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
+    server.run()
+}
+```
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 

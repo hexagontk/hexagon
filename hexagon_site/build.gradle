@@ -14,10 +14,20 @@ apply(from: "../gradle/site.gradle")
 apply(from: "../gradle/icons.gradle")
 
 clean {
-    delete("content")
+    delete("build", "content")
 }
 
 tasks.bake.doFirst {
+
+    def readmeMd = rootProject.file("readme.md")
+    def serviceKt = rootProject.file("hexagon_starters/src/main/kotlin/Service.kt")
+    def range = new FileRange(readmeMd, 148, 173)
+    def range1 = new FileRange(serviceKt)
+    println range
+    println range1
+//    println range.lines()
+//    println range1.lines()
+    checkDocumentationCode(range, range1)
 
     final String contentTarget = project.file("content").absolutePath
 
@@ -44,13 +54,10 @@ tasks.bake.doFirst {
             ~~~~~~
         """
 
-        // TODO Replace the following pattern in .md files by method body
-        // @sample com.hexagonkt.scheduler.CronSchedulerSamplesTest.callbackExecutedProperly
-
         fcd.text = frontMatter.stripIndent() + fcd.text
     }
 
-    fileTree(dir: "$contentTarget", include: "**/*.md").each { fcd ->
+    fileTree(dir: contentTarget, include: "**/*.md").each { fcd ->
         final String content = fcd.text
         final String title = "[. a-zA-Z_\\-]"
         final String link = "[./a-zA-Z_\\-]"
@@ -59,6 +66,25 @@ tasks.bake.doFirst {
         final String output = content.replaceAll(regex, replacement)
 
         fcd.text = output
+    }
+
+    fileTree(dir: contentTarget, include: "**/*.md").each { fcd ->
+
+        // @sample com.hexagonkt.scheduler.CronSchedulerSamplesTest.callbackExecutedProperly
+
+        String content = fcd.text
+        final String regex = /@sample ([\w.]+)/
+        final Matcher samples = content =~ regex
+        
+        samples.findAll().each { sample ->
+            String sampleLocation = sample[1]
+            String[] sampleFields = sampleLocation.split("#")
+            println sampleLocation
+            String replacement = "foo"
+            content = content.replaceAll("@sample $sampleLocation", "```kotlin\n$replacement\n```")
+        }
+
+//        fcd.text = content
     }
 }
 
@@ -69,12 +95,50 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.regex.Matcher
 
 private static Map<String, ?> loadYaml(final File yamlFile) {
     final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
     return mapper.readValue(yamlFile, Map.class)
 }
 
-private static void checkDocumentationCode() {
-    
+class FileRange {
+    final File file
+    final String tag
+    final List<String> content
+    final int begin
+    final int end
+
+    FileRange(final File file, final Integer begin = null, final Integer end = null) {
+        this.file = file
+        this.tag = null
+        this.content = file.readLines()
+        this.begin = begin ?: 0
+        this.end = end ?: content.size() - 1
+    }
+
+    FileRange(final File file, final String tag) {
+        this.file = file
+        this.tag = tag
+        this.content = file.readLines()
+        this.begin = content.findIndexOf { it == "// $tag" } + 1
+        this.end = content.findIndexOf { it == "/// $tag" } - 1
+    }
+
+    List<String> lines() {
+        content.subList(begin, end)
+    }
+
+    List<String> strippedLines() {
+        lines().collect { it.trim() }.findAll { it.length() > 0 }
+    }
+
+    @Override String toString() {
+        "$file.absolutePath [$begin:$end]"
+    }
+}
+
+private static void checkDocumentationCode(final FileRange documentation, final FileRange source) {
+    if (documentation.strippedLines() != source.strippedLines())
+        throw new IllegalStateException("Documentation $documentation does not match $source")
 }
