@@ -17,78 +17,66 @@ clean {
     delete("build", "content")
 }
 
-tasks.bake.doFirst {
-
-    def readmeMd = rootProject.file("readme.md")
-    def serviceKt = rootProject.file("hexagon_starters/src/main/kotlin/Service.kt")
-    def range = new FileRange(readmeMd, 148, 173)
-    def range1 = new FileRange(serviceKt)
-    println range
-    println range1
-//    println range.lines()
-//    println range1.lines()
-    checkDocumentationCode(range, range1)
-
-    final String contentTarget = project.file("content").absolutePath
-
-    copy {
-        from project.file('pages')
-        into contentTarget
-    }
-
-    final Set<Project> modules = rootProject.subprojects
-    final List<String> dirs = modules.collect { "$it.name/build/dokka" } as List<String>
-
-    copy {
-        dirs.each { dir -> from rootProject.file(dir) }
-        into contentTarget
-    }
-
-    fileTree(dir: contentTarget, include: "**/*.md").each { fcd ->
-        final String frontMatter = """
-            title=${fcd.name.tr("_", " ").capitalize() - ".md"}
-            date=${LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)}
-            fileName=${fcd.name}
-            type=page
-            status=published
-            ~~~~~~
-        """
-
-        fcd.text = frontMatter.stripIndent() + fcd.text
-    }
-
-    fileTree(dir: contentTarget, include: "**/*.md").each { fcd ->
-        final String content = fcd.text
-        final String title = "[. a-zA-Z_\\-]"
-        final String link = "[./a-zA-Z_\\-]"
-        final String regex = /\[($title*)]\(($link*)\.md\)/
-        final String replacement = '[$1]($2.html)'
-        final String output = content.replaceAll(regex, replacement)
-
-        fcd.text = output
-    }
-
-    fileTree(dir: contentTarget, include: "**/*.md").each { fcd ->
-
-        // @sample com.hexagonkt.scheduler.CronSchedulerSamplesTest.callbackExecutedProperly
-
-        String content = fcd.text
-        final String regex = /@sample ([\w.]+)/
-        final Matcher samples = content =~ regex
-        
-        samples.findAll().each { sample ->
-            String sampleLocation = sample[1]
-            String[] sampleFields = sampleLocation.split("#")
-            println sampleLocation
-            String replacement = "foo"
-            content = content.replaceAll("@sample $sampleLocation", "```kotlin\n$replacement\n```")
-        }
-
-//        fcd.text = content
+task("checkDocumentation") {
+    doFirst {
+        def readme = new FileRange(rootProject.file("readme.md"), 148, 173)
+        def service = new FileRange(rootProject.file("hexagon_starters/src/main/kotlin/Service.kt"))
+        checkDocumentationCode(readme, service)
     }
 }
 
-site.dependsOn (rootProject.getTasksByName("dokka", true).toArray())
+bake {
+    dependsOn("checkDocumentation")
+
+    doFirst {
+        final String contentTarget = project.file("content").absolutePath
+        final Set<Project> modules = rootProject.subprojects
+        final List<String> dirs = modules.collect { "$it.name/build/dokka" } as List<String>
+        final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
+
+        copy {
+            from(project.file('pages'))
+            dirs.each { dir -> from(rootProject.file(dir)) }
+            into(contentTarget)
+        }
+
+        markdownFiles.each { File markdownFile ->
+            String content = markdownFile.text
+
+            // Add front matter
+            final String frontMatter = """
+                title=${markdownFile.name.tr("_", " ").capitalize() - ".md"}
+                date=${LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)}
+                fileName=${markdownFile.name}
+                type=page
+                status=published
+                ~~~~~~
+            """
+
+            content = frontMatter.stripIndent() + content
+
+            // Fix links
+            final String title = "[. a-zA-Z_\\-]"
+            final String link = "[./a-zA-Z_\\-]"
+            content = content.replaceAll(/\[($title*)]\(($link*)\.md\)/, '[$1]($2.html)')
+
+            // Insert samples code
+            final String regex = /@sample (.*)/
+            final Matcher samples = content =~ regex
+
+            samples.findAll().each { String[] sample ->
+                String sampleLocation = sample[1].trim()
+                FileRange sampleRange = FileRange.parse(markdownFile, sampleLocation)
+                String replacement = "```kotlin\n" + sampleRange.lines().join("\n") + "\n```"
+                content = content.replaceAll("@sample $sampleLocation", replacement)
+            }
+
+            markdownFile.text = content
+        }
+    }
+}
+
+site.dependsOn(rootProject.getTasksByName("dokka", true).toArray())
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
@@ -97,17 +85,16 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.regex.Matcher
 
-private static Map<String, ?> loadYaml(final File yamlFile) {
-    final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
-    return mapper.readValue(yamlFile, Map.class)
-}
-
 class FileRange {
     final File file
     final String tag
     final List<String> content
     final int begin
     final int end
+
+    static FileRange parse(File parent, String path) {
+        return new FileRange(parent.toPath().resolve(path).toFile())
+    }
 
     FileRange(final File file, final Integer begin = null, final Integer end = null) {
         this.file = file
@@ -136,6 +123,11 @@ class FileRange {
     @Override String toString() {
         "$file.absolutePath [$begin:$end]"
     }
+}
+
+private static Map<String, ?> loadYaml(final File yamlFile) {
+    final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
+    return mapper.readValue(yamlFile, Map.class)
 }
 
 private static void checkDocumentationCode(final FileRange documentation, final FileRange source) {

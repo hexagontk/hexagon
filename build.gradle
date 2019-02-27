@@ -37,19 +37,19 @@ clean {
     )
 }
 
-task publish(dependsOn:
+task("publish", dependsOn:
     project.getTasksByName("bintrayUpload", true) +
     tasks.getByPath(":hexagon_starters:publishAllTemplates")
 )
 
-task release(dependsOn: "publish") {
+task("release", dependsOn: "publish") {
     doLast {
         exec { commandLine("git", "tag", "-m", "Release $version".toString(), version) }
         exec { commandLine("git", "push", "--tags") }
     }
 }
 
-task jacocoReport(dependsOn: getTasksByName ("jacocoTestReport", true), type: JacocoReport) {
+task("jacocoReport", dependsOn: getTasksByName ("jacocoTestReport", true), type: JacocoReport) {
     final String rootPath = rootDir.absolutePath
     final String execPattern = "**/build/jacoco/test.exec"
     executionData.setFrom(fileTree(rootPath).include(execPattern))
@@ -66,7 +66,7 @@ task jacocoReport(dependsOn: getTasksByName ("jacocoTestReport", true), type: Ja
 
 project.tasks["sonarqube"].dependsOn("jacocoReport")
 
-task all(dependsOn:
+task("all", dependsOn:
     project.getTasksByName("build", true) +
     project.getTasksByName("site", true) +
     project.getTasksByName("jacocoReport", true) +

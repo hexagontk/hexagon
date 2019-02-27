@@ -179,9 +179,6 @@ fun main() {
 You can check the [documentation] for more details. Or you can clone the [Gradle Starter] or
 [Maven Starter] for a minimal fully working example (including tests).
 
-# Books Example
-
-
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
@@ -189,6 +186,9 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 [JCenter]: https://bintray.com/bintray/jcenter
 [Endpoint]: http://localhost:2010/hello/world
 [documentation]: http://hexagonkt.com/documentation.html
+
+# Books Example
+
 
 ## Status
 
