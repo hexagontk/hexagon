@@ -8,7 +8,7 @@ defaultTasks("installDist")
 
 classes.dependsOn("buildInfo")
 
-task buildInfo {
+task("buildInfo") {
     doLast {
         file("$buildDir/resources/main").mkdirs()
         file("$buildDir/resources/main/service.properties").write("""
@@ -23,7 +23,7 @@ task buildInfo {
 
 installDist.dependsOn("build")
 
-task runService(dependsOn: "classes") {
+task("runService", dependsOn: "classes") {
     doLast {
         final JavaExec runTask = run
 

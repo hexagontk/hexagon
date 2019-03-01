@@ -74,7 +74,7 @@ test {
     exclude("**/*IT.*")
 }
 
-task verify(dependsOn: "test", type: Test) {
+task("verify", dependsOn: "test", type: Test) {
     include("**/*IT.*")
 }
 
@@ -91,7 +91,7 @@ jacocoTestReport {
     }
 }
 
-task jarAll(type: Jar, dependsOn: "build") {
+task("jarAll", type: Jar, dependsOn: "build") {
     archiveBaseName.set("${archiveBaseName.orNull}-all".toString())
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
@@ -99,13 +99,13 @@ task jarAll(type: Jar, dependsOn: "build") {
     with(jar)
 }
 
-task sourceJar(type: Jar) {
-    classifier = "sources"
+task("sourceJar", type: Jar) {
+    archiveClassifier.set("sources")
     from(sourceSets.main.allJava)
 }
 
-task testJar(type: Jar, dependsOn: testClasses) {
-    classifier = "test"
+task("testJar", type: Jar, dependsOn: testClasses) {
+    archiveClassifier.set("test")
     from(sourceSets.test.output.classesDirs)
 }
 

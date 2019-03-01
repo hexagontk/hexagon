@@ -27,7 +27,7 @@ clean {
     delete("build", "out")
 }
 
-task assembleWeb(type: Sync, dependsOn: classes) {
+task("assembleWeb", type: Sync, dependsOn: classes) {
     configurations.compile.each { File file ->
         from(zipTree(file.absolutePath)) {
             includeEmptyDirs = false

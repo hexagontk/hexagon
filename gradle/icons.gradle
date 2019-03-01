@@ -2,7 +2,7 @@
  * Check usage information at: http://hexagonkt.com/gradle.html#icons
  */
 
-task icons {
+task("icons") {
     doLast {
         try {
             final String logoSmall = findProperty("logoSmall") ?: ""

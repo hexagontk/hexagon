@@ -46,6 +46,6 @@ clean {
     delete("build", "out")
 }
 
-task site(dependsOn: "bake")
+task("site", dependsOn: "bake")
 
-task serve(dependsOn: "bakePreview")
+task("serve", dependsOn: "bakePreview")
