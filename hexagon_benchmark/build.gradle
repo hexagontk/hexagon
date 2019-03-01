@@ -45,7 +45,7 @@ task tfb(type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setupDoc
     rename("tfb.md", "README.md")
 }
 
-task gradleSettings(type: WriteProperties) {
+task("gradleSettings", type: WriteProperties) {
     Map<String, ?> settings = [
         description : "Hexagon web framework's benchmark",
 
