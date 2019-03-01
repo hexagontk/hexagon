@@ -38,10 +38,10 @@ gradle.rootProject {
 
     // http_server_servlet
     extensions.servletVersion = "3.1.0"
-    extensions.jettyVersion = "9.4.14.v20181114"
+    extensions.jettyVersion = "9.4.15.v20190215"
 
     // hexagon_core
-    extensions.slf4jVersion = "1.7.25"
+    extensions.slf4jVersion = "1.7.26"
     extensions.logbackVersion = "1.2.3"
     extensions.jacksonVersion = "2.9.8"
 
@@ -53,10 +53,10 @@ gradle.rootProject {
     extensions.qpidVersion = "6.1.4"
 
     // port_http_client
-    extensions.ahcVersion = "2.7.0"
+    extensions.ahcVersion = "2.8.1"
 
     // store_mongodb
-    extensions.mongodbVersion = "3.10.0"
+    extensions.mongodbVersion = "3.10.1"
 
     // templates_pebble
     extensions.pebbleVersion = "3.0.8"
