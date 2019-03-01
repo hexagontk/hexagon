@@ -124,8 +124,6 @@ import com.hexagonkt.injection.InjectionManager.bindObject
 val server: Server by lazy {
     Server {
         before {
-            response.setHeader("Server", "Servlet/3.1")
-            response.setHeader("Transfer-Encoding", "chunked")
             response.setHeader("Date", httpDate())
         }
 
