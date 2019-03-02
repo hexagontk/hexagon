@@ -1,4 +1,8 @@
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.regex.Matcher
+
 buildscript {
     repositories { jcenter() }
 
@@ -8,7 +12,7 @@ buildscript {
     }
 }
 
-project.ext.configData = loadYaml(project.file("site.yaml"))
+project.ext.configData = SiteKt.loadYaml(project.file("site.yaml"))
 
 apply(from: "../gradle/site.gradle")
 apply(from: "../gradle/icons.gradle")
@@ -21,7 +25,7 @@ task("checkDocumentation") {
     doFirst {
         def readme = new FileRange(rootProject.file("readme.md"), 148, 173)
         def service = new FileRange(rootProject.file("hexagon_starters/src/main/kotlin/Service.kt"))
-        checkDocumentationCode(readme, service)
+        SiteKt.checkDocumentationCode(readme, service)
     }
 }
 
@@ -64,11 +68,11 @@ bake {
             final String regex = /@sample (.*)/
             final Matcher samples = content =~ regex
 
-            samples.findAll().each { String[] sample ->
+            samples.findAll().each { sample ->
                 String sampleLocation = sample[1].trim()
-                FileRange sampleRange = FileRange.parse(markdownFile, sampleLocation)
-                String replacement = "```kotlin\n" + sampleRange.lines().join("\n") + "\n```"
-                content = content.replaceAll("@sample $sampleLocation", replacement)
+//                FileRange sampleRange = FileRange.parse(markdownFile, sampleLocation)
+//                String replacement = "```kotlin\n" + sampleRange.lines().join("\n") + "\n```"
+//                content = content.replaceAll("@sample $sampleLocation", replacement)
             }
 
             markdownFile.text = content
@@ -77,60 +81,3 @@ bake {
 }
 
 site.dependsOn(rootProject.getTasksByName("dokka", true).toArray())
-
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
-
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.regex.Matcher
-
-class FileRange {
-    final File file
-    final String tag
-    final List<String> content
-    final int begin
-    final int end
-
-    static FileRange parse(File parent, String path) {
-        return new FileRange(parent.toPath().resolve(path).toFile())
-    }
-
-    FileRange(final File file, final Integer begin = null, final Integer end = null) {
-        this.file = file
-        this.tag = null
-        this.content = file.readLines()
-        this.begin = begin ?: 0
-        this.end = end ?: content.size() - 1
-    }
-
-    FileRange(final File file, final String tag) {
-        this.file = file
-        this.tag = tag
-        this.content = file.readLines()
-        this.begin = content.findIndexOf { it == "// $tag" } + 1
-        this.end = content.findIndexOf { it == "/// $tag" } - 1
-    }
-
-    List<String> lines() {
-        content.subList(begin, end)
-    }
-
-    List<String> strippedLines() {
-        lines().collect { it.trim() }.findAll { it.length() > 0 }
-    }
-
-    @Override String toString() {
-        "$file.absolutePath [$begin:$end]"
-    }
-}
-
-private static Map<String, ?> loadYaml(final File yamlFile) {
-    final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
-    return mapper.readValue(yamlFile, Map.class)
-}
-
-private static void checkDocumentationCode(final FileRange documentation, final FileRange source) {
-    if (documentation.strippedLines() != source.strippedLines())
-        throw new IllegalStateException("Documentation $documentation does not match $source")
-}
