@@ -39,14 +39,16 @@ test {
 
 task("tfb", type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setupDockerfiles" ]) {
     from(projectDir)
-    include("src/**", "tfb.gradle", "tfb.md")
+    include("src/**", "tfb.gradle", "tfb.settings.gradle", "tfb.md")
     into(tfbBuildDir)
     rename("tfb.gradle", "build.gradle")
+    rename("tfb.settings.gradle", "settings.gradle")
     rename("tfb.md", "README.md")
 }
 
 task("gradleSettings", type: WriteProperties) {
     Map<String, ?> settings = [
+        name : "hexagon",
         description : "Hexagon web framework's benchmark",
 
         gradleScripts :
