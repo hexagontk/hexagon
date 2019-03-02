@@ -30,7 +30,7 @@ processTemplates 'readme.md', props
 processTemplates 'build.gradle', props
 processTemplates 'settings.gradle', props
 processTemplates 'gradle.properties', props
-processTemplates 'dockerfile', props
+processTemplates 'Dockerfile', props
 processTemplates 'docker-compose.yml', props
 processTemplates 'src/main/resources/logback.xml', props
 processTemplates 'src/main/resources/service.yaml', props
