@@ -1,56 +1,61 @@
 package com.hexagonkt.http.client
 
-import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.client.WireMock.*
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options as wmOptions
-import com.github.tomakehurst.wiremock.client.WireMock
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration
-import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer
+import com.hexagonkt.helpers.require
+import com.hexagonkt.http.server.Call
+import com.hexagonkt.http.server.Server
+import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.serialize
 
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 import java.io.File
 
 @Test
 class ClientTest {
-    private val templateTransformer = ResponseTemplateTransformer(true)
-    private val wmExtensions = wmOptions().extensions(templateTransformer)
-    private val wmOptions: WireMockConfiguration = wmExtensions.dynamicPort()
-    private val wmServer = WireMockServer(wmOptions)
+
+    private var handler: Call.() -> Unit = {}
+
+    private val server: Server by lazy {
+        Server(JettyServletAdapter()) {
+            post("/*") { handler() }
+            get("/*") { handler() }
+            head("/*") { handler() }
+            put("/*") { handler() }
+            delete("/*") { handler() }
+            trace("/*") { handler() }
+            options("/*") { handler() }
+            patch("/*") { handler() }
+        }
+    }
+
     private val client by lazy {
-        Client("http://localhost:${wmServer.port()}", Json.contentType)
+        Client("http://localhost:${server.runtimePort}", Json.contentType)
     }
 
     @BeforeClass
     fun startup() {
-        wmServer.start()
-        configureFor(wmServer.port())
-
-        val resp = aResponse()
-            .withHeader("content-type", "application/json;charset=utf-8")
-            .withBody("{{{request.body}}}")
-
-        stubFor(WireMock.post(anyUrl()).willReturn(resp))
-        stubFor(WireMock.post(anyUrl()).willReturn(resp))
-        stubFor(WireMock.get(anyUrl()).willReturn(resp))
-        stubFor(WireMock.head(anyUrl()).willReturn(resp))
-        stubFor(WireMock.put(anyUrl()).willReturn(resp))
-        stubFor(WireMock.delete(anyUrl()).willReturn(resp))
-        stubFor(WireMock.trace(anyUrl()).willReturn(resp))
-        stubFor(WireMock.options(anyUrl()).willReturn(resp))
-        stubFor(WireMock.patch(anyUrl()).willReturn(resp))
+        server.start()
     }
 
     @AfterClass
     fun shutdown() {
-        wmServer.stop()
+        server.stop()
     }
 
-    fun `json requests works as expected`() {
+    @BeforeMethod
+    fun resetHandler() {
+        handler = {
+            response.headers["content-type"] = listOf("application/json;charset=utf-8")
+            response.headers["body"] = listOf(request.body)
+            ok(request.body)
+        }
+    }
+
+    fun `JSON requests works as expected`() {
         val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
@@ -64,7 +69,7 @@ class ClientTest {
         client.get("/")
     }
 
-    fun `http methods with objects work ok`() {
+    fun `HTTP methods with objects work ok`() {
         val parameter = mapOf("key" to "value")
         checkResponse(client.get("/"), null)
         checkResponse(client.head("/"), null)
@@ -76,9 +81,9 @@ class ClientTest {
         checkResponse(client.patch("/", parameter), parameter)
     }
 
-    fun `http methods with objects work ok with default client`() {
+    fun `HTTP methods with objects work ok with default client`() {
         val parameter = mapOf("key" to "value")
-        val url = "http://localhost:${wmServer.port()}"
+        val url = "http://localhost:${server.runtimePort}"
         val contentType = Json.contentType
         checkResponse(get(url), null)
         checkResponse(head(url), null)
@@ -90,8 +95,8 @@ class ClientTest {
         checkResponse(patch(url, parameter, contentType), parameter)
     }
 
-    fun `parameters are set properly` () {
-        val endpoint = "http://localhost:${wmServer.port()}"
+    fun `Parameters are set properly` () {
+        val endpoint = "http://localhost:${server.runtimePort}"
         val h = mapOf("header1" to listOf("val1", "val2"))
         val c = Client(endpoint, Json.contentType, false, h, "user", "password", true)
 
@@ -99,45 +104,32 @@ class ClientTest {
         assert(!c.useCookies)
         assert(c.headers == h)
 
-        val rn = "request.headers.header1"
-
-        stubFor(WireMock.get("/auth")
-            .willReturn(aResponse()
-                .withHeader("auth", "{{request.headers.Authorization}}")
-                .withHeader("head1", "{{$rn.[0]}}{{$rn.[1]}}")
-            )
-        )
+        handler = {
+            response.headers["auth"] = listOf(request.headers.require("Authorization").first())
+            response.headers["head1"] = request.headers.require("header1")
+        }
 
         val r = c.get("/auth")
         assert (r.headers.get("auth").startsWith("Basic"))
-        assert (r.headers.get("head1").contains("val1"))
-        assert (r.headers.get("head1").contains("val2"))
+        assert (r.headers.getAll("head1").contains("val1"))
+        assert (r.headers.getAll("head1").contains("val2"))
         assert (r.statusCode == 200)
     }
 
-    fun `files are sent in base64` () {
-        stubFor(WireMock.post("/file")
-            .willReturn(aResponse()
-                .withHeader("file64", "{{request.body}}")
-            )
-        )
+    fun `Files are sent in base64` () {
+        handler = { response.headers["file64"] = listOf(request.body) }
 
         val file = File("src/test/resources/logback-test.xml").let {
             if (it.exists()) it
             else File("port_http_client/src/test/resources/logback-test.xml")
         }
+
         val r = client.post("/file", file)
         assert (r.headers.get("file64").isNotEmpty())
         assert (r.statusCode == 200)
     }
 
-    fun `strings are sent properly` () {
-        stubFor(WireMock.post("/string")
-            .willReturn(aResponse()
-                .withHeader("body", "{{request.body}}")
-            )
-        )
-
+    fun `Strings are sent properly` () {
         val r = client.post("/string", "text")
         assert (r.headers.get("body").isNotEmpty())
         assert (r.statusCode == 200)
