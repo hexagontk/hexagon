@@ -26,7 +26,7 @@ Map<Object, Object> props = [
     bindPort : bindPort
 ]
 
-processTemplates 'readme.md', props
+processTemplates 'README.md', props
 processTemplates 'build.gradle', props
 processTemplates 'settings.gradle', props
 processTemplates 'gradle.properties', props
@@ -56,7 +56,7 @@ println(
     ${projectName.toUpperCase()} Hexagon Service
     ============================================
 
-    Read the `readme.md` file for further instructions.
+    Read the `README.md` file for further instructions.
 
     Check the documentation at http://hexagonkt.com for reference.
     """

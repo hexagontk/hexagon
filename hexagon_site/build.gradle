@@ -23,7 +23,7 @@ clean {
 
 task("checkDocumentation") {
     doFirst {
-        def readme = new FileRange(rootProject.file("readme.md"), 148, 173)
+        def readme = new FileRange(rootProject.file("README.md"), 148, 173)
         def service = new FileRange(rootProject.file("hexagon_starters/src/main/kotlin/Service.kt"))
         SiteKt.checkDocumentationCode(readme, service)
     }

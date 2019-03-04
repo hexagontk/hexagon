@@ -11,7 +11,7 @@
             <li><a href="${config.navigationLinks[title]}">${title}</a></li>
             </#list>
 
-            <li><a href="${github}/blob/master/readme.md">Readme</a></li>
+            <li><a href="${github}/blob/master/README.md">Readme</a></li>
           </ul>
         </div>
 
