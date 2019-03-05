@@ -11,7 +11,8 @@ import org.testng.annotations.Test
 
 @Test abstract class BooksTest(adapter: ServerPort) {
 
-    private data class Book (val author: String, val title: String)
+    // sample
+    data class Book (val author: String, val title: String)
 
     private val books: MutableMap<Int, Book> = linkedMapOf(
         100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
@@ -19,18 +20,7 @@ import org.testng.annotations.Test
         102 to Book("Homer", "The_Odyssey")
     )
 
-    // Parse post body with JSON/YAML
-    // Set start header and attribute (before) and end header (after) with elapsed time
-    // Add auth filters
-    // Errors and exception handling
-    // Templates
-    // Serialize response with accept content type
-    // Static resources
-    // File upload
-    // CORS
-    // Websocket
-    // Middleware (define Call extension functions to add routes/filters)
-    private val server: Server by lazy {
+    val server: Server by lazy {
         Server(adapter) {
             post("/books") {
                 val author = parameters.require("author").first()
@@ -80,6 +70,7 @@ import org.testng.annotations.Test
             }
         }
     }
+    // sample
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 
@@ -118,7 +109,6 @@ import org.testng.annotations.Test
     @Test fun deleteBook () {
         val result = client.delete ("/books/102")
         assertResponseContains (result, "102", "deleted")
-        books += 102 to Book("Homer", "The_Odyssey") // Restore book for next tests
     }
 
     @Test fun bookNotFound () {

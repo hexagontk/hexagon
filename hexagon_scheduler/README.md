@@ -6,7 +6,7 @@ Repeated tasks execution based on [Cron] expressions for Hexagon framework. It u
 
 You can check an usage example in the following method:
 
-@sample src/test/kotlin/com/hexagonkt/scheduler/CronSchedulerSamplesTest.kt[]
+@sample hexagon_scheduler/src/test/kotlin/com/hexagonkt/scheduler/CronSchedulerSamplesTest.kt:sample
 
 # Package com.hexagonkt.scheduler
 

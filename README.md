@@ -189,6 +189,68 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 
 # Books Example
 
+A simple CRUD example showing how to create, get, update and delete book resources.
+
+```kotlin
+data class Book (val author: String, val title: String)
+
+private val books: MutableMap<Int, Book> = linkedMapOf(
+    100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
+    101 to Book("William_Shakespeare", "Hamlet"),
+    102 to Book("Homer", "The_Odyssey")
+)
+
+val server: Server by lazy {
+    Server(adapter) {
+        post("/books") {
+            val author = parameters.require("author").first()
+            val title = parameters.require("title").first()
+            val id = (books.keys.max() ?: 0) + 1
+            books += id to Book(author, title)
+            send(201, id)
+        }
+
+        get("/books/{id}") {
+            val bookId = pathParameters["id"].toInt()
+            val book = books[bookId]
+            if (book != null)
+                ok("Title: ${book.title}, Author: ${book.author}")
+            else
+                send(404, "Book not found")
+        }
+
+        put("/books/{id}") {
+            val bookId = pathParameters["id"].toInt()
+            val book = books[bookId]
+            if (book != null) {
+                books += bookId to book.copy (
+                    author = parameters["author"]?.first() ?: book.author,
+                    title = parameters["title"]?.first() ?: book.title
+                )
+
+                ok("Book with id '$bookId' updated")
+            }
+            else {
+                send(404, "Book not found")
+            }
+        }
+
+        delete ("/books/{id}") {
+            val bookId = pathParameters["id"].toInt()
+            val book = books[bookId]
+            books -= bookId
+            if (book != null)
+                ok ("Book with id '$bookId' deleted")
+            else
+                send(404, "Book not found")
+        }
+
+        get ("/books") {
+            ok (books.keys.joinToString(" ", transform = Int::toString))
+        }
+    }
+}
+```
 
 ## Status
 

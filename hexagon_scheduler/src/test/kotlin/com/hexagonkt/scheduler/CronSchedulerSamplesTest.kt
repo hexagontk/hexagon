@@ -5,7 +5,7 @@ import java.lang.Thread.sleep
 
 @Test class CronSchedulerSamplesTest {
 
-    @Test fun callbackExecutedProperly() {
+    @Test fun callbackExecutedProperly() { // sample
         val cron = CronScheduler()
         val times = 1
         var count = 0
@@ -17,5 +17,5 @@ import java.lang.Thread.sleep
         sleep((times * 1_000) + 100L)
         cron.shutdown()
         assert(count == times)
-    }
+    } // sample
 }

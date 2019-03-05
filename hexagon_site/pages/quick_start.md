@@ -109,36 +109,7 @@ from scratch following these steps:
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-@sample ../../hexagon_starters/src/main/kotlin/Service.kt[Service]
-
-```kotlin
-import com.hexagonkt.http.httpDate
-import com.hexagonkt.http.server.Server
-import com.hexagonkt.http.server.ServerPort
-import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.injection.InjectionManager.bindObject
-
-/**
- * Service server. It is created lazily to allow ServerPort injection (set up in main).
- */
-val server: Server by lazy {
-    Server {
-        before {
-            response.setHeader("Date", httpDate())
-        }
-
-        get("/text") { ok("Hello, World!", "text/plain") }
-    }
-}
-
-/**
- * Start the service from the command line.
- */
-fun main() {
-    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
-    server.run()
-}
-```
+@sample hexagon_starters/src/main/kotlin/Service.kt
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
@@ -152,3 +123,9 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 [JCenter]: https://bintray.com/bintray/jcenter
 [Endpoint]: http://localhost:2010/hello/world
 [documentation]: /documentation.html
+
+# Books Example
+
+A simple CRUD example showing how to create, get, update and delete book resources.
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt:sample
