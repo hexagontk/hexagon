@@ -30,6 +30,12 @@ import java.io.File
         assert(ObjectSource(SampleSettings("x", 9)).settings == mapOf("a" to "x", "c" to 9))
     }
 
+    @Test fun `ObjectSource settings properties are correct`() {
+        val objectSource = ObjectSource("a" to "b", "c" to 0)
+        assert(objectSource.load() == mapOf("a" to "b", "c" to 0))
+        assert(objectSource.toString() == "Object Settings")
+    }
+
     @Test fun `Load command line arguments adds correct settings `() {
         val cases = mapOf(
             arrayOf("a", "=X") to mapOf ("a" to true),
