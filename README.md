@@ -37,8 +37,8 @@
 
 ---
 
-Hexagon is a set of microservices libraries written in [Kotlin]. Its purpose is to ease the building
-of services (Web applications, APIs or queue consumers) that run inside a cloud platform.
+Hexagon is a microservices toolkit written in [Kotlin]. Its purpose is to ease the building of
+services (Web applications, APIs or queue consumers) that run inside a cloud platform.
 
 The project is developed as a set of [libraries][frameworks] that you call as opposed to
 [frameworks] that call your code inside them. Being a library means that you won't need special
@@ -103,17 +103,22 @@ Ports are independent from each other.
 
 ## Hexagon Core
 
-Hexagon Core module is used by all other libraries, so it would be added to your project anyway just
-by using any adapter.
+Hexagon Core is used by all other libraries, so it would be added to your project anyway just by
+using any adapter.
 
 The main features it has are:
 
-* Helpers: JVM information, a logger and other useful utilities.
-* Dependency Injection: bind classes to creation closures or instances and inject them.
-* Instance Serialization: parse/serialize data in different formats to class instances.
-* Configuration Settings: load settings from different data sources and formats.
+* [Helpers]: JVM information, a logger and other useful utilities.
+* [Dependency Injection]: bind classes to creation closures or instances and inject them.
+* [Instance Serialization]: parse/serialize data in different formats to class instances.
+* [Configuration Settings]: load settings from different data sources and formats.
 
-## Write a HTTP service
+[Helpers]: http://hexagonkt.com/hexagon_core/index.html#helpers
+[Dependency Injection]: http://hexagonkt.com/hexagon_core/index.html#dependency-injection
+[Instance Serialization]: http://hexagonkt.com/hexagon_core/index.html#instance-serialization
+[Configuration Settings]: http://hexagonkt.com/hexagon_core/index.html#configuration-settings
+
+## Simple HTTP service
 
 You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
 from scratch following these steps:
@@ -140,21 +145,34 @@ from scratch following these steps:
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-    ```kotlin
-    import com.hexagonkt.http.server.Server
-    import com.hexagonkt.http.server.jetty.JettyServletAdapter
+```kotlin
+import com.hexagonkt.http.httpDate
+import com.hexagonkt.http.server.Server
+import com.hexagonkt.http.server.ServerPort
+import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.injection.InjectionManager.bindObject
 
-    fun main() {
-
-        val server = Server(JettyServletAdapter()) {
-            get("/hello/{name}") {
-                ok("Hello ${request.pathParameter("name")}!")
-            }
+/**
+ * Service server. It is created lazily to allow ServerPort injection (set up in main).
+ */
+val server: Server by lazy {
+    Server {
+        before {
+            response.setHeader("Date", httpDate())
         }
 
-        server.run()
+        get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
     }
-    ```
+}
+
+/**
+ * Start the service from the command line.
+ */
+fun main() {
+    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
+    server.start()
+}
+```
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
@@ -167,8 +185,72 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
 [Endpoint]: http://localhost:2010/hello/world
-[Quick Start]: http://hexagonkt.com/quick_start.html
 [documentation]: http://hexagonkt.com/documentation.html
+
+# Books Example
+
+A simple CRUD example showing how to create, get, update and delete book resources.
+
+```kotlin
+data class Book (val author: String, val title: String)
+
+private val books: MutableMap<Int, Book> = linkedMapOf(
+    100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
+    101 to Book("William_Shakespeare", "Hamlet"),
+    102 to Book("Homer", "The_Odyssey")
+)
+
+val server: Server by lazy {
+    Server(adapter) {
+        post("/books") {
+            val author = parameters.require("author").first()
+            val title = parameters.require("title").first()
+            val id = (books.keys.max() ?: 0) + 1
+            books += id to Book(author, title)
+            send(201, id)
+        }
+
+        get("/books/{id}") {
+            val bookId = pathParameters["id"].toInt()
+            val book = books[bookId]
+            if (book != null)
+                ok("Title: ${book.title}, Author: ${book.author}")
+            else
+                send(404, "Book not found")
+        }
+
+        put("/books/{id}") {
+            val bookId = pathParameters["id"].toInt()
+            val book = books[bookId]
+            if (book != null) {
+                books += bookId to book.copy (
+                    author = parameters["author"]?.first() ?: book.author,
+                    title = parameters["title"]?.first() ?: book.title
+                )
+
+                ok("Book with id '$bookId' updated")
+            }
+            else {
+                send(404, "Book not found")
+            }
+        }
+
+        delete ("/books/{id}") {
+            val bookId = pathParameters["id"].toInt()
+            val book = books[bookId]
+            books -= bookId
+            if (book != null)
+                ok ("Book with id '$bookId' deleted")
+            else
+                send(404, "Book not found")
+        }
+
+        get ("/books") {
+            ok (books.keys.joinToString(" ", transform = Int::toString))
+        }
+    }
+}
+```
 
 ## Status
 
@@ -180,7 +262,7 @@ It is used in personal not released projects to develop APIs and Web application
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
-so, read the [contributing.md Benchmarking section](contributing.md#benchmarking)
+so, read the [Benchmark readme](hexagon_benchmark/README.md)
 
 Tests, of course, are taken into account. This is the coverage grid:
 

@@ -1,8 +1,8 @@
 #
 # Services needed for benchmarking. This file will not run on its own, it needs to be started after
-# root's `docker-compose .yaml`. To do so, execute the following command from the root directory:
+# root's `docker-compose.yml`. To do so, execute the following command from the root directory:
 #
-#    docker-compose -f docker-compose.yaml -f hexagon_benchmark/docker-compose.yaml up -d
+#    docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
 #
 
 version: '3'

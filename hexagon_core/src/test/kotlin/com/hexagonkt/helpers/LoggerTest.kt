@@ -35,10 +35,14 @@ import org.testng.annotations.Test
         assert(appender.length == 7)
         logger.flare { "message" }
         assert(appender.length == 8)
-        logger.time ("message") {}
+        logger.flare()
         assert(appender.length == 9)
-        logger.time {}
+        logger.time ("message") {}
         assert(appender.length == 10)
+        logger.time {}
+        assert(appender.length == 11)
+        logger.time(0)
+        assert(appender.length == 12)
 
         log.level = Level.OFF
 
@@ -52,7 +56,7 @@ import org.testng.annotations.Test
         logger.flare { "message" }
         logger.time ("message") {}
         logger.time {}
-        assert(appender.length == 10)
+        assert(appender.length == 12)
     }
 
     @Test fun `A logger for an instance has the proper name`() {

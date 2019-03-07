@@ -23,9 +23,9 @@ Aside of that kind of modules, you can also find infrastructure modules: compone
 project itself. These are internal modules not intended to be used by users (like the
 [hexagon_benchmark] or the [hexagon_site]).
 
-[Project Libraries]: https://github.com/hexagonkt/hexagon/blob/master/readme.md#hexagon-libraries
-[hexagon_benchmark]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_benchmark/readme.md
-[hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/readme.md
+[Project Libraries]: https://github.com/hexagonkt/hexagon/blob/master/README.md#hexagon-libraries
+[hexagon_benchmark]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_benchmark/README.md
+[hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/README.md
 
 ## API Design Principles
 

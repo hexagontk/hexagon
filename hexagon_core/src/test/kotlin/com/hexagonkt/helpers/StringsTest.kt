@@ -3,13 +3,6 @@ package com.hexagonkt.helpers
 import org.testng.annotations.Test
 
 @Test class StringsTest {
-    @Test fun filterVarsExample () {
-        val template = "User #{user}"
-        val parameters = mapOf<Any, Any>("user" to "John")
-
-        assert (template.filterVars(parameters) == "User John")
-        assert (template.filterVars() == template)
-    }
 
     @Test fun `Filter returns the given string if no parameters are set` () {
         val template = "User #{user}"

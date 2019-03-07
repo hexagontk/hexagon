@@ -25,7 +25,7 @@ import java.net.InetAddress.getByName as address
  * TODO Write documentation.
  */
 data class Server (
-    private val serverEngine: ServerPort,
+    private val serverPort: ServerPort,
     val router: Router,
     val serverName: String = Server.DEFAULT_NAME,
     val bindAddress: InetAddress = address(Server.DEFAULT_ADDRESS),
@@ -69,29 +69,29 @@ data class Server (
             this(inject(), settings, block = block)
 
     val runtimePort
-        get() = if (started()) serverEngine.runtimePort() else error("Server is not running")
+        get() = if (started()) serverPort.runtimePort() else error("Server is not running")
 
-    val portName: String = serverEngine.javaClass.simpleName
+    val portName: String = serverPort.javaClass.simpleName
 
-    fun started (): Boolean = serverEngine.started()
+    fun started(): Boolean = serverPort.started()
 
-    fun run() {
+    fun start() {
         getRuntime().addShutdownHook(
             Thread (
                 {
                     if (started ())
-                        serverEngine.shutdown ()
+                        serverPort.shutdown ()
                 },
                 "shutdown-${bindAddress.hostName}-$bindPort"
             )
         )
 
-        serverEngine.startup (this)
+        serverPort.startup (this)
         log.info { "$serverName started${createBanner()}" }
     }
 
     fun stop() {
-        serverEngine.shutdown ()
+        serverPort.shutdown ()
         log.info { "$serverName stopped" }
     }
 

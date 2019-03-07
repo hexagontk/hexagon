@@ -1,76 +1,50 @@
 
-buildscript {
-    repositories { jcenter() }
-
-    dependencies {
-        classpath("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-        classpath("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
-    }
-}
-
-project.ext.configData = loadYaml(project.file("site.yaml"))
+project.ext.configData = SiteKt.loadYaml(project.file("site.yaml"))
 
 apply(from: "../gradle/site.gradle")
 apply(from: "../gradle/icons.gradle")
 
 clean {
-    delete("content")
+    delete("build", "content")
 }
 
-tasks.bake.doFirst {
-
-    final String contentTarget = project.file("content").absolutePath
-
-    copy {
-        from project.file('pages')
-        into contentTarget
-    }
-
-    final Set<Project> modules = rootProject.subprojects
-    final List<String> dirs = modules.collect { "$it.name/build/dokka" } as List<String>
-
-    copy {
-        dirs.each { dir -> from rootProject.file(dir) }
-        into contentTarget
-    }
-
-    fileTree(dir: contentTarget, include: "**/*.md").each { fcd ->
-        final String frontMatter = """
-            title=${fcd.name.tr("_", " ").capitalize() - ".md"}
-            date=${LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)}
-            fileName=${fcd.name}
-            type=page
-            status=published
-            ~~~~~~
-        """
-
-        // TODO Replace the following pattern in .md files by method body
-        // @sample com.hexagonkt.scheduler.CronSchedulerSamplesTest.callbackExecutedProperly
-
-        fcd.text = frontMatter.stripIndent() + fcd.text
-    }
-
-    fileTree(dir: "$contentTarget", include: "**/*.md").each { fcd ->
-        final String content = fcd.text
-        final String title = "[. a-zA-Z_\\-]"
-        final String link = "[./a-zA-Z_\\-]"
-        final String regex = /\[($title*)]\(($link*)\.md\)/
-        final String replacement = '[$1]($2.html)'
-        final String output = content.replaceAll(regex, replacement)
-
-        fcd.text = output
+task("checkDocumentation") {
+    doFirst {
+        def readme = new FileRange(rootProject.file("README.md"), 148, 173)
+        def service = new FileRange(rootProject.file("hexagon_starters/src/main/kotlin/Service.kt"))
+        SiteKt.checkDocumentationCode(readme, service)
+        def readmeBooks = new FileRange(rootProject.file("README.md"), 194, 251)
+        def books = new FileRange(rootProject.file("port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt"), "sample")
+        SiteKt.checkDocumentationCode(readmeBooks, books)
     }
 }
 
-site.dependsOn (rootProject.getTasksByName("dokka", true).toArray())
+bake {
+    dependsOn("checkDocumentation")
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+    doFirst {
+        final String contentTarget = project.file("content").absolutePath
+        final Set<Project> modules = rootProject.subprojects
+        final List<String> dirs = modules.collect { "$it.name/build/dokka" } as List<String>
+        final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
 
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+        copy {
+            from(project.file('pages'))
+            dirs.each { dir -> from(rootProject.file(dir)) }
+            into(contentTarget)
+        }
 
-private static Map<String, ?> loadYaml(final File yamlFile) {
-    final ObjectMapper mapper = new ObjectMapper(new YAMLFactory())
-    return mapper.readValue(yamlFile, Map.class)
+        markdownFiles.each { File markdownFile ->
+
+            String content = markdownFile.text
+
+            content = SiteKt.addFrontMatter(markdownFile, content)
+            content = SiteKt.fixLinks(content)
+            content = SiteKt.insertSamplesCode(rootProject.projectDir, content)
+
+            markdownFile.text = content
+        }
+    }
 }
+
+bake.dependsOn(rootProject.getTasksByName("dokka", true).toArray())

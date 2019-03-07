@@ -1,8 +1,8 @@
 /*
- * Check usage information at: http://hexagonkt.com/build_helpers/icons.html
+ * Check usage information at: http://hexagonkt.com/gradle.html#icons
  */
 
-task icons {
+task("icons") {
     doLast {
         try {
             final String logoSmall = findProperty("logoSmall") ?: ""

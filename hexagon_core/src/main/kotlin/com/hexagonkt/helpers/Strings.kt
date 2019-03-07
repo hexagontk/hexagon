@@ -22,7 +22,7 @@ val eol: String by lazy { getProperty("line.separator") }
  *
  * @param parameters The map with the list of key/value tuples.
  * @return The filtered text or the same string if no values are passed or found in the text.
- * @sample com.hexagonkt.helpers.StringsTest.filterVarsExample
+ * @sample com.hexagonkt.helpers.StringsSamplesTest.filterVarsExample
  */
 fun String.filterVars (parameters: Map<*, *>): String =
     parameters.entries

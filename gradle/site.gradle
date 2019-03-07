@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/build_helpers/site.html
+ * Check usage information at: http://hexagonkt.com/gradle.html#site
  */
 
 apply(plugin: "org.jbake.site")
@@ -46,6 +46,6 @@ clean {
     delete("build", "out")
 }
 
-task site(dependsOn: "bake")
+task("site", dependsOn: "bake")
 
-task serve(dependsOn: "bakePreview")
+task("serve", dependsOn: "bakePreview")

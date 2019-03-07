@@ -1,24 +1,27 @@
 
 import com.hexagonkt.http.httpDate
 import com.hexagonkt.http.server.Server
+import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.injection.InjectionManager.bindObject
 
-import java.time.LocalDateTime.now
+/**
+ * Service server. It is created lazily to allow ServerPort injection (set up in main).
+ */
+val server: Server by lazy {
+    Server {
+        before {
+            response.setHeader("Date", httpDate())
+        }
 
-val server: Server = Server(JettyServletAdapter()) {
-    before {
-        response.setHeader("Server", "Servlet/3.1")
-        response.setHeader("Transfer-Encoding", "chunked")
-        response.setHeader("Date", httpDate(now()))
+        get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
     }
-
-    get("/text") { ok("Hello, World!", "text/plain") }
 }
 
 /**
  * Start the service from the command line.
  */
 fun main() {
-    server.run()
+    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
+    server.start()
 }
-

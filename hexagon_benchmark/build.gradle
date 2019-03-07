@@ -37,16 +37,18 @@ test {
     useTestNG()
 }
 
-task tfb(type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setupDockerfiles" ]) {
+task("tfb", type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setupDockerfiles" ]) {
     from(projectDir)
-    include("src/**", "tfb.gradle", "tfb.md")
+    include("src/**", "tfb.gradle", "tfb.settings.gradle", "tfb.md")
     into(tfbBuildDir)
     rename("tfb.gradle", "build.gradle")
+    rename("tfb.settings.gradle", "settings.gradle")
     rename("tfb.md", "README.md")
 }
 
-task gradleSettings(type: WriteProperties) {
+task("gradleSettings", type: WriteProperties) {
     Map<String, ?> settings = [
+        name : "hexagon",
         description : "Hexagon web framework's benchmark",
 
         gradleScripts :
@@ -70,7 +72,7 @@ task gradleSettings(type: WriteProperties) {
 
 import groovy.json.JsonOutput
 
-task benchmarkConfig {
+task("benchmarkConfig") {
     doLast {
         Map<String, Object> testsMap = [:]
         tests.collect { it as List<List<String>> }.forEach {
@@ -122,7 +124,7 @@ task benchmarkConfig {
     }
 }
 
-task setupDockerfiles {
+task("setupDockerfiles") {
     doLast {
         tests.collect { it as List<List<String>> }.forEach { final List<String> row ->
             final String server = row[0].toLowerCase()

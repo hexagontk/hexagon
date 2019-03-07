@@ -2,7 +2,6 @@ package com.hexagonkt.helpers
 
 import org.testng.annotations.Test
 import java.lang.IllegalStateException
-import kotlin.test.assertFailsWith
 
 class RequiredKeysMapTest {
 

@@ -26,12 +26,12 @@ Map<Object, Object> props = [
     bindPort : bindPort
 ]
 
-processTemplates 'readme.md', props
+processTemplates 'README.md', props
 processTemplates 'build.gradle', props
 processTemplates 'settings.gradle', props
 processTemplates 'gradle.properties', props
-processTemplates 'dockerfile', props
-processTemplates 'docker-compose.yaml', props
+processTemplates 'Dockerfile', props
+processTemplates 'docker-compose.yml', props
 processTemplates 'src/main/resources/logback.xml', props
 processTemplates 'src/main/resources/service.yaml', props
 processTemplates 'src/test/resources/logback-test.xml', props
@@ -56,7 +56,7 @@ println(
     ${projectName.toUpperCase()} Hexagon Service
     ============================================
 
-    Read the `readme.md` file for further instructions.
+    Read the `README.md` file for further instructions.
 
     Check the documentation at http://hexagonkt.com for reference.
     """

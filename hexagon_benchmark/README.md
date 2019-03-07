@@ -5,7 +5,7 @@ This module holds a benchmark for the library. It is the same that runs inside
 [TechEmpower Framework Benchmarks][TFB], to run it:
 
 1. Start the benchmark's compose file. From the project's root execute:
-   `docker-compose -f docker-compose.yaml -f hexagon_benchmark/docker-compose.yaml up -d`
+   `docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d`
 2. Run `gw hexagon_benchmark:test -Phost=localhost -Pport=9020` where "localhost" and "9020" should
    point to the endpoint with the benchmark instance you want to test.
 

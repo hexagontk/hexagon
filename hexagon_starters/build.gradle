@@ -33,7 +33,7 @@ clean {
     doLast { setupTemplate() }
 }
 
-task processTemplate {
+task("processTemplate") {
     // This must be done in *CONFIGURATION* phase because of a flaw in this Gradle plugin :/
     setupTemplate()
     
