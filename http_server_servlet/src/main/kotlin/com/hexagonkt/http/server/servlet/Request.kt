@@ -24,7 +24,7 @@ internal class Request(private val req: HttpServletRequest) : Request() {
     override fun ip(): String = req.remoteAddr
 
     override fun pathParameters(): Map<String, String> =
-        actionPath?.extractParameters(path()) ?: mapOf()
+        actionPath?.extractParameters(path()) ?: emptyMap()
 
     override fun parameters(): Map<String, List<String>> =
         req.parameterMap.map { it.key as String to it.value.toList() }.toMap()

@@ -10,6 +10,8 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as Insecur
 import org.asynchttpclient.DefaultAsyncHttpClient
 import org.asynchttpclient.DefaultAsyncHttpClientConfig.Builder
 import org.asynchttpclient.Response
+import org.asynchttpclient.request.body.multipart.StringPart
+import org.asynchttpclient.request.body.multipart.Part
 import java.io.File
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
@@ -55,9 +57,10 @@ class Client (
         url: String = "",
         body: Any? = null,
         contentType: String? = this.contentType,
-        callHeaders: Map<String, List<String>> = LinkedHashMap()): Response {
+        callHeaders: Map<String, List<String>> = LinkedHashMap(),
+        parts: List<Part> = emptyList()): Response {
 
-        val request = createRequest(method, url, contentType)
+        val request = createRequest(method, url, contentType, parts)
 
         val bodyValue = when (body) {
             null -> null
@@ -114,7 +117,7 @@ class Client (
     fun patch (url: String, body: Any? = null, contentType: String? = this.contentType) =
         send (PATCH, url, body, contentType)
 
-    private fun createRequest(method: Method, url: String, contentType: String? = null) =
+    private fun createRequest(method: Method, url: String, contentType: String? = null, parts: List<Part>) =
         (endpoint + url).let {
             val request = when (method) {
                 GET -> client.prepareGet (it)
@@ -128,6 +131,8 @@ class Client (
             }
 
             request.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?
+
+            parts.forEach { part -> request.addBodyPart(part) }
 
             if (contentType != null)
                 request.addHeader("Content-Type", contentType)

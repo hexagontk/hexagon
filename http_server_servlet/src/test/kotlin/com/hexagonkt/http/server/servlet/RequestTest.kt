@@ -23,6 +23,16 @@ import javax.servlet.http.HttpServletRequest
         assert(requestWithServletPath.path == "servletPath")
     }
 
+    @Test fun `Request without action path returns empty path parameters`() {
+        val servletRequest = mockk<HttpServletRequest>()
+        every { servletRequest.servletPath } returns ""
+        every { servletRequest.pathInfo } returns "/1/2"
+
+        val request = Request(servletRequest)
+        val pathParameters = request.pathParameters
+        assert(pathParameters.entries.isEmpty())
+    }
+
     @Test fun `Request path parameters are returned properly`() {
         val servletRequest = mockk<HttpServletRequest>()
         every { servletRequest.servletPath } returns ""

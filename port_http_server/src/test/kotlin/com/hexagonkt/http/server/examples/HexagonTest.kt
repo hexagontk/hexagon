@@ -1,9 +1,11 @@
 package com.hexagonkt.http.server.examples
 
+import com.hexagonkt.http.Method
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.asynchttpclient.Response
+import org.asynchttpclient.request.body.multipart.StringPart
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -56,7 +58,9 @@ import org.testng.annotations.Test
     }
 
     @Test fun sendParts() {
-        client.post("/hexagon/files")
+        val parts = listOf(StringPart("name", "value"))
+        val response = client.send(Method.POST, "/hexagon/files", parts = parts)
+        assert(response.responseBody == "name")
     }
 
     protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {

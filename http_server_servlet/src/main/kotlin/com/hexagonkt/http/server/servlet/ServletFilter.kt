@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
  * TODO .
  */
 class ServletFilter (router: List<RequestHandler>) : Filter {
+
     /**
      * Exception used for stopping the execution. It is used only for flow control.
      */
@@ -109,6 +110,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     }
 
     override fun init(filterConfig: FilterConfig) { /* Not implemented */ }
+
     override fun destroy() { /* Not implemented */ }
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
@@ -121,6 +123,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
 //            }
 //        }
 //        else {
+            request.setAttribute("org.eclipse.jetty.multipartConfig", MultipartConfigElement("/tmp"))
             doFilter(request, response)
 //        }
     }
