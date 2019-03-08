@@ -123,9 +123,14 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
 //            }
 //        }
 //        else {
-            request.setAttribute("org.eclipse.jetty.multipartConfig", MultipartConfigElement("/tmp"))
-            doFilter(request, response)
+//            doFilter(request, response)
 //        }
+
+        // TODO Temporary hack only valid for Jetty
+        val multipartConfig = MultipartConfigElement("/tmp")
+        request.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
+
+        doFilter(request, response)
     }
 
     private fun doFilter(

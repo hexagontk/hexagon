@@ -195,9 +195,9 @@ A simple CRUD example showing how to create, get, update and delete book resourc
 data class Book (val author: String, val title: String)
 
 private val books: MutableMap<Int, Book> = linkedMapOf(
-    100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
-    101 to Book("William_Shakespeare", "Hamlet"),
-    102 to Book("Homer", "The_Odyssey")
+    100 to Book("Miguel de Cervantes", "Don Quixote"),
+    101 to Book("William Shakespeare", "Hamlet"),
+    102 to Book("Homer", "The Odyssey")
 )
 
 val server: Server by lazy {
@@ -235,18 +235,18 @@ val server: Server by lazy {
             }
         }
 
-        delete ("/books/{id}") {
+        delete("/books/{id}") {
             val bookId = pathParameters["id"].toInt()
             val book = books[bookId]
             books -= bookId
             if (book != null)
-                ok ("Book with id '$bookId' deleted")
+                ok("Book with id '$bookId' deleted")
             else
                 send(404, "Book not found")
         }
 
-        get ("/books") {
-            ok (books.keys.joinToString(" ", transform = Int::toString))
+        get("/books") {
+            ok(books.keys.joinToString(" ", transform = Int::toString))
         }
     }
 }
