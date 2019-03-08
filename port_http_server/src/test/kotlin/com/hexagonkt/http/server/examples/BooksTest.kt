@@ -12,7 +12,7 @@ import org.testng.annotations.Test
 @Test abstract class BooksTest(adapter: ServerPort) {
 
     // sample
-    data class Book (val author: String, val title: String)
+    data class Book(val author: String, val title: String)
 
     private val books: MutableMap<Int, Book> = linkedMapOf(
         100 to Book("Miguel de Cervantes", "Don Quixote"),
@@ -43,7 +43,7 @@ import org.testng.annotations.Test
                 val bookId = pathParameters["id"].toInt()
                 val book = books[bookId]
                 if (book != null) {
-                    books += bookId to book.copy (
+                    books += bookId to book.copy(
                         author = parameters["author"]?.first() ?: book.author,
                         title = parameters["title"]?.first() ?: book.title
                     )
@@ -93,7 +93,7 @@ import org.testng.annotations.Test
         assertResponseContains(result, "100", "101")
     }
 
-    @Test fun getBook () {
+    @Test fun getBook() {
         val result = client.get("/books/101")
         assertResponseContains(result, "William Shakespeare", "Hamlet")
     }
@@ -106,25 +106,25 @@ import org.testng.annotations.Test
         assertResponseContains(resultGet, "Miguel de Cervantes", "Don Quixote")
     }
 
-    @Test fun deleteBook () {
+    @Test fun deleteBook() {
         val result = client.delete("/books/102")
         assertResponseContains(result, "102", "deleted")
     }
 
     @Test fun bookNotFound() {
-        val result = client.get ("/books/9999")
+        val result = client.get("/books/9999")
         assertResponseContains(result, 404, "not found")
     }
 
-    @Test fun invalidMethodReturns405 () {
+    @Test fun invalidMethodReturns405() {
         val result = client.options("/books/9999")
         assert(405 == result.statusCode)
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert (response?.statusCode == status)
+        assert(response?.statusCode == status)
         content.forEach {
-            assert(response?.responseBody?.contains (it) ?: false)
+            assert(response?.responseBody?.contains(it) ?: false)
         }
     }
 

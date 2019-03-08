@@ -192,7 +192,7 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 A simple CRUD example showing how to create, get, update and delete book resources.
 
 ```kotlin
-data class Book (val author: String, val title: String)
+data class Book(val author: String, val title: String)
 
 private val books: MutableMap<Int, Book> = linkedMapOf(
     100 to Book("Miguel de Cervantes", "Don Quixote"),
@@ -223,7 +223,7 @@ val server: Server by lazy {
             val bookId = pathParameters["id"].toInt()
             val book = books[bookId]
             if (book != null) {
-                books += bookId to book.copy (
+                books += bookId to book.copy(
                     author = parameters["author"]?.first() ?: book.author,
                     title = parameters["title"]?.first() ?: book.title
                 )
