@@ -126,6 +126,18 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 
 # Books Example
 
-A simple CRUD example showing how to create, get, update and delete book resources.
+A simple CRUD example showing how to manage book resources.
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt:sample
+
+# Session Example
+
+Example showing how to use sessions.
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt:sample
+
+# Cookies Example
+
+Demo server to show the use of cookies.
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt:sample

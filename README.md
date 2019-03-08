@@ -187,9 +187,9 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 [Endpoint]: http://localhost:2010/hello/world
 [documentation]: http://hexagonkt.com/documentation.html
 
-# Books Example
+## Books Example
 
-A simple CRUD example showing how to create, get, update and delete book resources.
+A simple CRUD example showing how to manage book resources.
 
 ```kotlin
 data class Book(val author: String, val title: String)
@@ -245,8 +245,91 @@ val server: Server by lazy {
                 send(404, "Book not found")
         }
 
-        get("/books") {
-            ok(books.keys.joinToString(" ", transform = Int::toString))
+        get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
+    }
+}
+```
+
+## Session Example
+
+Example showing how to use sessions.
+
+```kotlin
+val server: Server by lazy {
+    Server(adapter) {
+        path("/session") {
+            get("/id") { ok(session.id ?: "null") }
+
+            get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
+
+            get("/new") { ok(session.isNew()) }
+
+            path("/inactive") {
+                get { ok(session.maxInactiveInterval ?: "null") }
+
+                put("/{interval}") {
+                    session.maxInactiveInterval = pathParameters["interval"].toInt()
+                }
+            }
+
+            get("/creation") { ok(session.creationTime ?: "null") }
+
+            post("/invalidate") { session.invalidate() }
+
+            path("/{key}") {
+                put("/{value}") { session.set(pathParameters["key"], pathParameters["value"]) }
+
+                get { ok(session.get(pathParameters["key"]).toString()) }
+
+                delete { session.remove(pathParameters["key"]) }
+            }
+
+            get {
+                val attributes = session.attributes
+                val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
+
+                response.setHeader("attributes", attributeTexts.joinToString(", "))
+                response.setHeader("attribute values", attributes.values.joinToString(", "))
+                response.setHeader("attribute names", attributes.keys.joinToString(", "))
+
+                response.setHeader("creation", session.creationTime.toString())
+                response.setHeader("id", session.id ?: "")
+                response.setHeader("last access", session.lastAccessedTime.toString())
+
+                response.status = 200
+            }
+        }
+    }
+}
+```
+
+## Cookies Example
+
+Demo server to show the use of cookies.
+
+```kotlin
+val server: Server by lazy {
+    Server(adapter) {
+        post("/assertNoCookies") {
+            if (!request.cookies.isEmpty())
+                halt(500)
+        }
+
+        post("/addCookie") {
+            val name = parameters["cookieName"]?.first()
+            val value = parameters["cookieValue"]?.first()
+            response.addCookie(HttpCookie(name, value))
+        }
+
+        post("/assertHasCookie") {
+            val cookieName = parameters.require("cookieName").first()
+            val cookieValue = request.cookies[cookieName]?.value
+            if (parameters["cookieValue"]?.first() != cookieValue)
+                halt(500)
+        }
+
+        post("/removeCookie") {
+            response.removeCookie(parameters.require("cookieName").first())
         }
     }
 }

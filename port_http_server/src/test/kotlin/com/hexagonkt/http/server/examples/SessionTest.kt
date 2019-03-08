@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.http.client.Client
-import com.hexagonkt.helpers.Logger
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.asynchttpclient.Response
@@ -10,30 +9,23 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
 @Test abstract class SessionTest(adapter: ServerPort) {
-    private val log: Logger = Logger(SessionTest::class)
 
-    private val server: Server by lazy {
+    // sample
+    val server: Server by lazy {
         Server(adapter) {
             path("/session") {
-                get("/id") {
-                    val id: String = session.id ?: "null"
-                    log.info { "Session ID: $id" }
-                    ok(id)
-                }
+                get("/id") { ok(session.id ?: "null") }
 
-                get("/access") {
-                    ok(session.lastAccessedTime?.toString() ?: "null")
-                }
+                get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
 
-                get("/new") {
-                    ok(session.isNew())
-                }
+                get("/new") { ok(session.isNew()) }
 
-                get("/inactive") {
-                    val inactiveInterval = session.maxInactiveInterval ?: "null"
-                    session.maxInactiveInterval = 999
-                    assert(inactiveInterval == session.maxInactiveInterval ?: "null")
-                    ok(inactiveInterval)
+                path("/inactive") {
+                    get { ok(session.maxInactiveInterval ?: "null") }
+
+                    put("/{interval}") {
+                        session.maxInactiveInterval = pathParameters["interval"].toInt()
+                    }
                 }
 
                 get("/creation") { ok(session.creationTime ?: "null") }
@@ -41,25 +33,20 @@ import org.testng.annotations.Test
                 post("/invalidate") { session.invalidate() }
 
                 path("/{key}") {
-                    put("/{value}") {
-                        session.setAttribute(pathParameters["key"], pathParameters["value"])
-                    }
+                    put("/{value}") { session.set(pathParameters["key"], pathParameters["value"]) }
 
-                    get {
-                        ok(session.getAttribute(pathParameters["key"]).toString())
-                    }
+                    get { ok(session.get(pathParameters["key"]).toString()) }
 
-                    delete {
-                        session.removeAttribute(pathParameters["key"])
-                    }
+                    delete { session.remove(pathParameters["key"]) }
                 }
 
                 get {
-                    val attributeTexts = session.attributes.entries.map { it.key + " : " + it.value }
+                    val attributes = session.attributes
+                    val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
 
                     response.setHeader("attributes", attributeTexts.joinToString(", "))
-                    response.setHeader("attribute values", session.attributes.values.joinToString(", "))
-                    response.setHeader("attribute names", session.attributes.keys.joinToString(", "))
+                    response.setHeader("attribute values", attributes.values.joinToString(", "))
+                    response.setHeader("attribute names", attributes.keys.joinToString(", "))
 
                     response.setHeader("creation", session.creationTime.toString())
                     response.setHeader("id", session.id ?: "")
@@ -70,6 +57,7 @@ import org.testng.annotations.Test
             }
         }
     }
+    // sample
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 
@@ -108,6 +96,9 @@ import org.testng.annotations.Test
         assert(client.get("/session/creation").responseBody != "null")
         assert(client.get("/session/access").responseBody != "null")
         assert(client.get("/session/new").responseBody == "false")
+
+        assert(client.put("/session/inactive/10").statusCode == 200)
+        assert(client.get("/session/inactive").responseBody == "10")
 
         client.post("/session/invalidate")
 

@@ -2,7 +2,6 @@ package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
-import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.testng.annotations.*
@@ -10,7 +9,8 @@ import java.net.HttpCookie
 
 @Test abstract class CookiesTest(adapter: ServerPort) {
 
-    private val server: Server by lazy {
+    // sample
+    val server: Server by lazy {
         Server(adapter) {
             post("/assertNoCookies") {
                 if (!request.cookies.isEmpty())
@@ -24,16 +24,18 @@ import java.net.HttpCookie
             }
 
             post("/assertHasCookie") {
-                checkCookie(parameters["cookieName"]?.first())
+                val cookieName = parameters.require("cookieName").first()
+                val cookieValue = request.cookies[cookieName]?.value
+                if (parameters["cookieValue"]?.first() != cookieValue)
+                    halt(500)
             }
 
             post("/removeCookie") {
-                val cookieName = parameters.require("cookieName").first()
-                checkCookie(cookieName)
-                response.removeCookie(cookieName)
+                response.removeCookie(parameters.require("cookieName").first())
             }
         }
     }
+    // sample
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 
@@ -74,11 +76,5 @@ import java.net.HttpCookie
         client.post("/removeCookie?$cookie")
         val result = client.post("/assertNoCookies")
         assert (result.statusCode == 200)
-    }
-
-    private fun Call.checkCookie(cookieName: String?) {
-        val cookieValue = request.cookies[cookieName]?.value
-        if (parameters["cookieValue"]?.first() != cookieValue)
-            halt(500)
     }
 }

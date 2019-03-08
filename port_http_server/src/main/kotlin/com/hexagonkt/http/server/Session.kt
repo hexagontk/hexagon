@@ -17,6 +17,12 @@ abstract class Session {
 
     val attributes: Map<String, Any?> by lazy { attributes() }
 
+    fun get(name: String): Any? = getAttribute(name)
+
+    fun set(name: String, value: Any) { setAttribute(name, value) }
+
+    fun remove(name: String) { removeAttribute(name) }
+
     protected abstract fun creationTime(): Long?
     protected abstract fun lastAccessedTime(): Long?
 

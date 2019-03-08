@@ -65,9 +65,7 @@ import org.testng.annotations.Test
                     send(404, "Book not found")
             }
 
-            get("/books") {
-                ok(books.keys.joinToString(" ", transform = Int::toString))
-            }
+            get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
         }
     }
     // sample

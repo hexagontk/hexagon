@@ -10,12 +10,25 @@ clean {
 
 task("checkDocumentation") {
     doFirst {
-        def readme = new FileRange(rootProject.file("README.md"), 148, 173)
-        def service = new FileRange(rootProject.file("hexagon_starters/src/main/kotlin/Service.kt"))
-        SiteKt.checkDocumentationCode(readme, service)
-        def readmeBooks = new FileRange(rootProject.file("README.md"), 194, 251)
-        def books = new FileRange(rootProject.file("port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt"), "sample")
-        SiteKt.checkDocumentationCode(readmeBooks, books)
+        final File readme = rootProject.file("README.md")
+        final String serverExamples =
+            "port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples"
+
+        Map<FileRange, FileRange> fileRanges = [
+            (new FileRange(readme, 148, 173)):
+                new FileRange(rootProject.file("hexagon_starters/src/main/kotlin/Service.kt")),
+            
+            (new FileRange(readme, 194, 249)):
+                new FileRange(rootProject.file("$serverExamples/BooksTest.kt"), "sample"),
+
+            (new FileRange(readme, 257, 302)):
+                new FileRange(rootProject.file("$serverExamples/SessionTest.kt"), "sample"),
+            
+            (new FileRange(readme, 310, 334)):
+                new FileRange(rootProject.file("$serverExamples/CookiesTest.kt"), "sample")
+        ]
+        
+        fileRanges.each { SiteKt.checkDocumentationCode(it.key, it.value) }
     }
 }
 
