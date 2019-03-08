@@ -6,6 +6,7 @@ import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.asynchttpclient.Response
+import org.asynchttpclient.request.body.multipart.StringPart
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -118,6 +119,10 @@ import java.util.Locale.getDefault as defaultLocale
             get("/return/pair/list") { send(201, listOf("alpha", "beta")) }
             get("/return/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
             get("/return/pair/object") { send(201, Tag(name = "Message")) }
+
+            post("/hexagon/files") {
+                ok(request.parts.keys.joinToString(":"))
+            }
         }
     }
 
@@ -323,6 +328,12 @@ import java.util.Locale.getDefault as defaultLocale
 
     @Test fun attributes () {
         assert(client.get("/attribute").responseBody == "attr")
+    }
+
+    @Test fun sendParts() {
+        val parts = listOf(StringPart("name", "value"))
+        val response = client.send(Method.POST, "/hexagon/files", parts = parts)
+        assert(response.responseBody == "name")
     }
 
     private fun checkMethod (client: Client, methodName: String, headerName: String? = null) {
