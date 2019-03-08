@@ -12,7 +12,7 @@ import org.testng.annotations.Test
 
     private val server: Server by lazy {
         Server(adapter) {
-            get("/hexagon/files") {
+            post("/hexagon/files") {
                 ok(request.parts.keys.joinToString(":"))
             }
             get("/hexagon/books/{id}") {
@@ -56,7 +56,7 @@ import org.testng.annotations.Test
     }
 
     @Test fun sendParts() {
-        client.get("/hexagon/files")
+        client.post("/hexagon/files")
     }
 
     protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {

@@ -64,6 +64,7 @@ gradle.rootProject {
     // Test
     extensions.testngVersion = "6.14.3"
     extensions.gatlingVersion = "3.0.3"
+    extensions.mockkVersion = "1.9.1"
     extensions.junitVersion = "4.12"
 }
 

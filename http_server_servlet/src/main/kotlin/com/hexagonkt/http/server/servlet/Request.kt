@@ -23,13 +23,8 @@ internal class Request(private val req: HttpServletRequest) : Request() {
     override fun url(): String = req.requestURL.toString()
     override fun ip(): String = req.remoteAddr
 
-    override fun pathParameters(): Map<String, String> {
-        val requestUrl =
-            if (req.servletPath.isEmpty()) req.pathInfo
-            else req.servletPath
-
-        return actionPath?.extractParameters(requestUrl)?:mapOf()
-    }
+    override fun pathParameters(): Map<String, String> =
+        actionPath?.extractParameters(path()) ?: mapOf()
 
     override fun parameters(): Map<String, List<String>> =
         req.parameterMap.map { it.key as String to it.value.toList() }.toMap()
