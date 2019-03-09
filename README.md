@@ -146,6 +146,7 @@ from scratch following these steps:
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
 ```kotlin
+// hello
 import com.hexagonkt.http.httpDate
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
@@ -172,6 +173,7 @@ fun main() {
     bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
     server.start()
 }
+// hello
 ```
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
@@ -192,6 +194,7 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 A simple CRUD example showing how to manage book resources.
 
 ```kotlin
+// books
 data class Book(val author: String, val title: String)
 
 private val books: MutableMap<Int, Book> = linkedMapOf(
@@ -248,6 +251,7 @@ val server: Server by lazy {
         get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
     }
 }
+// books
 ```
 
 ## Session Example
@@ -255,32 +259,25 @@ val server: Server by lazy {
 Example showing how to use sessions.
 
 ```kotlin
+// session
 val server: Server by lazy {
     Server(adapter) {
         path("/session") {
             get("/id") { ok(session.id ?: "null") }
-
             get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
-
             get("/new") { ok(session.isNew()) }
 
             path("/inactive") {
                 get { ok(session.maxInactiveInterval ?: "null") }
-
-                put("/{interval}") {
-                    session.maxInactiveInterval = pathParameters["interval"].toInt()
-                }
+                put("/{time}") { session.maxInactiveInterval = pathParameters["time"].toInt() }
             }
 
             get("/creation") { ok(session.creationTime ?: "null") }
-
             post("/invalidate") { session.invalidate() }
 
             path("/{key}") {
                 put("/{value}") { session.set(pathParameters["key"], pathParameters["value"]) }
-
                 get { ok(session.get(pathParameters["key"]).toString()) }
-
                 delete { session.remove(pathParameters["key"]) }
             }
 
@@ -301,6 +298,7 @@ val server: Server by lazy {
         }
     }
 }
+// session
 ```
 
 ## Cookies Example
@@ -308,6 +306,7 @@ val server: Server by lazy {
 Demo server to show the use of cookies.
 
 ```kotlin
+// cookies
 val server: Server by lazy {
     Server(adapter) {
         post("/assertNoCookies") {
@@ -333,6 +332,40 @@ val server: Server by lazy {
         }
     }
 }
+// cookies
+```
+
+## Error Handling Example
+
+Code to show how to handle callback exceptions and HTTP error codes.
+
+```kotlin
+// errors
+class CustomException : IllegalArgumentException()
+
+val server: Server by lazy {
+    Server(adapter) {
+        error(UnsupportedOperationException::class) {
+            response.setHeader("error", it.message ?: it.javaClass.name)
+            send(599, "Unsupported")
+        }
+
+        error(IllegalArgumentException::class) {
+            response.setHeader("runtimeError", it.message ?: it.javaClass.name)
+            send(598, "Runtime")
+        }
+
+        error(588) { send(578, "588 -> 578") }
+
+        get("/exception") { throw UnsupportedOperationException("error message") }
+        get("/baseException") { throw CustomException() }
+        get("/unhandledException") { error("error message") }
+
+        get("/halt") { halt("halted") }
+        get("/588") { halt(588) }
+    }
+}
+// errors
 ```
 
 ## Status

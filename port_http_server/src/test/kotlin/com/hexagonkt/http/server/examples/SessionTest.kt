@@ -10,33 +10,25 @@ import org.testng.annotations.Test
 
 @Test abstract class SessionTest(adapter: ServerPort) {
 
-    // sample
+    // session
     val server: Server by lazy {
         Server(adapter) {
             path("/session") {
                 get("/id") { ok(session.id ?: "null") }
-
                 get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
-
                 get("/new") { ok(session.isNew()) }
 
                 path("/inactive") {
                     get { ok(session.maxInactiveInterval ?: "null") }
-
-                    put("/{interval}") {
-                        session.maxInactiveInterval = pathParameters["interval"].toInt()
-                    }
+                    put("/{time}") { session.maxInactiveInterval = pathParameters["time"].toInt() }
                 }
 
                 get("/creation") { ok(session.creationTime ?: "null") }
-
                 post("/invalidate") { session.invalidate() }
 
                 path("/{key}") {
                     put("/{value}") { session.set(pathParameters["key"], pathParameters["value"]) }
-
                     get { ok(session.get(pathParameters["key"]).toString()) }
-
                     delete { session.remove(pathParameters["key"]) }
                 }
 
@@ -57,7 +49,7 @@ import org.testng.annotations.Test
             }
         }
     }
-    // sample
+    // session
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 

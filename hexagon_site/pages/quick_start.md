@@ -128,16 +128,22 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 
 A simple CRUD example showing how to manage book resources.
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt:sample
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt:books
 
 # Session Example
 
 Example showing how to use sessions.
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt:sample
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt:session
 
 # Cookies Example
 
 Demo server to show the use of cookies.
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt:sample
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt:cookies
+
+# Error Handling Example
+
+Code to show how to handle callback exceptions and HTTP error codes.
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt:errors

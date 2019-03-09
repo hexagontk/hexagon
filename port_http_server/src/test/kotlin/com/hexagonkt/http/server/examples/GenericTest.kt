@@ -15,8 +15,6 @@ import java.util.Locale.getDefault as defaultLocale
 
 @Test abstract class GenericTest(adapter: ServerPort) {
 
-    private class CustomException : IllegalArgumentException()
-
     private data class Tag(
         val id: String = System.currentTimeMillis().toString(),
         val name: String
@@ -60,19 +58,6 @@ import java.util.Locale.getDefault as defaultLocale
                 ok("${response.body}!!!")
             }
 
-            error(UnsupportedOperationException::class) {
-                response.setHeader("error", it.message ?: it.javaClass.name)
-                send(599, "Unsupported")
-            }
-
-            error(IllegalArgumentException::class) {
-                response.setHeader("runtimeError", it.message ?: it.javaClass.name)
-                send(598, "Runtime")
-            }
-
-            get("/exception") { throw UnsupportedOperationException("error message") }
-            get("/baseException") { throw CustomException() }
-            get("/unhandledException") { error("error message") }
             get("/hi") { ok("Hello World!") }
             get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
             get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
@@ -87,7 +72,6 @@ import java.util.Locale.getDefault as defaultLocale
             put("/method") { okRequestMethod() }
             trace("/method") { okRequestMethod() }
             head("/method") { response.setHeader("header", request.method.toString()) }
-            get("/halt") { halt("halted") }
             get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
 
             get("/tworoutes/${part.toUpperCase()}/{param}") {
@@ -120,9 +104,7 @@ import java.util.Locale.getDefault as defaultLocale
             get("/return/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
             get("/return/pair/object") { send(201, Tag(name = "Message")) }
 
-            post("/hexagon/files") {
-                ok(request.parts.keys.joinToString(":"))
-            }
+            post("/hexagon/files") { ok(request.parts.keys.joinToString(":")) }
         }
     }
 
@@ -170,8 +152,8 @@ import java.util.Locale.getDefault as defaultLocale
     }
 
     @Test fun echoParamWithUpperCaseInValue() {
-        val camelCased = "ThisIsAValueAndBlacksheepShouldRetainItsUpperCasedCharacters"
-        val response = client.get ("/param/" + camelCased)
+        val camelCased = "ThisIsAValueAndBlackSheepShouldRetainItsUpperCasedCharacters"
+        val response = client.get ("/param/$camelCased")
         assertResponseEquals(response, "echo: $camelCased")
     }
 
@@ -226,11 +208,6 @@ import java.util.Locale.getDefault as defaultLocale
         assertResponseEquals(response, "/* css */\n")
     }
 
-    @Test fun halt() {
-        val response = client.get ("/halt")
-        assertResponseEquals(response, "halted", 500)
-    }
-
     @Test fun redirect() {
         val response = client.get ("/redirect")
         assert(response.statusCode == 302)
@@ -270,23 +247,6 @@ import java.util.Locale.getDefault as defaultLocale
         assert("/" == response.headers["referer"])
 
         assert(200 == response.statusCode)
-    }
-
-    @Test fun handleException() {
-        val response = client.get ("/exception")
-        assert("error message" == response.headers["error"]?.toString())
-        assertResponseContains(response, 599, "Unsupported")
-    }
-
-    @Test fun base_error_handler() {
-        val response = client.get ("/baseException")
-        assert(response.headers["runtimeError"]?.toString() == CustomException::class.java.name)
-        assertResponseContains(response, 598, "Runtime")
-    }
-
-    @Test fun not_registered_error_handler() {
-        val response = client.get ("/unhandledException")
-        assertResponseContains(response, 500)
     }
 
     @Test fun return_values () {
@@ -345,19 +305,19 @@ import java.util.Locale.getDefault as defaultLocale
         assert (200 == res.statusCode)
     }
 
-    protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
+    private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
         assert (response?.statusCode == status)
         assert (response?.responseBody == content)
     }
 
-    protected fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
+    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
         assert (response?.statusCode == status)
         content.forEach {
             assert (response?.responseBody?.contains (it) ?: false)
         }
     }
 
-    protected fun assertResponseContains(response: Response?, vararg content: String) {
+    private fun assertResponseContains(response: Response?, vararg content: String) {
         assertResponseContains(response, 200, *content)
     }
 }

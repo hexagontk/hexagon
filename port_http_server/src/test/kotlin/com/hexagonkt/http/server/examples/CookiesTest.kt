@@ -9,7 +9,7 @@ import java.net.HttpCookie
 
 @Test abstract class CookiesTest(adapter: ServerPort) {
 
-    // sample
+    // cookies
     val server: Server by lazy {
         Server(adapter) {
             post("/assertNoCookies") {
@@ -35,7 +35,7 @@ import java.net.HttpCookie
             }
         }
     }
-    // sample
+    // cookies
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 

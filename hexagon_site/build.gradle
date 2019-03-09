@@ -15,17 +15,20 @@ task("checkDocumentation") {
             "port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples"
 
         Map<FileRange, FileRange> fileRanges = [
-            (new FileRange(readme, 148, 173)):
+            (new FileRange(readme, "hello")):
                 new FileRange(rootProject.file("hexagon_starters/src/main/kotlin/Service.kt")),
             
-            (new FileRange(readme, 194, 249)):
-                new FileRange(rootProject.file("$serverExamples/BooksTest.kt"), "sample"),
+            (new FileRange(readme, "books")):
+                new FileRange(rootProject.file("$serverExamples/BooksTest.kt"), "books"),
 
-            (new FileRange(readme, 257, 302)):
-                new FileRange(rootProject.file("$serverExamples/SessionTest.kt"), "sample"),
+            (new FileRange(readme, "session")):
+                new FileRange(rootProject.file("$serverExamples/SessionTest.kt"), "session"),
+
+            (new FileRange(readme, "cookies")):
+                new FileRange(rootProject.file("$serverExamples/CookiesTest.kt"), "cookies"),
             
-            (new FileRange(readme, 310, 334)):
-                new FileRange(rootProject.file("$serverExamples/CookiesTest.kt"), "sample")
+            (new FileRange(readme, "errors")):
+                new FileRange(rootProject.file("$serverExamples/ErrorsTest.kt"), "errors")
         ]
         
         fileRanges.each { SiteKt.checkDocumentationCode(it.key, it.value) }

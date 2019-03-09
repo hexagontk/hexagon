@@ -11,7 +11,7 @@ import org.testng.annotations.Test
 
 @Test abstract class BooksTest(adapter: ServerPort) {
 
-    // sample
+    // books
     data class Book(val author: String, val title: String)
 
     private val books: MutableMap<Int, Book> = linkedMapOf(
@@ -68,7 +68,7 @@ import org.testng.annotations.Test
             get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
         }
     }
-    // sample
+    // books
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 
