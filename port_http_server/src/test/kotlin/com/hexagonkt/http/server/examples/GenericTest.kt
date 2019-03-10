@@ -23,9 +23,7 @@ import java.util.Locale.getDefault as defaultLocale
     private val part = "param"
 
     private val server: Server by lazy {
-
         Server(adapter) {
-
             before("/protected/*") { halt(401, "Go Away!") }
             before("/attribute") { attributes += "attr1" to "attr" }
 
@@ -123,11 +121,6 @@ import java.util.Locale.getDefault as defaultLocale
     @Test fun reqres() {
         val response = client.get("/reqres")
         assertResponseEquals(response, "GET")
-    }
-
-    @Test fun getHi() {
-        val response = client.get("/hi")
-        assertResponseEquals(response, "Hello World!")
     }
 
     @Test fun getHiAfterFilter() {
@@ -321,4 +314,3 @@ import java.util.Locale.getDefault as defaultLocale
         assertResponseContains(response, 200, *content)
     }
 }
-
