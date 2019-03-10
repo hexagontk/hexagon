@@ -4,21 +4,21 @@ version: '3'
 services:
 
   postgresql:
-    image: postgres
+    image: postgres:11.2
     volumes:
       - ./hexagon_benchmark/postgresql.sql:/docker-entrypoint-initdb.d/db.sql:ro
     ports:
       - 5432:5432
 
   mongodb:
-    image: mongo
+    image: mongo:4.1.8
     volumes:
       - ./hexagon_benchmark/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
     ports:
       - 27017:27017
 
   rabbitmq:
-    image: rabbitmq:management
+    image: rabbitmq:3.7.12-management
     ports:
       - 5672:5672
       - 15672:15672
