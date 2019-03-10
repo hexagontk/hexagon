@@ -8,6 +8,7 @@
 version: '3'
 
 services:
+
   benchmark_resin:
     build:
       context: ./hexagon_benchmark
