@@ -162,7 +162,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             try {
                 call.response.headers.forEach { header ->
                     header.value.forEach { value ->
-                        response.addHeader(header.key, value)
+                        response.addHeader(header.key, value.toString())
                     }
                 }
                 response.status = call.response.status

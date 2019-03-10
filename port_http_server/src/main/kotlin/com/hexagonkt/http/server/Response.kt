@@ -24,9 +24,9 @@ abstract class Response () {
         get() = contentType()
         set(value) { contentType(value) }
 
-    val headers: MutableMap<String, List<String>> by lazy { LinkedHashMap<String, List<String>>() }
+    val headers: MutableMap<String, List<Any>> by lazy { LinkedHashMap<String, List<Any>>() }
 
-    fun setHeader(name: String, value: String) {
+    fun setHeader(name: String, value: Any) {
         headers[name] = listOf(value)
     }
 
