@@ -26,6 +26,10 @@ import java.util.Locale.getDefault as defaultLocale
                 send(598, "Runtime")
             }
 
+            // Catching `Exception` handles any unhandled exception before (it has to be the last)
+            error(Exception::class) { send(500, "Root handler") }
+
+            // It is possible to execute a handler upon a given status code before returning
             error(588) { send(578, "588 -> 578") }
 
             get("/exception") { throw UnsupportedOperationException("error message") }
@@ -48,31 +52,31 @@ import java.util.Locale.getDefault as defaultLocale
         server.stop()
     }
 
-    @Test fun halt() {
+    @Test fun `Halt stops request with 500 status code`() {
         val response = client.get ("/halt")
         assertResponseEquals(response, "halted", 500)
     }
 
-    @Test fun codeHandling() {
+    @Test fun `Handling status code allows to change the returned code`() {
         val response = client.get ("/588")
         assertResponseEquals(response, "588 -> 578", 578)
     }
 
-    @Test fun handleException() {
+    @Test fun `Handle exception allows to catch unhandled callback exceptions`() {
         val response = client.get ("/exception")
         assert("error message" == response.headers["error"]?.toString())
         assertResponseContains(response, 599, "Unsupported")
     }
 
-    @Test fun base_error_handler() {
+    @Test fun `Base error handler catch all exceptions that subclass a given one`() {
         val response = client.get ("/baseException")
         assert(response.headers["runtimeError"]?.toString() == CustomException::class.java.name)
         assertResponseContains(response, 598, "Runtime")
     }
 
-    @Test fun not_registered_error_handler() {
+    @Test fun `A runtime exception returns a 500 code`() {
         val response = client.get ("/unhandledException")
-        assertResponseContains(response, 500)
+        assertResponseContains(response, 500, "Root handler")
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {

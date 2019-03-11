@@ -51,11 +51,11 @@ import java.net.HttpCookie
         client.cookies.clear()
     }
 
-    @Test(priority = 1) fun emptyCookies() {
+    @Test(priority = 1) fun `Empty cookies assures there is no cookies`() {
         assert (client.post("/assertNoCookies").statusCode == 200)
     }
 
-    @Test(priority = 2) fun createCookie() {
+    @Test(priority = 2) fun `Create cookie adds a new cookie to the request`() {
         val cookieName = "testCookie"
         val cookieValue = "testCookieValue"
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
@@ -66,7 +66,7 @@ import java.net.HttpCookie
         assert (result.statusCode == 200)
     }
 
-    @Test(priority = 3) fun removeCookie() {
+    @Test(priority = 3) fun `Remove cookie deletes the given cookie`() {
         val cookieName = "testCookie"
         val cookieValue = "testCookieValue"
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"

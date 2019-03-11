@@ -24,9 +24,6 @@ import java.util.Locale.getDefault as defaultLocale
 
     private val server: Server by lazy {
         Server(adapter) {
-            before("/protected/*") { halt(401, "Go Away!") }
-            before("/attribute") { attributes += "attr1" to "attr" }
-
             assets("public")
 
             get("/request/data") {
@@ -56,7 +53,6 @@ import java.util.Locale.getDefault as defaultLocale
                 ok("${response.body}!!!")
             }
 
-            get("/hi") { ok("Hello World!") }
             get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
             get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
             get("/") { ok("Hello Root!") }
@@ -88,10 +84,6 @@ import java.util.Locale.getDefault as defaultLocale
                 ok(responseType)
             }
 
-            after("/hi") {
-                response.setHeader("after", "foobar")
-            }
-
             get("/return/status") { send(201) }
             get("/return/body") { ok("body") }
             get("/return/pair") { send(202, "funky status") }
@@ -102,7 +94,7 @@ import java.util.Locale.getDefault as defaultLocale
             get("/return/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
             get("/return/pair/object") { send(201, Tag(name = "Message")) }
 
-            post("/hexagon/files") { ok(request.parts.keys.joinToString(":")) }
+            post("/files") { ok(request.parts.keys.joinToString(":")) }
         }
     }
 
@@ -121,12 +113,6 @@ import java.util.Locale.getDefault as defaultLocale
     @Test fun reqres() {
         val response = client.get("/reqres")
         assertResponseEquals(response, "GET")
-    }
-
-    @Test fun getHiAfterFilter() {
-        val response = client.get ("/hi")
-        assertResponseEquals(response, "Hello World!")
-        assert(response.headers["after"]?.contains("foobar") ?: false)
     }
 
     @Test fun getRoot() {
@@ -163,11 +149,6 @@ import java.util.Locale.getDefault as defaultLocale
     @Test fun echoParamWithMaj() {
         val response = client.get ("/paramwithmaj/plop")
         assertResponseEquals(response, "echo: plop")
-    }
-
-    @Test fun unauthorized() {
-        val response = client.get ("/protected/resource")
-        assert(response.statusCode == 401)
     }
 
     @Test fun notFound() {
@@ -279,13 +260,9 @@ import java.util.Locale.getDefault as defaultLocale
         assert(contentType() == "application/json")
     }
 
-    @Test fun attributes () {
-        assert(client.get("/attribute").responseBody == "attr")
-    }
-
     @Test fun sendParts() {
         val parts = listOf(StringPart("name", "value"))
-        val response = client.send(Method.POST, "/hexagon/files", parts = parts)
+        val response = client.send(Method.POST, "/files", parts = parts)
         assert(response.responseBody == "name")
     }
 

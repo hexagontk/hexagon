@@ -61,12 +61,12 @@ import org.testng.annotations.Test
         server.stop()
     }
 
-    @Test fun attribute() {
+    @Test fun `Attribute is added to session`() {
         assert(client.put("/session/foo/bar").statusCode == 200)
         assertResponseEquals(client.get("/session/foo"), "bar")
     }
 
-    @Test fun sessionLifecycle() {
+    @Test fun `Session attribute lifecycle test`() {
         client.post("/session/invalidate")
 
         assert(client.get("/session/id").responseBody == "null")
@@ -100,19 +100,15 @@ import org.testng.annotations.Test
         assert(client.get("/session/access").responseBody == "null")
     }
 
-    protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
+    private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
         assert (response?.statusCode == status)
         assert (response?.responseBody == content)
     }
 
-    protected fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
+    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
         assert (response?.statusCode == status)
         content.forEach {
             assert (response?.responseBody?.contains (it) ?: false)
         }
-    }
-
-    protected fun assertResponseContains(response: Response?, vararg content: String) {
-        assertResponseContains(response, 200, *content)
     }
 }

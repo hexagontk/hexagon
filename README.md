@@ -191,7 +191,8 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 
 ## Books Example
 
-A simple CRUD example showing how to manage book resources.
+A simple CRUD example showing how to manage book resources. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt).
 
 ```kotlin
 // books
@@ -206,6 +207,7 @@ private val books: MutableMap<Int, Book> = linkedMapOf(
 val server: Server by lazy {
     Server(adapter) {
         post("/books") {
+            // Require fails if parameter does not exists
             val author = parameters.require("author").first()
             val title = parameters.require("title").first()
             val id = (books.keys.max() ?: 0) + 1
@@ -214,9 +216,11 @@ val server: Server by lazy {
         }
 
         get("/books/{id}") {
+            // Path parameters *must* exist an error is thrown if they are not present
             val bookId = pathParameters["id"].toInt()
             val book = books[bookId]
             if (book != null)
+                // ok() is a shortcut to send(200)
                 ok("Title: ${book.title}, Author: ${book.author}")
             else
                 send(404, "Book not found")
@@ -256,7 +260,8 @@ val server: Server by lazy {
 
 ## Session Example
 
-Example showing how to use sessions.
+Example showing how to use sessions. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt).
 
 ```kotlin
 // session
@@ -303,7 +308,8 @@ val server: Server by lazy {
 
 ## Cookies Example
 
-Demo server to show the use of cookies.
+Demo server to show the use of cookies. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt).
 
 ```kotlin
 // cookies
@@ -337,7 +343,8 @@ val server: Server by lazy {
 
 ## Error Handling Example
 
-Code to show how to handle callback exceptions and HTTP error codes.
+Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt).
 
 ```kotlin
 // errors
@@ -355,6 +362,10 @@ val server: Server by lazy {
             send(598, "Runtime")
         }
 
+        // Catching `Exception` handles any unhandled exception before (it has to be the last)
+        error(Exception::class) { send(500, "Root handler") }
+
+        // It is possible to execute a handler upon a given status code before returning
         error(588) { send(578, "588 -> 578") }
 
         get("/exception") { throw UnsupportedOperationException("error message") }
@@ -366,6 +377,47 @@ val server: Server by lazy {
     }
 }
 // errors
+```
+
+## Filters Example
+
+This example shows how to add filters before and after route execution. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt).
+
+```kotlin
+// filters
+private val users: Map<String, String> = mapOf(
+    "Turing" to "London",
+    "Dijkstra" to "Rotterdam"
+)
+
+private val server: Server by lazy {
+    Server(adapter) {
+        before { attributes["start"] = nanoTime() }
+
+        before("/protected/*") {
+            val authorization = request.headers["Authorization"] ?: halt(401, "Unauthorized")
+            val credentials = authorization.first().removePrefix("Basic ")
+            val userPassword = String(Base64.getDecoder().decode(credentials)).split(":")
+
+            // Parameters set in call attributes are accessible in other filters and routes
+            attributes["username"] = userPassword[0]
+            attributes["password"] = userPassword[1]
+        }
+
+        // All matching filters are run in order unless call is halted
+        before("/protected/*") {
+            if(users[attributes["username"]] != attributes["password"])
+                halt(403, "Forbidden")
+        }
+
+        get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
+
+        // After filters are ran even if request was halted before
+        after { response.setHeader("time", nanoTime() - attributes["start"] as Long) }
+    }
+}
+// filters
 ```
 
 ## Status

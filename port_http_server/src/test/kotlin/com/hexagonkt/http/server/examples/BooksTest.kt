@@ -23,6 +23,7 @@ import org.testng.annotations.Test
     val server: Server by lazy {
         Server(adapter) {
             post("/books") {
+                // Require fails if parameter does not exists
                 val author = parameters.require("author").first()
                 val title = parameters.require("title").first()
                 val id = (books.keys.max() ?: 0) + 1
@@ -31,9 +32,11 @@ import org.testng.annotations.Test
             }
 
             get("/books/{id}") {
+                // Path parameters *must* exist an error is thrown if they are not present
                 val bookId = pathParameters["id"].toInt()
                 val book = books[bookId]
                 if (book != null)
+                    // ok() is a shortcut to send(200)
                     ok("Title: ${book.title}, Author: ${book.author}")
                 else
                     send(404, "Book not found")
@@ -80,23 +83,23 @@ import org.testng.annotations.Test
         server.stop()
     }
 
-    @Test fun createBook() {
+    @Test fun `Create book returns 201 and new book ID`() {
         val result = client.post("/books?author=Vladimir%20Nabokov&title=Lolita")
         assert(Integer.valueOf(result.responseBody) > 0)
         assert(201 == result.statusCode)
     }
 
-    @Test fun listBooks() {
+    @Test fun `List books contains all books IDs`() {
         val result = client.get("/books")
         assertResponseContains(result, "100", "101")
     }
 
-    @Test fun getBook() {
+    @Test fun `Get book returns all book's fields`() {
         val result = client.get("/books/101")
         assertResponseContains(result, "William Shakespeare", "Hamlet")
     }
 
-    @Test fun updateBook() {
+    @Test fun `Update book overrides existing book data`() {
         val resultPut = client.put("/books/100?title=Don%20Quixote")
         assertResponseContains(resultPut, "100", "updated")
 
@@ -104,17 +107,17 @@ import org.testng.annotations.Test
         assertResponseContains(resultGet, "Miguel de Cervantes", "Don Quixote")
     }
 
-    @Test fun deleteBook() {
+    @Test fun `Delete book returns the deleted record ID`() {
         val result = client.delete("/books/102")
         assertResponseContains(result, "102", "deleted")
     }
 
-    @Test fun bookNotFound() {
+    @Test fun `Book not found returns a 404`() {
         val result = client.get("/books/9999")
         assertResponseContains(result, 404, "not found")
     }
 
-    @Test fun invalidMethodReturns405() {
+    @Test fun `Invalid method returns 405`() {
         val result = client.options("/books/9999")
         assert(405 == result.statusCode)
     }
