@@ -146,6 +146,7 @@ from scratch following these steps:
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
 ```kotlin
+// hello
 import com.hexagonkt.http.httpDate
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
@@ -172,6 +173,7 @@ fun main() {
     bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
     server.start()
 }
+// hello
 ```
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
@@ -187,22 +189,25 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 [Endpoint]: http://localhost:2010/hello/world
 [documentation]: http://hexagonkt.com/documentation.html
 
-# Books Example
+## Books Example
 
-A simple CRUD example showing how to create, get, update and delete book resources.
+A simple CRUD example showing how to manage book resources. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt).
 
 ```kotlin
-data class Book (val author: String, val title: String)
+// books
+data class Book(val author: String, val title: String)
 
 private val books: MutableMap<Int, Book> = linkedMapOf(
-    100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
-    101 to Book("William_Shakespeare", "Hamlet"),
-    102 to Book("Homer", "The_Odyssey")
+    100 to Book("Miguel de Cervantes", "Don Quixote"),
+    101 to Book("William Shakespeare", "Hamlet"),
+    102 to Book("Homer", "The Odyssey")
 )
 
 val server: Server by lazy {
     Server(adapter) {
         post("/books") {
+            // Require fails if parameter does not exists
             val author = parameters.require("author").first()
             val title = parameters.require("title").first()
             val id = (books.keys.max() ?: 0) + 1
@@ -211,9 +216,11 @@ val server: Server by lazy {
         }
 
         get("/books/{id}") {
+            // Path parameters *must* exist an error is thrown if they are not present
             val bookId = pathParameters["id"].toInt()
             val book = books[bookId]
             if (book != null)
+                // ok() is a shortcut to send(200)
                 ok("Title: ${book.title}, Author: ${book.author}")
             else
                 send(404, "Book not found")
@@ -223,7 +230,7 @@ val server: Server by lazy {
             val bookId = pathParameters["id"].toInt()
             val book = books[bookId]
             if (book != null) {
-                books += bookId to book.copy (
+                books += bookId to book.copy(
                     author = parameters["author"]?.first() ?: book.author,
                     title = parameters["title"]?.first() ?: book.title
                 )
@@ -235,21 +242,182 @@ val server: Server by lazy {
             }
         }
 
-        delete ("/books/{id}") {
+        delete("/books/{id}") {
             val bookId = pathParameters["id"].toInt()
             val book = books[bookId]
             books -= bookId
             if (book != null)
-                ok ("Book with id '$bookId' deleted")
+                ok("Book with id '$bookId' deleted")
             else
                 send(404, "Book not found")
         }
 
-        get ("/books") {
-            ok (books.keys.joinToString(" ", transform = Int::toString))
+        get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
+    }
+}
+// books
+```
+
+## Session Example
+
+Example showing how to use sessions. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt).
+
+```kotlin
+// session
+val server: Server by lazy {
+    Server(adapter) {
+        path("/session") {
+            get("/id") { ok(session.id ?: "null") }
+            get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
+            get("/new") { ok(session.isNew()) }
+
+            path("/inactive") {
+                get { ok(session.maxInactiveInterval ?: "null") }
+                put("/{time}") { session.maxInactiveInterval = pathParameters["time"].toInt() }
+            }
+
+            get("/creation") { ok(session.creationTime ?: "null") }
+            post("/invalidate") { session.invalidate() }
+
+            path("/{key}") {
+                put("/{value}") { session.set(pathParameters["key"], pathParameters["value"]) }
+                get { ok(session.get(pathParameters["key"]).toString()) }
+                delete { session.remove(pathParameters["key"]) }
+            }
+
+            get {
+                val attributes = session.attributes
+                val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
+
+                response.setHeader("attributes", attributeTexts.joinToString(", "))
+                response.setHeader("attribute values", attributes.values.joinToString(", "))
+                response.setHeader("attribute names", attributes.keys.joinToString(", "))
+
+                response.setHeader("creation", session.creationTime.toString())
+                response.setHeader("id", session.id ?: "")
+                response.setHeader("last access", session.lastAccessedTime.toString())
+
+                response.status = 200
+            }
         }
     }
 }
+// session
+```
+
+## Cookies Example
+
+Demo server to show the use of cookies. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt).
+
+```kotlin
+// cookies
+val server: Server by lazy {
+    Server(adapter) {
+        post("/assertNoCookies") {
+            if (!request.cookies.isEmpty())
+                halt(500)
+        }
+
+        post("/addCookie") {
+            val name = parameters["cookieName"]?.first()
+            val value = parameters["cookieValue"]?.first()
+            response.addCookie(HttpCookie(name, value))
+        }
+
+        post("/assertHasCookie") {
+            val cookieName = parameters.require("cookieName").first()
+            val cookieValue = request.cookies[cookieName]?.value
+            if (parameters["cookieValue"]?.first() != cookieValue)
+                halt(500)
+        }
+
+        post("/removeCookie") {
+            response.removeCookie(parameters.require("cookieName").first())
+        }
+    }
+}
+// cookies
+```
+
+## Error Handling Example
+
+Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt).
+
+```kotlin
+// errors
+class CustomException : IllegalArgumentException()
+
+val server: Server by lazy {
+    Server(adapter) {
+        error(UnsupportedOperationException::class) {
+            response.setHeader("error", it.message ?: it.javaClass.name)
+            send(599, "Unsupported")
+        }
+
+        error(IllegalArgumentException::class) {
+            response.setHeader("runtimeError", it.message ?: it.javaClass.name)
+            send(598, "Runtime")
+        }
+
+        // Catching `Exception` handles any unhandled exception before (it has to be the last)
+        error(Exception::class) { send(500, "Root handler") }
+
+        // It is possible to execute a handler upon a given status code before returning
+        error(588) { send(578, "588 -> 578") }
+
+        get("/exception") { throw UnsupportedOperationException("error message") }
+        get("/baseException") { throw CustomException() }
+        get("/unhandledException") { error("error message") }
+
+        get("/halt") { halt("halted") }
+        get("/588") { halt(588) }
+    }
+}
+// errors
+```
+
+## Filters Example
+
+This example shows how to add filters before and after route execution. Here you can check the
+[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt).
+
+```kotlin
+// filters
+private val users: Map<String, String> = mapOf(
+    "Turing" to "London",
+    "Dijkstra" to "Rotterdam"
+)
+
+private val server: Server by lazy {
+    Server(adapter) {
+        before { attributes["start"] = nanoTime() }
+
+        before("/protected/*") {
+            val authorization = request.headers["Authorization"] ?: halt(401, "Unauthorized")
+            val credentials = authorization.first().removePrefix("Basic ")
+            val userPassword = String(Base64.getDecoder().decode(credentials)).split(":")
+
+            // Parameters set in call attributes are accessible in other filters and routes
+            attributes["username"] = userPassword[0]
+            attributes["password"] = userPassword[1]
+        }
+
+        // All matching filters are run in order unless call is halted
+        before("/protected/*") {
+            if(users[attributes["username"]] != attributes["password"])
+                halt(403, "Forbidden")
+        }
+
+        get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
+
+        // After filters are ran even if request was halted before
+        after { response.setHeader("time", nanoTime() - attributes["start"] as Long) }
+    }
+}
+// filters
 ```
 
 ## Status

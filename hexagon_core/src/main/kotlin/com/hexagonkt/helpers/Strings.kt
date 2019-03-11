@@ -5,6 +5,7 @@ import java.io.InputStream
 import java.lang.System.getProperty
 import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
+import java.util.*
 
 /** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
 private const val VARIABLE_PREFIX = "#{"

@@ -11,18 +11,19 @@ import org.testng.annotations.Test
 
 @Test abstract class BooksTest(adapter: ServerPort) {
 
-    // sample
-    data class Book (val author: String, val title: String)
+    // books
+    data class Book(val author: String, val title: String)
 
     private val books: MutableMap<Int, Book> = linkedMapOf(
-        100 to Book("Miguel_de_Cervantes", "Don_Quixote"),
-        101 to Book("William_Shakespeare", "Hamlet"),
-        102 to Book("Homer", "The_Odyssey")
+        100 to Book("Miguel de Cervantes", "Don Quixote"),
+        101 to Book("William Shakespeare", "Hamlet"),
+        102 to Book("Homer", "The Odyssey")
     )
 
     val server: Server by lazy {
         Server(adapter) {
             post("/books") {
+                // Require fails if parameter does not exists
                 val author = parameters.require("author").first()
                 val title = parameters.require("title").first()
                 val id = (books.keys.max() ?: 0) + 1
@@ -31,9 +32,11 @@ import org.testng.annotations.Test
             }
 
             get("/books/{id}") {
+                // Path parameters *must* exist an error is thrown if they are not present
                 val bookId = pathParameters["id"].toInt()
                 val book = books[bookId]
                 if (book != null)
+                    // ok() is a shortcut to send(200)
                     ok("Title: ${book.title}, Author: ${book.author}")
                 else
                     send(404, "Book not found")
@@ -43,7 +46,7 @@ import org.testng.annotations.Test
                 val bookId = pathParameters["id"].toInt()
                 val book = books[bookId]
                 if (book != null) {
-                    books += bookId to book.copy (
+                    books += bookId to book.copy(
                         author = parameters["author"]?.first() ?: book.author,
                         title = parameters["title"]?.first() ?: book.title
                     )
@@ -55,22 +58,20 @@ import org.testng.annotations.Test
                 }
             }
 
-            delete ("/books/{id}") {
+            delete("/books/{id}") {
                 val bookId = pathParameters["id"].toInt()
                 val book = books[bookId]
                 books -= bookId
                 if (book != null)
-                    ok ("Book with id '$bookId' deleted")
+                    ok("Book with id '$bookId' deleted")
                 else
                     send(404, "Book not found")
             }
 
-            get ("/books") {
-                ok (books.keys.joinToString(" ", transform = Int::toString))
-            }
+            get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
         }
     }
-    // sample
+    // books
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 
@@ -82,58 +83,53 @@ import org.testng.annotations.Test
         server.stop()
     }
 
-    @Test fun createBook () {
-        val result = client.post ("/books?author=Vladimir_Nabokov&title=Lolita")
-        assert (Integer.valueOf (result.responseBody) > 0)
-        assert (201 == result.statusCode)
+    @Test fun `Create book returns 201 and new book ID`() {
+        val result = client.post("/books?author=Vladimir%20Nabokov&title=Lolita")
+        assert(Integer.valueOf(result.responseBody) > 0)
+        assert(201 == result.statusCode)
     }
 
-    @Test fun listBooks () {
-        val result = client.get ("/books")
+    @Test fun `List books contains all books IDs`() {
+        val result = client.get("/books")
         assertResponseContains(result, "100", "101")
     }
 
-    @Test fun getBook () {
-        val result = client.get ("/books/101")
-        assertResponseContains (result, "William_Shakespeare", "Hamlet")
+    @Test fun `Get book returns all book's fields`() {
+        val result = client.get("/books/101")
+        assertResponseContains(result, "William Shakespeare", "Hamlet")
     }
 
-    @Test fun updateBook () {
-        val resultPut = client.put ("/books/100?title=Don_Quixote")
-        assertResponseContains (resultPut, "100", "updated")
+    @Test fun `Update book overrides existing book data`() {
+        val resultPut = client.put("/books/100?title=Don%20Quixote")
+        assertResponseContains(resultPut, "100", "updated")
 
-        val resultGet = client.get ("/books/100")
-        assertResponseContains (resultGet, "Miguel_de_Cervantes", "Don_Quixote")
+        val resultGet = client.get("/books/100")
+        assertResponseContains(resultGet, "Miguel de Cervantes", "Don Quixote")
     }
 
-    @Test fun deleteBook () {
-        val result = client.delete ("/books/102")
-        assertResponseContains (result, "102", "deleted")
+    @Test fun `Delete book returns the deleted record ID`() {
+        val result = client.delete("/books/102")
+        assertResponseContains(result, "102", "deleted")
     }
 
-    @Test fun bookNotFound () {
-        val result = client.get ("/books/9999")
+    @Test fun `Book not found returns a 404`() {
+        val result = client.get("/books/9999")
         assertResponseContains(result, 404, "not found")
     }
 
-    @Test fun invalidMethodReturns405 () {
-        val result = client.options ("/books/9999")
-        assert (405 == result.statusCode)
+    @Test fun `Invalid method returns 405`() {
+        val result = client.options("/books/9999")
+        assert(405 == result.statusCode)
     }
 
-    protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
-        assert (response?.statusCode == status)
-        assert (response?.responseBody == content)
-    }
-
-    protected fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert (response?.statusCode == status)
+    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
+        assert(response?.statusCode == status)
         content.forEach {
-            assert (response?.responseBody?.contains (it) ?: false)
+            assert(response?.responseBody?.contains(it) ?: false)
         }
     }
 
-    protected fun assertResponseContains(response: Response?, vararg content: String) {
+    private fun assertResponseContains(response: Response?, vararg content: String) {
         assertResponseContains(response, 200, *content)
     }
 }

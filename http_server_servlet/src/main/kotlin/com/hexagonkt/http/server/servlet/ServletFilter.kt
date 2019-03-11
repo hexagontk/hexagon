@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
  * TODO .
  */
 class ServletFilter (router: List<RequestHandler>) : Filter {
+
     /**
      * Exception used for stopping the execution. It is used only for flow control.
      */
@@ -109,6 +110,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     }
 
     override fun init(filterConfig: FilterConfig) { /* Not implemented */ }
+
     override fun destroy() { /* Not implemented */ }
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
@@ -121,8 +123,14 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
 //            }
 //        }
 //        else {
-            doFilter(request, response)
+//            doFilter(request, response)
 //        }
+
+        // TODO Temporary hack only valid for Jetty
+        val multipartConfig = MultipartConfigElement("/tmp")
+        request.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
+
+        doFilter(request, response)
     }
 
     private fun doFilter(
@@ -139,9 +147,13 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         var handled = false
 
         try {
-            handled = filter(bRequest, call, beforeFilters)
-            handled = route(call, bRequest) || handled // Order matters!!!
-            handled = filter(bRequest, call, afterFilters) || handled // Order matters!!!
+            try {
+                handled = filter(bRequest, call, beforeFilters)
+                handled = route(call, bRequest) || handled // Order matters!!!
+            }
+            finally {
+                handled = filter(bRequest, call, afterFilters) || handled // Order matters!!!
+            }
 
             if (!handled)
                 throw CodedException(404)
@@ -154,7 +166,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             try {
                 call.response.headers.forEach { header ->
                     header.value.forEach { value ->
-                        response.addHeader(header.key, value)
+                        response.addHeader(header.key, value.toString())
                     }
                 }
                 response.status = call.response.status

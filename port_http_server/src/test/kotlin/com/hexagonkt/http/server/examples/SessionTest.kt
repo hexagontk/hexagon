@@ -1,8 +1,6 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.http.client.Client
-import com.hexagonkt.helpers.Logger
-import com.hexagonkt.http.server.Router
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.asynchttpclient.Response
@@ -10,66 +8,48 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
-@Test abstract  class SessionTest(adapter: ServerPort) {
-    private val log: Logger = Logger(this)
+@Test abstract class SessionTest(adapter: ServerPort) {
 
-    private val server: Server by lazy {
+    // session
+    val server: Server by lazy {
         Server(adapter) {
-            get("/session/id") {
-                val id: String = session.id ?: "null"
-                assert(id == session.id ?: "null")
-                ok(id)
-            }
+            path("/session") {
+                get("/id") { ok(session.id ?: "null") }
+                get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
+                get("/new") { ok(session.isNew()) }
 
-            get("/session/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
-
-            get("/session/new") {
-                try {
-                    ok(session.isNew())
+                path("/inactive") {
+                    get { ok(session.maxInactiveInterval ?: "null") }
+                    put("/{time}") { session.maxInactiveInterval = pathParameters["time"].toInt() }
                 }
-                catch (e: Exception) {
-                    halt("Session error")
+
+                get("/creation") { ok(session.creationTime ?: "null") }
+                post("/invalidate") { session.invalidate() }
+
+                path("/{key}") {
+                    put("/{value}") { session.set(pathParameters["key"], pathParameters["value"]) }
+                    get { ok(session.get(pathParameters["key"]).toString()) }
+                    delete { session.remove(pathParameters["key"]) }
                 }
-            }
 
-            get("/session/inactive") {
-                val inactiveInterval = session.maxInactiveInterval ?: "null"
-                session.maxInactiveInterval = 999
-                assert(inactiveInterval == session.maxInactiveInterval ?: "null")
-                ok(inactiveInterval)
-            }
+                get {
+                    val attributes = session.attributes
+                    val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
 
-            get("/session/creation") { ok(session.creationTime ?: "null") }
+                    response.setHeader("attributes", attributeTexts.joinToString(", "))
+                    response.setHeader("attribute values", attributes.values.joinToString(", "))
+                    response.setHeader("attribute names", attributes.keys.joinToString(", "))
 
-            post("/session/invalidate") { session.invalidate() }
+                    response.setHeader("creation", session.creationTime.toString())
+                    response.setHeader("id", session.id ?: "")
+                    response.setHeader("last access", session.lastAccessedTime.toString())
 
-            put("/session/{key}/{value}") {
-                session.setAttribute(pathParameters["key"], pathParameters["value"])
-            }
-
-            get("/session/{key}") {
-                ok(session.getAttribute(pathParameters["key"]).toString())
-            }
-
-            delete("/session/{key}") {
-                session.removeAttribute(pathParameters["key"])
-            }
-
-            get("/session") {
-                val attributeTexts = session.attributes.entries.map { it.key + " : " + it.value }
-
-                response.setHeader("attributes", attributeTexts.joinToString(", "))
-                response.setHeader("attribute values", session.attributes.values.joinToString(", "))
-                response.setHeader("attribute names", session.attributes.keys.joinToString(", "))
-
-                response.setHeader("creation", session.creationTime.toString())
-                response.setHeader("id", session.id ?: "")
-                response.setHeader("last access", session.lastAccessedTime.toString())
-
-                response.status = 200
+                    response.status = 200
+                }
             }
         }
     }
+    // session
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 
@@ -81,12 +61,12 @@ import org.testng.annotations.Test
         server.stop()
     }
 
-    @Test fun attribute() {
+    @Test fun `Attribute is added to session`() {
         assert(client.put("/session/foo/bar").statusCode == 200)
         assertResponseEquals(client.get("/session/foo"), "bar")
     }
 
-    @Test fun sessionLifecycle() {
+    @Test fun `Session attribute lifecycle test`() {
         client.post("/session/invalidate")
 
         assert(client.get("/session/id").responseBody == "null")
@@ -109,6 +89,9 @@ import org.testng.annotations.Test
         assert(client.get("/session/access").responseBody != "null")
         assert(client.get("/session/new").responseBody == "false")
 
+        assert(client.put("/session/inactive/10").statusCode == 200)
+        assert(client.get("/session/inactive").responseBody == "10")
+
         client.post("/session/invalidate")
 
         assert(client.get("/session/id").responseBody == "null")
@@ -117,19 +100,15 @@ import org.testng.annotations.Test
         assert(client.get("/session/access").responseBody == "null")
     }
 
-    protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
+    private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
         assert (response?.statusCode == status)
         assert (response?.responseBody == content)
     }
 
-    protected fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
+    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
         assert (response?.statusCode == status)
         content.forEach {
             assert (response?.responseBody?.contains (it) ?: false)
         }
-    }
-
-    protected fun assertResponseContains(response: Response?, vararg content: String) {
-        assertResponseContains(response, 200, *content)
     }
 }

@@ -6,6 +6,7 @@ import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.asynchttpclient.Response
+import org.asynchttpclient.request.body.multipart.StringPart
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -13,8 +14,6 @@ import java.net.URL
 import java.util.Locale.getDefault as defaultLocale
 
 @Test abstract class GenericTest(adapter: ServerPort) {
-
-    private class CustomException : IllegalArgumentException()
 
     private data class Tag(
         val id: String = System.currentTimeMillis().toString(),
@@ -24,12 +23,7 @@ import java.util.Locale.getDefault as defaultLocale
     private val part = "param"
 
     private val server: Server by lazy {
-
         Server(adapter) {
-
-            before("/protected/*") { halt(401, "Go Away!") }
-            before("/attribute") { attributes += "attr1" to "attr" }
-
             assets("public")
 
             get("/request/data") {
@@ -59,20 +53,6 @@ import java.util.Locale.getDefault as defaultLocale
                 ok("${response.body}!!!")
             }
 
-            error(UnsupportedOperationException::class) {
-                response.setHeader("error", it.message ?: it.javaClass.name)
-                send(599, "Unsupported")
-            }
-
-            error(IllegalArgumentException::class) {
-                response.setHeader("runtimeError", it.message ?: it.javaClass.name)
-                send(598, "Runtime")
-            }
-
-            get("/exception") { throw UnsupportedOperationException("error message") }
-            get("/baseException") { throw CustomException() }
-            get("/unhandledException") { error("error message") }
-            get("/hi") { ok("Hello World!") }
             get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
             get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
             get("/") { ok("Hello Root!") }
@@ -86,7 +66,6 @@ import java.util.Locale.getDefault as defaultLocale
             put("/method") { okRequestMethod() }
             trace("/method") { okRequestMethod() }
             head("/method") { response.setHeader("header", request.method.toString()) }
-            get("/halt") { halt("halted") }
             get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
 
             get("/tworoutes/${part.toUpperCase()}/{param}") {
@@ -105,10 +84,6 @@ import java.util.Locale.getDefault as defaultLocale
                 ok(responseType)
             }
 
-            after("/hi") {
-                response.setHeader("after", "foobar")
-            }
-
             get("/return/status") { send(201) }
             get("/return/body") { ok("body") }
             get("/return/pair") { send(202, "funky status") }
@@ -118,6 +93,8 @@ import java.util.Locale.getDefault as defaultLocale
             get("/return/pair/list") { send(201, listOf("alpha", "beta")) }
             get("/return/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
             get("/return/pair/object") { send(201, Tag(name = "Message")) }
+
+            post("/files") { ok(request.parts.keys.joinToString(":")) }
         }
     }
 
@@ -138,17 +115,6 @@ import java.util.Locale.getDefault as defaultLocale
         assertResponseEquals(response, "GET")
     }
 
-    @Test fun getHi() {
-        val response = client.get("/hi")
-        assertResponseEquals(response, "Hello World!")
-    }
-
-    @Test fun getHiAfterFilter() {
-        val response = client.get ("/hi")
-        assertResponseEquals(response, "Hello World!")
-        assert(response.headers["after"]?.contains("foobar") ?: false)
-    }
-
     @Test fun getRoot() {
         val response = client.get ("/")
         assertResponseEquals(response, "Hello Root!")
@@ -165,8 +131,8 @@ import java.util.Locale.getDefault as defaultLocale
     }
 
     @Test fun echoParamWithUpperCaseInValue() {
-        val camelCased = "ThisIsAValueAndBlacksheepShouldRetainItsUpperCasedCharacters"
-        val response = client.get ("/param/" + camelCased)
+        val camelCased = "ThisIsAValueAndBlackSheepShouldRetainItsUpperCasedCharacters"
+        val response = client.get ("/param/$camelCased")
         assertResponseEquals(response, "echo: $camelCased")
     }
 
@@ -183,11 +149,6 @@ import java.util.Locale.getDefault as defaultLocale
     @Test fun echoParamWithMaj() {
         val response = client.get ("/paramwithmaj/plop")
         assertResponseEquals(response, "echo: plop")
-    }
-
-    @Test fun unauthorized() {
-        val response = client.get ("/protected/resource")
-        assert(response.statusCode == 401)
     }
 
     @Test fun notFound() {
@@ -219,11 +180,6 @@ import java.util.Locale.getDefault as defaultLocale
         val response = client.get ("/file.css")
         assert(response.contentType.contains("css"))
         assertResponseEquals(response, "/* css */\n")
-    }
-
-    @Test fun halt() {
-        val response = client.get ("/halt")
-        assertResponseEquals(response, "halted", 500)
     }
 
     @Test fun redirect() {
@@ -267,23 +223,6 @@ import java.util.Locale.getDefault as defaultLocale
         assert(200 == response.statusCode)
     }
 
-    @Test fun handleException() {
-        val response = client.get ("/exception")
-        assert("error message" == response.headers["error"]?.toString())
-        assertResponseContains(response, 599, "Unsupported")
-    }
-
-    @Test fun base_error_handler() {
-        val response = client.get ("/baseException")
-        assert(response.headers["runtimeError"]?.toString() == CustomException::class.java.name)
-        assertResponseContains(response, 598, "Runtime")
-    }
-
-    @Test fun not_registered_error_handler() {
-        val response = client.get ("/unhandledException")
-        assertResponseContains(response, 500)
-    }
-
     @Test fun return_values () {
         assertResponseContains(client.get ("/return/status"), 201)
         assertResponseEquals(client.get ("/return/body"), "body")
@@ -321,8 +260,10 @@ import java.util.Locale.getDefault as defaultLocale
         assert(contentType() == "application/json")
     }
 
-    @Test fun attributes () {
-        assert(client.get("/attribute").responseBody == "attr")
+    @Test fun sendParts() {
+        val parts = listOf(StringPart("name", "value"))
+        val response = client.send(Method.POST, "/files", parts = parts)
+        assert(response.responseBody == "name")
     }
 
     private fun checkMethod (client: Client, methodName: String, headerName: String? = null) {
@@ -334,20 +275,19 @@ import java.util.Locale.getDefault as defaultLocale
         assert (200 == res.statusCode)
     }
 
-    protected fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
+    private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
         assert (response?.statusCode == status)
         assert (response?.responseBody == content)
     }
 
-    protected fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
+    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
         assert (response?.statusCode == status)
         content.forEach {
             assert (response?.responseBody?.contains (it) ?: false)
         }
     }
 
-    protected fun assertResponseContains(response: Response?, vararg content: String) {
+    private fun assertResponseContains(response: Response?, vararg content: String) {
         assertResponseContains(response, 200, *content)
     }
 }
-
