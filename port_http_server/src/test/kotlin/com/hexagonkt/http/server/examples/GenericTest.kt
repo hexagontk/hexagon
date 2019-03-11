@@ -29,13 +29,6 @@ import java.util.Locale.getDefault as defaultLocale
             post("/files") { ok(request.parts.keys.joinToString(":")) }
 
             get("/request/data") {
-                response.body = request.url
-
-                request.cookies["method"]?.value = request.method.toString()
-                request.cookies["host"]?.value = request.ip
-                request.cookies["uri"]?.value = request.url
-                request.cookies["params"]?.value = parameters.size.toString()
-
                 response.setHeader("method", request.method.toString())
                 response.setHeader("ip", request.ip)
                 response.setHeader("uri", request.url)
@@ -52,7 +45,7 @@ import java.util.Locale.getDefault as defaultLocale
                 response.setHeader("preferredType", request.preferredType)
                 response.setHeader("contentLength", request.contentLength.toString())
 
-                ok("${response.body}!!!")
+                ok("${request.url}!!!")
             }
 
             get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
@@ -111,16 +104,6 @@ import java.util.Locale.getDefault as defaultLocale
     @Test fun getRoot() {
         val response = client.get ("/")
         assertResponseEquals(response, "Hello Root!")
-    }
-
-    @Test fun echoParam1() {
-        val response = client.get ("/param/shizzy")
-        assertResponseEquals(response, "echo: shizzy")
-    }
-
-    @Test fun echoParam2() {
-        val response = client.get ("/param/gunit")
-        assertResponseEquals(response, "echo: gunit")
     }
 
     @Test fun echoParamWithUpperCaseInValue() {
