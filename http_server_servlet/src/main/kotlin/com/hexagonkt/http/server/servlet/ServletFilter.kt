@@ -147,9 +147,13 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         var handled = false
 
         try {
-            handled = filter(bRequest, call, beforeFilters)
-            handled = route(call, bRequest) || handled // Order matters!!!
-            handled = filter(bRequest, call, afterFilters) || handled // Order matters!!!
+            try {
+                handled = filter(bRequest, call, beforeFilters)
+                handled = route(call, bRequest) || handled // Order matters!!!
+            }
+            finally {
+                handled = filter(bRequest, call, afterFilters) || handled // Order matters!!!
+            }
 
             if (!handled)
                 throw CodedException(404)
