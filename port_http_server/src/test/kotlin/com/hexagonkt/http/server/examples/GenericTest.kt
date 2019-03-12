@@ -26,14 +26,9 @@ import java.util.Locale.getDefault as defaultLocale
         Server(adapter) {
             assets("public")
 
+            post("/files") { ok(request.parts.keys.joinToString(":")) }
+
             get("/request/data") {
-                response.body = request.url
-
-                request.cookies["method"]?.value = request.method.toString()
-                request.cookies["host"]?.value = request.ip
-                request.cookies["uri"]?.value = request.url
-                request.cookies["params"]?.value = parameters.size.toString()
-
                 response.setHeader("method", request.method.toString())
                 response.setHeader("ip", request.ip)
                 response.setHeader("uri", request.url)
@@ -50,14 +45,13 @@ import java.util.Locale.getDefault as defaultLocale
                 response.setHeader("preferredType", request.preferredType)
                 response.setHeader("contentLength", request.contentLength.toString())
 
-                ok("${response.body}!!!")
+                ok("${request.url}!!!")
             }
 
             get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
             get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
             get("/") { ok("Hello Root!") }
-            post("/poster") { send(201, "Body was: ${request.body}") }
-            patch("/patcher") { ok("Body was: ${request.body}") }
+
             delete("/method") { okRequestMethod() }
             options("/method") { okRequestMethod() }
             get("/method") { okRequestMethod() }
@@ -66,15 +60,14 @@ import java.util.Locale.getDefault as defaultLocale
             put("/method") { okRequestMethod() }
             trace("/method") { okRequestMethod() }
             head("/method") { response.setHeader("header", request.method.toString()) }
+
             get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
 
             get("/tworoutes/${part.toUpperCase()}/{param}") {
                 ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
             }
 
-            get("/reqres") { ok(request.method) }
             get("/redirect") { redirect("http://example.com") }
-            get("/attribute") { ok(attributes["attr1"] ?: "not found") }
             get("/content/type") {
                 val headerResponseType = request.headers["responseType"]?.first()
 
@@ -93,8 +86,6 @@ import java.util.Locale.getDefault as defaultLocale
             get("/return/pair/list") { send(201, listOf("alpha", "beta")) }
             get("/return/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
             get("/return/pair/object") { send(201, Tag(name = "Message")) }
-
-            post("/files") { ok(request.parts.keys.joinToString(":")) }
         }
     }
 
@@ -110,24 +101,9 @@ import java.util.Locale.getDefault as defaultLocale
 
     private fun Call.okRequestMethod() = ok(request.method)
 
-    @Test fun reqres() {
-        val response = client.get("/reqres")
-        assertResponseEquals(response, "GET")
-    }
-
     @Test fun getRoot() {
         val response = client.get ("/")
         assertResponseEquals(response, "Hello Root!")
-    }
-
-    @Test fun echoParam1() {
-        val response = client.get ("/param/shizzy")
-        assertResponseEquals(response, "echo: shizzy")
-    }
-
-    @Test fun echoParam2() {
-        val response = client.get ("/param/gunit")
-        assertResponseEquals(response, "echo: gunit")
     }
 
     @Test fun echoParamWithUpperCaseInValue() {
@@ -154,16 +130,6 @@ import java.util.Locale.getDefault as defaultLocale
     @Test fun notFound() {
         val response = client.get ("/no/resource")
         assertResponseContains(response, 404)
-    }
-
-    @Test fun postOk() {
-        val response = client.post ("/poster", "Fo shizzy")
-        assertResponseContains(response, 201, "Fo shizzy")
-    }
-
-    @Test fun patchOk() {
-        val response = client.patch ("/patcher", "Fo shizzy")
-        assertResponseContains(response, "Fo shizzy")
     }
 
     @Test fun staticFolder() {

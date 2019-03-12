@@ -93,7 +93,7 @@ fun insertSamplesCode(markdownFile: File, content: String): String {
         val sampleLocation = sample.groups[1]?.value?.trim() ?: error("Location expected")
         val fileRange = FileRange.parse(markdownFile, sampleLocation)
         val replacement = "```kotlin\n" + fileRange.text().trim() + "\n```"
-        result = content.replace("@sample $sampleLocation", replacement)
+        result = result.replace("@sample $sampleLocation", replacement)
     }
 
     return result
