@@ -6,7 +6,6 @@ import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.asynchttpclient.Response
-import org.asynchttpclient.request.body.multipart.StringPart
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -24,10 +23,6 @@ import java.util.Locale.getDefault as defaultLocale
 
     private val server: Server by lazy {
         Server(adapter) {
-            assets("public")
-
-            post("/files") { ok(request.parts.keys.joinToString(":")) }
-
             get("/request/data") {
                 response.setHeader("method", request.method.toString())
                 response.setHeader("ip", request.ip)
@@ -132,22 +127,6 @@ import java.util.Locale.getDefault as defaultLocale
         assertResponseContains(response, 404)
     }
 
-    @Test fun staticFolder() {
-        val response = client.get ("/file.txt/")
-        assertResponseContains(response, 404)
-    }
-
-    @Test fun staticFile() {
-        val response = client.get ("/file.txt")
-        assertResponseEquals(response, "file content\n")
-    }
-
-    @Test fun fileContentType() {
-        val response = client.get ("/file.css")
-        assert(response.contentType.contains("css"))
-        assertResponseEquals(response, "/* css */\n")
-    }
-
     @Test fun redirect() {
         val response = client.get ("/redirect")
         assert(response.statusCode == 302)
@@ -224,12 +203,6 @@ import java.util.Locale.getDefault as defaultLocale
         // Check start because http client adds encoding
         assert(contentType("Content-Type" to "text/html").startsWith("text/html"))
         assert(contentType() == "application/json")
-    }
-
-    @Test fun sendParts() {
-        val parts = listOf(StringPart("name", "value"))
-        val response = client.send(Method.POST, "/files", parts = parts)
-        assert(response.responseBody == "name")
     }
 
     private fun checkMethod (client: Client, methodName: String, headerName: String? = null) {
