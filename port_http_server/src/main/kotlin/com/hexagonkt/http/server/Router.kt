@@ -61,6 +61,8 @@ class Router(block: Router.() -> Unit = {}) {
 
     fun patch(path: String = "/", block: RouteCallback) = patch(path) by block
 
+    fun any(path: String = "/", block: RouteCallback) = any(path) by block
+
 //    inline fun <reified O> get(path: String = "/", block: () -> O): Nothing = TODO()
 
 //    inline fun <reified I, O> post(path: String = "/", block: (I) -> O): Nothing = TODO()
@@ -116,7 +118,7 @@ class Router(block: Router.() -> Unit = {}) {
 
                     when (it) {
                         is FilterHandler -> listOf(it.copy(route = nestedRoute))
-                        is RouteHandler -> listOf(it.copy(route = nestedRoute))
+                        is RouteHandler -> nestedRoute.list().map { r -> it.copy(route = r) }
                         is ExceptionHandler -> listOf(it.copy(route = nestedRoute))
                         is CodeHandler -> listOf(it.copy(route = nestedRoute))
                         is AssetsHandler -> listOf(it.copy(route = nestedRoute))
@@ -124,6 +126,7 @@ class Router(block: Router.() -> Unit = {}) {
                     }
                 }
             else
-                listOf(handler)
+                if (handler is RouteHandler) handler.route.list().map { handler.copy(route = it) }
+                else listOf(handler)
         }
 }

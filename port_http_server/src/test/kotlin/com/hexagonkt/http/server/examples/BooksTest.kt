@@ -68,6 +68,8 @@ import org.testng.annotations.Test
                     send(404, "Book not found")
             }
 
+            any("/books/{id}") { send(405) }
+
             get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
         }
     }

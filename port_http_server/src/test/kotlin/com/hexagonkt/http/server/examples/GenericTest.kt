@@ -54,7 +54,7 @@ import java.util.Locale.getDefault as defaultLocale
             post("/method") { okRequestMethod() }
             put("/method") { okRequestMethod() }
             trace("/method") { okRequestMethod() }
-            head("/method") { response.setHeader("header", request.method.toString()) }
+            head("/method") { okRequestMethod() }
 
             get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
 
@@ -93,8 +93,6 @@ import java.util.Locale.getDefault as defaultLocale
     @AfterClass fun shutdown() {
         server.stop()
     }
-
-    private fun Call.okRequestMethod() = ok(request.method)
 
     @Test fun getRoot() {
         val response = client.get ("/")
@@ -181,7 +179,7 @@ import java.util.Locale.getDefault as defaultLocale
     }
 
     @Test fun methods () {
-        checkMethod (client, "HEAD", "header") // Head does not support body message
+        checkMethod (client, "HEAD")
         checkMethod (client, "DELETE")
         checkMethod (client, "OPTIONS")
         checkMethod (client, "GET")
@@ -205,12 +203,13 @@ import java.util.Locale.getDefault as defaultLocale
         assert(contentType() == "application/json")
     }
 
-    private fun checkMethod (client: Client, methodName: String, headerName: String? = null) {
+    private fun Call.okRequestMethod() {
+        response.setHeader("method", request.method.toString())
+    }
+
+    private fun checkMethod (client: Client, methodName: String) {
         val res = client.send(Method.valueOf (methodName), "/method")
-        assert (
-            if (headerName == null) res.responseBody != null
-            else res.headers.get(headerName) == methodName
-        )
+        assert (res.headers.get("method") == methodName)
         assert (200 == res.statusCode)
     }
 
