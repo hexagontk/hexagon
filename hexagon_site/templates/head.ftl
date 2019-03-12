@@ -1,6 +1,5 @@
 
-<#assign bootstrap = "${config.cloudflare}/bootswatch/${config.bootstrapVersion}/${config.theme}" />
-<#assign bootstrapJs = "${config.cloudflare}/twitter-bootstrap/${config.bootstrapVersion}" />
+<#assign bootstrap = "${config.cloudflare}/twitter-bootstrap/${config.bootstrapVersion}" />
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=${config.analyticsCode}"></script>
   <script>
@@ -34,7 +33,7 @@
 
   <title>${content.title!"Hexagon"}</title>
 
-  <link rel="stylesheet" href="${bootstrap}/bootstrap.min.css" />
+  <link rel="stylesheet" href="${bootstrap}/css/bootstrap.min.css" />
   <link rel="stylesheet" href="${config.cloudflare}/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <link rel="stylesheet" href="/css/base.css" />
@@ -72,7 +71,7 @@
 
   <!-- Javascript using 'defer' so the pages load faster -->
   <script defer src="${config.cloudflare}/jquery/${config.jqueryVersion}/jquery.min.js"></script>
-  <script defer src="${bootstrapJs}/js/bootstrap.min.js"></script>
+  <script defer src="${bootstrap}/js/bootstrap.min.js"></script>
 
   <!-- For share links -->
   <script defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
