@@ -252,6 +252,7 @@ val server: Server by lazy {
                 send(404, "Book not found")
         }
 
+        // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
         any("/books/{id}") { send(405) }
 
         get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
@@ -420,6 +421,22 @@ private val server: Server by lazy {
     }
 }
 // filters
+```
+
+## Files Example
+
+The following code shows how to serve resources and receive files. Here you can check the
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt).
+
+```kotlin
+// files
+private val server: Server by lazy {
+    Server(adapter) {
+        assets("public")
+        post("/files") { ok(request.parts.keys.joinToString(":")) }
+    }
+}
+// files
 ```
 
 ## Status

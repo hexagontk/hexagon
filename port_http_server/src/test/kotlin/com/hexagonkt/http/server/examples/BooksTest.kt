@@ -68,6 +68,7 @@ import org.testng.annotations.Test
                     send(404, "Book not found")
             }
 
+            // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
             any("/books/{id}") { send(405) }
 
             get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }

@@ -31,7 +31,10 @@ task("checkDocumentation") {
                 new FileRange(rootProject.file("$examples/ErrorsTest.kt"), "errors"),
             
             (new FileRange(readme, "filters")):
-                new FileRange(rootProject.file("$examples/FiltersTest.kt"), "filters")
+                new FileRange(rootProject.file("$examples/FiltersTest.kt"), "filters"),
+            
+            (new FileRange(readme, "files")):
+                new FileRange(rootProject.file("$examples/FilesTest.kt"), "files")
         ]
         
         fileRanges.each { SiteKt.checkDocumentationCode(it.key, it.value) }

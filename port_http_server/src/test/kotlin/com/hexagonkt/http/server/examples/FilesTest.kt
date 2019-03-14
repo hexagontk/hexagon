@@ -13,14 +13,14 @@ import java.util.Locale.getDefault as defaultLocale
 
 @Test abstract class FilesTest(adapter: ServerPort) {
 
-    private val part = "param"
-
+    // files
     private val server: Server by lazy {
         Server(adapter) {
             assets("public")
             post("/files") { ok(request.parts.keys.joinToString(":")) }
         }
     }
+    // files
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 
@@ -32,27 +32,33 @@ import java.util.Locale.getDefault as defaultLocale
         server.stop()
     }
 
-    @Test fun staticFolder() {
+    @Test fun `Requesting a folder with an existing file name returns 404`() {
         val response = client.get ("/file.txt/")
         assertResponseContains(response, 404)
     }
 
-    @Test fun staticFile() {
+    @Test fun `An static file from resources can be fetched`() {
         val response = client.get ("/file.txt")
         assertResponseEquals(response, "file content\n")
     }
 
-    @Test fun fileContentType() {
+    @Test fun `Files content type is returned properly`() {
         val response = client.get ("/file.css")
         assert(response.contentType.contains("css"))
         assertResponseEquals(response, "/* css */\n")
     }
 
-    @Test fun sendParts() {
+    @Test fun `Sending multi part content works properly`() {
         val parts = listOf(StringPart("name", "value"))
         val response = client.send(Method.POST, "/files", parts = parts)
         assert(response.responseBody == "name")
     }
+
+//    @Test fun `Files mounted on a path are returned properly`() {
+//        val response = client.get ("/html/index.html")
+//        assert(response.contentType.contains("html"))
+//        assertResponseContains(response, 200, "<title>Hexagon</title>")
+//    }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
         assert (response?.statusCode == status)

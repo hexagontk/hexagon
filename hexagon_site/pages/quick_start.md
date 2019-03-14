@@ -158,3 +158,10 @@ This example shows how to add filters before and after route execution. Here you
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt).
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt:filters
+
+# Files Example
+
+The following code shows how to serve resources and receive files. Here you can check the
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt).
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt:files
