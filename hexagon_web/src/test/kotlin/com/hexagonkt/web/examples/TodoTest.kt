@@ -1,5 +1,6 @@
-package com.hexagonkt.http.server.examples
+package com.hexagonkt.web.examples
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.server.Server
@@ -9,45 +10,43 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
-@Test abstract class BooksTest(adapter: ServerPort) {
+@Test abstract class TodoTest(adapter: ServerPort) {
 
-    // books
-    data class Book(val author: String, val title: String)
+    // sample
+    private val log: Logger = Logger(TodoTest::class)
 
-    private val books: MutableMap<Int, Book> = linkedMapOf(
-        100 to Book("Miguel de Cervantes", "Don Quixote"),
-        101 to Book("William Shakespeare", "Hamlet"),
-        102 to Book("Homer", "The Odyssey")
-    )
+    data class Task(val number: Int, val title: String, val description: String)
+
+    val taskList = listOf(Task(1, "Don Quixote", "Miguel de Cervantes"))
+
+    private val tasks: MutableMap<Int, Task> =
+        LinkedHashMap(taskList.map { it.number to it }.toMap())
 
     val server: Server by lazy {
         Server(adapter) {
             post("/books") {
-                // Require fails if parameter does not exists
                 val author = parameters.require("author").first()
                 val title = parameters.require("title").first()
-                val id = (books.keys.max() ?: 0) + 1
-                books += id to Book(author, title)
+                val id = (tasks.keys.max() ?: 0) + 1
+                tasks += id to Task(1, title, author)
                 send(201, id)
             }
 
             get("/books/{id}") {
-                // Path parameters *must* exist an error is thrown if they are not present
                 val bookId = pathParameters["id"].toInt()
-                val book = books[bookId]
+                val book = tasks[bookId]
                 if (book != null)
-                    // ok() is a shortcut to send(200)
-                    ok("Title: ${book.title}, Author: ${book.author}")
+                    ok("Title: ${book.title}, Author: ${book.description}")
                 else
                     send(404, "Book not found")
             }
 
             put("/books/{id}") {
                 val bookId = pathParameters["id"].toInt()
-                val book = books[bookId]
+                val book = tasks[bookId]
                 if (book != null) {
-                    books += bookId to book.copy(
-                        author = parameters["author"]?.first() ?: book.author,
+                    tasks += bookId to book.copy(
+                        description = parameters["author"]?.first() ?: book.description,
                         title = parameters["title"]?.first() ?: book.title
                     )
 
@@ -60,21 +59,20 @@ import org.testng.annotations.Test
 
             delete("/books/{id}") {
                 val bookId = pathParameters["id"].toInt()
-                val book = books[bookId]
-                books -= bookId
+                val book = tasks[bookId]
+                tasks -= bookId
                 if (book != null)
                     ok("Book with id '$bookId' deleted")
                 else
                     send(404, "Book not found")
             }
 
-            // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-            any("/books/{id}") { send(405) }
-
-            get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
+            get("/books") {
+                ok(tasks.keys.joinToString(" ", transform = Int::toString))
+            }
         }
     }
-    // books
+    // sample
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 
@@ -86,23 +84,23 @@ import org.testng.annotations.Test
         server.stop()
     }
 
-    @Test fun `Create book returns 201 and new book ID`() {
+    @Test fun createBook() {
         val result = client.post("/books?author=Vladimir%20Nabokov&title=Lolita")
         assert(Integer.valueOf(result.responseBody) > 0)
         assert(201 == result.statusCode)
     }
 
-    @Test fun `List books contains all books IDs`() {
+    @Test fun listBooks() {
         val result = client.get("/books")
         assertResponseContains(result, "100", "101")
     }
 
-    @Test fun `Get book returns all book's fields`() {
+    @Test fun getBook() {
         val result = client.get("/books/101")
         assertResponseContains(result, "William Shakespeare", "Hamlet")
     }
 
-    @Test fun `Update book overrides existing book data`() {
+    @Test fun updateBook() {
         val resultPut = client.put("/books/100?title=Don%20Quixote")
         assertResponseContains(resultPut, "100", "updated")
 
@@ -110,17 +108,17 @@ import org.testng.annotations.Test
         assertResponseContains(resultGet, "Miguel de Cervantes", "Don Quixote")
     }
 
-    @Test fun `Delete book returns the deleted record ID`() {
+    @Test fun deleteBook() {
         val result = client.delete("/books/102")
         assertResponseContains(result, "102", "deleted")
     }
 
-    @Test fun `Book not found returns a 404`() {
+    @Test fun bookNotFound() {
         val result = client.get("/books/9999")
         assertResponseContains(result, 404, "not found")
     }
 
-    @Test fun `Invalid method returns 405`() {
+    @Test fun invalidMethodReturns405() {
         val result = client.options("/books/9999")
         assert(405 == result.statusCode)
     }

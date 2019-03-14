@@ -6,7 +6,6 @@ import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.asynchttpclient.Response
-import org.asynchttpclient.request.body.multipart.StringPart
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -24,10 +23,6 @@ import java.util.Locale.getDefault as defaultLocale
 
     private val server: Server by lazy {
         Server(adapter) {
-            assets("public")
-
-            post("/files") { ok(request.parts.keys.joinToString(":")) }
-
             get("/request/data") {
                 response.setHeader("method", request.method.toString())
                 response.setHeader("ip", request.ip)
@@ -59,7 +54,7 @@ import java.util.Locale.getDefault as defaultLocale
             post("/method") { okRequestMethod() }
             put("/method") { okRequestMethod() }
             trace("/method") { okRequestMethod() }
-            head("/method") { response.setHeader("header", request.method.toString()) }
+            head("/method") { okRequestMethod() }
 
             get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
 
@@ -99,8 +94,6 @@ import java.util.Locale.getDefault as defaultLocale
         server.stop()
     }
 
-    private fun Call.okRequestMethod() = ok(request.method)
-
     @Test fun getRoot() {
         val response = client.get ("/")
         assertResponseEquals(response, "Hello Root!")
@@ -130,22 +123,6 @@ import java.util.Locale.getDefault as defaultLocale
     @Test fun notFound() {
         val response = client.get ("/no/resource")
         assertResponseContains(response, 404)
-    }
-
-    @Test fun staticFolder() {
-        val response = client.get ("/file.txt/")
-        assertResponseContains(response, 404)
-    }
-
-    @Test fun staticFile() {
-        val response = client.get ("/file.txt")
-        assertResponseEquals(response, "file content\n")
-    }
-
-    @Test fun fileContentType() {
-        val response = client.get ("/file.css")
-        assert(response.contentType.contains("css"))
-        assertResponseEquals(response, "/* css */\n")
     }
 
     @Test fun redirect() {
@@ -202,7 +179,7 @@ import java.util.Locale.getDefault as defaultLocale
     }
 
     @Test fun methods () {
-        checkMethod (client, "HEAD", "header") // Head does not support body message
+        checkMethod (client, "HEAD")
         checkMethod (client, "DELETE")
         checkMethod (client, "OPTIONS")
         checkMethod (client, "GET")
@@ -226,18 +203,13 @@ import java.util.Locale.getDefault as defaultLocale
         assert(contentType() == "application/json")
     }
 
-    @Test fun sendParts() {
-        val parts = listOf(StringPart("name", "value"))
-        val response = client.send(Method.POST, "/files", parts = parts)
-        assert(response.responseBody == "name")
+    private fun Call.okRequestMethod() {
+        response.setHeader("method", request.method.toString())
     }
 
-    private fun checkMethod (client: Client, methodName: String, headerName: String? = null) {
+    private fun checkMethod (client: Client, methodName: String) {
         val res = client.send(Method.valueOf (methodName), "/method")
-        assert (
-            if (headerName == null) res.responseBody != null
-            else res.headers.get(headerName) == methodName
-        )
+        assert (res.headers.get("method") == methodName)
         assert (200 == res.statusCode)
     }
 

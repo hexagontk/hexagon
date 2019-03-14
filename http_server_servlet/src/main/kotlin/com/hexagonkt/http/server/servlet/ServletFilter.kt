@@ -90,9 +90,6 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         val routes = routesByMethod[call.request.method]
         val methodRoutes = routes?.filter { it.route.path.matches(call.request.path) } ?: emptyList()
 
-        if (methodRoutes.isEmpty())
-            throw CodedException(405, "Invalid method '${call.request.method}'")
-
         for ((first, second) in methodRoutes) {
             try {
                 bRequest.actionPath = first.path
@@ -221,7 +218,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
             if (response.contentType == null && contentType != null)
                 response.contentType = contentType
 
-            log.trace { "Resource for '$resourcePath' (${response.contentType}) found and returned" }
+            log.trace { "Resource for '$resourcePath' (${response.contentType}) returned" }
             val bytes = stream.readBytes()
             response.outputStream.write(bytes)
             response.outputStream.flush()
