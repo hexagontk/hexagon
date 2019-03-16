@@ -43,10 +43,6 @@ import java.util.Locale.getDefault as defaultLocale
                 ok("${request.url}!!!")
             }
 
-            get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
-            get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
-            get("/") { ok("Hello Root!") }
-
             delete("/method") { okRequestMethod() }
             options("/method") { okRequestMethod() }
             get("/method") { okRequestMethod() }
@@ -56,13 +52,19 @@ import java.util.Locale.getDefault as defaultLocale
             trace("/method") { okRequestMethod() }
             head("/method") { okRequestMethod() }
 
-            get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
+            get("/response/status") { send(201) }
+            get("/response/body") { ok("body") }
+            get("/response/pair") { send(202, "funky status") }
+            get("/response/list") { ok(listOf("alpha", "beta")) }
+            get("/response/map") { ok(mapOf("alpha" to 0, "beta" to true)) }
+            get("/response/object") { ok(Tag(name = "Message")) }
+            get("/response/pair/list") { send(201, listOf("alpha", "beta")) }
+            get("/response/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
+            get("/response/pair/object") { send(201, Tag(name = "Message")) }
 
-            get("/tworoutes/${part.toUpperCase()}/{param}") {
-                ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
-            }
-
+            get("/") { ok("Hello Root!") }
             get("/redirect") { redirect("http://example.com") }
+
             get("/content/type") {
                 val headerResponseType = request.headers["responseType"]?.first()
 
@@ -72,15 +74,12 @@ import java.util.Locale.getDefault as defaultLocale
                 ok(responseType)
             }
 
-            get("/return/status") { send(201) }
-            get("/return/body") { ok("body") }
-            get("/return/pair") { send(202, "funky status") }
-            get("/return/list") { ok(listOf("alpha", "beta")) }
-            get("/return/map") { ok(mapOf("alpha" to 0, "beta" to true)) }
-            get("/return/object") { ok(Tag(name = "Message")) }
-            get("/return/pair/list") { send(201, listOf("alpha", "beta")) }
-            get("/return/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
-            get("/return/pair/object") { send(201, Tag(name = "Message")) }
+            get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
+            get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
+            get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
+            get("/tworoutes/${part.toUpperCase()}/{param}") {
+                ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
+            }
         }
     }
 
@@ -92,6 +91,52 @@ import java.util.Locale.getDefault as defaultLocale
 
     @AfterClass fun shutdown() {
         server.stop()
+    }
+
+    @Test fun `Request data is readed properly`() {
+        val response = client.get ("/request/data?query")
+        val port = URL(client.endpoint).port.toString ()
+        val host = response.headers["host"]
+        val ip = response.headers["ip"]
+        val protocol = "http"
+
+        assert("AHC/2.1" == response.headers["agent"])
+        assert(protocol == response.headers["scheme"])
+        assert("127.0.0.1" == host || "localhost" == host)
+        assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
+        assert("query" == response.headers["query"])
+        assert(port == response.headers["port"])
+
+        assert("false" == response.headers["secure"])
+        assert("UNKNOWN" == response.headers["referer"])
+        assert("text/plain" == response.headers["preferredType"])
+        assert(response.headers["contentLength"].isNotEmpty())
+
+        assert(response.responseBody == "$protocol://localhost:$port/request/data!!!")
+        assert(200 == response.statusCode)
+    }
+
+    @Test fun `HTTP methods are handled correctly`() {
+        checkMethod (client, "HEAD")
+        checkMethod (client, "DELETE")
+        checkMethod (client, "OPTIONS")
+        checkMethod (client, "GET")
+        checkMethod (client, "PATCH")
+        checkMethod (client, "POST")
+        checkMethod (client, "PUT")
+        checkMethod (client, "TRACE")
+    }
+
+    @Test fun `Response data is generated properly`() {
+        assertResponseContains(client.get ("/response/status"), 201)
+        assertResponseEquals(client.get ("/response/body"), "body")
+        assertResponseEquals(client.get ("/response/pair"), "funky status", 202)
+        assertResponseContains(client.get ("/response/list"), "alpha", "beta")
+        assertResponseContains(client.get ("/response/map"), "alpha", "beta", "0", "true")
+        assertResponseContains(client.get ("/response/object"), "id", "name", "Message")
+        assertResponseContains(client.get ("/response/pair/list"), 201, "alpha", "beta")
+        assertResponseContains(client.get ("/response/pair/map"), 201, "alpha", "beta", "0", "true")
+        assertResponseContains(client.get ("/response/pair/object"), 201, "id", "name", "Message")
     }
 
     @Test fun getRoot() {
@@ -131,29 +176,6 @@ import java.util.Locale.getDefault as defaultLocale
         assert(response.headers["Location"] == "http://example.com")
     }
 
-    @Test fun requestData() {
-        val response = client.get ("/request/data?query")
-        val port = URL(client.endpoint).port.toString ()
-        val host = response.headers["host"]
-        val ip = response.headers["ip"]
-        val protocol = "http"
-
-        assert("AHC/2.1" == response.headers["agent"])
-        assert(protocol == response.headers["scheme"])
-        assert("127.0.0.1" == host || "localhost" == host)
-        assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
-        assert("query" == response.headers["query"])
-        assert(port == response.headers["port"])
-
-        assert("false" == response.headers["secure"])
-        assert("UNKNOWN" == response.headers["referer"])
-        assert("text/plain" == response.headers["preferredType"])
-        assert(response.headers["contentLength"].isNotEmpty())
-
-        assert(response.responseBody == "$protocol://localhost:$port/request/data!!!")
-        assert(200 == response.statusCode)
-    }
-
     @Test fun requestDataWithDifferentHeaders() {
         val response = client.get ("/request/data?query", linkedMapOf(
             "Referer" to listOf("/"),
@@ -164,29 +186,6 @@ import java.util.Locale.getDefault as defaultLocale
         assert("/" == response.headers["referer"])
 
         assert(200 == response.statusCode)
-    }
-
-    @Test fun return_values () {
-        assertResponseContains(client.get ("/return/status"), 201)
-        assertResponseEquals(client.get ("/return/body"), "body")
-        assertResponseEquals(client.get ("/return/pair"), "funky status", 202)
-        assertResponseContains(client.get ("/return/list"), "alpha", "beta")
-        assertResponseContains(client.get ("/return/map"), "alpha", "beta", "0", "true")
-        assertResponseContains(client.get ("/return/object"), "id", "name", "Message")
-        assertResponseContains(client.get ("/return/pair/list"), 201, "alpha", "beta")
-        assertResponseContains(client.get ("/return/pair/map"), 201, "alpha", "beta", "0", "true")
-        assertResponseContains(client.get ("/return/pair/object"), 201, "id", "name", "Message")
-    }
-
-    @Test fun methods () {
-        checkMethod (client, "HEAD")
-        checkMethod (client, "DELETE")
-        checkMethod (client, "OPTIONS")
-        checkMethod (client, "GET")
-        checkMethod (client, "PATCH")
-        checkMethod (client, "POST")
-        checkMethod (client, "PUT")
-        checkMethod (client, "TRACE")
     }
 
     @Test fun contentType () {
