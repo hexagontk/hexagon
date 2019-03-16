@@ -1,10 +1,12 @@
 package com.hexagonkt.http.server.examples
 
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.asynchttpclient.Response
+import org.asynchttpclient.request.body.multipart.InputStreamPart
 import org.asynchttpclient.request.body.multipart.StringPart
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
@@ -16,8 +18,14 @@ import java.util.Locale.getDefault as defaultLocale
     // files
     private val server: Server by lazy {
         Server(adapter) {
-            assets("public")
-            post("/files") { ok(request.parts.keys.joinToString(":")) }
+            assets("assets", "/html/*") // Serves `assets` resources on `/html/*`
+            assets("public") // Serves `public` resources folder on `/*`
+            post("/multipart") { ok(request.parts.keys.joinToString(":")) }
+            post("/file") {
+                val part = request.parts.values.first()
+                val content = part.inputStream.reader().readText()
+                ok(content)
+            }
         }
     }
     // files
@@ -50,15 +58,22 @@ import java.util.Locale.getDefault as defaultLocale
 
     @Test fun `Sending multi part content works properly`() {
         val parts = listOf(StringPart("name", "value"))
-        val response = client.send(Method.POST, "/files", parts = parts)
+        val response = client.send(Method.POST, "/multipart", parts = parts)
         assert(response.responseBody == "name")
     }
 
-//    @Test fun `Files mounted on a path are returned properly`() {
-//        val response = client.get ("/html/index.html")
-//        assert(response.contentType.contains("html"))
-//        assertResponseContains(response, 200, "<title>Hexagon</title>")
-//    }
+    @Test fun `Sending files works properly`() {
+        val stream = Resource("assets/index.html").requireStream()
+        val parts = listOf(InputStreamPart("file", stream, "index.html"))
+        val response = client.send(Method.POST, "/file", parts = parts)
+        assertResponseContains(response, 200, "<title>Hexagon</title>")
+    }
+
+    @Test fun `Files mounted on a path are returned properly`() {
+        val response = client.get ("/html/index.html")
+        assert(response.contentType.contains("html"))
+        assertResponseContains(response, 200, "<title>Hexagon</title>")
+    }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
         assert (response?.statusCode == status)

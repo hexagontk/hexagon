@@ -41,7 +41,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         .asSequence()
         .map {
             when (it) {
-                is AssetsHandler -> RouteHandler(it.route, createResourceHandler(it.path))
+                is AssetsHandler -> RouteHandler(it.route, createResourceHandler(it.route, it.path))
                 else -> it
             }
         }
@@ -200,11 +200,12 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         }
     }
 
-    private fun createResourceHandler(resourcesFolder: String): RouteCallback = {
+    private fun createResourceHandler(route: Route, resourcesFolder: String): RouteCallback = {
         if (request.path.endsWith("/"))
             throw PassException()
 
-        val resourcePath = "/$resourcesFolder${request.path}"
+        val requestPath = request.path.removePrefix(route.path.path.removeSuffix("/*"))
+        val resourcePath = "/$resourcesFolder$requestPath"
         val stream = javaClass.getResourceAsStream(resourcePath)
 
         if (stream == null) {
