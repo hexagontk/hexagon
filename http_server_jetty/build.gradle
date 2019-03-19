@@ -12,6 +12,8 @@ dependencies {
 
     testCompile(project(":port_http_client"))
     testCompile(project(":port_http_server").sourceSets.test.output)
+    testImplementation(project(":hexagon_web"))
+    testImplementation(project(":hexagon_web").sourceSets.test.output)
     testCompile("org.testng:testng:$testngVersion")
 }
 
