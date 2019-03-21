@@ -41,7 +41,7 @@ a.navbar-brand img { height: 28px; }
 
 .navbar-dark { background-color: var(--siteBackgroundDark); }
 
-.navbar-dark .navbar-nav > li a { color: var(--siteGray); }
+.navbar-dark .navbar-nav .nav-link { color: var(--siteGray); }
 
 .navbar-dark .navbar-nav .nav-link:hover { color: var(--siteAccentColor); }
 
