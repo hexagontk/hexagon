@@ -1,15 +1,15 @@
 
-apply from: '../gradle/kotlin.gradle'
-apply from: '../gradle/bintray.gradle'
-apply from: '../gradle/dokka.gradle'
+apply(from: "../gradle/kotlin.gradle")
+apply(from: "../gradle/bintray.gradle")
+apply(from: "../gradle/dokka.gradle")
 
 dependencies {
-    compile project(':port_templates')
-    compile ("io.pebbletemplates:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
+    api(project(":port_templates"))
+    api("io.pebbletemplates:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
 
-    testCompile ("org.testng:testng:$testngVersion")
+    testImplementation("org.testng:testng:$testngVersion")
 }
 
 test {
-    useTestNG ()
+    useTestNG()
 }

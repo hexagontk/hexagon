@@ -4,11 +4,11 @@ apply(from: "../gradle/bintray.gradle")
 apply(from: "../gradle/dokka.gradle")
 
 dependencies {
-    compile(project(":port_messaging"))
-    compile("com.rabbitmq:amqp-client:$rabbitVersion") { exclude(module: "slf4j-api") }
+    api(project(":port_messaging"))
+    api("com.rabbitmq:amqp-client:$rabbitVersion") { exclude(module: "slf4j-api") }
 
-    testCompile("org.testng:testng:$testngVersion")
-    testCompile("org.apache.qpid:qpid-broker:$qpidVersion") {
+    testImplementation("org.testng:testng:$testngVersion")
+    testImplementation("org.apache.qpid:qpid-broker:$qpidVersion") {
         exclude(module: "logback-classic")
         exclude(module: "jackson-databind")
         exclude(module: "jackson-core")

@@ -4,13 +4,13 @@ apply(from: "../gradle/bintray.gradle")
 apply(from: "../gradle/dokka.gradle")
 
 dependencies {
-    compile(project(":port_http_server"))
-    compile(project(":port_templates"))
+    api(project(":port_http_server"))
+    api(project(":port_templates"))
 
-    testCompile(project(":port_http_client"))
-    testCompile(project(":http_server_jetty"))
-    testCompile(project(":templates_pebble"))
-    testCompile("org.testng:testng:$testngVersion")
+    testImplementation(project(":port_http_client"))
+    testImplementation(project(":http_server_jetty"))
+    testImplementation(project(":templates_pebble"))
+    testImplementation("org.testng:testng:$testngVersion")
 }
 
 test {

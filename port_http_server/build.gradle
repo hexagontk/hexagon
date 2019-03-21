@@ -11,10 +11,10 @@ testJar {
 }
 
 dependencies {
-    compile(project(":hexagon_core"))
+    api(project(":hexagon_core"))
 
-    testCompile(project(":port_http_client"))
-    testCompile("org.testng:testng:$testngVersion")
+    testImplementation(project(":port_http_client"))
+    testImplementation("org.testng:testng:$testngVersion")
 }
 
 test {

@@ -6,10 +6,10 @@ apply(from: "../gradle/kotlin.gradle")
 apply(plugin: "uk.co.cacoethes.lazybones-templates")
 
 dependencies {
-    compile(project(":http_server_jetty"))
-    compile(project(":port_http_client"))
+    implementation(project(":http_server_jetty"))
+    implementation(project(":port_http_client"))
 
-    testCompile("junit:junit:$junitVersion".toString())
+    testImplementation("junit:junit:$junitVersion".toString())
 }
 
 lazybones {
