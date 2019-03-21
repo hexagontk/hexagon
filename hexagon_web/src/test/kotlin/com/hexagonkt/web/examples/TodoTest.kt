@@ -1,10 +1,10 @@
 package com.hexagonkt.web.examples
 
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
+import com.hexagonkt.serialization.parse
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -21,58 +21,66 @@ import org.testng.annotations.Test
 
     data class Task(val number: Int, val title: String, val description: String)
 
-    val taskList = listOf(Task(1, "Don Quixote", "Miguel de Cervantes"))
+    private val taskList = listOf(Task(1, "Don Quixote", "Miguel de Cervantes"))
 
-    val tasks: MutableMap<Int, Task> =
+    private val tasks: MutableMap<Int, Task> =
         LinkedHashMap(taskList.map { it.number to it }.toMap())
 
-    val server: Server by lazy {
+    private val server: Server by lazy {
         Server(adapter) {
-            post("/books") {
-                val author = parameters.require("author").first()
-                val title = parameters.require("title").first()
-                val id = (tasks.keys.max() ?: 0) + 1
-                tasks += id to Task(1, title, author)
-                send(201, id)
-            }
-
-            get("/books/{id}") {
-                val bookId = pathParameters["id"].toInt()
-                val book = tasks[bookId]
-                if (book != null)
-                    ok("Title: ${book.title}, Author: ${book.description}")
-                else
-                    send(404, "Book not found")
-            }
-
-            put("/books/{id}") {
-                val bookId = pathParameters["id"].toInt()
-                val book = tasks[bookId]
-                if (book != null) {
-                    tasks += bookId to book.copy(
-                        description = parameters["author"]?.first() ?: book.description,
-                        title = parameters["title"]?.first() ?: book.title
-                    )
-
-                    ok("Book with id '$bookId' updated")
+            path("/tasks") {
+                post {
+                    val task = request.body.parse(Task::class, requestFormat)
+                    tasks += task.number to task
+                    send(201, task.number)
                 }
-                else {
-                    send(404, "Book not found")
+
+                put {
+                    val task = request.body.parse(Task::class, requestFormat)
+                    tasks += task.number to task
+                    ok("Book with id '${task.number}' updated")
                 }
-            }
 
-            delete("/books/{id}") {
-                val bookId = pathParameters["id"].toInt()
-                val book = tasks[bookId]
-                tasks -= bookId
-                if (book != null)
-                    ok("Book with id '$bookId' deleted")
-                else
-                    send(404, "Book not found")
-            }
+                path("/{id}") {
+                    patch {
+                        val bookId = pathParameters["id"].toInt()
+                        val book = tasks[bookId]
+                        if (book != null) {
+                            tasks += bookId to book.copy(
+                                description = parameters["author"]?.first() ?: book.description,
+                                title = parameters["title"]?.first() ?: book.title
+                            )
 
-            get("/books") {
-                ok(tasks.keys.joinToString(" ", transform = Int::toString))
+                            ok("Book with id '$bookId' updated")
+                        }
+                        else {
+                            send(404, "Book not found")
+                        }
+                    }
+
+                    get {
+                        val taskId = pathParameters["id"].toInt()
+                        val task = tasks[taskId]
+                        if (task != null)
+                            ok(task, responseFormat)
+                        else
+                            send(404, "Task: $taskId not found")
+                    }
+
+                    delete {
+                        val bookId = pathParameters["id"].toInt()
+                        val book = tasks[bookId]
+                        tasks -= bookId
+                        if (book != null)
+                            ok("Book with id '$bookId' deleted")
+                        else
+                            send(404, "Book not found")
+                    }
+                }
+
+                get {
+                    ok(tasks.keys.joinToString(" ", transform = Int::toString))
+                }
             }
         }
     }
