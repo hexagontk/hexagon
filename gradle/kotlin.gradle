@@ -91,13 +91,15 @@ jacocoTestReport {
     }
 }
 
-task("jarAll", type: Jar, dependsOn: "build") {
+task("jarAll", type: Jar, dependsOn: "test") {
     archiveBaseName.set("${archiveBaseName.orNull}-all".toString())
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
     with(jar)
 }
+
+assemble.dependsOn("jarAll")
 
 task("sourceJar", type: Jar) {
     archiveClassifier.set("sources")
