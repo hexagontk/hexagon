@@ -9,7 +9,7 @@ dependencies {
     implementation(project(":http_server_jetty"))
     implementation(project(":port_http_client"))
 
-    testImplementation("junit:junit:$junitVersion".toString())
+    testImplementation("junit:junit:$junitVersion")
 }
 
 lazybones {

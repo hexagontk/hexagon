@@ -7,7 +7,7 @@ apply(plugin: "maven-publish")
 apply(plugin: "org.jetbrains.dokka")
 
 dokka {
-    outputFormat = findProperty("dokkaOutputFormat") ?: "gfm"
+    outputFormat = findProperty("dokkaOutputFormat") ?: "html"
     reportUndocumented = false
     includes = filesCollection(projectDir, "*.md")
     samples = filesCollection("$projectDir/src/test/kotlin", "**/*SamplesTest.kt")
