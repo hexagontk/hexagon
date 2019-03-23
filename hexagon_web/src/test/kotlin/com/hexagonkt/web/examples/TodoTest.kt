@@ -12,8 +12,6 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
 /**
- * TODO Parse post body with JSON/YAML
- * TODO Serialize response with accept content type
  * TODO Use templates
  */
 @Test abstract class TodoTest(adapter: ServerPort) {

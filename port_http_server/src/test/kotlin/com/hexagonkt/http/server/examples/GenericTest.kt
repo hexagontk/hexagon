@@ -23,6 +23,8 @@ import java.util.Locale.getDefault as defaultLocale
 
     private val server: Server by lazy {
         Server(adapter) {
+            before { response.setHeader("before", "filter") }
+
             get("/request/data") {
                 response.setHeader("method", request.method.toString())
                 response.setHeader("ip", request.ip)
@@ -93,7 +95,7 @@ import java.util.Locale.getDefault as defaultLocale
         server.stop()
     }
 
-    @Test fun `Request data is readed properly`() {
+    @Test fun `Request data is read properly`() {
         val response = client.get ("/request/data?query")
         val port = URL(client.endpoint).port.toString ()
         val host = response.headers["host"]
@@ -207,20 +209,23 @@ import java.util.Locale.getDefault as defaultLocale
     }
 
     private fun checkMethod (client: Client, methodName: String) {
-        val res = client.send(Method.valueOf (methodName), "/method")
-        assert (res.headers.get("method") == methodName)
-        assert (200 == res.statusCode)
+        val response = client.send(Method.valueOf (methodName), "/method")
+        assert(response.headers.get("method") == methodName)
+        assert(response.headers.get("before") == "filter")
+        assert(200 == response.statusCode)
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
-        assert (response?.statusCode == status)
-        assert (response?.responseBody == content)
+        assert(response?.headers?.get("before") == "filter")
+        assert(response?.statusCode == status)
+        assert(response?.responseBody == content)
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert (response?.statusCode == status)
+        assert(response?.headers?.get("before") == "filter")
+        assert(response?.statusCode == status)
         content.forEach {
-            assert (response?.responseBody?.contains (it) ?: false)
+            assert(response?.responseBody?.contains (it) ?: false)
         }
     }
 
