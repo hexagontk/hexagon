@@ -6,10 +6,12 @@
 <head>
   <#include "head.ftl">
 
+  <#assign highlight = "${config.cloudflare}/highlight.js/${config.highlightVersion}" />
+  <link rel="stylesheet" href="${highlight}/styles/shades-of-purple.min.css" />
   <link rel="stylesheet" href="/css/index.css" />
 </head>
 
-<body class="pt-5 text-big">
+<body class="pt-5" onload="hljs.initHighlighting()">
   <#include "navbar.ftl">
 
   <header class="jumbotron">
@@ -41,9 +43,21 @@
       <h1 class="my-2">${config.projectDescription}</h1>
       <h3>${config.longDescription}</h3>
       <p><a href="/quick_start.html" class="btn btn-xl">Get Started Now</a></p>
-      <a href="#features" aria-hidden="true"><i class="fa fa-angle-double-down fa-5x"></i></a>
+      <a href="#code" aria-hidden="true"><i class="fa fa-angle-double-down fa-5x"></i></a>
     </div>
   </header>
+
+  <section id="code" class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h2>Hello World</h2>
+        <h3>Simple Hello World HTTP example.</h3>
+        <pre style="margin: auto;">
+          <code class="language-kotlin hljs">${config.readmeCode}</code>
+        </pre>
+      </div>
+    </div>
+  </section>
 
   <section id="features" class="container">
     <div class="row">
@@ -76,13 +90,16 @@
     <div class="row">
       <div class="col-md-12 text-center">
         <h2>Architecture</h2>
-        <h3>The high level architecture of Hexagon in a picture.</h3>
+        <h3>How Hexagon fits in your architecture in a picture.</h3>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-12 text-center">
-        <img src="/img/architecture.svg" class="img-responsive" alt="Hexagon architecture diagram" />
+        <img
+          src="/img/architecture.svg"
+          class="img-responsive"
+          alt="Hexagon architecture diagram" />
       </div>
     </div>
   </section>
@@ -118,6 +135,9 @@
   </section>
 
   <#include "footer.ftl">
+
+  <script defer src="${highlight}/highlight.min.js"></script>
+  <script defer src="${highlight}/languages/kotlin.min.js"></script>
 </body>
 
 </html>
