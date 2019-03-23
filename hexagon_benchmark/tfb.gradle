@@ -5,6 +5,7 @@ plugins {
 
 apply(from: "$gradleScripts/kotlin.gradle")
 apply(from: "$gradleScripts/service.gradle")
+apply(from: "$gradleScripts/testng.gradle")
 
 apply(plugin: "war")
 
@@ -31,9 +32,4 @@ dependencies {
     providedCompile("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
     testImplementation("com.hexagonkt:port_http_client:$hexagonVersion")
-    testImplementation("org.testng:testng:$testngVersion")
-}
-
-test {
-    useTestNG()
 }

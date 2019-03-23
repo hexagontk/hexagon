@@ -1,6 +1,7 @@
 
 apply(from: "../gradle/kotlin.gradle")
 apply(from: "../gradle/service.gradle")
+apply(from: "../gradle/testng.gradle")
 
 apply(plugin: "scala")
 apply(plugin: "war")
@@ -29,12 +30,7 @@ dependencies {
     implementation("org.postgresql:postgresql:$postgresqlVersion")
 
     testImplementation(project(":port_http_client"))
-    testImplementation("org.testng:testng:$testngVersion")
     testImplementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
-}
-
-test {
-    useTestNG()
 }
 
 task("tfb", type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setupDockerfiles" ]) {

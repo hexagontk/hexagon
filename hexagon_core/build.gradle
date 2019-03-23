@@ -2,6 +2,7 @@
 apply(from: "../gradle/kotlin.gradle")
 apply(from: "../gradle/bintray.gradle")
 apply(from: "../gradle/dokka.gradle")
+apply(from: "../gradle/testng.gradle")
 
 dependencies {
     api("org.slf4j:slf4j-api:$slf4jVersion")
@@ -18,10 +19,4 @@ dependencies {
     api("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
         exclude(group: "org.jetbrains.kotlin")
     }
-
-    testImplementation("org.testng:testng:$testngVersion")
-}
-
-test {
-    useTestNG()
 }
