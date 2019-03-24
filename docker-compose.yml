@@ -11,14 +11,14 @@ services:
       - 5432:5432
 
   mongodb:
-    image: mongo:4.1.8
+    image: mongo:4.1.9
     volumes:
       - ./hexagon_benchmark/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
     ports:
       - 27017:27017
 
   rabbitmq:
-    image: rabbitmq:3.7.12-management
+    image: rabbitmq:3.7.13-management
     ports:
       - 5672:5672
       - 15672:15672

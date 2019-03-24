@@ -1,5 +1,11 @@
 
-project.ext.configData = SiteKt.loadYaml(project.file("site.yaml"))
+project.ext.configData = {
+    final String helloWorld = "http_server_jetty/src/test/kotlin/com/hexagonkt/http/HelloWorld.kt"
+    final File site = project.file("site.yaml")
+    final Map<Object, Object> configData = SiteKt.loadYaml(site) as Map<Object, Object>
+    configData["readmeCode"] = rootProject.file(helloWorld).text
+    return configData
+}()
 
 apply(from: "../gradle/site.gradle")
 apply(from: "../gradle/icons.gradle")
@@ -17,7 +23,7 @@ task("checkDocumentation") {
         Map<FileRange, FileRange> fileRanges = [
             (new FileRange(readme, "hello")):
                 new FileRange(rootProject.file("hexagon_starters/src/main/kotlin/Service.kt")),
-            
+
             (new FileRange(readme, "books")):
                 new FileRange(rootProject.file("$examples/BooksTest.kt"), "books"),
 
@@ -26,17 +32,17 @@ task("checkDocumentation") {
 
             (new FileRange(readme, "cookies")):
                 new FileRange(rootProject.file("$examples/CookiesTest.kt"), "cookies"),
-            
+
             (new FileRange(readme, "errors")):
                 new FileRange(rootProject.file("$examples/ErrorsTest.kt"), "errors"),
-            
+
             (new FileRange(readme, "filters")):
                 new FileRange(rootProject.file("$examples/FiltersTest.kt"), "filters"),
-            
+
             (new FileRange(readme, "files")):
                 new FileRange(rootProject.file("$examples/FilesTest.kt"), "files")
         ]
-        
+
         fileRanges.each { SiteKt.checkDocumentationCode(it.key, it.value) }
     }
 }

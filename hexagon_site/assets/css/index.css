@@ -75,8 +75,6 @@ section h3 {
 /*
  * Features
  */
-#features { background-color: #EFF2F9; }
-
 #features .feature:hover { background: #E1F3FD; }
 
 #features .feature p {

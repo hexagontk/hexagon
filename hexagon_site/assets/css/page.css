@@ -14,9 +14,10 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h1 a:focus, h2 a:focus, h3 a:foc
   text-decoration: none;
 }
 
-pre, code { font-family: var(--font-family-monospace); }
-
-.navbar-dark { border: 1px solid var(--siteBackgroundDark); }
+.navbar-dark {
+  border: 1px solid var(--siteBackgroundDark);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
 
 .navbar-text { font-size: 1.5rem; }
 
@@ -43,11 +44,12 @@ h4[id]:before {
 
 nav#contents, nav#toc { top: 60px; }
 
+i.fa-pencil { color: #FFF; }
+
 /* TOC */
 
 nav[data-toggle="toc"] .nav > li > a {
   color: #212529;
-  font-size: var(--font-size-small);
 }
 
 nav[data-toggle="toc"] .nav > li > a:hover,
@@ -61,4 +63,13 @@ nav[data-toggle="toc"] .nav-link.active:hover,
 nav[data-toggle="toc"] .nav-link.active:focus {
   color: var(--siteBackgroundLight);
   border-left: 2px solid var(--siteBackgroundLight);
+}
+
+aside.toc {
+  background-color: var(--siteBackgroundDark);
+  border-right: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+aside.toc .nav-link {
+  color: var(--siteGray);
 }

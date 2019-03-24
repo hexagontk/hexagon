@@ -1,6 +1,7 @@
 
 apply(from: "../gradle/kotlin.gradle")
 apply(from: "../gradle/service.gradle")
+apply(from: "../gradle/testng.gradle")
 
 apply(plugin: "scala")
 apply(plugin: "war")
@@ -21,20 +22,15 @@ war {
 installDist.dependsOn("war")
 
 dependencies {
-    compile(project(":store_mongodb"))
-    compile(project(":http_server_jetty"))
-    compile(project(":templates_pebble"))
+    implementation(project(":store_mongodb"))
+    implementation(project(":http_server_jetty"))
+    implementation(project(":templates_pebble"))
 
-    compile("com.zaxxer:HikariCP:$hikariVersion")
-    compile("org.postgresql:postgresql:$postgresqlVersion")
+    implementation("com.zaxxer:HikariCP:$hikariVersion")
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
 
-    testCompile(project(":port_http_client"))
-    testCompile("org.testng:testng:$testngVersion")
-    testCompile("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
-}
-
-test {
-    useTestNG()
+    testImplementation(project(":port_http_client"))
+    testImplementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 }
 
 task("tfb", type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setupDockerfiles" ]) {

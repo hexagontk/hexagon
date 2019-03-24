@@ -8,12 +8,12 @@
 
   <#assign highlight = "${config.cloudflare}/highlight.js/${config.highlightVersion}" />
   <link rel="stylesheet" href="${config.bootstrapToc}/bootstrap-toc.min.css">
-  <link rel="stylesheet" href="${highlight}/styles/github.min.css" />
+  <link rel="stylesheet" href="${highlight}/styles/shades-of-purple.min.css" />
   <link rel="stylesheet" href="/css/page.css" />
 </head>
 
 <body
-  class="pt-5 text-small"
+  class="pt-5"
   data-spy="scroll"
   data-target="#toc"
   data-offset="90"
@@ -24,7 +24,7 @@
 
   <section class="container-fluid">
     <div class="row">
-      <aside class="col-2">
+      <aside class="toc col-2">
         <nav id="contents" class="sticky-top d-none d-sm-block">
           <h3 class="text-big font-weight-bold" data-toc-skip>Documentation</h3>
           <ul class="nav navbar-nav">

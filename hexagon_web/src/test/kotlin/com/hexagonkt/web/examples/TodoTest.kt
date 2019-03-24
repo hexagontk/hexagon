@@ -1,15 +1,19 @@
 package com.hexagonkt.web.examples
 
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.parse
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
+/**
+ * TODO Use templates
+ */
 @Test abstract class TodoTest(adapter: ServerPort) {
 
     // sample
@@ -17,58 +21,73 @@ import org.testng.annotations.Test
 
     data class Task(val number: Int, val title: String, val description: String)
 
-    val taskList = listOf(Task(1, "Don Quixote", "Miguel de Cervantes"))
+    private val taskList = listOf(
+        Task(1, "Simple Task", "Piece of cake"),
+        Task(102, "A Task", "Something to do"),
+        Task(103, "Second Task", "More things to do")
+    )
 
     private val tasks: MutableMap<Int, Task> =
         LinkedHashMap(taskList.map { it.number to it }.toMap())
 
-    val server: Server by lazy {
+    private val server: Server by lazy {
         Server(adapter) {
-            post("/books") {
-                val author = parameters.require("author").first()
-                val title = parameters.require("title").first()
-                val id = (tasks.keys.max() ?: 0) + 1
-                tasks += id to Task(1, title, author)
-                send(201, id)
-            }
+            before { log.debug { "Start" } }
+            after { log.debug { "End" } }
 
-            get("/books/{id}") {
-                val bookId = pathParameters["id"].toInt()
-                val book = tasks[bookId]
-                if (book != null)
-                    ok("Title: ${book.title}, Author: ${book.description}")
-                else
-                    send(404, "Book not found")
-            }
-
-            put("/books/{id}") {
-                val bookId = pathParameters["id"].toInt()
-                val book = tasks[bookId]
-                if (book != null) {
-                    tasks += bookId to book.copy(
-                        description = parameters["author"]?.first() ?: book.description,
-                        title = parameters["title"]?.first() ?: book.title
-                    )
-
-                    ok("Book with id '$bookId' updated")
+            path("/tasks") {
+                post {
+                    val task = request.body.parse(Task::class, requestFormat)
+                    tasks += task.number to task
+                    send(201, task.number)
                 }
-                else {
-                    send(404, "Book not found")
+
+                put {
+                    val task = request.body.parse(Task::class, requestFormat)
+                    tasks += task.number to task
+                    ok("Task with id '${task.number}' updated")
                 }
-            }
 
-            delete("/books/{id}") {
-                val bookId = pathParameters["id"].toInt()
-                val book = tasks[bookId]
-                tasks -= bookId
-                if (book != null)
-                    ok("Book with id '$bookId' deleted")
-                else
-                    send(404, "Book not found")
-            }
+                path("/{id}") {
+                    patch {
+                        val taskId = pathParameters["id"].toInt()
+                        val task = tasks[taskId]
+                        val fields = request.body.parse(requestFormat)
+                        if (task != null) {
+                            tasks += taskId to task.copy(
+                                number = fields["number"] as? Int ?: task.number,
+                                title = fields["title"] as? String ?: task.title,
+                                description = fields["description"] as? String ?: task.description
+                            )
 
-            get("/books") {
-                ok(tasks.keys.joinToString(" ", transform = Int::toString))
+                            ok("Task with id '$taskId' updated")
+                        }
+                        else {
+                            send(404, "Task not found")
+                        }
+                    }
+
+                    get {
+                        val taskId = pathParameters["id"].toInt()
+                        val task = tasks[taskId]
+                        if (task != null)
+                            ok(task, responseFormat)
+                        else
+                            send(404, "Task: $taskId not found")
+                    }
+
+                    delete {
+                        val taskId = pathParameters["id"].toInt()
+                        val task = tasks[taskId]
+                        tasks -= taskId
+                        if (task != null)
+                            ok("Task with id '$taskId' deleted")
+                        else
+                            send(404, "Task not found")
+                    }
+                }
+
+                get { ok(tasks.values, responseFormat) }
             }
         }
     }
@@ -84,43 +103,40 @@ import org.testng.annotations.Test
         server.stop()
     }
 
-    @Test fun createBook() {
-        val result = client.post("/books?author=Vladimir%20Nabokov&title=Lolita")
-        assert(Integer.valueOf(result.responseBody) > 0)
+    @Test fun `Create task`() {
+        val body = Task(101, "Tidy Things", "Tidy everything")
+        val result = client.post("/tasks", body, Json.contentType)
+        assert(Integer.valueOf(result.responseBody) == 101)
         assert(201 == result.statusCode)
     }
 
-    @Test fun listBooks() {
-        val result = client.get("/books")
-        assertResponseContains(result, "100", "101")
+    @Test fun `List tasks`() {
+        val result = client.get("/tasks")
+        assertResponseContains(result, "1", "101")
     }
 
-    @Test fun getBook() {
-        val result = client.get("/books/101")
-        assertResponseContains(result, "William Shakespeare", "Hamlet")
+    @Test fun `Get task`() {
+        val result = client.get("/tasks/101")
+        assertResponseContains(result, "Tidy Things", "Tidy everything")
     }
 
-    @Test fun updateBook() {
-        val resultPut = client.put("/books/100?title=Don%20Quixote")
-        assertResponseContains(resultPut, "100", "updated")
+    @Test fun `Update task`() {
+        val body = Task(103, "Changed Task", "Change of plans")
+        val resultPut = client.put("/tasks", body, Json.contentType)
+        assertResponseContains(resultPut, "103", "updated")
 
-        val resultGet = client.get("/books/100")
-        assertResponseContains(resultGet, "Miguel de Cervantes", "Don Quixote")
+        val resultGet = client.get("/tasks/103")
+        assertResponseContains(resultGet, "Changed Task", "Change of plans")
     }
 
-    @Test fun deleteBook() {
-        val result = client.delete("/books/102")
+    @Test fun `Delete task`() {
+        val result = client.delete("/tasks/102")
         assertResponseContains(result, "102", "deleted")
     }
 
-    @Test fun bookNotFound() {
-        val result = client.get("/books/9999")
+    @Test fun `Task not found`() {
+        val result = client.get("/tasks/9999")
         assertResponseContains(result, 404, "not found")
-    }
-
-    @Test fun invalidMethodReturns405() {
-        val result = client.options("/books/9999")
-        assert(405 == result.statusCode)
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {

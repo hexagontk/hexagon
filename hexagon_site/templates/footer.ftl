@@ -1,7 +1,7 @@
 
 <#assign github = "https://github.com/${config.githubRepo}" />
 
-  <footer class="mt-2 py-4">
+  <footer class="py-4">
     <div class="container">
       <div class="row">
         <div class="col-4 col-md-2">

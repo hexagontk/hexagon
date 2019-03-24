@@ -432,8 +432,14 @@ The following code shows how to serve resources and receive files. Here you can 
 // files
 private val server: Server by lazy {
     Server(adapter) {
-        assets("public")
-        post("/files") { ok(request.parts.keys.joinToString(":")) }
+        assets("assets", "/html/*") // Serves `assets` resources on `/html/*`
+        assets("public") // Serves `public` resources folder on `/*`
+        post("/multipart") { ok(request.parts.keys.joinToString(":")) }
+        post("/file") {
+            val part = request.parts.values.first()
+            val content = part.inputStream.reader().readText()
+            ok(content)
+        }
     }
 }
 // files

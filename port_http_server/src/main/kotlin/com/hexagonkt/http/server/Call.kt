@@ -3,6 +3,7 @@ package com.hexagonkt.http.server
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.RequiredKeysMap
 import com.hexagonkt.serialization.SerializationFormat
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.serialize
 
@@ -17,8 +18,16 @@ class Call(val request: Request, val response: Response, val session: Session) {
     val responseType: String get() =
         response.contentType ?:
         request.headers["Accept"]?.firstOrNull()?.let { if (it == "*/*") null else it } ?:
-        request.contentType ?:
-        defaultFormat.contentType
+        requestType
+
+    val requestType: String get() =
+        request.contentType ?: defaultFormat.contentType
+
+    val requestFormat: SerializationFormat get() =
+        SerializationManager.formatOf(requestType)
+
+    val responseFormat: SerializationFormat get() =
+        SerializationManager.formatOf(responseType)
 
     // Request shortcuts
     val pathParameters: RequiredKeysMap<String, String> by lazy { request.pathParameters }

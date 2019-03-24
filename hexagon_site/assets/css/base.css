@@ -16,7 +16,7 @@
   --font-family-monospace: 'Roboto Mono', monospace;
 
   --font-size-small: 14px;
-  --font-size-big: 16px;
+  --font-size-big: 20px;
 }
 
 html { background-color: var(--siteBackgroundDark); }
@@ -33,19 +33,18 @@ h1, h2, h3, h4 {
 
 a, a:hover, a:focus { color: var(--siteAccentColor); }
 
-.text-small { font-size: var(--font-size-small); }
-
 .text-big { font-size: var(--font-size-big); }
 
 a.navbar-brand img { height: 28px; }
 
 .navbar-dark { background-color: var(--siteBackgroundDark); }
 
-.navbar-dark .navbar-nav > li a { color: var(--siteGray); }
+.navbar-dark .navbar-nav .nav-link { color: var(--siteGray); }
 
 .navbar-dark .navbar-nav .nav-link:hover { color: var(--siteAccentColor); }
 
 footer {
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
   font-size: var(--font-size-small);
   color: var(--siteGray);
   background-color: var(--siteBackgroundDark);
@@ -63,3 +62,12 @@ footer a, footer a:hover { color: var(--siteGray); }
 footer .fa-heart { color: var(--siteAccentColor); }
 
 footer #credits { font-family: var(--font-family-sans-serif); }
+
+pre, code { font-family: var(--font-family-monospace); }
+
+code.hljs {
+  text-align: left;
+  border-radius: 10px;
+  border: 2px solid var(--siteBackgroundLight);
+  background-color: var(--siteBackgroundDark);
+}

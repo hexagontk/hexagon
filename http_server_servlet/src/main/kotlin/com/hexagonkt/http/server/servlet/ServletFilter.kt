@@ -41,7 +41,7 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         .asSequence()
         .map {
             when (it) {
-                is AssetsHandler -> RouteHandler(it.route, createResourceHandler(it.path))
+                is AssetsHandler -> RouteHandler(it.route, createResourceHandler(it.route, it.path))
                 else -> it
             }
         }
@@ -72,19 +72,15 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
     /**
      * TODO Take care of filters that throw exceptions
      */
-    private fun filter(
-        req: Request,
-        call: Call,
-        filters: List<Pair<Route, RouteCallback>>): Boolean =
-            filters
-                .filter { it.first.path.matches(req.path) }
-                .map {
-                    req.actionPath = it.first.path
-                    call.(it.second)()
-                    log.trace { "Filter for path '${it.first.path}' executed" }
-                    true
-                }
-                .isNotEmpty()
+    private fun filter(req: Request, call: Call, filters: List<Pair<Route, RouteCallback>>) {
+        filters
+            .filter { it.first.path.matches(req.path) }
+            .map {
+                req.actionPath = it.first.path
+                call.(it.second)()
+                log.trace { "Filter for path '${it.first.path}' executed" }
+            }
+    }
 
     private fun route(call: Call, bRequest: Request): Boolean {
         val routes = routesByMethod[call.request.method]
@@ -145,11 +141,11 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
 
         try {
             try {
-                handled = filter(bRequest, call, beforeFilters)
-                handled = route(call, bRequest) || handled // Order matters!!!
+                filter(bRequest, call, beforeFilters)
+                handled = route(call, bRequest)
             }
             finally {
-                handled = filter(bRequest, call, afterFilters) || handled // Order matters!!!
+                filter(bRequest, call, afterFilters)
             }
 
             if (!handled)
@@ -200,11 +196,12 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         }
     }
 
-    private fun createResourceHandler(resourcesFolder: String): RouteCallback = {
+    private fun createResourceHandler(route: Route, resourcesFolder: String): RouteCallback = {
         if (request.path.endsWith("/"))
             throw PassException()
 
-        val resourcePath = "/$resourcesFolder${request.path}"
+        val requestPath = request.path.removePrefix(route.path.path.removeSuffix("/*"))
+        val resourcePath = "/$resourcesFolder$requestPath"
         val stream = javaClass.getResourceAsStream(resourcePath)
 
         if (stream == null) {
