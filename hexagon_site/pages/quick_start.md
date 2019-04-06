@@ -13,10 +13,6 @@ etc.)to be able to change them with minimum impact. It is designed to fit in app
 conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
 [Ports and Adapters Architecture]).
 
-The motivation that drove the development of this library was that sometimes you spend more time
-reading framework's documentation than coding. And also, because you lose control of your program:
-you do not call framework's code, framework's code calls you.
-
 The goals of the project are:
 
 1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It

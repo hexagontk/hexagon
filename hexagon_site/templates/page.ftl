@@ -30,7 +30,7 @@
           <ul class="nav navbar-nav">
             <li><a class="nav-link p-0" href="/quick_start.html">Quick Start</a></li>
             <li><a class="nav-link p-0" href="/documentation.html">Documentation</a></li>
-            <li><a class="nav-link p-0" href="/alternatives.html">Alternatives</a></li>
+            <!--li><a class="nav-link p-0" href="/alternatives.html">Alternatives</a></li-->
             <li><a class="nav-link p-0" href="/gradle.html">Gradle Helpers</a></li>
             <li><a class="nav-link p-0" href="${contributing}">Contribute</a></li>
           </ul>
@@ -46,7 +46,7 @@
           <ul class="nav navbar-nav">
             <li><a class="nav-link p-0" href="/port_http_server/index.html">HTTP</a></li>
             <li><a class="nav-link p-0" href="/port_http_client/index.html">Client</a></li>
-            <li><a class="nav-link p-0" href="/port_storage/index.html">Storage</a></li>
+            <li><a class="nav-link p-0" href="/port_store/index.html">Store</a></li>
             <li><a class="nav-link p-0" href="/port_messaging/index.html">Messaging</a></li>
             <li><a class="nav-link p-0" href="/port_templates/index.html">Templates</a></li>
           </ul>

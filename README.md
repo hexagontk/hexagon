@@ -49,10 +49,6 @@ etc.)to be able to change them with minimum impact. It is designed to fit in app
 conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
 [Ports and Adapters Architecture]).
 
-The motivation that drove the development of this library was that sometimes you spend more time
-reading framework's documentation than coding. And also, because you lose control of your program:
-you do not call framework's code, framework's code calls you.
-
 The goals of the project are:
 
 1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It
@@ -447,9 +443,8 @@ private val server: Server by lazy {
 
 ## Status
 
-**DISCLAIMER**: The project status is beta. Use it at your own risk. There are some modules not
-finished yet (e.g: storage and HTTP client) and the API is subject to change any time prior to
-release 1.0.
+**DISCLAIMER**: The project is not yet production ready. Use it at your own risk. There are some
+modules not finished yet (e.g: storage and HTTP client).
 
 It is used in personal not released projects to develop APIs and Web applications.
 
