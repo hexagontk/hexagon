@@ -23,7 +23,7 @@ header.jumbotron h1 {
 
 header.jumbotron h3 {
   color: var(--siteGray);
-  font-size: 16px;
+  font-size: 20px;
   line-height: 27px;
   margin: 15px 20% 40px 20%;
 }

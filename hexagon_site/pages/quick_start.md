@@ -9,7 +9,7 @@ The project is developed as a set of [libraries][frameworks] that you call as op
 build settings or tools.
 
 It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
-etc.)to be able to change them with minimum impact. It is designed to fit in applications that
+etc.) to be able to change them with minimum impact. It is designed to fit in applications that
 conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
 [Ports and Adapters Architecture]).
 
