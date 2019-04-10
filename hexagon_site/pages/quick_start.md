@@ -1,12 +1,9 @@
 
 # What is Hexagon
 
-Hexagon is a microservices toolkit written in [Kotlin]. Its purpose is to ease the building of
-services (Web applications, APIs or queue consumers) that run inside a cloud platform.
-
-The project is developed as a set of [libraries][frameworks] that you call as opposed to
-[frameworks] that call your code inside them. Being a library means that you won't need special
-build settings or tools.
+Hexagon is a microservices toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
+the building of services (Web applications, APIs or queue consumers) that run inside a cloud
+platform.
 
 It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
 etc.) to be able to change them with minimum impact. It is designed to fit in applications that
@@ -18,9 +15,9 @@ The goals of the project are:
 1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It
    is focused on making the usual tasks easy, rather than making a complex tool with a lot of
    features.
-2. Make it easy to hack: allow the user to add extensions or change the framework itself. The code
-   is meant to be simple for the users to understand it. Avoid having to read blogs, documentation
-   or getting certified to use it effectively.
+2. Make it easy to hack: allow the user to add extensions or change the toolkit itself. The code is
+   meant to be simple for the users to understand it. Avoid having to read blogs, documentation or
+   getting certified to use it effectively.
 
 Which are NOT project goals:
 
@@ -31,7 +28,7 @@ Which are NOT project goals:
 3. To be usable from Java. Hexagon is *Kotlin first*.
 
 [Kotlin]: http://kotlinlang.org
-[frameworks]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
+[framework]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
