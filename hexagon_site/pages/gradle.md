@@ -22,7 +22,7 @@ This script setup the project/module for publishing in [Bintray].
 
 It publishes all artifacts attached to the `mavenJava` publication (check [kotlin.gradle] publishing
 section) at the bare minimum binaries are published. For an Open Source project, you must include
-sources and javadocs also.
+sources and javadoc also.
 
 To use it you should add `apply from: $gradleScripts/bintray.gradle` to your `build.gradle` script
 and `id 'com.jfrog.bintray' version 'VERSION'` to your `plugins` section in the root `build.gradle`.
@@ -60,7 +60,7 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 ## Icons
 
-Create web icons (favicons, and thumbnails for browsers/mobile) from image SVGs (logos).
+Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (logos).
 
 For image rendering you will need [rsvg] (librsvg2-bin) and [imagemagick] installed in the
 development machine.
@@ -69,13 +69,13 @@ To use it you should add `apply from: $gradleScripts/icons.gradle` to your `buil
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
 
-* logoSmall
-* logoLarge
-* logoWide
+* logoSmall (REQUIRED): SVG file used to render the small logo. Used for the favicon.
+* logoLarge (REQUIRED): SVG file used to render the large logo.
+* logoWide (REQUIRED): SVG file used to render the wide logo. Used for MS Windows tiles.
 
-[rsvg]: https://
-[imagemagick]: https://
-[build variables section]: /gradle/variables.html
+[rsvg]: https://github.com/GNOME/librsvg
+[imagemagick]: https://www.imagemagick.org
+[build variables section]: /gradle.html#build-variables
 
 ## JMH
 
@@ -83,7 +83,7 @@ To use it you should add `apply from: $gradleScripts/jmh.gradle` to your `build.
 and `id 'me.champeau.gradle.jmh' version 'VERSION'` to your `plugins` section in the root
 `build.gradle`.
 
-Sample benchmark (src/jmh/kotlin/Benchmark.kt):
+Sample benchmark:
 
 ```kotlin
 import org.openjdk.jmh.annotations.Benchmark
@@ -106,8 +106,6 @@ open class Benchmark {
 Sets up Kotlin's Gradle plugin: Adds Kotlin libraries, setup coverage report, filter project
 resources with build variables. To use it you need to:
 
-To use it:
-
 - Define the `kotlinVersion` variable to `gradle.properties` file.
 - Define the `kotlinCoroutinesVersion` variable to `gradle.properties` file.
 
@@ -123,9 +121,9 @@ Helps with:
 
 ## Kotlin JS
 
-This script must be applied at the end of the build script
+This script must be applied at the end of the build script.
  
-Applying this script at the beginning won't work until it allows dependencies to be merged (a bug)
+Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).
 
 ## Service
 
@@ -140,10 +138,10 @@ Extra tasks:
 
 ## Site
 
-To generate the site execute: `gw site` and to test it run: `gw serve`
+To generate the site execute: `gw site` and to test it run: `gw serve`.
 
 The site will be served at: [http://localhost:8888](http://localhost:8888). You can change the port
-defining the `sitePort` variable inside `gradle.properties`
+defining the `sitePort` variable inside `gradle.properties`.
 
 Adds support for site generation (with API documentation and reports).
 
@@ -156,9 +154,9 @@ plugins {
 }
 ```
 
-Generate service documentation site
+Generate service documentation site.
 
-JBake 'content' folder can not be changed (it seems a bug)
+JBake `content` folder can not be changed (it seems a bug).
 
 To generate clean URLs, add the following settings:
 
@@ -167,4 +165,19 @@ configuration['uri.noExtension'] = true
 configuration['uri.noExtension.prefix'] = '/'
 ```
 
-## Sonarqube
+## SonarQube
+
+Set up the project to be analyzed by the [SonarQube instance running in the cloud][sonarcloud].
+
+The available configuration parameters are:
+
+* sonarqubeProject (REQUIRED):
+* sonarqubeOrganization (REQUIRED):
+* sonarqubeHost: SonarQube server to be used. By default it is: `https://sonarcloud.io`.
+* sonarqubeToken (REQUIRED): If not set, the `SONARQUBE_TOKEN` environment variable will be used.
+
+[sonarcloud]: https://sonarcloud.io
+
+## TestNG
+
+Uses TestNG as the test framework.

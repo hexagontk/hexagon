@@ -1,17 +1,54 @@
 
-Modules
-======
+Documentation Index
+===================
 
-## Utilities
-* [Services]: explains how to create, build, test, package and run your services.
-* [Building]: build script tools (only Gradle now).
+## Toolkit Structure
+The project is developed as a set of [libraries][frameworks] that you call as opposed to
+[frameworks] that call your code inside them. Being a library means that you won't need special
+build settings or tools.
 
-## Core
-* [Injection]
-* [Serialization]: details how to serialize/deserialize object instances using different formats.
-* [Configuration]: how to load service's configuration from different sources and data formats.
+Project's modules fall into two categories: the ones for internal use, and the ones that provide a
+functionality that clients can import. There are three kind of client libraries:
 
-## Modules
+* The ones that provide a single functionality that does not depend on different implementations,
+  like [hexagon_scheduler] or [hexagon_core].
+* Modules that define a "Port": An interface to a feature that may have different implementations
+  (ie: [port_http_server] or [port_store]). These ones can not be used by themselves and in their
+  place, an adapter implementing them should be added to the list of dependencies.
+* Adapter modules, which are Port implementations for a given tool. [store_mongodb] and
+  [messaging_rabbitmq] are examples of this type of modules.
+  
+Ports are independent from each other.
+
+[frameworks]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
+
+[hexagon_scheduler]: https://hexagonkt.com/hexagon_scheduler/index.html
+[hexagon_core]: https://hexagonkt.com/hexagon_core/index.html
+
+[port_http_server]: https://hexagonkt.com/port_http_server/index.html
+[port_store]: https://hexagonkt.com/port_store/index.html
+
+[store_mongodb]: https://hexagonkt.com/store_mongodb/index.html
+[messaging_rabbitmq]: https://hexagonkt.com/messaging_rabbitmq/index.html
+
+## Hexagon Core
+
+Hexagon Core module is used by all other libraries, so it would be added to your project anyway just
+by using any adapter.
+
+The main features it has are:
+
+* [Helpers]: JVM information, a logger and other useful utilities.
+* [Dependency Injection]: bind classes to creation closures or instances and inject them.
+* [Instance Serialization]: parse/serialize data in different formats to class instances.
+* [Configuration Settings]: load settings from different data sources and formats.
+
+[Helpers]: /hexagon_core/index.html#helpers
+[Dependency Injection]: /hexagon_core/index.html#dependency-injection
+[Instance Serialization]: /hexagon_core/index.html#instance-serialization
+[Configuration Settings]: /hexagon_core/index.html#configuration-settings
+
+## Hexagon Modules
 * [Scheduling]: explains how to execute tasks periodically using Cron expressions.
 * [Testing]: explains how to the test Hexagon's services.
 * [REST]: utilities to build REST services over HTTP servers.
@@ -38,3 +75,9 @@ Modules
 
 [Pebble]: http://www.mitchellbosecke.com/pebble/home
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
+
+## Projects' Utilities
+
+* [Services]: explains how to create, build, test, package and run your services.
+
+* [Building]: build script tools (only Gradle now).
