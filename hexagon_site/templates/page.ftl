@@ -44,8 +44,8 @@
 
           <h3 class="text-big font-weight-bold mt-3" data-toc-skip>Ports</h3>
           <ul class="nav navbar-nav">
-            <li><a class="nav-link p-0" href="/port_http_server/index.html">HTTP</a></li>
-            <li><a class="nav-link p-0" href="/port_http_client/index.html">Client</a></li>
+            <li><a class="nav-link p-0" href="/port_http_server/index.html">HTTP Server</a></li>
+            <li><a class="nav-link p-0" href="/port_http_client/index.html">HTTP Client</a></li>
             <li><a class="nav-link p-0" href="/port_store/index.html">Store</a></li>
             <li><a class="nav-link p-0" href="/port_messaging/index.html">Messaging</a></li>
             <li><a class="nav-link p-0" href="/port_templates/index.html">Templates</a></li>
