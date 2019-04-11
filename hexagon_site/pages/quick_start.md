@@ -34,36 +34,17 @@ Which are NOT project goals:
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 [benchmark]: https://www.techempower.com/benchmarks
 
-# Hexagon Libraries
+# Hexagon Structure
 
-Project's modules fall into two categories: the ones for internal use, and the ones that provide a
-functionality that clients can import. There are three kind of client libraries:
+There are three kind of client libraries:
 
-* The ones that provide a single functionality that does not depend on different implementations,
-  like [hexagon_scheduler] or [hexagon_core].
-* Modules that define a "Port": An interface to a feature that may have different implementations
-  (ie: [port_http_server] or [port_store]). These ones can not be used by themselves and in their
-  place, an adapter implementing them should be added to the list of dependencies.
-* Adapter modules, which are Port implementations for a given tool. [store_mongodb] and
-  [messaging_rabbitmq] are examples of this type of modules.
+* The ones that provide a single functionality that does not depend on different implementations.
+* Modules that define a "Port": An interface to a feature that may have different implementations.
+* Adapter modules, which are Port implementations for a given tool.
   
 Ports are independent from each other.
 
-[hexagon_scheduler]: https://hexagonkt.com/hexagon_scheduler/index.html
-[hexagon_core]: https://hexagonkt.com/hexagon_core/index.html
-
-[port_http_server]: https://hexagonkt.com/port_http_server/index.html
-[port_store]: https://hexagonkt.com/port_store/index.html
-
-[store_mongodb]: https://hexagonkt.com/store_mongodb/index.html
-[messaging_rabbitmq]: https://hexagonkt.com/messaging_rabbitmq/index.html
-
-# Hexagon Core
-
-Hexagon Core module is used by all other libraries, so it would be added to your project anyway just
-by using any adapter.
-
-The main features it has are:
+Hexagon Core module provides convenience utilities. The main features it has are:
 
 * [Helpers]: JVM information, a logger and other useful utilities.
 * [Dependency Injection]: bind classes to creation closures or instances and inject them.
