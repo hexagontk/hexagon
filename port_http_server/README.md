@@ -1,12 +1,12 @@
 
 # Module port_http_server
 
-URL trailing slash is ignored and discarded
-
-TODO
-
-Quick Start
+Server
+Routers
+Handler groups
 Routes
+URL trailing slash is ignored and discarded
+Callbacks
 Request
 Response
 Query Parameters
@@ -21,44 +21,8 @@ Exception Mapping
 Static Files
   MIME types
 Templates
-Embedded Server
-Servlet Webserver
-API
-Examples
+Servlet Web server
 
-Handlers
-    Before
-    Endpoint
-    After
-Handler groups
-Context (ctx)
-    Cookie Store
-Access manager
-Lifecycle events
-
-Routes
-
-Filters
-
-Handlers
-
-Callbacks
-
-Routers
-
-Servers
-
-Templates
-
-Messaging
-
-... Stores + Rest
-
-
-# Package com.hexagonkt.server
+# Package com.hexagonkt.http.server
 
 TODO
-
-## Level 2 heading
-
-More docs
