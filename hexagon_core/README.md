@@ -3,32 +3,25 @@
 
 This module holds utilities used in other libraries of the toolkit
 
-## Helpers
-JVM information, a logger and other useful utilities.
-
-## Dependency Injection
-bind classes to creation closures or instances and inject them.
-
-## Instance Serialization
-parse/serialize data in different formats to class instances.
-
-## Configuration Settings
-load settings from different data sources and formats.
-
-# Package com.hexagonkt
-TODO
-
 # Package com.hexagonkt.helpers
-TODO
+
+JVM information, a logger and other useful utilities. This is more stuff.
+
+Another paragraph.
 
 # Package com.hexagonkt.http
-TODO
+
+HTTP code shared between clients and servers and independent of third party libraries.
 
 # Package com.hexagonkt.injection
-TODO
+
+Bind classes to creation closures or instances and inject them.
 
 # Package com.hexagonkt.serialization
-TODO
+
+Parse/serialize data in different formats to class instances.
 
 # Package com.hexagonkt.settings
-TODO
+
+Load settings from different data sources and formats.
+

@@ -68,6 +68,5 @@ pre, code { font-family: var(--font-family-monospace); }
 code.hljs {
   text-align: left;
   border-radius: 10px;
-  border: 2px solid var(--siteBackgroundLight);
-  background-color: var(--siteBackgroundDark);
+  background-color: var(--siteBackgroundLight);
 }

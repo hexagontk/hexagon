@@ -64,7 +64,7 @@ features:
       dependencies.
 
 ports:
-  HTTP: [ Jetty, Servlet ]
+  'HTTP Server': [ Jetty, Servlet ]
   Templates: [ Pebble ]
-  'Serialization formats': [ JSON, YAML ]
+  'Serialization Formats': [ JSON, YAML ]
   Settings: [ Environment, Files, Resources, URLs ]
