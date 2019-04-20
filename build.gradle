@@ -68,7 +68,7 @@ project.tasks["sonarqube"].dependsOn("jacocoReport")
 
 task("all", dependsOn:
     project.getTasksByName("build", true) +
-    project.getTasksByName("site", true) +
+    project.getTasksByName("bake", true) +
     project.getTasksByName("jacocoReport", true) +
     project.getTasksByName("installDist", true) +
     project.getTasksByName("installAllTemplates", true) +

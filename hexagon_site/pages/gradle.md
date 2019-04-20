@@ -1,7 +1,5 @@
 
-# Gradle Helpers
-
-## Build Variables
+# Build Variables
 
 It is possible to add/change variables of a build from the following places:
 
@@ -15,6 +13,10 @@ For examples and reference, check [.travis.yml], [build.gradle] and [gradle.prop
 [.travis.yml]: https://github.com/hexagonkt/hexagon/blob/master/.travis.yml
 [build.gradle]: https://github.com/hexagonkt/hexagon/blob/master/build.gradle
 [gradle.properties]: https://github.com/hexagonkt/hexagon/blob/master/gradle.properties
+
+# Helper scripts
+
+These scripts can be added to your build to include a whole new capability to your building logic.
 
 ## Bintray
 
@@ -136,9 +138,9 @@ Extra tasks:
   changes. To run the services and watch for changes you need to execute this task with the
   `--continuous` (`-t`) Gradle flag. Ie: `gw -t runService`
 
-## Site
+## JBake
 
-To generate the site execute: `gw site` and to test it run: `gw serve`.
+To generate the site execute: `gw bake` and to test it run: `gw bakePreview`.
 
 The site will be served at: [http://localhost:8888](http://localhost:8888). You can change the port
 defining the `sitePort` variable inside `gradle.properties`.

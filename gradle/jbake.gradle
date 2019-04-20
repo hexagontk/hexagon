@@ -45,7 +45,3 @@ bakePreview {
 clean {
     delete("build", "out")
 }
-
-task("site", dependsOn: "bake")
-
-task("serve", dependsOn: "bakePreview")

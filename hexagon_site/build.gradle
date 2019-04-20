@@ -7,7 +7,7 @@ project.ext.configData = {
     return configData
 }()
 
-apply(from: "../gradle/site.gradle")
+apply(from: "../gradle/jbake.gradle")
 apply(from: "../gradle/icons.gradle")
 
 clean {
