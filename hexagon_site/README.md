@@ -31,4 +31,5 @@ to each of them.
 1. Clone MkDocs Material
 2. Change application-palette.scss
 3. Build theme
-4. Copy theme css to site mkdocs directory
+4. Copy theme css to site mkdocs_palette.css file
+5. Copy palette.html partial and also update the indigo color
