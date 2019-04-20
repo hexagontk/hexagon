@@ -76,3 +76,29 @@ bake {
 }
 
 bake.dependsOn(rootProject.getTasksByName("dokka", true).toArray())
+
+task("mkdocs") {
+    dependsOn("checkDocumentation")
+
+    doFirst {
+        final String contentTarget = project.file("content").absolutePath
+        final Set<Project> modules = rootProject.subprojects
+        final List<String> dirs = modules.collect { "$it.name/build/dokka" } as List<String>
+        final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
+
+        copy {
+            from(project.file('pages'))
+            from(project.file('assets'))
+            dirs.each { dir -> from(rootProject.file(dir)) }
+            into(contentTarget)
+        }
+
+        markdownFiles.each { File markdownFile ->
+            String content = markdownFile.text
+            content = SiteKt.insertSamplesCode(rootProject.projectDir, content)
+            markdownFile.text = content
+        }
+    }
+}
+
+mkdocs.dependsOn(rootProject.getTasksByName("dokka", true).toArray())

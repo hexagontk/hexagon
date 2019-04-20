@@ -25,3 +25,10 @@ to each of them.
 [Google Analytics]: https://analytics.google.com
 [Github]: https://github.com
 [Disqus]: https://disqus.com
+
+# MkDocs
+
+1. Clone MkDocs Material
+2. Change application-palette.scss
+3. Build theme
+4. Copy theme css to site mkdocs directory

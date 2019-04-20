@@ -1,0 +1,56 @@
+
+# TODO Add keywords
+site_name: Hexagon
+site_url: https://hexagonkt.com
+site_author: Juanjo Aguililla
+site_dir: build
+site_description: >
+  Hexagon is a microservices library written in Kotlin. Its purpose is to ease the building of
+  services (Web applications, APIs or queue consumers) that run inside a cloud platform
+
+repo_name: GitHub
+repo_url: https://github.com/hexagonkt/hexagon
+edit_uri: edit/master/hexagon_site/pages
+
+google_analytics: [ UA-48216810-3, auto ]
+
+docs_dir: content
+
+markdown_extensions:
+  - codehilite
+  - toc:
+      permalink: True
+
+nav:
+  - Hexagon: index.md
+  - Quick Start: quick_start.md
+  - Documentation: documentation.md
+
+extra_css:
+  - css/mkdocs.css
+
+theme:
+  name: material
+  custom_dir: mkdocs
+
+  logo: img/logo_white.svg
+  favicon: favicon.ico
+
+  palette:
+    primary: indigo
+    accent: indigo
+
+  font:
+    text: Titillium Web
+    code: Roboto Mono
+
+extra:
+  disqus: hexagonkt-com
+  # TODO Add Bintray
+  social:
+    - type: 'github'
+      link: 'https://github.com/hexagonkt/hexagon'
+    - type: 'twitter'
+      link: 'https://twitter.com/hexagon_kt'
+    - type: 'slack'
+      link: 'https://kotlinlang.slack.com/messages/hexagon'
