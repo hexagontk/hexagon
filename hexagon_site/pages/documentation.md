@@ -1,8 +1,5 @@
 
-Documentation
-=============
-
-## Toolkit Structure
+# Toolkit Structure
 
 The project is developed as a set of [libraries][frameworks] that you call as opposed to
 [frameworks] that call your code inside them. Being a library means that you won't need special
@@ -32,7 +29,7 @@ All ports are independent from each other.
 [store_mongodb]: /store_mongodb/index.html
 [messaging_rabbitmq]: /messaging_rabbitmq/index.html
 
-## Hexagon Core
+# Hexagon Core
 
 [Hexagon Core] module is used by all other libraries, so it would be added to your project anyway
 just by using any adapter.
@@ -50,7 +47,7 @@ The main features it has are:
 [Instance Serialization]: /hexagon_core/index.html#instance-serialization
 [Configuration Settings]: /hexagon_core/index.html#configuration-settings
 
-## Other Modules
+# Other Modules
 
 The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.
@@ -67,7 +64,7 @@ use dependencies outside the Hexagon toolkit.
 [REST]: /modules/rest.html
 -->
 
-## Toolkit Ports
+# Toolkit Ports
 
 These modules define features that need an specific implementation. You can use many implementations
 of each port at the same time. You can even provide a custom implementations if you want to optimize
@@ -90,7 +87,7 @@ These are the implemented ports:
 [Pebble]: https://pebbletemplates.io
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
 
-## Projects' Utilities
+# Projects' Utilities
 
 * [Services]: explains how to create, build, test, package and run your services.
 

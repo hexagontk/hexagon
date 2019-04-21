@@ -1,16 +1,8 @@
 ---
-hero: >
-  <h1 align="center">
-    <a href="https://hexagonkt.com">
-      <img alt="Hexagon" src="tile-small.png" />
-    </a>
-    <br>
-    Hexagon
-  </h1>
-
-  <h4 align="center">The atoms of your platform</h4>
-
+hero: |
   <p align="center">
+    <img alt="Hexagon" src="tile-small.png" />
+    <br />
     <a href="https://travis-ci.org/hexagonkt/hexagon">
       <img src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master" alt="Travis CI" />
     </a>
@@ -30,7 +22,16 @@ hero: >
         alt="Bintray" />
     </a>
   </p>
+  
+  <h1 align="center">The atoms of your platform</h1>
+  
+  <p align="center">
+    Hexagon is a microservices library written in Kotlin. Its purpose is to ease the building of
+    services (Web applications, APIs or queue consumers) that run inside a cloud platform
+  </p>
 ---
+
+# What is Hexagon
 
 Hexagon is a microservices toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
 the building of services (Web applications, APIs or queue consumers) that run inside a cloud
@@ -82,12 +83,12 @@ Hexagon Core module provides convenience utilities. The main features it has are
 * [Instance Serialization]: parse/serialize data in different formats to class instances.
 * [Configuration Settings]: load settings from different data sources and formats.
 
-[Helpers]: http://hexagonkt.com/hexagon_core/index.html#helpers
-[Dependency Injection]: http://hexagonkt.com/hexagon_core/index.html#dependency-injection
-[Instance Serialization]: http://hexagonkt.com/hexagon_core/index.html#instance-serialization
-[Configuration Settings]: http://hexagonkt.com/hexagon_core/index.html#configuration-settings
+[Helpers]: /hexagon_core/com.hexagonkt.helpers
+[Dependency Injection]: /hexagon_core/com.hexagonkt.injection
+[Instance Serialization]: /hexagon_core/com.hexagonkt.serialization
+[Configuration Settings]: /hexagon_core/com.hexagonkt.settings
 
-## Simple HTTP service
+# Simple HTTP service
 
 You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
 from scratch following these steps:
@@ -158,7 +159,7 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 [Endpoint]: http://localhost:2010/hello/world
 [documentation]: http://hexagonkt.com/documentation.html
 
-## Books Example
+# Books Example
 
 A simple CRUD example showing how to manage book resources. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt).
@@ -230,7 +231,7 @@ val server: Server by lazy {
 // books
 ```
 
-## Session Example
+# Session Example
 
 Example showing how to use sessions. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt).
@@ -278,7 +279,7 @@ val server: Server by lazy {
 // session
 ```
 
-## Cookies Example
+# Cookies Example
 
 Demo server to show the use of cookies. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt).
@@ -313,7 +314,7 @@ val server: Server by lazy {
 // cookies
 ```
 
-## Error Handling Example
+# Error Handling Example
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt).
@@ -351,7 +352,7 @@ val server: Server by lazy {
 // errors
 ```
 
-## Filters Example
+# Filters Example
 
 This example shows how to add filters before and after route execution. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt).
@@ -392,7 +393,7 @@ private val server: Server by lazy {
 // filters
 ```
 
-## Files Example
+# Files Example
 
 The following code shows how to serve resources and receive files. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt).
@@ -414,7 +415,7 @@ private val server: Server by lazy {
 // files
 ```
 
-## Status
+# Status
 
 **DISCLAIMER**: The project is not yet production ready. Use it at your own risk. There are some
 modules not finished yet (e.g: storage and HTTP client).
@@ -438,7 +439,7 @@ The code quality is checked by Codebeat:
 [codebeat badge]: https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971
 [codebeat page]: https://codebeat.co/projects/github-com-hexagonkt-hexagon-master
 
-## Contribute
+# Contribute
 
 If you like this project and want to support it, the easiest way is to [give it a star] :v:.
 
@@ -467,7 +468,7 @@ Thanks to all project's [contributors]!
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
 
-## License
+# License
 
 The project is licensed under the [MIT License]. This license lets you use the source for free or
 commercial purposes as long as you provide attribution and don’t hold any project member liable.
