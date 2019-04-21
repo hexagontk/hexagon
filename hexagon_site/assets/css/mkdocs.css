@@ -25,3 +25,13 @@ article p a, article li a {
   color: rgba(0,0,0,.87);
   background-color: hsla(0,0%,92.5%,.5);
 }
+
+.md-footer-copyright__highlight {
+  color: hsla(0,0%,100%,.3);
+}
+
+.social-buttons {
+  margin-top: 5px;
+}
+
+.fa-heart { color: #2B9EE6; }

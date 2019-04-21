@@ -36,7 +36,6 @@ to each of them.
 6. To generate the site using Docker check: https://hub.docker.com/r/squidfunk/mkdocs-material
    `docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.1.2 build`
 
-
 # TODO
 
 * Fix API documentation header (edit link and title -always: Home-)
