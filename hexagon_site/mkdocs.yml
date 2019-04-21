@@ -1,12 +1,16 @@
 
-# TODO Add keywords
+strict: true
+
 site_name: Hexagon
 site_url: https://hexagonkt.com
 site_author: Juanjo Aguililla
 site_dir: build
-site_description: >
-  Hexagon is a microservices library written in Kotlin. Its purpose is to ease the building of
-  services (Web applications, APIs or queue consumers) that run inside a cloud platform
+site_description: The atoms of your platform
+
+copyright: >
+  Made with <i class="fa fa-heart"></i> by
+  <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed
+  under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md">MIT License</a>
 
 repo_name: GitHub
 repo_url: https://github.com/hexagonkt/hexagon
@@ -17,17 +21,34 @@ google_analytics: [ UA-48216810-3, auto ]
 docs_dir: content
 
 markdown_extensions:
+  - admonition
+  - footnotes
   - codehilite
   - toc:
       permalink: True
+      baselevel: 2
 
 nav:
-  - Hexagon: index.md
+  - Home: index.md
   - Quick Start: quick_start.md
   - Documentation: documentation.md
-
-extra_css:
-  - css/mkdocs.css
+  - Create Services: create_services.md
+  - Gradle Helpers: gradle.md
+  - Modules:
+    - Core: hexagon_core/index.md
+    - Scheduler: hexagon_scheduler/index.md
+    - Web: hexagon_web/index.md
+  - Ports:
+    - HTTP Server: port_http_server/index.md
+    - HTTP Client: port_http_client/index.md
+    - Store: port_store/index.md
+    - Messaging: port_messaging/index.md
+    - Templates: port_templates/index.md
+  - Contribute:
+    - Contributing: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
+    - Planning: https://github.com/hexagonkt/hexagon/projects/1
+    - Roadmap: https://github.com/hexagonkt/hexagon/milestones
+  - Alternatives: alternatives.md
 
 theme:
   name: material
@@ -44,13 +65,71 @@ theme:
     text: Titillium Web
     code: Roboto Mono
 
+extra_css:
+  - css/mkdocs_palette.css
+  - css/mkdocs.css
+
+extra_javascript:
+  - https://buttons.github.io/buttons.js
+  - https://platform.twitter.com/widgets.js
+
 extra:
+  repo: hexagonkt/hexagon
+  site_keywords: Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web
+  site_long_description: >
+    Hexagon is a microservices library written in Kotlin. Its purpose is to ease the building of
+    services (Web applications, APIs or queue consumers) that run inside a cloud platform
+
+  twitter_user: hexagon_kt
   disqus: hexagonkt-com
-  # TODO Add Bintray
   social:
-    - type: 'github'
-      link: 'https://github.com/hexagonkt/hexagon'
-    - type: 'twitter'
-      link: 'https://twitter.com/hexagon_kt'
-    - type: 'slack'
-      link: 'https://kotlinlang.slack.com/messages/hexagon'
+    - type: github
+      link: https://github.com/hexagonkt/hexagon
+    - type: twitter
+      link: https://twitter.com/hexagon_kt
+    - type: slack
+      link: https://kotlinlang.slack.com/messages/hexagon
+
+  features:
+    - link: /quick_start.html
+      icon: smile-o
+      title: Simple to Use
+      description: >
+        Hexagon is focused in allowing you to use the features you use the most in your daily
+        coding in the easiest way.
+    - link: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
+      icon: keyboard-o
+      title: Easy to Hack
+      description: >
+        The library is done to be lean and simple so you can tweak it to suit your needs instead
+        relying on third parties.
+    - link: /documentation.html
+      icon: plug
+      title: Pluggable Adapters
+      description: >
+        Adding an adapter is just implementing the port's interface. You can code your own
+        adapters from scratch or tune the existing ones.
+    - link: http://kotlinlang.org
+      icon: code
+      title: Kotlin First
+      description: >
+        The library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a
+        Language).
+    - link: https://github.com/hexagonkt/hexagon#status
+      icon: bug
+      title: Properly Tested
+      description: >
+        Project's coverage is checked in every Pull Request. It is also stress tested at
+        TechEmpower Frameworks Benchmark.
+    - link : /documentation.html
+      icon: cubes
+      title: Modular
+      description: >
+        Each feature is isolated in its own module. Use only the modules you need without unneeded
+        dependencies.
+
+  ports:
+    'HTTP Server': [ Jetty, Servlet ]
+    Templates: [ Pebble ]
+    'Serialization Formats': [ JSON, YAML ]
+    Settings: [ Environment, Files, Resources, URLs ]
