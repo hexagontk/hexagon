@@ -26,7 +26,7 @@ hero: |
   <h1 align="center">The atoms of your platform</h1>
   
   <p align="center">
-    Hexagon is a microservices library written in Kotlin. Its purpose is to ease the building of
+    Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of
     services (Web applications, APIs or queue consumers) that run inside a cloud platform
   </p>
 ---
