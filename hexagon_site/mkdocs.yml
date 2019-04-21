@@ -44,6 +44,7 @@ nav:
   - Documentation: documentation.md
   - Create Services: create_services.md
   - Gradle Helpers: gradle.md
+  - Examples: examples.md
   - Modules:
     - Core: hexagon_core/index.md
     - Scheduler: hexagon_scheduler/index.md
