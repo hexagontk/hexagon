@@ -33,3 +33,10 @@ to each of them.
 3. Build theme
 4. Copy theme css to site mkdocs_palette.css file
 5. Copy palette.html partial and also update the indigo color
+6. To generate the site using Docker check: https://hub.docker.com/r/squidfunk/mkdocs-material
+   `docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.1.2 build`
+
+
+# TODO
+
+* Fix API documentation header (edit link and title -always: Home-)
