@@ -24,6 +24,16 @@ markdown_extensions:
   - admonition
   - footnotes
   - codehilite
+  - pymdownx.details
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.smartsymbols
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - toc:
       permalink: True
       baselevel: 2
