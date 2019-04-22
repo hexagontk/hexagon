@@ -152,7 +152,7 @@ as that is not possible in included scripts like this one. These are the require
 
 ```gradle
 plugins {
-    id 'org.xbib.gradle.plugin.jbake' version '1.2.1'
+    id "org.jbake.site" version "1.4.0"
 }
 ```
 

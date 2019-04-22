@@ -9,8 +9,7 @@ The site uses [Google Analytics] for usage statistics.
 
 The site properties are loaded from `site.yaml` file.
 
-The content from `pages` is copied to `content` in order to add the JBake Front Matter to Markdown
-content.
+The content from `pages` is copied to `content` in order to add the API Markdown to content.
 
 As `content` directory is created from `pages` processed content, it should be ignored by SCM and it
 will be deleted by the clean task.
@@ -40,3 +39,4 @@ to each of them.
 
 * Fix API documentation header (edit link and title -always: Home-)
 * Add GitHub organization link
+* Do not include `// <tag>` in @sample code

@@ -1,16 +1,12 @@
 
 project.ext.configData = {
     final String helloWorld = "http_server_jetty/src/test/kotlin/com/hexagonkt/http/HelloWorld.kt"
-    final File site = project.file("site.yaml")
-    final Map<Object, Object> configData = SiteKt.loadYaml(site) as Map<Object, Object>
-    configData["readmeCode"] = rootProject.file(helloWorld).text
-    return configData
+    return ["readmeCode" : rootProject.file(helloWorld).text ]
 }()
 
-apply(from: "../gradle/jbake.gradle")
 apply(from: "../gradle/icons.gradle")
 
-clean {
+task("clean", type: Delete) {
     delete("build", "content")
 }
 
@@ -46,36 +42,6 @@ task("checkDocumentation") {
         fileRanges.each { SiteKt.checkDocumentationCode(it.key, it.value) }
     }
 }
-
-bake {
-    dependsOn("checkDocumentation")
-
-    doFirst {
-        final String contentTarget = project.file("content").absolutePath
-        final Set<Project> modules = rootProject.subprojects
-        final List<String> dirs = modules.collect { "$it.name/build/dokka" } as List<String>
-        final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
-
-        copy {
-            from(project.file('pages'))
-            dirs.each { dir -> from(rootProject.file(dir)) }
-            into(contentTarget)
-        }
-
-        markdownFiles.each { File markdownFile ->
-
-            String content = markdownFile.text
-
-            content = SiteKt.addFrontMatter(markdownFile, content)
-            content = SiteKt.fixLinks(content)
-            content = SiteKt.insertSamplesCode(rootProject.projectDir, content)
-
-            markdownFile.text = content
-        }
-    }
-}
-
-bake.dependsOn(rootProject.getTasksByName("dokka", true).toArray())
 
 task("mkdocs") {
     dependsOn("checkDocumentation")
