@@ -1,0 +1,102 @@
+
+strict: true
+
+site_name: Hexagon
+site_url: https://hexagonkt.com
+site_author: Juanjo Aguililla
+site_dir: build
+site_description: The atoms of your platform
+
+copyright: >
+  Made with <i class="fa fa-heart"></i> by
+  <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed
+  under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md">MIT License</a>
+
+repo_name: GitHub
+repo_url: https://github.com/hexagonkt/hexagon
+edit_uri: edit/master/hexagon_site/pages
+
+google_analytics: [ UA-48216810-3, auto ]
+
+docs_dir: content
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - codehilite
+  - pymdownx.details
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.smartsymbols
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - toc:
+      permalink: True
+      baselevel: 2
+
+nav:
+  - Home: index.md
+  - Quick Start: quick_start.md
+  - Documentation: documentation.md
+  - Create Services: create_services.md
+  - Gradle Helpers: gradle.md
+  - Examples: examples.md
+  - Modules:
+    - Core: hexagon_core/index.md
+    - Scheduler: hexagon_scheduler/index.md
+    - Web: hexagon_web/index.md
+  - Ports:
+    - HTTP Server: port_http_server/index.md
+    - HTTP Client: port_http_client/index.md
+    - Store: port_store/index.md
+    - Messaging: port_messaging/index.md
+    - Templates: port_templates/index.md
+  - Contribute:
+    - Contributing: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
+    - Planning: https://github.com/hexagonkt/hexagon/projects/1
+    - Roadmap: https://github.com/hexagonkt/hexagon/milestones
+  - Alternatives: alternatives.md
+
+theme:
+  name: material
+  custom_dir: mkdocs
+
+  logo: img/logo_white.svg
+  favicon: favicon.ico
+
+  palette:
+    primary: indigo
+    accent: indigo
+
+  font:
+    text: Titillium Web
+    code: Roboto Mono
+
+extra_css:
+  - css/mkdocs_palette.css
+  - css/mkdocs.css
+
+extra_javascript:
+  - https://buttons.github.io/buttons.js
+  - https://platform.twitter.com/widgets.js
+
+extra:
+  repo: hexagonkt/hexagon
+  site_keywords: Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web
+  site_long_description: >
+    Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of
+    services (Web applications, APIs or queue consumers) that run inside a cloud platform
+
+  twitter_user: hexagon_kt
+  disqus: hexagonkt-com
+  social:
+    - type: github
+      link: https://github.com/hexagonkt/hexagon
+    - type: twitter
+      link: https://twitter.com/hexagon_kt
+    - type: slack
+      link: https://kotlinlang.slack.com/messages/hexagon

@@ -51,10 +51,10 @@ Hexagon Core module provides convenience utilities. The main features it has are
 * [Instance Serialization]: parse/serialize data in different formats to class instances.
 * [Configuration Settings]: load settings from different data sources and formats.
 
-[Helpers]: /hexagon_core/index.html#helpers
-[Dependency Injection]: /hexagon_core/index.html#dependency-injection
-[Instance Serialization]: /hexagon_core/index.html#instance-serialization
-[Configuration Settings]: /hexagon_core/index.html#configuration-settings
+[Helpers]: /hexagon_core/com.hexagonkt.helpers
+[Dependency Injection]: /hexagon_core/com.hexagonkt.injection
+[Instance Serialization]: /hexagon_core/com.hexagonkt.serialization
+[Configuration Settings]: /hexagon_core/com.hexagonkt.settings
 
 # Simple HTTP service
 

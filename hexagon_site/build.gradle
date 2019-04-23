@@ -1,16 +1,12 @@
 
 project.ext.configData = {
     final String helloWorld = "http_server_jetty/src/test/kotlin/com/hexagonkt/http/HelloWorld.kt"
-    final File site = project.file("site.yaml")
-    final Map<Object, Object> configData = SiteKt.loadYaml(site) as Map<Object, Object>
-    configData["readmeCode"] = rootProject.file(helloWorld).text
-    return configData
+    return ["readmeCode" : rootProject.file(helloWorld).text ]
 }()
 
-apply(from: "../gradle/site.gradle")
 apply(from: "../gradle/icons.gradle")
 
-clean {
+task("clean", type: Delete) {
     delete("build", "content")
 }
 
@@ -47,7 +43,7 @@ task("checkDocumentation") {
     }
 }
 
-bake {
+task("mkdocs") {
     dependsOn("checkDocumentation")
 
     doFirst {
@@ -58,21 +54,17 @@ bake {
 
         copy {
             from(project.file('pages'))
+            from(project.file('assets'))
             dirs.each { dir -> from(rootProject.file(dir)) }
             into(contentTarget)
         }
 
         markdownFiles.each { File markdownFile ->
-
             String content = markdownFile.text
-
-            content = SiteKt.addFrontMatter(markdownFile, content)
-            content = SiteKt.fixLinks(content)
             content = SiteKt.insertSamplesCode(rootProject.projectDir, content)
-
             markdownFile.text = content
         }
     }
 }
 
-bake.dependsOn(rootProject.getTasksByName("dokka", true).toArray())
+mkdocs.dependsOn(rootProject.getTasksByName("dokka", true).toArray())

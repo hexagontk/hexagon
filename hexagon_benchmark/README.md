@@ -37,3 +37,7 @@ them among build, another location can be supplied using the `buildDir` system p
 The `tfb` Gradle task is used generate the files required in the TechEmpower Benchmark project
 (`benchmark_config.json` and `*.dockerfiles`). This task can be run using:
 `./gradlew hexagon_benchmark:tfb` and the generated files are placed in the `/build/tfb` directory.
+
+# TODO
+
+* Move build logic to Kotlin `buildSrc` directory

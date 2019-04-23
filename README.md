@@ -1,11 +1,11 @@
 
-<h1 align="center">
+<h3 align="center">
   <a href="https://hexagonkt.com">
     <img alt="Hexagon" src="hexagon_site/assets/tile-small.png" />
   </a>
   <br>
   Hexagon
-</h1>
+</h3>
 
 <h4 align="center">The atoms of your platform</h4>
 
@@ -30,12 +30,15 @@
   </a>
 </p>
 
+<!-- TODO Check documentation links -->
 <p align="center">
   <a href="https://hexagonkt.com/quick_start.html">Quick Start</a> |
   <a href="https://hexagonkt.com/documentation.html">Documentation</a>
 </p>
 
 ---
+
+## What is Hexagon
 
 Hexagon is a microservices toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
 the building of services (Web applications, APIs or queue consumers) that run inside a cloud
@@ -70,7 +73,7 @@ Which are NOT project goals:
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 [benchmark]: https://www.techempower.com/benchmarks
 
-# Hexagon Structure
+## Hexagon Structure
 
 There are three kind of client libraries:
 

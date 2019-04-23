@@ -1,0 +1,37 @@
+
+article p a, article li a {
+  text-decoration: underline;
+}
+
+[data-md-color-primary=indigo] .md-hero {
+  background-image: linear-gradient(0deg, #31415C 7%, #546691 100%);
+}
+
+.md-hero h1 {
+  font-weight: normal;
+  line-height: 1.1;
+  margin: 0;
+}
+
+@media(min-width: 768px) {
+  .md-hero p {
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.md-typeset table:not([class]) th {
+  color: rgba(0,0,0,.87);
+  background-color: hsla(0,0%,92.5%,.5);
+}
+
+.md-footer-copyright__highlight {
+  color: hsla(0,0%,100%,.3);
+}
+
+.social-buttons {
+  margin-top: 5px;
+}
+
+.fa-heart { color: #2B9EE6; }

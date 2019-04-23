@@ -1,8 +1,5 @@
 
-Create a service
-================
-
-## From scratch
+# From scratch
 
 To build Hexagon services you have some Gradle helpers that you can use on your own project. To
 use them, you can use the online versions, or copy them to your `gradle` directory.
@@ -29,7 +26,7 @@ dependencies {
 }
 ```
 
-## From a template
+# From a template
 
 You can create a service from a [Lazybones] template. To do so type:
 `lazybones create hexagon-service service`

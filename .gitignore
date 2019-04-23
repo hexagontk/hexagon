@@ -23,5 +23,5 @@ log/
 .DS_Store
 .java-version
 
-# Added because of JBake settings
+# Added because of site generation settings
 hexagon_site/content/

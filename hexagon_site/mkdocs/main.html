@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+{% import "partials/palette.html" as map %}
+{% set primary = map.primary(palette.primary | replace(" ", "-") | lower) %}
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<meta name="keywords" content="{{ config.extra.site_keywords }}" />
+<meta name="application-name" content="{{ config.site_name }}" />
+
+<meta name="msapplication-navbutton-color" content="{{ primary }}" />
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="{{ primary }}">
+<meta name="msapplication-TileImage" content="/apple-touch-icon.png">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="{{ primary }}" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@{{ config.extra.twitter_user }}">
+<meta name="twitter:creator" content="@{{ config.extra.twitter_user }}">
+<meta name="twitter:title" content="{{ config.site_name }}">
+<meta name="twitter:description" content="{{ config.extra.site_long_description }}">
+<meta name="twitter:image" content="{{ config.site_url }}apple-touch-icon.png">
+
+<meta property="og:title" content="{{ config.site_name }}" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="{{ config.site_url }}" />
+<meta property="og:image" content="{{ config.site_url }}apple-touch-icon.png" />
+<meta property="og:description" content="{{ config.extra.site_long_description }}" />
+
+<meta itemprop="name" content="{{ config.site_name }}">
+<meta itemprop="description" content="{{ config.extra.site_long_description}} ">
+<meta itemprop="image" content="{{ config.site_url }}apple-touch-icon.png">
+
+<link rel="author" href="/humans.txt" />
+<link rel="manifest" href="/manifest.json">
+
+<!-- Web worker -->
+<!--
+<script>
+if ('serviceWorker' in navigator)
+  navigator.serviceWorker
+    .register('/service_worker.js')
+    .then(function() { console.log('Worker Registered'); });
+</script>
+-->
+{% endblock %}

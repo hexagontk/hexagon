@@ -9,8 +9,7 @@ The site uses [Google Analytics] for usage statistics.
 
 The site properties are loaded from `site.yaml` file.
 
-The content from `pages` is copied to `content` in order to add the JBake Front Matter to Markdown
-content.
+The content from `pages` is copied to `content` in order to add the API Markdown to content.
 
 As `content` directory is created from `pages` processed content, it should be ignored by SCM and it
 will be deleted by the clean task.
@@ -25,3 +24,19 @@ to each of them.
 [Google Analytics]: https://analytics.google.com
 [Github]: https://github.com
 [Disqus]: https://disqus.com
+
+# MkDocs
+
+1. Clone MkDocs Material
+2. Change application-palette.scss
+3. Build theme
+4. Copy theme css to site mkdocs_palette.css file
+5. Copy palette.html partial and also update the indigo color
+6. To generate the site using Docker check: https://hub.docker.com/r/squidfunk/mkdocs-material
+   `docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.1.2 build`
+
+# TODO
+
+* Fix API documentation header (edit link and title -always: Home-)
+* Add GitHub organization link
+* Do not include `// <tag>` in @sample code
