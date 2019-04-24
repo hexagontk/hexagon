@@ -1,8 +1,8 @@
 
 {
-  "name": "Hexagon Library",
+  "name": "Hexagon Toolkit",
   "short_name": "Hexagon",
-  "description": "Hexagon Library Documentation",
+  "description": "Hexagon Toolkit Documentation",
   "start_url": "/index.html",
   "display": "standalone",
   "theme_color": "#135AA1",

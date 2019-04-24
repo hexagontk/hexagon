@@ -34,4 +34,10 @@ article p a, article li a {
   margin-top: 5px;
 }
 
-.fa-heart { color: #2B9EE6; }
+.fa-heart {
+  color: #2B9EE6;
+}
+
+.md-hero p#description a {
+  font-weight: bold;
+}

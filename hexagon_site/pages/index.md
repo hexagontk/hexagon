@@ -25,23 +25,20 @@ hero: |
   
   <h1 align="center">The atoms of your platform</h1>
   
-  <p align="center">
-    Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of
-    services (Web applications, APIs or queue consumers) that run inside a cloud platform
+  <p align="center" id="description">
+    Hexagon is a microservices
+    <a href="https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework">
+    toolkit</a> written in <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the
+    building of services (Web applications, APIs or queue consumers) that run inside a cloud
+    platform
   </p>
 ---
-
-Hexagon is a microservices toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
-the building of services (Web applications, APIs or queue consumers) that run inside a cloud
-platform.
 
 It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
 etc.) to be able to change them with minimum impact. It is designed to fit in applications that
 conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
 [Ports and Adapters Architecture]).
 
-[Kotlin]: http://kotlinlang.org
-[framework]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture

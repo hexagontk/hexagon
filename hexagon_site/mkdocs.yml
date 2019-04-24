@@ -1,5 +1,6 @@
 
 strict: true
+dev_addr: 0.0.0.0:8000
 
 site_name: Hexagon
 site_url: https://hexagonkt.com
@@ -86,6 +87,7 @@ extra_javascript:
 
 extra:
   repo: hexagonkt/hexagon
+  theme_color: '#135AA1'
   site_keywords: Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web
   site_long_description: >
     Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of
