@@ -41,3 +41,7 @@ article p a, article li a {
 .md-hero p#description a {
   font-weight: bold;
 }
+
+.codehilite {
+  font-size: 0.7rem;
+}

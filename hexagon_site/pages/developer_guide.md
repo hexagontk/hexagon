@@ -86,12 +86,3 @@ These are the implemented ports:
 
 [Pebble]: https://pebbletemplates.io
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
-
-# Projects' Utilities
-
-* [Services]: explains how to create, build, test, package and run your services.
-
-* [Building]: build script tools (only Gradle now).
-
-[Services]: /create_services.html
-[Building]: /gradle.html

@@ -34,14 +34,20 @@ hero: |
   </p>
 ---
 
-It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
-etc.) to be able to change them with minimum impact. It is designed to fit in applications that
-conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
-[Ports and Adapters Architecture]).
+The Hexagon toolkit is meant to provide abstraction from underlying technologies (data storage, HTTP
+server engines, etc.) to be able to change them with minimum impact.
+
+It is designed to fit in applications that conforms to the [Hexagonal Architecture] (also called
+[Clean Architecture] or [Ports and Adapters Architecture]).
+
+* To see some simple examples you can read the [Quick Start] page.
+* For more information you can check the [Developer Guide].
 
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
+[Quick Start]: /quick_start.html
+[Developer Guide]: /developer_guide.html
 
 # Hello World
 
@@ -60,17 +66,19 @@ Hexagon's high-level features.
   done to be lean and simple so you can tweak it to suit your needs instead relying on third
   parties.
   
-* [Pluggable Adapters](/documentation.html): Adding an adapter is just implementing the port's
+* [Pluggable Adapters](/developer_guide.html): Adding an adapter is just implementing the port's
   interface. You can code your own adapters from scratch or tune the existing ones.
     
 * [Kotlin First](http://kotlinlang.org): The library is coded in Kotlin for coding with Kotlin. No
   strings attached to Java (as a Language).
     
 * [Properly Tested](https://github.com/hexagonkt/hexagon#status): Project's coverage is checked in
-  every Pull Request. It is also stress tested at TechEmpower Frameworks Benchmark.
+  every Pull Request. It is also stress tested at [TechEmpower Frameworks Benchmark][benchmark].
     
-* [Modular](/documentation.html): Each feature is isolated in its own module. Use only the modules
+* [Modular](/developer_guide.html): Each feature is isolated in its own module. Use only the modules
   you need without unneeded dependencies.
+
+[benchmark]: https://www.techempower.com/benchmarks
 
 # Architecture
 
