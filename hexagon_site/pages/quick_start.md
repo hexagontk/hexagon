@@ -1,85 +1,24 @@
 
-# What is Hexagon
-
-Hexagon is a microservices toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
-the building of services (Web applications, APIs or queue consumers) that run inside a cloud
-platform.
-
-It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
-etc.) to be able to change them with minimum impact. It is designed to fit in applications that
-conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
-[Ports and Adapters Architecture]).
-
-The goals of the project are:
-
-1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It
-   is focused on making the usual tasks easy, rather than making a complex tool with a lot of
-   features.
-2. Make it easy to hack: allow the user to add extensions or change the toolkit itself. The code is
-   meant to be simple for the users to understand it. Avoid having to read blogs, documentation or
-   getting certified to use it effectively.
-
-Which are NOT project goals:
-
-1. To be the fastest framework. Write the code fast and optimize only the critical parts. It is
-   [not slow][benchmark] anyway.
-2. Support all available technologies and tools: the spirit is to define simple interfaces for
-   the most common features , so users can implement integrations with different tools easily.
-3. To be usable from Java. Hexagon is *Kotlin first*.
-
-[Kotlin]: http://kotlinlang.org
-[framework]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
-[Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
-[Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
-[Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
-[benchmark]: https://www.techempower.com/benchmarks
-
-# Hexagon Structure
-
-There are three kind of client libraries:
-
-* The ones that provide a single functionality that does not depend on different implementations.
-* Modules that define a "Port": An interface to a feature that may have different implementations.
-* Adapter modules, which are Port implementations for a given tool.
-  
-Ports are independent from each other.
-
-Hexagon Core module provides convenience utilities. The main features it has are:
-
-* [Helpers]: JVM information, a logger and other useful utilities.
-* [Dependency Injection]: bind classes to creation closures or instances and inject them.
-* [Instance Serialization]: parse/serialize data in different formats to class instances.
-* [Configuration Settings]: load settings from different data sources and formats.
-
-[Helpers]: /hexagon_core/com.hexagonkt.helpers
-[Dependency Injection]: /hexagon_core/com.hexagonkt.injection
-[Instance Serialization]: /hexagon_core/com.hexagonkt.serialization
-[Configuration Settings]: /hexagon_core/com.hexagonkt.settings
-
 # Simple HTTP service
 
-You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
-from scratch following these steps:
+To create a sample service, you can clone a starter project ([Gradle Starter] or [Maven Starter]).
+Or you can create a project from scratch following these steps:
 
 1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
 2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
-3. Add the dependency:
+3. Add the dependency in [Gradle] or [Maven]:
 
-  * In Gradle. Import it inside `build.gradle`:
+```groovy tab="build.gradle"
+compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
+```
 
-    ```groovy
-    compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
-    ```
-
-  * In Maven. Declare the dependency in `pom.xml`:
-
-    ```xml
-    <dependency>
-      <groupId>com.hexagonkt</groupId>
-      <artifactId>http_server_jetty</artifactId>
-      <version>$hexagonVersion</version>
-    </dependency>
-    ```
+```xml tab="pom.xml"
+<dependency>
+  <groupId>com.hexagonkt</groupId>
+  <artifactId>http_server_jetty</artifactId>
+  <version>$hexagonVersion</version>
+</dependency>
+```
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
@@ -87,16 +26,19 @@ from scratch following these steps:
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-You can check the [documentation] for more details. Or you can clone the [Gradle Starter] or
+You can check the [Developer Guide] for more details. Or you can clone the [Gradle Starter] or
 [Maven Starter] for a minimal fully working example (including tests).
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
+[Kotlin]: https://kotlinlang.org
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
+[Gradle]: https://gradle.org
+[Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello/world
-[documentation]: /documentation.html
+[Developer Guide]: /developer_guide/index.html
 
 # Books Example
 

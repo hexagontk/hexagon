@@ -1,10 +1,7 @@
 
 # Feature Comparison
 
-Comparison with Micro Web Frameworks in Java or [Kotlin]. [Spring] and [Vert.x] are left aside as
-they are full blown frameworks.
-
-You can find a performance comparison in the [TechEmpower Web Frameworks Bechmark][benchmark]. 
+Comparison with other Micro Web Frameworks in Java or [Kotlin].
 
 |                 | [Hexagon]           | [Ktor] | [http4k] | [Spark] | [Jooby]
 |-----------------|---------------------|--------|----------|---------|--------
@@ -25,13 +22,15 @@ You can find a performance comparison in the [TechEmpower Web Frameworks Bechmar
 
 [Kotlin]: http://kotlinlang.org
 
-[Spring]: https://spring.io
-[Vert.x]: http://vertx.io
-[benchmark]: https://www.techempower.com/benchmarks
-
 [Hexagon]: http://hexagonkt.com
 [Ktor]: http://ktor.io
 [http4k]: http://http4k.org
 [Spark]: http://sparkjava.com
 [Jooby]: http://jooby.org
 [Ratpack]: http://ratpack.io
+
+# Performance Benchmark
+
+You can find a performance comparison in the [TechEmpower Web Frameworks Benchmark][benchmark]. 
+
+[benchmark]: https://www.techempower.com/benchmarks

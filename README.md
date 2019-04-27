@@ -30,10 +30,9 @@
   </a>
 </p>
 
-<!-- TODO Check documentation links -->
 <p align="center">
-  <a href="https://hexagonkt.com/quick_start.html">Quick Start</a> |
-  <a href="https://hexagonkt.com/documentation.html">Documentation</a>
+  <a href="https://hexagonkt.com/quick_start/index.html">Quick Start</a> |
+  <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a>
 </p>
 
 ---
@@ -52,11 +51,9 @@ conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
 The goals of the project are:
 
 1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It
-   is focused on making the usual tasks easy, rather than making a complex tool with a lot of
-   features.
+   is focused on making the usual tasks easy.
 2. Make it easy to hack: allow the user to add extensions or change the toolkit itself. The code is
-   meant to be simple for the users to understand it. Avoid having to read blogs, documentation or
-   getting certified to use it effectively.
+   meant to be simple for the users to understand it.
 
 Which are NOT project goals:
 
@@ -155,7 +152,7 @@ fun main() {
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
-You can check the [documentation] for more details. Or you can clone the [Gradle Starter] or
+You can check the [Developer Guide] for more details. Or you can clone the [Gradle Starter] or
 [Maven Starter] for a minimal fully working example (including tests).
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
@@ -164,7 +161,7 @@ You can check the [documentation] for more details. Or you can clone the [Gradle
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
 [Endpoint]: http://localhost:2010/hello/world
-[documentation]: http://hexagonkt.com/documentation.html
+[Developer Guide]: http://hexagonkt.com/developer_guide/index.html
 
 ## Books Example
 

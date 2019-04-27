@@ -1,20 +1,17 @@
 {% extends "base.html" %}
 
 {% block extrahead %}
-{% import "partials/palette.html" as map %}
-{% set primary = map.primary(palette.primary | replace(" ", "-") | lower) %}
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 <meta name="keywords" content="{{ config.extra.site_keywords }}" />
 <meta name="application-name" content="{{ config.site_name }}" />
 
-<meta name="msapplication-navbutton-color" content="{{ primary }}" />
+<meta name="msapplication-navbutton-color" content="{{ config.extra.theme_color }}" />
 <meta name="msapplication-config" content="/browserconfig.xml">
-<meta name="msapplication-TileColor" content="{{ primary }}">
+<meta name="msapplication-TileColor" content="{{ config.extra.theme_color }}">
 <meta name="msapplication-TileImage" content="/apple-touch-icon.png">
 
-<meta name="apple-mobile-web-app-status-bar-style" content="{{ primary }}" />
+<meta name="apple-mobile-web-app-status-bar-style" content="{{ config.extra.theme_color }}" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 

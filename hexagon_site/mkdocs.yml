@@ -1,5 +1,6 @@
 
 strict: true
+dev_addr: 0.0.0.0:8000
 
 site_name: Hexagon
 site_url: https://hexagonkt.com
@@ -41,7 +42,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Quick Start: quick_start.md
-  - Documentation: documentation.md
+  - Developer Guide: developer_guide.md
   - Create Services: create_services.md
   - Gradle Helpers: gradle.md
   - Examples: examples.md
@@ -59,6 +60,7 @@ nav:
     - Contributing: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
     - Planning: https://github.com/hexagonkt/hexagon/projects/1
     - Roadmap: https://github.com/hexagonkt/hexagon/milestones
+    - Organization: https://github.com/hexagonkt
   - Alternatives: alternatives.md
 
 theme:
@@ -86,6 +88,7 @@ extra_javascript:
 
 extra:
   repo: hexagonkt/hexagon
+  theme_color: '#135AA1'
   site_keywords: Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web
   site_long_description: >
     Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of

@@ -25,26 +25,29 @@ hero: |
   
   <h1 align="center">The atoms of your platform</h1>
   
-  <p align="center">
-    Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of
-    services (Web applications, APIs or queue consumers) that run inside a cloud platform
+  <p align="center" id="description">
+    Hexagon is a microservices
+    <a href="https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework">
+    toolkit</a> written in <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the
+    building of services (Web applications, APIs or queue consumers) that run inside a cloud
+    platform
   </p>
 ---
 
-Hexagon is a microservices toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
-the building of services (Web applications, APIs or queue consumers) that run inside a cloud
-platform.
+The Hexagon toolkit is meant to provide abstraction from underlying technologies (data storage, HTTP
+server engines, etc.) to be able to change them with minimum impact.
 
-It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
-etc.) to be able to change them with minimum impact. It is designed to fit in applications that
-conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
-[Ports and Adapters Architecture]).
+It is designed to fit in applications that conforms to the [Hexagonal Architecture] (also called
+[Clean Architecture] or [Ports and Adapters Architecture]).
 
-[Kotlin]: http://kotlinlang.org
-[framework]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
+* To see some simple examples you can read the [Quick Start] page.
+* For more information you can check the [Developer Guide].
+
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
+[Quick Start]: /quick_start/index.html
+[Developer Guide]: /developer_guide/index.html
 
 # Hello World
 
@@ -56,24 +59,26 @@ Simple Hello World HTTP example.
 
 Hexagon's high-level features.
 
-* [Simple to Use](/quick_start.md): Hexagon is focused in allowing you to use the features you use
-  the most in your daily coding in the easiest way.
+* [Simple to Use](/quick_start/index.html): Hexagon is focused in allowing you to use the features
+  you use the most in your daily coding in the easiest way.
     
 * [Easy to Hack](https://github.com/hexagonkt/hexagon/blob/master/contributing.md): The library is
   done to be lean and simple so you can tweak it to suit your needs instead relying on third
   parties.
   
-* [Pluggable Adapters](/documentation.html): Adding an adapter is just implementing the port's
-  interface. You can code your own adapters from scratch or tune the existing ones.
+* [Pluggable Adapters](/developer_guide/index.html): Adding an adapter is just implementing the
+  port's interface. You can code your own adapters from scratch or tune the existing ones.
     
 * [Kotlin First](http://kotlinlang.org): The library is coded in Kotlin for coding with Kotlin. No
   strings attached to Java (as a Language).
     
 * [Properly Tested](https://github.com/hexagonkt/hexagon#status): Project's coverage is checked in
-  every Pull Request. It is also stress tested at TechEmpower Frameworks Benchmark.
+  every Pull Request. It is also stress tested at [TechEmpower Frameworks Benchmark][benchmark].
     
-* [Modular](/documentation.html): Each feature is isolated in its own module. Use only the modules
-  you need without unneeded dependencies.
+* [Modular](/developer_guide/index.html): Each feature is isolated in its own module. Use only the
+  modules you need without unneeded dependencies.
+
+[benchmark]: https://www.techempower.com/benchmarks
 
 # Architecture
 

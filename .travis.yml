@@ -3,7 +3,6 @@
 # https://docs.travis-ci.com/user/encrypting-files
 #
 
-# TODO Use Docker instead services
 language: java
 jdk: openjdk8
 
@@ -38,18 +37,15 @@ cache:
 
 services:
   - docker
-  - mongodb
-  - rabbitmq
-  - postgresql
 
 install:
   # Git set up is required for release tag creation
   - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
-  - mongo hexagon_benchmark/mongodb.js
-  - psql -U postgres -f hexagon_benchmark/postgresql.sql
+  - sudo /etc/init.d/postgresql stop
+  - docker-compose up -d
 
 script:
-  - ./gradlew --quiet --stacktrace clean sonarqube all mkdocs
+  - ./gradlew --quiet --stacktrace clean sonarqube all
   - docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.1.2 build
 
 after_success: bash <(curl -s https://codecov.io/bash)
