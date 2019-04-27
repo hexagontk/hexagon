@@ -31,6 +31,7 @@
 </p>
 
 <p align="center">
+  <a href="https://hexagonkt.com/index.html">Home Site</a> |
   <a href="https://hexagonkt.com/quick_start/index.html">Quick Start</a> |
   <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a>
 </p>
@@ -87,10 +88,10 @@ Hexagon Core module provides convenience utilities. The main features it has are
 * [Instance Serialization]: parse/serialize data in different formats to class instances.
 * [Configuration Settings]: load settings from different data sources and formats.
 
-[Helpers]: http://hexagonkt.com/hexagon_core/index.html#helpers
-[Dependency Injection]: http://hexagonkt.com/hexagon_core/index.html#dependency-injection
-[Instance Serialization]: http://hexagonkt.com/hexagon_core/index.html#instance-serialization
-[Configuration Settings]: http://hexagonkt.com/hexagon_core/index.html#configuration-settings
+[Helpers]: http://hexagonkt.com/hexagon_core/com.hexagonkt.helpers
+[Dependency Injection]: http://hexagonkt.com/hexagon_core/com.hexagonkt.injection
+[Instance Serialization]: http://hexagonkt.com/hexagon_core/com.hexagonkt.serialization
+[Configuration Settings]: http://hexagonkt.com/hexagon_core/com.hexagonkt.settings
 
 ## Simple HTTP service
 

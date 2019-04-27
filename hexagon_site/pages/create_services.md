@@ -1,8 +1,10 @@
 
-# From scratch
+# Cloning a Starter repository
 
-To build Hexagon services you have some Gradle helpers that you can use on your own project. To
-use them, you can use the online versions, or copy them to your `gradle` directory.
+To create a new Hexagon service, you can clone a minimum running example using the [Gradle Starter]
+or the [Maven Starter].
+
+# From scratch
 
 You can write a [Gradle] project from scratch (Gradle 5 or newer is required) using the following
 `build.gradle`:
@@ -29,14 +31,19 @@ dependencies {
 # From a template
 
 You can create a service from a [Lazybones] template. To do so type:
-`lazybones create hexagon-service service`
+`lazybones create hexagon-service srvName`
 
 ```bash
 curl -s get.sdkman.io | bash && source ~/.sdkman/bin/sdkman-init.sh
 sdk i lazybones
 mkdir ~/.lazybones
 lazybones config set bintrayRepositories pledbrook/lazybones-templates jamming/maven
-lazybones create hexagon-service service -Pgroup=org.example -Pversion=0.1 -Pdescription=Description
-cd service
-gradle/wrapper
+lazybones create hexagon-service srvName -Pgroup=org.example -Pversion=0.1 -Pdescription=Description
+cd srvName
+./gradlew
 ```
+
+[Gradle Starter]: https://github.com/hexagonkt/gradle_starter
+[Maven Starter]: https://github.com/hexagonkt/maven_starter
+[Gradle]: https://gradle.org
+[Lazybones]: https://github.com/pledbrook/lazybones
