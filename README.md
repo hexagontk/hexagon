@@ -31,6 +31,7 @@
 </p>
 
 <p align="center">
+  <a href="https://hexagonkt.com/index.html">Home Site</a> |
   <a href="https://hexagonkt.com/quick_start/index.html">Quick Start</a> |
   <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a>
 </p>

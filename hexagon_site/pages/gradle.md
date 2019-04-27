@@ -18,6 +18,9 @@ For examples and reference, check [.travis.yml], [build.gradle] and [gradle.prop
 
 These scripts can be added to your build to include a whole new capability to your building logic.
 
+To use them, you can import the online versions, or copy them to your `gradle` directory before
+importing the script.
+
 ## Bintray
 
 This script setup the project/module for publishing in [Bintray].
