@@ -31,8 +31,8 @@
 </p>
 
 <p align="center">
-  <a href="https://hexagonkt.com/quick_start.html">Quick Start</a> |
-  <a href="https://hexagonkt.com/developer_guide.html">Developer Guide</a>
+  <a href="https://hexagonkt.com/quick_start/index.html">Quick Start</a> |
+  <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a>
 </p>
 
 ---
@@ -161,7 +161,7 @@ You can check the [Developer Guide] for more details. Or you can clone the [Grad
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
 [Endpoint]: http://localhost:2010/hello/world
-[Developer Guide]: http://hexagonkt.com/developer_guide.html
+[Developer Guide]: http://hexagonkt.com/developer_guide/index.html
 
 ## Books Example
 

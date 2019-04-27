@@ -1,4 +1,26 @@
 
+# Hexagon Structure
+
+There are three kind of client libraries:
+
+* The ones that provide a single functionality that does not depend on different implementations.
+* Modules that define a "Port": An interface to a feature that may have different implementations.
+* Adapter modules, which are Port implementations for a given tool.
+  
+Ports are independent from each other.
+
+Hexagon Core module provides convenience utilities. The main features it has are:
+
+* [Helpers]: JVM information, a logger and other useful utilities.
+* [Dependency Injection]: bind classes to creation closures or instances and inject them.
+* [Instance Serialization]: parse/serialize data in different formats to class instances.
+* [Configuration Settings]: load settings from different data sources and formats.
+
+[Helpers]: /hexagon_core/com.hexagonkt.helpers
+[Dependency Injection]: /hexagon_core/com.hexagonkt.injection
+[Instance Serialization]: /hexagon_core/com.hexagonkt.serialization
+[Configuration Settings]: /hexagon_core/com.hexagonkt.settings
+
 # Toolkit Structure
 
 The project is developed as a set of [libraries][frameworks] that you call as opposed to

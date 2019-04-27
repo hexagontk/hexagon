@@ -1,50 +1,24 @@
 
-# Hexagon Structure
-
-There are three kind of client libraries:
-
-* The ones that provide a single functionality that does not depend on different implementations.
-* Modules that define a "Port": An interface to a feature that may have different implementations.
-* Adapter modules, which are Port implementations for a given tool.
-  
-Ports are independent from each other.
-
-Hexagon Core module provides convenience utilities. The main features it has are:
-
-* [Helpers]: JVM information, a logger and other useful utilities.
-* [Dependency Injection]: bind classes to creation closures or instances and inject them.
-* [Instance Serialization]: parse/serialize data in different formats to class instances.
-* [Configuration Settings]: load settings from different data sources and formats.
-
-[Helpers]: /hexagon_core/com.hexagonkt.helpers
-[Dependency Injection]: /hexagon_core/com.hexagonkt.injection
-[Instance Serialization]: /hexagon_core/com.hexagonkt.serialization
-[Configuration Settings]: /hexagon_core/com.hexagonkt.settings
-
 # Simple HTTP service
 
-You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
-from scratch following these steps:
+To create a sample service, you can clone a starter project ([Gradle Starter] or [Maven Starter]).
+Or you can create a project from scratch following these steps:
 
 1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
 2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
-3. Add the dependency:
+3. Add the dependency in [Gradle] or [Maven]:
 
-  * In Gradle. Import it inside `build.gradle`:
+```groovy tab="build.gradle"
+compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
+```
 
-    ```groovy
-    compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
-    ```
-
-  * In Maven. Declare the dependency in `pom.xml`:
-
-    ```xml
-    <dependency>
-      <groupId>com.hexagonkt</groupId>
-      <artifactId>http_server_jetty</artifactId>
-      <version>$hexagonVersion</version>
-    </dependency>
-    ```
+```xml tab="pom.xml"
+<dependency>
+  <groupId>com.hexagonkt</groupId>
+  <artifactId>http_server_jetty</artifactId>
+  <version>$hexagonVersion</version>
+</dependency>
+```
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
@@ -57,11 +31,14 @@ You can check the [Developer Guide] for more details. Or you can clone the [Grad
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
+[Kotlin]: https://kotlinlang.org
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
+[Gradle]: https://gradle.org
+[Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello/world
-[Developer Guide]: /developer_guide.html
+[Developer Guide]: /developer_guide/index.html
 
 # Books Example
 
