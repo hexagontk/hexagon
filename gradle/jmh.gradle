@@ -18,15 +18,15 @@ dependencies {
 }
 
 jmh {
-    final String projectIterations = findProjectProperty("iterations")
-    final String projectBenchmarkModes = findProjectProperty("benchmarkModes")
-    final String projectBatchSize = findProjectProperty("batchSize")
-    final String projectFork = findProjectProperty("fork")
-    final String projectOperationsPerInvocation = findProjectProperty("operationsPerInvocation")
-    final String projectTimeOnIteration = findProjectProperty("timeOnIteration")
-    final String projectWarmup = findProjectProperty("warmup")
-    final String projectWarmupBatchSize = findProjectProperty("warmupBatchSize")
-    final String projectWarmupIterations = findProjectProperty("warmupIterations")
+    final String projectIterations = findProperty("iterations")
+    final String projectBenchmarkModes = findProperty("benchmarkModes")
+    final String projectBatchSize = findProperty("batchSize")
+    final String projectFork = findProperty("fork")
+    final String projectOperationsPerInvocation = findProperty("operationsPerInvocation")
+    final String projectTimeOnIteration = findProperty("timeOnIteration")
+    final String projectWarmup = findProperty("warmup")
+    final String projectWarmupBatchSize = findProperty("warmupBatchSize")
+    final String projectWarmupIterations = findProperty("warmupIterations")
 
     iterations = projectIterations.toInteger() ?: 5
     benchmarkMode = projectBenchmarkModes.split (",").collect { it.trim() } ?: [ "all" ]
@@ -38,9 +38,5 @@ jmh {
     warmupBatchSize = projectWarmupBatchSize.toInteger() ?: 5
     warmupIterations = projectWarmupIterations.toInteger() ?: 1
 
-    jmhVersion = project.ext.jmhBenchmarkVersion
-}
-
-private String findProjectProperty(final String name) {
-    return findProperty("$project.name${name.capitalize ()}").toString()
+    jmhVersion = rootProject.ext.jmhBenchmarkVersion
 }
