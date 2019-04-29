@@ -1,7 +1,9 @@
 
 # Build Variables
 
-It is possible to add/change variables of a build from the following places:
+The build process and imported build scripts (like the ones documented here) use variables to
+customize their behaviour. It is possible to add/change variables of a build from the following
+places:
 
 1. In the project's `gradle.properties` file.
 2. In your user's gradle configuration: `~/.gradle/gradle.properties`.
@@ -21,6 +23,10 @@ These scripts can be added to your build to include a whole new capability to yo
 To use them, you can import the online versions, or copy them to your `gradle` directory before
 importing the script.
 
+You can import these scripts by adding add `apply from: $gradleScripts/$script.gradle` to your
+`build.gradle` file some of them may require additional plugins inside the `plugins` section in the
+root `build.gradle`. Check toolkit's `build.gradle` files for examples.
+
 ## Bintray
 
 This script setup the project/module for publishing in [Bintray].
@@ -29,8 +35,8 @@ It publishes all artifacts attached to the `mavenJava` publication (check [kotli
 section) at the bare minimum binaries are published. For an Open Source project, you must include
 sources and javadoc also.
 
-To use it you should add `apply from: $gradleScripts/bintray.gradle` to your `build.gradle` script
-and `id 'com.jfrog.bintray' version 'VERSION'` to your `plugins` section in the root `build.gradle`.
+To use it apply `$gradleScripts/bintray.gradle` and add the
+`id 'com.jfrog.bintray' version 'VERSION'` plugin to the root `build.gradle`.
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
 
@@ -52,9 +58,8 @@ JARs.
 All modules' Markdown files are added to the documentation and all test classes are available to be
 referenced as samples.
 
-To use it you should add `apply from: $gradleScripts/dokka.gradle` to your `build.gradle` script
-and `id 'org.jetbrains.dokka' version 'VERSION'` to your `plugins` section in the root
-`build.gradle`.
+To use it apply `$gradleScripts/dokka.gradle` and add the
+`id 'org.jetbrains.dokka' version 'VERSION'` plugin to the root `build.gradle`.
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
 
@@ -70,7 +75,7 @@ Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (l
 For image rendering you will need [rsvg] (librsvg2-bin) and [imagemagick] installed in the
 development machine.
 
-To use it you should add `apply from: $gradleScripts/icons.gradle` to your `build.gradle`.
+To use it apply `$gradleScripts/icons.gradle` to your `build.gradle`.
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
 
@@ -84,11 +89,27 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 ## JMH
 
-To use it you should add `apply from: $gradleScripts/jmh.gradle` to your `build.gradle` script
-and `id 'me.champeau.gradle.jmh' version 'VERSION'` to your `plugins` section in the root
-`build.gradle`.
+This scripts adds support for running JMH micro benchmarks.
 
-Sample benchmark:
+To use it apply `$gradleScripts/jmh.gradle` and add the
+`id 'me.champeau.gradle.jmh' version 'VERSION'` plugin to the root `build.gradle`.
+
+To setup this script's parameters, check the [build variables section]. This helper settings are:
+
+* jmhBenchmarkVersion: JMH version. The default is 1.21.
+* iterations (REQUIRED): number of measurement iterations to do.
+* benchmarkModes (REQUIRED): benchmark mode. Available modes are:
+  Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all
+* batchSize (REQUIRED): number of benchmark method calls per operation (some benchmark modes can
+  ignore this setting).
+* fork (REQUIRED): how many times to forks a single benchmark. Use 0 to disable forking altogether.
+* operationsPerInvocation (REQUIRED): operations per invocation.
+* timeOnIteration (REQUIRED): time to spend at each measurement iteration.
+* warmup (REQUIRED): time to spend at each warmup iteration.
+* warmupBatchSize (REQUIRED): number of benchmark method calls per operation.
+* warmupIterations (REQUIRED): number of warmup iterations to do.
+
+Sample benchmark code:
 
 ```kotlin
 import org.openjdk.jmh.annotations.Benchmark
@@ -108,23 +129,29 @@ open class Benchmark {
 
 ## Kotlin
 
-Sets up Kotlin's Gradle plugin: Adds Kotlin libraries, setup coverage report, filter project
-resources with build variables. To use it you need to:
+Adds Kotlin's Gradle plugin. It sets up:
 
-- Define the `kotlinVersion` variable to `gradle.properties` file.
-- Define the `kotlinCoroutinesVersion` variable to `gradle.properties` file.
+- Java version
+- Repositories
+- Kotlin dependencies
+- Resource processing (replacing build variables)
+- Cleaning (deleting logs and dumps files)
+- Tests (ITs, unit, pass properties, output)
+- Setup coverage report
+- Published artifacts (binaries, sources and test): sourceJar and testJar tasks
+- Jar with dependencies: jarAll task
 
-Helps with:
+To use it apply `$gradleScripts/kotlin.gradle` and add the
+`id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to the root `build.gradle`.
 
-* Setting Java version
-* Repositories
-* Kotlin dependencies
-* Resource processing
-* Tests (ITs, unit, pass properties, output)
-* Published artifacts (binaries, sources and test)
-* Jar with dependencies
+To setup this script's parameters, check the [build variables section]. This helper settings are:
+
+* kotlinVersion (REQUIRED): Kotlin version.
+* kotlinCoroutinesVersion (REQUIRED): Kotlin coroutines version.
 
 ## Kotlin JS
+
+TODO COMPLETE THIS DOCUMENTATION
 
 This script must be applied at the end of the build script.
  
@@ -132,16 +159,18 @@ Applying this script at the beginning won't work until it allows dependencies to
 
 ## Service
 
-Gradle's script for a service or application.
+Gradle's script for a service or application. It adds two extra tasks:
 
-Extra tasks:
-
-* buildInfo : add configuration file with build variables to the package
-* runService : Run the service in another thread. This allow the possibility to 'watch' source
+* buildInfo: add configuration file (`service.properties`) with build variables to the package.
+* runService: Run the service in another thread. This allow the possibility to 'watch' source
   changes. To run the services and watch for changes you need to execute this task with the
-  `--continuous` (`-t`) Gradle flag. Ie: `gw -t runService`
+  `--continuous` (`-t`) Gradle flag. Ie: `gw -t runService`.
+
+To use it apply `$gradleScripts/service.gradle` to your `build.gradle`.
 
 ## JBake
+
+TODO COMPLETE THIS DOCUMENTATION
 
 To generate the site execute: `gw bake` and to test it run: `gw bakePreview`.
 
@@ -174,10 +203,13 @@ configuration['uri.noExtension.prefix'] = '/'
 
 Set up the project to be analyzed by the [SonarQube instance running in the cloud][sonarcloud].
 
+To use it apply `$gradleScripts/sonarqube.gradle` and add the
+`id 'org.sonarqube' version 'VERSION'` plugin to the root `build.gradle`.
+
 The available configuration parameters are:
 
-* sonarqubeProject (REQUIRED):
-* sonarqubeOrganization (REQUIRED):
+* sonarqubeProject (REQUIRED): ID used to locate the project in SonarQube host.
+* sonarqubeOrganization (REQUIRED): organization owning the project.
 * sonarqubeHost: SonarQube server to be used. By default it is: `https://sonarcloud.io`.
 * sonarqubeToken (REQUIRED): If not set, the `SONARQUBE_TOKEN` environment variable will be used.
 
@@ -186,3 +218,9 @@ The available configuration parameters are:
 ## TestNG
 
 Uses TestNG as the test framework.
+
+To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
+
+The available configuration parameters are:
+
+* testngVersion: TestNG version, the default value is: 6.14.3.
