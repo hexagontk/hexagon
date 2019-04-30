@@ -42,6 +42,9 @@ For the public API of the library's classes and methods. The following rules are
 
 Hexagon build process requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
+For `rabbitmq` container to work properly, you should follow the Docker setup described in:
+[https://www.rabbitmq.com/install-debian.html] (inside the "With Docker" section)
+
 You can build the project, generate the documentation and install it in your local repository
 typing:
 

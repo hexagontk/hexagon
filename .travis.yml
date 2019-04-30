@@ -6,6 +6,9 @@
 language: java
 jdk: openjdk8
 
+git:
+  depth: false
+
 branches:
   only:
     - /^hotfix.*$/

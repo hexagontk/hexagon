@@ -48,7 +48,7 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 [Bintray]: https://bintray.com
 [kotlin.gradle]: https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle
-[build variables section]: /gradle/variables.html
+[build variables section]: /gradle/#build-variables
 
 ## Dokka
 
@@ -66,7 +66,6 @@ To setup this script's parameters, check the [build variables section]. This hel
 * dokkaOutputFormat (optional): documentation format. By default it is `gfm`.
 
 [Dokka]: https://github.com/Kotlin/dokka
-[build variables section]: /gradle/variables.html
 
 ## Icons
 
@@ -85,11 +84,10 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 [rsvg]: https://github.com/GNOME/librsvg
 [imagemagick]: https://www.imagemagick.org
-[build variables section]: /gradle.html#build-variables
 
 ## JMH
 
-This scripts adds support for running JMH micro benchmarks.
+This scripts adds support for running [JMH micro benchmarks][JMH].
 
 To use it apply `$gradleScripts/jmh.gradle` and add the
 `id 'me.champeau.gradle.jmh' version 'VERSION'` plugin to the root `build.gradle`.
@@ -127,6 +125,8 @@ open class Benchmark {
 }
 ```
 
+[JMH]: https://openjdk.java.net/projects/code-tools/jmh
+
 ## Kotlin
 
 Adds Kotlin's Gradle plugin. It sets up:
@@ -151,11 +151,23 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 ## Kotlin JS
 
-TODO COMPLETE THIS DOCUMENTATION
+This script provides the following tasks for compiling Kotlin to JavaScript:
 
-This script must be applied at the end of the build script.
+* `jsAll`: compiles the project to JavaScript including all of
+  its dependencies. It copies all the resulting files to `build/js`.
+* `assembleWeb`: copies all project resources and JavaScript files to `build/web`.
+
+IMPORTANT: This script must be applied at the end of the build script.
+
+To use it apply `$gradleScripts/kotlin_js.gradle` at the end of the build script, also apply the
+`kotlin2js` plugin. And finally, add the `id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to
+the root `build.gradle`.
  
 Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).
+
+To setup this script's parameters, check the [build variables section]. This helper settings are:
+
+* javaScriptDirectory: JavaScript directory inside the `web` directory. By default it is: "js".
 
 ## Service
 
@@ -170,25 +182,15 @@ To use it apply `$gradleScripts/service.gradle` to your `build.gradle`.
 
 ## JBake
 
-TODO COMPLETE THIS DOCUMENTATION
+Adds support for site generation using [JBake].
 
 To generate the site execute: `gw bake` and to test it run: `gw bakePreview`.
 
-The site will be served at: [http://localhost:8888](http://localhost:8888). You can change the port
-defining the `sitePort` variable inside `gradle.properties`.
+The preview site will be served at: [http://localhost:8888](http://localhost:8888). You can change
+the port defining the `sitePort` variable inside `gradle.properties`.
 
-Adds support for site generation (with API documentation and reports).
-
-To apply this script, you need to add the JBake plugin manually at the top of your build script
-as that is not possible in included scripts like this one. These are the required lines to do so:
-
-```gradle
-plugins {
-    id "org.jbake.site" version "1.4.0"
-}
-```
-
-Generate service documentation site.
+To use it apply `$gradleScripts/jbake.gradle` and add the
+`id 'org.jbake.site' version 'VERSION'` plugin to the root `build.gradle`.
 
 JBake `content` folder can not be changed (it seems a bug).
 
@@ -199,6 +201,15 @@ configuration['uri.noExtension'] = true
 configuration['uri.noExtension.prefix'] = '/'
 ```
 
+To setup this script's parameters, check the [build variables section]. This helper settings are:
+
+* siteHost: site canonical URL, by default it is: "".
+* configData: JBake settings map. It is an empty map by default.
+* jbakeVersion: JBake version. By default: "2.6.4".
+* sitePort: preview site port for development. It is "8888" if not set.
+
+[JBake]: https://jbake.org
+
 ## SonarQube
 
 Set up the project to be analyzed by the [SonarQube instance running in the cloud][sonarcloud].
@@ -206,7 +217,7 @@ Set up the project to be analyzed by the [SonarQube instance running in the clou
 To use it apply `$gradleScripts/sonarqube.gradle` and add the
 `id 'org.sonarqube' version 'VERSION'` plugin to the root `build.gradle`.
 
-The available configuration parameters are:
+To setup this script's parameters, check the [build variables section]. This helper settings are:
 
 * sonarqubeProject (REQUIRED): ID used to locate the project in SonarQube host.
 * sonarqubeOrganization (REQUIRED): organization owning the project.
@@ -221,6 +232,6 @@ Uses TestNG as the test framework.
 
 To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
 
-The available configuration parameters are:
+To setup this script's parameters, check the [build variables section]. This helper settings are:
 
 * testngVersion: TestNG version, the default value is: 6.14.3.
