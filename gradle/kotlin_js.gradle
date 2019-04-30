@@ -27,7 +27,7 @@ clean {
     delete("build", "out")
 }
 
-task("assembleWeb", type: Sync, dependsOn: classes) {
+task("jsAll", type: Sync, dependsOn: "classes") {
     configurations.compile.each { File file ->
         from(zipTree(file.absolutePath)) {
             includeEmptyDirs = false
@@ -40,14 +40,26 @@ task("assembleWeb", type: Sync, dependsOn: classes) {
         }
     }
 
-    from("$buildDir/resources/main")
-
     from(compileKotlin2Js.destinationDir) {
         includeEmptyDirs = false
         include("**/*.js")
     }
 
-    into("$buildDir/web")
+    into("$buildDir/js")
+}
+
+task("assembleWeb", type: Sync, dependsOn: "jsAll") {
+    doFirst {
+        copy {
+            from("$buildDir/resources/main")
+            into("$buildDir/web")
+        }
+    }
+
+    final String javaScriptDirectory = findProperty("javaScriptDirectory") ?: "js"
+    
+    from("$buildDir/js")
+    into("$buildDir/web/$javaScriptDirectory")
 }
 
 assemble.dependsOn("assembleWeb")
