@@ -1,3 +1,9 @@
+#
+# Check `contributing.md` for project build instructions.
+#
+# IMPORTANT: For `rabbitmq` container to work properly, you should follow the setup described in:
+# https://www.rabbitmq.com/install-debian.html (inside the "With Docker" section)
+#
 
 version: '3'
 
@@ -19,10 +25,6 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.7.14
-#    image: bitnami/rabbitmq:3.7.14
-#    environment:
-#      RABBITMQ_USERNAME: guest
-#      RABBITMQ_PASSWORD: guest
     ports:
       - 5672:5672
       - 15672:15672
