@@ -1,8 +1,11 @@
 
 # Simple HTTP service
 
-To create a sample service, you can clone a starter project ([Gradle Starter] or [Maven Starter]).
-Or you can create a project from scratch following these steps:
+In this guide, we are going to create a sample HTTP service. You can read the [Core] or
+[HTTP Server] modules documentation for more information.
+
+You can start by cloning a starter project ([Gradle Starter] or [Maven Starter]). Or you can create
+a project from scratch following these steps:
 
 1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
 2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
@@ -39,6 +42,8 @@ You can check the [Developer Guide] for more details. Or you can clone the [Grad
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello/world
 [Developer Guide]: /developer_guide/index.html
+[Core]: /hexagon_core/index.html
+[HTTP Server]: /port_http_server/index.html
 
 # Books Example
 

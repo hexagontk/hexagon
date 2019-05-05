@@ -1,13 +1,12 @@
 
 # Module hexagon_core
 
-This module holds utilities used in other libraries of the toolkit
+This module holds utilities used in other libraries of the toolkit. Check the packages documentation
+for more details.
 
 # Package com.hexagonkt.helpers
 
-JVM information, a logger and other useful utilities. This is more stuff.
-
-Another paragraph.
+JVM information, a logger class and other useful utilities.
 
 # Package com.hexagonkt.http
 
