@@ -5,6 +5,9 @@ import java.lang.System.nanoTime
 import kotlin.reflect.KClass
 import org.slf4j.Logger as Slf4jLogger
 
+/**
+ * @param type .
+ */
 class Logger(type: KClass<*>) {
 
     private companion object {

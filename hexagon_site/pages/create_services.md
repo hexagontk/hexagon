@@ -6,7 +6,7 @@ or the [Maven Starter].
 
 # From scratch
 
-You can write a [Gradle] project from scratch (Gradle 5 or newer is required) using the following
+You can write a [Gradle] project from scratch (Gradle 5.3 or newer is required) using the following
 `build.gradle`:
 
 ```groovy

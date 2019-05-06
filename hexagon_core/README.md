@@ -2,7 +2,19 @@
 # Module hexagon_core
 
 This module holds utilities used in other libraries of the toolkit. Check the packages documentation
-for more details.
+for more details. Quick examples:
+
+### Logger
+
+```kotlin
+
+```
+
+### Dependency injection
+
+### Serialization
+
+### Settings
 
 # Package com.hexagonkt.helpers
 
