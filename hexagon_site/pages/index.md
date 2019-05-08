@@ -42,12 +42,15 @@ It is designed to fit in applications that conforms to the [Hexagonal Architectu
 
 * To see some simple examples you can read the [Quick Start] page.
 * For more information you can check the [Developer Guide].
+* You can read the [Core] or [HTTP Server] modules documentation.
 
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 [Quick Start]: /quick_start/index.html
 [Developer Guide]: /developer_guide/index.html
+[Core]: /hexagon_core/index.html
+[HTTP Server]: /port_http_server/index.html
 
 # Hello World
 

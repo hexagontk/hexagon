@@ -18,7 +18,7 @@ Hexagon starter project using Gradle as the build tool. The source code is insid
 Hexagon example service built with Maven. The sources are located [here][maven_starter_example].
 
 [benchmark]: https://www.techempower.com/benchmarks
-[benchmark_example]: https://github.com/hexagonkt/hexagon/tree/master/hexagon_benchmark
+[benchmark_example]: https://github.com/hexagonkt/tfb/tree/master/frameworks/Kotlin/hexagon
 [flyhopper_example]: https://github.com/hexagonkt/flyhopper
 [gradle_starter_example]: https://github.com/hexagonkt/gradle_starter
 [maven_starter_example]: https://github.com/hexagonkt/maven_starter

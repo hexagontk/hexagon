@@ -5,6 +5,16 @@ import java.lang.System.nanoTime
 import kotlin.reflect.KClass
 import org.slf4j.Logger as Slf4jLogger
 
+/**
+ * Logger class with Kotlin improvements like lazy evaluation. It is backed by a SLF4J compatible
+ * logger.
+ *
+ * Usage example:
+ *
+ * @sample com.hexagonkt.helpers.HelpersSamplesTest.loggerUsage
+ *
+ * @param type Logger type. It is shown in the logs messages and used for log filtering.
+ */
 class Logger(type: KClass<*>) {
 
     private companion object {
