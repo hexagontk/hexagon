@@ -15,6 +15,14 @@ The following code block shows the most common use cases for the [Logger] class:
 
 ### Dependency injection
 
+You can take advantage of dependency injection using the [InjectionManager] object.
+
+Check this sample to bind constructor functions or objects to classes, and inject them later:
+
+@sample hexagon_core/src/test/kotlin/com/hexagonkt/helpers/HelpersSamplesTest.kt:injectionUsage
+
+[InjectionManager]: com.hexagonkt.injection/-injection-manager/index.md
+
 ### Serialization
 
 ### Settings
