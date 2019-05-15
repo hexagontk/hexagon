@@ -9,7 +9,7 @@ below.
 
 The following code block shows the most common use cases for the [Logger] class:
 
-@sample hexagon_core/src/test/kotlin/com/hexagonkt/helpers/HelpersSamplesTest.kt:logger
+@sample hexagon_core/src/test/kotlin/com/hexagonkt/HexagonCoreSamplesTest.kt:logger
 
 [Logger]: com.hexagonkt.helpers/-logger/index.md
 
@@ -19,13 +19,20 @@ You can take advantage of dependency injection using the [InjectionManager] obje
 
 Check this sample to bind constructor functions or objects to classes, and inject them later:
 
-@sample hexagon_core/src/test/kotlin/com/hexagonkt/helpers/HelpersSamplesTest.kt:injectionUsage
+@sample hexagon_core/src/test/kotlin/com/hexagonkt/HexagonCoreSamplesTest.kt:injectionUsage
 
 [InjectionManager]: com.hexagonkt.injection/-injection-manager/index.md
 
 ### Serialization
 
+The core module has utilities to serialize/parse data classes to JSON and YAML. Read the following
+snippet for details:
+
+@sample hexagon_core/src/test/kotlin/com/hexagonkt/HexagonCoreSamplesTest.kt:serializationUsage
+
 ### Settings
+
+@sample hexagon_core/src/test/kotlin/com/hexagonkt/HexagonCoreSamplesTest.kt:settingsUsage
 
 # Package com.hexagonkt.helpers
 

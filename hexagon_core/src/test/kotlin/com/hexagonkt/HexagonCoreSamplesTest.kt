@@ -1,11 +1,14 @@
-package com.hexagonkt.helpers
+package com.hexagonkt
 
+import com.hexagonkt.helpers.Jvm
+import com.hexagonkt.helpers.Logger
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.injection.InjectionManager
 import org.testng.annotations.Test
 import java.lang.IllegalStateException
 import java.util.*
 
-class HelpersSamplesTest {
+class HexagonCoreSamplesTest {
 
     @Suppress("RedundantExplicitType")
     @Test fun loggerUsage() {
@@ -75,5 +78,15 @@ class HelpersSamplesTest {
         assert(defaultString == "STR")
         assert(taggedString == "Hexagon")
         assert(InjectionManager.inject<String>() === InjectionManager.inject<String>())
+    }
+
+    @Test fun serializationUsage() {
+        // serializationUsage
+        // serializationUsage
+    }
+
+    @Test fun settingsUsage() {
+        // settingsUsage
+        // settingsUsage
     }
 }
