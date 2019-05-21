@@ -10,7 +10,7 @@ class InjectionManagerTest {
 
     @Test(expectedExceptions = [ IllegalStateException::class ])
     fun `Inject not bound class throws exception`() {
-        inject<String>()
+        inject<Test>()
     }
 
     @Test fun `DI just works`() {

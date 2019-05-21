@@ -11,7 +11,7 @@ import org.slf4j.Logger as Slf4jLogger
  *
  * Usage example:
  *
- * @sample com.hexagonkt.helpers.HelpersSamplesTest.loggerUsage
+ * @sample com.hexagonkt.HexagonCoreSamplesTest.loggerUsage
  *
  * @param type Logger type. It is shown in the logs messages and used for log filtering.
  */

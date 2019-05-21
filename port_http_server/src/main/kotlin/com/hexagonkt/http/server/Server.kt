@@ -24,12 +24,12 @@ import java.net.InetAddress.getByName as address
  *
  * TODO Write documentation.
  */
-data class Server (
+data class Server(
     private val serverPort: ServerPort,
     val router: Router,
-    val serverName: String = Server.DEFAULT_NAME,
-    val bindAddress: InetAddress = address(Server.DEFAULT_ADDRESS),
-    val bindPort: Int = Server.DEFAULT_PORT
+    val serverName: String = DEFAULT_NAME,
+    val bindAddress: InetAddress = address(DEFAULT_ADDRESS),
+    val bindPort: Int = DEFAULT_PORT
 ) {
 
     internal companion object {

@@ -9,7 +9,7 @@ object InjectionManager {
     private var registry: Map<Pair<KClass<*>, *>, () -> Any> = emptyMap()
 
     fun <T : Any, R : T> bind(type: KClass<T>, parameter: Any, provider: () -> R) {
-        registry += (type to parameter) to provider
+        registry = registry + ((type to parameter) to provider)
     }
 
     fun <T : Any, R : T> bind(type: KClass<T>, provider: () -> R) {
