@@ -7,8 +7,8 @@ import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
+import com.hexagonkt.settings.*
 import org.testng.annotations.Test
-import java.lang.IllegalStateException
 import java.time.LocalDate
 import java.util.*
 
@@ -76,9 +76,9 @@ class HexagonCoreSamplesTest {
 
         assert(currentSqlDate is java.sql.Date)
         assert(currentSqlDate.time == millis)
+        assert(nextHourSqlDate.time == millis + 3_600_000)
         assert(currentSqlDateInferredType.time <= millis)
         assert(nextHourSqlDate is java.sql.Date)
-        assert(nextHourSqlDate.time == millis + 3_600_000)
         assert(nextHourSqlDateInferredType.time <= millis + 3_600_000)
         assert(defaultString == "STR")
         assert(taggedString == "Hexagon")
@@ -99,6 +99,15 @@ class HexagonCoreSamplesTest {
 
     @Test fun settingsUsage() {
         // settingsUsage
+        SettingsManager.settingsSources += ObjectSource(
+            "stringProperty" to "str",
+            "integerProperty" to 101,
+            "booleanProperty" to true
+        )
+
+        assert(SettingsManager.settings["stringProperty"] == "str")
+        assert(SettingsManager.settings["integerProperty"] == 101)
+        assert(SettingsManager.settings["booleanProperty"] == true)
         // settingsUsage
     }
 }
