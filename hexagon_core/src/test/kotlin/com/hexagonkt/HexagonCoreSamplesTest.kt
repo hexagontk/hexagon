@@ -75,8 +75,8 @@ class HexagonCoreSamplesTest {
         val millis = System.currentTimeMillis()
 
         assert(currentSqlDate is java.sql.Date)
-        assert(currentSqlDate.time == millis)
-        assert(nextHourSqlDate.time == millis + 3_600_000)
+        assert(currentSqlDate.time <= millis)
+        assert(nextHourSqlDate.time <= millis + 3_600_000)
         assert(currentSqlDateInferredType.time <= millis)
         assert(nextHourSqlDate is java.sql.Date)
         assert(nextHourSqlDateInferredType.time <= millis + 3_600_000)
