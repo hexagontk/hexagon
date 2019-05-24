@@ -25,6 +25,6 @@
     <appender-ref ref="file" />
   </root>
 
-  <logger name="com.hexagonkt" level="info" />
+  <logger name="com.hexagonkt" level="off" />
   <logger name="${group}" level="trace" />
 </configuration>
