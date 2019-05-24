@@ -17,5 +17,5 @@
   </root>
 
   <logger name="com.rabbitmq" level="off" />
-  <logger name="com.hexagonkt" level="trace" />
+  <logger name="com.hexagonkt" level="off" />
 </configuration>
