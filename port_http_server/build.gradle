@@ -6,7 +6,7 @@ apply(from: "../gradle/testng.gradle")
 
 // Overridden because this test bundle requires the templates
 testJar {
-    classifier = "test"
+    archiveClassifier.set("test")
     from(sourceSets.test.output)
     exclude([ "*.yaml", "*.yml", "*.properties", "*.xml" ])
 }
