@@ -49,6 +49,9 @@ task("jsAll", type: Sync, dependsOn: "classes") {
 }
 
 task("assembleWeb", type: Sync, dependsOn: "jsAll") {
+
+    // TODO Set 'inputs' to know when to execute
+    
     doFirst {
         copy {
             from("$buildDir/resources/main")

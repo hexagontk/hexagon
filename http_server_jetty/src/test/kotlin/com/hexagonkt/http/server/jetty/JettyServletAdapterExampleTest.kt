@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server.jetty
 
+import com.hexagonkt.http.server.PortHttpServerSamplesTest
 import com.hexagonkt.http.server.examples.*
 import com.hexagonkt.web.examples.TodoTest
 import org.testng.annotations.Test
@@ -15,6 +16,7 @@ val asyncAdapter = JettyServletAdapter(true)
 @Test class JettyServletAdapterFilesTest : FilesTest(adapter)
 @Test class JettyServletAdapterGenericTest : GenericTest(adapter)
 @Test class JettyServletAdapterTodoTest : TodoTest(adapter)
+@Test class JettyServletAdapterSamplesTest : PortHttpServerSamplesTest(adapter)
 
 @Test class JettyServletAdapterAsyncBooksTest : BooksTest(asyncAdapter)
 @Test class JettyServletAdapterAsyncCookiesTest : CookiesTest(asyncAdapter)
@@ -24,3 +26,4 @@ val asyncAdapter = JettyServletAdapter(true)
 @Test class JettyServletAdapterAsyncFilesTest : FilesTest(asyncAdapter)
 @Test class JettyServletAdapterAsyncGenericTest : GenericTest(asyncAdapter)
 @Test class JettyServletAdapterAsyncTodoTest : TodoTest(asyncAdapter)
+@Test class JettyServletAdapterAsyncSamplesTest : PortHttpServerSamplesTest(asyncAdapter)
