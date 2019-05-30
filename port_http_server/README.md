@@ -51,71 +51,88 @@ import the [Servlet HTTP Server Adapter][http_server_servlet] into your project.
 
 ### Routes
 
-URL trailing slash is ignored and discarded
-
-HTTP clients will be able to reuse the routes to create REST services clients.
-
-The main building block of a Spark application is a set of routes. A route is made up of three
+The main building block of a Hexagon HTTP service is a set of routes. A route is made up of three
 simple pieces:
 
 * A **verb** (get, post, put, delete, head, trace, connect, options). It can also be `any`.
-* A **path** (/hello, /users/:name)
-* A **callback** (request, response) -> { }
+* A **path** (/hello, /users/{name}). Paths must start with '/' and trailing slash is ignored.
+* A **callback** code block.
 
-The Handler interface has a void return type. You use ctx.result() to set the response which will be
-returned to the user.
+The Handler interface has a void return type. You use `Call.send()` to set the response which will
+be returned to the user.
 
 Routes are matched in the order they are defined. The first route that matches the request is
-invoked:
+invoked.
 
-    CODE
+Check the next snippet for usage examples:
 
-#### Routers
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:routesCreation
 
-If you have a lot of routes, it can be helpful to group them into routers.
+HTTP clients will be able to reuse the routes to create REST services clients.
 
 #### Route groups
 
-This can be done by calling the path() method, which takes a String prefix and gives you a scope to
-declare routes (or mount routers) and filters (or nested paths) in:
+Routes can be nested by calling the `path()` method, which takes a String prefix and gives you a
+scope to declare routes and filters (or nested paths). Ie:
 
-Note that path() prefixes your paths with / (if you don’t add it yourself).
-This means that path("api", ...) and path("/api", ...) are equivalent.
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:routeGroups
+
+#### Routers
+
+If you have a lot of routes, it can be helpful to group them into routers. You can create routers
+to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:routers
 
 ### Callbacks
 
-HTTP request handling code block
+Callbacks are request's handling code that are bound to routes or filters.
 
 #### Call
 
-The Call object provides you with everything you need to handle a http-request. It contains the
-underlying servlet-request and servlet-response, and a bunch of getters and setters. The getters
-operate mostly on the request-object, while the setters operate exclusively on the response object.
+The Call object provides you with everything you need to handle a http-request.
+
+It contains the underlying request and response, and a bunch of utility methods to return results or
+read parameters.
+
+The methods are available directly from the callback (`Call` is the callback receiver). You can
+check the [API documentation] for the full list of methods.
+
+This sample code illustrates the usage:
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackCall
+
+[API documentation]: /port_http_server/com.hexagonkt.http.server/-call/
 
 #### Request
 
-Request information and functionality is provided by the request parameter:
+Request information and functionality is provided by the `request` parameter:
 
-    CODE
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackRequest
 
 #### Response
 
-Response information and functionality is provided by the response parameter:
+Response information and functionality is provided by the `response` parameter:
 
-    CODE
-
-#### Query Parameters
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackResponse
 
 #### Path Parameters
 
-Route patterns can include named parameters, accessible via the params() method on the request
+Route patterns can include named parameters, accessible via the `pathParameters` map on the request
 object:
 
-    CODE
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackPathParam
+
+#### Query Parameters
+
+It is possible to access the whole query string and also access an specific query parameter using
+the `parameters` map on the `request` object:
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackQueryParam
 
 #### Redirects
 
-TODO Implement Spark Java redirect utilities.
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackRedirect
 
 #### Cookies
 
@@ -132,16 +149,22 @@ The cookieStore works like this:
    to the response as a cookie. This allows you to share the map between requests and servers (in
    case you are running multiple servers behind a load-balancer)
 
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackCookie
+
 #### Sessions
 
 Every request has access to the session created on the server side, provided with the following
 methods:
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackSession
 
 #### Halting
 
 To immediately stop a request within a filter or route use halt():
 
 halt() is not intended to be used inside exception-mappers.
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackHalt
 
 ### Filters
 
@@ -198,4 +221,4 @@ init() must be called manually after location is set.
 
 # Package com.hexagonkt.http.server
 
-TODO
+This package defines the classes used in the HTTP DSL.
