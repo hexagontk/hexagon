@@ -16,7 +16,7 @@ internal class Request(private val req: HttpServletRequest) : Request() {
     override fun scheme(): String = req.scheme
     override fun port(): Int = req.serverPort
     override fun method(): Method = Method.valueOf (req.method)
-    override fun queryString(): String = req.queryString
+    override fun queryString(): String = req.queryString ?: ""
     override fun contentLength(): Long = req.contentLength.toLong()
     override fun contentType(): String? = req.contentType
     override fun host(): String = req.remoteHost

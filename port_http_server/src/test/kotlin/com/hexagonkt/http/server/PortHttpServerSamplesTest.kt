@@ -101,35 +101,98 @@ import java.net.InetAddress
     @Test fun callbacks() {
         val server = Server(adapter) {
             // callbackCall
+            get("/call") {
+                attributes                   // the attributes list
+                attributes["foo"]            // value of foo attribute
+                attributes["A"] = "V"        // sets value of attribute A to V
+
+                ok("Response body")          // returns a 200 status
+                send(400, "Invalid request") // returns any status
+            }
             // callbackCall
 
             // callbackRequest
+            get("/request") {
+                request.method         // the HTTP method (GET, ..etc)
+                request.scheme         // http or https
+                request.secure         // true if scheme is https
+                request.host           // the host, e.g. "example.com"
+                request.ip             // client IP address
+                request.port           // the server port
+                request.path           // the request path, e.g. /result.jsp
+                request.body           // request body sent by the client
+                request.url            // the url. e.g. "http://example.com/foo"
+                request.contentLength  // length of request body
+                request.contentType    // content type of request.body
+                request.headers        // the HTTP header list
+                request.headers["BAR"] // value of BAR header
+                request.userAgent      // user agent
+            }
             // callbackRequest
 
             // callbackResponse
+            get("/response") {
+                response.body                           // get response content
+                response.body = "Hello"                 // sets content to Hello
+                response.headers["FOO"] = listOf("bar") // sets header FOO with value bar
+                response.status                         // get the response status
+                response.status = 401                   // set status code to 401
+                response.contentType                    // get the content type
+                response.contentType = "text/xml"       // set content type to text/xml
+            }
             // callbackResponse
 
-            // callbackQueryParam
-            // callbackQueryParam
+            // callbackPathParam
+            get("/pathParam/{foo}") {
+                request.pathParameters["foo"] // value of foo path parameter
+                request.pathParameters        // map with all parameters
+            }
+            // callbackPathParam
 
-            // callbackPathParam
-            // callbackPathParam
+            // callbackQueryParam
+            get("/queryParam") {
+                request.queryString
+                request.parameters                 // the query param list
+                request.parameters["FOO"]?.first() // value of FOO query param
+                request.parameters["FOO"]          // all values of FOO query param
+            }
+            // callbackQueryParam
 
             // callbackRedirect
+            get("/redirect") {
+                redirect("/call") // browser redirect to /call
+            }
             // callbackRedirect
 
             // callbackCookie
+            get("/cookie") {
+            }
             // callbackCookie
 
             // callbackSession
+            get("/session") {
+                session                // session management
+            }
             // callbackSession
 
             // callbackHalt
+            get("/halt") {
+                request.cookies                // request cookies sent by the client
+            }
             // callbackHalt
         }
 
         server.start()
         val client = Client("http://localhost:${server.runtimePort}")
+
+        val callResponse = client.get("/call")
+        assert(callResponse.statusCode == 400)
+        assert(callResponse.responseBody == "Invalid request")
+        assert(client.get("/request").statusCode == 200)
+        assert(client.get("/response").statusCode == 401)
+        assert(client.get("/pathParam/param").statusCode == 200)
+        assert(client.get("/queryParam").statusCode == 200)
+        assert(client.get("/redirect").statusCode == 302)
 
         server.stop()
     }

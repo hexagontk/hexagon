@@ -92,8 +92,8 @@ Callbacks are request's handling code that are bound to routes or filters.
 
 The Call object provides you with everything you need to handle a http-request.
 
-It contains the underlying request and response, and a bunch of utility methods to return results or
-read parameters.
+It contains the underlying request and response, and a bunch of utility methods to return results,
+read parameters or pass attributes among filters/routes.
 
 The methods are available directly from the callback (`Call` is the callback receiver). You can
 check the [API documentation] for the full list of methods.
@@ -131,6 +131,8 @@ the `parameters` map on the `request` object:
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackQueryParam
 
 #### Redirects
+
+You can redirect requests (returning 30x codes) by using `Call` utility methods:
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackRedirect
 
