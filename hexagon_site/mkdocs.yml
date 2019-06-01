@@ -43,6 +43,7 @@ nav:
   - Home: index.md
   - Quick Start: quick_start.md
   - Developer Guide: developer_guide.md
+  - HTTP Server: port_http_server/index.md
   - Examples: examples.md
   - Modules:
     - Core: hexagon_core/index.md

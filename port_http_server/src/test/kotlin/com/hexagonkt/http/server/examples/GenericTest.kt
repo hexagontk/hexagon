@@ -95,6 +95,29 @@ import java.util.Locale.getDefault as defaultLocale
         server.stop()
     }
 
+    @Test fun `Empty query string is handled properly`() {
+        val response = client.get ("/request/data")
+        val port = URL(client.endpoint).port.toString ()
+        val host = response.headers["host"]
+        val ip = response.headers["ip"]
+        val protocol = "http"
+
+        assert("AHC/2.1" == response.headers["agent"])
+        assert(protocol == response.headers["scheme"])
+        assert("127.0.0.1" == host || "localhost" == host)
+        assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
+        assert("" == response.headers["query"])
+        assert(port == response.headers["port"])
+
+        assert("false" == response.headers["secure"])
+        assert("UNKNOWN" == response.headers["referer"])
+        assert("text/plain" == response.headers["preferredType"])
+        assert(response.headers["contentLength"].isNotEmpty())
+
+        assert(response.responseBody == "$protocol://localhost:$port/request/data!!!")
+        assert(200 == response.statusCode)
+    }
+
     @Test fun `Request data is read properly`() {
         val response = client.get ("/request/data?query")
         val port = URL(client.endpoint).port.toString ()
