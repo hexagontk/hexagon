@@ -186,15 +186,23 @@ The following code details filters usage:
 
 ### Error Handling
 
+You can also provide handlers for runtime errors. Errors can be unhandled thrown exceptions, or
+handlers halted with an error code.
+
+Error handlers for a given code or exception are unique, and the first one defined is the one that
+will be used.
+
 #### HTTP Errors Handlers
 
-HTTP status codes handling
+Allows to handle routes halted with a given code. These handlers are only applied if the route is
+halted, if the error code is returned with `send` it won't be handled as an error. Example:
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:errors
 
 #### Exception Mapping
 
-To handle exceptions of a configured type for all routes and filters:
+You can handle exceptions of a given type for all routes and filters. The handler allows you to
+refer to the thrown exception. Look at the following code for a detailed example:
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:exceptions
 
@@ -208,8 +216,8 @@ To handle exceptions of a configured type for all routes and filters:
 
 ### Static Files
 
-You can assign a folder in the classpath serving static files with the staticFiles.location()
-method. Note that the public directory name is not included in the URL.
+You can assign a folder in the classpath serving static files with the `assets()` method. Note that
+the public directory name is not included in the URL.
 
 A file /public/css/style.css is made available as http://{host}:{port}/css/style.css
 
@@ -219,7 +227,12 @@ using the staticFiles.externalLocation() method.\
 Static files location must be configured before route mapping. If your application has no routes,
 init() must be called manually after location is set.
 
+TODO Order and priority against routes.
+
 #### MIME types
+
+The MIME types of static files are calculated from the file extension using the MIME utilities of
+the Hexagon core module
 
 <!--
 ### Testing

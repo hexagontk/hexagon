@@ -4,6 +4,7 @@ import com.hexagonkt.http.client.Client
 import com.hexagonkt.injection.InjectionManager
 import io.netty.handler.codec.http.cookie.DefaultCookie
 import org.testng.annotations.Test
+import java.lang.IllegalStateException
 import java.net.HttpCookie
 import java.net.InetAddress
 
@@ -271,29 +272,55 @@ import org.asynchttpclient.Response as ClientResponse
     @Test fun errors() {
         val server = Server(adapter) {
             // errors
-            before { response.headers["b_all"] = listOf("true") }
+            // Register handler for routes halted with 512 code
+            error(512) { send(500, "Ouch")}
 
-            before("/filters/*") { response.headers["b_filters"] = listOf("true") }
-            get("/filters/route") { ok("filters route") }
-            after("/filters/*") { response.headers["a_filters"] = listOf("true") }
-
-            get("/filters") { ok("filters") }
-
-            path("/nested") {
-                before { response.headers["b_nested"] = listOf("true") }
-                get("/filters") { ok("nested filters") }
-                after { response.headers["a_nested"] = listOf("true") }
-            }
-
-            after { response.headers["a_all"] = listOf("true") }
+            // If status code (512) is returned with `send` error won't be triggered
+            get("/errors") { halt(512) }
             // errors
 
             // exceptions
+            // Register handler for routes which callbacks throw an `IllegalStateException`
+            error(IllegalStateException::class) { send(505, it.message ?: "empty") }
+            get("/exceptions") { error("Message") }
             // exceptions
         }
 
         server.start()
         val client = Client("http://localhost:${server.runtimePort}")
+
+        val errors = client.get("/errors")
+        assert(errors.statusCode == 500)
+        assert(errors.responseBody == "Ouch")
+        val exceptions = client.get("/exceptions")
+        assert(exceptions.statusCode == 505)
+        assert(exceptions.responseBody == "Message")
+
+        server.stop()
+    }
+
+    @Test fun files() {
+        val server = Server(adapter) {
+            // files
+            // Register handler for routes halted with 512 code
+            error(512) { send(500, "Ouch")}
+            get("/errors") { halt(512) }
+
+            // Register handler for routes which callbacks throw an `IllegalStateException`
+            error(IllegalStateException::class) { send(505, it.message ?: "empty") }
+            get("/exceptions") { error("Message") } // Only for `halt` not `send`
+            // files
+        }
+
+        server.start()
+        val client = Client("http://localhost:${server.runtimePort}")
+
+        val errors = client.get("/errors")
+        assert(errors.statusCode == 500)
+        assert(errors.responseBody == "Ouch")
+        val exceptions = client.get("/exceptions")
+        assert(exceptions.statusCode == 505)
+        assert(exceptions.responseBody == "Message")
 
         server.stop()
     }
