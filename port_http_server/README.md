@@ -138,18 +138,13 @@ You can redirect requests (returning 30x codes) by using `Call` utility methods:
 
 #### Cookies
 
-The ctx.cookieStore() functions provide a convenient way for sharing information between handlers,
-request, or even servers:
+The request and response cookie functions provide a convenient way for sharing information between
+handlers, request, or even servers.
 
-The cookieStore works like this:
+You can read client sent cookies from the request's read only map. To change cookies or add new ones
+you have to use `response.addCookie()` and `response.removeCookie()` methods.
 
-1. The first handler that matches the incoming request will populate the cookie-store-map with the
-   data currently stored in the cookie (if any).
-2. This map can now be used as a state between handlers on the same request-cycle, pretty much in
-   the same way as ctx.attribute()
-3. At the end of the request-cycle, the cookie-store-map is serialized, base64-encoded and written
-   to the response as a cookie. This allows you to share the map between requests and servers (in
-   case you are running multiple servers behind a load-balancer)
+Check the following sample code for details:
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackCookie
 
@@ -162,7 +157,7 @@ methods:
 
 #### Halting
 
-To immediately stop a request within a filter or route use halt():
+To immediately stop a request within a filter or route use `halt()`:
 
 halt() is not intended to be used inside exception-mappers.
 
@@ -170,23 +165,24 @@ halt() is not intended to be used inside exception-mappers.
 
 ### Filters
 
-Before-filters are evaluated before each request, and can read the request and read/modify the
+You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
+code executed before or after one or more routes. They can read the request and read/modify the
 response.
-
-To stop execution, use halt():
-
-After-filters are evaluated after each request, and can read the request and read/modify the
-response:
+ 
+All filters that match a route are executed in the order they are declared.
 
 Filters optionally take a pattern, causing them to be evaluated only if the request path matches
-that pattern:
+that pattern.
 
 Before and after filters are always executed (if the route is matched). But any of them may stop
 the execution chain if halted.
 
-You might know before-handlers as filters, interceptors, or middleware from other libraries.
+If `halt()` is called in one filter, filter processing is stopped for that kind of filter (*before*
+or *after*). In the case of before filters, this also prevent the route from being executed.
 
-Before-handlers are matched before every request (including static files, if you enable those).
+The following code details filters usage:
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:filters
 
 ### Error Handling
 
@@ -194,15 +190,21 @@ Before-handlers are matched before every request (including static files, if you
 
 HTTP status codes handling
 
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:errors
+
 #### Exception Mapping
 
 To handle exceptions of a configured type for all routes and filters:
 
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:exceptions
+
+<!--
 ### Multipart Requests
 
 #### HTML Form processing
 
 #### File Uploads
+-->
 
 ### Static Files
 
@@ -219,7 +221,9 @@ init() must be called manually after location is set.
 
 #### MIME types
 
+<!--
 ### Testing
+-->
 
 # Package com.hexagonkt.http.server
 
