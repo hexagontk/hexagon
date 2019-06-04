@@ -103,6 +103,7 @@ import org.asynchttpclient.Response as ClientResponse
         server.stop()
     }
 
+    @Suppress("UNREACHABLE_CODE")
     @Test fun callbacks() {
         val server = Server(adapter) {
             // callbackCall
@@ -302,26 +303,47 @@ import org.asynchttpclient.Response as ClientResponse
     @Test fun files() {
         val server = Server(adapter) {
             // files
-            // Register handler for routes halted with 512 code
-            error(512) { send(500, "Ouch")}
-            get("/errors") { halt(512) }
+            get("/web/file.txt") { ok("It matches this route and won't search for the file") }
 
-            // Register handler for routes which callbacks throw an `IllegalStateException`
-            error(IllegalStateException::class) { send(505, it.message ?: "empty") }
-            get("/exceptions") { error("Message") } // Only for `halt` not `send`
+            // Expose resources on the '/public' resource folder over the '/web' HTTP path
+            assets("public", "/web/*")
+
+            // Maps resources on 'assets' on the server root (assets/f.css -> /f.css)
+            // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
+            assets("assets")
             // files
         }
 
         server.start()
         val client = Client("http://localhost:${server.runtimePort}")
 
-        val errors = client.get("/errors")
-        assert(errors.statusCode == 500)
-        assert(errors.responseBody == "Ouch")
-        val exceptions = client.get("/exceptions")
-        assert(exceptions.statusCode == 505)
-        assert(exceptions.responseBody == "Message")
+        assert(client.get("/web/file.txt").responseBody.startsWith("It matches this route"))
+
+        val index = client.get("/index.html")
+        assert(index.statusCode == 200)
+        assert(index.contentType == "text/html")
+        val file = client.get("/web/file.css")
+        assert(file.statusCode == 200)
+        assert(file.contentType == "text/css")
+
+        val unavailable = client.get("/web/unavailable.css")
+        assert(unavailable.statusCode == 404)
 
         server.stop()
+    }
+
+    @Test fun test() {
+        // test
+        val router = Router {
+            get("/hello") { ok("Hi!") }
+        }
+
+        val server = Server(adapter, router, "name", InetAddress.getLoopbackAddress(), 0)
+
+        server.start()
+        val client = Client("http://localhost:${server.runtimePort}")
+        assert(client.get("/hello").responseBody == "Hi!")
+        server.stop()
+        // test
     }
 }

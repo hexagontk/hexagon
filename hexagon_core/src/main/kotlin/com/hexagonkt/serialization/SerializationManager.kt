@@ -30,8 +30,8 @@ object SerializationManager {
 
             formatsMap = formatsMap()
             formats.forEach { format ->
-                extensions += format.contentType to format.extensions.toList()
-                mimeTypes += format.extensions.map { ext -> ext to format.contentType }
+                extensions = extensions + (format.contentType to format.extensions.toList())
+                mimeTypes = mimeTypes + format.extensions.map { ext -> ext to format.contentType }
             }
 
             logger.info { serializationFormats() }
