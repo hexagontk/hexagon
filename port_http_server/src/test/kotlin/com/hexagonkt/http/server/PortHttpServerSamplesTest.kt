@@ -2,8 +2,13 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.injection.InjectionManager
+import io.netty.handler.codec.http.cookie.DefaultCookie
 import org.testng.annotations.Test
+import java.lang.IllegalStateException
+import java.net.HttpCookie
 import java.net.InetAddress
+
+import org.asynchttpclient.Response as ClientResponse
 
 @Test abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
 
@@ -98,6 +103,7 @@ import java.net.InetAddress
         server.stop()
     }
 
+    @Suppress("UNREACHABLE_CODE")
     @Test fun callbacks() {
         val server = Server(adapter) {
             // callbackCall
@@ -166,24 +172,51 @@ import java.net.InetAddress
 
             // callbackCookie
             get("/cookie") {
+                request.cookies                       // get map of all request cookies
+                request.cookies["foo"]                // access request cookie by name
+
+                val cookie = HttpCookie("new_foo", "bar")
+                response.addCookie(cookie)            // set cookie with a value
+
+                cookie.maxAge = 3600
+                response.addCookie(cookie)            // set cookie with a max-age
+
+                cookie.secure = true
+                response.addCookie(cookie)            // secure cookie
+
+                response.removeCookie("foo")          // remove cookie
             }
             // callbackCookie
 
             // callbackSession
             get("/session") {
-                session                // session management
+                session                         // create and return session
+                session.attributes["user"]      // Get session attribute 'user'
+                session.set("user", "foo")      // Set session attribute 'user'
+                session.removeAttribute("user") // Remove session attribute 'user'
+                session.attributes              // Get all session attributes
+                session.id                      // Get session id
+                session.isNew()                 // Check if session is new
             }
             // callbackSession
 
             // callbackHalt
             get("/halt") {
-                request.cookies                // request cookies sent by the client
+                halt()                // halt with status 500 and stop route processing
+
+                /*
+                 * These are just examples the following code will never be reached
+                 */
+                halt(401)             // halt with status
+                halt("Body Message")  // halt with message (status 500)
+                halt(401, "Go away!") // halt with status and message
             }
             // callbackHalt
         }
 
         server.start()
         val client = Client("http://localhost:${server.runtimePort}")
+        client.cookies["foo"] = DefaultCookie("foo", "bar")
 
         val callResponse = client.get("/call")
         assert(callResponse.statusCode == 400)
@@ -193,7 +226,124 @@ import java.net.InetAddress
         assert(client.get("/pathParam/param").statusCode == 200)
         assert(client.get("/queryParam").statusCode == 200)
         assert(client.get("/redirect").statusCode == 302)
+        assert(client.get("/cookie").statusCode == 200)
+        assert(client.get("/session").statusCode == 200)
+        assert(client.get("/halt").statusCode == 500)
 
         server.stop()
+    }
+
+    @Test fun filters() {
+        fun assertResponse(response: ClientResponse, body: String, vararg headers: String) {
+            assert(response.statusCode == 200)
+            (headers.toList() + "b_all" + "a_all").forEach { assert(response.headers.contains(it)) }
+            assert(response.responseBody == body)
+        }
+
+        val server = Server(adapter) {
+            // filters
+            before { response.headers["b_all"] = listOf("true") }
+
+            before("/filters/*") { response.headers["b_filters"] = listOf("true") }
+            get("/filters/route") { ok("filters route") }
+            after("/filters/*") { response.headers["a_filters"] = listOf("true") }
+
+            get("/filters") { ok("filters") }
+
+            path("/nested") {
+                before { response.headers["b_nested"] = listOf("true") }
+                get("/filters") { ok("nested filters") }
+                after { response.headers["a_nested"] = listOf("true") }
+            }
+
+            after { response.headers["a_all"] = listOf("true") }
+            // filters
+        }
+
+        server.start()
+        val client = Client("http://localhost:${server.runtimePort}")
+
+        assertResponse(client.get("/filters/route"), "filters route", "b_filters", "a_filters")
+        assertResponse(client.get("/filters"), "filters")
+        assertResponse(client.get("/nested/filters"), "nested filters", "b_nested", "a_nested")
+
+        server.stop()
+    }
+
+    @Test fun errors() {
+        val server = Server(adapter) {
+            // errors
+            // Register handler for routes halted with 512 code
+            error(512) { send(500, "Ouch")}
+
+            // If status code (512) is returned with `send` error won't be triggered
+            get("/errors") { halt(512) }
+            // errors
+
+            // exceptions
+            // Register handler for routes which callbacks throw an `IllegalStateException`
+            error(IllegalStateException::class) { send(505, it.message ?: "empty") }
+            get("/exceptions") { error("Message") }
+            // exceptions
+        }
+
+        server.start()
+        val client = Client("http://localhost:${server.runtimePort}")
+
+        val errors = client.get("/errors")
+        assert(errors.statusCode == 500)
+        assert(errors.responseBody == "Ouch")
+        val exceptions = client.get("/exceptions")
+        assert(exceptions.statusCode == 505)
+        assert(exceptions.responseBody == "Message")
+
+        server.stop()
+    }
+
+    @Test fun files() {
+        val server = Server(adapter) {
+            // files
+            get("/web/file.txt") { ok("It matches this route and won't search for the file") }
+
+            // Expose resources on the '/public' resource folder over the '/web' HTTP path
+            assets("public", "/web/*")
+
+            // Maps resources on 'assets' on the server root (assets/f.css -> /f.css)
+            // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
+            assets("assets")
+            // files
+        }
+
+        server.start()
+        val client = Client("http://localhost:${server.runtimePort}")
+
+        assert(client.get("/web/file.txt").responseBody.startsWith("It matches this route"))
+
+        val index = client.get("/index.html")
+        assert(index.statusCode == 200)
+        assert(index.contentType == "text/html")
+        val file = client.get("/web/file.css")
+        assert(file.statusCode == 200)
+        assert(file.contentType == "text/css")
+
+        val unavailable = client.get("/web/unavailable.css")
+        assert(unavailable.statusCode == 404)
+
+        server.stop()
+    }
+
+    @Test fun test() {
+        // test
+        val router = Router {
+            get("/hello") { ok("Hi!") }
+        }
+
+        val server = Server(adapter, router, "name", InetAddress.getLoopbackAddress(), 0)
+
+        server.start()
+        val client = Client("http://localhost:${server.runtimePort}")
+        assert(client.get("/hello").responseBody == "Hi!")
+        server.stop()
+        // test
     }
 }

@@ -9,7 +9,7 @@ import java.net.HttpCookie
  *
  * HTTP response context.
  */
-abstract class Response () {
+abstract class Response {
     val outputStream: OutputStream by lazy { outputStream() }
 
     var status: Int

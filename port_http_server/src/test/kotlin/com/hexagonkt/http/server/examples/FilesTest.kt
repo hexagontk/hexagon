@@ -70,7 +70,7 @@ import java.util.Locale.getDefault as defaultLocale
     }
 
     @Test fun `Files mounted on a path are returned properly`() {
-        val response = client.get ("/html/index.html")
+        val response = client.get("/html/index.html")
         assert(response.contentType.contains("html"))
         assertResponseContains(response, 200, "<title>Hexagon</title>")
     }
