@@ -35,7 +35,7 @@ dependencies {
 
 task("tfb", type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setupDockerfiles" ]) {
     from(projectDir)
-    include("src/**", "tfb.gradle", "tfb.settings.gradle", "tfb.md")
+    include("src/**", "tfb.gradle", "tfb.settings.gradle", "tfb.md", "resin.xml")
     into(tfbBuildDir)
     rename("tfb.gradle", "build.gradle")
     rename("tfb.settings.gradle", "settings.gradle")
@@ -116,7 +116,7 @@ task("benchmarkConfig") {
 
         mkdir(tfbBuildDir)
         file.createNewFile()
-        file.text = JsonOutput.prettyPrint(json)
+        file.text = JsonOutput.prettyPrint(json) + "\n"
     }
 }
 
@@ -144,17 +144,20 @@ task("setupDockerfiles") {
 
             final String dockerfileRuntime = server == "resin"?
                 """
-                FROM openjdk:11
+                FROM openjdk:11.0.3-jre-stretch
                 ENV DBSTORE $database
                 ENV ${database.toUpperCase()}_DB_HOST tfb-database
-                ENV RESIN 4.0.58
-
-                RUN curl http://caucho.com/download/resin-\$RESIN.tar.gz | tar xvz -C /opt
-                COPY --from=gradle_build /hexagon/build/libs/ROOT.war /opt/resin-\$RESIN/webapps
-                ENTRYPOINT /opt/resin-\$RESIN/bin/resin.sh console
+                ENV RESIN http://caucho.com/download/resin-4.0.61.tar.gz
+                
+                WORKDIR /resin
+                RUN curl -sL \$RESIN | tar xz --strip-components=1
+                RUN rm -rf webapps/*
+                COPY --from=gradle_build /hexagon/build/libs/ROOT.war webapps/ROOT.war
+                COPY resin.xml conf/resin.xml
+                CMD ["java", "-jar", "lib/resin.jar", "console"]
                 """ :
                 """
-                FROM openjdk:11
+                FROM openjdk:11.0.3-jre-stretch
                 ENV DBSTORE $database
                 ENV ${database.toUpperCase()}_DB_HOST tfb-database
                 ENV WEBENGINE ${server}

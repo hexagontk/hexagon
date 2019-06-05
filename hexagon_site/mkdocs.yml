@@ -69,7 +69,6 @@ nav:
       - Pebble: templates_pebble/index.md
   - Create Services: create_services.md
   - Gradle Helpers: gradle.md
-  - Alternatives: alternatives.md
   - Contribute:
       - Contributing: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
       - Planning: https://github.com/hexagonkt/hexagon/projects/1
