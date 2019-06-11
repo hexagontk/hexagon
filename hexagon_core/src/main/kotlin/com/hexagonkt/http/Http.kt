@@ -40,7 +40,7 @@ fun options(path: String = "/"): Route = Route(path, OPTIONS)
 /** Shortcut to create a PATCH route. */
 fun patch(path: String = "/"): Route = Route(path, PATCH)
 
-fun parseQueryParameters (query: String): Map<String, String> =
+fun parseQueryParameters (query: String): Map<String, List<String>> =
     if (query.isBlank())
         mapOf()
     else
@@ -51,12 +51,13 @@ fun parseQueryParameters (query: String): Map<String, String> =
                 val value = if (keyValue.size == 2) keyValue[1] else ""
                 key to value
             }
-            .toMap(LinkedHashMap())
+            .groupBy { it.first }
+            .mapValues { pair -> pair.value.map { it.second } }
 
 fun httpDate (date: LocalDateTime = LocalDateTime.now()): String =
     RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
 
-fun String.urlDecode() = URLDecoder.decode(this, charset.name())
+fun String.urlDecode(): String = URLDecoder.decode(this, charset.name())
 
-fun String.urlEncode() = URLEncoder.encode(this, charset.name())
+fun String.urlEncode(): String = URLEncoder.encode(this, charset.name())
 
