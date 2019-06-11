@@ -39,10 +39,15 @@ class RabbitMqClient(
             cf.setUri(uri)
 
             val params = parseQueryParameters(uri.query ?: "")
-            setVar(params["automaticRecovery"]?.toBoolean()) { cf.isAutomaticRecoveryEnabled = it }
-            setVar(params["recoveryInterval"]?.toLong()) { cf.networkRecoveryInterval = it }
-            setVar(params["shutdownTimeout"]?.toInt()) { cf.shutdownTimeout = it }
-            setVar(params["heartbeat"]?.toInt()) { cf.requestedHeartbeat = it }
+            val automaticRecovery = params["automaticRecovery"]?.first()?.toBoolean()
+            val recoveryInterval = params["recoveryInterval"]?.first()?.toLong()
+            val shutdownTimeout = params["shutdownTimeout"]?.first()?.toInt()
+            val heartbeat = params["heartbeat"]?.first()?.toInt()
+
+            setVar(automaticRecovery) { cf.isAutomaticRecoveryEnabled = it }
+            setVar(recoveryInterval) { cf.networkRecoveryInterval = it }
+            setVar(shutdownTimeout) { cf.shutdownTimeout = it }
+            setVar(heartbeat) { cf.requestedHeartbeat = it }
 
             return cf
         }
