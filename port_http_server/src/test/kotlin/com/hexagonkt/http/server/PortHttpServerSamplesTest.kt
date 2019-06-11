@@ -14,7 +14,8 @@ import org.asynchttpclient.Response as ClientResponse
 
     @Test fun serverCreation() {
         // serverCreation
-        val customServer = Server(adapter, Router(), "name", InetAddress.getByName("0.0.0"), 2020)
+        val serverSettings = ServerSettings("name", InetAddress.getByName("0.0.0"), 2020)
+        val customServer = Server(adapter, Router(), serverSettings)
 
         customServer.start()
         assert(customServer.started())
@@ -338,7 +339,8 @@ import org.asynchttpclient.Response as ClientResponse
             get("/hello") { ok("Hi!") }
         }
 
-        val server = Server(adapter, router, "name", InetAddress.getLoopbackAddress(), 0)
+        val serverSettings = ServerSettings("name", InetAddress.getLoopbackAddress(), 0)
+        val server = Server(adapter, router, serverSettings)
 
         server.start()
         val client = Client("http://localhost:${server.runtimePort}")

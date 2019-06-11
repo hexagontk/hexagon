@@ -18,7 +18,7 @@ interface ServerPort {
     /**
      * Builds a server of a certain engine from a server definition and runs it.
      */
-    fun startup(server: Server, settings: Map<String, *> = emptyMap<String, Any>())
+    fun startup(server: Server)
 
     /**
      * Stops the instance of the engine.

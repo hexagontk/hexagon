@@ -100,33 +100,36 @@ class Router(block: Router.() -> Unit = {}) {
 
     fun flatRequestHandlers(h: List<RequestHandler> = requestHandlers): List<RequestHandler> = h
         .flatMap { handler ->
-            @Suppress("IfThenToElvis")
-            if (handler is PathHandler)
-                handler.router.requestHandlers.flatMap {
-                    val route = it.route
-                    val path = route.path
-                    val handlerPath = handler.route.path.path
-
-                    val finalPath =
-                        if (handlerPath == "/")
-                            if (path.path == "/") "/" else path.path
-                        else
-                            if (path.path == "/") handlerPath else handlerPath + path.path
-
-                    val nestedPath = path.copy(path = finalPath)
-                    val nestedRoute = route.copy(path = nestedPath)
-
-                    when (it) {
-                        is FilterHandler -> listOf(it.copy(route = nestedRoute))
-                        is RouteHandler -> nestedRoute.list().map { r -> it.copy(route = r) }
-                        is ExceptionHandler -> listOf(it.copy(route = nestedRoute))
-                        is CodeHandler -> listOf(it.copy(route = nestedRoute))
-                        is AssetsHandler -> listOf(it.copy(route = nestedRoute))
-                        is PathHandler -> flatRequestHandlers(listOf(it.copy(route = nestedRoute)))
-                    }
-                }
-            else
-                if (handler is RouteHandler) handler.route.list().map { handler.copy(route = it) }
-                else listOf(handler)
+            when (handler) {
+                is PathHandler -> flatPathHandler(handler)
+                is RouteHandler -> handler.route.list().map { handler.copy(route = it) }
+                else -> listOf(handler)
+            }
         }
+
+    private fun flatPathHandler(handler: PathHandler): List<RequestHandler> {
+        return handler.router.requestHandlers.flatMap {
+            val route = it.route
+            val path = route.path
+            val handlerPath = handler.route.path.path
+
+            val finalPath =
+                if (handlerPath == "/")
+                    if (path.path == "/") "/" else path.path
+                else
+                    if (path.path == "/") handlerPath else handlerPath + path.path
+
+            val nestedPath = path.copy(path = finalPath)
+            val nestedRoute = route.copy(path = nestedPath)
+
+            when (it) {
+                is FilterHandler -> listOf(it.copy(route = nestedRoute))
+                is RouteHandler -> nestedRoute.list().map { r -> it.copy(route = r) }
+                is ExceptionHandler -> listOf(it.copy(route = nestedRoute))
+                is CodeHandler -> listOf(it.copy(route = nestedRoute))
+                is AssetsHandler -> listOf(it.copy(route = nestedRoute))
+                is PathHandler -> flatRequestHandlers(listOf(it.copy(route = nestedRoute)))
+            }
+        }
+    }
 }

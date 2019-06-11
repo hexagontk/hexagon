@@ -1,3 +1,4 @@
 
-bindPort : ${bindPort}
+#bindPort : ${bindPort}
+bindPort : 2068
 bindAddress : 0.0.0.0

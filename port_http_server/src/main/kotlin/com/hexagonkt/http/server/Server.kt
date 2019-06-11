@@ -10,13 +10,12 @@ import com.hexagonkt.helpers.Jvm.version
 import com.hexagonkt.helpers.Jvm.locale
 import com.hexagonkt.helpers.Jvm.timezone
 import com.hexagonkt.injection.InjectionManager.inject
+import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.settings.SettingsManager
 
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
-import java.net.InetAddress
-import java.net.InetAddress.getByName as address
 
 /**
  * A server that listen to HTTP connections on a port and address and route requests using a
@@ -27,16 +26,8 @@ import java.net.InetAddress.getByName as address
 data class Server(
     private val serverPort: ServerPort,
     val router: Router,
-    val serverName: String = DEFAULT_NAME,
-    val bindAddress: InetAddress = address(DEFAULT_ADDRESS),
-    val bindPort: Int = DEFAULT_PORT
+    val serverSettings: ServerSettings = ServerSettings()
 ) {
-
-    internal companion object {
-        internal const val DEFAULT_NAME = "<undefined>"
-        internal const val DEFAULT_ADDRESS = "127.0.0.1"
-        internal const val DEFAULT_PORT = 2010
-    }
 
     private val log: Logger = Logger(this)
 
@@ -49,7 +40,7 @@ data class Server(
      * @return A new server with the built router.
      */
     constructor(
-        engine: ServerPort,
+        engine: ServerPort = inject(),
         settings: Map<String, *> = SettingsManager.settings,
         block: Router.() -> Unit):
             this(engine, Router(block), settings)
@@ -58,15 +49,8 @@ data class Server(
         this (
             serverEngine,
             router,
-            settings["serviceName"] as? String ?: DEFAULT_NAME,
-            address(settings["bindAddress"] as? String ?: DEFAULT_ADDRESS),
-            settings["bindPort"] as? Int ?: DEFAULT_PORT
+            settings.convertToObject(ServerSettings::class)
         )
-
-    constructor(
-        settings: Map<String, *> = SettingsManager.settings,
-        block: Router.() -> Unit) :
-            this(inject(), settings, block = block)
 
     val runtimePort
         get() = if (started()) serverPort.runtimePort() else error("Server is not running")
@@ -82,17 +66,17 @@ data class Server(
                     if (started ())
                         serverPort.shutdown ()
                 },
-                "shutdown-${bindAddress.hostName}-$bindPort"
+                "shutdown-${serverSettings.bindAddress.hostName}-${serverSettings.bindPort}"
             )
         )
 
         serverPort.startup (this)
-        log.info { "$serverName started${createBanner()}" }
+        log.info { "${serverSettings.serverName} started${createBanner()}" }
     }
 
     fun stop() {
         serverPort.shutdown ()
-        log.info { "$serverName stopped" }
+        log.info { "${serverSettings.serverName} stopped" }
     }
 
     private fun createBanner(): String {
@@ -100,10 +84,10 @@ data class Server(
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
-        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
+        val hostName = if (serverSettings.bindAddress.isAnyLocalAddress) ip else serverSettings.bindAddress.canonicalHostName
 
         val information = """
-            SERVICE:     $serverName
+            SERVICE:     ${serverSettings.serverName}
             SERVER TYPE: $portName
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
@@ -116,7 +100,7 @@ data class Server(
 
         // TODO Load banner from ${serverName}.txt
         // TODO Do not trim the banner (it could break ASCII art ;)
-        val bannerResource = serverName.toLowerCase().replace(' ', '_')
+        val bannerResource = serverSettings.serverName.toLowerCase().replace(' ', '_')
         val banner = (Resource("$bannerResource.txt").readText() ?: "") + information
         return banner
             .trimIndent()
