@@ -13,20 +13,20 @@ import java.net.InetAddress.getByName as address
 
         val server = Server {}
 
-        assert(server.serverSettings.serverName == "Hexagon Tests")
+        assert(server.settings.serverName == "Hexagon Tests")
         assert(server.portName == VoidAdapter.javaClass.simpleName)
-        assert(server.serverSettings.bindAddress.hostAddress == "0.0.0.0")
-        assert(server.serverSettings.bindPort == 0)
+        assert(server.settings.bindAddress.hostAddress == "0.0.0.0")
+        assert(server.settings.bindPort == 0)
     }
 
     @Test fun `Default parameters`() {
         val serverSettings = ServerSettings("name", address("localhost"), 9999)
         val server = Server(VoidAdapter, Router(), serverSettings)
 
-        assert(server.serverSettings.serverName == "name")
+        assert(server.settings.serverName == "name")
         assert(server.portName == VoidAdapter.javaClass.simpleName)
-        assert(server.serverSettings.bindAddress == address("localhost"))
-        assert(server.serverSettings.bindPort == 9999)
+        assert(server.settings.bindAddress == address("localhost"))
+        assert(server.settings.bindPort == 9999)
     }
 
     @Test fun `Runtime port`() {
@@ -60,7 +60,7 @@ import java.net.InetAddress.getByName as address
     }
 
     private fun equal(server1: Server, server2: Server) =
-        server1.serverSettings.serverName == server2.serverSettings.serverName &&
-        server1.serverSettings.bindAddress == server2.serverSettings.bindAddress &&
-        server1.serverSettings.bindPort == server2.serverSettings.bindPort
+        server1.settings.serverName == server2.settings.serverName &&
+        server1.settings.bindAddress == server2.settings.bindAddress &&
+        server1.settings.bindPort == server2.settings.bindPort
 }

@@ -31,6 +31,8 @@ class Call(val request: Request, val response: Response, val session: Session) {
 
     // Request shortcuts
     val pathParameters: RequiredKeysMap<String, String> by lazy { request.pathParameters }
+    val queryParameters: Map<String, List<String>> by lazy { request.queryParameters }
+    val formParameters: Map<String, List<String>> by lazy { request.formParameters }
     val parameters: Map<String, List<String>> by lazy { request.parameters }
 
     fun ok(content: Any = "", contentType: String? = null) = send(200, content, contentType)

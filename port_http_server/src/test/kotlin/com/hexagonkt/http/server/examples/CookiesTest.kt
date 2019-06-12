@@ -18,20 +18,20 @@ import java.net.HttpCookie
             }
 
             post("/addCookie") {
-                val name = parameters["cookieName"]?.first()
-                val value = parameters["cookieValue"]?.first()
+                val name = queryParameters["cookieName"]?.first()
+                val value = queryParameters["cookieValue"]?.first()
                 response.addCookie(HttpCookie(name, value))
             }
 
             post("/assertHasCookie") {
-                val cookieName = parameters.require("cookieName").first()
+                val cookieName = queryParameters.require("cookieName").first()
                 val cookieValue = request.cookies[cookieName]?.value
-                if (parameters["cookieValue"]?.first() != cookieValue)
+                if (queryParameters["cookieValue"]?.first() != cookieValue)
                     halt(500)
             }
 
             post("/removeCookie") {
-                response.removeCookie(parameters.require("cookieName").first())
+                response.removeCookie(queryParameters.require("cookieName").first())
             }
         }
     }

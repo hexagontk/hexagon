@@ -183,8 +183,8 @@ val server: Server by lazy {
     Server(adapter) {
         post("/books") {
             // Require fails if parameter does not exists
-            val author = parameters.require("author").first()
-            val title = parameters.require("title").first()
+            val author = queryParameters.require("author").first()
+            val title = queryParameters.require("title").first()
             val id = (books.keys.max() ?: 0) + 1
             books += id to Book(author, title)
             send(201, id)
@@ -206,8 +206,8 @@ val server: Server by lazy {
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = parameters["author"]?.first() ?: book.author,
-                    title = parameters["title"]?.first() ?: book.title
+                    author = queryParameters["author"]?.first() ?: book.author,
+                    title = queryParameters["title"]?.first() ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
@@ -299,20 +299,20 @@ val server: Server by lazy {
         }
 
         post("/addCookie") {
-            val name = parameters["cookieName"]?.first()
-            val value = parameters["cookieValue"]?.first()
+            val name = queryParameters["cookieName"]?.first()
+            val value = queryParameters["cookieValue"]?.first()
             response.addCookie(HttpCookie(name, value))
         }
 
         post("/assertHasCookie") {
-            val cookieName = parameters.require("cookieName").first()
+            val cookieName = queryParameters.require("cookieName").first()
             val cookieValue = request.cookies[cookieName]?.value
-            if (parameters["cookieValue"]?.first() != cookieValue)
+            if (queryParameters["cookieValue"]?.first() != cookieValue)
                 halt(500)
         }
 
         post("/removeCookie") {
-            response.removeCookie(parameters.require("cookieName").first())
+            response.removeCookie(queryParameters.require("cookieName").first())
         }
     }
 }
@@ -410,10 +410,25 @@ private val server: Server by lazy {
         assets("assets", "/html/*") // Serves `assets` resources on `/html/*`
         assets("public") // Serves `public` resources folder on `/*`
         post("/multipart") { ok(request.parts.keys.joinToString(":")) }
+
         post("/file") {
             val part = request.parts.values.first()
             val content = part.inputStream.reader().readText()
             ok(content)
+        }
+
+        post("/form") {
+            fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
+                map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+            )
+
+            val queryParams = serializeMap(queryParameters)
+            val formParams = serializeMap(formParameters)
+            val params = serializeMap(parameters)
+
+            response.headers["queryParams"] = queryParams
+            response.headers["formParams"] = formParams
+            response.headers["params"] = params
         }
     }
 }

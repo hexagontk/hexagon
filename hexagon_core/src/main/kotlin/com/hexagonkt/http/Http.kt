@@ -49,7 +49,7 @@ fun parseQueryParameters (query: String): Map<String, List<String>> =
                 val keyValue = it.split("=").map(String::trim)
                 val key = keyValue[0]
                 val value = if (keyValue.size == 2) keyValue[1] else ""
-                key to value
+                key.urlDecode() to value.urlDecode()
             }
             .groupBy { it.first }
             .mapValues { pair -> pair.value.map { it.second } }

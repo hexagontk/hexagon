@@ -30,6 +30,8 @@ import java.util.Locale.getDefault as defaultLocale
                 response.setHeader("ip", request.ip)
                 response.setHeader("uri", request.url)
                 response.setHeader("params", parameters.size.toString())
+                response.setHeader("queryParams", queryParameters.size.toString())
+                response.setHeader("formParams", formParameters.size.toString())
 
                 response.setHeader("agent", request.userAgent)
                 response.setHeader("scheme", request.scheme)
@@ -108,6 +110,9 @@ import java.util.Locale.getDefault as defaultLocale
         assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
         assert("" == response.headers["query"])
         assert(port == response.headers["port"])
+        assert("0" == response.headers["params"])
+        assert("0" == response.headers["queryParams"])
+        assert("0" == response.headers["formParams"])
 
         assert("false" == response.headers["secure"])
         assert("UNKNOWN" == response.headers["referer"])
@@ -131,6 +136,9 @@ import java.util.Locale.getDefault as defaultLocale
         assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
         assert("query" == response.headers["query"])
         assert(port == response.headers["port"])
+        assert("1" == response.headers["params"])
+        assert("1" == response.headers["queryParams"])
+        assert("0" == response.headers["formParams"])
 
         assert("false" == response.headers["secure"])
         assert("UNKNOWN" == response.headers["referer"])

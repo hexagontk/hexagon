@@ -21,10 +21,25 @@ import java.util.Locale.getDefault as defaultLocale
             assets("assets", "/html/*") // Serves `assets` resources on `/html/*`
             assets("public") // Serves `public` resources folder on `/*`
             post("/multipart") { ok(request.parts.keys.joinToString(":")) }
+
             post("/file") {
                 val part = request.parts.values.first()
                 val content = part.inputStream.reader().readText()
                 ok(content)
+            }
+
+            post("/form") {
+                fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
+                    map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+                )
+
+                val queryParams = serializeMap(queryParameters)
+                val formParams = serializeMap(formParameters)
+                val params = serializeMap(parameters)
+
+                response.headers["queryParams"] = queryParams
+                response.headers["formParams"] = formParams
+                response.headers["params"] = params
             }
         }
     }
@@ -38,6 +53,17 @@ import java.util.Locale.getDefault as defaultLocale
 
     @AfterClass fun shutdown() {
         server.stop()
+    }
+
+    @Test fun `Parameters are separated from each other`() {
+        val parts = listOf(StringPart("name", "value"))
+        val response = client.send(Method.POST, "/form?queryName=queryValue", parts = parts)
+        assert(response.headers["queryParams"].contains("queryName:queryValue"))
+        assert(!response.headers["queryParams"].contains("name:value"))
+        assert(response.headers["formParams"].contains("name:value"))
+        assert(!response.headers["formParams"].contains("queryName:queryValue"))
+        assert(response.headers["params"].contains("queryName:queryValue"))
+        assert(response.headers["params"].contains("name:value"))
     }
 
     @Test fun `Requesting a folder with an existing file name returns 404`() {

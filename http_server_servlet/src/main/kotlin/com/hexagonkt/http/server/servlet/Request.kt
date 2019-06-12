@@ -3,6 +3,7 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.server.Part
 import com.hexagonkt.http.Path
+import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.http.server.Request
 import java.io.InputStreamReader
 import java.net.HttpCookie
@@ -28,6 +29,10 @@ internal class Request(private val req: HttpServletRequest) : Request() {
 
     override fun parameters(): Map<String, List<String>> =
         req.parameterMap.map { it.key as String to it.value.toList() }.toMap()
+    override fun queryParameters(): Map<String, List<String>> =
+        parseQueryParameters(queryString)
+    override fun formParameters(): Map<String, List<String>> =
+        parameters.filter { it.key !in queryParameters.keys }
 
     override fun headers(): Map<String, List<String>> =
         req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()
@@ -54,7 +59,6 @@ internal class Request(private val req: HttpServletRequest) : Request() {
                     name = it.name,
                     size = it.size,
                     submittedFileName = it.submittedFileName
-
                 )
             }
             .associateBy { it.name }

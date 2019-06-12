@@ -30,14 +30,14 @@ class JettyServletAdapter(private val async: Boolean = false) : ServerPort {
     override fun started() = jettyServer?.isStarted ?: false
 
     override fun startup(server: Server) {
-        val config = server.serverSettings
-        val serverInstance = JettyServer(InetSocketAddress(config.bindAddress, config.bindPort))
+        val settings = server.settings
+        val serverInstance = JettyServer(InetSocketAddress(settings.bindAddress, settings.bindPort))
         jettyServer = serverInstance
 
         val context = ServletContextHandler(SESSIONS)
         context.addLifeCycleListener(object : AbstractLifeCycleListener() {
             override fun lifeCycleStarting(event: LifeCycle?) {
-                val filter = ServletFilter (server.router.flatRequestHandlers())
+                val filter = ServletFilter (server.contextRouter.flatRequestHandlers())
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
                 val filterBind = context.servletContext.addFilter("filters", filter)
                 filterBind.setAsyncSupported(async)

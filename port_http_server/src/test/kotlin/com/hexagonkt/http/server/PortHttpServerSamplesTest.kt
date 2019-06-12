@@ -14,18 +14,44 @@ import org.asynchttpclient.Response as ClientResponse
 
     @Test fun serverCreation() {
         // serverCreation
-        val serverSettings = ServerSettings("name", InetAddress.getByName("0.0.0"), 2020)
-        val customServer = Server(adapter, Router(), serverSettings)
+        /*
+         * All settings are optional, you can supply any combination
+         * Parameters not set will fall back to the defaults
+         */
+        val settings = ServerSettings(
+            serverName = "name",
+            bindAddress = InetAddress.getByName("0.0.0"),
+            bindPort = 2020,
+            contextPath = "/context"
+        )
+
+        val router = Router {
+            get("/hello") { ok("Hello World!") }
+        }
+
+        val customServer = Server(adapter, router, settings)
 
         customServer.start()
+
+        val customClient = Client("http://localhost:${customServer.runtimePort}")
         assert(customServer.started())
+        assert(customClient.get("/context/hello").responseBody == "Hello World!")
+
         customServer.stop()
 
+        /*
+         * You can skip the adapter is you previously bound one
+         * You may also skip the settings an the defaults will be used
+         */
         InjectionManager.bindObject(adapter)
-        val defaultServer = Server {}
+        val defaultServer = Server(router = router)
 
         defaultServer.start()
+
+        val defaultClient = Client("http://localhost:${defaultServer.runtimePort}")
         assert(defaultServer.started())
+        assert(defaultClient.get("/hello").responseBody == "Hello World!")
+
         defaultServer.stop()
         // serverCreation
     }
@@ -159,9 +185,9 @@ import org.asynchttpclient.Response as ClientResponse
             // callbackQueryParam
             get("/queryParam") {
                 request.queryString
-                request.parameters                 // the query param list
-                request.parameters["FOO"]?.first() // value of FOO query param
-                request.parameters["FOO"]          // all values of FOO query param
+                request.queryParameters                 // the query param list
+                request.queryParameters["FOO"]?.first() // value of FOO query param
+                request.queryParameters["FOO"]          // all values of FOO query param
             }
             // callbackQueryParam
 

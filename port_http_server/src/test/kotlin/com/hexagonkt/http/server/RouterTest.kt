@@ -84,7 +84,7 @@ import org.testng.annotations.Test
             get("/infix") { ok("infix") }
 
             path("/router") {
-                get("/subroute") { ok("Router") }
+                get("/subRoute") { ok("Router") }
             }
 
             error(401) {}
@@ -92,17 +92,19 @@ import org.testng.annotations.Test
             error(IllegalArgumentException::class) {}
         }
 
-        val assets = server.router.requestHandlers.filterIsInstance(AssetsHandler::class.java)
+        val requestHandlers = server.contextRouter.requestHandlers
+
+        val assets = requestHandlers.filterIsInstance(AssetsHandler::class.java)
         assert (assets.any { it.route.path.path == "/*" && it.path == "assets" })
 
-        val filters = server.router.requestHandlers.filterIsInstance(FilterHandler::class.java)
+        val filters = requestHandlers.filterIsInstance(FilterHandler::class.java)
         assert (filters.any { it.route == Route(Path("/after"), ALL) && it.order == AFTER })
         assert (filters.any { it.route == Route(Path("/before"), ALL) && it.order == BEFORE })
         assert (filters.any { it.route == Route(Path("/*"), ALL) && it.order == AFTER })
         assert (filters.any { it.route == Route(Path("/*"), ALL) && it.order == BEFORE })
         assert (filters.any { it.route == Route(Path("/infix"), ALL) && it.order == BEFORE })
 
-        val routes = server.router.requestHandlers.filterIsInstance(RouteHandler::class.java)
+        val routes = requestHandlers.filterIsInstance(RouteHandler::class.java)
         assert (routes.any { it.route == Route(Path("/get"), GET) })
         assert (routes.any { it.route == Route(Path("/head"), HEAD) })
         assert (routes.any { it.route == Route(Path("/post"), POST) })
@@ -121,14 +123,14 @@ import org.testng.annotations.Test
         assert (routes.any { it.route == Route(Path("/"), PATCH) })
         assert (routes.any { it.route == Route(Path("/infix"), GET) })
 
-        val paths = server.router.requestHandlers.filterIsInstance(PathHandler::class.java)
-        val subrouter = paths.first { it.route == Route(Path("/router")) }.router
-        val subget = subrouter.requestHandlers.filterIsInstance(RouteHandler::class.java).first()
-        assert(subget.route.path.path == "/subroute")
+        val paths = requestHandlers.filterIsInstance(PathHandler::class.java)
+        val subRouter = paths.first { it.route == Route(Path("/router")) }.router
+        val subGet = subRouter.requestHandlers.filterIsInstance(RouteHandler::class.java).first()
+        assert(subGet.route.path.path == "/subRoute")
 
-        val codedErrors = server.router.requestHandlers.filterIsInstance(CodeHandler::class.java)
+        val codedErrors = requestHandlers.filterIsInstance(CodeHandler::class.java)
         assert (codedErrors.any { it.code == 401 })
-        val exceptionErrors = server.router.requestHandlers.filterIsInstance(ExceptionHandler::class.java)
+        val exceptionErrors = requestHandlers.filterIsInstance(ExceptionHandler::class.java)
         assert (exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
         assert (exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
     }
