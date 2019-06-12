@@ -8,6 +8,7 @@ import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
 import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.helpers.Resource
 import org.testng.annotations.Test
 
 @Test class RouterTest {
@@ -33,10 +34,10 @@ import org.testng.annotations.Test
                     post {}
                 }
 
-                after ("/bar") {}
+                after("/bar") {}
                 error(404) {}
                 error(IllegalArgumentException::class) {}
-                assets("/assets", "/files")
+                assets("/files", Resource("/assets"))
             }
         }
 
@@ -55,9 +56,9 @@ import org.testng.annotations.Test
 
     @Test fun `Routes are stored in server's router`() {
         val server = Server(VoidAdapter) {
-            assets ("assets")
+            assets(Resource("assets"))
 
-            after ("/after") {}
+            after("/after") {}
             before ("/before") {}
             after {}
             before {}
@@ -94,8 +95,8 @@ import org.testng.annotations.Test
 
         val requestHandlers = server.contextRouter.requestHandlers
 
-        val assets = requestHandlers.filterIsInstance(AssetsHandler::class.java)
-        assert (assets.any { it.route.path.path == "/*" && it.path == "assets" })
+        val assets = requestHandlers.filterIsInstance(ResourceHandler::class.java)
+        assert (assets.any { it.route.path.path == "/*" && it.resource.path == "assets" })
 
         val filters = requestHandlers.filterIsInstance(FilterHandler::class.java)
         assert (filters.any { it.route == Route(Path("/after"), ALL) && it.order == AFTER })

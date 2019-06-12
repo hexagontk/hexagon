@@ -5,10 +5,12 @@ import com.hexagonkt.http.server.FilterOrder.AFTER
 import com.hexagonkt.http.server.FilterOrder.BEFORE
 
 import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.Method.GET
 import com.hexagonkt.http.server.RequestHandler.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
+import java.io.File
 
 import kotlin.reflect.KClass
 
@@ -94,8 +96,16 @@ class Router(block: Router.() -> Unit = {}) {
 
     fun path(path: String, block: Router.() -> Unit) = path(Path(path), Router(block))
 
-    fun assets (resource: String, path: String = "/*") {
-        requestHandlers = requestHandlers + AssetsHandler(Route(Path(path), GET), resource)
+    fun assets(resource: Resource) {
+        assets("/*", resource)
+    }
+
+    fun assets(path: String, resource: Resource) {
+        requestHandlers = requestHandlers + ResourceHandler(Route(Path(path), GET), resource)
+    }
+
+    fun assets(path: String, file: File) {
+        requestHandlers = requestHandlers + FileHandler(Route(Path(path), GET), file)
     }
 
     fun flatRequestHandlers(h: List<RequestHandler> = requestHandlers): List<RequestHandler> = h
@@ -127,7 +137,8 @@ class Router(block: Router.() -> Unit = {}) {
                 is RouteHandler -> nestedRoute.list().map { r -> it.copy(route = r) }
                 is ExceptionHandler -> listOf(it.copy(route = nestedRoute))
                 is CodeHandler -> listOf(it.copy(route = nestedRoute))
-                is AssetsHandler -> listOf(it.copy(route = nestedRoute))
+                is ResourceHandler -> listOf(it.copy(route = nestedRoute))
+                is FileHandler -> listOf(it.copy(route = nestedRoute))
                 is PathHandler -> flatRequestHandlers(listOf(it.copy(route = nestedRoute)))
             }
         }

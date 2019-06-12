@@ -18,8 +18,8 @@ import java.util.Locale.getDefault as defaultLocale
     // files
     private val server: Server by lazy {
         Server(adapter) {
-            assets("assets", "/html/*") // Serves `assets` resources on `/html/*`
-            assets("public") // Serves `public` resources folder on `/*`
+            assets("/html/*", Resource("assets")) // Serves `assets` resources on `/html/*`
+            assets(Resource("public")) // Serves `public` resources folder on `/*`
             post("/multipart") { ok(request.parts.keys.joinToString(":")) }
 
             post("/file") {

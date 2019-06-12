@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.injection.InjectionManager
 import io.netty.handler.codec.http.cookie.DefaultCookie
@@ -333,11 +334,11 @@ import org.asynchttpclient.Response as ClientResponse
             get("/web/file.txt") { ok("It matches this route and won't search for the file") }
 
             // Expose resources on the '/public' resource folder over the '/web' HTTP path
-            assets("public", "/web/*")
+            assets("/web/*", Resource("public"))
 
             // Maps resources on 'assets' on the server root (assets/f.css -> /f.css)
             // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
-            assets("assets")
+            assets(Resource("assets"))
             // files
         }
 

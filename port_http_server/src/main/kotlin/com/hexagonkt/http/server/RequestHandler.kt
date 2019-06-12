@@ -1,6 +1,8 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.Route
+import java.io.File
 
 sealed class RequestHandler {
     abstract val route: Route
@@ -24,9 +26,13 @@ sealed class RequestHandler {
         val code: Int,
         val callback: ErrorCodeCallback) : RequestHandler()
 
-    data class AssetsHandler(
+    data class ResourceHandler(
         override val route: Route,
-        val path: String) : RequestHandler()
+        val resource: Resource) : RequestHandler()
+
+    data class FileHandler(
+        override val route: Route,
+        val file: File) : RequestHandler()
 
     data class PathHandler(
         override val route: Route,
