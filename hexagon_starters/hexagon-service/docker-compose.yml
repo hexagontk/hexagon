@@ -7,5 +7,5 @@ services:
     build:
       context: .
     ports:
-      - 9999:${bindPort}
+      - 9999:9090
 
