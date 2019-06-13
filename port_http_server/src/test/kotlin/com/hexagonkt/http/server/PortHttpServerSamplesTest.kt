@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.injection.InjectionManager
 import io.netty.handler.codec.http.cookie.DefaultCookie
@@ -14,17 +15,44 @@ import org.asynchttpclient.Response as ClientResponse
 
     @Test fun serverCreation() {
         // serverCreation
-        val customServer = Server(adapter, Router(), "name", InetAddress.getByName("0.0.0"), 2020)
+        /*
+         * All settings are optional, you can supply any combination
+         * Parameters not set will fall back to the defaults
+         */
+        val settings = ServerSettings(
+            serverName = "name",
+            bindAddress = InetAddress.getByName("0.0.0"),
+            bindPort = 2020,
+            contextPath = "/context"
+        )
+
+        val router = Router {
+            get("/hello") { ok("Hello World!") }
+        }
+
+        val customServer = Server(adapter, router, settings)
 
         customServer.start()
+
+        val customClient = Client("http://localhost:${customServer.runtimePort}")
         assert(customServer.started())
+        assert(customClient.get("/context/hello").responseBody == "Hello World!")
+
         customServer.stop()
 
+        /*
+         * You can skip the adapter is you previously bound one
+         * You may also skip the settings an the defaults will be used
+         */
         InjectionManager.bindObject(adapter)
-        val defaultServer = Server {}
+        val defaultServer = Server(router = router)
 
         defaultServer.start()
+
+        val defaultClient = Client("http://localhost:${defaultServer.runtimePort}")
         assert(defaultServer.started())
+        assert(defaultClient.get("/hello").responseBody == "Hello World!")
+
         defaultServer.stop()
         // serverCreation
     }
@@ -158,9 +186,9 @@ import org.asynchttpclient.Response as ClientResponse
             // callbackQueryParam
             get("/queryParam") {
                 request.queryString
-                request.parameters                 // the query param list
-                request.parameters["FOO"]?.first() // value of FOO query param
-                request.parameters["FOO"]          // all values of FOO query param
+                request.queryParameters                 // the query param list
+                request.queryParameters["FOO"]?.first() // value of FOO query param
+                request.queryParameters["FOO"]          // all values of FOO query param
             }
             // callbackQueryParam
 
@@ -306,11 +334,11 @@ import org.asynchttpclient.Response as ClientResponse
             get("/web/file.txt") { ok("It matches this route and won't search for the file") }
 
             // Expose resources on the '/public' resource folder over the '/web' HTTP path
-            assets("public", "/web/*")
+            assets("/web/*", Resource("public"))
 
             // Maps resources on 'assets' on the server root (assets/f.css -> /f.css)
             // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
-            assets("assets")
+            assets(Resource("assets"))
             // files
         }
 
@@ -338,7 +366,8 @@ import org.asynchttpclient.Response as ClientResponse
             get("/hello") { ok("Hi!") }
         }
 
-        val server = Server(adapter, router, "name", InetAddress.getLoopbackAddress(), 0)
+        val serverSettings = ServerSettings("name", InetAddress.getLoopbackAddress(), 0)
+        val server = Server(adapter, router, serverSettings)
 
         server.start()
         val client = Client("http://localhost:${server.runtimePort}")

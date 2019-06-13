@@ -8,6 +8,7 @@ import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
 import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.helpers.Resource
 import org.testng.annotations.Test
 
 @Test class RouterTest {
@@ -33,10 +34,10 @@ import org.testng.annotations.Test
                     post {}
                 }
 
-                after ("/bar") {}
+                after("/bar") {}
                 error(404) {}
                 error(IllegalArgumentException::class) {}
-                assets("/assets", "/files")
+                assets("/files", Resource("/assets"))
             }
         }
 
@@ -55,9 +56,9 @@ import org.testng.annotations.Test
 
     @Test fun `Routes are stored in server's router`() {
         val server = Server(VoidAdapter) {
-            assets ("assets")
+            assets(Resource("assets"))
 
-            after ("/after") {}
+            after("/after") {}
             before ("/before") {}
             after {}
             before {}
@@ -84,7 +85,7 @@ import org.testng.annotations.Test
             get("/infix") { ok("infix") }
 
             path("/router") {
-                get("/subroute") { ok("Router") }
+                get("/subRoute") { ok("Router") }
             }
 
             error(401) {}
@@ -92,17 +93,19 @@ import org.testng.annotations.Test
             error(IllegalArgumentException::class) {}
         }
 
-        val assets = server.router.requestHandlers.filterIsInstance(AssetsHandler::class.java)
-        assert (assets.any { it.route.path.path == "/*" && it.path == "assets" })
+        val requestHandlers = server.contextRouter.requestHandlers
 
-        val filters = server.router.requestHandlers.filterIsInstance(FilterHandler::class.java)
+        val assets = requestHandlers.filterIsInstance(ResourceHandler::class.java)
+        assert (assets.any { it.route.path.path == "/*" && it.resource.path == "assets" })
+
+        val filters = requestHandlers.filterIsInstance(FilterHandler::class.java)
         assert (filters.any { it.route == Route(Path("/after"), ALL) && it.order == AFTER })
         assert (filters.any { it.route == Route(Path("/before"), ALL) && it.order == BEFORE })
         assert (filters.any { it.route == Route(Path("/*"), ALL) && it.order == AFTER })
         assert (filters.any { it.route == Route(Path("/*"), ALL) && it.order == BEFORE })
         assert (filters.any { it.route == Route(Path("/infix"), ALL) && it.order == BEFORE })
 
-        val routes = server.router.requestHandlers.filterIsInstance(RouteHandler::class.java)
+        val routes = requestHandlers.filterIsInstance(RouteHandler::class.java)
         assert (routes.any { it.route == Route(Path("/get"), GET) })
         assert (routes.any { it.route == Route(Path("/head"), HEAD) })
         assert (routes.any { it.route == Route(Path("/post"), POST) })
@@ -121,14 +124,14 @@ import org.testng.annotations.Test
         assert (routes.any { it.route == Route(Path("/"), PATCH) })
         assert (routes.any { it.route == Route(Path("/infix"), GET) })
 
-        val paths = server.router.requestHandlers.filterIsInstance(PathHandler::class.java)
-        val subrouter = paths.first { it.route == Route(Path("/router")) }.router
-        val subget = subrouter.requestHandlers.filterIsInstance(RouteHandler::class.java).first()
-        assert(subget.route.path.path == "/subroute")
+        val paths = requestHandlers.filterIsInstance(PathHandler::class.java)
+        val subRouter = paths.first { it.route == Route(Path("/router")) }.router
+        val subGet = subRouter.requestHandlers.filterIsInstance(RouteHandler::class.java).first()
+        assert(subGet.route.path.path == "/subRoute")
 
-        val codedErrors = server.router.requestHandlers.filterIsInstance(CodeHandler::class.java)
+        val codedErrors = requestHandlers.filterIsInstance(CodeHandler::class.java)
         assert (codedErrors.any { it.code == 401 })
-        val exceptionErrors = server.router.requestHandlers.filterIsInstance(ExceptionHandler::class.java)
+        val exceptionErrors = requestHandlers.filterIsInstance(ExceptionHandler::class.java)
         assert (exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
         assert (exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
     }

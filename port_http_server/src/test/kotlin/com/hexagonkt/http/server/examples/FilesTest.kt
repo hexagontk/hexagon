@@ -11,20 +11,42 @@ import org.asynchttpclient.request.body.multipart.StringPart
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
+import java.io.File
 import java.util.Locale.getDefault as defaultLocale
 
 @Test abstract class FilesTest(adapter: ServerPort) {
 
+    private val directory = File("hexagon_site/assets").let {
+        if (it.exists()) it.path
+        else "../hexagon_site/assets"
+    }
+
     // files
     private val server: Server by lazy {
         Server(adapter) {
-            assets("assets", "/html/*") // Serves `assets` resources on `/html/*`
-            assets("public") // Serves `public` resources folder on `/*`
+            assets("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+            assets("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
+            assets(Resource("public")) // Serve `public` resources folder on `/*`
             post("/multipart") { ok(request.parts.keys.joinToString(":")) }
+
             post("/file") {
                 val part = request.parts.values.first()
                 val content = part.inputStream.reader().readText()
                 ok(content)
+            }
+
+            post("/form") {
+                fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
+                    map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+                )
+
+                val queryParams = serializeMap(queryParameters)
+                val formParams = serializeMap(formParameters)
+                val params = serializeMap(parameters)
+
+                response.headers["queryParams"] = queryParams
+                response.headers["formParams"] = formParams
+                response.headers["params"] = params
             }
         }
     }
@@ -40,20 +62,39 @@ import java.util.Locale.getDefault as defaultLocale
         server.stop()
     }
 
+    @Test fun `Parameters are separated from each other`() {
+        val parts = listOf(StringPart("name", "value"))
+        val response = client.send(Method.POST, "/form?queryName=queryValue", parts = parts)
+        assert(response.headers["queryParams"].contains("queryName:queryValue"))
+        assert(!response.headers["queryParams"].contains("name:value"))
+        assert(response.headers["formParams"].contains("name:value"))
+        assert(!response.headers["formParams"].contains("queryName:queryValue"))
+        assert(response.headers["params"].contains("queryName:queryValue"))
+        assert(response.headers["params"].contains("name:value"))
+    }
+
     @Test fun `Requesting a folder with an existing file name returns 404`() {
         val response = client.get ("/file.txt/")
         assertResponseContains(response, 404)
     }
 
     @Test fun `An static file from resources can be fetched`() {
-        val response = client.get ("/file.txt")
+        val response = client.get("/file.txt")
         assertResponseEquals(response, "file content\n")
     }
 
     @Test fun `Files content type is returned properly`() {
-        val response = client.get ("/file.css")
+        val response = client.get("/file.css")
         assert(response.contentType.contains("css"))
         assertResponseEquals(response, "/* css */\n")
+
+        val responseFile = client.get("/pub/css/mkdocs.css")
+        assert(responseFile.contentType.contains("css"))
+        assertResponseContains(responseFile, 200, "article")
+    }
+
+    @Test fun `Not found resources return 404`() {
+        assert(client.get("/not_found.css").statusCode == 404)
     }
 
     @Test fun `Sending multi part content works properly`() {
@@ -76,12 +117,12 @@ import java.util.Locale.getDefault as defaultLocale
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
-        assert (response?.statusCode == status)
-        assert (response?.responseBody == content)
+        assert(response?.statusCode == status)
+        assert(response?.responseBody == content)
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert (response?.statusCode == status)
+        assert(response?.statusCode == status)
         content.forEach {
             assert (response?.responseBody?.contains (it) ?: false)
         }

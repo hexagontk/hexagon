@@ -18,6 +18,7 @@ out/
 log/
 *.log
 *.hprof
+.attach_pid*
 
 # Others
 .DS_Store

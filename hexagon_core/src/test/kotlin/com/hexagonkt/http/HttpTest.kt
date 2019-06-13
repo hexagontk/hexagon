@@ -7,19 +7,28 @@ import java.time.LocalDateTime
 
     @Test fun `Parse strips spaces` () {
         assert(parseQueryParameters("a =1&b & c &d = e") == mapOf(
-            "a" to "1",
-            "b" to "",
-            "c" to "",
-            "d" to "e"
+            "a" to listOf("1"),
+            "b" to listOf(""),
+            "c" to listOf(""),
+            "d" to listOf("e")
         ))
     }
 
     @Test fun `Parse key only query parameters return correct data` () {
         assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
-            "a" to "1",
-            "b" to "",
-            "c" to "",
-            "d" to "e"
+            "a" to listOf("1"),
+            "b" to listOf(""),
+            "c" to listOf(""),
+            "d" to listOf("e")
+        ))
+    }
+
+    @Test fun `Parse multiple keys return list of values` () {
+        assert(parseQueryParameters("a=1&b&c&d=e&a=2&b=c") == mapOf(
+            "a" to listOf("1", "2"),
+            "b" to listOf("", "c"),
+            "c" to listOf(""),
+            "d" to listOf("e")
         ))
     }
 

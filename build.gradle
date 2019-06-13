@@ -32,7 +32,8 @@ clean {
 
     delete(
         fileTree(rootDir) { include "**/*.log" },
-        fileTree(rootDir) { include "**/*.hprof" }
+        fileTree(rootDir) { include "**/*.hprof" },
+        fileTree(rootDir) { include "**/.attach_pid*" }
     )
 }
 

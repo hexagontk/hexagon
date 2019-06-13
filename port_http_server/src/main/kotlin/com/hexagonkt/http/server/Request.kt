@@ -22,8 +22,10 @@ abstract class Request {
     val pathParameters: RequiredKeysMap<String, String> by lazy { RequiredKeysMap(pathParameters()) }
     val queryString: String by lazy { queryString() }
     val url: String by lazy { url() }
-    val parameters: Map<String, List<String>> by lazy { parameters() }
     val parts: Map<String, Part> by lazy { parts() }
+    val parameters: Map<String, List<String>> by lazy { parameters() }
+    val queryParameters: Map<String, List<String>> by lazy { queryParameters() }
+    val formParameters: Map<String, List<String>> by lazy { formParameters() }
 
     val accept: List<String> by lazy { headers["accept"] ?: emptyList() }
     val preferredType: String by lazy { accept.firstOrNull() ?: "text/plain" }
@@ -46,8 +48,10 @@ abstract class Request {
     protected abstract fun pathParameters(): Map<String, String>   // ["some_param"] // some_param path parameter
     protected abstract fun queryString(): String   // ""
     protected abstract fun url(): String           // "http://example.com/example/foo"
-    protected abstract fun parameters(): Map<String, List<String>> // ["some_param"] // some_param query/form parameter
     protected abstract fun parts(): Map<String, Part>              // hash of multipart parts
+    protected abstract fun parameters(): Map<String, List<String>> // ["some_param"] // some_param query/form parameter
+    protected abstract fun queryParameters(): Map<String, List<String>>
+    protected abstract fun formParameters(): Map<String, List<String>>
 
     protected abstract fun body(): String          // request body sent by the client
     protected abstract fun headers(): Map<String, List<String>>    // ["SOME_HEADER"] // value of SOME_HEADER header

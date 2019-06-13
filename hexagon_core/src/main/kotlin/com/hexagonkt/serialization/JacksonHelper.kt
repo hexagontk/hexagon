@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonToken.START_OBJECT
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import java.net.InetAddress
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,7 +50,20 @@ internal object JacksonHelper {
             .addDeserializer(ClosedRange::class.java, ClosedRangeDeserializer())
             .addSerializer(Float::class.java, FloatSerializer)
             .addDeserializer(Float::class.java, FloatDeserializer)
+            .addSerializer(InetAddress::class.java, InetAddressSerializer)
+            .addDeserializer(InetAddress::class.java, InetAddressDeserializer)
         )
+
+    private object InetAddressSerializer : JsonSerializer<InetAddress>() {
+        override fun serialize(value: InetAddress, gen: JsonGenerator, serializers: SerializerProvider) {
+            gen.writeString(value.hostAddress)
+        }
+    }
+
+    private object InetAddressDeserializer : JsonDeserializer<InetAddress>() {
+        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): InetAddress =
+            InetAddress.getByName(p.text)
+    }
 
     private object FloatSerializer : JsonSerializer<Float>() {
         override fun serialize(value: Float, gen: JsonGenerator, serializers: SerializerProvider) {

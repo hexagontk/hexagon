@@ -8,7 +8,7 @@ ENV PROJECT ${projectName}
 ENV TZ UTC
 
 VOLUME /tmp
-EXPOSE ${bindPort}
+EXPOSE 9090
 
 RUN ln -snf /usr/share/zoneinfo/\$TZ /etc/localtime && echo \$TZ > /etc/timezone
 

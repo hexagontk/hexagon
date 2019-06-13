@@ -9,6 +9,7 @@ import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
+import java.io.File
 import java.net.URL
 import java.util.Locale.getDefault as defaultLocale
 
@@ -18,6 +19,11 @@ import java.util.Locale.getDefault as defaultLocale
         val id: String = System.currentTimeMillis().toString(),
         val name: String
     )
+
+    private val directory = File("hexagon_site/assets").let {
+        if (it.exists()) it.path
+        else "../hexagon_site/assets"
+    }
 
     private val part = "param"
 
@@ -30,6 +36,8 @@ import java.util.Locale.getDefault as defaultLocale
                 response.setHeader("ip", request.ip)
                 response.setHeader("uri", request.url)
                 response.setHeader("params", parameters.size.toString())
+                response.setHeader("queryParams", queryParameters.size.toString())
+                response.setHeader("formParams", formParameters.size.toString())
 
                 response.setHeader("agent", request.userAgent)
                 response.setHeader("scheme", request.scheme)
@@ -82,6 +90,8 @@ import java.util.Locale.getDefault as defaultLocale
             get("/tworoutes/${part.toUpperCase()}/{param}") {
                 ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
             }
+
+            assets(File(directory))
         }
     }
 
@@ -108,6 +118,9 @@ import java.util.Locale.getDefault as defaultLocale
         assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
         assert("" == response.headers["query"])
         assert(port == response.headers["port"])
+        assert("0" == response.headers["params"])
+        assert("0" == response.headers["queryParams"])
+        assert("0" == response.headers["formParams"])
 
         assert("false" == response.headers["secure"])
         assert("UNKNOWN" == response.headers["referer"])
@@ -131,6 +144,9 @@ import java.util.Locale.getDefault as defaultLocale
         assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
         assert("query" == response.headers["query"])
         assert(port == response.headers["port"])
+        assert("1" == response.headers["params"])
+        assert("1" == response.headers["queryParams"])
+        assert("0" == response.headers["formParams"])
 
         assert("false" == response.headers["secure"])
         assert("UNKNOWN" == response.headers["referer"])
@@ -167,6 +183,13 @@ import java.util.Locale.getDefault as defaultLocale
     @Test fun getRoot() {
         val response = client.get ("/")
         assertResponseEquals(response, "Hello Root!")
+    }
+
+    @Test fun `Root files content type is returned properly`() {
+        val responseFile = client.get("/css/mkdocs.css")
+        assert(responseFile.contentType.contains("css"))
+        assert(responseFile.statusCode == 200)
+        assert(responseFile.responseBody.contains("article"))
     }
 
     @Test fun echoParamWithUpperCaseInValue() {

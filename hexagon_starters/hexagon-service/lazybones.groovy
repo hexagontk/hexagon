@@ -14,7 +14,6 @@ String className = transformText (projectName.tr ('_', '-'), from: HYPHENATED, t
 String group = askParameter('group', 'org.example')
 String version = askParameter('version', '0.1')
 String description = askParameter('description', "Service's description")
-String bindPort = askParameter('bindPort', "9090")
 
 Map<Object, Object> props = [
     projectDir : projectDir,
@@ -23,7 +22,6 @@ Map<Object, Object> props = [
     description : description,
     projectName : projectName,
     className : className,
-    bindPort : bindPort
 ]
 
 processTemplates 'README.md', props
@@ -31,9 +29,7 @@ processTemplates 'build.gradle', props
 processTemplates 'settings.gradle', props
 processTemplates 'gradle.properties', props
 processTemplates 'Dockerfile', props
-processTemplates 'docker-compose.yml', props
 processTemplates 'src/main/resources/logback.xml', props
-processTemplates 'src/main/resources/service.yaml', props
 processTemplates 'src/test/resources/logback-test.xml', props
 
 Path projectPath = projectDir.toPath()
