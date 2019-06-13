@@ -9,6 +9,7 @@ import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
+import java.io.File
 import java.net.URL
 import java.util.Locale.getDefault as defaultLocale
 
@@ -18,6 +19,11 @@ import java.util.Locale.getDefault as defaultLocale
         val id: String = System.currentTimeMillis().toString(),
         val name: String
     )
+
+    private val directory = File("hexagon_site/assets").let {
+        if (it.exists()) it.path
+        else "../hexagon_site/assets"
+    }
 
     private val part = "param"
 
@@ -84,6 +90,8 @@ import java.util.Locale.getDefault as defaultLocale
             get("/tworoutes/${part.toUpperCase()}/{param}") {
                 ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
             }
+
+            assets(File(directory))
         }
     }
 
@@ -175,6 +183,13 @@ import java.util.Locale.getDefault as defaultLocale
     @Test fun getRoot() {
         val response = client.get ("/")
         assertResponseEquals(response, "Hello Root!")
+    }
+
+    @Test fun `Root files content type is returned properly`() {
+        val responseFile = client.get("/css/mkdocs.css")
+        assert(responseFile.contentType.contains("css"))
+        assert(responseFile.statusCode == 200)
+        assert(responseFile.responseBody.contains("article"))
     }
 
     @Test fun echoParamWithUpperCaseInValue() {

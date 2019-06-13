@@ -104,6 +104,10 @@ class Router(block: Router.() -> Unit = {}) {
         requestHandlers = requestHandlers + ResourceHandler(Route(Path(path), GET), resource)
     }
 
+    fun assets(file: File) {
+        assets("/*", file)
+    }
+
     fun assets(path: String, file: File) {
         requestHandlers = requestHandlers + FileHandler(Route(Path(path), GET), file)
     }

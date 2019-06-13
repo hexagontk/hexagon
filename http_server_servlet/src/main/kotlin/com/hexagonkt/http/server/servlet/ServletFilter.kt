@@ -3,6 +3,7 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Logger
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.ALL
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.FilterOrder.AFTER
@@ -11,6 +12,8 @@ import com.hexagonkt.http.server.RequestHandler.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
 import com.hexagonkt.serialization.SerializationManager.contentTypeOf
+import java.io.File
+import java.io.InputStream
 
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest as HttpRequest
@@ -41,7 +44,8 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         .asSequence()
         .map {
             when (it) {
-                is AssetsHandler -> RouteHandler(it.route, createResourceHandler(it.route, it.path))
+                is ResourceHandler -> RouteHandler(it.route, createResourceHandler(it.route, it.resource))
+                is FileHandler -> RouteHandler(it.route, createResourceHandler(it.route, it.file))
                 else -> it
             }
         }
@@ -196,29 +200,49 @@ class ServletFilter (router: List<RequestHandler>) : Filter {
         }
     }
 
-    private fun createResourceHandler(route: Route, resourcesFolder: String): RouteCallback = {
+    private fun createResourceHandler(route: Route, resourcesFolder: Resource): RouteCallback = {
+        val requestPath = getRequestPath(route)
+        val resourcePath = "/${resourcesFolder.path}$requestPath"
+        val stream = javaClass.getResourceAsStream(resourcePath)
+
+        if (stream == null)
+            assetNotFound()
+        else
+            returnAsset(resourcePath, stream)
+    }
+
+    private fun createResourceHandler(route: Route, resourcesFolder: File): RouteCallback = {
+        val requestPath = getRequestPath(route).removePrefix("/")
+        val file = resourcesFolder.resolve(requestPath).absoluteFile
+
+        if (!file.exists())
+            assetNotFound()
+        else
+            returnAsset(file.absolutePath, file.inputStream())
+    }
+
+    private fun Call.returnAsset(resourcePath: String, stream: InputStream) {
+        val contentType by lazy { contentTypeOf(request.path.substringAfterLast('.')) }
+
+        // Should be done BEFORE flushing the stream (if not content type is ignored)
+        if (response.contentType == null && contentType != null)
+            response.contentType = contentType
+
+        log.trace { "Resource for '$resourcePath' (${response.contentType}) returned" }
+        val bytes = stream.readBytes()
+        response.outputStream.write(bytes)
+        response.outputStream.flush()
+    }
+
+    private fun Call.getRequestPath(route: Route): String {
         if (request.path.endsWith("/"))
             throw PassException()
 
-        val requestPath = request.path.removePrefix(route.path.path.removeSuffix("/*"))
-        val resourcePath = "/$resourcesFolder$requestPath"
-        val stream = javaClass.getResourceAsStream(resourcePath)
+        return request.path.removePrefix(route.path.path.removeSuffix("/*"))
+    }
 
-        if (stream == null) {
-            response.status = 404
-            throw PassException()
-        }
-        else {
-            val contentType by lazy { contentTypeOf(request.path.substringAfterLast('.')) }
-
-            // Should be done BEFORE flushing the stream (if not content type is ignored)
-            if (response.contentType == null && contentType != null)
-                response.contentType = contentType
-
-            log.trace { "Resource for '$resourcePath' (${response.contentType}) returned" }
-            val bytes = stream.readBytes()
-            response.outputStream.write(bytes)
-            response.outputStream.flush()
-        }
+    private fun Call.assetNotFound() {
+        response.status = 404
+        throw PassException()
     }
 }
