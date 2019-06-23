@@ -2,9 +2,25 @@
  * Check usage information at: http://hexagonkt.com/gradle.html#kotlin-js
  */
 
+apply(plugin: "idea")
+apply(plugin: "eclipse")
 apply(plugin: "kotlin2js")
 
 defaultTasks("build")
+
+idea {
+    module {
+        setDownloadSources(true)
+        setDownloadJavadoc(true)
+    }
+}
+
+eclipse {
+    classpath {
+        setDownloadSources(true)
+        setDownloadJavadoc(true)
+    }
+}
 
 repositories {
     jcenter()

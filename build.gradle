@@ -11,6 +11,8 @@
  */
 
 plugins {
+    id "idea"
+    id "eclipse"
     id "java"
     id "jacoco"
 

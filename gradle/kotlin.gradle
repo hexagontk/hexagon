@@ -2,6 +2,8 @@
  * Check usage information at: http://hexagonkt.com/gradle.html#kotlin
  */
 
+apply(plugin: "idea")
+apply(plugin: "eclipse")
 apply(plugin: "kotlin")
 apply(plugin: "jacoco")
 apply(plugin: "maven-publish")
@@ -10,6 +12,20 @@ defaultTasks("build")
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
+
+idea {
+    module {
+        setDownloadSources(true)
+        setDownloadJavadoc(true)
+    }
+}
+
+eclipse {
+    classpath {
+        setDownloadSources(true)
+        setDownloadJavadoc(true)
+    }
+}
 
 repositories {
     jcenter()
