@@ -48,7 +48,7 @@ install:
   - docker-compose up -d
 
 script:
-  - ./gradlew --quiet clean sonarqube all
+  - ./gradlew --quiet clean all
   - docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.1.2 build
 
 after_success: bash <(curl -s https://codecov.io/bash)
