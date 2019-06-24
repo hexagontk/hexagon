@@ -39,24 +39,24 @@ task("checkDocumentation") {
     }
 }
 
-allprojects { projectName ->
-    final String prjName = projectName.name
-    
-    if (!(prjName in [ "hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) 
-        && projectName.getTasksByName("dokkaMd", false) == null)
-        rootProject.project(prjName) {
-            task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
-                outputFormat = "gfm"
-                reportUndocumented = false
-                outputDirectory = "$buildDir/md/${it.name}"
-            }
+rootProject.childProjects.each { projects ->
+    final String name = projects.key
+    final Project project = projects.value
+    final boolean empty = project.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
+
+    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) && empty)
+        project.task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
+            outputFormat = "gfm"
+            reportUndocumented = false
+            outputDirectory = "${project.buildDir}/md/${name}"
         }
 }
 
 task("mkdocs") {
     dependsOn("checkDocumentation")
+    dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
 
-    doFirst {
+    doLast {
         final String contentTarget = project.file("content").absolutePath
         final Set<Project> modules = rootProject.subprojects
         final List<String> dirs = modules.collect { "$it.name/build/md" } as List<String>
@@ -77,4 +77,3 @@ task("mkdocs") {
     }
 }
 
-mkdocs.dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
