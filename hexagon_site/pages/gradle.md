@@ -55,15 +55,14 @@ To setup this script's parameters, check the [build variables section]. This hel
 This script setup [Dokka] tool and add a JAR with the project's code documentation to the published
 JARs.
 
-All modules' Markdown files are added to the documentation and all test classes are available to be
-referenced as samples.
+All modules' Markdown files are added to the documentation and test classes ending in `SamplesTest`
+are available to be referenced as samples.
 
 To use it apply `$gradleScripts/dokka.gradle` and add the
 `id 'org.jetbrains.dokka' version 'VERSION'` plugin to the root `build.gradle`.
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
-
-* dokkaOutputFormat (optional): documentation format. By default it is `gfm`.
+The format for the generated documentation will be `javadoc` to make it compatible with current
+IDEs.
 
 [Dokka]: https://github.com/Kotlin/dokka
 

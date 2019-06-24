@@ -1,10 +1,6 @@
 
-project.ext.configData = {
-    final String helloWorld = "http_server_jetty/src/test/kotlin/com/hexagonkt/http/HelloWorld.kt"
-    return ["readmeCode" : rootProject.file(helloWorld).text ]
-}()
-
 apply(from: "../gradle/icons.gradle")
+apply(plugin: "org.jetbrains.dokka")
 
 task("clean", type: Delete) {
     delete("build", "content")
@@ -43,13 +39,27 @@ task("checkDocumentation") {
     }
 }
 
+allprojects { projectName ->
+    final String prjName = projectName.name
+    
+    if (!(prjName in [ "hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) 
+        && projectName.getTasksByName("dokkaMd", false) == null)
+        rootProject.project(prjName) {
+            task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
+                outputFormat = "gfm"
+                reportUndocumented = false
+                outputDirectory = "$buildDir/md/${it.name}"
+            }
+        }
+}
+
 task("mkdocs") {
     dependsOn("checkDocumentation")
 
     doFirst {
         final String contentTarget = project.file("content").absolutePath
         final Set<Project> modules = rootProject.subprojects
-        final List<String> dirs = modules.collect { "$it.name/build/dokka" } as List<String>
+        final List<String> dirs = modules.collect { "$it.name/build/md" } as List<String>
         final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
 
         copy {
@@ -67,4 +77,4 @@ task("mkdocs") {
     }
 }
 
-mkdocs.dependsOn(rootProject.getTasksByName("dokka", true).toArray())
+mkdocs.dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
