@@ -18,6 +18,8 @@ task("dokkaJar", type: Jar, dependsOn: "dokka") {
     from(fileTree("$buildDir/dokka"))
 }
 
+assemble.dependsOn("dokkaJar")
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
