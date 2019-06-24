@@ -54,7 +54,6 @@ rootProject.childProjects.each { projects ->
 
 task("mkdocs") {
     dependsOn("checkDocumentation")
-    dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
 
     doLast {
         final String contentTarget = project.file("content").absolutePath
@@ -77,3 +76,5 @@ task("mkdocs") {
     }
 }
 
+// Including this dependencies inside `mkdocs` task causes a Gradle runtime error
+mkdocs.dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())

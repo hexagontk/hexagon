@@ -74,7 +74,6 @@ task("all", dependsOn:
     project.getTasksByName("mkdocs", true) +
     project.getTasksByName("jacocoReport", true) +
     project.getTasksByName("installDist", true) +
-    project.getTasksByName("sonarqube", true) +
     project.getTasksByName("installAllTemplates", true) +
     project.getTasksByName("publishToMavenLocal", true) +
     project.getTasksByName("tfb", true)
