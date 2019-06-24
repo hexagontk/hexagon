@@ -41,18 +41,14 @@ task("checkDocumentation") {
 
 task("mkdocs") {
     dependsOn("checkDocumentation")
-    dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
 
     doLast {
         final String contentTarget = project.file("content").absolutePath
-        final Set<Project> modules = rootProject.subprojects
-        final List<String> dirs = modules.collect { "$it.name/build/md" } as List<String>
         final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
 
         copy {
             from(project.file('pages'))
             from(project.file('assets'))
-            dirs.each { dir -> from(rootProject.file(dir)) }
             into(contentTarget)
         }
 
