@@ -41,19 +41,23 @@ task("checkDocumentation") {
 
 rootProject.childProjects.each { projects ->
     final String name = projects.key
-    final Project project = projects.value
-    final boolean empty = project.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
+    final Project prj = projects.value
+    final boolean empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
 
-    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) && empty)
-        project.task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
-            outputFormat = "gfm"
-            reportUndocumented = false
-            outputDirectory = "${project.buildDir}/md/${name}"
+    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) && empty) {
+        rootProject.project(name) {
+            task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
+                outputFormat = "gfm"
+                reportUndocumented = false
+                outputDirectory = "${buildDir}/md/${name}"
+            }
         }
+    }
 }
 
 task("mkdocs") {
     dependsOn("checkDocumentation")
+    dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
 
     doLast {
         final String contentTarget = project.file("content").absolutePath
@@ -75,6 +79,3 @@ task("mkdocs") {
         }
     }
 }
-
-// Including this dependencies inside `mkdocs` task causes a Gradle runtime error
-mkdocs.dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
