@@ -69,6 +69,22 @@ task("jacocoReport", dependsOn: getTasksByName ("jacocoTestReport", true), type:
 
 project.tasks["sonarqube"].dependsOn("jacocoReport")
 
+childProjects.each { projects ->
+    final String name = projects.key
+    final Project prj = projects.value
+    final boolean empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
+
+    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) && empty) {
+        project(name) {
+            task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
+                outputFormat = "gfm"
+                reportUndocumented = false
+                outputDirectory = "${buildDir}/md/${name}"
+            }
+        }
+    }
+}
+
 task("all", dependsOn:
     project.getTasksByName("build", true) +
     project.getTasksByName("mkdocs", true) +
