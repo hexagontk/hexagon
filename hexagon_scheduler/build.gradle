@@ -8,3 +8,9 @@ dependencies {
     api(project(":hexagon_core"))
     api("com.cronutils:cron-utils:$cronutilsVersion") { exclude(module: "slf4j-api") }
 }
+
+task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = "gfm"
+    reportUndocumented = false
+    outputDirectory = "${rootDir}/hexagon_site/content/${project.name}"
+}

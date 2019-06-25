@@ -69,24 +69,24 @@ task("jacocoReport", dependsOn: getTasksByName ("jacocoTestReport", true), type:
 
 project.tasks["sonarqube"].dependsOn("jacocoReport")
 
-childProjects.each { pair ->
-    final String name = pair.key
-    final Project prj = pair.value
-    final boolean empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
-
-    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) && empty) {
-        project(name) {
-            task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
-                outputFormat = "gfm"
-                reportUndocumented = false
-                outputDirectory = "${rootDir}/hexagon_site/content/${name}"
-            }
-        }
-    }
-}
-
-childProjects["hexagon_site"].mkdocs
-    .dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
+//childProjects.each { pair ->
+//    final String name = pair.key
+//    final Project prj = pair.value
+//    final boolean empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
+//
+//    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) && empty) {
+//        project(name) {
+//            task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
+//                outputFormat = "gfm"
+//                reportUndocumented = false
+//                outputDirectory = "${rootDir}/hexagon_site/content/${name}"
+//            }
+//        }
+//    }
+//}
+//
+//childProjects["hexagon_site"].mkdocs
+//    .dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
 
 task("all", dependsOn:
     project.getTasksByName("build", true) +
