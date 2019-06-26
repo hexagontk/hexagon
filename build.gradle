@@ -69,31 +69,36 @@ task("jacocoReport", dependsOn: getTasksByName ("jacocoTestReport", true), type:
 
 project.tasks["sonarqube"].dependsOn("jacocoReport")
 
-//childProjects.each { pair ->
-//    final String name = pair.key
-//    final Project prj = pair.value
-//    final boolean empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
-//
-//    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) && empty) {
-//        project(name) {
-//            task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
-//                outputFormat = "gfm"
-//                reportUndocumented = false
-//                outputDirectory = "${rootDir}/hexagon_site/content/${name}"
-//            }
-//        }
-//    }
-//}
-//
-//childProjects["hexagon_site"].mkdocs
-//    .dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
+childProjects.each { pair ->
+    final String name = pair.key
+    final Project prj = pair.value
+    final boolean empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
+
+    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) && empty) {
+        project(name) {
+            task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
+                outputFormat = "gfm"
+                reportUndocumented = false
+                outputDirectory = "${rootDir}/hexagon_site/content/${name}"
+                includes = filesCollection(prj.projectDir, "*.md")
+                samples = filesCollection("${prj.projectDir}/src/test/kotlin", "**/*SamplesTest.kt")
+            }
+        }
+    }
+}
+
+task("site", dependsOn: [ "hexagon_site:checkDocumentation", "hexagon_site:mkdocs" ])
+site.dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
 
 task("all", dependsOn:
     project.getTasksByName("build", true) +
-    project.getTasksByName("mkdocs", true) +
     project.getTasksByName("jacocoReport", true) +
     project.getTasksByName("installDist", true) +
     project.getTasksByName("installAllTemplates", true) +
     project.getTasksByName("publishToMavenLocal", true) +
     project.getTasksByName("tfb", true)
 )
+
+private List<File> filesCollection(final Object dir, final String pattern) {
+    return fileTree(dir: dir, include: pattern).getFiles().toList()
+}

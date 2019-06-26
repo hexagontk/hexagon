@@ -40,9 +40,7 @@ task("checkDocumentation") {
 }
 
 task("mkdocs") {
-    dependsOn("checkDocumentation")
-
-    doLast {
+    doFirst {
         final String contentTarget = project.file("content").absolutePath
         final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
 
@@ -59,5 +57,3 @@ task("mkdocs") {
         }
     }
 }
-
-mkdocs.dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
