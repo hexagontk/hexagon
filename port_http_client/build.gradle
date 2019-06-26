@@ -12,9 +12,3 @@ dependencies {
 
     testCompile(project(":http_server_jetty"))
 }
-
-task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = "gfm"
-    reportUndocumented = false
-    outputDirectory = "${rootDir}/hexagon_site/content/${project.name}"
-}

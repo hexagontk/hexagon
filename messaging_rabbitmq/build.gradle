@@ -20,9 +20,3 @@ dependencies {
         exclude(module: "qpid-broker-plugins-websocket")
     }
 }
-
-task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = "gfm"
-    reportUndocumented = false
-    outputDirectory = "${rootDir}/hexagon_site/content/${project.name}"
-}

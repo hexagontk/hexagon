@@ -8,9 +8,3 @@ dependencies {
     api(project(":port_templates"))
     api("io.pebbletemplates:pebble:$pebbleVersion") { exclude module: "slf4j-api" }
 }
-
-task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = "gfm"
-    reportUndocumented = false
-    outputDirectory = "${rootDir}/hexagon_site/content/${project.name}"
-}

@@ -9,9 +9,3 @@ dependencies {
     api("org.mongodb:mongodb-driver:$mongodbVersion")
     api("org.mongodb:mongodb-driver-async:$mongodbVersion")
 }
-
-task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = "gfm"
-    reportUndocumented = false
-    outputDirectory = "${rootDir}/hexagon_site/content/${project.name}"
-}
