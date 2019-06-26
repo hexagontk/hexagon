@@ -1,10 +1,6 @@
 
-project.ext.configData = {
-    final String helloWorld = "http_server_jetty/src/test/kotlin/com/hexagonkt/http/HelloWorld.kt"
-    return ["readmeCode" : rootProject.file(helloWorld).text ]
-}()
-
 apply(from: "../gradle/icons.gradle")
+apply(plugin: "org.jetbrains.dokka")
 
 task("clean", type: Delete) {
     delete("build", "content")
@@ -44,18 +40,13 @@ task("checkDocumentation") {
 }
 
 task("mkdocs") {
-    dependsOn("checkDocumentation")
-
     doFirst {
         final String contentTarget = project.file("content").absolutePath
-        final Set<Project> modules = rootProject.subprojects
-        final List<String> dirs = modules.collect { "$it.name/build/dokka" } as List<String>
         final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
 
         copy {
             from(project.file('pages'))
             from(project.file('assets'))
-            dirs.each { dir -> from(rootProject.file(dir)) }
             into(contentTarget)
         }
 
@@ -66,5 +57,3 @@ task("mkdocs") {
         }
     }
 }
-
-mkdocs.dependsOn(rootProject.getTasksByName("dokka", true).toArray())

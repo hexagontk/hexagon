@@ -2,7 +2,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.40"
 }
 
 repositories {
@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.9.8"
+    val jacksonVersion = "2.9.9"
 
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
