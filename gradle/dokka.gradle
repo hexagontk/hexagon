@@ -6,10 +6,6 @@ apply(plugin: "kotlin")
 apply(plugin: "maven-publish")
 apply(plugin: "org.jetbrains.dokka")
 
-dependencies {
-    dokkaRuntime("org.jetbrains.dokka:dokka-fatjar:0.9.18")
-}
-
 dokka {
     outputFormat = "javadoc"
     reportUndocumented = false
