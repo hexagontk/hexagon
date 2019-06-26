@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty1
 @Test class MongoRepositoryTest {
     private val repository: MongoIdRepository<Company, String> = mongoIdRepository(Company::id)
 
-    inline fun <reified T : Any, reified K : Any> mongoIdRepository(
+    private inline fun <reified T : Any, reified K : Any> mongoIdRepository(
         key: KProperty1<T, K>,
         database: MongoDatabase = mongoDatabase("mongodb://localhost/test"),
         indexOrder: Int? = 1) =
