@@ -6,8 +6,8 @@ task("clean", type: Delete) {
     delete("build", "content")
 }
 
-task("checkDocumentation") {
-    doFirst {
+task("checkSite") {
+    doLast {
         final File readme = rootProject.file("README.md")
         final String examples =
             "port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples"
@@ -35,12 +35,22 @@ task("checkDocumentation") {
                 new FileRange(rootProject.file("$examples/FilesTest.kt"), "files")
         ]
 
-        fileRanges.each { SiteKt.checkDocumentationCode(it.key, it.value) }
+        fileRanges.each { SiteKt.checkSamplesCode(it.key, it.value) }
+        
+        final String contentTarget = project.file("content").absolutePath
+        final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
+
+        markdownFiles.each { File markdownFile ->
+            if (markdownFile.text.contains("@sample")) {
+                final String message = "${markdownFile.absolutePath} Contains `@sample` placeholder"
+                throw new GradleException(message)
+            }
+        }
     }
 }
 
 task("mkdocs") {
-    doFirst {
+    doLast {
         final String contentTarget = project.file("content").absolutePath
         final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
 

@@ -87,9 +87,6 @@ childProjects.each { pair ->
     }
 }
 
-task("site", dependsOn: [ "hexagon_site:checkDocumentation", "hexagon_site:mkdocs" ])
-site.dependsOn(rootProject.getTasksByName("dokkaMd", true).toArray())
-
 task("all", dependsOn:
     project.getTasksByName("build", true) +
     project.getTasksByName("jacocoReport", true) +
