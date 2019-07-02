@@ -5,6 +5,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalDateTime.of as dateTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.Calendar.MILLISECOND
 
@@ -24,6 +25,7 @@ import java.util.Calendar.MILLISECOND
     @Test fun `Zoned date`() {
         val now = LocalDateTime.now()
         assert(now.withZone(ZoneId.of("GMT")).toLocalDateTime() == now)
+        assert(now.withZone() == ZonedDateTime.of(now, Jvm.timeZone.toZoneId()))
     }
 
     @Test fun `LocalDateTime can be converted to Date`() {
