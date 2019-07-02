@@ -1,17 +1,21 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.http.Method
+import com.hexagonkt.http.Method.GET
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.serialization.parse
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.io.File
 import java.net.URL
-import java.util.Locale.getDefault as defaultLocale
+import kotlin.text.Charsets.UTF_8
 
 @Test abstract class GenericTest(adapter: ServerPort) {
 
@@ -31,6 +35,20 @@ import java.util.Locale.getDefault as defaultLocale
         Server(adapter) {
             before { response.setHeader("before", "filter") }
 
+            get("/request/body") {
+                val tag = request.bodyObject(Tag::class)
+                val tags = request.bodyObjects(Tag::class)
+                val tagMap = request.bodyObject()
+                val tagsMaps = request.bodyObjects()
+
+                assert(tags.first() == tag)
+                assert(tagMap.convertToObject(Tag::class) == tag)
+                assert(tagsMaps.first() == tagMap)
+                assert(requestType == requestFormat.contentType)
+
+                ok(tag.copy(name = "${tag.name} processed"), charset = UTF_8)
+            }
+
             get("/request/data") {
                 response.setHeader("method", request.method.toString())
                 response.setHeader("ip", request.ip)
@@ -48,6 +66,7 @@ import java.util.Locale.getDefault as defaultLocale
                 response.setHeader("secure", request.secure.toString())
                 response.setHeader("referer", request.referer)
                 response.setHeader("preferredType", request.preferredType)
+                response.setHeader("accept", request.accept.joinToString(","))
                 response.setHeader("contentLength", request.contentLength.toString())
 
                 ok("${request.url}!!!")
@@ -105,13 +124,22 @@ import java.util.Locale.getDefault as defaultLocale
         server.stop()
     }
 
+    @Test fun `Request body is parsed properly`() {
+        val tag = Tag("id", "name")
+        val response = client.send(GET, "/request/body", tag, Json.contentType)
+        assert(response.statusCode == 200)
+        assert(response.contentType == "${Json.contentType};charset=utf-8")
+        assert(response.responseBody.parse(Tag::class) == tag.copy(name = "${tag.name} processed"))
+    }
+
     @Test fun `Empty query string is handled properly`() {
-        val response = client.get ("/request/data")
-        val port = URL(client.endpoint).port.toString ()
+        val response = client.get("/request/data", mapOf("Accept" to listOf("text/plain")))
+        val port = URL(client.endpoint).port.toString()
         val host = response.headers["host"]
         val ip = response.headers["ip"]
         val protocol = "http"
 
+        assert("text/plain" == response.headers["accept"])
         assert("AHC/2.1" == response.headers["agent"])
         assert(protocol == response.headers["scheme"])
         assert("127.0.0.1" == host || "localhost" == host)
@@ -123,7 +151,7 @@ import java.util.Locale.getDefault as defaultLocale
         assert("0" == response.headers["formParams"])
 
         assert("false" == response.headers["secure"])
-        assert("UNKNOWN" == response.headers["referer"])
+        assert(response.headers["referer"] == null)
         assert("text/plain" == response.headers["preferredType"])
         assert(response.headers["contentLength"].isNotEmpty())
 
@@ -149,8 +177,8 @@ import java.util.Locale.getDefault as defaultLocale
         assert("0" == response.headers["formParams"])
 
         assert("false" == response.headers["secure"])
-        assert("UNKNOWN" == response.headers["referer"])
-        assert("text/plain" == response.headers["preferredType"])
+        assert(response.headers["referer"] == null)
+        assert("*/*" == response.headers["preferredType"])
         assert(response.headers["contentLength"].isNotEmpty())
 
         assert(response.responseBody == "$protocol://localhost:$port/request/data!!!")

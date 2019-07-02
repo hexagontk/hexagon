@@ -27,8 +27,9 @@ abstract class Response {
     @Suppress("RemoveExplicitTypeArguments") // Without types fails inside IntelliJ
     val headers: MutableMap<String, List<Any>> by lazy { LinkedHashMap<String, List<Any>>() }
 
-    fun setHeader(name: String, value: Any) {
-        headers[name] = listOf(value)
+    fun setHeader(name: String, value: Any?) {
+        if (value != null)
+            headers[name] = listOf(value)
     }
 
     protected abstract fun outputStream(): OutputStream
