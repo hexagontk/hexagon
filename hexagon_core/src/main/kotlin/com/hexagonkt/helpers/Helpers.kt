@@ -12,18 +12,18 @@ val logger: Logger = Logger(System::class)
  * @return The callback result if succeed.
  * @throws [CodedException] if the callback didn't succeed in the given times.
  */
-fun <T> retry (times: Int, delay: Long, func: () -> T): T {
-    require (times > 0)
-    require (delay >= 0)
+fun <T> retry(times: Int, delay: Long, func: () -> T): T {
+    require(times > 0)
+    require(delay >= 0)
 
     val exceptions = mutableListOf<Exception>()
     for (ii in 1 .. times) {
         try {
-            return func ()
+            return func()
         }
         catch (e: Exception) {
-            exceptions.add (e)
-            Thread.sleep (delay)
+            exceptions.add(e)
+            Thread.sleep(delay)
         }
     }
 
@@ -40,22 +40,22 @@ fun error(): Nothing = error
 /**
  * Returns the stack trace array of the frames that starts with the given prefix.
  */
-fun Throwable.filterStackTrace (prefix: String): Array<out StackTraceElement> =
-    if (prefix.isEmpty ())
+fun Throwable.filterStackTrace(prefix: String): Array<out StackTraceElement> =
+    if (prefix.isEmpty())
         this.stackTrace
     else
-        this.stackTrace.filter { it.className.startsWith (prefix) }.toTypedArray()
+        this.stackTrace.filter { it.className.startsWith(prefix) }.toTypedArray()
 
 /**
  * Returns this throwable as a text.
  */
-fun Throwable.toText (prefix: String = ""): String =
+fun Throwable.toText(prefix: String = ""): String =
     "${this.javaClass.name}: ${this.message}" +
         this.filterStackTrace(prefix).joinToString(eol, eol) { "\tat $it" } +
         if (this.cause == null)
             ""
         else
-            "${eol}Caused by: " + (this.cause as Throwable).toText (prefix)
+            "${eol}Caused by: " + (this.cause as Throwable).toText(prefix)
 
 // MAP OPERATIONS //////////////////////////////////////////////////////////////////////////////////
 @Suppress("UNCHECKED_CAST")
@@ -65,8 +65,7 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
             .dropLast(1)
             .fold(this) { result, element ->
                 val r = result as Map<Any, Any>
-                val value = r.getOrElse(element) { mapOf<Any, Any>() }
-                when (value) {
+                when (val value = r.getOrElse(element) { mapOf<Any, Any>() }) {
                     is Map<*, *> -> value
                     is List<*> -> value.mapIndexed { ii, item -> ii to item }.toMap()
                     else -> mapOf<Any, Any>()

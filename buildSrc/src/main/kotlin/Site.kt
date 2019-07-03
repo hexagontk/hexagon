@@ -1,9 +1,5 @@
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import java.io.File
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class FileRange(private val file: File, private val range: IntRange) {
 
@@ -53,10 +49,7 @@ class FileRange(private val file: File, private val range: IntRange) {
     override fun toString(): String = "$file.absolutePath [$range]"
 }
 
-fun loadYaml(yamlFile: File): Map<*, *> =
-    ObjectMapper(YAMLFactory()).readValue(yamlFile, Map::class.java)
-
-fun checkDocumentationCode(documentation: FileRange, source: FileRange) {
+fun checkSamplesCode(documentation: FileRange, source: FileRange) {
     if (documentation.strippedLines() != source.strippedLines())
         error("""
             Documentation $documentation does not match $source
@@ -67,22 +60,6 @@ fun checkDocumentationCode(documentation: FileRange, source: FileRange) {
             SRC -----------------------------------------------
             ${source.text()}
         """.trimIndent())
-}
-
-fun addFrontMatter(markdownFile: File, content: String): String =
-    """
-        title=${markdownFile.name.replace("_", " ").capitalize().removeSuffix(".md")}
-        date=${LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)}
-        fileName=${markdownFile.name}
-        type=page
-        status=published
-        ~~~~~~
-    """.trimIndent() + "\n" + content
-
-fun fixLinks(content: String): String {
-    val title = "[ ._a-zA-Z0-9\\-]"
-    val link = "[/._a-zA-Z0-9\\-]"
-    return content.replace("""\[($title*)]\(($link*)\.md\)""".toRegex(), "[$1]($2.html)")
 }
 
 fun insertSamplesCode(markdownFile: File, content: String): String {

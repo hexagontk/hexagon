@@ -10,7 +10,6 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as Insecur
 import org.asynchttpclient.DefaultAsyncHttpClient
 import org.asynchttpclient.DefaultAsyncHttpClientConfig.Builder
 import org.asynchttpclient.Response
-import org.asynchttpclient.request.body.multipart.StringPart
 import org.asynchttpclient.request.body.multipart.Part
 import java.io.File
 import java.nio.charset.Charset
@@ -18,12 +17,11 @@ import java.nio.charset.StandardCharsets.UTF_8
 import java.util.*
 import java.util.Base64.Encoder
 import kotlin.collections.LinkedHashMap
-import org.asynchttpclient.request.body.multipart.Part as AsyncHttpPart
 
 /**
  * Client to use other REST services.
  */
-class Client (
+class Client(
     val endpoint: String = "",
     val contentType: String? = null,
     val useCookies: Boolean = true,
@@ -52,7 +50,7 @@ class Client (
     /**
      * Synchronous execution.
      */
-    fun send (
+    fun send(
         method: Method,
         url: String = "",
         body: Any? = null,
@@ -93,53 +91,54 @@ class Client (
         return response
     }
 
-    fun get (url: String, callHeaders: Map<String, List<String>> = LinkedHashMap()) =
-        send (GET, url, null, callHeaders = callHeaders)
+    fun get(url: String, callHeaders: Map<String, List<String>> = LinkedHashMap()) =
+        send(GET, url, null, callHeaders = callHeaders)
 
-    fun head (url: String, callHeaders: Map<String, List<String>> = LinkedHashMap()) =
-        send (HEAD, url, null, callHeaders = callHeaders)
+    fun head(url: String, callHeaders: Map<String, List<String>> = LinkedHashMap()) =
+        send(HEAD, url, null, callHeaders = callHeaders)
 
-    fun post (url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send (POST, url, body, contentType)
+    fun post(url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send(POST, url, body, contentType)
 
-    fun put (url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send (PUT, url, body, contentType)
+    fun put(url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send(PUT, url, body, contentType)
 
-    fun delete (url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send (DELETE, url, body, contentType)
+    fun delete(url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send(DELETE, url, body, contentType)
 
-    fun trace (url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send (TRACE, url, body, contentType)
+    fun trace(url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send(TRACE, url, body, contentType)
 
-    fun options (url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send (OPTIONS, url, body, contentType)
+    fun options(url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send(OPTIONS, url, body, contentType)
 
-    fun patch (url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send (PATCH, url, body, contentType)
+    fun patch(url: String, body: Any? = null, contentType: String? = this.contentType) =
+        send(PATCH, url, body, contentType)
 
-    private fun createRequest(method: Method, url: String, contentType: String? = null, parts: List<Part>) =
-        (endpoint + url).let {
-            val request = when (method) {
-                GET -> client.prepareGet (it)
-                HEAD -> client.prepareHead (it)
-                POST -> client.preparePost (it)
-                PUT -> client.preparePut (it)
-                DELETE -> client.prepareDelete (it)
-                TRACE -> client.prepareTrace (it)
-                OPTIONS -> client.prepareOptions (it)
-                PATCH -> client.preparePatch (it)
+    private fun createRequest(
+        method: Method, url: String, contentType: String? = null, parts: List<Part>) =
+            (endpoint + url).let {
+                val request = when (method) {
+                    GET -> client.prepareGet (it)
+                    HEAD -> client.prepareHead (it)
+                    POST -> client.preparePost (it)
+                    PUT -> client.preparePut (it)
+                    DELETE -> client.prepareDelete (it)
+                    TRACE -> client.prepareTrace (it)
+                    OPTIONS -> client.prepareOptions (it)
+                    PATCH -> client.preparePatch (it)
+                }
+
+                request.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?
+
+                parts.forEach { part -> request.addBodyPart(part) }
+
+                if (contentType != null)
+                    request.addHeader("Content-Type", contentType)
+
+                if (authorization != null)
+                    request.addHeader("Authorization", "Basic $authorization")
+
+                request
             }
-
-            request.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?
-
-            parts.forEach { part -> request.addBodyPart(part) }
-
-            if (contentType != null)
-                request.addHeader("Content-Type", contentType)
-
-            if (authorization != null)
-                request.addHeader("Authorization", "Basic $authorization")
-
-            request
-        }
 }

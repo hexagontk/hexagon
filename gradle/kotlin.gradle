@@ -95,7 +95,7 @@ task("verify", dependsOn: "test", type: Test) {
 }
 
 jacoco {
-    toolVersion = "0.8.3"
+    toolVersion = "0.8.4"
 }
 
 // Generate coverage reports properly
@@ -117,7 +117,7 @@ task("jarAll", type: Jar, dependsOn: "test") {
 
 task("sourceJar", type: Jar) {
     archiveClassifier.set("sources")
-    from(sourceSets.main.allJava)
+    from(sourceSets.main.allSource)
 }
 
 task("testJar", type: Jar, dependsOn: testClasses) {

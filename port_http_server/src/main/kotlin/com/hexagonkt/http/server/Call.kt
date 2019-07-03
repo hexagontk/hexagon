@@ -4,8 +4,8 @@ import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.RequiredKeysMap
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.serialize
+import java.nio.charset.Charset
 
 /**
  * HTTP request context. It holds client supplied data and methods to change the response.
@@ -13,18 +13,19 @@ import com.hexagonkt.serialization.serialize
 class Call(val request: Request, val response: Response, val session: Session) {
 
     /** Call attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
+    @Suppress("RemoveExplicitTypeArguments") // Without types fails inside IntelliJ
     val attributes: MutableMap<String, Any> by lazy { LinkedHashMap<String, Any>() }
+
+    val requestType: String get() =
+        request.requestType()
+
+    val requestFormat: SerializationFormat get() =
+        request.requestFormat()
 
     val responseType: String get() =
         response.contentType ?:
-        request.headers["Accept"]?.firstOrNull()?.let { if (it == "*/*") null else it } ?:
+        request.accept.firstOrNull()?.let { if (it == "*/*") null else it } ?:
         requestType
-
-    val requestType: String get() =
-        request.contentType ?: defaultFormat.contentType
-
-    val requestFormat: SerializationFormat get() =
-        SerializationManager.formatOf(requestType)
 
     val responseFormat: SerializationFormat get() =
         SerializationManager.formatOf(responseType)
@@ -37,8 +38,11 @@ class Call(val request: Request, val response: Response, val session: Session) {
 
     fun ok(content: Any = "", contentType: String? = null) = send(200, content, contentType)
 
-    fun ok(content: Any = "", serializationFormat: SerializationFormat) =
-        send(200, content, serializationFormat)
+    fun ok(
+        content: Any,
+        serializationFormat: SerializationFormat = responseFormat,
+        charset: Charset? = null) =
+            send(200, content, serializationFormat, charset)
 
     fun send(code: Int, content: Any = "", contentType: String? = null) {
         response.status = code
@@ -48,8 +52,16 @@ class Call(val request: Request, val response: Response, val session: Session) {
             response.contentType = contentType
     }
 
-    fun send(code: Int, content: Any = "", serializationFormat: SerializationFormat) =
-        send(code, content.serialize(serializationFormat), serializationFormat.contentType)
+    // TODO Handle charset: transform content to the proper encoding
+    fun send(code: Int, content: Any, serializationFormat: SerializationFormat, charset: Charset?) =
+        send(
+            code,
+            content.serialize(serializationFormat),
+            if (charset == null)
+                serializationFormat.contentType
+            else
+                serializationFormat.contentType + ";charset=" + charset.name()
+        )
 
     fun halt(content: Any): Nothing = halt(500, content)
 
@@ -57,5 +69,5 @@ class Call(val request: Request, val response: Response, val session: Session) {
         throw CodedException(code, content.toString())
     }
 
-    fun redirect (url: String) = response.redirect(url)
+    fun redirect(url: String) = response.redirect(url)
 }

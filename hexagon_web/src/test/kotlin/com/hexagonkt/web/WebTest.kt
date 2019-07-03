@@ -10,7 +10,6 @@ import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeTest
 import org.testng.annotations.Test
 import java.time.LocalDateTime
-import java.util.Locale.getDefault as defaultLocale
 
 @Test class WebTest {
 

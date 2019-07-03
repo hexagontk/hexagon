@@ -18,4 +18,11 @@ import java.net.Inet4Address
         assert(Jvm.usedMemory().matches(numberRegex))
         assert(Jvm.uptime().matches(numberRegex))
     }
+
+    @Test fun `System settings with default values are handled properly`() {
+        assert(Jvm.systemSetting("this_do_not_exist", "default") == "default")
+
+        System.setProperty("existing_java_property", "value")
+        assert(Jvm.systemSetting("existing_java_property", "default") == "value")
+    }
 }

@@ -1,8 +1,10 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.Resource
+import com.hexagonkt.http.Method
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.serialization.Json
 import io.netty.handler.codec.http.cookie.DefaultCookie
 import org.testng.annotations.Test
 import java.lang.IllegalStateException
@@ -12,6 +14,8 @@ import java.net.InetAddress
 import org.asynchttpclient.Response as ClientResponse
 
 @Test abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
+
+    private data class Type(val value: String = "value")
 
     @Test fun serverCreation() {
         // serverCreation
@@ -147,20 +151,26 @@ import org.asynchttpclient.Response as ClientResponse
 
             // callbackRequest
             get("/request") {
-                request.method         // the HTTP method (GET, ..etc)
-                request.scheme         // http or https
-                request.secure         // true if scheme is https
-                request.host           // the host, e.g. "example.com"
-                request.ip             // client IP address
-                request.port           // the server port
-                request.path           // the request path, e.g. /result.jsp
-                request.body           // request body sent by the client
-                request.url            // the url. e.g. "http://example.com/foo"
-                request.contentLength  // length of request body
-                request.contentType    // content type of request.body
-                request.headers        // the HTTP header list
-                request.headers["BAR"] // value of BAR header
-                request.userAgent      // user agent
+                request.method                   // the HTTP method (GET, ..etc)
+                request.scheme                   // http or https
+                request.secure                   // true if scheme is https
+                request.host                     // the host, e.g. "example.com"
+                request.ip                       // client IP address
+                request.port                     // the server port
+                request.path                     // the request path, e.g. /result.jsp
+                request.body                     // request body sent by the client
+                request.url                      // the url. e.g. "http://example.com/foo"
+                request.contentLength            // length of request body
+                request.contentType              // content type of request.body
+                request.accept                   // Client accepted content types
+                request.headers                  // the HTTP header list
+                request.headers["BAR"]           // value of BAR header
+                request.userAgent                // user agent (browser requests)
+                request.origin                   // origin (browser requests)
+                request.bodyObject(Type::class)  // Object passed in the body as a typed object
+                request.bodyObjects(Type::class) // Object(s) passed in the body as a typed list
+                request.bodyObject()             // Object passed in the body as a field map
+                request.bodyObjects()            // Object(s) passed in the body as a list of maps
             }
             // callbackRequest
 
@@ -249,7 +259,7 @@ import org.asynchttpclient.Response as ClientResponse
         val callResponse = client.get("/call")
         assert(callResponse.statusCode == 400)
         assert(callResponse.responseBody == "Invalid request")
-        assert(client.get("/request").statusCode == 200)
+        assert(client.send(Method.GET, "/request", Type(), Json.contentType).statusCode == 200)
         assert(client.get("/response").statusCode == 401)
         assert(client.get("/pathParam/param").statusCode == 200)
         assert(client.get("/queryParam").statusCode == 200)
