@@ -42,17 +42,17 @@ abstract class Request {
     val referer: String? by lazy { headers["Referer"]?.firstOrNull() }
     val origin: String? by lazy { headers["Origin"]?.firstOrNull() }
 
-    val body: String by lazy { body() }
+    val body: String by lazy { loadBody() }
     val headers: Map<String, List<String>> by lazy { headers() }
     val cookies: Map<String, HttpCookie> by lazy { cookies() }
     val contentType: String? by lazy { contentType() }
     val contentLength: Long by lazy { contentLength() }
 
-    fun <T : Any> bodyObject(type: KClass<T>): T = body.parse(type, requestFormat())
-    fun bodyObject(): Map<*, *> = body.parse(Map::class, requestFormat())
+    fun <T : Any> body(type: KClass<T>): T = body.parse(type, requestFormat())
+    fun <T : Any> bodyList(type: KClass<T>): List<T> = body.parseList(type, requestFormat())
 
-    fun <T : Any> bodyObjects(type: KClass<T>): List<T> = body.parseList(type, requestFormat())
-    fun bodyObjects(): List<Map<*, *>> = body.parseList(Map::class, requestFormat())
+    inline fun <reified T : Any> body(): T = body(T::class)
+    inline fun <reified T : Any> bodyList(): List<T> = bodyList(T::class)
 
     protected abstract fun method(): Method        // "GET"
     protected abstract fun scheme(): String        // "http"
@@ -68,7 +68,7 @@ abstract class Request {
     protected abstract fun queryParameters(): Map<String, List<String>>
     protected abstract fun formParameters(): Map<String, List<String>>
 
-    protected abstract fun body(): String          // request body sent by the client
+    protected abstract fun loadBody(): String          // request body sent by the client
     protected abstract fun headers(): Map<String, List<String>> // ["H"] // value of "H" header
     protected abstract fun cookies(): Map<String, HttpCookie>   // hash of browser cookies
     protected abstract fun contentType(): String?  // media type of request.body

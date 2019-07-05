@@ -27,6 +27,7 @@ parameters list:
   set `<undefined>` is used.
 * bindAddress: address to which this process is bound. If none is provided, `127.0.0.1` is taken.
 * bindPort: the port that the process listens to. By default it is `2010`
+* contextPath: initial path used for the rest of the routes, by default it is empty.
 
 You can inject an adapter for the `Server` port using the [InjectionManager] object:
 `InjectionManager.bindObject<ServerPort>(JettyServletAdapter())`

@@ -36,10 +36,10 @@ import kotlin.text.Charsets.UTF_8
             before { response.setHeader("before", "filter") }
 
             get("/request/body") {
-                val tag = request.bodyObject(Tag::class)
-                val tags = request.bodyObjects(Tag::class)
-                val tagMap = request.bodyObject()
-                val tagsMaps = request.bodyObjects()
+                val tag = request.body<Tag>()
+                val tags = request.bodyList<Tag>()
+                val tagMap = request.body<Map<String, *>>()
+                val tagsMaps = request.bodyList<Map<String, *>>()
 
                 assert(tags.first() == tag)
                 assert(tagMap.convertToObject(Tag::class) == tag)
@@ -126,7 +126,7 @@ import kotlin.text.Charsets.UTF_8
 
     @Test fun `Request body is parsed properly`() {
         val tag = Tag("id", "name")
-        val response = client.send(GET, "/request/body", tag, Json.contentType)
+        val response = client.send(GET, "/request/body", tag, Json.contentType, mapOf("Accept" to listOf(Json.contentType)))
         assert(response.statusCode == 200)
         assert(response.contentType == "${Json.contentType};charset=utf-8")
         assert(response.responseBody.parse(Tag::class) == tag.copy(name = "${tag.name} processed"))

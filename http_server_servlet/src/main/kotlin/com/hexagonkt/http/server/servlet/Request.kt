@@ -13,7 +13,7 @@ internal class Request(private val req: HttpServletRequest) : Request() {
     var actionPath: Path? = null
 
     override fun path(): String = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath
-    override fun body(): String = InputStreamReader(req.inputStream).readText()
+    override fun loadBody(): String = InputStreamReader(req.inputStream).readText()
     override fun scheme(): String = req.scheme
     override fun port(): Int = req.serverPort
     override fun method(): Method = Method.valueOf (req.method)
