@@ -49,10 +49,10 @@ abstract class Request {
     val contentLength: Long by lazy { contentLength() }
 
     fun <T : Any> body(type: KClass<T>): T = body.parse(type, requestFormat())
-    fun <T : Any> bodyList(type: KClass<T>): List<T> = body.parseList(type, requestFormat())
+    fun <T : Any> bodyObjects(type: KClass<T>): List<T> = body.parseList(type, requestFormat())
 
     inline fun <reified T : Any> body(): T = body(T::class)
-    inline fun <reified T : Any> bodyList(): List<T> = bodyList(T::class)
+    inline fun <reified T : Any> bodyObjects(): List<T> = bodyObjects(T::class)
 
     protected abstract fun method(): Method        // "GET"
     protected abstract fun scheme(): String        // "http"

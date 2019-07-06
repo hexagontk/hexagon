@@ -37,14 +37,18 @@ import kotlin.text.Charsets.UTF_8
 
             get("/request/body") {
                 val tag = request.body<Tag>()
-                val tags = request.bodyList<Tag>()
+                val tags = request.bodyObjects<Tag>()
                 val tagMap = request.body<Map<String, *>>()
-                val tagsMaps = request.bodyList<Map<String, *>>()
+                val tagsMaps = request.bodyObjects<Map<String, *>>()
 
                 assert(tags.first() == tag)
                 assert(tagMap.convertToObject(Tag::class) == tag)
                 assert(tagsMaps.first() == tagMap)
                 assert(requestType == requestFormat.contentType)
+
+                response.setHeader("requestOrigin", request.origin)
+                response.setHeader("requestUserAgent", request.userAgent)
+                response.setHeader("requestAccept", request.accept)
 
                 ok(tag.copy(name = "${tag.name} processed"), charset = UTF_8)
             }
@@ -68,6 +72,7 @@ import kotlin.text.Charsets.UTF_8
                 response.setHeader("preferredType", request.preferredType)
                 response.setHeader("accept", request.accept.joinToString(","))
                 response.setHeader("contentLength", request.contentLength.toString())
+                response.setHeader("origin", request.origin)
 
                 ok("${request.url}!!!")
             }
@@ -126,8 +131,14 @@ import kotlin.text.Charsets.UTF_8
 
     @Test fun `Request body is parsed properly`() {
         val tag = Tag("id", "name")
-        val response = client.send(GET, "/request/body", tag, Json.contentType, mapOf("Accept" to listOf(Json.contentType)))
+        val headers = mapOf(
+            "Accept" to listOf(Json.contentType),
+            "Origin" to listOf("origin"),
+            "User-Agent" to listOf("AHC")
+        )
+        val response = client.send(GET, "/request/body", tag, Json.contentType, headers)
         assert(response.statusCode == 200)
+        assert("origin" == response.headers["requestOrigin"])
         assert(response.contentType == "${Json.contentType};charset=utf-8")
         assert(response.responseBody.parse(Tag::class) == tag.copy(name = "${tag.name} processed"))
     }
@@ -149,6 +160,7 @@ import kotlin.text.Charsets.UTF_8
         assert("0" == response.headers["params"])
         assert("0" == response.headers["queryParams"])
         assert("0" == response.headers["formParams"])
+        assert(null == response.headers["origin"])
 
         assert("false" == response.headers["secure"])
         assert(response.headers["referer"] == null)
@@ -175,6 +187,7 @@ import kotlin.text.Charsets.UTF_8
         assert("1" == response.headers["params"])
         assert("1" == response.headers["queryParams"])
         assert("0" == response.headers["formParams"])
+        assert(null == response.headers["origin"])
 
         assert("false" == response.headers["secure"])
         assert(response.headers["referer"] == null)

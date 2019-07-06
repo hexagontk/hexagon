@@ -151,26 +151,26 @@ import org.asynchttpclient.Response as ClientResponse
 
             // callbackRequest
             get("/request") {
-                request.method                // the HTTP method (GET, ..etc)
-                request.scheme                // http or https
-                request.secure                // true if scheme is https
-                request.host                  // the host, e.g. "example.com"
-                request.ip                    // client IP address
-                request.port                  // the server port
-                request.path                  // the request path, e.g. /result.jsp
-                request.body                  // request body sent by the client
-                request.url                   // the url. e.g. "http://example.com/foo"
-                request.contentLength         // length of request body
-                request.contentType           // content type of request.body
-                request.accept                // Client accepted content types
-                request.headers               // the HTTP header list
-                request.headers["BAR"]        // value of BAR header
-                request.userAgent             // user agent (browser requests)
-                request.origin                // origin (browser requests)
-                request.body(Type::class)     // Object passed in the body as a typed object
-                request.bodyList(Type::class) // Object(s) passed in the body as a typed list
-                request.body(Map::class)      // Object passed in the body as a field map
-                request.bodyList(Map::class)  // Object(s) passed in the body as a list of maps
+                request.method                   // the HTTP method (GET, ..etc)
+                request.scheme                   // http or https
+                request.secure                   // true if scheme is https
+                request.host                     // the host, e.g. "example.com"
+                request.ip                       // client IP address
+                request.port                     // the server port
+                request.path                     // the request path, e.g. /result.jsp
+                request.body                     // request body sent by the client
+                request.url                      // the url. e.g. "http://example.com/foo"
+                request.contentLength            // length of request body
+                request.contentType              // content type of request.body
+                request.accept                   // Client accepted content types
+                request.headers                  // the HTTP header list
+                request.headers["BAR"]           // value of BAR header
+                request.userAgent                // user agent (browser requests)
+                request.origin                   // origin (browser requests)
+                request.body(Type::class)        // Object passed in the body as a typed object
+                request.bodyObjects(Type::class) // Object(s) passed in the body as a typed list
+                request.body(Map::class)         // Object passed in the body as a field map
+                request.bodyObjects(Map::class)  // Object(s) passed in the body as a list of maps
             }
             // callbackRequest
 
