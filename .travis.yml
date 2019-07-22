@@ -27,8 +27,8 @@ env:
 before_cache:
   - find $HOME/.gradle/caches -type f -name '*.lock' -delete
   - find $HOME/.gradle/caches -type f -name 'file-access.bin' -delete
-  - rm -rf $HOME/.gradle/caches/*/cache.properties
-  - rm -rf $HOME/.gradle/caches/*/buildSrc.jar
+  - find $HOME/.gradle/caches -type f -name 'cache.properties' -delete
+  - find $HOME/.gradle/caches -type f -name 'buildSrc.jar' -delete
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
