@@ -54,25 +54,25 @@ abstract class Request {
     inline fun <reified T : Any> body(): T = body(T::class)
     inline fun <reified T : Any> bodyObjects(): List<T> = bodyObjects(T::class)
 
-    protected abstract fun method(): Method        // "GET"
-    protected abstract fun scheme(): String        // "http"
-    protected abstract fun host(): String          // "example.com"
-    protected abstract fun ip(): String            // client IP address
-    protected abstract fun port(): Int             // 80
-    protected abstract fun path(): String          // .path // "/foo" (servlet path + path info)
-    protected abstract fun pathParameters(): Map<String, String>   // ["p"] "p" path parameter
-    protected abstract fun queryString(): String   // ""
-    protected abstract fun url(): String           // "http://example.com/example/foo"
-    protected abstract fun parts(): Map<String, Part>              // hash of multipart parts
+    protected abstract fun method(): Method                      // "GET"
+    protected abstract fun scheme(): String                      // "http"
+    protected abstract fun host(): String                        // "example.com"
+    protected abstract fun ip(): String                          // client IP address
+    protected abstract fun port(): Int                           // 80
+    protected abstract fun path(): String                        // "/foo" servlet path + path info
+    protected abstract fun pathParameters(): Map<String, String> // ["p"] "p" path parameter
+    protected abstract fun queryString(): String                 // ""
+    protected abstract fun url(): String                         // "http://example.com/example/foo"
+    protected abstract fun parts(): Map<String, Part>            // hash of multipart parts
     protected abstract fun parameters(): Map<String, List<String>> // ["p"] "p" query/form parameter
     protected abstract fun queryParameters(): Map<String, List<String>>
     protected abstract fun formParameters(): Map<String, List<String>>
 
-    protected abstract fun loadBody(): String          // request body sent by the client
-    protected abstract fun headers(): Map<String, List<String>> // ["H"] // value of "H" header
-    protected abstract fun cookies(): Map<String, HttpCookie>   // hash of browser cookies
-    protected abstract fun contentType(): String?  // media type of request.body
-    protected abstract fun contentLength(): Long   // length of request.body
+    protected abstract fun loadBody(): String                    // request body sent by the client
+    protected abstract fun headers(): Map<String, List<String>>  // ["H"] // value of "H" header
+    protected abstract fun cookies(): Map<String, HttpCookie>    // hash of browser cookies
+    protected abstract fun contentType(): String?                // media type of request.body
+    protected abstract fun contentLength(): Long                 // length of request.body
 
     internal fun requestType(): String =
         contentType ?: defaultFormat.contentType
