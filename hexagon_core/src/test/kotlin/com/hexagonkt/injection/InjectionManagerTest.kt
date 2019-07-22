@@ -14,11 +14,13 @@ class InjectionManagerTest {
     }
 
     @Test fun `DI just works`() {
-        bind(Foo::class, ::SubFoo1)
-        bind<Foo>(::SubFoo1)
+        val injector = InjectionManager {
+            bind(Foo::class, ::SubFoo1)
+            bind<Foo>(::SubFoo1)
+        }
 
-        bind(Foo::class, 2, ::SubFoo2)
-        bind<Foo>(2, ::SubFoo2)
+        injector.bind(Foo::class, 2, ::SubFoo2)
+        injector.bind<Foo>(2, ::SubFoo2)
 
         val foo1 = inject(Foo::class)
         assert(foo1.javaClass == SubFoo1::class.java)

@@ -27,6 +27,8 @@ env:
 before_cache:
   - find $HOME/.gradle/caches -type f -name '*.lock' -delete
   - find $HOME/.gradle/caches -type f -name 'file-access.bin' -delete
+  - find $HOME/.gradle/caches -type f -name 'cache.properties' -delete
+  - find $HOME/.gradle/caches -type f -name 'buildSrc.jar' -delete
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
@@ -50,7 +52,7 @@ install:
 script:
   - ./gradlew --quiet clean sonarqube all
   - ./gradlew --quiet dokkaMd mkdocs checkSite
-  - docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.1.2 build
+  - docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.4.0 build
 
 after_success: bash <(curl -s https://codecov.io/bash)
 after_failure: echo 'Look for FAILURE in tests'

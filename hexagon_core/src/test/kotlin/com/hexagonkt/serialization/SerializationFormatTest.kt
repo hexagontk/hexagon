@@ -17,7 +17,7 @@ import kotlin.reflect.KClass
         }
 
         override fun <T : Any> parse(input: InputStream, type: KClass<T>): T { TODO("not used") }
-        override fun <T : Any> parseList(input: InputStream, type: KClass<T>): List<T> {
+        override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> {
             TODO("not used")
         }
     }
@@ -29,7 +29,7 @@ import kotlin.reflect.KClass
 
         override fun serialize(obj: Any, output: OutputStream) { TODO("not used") }
         override fun <T : Any> parse(input: InputStream, type: KClass<T>): T { TODO("not used") }
-        override fun <T : Any> parseList(input: InputStream, type: KClass<T>): List<T> {
+        override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> {
             TODO("not used")
         }
     }

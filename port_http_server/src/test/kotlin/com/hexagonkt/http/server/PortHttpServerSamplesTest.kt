@@ -167,10 +167,14 @@ import org.asynchttpclient.Response as ClientResponse
                 request.headers["BAR"]           // value of BAR header
                 request.userAgent                // user agent (browser requests)
                 request.origin                   // origin (browser requests)
-                request.bodyObject(Type::class)  // Object passed in the body as a typed object
+                request.body(Type::class)        // Object passed in the body as a typed object
+                request.body<Type>()             // Syntactic sugar for the previous statement
                 request.bodyObjects(Type::class) // Object(s) passed in the body as a typed list
-                request.bodyObject()             // Object passed in the body as a field map
-                request.bodyObjects()            // Object(s) passed in the body as a list of maps
+                request.bodyObjects<Type>()      // Syntactic sugar for the previous statement
+                request.body(Map::class)         // Object passed in the body as a field map
+                request.body<Map<*, *>>()        // Syntactic sugar for the previous statement
+                request.bodyObjects(Map::class)  // Object(s) passed in the body as a list of maps
+                request.bodyObjects<Map<*, *>>() // Syntactic sugar for the previous statement
             }
             // callbackRequest
 
@@ -346,11 +350,11 @@ import org.asynchttpclient.Response as ClientResponse
             get("/web/file.txt") { ok("It matches this route and won't search for the file") }
 
             // Expose resources on the '/public' resource folder over the '/web' HTTP path
-            assets("/web/*", Resource("public"))
+            get("/web/*", Resource("public"))
 
             // Maps resources on 'assets' on the server root (assets/f.css -> /f.css)
             // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
-            assets(Resource("assets"))
+            get(Resource("assets"))
             // files
         }
 

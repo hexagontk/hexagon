@@ -37,7 +37,7 @@ import org.testng.annotations.Test
                 after("/bar") {}
                 error(404) {}
                 error(IllegalArgumentException::class) {}
-                assets("/files", Resource("/assets"))
+                get("/files", Resource("/assets"))
             }
         }
 
@@ -56,7 +56,7 @@ import org.testng.annotations.Test
 
     @Test fun `Routes are stored in server's router`() {
         val server = Server(VoidAdapter) {
-            assets(Resource("assets"))
+            get(Resource("assets"))
 
             after("/after") {}
             before ("/before") {}

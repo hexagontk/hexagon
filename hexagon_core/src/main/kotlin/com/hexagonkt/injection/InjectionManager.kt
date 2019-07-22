@@ -45,4 +45,9 @@ object InjectionManager {
     fun <T : Any> inject(type: KClass<T>): T = inject(type, Unit)
 
     inline fun <reified T : Any> inject(): T = inject(T::class)
+
+    operator fun invoke(block: InjectionManager.() -> Unit): InjectionManager {
+        this.apply(block)
+        return this
+    }
 }

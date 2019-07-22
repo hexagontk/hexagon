@@ -3,7 +3,7 @@ package com.hexagonkt
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.serialization.Json
-import com.hexagonkt.serialization.parseList
+import com.hexagonkt.serialization.parseObjects
 import com.hexagonkt.http.Method.GET
 import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
@@ -55,7 +55,7 @@ import java.lang.System.setProperty
         val content = response.responseBody
 
         checkResponse(response, Json.contentType)
-        assert("Hello, World!" == content.parse(Message::class).message)
+        assert("Hello, World!" == content.parse<Message>().message)
     }
 
     @Test fun plaintext() {
@@ -91,7 +91,7 @@ import java.lang.System.setProperty
         val body = response.responseBody
 
         checkResponse(response, Json.contentType)
-        val bodyMap = body.parseList(Map::class).first()
+        val bodyMap = body.parseObjects(Map::class).first()
         assert(bodyMap.containsKey(World::id.name))
         assert(bodyMap.containsKey(World::randomNumber.name))
     }

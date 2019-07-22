@@ -60,7 +60,7 @@ import org.testng.annotations.Test
             - a: b
             - b: c
             - c: d
-        """.trimIndent().toStream().parseList(Yaml)
+        """.trimIndent().toStream().parseObjects<Map<String, *>>(Yaml)
         assert(parse[0]["a"] == "b")
     }
 
@@ -121,7 +121,7 @@ import org.testng.annotations.Test
                   "alias" : "al"
                 }
             ]
-            """.parseList(Device::class)
+            """.parseObjects<Device>()
 
             assert(false) { "Exception expected" }
         }

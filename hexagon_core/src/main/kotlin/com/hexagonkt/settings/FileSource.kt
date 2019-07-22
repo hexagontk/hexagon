@@ -12,7 +12,7 @@ class FileSource(val file: File) : SettingsSource {
 
     override fun load(): Map<String, *> =
         try {
-            file.parse().mapKeys { e -> e.key.toString() }
+            file.parse<Map<*, *>>().mapKeys { e -> e.key.toString() }
         }
         catch (e: FileNotFoundException) {
             emptyMap<String, Any>()

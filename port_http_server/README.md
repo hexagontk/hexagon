@@ -27,6 +27,7 @@ parameters list:
   set `<undefined>` is used.
 * bindAddress: address to which this process is bound. If none is provided, `127.0.0.1` is taken.
 * bindPort: the port that the process listens to. By default it is `2010`
+* contextPath: initial path used for the rest of the routes, by default it is empty.
 
 You can inject an adapter for the `Server` port using the [InjectionManager] object:
 `InjectionManager.bindObject<ServerPort>(JettyServletAdapter())`
@@ -217,15 +218,15 @@ refer to the thrown exception. Look at the following code for a detailed example
 
 ### Static Files
 
-You can use a folder in the classpath for serving static files with the `assets()` method. Note that
+You can use a folder in the classpath for serving static files with the `get()` methods. Note that
 the public directory name is not included in the URL.
 
 Asset mapping is handled like any other route, so if an asset mapping is matched, no other route
 will be checked (assets or other routes). And also, if a previous route is matched, the asset
 mapping will never be checked.
 
-Being `assets(resource)` a shortcut of `assets(resource, "/*")` it should be placed as the last
-route. Check the next example for details:
+Being `get(resource)` a shortcut of `get("/*", resource)` it should be placed as the last route.
+Check the next example for details:
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:files
 
