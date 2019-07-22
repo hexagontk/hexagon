@@ -40,10 +40,10 @@ fun <T : Any> InputStream.parseList(type: KClass<T>, format: SerializationFormat
     format.parseList(this, type)
 
 inline fun <reified T : Any> InputStream.parse(format: SerializationFormat = defaultFormat): T =
-    format.parse(this, T::class)
+    this.parse(T::class, format)
 
 inline fun <reified T : Any> InputStream.parseList(format: SerializationFormat = defaultFormat) =
-    format.parseList(this, T::class)
+    this.parseList(T::class, format)
 
 // STRING //////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> String.parse(type: KClass<T>, format: SerializationFormat = defaultFormat): T =
@@ -53,10 +53,10 @@ fun <T : Any> String.parseList(type: KClass<T>, format: SerializationFormat = de
     this.toStream().parseList(type, format)
 
 inline fun <reified T : Any> String.parse(format: SerializationFormat = defaultFormat): T =
-    this.toStream().parse(T::class, format)
+    this.parse(T::class, format)
 
 inline fun <reified T : Any> String.parseList(format: SerializationFormat = defaultFormat) =
-    this.toStream().parseList(T::class, format)
+    this.parseList(T::class, format)
 
 // FILE ////////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> File.parse(type: KClass<T>): T =
@@ -66,10 +66,10 @@ fun <T : Any> File.parseList(type: KClass<T>): List<T> =
     this.inputStream().parseList(type, formatOf(this))
 
 inline fun <reified T : Any> File.parse(): T =
-    this.inputStream().parse(T::class, formatOf(this))
+    this.parse(T::class)
 
 inline fun <reified T : Any> File.parseList(): List<T> =
-    this.inputStream().parseList(T::class, formatOf(this))
+    this.parseList(T::class)
 
 // URL /////////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> URL.parse(type: KClass<T>): T =
@@ -79,10 +79,10 @@ fun <T : Any> URL.parseList(type: KClass<T>): List<T> =
     this.openStream().parseList(type, formatOf(this))
 
 inline fun <reified T : Any> URL.parse(): T =
-    this.openStream().parse(T::class, formatOf(this))
+    this.parse(T::class)
 
 inline fun <reified T : Any> URL.parseList(): List<T> =
-    this.openStream().parseList(T::class, formatOf(this))
+    this.parseList(T::class)
 
 // RESOURCE ////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> Resource.parse(type: KClass<T>): T =
@@ -92,8 +92,8 @@ fun <T : Any> Resource.parseList(type: KClass<T>): List<T> =
     this.requireUrl().parseList(type)
 
 inline fun <reified T : Any> Resource.parse(): T =
-    this.requireUrl().parse(T::class)
+    this.parse(T::class)
 
 inline fun <reified T : Any> Resource.parseList(): List<T> =
-    this.requireUrl().parseList(T::class)
+    this.parseList(T::class)
 
