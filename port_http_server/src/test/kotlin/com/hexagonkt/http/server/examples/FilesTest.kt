@@ -12,7 +12,6 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.io.File
-import java.util.Locale.getDefault as defaultLocale
 
 @Test abstract class FilesTest(adapter: ServerPort) {
 
@@ -24,9 +23,10 @@ import java.util.Locale.getDefault as defaultLocale
     // files
     private val server: Server by lazy {
         Server(adapter) {
-            assets("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
-            assets("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
-            assets(Resource("public")) // Serve `public` resources folder on `/*`
+            get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+            get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
+            get(Resource("public")) // Serve `public` resources folder on `/*`
+
             post("/multipart") { ok(request.parts.keys.joinToString(":")) }
 
             post("/file") {

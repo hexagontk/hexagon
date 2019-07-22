@@ -115,7 +115,7 @@ import kotlin.text.Charsets.UTF_8
                 ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
             }
 
-            assets(File(directory))
+            get(File(directory))
         }
     }
 

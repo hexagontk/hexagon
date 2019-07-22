@@ -92,19 +92,19 @@ class Router(block: Router.() -> Unit = {}) {
 
     fun path(path: String, block: Router.() -> Unit) = path(Path(path), Router(block))
 
-    fun assets(resource: Resource) {
-        assets("/*", resource)
+    fun get(resource: Resource) {
+        get("/*", resource)
     }
 
-    fun assets(path: String, resource: Resource) {
+    fun get(path: String, resource: Resource) {
         requestHandlers = requestHandlers + ResourceHandler(Route(Path(path), GET), resource)
     }
 
-    fun assets(file: File) {
-        assets("/*", file)
+    fun get(file: File) {
+        get("/*", file)
     }
 
-    fun assets(path: String, file: File) {
+    fun get(path: String, file: File) {
         requestHandlers = requestHandlers + FileHandler(Route(Path(path), GET), file)
     }
 

@@ -350,11 +350,11 @@ import org.asynchttpclient.Response as ClientResponse
             get("/web/file.txt") { ok("It matches this route and won't search for the file") }
 
             // Expose resources on the '/public' resource folder over the '/web' HTTP path
-            assets("/web/*", Resource("public"))
+            get("/web/*", Resource("public"))
 
             // Maps resources on 'assets' on the server root (assets/f.css -> /f.css)
             // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
-            assets(Resource("assets"))
+            get(Resource("assets"))
             // files
         }
 

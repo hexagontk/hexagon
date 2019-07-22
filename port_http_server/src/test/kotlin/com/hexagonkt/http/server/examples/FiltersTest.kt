@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 import java.lang.System.nanoTime
 import java.util.*
-import java.util.Locale.getDefault as defaultLocale
 
 @Test abstract class FiltersTest(adapter: ServerPort) {
 

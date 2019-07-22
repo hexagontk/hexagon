@@ -7,7 +7,6 @@ import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
-import java.util.Locale.getDefault as defaultLocale
 
 @Test abstract class ErrorsTest(adapter: ServerPort) {
 
