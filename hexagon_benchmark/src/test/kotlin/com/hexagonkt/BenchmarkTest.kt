@@ -55,7 +55,7 @@ import java.lang.System.setProperty
         val content = response.responseBody
 
         checkResponse(response, Json.contentType)
-        assert("Hello, World!" == content.parse(Message::class).message)
+        assert("Hello, World!" == content.parse<Message>().message)
     }
 
     @Test fun plaintext() {

@@ -9,7 +9,7 @@ import kotlin.test.assertFailsWith
     @Test fun `CSV is serialized properly` () {
         val player = Player("Michael", 23, 18)
         val serializedPlayer = player.serialize(Csv)
-        val deserializedPlayer = serializedPlayer.parse(Player::class, Csv)
+        val deserializedPlayer = serializedPlayer.parse<Player>(Csv)
 
         assert (player.name == deserializedPlayer.name)
         assert (player.number == deserializedPlayer.number)
@@ -17,7 +17,7 @@ import kotlin.test.assertFailsWith
 
         val players = listOf(player, Player("Magic", 32, 36))
         val serializedPlayers = players.serialize(Csv)
-        val deserializedPlayers = serializedPlayers.parseList(Player::class, Csv)
+        val deserializedPlayers = serializedPlayers.parseList<Player>(Csv)
 
         assert (players[0].name == deserializedPlayers[0].name)
         assert (players[0].number == deserializedPlayers[0].number)

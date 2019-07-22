@@ -121,7 +121,7 @@ import org.testng.annotations.Test
                   "alias" : "al"
                 }
             ]
-            """.parseList(Device::class)
+            """.parseList<Device>()
 
             assert(false) { "Exception expected" }
         }
