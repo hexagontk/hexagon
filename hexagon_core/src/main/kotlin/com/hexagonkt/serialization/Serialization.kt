@@ -26,67 +26,74 @@ fun Any.serialize(format: SerializationFormat = defaultFormat): String =
 fun Any.serialize(contentType: String): String =
     this.serialize(formatOf(contentType))
 
+inline fun <reified T : Any> Map<*, *>.convertToObject(): T =
+    this.convertToObject(T::class)
+
+inline fun <reified T : Any> List<Map<*, *>>.convertToObjects(): List<T> =
+    this.convertToObjects(T::class)
+
 // INPUT STREAM ////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> InputStream.parse(type: KClass<T>, format: SerializationFormat = defaultFormat): T =
     format.parse(this, type)
 
-fun InputStream.parse(format: SerializationFormat = defaultFormat): Map<*, *> =
-    this.parse(Map::class, format)
-
 fun <T : Any> InputStream.parseList(type: KClass<T>, format: SerializationFormat = defaultFormat) =
     format.parseList(this, type)
 
-fun InputStream.parseList(format: SerializationFormat = defaultFormat): List<Map<*, *>> =
-    this.parseList(Map::class, format)
+inline fun <reified T : Any> InputStream.parse(format: SerializationFormat = defaultFormat): T =
+    format.parse(this, T::class)
+
+inline fun <reified T : Any> InputStream.parseList(format: SerializationFormat = defaultFormat) =
+    format.parseList(this, T::class)
 
 // STRING //////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> String.parse(type: KClass<T>, format: SerializationFormat = defaultFormat): T =
     this.toStream().parse(type, format)
 
-fun String.parse(format: SerializationFormat = defaultFormat): Map<*, *> =
-    this.toStream().parse(format)
-
-fun String.parseList(format: SerializationFormat = defaultFormat): List<Map<*, *>> =
-    this.parseList(Map::class, format)
-
 fun <T : Any> String.parseList(type: KClass<T>, format: SerializationFormat = defaultFormat) =
     this.toStream().parseList(type, format)
+
+inline fun <reified T : Any> String.parse(format: SerializationFormat = defaultFormat): T =
+    this.toStream().parse(T::class, format)
+
+inline fun <reified T : Any> String.parseList(format: SerializationFormat = defaultFormat) =
+    this.toStream().parseList(T::class, format)
 
 // FILE ////////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> File.parse(type: KClass<T>): T =
     this.inputStream().parse(type, formatOf(this))
 
-fun File.parse(): Map<*, *> =
-    this.parse(Map::class)
-
-fun File.parseList(): List<Map<*, *>> =
-    this.parseList(Map::class)
-
 fun <T : Any> File.parseList(type: KClass<T>): List<T> =
     this.inputStream().parseList(type, formatOf(this))
+
+inline fun <reified T : Any> File.parse(): T =
+    this.inputStream().parse(T::class, formatOf(this))
+
+inline fun <reified T : Any> File.parseList(): List<T> =
+    this.inputStream().parseList(T::class, formatOf(this))
 
 // URL /////////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> URL.parse(type: KClass<T>): T =
     this.openStream().parse(type, formatOf(this))
 
-fun URL.parse(): Map<*, *> =
-    this.parse(Map::class)
-
-fun URL.parseList(): List<Map<*, *>> =
-    this.parseList (Map::class)
-
 fun <T : Any> URL.parseList(type: KClass<T>): List<T> =
     this.openStream().parseList(type, formatOf(this))
+
+inline fun <reified T : Any> URL.parse(): T =
+    this.openStream().parse(T::class, formatOf(this))
+
+inline fun <reified T : Any> URL.parseList(): List<T> =
+    this.openStream().parseList(T::class, formatOf(this))
 
 // RESOURCE ////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> Resource.parse(type: KClass<T>): T =
     this.requireUrl().parse(type)
 
-fun Resource.parse(): Map<*, *> =
-    this.parse (Map::class)
-
-fun Resource.parseList(): List<Map<*, *>> =
-    this.parseList(Map::class)
-
 fun <T : Any> Resource.parseList(type: KClass<T>): List<T> =
     this.requireUrl().parseList(type)
+
+inline fun <reified T : Any> Resource.parse(): T =
+    this.requireUrl().parse(T::class)
+
+inline fun <reified T : Any> Resource.parseList(): List<T> =
+    this.requireUrl().parseList(T::class)
+

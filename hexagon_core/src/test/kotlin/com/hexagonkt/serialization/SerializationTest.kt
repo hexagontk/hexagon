@@ -25,13 +25,13 @@ abstract class SerializationTest<out T : Any>(private val type: KClass<T>) {
                 assert(it == object3)
                 assert(it !== object3)
 
-                assert(modelString.parse(contentType) == map)
+                assert(modelString.parse<Map<*, *>>(contentType) == map)
 
                 val tempFile = createTempFile(suffix = contentType.contentType.replace('/', '.'))
                 tempFile.deleteOnExit()
                 tempFile.writeText(modelString)
 
-                assert(tempFile.parse() == map)
+                assert(tempFile.parse<Map<*, *>>() == map)
             }
 
             val serializedObjects = testObjects.serialize(contentType)
@@ -40,8 +40,8 @@ abstract class SerializationTest<out T : Any>(private val type: KClass<T>) {
             tempFile.writeText(serializedObjects)
             val testMaps = testObjects.map { it.convertToMap() }
 
-            assert(tempFile.parseList() == testMaps)
-            assert(testMaps == serializedObjects.parseList(contentType))
+            assert(tempFile.parseList<Map<*, *>>() == testMaps)
+            assert(testMaps == serializedObjects.parseList<Map<*, *>>(contentType))
             assert(testObjects == testMaps.convertToObjects(type))
         }
 

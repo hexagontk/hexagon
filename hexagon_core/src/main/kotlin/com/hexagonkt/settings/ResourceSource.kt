@@ -9,9 +9,10 @@ class ResourceSource(val resource: Resource) : SettingsSource {
 
     override fun toString(): String = "Resource with path: ${resource.path}"
 
+    @Suppress("RemoveExplicitTypeArguments") // Compile error filed as warning inside IntelliJ
     override fun load(): Map<String, *> =
         resource.url().let {
             if (it == null) linkedMapOf<String, Any>()
-            else LinkedHashMap(it.parse().mapKeys { e -> e.key.toString() })
+            else LinkedHashMap(it.parse<Map<String, *>>().mapKeys { e -> e.key })
         }
 }

@@ -17,7 +17,7 @@ import java.util.*
         val context = mapOf("a" to "b")
         val resource = "test.pebble.html"
         val render = TemplateManager.render(VoidTemplateAdapter, resource, locale, context)
-        val contextMap = render.parse()
+        val contextMap = render.parse<Map<*, *>>()
 
         assert(contextMap["a"] == "b")
     }
@@ -27,7 +27,7 @@ import java.util.*
         val resource = "invalid.html"
         val context = emptyMap<String, Any>()
         val render = TemplateManager.render(VoidTemplateAdapter, resource, locale, context)
-        val contextMap = render.parse()
+        val contextMap = render.parse<Map<*, *>>()
 
         assert(contextMap.size == 2)
         assert(contextMap.containsKey("_template_"))

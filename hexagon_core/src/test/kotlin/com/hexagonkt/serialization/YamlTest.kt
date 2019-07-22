@@ -60,7 +60,7 @@ import org.testng.annotations.Test
             - a: b
             - b: c
             - c: d
-        """.trimIndent().toStream().parseList(Yaml)
+        """.trimIndent().toStream().parseList<Map<String, *>>(Yaml)
         assert(parse[0]["a"] == "b")
     }
 

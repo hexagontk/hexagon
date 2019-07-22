@@ -168,9 +168,13 @@ import org.asynchttpclient.Response as ClientResponse
                 request.userAgent                // user agent (browser requests)
                 request.origin                   // origin (browser requests)
                 request.body(Type::class)        // Object passed in the body as a typed object
+                request.body<Type>()             // Syntactic sugar for the previous statement
                 request.bodyObjects(Type::class) // Object(s) passed in the body as a typed list
+                request.bodyObjects<Type>()      // Syntactic sugar for the previous statement
                 request.body(Map::class)         // Object passed in the body as a field map
+                request.body<Map<*, *>>()        // Syntactic sugar for the previous statement
                 request.bodyObjects(Map::class)  // Object(s) passed in the body as a list of maps
+                request.bodyObjects<Map<*, *>>() // Syntactic sugar for the previous statement
             }
             // callbackRequest
 

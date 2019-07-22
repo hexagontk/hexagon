@@ -52,7 +52,7 @@ import org.testng.annotations.Test
                     patch {
                         val taskId = pathParameters["id"].toInt()
                         val task = tasks[taskId]
-                        val fields = request.body.parse(requestFormat)
+                        val fields = request.body.parse<Map<*, *>>(requestFormat)
                         if (task != null) {
                             tasks += taskId to task.copy(
                                 number = fields["number"] as? Int ?: task.number,
