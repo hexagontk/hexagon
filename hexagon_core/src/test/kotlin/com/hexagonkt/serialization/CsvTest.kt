@@ -17,7 +17,7 @@ import kotlin.test.assertFailsWith
 
         val players = listOf(player, Player("Magic", 32, 36))
         val serializedPlayers = players.serialize(Csv)
-        val deserializedPlayers = serializedPlayers.parseList<Player>(Csv)
+        val deserializedPlayers = serializedPlayers.parseObjects<Player>(Csv)
 
         assert (players[0].name == deserializedPlayers[0].name)
         assert (players[0].number == deserializedPlayers[0].number)
@@ -57,7 +57,7 @@ import kotlin.test.assertFailsWith
 
     @Test fun `Parse an invalid class list throws exception`() {
         assertFailsWith<ParseException> {
-            "f,br,mo,ANDROI,v,al".parseList(Device::class, Csv)
+            "f,br,mo,ANDROI,v,al".parseObjects(Device::class, Csv)
         }
     }
 

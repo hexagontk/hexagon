@@ -36,64 +36,65 @@ inline fun <reified T : Any> List<Map<*, *>>.convertToObjects(): List<T> =
 fun <T : Any> InputStream.parse(type: KClass<T>, format: SerializationFormat = defaultFormat): T =
     format.parse(this, type)
 
-fun <T : Any> InputStream.parseList(type: KClass<T>, format: SerializationFormat = defaultFormat) =
-    format.parseList(this, type)
+fun <T : Any> InputStream.parseObjects(
+    type: KClass<T>, format: SerializationFormat = defaultFormat) =
+        format.parseObjects(this, type)
 
 inline fun <reified T : Any> InputStream.parse(format: SerializationFormat = defaultFormat): T =
     this.parse(T::class, format)
 
-inline fun <reified T : Any> InputStream.parseList(format: SerializationFormat = defaultFormat) =
-    this.parseList(T::class, format)
+inline fun <reified T : Any> InputStream.parseObjects(format: SerializationFormat = defaultFormat) =
+    this.parseObjects(T::class, format)
 
 // STRING //////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> String.parse(type: KClass<T>, format: SerializationFormat = defaultFormat): T =
     this.toStream().parse(type, format)
 
-fun <T : Any> String.parseList(type: KClass<T>, format: SerializationFormat = defaultFormat) =
-    this.toStream().parseList(type, format)
+fun <T : Any> String.parseObjects(type: KClass<T>, format: SerializationFormat = defaultFormat) =
+    this.toStream().parseObjects(type, format)
 
 inline fun <reified T : Any> String.parse(format: SerializationFormat = defaultFormat): T =
     this.parse(T::class, format)
 
-inline fun <reified T : Any> String.parseList(format: SerializationFormat = defaultFormat) =
-    this.parseList(T::class, format)
+inline fun <reified T : Any> String.parseObjects(format: SerializationFormat = defaultFormat) =
+    this.parseObjects(T::class, format)
 
 // FILE ////////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> File.parse(type: KClass<T>): T =
     this.inputStream().parse(type, formatOf(this))
 
-fun <T : Any> File.parseList(type: KClass<T>): List<T> =
-    this.inputStream().parseList(type, formatOf(this))
+fun <T : Any> File.parseObjects(type: KClass<T>): List<T> =
+    this.inputStream().parseObjects(type, formatOf(this))
 
 inline fun <reified T : Any> File.parse(): T =
     this.parse(T::class)
 
-inline fun <reified T : Any> File.parseList(): List<T> =
-    this.parseList(T::class)
+inline fun <reified T : Any> File.parseObjects(): List<T> =
+    this.parseObjects(T::class)
 
 // URL /////////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> URL.parse(type: KClass<T>): T =
     this.openStream().parse(type, formatOf(this))
 
-fun <T : Any> URL.parseList(type: KClass<T>): List<T> =
-    this.openStream().parseList(type, formatOf(this))
+fun <T : Any> URL.parseObjects(type: KClass<T>): List<T> =
+    this.openStream().parseObjects(type, formatOf(this))
 
 inline fun <reified T : Any> URL.parse(): T =
     this.parse(T::class)
 
-inline fun <reified T : Any> URL.parseList(): List<T> =
-    this.parseList(T::class)
+inline fun <reified T : Any> URL.parseObjects(): List<T> =
+    this.parseObjects(T::class)
 
 // RESOURCE ////////////////////////////////////////////////////////////////////////////////////////
 fun <T : Any> Resource.parse(type: KClass<T>): T =
     this.requireUrl().parse(type)
 
-fun <T : Any> Resource.parseList(type: KClass<T>): List<T> =
-    this.requireUrl().parseList(type)
+fun <T : Any> Resource.parseObjects(type: KClass<T>): List<T> =
+    this.requireUrl().parseObjects(type)
 
 inline fun <reified T : Any> Resource.parse(): T =
     this.parse(T::class)
 
-inline fun <reified T : Any> Resource.parseList(): List<T> =
-    this.parseList(T::class)
+inline fun <reified T : Any> Resource.parseObjects(): List<T> =
+    this.parseObjects(T::class)
 

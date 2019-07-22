@@ -40,7 +40,7 @@ object Csv : SerializationFormat {
             throw ParseException(e)
         }
 
-    override fun <T : Any> parseList(input: InputStream, type: KClass<T>): List<T> =
+    override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> =
         try {
             objectReader(type).readValues<T>(input).readAll()
         }

@@ -6,7 +6,7 @@ import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.parse
-import com.hexagonkt.serialization.parseList
+import com.hexagonkt.serialization.parseObjects
 import java.net.HttpCookie
 import kotlin.reflect.KClass
 
@@ -49,7 +49,7 @@ abstract class Request {
     val contentLength: Long by lazy { contentLength() }
 
     fun <T : Any> body(type: KClass<T>): T = body.parse(type, requestFormat())
-    fun <T : Any> bodyObjects(type: KClass<T>): List<T> = body.parseList(type, requestFormat())
+    fun <T : Any> bodyObjects(type: KClass<T>): List<T> = body.parseObjects(type, requestFormat())
 
     inline fun <reified T : Any> body(): T = body(T::class)
     inline fun <reified T : Any> bodyObjects(): List<T> = bodyObjects(T::class)

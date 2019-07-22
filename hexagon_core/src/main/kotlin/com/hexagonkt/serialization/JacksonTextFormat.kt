@@ -41,7 +41,7 @@ internal open class JacksonTextFormat(
             throw ParseException(e)
         }
 
-    override fun <T : Any> parseList(input: InputStream, type: KClass<T>): List<T> =
+    override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> =
         try {
             mapper.readValue (input, collectionType(List::class, type))
         }

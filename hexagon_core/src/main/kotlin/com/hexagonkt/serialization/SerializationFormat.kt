@@ -13,7 +13,7 @@ interface SerializationFormat {
     fun serialize(obj: Any, output: OutputStream)
 
     fun <T: Any> parse(input: InputStream, type: KClass<T>): T
-    fun <T: Any> parseList(input: InputStream, type: KClass<T>): List<T>
+    fun <T: Any> parseObjects(input: InputStream, type: KClass<T>): List<T>
 
     fun serialize(obj: Any): String =
         if (isBinary) error("$contentType is a binary format")
