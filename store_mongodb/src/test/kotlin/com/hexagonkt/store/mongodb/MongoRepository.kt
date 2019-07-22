@@ -16,7 +16,7 @@ import java.io.File
 import kotlin.reflect.KClass
 
 @Suppress("MemberVisibilityCanBePrivate") // This class has public methods for library clients use
-open class MongoRepository <T : Any> (
+open class MongoRepository <T : Any>(
     private val type: KClass<T>,
     collection: MongoCollection<Document>,
     protected val onStore: (Document) -> Document = { it },
@@ -85,7 +85,7 @@ open class MongoRepository <T : Any> (
 
     fun delete(): DeleteResult = deleteMany(Document())
 
-    protected open fun map (document: T): Document {
+    protected open fun map(document: T): Document {
         return onStore(
             Document(document.convertToMap().mapKeys {
                 val key = it.key ?: error("Key can not be 'null'")
