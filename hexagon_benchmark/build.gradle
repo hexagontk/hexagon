@@ -29,7 +29,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     
-    // Declared only to properly setup IntelliJ project
+    // Declared *ONLY* to properly setup IntelliJ project
     compileOnly("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 
     testImplementation(project(":port_http_client"))
@@ -46,12 +46,12 @@ task("tfb", type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setup
 }
 
 task("gradleSettings", type: WriteProperties) {
-    Map<String, ?> settings = [
+    final String repositoryFilesPath = "https://raw.githubusercontent.com/hexagonkt/hexagon"
+    final Map<String, ?> settings = [
         name : "hexagon",
         description : "Hexagon web framework's benchmark",
 
-        gradleScripts :
-            "https://raw.githubusercontent.com/hexagonkt/hexagon/$rootProject.version/gradle",
+        gradleScripts : "$repositoryFilesPath/$rootProject.version/gradle",
 
         hexagonVersion : rootProject.version,
         kotlinVersion : kotlinVersion,
@@ -69,8 +69,6 @@ task("gradleSettings", type: WriteProperties) {
     outputFile = "$tfbBuildDir/gradle.properties"
 }
 
-import groovy.json.JsonOutput
-
 task("benchmarkConfig") {
     doLast {
         Map<String, Object> testsMap = [:]
@@ -78,9 +76,9 @@ task("benchmarkConfig") {
             final String server = it[0]
             final String database = it[1]
             final String databaseEngine = database.toLowerCase()
-            final String name = server == servers.first () && database == databases.first()?
-                "default" : server + "-" + database
-            final int port = server == "Resin"? 8080 : 9090
+            final boolean defaultCase = (server == servers.first() && database == databases.first())
+            final String name = defaultCase? "default" : "${server}-${database}"
+            final int port = (server == "Resin"? 8080 : 9090)
 
             testsMap[name.toLowerCase()] = [
                 json_url : "/json",
@@ -89,9 +87,7 @@ task("benchmarkConfig") {
                 fortune_url : "/$databaseEngine/pebble/fortunes",
                 update_url : "/$databaseEngine/update?queries=",
                 plaintext_url : "/plaintext",
-
                 port : port,
-
                 approach : "Realistic",
                 classification : "Micro",
                 database : database == "PostgreSQL"? "postgres" : databaseEngine,
@@ -104,7 +100,6 @@ task("benchmarkConfig") {
                 database_os : "Linux",
                 display_name : "Hexagon $server $database",
                 notes : "http://hexagonkt.com",
-
                 versus : "servlet"
             ]
         }
@@ -114,12 +109,15 @@ task("benchmarkConfig") {
             tests : [ testsMap ]
         ]
 
-        final String json = JsonOutput.toJson(config)
+        // noinspection UnnecessaryQualifiedReference
+        final String json = groovy.json.JsonOutput.toJson(config)
         final File file = file("$tfbBuildDir/benchmark_config.json")
 
         mkdir(tfbBuildDir)
         file.createNewFile()
-        file.text = JsonOutput.prettyPrint(json) + "\n"
+
+        // noinspection UnnecessaryQualifiedReference
+        file.text = groovy.json.JsonOutput.prettyPrint(json) + "\n"
     }
 }
 
@@ -128,14 +126,14 @@ task("setupDockerfiles") {
         tests.collect { it as List<List<String>> }.forEach { final List<String> row ->
             final String server = row[0].toLowerCase()
             final String database = row[1].toLowerCase()
-            final String name = row[0] == servers.first () && row[1] == databases.first()?
-                "hexagon" : "hexagon-${server}-${database}"
-            final File file = file("$tfbBuildDir/${name}.dockerfile")
-
-            file.createNewFile()
+            final boolean defaultCase = row[0] == servers.first() && row[1] == databases.first()
+            final String name = defaultCase? "hexagon" : "hexagon-${server}-${database}"
+            final File file = new File("$tfbBuildDir/${name}.dockerfile".toString())
+            final String gradleImage = "5.5.1-jdk11"
+            final String jdkImage = "11.0.3-jre-stretch"
 
             final String dockerfileBuild = """
-                FROM gradle:5.4.1-jdk11 AS gradle_build
+                FROM gradle:$gradleImage AS gradle_build
                 USER root
                 WORKDIR /hexagon
 
@@ -144,10 +142,9 @@ task("setupDockerfiles") {
                 COPY gradle.properties gradle.properties
                 RUN gradle --quiet --exclude-task test
             """
-
-            final String dockerfileRuntime = server == "resin"?
-                """
-                FROM openjdk:11.0.3-jre-stretch
+            
+            final String resinDockerfileRuntime = """
+                FROM openjdk:$jdkImage
                 ENV DBSTORE $database
                 ENV ${database.toUpperCase()}_DB_HOST tfb-database
                 ENV RESIN http://caucho.com/download/resin-4.0.61.tar.gz
@@ -158,18 +155,23 @@ task("setupDockerfiles") {
                 COPY --from=gradle_build /hexagon/build/libs/ROOT.war webapps/ROOT.war
                 COPY resin.xml conf/resin.xml
                 CMD ["java", "-jar", "lib/resin.jar", "console"]
-                """ :
-                """
-                FROM openjdk:11.0.3-jre-stretch
+            """
+
+            final String defaultDockerfileRuntime = """
+                FROM openjdk:$jdkImage
                 ENV DBSTORE $database
                 ENV ${database.toUpperCase()}_DB_HOST tfb-database
-                ENV WEBENGINE ${server}
+                ENV WEBENGINE $server
                 ENV PROJECT hexagon
 
                 COPY --from=gradle_build /hexagon/build/install/\$PROJECT /opt/\$PROJECT
                 ENTRYPOINT /opt/\$PROJECT/bin/\$PROJECT
-                """
+            """
 
+            final String dockerfileRuntime =
+                server == "resin"? resinDockerfileRuntime : defaultDockerfileRuntime
+
+            file.createNewFile()
             file.text = """
                 #
                 # BUILD
