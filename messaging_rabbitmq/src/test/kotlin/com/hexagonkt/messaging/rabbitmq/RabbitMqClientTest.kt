@@ -59,6 +59,21 @@ import kotlin.test.assertFailsWith
         assert(cf.port == 12345)
     }
 
+    @Test fun `Create a connection factory with empty parameters succeed` () {
+        val opts = listOf(
+            "channelCacheSize",
+            "heartbeat",
+            "automaticRecovery",
+            "recoveryInterval",
+            "shutdownTimeout"
+        )
+        val opt = opts.joinToString("&")
+        val uri = "amqp://user:pass@localhost:12345?$opt"
+        val cf = createConnectionFactory(URI(uri))
+        assert(cf.host == "localhost")
+        assert(cf.port == 12345)
+    }
+
     @Test fun `Rabbit client disconnects properly` () {
         val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))
         assert(client.connected)
