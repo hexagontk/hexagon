@@ -9,34 +9,21 @@ task("clean", type: Delete) {
 task("checkSite") {
     doLast {
         final File readme = rootProject.file("README.md")
-        final String examples =
-            "port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples"
+        final String starters = "hexagon_starters/src/main/kotlin"
+        final File service = rootProject.file("$starters/Service.kt")
+        final String examplesSources = "port_http_server/src/test/kotlin"
+        final String examples = "$examplesSources/com/hexagonkt/http/server/examples"
 
-        Map<FileRange, FileRange> fileRanges = [
-            (new FileRange(readme, "hello")):
-                new FileRange(rootProject.file("hexagon_starters/src/main/kotlin/Service.kt")),
+        SiteKt.checkSamplesCode(new FileRange(readme, "hello"), new FileRange(service))
+        SiteKt.checkSamplesCode(
+            new FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
+            new FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
+            new FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
+            new FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
+            new FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
+            new FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files")
+        )
 
-            (new FileRange(readme, "books")):
-                new FileRange(rootProject.file("$examples/BooksTest.kt"), "books"),
-
-            (new FileRange(readme, "session")):
-                new FileRange(rootProject.file("$examples/SessionTest.kt"), "session"),
-
-            (new FileRange(readme, "cookies")):
-                new FileRange(rootProject.file("$examples/CookiesTest.kt"), "cookies"),
-
-            (new FileRange(readme, "errors")):
-                new FileRange(rootProject.file("$examples/ErrorsTest.kt"), "errors"),
-
-            (new FileRange(readme, "filters")):
-                new FileRange(rootProject.file("$examples/FiltersTest.kt"), "filters"),
-
-            (new FileRange(readme, "files")):
-                new FileRange(rootProject.file("$examples/FilesTest.kt"), "files")
-        ]
-
-        fileRanges.each { SiteKt.checkSamplesCode(it.key, it.value) }
-        
         final String contentTarget = project.file("content").absolutePath
         final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
 

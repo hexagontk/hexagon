@@ -49,6 +49,8 @@ class FileRange(private val file: File, private val range: IntRange) {
     private fun lines(): List<String> = file.readLines().slice(range)
 }
 
+data class FilesRange(val source: File, val target: File, val tag: String)
+
 fun checkSamplesCode(documentation: FileRange, source: FileRange) {
     if (documentation.strippedLines() != source.strippedLines())
         error("""
@@ -60,6 +62,12 @@ fun checkSamplesCode(documentation: FileRange, source: FileRange) {
             SRC -----------------------------------------------
             ${source.text()}
         """.trimIndent())
+}
+
+fun checkSamplesCode(vararg ranges: FilesRange) {
+    ranges.forEach {
+        checkSamplesCode(FileRange(it.source, it.tag), FileRange(it.target, it.tag))
+    }
 }
 
 fun insertSamplesCode(markdownFile: File, content: String): String {
