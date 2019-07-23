@@ -97,4 +97,3 @@ inline fun <reified T : Any> Resource.parse(): T =
 
 inline fun <reified T : Any> Resource.parseObjects(): List<T> =
     this.parseObjects(T::class)
-

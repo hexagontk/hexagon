@@ -43,6 +43,11 @@ object SettingsManager {
     fun <T : Any> requireSetting(vararg name: String): T =
         setting(*name) ?: error("$name required setting not found")
 
+    operator fun invoke(block: SettingsManager.() -> Unit): SettingsManager {
+        this.apply(block)
+        return this
+    }
+
     private fun loadDefaultSettings(): Map<String, *> =
         settingsSources
             .map {
