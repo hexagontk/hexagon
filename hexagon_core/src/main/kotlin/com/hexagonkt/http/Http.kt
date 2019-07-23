@@ -53,6 +53,7 @@ fun parseQueryParameters (query: String): Map<String, List<String>> =
             }
             .groupBy { it.first }
             .mapValues { pair -> pair.value.map { it.second } }
+            .mapValues { if (it.value == listOf("")) emptyList() else it.value }
 
 fun httpDate (date: LocalDateTime = LocalDateTime.now()): String =
     RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
