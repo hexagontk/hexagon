@@ -40,13 +40,13 @@ class FileRange(private val file: File, private val range: IntRange) {
             }
     )
 
-    fun lines(): List<String> = file.readLines().slice(range)
-
     fun text(): String = lines().joinToString("\n").trimIndent()
 
     fun strippedLines(): List<String> = lines().map { it.trim() }.filter { it.isNotEmpty() }
 
     override fun toString(): String = "$file.absolutePath [$range]"
+
+    private fun lines(): List<String> = file.readLines().slice(range)
 }
 
 fun checkSamplesCode(documentation: FileRange, source: FileRange) {
