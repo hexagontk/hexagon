@@ -57,7 +57,11 @@ fun Throwable.toText(prefix: String = ""): String =
         else
             "${eol}Caused by: " + (this.cause as Throwable).toText(prefix)
 
-// MAP OPERATIONS //////////////////////////////////////////////////////////////////////////////////
+// COLLECTIONS /////////////////////////////////////////////////////////////////////////////////////
+fun <Z> Collection<Z>.ensure(count: Int): Collection<Z> = this.apply {
+    if (size != count) error("$size items while expecting only $count element")
+}
+
 @Suppress("UNCHECKED_CAST")
 operator fun Map<*, *>.get(vararg keys: Any): Any? =
     if (keys.size > 1)
