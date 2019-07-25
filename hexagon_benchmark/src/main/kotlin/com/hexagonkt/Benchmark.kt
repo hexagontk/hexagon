@@ -54,7 +54,7 @@ private val router: Router by lazy {
         get("/plaintext") { ok(TEXT_MESSAGE, "text/plain") }
         get("/json") { ok(Message(TEXT_MESSAGE), Json) }
 
-        benchmarkStores.forEach { storeEngine, store ->
+        benchmarkStores.forEach { (storeEngine, store) ->
             benchmarkTemplateEngines.forEach { templateKind ->
                 val path = "/$storeEngine/${templateKind.key}/fortunes"
 

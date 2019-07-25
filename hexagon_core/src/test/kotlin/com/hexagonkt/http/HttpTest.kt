@@ -8,8 +8,8 @@ import java.time.LocalDateTime
     @Test fun `Parse strips spaces` () {
         assert(parseQueryParameters("a =1&b & c &d = e") == mapOf(
             "a" to listOf("1"),
-            "b" to listOf(""),
-            "c" to listOf(""),
+            "b" to emptyList(),
+            "c" to emptyList(),
             "d" to listOf("e")
         ))
     }
@@ -17,8 +17,8 @@ import java.time.LocalDateTime
     @Test fun `Parse key only query parameters return correct data` () {
         assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
             "a" to listOf("1"),
-            "b" to listOf(""),
-            "c" to listOf(""),
+            "b" to emptyList(),
+            "c" to emptyList(),
             "d" to listOf("e")
         ))
     }
@@ -27,7 +27,7 @@ import java.time.LocalDateTime
         assert(parseQueryParameters("a=1&b&c&d=e&a=2&b=c") == mapOf(
             "a" to listOf("1", "2"),
             "b" to listOf("", "c"),
-            "c" to listOf(""),
+            "c" to emptyList(),
             "d" to listOf("e")
         ))
     }

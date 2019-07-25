@@ -26,18 +26,18 @@ import org.testng.annotations.Test
         )
     }
 
-    fun `Setting works as expected`() {
+    @Test fun `Setting works as expected`() {
         assert(setting<String>("property") == "changed")
         assert(setting<Int>("intProperty") == 42)
         assert(setting<String>("foo") == "bar")
     }
 
-    fun `Get configuration properties with defaults`() {
+    @Test fun `Get configuration properties with defaults`() {
         assert(defaultSetting("fakeProperty", "changed") == "changed")
         assert(defaultSetting("fakeIntProperty", 42) == 42)
     }
 
-    fun `Get configuration properties`() {
+    @Test fun `Get configuration properties`() {
         SettingsManager.settingsSources = listOf(
             ResourceSource("$SETTINGS.yaml"),
             ResourceSource("development.yaml"),
@@ -53,7 +53,7 @@ import org.testng.annotations.Test
         assert(settings["parent", "key"] as String == "val")
     }
 
-    fun `Require configuration properties`() {
+    @Test fun `Require configuration properties`() {
         assert(requireSetting<String>("property") == "changed")
         assert(requireSetting<Int>("intProperty") == 42)
         assert(requireSetting<String>("foo") == "bar")
@@ -65,7 +65,21 @@ import org.testng.annotations.Test
         requireSetting<String>("not_found")
     }
 
-    fun `Set default settings add command line arguments`() {
+    @Test fun `Using the 'apply' shortcut works correctly`() {
+        val localSettings = SettingsManager {
+            settingsSources = settingsSources + ObjectSource(
+                "stringProperty" to "str",
+                "integerProperty" to 101,
+                "booleanProperty" to true
+            )
+        }
+
+        assert(localSettings.settings["stringProperty"] == "str")
+        assert(localSettings.settings["integerProperty"] == 101)
+        assert(localSettings.settings["booleanProperty"] == true)
+    }
+
+    @Test fun `Set default settings add command line arguments`() {
         SettingsManager.settingsSources = listOf(
             ResourceSource("$SETTINGS.yaml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),

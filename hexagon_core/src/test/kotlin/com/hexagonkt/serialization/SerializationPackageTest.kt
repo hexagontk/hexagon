@@ -1,5 +1,6 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.helpers.toStream
 import org.testng.annotations.Test
 import java.net.URL
 import java.nio.ByteBuffer
@@ -46,5 +47,23 @@ class SerializationPackageTest {
 
         assert(objects == objects2)
         assert(objects !== objects2)
+    }
+
+    @Test fun `Parse streams works properly`() {
+        val json = """{ "foo" : "bar", "baz" : 0 }"""
+        val m1 = json.toStream().parse(Map::class)
+        val m2 = json.toStream().parse(Map::class, Json)
+
+        assert(m1 == m2)
+        assert(m1 !== m2)
+    }
+
+    @Test fun `Parse stream objects works properly`() {
+        val json = """[ { "foo" : "bar" }, { "foo" : "baz" } ]"""
+        val m1 = json.toStream().parseObjects(Map::class)
+        val m2 = json.toStream().parseObjects(Map::class, Json)
+
+        assert(m1 == m2)
+        assert(m1 !== m2)
     }
 }

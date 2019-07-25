@@ -157,4 +157,14 @@ import kotlin.test.assertFailsWith
         assertFailsWith<IllegalArgumentException> { retry(1, -1) {} }
         retry(1, 0) {} // Ok case
     }
+
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `Ensure fails if collection size is not correct`() {
+        listOf(1, 2, 3).ensure(2)
+    }
+
+    @Test fun `Ensure returns the collection if size is correct`() {
+        val list = listOf(1, 2, 3)
+        assert(list.ensure(3) == list)
+    }
 }

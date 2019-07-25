@@ -2,6 +2,7 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.RequiredKeysMap
+import com.hexagonkt.serialization.ContentType
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
@@ -52,16 +53,13 @@ class Call(val request: Request, val response: Response, val session: Session) {
             response.contentType = contentType
     }
 
+    fun send(code: Int, content: Any, serializationFormat: SerializationFormat, charset: Charset?) {
+        send(code, content, ContentType(serializationFormat, charset))
+    }
+
     // TODO Handle charset: transform content to the proper encoding
-    fun send(code: Int, content: Any, serializationFormat: SerializationFormat, charset: Charset?) =
-        send(
-            code,
-            content.serialize(serializationFormat),
-            if (charset == null)
-                serializationFormat.contentType
-            else
-                serializationFormat.contentType + ";charset=" + charset.name()
-        )
+    fun send(code: Int, content: Any, contentType: ContentType) =
+        send(code, content.serialize(contentType.format), contentType.toString())
 
     fun halt(content: Any): Nothing = halt(500, content)
 
