@@ -6,7 +6,7 @@ task("clean", type: Delete) {
     delete("build", "content")
 }
 
-task("checkSite") {
+task("checkSite", dependsOn: "mkdocs") {
     doLast {
         final File readme = rootProject.file("README.md")
         final String starters = "hexagon_starters/src/main/kotlin"

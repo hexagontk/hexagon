@@ -51,7 +51,7 @@ install:
 
 script:
   - ./gradlew --quiet clean sonarqube all
-  - ./gradlew --quiet dokkaMd mkdocs checkSite
+  - ./gradlew --quiet dokkaMd checkSite
   - docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.4.0 build
 
 after_success: bash <(curl -s https://codecov.io/bash)
