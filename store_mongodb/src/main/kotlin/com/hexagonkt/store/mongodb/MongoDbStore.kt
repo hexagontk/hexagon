@@ -13,7 +13,6 @@ import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.*
-import com.mongodb.client.model.Filters.eq
 import org.bson.Document
 import org.bson.conversions.Bson
 import kotlin.reflect.KClass
@@ -49,13 +48,16 @@ class MongoDbStore <T : Any, K : Any>(
         type: KClass<T>, key: KProperty1<T, K>, url: String, name: String = type.java.simpleName) :
             this(type, key, database(url), name)
 
-    override fun createIndex(unique: Boolean, fields: List<Pair<String, IndexOrder>>): String {
-        val indexes = fields.map {
-            if (it.second == ASCENDING) Indexes.ascending(it.first)
-            else Indexes.descending(it.first)
+    override fun createIndex(unique: Boolean, fields: Map<String, IndexOrder>): String {
+        val indexes = fields.entries.map {
+            if (it.value == ASCENDING) Indexes.ascending(it.key)
+            else Indexes.descending(it.key)
         }
 
-        val name = fields.joinToString("_") { it.first + "_" + it.second.toString().toLowerCase() }
+        val name = fields.entries.joinToString("_") {
+            it.key + "_" + it.value.toString().toLowerCase()
+        }
+
         val compoundIndex = Indexes.compoundIndex(indexes)
         val indexOptions = IndexOptions().unique(unique).background(true).name(name)
 
@@ -104,7 +106,7 @@ class MongoDbStore <T : Any, K : Any>(
         return result.modifiedCount == 1L
     }
 
-    override fun updateMany(filter: Map<String, List<*>>, updates: Map<String, *>): Long {
+    override fun updateMany(filter: Map<String, *>, updates: Map<String, *>): Long {
         val updateFilter = createFilter(filter)
         val update = createUpdate(updates)
         val result = collection.updateMany(updateFilter, update)
@@ -117,18 +119,18 @@ class MongoDbStore <T : Any, K : Any>(
         return result.deletedCount == 1L
     }
 
-    override fun deleteMany(filter: Map<String, List<*>>): Long {
+    override fun deleteMany(filter: Map<String, *>): Long {
         val deleteFilter = createFilter(filter)
         val result = collection.deleteMany(deleteFilter)
         return result.deletedCount
     }
 
     override fun findOne(key: K): T? {
-        val result = collection.find(createKeyFilter(key)).first()?.filterEmpty() ?: error()
+        val result = collection.find(createKeyFilter(key)).first()?.filterEmpty()
         return mapper.fromStore(result as Map<String, Any>)
     }
 
-    override fun findOne(key: K, fields: List<String>): Map<String, *> {
+    override fun findOne(key: K, fields: List<String>): Map<String, *>? {
         val filter = createKeyFilter(key)
         val result = collection
             .find(filter)
@@ -139,7 +141,7 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override fun findMany(
-        filter: Map<String, List<*>>,
+        filter: Map<String, *>,
         limit: Int?,
         skip: Int?,
         sort: Map<String, Boolean>): List<T> {
@@ -155,7 +157,7 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override fun findMany(
-        filter: Map<String, List<*>>,
+        filter: Map<String, *>,
         fields: List<String>,
         limit: Int?,
         skip: Int?,
@@ -178,7 +180,7 @@ class MongoDbStore <T : Any, K : Any>(
         }
     }
 
-    override fun count(filter: Map<String, List<*>>): Long {
+    override fun count(filter: Map<String, *>): Long {
         val countFilter = createFilter(filter)
         return collection.countDocuments(countFilter)
     }
@@ -197,9 +199,9 @@ class MongoDbStore <T : Any, K : Any>(
 
     private fun map(instance: T): Document = Document(mapper.toStore(instance))
 
-    private fun createKeyFilter(key: K) = eq("_id", key)
+    private fun createKeyFilter(key: K) = Filters.eq("_id", key)
 
-    private fun createFilter(filter: Map<String, List<*>>): Bson = filter
+    private fun createFilter(filter: Map<String, *>): Bson = filter
         .filterEmpty()
         .filter {
             val firstKeySegment = it.key.split ("\\.")[0]
@@ -207,10 +209,14 @@ class MongoDbStore <T : Any, K : Any>(
         }
         .map {
             val key = it.key
-            val value = it.value
 
-            if (value.size > 1) Filters.`in`(key, value)
-            else Filters.eq(key, value.first())
+            when (val value = it.value) {
+                is List<*> ->
+                    if (value.size > 1) Filters.`in`(key, value)
+                    else Filters.eq(key, value.first())
+                else ->
+                    Filters.eq(key, value)
+            }
         }
         .let {
             if (it.isEmpty()) Document()

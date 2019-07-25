@@ -65,11 +65,11 @@ import java.time.LocalTime
 
         val key = changedCompany.id
 
-        assert(store.updateOne(key, "web" to URL("http://update.example.org")))
-        assert(store.findOne(key, listOf("web"))["web"] == "http://update.example.org")
+        assert(store.updateOne(key, mapOf("web" to URL("http://update.example.org"))))
+        assert(store.findOne(key, listOf("web"))?.get("web") == "http://update.example.org")
 
-        assert(store.updateOne_(key, Company::web to URL("http://update1.example.org")))
-        assert(store.findOne(key, listOf("web"))["web"] == "http://update1.example.org")
+        assert(store.updateOne(key, Company::web to URL("http://update1.example.org")))
+        assert(store.findOne(key, listOf("web"))?.get("web") == "http://update1.example.org")
 
         assert(store.count() == 1L)
 
@@ -157,39 +157,42 @@ import java.time.LocalTime
     }
 
     private fun checkFindObjects() {
-        val results = store.findMany(emptyMap(), 4, 8, mapOf("id" to false))
+        val filter = emptyMap<String, Any>()
+
+        val results = store.findMany(filter, 4, 8, mapOf("id" to false))
         assert(results.size == 2)
         assert(results.all { it.web == URL("http://change.example.org") })
 
-        val results3 = store.findMany(emptyMap(), limit = 4, sort = mapOf("id" to false))
+        val results3 = store.findMany(filter, limit = 4, sort = mapOf("id" to false))
         assert(results3.size == 4)
         assert(results3.all { it.web == URL("http://change.example.org") })
 
-        val results4 = store.findMany(emptyMap(), skip = 4, sort = mapOf("id" to false))
+        val results4 = store.findMany(filter, skip = 4, sort = mapOf("id" to false))
         assert(results4.size == 6)
         assert(results4.all { it.web == URL("http://change.example.org") })
 
-        val results5 = store.findMany(emptyMap(), sort = mapOf("id" to false))
+        val results5 = store.findMany(filter, sort = mapOf("id" to false))
         assert(results5.size == 10)
         assert(results5.all { it.web == URL("http://change.example.org") })
     }
 
     private fun checkFindFields() {
         val fields = listOf("id", "web")
+        val filter = emptyMap<String, Any>()
 
-        val results = store.findMany(emptyMap(), fields, 4, 8, mapOf("id" to false))
+        val results = store.findMany(filter, fields, 4, 8, mapOf("id" to false))
         assert(results.size == 2)
         assert(results.all { it["web"] == "http://change.example.org" })
 
-        val results3 = store.findMany(emptyMap(), fields, limit = 4, sort = mapOf("id" to false))
+        val results3 = store.findMany(filter, fields, limit = 4, sort = mapOf("id" to false))
         assert(results3.size == 4)
         assert(results3.all { it["web"] == "http://change.example.org" })
 
-        val results4 = store.findMany(emptyMap(), fields, skip = 4, sort = mapOf("id" to false))
+        val results4 = store.findMany(filter, fields, skip = 4, sort = mapOf("id" to false))
         assert(results4.size == 6)
         assert(results4.all { it["web"] == "http://change.example.org" })
 
-        val results5 = store.findMany(emptyMap(), fields, sort = mapOf("id" to false))
+        val results5 = store.findMany(filter, fields, sort = mapOf("id" to false))
         assert(results5.size == 10)
         assert(results5.all { it["web"] == "http://change.example.org" })
     }
