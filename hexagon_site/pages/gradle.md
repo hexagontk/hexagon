@@ -147,6 +147,8 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 * kotlinVersion (REQUIRED): Kotlin version.
 * kotlinCoroutinesVersion (REQUIRED): Kotlin coroutines version.
+* mockkVersion (REQUIRED): MockK mocking library version.
+* jacocoVersion: Jacoco code coverage tool version.
 
 ## Kotlin JS
 

@@ -13,7 +13,6 @@ dependencies {
 
     testImplementation(project(":port_http_client"))
     testImplementation(project(":port_http_server").sourceSets.test.output)
-    testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("org.eclipse.jetty:jetty-webapp:$jettyVersion") {
         exclude(module: "slf4j-api")
     }
