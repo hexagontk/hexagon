@@ -64,12 +64,16 @@ import java.time.LocalTime
         assert(storedModifiedCompany == changedCompany)
 
         val key = changedCompany.id
+        val fields = listOf("web")
 
         assert(store.updateOne(key, mapOf("web" to URL("http://update.example.org"))))
-        assert(store.findOne(key, listOf("web"))?.get("web") == "http://update.example.org")
+        assert(store.findOne(key, fields)?.get("web") == "http://update.example.org")
+
+        assert(store.findOne(key, fields) == store.findOne(mapOf(store.key.name to key), fields))
+        assert(store.findOne(key) == store.findOne(mapOf(store.key.name to key)))
 
         assert(store.updateOne(key, Company::web to URL("http://update1.example.org")))
-        assert(store.findOne(key, listOf("web"))?.get("web") == "http://update1.example.org")
+        assert(store.findOne(key, fields)?.get("web") == "http://update1.example.org")
 
         assert(store.count() == 1L)
 
@@ -134,6 +138,10 @@ import java.time.LocalTime
         val results5 = store.findAll(sort = mapOf("id" to false))
         assert(results5.size == 10)
         assert(results5.all { it.web == URL("http://change.example.org") })
+
+        val results6 = store.findAll()
+        assert(results6.size == 10)
+        assert(results6.all { it.web == URL("http://change.example.org") })
     }
 
     private fun checkFindAllFields() {
@@ -154,6 +162,10 @@ import java.time.LocalTime
         val results5 = store.findAll(fields, sort = mapOf("id" to false))
         assert(results5.size == 10)
         assert(results5.all { it["web"] == "http://change.example.org" })
+
+        val results6 = store.findAll(fields)
+        assert(results6.size == 10)
+        assert(results6.all { it["web"] == "http://change.example.org" })
     }
 
     private fun checkFindObjects() {
@@ -174,6 +186,10 @@ import java.time.LocalTime
         val results5 = store.findMany(filter, sort = mapOf("id" to false))
         assert(results5.size == 10)
         assert(results5.all { it.web == URL("http://change.example.org") })
+
+        val results6 = store.findMany(filter)
+        assert(results6.size == 10)
+        assert(results6.all { it.web == URL("http://change.example.org") })
     }
 
     private fun checkFindFields() {
@@ -195,6 +211,10 @@ import java.time.LocalTime
         val results5 = store.findMany(filter, fields, sort = mapOf("id" to false))
         assert(results5.size == 10)
         assert(results5.all { it["web"] == "http://change.example.org" })
+
+        val results6 = store.findMany(filter, fields)
+        assert(results6.size == 10)
+        assert(results6.all { it["web"] == "http://change.example.org" })
     }
 
     @Test fun `Entities are stored`() {
