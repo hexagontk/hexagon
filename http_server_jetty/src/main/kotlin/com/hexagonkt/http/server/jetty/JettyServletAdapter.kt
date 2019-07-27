@@ -13,7 +13,6 @@ import java.net.InetSocketAddress
 import java.util.*
 import javax.servlet.DispatcherType
 import org.eclipse.jetty.server.Server as JettyServer
-import java.net.InetAddress.getByName as address
 
 /**
  * TODO .
