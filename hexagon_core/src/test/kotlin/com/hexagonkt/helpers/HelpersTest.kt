@@ -159,12 +159,21 @@ import kotlin.test.assertFailsWith
     }
 
     @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Ensure fails if collection size is not correct`() {
-        listOf(1, 2, 3).ensure(2)
+    fun `Ensure fails if collection size is larger`() {
+        listOf(1, 2, 3).ensureSize(1..2)
+    }
+
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `Ensure fails if collection size is smaller`() {
+        listOf(1, 2, 3).ensureSize(4..5)
     }
 
     @Test fun `Ensure returns the collection if size is correct`() {
         val list = listOf(1, 2, 3)
-        assert(list.ensure(3) == list)
+        assert(list.ensureSize(0..3) == list)
+        assert(list.ensureSize(1..3) == list)
+        assert(list.ensureSize(2..3) == list)
+        assert(list.ensureSize(3..3) == list)
+        assert(list.ensureSize(0..4) == list)
     }
 }
