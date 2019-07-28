@@ -20,7 +20,7 @@ import org.testng.annotations.Test
         assert(fullPart.headers == emptyMap<String, List<String>>())
         assert(fullPart.inputStream.read() > 0)
         assert(fullPart.name == "name")
-        assert(fullPart.name == "name")
+        assert(fullPart.size == content.length.toLong())
         assert(fullPart.submittedFileName == "filename")
     }
 }
