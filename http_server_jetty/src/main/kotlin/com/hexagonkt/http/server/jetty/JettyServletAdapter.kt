@@ -21,10 +21,7 @@ class JettyServletAdapter(private val async: Boolean = false) : ServerPort {
     private var jettyServer: JettyServer? = null
 
     override fun runtimePort(): Int =
-        ((jettyServer?.connectors?.get(0) ?: error) as ServerConnector).localPort.let {
-            if (it == -1) error("Jetty port uninitialized. Use lazy evaluation for HTTP client ;)")
-            else it
-        }
+        ((jettyServer?.connectors?.get(0) ?: error) as ServerConnector).localPort
 
     override fun started() = jettyServer?.isStarted ?: false
 
