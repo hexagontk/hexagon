@@ -1,5 +1,5 @@
 
-FROM oracle/graalvm-ce:latest
+FROM oracle/graalvm-ce:19.1.1 as build
 USER root
 WORKDIR /build
 
@@ -14,5 +14,5 @@ RUN native-image -jar \
   --delay-class-initialization-to-runtime=hexagonBenchmark
 
 FROM scratch
-COPY --from=0 /build/hexagon_benchmark /
+COPY --from=build /build/hexagon_benchmark /
 ENTRYPOINT /hexagon_benchmark
