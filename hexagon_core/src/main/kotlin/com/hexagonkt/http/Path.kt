@@ -19,13 +19,14 @@ data class Path(val path: String) {
         internal const val WILDCARD = "*"
 
         internal val WILDCARD_REGEX = Regex("\\$WILDCARD")
-        internal val PARAMETER_REGEX = Regex("\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
+        internal val PARAMETER_REGEX = Regex("\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX")
         internal val PLACEHOLDER_REGEX =
-            Regex("\\$WILDCARD|\\$PARAMETER_PREFIX\\w+\\$PARAMETER_SUFFIX")
+            Regex("\\$WILDCARD|\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX")
     }
 
     init {
-        require(path.startsWith("/")) { "'$path' must start with '/'" }
+        val validPrefix = path.startsWith("/") || path.startsWith("*")
+        require(validPrefix) { "'$path' must start with '/' or '*'" }
         require(!path.contains(":")) { "Variables have {var} format. Path cannot have ':' $path" }
     }
 
@@ -46,10 +47,12 @@ data class Path(val path: String) {
 
     val regex: Regex? by lazy {
         when (Pair(hasWildcards, hasParameters)) {
-            Pair(true, true) ->
+            Pair(first = true, second = true) ->
                 Regex(path.replace(WILDCARD, "(.*?)").replace(PARAMETER_REGEX, "(.+?)") + "$")
-            Pair(true, false) -> Regex(path.replace(WILDCARD, "(.*?)") + "$")
-            Pair(false, true) -> Regex(path.replace(PARAMETER_REGEX, "(.+?)") + "$")
+            Pair(first = true, second = false) ->
+                Regex(path.replace(WILDCARD, "(.*?)") + "$")
+            Pair(first = false, second = true) ->
+                Regex(path.replace(PARAMETER_REGEX, "(.+?)") + "$")
             else -> null
         }
     }

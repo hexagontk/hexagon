@@ -43,9 +43,9 @@ class Router(block: Router.() -> Unit = {}) {
         requestHandlers = requestHandlers + RouteHandler(this, block)
     }
 
-    fun before(path: String = "/*", block: RouteCallback) = any(path) before block
+    fun before(path: String = "*", block: RouteCallback) = any(path) before block
 
-    fun after(path: String = "/*", block: RouteCallback) = any(path) after block
+    fun after(path: String = "*", block: RouteCallback) = any(path) after block
 
     fun get(path: String = "/", block: RouteCallback) = get(path) by block
 
