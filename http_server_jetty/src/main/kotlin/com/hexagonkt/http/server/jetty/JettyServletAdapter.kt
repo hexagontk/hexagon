@@ -13,7 +13,6 @@ import java.net.InetSocketAddress
 import java.util.*
 import javax.servlet.DispatcherType
 import org.eclipse.jetty.server.Server as JettyServer
-import java.net.InetAddress.getByName as address
 
 /**
  * TODO .
@@ -22,10 +21,7 @@ class JettyServletAdapter(private val async: Boolean = false) : ServerPort {
     private var jettyServer: JettyServer? = null
 
     override fun runtimePort(): Int =
-        ((jettyServer?.connectors?.get(0) ?: error) as ServerConnector).localPort.let {
-            if (it == -1) error("Jetty port uninitialized. Use lazy evaluation for HTTP client ;)")
-            else it
-        }
+        ((jettyServer?.connectors?.get(0) ?: error) as ServerConnector).localPort
 
     override fun started() = jettyServer?.isStarted ?: false
 
@@ -37,7 +33,7 @@ class JettyServletAdapter(private val async: Boolean = false) : ServerPort {
         val context = ServletContextHandler(SESSIONS)
         context.addLifeCycleListener(object : AbstractLifeCycleListener() {
             override fun lifeCycleStarting(event: LifeCycle?) {
-                val filter = ServletFilter (server.contextRouter.flatRequestHandlers())
+                val filter = ServletFilter(server.contextRouter.flatRequestHandlers())
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
                 val filterBind = context.servletContext.addFilter("filters", filter)
                 filterBind.setAsyncSupported(async)

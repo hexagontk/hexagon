@@ -22,12 +22,12 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 /**
  * TODO .
  */
-class ServletFilter (router: List<RequestHandler>) : Filter {
+class ServletFilter(router: List<RequestHandler>) : Filter {
 
     /**
      * Exception used for stopping the execution. It is used only for flow control.
      */
-    private class PassException: RuntimeException ()
+    private class PassException: RuntimeException()
 
     private val log: Logger = Logger(this)
 

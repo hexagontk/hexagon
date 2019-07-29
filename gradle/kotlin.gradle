@@ -39,6 +39,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+    testImplementation("io.mockk:mockk:$mockkVersion")
 }
 
 // Replace build variables in resource files
@@ -97,7 +98,7 @@ task("verify", dependsOn: "test", type: Test) {
 }
 
 jacoco {
-    toolVersion = "0.8.4"
+    toolVersion = findProperty("jacocoVersion") ?: "0.8.4"
 }
 
 // Generate coverage reports properly
@@ -111,9 +112,7 @@ jacocoTestReport {
 
 task("jarAll", type: Jar, dependsOn: "test") {
     archiveBaseName.set("${archiveBaseName.orNull}-all")
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with(jar)
 }
 

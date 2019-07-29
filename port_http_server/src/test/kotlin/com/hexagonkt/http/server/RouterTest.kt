@@ -59,20 +59,20 @@ import org.testng.annotations.Test
             get(Resource("assets"))
 
             after("/after") {}
-            before ("/before") {}
+            before("/before") {}
             after {}
             before {}
 
             before("/infix") { response.setHeader("infix", "before") }
 
-            get ("/get") {}
-            head ("/head") {}
-            post ("/post") {}
-            put ("/put") {}
-            delete ("/delete") {}
-            trace ("/trace") {}
-            options ("/options") {}
-            patch ("/patch") {}
+            get("/get") {}
+            head("/head") {}
+            post("/post") {}
+            put("/put") {}
+            delete("/delete") {}
+            trace("/trace") {}
+            options("/options") {}
+            patch("/patch") {}
             get { ok("get") }
             head { ok("head") }
             post { ok("post") }
@@ -99,30 +99,30 @@ import org.testng.annotations.Test
         assert (assets.any { it.route.path.path == "/*" && it.resource.path == "assets" })
 
         val filters = requestHandlers.filterIsInstance(FilterHandler::class.java)
-        assert (filters.any { it.route == Route(Path("/after"), ALL) && it.order == AFTER })
-        assert (filters.any { it.route == Route(Path("/before"), ALL) && it.order == BEFORE })
-        assert (filters.any { it.route == Route(Path("/*"), ALL) && it.order == AFTER })
-        assert (filters.any { it.route == Route(Path("/*"), ALL) && it.order == BEFORE })
-        assert (filters.any { it.route == Route(Path("/infix"), ALL) && it.order == BEFORE })
+        assert(filters.any { it.route == Route(Path("/after"), ALL) && it.order == AFTER })
+        assert(filters.any { it.route == Route(Path("/before"), ALL) && it.order == BEFORE })
+        assert(filters.any { it.route == Route(Path("*"), ALL) && it.order == AFTER })
+        assert(filters.any { it.route == Route(Path("*"), ALL) && it.order == BEFORE })
+        assert(filters.any { it.route == Route(Path("/infix"), ALL) && it.order == BEFORE })
 
         val routes = requestHandlers.filterIsInstance(RouteHandler::class.java)
-        assert (routes.any { it.route == Route(Path("/get"), GET) })
-        assert (routes.any { it.route == Route(Path("/head"), HEAD) })
-        assert (routes.any { it.route == Route(Path("/post"), POST) })
-        assert (routes.any { it.route == Route(Path("/put"), PUT) })
-        assert (routes.any { it.route == Route(Path("/delete"), DELETE) })
-        assert (routes.any { it.route == Route(Path("/trace"), TRACE) })
-        assert (routes.any { it.route == Route(Path("/options"), OPTIONS) })
-        assert (routes.any { it.route == Route(Path("/patch"), PATCH) })
-        assert (routes.any { it.route == Route(Path("/"), GET) })
-        assert (routes.any { it.route == Route(Path("/"), HEAD) })
-        assert (routes.any { it.route == Route(Path("/"), POST) })
-        assert (routes.any { it.route == Route(Path("/"), PUT) })
-        assert (routes.any { it.route == Route(Path("/"), DELETE) })
-        assert (routes.any { it.route == Route(Path("/"), TRACE) })
-        assert (routes.any { it.route == Route(Path("/"), OPTIONS) })
-        assert (routes.any { it.route == Route(Path("/"), PATCH) })
-        assert (routes.any { it.route == Route(Path("/infix"), GET) })
+        assert(routes.any { it.route == Route(Path("/get"), GET) })
+        assert(routes.any { it.route == Route(Path("/head"), HEAD) })
+        assert(routes.any { it.route == Route(Path("/post"), POST) })
+        assert(routes.any { it.route == Route(Path("/put"), PUT) })
+        assert(routes.any { it.route == Route(Path("/delete"), DELETE) })
+        assert(routes.any { it.route == Route(Path("/trace"), TRACE) })
+        assert(routes.any { it.route == Route(Path("/options"), OPTIONS) })
+        assert(routes.any { it.route == Route(Path("/patch"), PATCH) })
+        assert(routes.any { it.route == Route(Path("/"), GET) })
+        assert(routes.any { it.route == Route(Path("/"), HEAD) })
+        assert(routes.any { it.route == Route(Path("/"), POST) })
+        assert(routes.any { it.route == Route(Path("/"), PUT) })
+        assert(routes.any { it.route == Route(Path("/"), DELETE) })
+        assert(routes.any { it.route == Route(Path("/"), TRACE) })
+        assert(routes.any { it.route == Route(Path("/"), OPTIONS) })
+        assert(routes.any { it.route == Route(Path("/"), PATCH) })
+        assert(routes.any { it.route == Route(Path("/infix"), GET) })
 
         val paths = requestHandlers.filterIsInstance(PathHandler::class.java)
         val subRouter = paths.first { it.route == Route(Path("/router")) }.router
@@ -132,8 +132,8 @@ import org.testng.annotations.Test
         val codedErrors = requestHandlers.filterIsInstance(CodeHandler::class.java)
         assert (codedErrors.any { it.code == 401 })
         val exceptionErrors = requestHandlers.filterIsInstance(ExceptionHandler::class.java)
-        assert (exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
-        assert (exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
+        assert(exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
+        assert(exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
     }
 
     private fun assertHandler(handler: RequestHandler, path: String, vararg methods: Method) {

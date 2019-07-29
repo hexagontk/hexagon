@@ -58,8 +58,8 @@ fun Throwable.toText(prefix: String = ""): String =
             "${eol}Caused by: " + (this.cause as Throwable).toText(prefix)
 
 // COLLECTIONS /////////////////////////////////////////////////////////////////////////////////////
-fun <Z> Collection<Z>.ensure(count: Int): Collection<Z> = this.apply {
-    if (size != count) error("$size items while expecting only $count element")
+fun <Z> Collection<Z>.ensureSize(count: IntRange): Collection<Z> = this.apply {
+    if (size !in count) error("$size items while expecting only $count element")
 }
 
 @Suppress("UNCHECKED_CAST")

@@ -147,6 +147,8 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 * kotlinVersion (REQUIRED): Kotlin version.
 * kotlinCoroutinesVersion (REQUIRED): Kotlin coroutines version.
+* mockkVersion (REQUIRED): MockK mocking library version.
+* jacocoVersion: Jacoco code coverage tool version.
 
 ## Kotlin JS
 
@@ -170,9 +172,12 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 ## Service
 
-Gradle's script for a service or application. It adds one extra tasks:
+Gradle's script for a service or application. It adds two extra tasks:
 
 * buildInfo: add configuration file (`service.properties`) with build variables to the package.
+* serve: Run the service in another thread. This allow the possibility to 'watch' source changes. To
+  run the services and watch for changes you need to execute this task with the	`--continuous`
+  (`-t`) Gradle flag. Ie: `gw -t serve`.
 
 To use it apply `$gradleScripts/service.gradle` to your `build.gradle`.
 

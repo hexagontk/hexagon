@@ -295,6 +295,7 @@ import org.asynchttpclient.Response as ClientResponse
             path("/nested") {
                 before { response.headers["b_nested"] = listOf("true") }
                 get("/filters") { ok("nested filters") }
+                get { ok("nested filters also") }
                 after { response.headers["a_nested"] = listOf("true") }
             }
 
@@ -308,6 +309,7 @@ import org.asynchttpclient.Response as ClientResponse
         assertResponse(client.get("/filters/route"), "filters route", "b_filters", "a_filters")
         assertResponse(client.get("/filters"), "filters")
         assertResponse(client.get("/nested/filters"), "nested filters", "b_nested", "a_nested")
+        assertResponse(client.get("/nested"), "nested filters also", "b_nested", "a_nested")
         assert(!client.get("/filters/route").headers.contains("b_nested"))
         assert(!client.get("/filters/route").headers.contains("a_nested"))
 

@@ -22,3 +22,28 @@ task("buildInfo") {
 }
 
 installDist.dependsOn("build")
+
+task("serve", dependsOn: "classes") {
+    doLast {
+        final JavaExec runTask = run
+
+        // NOTE: these two statements are *REQUIRED* to load classpath and main class
+        runTask.classpath.each { it.toString() }
+        runTask.main.toString()
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream()
+        exec {
+            commandLine("jps", "-l")
+            standardOutput = out
+        }
+        out.toString().readLines()
+            .findAll { it.endsWith((String)runTask.main) }
+            .collect { it.split(" ")[0] }
+            .each { pid -> exec { commandLine("kill", pid) } }
+
+        Thread.startDaemon {
+            runTask.setIgnoreExitValue(true)
+            runTask.actions.each { action -> action.execute(runTask) }
+        }
+    }
+}

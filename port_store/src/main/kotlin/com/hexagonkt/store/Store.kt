@@ -1,6 +1,6 @@
 package com.hexagonkt.store
 
-import com.hexagonkt.helpers.ensure
+import com.hexagonkt.helpers.ensureSize
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -53,10 +53,10 @@ interface Store<T : Any, K : Any> {
     fun findOne(key: K, fields: List<String>): Map<String, *>?
 
     fun findOne(filter: Map<String, *>): T? =
-        findMany(filter).ensure(1).firstOrNull()
+        findMany(filter).ensureSize(0..1).firstOrNull()
 
     fun findOne(filter: Map<String, *>, fields: List<String>): Map<String, *>? =
-        findMany(filter, fields).ensure(1).firstOrNull()
+        findMany(filter, fields).ensureSize(0..1).firstOrNull()
 
     fun findMany(
         filter: Map<String, *>,
