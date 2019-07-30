@@ -77,7 +77,8 @@ class Router(block: Router.() -> Unit = {}) {
         require(exception != CodedException::class.java) {
             "${exception.name} is internal and can't be handled"
         }
-        requestHandlers = requestHandlers + ExceptionHandler(Route(Path("/"), ALL), exception, block)
+        val rootPath = Route(Path("/"), ALL)
+        requestHandlers = requestHandlers + ExceptionHandler(rootPath, exception, block)
     }
 
     fun path(path: Path, router: Router) {
