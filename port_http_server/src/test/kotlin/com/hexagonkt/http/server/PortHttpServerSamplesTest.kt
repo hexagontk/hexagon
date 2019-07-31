@@ -282,6 +282,12 @@ import org.asynchttpclient.Response as ClientResponse
             assert(response.responseBody == body)
         }
 
+        fun assertFail(code: Int, response: ClientResponse, body: String, vararg headers: String) {
+            assert(response.statusCode == code)
+            (headers.toList() + "b_all" + "a_all").forEach { assert(response.headers.contains(it)) }
+            assert(response.responseBody == body)
+        }
+
         val server = Server(adapter) {
             // filters
             before { response.headers["b_all"] = listOf("true") }
@@ -294,8 +300,10 @@ import org.asynchttpclient.Response as ClientResponse
 
             path("/nested") {
                 before { response.headers["b_nested"] = listOf("true") }
+                before("/") { response.headers["b_nested_2"] = listOf("true") }
                 get("/filters") { ok("nested filters") }
-                get { ok("nested filters also") }
+                get("/halted") { halt(499, "halted") }
+                get { ok("nested also") }
                 after { response.headers["a_nested"] = listOf("true") }
             }
 
@@ -309,7 +317,8 @@ import org.asynchttpclient.Response as ClientResponse
         assertResponse(client.get("/filters/route"), "filters route", "b_filters", "a_filters")
         assertResponse(client.get("/filters"), "filters")
         assertResponse(client.get("/nested/filters"), "nested filters", "b_nested", "a_nested")
-        assertResponse(client.get("/nested"), "nested filters also", "b_nested", "a_nested")
+        assertResponse(client.get("/nested"), "nested also", "b_nested", "b_nested_2", "a_nested")
+        assertFail(499, client.get("/nested/halted"), "halted", "b_nested", "a_nested")
         assert(!client.get("/filters/route").headers.contains("b_nested"))
         assert(!client.get("/filters/route").headers.contains("a_nested"))
 

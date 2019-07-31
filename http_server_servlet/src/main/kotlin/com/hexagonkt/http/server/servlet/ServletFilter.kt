@@ -90,20 +90,26 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         val routes = routesByMethod[call.request.method]
         val methodRoutes = routes?.filter { it.route.path.matches(call.request.path) } ?: emptyList()
 
-        for ((first, second) in methodRoutes) {
-            try {
-                bRequest.actionPath = first.path
-                call.second()
+        try {
+            for ((first, second) in methodRoutes) {
+                try {
+                    bRequest.actionPath = first.path
+                    call.second()
 
-                log.trace { "Route for path '${bRequest.actionPath}' executed" }
-                return true
+                    log.trace { "Route for path '${bRequest.actionPath}' executed" }
+                    return true
+                }
+                catch (e: PassException) {
+                    log.trace { "Handler for path '${bRequest.actionPath}' passed" }
+                    continue
+                }
             }
-            catch (e: PassException) {
-                log.trace { "Handler for path '${bRequest.actionPath}' passed" }
-                continue
-            }
+            return false
         }
-        return false
+        catch(e: CodedException) {
+            handleException(e, call)
+            return true
+        }
     }
 
     override fun init(filterConfig: FilterConfig) { /* Not implemented */ }
