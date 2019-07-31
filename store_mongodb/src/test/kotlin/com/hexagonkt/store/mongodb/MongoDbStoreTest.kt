@@ -58,6 +58,7 @@ import java.time.LocalTime
         val storedCompany = store.findOne(id)
         assert(storedCompany == company)
 
+        assert(store.replaceOne(company)) // Ensures unmodified instance is also "replaced"
         val changedCompany = company.copy(web = URL("http://change.example.org"))
         assert(store.replaceOne(changedCompany))
         val storedModifiedCompany = store.findOne(id)
@@ -66,6 +67,8 @@ import java.time.LocalTime
         val key = changedCompany.id
         val fields = listOf("web")
 
+        // Ensures unmodified instance is also "updated"
+        assert(store.updateOne(key, mapOf("web" to changedCompany.web)))
         assert(store.updateOne(key, mapOf("web" to URL("http://update.example.org"))))
         assert(store.findOne(key, fields)?.get("web") == "http://update.example.org")
 

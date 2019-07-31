@@ -93,7 +93,8 @@ class MongoDbStore <T : Any, K : Any>(
         val document = map(instance)
         val filter = createKeyFilter(key.get(instance))
         val result = collection.replaceOne(filter, document)
-        return result.modifiedCount == 1L
+        // *NOTE* that 'modifiedCount' returns 0 for matched records with unchanged update values
+        return result.matchedCount == 1L
     }
 
     override fun replaceMany(instances: List<T>): List<T> =
@@ -103,14 +104,16 @@ class MongoDbStore <T : Any, K : Any>(
         val filter = createKeyFilter(key)
         val update = createUpdate(updates)
         val result = collection.updateOne(filter, update)
-        return result.modifiedCount == 1L
+        // *NOTE* that 'modifiedCount' returns 0 for matched records with unchanged update values
+        return result.matchedCount == 1L
     }
 
     override fun updateMany(filter: Map<String, *>, updates: Map<String, *>): Long {
         val updateFilter = createFilter(filter)
         val update = createUpdate(updates)
         val result = collection.updateMany(updateFilter, update)
-        return result.modifiedCount
+        // *NOTE* that 'modifiedCount' returns 0 for matched records with unchanged update values
+        return result.matchedCount
     }
 
     override fun deleteOne(id: K): Boolean {
