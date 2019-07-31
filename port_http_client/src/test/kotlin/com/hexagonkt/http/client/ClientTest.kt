@@ -87,6 +87,18 @@ class ClientTest {
         val contentType = Json.contentType
         checkResponse(get(url), null)
         checkResponse(head(url), null)
+        checkResponse(post(url), null)
+        checkResponse(put(url), null)
+        checkResponse(delete(url), null)
+        checkResponse(trace(url), null)
+        checkResponse(options(url), null)
+        checkResponse(patch(url), null)
+        checkResponse(post(url, parameter), parameter.toString())
+        checkResponse(put(url, parameter), parameter.toString())
+        checkResponse(delete(url, parameter), parameter.toString())
+        checkResponse(trace(url, parameter), parameter.toString())
+        checkResponse(options(url, parameter), parameter.toString())
+        checkResponse(patch(url, parameter), parameter.toString())
         checkResponse(post(url, parameter, contentType), parameter)
         checkResponse(put(url, parameter, contentType), parameter)
         checkResponse(delete(url, parameter, contentType), parameter)
@@ -138,5 +150,10 @@ class ClientTest {
     private fun checkResponse(response: Response, parameter: Map<String, String>?) {
         assert(response.statusCode == 200)
         assert(response.responseBody.trim() == parameter?.serialize()?.trim() ?: "")
+    }
+
+    private fun checkResponse(response: Response, parameter: String) {
+        assert(response.statusCode == 200)
+        assert(response.responseBody.trim() == parameter?.trim())
     }
 }
