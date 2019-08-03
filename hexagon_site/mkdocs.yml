@@ -67,6 +67,7 @@ nav:
       - RabbitMQ: messaging_rabbitmq/index.md
     - Templates:
       - Pebble: templates_pebble/index.md
+  - API: api.md
   - Create Services: create_services.md
   - Gradle Helpers: gradle.md
   - Contribute:
