@@ -1,20 +1,21 @@
 
 import com.hexagonkt.http.client.Client
-import org.junit.AfterClass
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 
+@TestInstance(PER_CLASS)
 class ServiceTest {
     private val client by lazy { Client("http://localhost:${server.runtimePort}") }
 
-    companion object {
-        @BeforeClass @JvmStatic fun startup() {
-            main()
-        }
+    @BeforeAll fun startup() {
+        main()
+    }
 
-        @AfterClass @JvmStatic fun shutdown() {
-            server.stop()
-        }
+    @AfterAll fun shutdown() {
+        server.stop()
     }
 
     @Test fun `HTTP request returns the correct body`() {
