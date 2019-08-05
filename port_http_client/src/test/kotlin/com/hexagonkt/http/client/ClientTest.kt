@@ -33,7 +33,7 @@ class ClientTest {
     }
 
     private val client by lazy {
-        Client("http://localhost:${server.runtimePort}", Json.contentType)
+        Client("http://localhost:${server.runtimePort}", Json)
     }
 
     @BeforeClass
@@ -73,38 +73,18 @@ class ClientTest {
         val parameter = mapOf("key" to "value")
         checkResponse(client.get("/"), null)
         checkResponse(client.head("/"), null)
+        checkResponse(client.post("/"), null)
+        checkResponse(client.put("/"), null)
+        checkResponse(client.delete("/"), null)
+        checkResponse(client.trace("/"), null)
+        checkResponse(client.options("/"), null)
+        checkResponse(client.patch("/"), null)
         checkResponse(client.post("/", parameter), parameter)
         checkResponse(client.put("/", parameter), parameter)
         checkResponse(client.delete("/", parameter), parameter)
         checkResponse(client.trace("/", parameter), parameter)
         checkResponse(client.options("/", parameter), parameter)
         checkResponse(client.patch("/", parameter), parameter)
-    }
-
-    fun `HTTP methods with objects work ok with default client`() {
-        val parameter = mapOf("key" to "value")
-        val url = "http://localhost:${server.runtimePort}"
-        val contentType = Json.contentType
-        checkResponse(get(url), null)
-        checkResponse(head(url), null)
-        checkResponse(post(url), null)
-        checkResponse(put(url), null)
-        checkResponse(delete(url), null)
-        checkResponse(trace(url), null)
-        checkResponse(options(url), null)
-        checkResponse(patch(url), null)
-        checkResponse(post(url, parameter), parameter.toString())
-        checkResponse(put(url, parameter), parameter.toString())
-        checkResponse(delete(url, parameter), parameter.toString())
-        checkResponse(trace(url, parameter), parameter.toString())
-        checkResponse(options(url, parameter), parameter.toString())
-        checkResponse(patch(url, parameter), parameter.toString())
-        checkResponse(post(url, parameter, contentType), parameter)
-        checkResponse(put(url, parameter, contentType), parameter)
-        checkResponse(delete(url, parameter, contentType), parameter)
-        checkResponse(trace(url, parameter, contentType), parameter)
-        checkResponse(options(url, parameter, contentType), parameter)
-        checkResponse(patch(url, parameter, contentType), parameter)
     }
 
     fun `Parameters are set properly` () {
@@ -122,10 +102,10 @@ class ClientTest {
         }
 
         val r = c.get("/auth")
-        assert (r.headers.get("auth").startsWith("Basic"))
-        assert (r.headers.getAll("head1").contains("val1"))
-        assert (r.headers.getAll("head1").contains("val2"))
-        assert (r.statusCode == 200)
+        assert(r.headers.get("auth").startsWith("Basic"))
+        assert(r.headers.getAll("head1").contains("val1"))
+        assert(r.headers.getAll("head1").contains("val2"))
+        assert(r.statusCode == 200)
     }
 
     fun `Files are sent in base64` () {
@@ -137,23 +117,24 @@ class ClientTest {
         }
 
         val r = client.post("/file", file)
-        assert (r.headers.get("file64").isNotEmpty())
-        assert (r.statusCode == 200)
+        assert(r.headers.get("file64").isNotEmpty())
+        assert(r.statusCode == 200)
     }
 
     fun `Strings are sent properly` () {
-        val r = client.post("/string", "text")
-        assert (r.headers.get("body").isNotEmpty())
-        assert (r.statusCode == 200)
+        var run = false
+
+        client.post("/string", "text") {
+            assert(headers.get("body").isNotEmpty())
+            assert(statusCode == 200)
+            run = true
+        }
+
+        assert(run)
     }
 
     private fun checkResponse(response: Response, parameter: Map<String, String>?) {
         assert(response.statusCode == 200)
         assert(response.responseBody.trim() == parameter?.serialize()?.trim() ?: "")
-    }
-
-    private fun checkResponse(response: Response, parameter: String) {
-        assert(response.statusCode == 200)
-        assert(response.responseBody.trim() == parameter?.trim())
     }
 }
