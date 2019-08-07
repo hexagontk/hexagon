@@ -1,6 +1,7 @@
 package com.hexagonkt.serialization
 
 import org.testng.annotations.Test
+import java.net.InetAddress
 import java.net.URL
 import java.nio.ByteBuffer
 import java.time.LocalDate
@@ -26,7 +27,8 @@ import java.time.LocalTime
             Person(name = "Mike")
         ),
         departments = setOf(Department.DESIGN, Department.DEVELOPMENT),
-        creationDate = LocalDateTime.of(2016, 1, 1, 0, 0, 0)
+        creationDate = LocalDateTime.of(2016, 1, 1, 0, 0, 0),
+        host = InetAddress.getByName("127.0.0.1")
     )
 
     override val testObjects: List<Company> = listOf (
@@ -40,7 +42,8 @@ import java.time.LocalTime
             people = setOf(
                 Person(name = "John"),
                 Person(name = "Mike")
-            )
+            ),
+            host = InetAddress.getByName("127.0.0.1")
         )
     )
 }

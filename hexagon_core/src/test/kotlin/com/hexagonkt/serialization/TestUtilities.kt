@@ -1,5 +1,6 @@
 package com.hexagonkt.serialization
 
+import java.net.InetAddress
 import java.net.URL
 import java.nio.ByteBuffer
 import java.time.LocalDate
@@ -21,7 +22,8 @@ data class Company(
     val notes: String? = null,
     val people: Set<Person>,
     val departments: Set<Department> = setOf(),
-    val creationDate: LocalDateTime = LocalDateTime.now()
+    val creationDate: LocalDateTime = LocalDateTime.now(),
+    val host: InetAddress
 )
 
 enum class DeviceOs { ANDROID, IOS }

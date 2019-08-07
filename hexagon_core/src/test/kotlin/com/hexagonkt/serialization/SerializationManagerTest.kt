@@ -81,6 +81,10 @@ import kotlin.test.assertFailsWith
         assert(SerializationManager.contentTypeOf(URL("http://l/a.yml")) == Yaml.contentType)
         assert(SerializationManager.contentTypeOf(URL("http://l/a.png")) == "image/png")
         assert(SerializationManager.contentTypeOf(URL("http://l/a.rtf")) == "application/rtf")
+
+        assert(formatOf(URL("http://l/a.json")) == Json)
+        assert(formatOf(URL("http://l/a.yaml")) == Yaml)
+        assert(formatOf(URL("http://l/a.yml")) == Yaml)
     }
 
     @Test fun `MIME types return correct content type for files`() {
@@ -89,6 +93,10 @@ import kotlin.test.assertFailsWith
         assert(SerializationManager.contentTypeOf(File("f.yml")) == Yaml.contentType)
         assert(SerializationManager.contentTypeOf(File("f.png")) == "image/png")
         assert(SerializationManager.contentTypeOf(File("f.rtf")) == "application/rtf")
+
+        assert(formatOf(File("f.json")) == Json)
+        assert(formatOf(File("f.yaml")) == Yaml)
+        assert(formatOf(File("f.yml")) == Yaml)
     }
 
     @Test fun `MIME types return correct content type for resources`() {
@@ -97,16 +105,20 @@ import kotlin.test.assertFailsWith
         assert(SerializationManager.contentTypeOf(Resource("r.yml")) == Yaml.contentType)
         assert(SerializationManager.contentTypeOf(Resource("r.png")) == "image/png")
         assert(SerializationManager.contentTypeOf(Resource("r.rtf")) == "application/rtf")
+
+        assert(formatOf(Resource("r.json")) == Json)
+        assert(formatOf(Resource("r.yaml")) == Yaml)
+        assert(formatOf(Resource("r.yml")) == Yaml)
     }
 
     @Test fun `Not found Serialization format throws an exception`() {
-        assertFailsWith<IllegalStateException> { SerializationManager.formatOf(Resource("r._")) }
-        assertFailsWith<IllegalStateException> { SerializationManager.formatOf(File("r._")) }
-        assertFailsWith<IllegalStateException> { SerializationManager.formatOf(URL("http://r._")) }
-        assertFailsWith<IllegalStateException> { SerializationManager.formatOf("_") }
+        assertFailsWith<IllegalStateException> { formatOf(Resource("r._")) }
+        assertFailsWith<IllegalStateException> { formatOf(File("r._")) }
+        assertFailsWith<IllegalStateException> { formatOf(URL("http://r._")) }
+        assertFailsWith<IllegalStateException> { formatOf("_") }
     }
 
     @Test fun `Not found Serialization format returns the default`() {
-        assert(SerializationManager.formatOf("_", Json) == Json)
+        assert(formatOf("_", Json) == Json)
     }
 }
