@@ -481,6 +481,8 @@ to date of project's news following [@hexagon_kt] in Twitter.
 
 Thanks to all project's [contributors]!
 
+[![CodeTriage](https://www.codetriage.com/hexagonkt/hexagon/badges/users.svg)][CodeTriage]
+
 [give it a star]: https://github.com/hexagonkt/hexagon/stargazers
 [@hexagon_kt]: https://twitter.com/hexagon_kt
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
@@ -489,6 +491,7 @@ Thanks to all project's [contributors]!
 [contributing]: contributing.md
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
+[CodeTriage]: https://www.codetriage.com/hexagonkt/hexagon
 
 ## License
 
