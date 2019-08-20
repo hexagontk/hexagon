@@ -126,7 +126,7 @@ task("testJar", type: Jar, dependsOn: testClasses) {
     from(sourceSets.test.output.classesDirs)
 }
 
-assemble.dependsOn("jarAll", "sourceJar", "testJar")
+assemble.dependsOn("verify", "jarAll", "sourceJar", "testJar")
 
 publishing {
     publications {
