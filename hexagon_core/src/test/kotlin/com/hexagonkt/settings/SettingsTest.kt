@@ -55,7 +55,9 @@ import java.io.File
         )
 
         cases.forEach {
-            assert(CommandLineArgumentsSource(it.key).load() == it.value)
+            val commandLineArgumentsSource = CommandLineArgumentsSource(it.key)
+            assert(commandLineArgumentsSource.load() == it.value)
+            assert(commandLineArgumentsSource.toString() == "Command Line Arguments")
         }
     }
 }

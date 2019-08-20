@@ -35,7 +35,8 @@ fun <T> retry(times: Int, delay: Long, func: () -> T): T {
 val error: Nothing get() = error("Invalid state")
 
 /** Syntax sugar to throw errors. */
-fun error(): Nothing = error
+fun error(): Nothing =
+    error
 
 /**
  * Returns the stack trace array of the frames that starts with the given prefix.
@@ -69,10 +70,10 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
             .dropLast(1)
             .fold(this) { result, element ->
                 val r = result as Map<Any, Any>
-                when (val value = r.getOrElse(element) { mapOf<Any, Any>() }) {
+                when (val value = r[element]) {
                     is Map<*, *> -> value
                     is List<*> -> value.mapIndexed { ii, item -> ii to item }.toMap()
-                    else -> mapOf<Any, Any>()
+                    else -> emptyMap<Any, Any>()
                 }
             }[keys.last()]
     else

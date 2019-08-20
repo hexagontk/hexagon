@@ -4,8 +4,10 @@ import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Method.*
+import com.hexagonkt.serialization.SerializationFormat
 import io.netty.handler.codec.http.cookie.Cookie
 import io.netty.handler.ssl.SslContextBuilder
+import org.asynchttpclient.BoundRequestBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
 import org.asynchttpclient.DefaultAsyncHttpClient
 import org.asynchttpclient.DefaultAsyncHttpClientConfig.Builder
@@ -29,6 +31,16 @@ class Client(
     user: String? = null,
     password: String? = null,
     insecure: Boolean = false) {
+
+    constructor(
+        endpoint: String = "",
+        format: SerializationFormat,
+        useCookies: Boolean = true,
+        headers: Map<String, List<String>> = LinkedHashMap(),
+        user: String? = null,
+        password: String? = null,
+        insecure: Boolean = false):
+            this(endpoint, format.contentType, useCookies, headers, user, password, insecure)
 
     private val base64encoder: Encoder = Base64.getEncoder()
 
@@ -59,15 +71,7 @@ class Client(
         parts: List<Part> = emptyList()): Response {
 
         val request = createRequest(method, url, contentType, parts)
-
-        val bodyValue = when (body) {
-            null -> null
-            is File -> Base64.getEncoder().encodeToString(body.readBytes())
-            is String -> body.toString() // TODO Add test!!!
-            else ->
-                if (contentType == null) body.toString()
-                else body.serialize(formatOf(contentType))
-        }
+        val bodyValue = createBodyValue(body, contentType)
 
         if (bodyValue != null)
             request.setBody(bodyValue)
@@ -91,54 +95,98 @@ class Client(
         return response
     }
 
-    fun get(url: String, callHeaders: Map<String, List<String>> = LinkedHashMap()) =
-        send(GET, url, null, callHeaders = callHeaders)
+    private fun createBodyValue(body: Any?, contentType: String?): String? =
+        when (body) {
+            null -> null
+            is File -> Base64.getEncoder().encodeToString(body.readBytes())
+            is String -> body.toString() // TODO Add test!!!
+            else ->
+                if (contentType == null) body.toString()
+                else body.serialize(formatOf(contentType))
+        }
 
-    fun head(url: String, callHeaders: Map<String, List<String>> = LinkedHashMap()) =
-        send(HEAD, url, null, callHeaders = callHeaders)
+    fun get(
+        url: String,
+        callHeaders: Map<String, List<String>> = emptyMap(),
+        callback: Response.() -> Unit = {}): Response =
+            send(GET, url, null, callHeaders = callHeaders).apply(callback)
 
-    fun post(url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send(POST, url, body, contentType)
+    fun head(
+        url: String,
+        callHeaders: Map<String, List<String>> = emptyMap(),
+        callback: Response.() -> Unit = {}): Response =
+            send(HEAD, url, null, callHeaders = callHeaders).apply(callback)
 
-    fun put(url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send(PUT, url, body, contentType)
+    fun post(
+        url: String,
+        body: Any? = null,
+        contentType: String? = this.contentType,
+        callback: Response.() -> Unit = {}): Response =
+            send(POST, url, body, contentType).apply(callback)
 
-    fun delete(url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send(DELETE, url, body, contentType)
+    fun put(
+        url: String,
+        body: Any? = null,
+        contentType: String? = this.contentType,
+        callback: Response.() -> Unit = {}): Response =
+            send(PUT, url, body, contentType).apply(callback)
 
-    fun trace(url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send(TRACE, url, body, contentType)
+    fun delete(
+        url: String,
+        body: Any? = null,
+        contentType: String? = this.contentType,
+        callback: Response.() -> Unit = {}): Response =
+            send(DELETE, url, body, contentType).apply(callback)
 
-    fun options(url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send(OPTIONS, url, body, contentType)
+    fun trace(
+        url: String,
+        body: Any? = null,
+        contentType: String? = this.contentType,
+        callback: Response.() -> Unit = {}): Response =
+            send(TRACE, url, body, contentType).apply(callback)
 
-    fun patch(url: String, body: Any? = null, contentType: String? = this.contentType) =
-        send(PATCH, url, body, contentType)
+    fun options(
+        url: String,
+        body: Any? = null,
+        contentType: String? = this.contentType,
+        callback: Response.() -> Unit = {}): Response =
+            send(OPTIONS, url, body, contentType).apply(callback)
+
+    fun patch(
+        url: String,
+        body: Any? = null,
+        contentType: String? = this.contentType,
+        callback: Response.() -> Unit = {}): Response =
+            send(PATCH, url, body, contentType).apply(callback)
 
     private fun createRequest(
-        method: Method, url: String, contentType: String? = null, parts: List<Part>) =
-            (endpoint + url).let {
-                val request = when (method) {
-                    GET -> client.prepareGet (it)
-                    HEAD -> client.prepareHead (it)
-                    POST -> client.preparePost (it)
-                    PUT -> client.preparePut (it)
-                    DELETE -> client.prepareDelete (it)
-                    TRACE -> client.prepareTrace (it)
-                    OPTIONS -> client.prepareOptions (it)
-                    PATCH -> client.preparePatch (it)
-                }
+        method: Method,
+        url: String,
+        contentType: String? = null,
+        parts: List<Part>): BoundRequestBuilder {
 
-                request.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?
+        val path = endpoint + url
+        val request = when (method) {
+            GET -> client.prepareGet(path)
+            HEAD -> client.prepareHead(path)
+            POST -> client.preparePost(path)
+            PUT -> client.preparePut(path)
+            DELETE -> client.prepareDelete(path)
+            TRACE -> client.prepareTrace(path)
+            OPTIONS -> client.prepareOptions(path)
+            PATCH -> client.preparePatch(path)
+        }
 
-                parts.forEach { part -> request.addBodyPart(part) }
+        request.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?
 
-                if (contentType != null)
-                    request.addHeader("Content-Type", contentType)
+        parts.forEach { part -> request.addBodyPart(part) }
 
-                if (authorization != null)
-                    request.addHeader("Authorization", "Basic $authorization")
+        if (contentType != null)
+            request.addHeader("Content-Type", contentType)
 
-                request
-            }
+        if (authorization != null)
+            request.addHeader("Authorization", "Basic $authorization")
+
+        return request
+    }
 }

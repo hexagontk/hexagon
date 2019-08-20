@@ -124,6 +124,16 @@ open class Benchmark {
 }
 ```
 
+## JUnit
+
+Uses JUnit 5 as the test framework.
+
+To use it apply `$gradleScripts/junit.gradle` to your `build.gradle`.
+
+To setup this script's parameters, check the [build variables section]. This helper settings are:
+
+* junitVersion: JUnit version (5+), the default value is: 5.5.1.
+
 [JMH]: https://openjdk.java.net/projects/code-tools/jmh
 
 ## Kotlin
@@ -135,8 +145,9 @@ Adds Kotlin's Gradle plugin. It sets up:
 - Kotlin dependencies
 - Resource processing (replacing build variables)
 - Cleaning (deleting logs and dumps files)
-- Tests (ITs, unit, pass properties, output)
+- Tests (ITs, unit, pass properties, output and mocks)
 - Setup coverage report
+- IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)
 - Published artifacts (binaries, sources and test): sourceJar and testJar tasks
 - Jar with dependencies: jarAll task
 
@@ -147,7 +158,7 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 * kotlinVersion (REQUIRED): Kotlin version.
 * kotlinCoroutinesVersion (REQUIRED): Kotlin coroutines version.
-* mockkVersion (REQUIRED): MockK mocking library version.
+* mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.
 * jacocoVersion: Jacoco code coverage tool version.
 
 ## Kotlin JS

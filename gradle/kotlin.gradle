@@ -39,7 +39,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
-    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("io.mockk:mockk:" + (findProperty("mockkVersion") ?: "1.9.3"))
 }
 
 // Replace build variables in resource files
@@ -126,7 +126,7 @@ task("testJar", type: Jar, dependsOn: testClasses) {
     from(sourceSets.test.output.classesDirs)
 }
 
-assemble.dependsOn("jarAll", "sourceJar", "testJar")
+assemble.dependsOn("verify", "jarAll", "sourceJar", "testJar")
 
 publishing {
     publications {

@@ -7,6 +7,7 @@ import kotlin.test.assertFailsWith
     private val m = mapOf(
         "alpha" to "bravo",
         "tango" to 0,
+        "list" to listOf("first", "second"),
         "nested" to mapOf(
             "zulu" to "charlie"
         ),

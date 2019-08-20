@@ -2,6 +2,7 @@ package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.toStream
 import org.testng.annotations.Test
+import java.net.InetAddress
 import java.net.URL
 import java.nio.ByteBuffer
 import java.time.LocalDate
@@ -27,7 +28,8 @@ class SerializationPackageTest {
             Person(name = "Mike")
         ),
         departments = setOf(Department.DESIGN, Department.DEVELOPMENT),
-        creationDate = LocalDateTime.of(2016, 1, 1, 0, 0, 0)
+        creationDate = LocalDateTime.of(2016, 1, 1, 0, 0, 0),
+        host = InetAddress.getByName("127.0.0.1")
     )
 
     @Test fun `Inline convert object work correctly`() {

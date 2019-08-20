@@ -5,7 +5,8 @@ You can contribute code or documentation to the framework. This document will gu
 process or picking a task or building the code.
 
 To know what issues are currently open and be aware of the next features yo can check the
-[Project Board] at Github.
+[Project Board] at Github. Issues with the [help wanted] tag are recommended for a first time
+contribution.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
 to date of project's news following [@hexagon_kt] in Twitter.
@@ -13,6 +14,7 @@ to date of project's news following [@hexagon_kt] in Twitter.
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
 [@hexagon_kt]: https://twitter.com/hexagon_kt
+[help wanted]: https://github.com/hexagonkt/hexagon/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 
 ## Project Structure
 

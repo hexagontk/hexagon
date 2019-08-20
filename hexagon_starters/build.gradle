@@ -2,14 +2,13 @@
 import static java.lang.System.getenv
 
 apply(from: "../gradle/kotlin.gradle")
+apply(from: "../gradle/junit.gradle")
 
 apply(plugin: "uk.co.cacoethes.lazybones-templates")
 
 dependencies {
     implementation(project(":http_server_jetty"))
     implementation(project(":port_http_client"))
-
-    testImplementation("junit:junit:$junitVersion")
 }
 
 lazybones {
@@ -36,7 +35,7 @@ clean {
 task("processTemplate") {
     // This must be done in *CONFIGURATION* phase because of a flaw in this Gradle plugin :/
     setupTemplate()
-    
+
     final Map<String, ?> stringProperties = project.getProperties()
         .findAll { it.value instanceof String }
 
@@ -71,7 +70,7 @@ task("processTemplate") {
             into("$buildDir/$dir".toString())
             include("gradlew", "gradlew.bat", ".editorconfig")
         }
-        
+
         file("$buildDir/$dir/gradle.properties".toString()).text = """
             name=\${projectName}
             version=\${version}
