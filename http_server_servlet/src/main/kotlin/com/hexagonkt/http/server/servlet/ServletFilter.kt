@@ -19,9 +19,6 @@ import javax.servlet.*
 import javax.servlet.http.HttpServletRequest as HttpRequest
 import javax.servlet.http.HttpServletResponse as HttpResponse
 
-/**
- * TODO .
- */
 class ServletFilter(router: List<RequestHandler>) : Filter {
 
     /**
@@ -136,9 +133,7 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         doFilter(request, response)
     }
 
-    private fun doFilter(
-        request: ServletRequest,
-        response: ServletResponse) {
+    private fun doFilter(request: ServletRequest, response: ServletResponse) {
 
         if (request !is HttpRequest || response !is HttpResponse)
             error("Invalid request/response parameters")
@@ -187,6 +182,8 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
     private fun handleException(
         exception: Exception, call: Call, type: Class<*> = exception.javaClass) {
 
+        log.trace { "Handling '${exception.javaClass.simpleName}' exception at request processing" }
+
         when (exception) {
             is CodedException -> {
                 val handler: ErrorCodeCallback =
@@ -194,14 +191,12 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
                 call.handler(exception.code)
             }
             else -> {
-                log.error(exception) { "Error processing request" }
-
                 val handler = exceptionErrors[type]
 
                 if (handler != null)
                     call.handler(exception)
                 else
-                    type.superclass.also { if (it != null) handleException(exception, call, it) }
+                    type.superclass.also { handleException(exception, call, it) }
             }
         }
     }
