@@ -101,6 +101,10 @@ If you want to generate the documentation site, check the [site module readme][h
 
 ## Contribute
 
+* You can check available tasks in the [Project Board] and pick one of the issues with the
+  `help wanted` tag by assigning it to yourself. If you want to contribute to non tagged tasks,
+  write a comment and we'll discuss the scope of the feature.
+
 * New features should be discussed within an issue in the issue tracker before actual coding.
 
 * For code, file names, tags and branches use either camel case or snake case only. Ie: avoid `-` or
@@ -132,7 +136,7 @@ If you want to generate the documentation site, check the [site module readme][h
 
 ## Tasks and Milestones
 
-Project's tasks and milestones are tracked in a [Github board][Project board]. You can use that
+Project's tasks and milestones are tracked in a [Github board][Project Board]. You can use that
 board to check the roadmap, vote the features you want (using [issue reactions]) or to pick tasks
 that you wish to contribute.
 

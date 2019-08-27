@@ -37,7 +37,7 @@ class MongoDbStore <T : Any, K : Any>(
             .map { it.name }
     }
 
-    private val collection: MongoCollection<Document> = this.database.getCollection(name)
+    val collection: MongoCollection<Document> = this.database.getCollection(name)
 
     init {
         if (key.name != "_id")
