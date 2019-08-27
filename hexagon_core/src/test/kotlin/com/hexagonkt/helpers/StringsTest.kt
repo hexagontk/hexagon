@@ -1,8 +1,29 @@
 package com.hexagonkt.helpers
 
+import io.mockk.every
+import io.mockk.mockk
 import org.testng.annotations.Test
+import java.lang.IllegalStateException
+import kotlin.test.assertFailsWith
 
 @Test class StringsTest {
+
+    @Test fun `Find groups takes care of 'nulls'` () {
+        val reEmpty = mockk<Regex>()
+        every { reEmpty.find(any()) } returns null
+
+        assert(reEmpty.findGroups("").isEmpty())
+
+        val matchGroupCollection = mockk<MatchGroupCollection>()
+        every { matchGroupCollection.size } returns 1
+        every { matchGroupCollection.iterator() } returns listOf<MatchGroup?>(null).iterator()
+        val matchResult = mockk<MatchResult>()
+        every { matchResult.groups } returns matchGroupCollection
+        val reNullGroup = mockk<Regex>()
+        every { reNullGroup.find(any()) } returns matchResult
+
+        assertFailsWith<IllegalStateException> { reNullGroup.findGroups("") }
+    }
 
     @Test fun `Filter returns the given string if no parameters are set` () {
         val template = "User #{user}"
@@ -75,6 +96,8 @@ import org.testng.annotations.Test
         assert(banner.contains("tango"))
         assert(banner.contains("looong line"))
         assert(banner.contains("***********"))
+
+        assert(sequenceOf<Int>().maxOrElse(123) == 123)
     }
 
     @Test fun `Normalize works as expected`() {

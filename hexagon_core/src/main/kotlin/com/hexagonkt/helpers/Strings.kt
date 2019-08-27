@@ -72,7 +72,7 @@ fun String.camelToSnake(): String =
  * @param bannerDelimiter Delimiter char for banners.
  */
 fun String.banner(bannerDelimiter: String = "*"): String {
-    val separator = bannerDelimiter.repeat(this.lines().asSequence().map { it.length }.max() ?: 0)
+    val separator = bannerDelimiter.repeat(this.lines().asSequence().map { it.length }.maxOrElse(0))
     return "$separator$eol$this$eol$separator"
 }
 
@@ -84,3 +84,7 @@ fun String.toStream(): InputStream =
 
 fun utf8(vararg bytes: Int): String =
     String(bytes.map(Int::toByte).toByteArray())
+
+internal fun Sequence<Int>.maxOrElse(fallback: Int): Int =
+    this.max() ?: fallback
+
