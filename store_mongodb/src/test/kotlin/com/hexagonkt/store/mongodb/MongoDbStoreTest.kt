@@ -36,6 +36,9 @@ import java.time.LocalTime
         }
 
     @BeforeMethod fun dropCollection() {
+        // TODO Generalize this
+        if (store is MongoDbStore)
+            assert(store.collection.namespace.collectionName.isNotBlank())
         store.drop()
         store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
     }
