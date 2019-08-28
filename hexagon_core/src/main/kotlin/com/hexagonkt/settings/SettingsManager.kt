@@ -27,9 +27,7 @@ object SettingsManager {
         }
 
     var settings: Map<String, *> = loadDefaultSettings()
-        private set(value) {
-            field = value
-        }
+        private set
 
     @Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
     fun <T : Any> setting(vararg name: String): T? = settings.get(*name) as? T
@@ -61,5 +59,5 @@ object SettingsManager {
                     }
                 }
             }
-            .reduce { a, b -> b + a }
+            .reduce { a, b -> a + b }
 }
