@@ -27,7 +27,7 @@ import org.testng.annotations.Test
     }
 
     @Test fun `Setting works as expected`() {
-        assert(setting<String>("property") == "changed")
+        assert(setting<String>("property") == "value")
         assert(setting<Int>("intProperty") == 42)
         assert(setting<String>("foo") == "bar")
     }
@@ -47,14 +47,14 @@ import org.testng.annotations.Test
             ResourceSource("${SETTINGS}_test.yaml")
         )
 
-        assert(settings["property"] as String == "changed")
+        assert(settings["property"] as String == "value")
         assert(settings["intProperty"] as Int == 42)
         assert(settings["foo"] as String == "bar")
         assert(settings["parent", "key"] as String == "val")
     }
 
     @Test fun `Require configuration properties`() {
-        assert(requireSetting<String>("property") == "changed")
+        assert(requireSetting<String>("property") == "value")
         assert(requireSetting<Int>("intProperty") == 42)
         assert(requireSetting<String>("foo") == "bar")
         assert(requireSetting<String>("parent", "key") == "val")
