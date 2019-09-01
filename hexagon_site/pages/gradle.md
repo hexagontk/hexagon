@@ -144,7 +144,7 @@ Adds Kotlin's Gradle plugin. It sets up:
 - Repositories
 - Kotlin dependencies
 - Resource processing (replacing build variables)
-- Cleaning (deleting logs and dumps files)
+- Cleaning (deleting runtime files as logs and dump files)
 - Tests (ITs, unit, pass properties, output and mocks)
 - Setup coverage report
 - IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)

@@ -68,7 +68,6 @@ tasks.compileKotlin.kotlinOptions.apiVersion = "1.3"
 tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
 
-// Clean the project taking care of logs and runtime files
 clean {
     delete("build", "log", "out", ".vertx", "file-uploads")
 
@@ -89,19 +88,10 @@ tasks.withType(Test).each { testTask ->
     }
 }
 
-test {
-    exclude("**/*IT.*")
-}
-
-task("verify", dependsOn: "test", type: Test) {
-    include("**/*IT.*")
-}
-
 jacoco {
     toolVersion = findProperty("jacocoVersion") ?: "0.8.4"
 }
 
-// Generate coverage reports properly
 jacocoTestReport {
     dependsOn("test")
     reports {
@@ -126,7 +116,7 @@ task("testJar", type: Jar, dependsOn: testClasses) {
     from(sourceSets.test.output.classesDirs)
 }
 
-assemble.dependsOn("verify", "jarAll", "sourceJar", "testJar")
+assemble.dependsOn("test", "jarAll", "sourceJar", "testJar")
 
 publishing {
     publications {
