@@ -68,10 +68,14 @@ alias gw='./gradlew'
 alias dcup='docker-compose up -d'
 ```
 
-It is recommended that you add:
-`gw --quiet --stacktrace clean all publishToMavenLocal` to your `.git/hooks/pre-push` script. As
+It is recommended that you link `buildSrc/pre-push` to your `.git/hooks/pre-push` script. As
 this command will be executed before pushing code to the repository (saving time fixing [Travis]
 build errors).
+
+You can do so running: `ln -s $PWD/buildSrc/pre-push .git/hooks/pre-push`
+
+WARNING: This script can leave a lot of Docker artifacts using a lot of disk space, you can clean
+this up by running: `sudo docker system prune -af`
 
 If you want to commit to the project. It is convenient to setup your own [Travis] account to execute
 the CI job defined in `.travis.yml` when code is pushed to your fork.
@@ -102,8 +106,10 @@ If you want to generate the documentation site, check the [site module readme][h
 ## Contribute
 
 * You can check available tasks in the [Project Board] and pick one of the issues with the
-  `help wanted` tag by assigning it to yourself. If you want to contribute to non tagged tasks,
-  write a comment and we'll discuss the scope of the feature.
+  `help wanted` tag available in the `Ready` column.
+   
+* Assign the issue you want to work in to yourself. If you want to contribute to non tagged (or a
+  non existing) tasks, write a comment and we'll discuss the scope of the feature.
 
 * New features should be discussed within an issue in the issue tracker before actual coding.
 
