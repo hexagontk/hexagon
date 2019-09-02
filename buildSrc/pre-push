@@ -5,10 +5,16 @@
 # To clean Docker artifacts execute: `sudo docker system prune -af`
 #
 
-docker-compose rm -sf
+set -e
+
+docker-compose stop
 docker-compose up -d
 
-./gradlew --quiet clean all
-./gradlew --quiet dokkaMd checkSite
-# The next line generate files owned by `root` preventing `clean` to work properly
-#docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.4.0 build
+./gradlew clean all
+./gradlew dokkaMd checkSite
+me=$(whoami) docker run \
+  --rm \
+  -v $PWD/hexagon_site:/docs \
+  -u $(id -u $me):$(id -g $me) \
+  squidfunk/mkdocs-material:4.4.2 \
+  build
