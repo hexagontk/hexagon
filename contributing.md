@@ -77,6 +77,9 @@ You can do so running: `ln -s $PWD/buildSrc/pre-push .git/hooks/pre-push`
 WARNING: This script can leave a lot of Docker artifacts using a lot of disk space, you can clean
 this up by running: `sudo docker system prune -af`
 
+IMPORTANT: For `rabbitmq` container to work properly, you should follow the setup described in:
+https://www.rabbitmq.com/install-debian.html (inside the "With Docker" section)
+
 If you want to commit to the project. It is convenient to setup your own [Travis] account to execute
 the CI job defined in `.travis.yml` when code is pushed to your fork.
 
