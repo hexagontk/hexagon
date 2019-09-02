@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#
+# Refer to `.git/hooks/pre-push.sample` for more information about this hook script.
+# To clean Docker artifacts execute: `sudo docker system prune -af`
+#
+
+set -e
+
+docker-compose stop
+docker-compose up -d
+
+./gradlew clean all
+./gradlew dokkaMd checkSite
+me=$(whoami) docker run \
+  --rm \
+  -v $PWD/hexagon_site:/docs \
+  -u $(id -u $me):$(id -g $me) \
+  squidfunk/mkdocs-material:4.4.2 \
+  build
