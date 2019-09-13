@@ -239,6 +239,8 @@ The MIME types of static files are computed from the file extension using the
 
 ### Testing
 
+#### Integration tests
+
 To test HTTP servers from outside using a real Adapter, you can create a server setting `0` as port.
 This will pick a random free port that you can check later:
 
@@ -248,6 +250,10 @@ To do this kind of tests without creating a custom server (using the real produc
 Check the [tests of the starter projects].
 
 [tests of the starter projects]: https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt
+
+#### Mocking calls
+
+
 
 # Package com.hexagonkt.http.server
 
