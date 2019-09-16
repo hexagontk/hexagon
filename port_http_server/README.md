@@ -239,6 +239,8 @@ The MIME types of static files are computed from the file extension using the
 
 ### Testing
 
+#### Integration tests
+
 To test HTTP servers from outside using a real Adapter, you can create a server setting `0` as port.
 This will pick a random free port that you can check later:
 
@@ -248,6 +250,36 @@ To do this kind of tests without creating a custom server (using the real produc
 Check the [tests of the starter projects].
 
 [tests of the starter projects]: https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt
+
+#### Mocking calls
+
+To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.
+
+To use it in your project you'll have to include a dependency (with test scope):
+
+```groovy tab="build.gradle"
+testImplementation("com.hexagonkt:port_http_server:$hexagonVersion:test")
+```
+
+```xml tab="pom.xml"
+<dependency>
+  <groupId>com.hexagonkt</groupId>
+  <artifactId>port_http_server</artifactId>
+  <version>$hexagonVersion</version>
+  <scope>test</scope>
+</dependency>
+```
+
+Check [testCall], [TestRequest], [TestResponse] and [TestSession] for more details.
+
+For a quick sample, check the snipped below:
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/TestsTest.kt:test
+
+[testCall]: /port_http_server/com.hexagonkt.http.server.test/test-call/
+[TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-request/
+[TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-response/
+[TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-session/
 
 # Package com.hexagonkt.http.server
 

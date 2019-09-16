@@ -76,9 +76,8 @@ class MongoDbStore <T : Any, K : Any>(
 
     override fun saveOne(instance: T): K? {
         val filter = createKeyFilter(key.get(instance))
-        val options = UpdateOptions().upsert(true)
-        val replaceOptions = ReplaceOptions.createReplaceOptions(options)
-        val result = collection.replaceOne(filter, map(instance), replaceOptions)
+        val options = ReplaceOptions().upsert(true)
+        val result = collection.replaceOne(filter, map(instance), options)
         val upsertedId = result.upsertedId
 
         @Suppress("UNCHECKED_CAST")

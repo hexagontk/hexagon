@@ -75,7 +75,7 @@ build errors).
 You can do so running: `ln -s $PWD/.github/pre-push .git/hooks/pre-push`
 
 WARNING: This script can leave a lot of Docker artifacts using a lot of disk space, you can clean
-this up by running: `sudo docker system prune -af`
+this up by running: `sudo docker system prune -af` and `sudo docker volume prune -f`.
 
 IMPORTANT: For `rabbitmq` container to work properly, you should follow the setup described in:
 https://www.rabbitmq.com/install-debian.html (inside the "With Docker" section)
