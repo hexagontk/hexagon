@@ -12,7 +12,7 @@ a project from scratch following these steps:
 3. Add the dependency in [Gradle] or [Maven]:
 
 ```groovy tab="build.gradle"
-compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
+implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 ```
 
 ```xml tab="pom.xml"
