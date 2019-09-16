@@ -187,8 +187,8 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         when (exception) {
             is CodedException -> {
                 val handler: ErrorCodeCallback =
-                    codedErrors[exception.code] ?: { send(it, exception.message ?: "") }
-                call.handler(exception.code)
+                    codedErrors[exception.code] ?: { send(exception.code, exception.message ?: "") }
+                call.handler(exception)
             }
             else -> {
                 val handler = exceptionErrors[type]
