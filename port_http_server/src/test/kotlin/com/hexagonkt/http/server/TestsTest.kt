@@ -6,15 +6,19 @@ import org.testng.annotations.Test
 
 internal class TestsTest {
 
-    private fun Call.weird() {
+    // test
+    private fun Call.testedCallback() {
         if (request.body == "weird")
             send(999, "Weird error")
     }
 
     @Test fun `Test call behaves as expected`() {
         val testCall = testCall(TestRequest(body = "weird"))
-        testCall.weird()
+
+        testCall.testedCallback()
+
         assert(testCall.response.status == 999)
         assert(testCall.response.body == "Weird error")
     }
+    // test
 }

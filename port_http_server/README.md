@@ -253,7 +253,33 @@ Check the [tests of the starter projects].
 
 #### Mocking calls
 
+To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.
 
+To use it in your project you'll have to include a dependency (with test scope):
+
+```groovy tab="build.gradle"
+testImplementation("com.hexagonkt:port_http_server:$hexagonVersion:test")
+```
+
+```xml tab="pom.xml"
+<dependency>
+  <groupId>com.hexagonkt</groupId>
+  <artifactId>port_http_server</artifactId>
+  <version>$hexagonVersion</version>
+  <scope>test</scope>
+</dependency>
+```
+
+Check [testCall], [TestRequest], [TestResponse] and [TestSession] for more details.
+
+For a quick sample, check the snipped below:
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/TestsTest.kt:test
+
+[testCall]: /port_http_server/com.hexagonkt.http.server.test/test-call/
+[TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-request/
+[TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-response/
+[TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-session/
 
 # Package com.hexagonkt.http.server
 
