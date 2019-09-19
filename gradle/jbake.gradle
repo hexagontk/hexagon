@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle.html#site
+ * Check usage information at: http://hexagonkt.com/gradle.html#jbake
  */
 
 apply(plugin: "org.jbake.site")

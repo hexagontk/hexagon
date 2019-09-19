@@ -13,13 +13,6 @@ import org.testng.annotations.Test
 
 @Test class RouterTest {
 
-    @Test(expectedExceptions = [ IllegalArgumentException::class ])
-    fun `Hexagon internal 'CodedException' can not be handled`() {
-        Router {
-            error(CodedException::class) {}
-        }
-    }
-
     @Test fun `Nested routes are flattened properly inside by Router`() {
         val router = Router {
             path {

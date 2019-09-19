@@ -68,11 +68,11 @@ alias gw='./gradlew'
 alias dcup='docker-compose up -d'
 ```
 
-It is recommended that you link `.github/pre-push` to your `.git/hooks/pre-push` script. As
+It is recommended that you link `.github/pre-push.sh` to your `.git/hooks/pre-push` script. As
 this command will be executed before pushing code to the repository (saving time fixing [Travis]
 build errors).
 
-You can do so running: `ln -s $PWD/.github/pre-push .git/hooks/pre-push`
+You can do so running: `ln -s $PWD/.github/pre-push.sh .git/hooks/pre-push`
 
 WARNING: This script can leave a lot of Docker artifacts using a lot of disk space, you can clean
 this up by running: `sudo docker system prune -af` and `sudo docker volume prune -f`.

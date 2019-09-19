@@ -1,3 +1,6 @@
+/*
+ * Check usage information at: http://hexagonkt.com/gradle.html#junit
+ */
 
 apply(plugin: "java")
 

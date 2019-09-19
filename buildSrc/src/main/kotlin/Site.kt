@@ -1,6 +1,12 @@
 
 import java.io.File
 
+/**
+ * Represents a set of lines inside a text file.
+ *
+ * @param file Text file holding the range lines.
+ * @param range Range of lines of the supplied file included.
+ */
 class FileRange(private val file: File, private val range: IntRange) {
 
     companion object {

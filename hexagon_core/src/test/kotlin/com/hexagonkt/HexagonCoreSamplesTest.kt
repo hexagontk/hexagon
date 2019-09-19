@@ -70,6 +70,14 @@ class HexagonCoreSamplesTest {
         // Injecting classes bound to objects return always the same instance
         val defaultString = InjectionManager.inject<String>()
         val taggedString: String = InjectionManager.inject("toolkit")
+
+        // Overriding previously bound classes is not allowed (ignored)
+        InjectionManager.bindObject<String>("STR Ignored")
+        val ignoredBinding = InjectionManager.inject<String>()
+
+        // You can overwrite previously bound classes using `forceBind*` methods
+        InjectionManager.forceBindObject<String>("STR Overridden")
+        val overriddenBinding = InjectionManager.inject<String>()
         // injectionUsage
 
         val millis = System.currentTimeMillis()
@@ -81,6 +89,8 @@ class HexagonCoreSamplesTest {
         assert(nextHourSqlDate is java.sql.Date)
         assert(nextHourSqlDateInferredType.time <= millis + 3_600_000)
         assert(defaultString == "STR")
+        assert(ignoredBinding == "STR")
+        assert(overriddenBinding == "STR Overridden")
         assert(taggedString == "Hexagon")
         assert(InjectionManager.inject<String>() === InjectionManager.inject<String>())
     }

@@ -17,6 +17,10 @@ The following code block shows the most common use cases for the [Logger] class:
 
 You can take advantage of dependency injection using the [InjectionManager] object.
 
+You can bind supplier functions or objects to classes. If a class is already bound, later calls to
+`bind*` methods are ignored. However, you can use the `forceBind*` methods if you need to override
+a binding (in tests for example).
+
 Check this sample to bind constructor functions or objects to classes, and inject them later:
 
 @sample hexagon_core/src/test/kotlin/com/hexagonkt/HexagonCoreSamplesTest.kt:injectionUsage
