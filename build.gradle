@@ -82,7 +82,6 @@ childProjects.each { pair ->
                 outputDirectory = "${rootDir}/hexagon_site/content/${name}"
                 includes = filesCollection(prj.projectDir, "*.md")
                 samples = filesCollection("${prj.projectDir}/src/test/kotlin", "**/*SamplesTest.kt")
-                sourceDirs = files('src/main/kotlin', 'src/test/kotlin')
             }
         }
     }

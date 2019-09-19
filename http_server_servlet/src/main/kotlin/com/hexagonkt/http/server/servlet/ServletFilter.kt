@@ -114,17 +114,6 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
     override fun destroy() { /* Not implemented */ }
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-//        if (request.isAsyncSupported) {
-//            val asyncContext = request.startAsync()
-//            val context = request.servletContext // Must be passed and fetched outside executor
-//            executor.execute {
-//                doFilter(asyncContext.request, asyncContext.response, context)
-//                asyncContext.complete()
-//            }
-//        }
-//        else {
-//            doFilter(request, response)
-//        }
 
         // TODO Temporary hack only valid for Jetty
         val multipartConfig = MultipartConfigElement("/tmp")
@@ -186,9 +175,21 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
 
         when (exception) {
             is CodedException -> {
-                val handler: ErrorCodeCallback =
-                    codedErrors[exception.code] ?: { send(it, exception.message ?: "") }
-                call.handler(exception.code)
+                val handler = codedErrors[exception.code]
+
+                if (handler != null)
+                    call.handler(exception)
+                else {
+                    val hnd = exceptionErrors[type]
+
+                    if (hnd != null)
+                        call.hnd(exception)
+                    else {
+                        val hnd2: ErrorCodeCallback =
+                            { send(exception.code, exception.message ?: "") }
+                        call.hnd2(exception)
+                    }
+                }
             }
             else -> {
                 val handler = exceptionErrors[type]

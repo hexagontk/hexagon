@@ -12,9 +12,7 @@ docker-compose up -d
 
 ./gradlew clean all
 ./gradlew dokkaMd checkSite
-me=$(whoami) docker run \
-  --rm \
-  -v $PWD/hexagon_site:/docs \
-  -u $(id -u $me):$(id -g $me) \
-  squidfunk/mkdocs-material:4.4.2 \
-  build
+
+me="$(whoami)"
+user="$(id -u "$me"):$(id -g "$me")"
+docker run --rm -v "$PWD/hexagon_site:/docs" -u "$user" "squidfunk/mkdocs-material:4.4.2" build

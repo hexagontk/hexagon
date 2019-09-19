@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.client.Client
@@ -336,9 +337,11 @@ import org.asynchttpclient.Response as ClientResponse
             // errors
 
             // exceptions
-            // Register handler for routes which callbacks throw an `IllegalStateException`
+            // Register handler for routes which callbacks throw exceptions
+            error(CodedException::class) { send(599, it.message ?: "empty") }
             error(IllegalStateException::class) { send(505, it.message ?: "empty") }
             get("/exceptions") { error("Message") }
+            get("/codedExceptions") { halt(509, "code") }
             // exceptions
         }
 
@@ -351,6 +354,9 @@ import org.asynchttpclient.Response as ClientResponse
         val exceptions = client.get("/exceptions")
         assert(exceptions.statusCode == 505)
         assert(exceptions.responseBody == "Message")
+        val codedExceptions = client.get("/codedExceptions")
+        assert(codedExceptions.statusCode == 599)
+        assert(codedExceptions.responseBody == "code")
 
         server.stop()
     }
