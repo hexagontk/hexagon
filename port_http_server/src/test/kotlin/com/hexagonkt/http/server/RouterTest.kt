@@ -7,7 +7,6 @@ import com.hexagonkt.http.server.RequestHandler.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
 import com.hexagonkt.http.Method
-import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Resource
 import org.testng.annotations.Test
 

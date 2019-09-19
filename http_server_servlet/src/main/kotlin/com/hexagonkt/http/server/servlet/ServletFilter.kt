@@ -114,17 +114,6 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
     override fun destroy() { /* Not implemented */ }
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
-//        if (request.isAsyncSupported) {
-//            val asyncContext = request.startAsync()
-//            val context = request.servletContext // Must be passed and fetched outside executor
-//            executor.execute {
-//                doFilter(asyncContext.request, asyncContext.response, context)
-//                asyncContext.complete()
-//            }
-//        }
-//        else {
-//            doFilter(request, response)
-//        }
 
         // TODO Temporary hack only valid for Jetty
         val multipartConfig = MultipartConfigElement("/tmp")

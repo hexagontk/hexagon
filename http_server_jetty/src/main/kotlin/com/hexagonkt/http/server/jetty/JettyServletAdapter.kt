@@ -17,7 +17,7 @@ import org.eclipse.jetty.server.Server as JettyServer
 /**
  * TODO .
  */
-class JettyServletAdapter(private val async: Boolean = false) : ServerPort {
+class JettyServletAdapter : ServerPort {
     private var jettyServer: JettyServer? = null
 
     override fun runtimePort(): Int =
@@ -36,7 +36,6 @@ class JettyServletAdapter(private val async: Boolean = false) : ServerPort {
                 val filter = ServletFilter(server.contextRouter.flatRequestHandlers())
                 val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
                 val filterBind = context.servletContext.addFilter("filters", filter)
-                filterBind.setAsyncSupported(async)
                 filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
             }
         })
