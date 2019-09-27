@@ -1,9 +1,13 @@
 package com.hexagonkt.store
 
+import kotlin.reflect.KProperty1
+
 /**
  * Maps objects and fields from/to stores and filters.
  */
 interface Mapper<T : Any> {
+
+    val fields: Map<String, KProperty1<*, *>>
 
     fun toStore(instance: T): Map<String, Any>
 
