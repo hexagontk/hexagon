@@ -44,6 +44,14 @@ import java.time.LocalTime
         store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
     }
 
+    @Test fun `Store type is correct`() {
+        assert(store.type == Company::class)
+    }
+
+    @Test fun `Indexes creation works ok`() {
+        store.createIndex(true, Company::foundation.name to IndexOrder.DESCENDING)
+    }
+
     @Test fun `New records are stored`() {
         val id = ObjectId().toHexString()
         val company = Company(
