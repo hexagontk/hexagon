@@ -37,10 +37,9 @@ class MongoDbMapper<T : Any, K : Any>(
     override fun fromStore(property: String, value: Any): Any = when (value) {
         is BsonString -> value.value
         is Date -> when (fields[property]?.returnType?.javaType) {
-            null -> error
             LocalDate::class.java -> value.toLocalDate()
             LocalDateTime::class.java -> value.toLocalDateTime()
-            else -> value
+            else -> error
         }
         else -> value
     }

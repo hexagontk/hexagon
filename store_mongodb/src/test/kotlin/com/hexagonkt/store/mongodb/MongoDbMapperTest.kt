@@ -1,6 +1,8 @@
 package com.hexagonkt.store.mongodb
 
 import org.testng.annotations.Test
+import java.lang.IllegalStateException
+import java.util.*
 
 class MongoDbMapperTest {
     data class MappedClass (
@@ -18,12 +20,17 @@ class MongoDbMapperTest {
         val onePlus: Char = 'c'
     )
 
-    @Test
-    fun `A mapper transform a data class to a map and back`() {
+    @Test fun `A mapper transform a data class to a map and back`() {
         val instance = MappedClass()
         val mapper = MongoDbMapper(MappedClass::class, MappedClass::oneString)
         val map = mapper.toStore(instance)
 
         assert(instance == mapper.fromStore(map))
+    }
+
+    @Test(expectedExceptions = [ IllegalStateException::class ])
+    fun `Mapping a date to an invalid field type results in error`() {
+        val mapper = MongoDbMapper(MappedClass::class, MappedClass::oneString)
+        mapper.fromStore("onePlus", Date())
     }
 }
