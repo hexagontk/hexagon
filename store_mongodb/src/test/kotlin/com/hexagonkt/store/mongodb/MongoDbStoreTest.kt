@@ -50,6 +50,7 @@ import java.time.LocalTime
 
     @Test fun `Indexes creation works ok`() {
         store.createIndex(true, Company::foundation.name to IndexOrder.DESCENDING)
+        store.createIndex(true, Company::creationDate.name to IndexOrder.ASCENDING)
     }
 
     @Test fun `New records are stored`() {
