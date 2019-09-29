@@ -1,5 +1,5 @@
 
-serviceName : Jetty Servlet Tests
+serviceName: Jetty Servlet Tests
 
-bindPort : 0
-bindAddress : 0.0.0.0
+bindPort: 0
+bindAddress: 0.0.0.0
