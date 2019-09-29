@@ -208,7 +208,7 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         val stream = javaClass.getResourceAsStream(resourcePath)
 
         if (stream == null)
-            assetNotFound()
+            response.status = 404
         else
             returnAsset(resourcePath, stream)
     }
@@ -218,7 +218,7 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         val file = resourcesFolder.resolve(requestPath).absoluteFile
 
         if (!file.exists())
-            assetNotFound()
+            response.status = 404
         else
             returnAsset(file.absolutePath, file.inputStream())
     }
@@ -241,10 +241,5 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
             throw PassException()
 
         return request.path.removePrefix(route.path.path.removeSuffix("/*"))
-    }
-
-    private fun Call.assetNotFound() {
-        response.status = 404
-        throw PassException()
     }
 }
