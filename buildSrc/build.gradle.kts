@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.9.9"
+    val jacksonVersion = "2.10.0"
 
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")

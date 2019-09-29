@@ -35,14 +35,9 @@ internal val benchmarkTemplateEngines: Map<String, TemplatePort> by lazy {
     mapOf("pebble" to PebbleAdapter)
 }
 
-private val defaultLocale = Locale.getDefault()
+internal val engine by lazy { createEngine() }
 
-private val engine by lazy {
-    when (systemSetting("WEBENGINE", "jetty")) {
-        "jetty" -> JettyServletAdapter()
-        else -> error("Unsupported server engine")
-    }
-}
+private val defaultLocale = Locale.getDefault()
 
 private val router: Router by lazy {
     Router {
@@ -71,6 +66,11 @@ private val router: Router by lazy {
 internal val benchmarkServer: Server by lazy { Server(engine, router, SettingsManager.settings) }
 
 // UTILITIES
+internal fun createEngine(): ServerPort = when (systemSetting("WEBENGINE", "jetty")) {
+    "jetty" -> JettyServletAdapter()
+    else -> error("Unsupported server engine")
+}
+
 private fun returnWorlds(worldsList: List<World>): List<Map<Any?, Any?>> =
     worldsList.map { it.convertToMap() - "_id" }
 

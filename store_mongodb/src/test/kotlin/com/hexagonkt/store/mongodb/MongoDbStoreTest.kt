@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 import java.net.URL
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Test class MongoDbStoreTest {
@@ -43,6 +44,15 @@ import java.time.LocalTime
         store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
     }
 
+    @Test fun `Store type is correct`() {
+        assert(store.type == Company::class)
+    }
+
+    @Test fun `Indexes creation works ok`() {
+        store.createIndex(true, Company::foundation.name to IndexOrder.DESCENDING)
+        store.createIndex(true, Company::creationDate.name to IndexOrder.ASCENDING)
+    }
+
     @Test fun `New records are stored`() {
         val id = ObjectId().toHexString()
         val company = Company(
@@ -60,6 +70,7 @@ import java.time.LocalTime
         store.insertOne(company)
         val storedCompany = store.findOne(id)
         assert(storedCompany == company)
+        assert(store.findOne(ObjectId().toHexString()) == null)
 
         assert(store.replaceOne(company)) // Ensures unmodified instance is also "replaced"
         val changedCompany = company.copy(web = URL("http://change.example.org"))
@@ -78,8 +89,16 @@ import java.time.LocalTime
         assert(store.findOne(key, fields) == store.findOne(mapOf(store.key.name to key), fields))
         assert(store.findOne(key) == store.findOne(mapOf(store.key.name to key)))
 
-        assert(store.updateOne(key, Company::web to URL("http://update1.example.org")))
-        assert(store.findOne(key, fields)?.get("web") == "http://update1.example.org")
+        assert(store.updateOne(key,
+            Company::web to URL("http://update1.example.org"),
+            Company::foundation to LocalDate.of(2015, 1, 1),
+            Company::creationDate to LocalDateTime.of(2015, 1, 1, 23, 59)
+        ))
+        store.findOne(key, fields + "foundation" + "creationDate")?.apply {
+            assert(get("web") == "http://update1.example.org")
+            assert(get("foundation") == LocalDate.of(2015, 1, 1))
+            assert(get("creationDate") == LocalDateTime.of(2015, 1, 1, 23, 59))
+        }
 
         assert(store.count() == 1L)
 

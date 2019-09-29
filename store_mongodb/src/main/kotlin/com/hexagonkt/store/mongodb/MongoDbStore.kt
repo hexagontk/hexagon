@@ -2,7 +2,6 @@ package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.filterEmpty
-import com.hexagonkt.helpers.logger
 import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.Mapper
@@ -17,7 +16,6 @@ import org.bson.Document
 import org.bson.conversions.Bson
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
-import kotlin.reflect.full.declaredMemberProperties
 
 class MongoDbStore <T : Any, K : Any>(
     override val type: KClass<T>,
@@ -30,11 +28,6 @@ class MongoDbStore <T : Any, K : Any>(
         fun database(url: String): MongoDatabase = MongoClientURI(url).let {
             MongoClient(it).getDatabase(it.database ?: error())
         }
-    }
-
-    private val fields: List<String> by lazy {
-        logger.time ("REFLECT") { type.declaredMemberProperties } // TODO This is *VERY* slow
-            .map { it.name }
     }
 
     val collection: MongoCollection<Document> = this.database.getCollection(name)
@@ -129,7 +122,7 @@ class MongoDbStore <T : Any, K : Any>(
 
     override fun findOne(key: K): T? {
         val result = collection.find(createKeyFilter(key)).first()?.filterEmpty()
-        return mapper.fromStore(result as Map<String, Any>)
+        return if (result == null) null else mapper.fromStore(result as Map<String, Any>)
     }
 
     override fun findOne(key: K, fields: List<String>): Map<String, *>? {
@@ -139,7 +132,7 @@ class MongoDbStore <T : Any, K : Any>(
             .projection(createProjection(fields))
             .first()?.filterEmpty() ?: error()
 
-        return result.mapValues { mapper.toStore(it.key, it.value as Any) }
+        return result.mapValues { mapper.fromStore(it.key, it.value as Any) }
     }
 
     override fun findMany(
@@ -207,7 +200,7 @@ class MongoDbStore <T : Any, K : Any>(
         .filterEmpty()
         .filter {
             val firstKeySegment = it.key.split ("\\.")[0]
-            fields.contains (firstKeySegment)
+            mapper.fields.keys.contains (firstKeySegment)
         }
         .map {
             val key = it.key

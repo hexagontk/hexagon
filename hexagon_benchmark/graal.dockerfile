@@ -1,5 +1,5 @@
 
-FROM oracle/graalvm-ce:19.1.1 as build
+FROM oracle/graalvm-ce:19.2.0.1 as build
 USER root
 WORKDIR /build
 

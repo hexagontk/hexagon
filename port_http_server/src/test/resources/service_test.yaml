@@ -1,12 +1,12 @@
 
-serverName : Hexagon Tests
+serverName: Hexagon Tests
 
-bindPort : 0
-bindAddress : 0.0.0.0
+bindPort: 0
+bindAddress: 0.0.0.0
 
-database : hello_world
-worldCollection : world
-fortuneCollection : fortune
+database: hello_world
+worldCollection: world
+fortuneCollection: fortune
 
 property: value
 intProperty: 42
@@ -14,4 +14,4 @@ intProperty: 42
 parent:
   key: val
 
-global : globalValue
+global: globalValue

@@ -294,7 +294,7 @@ Demo server to show the use of cookies. Here you can check the
 val server: Server by lazy {
     Server(adapter) {
         post("/assertNoCookies") {
-            if (!request.cookies.isEmpty())
+            if (request.cookies.isNotEmpty())
                 halt(500)
         }
 
