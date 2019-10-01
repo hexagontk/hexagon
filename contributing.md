@@ -1,5 +1,5 @@
 
-# Contributing
+# Contributing Guidelines
 
 You can contribute code or documentation to the framework. This document will guide you through the
 process or picking a task or building the code.
