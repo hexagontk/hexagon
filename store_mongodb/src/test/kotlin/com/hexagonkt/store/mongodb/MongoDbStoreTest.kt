@@ -99,6 +99,11 @@ import java.time.LocalTime
             assert(get("foundation") == LocalDate.of(2015, 1, 1))
             assert(get("creationDate") == LocalDateTime.of(2015, 1, 1, 23, 59))
         }
+        store.findOne(key)?.apply {
+            assert(web == URL("http://update1.example.org"))
+            assert(foundation == LocalDate.of(2015, 1, 1))
+            assert(creationDate == LocalDateTime.of(2015, 1, 1, 23, 59))
+        }
 
         assert(store.count() == 1L)
 
