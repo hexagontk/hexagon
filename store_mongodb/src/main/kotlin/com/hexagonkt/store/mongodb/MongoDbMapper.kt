@@ -6,8 +6,8 @@ import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.store.Mapper
 import org.bson.BsonString
 import java.net.URL
-import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.*
+import java.time.ZoneOffset.UTC
 import java.util.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -29,10 +29,13 @@ class MongoDbMapper<T : Any, K : Any>(
         (instance.convertToMap() + ("_id" to key.get(instance)))
             .filterEmpty()
             .mapKeys { it.key.toString() }
-            .mapValues { it.value as Any }
+            .mapValues { toStore(it.key, it.value as Any) }
 
     @Suppress("UNCHECKED_CAST")
-    override fun fromStore(map: Map<String, Any>): T = map.filterEmpty().convertToObject(type)
+    override fun fromStore(map: Map<String, Any>): T = map
+        .filterEmpty()
+        .mapValues { fromStore(it.key, it.value) }
+        .convertToObject(type)
 
     override fun fromStore(property: String, value: Any): Any = when (value) {
         is BsonString -> value.value
@@ -44,10 +47,20 @@ class MongoDbMapper<T : Any, K : Any>(
         else -> value
     }
 
-    override fun toStore(property: String, value: Any): Any = when (value) {
-        is URL -> value.toString()
-        is LocalDate -> value.toDate()
-        is LocalDateTime -> value.toDate()
-        else -> value
+    override fun toStore(property: String, value: Any): Any {
+        val fieldType = fields[property]?.returnType?.javaType
+        return when {
+            value is URL -> value.toString()
+            value is String && fieldType == LocalDate::class.java -> LocalDate.parse(value)
+            value is String && fieldType == LocalDateTime::class.java -> LocalDateTime.parse(value)
+                .atZone(ZoneId.systemDefault())
+                .withZoneSameInstant(UTC)
+                .toLocalDateTime()
+            value is LocalDateTime && fieldType == LocalDateTime::class.java -> value
+                .atZone(ZoneId.systemDefault())
+                .withZoneSameInstant(UTC)
+                .toLocalDateTime()
+            else -> value
+        }
     }
 }
