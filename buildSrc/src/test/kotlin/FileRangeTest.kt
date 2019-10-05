@@ -14,7 +14,7 @@ class FileRangeTest {
 
         fileRange = FileRange(
             testFile,
-        "hello"
+            "hello"
         )
     }
 
