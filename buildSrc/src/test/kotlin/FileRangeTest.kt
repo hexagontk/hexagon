@@ -10,7 +10,7 @@ class FileRangeTest {
     fun setUp() {
         val resourcesDirectory = File("src/test/resources")
         val files = resourcesDirectory.listFiles()
-        val testFile = files[0]
+        val testFile = files.single { it.name == "test.md" }
         val testTag = "hello"
 
         fileRange = FileRange(
