@@ -11,10 +11,11 @@ class FileRangeTest {
         val resourcesDirectory = File("src/test/resources")
         val files = resourcesDirectory.listFiles()
         val testFile = files[0]
+        val testTag = "hello"
 
         fileRange = FileRange(
             testFile,
-            "hello"
+            testTag
         )
     }
 
@@ -26,5 +27,10 @@ class FileRangeTest {
     @Test
     fun testStrippedLines() {
         assert(fileRange.strippedLines().isNotEmpty())
+    }
+
+    @Test
+    fun testTestToString() {
+        assert(fileRange.toString().isNotEmpty())
     }
 }
