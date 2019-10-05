@@ -11,9 +11,9 @@ class SiteKtTest {
     @BeforeMethod
     fun setUp() {
         resourceFile = File("src/test/resources")
-        val listOfFiles = resourceFile.listFiles()
-        testFile = listOfFiles.single { it.name == "test.md"}
-        testFileOut = listOfFiles.single { it.name == "test_out.md"}
+        val files = resourceFile.listFiles()
+        testFile = files.single { it.name == "test.md"}
+        testFileOut = files.single { it.name == "test_out.md"}
     }
 
     @Test

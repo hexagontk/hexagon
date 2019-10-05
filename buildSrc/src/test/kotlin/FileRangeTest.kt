@@ -12,7 +12,6 @@ class FileRangeTest {
         val files = resourcesDirectory.listFiles()
         val testFile = files.single { it.name == "test.md" }
         val testTag = "hello"
-
         fileRange = FileRange(
             testFile,
             testTag
