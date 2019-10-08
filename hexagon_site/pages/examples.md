@@ -1,8 +1,8 @@
 
 # Todo-Backend
 
-Sample application for the Todo-Backend project (http://www.todobackend.com) which implements
-TodoMVC (http://todomvc.com) backends. You can check the code
+Sample application for the [Todo-Backend](http://www.todobackend.com) project which implements
+[TodoMVC](http://todomvc.com) backends. You can check the code
 [here](https://github.com/hexagonkt/todo_backend).
 
 # Real World
