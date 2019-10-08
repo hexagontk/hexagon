@@ -1,13 +1,13 @@
 
 # Hexagon Benchmarking Test
 
-This is the Hexagon portion of a [benchmarking test suite](../) comparing a variety of web
+This is the Hexagon portion of a [benchmarking test suite](..) comparing a variety of web
 development platforms. The test utilizes Hexagon routes, serialization and database access.
 
 ## Tests
 
-* [Hexagon Web](/hexagon_benchmark/src/main/kotlin/com/hexagonkt/Benchmark.kt)
-* [Hexagon Storage](/hexagon_benchmark/src/main/kotlin/com/hexagonkt/BenchmarkStorage.kt)
+* [Hexagon Web](src/main/kotlin/com/hexagonkt/Benchmark.kt)
+* [Hexagon Storage](src/main/kotlin/com/hexagonkt/BenchmarkStorage.kt)
 
 ## Infrastructure Software Versions
 
