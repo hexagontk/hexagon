@@ -7,10 +7,13 @@ apply(plugin: "maven-publish")
 apply(plugin: "org.jetbrains.dokka")
 
 dokka {
-    reportUndocumented = false
-    includes = filesCollection(projectDir, "*.md")
-    samples = filesCollection("$projectDir/src/test/kotlin", "**/*SamplesTest.kt")
-    sourceDirs = files('src/main/kotlin', 'src/test/kotlin')
+    configuration {
+        reportUndocumented = false
+        includes = filesCollection(projectDir, "*.md")
+        samples = filesCollection("$projectDir/src/test/kotlin", "**/*SamplesTest.kt")
+        sourceRoot { path = "$projectDir/src/main/kotlin" }
+        sourceRoot { path = "$projectDir/src/test/kotlin" }
+    }
 }
 
 task("dokkaJar", type: Jar, dependsOn: "dokka") {
@@ -28,6 +31,6 @@ publishing {
     }
 }
 
-private List<File> filesCollection(final Object dir, final String pattern) {
-    return fileTree(dir: dir, include: pattern).getFiles().toList()
+private List<String> filesCollection(final Object dir, final String pattern) {
+    return fileTree(dir: dir, include: pattern).getFiles().toList().collect { it.absolutePath }
 }
