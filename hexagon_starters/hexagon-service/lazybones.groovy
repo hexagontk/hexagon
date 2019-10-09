@@ -25,7 +25,7 @@ Map<Object, Object> props = [
 ]
 
 processTemplates 'README.md', props
-processTemplates 'build.gradle', props
+processTemplates 'build.gradle.kts', props
 processTemplates 'settings.gradle', props
 processTemplates 'gradle.properties', props
 processTemplates 'Dockerfile', props

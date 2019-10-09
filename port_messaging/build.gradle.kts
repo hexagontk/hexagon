@@ -5,5 +5,5 @@ apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/testng.gradle")
 
 dependencies {
-    api(project(":hexagon_core"))
+    "api"(project(":hexagon_core"))
 }

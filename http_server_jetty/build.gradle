@@ -1,18 +1,18 @@
 
-apply(from = "../gradle/kotlin.gradle")
-apply(from = "../gradle/bintray.gradle")
-apply(from = "../gradle/dokka.gradle")
-apply(from = "../gradle/testng.gradle")
+apply(from: "../gradle/kotlin.gradle")
+apply(from: "../gradle/bintray.gradle")
+apply(from: "../gradle/dokka.gradle")
+apply(from: "../gradle/testng.gradle")
 
 // IMPORTANT: Required for compiling classes in test dependencies. It *MUST* be before dependencies
 compileTestKotlin.dependsOn(tasks.getByPath(":port_http_server:compileTestKotlin"))
 
 dependencies {
-    "api"(project(":http_server_servlet"))
-    "api"("org.eclipse.jetty:jetty-webapp:${properties.get("jettyVersion")}") { exclude(module = "slf4j-api") }
+    api(project(":http_server_servlet"))
+    api("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude(module: "slf4j-api") }
 
-    "testImplementation"(project(":port_http_client"))
-    "testImplementation"(project(":port_http_server").sourceSets.test.output)
-    "testImplementation"(project(":hexagon_web"))
-    "testImplementation"(project(":hexagon_web").sourceSets.test.output)
+    testImplementation(project(":port_http_client"))
+    testImplementation(project(":port_http_server").sourceSets.test.output)
+    testImplementation(project(":hexagon_web"))
+    testImplementation(project(":hexagon_web").sourceSets.test.output)
 }
