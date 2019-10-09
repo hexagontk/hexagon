@@ -1,8 +1,8 @@
 
-apply(from: "../gradle/kotlin.gradle")
-apply(from: "../gradle/bintray.gradle")
-apply(from: "../gradle/dokka.gradle")
-apply(from: "../gradle/testng.gradle")
+apply(from = "../gradle/kotlin.gradle")
+apply(from = "../gradle/bintray.gradle")
+apply(from = "../gradle/dokka.gradle")
+apply(from = "../gradle/testng.gradle")
 
 // Overridden because this test bundle requires the templates
 testJar {
@@ -12,7 +12,7 @@ testJar {
 }
 
 dependencies {
-    api(project(":hexagon_core"))
+    "api"(project(":hexagon_core"))
 
-    testImplementation(project(":port_http_client"))
+    "testImplementation"(project(":port_http_client"))
 }
