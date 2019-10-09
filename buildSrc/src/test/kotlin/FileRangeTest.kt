@@ -8,11 +8,13 @@ class FileRangeTest {
     private lateinit var fileRangeWithNoTagPresentInFile: FileRange
     private lateinit var fileRangeWithNotEndedTagPresentInFile: FileRange
     private lateinit var fileRangeWithEmptyTagPresentInFile: FileRange
+    private lateinit var fileRangeWithEmptyTagOnlyCommentPresentInFile: FileRange
     private lateinit var testFile: File
     private lateinit var tagPresentInFile: String
     private lateinit var tagNotPresentInFile: String
     private lateinit var tagNotEndedInFile: String
     private lateinit var tagEmptyInFile: String
+    private lateinit var tagEmptyOnlyComment: String
 
     @BeforeMethod
     fun setUp() {
@@ -32,10 +34,16 @@ class FileRangeTest {
             tagNotEndedInFile
         )
 
-        tagEmptyInFile = "emptyTag"
+        tagEmptyInFile = "emptyTagWithNoContent"
         fileRangeWithEmptyTagPresentInFile = FileRange(
             testFile,
             tagEmptyInFile
+        )
+
+        tagEmptyOnlyComment = "emptyTagWithOnlyCommentBlock"
+        fileRangeWithEmptyTagOnlyCommentPresentInFile = FileRange(
+            testFile,
+            tagEmptyOnlyComment
         )
 
         tagPresentInFile = "hello"
@@ -61,6 +69,11 @@ class FileRangeTest {
     }
 
     @Test
+    fun `test text with Empty tag Only Comment Block present in File`() {
+        assert(fileRangeWithEmptyTagOnlyCommentPresentInFile.text().contains("/**")) { "Should contains only comment block" }
+    }
+
+    @Test
     fun `test text with tag present in File`() {
         assert(fileRangeWithTagPresentInFile.text().contains("Service server"))
     }
@@ -81,6 +94,11 @@ class FileRangeTest {
     }
 
     @Test
+    fun `test strippedLines with Empty tag Only Comment Block present in File`() {
+        assert(fileRangeWithEmptyTagOnlyCommentPresentInFile.strippedLines().any { it.contains("/**") }) { "Should contains only comment block" }
+    }
+
+    @Test
     fun `test strippedLines with tag present in File`() {
         assert(fileRangeWithTagPresentInFile.strippedLines().any { it.contains("Service server") })
     }
@@ -98,6 +116,11 @@ class FileRangeTest {
     @Test
     fun `test toString with Empty tag present in File`() {
         assert(fileRangeWithEmptyTagPresentInFile.toString().contains(testFile.name))
+    }
+
+    @Test
+    fun `test toString with Empty tag Only Comment Block present in File`() {
+        assert(fileRangeWithEmptyTagOnlyCommentPresentInFile.toString().contains(testFile.name))
     }
 
     @Test

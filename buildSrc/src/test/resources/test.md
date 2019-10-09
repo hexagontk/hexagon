@@ -24,8 +24,13 @@ fun main() {
     server.start()
 }
 // hello
-// emptyTag
-// emptyTag
+// emptyTagWithNoContent
+// emptyTagWithNoContent
+// emptyTagWithOnlyCommentBlock
+/**
+*
+*/
+// emptyTagWithOnlyCommentBlock
 // tagNotEnded
 /**
  * prints Hello World.
