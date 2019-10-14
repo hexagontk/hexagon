@@ -5,6 +5,8 @@ apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/testng.gradle")
 
 dependencies {
+    val cronutilsVersion = properties["cronutilsVersion"]
+
     "api"(project(":hexagon_core"))
-    "api"("com.cronutils:cron-utils:${properties.get("cronutilsVersion")}") { exclude(module = "slf4j-api") }
+    "api"("com.cronutils:cron-utils:$cronutilsVersion") { exclude(module = "slf4j-api") }
 }
