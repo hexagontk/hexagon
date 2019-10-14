@@ -4,7 +4,6 @@ import com.hexagonkt.http.*
 import com.hexagonkt.http.server.FilterOrder.AFTER
 import com.hexagonkt.http.server.FilterOrder.BEFORE
 
-import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.Method.GET
 import com.hexagonkt.http.server.RequestHandler.*
@@ -15,9 +14,6 @@ import java.io.File
 import kotlin.reflect.KClass
 
 /**
- * TODO Document.
- * TODO Index routes (ie: GET /foo)
- * TODO Map with routes to all handlers needed
  * Creates and initializes a [Router] based on a code block.
  *
  * @param block Router's setup block.
