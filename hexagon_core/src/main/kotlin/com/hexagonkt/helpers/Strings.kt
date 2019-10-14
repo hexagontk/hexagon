@@ -85,6 +85,19 @@ fun String.toStream(): InputStream =
 fun utf8(vararg bytes: Int): String =
     String(bytes.map(Int::toByte).toByteArray())
 
+fun String.globToRegex(): Regex = Regex(
+    this.map {
+        when (it) {
+            '*' -> ".*"
+            '?' -> "."
+            '.' -> "\\."
+            '\\' -> "\\\\"
+            else -> it.toString()
+        }
+    }
+    .joinToString("", "^", "$")
+)
+
 internal fun Sequence<Int>.maxOrElse(fallback: Int): Int =
     this.max() ?: fallback
 
