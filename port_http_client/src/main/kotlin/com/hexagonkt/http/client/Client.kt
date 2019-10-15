@@ -149,8 +149,9 @@ class Client(
         url: String,
         body: Any? = null,
         contentType: String? = this.contentType,
+        callHeaders: Map<String, List<String>> = emptyMap(),
         callback: Response.() -> Unit = {}): Response =
-            send(OPTIONS, url, body, contentType).apply(callback)
+            send(OPTIONS, url, body, contentType, callHeaders).apply(callback)
 
     fun patch(
         url: String,

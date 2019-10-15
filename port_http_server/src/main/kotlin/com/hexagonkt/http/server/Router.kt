@@ -102,6 +102,12 @@ class Router(block: Router.() -> Unit = {}) {
         requestHandlers = requestHandlers + FileHandler(Route(Path(path), GET), file)
     }
 
+    fun cors(settings: CorsSettings) {
+        before { simpleRequest(settings) }
+        options("/") { preFlightRequest(settings) }
+        options("/*") { preFlightRequest(settings) }
+    }
+
     fun flatRequestHandlers(h: List<RequestHandler> = requestHandlers): List<RequestHandler> = h
         .flatMap { handler ->
             when (handler) {
