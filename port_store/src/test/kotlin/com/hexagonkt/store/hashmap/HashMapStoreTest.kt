@@ -61,7 +61,7 @@ import java.time.LocalTime
         store.insertOne(company)
         val storedCompany = store.findOne(id)
         assert(storedCompany == company)
-        assert(store.findOne(1.toString()) == null)
+        assert(store.findOne(2.toString()) == null)
 
         assert(store.replaceOne(company)) // Ensures unmodified instance is also "replaced"
         val changedCompany = company.copy(web = URL("http://change.example.org"))
@@ -75,7 +75,7 @@ import java.time.LocalTime
         // Ensures unmodified instance is also "updated"
         assert(store.updateOne(key, mapOf("web" to changedCompany.web)))
         assert(store.updateOne(key, mapOf("web" to URL("http://update.example.org"))))
-        assert(store.findOne(key, fields)?.get("web") == "http://update.example.org")
+        assert(store.findOne(key, fields)?.get("web").toString() == "http://update.example.org")
 
         assert(store.findOne(key, fields) == store.findOne(mapOf(store.key.name to key), fields))
         assert(store.findOne(key) == store.findOne(mapOf(store.key.name to key)))
@@ -86,7 +86,7 @@ import java.time.LocalTime
             Company::creationDate to LocalDateTime.of(2015, 1, 1, 23, 59)
         ))
         store.findOne(key, fields + "foundation" + "creationDate")?.apply {
-            assert(get("web") == "http://update1.example.org")
+            assert(get("web").toString() == "http://update1.example.org")
             assert(get("foundation") == LocalDate.of(2015, 1, 1))
             assert(get("creationDate") == LocalDateTime.of(2015, 1, 1, 23, 59))
         }
