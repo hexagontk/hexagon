@@ -445,7 +445,7 @@ private val server: Server by lazy {
 ## Status
 
 **DISCLAIMER**: The project is not yet production ready. Use it at your own risk. There are some
-modules not finished yet (e.g: storage and HTTP client).
+modules not finished yet (e.g.: storage and HTTP client).
 
 It is used in personal not released projects to develop APIs and Web applications.
 
@@ -479,7 +479,7 @@ If you feel like you can do more. You can contribute to the project in different
 * And... Drum roll... Submitting [code or documentation][contributing].
 
 To know what issues are currently open and be aware of the next features you can check the
-[Project Board] at Github.
+[Project Board] at GitHub.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
 to date of project's news following [@hexagon_kt] in Twitter.
