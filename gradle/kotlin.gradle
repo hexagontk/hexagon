@@ -89,7 +89,7 @@ tasks.withType(Test).each { testTask ->
 }
 
 jacoco {
-    toolVersion = findProperty("jacocoVersion") ?: "0.8.4"
+    toolVersion = findProperty("jacocoVersion") ?: "0.8.5"
 }
 
 jacocoTestReport {

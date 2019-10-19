@@ -237,6 +237,8 @@ The MIME types of static files are computed from the file extension using the
 
 [SerializationManager.contentTypeOf()]: /hexagon_core/com.hexagonkt.serialization/-serialization-manager/content-type-of/
 
+### CORS
+
 ### Testing
 
 #### Integration tests

@@ -407,6 +407,11 @@ The following code shows how to serve resources and receive files. Here you can 
 // files
 private val server: Server by lazy {
     Server(adapter) {
+        path("/static") {
+            get("/files/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+            get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
+        }
+
         get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
         get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
         get(Resource("public")) // Serve `public` resources folder on `/*`
