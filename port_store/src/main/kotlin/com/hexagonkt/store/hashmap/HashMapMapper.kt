@@ -26,7 +26,7 @@ class HashMapMapper <T: Any, K: Any>(
     }
 
     override fun toStore(instance: T): Map<String, Any>  =
-        (instance.convertToMap() + ("_id" to key.get(instance)))
+        instance.convertToMap()
             .filterEmpty()
             .mapKeys { it.key.toString() }
             .mapValues { it.value as Any }

@@ -1,7 +1,6 @@
 package com.hexagonkt.store.hashmap
 
 import com.hexagonkt.helpers.error
-import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.Store
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
@@ -32,16 +31,10 @@ import java.time.LocalTime
 
     @BeforeMethod fun dropCollection() {
         store.drop()
-        store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
     }
 
     @Test fun `Store type is correct`() {
         assert(store.type == Company::class)
-    }
-
-    @Test fun `Indexes creation works ok`() {
-        store.createIndex(true, Company::foundation.name to IndexOrder.DESCENDING)
-        store.createIndex(true, Company::creationDate.name to IndexOrder.ASCENDING)
     }
 
     @Test fun `New records are stored`() {

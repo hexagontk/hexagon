@@ -4,6 +4,7 @@ import com.hexagonkt.helpers.filterEmpty
 import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
+import kotlin.UnsupportedOperationException
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -15,7 +16,7 @@ class HashMapStore <T : Any, K : Any>(
     override val mapper: Mapper<T> = HashMapMapper(type, key)) : Store<T, K> {
 
     override fun createIndex(unique: Boolean, fields: Map<String, IndexOrder>): String {
-        return "index"
+        throw UnsupportedOperationException("Cannot create index on HashMap")
     }
 
     override fun insertOne(instance: T): K {
@@ -46,13 +47,13 @@ class HashMapStore <T : Any, K : Any>(
         return instances.map(::saveOne)
     }
 
-    override fun replaceOne(instance: T): Boolean {
-        return store.replace(key.get(instance), map(instance)) != null
-    }
+    override fun replaceOne(instance: T): Boolean =
+        store.replace(key.get(instance), map(instance)) != null
 
-    override fun replaceMany(instances: List<T>): List<T> {
-        return instances.mapNotNull { if(replaceOne(it)) it else null }
-    }
+
+    override fun replaceMany(instances: List<T>): List<T> =
+        instances.mapNotNull { if(replaceOne(it)) it else null }
+
 
     override fun updateOne(key: K, updates: Map<String, *>): Boolean {
         if(!store.containsKey(key)) return false
@@ -61,7 +62,9 @@ class HashMapStore <T : Any, K : Any>(
 
         updates
         .filterEmpty()
-        .forEach { instance[it.key] = mapper.toStore(it.key, it.value as Any) }
+        .forEach {
+            instance[it.key] = mapper.toStore(it.key, it.value as Any)
+        }
 
         return store.replace(key, instance) != null
     }
@@ -72,9 +75,8 @@ class HashMapStore <T : Any, K : Any>(
         return filteredInstances.map { updateOne(it, updates) }.count { it }.toLong()
     }
 
-    override fun deleteOne(id: K): Boolean {
-        return store.remove(id) != null
-    }
+    override fun deleteOne(id: K): Boolean =
+        store.remove(id) != null
 
     override fun deleteMany(filter: Map<String, *>): Long {
         val filteredInstances = store.filter(filter)
@@ -84,7 +86,7 @@ class HashMapStore <T : Any, K : Any>(
 
     override fun findOne(key: K): T? {
         val result = store[key]
-        return if (result == null) null else mapper.fromStore(result)
+        return result?.let { mapper.fromStore(result) }
     }
 
     override fun findOne(key: K, fields: List<String>): Map<String, *>? {
@@ -93,11 +95,16 @@ class HashMapStore <T : Any, K : Any>(
         return fields.map { it to instance?.get(it) }.toMap()
     }
 
-    override fun findMany(filter: Map<String, *>, limit: Int?, skip: Int?, sort: Map<String, Boolean>): List<T> {
+    override fun findMany(
+        filter: Map<String, *>,
+        limit: Int?, skip: Int?,
+        sort: Map<String, Boolean>
+    ): List<T> {
         val filteredInstances = store.filter(filter)
-        val result = filteredInstances.subList(skip ?: 0, filteredInstances.size)
 
-        return result.take(limit ?: result.size).map { mapper.fromStore(store[it]!!) }
+        return filteredInstances
+            .paginate(skip ?: 0, limit ?: filteredInstances.size)
+            .map { mapper.fromStore(store[it]!!) }
     }
 
     override fun findMany(
@@ -109,33 +116,38 @@ class HashMapStore <T : Any, K : Any>(
     ): List<Map<String, *>> {
         val filteredInstances = store.filter(filter)
 
-        val result = filteredInstances.mapNotNull { findOne(it, fields) }.subList(skip ?: 0, filteredInstances.size)
-        return result.take(limit ?: result.size)
+        val result = filteredInstances.mapNotNull { findOne(it, fields) }
+        return result.paginate(skip ?: 0, limit ?: result.size)
     }
 
-    override fun count(filter: Map<String, *>): Long {
-        return store.filter(filter).size.toLong()
-    }
+    override fun count(filter: Map<String, *>): Long =
+        store.filter(filter).size.toLong()
 
-    override fun drop() {
+
+    override fun drop() =
         store.clear()
-    }
 
     private fun map(instance: T): Map<String, Any> = mapper.toStore(instance)
 
-    private fun HashMap<K, Map<String, Any>>.filter(filter: Map<String, *>): List<K> {
-        return filter {
+    private fun HashMap<K, Map<String, Any>>.filter(filter: Map<String, *>): List<K> =
+        filter {
                 it.value.containsValues(filter)
             }
             .map { it.key }
-    }
 
-    private fun Map<String, Any>.containsValues(filter: Map<String, *>): Boolean {
-        return filter.all {
+    private fun Map<String, Any>.containsValues(filter: Map<String, *>): Boolean =
+        filter.all {
             when (val value = it.value) {
                 is List<*> -> value.contains(this[it.key])
                 else -> value == this[it.key]
             }
         }
-    }
+
+    private fun <T> List<T>.paginate(skip: Int, limit: Int): List<T> =
+        let {
+            var endIndex = skip + limit
+            if( endIndex > this.size) endIndex = this.size
+
+            this.subList(skip, endIndex)
+        }
 }
