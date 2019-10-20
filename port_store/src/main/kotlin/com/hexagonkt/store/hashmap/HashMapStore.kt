@@ -1,12 +1,15 @@
 package com.hexagonkt.store.hashmap
 
 import com.hexagonkt.helpers.filterEmpty
+import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
 import kotlin.UnsupportedOperationException
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.memberExtensionProperties
 
 class HashMapStore <T : Any, K : Any>(
     override val type: KClass<T>,
@@ -97,14 +100,18 @@ class HashMapStore <T : Any, K : Any>(
 
     override fun findMany(
         filter: Map<String, *>,
-        limit: Int?, skip: Int?,
+        limit: Int?,
+        skip: Int?,
         sort: Map<String, Boolean>
     ): List<T> {
         val filteredInstances = store.filter(filter)
 
+        @Suppress("UNCHECKED_CAST")
         return filteredInstances
+            .map { store[it]!! }
             .paginate(skip ?: 0, limit ?: filteredInstances.size)
-            .map { mapper.fromStore(store[it]!!) }
+            .sort(sort)
+            .map {mapper.fromStore(it as Map<String, Any>)}
     }
 
     override fun findMany(
@@ -117,7 +124,9 @@ class HashMapStore <T : Any, K : Any>(
         val filteredInstances = store.filter(filter)
 
         val result = filteredInstances.mapNotNull { findOne(it, fields) }
-        return result.paginate(skip ?: 0, limit ?: result.size)
+        return result
+            .paginate(skip ?: 0, limit ?: result.size)
+            .sort(sort)
     }
 
     override fun count(filter: Map<String, *>): Long =
@@ -143,11 +152,14 @@ class HashMapStore <T : Any, K : Any>(
             }
         }
 
-    private fun <T> List<T>.paginate(skip: Int, limit: Int): List<T> =
+    private fun List<Map<String, *>>.paginate(skip: Int, limit: Int): List<Map<String, *>> =
         let {
             var endIndex = skip + limit
             if( endIndex > this.size) endIndex = this.size
 
             this.subList(skip, endIndex)
         }
+
+    private fun List<Map<String, *>>.sort(fieldsToSort: Map<String, Boolean>): List<Map<String, *>> =
+       this
 }
