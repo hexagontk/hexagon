@@ -442,6 +442,8 @@ private val server: Server by lazy {
 // files
 ```
 
+CORS
+
 ## Status
 
 **DISCLAIMER**: The project is not yet production ready. Use it at your own risk. There are some

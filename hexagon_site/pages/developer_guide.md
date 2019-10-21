@@ -53,10 +53,8 @@ use dependencies outside the Hexagon toolkit.
 [Scheduling]: /hexagon_scheduler/index.html
 
 <!--
-* [Testing]: explains how to the test Hexagon's services.
 * [REST]: utilities to build REST services over HTTP servers.
 
-[Testing]: /modules/testing.html
 [REST]: /modules/rest.html
 -->
 

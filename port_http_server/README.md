@@ -239,6 +239,8 @@ The MIME types of static files are computed from the file extension using the
 
 ### CORS
 
+CORS implementation
+
 ### Testing
 
 #### Integration tests
