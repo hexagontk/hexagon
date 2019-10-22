@@ -109,4 +109,14 @@ import kotlin.test.assertFailsWith
         assert(utf8(0xF0, 0x9F, 0x91, 0x8D) == "👍")
         assert(utf8(0xF0, 0x9F, 0x91, 0x8E) == "👎")
     }
+
+    @Test fun `Glob is translated to proper regular expression`() {
+        assert("".globToRegex().pattern == "^$")
+        assert("*".globToRegex().pattern == "^.*$")
+        assert("?".globToRegex().pattern == "^.$")
+        assert(".".globToRegex().pattern == """^\.$""")
+        assert("""\""".globToRegex().pattern == """^\\$""")
+        assert("literal".globToRegex().pattern == "^literal$")
+        assert("""*\*.bin?""".globToRegex().pattern == """^.*\\.*\.bin.$""")
+    }
 }

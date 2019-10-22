@@ -111,8 +111,9 @@ If you want to generate the documentation site, check the [site module readme][h
 * You can check available tasks in the [Project Board] and pick one of the issues with the
   `help wanted` tag available in the `Ready` column.
    
-* Assign the issue you want to work in to yourself. If you want to contribute to non tagged (or a
-  non existing) tasks, write a comment and we'll discuss the scope of the feature.
+* Claim an issue you want to work in with a comment (after that I can assign it to you and move it
+  to the `Working` column. If you want to contribute to non tagged (or a non existing) tasks, write
+  a comment and we'll discuss the scope of the feature.
 
 * New features should be discussed within an issue in the issue tracker before actual coding.
 
