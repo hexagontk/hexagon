@@ -32,14 +32,16 @@ internal fun Call.simpleRequest(settings: CorsSettings) {
 
 internal fun Call.preFlightRequest(settings: CorsSettings) {
 
-    val requestMethod = request.headers["Access-Control-Request-Method"]?.first()
+    val methodHeader = request.headers["Access-Control-Request-Method"]?.firstOrNull()
+    val requestMethod = methodHeader
         ?: halt(403, "Access-Control-Request-Method required header not found")
 
     val method = Method.valueOf(requestMethod)
     if (method !in settings.allowedMethods)
         halt(403, "Not allowed method: $method")
 
-    val accessControlRequestHeaders = request.headers["Access-Control-Request-Headers"]?.first()
+    val accessControlRequestHeaders = request.headers["Access-Control-Request-Headers"]
+        ?.firstOrNull()
 
     if (accessControlRequestHeaders != null) {
         val allowedHeaders = accessControlRequestHeaders
@@ -48,7 +50,7 @@ internal fun Call.preFlightRequest(settings: CorsSettings) {
             .all { it in settings.allowedHeaders }
 
         if (!allowedHeaders && settings.allowedHeaders.isNotEmpty())
-            halt(403, "")
+            halt(403, "Not allowed headers")
 
         val headers = settings.allowedHeaders
         val requestHeaders = if (headers.isEmpty()) request.headers.keys.toSet() else headers
