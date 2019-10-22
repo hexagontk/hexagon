@@ -161,5 +161,6 @@ class HashMapStore <T : Any, K : Any>(
         }
 
     private fun List<Map<String, *>>.sort(fieldsToSort: Map<String, Boolean>): List<Map<String, *>> =
+        // TODO: Add sorting functionality
        this
 }
