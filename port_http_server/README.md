@@ -237,6 +237,15 @@ The MIME types of static files are computed from the file extension using the
 
 [SerializationManager.contentTypeOf()]: /hexagon_core/com.hexagonkt.serialization/-serialization-manager/content-type-of/
 
+### CORS
+
+CORS behaviour can be different depending on the path. You can attach different [CorsSettings] to
+different routers. Check [CorsSettings] class for more details.
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt:cors
+
+[CorsSettings]: /port_http_server/com.hexagonkt.http.server/-cors-settings/
+
 ### Testing
 
 #### Integration tests

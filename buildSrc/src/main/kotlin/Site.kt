@@ -4,12 +4,19 @@ import java.io.File
 /**
  * Represents a set of lines inside a text file.
  *
- * @param file Text file holding the range lines.
- * @param range Range of lines of the supplied file included.
+ * @param file Text file holding the lines.
+ * @param range Range of lines inside the supplied file.
  */
 class FileRange(private val file: File, private val range: IntRange) {
 
     companion object {
+
+        /**
+         * Parse a file range from a description string and the directory used to resolve the file.
+         *
+         * @param parent Directory used to locate the file range file.
+         * @param path String to create the FileRange. The format is: <file>:[<tag>|<from>,<to>].
+         */
         fun parse(parent: File, path: String): FileRange {
             val tokens = path.split(":")
             val filePath = tokens[0].trim()
@@ -46,17 +53,35 @@ class FileRange(private val file: File, private val range: IntRange) {
             }
     )
 
-    fun text(): String = lines().joinToString("\n").trimIndent()
+    fun text(): String =
+        lines().joinToString("\n").trimIndent()
 
-    fun strippedLines(): List<String> = lines().map { it.trim() }.filter { it.isNotEmpty() }
+    fun strippedLines(): List<String> =
+        lines().map { it.trim() }.filter { it.isNotEmpty() }
 
-    override fun toString(): String = "$file.absolutePath [$range]"
+    override fun toString(): String =
+        "$file.absolutePath [$range]"
 
-    private fun lines(): List<String> = file.readLines().slice(range)
+    private fun lines(): List<String> =
+        file.readLines().slice(range)
 }
 
+/**
+ * Represent two file ranges from different files but with the same tag.
+ *
+ * @param source File for the first range.
+ * @param target File for the second range.
+ * @param tag Tag used for both file ranges.
+ */
 data class FilesRange(val source: File, val target: File, val tag: String)
 
+/**
+ * Assures that two file ranges are the same (to verify that documentation contains
+ * only tested code).
+ *
+ * @param documentation File range for the documentation to check.
+ * @param source File range for the source code that should be included in the documentation.
+ */
 fun checkSamplesCode(documentation: FileRange, source: FileRange) {
     if (documentation.strippedLines() != source.strippedLines())
         error("""
@@ -70,19 +95,31 @@ fun checkSamplesCode(documentation: FileRange, source: FileRange) {
         """.trimIndent())
 }
 
+/**
+ * Check a list for FilesRange in one call.
+ *
+ * @param ranges Set of FilesRanges to be checked.
+ */
 fun checkSamplesCode(vararg ranges: FilesRange) {
     ranges.forEach {
         checkSamplesCode(FileRange(it.source, it.tag), FileRange(it.target, it.tag))
     }
 }
 
-fun insertSamplesCode(markdownFile: File, content: String): String {
+/**
+ * Returns a text with samples replaced inside.
+ *
+ * @param parent Base directory used to resolve the files in the content samples.
+ * @param content Text with `@sample` placeholders to be replaced by actual file ranges.
+ * @return The content with the samples inserted in the placeholders.
+ */
+fun insertSamplesCode(parent: File, content: String): String {
     val samples = "@sample (.*)".toRegex().findAll(content)
     var result = content
 
     samples.forEach { sample ->
         val sampleLocation = sample.groups[1]?.value?.trim() ?: error("Location expected")
-        val fileRange = FileRange.parse(markdownFile, sampleLocation)
+        val fileRange = FileRange.parse(parent, sampleLocation)
         val replacement = "```kotlin\n" + fileRange.text().trim() + "\n```"
         result = result.replace("@sample $sampleLocation", replacement)
     }

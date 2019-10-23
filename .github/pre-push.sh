@@ -15,4 +15,4 @@ docker-compose up -d
 
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
-docker run --rm -v "$PWD/hexagon_site:/docs" -u "$user" "squidfunk/mkdocs-material:4.4.2" build
+docker run --rm -v "$PWD/hexagon_site:/docs" -u "$user" "squidfunk/mkdocs-material:4.4.3" build

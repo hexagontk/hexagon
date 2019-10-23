@@ -23,6 +23,11 @@ import java.io.File
     // files
     private val server: Server by lazy {
         Server(adapter) {
+            path("/static") {
+                get("/files/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+                get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
+            }
+
             get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
             get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
             get(Resource("public")) // Serve `public` resources folder on `/*`
@@ -91,6 +96,11 @@ import java.io.File
         val responseFile = client.get("/pub/css/mkdocs.css")
         assert(responseFile.contentType.contains("css"))
         assertResponseContains(responseFile, 200, "article")
+
+        client.get("/static/resources/css/mkdocs.css").apply {
+            assert(contentType.contains("css"))
+            assertResponseContains(this, 200, "article")
+        }
     }
 
     @Test fun `Not found resources return 404`() {
@@ -114,6 +124,11 @@ import java.io.File
         val response = client.get("/html/index.html")
         assert(response.contentType.contains("html"))
         assertResponseContains(response, 200, "<title>Hexagon</title>")
+
+        client.get("/static/files/index.html").apply {
+            assert(contentType.contains("html"))
+            assertResponseContains(this, 200, "<title>Hexagon</title>")
+        }
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {

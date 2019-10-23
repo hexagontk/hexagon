@@ -407,6 +407,11 @@ The following code shows how to serve resources and receive files. Here you can 
 // files
 private val server: Server by lazy {
     Server(adapter) {
+        path("/static") {
+            get("/files/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+            get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
+        }
+
         get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
         get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
         get(Resource("public")) // Serve `public` resources folder on `/*`
@@ -437,10 +442,47 @@ private val server: Server by lazy {
 // files
 ```
 
+## CORS Example
+
+The following code shows how to set up CORS for REST APIs used from the browser. You can check the
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt).
+
+```kotlin
+// cors
+val server: Server by lazy {
+    Server(adapter) {
+        corsPath("/default", CorsSettings())
+        corsPath("/example/org", CorsSettings("example.org"))
+        corsPath("/no/credentials", CorsSettings(supportCredentials = false))
+        corsPath("/only/post", CorsSettings(allowedMethods = setOf(POST)))
+        corsPath("/cache", CorsSettings(preFlightMaxAge = 10))
+        corsPath("/exposed/headers", CorsSettings(exposedHeaders = setOf("head")))
+        corsPath("/allowed/headers", CorsSettings(allowedHeaders = setOf("head")))
+    }
+}
+
+private fun Router.corsPath(path: String, settings: CorsSettings) {
+    path(path) {
+        // CORS settings can change for different routes
+        cors(settings)
+
+        get("/path") { ok(request.method) }
+        post("/path") { ok(request.method) }
+        put("/path") { ok(request.method) }
+        delete("/path") { ok(request.method) }
+        get { ok(request.method) }
+        post { ok(request.method) }
+        put { ok(request.method) }
+        delete { ok(request.method) }
+    }
+}
+// cors
+```
+
 ## Status
 
 **DISCLAIMER**: The project is not yet production ready. Use it at your own risk. There are some
-modules not finished yet (e.g: storage and HTTP client).
+modules not finished yet (e.g.: storage and HTTP client).
 
 It is used in personal not released projects to develop APIs and Web applications.
 
@@ -474,7 +516,7 @@ If you feel like you can do more. You can contribute to the project in different
 * And... Drum roll... Submitting [code or documentation][contributing].
 
 To know what issues are currently open and be aware of the next features you can check the
-[Project Board] at Github.
+[Project Board] at GitHub.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
 to date of project's news following [@hexagon_kt] in Twitter.
