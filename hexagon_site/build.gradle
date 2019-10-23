@@ -21,7 +21,8 @@ task("checkSite", dependsOn: "mkdocs") {
             new FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
             new FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
             new FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
-            new FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files")
+            new FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files"),
+            new FilesRange(readme, rootProject.file("$examples/CorsTest.kt"), "cors")
         )
 
         final String contentTarget = project.file("content").absolutePath

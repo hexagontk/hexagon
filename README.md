@@ -442,7 +442,42 @@ private val server: Server by lazy {
 // files
 ```
 
-CORS
+## CORS Example
+
+The following code shows how to set up CORS for REST APIs used from the browser. You can check the
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt).
+
+```kotlin
+// cors
+val server: Server by lazy {
+    Server(adapter) {
+        corsPath("/default", CorsSettings())
+        corsPath("/example/org", CorsSettings("example.org"))
+        corsPath("/no/credentials", CorsSettings(supportCredentials = false))
+        corsPath("/only/post", CorsSettings(allowedMethods = setOf(POST)))
+        corsPath("/cache", CorsSettings(preFlightMaxAge = 10))
+        corsPath("/exposed/headers", CorsSettings(exposedHeaders = setOf("head")))
+        corsPath("/allowed/headers", CorsSettings(allowedHeaders = setOf("head")))
+    }
+}
+
+private fun Router.corsPath(path: String, settings: CorsSettings) {
+    path(path) {
+        // CORS settings can change for different routes
+        cors(settings)
+
+        get("/path") { ok(request.method) }
+        post("/path") { ok(request.method) }
+        put("/path") { ok(request.method) }
+        delete("/path") { ok(request.method) }
+        get { ok(request.method) }
+        post { ok(request.method) }
+        put { ok(request.method) }
+        delete { ok(request.method) }
+    }
+}
+// cors
+```
 
 ## Status
 

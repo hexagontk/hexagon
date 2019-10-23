@@ -89,7 +89,7 @@ The following code shows how to serve resources and receive files. Here you can 
 
 # CORS Example
 
-The following code shows how to serve resources and receive files. Here you can check the
+This example shows how to set up CORS for REST APIs used from the browser. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt).
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt:cors
