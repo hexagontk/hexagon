@@ -52,12 +52,6 @@ use dependencies outside the Hexagon toolkit.
 
 [Scheduling]: /hexagon_scheduler/index.html
 
-<!--
-* [REST]: utilities to build REST services over HTTP servers.
-
-[REST]: /modules/rest.html
--->
-
 # Toolkit Ports
 
 These modules define features that need an specific implementation. You can use many implementations
