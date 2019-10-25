@@ -15,6 +15,7 @@ lazybones {
     final String btUser = findProperty("bintrayUser") ?: getenv("BINTRAY_USER") ?: "anonymous"
     final String btKey = findProperty("bintrayKey") ?: getenv("BINTRAY_KEY") ?: "anonymous"
     final String btRepo = findProperty("bintrayRepo") ?: "maven"
+    final String btRepomaven = findProperty("bintrayRepo") ?: "pom.xml"
     final List<String> templateDirs = listTemplateBuildDirectories()
 
     repositoryName = "$btUser/$btRepo"
