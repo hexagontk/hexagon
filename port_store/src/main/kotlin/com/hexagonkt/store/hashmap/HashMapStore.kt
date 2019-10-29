@@ -106,8 +106,8 @@ class HashMapStore<T : Any, K : Any>(
         @Suppress("UNCHECKED_CAST")
         return filteredInstances
             .map { store[it]!! }
-            .paginate(skip ?: 0, limit ?: filteredInstances.size)
             .sort(sort)
+            .paginate(skip ?: 0, limit ?: filteredInstances.size)
             .map { mapper.fromStore(it as Map<String, Any>) }
     }
 
@@ -156,13 +156,16 @@ class HashMapStore<T : Any, K : Any>(
 
     // TODO: Add sorting functionality (now only sorts by first field)
     private fun List<Map<String, *>>.sort(sortFields: Map<String, Boolean>): List<Map<String, *>> =
-        sortedBy {
-            val firstSortField = sortFields.entries.first()
-            val sortingValue = it[firstSortField.key]
-            @Suppress("UNCHECKED_CAST")
-            if (sortingValue is Comparable<*>)
-                sortingValue as? Comparable<Any>
-            else
-                error("Not comparable value")
-        }
+        if (sortFields.isEmpty())
+            this
+        else
+            sortedBy {
+                val firstSortField = sortFields.entries.first()
+                val sortingValue = it[firstSortField.key]
+                @Suppress("UNCHECKED_CAST")
+                if (sortingValue is Comparable<*>)
+                    sortingValue as? Comparable<Any>
+                else
+                    error("Not comparable value")
+            }
 }
