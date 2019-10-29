@@ -2,6 +2,7 @@ package com.hexagonkt.store.hashmap
 
 import com.hexagonkt.helpers.filterEmpty
 import com.hexagonkt.helpers.logger
+import com.hexagonkt.helpers.error
 import com.hexagonkt.helpers.toLocalDate
 import com.hexagonkt.helpers.toLocalDateTime
 import com.hexagonkt.serialization.convertToMap
@@ -38,7 +39,7 @@ class HashMapMapper <T: Any, K: Any>(
         is Date -> when (fields[property]?.returnType?.javaType) {
             LocalDate::class.java -> value.toLocalDate()
             LocalDateTime::class.java -> value.toLocalDateTime()
-            else -> com.hexagonkt.helpers.error
+            else -> error
         }
         else -> value
     }

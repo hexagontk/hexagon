@@ -1,0 +1,74 @@
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.hexagonkt</groupId>
+  <artifactId>maven_starter</artifactId>
+  <version>1.0.0</version>
+  <description>Hexagon's Maven parent POM</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>bintray</name>
+      <url>https://jcenter.bintray.com</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+    <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
+    <plugins>
+      <plugin>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <version>${kotlin.version}</version>
+
+        <executions>
+          <execution>
+            <id>compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+
+          <execution>
+            <id>test-compile</id>
+            <goals>
+              <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>log</directory>
+            </fileset>
+            <fileset>
+              <directory>${basedir}</directory>
+              <includes>
+                <include>**/*.log</include>
+                <include>**/*.hprof</include>
+                <include>**/.attach_pid*</include>
+                <include>**/hs_err_pid*</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

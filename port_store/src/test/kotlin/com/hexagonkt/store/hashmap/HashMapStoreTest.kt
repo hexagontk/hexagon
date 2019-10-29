@@ -33,8 +33,63 @@ import java.time.LocalTime
         store.drop()
     }
 
+    @Test(expectedExceptions = [ UnsupportedOperationException::class ])
+    fun `Create index throws UnsupportedOperationException`() {
+        store.createIndex(true)
+    }
+
     @Test fun `Store type is correct`() {
         assert(store.type == Company::class)
+    }
+
+    @Test fun `Records are replaced correctly`() {
+        val originalCompany = Company(
+            id = "1",
+            foundation = LocalDate.of(2014, 1, 25),
+            closeTime = LocalTime.of(11, 42),
+            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+            web = URL("http://example.org"),
+            people = setOf(
+                Person(name = "John"),
+                Person(name = "Mike")
+            )
+        )
+
+        store.insertOne(originalCompany)
+        assert(originalCompany == store.findOne("1"))
+
+        val replacementCompany = Company(
+            id = "1",
+            foundation = LocalDate.of(2019, 11, 1),
+            closeTime = LocalTime.of(11, 42),
+            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+            web = URL("http://new-example.org"),
+            people = setOf(
+                Person(name = "Jane"),
+                Person(name = "James")
+            )
+        )
+
+        val differentCompany = Company(
+            id = "2",
+            foundation = LocalDate.of(2019, 11, 1),
+            closeTime = LocalTime.of(11, 42),
+            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+            web = URL("http://other-example.org"),
+            people = setOf(
+                Person(name = "Albert"),
+                Person(name = "Paula")
+            )
+        )
+
+        assert(store.replaceOne(replacementCompany))
+        assert(!store.replaceOne(differentCompany))
+
+        val replaceMany = store.replaceMany(listOf(originalCompany, differentCompany))
+
+        assert(replaceMany.size == 1)
+        assert(replaceMany.first().id == "1")
+        assert(replaceMany.first().web.toString() == "http://example.org")
     }
 
     @Test fun `New records are stored`() {

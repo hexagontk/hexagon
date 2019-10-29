@@ -1,6 +1,8 @@
 package com.hexagonkt.store.hashmap
 
 import org.testng.annotations.Test
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 class HashMapMapperTest {
@@ -16,16 +18,19 @@ class HashMapMapperTest {
         val oneNullable: String? = null,
         val otherData: String = "other",
         val atHome: Int = 0,
-        val onePlus: Char = 'c'
+        val onePlus: Char = 'c',
+        val localDate: LocalDate = LocalDate.MIN,
+        val localDateTime: LocalDateTime = LocalDateTime.MIN
     )
 
-    @Test
-    fun `A mapper transform a data class to a map and back`() {
+    @Test fun `A mapper transform a data class to a map and back`() {
         val instance = MappedClass()
         val mapper = HashMapMapper(MappedClass::class, MappedClass::oneString)
         val map = mapper.toStore(instance)
 
         assert(instance == mapper.fromStore(map))
+        assert(LocalDate.MIN == mapper.fromStore("localDate", LocalDate.MIN))
+        assert(LocalDateTime.MIN == mapper.fromStore("localDateTime", LocalDateTime.MIN))
     }
 
     @Test(expectedExceptions = [ IllegalStateException::class ])
