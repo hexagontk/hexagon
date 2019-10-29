@@ -8,11 +8,11 @@ import kotlin.UnsupportedOperationException
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-class HashMapStore <T : Any, K : Any>(
+class HashMapStore<T : Any, K : Any>(
     override val type: KClass<T>,
     override val key: KProperty1<T, K>,
     override val name: String = type.java.simpleName,
-    private  val store: HashMap<K, Map<String, Any>> = hashMapOf(),
+    private val store: HashMap<K, Map<String, Any>> = hashMapOf(),
     override val mapper: Mapper<T> = HashMapMapper(type, key)) : Store<T, K> {
 
     override fun createIndex(unique: Boolean, fields: Map<String, IndexOrder>): String {
@@ -29,11 +29,11 @@ class HashMapStore <T : Any, K : Any>(
             store[key.get(it)] = map(it)
         }
 
-        return instances.map{ key.get(it) }
+        return instances.map { key.get(it) }
     }
 
     override fun saveOne(instance: T): K? {
-        if(store.containsKey(key.get(instance))) {
+        if (store.containsKey(key.get(instance))) {
             store[key.get(instance)] = map(instance)
             return null
         }
@@ -52,19 +52,19 @@ class HashMapStore <T : Any, K : Any>(
 
 
     override fun replaceMany(instances: List<T>): List<T> =
-        instances.mapNotNull { if(replaceOne(it)) it else null }
+        instances.mapNotNull { if (replaceOne(it)) it else null }
 
 
     override fun updateOne(key: K, updates: Map<String, *>): Boolean {
-        if(!store.containsKey(key)) return false
+        if (!store.containsKey(key)) return false
 
         val instance = store[key]!!.toMutableMap()
 
         updates
-        .filterEmpty()
-        .forEach {
-            instance[it.key] = mapper.toStore(it.key, it.value as Any)
-        }
+            .filterEmpty()
+            .forEach {
+                instance[it.key] = mapper.toStore(it.key, it.value as Any)
+            }
 
         return store.replace(key, instance) != null
     }
@@ -108,7 +108,7 @@ class HashMapStore <T : Any, K : Any>(
             .map { store[it]!! }
             .paginate(skip ?: 0, limit ?: filteredInstances.size)
             .sort(sort)
-            .map {mapper.fromStore(it as Map<String, Any>)}
+            .map { mapper.fromStore(it as Map<String, Any>) }
     }
 
     override fun findMany(
@@ -156,13 +156,13 @@ class HashMapStore <T : Any, K : Any>(
 
     // TODO: Add sorting functionality (now only sorts by first field)
     private fun List<Map<String, *>>.sort(sortFields: Map<String, Boolean>): List<Map<String, *>> =
-       sortedBy {
-           val firstSortField = sortFields.entries.first()
-           val sortingValue = it[firstSortField.key]
-           @Suppress("UNCHECKED_CAST")
-           if (sortingValue is Comparable<*>)
-               sortingValue as? Comparable<Any>
-           else
-               error("Not comparable value")
-       }
+        sortedBy {
+            val firstSortField = sortFields.entries.first()
+            val sortingValue = it[firstSortField.key]
+            @Suppress("UNCHECKED_CAST")
+            if (sortingValue is Comparable<*>)
+                sortingValue as? Comparable<Any>
+            else
+                error("Not comparable value")
+        }
 }
