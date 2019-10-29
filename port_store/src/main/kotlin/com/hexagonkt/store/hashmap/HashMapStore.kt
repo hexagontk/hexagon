@@ -1,15 +1,12 @@
 package com.hexagonkt.store.hashmap
 
 import com.hexagonkt.helpers.filterEmpty
-import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
 import kotlin.UnsupportedOperationException
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
-import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.full.memberExtensionProperties
 
 class HashMapStore <T : Any, K : Any>(
     override val type: KClass<T>,
@@ -132,16 +129,13 @@ class HashMapStore <T : Any, K : Any>(
     override fun count(filter: Map<String, *>): Long =
         store.filter(filter).size.toLong()
 
-
     override fun drop() =
         store.clear()
 
     private fun map(instance: T): Map<String, Any> = mapper.toStore(instance)
 
     private fun HashMap<K, Map<String, Any>>.filter(filter: Map<String, *>): List<K> =
-        filter {
-                it.value.containsValues(filter)
-            }
+        filter { it.value.containsValues(filter) }
             .map { it.key }
 
     private fun Map<String, Any>.containsValues(filter: Map<String, *>): Boolean =
@@ -155,12 +149,20 @@ class HashMapStore <T : Any, K : Any>(
     private fun List<Map<String, *>>.paginate(skip: Int, limit: Int): List<Map<String, *>> =
         let {
             var endIndex = skip + limit
-            if( endIndex > this.size) endIndex = this.size
+            if (endIndex > this.size) endIndex = this.size
 
             this.subList(skip, endIndex)
         }
 
-    private fun List<Map<String, *>>.sort(fieldsToSort: Map<String, Boolean>): List<Map<String, *>> =
-        // TODO: Add sorting functionality
-       this
+    // TODO: Add sorting functionality (now only sorts by first field)
+    private fun List<Map<String, *>>.sort(sortFields: Map<String, Boolean>): List<Map<String, *>> =
+       sortedBy {
+           val firstSortField = sortFields.entries.first()
+           val sortingValue = it[firstSortField.key]
+           @Suppress("UNCHECKED_CAST")
+           if (sortingValue is Comparable<*>)
+               sortingValue as? Comparable<Any>
+           else
+               error("Not comparable value")
+       }
 }
