@@ -7,7 +7,7 @@
 
 set -e
 
-docker-compose stop
+docker-compose rm -sf
 docker-compose up -d
 
 ./gradlew clean all
