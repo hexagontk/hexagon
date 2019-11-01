@@ -1,7 +1,7 @@
 package com.hexagonkt.helpers
 
 /** Default logger when you are lazy to declare one. */
-val logger: Logger = Logger(System::class)
+val logger: Logger = Logger(Logger::class)
 
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**

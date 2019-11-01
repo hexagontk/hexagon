@@ -31,9 +31,7 @@ abstract class Request {
     val parameters: Map<String, List<String>> by lazy { parameters() }
     val queryParameters: Map<String, List<String>> by lazy { queryParameters() }
     val formParameters: Map<String, List<String>> by lazy { formParameters() }
-    val pathParameters: RequiredKeysMap<String, String> by lazy {
-        RequiredKeysMap(pathParameters())
-    }
+    val pathParameters: Map<String, String> by lazy { pathParameters() }
 
     val secure: Boolean by lazy { scheme == "https" }
     val accept: List<String> by lazy { headers["Accept"] ?: emptyList() }

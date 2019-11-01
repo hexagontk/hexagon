@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server.examples
 
+import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
@@ -20,16 +21,22 @@ import org.testng.annotations.Test
 
                 path("/inactive") {
                     get { ok(session.maxInactiveInterval ?: "null") }
-                    put("/{time}") { session.maxInactiveInterval = pathParameters["time"].toInt() }
+
+                    put("/{time}") {
+                        session.maxInactiveInterval = pathParameters.require("time").toInt()
+                    }
                 }
 
                 get("/creation") { ok(session.creationTime ?: "null") }
                 post("/invalidate") { session.invalidate() }
 
                 path("/{key}") {
-                    put("/{value}") { session.set(pathParameters["key"], pathParameters["value"]) }
-                    get { ok(session.get(pathParameters["key"]).toString()) }
-                    delete { session.remove(pathParameters["key"]) }
+                    put("/{value}") {
+                        session.set(pathParameters.require("key"), pathParameters.require("value"))
+                    }
+
+                    get { ok(session.get(pathParameters.require("key")).toString()) }
+                    delete { session.remove(pathParameters.require("key")) }
                 }
 
                 get {
@@ -103,12 +110,5 @@ import org.testng.annotations.Test
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
         assert (response?.statusCode == status)
         assert (response?.responseBody == content)
-    }
-
-    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert (response?.statusCode == status)
-        content.forEach {
-            assert (response?.responseBody?.contains (it) ?: false)
-        }
     }
 }

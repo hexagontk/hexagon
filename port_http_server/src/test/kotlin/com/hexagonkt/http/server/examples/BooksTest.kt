@@ -32,8 +32,7 @@ import org.testng.annotations.Test
             }
 
             get("/books/{id}") {
-                // Path parameters *must* exist an error is thrown if they are not present
-                val bookId = pathParameters["id"].toInt()
+                val bookId = pathParameters.require("id").toInt()
                 val book = books[bookId]
                 if (book != null)
                     // ok() is a shortcut to send(200)
@@ -43,7 +42,7 @@ import org.testng.annotations.Test
             }
 
             put("/books/{id}") {
-                val bookId = pathParameters["id"].toInt()
+                val bookId = pathParameters.require("id").toInt()
                 val book = books[bookId]
                 if (book != null) {
                     books += bookId to book.copy(
@@ -59,7 +58,7 @@ import org.testng.annotations.Test
             }
 
             delete("/books/{id}") {
-                val bookId = pathParameters["id"].toInt()
+                val bookId = pathParameters.require("id").toInt()
                 val book = books[bookId]
                 books -= bookId
                 if (book != null)

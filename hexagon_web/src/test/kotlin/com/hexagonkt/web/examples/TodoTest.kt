@@ -1,6 +1,7 @@
 package com.hexagonkt.web.examples
 
 import com.hexagonkt.helpers.Logger
+import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
@@ -50,7 +51,7 @@ import org.testng.annotations.Test
 
                 path("/{id}") {
                     patch {
-                        val taskId = pathParameters["id"].toInt()
+                        val taskId = pathParameters.require("id").toInt()
                         val task = tasks[taskId]
                         val fields = request.body.parse<Map<*, *>>(requestFormat)
                         if (task != null) {
@@ -68,7 +69,7 @@ import org.testng.annotations.Test
                     }
 
                     get {
-                        val taskId = pathParameters["id"].toInt()
+                        val taskId = pathParameters.require("id").toInt()
                         val task = tasks[taskId]
                         if (task != null)
                             ok(task, responseFormat)
@@ -77,7 +78,7 @@ import org.testng.annotations.Test
                     }
 
                     delete {
-                        val taskId = pathParameters["id"].toInt()
+                        val taskId = pathParameters.require("id").toInt()
                         val task = tasks[taskId]
                         tasks -= taskId
                         if (task != null)
