@@ -3,9 +3,7 @@ package com.hexagonkt.serialization
 import com.fasterxml.jackson.core.JsonParser.Feature.*
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.fasterxml.jackson.core.*
-import com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY
-import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES
+import com.fasterxml.jackson.databind.DeserializationFeature.*
 import com.fasterxml.jackson.databind.SerializationFeature.*
 
 import com.fasterxml.jackson.core.JsonFactory
@@ -55,7 +53,9 @@ internal object JacksonHelper {
         )
 
     private object InetAddressSerializer : JsonSerializer<InetAddress>() {
-        override fun serialize(value: InetAddress, gen: JsonGenerator, serializers: SerializerProvider) {
+        override fun serialize(
+            value: InetAddress, gen: JsonGenerator, serializers: SerializerProvider) {
+
             gen.writeString(value.hostAddress)
         }
     }
