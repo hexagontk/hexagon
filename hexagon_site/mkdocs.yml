@@ -22,6 +22,7 @@ google_analytics: [ UA-48216810-3, auto ]
 docs_dir: content
 
 markdown_extensions:
+  - meta
   - admonition
   - footnotes
   - codehilite
