@@ -73,12 +73,13 @@ childProjects.each { pair ->
     final String name = pair.key
     final Project prj = pair.value
     final boolean empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
+    final siteContentPath = "${rootDir}/hexagon_site/content"
 
-    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters" ]) && empty) {
+    if (!(name in ["hexagon_benchmark", "hexagon_site", "hexagon_starters"]) && empty) {
         project(name) {
-            task("dokkaMd", type: org.jetbrains.dokka.gradle.DokkaTask) {
+            task("dokkaBase", type: org.jetbrains.dokka.gradle.DokkaTask) {
                 outputFormat = "gfm"
-                outputDirectory = "${rootDir}/hexagon_site/content"
+                outputDirectory = siteContentPath
 
                 configuration {
                     reportUndocumented = false
@@ -88,7 +89,12 @@ childProjects.each { pair ->
                         "**/*SamplesTest.kt"
                     )
                     sourceRoot { path = "$projectDir/src/main/kotlin" }
-                    sourceRoot { path = "$projectDir/src/test/kotlin" }
+                }
+            }
+
+            task("dokkaMd", dependsOn: "dokkaBase") {
+                doLast {
+                    addMetadata(siteContentPath, prj)
                 }
             }
         }
@@ -106,4 +112,57 @@ task("all", dependsOn:
 
 private List<String> filesCollection(final Object dir, final String pattern) {
     return fileTree(dir: dir, include: pattern).getFiles().toList().collect { it.absolutePath }
+}
+
+private void addMetadata(final String siteContentPath, final Project project) {
+    String projectDirName = project.projectDir.name
+    filesCollection(siteContentPath, "**/${projectDirName}/**/*.md").each {
+        File md = new File(it)
+        File tempFile = File.createTempFile("temp", md.name)
+        tempFile.withWriter { writer ->
+            writer.writeLine toEditUrl(it, siteContentPath, projectDirName)
+            md.withInputStream { stream ->
+                stream.eachLine { line ->
+                    writer.writeLine line
+                }
+            }
+        }
+        ant.move(file: tempFile, tofile: md)
+    }
+}
+
+private String toEditUrl(final String mdPath, final String siteContentPath, final String projectDirName) {
+    final String prefix = "edit_url: edit/master/${projectDirName}"
+    final String withoutContentPath = mdPath.minus("${siteContentPath}/${projectDirName}/")
+    final String[] parts = withoutContentPath.split(File.separator)
+
+    String editUrl = ""
+
+    if (parts.size() > 1 && withoutContentPath.startsWith("com.hexagon")) {
+        String afterPackage = parts[1]
+        if (!afterPackage.contains('test')) {
+            String srcPrefix = "${prefix}/src/main/kotlin"
+            String packageName = parts[0].replace('.', '/')
+
+            if (afterPackage == "index.md") {
+                editUrl = "${srcPrefix}/${packageName}/package-info.java"
+            } else if (afterPackage.endsWith(".md") || afterPackage.contains(".")) {
+                String lastPath = packageName.split('/')?.last()
+
+                editUrl = "${srcPrefix}/${packageName}/${lastPath.capitalize()}.kt"
+            } else {
+                String className = toClassName(afterPackage)
+
+                editUrl = "${srcPrefix}/${packageName}/${className}.kt"
+            }
+        }
+    } else if (withoutContentPath == "index.md") {
+        editUrl = "${prefix}/README.md"
+    }
+
+    return editUrl
+}
+
+private String toClassName(final String mdClassName) {
+    mdClassName.replaceAll("\\-[a-z][a-z]*", { aPart -> aPart[1].toUpperCase() + aPart.substring(2) })
 }
