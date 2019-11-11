@@ -37,7 +37,7 @@ hero: |
 The Hexagon toolkit is meant to provide abstraction from underlying technologies (data storage, HTTP
 server engines, etc.) to be able to change them with minimum impact.
 
-It is designed to fit in applications that conforms to the [Hexagonal Architecture] (also called
+It is designed to fit in applications that conform to the [Hexagonal Architecture] (also called
 [Clean Architecture] or [Ports and Adapters Architecture]).
 
 * To see some simple examples you can read the [Quick Start] page.
