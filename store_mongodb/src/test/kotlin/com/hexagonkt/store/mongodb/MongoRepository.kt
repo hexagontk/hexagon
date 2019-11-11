@@ -1,21 +1,17 @@
 package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.error
 import com.hexagonkt.serialization.convertToMap
 import com.hexagonkt.serialization.convertToObject
-import com.hexagonkt.serialization.parseObjects
 import com.mongodb.client.*
 import com.mongodb.client.model.*
 import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.UpdateResult
 import org.bson.Document
 import org.bson.conversions.Bson
-import java.io.File
 import kotlin.reflect.KClass
 
-@Suppress("MemberVisibilityCanBePrivate") // This class has public methods for library clients use
 open class MongoRepository <T : Any>(
     private val type: KClass<T>,
     collection: MongoCollection<Document>,
@@ -74,14 +70,6 @@ open class MongoRepository <T : Any>(
             findIterable.setup()
             findIterable.map { unmap(it) }
         }
-
-    fun importFile(input: File) {
-        insertManyObjects(input.parseObjects(type))
-    }
-
-    fun importResource(input: String) {
-        insertManyObjects(Resource(input).requireUrl().parseObjects(type))
-    }
 
     fun delete(): DeleteResult = deleteMany(Document())
 

@@ -46,4 +46,8 @@ import java.time.LocalTime
             host = InetAddress.getByName("127.0.0.1")
         )
     )
+
+    @Test fun `Object is mapped and parsed back without error`() {
+        checkMapParse()
+    }
 }

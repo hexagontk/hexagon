@@ -1,7 +1,6 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.serialization.SerializationManager.formats
-import org.testng.annotations.Test
 import kotlin.reflect.KClass
 
 abstract class SerializationTest<out T : Any>(private val type: KClass<T>) {
@@ -10,7 +9,7 @@ abstract class SerializationTest<out T : Any>(private val type: KClass<T>) {
     // Some formats are excluded because they don't support all features
     private val ignoredFormats: Set<SerializationFormat> = setOf(Csv)
 
-    @Test fun `Object is mapped and parsed back without error`() {
+    protected fun checkMapParse() {
         (formats - ignoredFormats).forEach { contentType ->
             testObjects.forEach {
                 val map = it.convertToMap()

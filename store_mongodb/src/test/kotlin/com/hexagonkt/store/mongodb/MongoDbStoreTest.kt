@@ -1,5 +1,6 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.error
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.IndexOrder
@@ -7,6 +8,7 @@ import com.hexagonkt.store.Store
 import org.bson.types.ObjectId
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
+import java.io.File
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -37,9 +39,6 @@ import java.time.LocalTime
         }
 
     @BeforeMethod fun dropCollection() {
-        // TODO Generalize this
-        if (store is MongoDbStore)
-            assert(store.collection.namespace.collectionName.isNotBlank())
         store.drop()
         store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
     }
@@ -278,5 +277,20 @@ import java.time.LocalTime
         val storedClass = store.findOne(await)
         assert(await.isNotBlank())
         assert(mappedClass == storedClass)
+    }
+
+    // TODO Check inserted data
+    fun `Resources are loaded`() {
+        store.import(Resource("companies.json"))
+        store.drop()
+
+        // File paths change from IDE to build tool
+        val file = File("hexagon_core/src/test/resources/data/companies.json").let {
+            if (it.exists()) it
+            else File("src/test/resources/companies.json")
+        }
+
+        store.import(file)
+        store.drop()
     }
 }

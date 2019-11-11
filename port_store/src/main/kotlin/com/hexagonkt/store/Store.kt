@@ -1,6 +1,9 @@
 package com.hexagonkt.store
 
+import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.ensureSize
+import com.hexagonkt.serialization.parseObjects
+import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -93,4 +96,12 @@ interface Store<T : Any, K : Any> {
 
     fun fields(vararg updates: Pair<KProperty1<T, *>, *>): Map<String, *> =
         fields(updates.toMap())
+
+    fun import(input: File) {
+        insertMany(input.parseObjects(type))
+    }
+
+    fun import(input: Resource) {
+        insertMany(input.parseObjects(type))
+    }
 }
