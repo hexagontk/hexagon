@@ -20,7 +20,7 @@ class HashMapMapper <T: Any, K: Any>(
     private val type: KClass<T>,
     private val key: KProperty1<T, K>
 ): Mapper<T> {
-    override val fields: Map<String, KProperty1<*, *>> by lazy {
+    override val fields: Map<String, KProperty1<T, *>> by lazy {
         logger.time ("REFLECT") { type.declaredMemberProperties }
             .map { it.name to it }
             .toMap()
