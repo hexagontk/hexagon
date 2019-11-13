@@ -22,11 +22,10 @@ import java.time.LocalTime
     private val store: Store<Company, String> =
         MongoDbStore(Company::class, Company::id, mongodbUrl, "companies")
 
-    private fun createTestEntities() = (0..9)
-        .map { ObjectId().toHexString() }
+    private fun createTestEntities(): List<Company> = (0..9)
         .map {
             Company(
-                id = it,
+                id = ObjectId().toHexString(),
                 foundation = LocalDate.of(2014, 1, 25),
                 closeTime = LocalTime.of(11, 42),
                 openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
@@ -37,6 +36,9 @@ import java.time.LocalTime
                 )
             )
         }
+
+    fun changeObject(obj: Company) =
+        obj.copy(web = URL("http://change.example.org"))
 
     @BeforeMethod fun dropCollection() {
         store.drop()
@@ -53,85 +55,65 @@ import java.time.LocalTime
     }
 
     @Test fun `New records are stored`() {
-        val id = ObjectId().toHexString()
-        val company = Company(
-            id = id,
-            foundation = LocalDate.of(2014, 1, 25),
-            closeTime = LocalTime.of(11, 42),
-            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
-            web = URL("http://example.org"),
-            people = setOf(
-                Person(name = "John"),
-                Person(name = "Mike")
-            )
-        )
 
-        store.insertOne(company)
-        val storedCompany = store.findOne(id)
-        assert(storedCompany == company)
-        assert(store.findOne(ObjectId().toHexString()) == null)
+        createTestEntities().forEach { entity ->
+            store.insertOne(entity)
+            val storedCompany = store.findOne(entity.id)
+            assert(storedCompany == entity)
+            assert(store.findOne(ObjectId().toHexString()) == null)
 
-        assert(store.replaceOne(company)) // Ensures unmodified instance is also "replaced"
-        val changedCompany = company.copy(web = URL("http://change.example.org"))
-        assert(store.replaceOne(changedCompany))
-        val storedModifiedCompany = store.findOne(id)
-        assert(storedModifiedCompany == changedCompany)
+            assert(store.replaceOne(entity)) // Ensures unmodified instance is also "replaced"
+            val changedCompany = changeObject(entity)
+            assert(store.replaceOne(changedCompany))
+            val storedModifiedCompany = store.findOne(entity.id)
+            assert(storedModifiedCompany == changedCompany)
 
-        val key = changedCompany.id
-        val fields = listOf("web")
+            val key = changedCompany.id
+            val fields = listOf("web")
 
-        // Ensures unmodified instance is also "updated"
-        assert(store.updateOne(key, mapOf("web" to changedCompany.web)))
-        assert(store.updateOne(key, mapOf("web" to URL("http://update.example.org"))))
-        assert(store.findOne(key, fields)?.get("web") == "http://update.example.org")
+            // Ensures unmodified instance is also "updated"
+            assert(store.updateOne(key, mapOf("web" to changedCompany.web)))
+            assert(store.updateOne(key, mapOf("web" to URL("http://update.example.org"))))
+            assert(store.findOne(key, fields)?.get("web") == "http://update.example.org")
 
-        assert(store.findOne(key, fields) == store.findOne(mapOf(store.key.name to key), fields))
-        assert(store.findOne(key) == store.findOne(mapOf(store.key.name to key)))
+            val keyName = store.key.name
+            assert(store.findOne(key, fields) == store.findOne(mapOf(keyName to key), fields))
+            assert(store.findOne(key) == store.findOne(mapOf(keyName to key)))
 
-        assert(store.updateOne(key,
-            Company::web to URL("http://update1.example.org"),
-            Company::foundation to LocalDate.of(2015, 1, 1),
-            Company::creationDate to LocalDateTime.of(2015, 1, 1, 23, 59)
-        ))
-        store.findOne(key, fields + "foundation" + "creationDate")?.apply {
-            assert(get("web") == "http://update1.example.org")
-            assert(get("foundation") == LocalDate.of(2015, 1, 1))
-            assert(get("creationDate") == LocalDateTime.of(2015, 1, 1, 23, 59))
+            assert(store.updateOne(key,
+                Company::web to URL("http://update1.example.org"),
+                Company::foundation to LocalDate.of(2015, 1, 1),
+                Company::creationDate to LocalDateTime.of(2015, 1, 1, 23, 59)
+            ))
+            store.findOne(key, fields + "foundation" + "creationDate")?.apply {
+                assert(get("web") == "http://update1.example.org")
+                assert(get("foundation") == LocalDate.of(2015, 1, 1))
+                assert(get("creationDate") == LocalDateTime.of(2015, 1, 1, 23, 59))
+            }
+            store.findOne(key)?.apply {
+                assert(web == URL("http://update1.example.org"))
+                assert(foundation == LocalDate.of(2015, 1, 1))
+                assert(creationDate == LocalDateTime.of(2015, 1, 1, 23, 59))
+            }
+
+            assert(store.count() == 1L)
+            assert(store.deleteOne(key))
+            assert(store.count() == 0L)
+            assert(!store.replaceOne(entity))
+            assert(!store.updateOne(key, mapOf("web" to URL("http://update.example.org"))))
+            assert(!store.deleteOne(key))
+            assert(store.findOne(key) == null)
+            assert(store.findOne(key, listOf("web")) == null)
         }
-        store.findOne(key)?.apply {
-            assert(web == URL("http://update1.example.org"))
-            assert(foundation == LocalDate.of(2015, 1, 1))
-            assert(creationDate == LocalDateTime.of(2015, 1, 1, 23, 59))
-        }
-
-        assert(store.count() == 1L)
-
-        assert(store.deleteOne(key))
-
-        assert(store.count() == 0L)
     }
 
     @Test fun `Many records are stored`() {
-        val companies = (0..9)
-            .map { ObjectId().toHexString() }
-            .map {
-                Company(
-                    id = it,
-                    foundation = LocalDate.of(2014, 1, 25),
-                    closeTime = LocalTime.of(11, 42),
-                    openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
-                    web = URL("http://$it.example.org"),
-                    people = setOf(
-                        Person(name = "John"),
-                        Person(name = "Mike")
-                    )
-                )
-            }
+        val companies = createTestEntities()
 
         val keys = store.insertMany(*companies.toTypedArray())
         assert(store.count() == companies.size.toLong())
 
-        val changedCompanies = companies.map { it.copy(web = URL("http://change.example.org")) }
+        val changedCompanies = companies.map { changeObject(it) }
         assert(store.replaceMany(*changedCompanies.toTypedArray()).size == companies.size)
         assert(store.findAll(listOf("web")).all { it["web"] == "http://change.example.org" })
 
@@ -141,7 +123,10 @@ import java.time.LocalTime
         checkFindObjects()
         checkFindFields()
 
-        val updateMany = store.updateMany(mapOf("id" to keys), mapOf("web" to "http://update.example.org"))
+        val updateMany = store.updateMany(
+            mapOf("id" to keys),
+            mapOf("web" to "http://update.example.org")
+        )
         assert(updateMany == keys.size.toLong())
         val updatedCompanies = store.findMany(mapOf("id" to keys))
         assert(updatedCompanies.all { it.web.toString() == "http://update.example.org" })
@@ -149,6 +134,7 @@ import java.time.LocalTime
         assert(store.count(mapOf("id" to keys)) == companies.size.toLong())
         assert(store.deleteMany(mapOf("id" to keys)) == keys.size.toLong())
         assert(store.count() == 0L)
+        assert(store.replaceMany(updatedCompanies).isEmpty())
     }
 
     private fun checkFindAllObjects() {
@@ -255,28 +241,17 @@ import java.time.LocalTime
 
         assert(entities.map { it?.id }.all { it in keys })
 
-        store.saveMany(testEntities.map { it.copy(web = URL(it.web.toString() + "/modified")) })
+        store.saveMany(testEntities.map { changeObject(it) })
     }
 
     @Test fun `Insert one record returns the proper key`() {
-        // TODO Do with MappedClass
-        val id = ObjectId().toHexString()
-        val mappedClass = Company(
-            id = id,
-            foundation = LocalDate.of(2014, 1, 25),
-            closeTime = LocalTime.of(11, 42),
-            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
-            web = URL("http://example.org"),
-            people = setOf(
-                Person(name = "John"),
-                Person(name = "Mike")
-            )
-        )
 
-        val await = store.insertOne(mappedClass)
-        val storedClass = store.findOne(await)
-        assert(await.isNotBlank())
-        assert(mappedClass == storedClass)
+        createTestEntities().forEach { mappedClass ->
+            val await = store.insertOne(mappedClass)
+            val storedClass = store.findOne(await)
+            assert(await.isNotBlank())
+            assert(mappedClass == storedClass)
+        }
     }
 
     // TODO Check inserted data

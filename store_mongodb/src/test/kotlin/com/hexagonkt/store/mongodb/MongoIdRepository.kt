@@ -43,6 +43,4 @@ open class MongoIdRepository<T : Any, K : Any>(
     private fun createIndex(
         keys: Bson, unique: Boolean = false, background: Boolean = true): String =
             createIndex(keys, IndexOptions().unique(unique).background(background))
-
-    fun getKey(obj: T): K = (key.getter)(obj)
 }

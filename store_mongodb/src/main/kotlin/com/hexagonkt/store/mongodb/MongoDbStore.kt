@@ -30,7 +30,7 @@ class MongoDbStore <T : Any, K : Any>(
         }
     }
 
-    val collection: MongoCollection<Document> = this.database.getCollection(name)
+    private val collection: MongoCollection<Document> = this.database.getCollection(name)
 
     init {
         if (key.name != "_id")
@@ -93,6 +93,7 @@ class MongoDbStore <T : Any, K : Any>(
         instances.mapNotNull { if (replaceOne(it)) it else null }
 
     override fun updateOne(key: K, updates: Map<String, *>): Boolean {
+        require(updates.isNotEmpty())
         val filter = createKeyFilter(key)
         val update = createUpdate(updates)
         val result = collection.updateOne(filter, update)
@@ -101,6 +102,7 @@ class MongoDbStore <T : Any, K : Any>(
     }
 
     override fun updateMany(filter: Map<String, *>, updates: Map<String, *>): Long {
+        require(updates.isNotEmpty())
         val updateFilter = createFilter(filter)
         val update = createUpdate(updates)
         val result = collection.updateMany(updateFilter, update)
@@ -130,9 +132,9 @@ class MongoDbStore <T : Any, K : Any>(
         val result = collection
             .find(filter)
             .projection(createProjection(fields))
-            .first()?.filterEmpty() ?: error()
+            .first()?.filterEmpty()
 
-        return result.mapValues { mapper.fromStore(it.key, it.value as Any) }
+        return result?.mapValues { mapper.fromStore(it.key, it.value as Any) }
     }
 
     override fun findMany(
