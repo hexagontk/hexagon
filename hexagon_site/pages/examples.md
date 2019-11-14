@@ -10,6 +10,11 @@ Sample application for the [Todo-Backend](http://www.todobackend.com) project wh
 Hexagon RealWorld demo backend implementation. The source code is available
 [here](https://github.com/hexagonkt/real_world).
 
+# Contact Application
+
+Sample contact application that showcases the structure of a Hexagon service. Source code can be
+checked [here](https://github.com/hexagonkt/contact_application).
+
 # Benchmark
 
 This is an application for checking the [TechEmpower Web Framework Benchmarks][benchmark]. It is an

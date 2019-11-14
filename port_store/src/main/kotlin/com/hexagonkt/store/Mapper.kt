@@ -7,7 +7,7 @@ import kotlin.reflect.KProperty1
  */
 interface Mapper<T : Any> {
 
-    val fields: Map<String, KProperty1<*, *>>
+    val fields: Map<String, KProperty1<T, *>>
 
     fun toStore(instance: T): Map<String, Any>
 

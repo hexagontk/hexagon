@@ -7,7 +7,7 @@ import kotlin.reflect.KProperty1
 
     @Test fun `Default mapper methods return its own parameters`() {
         val testMapper = object : Mapper<String> {
-            override val fields: Map<String, KProperty1<*, *>> = emptyMap()
+            override val fields: Map<String, KProperty1<String, *>> = emptyMap()
             override fun toStore(instance: String): Map<String, Any> = emptyMap()
             override fun fromStore(map: Map<String, Any>): String = ""
         }

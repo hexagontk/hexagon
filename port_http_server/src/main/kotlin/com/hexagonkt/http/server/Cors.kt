@@ -2,20 +2,28 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.Method
 
+private const val ALLOW_ORIGIN = "Access-Control-Allow-Origin"
+private const val ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials"
+private const val REQUEST_METHOD = "Access-Control-Request-Method"
+private const val EXPOSE_HEADERS = "Access-Control-Expose-Headers"
+private const val REQUEST_HEADERS = "Access-Control-Request-Headers"
+private const val ALLOW_HEADERS = "Access-Control-Allow-Headers"
+private const val MAX_AGE = "Access-Control-Max-Age"
+
 internal fun Call.simpleRequest(settings: CorsSettings) {
     val origin = request.origin ?: return
     if (!settings.allowOrigin(origin))
         halt(403, "Not allowed origin: $origin")
 
     val accessControlAllowOrigin = settings.accessControlAllowOrigin(origin)
-    response.setHeader("Access-Control-Allow-Origin", accessControlAllowOrigin)
+    response.setHeader(ALLOW_ORIGIN, accessControlAllowOrigin)
     if (accessControlAllowOrigin != "*")
         response.setHeader("Vary", "Origin")
 
     if (settings.supportCredentials)
-        response.setHeader("Access-Control-Allow-Credentials", true)
+        response.setHeader(ALLOW_CREDENTIALS, true)
 
-    val accessControlRequestMethod = request.headers["Access-Control-Request-Method"]?.first()
+    val accessControlRequestMethod = request.headers[REQUEST_METHOD]?.first()
     if (request.method == Method.OPTIONS && accessControlRequestMethod != null)
         return
 
@@ -26,13 +34,13 @@ internal fun Call.simpleRequest(settings: CorsSettings) {
         val requestHeaderNames = request.headers.keys.toSet()
         val requestHeaders = requestHeaderNames.filter { it in settings.exposedHeaders }
 
-        response.setHeader("Access-Control-Expose-Headers", requestHeaders.joinToString(","))
+        response.setHeader(EXPOSE_HEADERS, requestHeaders.joinToString(","))
     }
 }
 
 internal fun Call.preFlightRequest(settings: CorsSettings) {
 
-    val methodHeader = request.headers["Access-Control-Request-Method"]?.firstOrNull()
+    val methodHeader = request.headers[REQUEST_METHOD]?.firstOrNull()
     val requestMethod = methodHeader
         ?: halt(403, "Access-Control-Request-Method required header not found")
 
@@ -40,7 +48,7 @@ internal fun Call.preFlightRequest(settings: CorsSettings) {
     if (method !in settings.allowedMethods)
         halt(403, "Not allowed method: $method")
 
-    val accessControlRequestHeaders = request.headers["Access-Control-Request-Headers"]
+    val accessControlRequestHeaders = request.headers[REQUEST_HEADERS]
         ?.firstOrNull()
 
     if (accessControlRequestHeaders != null) {
@@ -54,13 +62,13 @@ internal fun Call.preFlightRequest(settings: CorsSettings) {
 
         val headers = settings.allowedHeaders
         val requestHeaders = if (headers.isEmpty()) request.headers.keys.toSet() else headers
-        response.setHeader("Access-Control-Allow-Headers", requestHeaders.joinToString(","))
+        response.setHeader(ALLOW_HEADERS, requestHeaders.joinToString(","))
     }
 
-    response.setHeader("Access-Control-Request-Method", settings.allowedMethods.joinToString(","))
+    response.setHeader(REQUEST_METHOD, settings.allowedMethods.joinToString(","))
 
     if (settings.preFlightMaxAge > 0)
-        response.setHeader("Access-Control-Max-Age", settings.preFlightMaxAge)
+        response.setHeader(MAX_AGE, settings.preFlightMaxAge)
 
     response.status = settings.preFlightStatus
 }
