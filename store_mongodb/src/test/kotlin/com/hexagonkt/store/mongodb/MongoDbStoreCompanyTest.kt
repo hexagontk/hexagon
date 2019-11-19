@@ -258,8 +258,28 @@ import java.time.LocalTime
         }
     }
 
+    @Test fun `Collection can be used for custom queries`() {
+        store.insertMany(
+            listOf(
+                Company(
+                    id = ObjectId().toHexString(),
+                    foundation = LocalDate.of(2014, 1, 25),
+                    closeTime = LocalTime.of(11, 42),
+                    openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+                    web = URL("http://example.org"),
+                    people = setOf(
+                        Person(name = "John"),
+                        Person(name = "Mike")
+                    )
+                )
+            )
+        )
+
+        assert((store as MongoDbStore<Company, String>).collection.countDocuments() == 1L)
+    }
+
     // TODO Check inserted data
-    fun `Resources are loaded`() {
+    @Test fun `Resources are loaded`() {
         store.import(Resource("companies.json"))
         store.drop()
 
