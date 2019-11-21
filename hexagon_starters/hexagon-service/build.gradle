@@ -7,7 +7,7 @@ apply(from: "\$gradleScripts/kotlin.gradle")
 apply(from: "\$gradleScripts/service.gradle")
 
 mainClassName = '${group}.ServiceKt'
-applicationDefaultJvmArgs = [ '-XX:+UseNUMA', '-XX:+UseParallelGC', '-XX:+AggressiveOpts' ]
+applicationDefaultJvmArgs = [ '-XX:+UseNUMA', '-XX:+UseParallelGC' ]
 
 dependencies {
     implementation("com.hexagonkt:http_server_jetty:\$hexagonVersion")
