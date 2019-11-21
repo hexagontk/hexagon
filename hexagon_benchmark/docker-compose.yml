@@ -12,7 +12,7 @@ services:
   benchmark_resin:
     build:
       context: ./hexagon_benchmark
-      dockerfile: resin.dockerfile
+      dockerfile: docker/resin.dockerfile
     depends_on:
       - mongodb
       - postgresql
@@ -25,7 +25,7 @@ services:
   benchmark_jetty:
     build:
       context: ./hexagon_benchmark
-      dockerfile: java.dockerfile
+      dockerfile: docker/java.dockerfile
     depends_on:
       - mongodb
       - postgresql
