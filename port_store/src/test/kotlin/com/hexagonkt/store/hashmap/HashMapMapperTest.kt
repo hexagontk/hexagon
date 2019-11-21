@@ -32,10 +32,4 @@ class HashMapMapperTest {
         assert(LocalDate.MIN == mapper.fromStore("localDate", LocalDate.MIN))
         assert(LocalDateTime.MIN == mapper.fromStore("localDateTime", LocalDateTime.MIN))
     }
-
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Mapping a date to an invalid field type results in error`() {
-        val mapper = HashMapMapper(MappedClass::class, MappedClass::oneString)
-        mapper.fromStore("onePlus", Date())
-    }
 }

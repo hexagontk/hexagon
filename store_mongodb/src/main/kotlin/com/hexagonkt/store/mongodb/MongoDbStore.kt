@@ -34,7 +34,7 @@ class MongoDbStore <T : Any, K : Any>(
 
     init {
         if (key.name != "_id")
-            createIndex(true, key.name to ASCENDING)
+            createIndex(true, key)
     }
 
     constructor(

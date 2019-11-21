@@ -55,14 +55,6 @@ import java.time.LocalTime
     override fun changeObject(obj: Company) =
         obj.copy(web = URL("http://change.example.org"))
 
-    fun `Store type is correct`() {
-        store_type_is_correct()
-    }
-
-    fun `Indexes creation works ok`() {
-        indexes_creation_works_ok()
-    }
-
     fun `New records are stored`() {
         new_records_are_stored()
     }

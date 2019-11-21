@@ -92,7 +92,7 @@ class HashMapStore<T : Any, K : Any>(
     override fun findOne(key: K, fields: List<String>): Map<String, *>? {
         val instance = store[key]
 
-        return fields.map { it to instance?.get(it) }.toMap()
+        return if (instance == null) null else fields.map { it to instance[it] }.toMap()
     }
 
     override fun findMany(

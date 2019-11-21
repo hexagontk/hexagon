@@ -5,7 +5,7 @@ import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
 
-@Test class HelloWorldTest() {
+@Test class HelloWorldTest {
 
     private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
 

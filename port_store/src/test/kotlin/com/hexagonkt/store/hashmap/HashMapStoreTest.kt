@@ -35,7 +35,7 @@ import java.time.LocalTime
 
     @Test(expectedExceptions = [ UnsupportedOperationException::class ])
     fun `Create index throws UnsupportedOperationException`() {
-        store.createIndex(true)
+        store.createIndex(true, emptyMap())
     }
 
     @Test fun `Store type is correct`() {
@@ -140,10 +140,13 @@ import java.time.LocalTime
         }
 
         assert(store.count() == 1L)
-
         assert(store.deleteOne(key))
-
         assert(store.count() == 0L)
+        assert(!store.replaceOne(company))
+        assert(!store.updateOne(key, mapOf("web" to URL("http://update.example.org"))))
+        assert(!store.deleteOne(key))
+        assert(store.findOne(key) == null)
+        assert(store.findOne(key, listOf("web")) == null)
     }
 
     @Test fun `Many records are stored`() {
@@ -183,6 +186,7 @@ import java.time.LocalTime
         assert(store.count(mapOf("id" to keys)) == companies.size.toLong())
         assert(store.deleteMany(mapOf("id" to keys)) == keys.size.toLong())
         assert(store.count() == 0L)
+        assert(store.replaceMany(updatedCompanies).isEmpty())
     }
 
     private fun checkFindAllObjects() {

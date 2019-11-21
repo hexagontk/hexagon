@@ -35,12 +35,6 @@ class HashMapMapper <T: Any, K: Any>(
     @Suppress("UNCHECKED_CAST")
     override fun fromStore(map: Map<String, Any>): T  = map.filterEmpty().convertToObject(type)
 
-    override fun fromStore(property: String, value: Any): Any = when (value) {
-        is Date -> when (fields[property]?.returnType?.javaType) {
-            LocalDate::class.java -> value.toLocalDate()
-            LocalDateTime::class.java -> value.toLocalDateTime()
-            else -> error
-        }
-        else -> value
-    }
+    override fun fromStore(property: String, value: Any): Any =
+        value
 }
