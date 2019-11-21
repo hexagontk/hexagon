@@ -41,10 +41,9 @@ task("tfb", type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setup
     include("src/**", "tfb.gradle", "tfb.settings.gradle", "tfb.md")
     from("$projectDir/data")
     include("resin.xml")
+    from("$projectDir/tfb")
+    include("build.gradle", "settings.gradle", "README.md")
     into(tfbBuildDir)
-    rename("tfb.gradle", "build.gradle")
-    rename("tfb.settings.gradle", "settings.gradle")
-    rename("tfb.md", "README.md")
 }
 
 task("gradleSettings", type: WriteProperties) {
