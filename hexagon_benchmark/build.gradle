@@ -8,7 +8,7 @@ apply(plugin: "war")
 
 mainClassName = "com.hexagonkt.BenchmarkKt"
 
-applicationDefaultJvmArgs = [ "-XX:+UseNUMA", "-XX:+UseParallelGC", "-XX:+AggressiveOpts" ]
+applicationDefaultJvmArgs = [ "-XX:+UseNUMA", "-XX:+UseParallelGC" ]
 
 project.ext.tfbBuildDir = "$project.buildDir.absolutePath/tfb"
 project.ext.databases = [ "MongoDB", "PostgreSQL" ]
@@ -38,11 +38,12 @@ dependencies {
 
 task("tfb", type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setupDockerfiles" ]) {
     from(projectDir)
-    include("src/**", "tfb.gradle", "tfb.settings.gradle", "tfb.md", "resin.xml")
+    include("src/**", "tfb.gradle", "tfb.settings.gradle", "tfb.md")
+    from("$projectDir/data")
+    include("resin.xml")
+    from("$projectDir/tfb")
+    include("build.gradle", "settings.gradle", "README.md")
     into(tfbBuildDir)
-    rename("tfb.gradle", "build.gradle.kts.kts.kts.kts.kts")
-    rename("tfb.settings.gradle", "settings.gradle")
-    rename("tfb.md", "README.md")
 }
 
 task("gradleSettings", type: WriteProperties) {

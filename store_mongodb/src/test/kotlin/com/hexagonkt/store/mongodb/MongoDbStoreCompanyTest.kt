@@ -3,7 +3,8 @@ package com.hexagonkt.store.mongodb
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.error
 import com.hexagonkt.settings.SettingsManager
-import com.hexagonkt.store.IndexOrder
+import com.hexagonkt.store.IndexOrder.ASCENDING
+import com.hexagonkt.store.IndexOrder.DESCENDING
 import com.hexagonkt.store.Store
 import org.bson.types.ObjectId
 import org.testng.annotations.BeforeMethod
@@ -46,7 +47,7 @@ import java.time.LocalTime
 
     @BeforeMethod fun dropCollection() {
         store.drop()
-        store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
+        store.createIndex(true, store.key)
     }
 
     @Test fun `Store type is correct`() {
@@ -54,8 +55,8 @@ import java.time.LocalTime
     }
 
     @Test fun `Indexes creation works ok`() {
-        store.createIndex(true, Company::foundation.name to IndexOrder.DESCENDING)
-        store.createIndex(true, Company::creationDate.name to IndexOrder.ASCENDING)
+        store.createIndex(true, Company::foundation to DESCENDING)
+        store.createIndex(true, Company::creationDate to ASCENDING)
     }
 
     @Test fun `New records are stored`() {

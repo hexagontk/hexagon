@@ -63,7 +63,7 @@ deploy:
 
   - provider: script
     skip_cleanup: true
-    script: ./gradlew --no-daemon --quiet -x test release
+    script: ./gradlew --no-daemon -x test release
     on:
       branch: master
 

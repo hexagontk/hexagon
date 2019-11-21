@@ -25,32 +25,23 @@ abstract class StoreTest<T : Any, K : Any> {
 
     @BeforeMethod fun dropCollection() {
         store.drop()
-        store.createIndex(true, store.key.name to IndexOrder.ASCENDING)
-    }
-
-    fun store_type_is_correct() {
-        assert(store.type == Company::class)
-    }
-
-    fun indexes_creation_works_ok() {
-        store.createIndex(true, Company::foundation.name to IndexOrder.DESCENDING)
-        store.createIndex(true, Company::creationDate.name to IndexOrder.ASCENDING)
+        store.createIndex(true, store.key)
     }
 
     fun new_records_are_stored() {
 
         createTestEntities().forEach { entity ->
             store.insertOne(entity)
-            val storedCompany = store.findOne(store.key.get(entity))
-            assert(storedCompany == entity)
+            val storedEntity = store.findOne(store.key.get(entity))
+            assert(storedEntity == entity)
 
             assert(store.replaceOne(entity)) // Ensures unmodified instance is also "replaced"
-            val changedCompany = changeObject(entity)
-            assert(store.replaceOne(changedCompany))
-            val storedModifiedCompany = store.findOne(store.key.get(entity))
-            assert(storedModifiedCompany == changedCompany)
+            val changedEntity = changeObject(entity)
+            assert(store.replaceOne(changedEntity))
+            val storedModifiedEntity = store.findOne(store.key.get(entity))
+            assert(storedModifiedEntity == changedEntity)
 
-            val key = store.key.get(changedCompany)
+            val key = store.key.get(changedEntity)
             val fields = this.fields.keys.toList()
 
             val keyName = store.key.name

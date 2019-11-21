@@ -12,14 +12,14 @@ services:
   postgresql:
     image: postgres:12.0
     volumes:
-      - ./hexagon_benchmark/postgresql.sql:/docker-entrypoint-initdb.d/db.sql:ro
+      - ./hexagon_benchmark/data/postgresql.sql:/docker-entrypoint-initdb.d/db.sql:ro
     ports:
       - 5432:5432
 
   mongodb:
     image: mongo:4.2
     volumes:
-      - ./hexagon_benchmark/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
+      - ./hexagon_benchmark/data/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
     ports:
       - 27017:27017
 

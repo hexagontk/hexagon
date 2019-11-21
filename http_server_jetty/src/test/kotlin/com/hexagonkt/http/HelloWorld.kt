@@ -1,14 +1,19 @@
 package com.hexagonkt.http
 
 import com.hexagonkt.http.server.Server
+import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.http.server.serve
+import com.hexagonkt.injection.InjectionManager.bindObject
 
-val server = Server(JettyServletAdapter()) {
-    get("/hello") {
-        ok("Hello World!")
-    }
-}
+lateinit var server: Server
 
 fun main() {
-    server.start()
+    bindObject<ServerPort>(JettyServletAdapter())
+
+    server = serve {
+        get("/hello") {
+            ok("Hello World!")
+        }
+    }
 }
