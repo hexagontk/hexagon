@@ -7,6 +7,7 @@ import com.hexagonkt.http.Method.*
 import com.hexagonkt.serialization.SerializationFormat
 import io.netty.handler.codec.http.cookie.Cookie
 import io.netty.handler.ssl.SslContextBuilder
+import io.netty.handler.ssl.util.FingerprintTrustManagerFactory
 import org.asynchttpclient.BoundRequestBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
 import org.asynchttpclient.DefaultAsyncHttpClient
@@ -30,7 +31,8 @@ class Client(
     val headers: Map<String, List<String>> = LinkedHashMap(),
     user: String? = null,
     password: String? = null,
-    insecure: Boolean = false) {
+    insecure: Boolean = false,
+    vararg fingerprints: String) {
 
     constructor(
         endpoint: String = "",
@@ -51,8 +53,14 @@ class Client(
     private val client = DefaultAsyncHttpClient(Builder()
         .setConnectTimeout(5000)
         .setSslContext(
-            if (insecure) SslContextBuilder.forClient().trustManager(InsecureTrustManager).build()
-            else SslContextBuilder.forClient().build()
+            when {
+                insecure -> SslContextBuilder.forClient().trustManager(InsecureTrustManager).build()
+                fingerprints.isNotEmpty() -> SslContextBuilder
+                    .forClient()
+                    .trustManager(FingerprintTrustManagerFactory(*fingerprints))
+                    .build()
+                else -> SslContextBuilder.forClient().build()
+            }
         )
         .build()
     )
