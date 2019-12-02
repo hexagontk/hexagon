@@ -1,0 +1,123 @@
+
+task("createCert") {
+    doLast {
+        final List<String> subdomains = [ "", "www.", "api.", "bot.", "beta." ]
+        final String fqdnIntegration = "${domain}.$tldIntegration"
+        final String fullSubdomains = subdomains.collect { "DNS:$it${fqdnIntegration}" }.join(",")
+        final String certSan = "subjectAltName=" + fullSubdomains
+        final File reqTemplate = file("/etc/ssl/openssl.cnf")
+        final String replacePattern = "# Extensions for a typical CA"
+        // TODO Relies on a comment in the config file! change it to be more reliable
+        final String reqContents = reqTemplate.text.replaceAll(replacePattern, certSan)
+        file("$buildDir/req.cnf") << reqContents
+
+        final String privkey = "systems/nginx/privkey.pem"
+        final String fullchain = "systems/nginx/fullchain.pem"
+
+        final List<String> command = [
+            "openssl", "req",
+            "-x509",
+            "-nodes",
+            "-days", "365",
+            "-newkey", "rsa:2048",
+            "-subj", "\"/C=ES/ST=Madrid/L=Madrid/O=${domain}.${tld}/CN=$fqdnIntegration\"",
+            "-config", "build/req.cnf",
+            "-keyout", privkey,
+            "-out", fullchain
+        ]
+
+        if (!(file(fullchain).exists()))
+            println("RUN:\n>>> " + command.join(" "))
+    }
+}
+
+task("createDhparam") {
+    doLast {
+        final String dhparam = "systems/nginx/dhparam.pem"
+        if (!(file(dhparam).exists()))
+            exec {
+                executable = "openssl"
+                args = [ "dhparam", "-out", dhparam, "2048" ]
+            }
+    }
+}
+
+task("createHtpasswd") {
+    doLast {
+        final String htpasswd = "systems/nginx/htpasswd"
+        if (!(file(htpasswd).exists()))
+            exec {
+                executable = "htpasswd"
+                args = [ "-bc", htpasswd, webUsername, webPassword ]
+            }
+    }
+}
+
+task("createEtcHosts") {
+    doLast {
+        // TODO Append /etc/hosts
+        final String hosts = """
+            #
+            # ${domain} INTEGRATION
+            #
+            10.5.0.10 ${domain}.io www.${domain}.io api.${domain}.io bot.${domain}.io beta.${domain}.io
+            10.5.0.20 mongodb.${domain}.co
+        """
+    }
+}
+
+/*
+ # https://tools.ietf.org/html/rfc2606
+
+ # Create CA (root) key pair:
+ keytool -genkeypair \
+   -keystore ca.p12 \
+   -alias ca \
+   -ext bc:c \
+   -validity 3650 \
+   -keyalg RSA \
+   -dname "CN=Hexagon TEST Root CA,O=Hexagon,C=ES" \
+   -storepass hexagon
+
+ # Export CA certificate
+ keytool -exportcert \
+   -keystore ca.p12 \
+   -alias ca \
+   -rfc \
+   -storepass hexagon \
+   > ca.pem
+
+ # Create server key pair:
+ keytool -genkeypair \
+   -keystore server.p12 \
+   -alias server \
+   -ext san=dns:api.hexagonkt.test,dns:www.hexagonkt.test \
+   -validity 3650 \
+   -keyalg RSA \
+   -dname "CN=hexagonkt.test,O=Hexagon,C=ES" \
+   -storepass hexagon
+
+ # Server certificate signing request
+ keytool -certreq \
+   -keystore server.p12 \
+   -alias server \
+   -storepass hexagon \
+   >server.csr
+
+ # Server certificate sign
+ keytool -gencert \
+   -keystore ca.p12 \
+   -alias ca \
+   -storepass hexagon \
+   -ext BC=0 \
+   -rfc \
+   -infile server.csr \
+   > server.pem
+
+ # Chain certificates
+ cat ca.pem server.pem >serverchain.pem
+
+ # Replace server certificate
+ keytool -importcert \
+   -keystore server.p12 -alias server -file serverchain.pem -storepass hexagon -noprompt
+ */
