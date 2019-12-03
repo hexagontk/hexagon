@@ -1,0 +1,176 @@
+/*
+ * Main build script, responsible for:
+ *
+ *  1. Publishing: upload binaries and templates to Bintray
+ *  2. Releasing: tag source code in GitHub
+ *  3. Coverage report: aggregated coverage report for all modules
+ *  4. Group all tasks: shortcut for all tasks to ease the release process
+ *
+ * Plugins that are not used in the root project (this one) are only applied by the modules that use
+ * them.
+ */
+
+import org.jetbrains.dokka.gradle.DokkaTask
+
+plugins {
+    `idea`
+    `eclipse`
+    `java`
+    `jacoco`
+
+    id("org.sonarqube") version "2.8"
+    id("org.jetbrains.kotlin.jvm") version "1.3.61" apply false
+    id("org.jetbrains.dokka") version "0.10.0" apply false
+    id("com.jfrog.bintray") version "1.8.4" apply false
+    id("uk.co.cacoethes.lazybones-templates") version "1.2.3" apply false
+}
+
+apply(from = "gradle/sonarqube.gradle.kts")
+
+repositories {
+    jcenter() // Repository required by Jacoco Report
+}
+
+tasks.clean {
+    delete("build", "log", "out", ".vertx", "file-uploads")
+
+    delete(
+        fileTree(rootDir) { include("**/*.log") },
+        fileTree(rootDir) { include("**/*.hprof") },
+        fileTree(rootDir) { include("**/.attach_pid*") },
+        fileTree(rootDir) { include("**/hs_err_pid*") }
+    )
+}
+
+task("publish") {
+    dependsOn(
+        project.getTasksByName("bintrayUpload", true),
+        tasks.getByPath(":hexagon_starters:publishAllTemplates")
+    )
+}
+
+task("release") {
+    dependsOn("publish")
+    doLast {
+        project.exec { commandLine = listOf<String>("git", "tag", "-m", "Release $version", version.toString()) }
+        project.exec { commandLine = listOf<String>("git", "push", "--tags") }
+    }
+}
+
+tasks.register<JacocoReport>("jacocoReport") {
+    dependsOn(getTasksByName("jacocoTestReport", true))
+
+    val rootPath = rootDir.absolutePath
+    val execPattern = "**/build/jacoco/test.exec"
+    executionData.setFrom(fileTree(rootPath).include(execPattern))
+
+    subprojects.forEach {
+        sourceSets(it.sourceSets.main as SourceSet)
+    }
+
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = true
+    }
+}
+
+project.tasks["sonarqube"].dependsOn("jacocoReport")
+
+childProjects.forEach { pair ->
+    val name = pair.key
+    val prj = pair.value
+    val empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
+    val siteContentPath = "${rootDir}/hexagon_site/content"
+
+    if (!(name in listOf("hexagon_benchmark", "hexagon_site", "hexagon_starters")) && empty) {
+        project(name) {
+            tasks.named<DokkaTask>("dokkaBase") {
+                outputFormat = "gfm"
+                outputDirectory = siteContentPath
+
+                configuration {
+                    reportUndocumented = false
+                    includes = filesCollection(prj.projectDir, "*.md")
+                    samples = filesCollection(
+                        "${prj.projectDir}/src/test/kotlin",
+                        "**/*SamplesTest.kt"
+                    )
+                    sourceRoot { path = "$projectDir/src/main/kotlin" }
+                }
+            }
+
+            task("dokkaMd") {
+                dependsOn("dokkaBase")
+                doLast {
+                    addMetadata(siteContentPath, prj)
+                }
+            }
+        }
+    }
+}
+
+task("all") {
+    dependsOn(
+        project.getTasksByName("build", true),
+        project.getTasksByName("jacocoReport", true),
+        project.getTasksByName("installDist", true),
+        project.getTasksByName("installAllTemplates", true),
+        project.getTasksByName("publishToMavenLocal", true),
+        project.getTasksByName("tfb", true)
+    )
+}
+
+fun filesCollection(dir: Any, pattern: String): List<String> =
+    fileTree(dir) { include(pattern) }.getFiles().map { it.absolutePath }
+
+fun addMetadata(siteContentPath: String, project: Project) {
+    val projectDirName = project.projectDir.name
+    filesCollection(siteContentPath, "**/${projectDirName}/**/*.md").forEach {
+        val md = File(it)
+        val tempFile = File.createTempFile("temp", md.name)
+        tempFile.printWriter().use { writer ->
+            writer.println(toEditUrl(it, siteContentPath, projectDirName))
+            md.forEachLine { line ->
+                writer.println(line)
+            }
+        }
+        ant.withGroovyBuilder {
+            "move"("file" to tempFile, "tofile" to md)
+        }
+    }
+}
+
+fun toEditUrl(mdPath: String, siteContentPath: String, projectDirName: String): String {
+    val prefix = "edit_url: edit/master/${projectDirName}"
+    val withoutContentPath = mdPath.replace("${siteContentPath}/${projectDirName}/", "")
+    val parts = withoutContentPath.split(File.separator)
+
+    var editUrl = ""
+
+    if (parts.size > 1 && withoutContentPath.startsWith("com.hexagon")) {
+        val afterPackage = parts[1]
+        if ("test" !in afterPackage) {
+            val srcPrefix = "${prefix}/src/main/kotlin"
+            val packageName = parts[0].replace(".", "/")
+
+            if (afterPackage == "index.md") {
+                editUrl = "${srcPrefix}/${packageName}/package-info.java"
+            } else if (afterPackage.endsWith(".md") || afterPackage.contains(".")) {
+                val lastPath = packageName.split("/")?.last()
+
+                editUrl = "${srcPrefix}/${packageName}/${lastPath.capitalize()}.kt"
+            } else {
+                val className = toClassName(afterPackage)
+
+                editUrl = "${srcPrefix}/${packageName}/${className}.kt"
+            }
+        }
+    } else if (withoutContentPath == "index.md") {
+        editUrl = "${prefix}/README.md"
+    }
+
+    return editUrl
+}
+
+fun toClassName(mdClassName: String): String =
+    mdClassName.replace("\\-[a-z][a-z]*".toRegex()) { it.value[1].toUpperCase() + it.value.substring(2) }
