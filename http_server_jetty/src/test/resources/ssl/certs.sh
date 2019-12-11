@@ -49,6 +49,7 @@ keytool -certreq \
  -storetype pkcs12 \
  -storepass hexagon \
  -alias server \
+ -ext san=dns:api.hexagonkt.test,dns:www.hexagonkt.test,dns:localhost \
  -file server.csr
 
 # Server certificate sign
@@ -58,7 +59,7 @@ keytool -gencert \
  -storepass hexagon \
  -alias ca \
  -validity 3650 \
- -ext san=dns:api.hexagonkt.test,dns:www.hexagonkt.test \
+ -ext san=dns:api.hexagonkt.test,dns:www.hexagonkt.test,dns:localhost \
  -rfc \
  -infile server.csr \
  >server.pem
