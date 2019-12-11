@@ -174,7 +174,7 @@ IMPORTANT: This script must be applied at the end of the build script.
 To use it apply `$gradleScripts/kotlin_js.gradle` at the end of the build script, also apply the
 `kotlin2js` plugin. And finally, add the `id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to
 the root `build.gradle`.
- 
+
 Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
@@ -237,6 +237,10 @@ To setup this script's parameters, check the [build variables section]. This hel
 * sonarqubeToken (REQUIRED): If not set, the `SONARQUBE_TOKEN` environment variable will be used.
 
 [sonarcloud]: https://sonarcloud.io
+
+## SSL
+
+TODO
 
 ## TestNG
 

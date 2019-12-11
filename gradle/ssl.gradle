@@ -73,10 +73,11 @@ task("createEtcHosts") {
  keytool -genkeypair \
    -keystore ca.p12 \
    -alias ca \
-   -ext bc:c \
+   -ext bc:ca:true \
    -validity 3650 \
    -keyalg RSA \
    -dname "CN=Hexagon TEST Root CA,O=Hexagon,C=ES" \
+   -storetype pkcs12
    -storepass hexagon
 
  # Export CA certificate
@@ -85,7 +86,7 @@ task("createEtcHosts") {
    -alias ca \
    -rfc \
    -storepass hexagon \
-   > ca.pem
+   -file ca.pem
 
  # Create server key pair:
  keytool -genkeypair \
@@ -102,14 +103,13 @@ task("createEtcHosts") {
    -keystore server.p12 \
    -alias server \
    -storepass hexagon \
-   >server.csr
+   -file server.csr
 
  # Server certificate sign
  keytool -gencert \
    -keystore ca.p12 \
    -alias ca \
    -storepass hexagon \
-   -ext BC=0 \
    -rfc \
    -infile server.csr \
    > server.pem

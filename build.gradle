@@ -131,7 +131,9 @@ private void addMetadata(final String siteContentPath, final Project project) {
     }
 }
 
-private String toEditUrl(final String mdPath, final String siteContentPath, final String projectDirName) {
+private String toEditUrl(
+    final String mdPath, final String siteContentPath, final String projectDirName) {
+
     final String prefix = "edit_url: edit/master/${projectDirName}"
     final String withoutContentPath = mdPath.minus("${siteContentPath}/${projectDirName}/")
     final String[] parts = withoutContentPath.split(File.separator)
@@ -164,5 +166,5 @@ private String toEditUrl(final String mdPath, final String siteContentPath, fina
 }
 
 private String toClassName(final String mdClassName) {
-    mdClassName.replaceAll("\\-[a-z][a-z]*", { aPart -> aPart[1].toUpperCase() + aPart.substring(2) })
+    mdClassName.replaceAll("\\-[a-z][a-z]*", { it -> it[1].toUpperCase() + it.substring(2) })
 }

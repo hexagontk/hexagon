@@ -36,7 +36,7 @@ gradle.rootProject {
 
             // http_server_servlet
             servletVersion = "3.1.0"
-            jettyVersion = "9.4.22.v20191022"
+            jettyVersion = "9.4.24.v20191120"
 
             // hexagon_core
             slf4jVersion = "1.7.28"

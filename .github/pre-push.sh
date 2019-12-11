@@ -7,10 +7,12 @@
 
 set -e
 
+./gradlew clean installDist -x test
+
 docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml rm -sf
 docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
 
-./gradlew clean all
+./gradlew all
 ./gradlew dokkaMd checkSite
 
 me="$(whoami)"
