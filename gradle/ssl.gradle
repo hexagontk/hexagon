@@ -1,4 +1,43 @@
 
+task("createCa") {
+    doLast {
+        // caFile, caPassword, caAlias, caValidity, caCommonName, organization, country
+        /*
+
+# Create CA (root) key pair
+keytool -genkeypair \
+ -keystore ca.p12 \
+ -storetype pkcs12 \
+ -storepass hexagon \
+ -alias ca \
+ -validity 3650 \
+ -ext bc:ca:true \
+ -keyalg RSA \
+ -dname "CN=Hexagon TEST Root CA,O=Hexagon,C=ES"
+
+# Export CA certificate (PEM)
+keytool -exportcert \
+ -keystore ca.p12 \
+ -storetype pkcs12 \
+ -storepass hexagon \
+ -alias ca \
+ -rfc \
+ -file ca.pem
+
+# Create trust store with CA certificate (PEM)
+keytool -importcert \
+ -keystore trust_store.p12 \
+ -storetype pkcs12 \
+ -storepass hexagon \
+ -alias ca \
+ -file ca.pem \
+ -noprompt
+
+         */
+
+    }
+}
+
 task("createCert") {
     doLast {
         final List<String> subdomains = [ "", "www.", "api.", "bot.", "beta." ]
