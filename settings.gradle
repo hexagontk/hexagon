@@ -28,7 +28,7 @@ gradle.rootProject {
 
             // VERSIONS
             kotlinVersion = "1.3.61"
-            kotlinCoroutinesVersion = "1.3.2"
+            kotlinCoroutinesVersion = "1.3.3"
 
             // hexagon_benchmark
             hikariVersion = "3.4.1"
