@@ -9,13 +9,16 @@ set -e
 
 ./gradlew --quiet clean installDist -x test
 
-docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml rm -sf
-docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
+docker-compose --log-level WARNING -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml \
+  rm -sf
+docker-compose --log-level WARNING -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml \
+  up -d
 
 ./gradlew --quiet all
 ./gradlew --quiet dokkaMd checkSite
 
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
-docker run --rm -v "$PWD/hexagon_site:/docs" -u "$user" "squidfunk/mkdocs-material:4.6.0" build
-docker volume prune -f
+docker --log-level warn run --rm -v "$PWD/hexagon_site:/docs" -u "$user" \
+  "squidfunk/mkdocs-material:4.6.0" build
+docker --log-level warn volume prune -f
