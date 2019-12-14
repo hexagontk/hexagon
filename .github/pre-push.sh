@@ -7,15 +7,13 @@
 
 set -e
 
-export GRADLE_OPTS="--quiet"
-
-./gradlew clean installDist -x test
+./gradlew --quiet clean installDist -x test
 
 docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml rm -sf
 docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
 
-./gradlew all
-./gradlew dokkaMd checkSite
+./gradlew --quiet all
+./gradlew --quiet dokkaMd checkSite
 
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
