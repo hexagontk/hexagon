@@ -17,5 +17,5 @@ docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up 
 
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
-docker run --rm -v "$PWD/hexagon_site:/docs" -u "$user" "squidfunk/mkdocs-material:4.4.3" build
+docker run --rm -v "$PWD/hexagon_site:/docs" -u "$user" "squidfunk/mkdocs-material:4.6.0" build
 docker volume prune -f
