@@ -7,6 +7,8 @@
 
 set -e
 
+export GRADLE_OPTS="--quiet"
+
 ./gradlew clean installDist -x test
 
 docker-compose -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml rm -sf
