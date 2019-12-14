@@ -53,12 +53,12 @@ install:
 
 script:
   - ./gradlew --quiet clean installDist -x test
-  - docker-compose --log-level WARNING \
+  - docker-compose --log-level WARNING
       -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
   - ./gradlew --quiet all
   - ./gradlew --quiet dokkaMd checkSite
   - ./gradlew --quiet --no-daemon -x test sonarqube
-  - docker --log-level warn run --rm -v $PWD/hexagon_site:/docs \
+  - docker --log-level warn run --rm -v $PWD/hexagon_site:/docs
       squidfunk/mkdocs-material:4.6.0 build
 
 after_success: bash <(curl -s https://codecov.io/bash)
