@@ -15,8 +15,8 @@ gradle.rootProject {
             vcsUrl = "https://github.com/hexagonkt/hexagon.git"
 
             // SonarQube
-            sonarqubeProject = "hexagonkt_hexagon"
-            sonarqubeOrganization = "hexagonkt"
+            sonarQubeProject = "hexagonkt_hexagon"
+            sonarQubeOrganization = "hexagonkt"
 
             // SSL
             sslOrganization = "Hexagon"

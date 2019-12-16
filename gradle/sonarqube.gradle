@@ -7,9 +7,9 @@ apply(plugin: "org.sonarqube")
 
 sonarqube {
     properties {
-        property("sonar.projectKey", findProperty("sonarqubeProject"))
-        property("sonar.organization", findProperty("sonarqubeOrganization"))
-        property("sonar.host.url", findProperty("sonarqubeHost") ?: "https://sonarcloud.io")
-        property("sonar.login", findProperty("sonarqubeToken") ?: System.getenv("SONARQUBE_TOKEN"))
+        property("sonar.projectKey", findProperty("sonarQubeProject"))
+        property("sonar.organization", findProperty("sonarQubeOrganization"))
+        property("sonar.host.url", findProperty("sonarQubeHost") ?: "https://sonarcloud.io")
+        property("sonar.login", findProperty("sonarQubeToken") ?: System.getenv("SONARQUBE_TOKEN"))
     }
 }
