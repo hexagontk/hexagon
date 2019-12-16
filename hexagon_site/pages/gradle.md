@@ -242,6 +242,9 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 TODO
 
+TLD for local environments https://tools.ietf.org/html/rfc2606
+Vars: sslPath, sslPassword, sslValidity, sslOrganization, sslCountry, sslDomain, sslSubdomains
+
 ## TestNG
 
 Uses TestNG as the test framework.

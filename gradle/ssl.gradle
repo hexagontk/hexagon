@@ -1,106 +1,136 @@
 
+final String CA_FILE = "ca.p12"
+final String CA_ALIAS = "ca"
+final String TRUST_FILE = "trust_store.p12"
+
 task("createCa") {
     doLast {
-        // caFile, caPassword, caAlias, caValidity, caCommonName, organization, country
-        /*
+        if (file(sslPath(CA_FILE)).exists())
+            return
 
-# Create CA (root) key pair
-keytool -genkeypair \
- -keystore ca.p12 \
- -storetype pkcs12 \
- -storepass hexagon \
- -alias ca \
- -validity 3650 \
- -ext bc:ca:true \
- -keyalg RSA \
- -dname "CN=Hexagon TEST Root CA,O=Hexagon,C=ES"
+        final String sslValidity = findProperty("sslValidity") ?: 365.toString()
+        final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")
+        final String sslOrganization = findProperty("sslOrganization")
 
-# Export CA certificate (PEM)
-keytool -exportcert \
- -keystore ca.p12 \
- -storetype pkcs12 \
- -storepass hexagon \
- -alias ca \
- -rfc \
- -file ca.pem
+        final String caPem = sslPath("ca.pem")
 
-# Create trust store with CA certificate (PEM)
-keytool -importcert \
- -keystore trust_store.p12 \
- -storetype pkcs12 \
- -storepass hexagon \
- -alias ca \
- -file ca.pem \
- -noprompt
+        // Create CA (root) key pair
+        keytool("-genkeypair", CA_FILE, CA_ALIAS,
+            "-validity", sslValidity,
+            "-ext", "bc:ca:true",
+            "-keyalg", "RSA",
+            "-dname", "CN=${sslOrganization} TEST Root CA,O=${sslOrganization},C=${sslCountry}"
+        )
 
-         */
+        // Export CA certificate (PEM)
+        keytool("-exportcert", CA_FILE, CA_ALIAS, "-rfc", "-file", caPem)
 
+        // Create trust store with CA certificate (PEM)
+        keytool("-importcert", TRUST_FILE, CA_ALIAS, "-file", caPem, "-noprompt")
+
+        // Clean up
+        delete(caPem)
     }
 }
 
-task("createCert") {
+task("createIdentity", dependsOn: "createCa") {
     doLast {
-        final List<String> subdomains = [ "", "www.", "api.", "bot.", "beta." ]
-        final String fqdnIntegration = "${domain}.$tldIntegration"
-        final String fullSubdomains = subdomains.collect { "DNS:$it${fqdnIntegration}" }.join(",")
-        final String certSan = "subjectAltName=" + fullSubdomains
-        final File reqTemplate = file("/etc/ssl/openssl.cnf")
-        final String replacePattern = "# Extensions for a typical CA"
-        // TODO Relies on a comment in the config file! change it to be more reliable
-        final String reqContents = reqTemplate.text.replaceAll(replacePattern, certSan)
-        file("$buildDir/req.cnf") << reqContents
+        final String sslValidity = findProperty("sslValidity") ?: 365.toString()
+        final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")
+        final String sslOrganization = findProperty("sslOrganization")
+        final String sslDomain = findProperty("sslDomain").toString().trim()
+        final String sslSubdomains = findProperty("sslSubdomains")?.toString()?.trim()
 
-        final String privkey = "systems/nginx/privkey.pem"
-        final String fullchain = "systems/nginx/fullchain.pem"
+        final String caPem = sslPath("ca.pem")
+        final String identityCsr = sslPath("identity.csr")
+        final String identityPem = sslPath("identity.pem")
+        final String identityChainPem = sslPath("identity_chain.pem")
 
-        final List<String> command = [
-            "openssl", "req",
-            "-x509",
-            "-nodes",
-            "-days", "365",
-            "-newkey", "rsa:2048",
-            "-subj", "\"/C=ES/ST=Madrid/L=Madrid/O=${domain}.${tld}/CN=$fqdnIntegration\"",
-            "-config", "build/req.cnf",
-            "-keyout", privkey,
-            "-out", fullchain
-        ]
+        final int dotIndex = sslDomain.lastIndexOf('.')
+        final String domain = sslDomain.substring(0, dotIndex)
+        final String tld = sslDomain.substring(dotIndex + 1)
+        final List<String> sslSubdomainsList = sslSubdomains?.split(",")?.toList() ?: []
+        final String storeFile = domain.replace(".", "_") + "_store.p12"
 
-        if (!(file(fullchain).exists()))
-            println("RUN:\n>>> " + command.join(" "))
-    }
-}
+        if (file(sslPath(storeFile)).exists())
+            return
 
-task("createDhparam") {
-    doLast {
-        final String dhparam = "systems/nginx/dhparam.pem"
-        if (!(file(dhparam).exists()))
-            exec {
-                executable = "openssl"
-                args = [ "dhparam", "-out", dhparam, "2048" ]
+        final List<String> subdomains = sslSubdomainsList
+            .collect { it.trim() }
+            .collect { subdomain ->
+                [ "test", tld ].collect { "${subdomain}.${domain}.${it}" }
             }
+            .flatten()
+            .collect { it as String }
+
+        final List<String> allSubdomains = subdomains + [ "${domain}.test", "localhost" ]
+        final List<String> fullSubdomains = allSubdomains.collect { "dns:${it}".toString() }
+        final String san = fullSubdomains.join(",")
+
+        // Create server key pair
+        keytool("-genkeypair", storeFile, domain,
+            "-validity", sslValidity,
+            "-keyalg", "RSA",
+            "-dname", "CN=${sslDomain},O=${sslOrganization},C=${sslCountry}"
+        )
+
+        // Server certificate signing request
+        keytool("-certreq", storeFile, domain, "-ext", "san=${san}", "-file", identityCsr)
+
+        // Server certificate sign
+        keytool("-gencert", CA_FILE, CA_ALIAS,
+            "-validity", sslValidity,
+            "-ext", "san=${san}",
+            "-rfc",
+            "-infile", identityCsr,
+            "-outfile", identityPem
+        )
+
+        // Export CA certificate (PEM)
+        keytool("-exportcert", CA_FILE, CA_ALIAS, "-rfc", "-file", caPem)
+        concatenate(identityChainPem, caPem, identityPem)
+
+        // Replace server certificate
+        keytool("-importcert", storeFile, domain, "-file", identityChainPem, "-noprompt")
+
+        // Clean up
+        delete(identityCsr, caPem, identityPem, identityChainPem)
     }
 }
 
-task("createHtpasswd") {
-    doLast {
-        final String htpasswd = "systems/nginx/htpasswd"
-        if (!(file(htpasswd).exists()))
-            exec {
-                executable = "htpasswd"
-                args = [ "-bc", htpasswd, webUsername, webPassword ]
-            }
-    }
+private void concatenate(final String output, final String... files) {
+    final File chain = project.file(output)
+    project.files(files).each { chain << it.text }
 }
 
-task("createEtcHosts") {
-    doLast {
-        // TODO Append /etc/hosts
-        final String hosts = """
-            #
-            # ${domain} INTEGRATION
-            #
-            10.5.0.10 ${domain}.io www.${domain}.io api.${domain}.io bot.${domain}.io beta.${domain}.io
-            10.5.0.20 mongodb.${domain}.co
-        """
-    }
+private String sslPath(final String fileName) {
+    final String sslPath = findProperty("sslPath")
+
+    if (sslPath == null)
+        return project.buildDir.absolutePath + "/" + fileName
+
+    final List<String> pathSegments = [ projectDir.absolutePath, sslPath, fileName ]
+    return pathSegments.findAll { !it.isBlank() }.join("/")
+}
+
+private void keytool(
+    final String command,
+    final String keystore,
+    final String alias,
+    final Object... others) {
+
+    final String sslPassword = findProperty("sslPassword") ?: keystore.reverse()
+    final String keystorePath = sslPath(keystore)
+
+    final List<String> commandList = [
+        "keytool", command,
+        "-keystore", keystorePath,
+        "-storetype", "pkcs12",
+        "-storepass", sslPassword,
+        "-alias", alias
+    ]
+
+    final List<Object> fullCommand = commandList + others.toList()
+    project.exec { commandLine(fullCommand) }
+    println("RUN:\n>>> " + fullCommand.join(" "))
 }

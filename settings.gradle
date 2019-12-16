@@ -18,6 +18,10 @@ gradle.rootProject {
             sonarqubeProject = "hexagonkt_hexagon"
             sonarqubeOrganization = "hexagonkt"
 
+            // SSL
+            sslOrganization = "Hexagon"
+            sslDomain = "hexagonkt.com"
+
             // Site
             siteHost = "https://hexagonkt.com"
 

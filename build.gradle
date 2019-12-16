@@ -24,6 +24,7 @@ plugins {
 }
 
 apply(from: "gradle/sonarqube.gradle")
+apply(from: "gradle/ssl.gradle")
 
 repositories {
     jcenter() // Repository required by Jacoco Report
