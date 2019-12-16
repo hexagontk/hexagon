@@ -79,6 +79,14 @@ task(
 
 project.tasks["sonarqube"].dependsOn("jacocoReport")
 
+subprojects {
+    sonarqube {
+        properties {
+            property("sonar.jacoco.reportPaths", "${rootProject.buildDir}/jacoco/allTest.exec")
+        }
+    }
+}
+
 childProjects.each { pair ->
     final String name = pair.key
     final Project prj = pair.value
