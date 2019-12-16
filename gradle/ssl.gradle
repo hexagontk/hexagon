@@ -132,5 +132,4 @@ private void keytool(
 
     final List<Object> fullCommand = commandList + others.toList()
     project.exec { commandLine(fullCommand) }
-    println("RUN:\n>>> " + fullCommand.join(" "))
 }
