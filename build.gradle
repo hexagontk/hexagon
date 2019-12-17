@@ -53,11 +53,6 @@ task("release", dependsOn: "publish") {
     }
 }
 
-task("jacocoMerge", type: JacocoMerge, dependsOn: "jacocoReport") {
-    destinationFile = file("${rootProject.jacoco.destinationFile}")
-    executionData = project.fileTree(dir: ".", include: "**/build/jacoco/test.exec")
-}
-
 task("jacocoReport", type: JacocoReport, dependsOn: getTasksByName("jacocoTestReport", true)) {
 
     final String rootPath = rootDir.absolutePath
@@ -74,15 +69,7 @@ task("jacocoReport", type: JacocoReport, dependsOn: getTasksByName("jacocoTestRe
     }
 }
 
-project.tasks["sonarqube"].dependsOn("jacocoMerge")
-
-subprojects {
-    sonarqube {
-        properties {
-            property("sonar.jacoco.reportPaths", "${rootProject.jacoco.destinationFile}")
-        }
-    }
-}
+project.tasks["sonarqube"].dependsOn("jacocoReport")
 
 childProjects.each { pair ->
     final String name = pair.key
