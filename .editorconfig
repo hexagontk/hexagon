@@ -52,10 +52,6 @@ ij_kotlin_lbrace_on_next_line = false
 ij_kotlin_line_comment_add_space = false
 ij_kotlin_line_comment_at_first_column = true
 ij_kotlin_method_annotation_wrap = off
-
-# To review
-ij_kotlin_method_parameters_new_line_after_left_paren = false
-ij_kotlin_method_parameters_right_paren_on_new_line = false
 ij_kotlin_method_parameters_wrap = off
 ij_kotlin_name_count_to_use_star_import = 5
 ij_kotlin_name_count_to_use_star_import_for_members = 3
@@ -84,6 +80,3 @@ ij_kotlin_spaces_around_unary_operator = false
 ij_kotlin_spaces_around_when_arrow = true
 ij_kotlin_variable_annotation_wrap = off
 ij_kotlin_while_on_new_line = true
-ij_kotlin_wrap_elvis_expressions = 1
-ij_kotlin_wrap_expression_body_functions = 0
-ij_kotlin_wrap_first_method_in_call_chain = false

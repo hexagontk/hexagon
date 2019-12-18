@@ -36,14 +36,14 @@ gradle.rootProject {
 
             // hexagon_benchmark
             hikariVersion = "3.4.1"
-            postgresqlVersion = "42.2.8"
+            postgresqlVersion = "42.2.9"
 
             // http_server_servlet
             servletVersion = "3.1.0"
             jettyVersion = "9.4.24.v20191120"
 
             // hexagon_core
-            slf4jVersion = "1.7.28"
+            slf4jVersion = "1.7.30"
             logbackVersion = "1.2.3"
             jacksonVersion = "2.10.1"
 
@@ -51,17 +51,17 @@ gradle.rootProject {
             cronutilsVersion = "9.0.2"
 
             // messaging_rabbitmq
-            rabbitVersion = "5.7.3"
+            rabbitVersion = "5.8.0"
             qpidVersion = "6.1.4"
 
             // port_http_client
             ahcVersion = "2.10.4"
 
             // store_mongodb
-            mongodbVersion = "3.11.2"
+            mongodbVersion = "3.12.0"
 
             // templates_pebble
-            pebbleVersion = "3.1.1"
+            pebbleVersion = "3.1.2"
 
             // Test
             testngVersion = "6.14.3"
