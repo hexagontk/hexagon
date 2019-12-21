@@ -16,15 +16,22 @@ plugins{
 compileTestKotlin.dependsOn(tasks.getByPath(":port_http_server:compileTestKotlin"))
 
 val entityTests: SourceSetOutput = project(":port_http_server").sourceSets["test"].output
-
-val entityTestsHexangoWeb: SourceSetOutput = project(":hexagon_web").sourceSets["test"].output
+val entityTestsHexagonWeb: SourceSetOutput = project(":hexagon_web").sourceSets["test"].output
 
 dependencies {
     "api"(project(":http_server_servlet"))
-    "api"("org.eclipse.jetty:jetty-webapp:${properties.get("jettyVersion")}") { exclude(module = "slf4j-api") }
+    "api"("org.eclipse.jetty:jetty-webapp:${properties["jettyVersion"]}") {
+        exclude(module = "slf4j-api")
+    }
+    "api"("org.eclipse.jetty:jetty-alpn-java-server:${properties["jettyVersion"]}") {
+        exclude(module = "slf4j-api")
+    }
+    "api"("org.eclipse.jetty.http2:http2-server:${properties["jettyVersion"]}") {
+        exclude(module = "slf4j-api")
+    }
 
     "testImplementation"(project(":port_http_client"))
     "testImplementation"(entityTests)
     "testImplementation"(project(":hexagon_web"))
-    "testImplementation"(entityTestsHexangoWeb)
+    "testImplementation"(entityTestsHexagonWeb)
 }
