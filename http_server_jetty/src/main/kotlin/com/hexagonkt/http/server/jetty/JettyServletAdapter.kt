@@ -2,9 +2,13 @@ package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.error
+import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
+import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.servlet.ServletFilter
+import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory
+import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory
 import org.eclipse.jetty.server.*
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS
@@ -44,26 +48,8 @@ class JettyServletAdapter : ServerPort {
         })
 
         if (settings.sslSettings != null) {
-            val httpConfiguration = HttpConfiguration()
-            httpConfiguration.secureScheme = "https"
-            httpConfiguration.securePort = settings.bindPort
-            httpConfiguration.addCustomizer(SecureRequestCustomizer())
-
-            val sslContextFactory = SslContextFactory.Server()
-            val keyStorePassword = settings.sslSettings?.keyStorePassword ?: error()
-            val trustStorePassword = settings.sslSettings?.trustStorePassword ?: error()
-            sslContextFactory.keyStore = KeyStore.getInstance("pkcs12")
-            sslContextFactory.keyStore.load(Resource("ssl/identity_store.p12").requireStream(), keyStorePassword.toCharArray())
-            sslContextFactory.setKeyStorePassword(keyStorePassword)
-            sslContextFactory.trustStore = KeyStore.getInstance("pkcs12")
-            sslContextFactory.trustStore.load(Resource("ssl/trust_store.p12").requireStream(), trustStorePassword.toCharArray())
-            sslContextFactory.setTrustStorePassword(trustStorePassword)
-
-            val serverConnector = ServerConnector(
-                serverInstance,
-                SslConnectionFactory(sslContextFactory, "http/1.1"),
-                HttpConnectionFactory(httpConfiguration)
-            )
+            val serverConnector = setupSsl(settings, serverInstance)
+            if (settings.protocol == HTTP2) {}
 
             serverConnector.port = settings.bindPort
             serverInstance.connectors = arrayOf(serverConnector)
@@ -76,5 +62,44 @@ class JettyServletAdapter : ServerPort {
 
     override fun shutdown() {
         jettyServer?.stop()
+    }
+
+    private fun setupSsl(settings: ServerSettings, serverInstance: JettyServer): ServerConnector {
+        val httpConfiguration = HttpConfiguration()
+        httpConfiguration.secureScheme = "https"
+        httpConfiguration.securePort = settings.bindPort
+        httpConfiguration.addCustomizer(SecureRequestCustomizer())
+
+        val sslContextFactory = SslContextFactory.Server()
+        val sslSettings = settings.sslSettings ?: error
+        val keyStorePassword = sslSettings.keyStorePassword ?: error()
+        val trustStorePassword = sslSettings.trustStorePassword ?: error()
+
+        sslContextFactory.keyStore = KeyStore.getInstance("pkcs12")
+        sslContextFactory.keyStore.load(Resource("ssl/hexagonkt_store.p12").requireStream(),
+            keyStorePassword.toCharArray())
+        sslContextFactory.setKeyStorePassword(keyStorePassword)
+
+        sslContextFactory.trustStore = KeyStore.getInstance("pkcs12")
+        sslContextFactory.trustStore.load(Resource("ssl/trust_store.p12").requireStream(),
+            trustStorePassword.toCharArray())
+        sslContextFactory.setTrustStorePassword(trustStorePassword)
+
+        return if (settings.protocol != HTTP2)
+            ServerConnector(
+                serverInstance,
+                SslConnectionFactory(sslContextFactory, "http/1.1"),
+                HttpConnectionFactory(httpConfiguration)
+            )
+        else {
+            val alpn = ALPNServerConnectionFactory()
+            ServerConnector(
+                serverInstance,
+                SslConnectionFactory(sslContextFactory, alpn.protocol),
+                alpn,
+                HTTP2ServerConnectionFactory(httpConfiguration),
+                HttpConnectionFactory(httpConfiguration)
+            )
+        }
     }
 }
