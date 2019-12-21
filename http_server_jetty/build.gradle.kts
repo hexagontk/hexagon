@@ -19,14 +19,12 @@ val entityTests: SourceSetOutput = project(":port_http_server").sourceSets["test
 val entityTestsHexagonWeb: SourceSetOutput = project(":hexagon_web").sourceSets["test"].output
 
 dependencies {
+    val jettyVersion = properties["jettyVersion"]
+
     "api"(project(":http_server_servlet"))
-    "api"("org.eclipse.jetty:jetty-webapp:${properties["jettyVersion"]}") {
-        exclude(module = "slf4j-api")
-    }
-    "api"("org.eclipse.jetty:jetty-alpn-java-server:${properties["jettyVersion"]}") {
-        exclude(module = "slf4j-api")
-    }
-    "api"("org.eclipse.jetty.http2:http2-server:${properties["jettyVersion"]}") {
+    "api"("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude(module = "slf4j-api") }
+    "api"("org.eclipse.jetty.http2:http2-server:$jettyVersion") { exclude(module = "slf4j-api") }
+    "api"("org.eclipse.jetty:jetty-alpn-java-server:$jettyVersion") {
         exclude(module = "slf4j-api")
     }
 

@@ -6,7 +6,7 @@ apply(from = "../gradle/testng.gradle")
 
 dependencies {
     "compile"(project(":hexagon_core"))
-    "compile"("org.asynchttpclient:async-http-client:${properties.get("ahcVersion")}"){
+    "compile"("org.asynchttpclient:async-http-client:${properties["ahcVersion"]}") {
         exclude(module = "slf4j-api")
     }
 
