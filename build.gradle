@@ -120,10 +120,11 @@ private List<String> filesCollection(final Object dir, final String pattern) {
 private void addMetadata(final String siteContentPath, final Project project) {
     String projectDirName = project.projectDir.name
     filesCollection(siteContentPath, "**/${projectDirName}/**/*.md").each {
-        File md = new File(it)
+        String path = it as String
+        File md = new File(path)
         File tempFile = File.createTempFile("temp", md.name)
         tempFile.withWriter { writer ->
-            writer.writeLine toEditUrl(it, siteContentPath, projectDirName)
+            writer.writeLine toEditUrl(path, siteContentPath, projectDirName)
             md.withInputStream { stream ->
                 stream.eachLine { line ->
                     writer.writeLine line
@@ -134,11 +135,11 @@ private void addMetadata(final String siteContentPath, final Project project) {
     }
 }
 
-private String toEditUrl(
+private static String toEditUrl(
     final String mdPath, final String siteContentPath, final String projectDirName) {
 
     final String prefix = "edit_url: edit/master/${projectDirName}"
-    final String withoutContentPath = mdPath.minus("${siteContentPath}/${projectDirName}/")
+    final String withoutContentPath = mdPath - "${siteContentPath}/${projectDirName}/"
     final String[] parts = withoutContentPath.split(File.separator)
 
     String editUrl = ""
@@ -168,6 +169,6 @@ private String toEditUrl(
     return editUrl
 }
 
-private String toClassName(final String mdClassName) {
+private static String toClassName(final String mdClassName) {
     mdClassName.replaceAll("\\-[a-z][a-z]*", { it -> it[1].toUpperCase() + it.substring(2) })
 }
