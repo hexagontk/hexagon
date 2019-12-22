@@ -15,15 +15,14 @@ import org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS
 import org.eclipse.jetty.util.component.AbstractLifeCycle.AbstractLifeCycleListener
 import org.eclipse.jetty.util.component.LifeCycle
 import org.eclipse.jetty.util.ssl.SslContextFactory
+import java.io.InputStream
 import java.net.InetSocketAddress
+import java.net.URI
 import java.security.KeyStore
 import java.util.*
 import javax.servlet.DispatcherType
 import org.eclipse.jetty.server.Server as JettyServer
 
-/**
- * TODO .
- */
 class JettyServletAdapter : ServerPort {
     private var jettyServer: JettyServer? = null
 
@@ -49,8 +48,6 @@ class JettyServletAdapter : ServerPort {
 
         if (settings.sslSettings != null) {
             val serverConnector = setupSsl(settings, serverInstance)
-            if (settings.protocol == HTTP2) {}
-
             serverConnector.port = settings.bindPort
             serverInstance.connectors = arrayOf(serverConnector)
         }
@@ -72,18 +69,25 @@ class JettyServletAdapter : ServerPort {
 
         val sslContextFactory = SslContextFactory.Server()
         val sslSettings = settings.sslSettings ?: error
-        val keyStorePassword = sslSettings.keyStorePassword ?: error()
-        val trustStorePassword = sslSettings.trustStorePassword ?: error()
+        sslContextFactory.needClientAuth = sslSettings.clientAuth
 
-        sslContextFactory.keyStore = KeyStore.getInstance("pkcs12")
-        sslContextFactory.keyStore.load(Resource("ssl/hexagonkt_store.p12").requireStream(),
-            keyStorePassword.toCharArray())
-        sslContextFactory.setKeyStorePassword(keyStorePassword)
+        val keyStore = sslSettings.keyStore
+        if (keyStore != null) {
+            val keyStorePassword = keyStore.authority ?: ""
+            val keyStoreStream = uriStream(keyStore)
+            sslContextFactory.keyStore = KeyStore.getInstance("pkcs12")
+            sslContextFactory.keyStore.load(keyStoreStream, keyStorePassword.toCharArray())
+            sslContextFactory.setKeyStorePassword(keyStorePassword)
+        }
 
-        sslContextFactory.trustStore = KeyStore.getInstance("pkcs12")
-        sslContextFactory.trustStore.load(Resource("ssl/trust_store.p12").requireStream(),
-            trustStorePassword.toCharArray())
-        sslContextFactory.setTrustStorePassword(trustStorePassword)
+        val trustStore = sslSettings.trustStore
+        if (trustStore != null) {
+            val trustStorePassword = trustStore.authority ?: ""
+            val trustStoreStream = uriStream(trustStore)
+            sslContextFactory.trustStore = KeyStore.getInstance("pkcs12")
+            sslContextFactory.trustStore.load(trustStoreStream, trustStorePassword.toCharArray())
+            sslContextFactory.setTrustStorePassword(trustStorePassword)
+        }
 
         return if (settings.protocol != HTTP2)
             ServerConnector(
@@ -102,4 +106,10 @@ class JettyServletAdapter : ServerPort {
             )
         }
     }
+
+    private fun uriStream(uri: URI): InputStream =
+        if (uri.scheme == "resource")
+            Resource(uri.path.removePrefix("/")).requireStream()
+        else
+            uri.toURL().openStream() ?: error
 }
