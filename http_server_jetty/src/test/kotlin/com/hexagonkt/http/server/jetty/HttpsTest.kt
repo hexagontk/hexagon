@@ -23,7 +23,7 @@ import java.net.URI
         val identity = "hexagonkt_store.p12"
         val trust = "trust_store.p12"
         val settings = ServerSettings(
-//            protocol = Protocol.HTTP2,
+            protocol = Protocol.HTTP2,
             sslSettings = SslSettings(
                 keyStore = URI("resource://${identity.reversed()}/ssl/$identity"),
                 trustStore = URI("resource://${trust.reversed()}/ssl/$trust")
