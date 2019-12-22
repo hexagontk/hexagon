@@ -4,8 +4,8 @@ import java.net.URI
 
 data class SslSettings(
     val keyStore: URI? = null,
-    val keyStorePassword: String = "",
+    val keyStorePassword: String? = null,
     val trustStore: URI? = null,
-    val trustStorePassword: String = "",
+    val trustStorePassword: String? = null,
     val clientAuth: Boolean = false
 )
