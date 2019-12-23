@@ -54,7 +54,7 @@ script:
   - ./gradlew --quiet clean installDist -x test
   - docker-compose --log-level WARNING
       -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
-  - ./gradlew test --debug
+  - ./gradlew test
 #  - ./gradlew --quiet all
 #  - ./gradlew --quiet dokkaMd checkSite
 #  - ./gradlew --quiet --no-daemon -x test sonarqube
