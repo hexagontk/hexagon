@@ -9,6 +9,8 @@ import com.hexagonkt.helpers.Jvm.name
 import com.hexagonkt.helpers.Jvm.version
 import com.hexagonkt.helpers.Jvm.locale
 import com.hexagonkt.helpers.Jvm.timezone
+import com.hexagonkt.http.Protocol.HTTP2
+import com.hexagonkt.http.Protocol.HTTPS
 import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.settings.SettingsManager
@@ -87,7 +89,10 @@ data class Server(
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
-        val hostName = if (settings.bindAddress.isAnyLocalAddress) ip else settings.bindAddress.canonicalHostName
+        val bindAddress = settings.bindAddress
+        val protocol = settings.protocol
+        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
+        val scheme = if (protocol == HTTPS) "https" else "http"
 
         val information = """
             SERVICE:     ${settings.serverName}
@@ -98,7 +103,7 @@ data class Server(
             Locale $locale Timezone $timezone Charset $charset
 
             Started in $bootTime s using $usedMemory KB
-            Served at http://$hostName:$runtimePort
+            Served at $scheme://$hostName:$runtimePort${if (protocol == HTTP2) " (HTTP/2)" else ""}
         """
 
         // TODO Load banner from ${serverName}.txt

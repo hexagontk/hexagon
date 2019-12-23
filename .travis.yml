@@ -54,7 +54,7 @@ script:
   - ./gradlew --quiet clean installDist -x test
   - docker-compose --log-level WARNING
       -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
-  - ./gradlew test
+  - ./gradlew http_server_jetty:test
 #  - ./gradlew --quiet all
 #  - ./gradlew --quiet dokkaMd checkSite
 #  - ./gradlew --quiet --no-daemon -x test sonarqube
@@ -62,7 +62,9 @@ script:
 #      squidfunk/mkdocs-material:4.6.0 build
 
 after_success: bash <(curl -s https://codecov.io/bash)
-after_failure: echo 'Look for FAILURE in tests logs to find out failing tests'
+after_failure:
+  - echo 'Look for FAILURE in tests logs to find out failing tests'
+  - cat build/test-results/test/TEST-com.hexagonkt.http.server.jetty.HttpsTest.xml
 
 deploy:
 
