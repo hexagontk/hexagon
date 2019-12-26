@@ -7,18 +7,19 @@
 
 set -e
 
-./gradlew --quiet clean installDist -x test
+alias gw='./gradlew --quiet'
+alias dc='docker-compose --log-level warning'
+alias d='docker --log-level warning'
 
-docker-compose --log-level WARNING -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml \
-  rm -sf
-docker-compose --log-level WARNING -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml \
-  up -d
+gw clean installDist -x test
 
-./gradlew --quiet all
-./gradlew --quiet dokkaMd checkSite
+dc -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml rm -sf
+dc -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
+
+gw all
+gw dokkaMd checkSite
 
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
-docker --log-level warn run --rm -v "$PWD/hexagon_site:/docs" -u "$user" \
-  "squidfunk/mkdocs-material:4.6.0" build
-docker --log-level warn volume prune -f
+d run --rm -v "$PWD/hexagon_site:/docs" -u "$user" "squidfunk/mkdocs-material:4.6.0" build
+d volume prune -f

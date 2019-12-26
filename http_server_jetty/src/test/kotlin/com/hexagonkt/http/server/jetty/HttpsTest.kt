@@ -24,7 +24,7 @@ import java.net.URI
         val trust = "trust_store.p12"
         val settings = ServerSettings(
             bindPort = 0,
-//            protocol = Protocol.HTTP2,
+            protocol = Protocol.HTTP2,
             sslSettings = SslSettings(
                 keyStore = URI("resource://${identity.reversed()}/ssl/$identity"),
                 trustStore = URI("resource://${trust.reversed()}/ssl/$trust")
