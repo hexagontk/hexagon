@@ -1,15 +1,14 @@
 ---
-name: Feature
-about: Improvement.
-title: Feature
-labels: ''
-assignees: ''
+name: Enhancement
+about: New feature or improvement.
+title: Enhancement
+labels: enhancement
 ---
 
 <!--
 
 Detailed description.
-    
+
 Acceptance criteria. A list of requirements with the following format:
 
 * When *action* then *result*

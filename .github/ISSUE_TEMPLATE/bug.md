@@ -1,9 +1,8 @@
 ---
 name: Bug
-about: Software problem.
+about: Software defect.
 title: Bug
-labels: ''
-assignees: ''
+labels: bug
 ---
 
 <!--

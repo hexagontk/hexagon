@@ -5,10 +5,10 @@ apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/testng.gradle")
 
 dependencies {
-    "compile"(project(":hexagon_core"))
-    "compile"("org.asynchttpclient:async-http-client:${properties["ahcVersion"]}") {
+    "api"(project(":hexagon_core"))
+    "api"("org.asynchttpclient:async-http-client:${properties["ahcVersion"]}") {
         exclude(module = "slf4j-api")
     }
 
-    "testCompile"(project(":http_server_jetty"))
+    "testImplementation"(project(":http_server_jetty"))
 }

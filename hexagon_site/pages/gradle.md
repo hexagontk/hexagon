@@ -238,7 +238,7 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 [sonarcloud]: https://sonarcloud.io
 
-## SSL
+## Certificates
 
 Creates three different key stores for development purposes. **IMPORTANT** these key stores must not
 be used for production environments. The created key stores are:
@@ -257,6 +257,7 @@ The defined tasks are:
 
 * createCa: creates `ca.p12` and import its public certificate inside `trust_store.p12`.
 * createIdentity: creates the `<domain>_store.p12` store for a service https configuration.
+* createClient: creates the `<domain>_client_store.p12` store for a service https configuration.
 
 To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
 
