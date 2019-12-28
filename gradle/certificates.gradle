@@ -3,29 +3,22 @@ final String CA_FILE = "ca.p12"
 final String CA_ALIAS = "ca"
 final String TRUST_FILE = "trust_store.p12"
 
+final String sslValidity = findProperty("sslValidity") ?: 365.toString()
+final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")
+final String sslOrganization = findProperty("sslOrganization")
+
 task("createCa") {
     doLast {
         if (file(sslPath(CA_FILE)).exists())
             return
 
-        final String sslValidity = findProperty("sslValidity") ?: 365.toString()
-        final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")
-        final String sslOrganization = findProperty("sslOrganization")
-
-        final String caPem = sslPath("ca.pem")
-
         // Create CA (root) key pair
-        keytool("-genkeypair", CA_FILE, CA_ALIAS,
-            "-validity", sslValidity,
-            "-ext", "bc:ca:true",
-            "-keyalg", "RSA",
-            "-dname", "CN=${sslOrganization} TEST Root CA,O=${sslOrganization},C=${sslCountry}"
-        )
-
-        // Export CA certificate (PEM)
-        keytool("-exportcert", CA_FILE, CA_ALIAS, "-rfc", "-file", caPem)
+        final String commonName = "$sslOrganization TEST Root CA"
+        createKeyPair(CA_FILE, CA_ALIAS, sslValidity, commonName, sslOrganization, sslCountry)
 
         // Create trust store with CA certificate (PEM)
+        final String caPem = sslPath("ca.pem")
+        keytool("-exportcert", CA_FILE, CA_ALIAS, "-rfc", "-file", caPem)
         keytool("-importcert", TRUST_FILE, CA_ALIAS, "-file", caPem, "-noprompt")
 
         // Clean up
@@ -35,49 +28,31 @@ task("createCa") {
 
 task("createIdentity", dependsOn: "createCa") {
     doLast {
-        final String sslValidity = findProperty("sslValidity") ?: 365.toString()
-        final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")
-        final String sslOrganization = findProperty("sslOrganization")
         final String sslDomain = findProperty("sslDomain").toString().trim()
         final String sslSubdomains = findProperty("sslSubdomains")?.toString()?.trim()
-
-        final String caPem = sslPath("ca.pem")
-        final String identityCsr = sslPath("identity.csr")
-        final String identityPem = sslPath("identity.pem")
-        final String identityChainPem = sslPath("identity_chain.pem")
 
         final int dotIndex = sslDomain.lastIndexOf('.')
         final String domain = sslDomain.substring(0, dotIndex)
         final String tld = sslDomain.substring(dotIndex + 1)
         final List<String> sslSubdomainsList = sslSubdomains?.split(",")?.toList() ?: []
-        final String storeFile = domain.replace(".", "_") + "_store.p12"
+        final String storeFile = domain.replace(".", "_") + ".p12"
 
         if (file(sslPath(storeFile)).exists())
             return
 
-        final List<String> subdomains = sslSubdomainsList
-            .collect { it.trim() }
-            .collect { subdomain ->
-                [ "test", tld ].collect { "${subdomain}.${domain}.${it}" }
-            }
-            .flatten()
-            .collect { it as String }
+        // Create key pairs
+        createKeyPair(storeFile, domain, sslValidity, sslDomain, sslOrganization, sslCountry)
 
-        final List<String> allSubdomains = subdomains + [ "${domain}.test", "localhost" ]
-        final List<String> fullSubdomains = allSubdomains.collect { "dns:${it}".toString() }
-        final String san = fullSubdomains.join(",")
+        // Export CA certificate
+        final String caPem = sslPath("ca.pem")
+        keytool("-exportcert", CA_FILE, CA_ALIAS, "-rfc", "-file", caPem)
 
-        // Create server key pair
-        keytool("-genkeypair", storeFile, domain,
-            "-validity", sslValidity,
-            "-keyalg", "RSA",
-            "-dname", "CN=${sslDomain},O=${sslOrganization},C=${sslCountry}"
-        )
-
-        // Server certificate signing request
+        // Generate chained server certificate (PEM)
+        final String identityCsr = sslPath("identity.csr")
+        final String identityPem = sslPath("identity.pem")
+        final String identityChainPem = sslPath("identity_chain.pem")
+        final String san = createSan(domain, tld, sslSubdomainsList)
         keytool("-certreq", storeFile, domain, "-ext", "san=${san}", "-file", identityCsr)
-
-        // Server certificate sign
         keytool("-gencert", CA_FILE, CA_ALIAS,
             "-validity", sslValidity,
             "-ext", "san=${san}",
@@ -85,17 +60,30 @@ task("createIdentity", dependsOn: "createCa") {
             "-infile", identityCsr,
             "-outfile", identityPem
         )
-
-        // Export CA certificate (PEM)
-        keytool("-exportcert", CA_FILE, CA_ALIAS, "-rfc", "-file", caPem)
         concatenate(identityChainPem, caPem, identityPem)
 
-        // Replace server certificate
+        // Replace server certificate with chained PEM
         keytool("-importcert", storeFile, domain, "-file", identityChainPem, "-noprompt")
 
         // Clean up
         delete(identityCsr, caPem, identityPem, identityChainPem)
     }
+}
+
+private void createKeyPair(
+    final String file,
+    final String alias,
+    final String validity,
+    final String commonName,
+    final String organization,
+    final String country) {
+
+    keytool("-genkeypair", file, alias,
+        "-validity", validity,
+        "-ext", "bc:ca:true",
+        "-keyalg", "RSA",
+        "-dname", "CN=$commonName,O=$organization,C=$country"
+    )
 }
 
 private void concatenate(final String output, final String... files) {
@@ -119,17 +107,34 @@ private void keytool(
     final String alias,
     final Object... others) {
 
-    final String sslPassword = findProperty("sslPassword") ?: keystore.reverse()
+    final String sslPassword = findProperty("sslPassword")
+    final String storePassword = sslPassword ?: keystore.reverse()
     final String keystorePath = sslPath(keystore)
 
     final List<String> commandList = [
         "keytool", command,
         "-keystore", keystorePath,
         "-storetype", "pkcs12",
-        "-storepass", sslPassword,
+        "-storepass", storePassword,
         "-alias", alias
     ]
 
     final List<Object> fullCommand = commandList + others.toList()
     project.exec { commandLine(fullCommand) }
+}
+
+private static String createSan(
+    final String domain, final String tld, final List<String> subdomains) {
+
+    final List<String> testSubdomains = subdomains
+        .collect { it.trim() }
+        .collect { subdomain ->
+            [ "test", tld ].collect { "${subdomain}.${domain}.${it}" }
+        }
+        .flatten()
+        .collect { it as String }
+
+    final List<String> allSubdomains = testSubdomains + [ "${domain}.test", "localhost" ]
+    final List<String> fullSubdomains = allSubdomains.collect { "dns:${it}".toString() }
+    return fullSubdomains.join(",")
 }

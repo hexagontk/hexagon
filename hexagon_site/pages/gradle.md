@@ -248,7 +248,7 @@ be used for production environments. The created key stores are:
 * `trust_store.p12`: key store with CA's public certificate. It can be set as the Java process trust
   store which make that every certificate signed with the CA will be trusted. However, if used as
   the trust store, the JDK `cacerts` entries won't be loaded and thus, not trusted.
-* `<domain>_store.p12`: this store is signed by the CA and it contains the service private key and
+* `<domain>.p12`: this store is signed by the CA and it contains the service private key and
   its full chain certificate, the certificate its root certificate (CA). `<domain>` will be the
   domain name without the TLD, and the Subject alternative names will include `<domain>.test`
   ([TLD for local environments]) and `localhost`.
@@ -256,8 +256,7 @@ be used for production environments. The created key stores are:
 The defined tasks are:
 
 * createCa: creates `ca.p12` and import its public certificate inside `trust_store.p12`.
-* createIdentity: creates the `<domain>_store.p12` store for a service https configuration.
-* createClient: creates the `<domain>_client_store.p12` store for a service https configuration.
+* createIdentity: creates the `<domain>.p12` store for a service https configuration.
 
 To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
 
@@ -269,8 +268,8 @@ To setup this script's parameters, check the [build variables section]. This hel
 * sslPassword: password used for the generated key stores. By default it is the file name reversed.
 * sslValidity: validity period (in days) for certificates. If not provided, it will be 365.
 * sslCountry: country used in the certificates. By default it is the current locale's country code.
-* sslSubdomains: subdomains to be added to `<domain>_store.p12` (aside of `<domain>.test` and
-  `localhost` which are always added). By default, no extra domains are added to the key store.
+* sslSubdomains: subdomains to be added to `<domain>.p12` (aside of `<domain>.test` and `localhost`
+  which are always added). By default, no extra domains are added to the key store.
 
 [TLD for local environments]: https://tools.ietf.org/html/rfc2606
 

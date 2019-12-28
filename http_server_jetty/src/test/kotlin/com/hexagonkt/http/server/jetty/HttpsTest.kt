@@ -20,7 +20,7 @@ import java.net.URI
         System.setProperty("javax.net.ssl.trustStorePassword", "21p.ac")
         InjectionManager.bindObject<ServerPort>(JettyServletAdapter())
 
-        val identity = "hexagonkt_store.p12"
+        val identity = "hexagonkt.p12"
         val trust = "trust_store.p12"
         val settings = ServerSettings(
             bindPort = 0,
