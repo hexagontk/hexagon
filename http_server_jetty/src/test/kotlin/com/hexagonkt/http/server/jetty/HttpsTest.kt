@@ -21,7 +21,7 @@ import java.net.URI
         InjectionManager.bindObject<ServerPort>(JettyServletAdapter())
 
         val identity = "hexagonkt.p12"
-        val trust = "trust_store.p12"
+        val trust = "trust.p12"
         val settings = ServerSettings(
             bindPort = 0,
             protocol = Protocol.HTTP2,

@@ -1,7 +1,7 @@
 
 final String CA_FILE = "ca.p12"
 final String CA_ALIAS = "ca"
-final String TRUST_FILE = "trust_store.p12"
+final String TRUST_FILE = "trust.p12"
 
 final String sslValidity = findProperty("sslValidity") ?: 365.toString()
 final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")

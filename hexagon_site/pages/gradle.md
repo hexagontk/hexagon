@@ -245,9 +245,9 @@ be used for production environments. The created key stores are:
 
 * `ca.p12`: self signed certificate authority (CA). This store holds the CA private key. This store
   must be private and will be used to sign other certificates. The key pair alias is `ca`.
-* `trust_store.p12`: key store with CA's public certificate. It can be set as the Java process trust
-  store which make that every certificate signed with the CA will be trusted. However, if used as
-  the trust store, the JDK `cacerts` entries won't be loaded and thus, not trusted.
+* `trust.p12`: key store with CA's public certificate. It can be set as the Java process trust store
+  which make that every certificate signed with the CA will be trusted. However, if used as the
+  trust store, the JDK `cacerts` entries won't be loaded and thus, not trusted.
 * `<domain>.p12`: this store is signed by the CA and it contains the service private key and
   its full chain certificate, the certificate its root certificate (CA). `<domain>` will be the
   domain name without the TLD, and the Subject alternative names will include `<domain>.test`
@@ -255,7 +255,7 @@ be used for production environments. The created key stores are:
 
 The defined tasks are:
 
-* createCa: creates `ca.p12` and import its public certificate inside `trust_store.p12`.
+* createCa: creates `ca.p12` and import its public certificate inside `trust.p12`.
 * createIdentity: creates the `<domain>.p12` store for a service https configuration.
 
 To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
