@@ -1,13 +1,14 @@
 package com.hexagonkt.http.client
 
+import com.hexagonkt.helpers.Resource
+import com.hexagonkt.helpers.ensureSize
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Method.*
-import com.hexagonkt.serialization.SerializationFormat
 import io.netty.handler.codec.http.cookie.Cookie
+import io.netty.handler.ssl.SslContext
 import io.netty.handler.ssl.SslContextBuilder
-import io.netty.handler.ssl.util.FingerprintTrustManagerFactory
 import org.asynchttpclient.BoundRequestBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
 import org.asynchttpclient.DefaultAsyncHttpClient
@@ -15,8 +16,14 @@ import org.asynchttpclient.DefaultAsyncHttpClientConfig.Builder
 import org.asynchttpclient.Response
 import org.asynchttpclient.request.body.multipart.Part
 import java.io.File
+import java.io.InputStream
+import java.net.URI
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
+import java.security.KeyStore
+import java.security.KeyStore.PasswordProtection
+import java.security.KeyStore.PrivateKeyEntry
+import java.security.cert.X509Certificate
 import java.util.*
 import java.util.Base64.Encoder
 import kotlin.collections.LinkedHashMap
@@ -24,46 +31,76 @@ import kotlin.collections.LinkedHashMap
 /**
  * Client to use other REST services.
  */
-class Client(
-    val endpoint: String = "",
-    val contentType: String? = null,
-    val useCookies: Boolean = true,
-    val headers: Map<String, List<String>> = LinkedHashMap(),
-    user: String? = null,
-    password: String? = null,
-    insecure: Boolean = false,
-    vararg fingerprints: String) {
-
-    constructor(
-        endpoint: String = "",
-        format: SerializationFormat,
-        useCookies: Boolean = true,
-        headers: Map<String, List<String>> = LinkedHashMap(),
-        user: String? = null,
-        password: String? = null,
-        insecure: Boolean = false):
-            this(endpoint, format.contentType, useCookies, headers, user, password, insecure)
+class Client(val endpoint: String = "", val settings: ClientSettings = ClientSettings()) {
 
     private val base64encoder: Encoder = Base64.getEncoder()
 
     private val authorization: String? =
-        if (user != null) base64encoder.encodeToString("$user:$password".toByteArray(UTF_8))
-        else null
+        if (settings.user != null)
+            base64encoder.encodeToString("${settings.user}:${settings.password}".toByteArray(UTF_8))
+        else
+            null
 
     private val client = DefaultAsyncHttpClient(Builder()
         .setConnectTimeout(5000)
-        .setSslContext(
-            when {
-                insecure -> SslContextBuilder.forClient().trustManager(InsecureTrustManager).build()
-                fingerprints.isNotEmpty() -> SslContextBuilder
-                    .forClient()
-                    .trustManager(FingerprintTrustManagerFactory(*fingerprints))
-                    .build()
-                else -> SslContextBuilder.forClient().build()
-            }
-        )
+        .setSslContext(sslContext())
         .build()
     )
+
+    private fun sslContext(): SslContext = SslContextBuilder.forClient().let {
+        when {
+            settings.insecure -> it.trustManager(InsecureTrustManager).build()
+
+            settings.sslSettings != null -> {
+                val sslSettings = settings.sslSettings
+                val keyStore = sslSettings.keyStore
+                val trustStore = sslSettings.trustStore
+
+                var sslContextBuilder = it
+
+                if (keyStore != null) {
+                    val store = keyStore(keyStore)
+                    val password = keyStore.authority ?: ""
+                    val passwordProtection = PasswordProtection(password.toCharArray())
+                    val key = store
+                        .aliases()
+                        .toList()
+                        .filter { alias -> store.isKeyEntry(alias) }
+                        .mapNotNull { alias ->
+                            store.getEntry(alias, passwordProtection) as? PrivateKeyEntry
+                        }
+                        .ensureSize(1..1)
+                        .first()
+
+                    // TODO Set the whole certificates chain (and get them from the server)
+                    sslContextBuilder = sslContextBuilder
+                        .keyManager(key.privateKey, key.certificate as? X509Certificate)
+                }
+
+                if (trustStore != null) {
+                    val store = keyStore(trustStore)
+                    val certs = store
+                        .aliases()
+                        .toList()
+                        .mapNotNull { alias -> store.getCertificate(alias) as? X509Certificate }
+                        .toTypedArray()
+
+                    sslContextBuilder = sslContextBuilder.trustManager(*certs)
+                }
+
+                sslContextBuilder.build()
+            }
+
+            else -> it.build()
+        }
+    }
+
+    private fun keyStore(uri: URI): KeyStore {
+        val keyStore = KeyStore.getInstance("pkcs12")
+        val password = uri.authority ?: ""
+        keyStore.load(uriStream(uri), password.toCharArray())
+        return keyStore
+    }
 
     val cookies: MutableMap<String, Cookie> = mutableMapOf()
 
@@ -74,7 +111,7 @@ class Client(
         method: Method,
         url: String = "",
         body: Any? = null,
-        contentType: String? = this.contentType,
+        contentType: String? = settings.contentType,
         callHeaders: Map<String, List<String>> = LinkedHashMap(),
         parts: List<Part> = emptyList()): Response {
 
@@ -84,14 +121,14 @@ class Client(
         if (bodyValue != null)
             request.setBody(bodyValue)
 
-        (headers + callHeaders).forEach { request.addHeader(it.key, it.value) }
+        (settings.headers + callHeaders).forEach { request.addHeader(it.key, it.value) }
 
-        if (useCookies)
+        if (settings.useCookies)
             cookies.forEach { request.addCookie(it.value) }
 
         val response = request.execute().get()
 
-        if (useCookies) {
+        if (settings.useCookies) {
             response.cookies.forEach {
                 if (it.value() == "")
                     cookies.remove(it.name())
@@ -107,7 +144,7 @@ class Client(
         when (body) {
             null -> null
             is File -> Base64.getEncoder().encodeToString(body.readBytes())
-            is String -> body.toString() // TODO Add test!!!
+            is String -> body.toString()
             else ->
                 if (contentType == null) body.toString()
                 else body.serialize(formatOf(contentType))
@@ -128,35 +165,35 @@ class Client(
     fun post(
         url: String,
         body: Any? = null,
-        contentType: String? = this.contentType,
+        contentType: String? = settings.contentType,
         callback: Response.() -> Unit = {}): Response =
             send(POST, url, body, contentType).apply(callback)
 
     fun put(
         url: String,
         body: Any? = null,
-        contentType: String? = this.contentType,
+        contentType: String? = settings.contentType,
         callback: Response.() -> Unit = {}): Response =
             send(PUT, url, body, contentType).apply(callback)
 
     fun delete(
         url: String,
         body: Any? = null,
-        contentType: String? = this.contentType,
+        contentType: String? = settings.contentType,
         callback: Response.() -> Unit = {}): Response =
             send(DELETE, url, body, contentType).apply(callback)
 
     fun trace(
         url: String,
         body: Any? = null,
-        contentType: String? = this.contentType,
+        contentType: String? = settings.contentType,
         callback: Response.() -> Unit = {}): Response =
             send(TRACE, url, body, contentType).apply(callback)
 
     fun options(
         url: String,
         body: Any? = null,
-        contentType: String? = this.contentType,
+        contentType: String? = settings.contentType,
         callHeaders: Map<String, List<String>> = emptyMap(),
         callback: Response.() -> Unit = {}): Response =
             send(OPTIONS, url, body, contentType, callHeaders).apply(callback)
@@ -164,7 +201,7 @@ class Client(
     fun patch(
         url: String,
         body: Any? = null,
-        contentType: String? = this.contentType,
+        contentType: String? = settings.contentType,
         callback: Response.() -> Unit = {}): Response =
             send(PATCH, url, body, contentType).apply(callback)
 
@@ -198,4 +235,10 @@ class Client(
 
         return request
     }
+
+    private fun uriStream(uri: URI): InputStream =
+        if (uri.scheme == "resource")
+            Resource(uri.path.removePrefix("/")).requireStream()
+        else
+            uri.toURL().openStream() ?: com.hexagonkt.helpers.error
 }

@@ -2,6 +2,7 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.Protocol
 import com.hexagonkt.http.Protocol.HTTP
+import com.hexagonkt.http.SslSettings
 import java.net.InetAddress
 
 data class ServerSettings(

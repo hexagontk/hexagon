@@ -10,7 +10,7 @@ import com.hexagonkt.helpers.Jvm.version
 import com.hexagonkt.helpers.Jvm.locale
 import com.hexagonkt.helpers.Jvm.timezone
 import com.hexagonkt.http.Protocol.HTTP2
-import com.hexagonkt.http.Protocol.HTTPS
+import com.hexagonkt.http.Protocol.HTTP
 import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.settings.SettingsManager
@@ -92,7 +92,7 @@ data class Server(
         val bindAddress = settings.bindAddress
         val protocol = settings.protocol
         val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
-        val scheme = if (protocol == HTTPS) "https" else "http"
+        val scheme = if (protocol == HTTP) "http" else "https"
 
         val information = """
             SERVICE:     ${settings.serverName}

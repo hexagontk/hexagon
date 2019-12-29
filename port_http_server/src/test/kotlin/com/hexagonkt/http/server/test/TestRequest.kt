@@ -3,6 +3,7 @@ package com.hexagonkt.http.server.test
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.server.Part
 import java.net.HttpCookie
+import java.security.cert.X509Certificate
 
 data class TestRequest(
     val method: Method = Method.GET,
@@ -18,6 +19,7 @@ data class TestRequest(
     val parameters: Map<String, List<String>> = emptyMap(),
     val queryParameters: Map<String, List<String>> = emptyMap(),
     val formParameters: Map<String, List<String>> = emptyMap(),
+    val certificate: X509Certificate? = null,
     val body: String = "",
     val headers: Map<String, List<String>> = emptyMap(),
     val cookies: Map<String, HttpCookie> = emptyMap(),

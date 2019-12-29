@@ -7,6 +7,7 @@ import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.http.server.Request
 import java.io.InputStreamReader
 import java.net.HttpCookie
+import java.security.cert.X509Certificate
 import javax.servlet.http.HttpServletRequest
 
 internal class Request(private val req: HttpServletRequest) : Request() {
@@ -33,6 +34,10 @@ internal class Request(private val req: HttpServletRequest) : Request() {
         parseQueryParameters(queryString)
     override fun formParameters(): Map<String, List<String>> =
         parameters.filter { it.key !in queryParameters.keys }
+    @Suppress("UNCHECKED_CAST")
+    override fun certificate(): X509Certificate? =
+        (req.getAttribute("javax.servlet.request.X509Certificate") as? Array<X509Certificate>)
+            ?.first()
 
     override fun headers(): Map<String, List<String>> =
         req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()

@@ -33,7 +33,7 @@ class ClientTest {
     }
 
     private val client by lazy {
-        Client("http://localhost:${server.runtimePort}", Json)
+        Client("http://localhost:${server.runtimePort}", ClientSettings(Json))
     }
 
     @BeforeClass
@@ -90,11 +90,12 @@ class ClientTest {
     fun `Parameters are set properly` () {
         val endpoint = "http://localhost:${server.runtimePort}"
         val h = mapOf("header1" to listOf("val1", "val2"))
-        val c = Client(endpoint, Json.contentType, false, h, "user", "password", true)
+        val settings = ClientSettings(Json.contentType, false, h, "user", "password", true)
+        val c = Client(endpoint, settings)
 
-        assert(c.contentType == Json.contentType)
-        assert(!c.useCookies)
-        assert(c.headers == h)
+        assert(c.settings.contentType == Json.contentType)
+        assert(!c.settings.useCookies)
+        assert(c.settings.headers == h)
 
         handler = {
             response.headers["auth"] = listOf(request.headers.require("Authorization").first())
@@ -119,6 +120,18 @@ class ClientTest {
         val r = client.post("/file", file)
         assert(r.headers.get("file64").isNotEmpty())
         assert(r.statusCode == 200)
+    }
+
+    fun `Integers are sent properly` () {
+        var run = false
+
+        client.post("/string", 42) {
+            assert(headers.get("body").isNotEmpty())
+            assert(statusCode == 200)
+            run = true
+        }
+
+        assert(run)
     }
 
     fun `Strings are sent properly` () {

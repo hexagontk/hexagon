@@ -8,6 +8,7 @@ import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseObjects
 import java.net.HttpCookie
+import java.security.cert.X509Certificate
 import kotlin.reflect.KClass
 
 /**
@@ -32,6 +33,7 @@ abstract class Request {
     val queryParameters: Map<String, List<String>> by lazy { queryParameters() }
     val formParameters: Map<String, List<String>> by lazy { formParameters() }
     val pathParameters: Map<String, String> by lazy { pathParameters() }
+    val certificate: X509Certificate? by lazy { certificate() }
 
     val secure: Boolean by lazy { scheme == "https" }
     val accept: List<String> by lazy { headers["Accept"] ?: emptyList() }
@@ -65,6 +67,7 @@ abstract class Request {
     protected abstract fun parameters(): Map<String, List<String>> // ["p"] "p" query/form parameter
     protected abstract fun queryParameters(): Map<String, List<String>>
     protected abstract fun formParameters(): Map<String, List<String>>
+    protected abstract fun certificate(): X509Certificate?
 
     protected abstract fun loadBody(): String                    // request body sent by the client
     protected abstract fun headers(): Map<String, List<String>>  // ["H"] // value of "H" header
