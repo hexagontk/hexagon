@@ -14,6 +14,12 @@ typealias ErrorCodeCallback = Call.(CodedException) -> Unit
 
 fun serve(
     settings: ServerSettings = ServerSettings(),
+    router: Router,
+    port: ServerPort = InjectionManager.inject()): Server =
+        Server(port, router, settings).apply { start() }
+
+fun serve(
+    settings: ServerSettings = ServerSettings(),
     port: ServerPort = InjectionManager.inject(),
     block: Router.() -> Unit): Server =
         Server(port, Router(block), settings).apply { start() }
