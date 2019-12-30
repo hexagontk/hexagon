@@ -7,7 +7,7 @@ import java.net.Inet4Address
 
     @Test fun `'hostname' and 'ip' contains valid values` () {
         val ipv6Segment = "[0-9a-zA-Z]{0,4}"
-        val ipv6Regex = Regex("$ipv6Segment(\\:$ipv6Segment)*(%\\d+)?")
+        val ipv6Regex = Regex("$ipv6Segment(:$ipv6Segment)*(%\\d+)?")
         val ipv4Regex = Regex("\\d{1,3}(\\.\\d{1,3}){3}")
 
         assert(Jvm.ip.matches(ipv4Regex) || Jvm.ip.matches(ipv6Regex))

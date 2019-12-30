@@ -68,7 +68,7 @@ internal class Handler<T : Any, R : Any> internal constructor (
                     handleError(ex, replyTo, correlationId)
             }
             finally {
-                retry(Handler.RETRIES, Handler.DELAY) {
+                retry(RETRIES, DELAY) {
                     channel.basicAck(envelope.deliveryTag, false)
                 }
             }
