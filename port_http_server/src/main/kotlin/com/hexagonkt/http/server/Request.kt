@@ -1,6 +1,5 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.helpers.RequiredKeysMap
 import com.hexagonkt.http.Method
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
@@ -33,7 +32,7 @@ abstract class Request {
     val queryParameters: Map<String, List<String>> by lazy { queryParameters() }
     val formParameters: Map<String, List<String>> by lazy { formParameters() }
     val pathParameters: Map<String, String> by lazy { pathParameters() }
-    val certificate: X509Certificate? by lazy { certificate() }
+    val certificateChain: List<X509Certificate> by lazy { certificateChain() }
 
     val secure: Boolean by lazy { scheme == "https" }
     val accept: List<String> by lazy { headers["Accept"] ?: emptyList() }
@@ -41,6 +40,7 @@ abstract class Request {
     val userAgent: String? by lazy { headers["User-Agent"]?.firstOrNull() }
     val referer: String? by lazy { headers["Referer"]?.firstOrNull() }
     val origin: String? by lazy { headers["Origin"]?.firstOrNull() }
+    val certificate: X509Certificate? by lazy { certificateChain.firstOrNull() }
 
     val body: String by lazy { loadBody() }
     val headers: Map<String, List<String>> by lazy { headers() }
@@ -67,7 +67,7 @@ abstract class Request {
     protected abstract fun parameters(): Map<String, List<String>> // ["p"] "p" query/form parameter
     protected abstract fun queryParameters(): Map<String, List<String>>
     protected abstract fun formParameters(): Map<String, List<String>>
-    protected abstract fun certificate(): X509Certificate?
+    protected abstract fun certificateChain(): List<X509Certificate>
 
     protected abstract fun loadBody(): String                    // request body sent by the client
     protected abstract fun headers(): Map<String, List<String>>  // ["H"] // value of "H" header

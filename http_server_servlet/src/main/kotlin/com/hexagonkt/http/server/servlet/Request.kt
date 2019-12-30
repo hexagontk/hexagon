@@ -35,9 +35,9 @@ internal class Request(private val req: HttpServletRequest) : Request() {
     override fun formParameters(): Map<String, List<String>> =
         parameters.filter { it.key !in queryParameters.keys }
     @Suppress("UNCHECKED_CAST")
-    override fun certificate(): X509Certificate? =
+    override fun certificateChain(): List<X509Certificate> =
         (req.getAttribute("javax.servlet.request.X509Certificate") as? Array<X509Certificate>)
-            ?.first()
+            ?.toList() ?: emptyList()
 
     override fun headers(): Map<String, List<String>> =
         req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()

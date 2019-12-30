@@ -8,6 +8,7 @@ import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.client.ClientSettings
+import com.hexagonkt.http.server.Router
 import com.hexagonkt.http.server.serve
 import com.hexagonkt.injection.InjectionManager.bindObject
 import org.testng.annotations.Test
@@ -34,21 +35,26 @@ import java.net.URI
 
     private val clientSettings = ClientSettings(sslSettings = sslSettings)
 
+    private val router = Router {
+        get("/hello") {
+            val certChain = request.certificateChain
+            val cert = certChain.first()
+            response.setHeader("cert", request.certificateChain.first().subjectDN.name)
+            ok("Hello World!")
+        }
+    }
+
     init {
         bindObject<ServerPort>(JettyServletAdapter())
     }
 
     @Test fun `Serve HTTPS works properly`() {
 
-        val server = serve(serverSettings.copy(protocol = HTTPS)) {
-            get("/hello") {
-                response.setHeader("cert", request.certificate?.issuerDN?.name)
-                ok("Hello World!")
-            }
-        }
+        val server = serve(serverSettings.copy(protocol = HTTPS), router)
 
         Client("https://localhost:${server.runtimePort}", clientSettings).get("/hello") {
             logger.debug { responseBody }
+            assert(headers["cert"].startsWith("CN=hexagonkt.com"))
             assert(responseBody == "Hello World!")
         }
 
@@ -57,15 +63,11 @@ import java.net.URI
 
     @Test fun `Serve HTTP2 works properly`() {
 
-        val server = serve(serverSettings) {
-            get("/hello") {
-                response.setHeader("cert", request.certificate?.issuerDN?.name)
-                ok("Hello World!")
-            }
-        }
+        val server = serve(serverSettings, router)
 
         Client("https://localhost:${server.runtimePort}", clientSettings).get("/hello") {
             logger.debug { responseBody }
+            assert(headers["cert"].startsWith("CN=hexagonkt.com"))
             assert(responseBody == "Hello World!")
         }
 

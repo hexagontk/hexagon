@@ -72,9 +72,13 @@ class Client(val endpoint: String = "", val settings: ClientSettings = ClientSet
                         .ensureSize(1..1)
                         .first()
 
-                    // TODO Set the whole certificates chain (and get them from the server)
+                    val certificateChain = key.certificateChain
+                        .toList()
+                        .mapNotNull { certificate -> certificate as? X509Certificate }
+                        .toTypedArray()
+
                     sslContextBuilder = sslContextBuilder
-                        .keyManager(key.privateKey, key.certificate as? X509Certificate)
+                        .keyManager(key.privateKey, *certificateChain)
                 }
 
                 if (trustStore != null) {

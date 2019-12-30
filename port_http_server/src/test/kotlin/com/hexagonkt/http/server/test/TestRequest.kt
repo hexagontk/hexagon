@@ -19,7 +19,7 @@ data class TestRequest(
     val parameters: Map<String, List<String>> = emptyMap(),
     val queryParameters: Map<String, List<String>> = emptyMap(),
     val formParameters: Map<String, List<String>> = emptyMap(),
-    val certificate: X509Certificate? = null,
+    val certificateChain: List<X509Certificate> = emptyList(),
     val body: String = "",
     val headers: Map<String, List<String>> = emptyMap(),
     val cookies: Map<String, HttpCookie> = emptyMap(),

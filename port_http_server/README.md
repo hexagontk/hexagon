@@ -169,7 +169,7 @@ used inside exception-mappers. Check the following snippet for an example:
 You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
 code executed before or after one or more routes. They can read the request and read/modify the
 response.
- 
+
 All filters that match a route are executed in the order they are declared.
 
 Filters optionally take a pattern, causing them to be executed only if the request path matches
@@ -245,6 +245,19 @@ different routers. Check [CorsSettings] class for more details.
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt:cors
 
 [CorsSettings]: /port_http_server/com.hexagonkt.http.server/-cors-settings/
+
+### Mutual TLS
+
+* Server certificates set up
+* Client set up
+* Mutual TLS
+* Access request certificates
+* TODO Add protocol (I.e.: TLS 1.3)
+* TODO Add example
+
+### HTTP/2
+
+* Set up server
 
 ### Testing
 

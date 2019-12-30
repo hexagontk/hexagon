@@ -12,7 +12,7 @@ internal class MockRequest(private val testRequest: TestRequest): Request() {
     override fun contentType(): String? = testRequest.contentType
     override fun cookies(): Map<String, HttpCookie> = testRequest.cookies
     override fun formParameters(): Map<String, List<String>> = testRequest.formParameters
-    override fun certificate(): X509Certificate? = testRequest.certificate
+    override fun certificateChain(): List<X509Certificate> = testRequest.certificateChain
 
     override fun headers(): Map<String, List<String>> = testRequest.headers
     override fun host(): String = testRequest.host
