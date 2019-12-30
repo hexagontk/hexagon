@@ -3,7 +3,7 @@ package com.hexagonkt.store.hashmap
 import org.testng.annotations.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.*
+import kotlin.reflect.full.declaredMemberProperties
 
 class HashMapMapperTest {
     data class MappedClass (
@@ -25,9 +25,11 @@ class HashMapMapperTest {
 
     @Test fun `A mapper transform a data class to a map and back`() {
         val instance = MappedClass()
-        val mapper = HashMapMapper(MappedClass::class, MappedClass::oneString)
+        val mapper = HashMapMapper(MappedClass::class)
         val map = mapper.toStore(instance)
 
+        val fieldNames = instance::class.declaredMemberProperties.map { it.name }
+        assert(fieldNames.all { mapper.fields.containsKey(it) })
         assert(instance == mapper.fromStore(map))
         assert(LocalDate.MIN == mapper.fromStore("localDate", LocalDate.MIN))
         assert(LocalDateTime.MIN == mapper.fromStore("localDateTime", LocalDateTime.MIN))

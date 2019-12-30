@@ -13,7 +13,7 @@ class HashMapStore<T : Any, K : Any>(
     override val key: KProperty1<T, K>,
     override val name: String = type.java.simpleName,
     private val store: HashMap<K, Map<String, Any>> = hashMapOf(),
-    override val mapper: Mapper<T> = HashMapMapper(type, key)) : Store<T, K> {
+    override val mapper: Mapper<T> = HashMapMapper(type)) : Store<T, K> {
 
     override fun createIndex(unique: Boolean, fields: Map<String, IndexOrder>): String {
         throw UnsupportedOperationException("Cannot create index on HashMap")
