@@ -109,6 +109,7 @@ task("all", dependsOn:
     project.getTasksByName("installDist", true) +
     project.getTasksByName("installAllTemplates", true) +
     project.getTasksByName("publishToMavenLocal", true) +
+    project.getTasksByName("createCa", true) +
     project.getTasksByName("createIdentity", true) +
     project.getTasksByName("tfb", true)
 )
