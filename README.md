@@ -33,7 +33,8 @@
 <p align="center">
   <a href="https://hexagonkt.com/index.html">Home Site</a> |
   <a href="https://hexagonkt.com/quick_start/index.html">Quick Start</a> |
-  <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a>
+  <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a> |
+  <a href="https://hexagonkt.com/port_http_server/index.html">HTTP Server</a>
 </p>
 
 ---
@@ -78,7 +79,7 @@ There are three kind of client libraries:
 * The ones that provide a single functionality that does not depend on different implementations.
 * Modules that define a "Port": An interface to a feature that may have different implementations.
 * Adapter modules, which are Port implementations for a given tool.
-  
+
 Ports are independent from each other.
 
 Hexagon Core module provides convenience utilities. The main features it has are:
@@ -482,6 +483,55 @@ private fun Router.corsPath(path: String, settings: CorsSettings) {
     }
 }
 // cors
+```
+
+## HTTPS Example
+
+The snippet below shows how to set up your server to use HTTPS and HTTP/2. You can check the
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt).
+
+```kotlin
+// https
+// Key store files
+val identity = "hexagonkt.p12"
+val trust = "trust.p12"
+
+// Key stores can be set as URIs to classpath resources (password is file name reversed)
+val keyStore = URI("resource://${identity.reversed()}/ssl/$identity")
+val trustStore = URI("resource://${trust.reversed()}/ssl/$trust")
+
+val sslSettings = SslSettings(
+    keyStore = keyStore,
+    trustStore = trustStore,
+    clientAuth = true
+)
+
+val serverSettings = ServerSettings(
+    bindPort = 0,
+    protocol = HTTPS, // You can also use HTTP2
+    sslSettings = sslSettings
+)
+
+val server = serve(serverSettings, serverAdapter) {
+    get("/hello") {
+        // We can access the certificate used by the client from the request
+        val subjectDn = request.certificateChain.first().subjectDN.name
+        response.setHeader("cert", subjectDn)
+        ok("Hello World!")
+    }
+}
+
+// We'll use the same certificate for the client (in a real scenario it would be different)
+val clientSettings = ClientSettings(sslSettings = sslSettings)
+
+// Create a HTTP client and make a HTTPS request
+Client("https://localhost:${server.runtimePort}", clientSettings).get("/hello") {
+    logger.debug { responseBody }
+    // Assure the certificate received (and returned) by the server is correct
+    assert(headers["cert"].startsWith("CN=hexagonkt.com"))
+    assert(responseBody == "Hello World!")
+}
+// https
 ```
 
 ## Status
