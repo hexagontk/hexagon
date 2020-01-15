@@ -1,7 +1,7 @@
 
-final String CA_FILE = "ca.p12"
-final String CA_ALIAS = "ca"
-final String TRUST_FILE = "trust.p12"
+final String sslCaFile = findProperty("sslCaFile") ?: "ca.p12"
+final String sslCaAlias = findProperty("sslCaAlias") ?: "ca"
+final String sslTrustFile = findProperty("sslTrustFile") ?: "trust.p12"
 
 final String sslValidity = findProperty("sslValidity") ?: 365.toString()
 final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")
@@ -9,17 +9,17 @@ final String sslOrganization = findProperty("sslOrganization")
 
 task("createCa") {
     doLast {
-        if (file(sslPath(CA_FILE)).exists())
+        if (file(sslPath(sslCaFile)).exists())
             return
 
         // Create CA (root) key pair
         final String commonName = "$sslOrganization TEST Root CA"
-        createKeyPair(CA_FILE, CA_ALIAS, sslValidity, commonName, sslOrganization, sslCountry)
+        createKeyPair(sslCaFile, sslCaAlias, sslValidity, commonName, sslOrganization, sslCountry)
 
         // Create trust store with CA certificate (PEM)
         final String caPem = sslPath("ca.pem")
-        keytool("-exportcert", CA_FILE, CA_ALIAS, "-rfc", "-file", caPem)
-        keytool("-importcert", TRUST_FILE, CA_ALIAS, "-file", caPem, "-noprompt")
+        keytool("-exportcert", sslCaFile, sslCaAlias, "-rfc", "-file", caPem)
+        keytool("-importcert", sslTrustFile, sslCaAlias, "-file", caPem, "-noprompt")
 
         // Clean up
         delete(caPem)
@@ -45,7 +45,7 @@ task("createIdentity", dependsOn: "createCa") {
 
         // Export CA certificate
         final String caPem = sslPath("ca.pem")
-        keytool("-exportcert", CA_FILE, CA_ALIAS, "-rfc", "-file", caPem)
+        keytool("-exportcert", sslCaFile, sslCaAlias, "-rfc", "-file", caPem)
 
         // Generate chained server certificate (PEM)
         final String identityCsr = sslPath("identity.csr")
@@ -53,7 +53,7 @@ task("createIdentity", dependsOn: "createCa") {
         final String identityChainPem = sslPath("identity_chain.pem")
         final String san = createSan(domain, tld, sslSubdomainsList)
         keytool("-certreq", storeFile, domain, "-ext", "san=${san}", "-file", identityCsr)
-        keytool("-gencert", CA_FILE, CA_ALIAS,
+        keytool("-gencert", sslCaFile, sslCaAlias,
             "-validity", sslValidity,
             "-ext", "san=${san}",
             "-rfc",

@@ -241,7 +241,13 @@ To setup this script's parameters, check the [build variables section]. This hel
 ## Certificates
 
 Creates three different key stores for development purposes. **IMPORTANT** these key stores must not
-be used for production environments. The created key stores are:
+be used for production environments.
+
+These tasks can be used several times in a multi module project to generate a CA for the root
+project, and an identity for the modules that apply (bear in mind that some variables will have to
+be overwritten).
+
+The created key stores are:
 
 * `ca.p12`: self signed certificate authority (CA). This store holds the CA private key. This store
   must be private and will be used to sign other certificates. The key pair alias is `ca`.
@@ -264,6 +270,9 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 * sslDomain (REQUIRED): main domain for the identity store.
 * sslOrganization (REQUIRED): organization stated in created certificates.
+* sslCaFile = certificate authority key store file. By default: "ca.p12"
+* sslCaAlias = CA alias in the key store. If not provided, it will be "ca"
+* sslTrustFile = trust store file name, by default it is "trust.p12"
 * sslPath: path used to generate the key stores. By default it will be project's build directory.
 * sslPassword: password used for the generated key stores. By default it is the file name reversed.
 * sslValidity: validity period (in days) for certificates. If not provided, it will be 365.
