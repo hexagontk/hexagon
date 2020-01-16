@@ -503,7 +503,7 @@ val trustStore = URI("resource://${trust.reversed()}/ssl/$trust")
 val sslSettings = SslSettings(
     keyStore = keyStore,
     trustStore = trustStore,
-    clientAuth = true
+    clientAuth = true // Requires a valid certificate from the client (mutual TLS)
 )
 
 val serverSettings = ServerSettings(

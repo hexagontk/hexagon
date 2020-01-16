@@ -246,18 +246,33 @@ different routers. Check [CorsSettings] class for more details.
 
 [CorsSettings]: /port_http_server/com.hexagonkt.http.server/-cors-settings/
 
-### Mutual TLS
+### HTTPS
 
-* Server certificates set up
-* Client set up
-* Mutual TLS
-* Access request certificates
-* TODO Add protocol (I.e.: TLS 1.3)
-* TODO Add example
+It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
+certificate and its key in the server's [SslSettings].
 
-### HTTP/2
+The certificate common name should match the host that will serve the content in order to be
+accepted by an HTTP client without a security error. There is a [Gradle] helper to
+[create sample certificates] for development purposes.
 
-* Set up server
+HTTP clients can also be configured to use a certificate. This is required to implement a double
+ended authorization (mutual TLS). This is also done by passing a [SslSettings] object the the
+HTTP client.
+
+If you want to implement mutual trust, you must enforce client certificate in the server
+configuration (check [SslSettings.clientAuth]). If this is done, you can access the certificate the
+client used to connect (assuming it is valid, if not the connection will end with an error) with the
+[Request.certificateChain] property.
+
+Below you can find a simple example to set up an HTTPS server and client with mutual TLS:
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt:https
+
+[SslSettings]: /hexagon_core/com.hexagonkt.http/-ssl-settings/
+[Gradle]: https://gradle.org
+[create sample certificates]: /gradle/#certificates
+[SslSettings.clientAuth]: /hexagon_core/com.hexagonkt.http/-ssl-settings/client-auth
+[Request.certificateChain]: /port_http_server/com.hexagonkt.http.server/-Request/certificate-chain
 
 ### Testing
 

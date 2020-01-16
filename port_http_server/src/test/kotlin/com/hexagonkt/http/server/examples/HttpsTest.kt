@@ -54,7 +54,7 @@ import java.net.URI
         val sslSettings = SslSettings(
             keyStore = keyStore,
             trustStore = trustStore,
-            clientAuth = true
+            clientAuth = true // Requires a valid certificate from the client (mutual TLS)
         )
 
         val serverSettings = ServerSettings(
