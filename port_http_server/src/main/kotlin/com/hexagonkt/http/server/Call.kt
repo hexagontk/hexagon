@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.helpers.RequiredKeysMap
 import com.hexagonkt.serialization.ContentType
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
@@ -63,11 +62,14 @@ class Call(val request: Request, val response: Response, val session: Session) {
     fun send(code: Int, content: Any, contentType: ContentType) =
         send(code, content.serialize(contentType.format), contentType.toString())
 
-    fun halt(content: Any): Nothing = halt(500, content)
+    fun halt(content: Any): Nothing =
+        halt(500, content)
 
     fun halt(code: Int = 500, content: Any = ""): Nothing {
         throw CodedException(code, content.toString())
     }
 
-    fun redirect(url: String) = response.redirect(url)
+    fun redirect(url: String) {
+        response.redirect(url)
+    }
 }

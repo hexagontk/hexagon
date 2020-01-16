@@ -6,9 +6,11 @@ apply(from = "../gradle/testng.gradle")
 
 dependencies {
     "api"(project(":port_messaging"))
-    "api"("com.rabbitmq:amqp-client:${properties.get("rabbitVersion")}") { exclude(module = "slf4j-api") }
+    "api"("com.rabbitmq:amqp-client:${properties["rabbitVersion"]}") {
+        exclude(module = "slf4j-api")
+    }
 
-    "testImplementation"("org.apache.qpid:qpid-broker:${properties.get("qpidVersion")}") {
+    "testImplementation"("org.apache.qpid:qpid-broker:${properties["qpidVersion"]}") {
         exclude(module = "logback-classic")
         exclude(module = "jackson-databind")
         exclude(module = "jackson-core")

@@ -174,7 +174,7 @@ IMPORTANT: This script must be applied at the end of the build script.
 To use it apply `$gradleScripts/kotlin_js.gradle` at the end of the build script, also apply the
 `kotlin2js` plugin. And finally, add the `id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to
 the root `build.gradle`.
- 
+
 Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
@@ -231,12 +231,56 @@ To use it apply `$gradleScripts/sonarqube.gradle` and add the
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
 
-* sonarqubeProject (REQUIRED): ID used to locate the project in SonarQube host.
-* sonarqubeOrganization (REQUIRED): organization owning the project.
-* sonarqubeHost: SonarQube server to be used. By default it is: `https://sonarcloud.io`.
-* sonarqubeToken (REQUIRED): If not set, the `SONARQUBE_TOKEN` environment variable will be used.
+* sonarQubeProject (REQUIRED): ID used to locate the project in SonarQube host.
+* sonarQubeOrganization (REQUIRED): organization owning the project.
+* sonarQubeHost: SonarQube server to be used. By default it is: `https://sonarcloud.io`.
+* sonarQubeToken (REQUIRED): If not set, the `SONARQUBE_TOKEN` environment variable will be used.
 
 [sonarcloud]: https://sonarcloud.io
+
+## Certificates
+
+Creates three different key stores for development purposes. **IMPORTANT** these key stores must not
+be used for production environments.
+
+These tasks can be used several times in a multi module project to generate a CA for the root
+project, and an identity for the modules that apply (bear in mind that some variables will have to
+be overwritten).
+
+The created key stores are:
+
+* `ca.p12`: self signed certificate authority (CA). This store holds the CA private key. This store
+  must be private and will be used to sign other certificates. The key pair alias is `ca`.
+* `trust.p12`: key store with CA's public certificate. It can be set as the Java process trust store
+  which make that every certificate signed with the CA will be trusted. However, if used as the
+  trust store, the JDK `cacerts` entries won't be loaded and thus, not trusted.
+* `<domain>.p12`: this store is signed by the CA and it contains the service private key and
+  its full chain certificate, the certificate its root certificate (CA). `<domain>` will be the
+  domain name without the TLD, and the Subject alternative names will include `<domain>.test`
+  ([TLD for local environments]) and `localhost`.
+
+The defined tasks are:
+
+* createCa: creates `ca.p12` and import its public certificate inside `trust.p12`.
+* createIdentity: creates the `<domain>.p12` store for a service https configuration.
+
+To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
+
+To setup this script's parameters, check the [build variables section]. This helper settings are:
+
+* sslDomain (REQUIRED): main domain for the identity store.
+* sslOrganization (REQUIRED): organization stated in created certificates.
+* sslCaFile = certificate authority key store file. By default: "ca.p12"
+* sslCaAlias = CA alias in the key store. If not provided, it will be "ca"
+* sslTrustFile = trust store file name, by default it is "trust.p12"
+* sslPath: path used to generate the key stores. By default it will be project's build directory.
+* sslPassword: password used for the generated key stores. By default it is the file name reversed.
+* sslValidity: validity period (in days) for certificates. If not provided, it will be 365.
+* sslCountry: country used in the certificates. By default it is the current locale's country code.
+* sslSubdomains: subdomains to be added to `<domain>.p12` (aside of `<domain>.test` and `localhost`
+  which are always added). By default, no extra domains are added to the key store.
+
+[TLD for local environments]: https://tools.ietf.org/html/rfc2606
 
 ## TestNG
 

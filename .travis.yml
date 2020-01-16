@@ -49,21 +49,25 @@ install:
   # Git set up is required for release tag creation
   - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
   - sudo /etc/init.d/postgresql stop
-  - docker-compose up -d
 
 script:
-  - ./gradlew --quiet clean all
-  - ./gradlew --quiet sonarqube dokkaMd checkSite
-  - docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.4.3 build
+  - ./gradlew --quiet clean installDist -x test
+  - docker-compose --log-level WARNING
+      -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
+  - ./gradlew --quiet all
+  - ./gradlew --quiet dokkaMd checkSite
+  - ./gradlew --quiet --no-daemon -x test sonarqube
+  - docker --log-level warn run --rm -v $PWD/hexagon_site:/docs
+      squidfunk/mkdocs-material:4.6.0 build
 
 after_success: bash <(curl -s https://codecov.io/bash)
-after_failure: echo 'Look for FAILURE in tests'
+after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
 
 deploy:
 
   - provider: script
     skip_cleanup: true
-    script: ./gradlew --no-daemon -x test release
+    script: ./gradlew --quiet --no-daemon -x test release
     on:
       branch: master
 

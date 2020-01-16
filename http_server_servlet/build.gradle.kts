@@ -1,3 +1,4 @@
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 apply(from = "../gradle/kotlin.gradle")
@@ -19,11 +20,11 @@ compileTestKotlin.dependsOn(tasks.getByPath(":port_http_server:compileTestKotlin
 
 dependencies {
     "api"(project(":port_http_server"))
-    "compileOnly"("javax.servlet:javax.servlet-api:${properties.get("servletVersion")}")
+    "compileOnly"("javax.servlet:javax.servlet-api:${properties["servletVersion"]}")
 
     "testImplementation"(project(":port_http_client"))
     "testImplementation"(entityTests)
-    "testImplementation"("org.eclipse.jetty:jetty-webapp:${properties.get("jettyVersion")}") {
+    "testImplementation"("org.eclipse.jetty:jetty-webapp:${properties["jettyVersion"]}") {
         exclude(module = "slf4j-api")
     }
 }

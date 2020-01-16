@@ -7,9 +7,13 @@ import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.http.server.Request
 import java.io.InputStreamReader
 import java.net.HttpCookie
+import java.security.cert.X509Certificate
 import javax.servlet.http.HttpServletRequest
 
 internal class Request(private val req: HttpServletRequest) : Request() {
+
+    private val certificateAttribute = "javax.servlet.request.X509Certificate"
+
     var actionPath: Path? = null
 
     override fun path(): String = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath
@@ -24,6 +28,7 @@ internal class Request(private val req: HttpServletRequest) : Request() {
     override fun url(): String = req.requestURL.toString()
     override fun ip(): String = req.remoteAddr
 
+
     override fun pathParameters(): Map<String, String> =
         actionPath?.extractParameters(path()) ?: emptyMap()
 
@@ -33,6 +38,12 @@ internal class Request(private val req: HttpServletRequest) : Request() {
         parseQueryParameters(queryString)
     override fun formParameters(): Map<String, List<String>> =
         parameters.filter { it.key !in queryParameters.keys }
+
+    @Suppress("UNCHECKED_CAST")
+    override fun certificateChain(): List<X509Certificate> =
+        (req.getAttribute(certificateAttribute) as? Array<X509Certificate>)
+            ?.toList()
+            ?: emptyList()
 
     override fun headers(): Map<String, List<String>> =
         req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()

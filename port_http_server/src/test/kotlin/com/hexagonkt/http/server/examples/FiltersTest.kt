@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.ClientSettings
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.asynchttpclient.Response
@@ -64,7 +65,7 @@ import java.util.*
 
     @Test fun `HTTP request with valid credentials returns valid response`() {
         val endpoint = "http://localhost:${server.runtimePort}"
-        val httpClient = Client(endpoint, user = "Turing", password = "London")
+        val httpClient = Client(endpoint, ClientSettings(user = "Turing", password = "London"))
         val response = httpClient.get ("/protected/hi")
         assertResponseEquals(response, "Hello Turing!", 200)
         assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
@@ -72,7 +73,7 @@ import java.util.*
 
     @Test fun `Request with invalid password returns 403`() {
         val endpoint = "http://localhost:${server.runtimePort}"
-        val httpClient = Client(endpoint, user = "Turing", password = "Millis")
+        val httpClient = Client(endpoint, ClientSettings(user = "Turing", password = "Millis"))
         val response = httpClient.get ("/protected/hi")
         assertResponseEquals(response, "Forbidden", 403)
         assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
@@ -80,7 +81,7 @@ import java.util.*
 
     @Test fun `Request with invalid user returns 403`() {
         val endpoint = "http://localhost:${server.runtimePort}"
-        val httpClient = Client(endpoint, user = "Curry", password = "Millis")
+        val httpClient = Client(endpoint, ClientSettings(user = "Curry", password = "Millis"))
         val response = httpClient.get ("/protected/hi")
         assertResponseEquals(response, "Forbidden", 403)
         assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)

@@ -1,7 +1,14 @@
 package com.hexagonkt.http
 
 import com.hexagonkt.helpers.Jvm.charset
-import com.hexagonkt.http.Method.*
+import com.hexagonkt.http.Method.GET
+import com.hexagonkt.http.Method.HEAD
+import com.hexagonkt.http.Method.POST
+import com.hexagonkt.http.Method.PUT
+import com.hexagonkt.http.Method.DELETE
+import com.hexagonkt.http.Method.TRACE
+import com.hexagonkt.http.Method.OPTIONS
+import com.hexagonkt.http.Method.PATCH
 import java.net.URLDecoder
 import java.net.URLEncoder
 

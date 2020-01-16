@@ -9,6 +9,6 @@ For the Pull Request to be accepted please check:
 - The code pass all PR checks.
 - All public members are documented using Dokka (https://github.com/Kotlin/dokka).
 - The code follow the Kotlin Coding Conventions. With the exception of final brace position in
-  `else`, `catch` and `finally` (in its own line).
+  `else`, `catch` and `finally` (in its own line). Use IntelliJ and Editor Config to enforce this.
 
 -->

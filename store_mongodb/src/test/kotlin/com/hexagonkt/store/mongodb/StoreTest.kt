@@ -1,7 +1,6 @@
 package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.error
-import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.Store
 import org.testng.annotations.BeforeMethod
 import java.net.URL

@@ -28,7 +28,7 @@ class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
     private val cronParser = CronParser(cronDefinition(QUARTZ))
 
     init {
-        Runtime.getRuntime().addShutdownHook(Thread { shutdown() })
+        getRuntime().addShutdownHook(Thread { shutdown() })
     }
 
     /**

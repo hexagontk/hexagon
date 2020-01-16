@@ -110,7 +110,7 @@ If you want to generate the documentation site, check the [site module readme][h
 
 * You can check available tasks in the [Project Board] and pick one of the issues with the
   `help wanted` tag available in the `Ready` column.
-   
+
 * Claim an issue you want to work in with a comment (after that I can assign it to you and move it
   to the `Working` column. If you want to contribute to non tagged (or a non existing) tasks, write
   a comment and we'll discuss the scope of the feature.
@@ -121,8 +121,9 @@ If you want to generate the documentation site, check the [site module readme][h
   `.` in file names if it is possible.
 
 * For a Pull Request to be accepted, follow the [pull request template] recommendations. And check
-  that the code follows the [Kotlin Coding Conventions], with the exception of final brace
-  position in `else`, `catch` and `finally` (in its own line).
+  that the code follows the [Kotlin Coding Conventions], with the exception of final brace position
+  in `else`, `catch` and `finally` (in its own line). If you use IntelliJ and Editor Config this
+  will be checked for you.
 
 * Commit format: the preferred commit format would have:
   - Summary: small summary of the change. In imperative form.
