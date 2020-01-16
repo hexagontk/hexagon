@@ -13,9 +13,10 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 import java.io.File
+import java.net.URI
+import kotlin.test.assertFails
 
-@Test
-class ClientTest {
+@Test class ClientTest {
 
     private var handler: Call.() -> Unit = {}
 
@@ -36,18 +37,15 @@ class ClientTest {
         Client("http://localhost:${server.runtimePort}", ClientSettings(Json))
     }
 
-    @BeforeClass
-    fun startup() {
+    @BeforeClass fun startup() {
         server.start()
     }
 
-    @AfterClass
-    fun shutdown() {
+    @AfterClass fun shutdown() {
         server.stop()
     }
 
-    @BeforeMethod
-    fun resetHandler() {
+    @BeforeMethod fun resetHandler() {
         handler = {
             response.headers["content-type"] = listOf("application/json;charset=utf-8")
             response.headers["body"] = listOf(request.body)
@@ -55,7 +53,7 @@ class ClientTest {
         }
     }
 
-    fun `JSON requests works as expected`() {
+    @Test fun `JSON requests works as expected`() {
         val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
@@ -69,7 +67,7 @@ class ClientTest {
         client.get("/")
     }
 
-    fun `HTTP methods with objects work ok`() {
+    @Test fun `HTTP methods with objects work ok`() {
         val parameter = mapOf("key" to "value")
         checkResponse(client.get("/"), null)
         checkResponse(client.head("/"), null)
@@ -87,7 +85,7 @@ class ClientTest {
         checkResponse(client.patch("/", parameter), parameter)
     }
 
-    fun `Parameters are set properly` () {
+    @Test fun `Parameters are set properly` () {
         val endpoint = "http://localhost:${server.runtimePort}"
         val h = mapOf("header1" to listOf("val1", "val2"))
         val settings = ClientSettings(Json.contentType, false, h, "user", "password", true)
@@ -109,7 +107,7 @@ class ClientTest {
         assert(r.statusCode == 200)
     }
 
-    fun `Files are sent in base64` () {
+    @Test fun `Files are sent in base64` () {
         handler = { response.headers["file64"] = listOf(request.body) }
 
         val file = File("src/test/resources/logback-test.xml").let {
@@ -122,7 +120,7 @@ class ClientTest {
         assert(r.statusCode == 200)
     }
 
-    fun `Integers are sent properly` () {
+    @Test fun `Integers are sent properly` () {
         var run = false
 
         client.post("/string", 42) {
@@ -134,7 +132,7 @@ class ClientTest {
         assert(run)
     }
 
-    fun `Strings are sent properly` () {
+    @Test fun `Strings are sent properly` () {
         var run = false
 
         client.post("/string", "text") {
@@ -144,6 +142,16 @@ class ClientTest {
         }
 
         assert(run)
+    }
+
+    @Test fun `Empty authority don't return null in URIs`() {
+        assert(client.authority(URI("resource:///resourceWithoutAuthority")) == "")
+    }
+
+    @Test fun `'uriStream' handles schemes properly`() {
+        val userDir = System.getProperty("user.dir")
+        assert(client.uriStream(URI("file://$userDir/README.md")).reader().readText() != "")
+        assertFails { client.uriStream(URI("file://$userDir/invalid.file")) }
     }
 
     private fun checkResponse(response: Response, parameter: Map<String, String>?) {

@@ -60,7 +60,7 @@ class Client(val endpoint: String = "", val settings: ClientSettings = ClientSet
 
                 if (keyStore != null) {
                     val store = keyStore(keyStore)
-                    val password = keyStore.authority ?: ""
+                    val password = authority(keyStore)
                     val passwordProtection = PasswordProtection(password.toCharArray())
                     val key = store
                         .aliases()
@@ -101,7 +101,7 @@ class Client(val endpoint: String = "", val settings: ClientSettings = ClientSet
 
     private fun keyStore(uri: URI): KeyStore {
         val keyStore = KeyStore.getInstance("pkcs12")
-        val password = uri.authority ?: ""
+        val password = authority(uri)
         keyStore.load(uriStream(uri), password.toCharArray())
         return keyStore
     }
@@ -240,9 +240,12 @@ class Client(val endpoint: String = "", val settings: ClientSettings = ClientSet
         return request
     }
 
-    private fun uriStream(uri: URI): InputStream =
+    internal fun authority(uri: URI): String =
+        uri.authority ?: ""
+
+    internal fun uriStream(uri: URI): InputStream =
         if (uri.scheme == "resource")
             Resource(uri.path.removePrefix("/")).requireStream()
         else
-            uri.toURL().openStream() ?: com.hexagonkt.helpers.error
+            uri.toURL().openStream()
 }
