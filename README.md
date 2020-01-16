@@ -515,7 +515,7 @@ val serverSettings = ServerSettings(
 val server = serve(serverSettings, serverAdapter) {
     get("/hello") {
         // We can access the certificate used by the client from the request
-        val subjectDn = request.certificateChain.first().subjectDN.name
+        val subjectDn = request.certificate?.subjectDN?.name
         response.setHeader("cert", subjectDn)
         ok("Hello World!")
     }

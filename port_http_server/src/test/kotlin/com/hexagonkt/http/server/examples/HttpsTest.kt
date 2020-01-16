@@ -35,7 +35,7 @@ import java.net.URI
 
     private val router = Router {
         get("/hello") {
-            response.setHeader("cert", request.certificateChain.first().subjectDN.name)
+            response.setHeader("cert", request.certificate?.subjectDN?.name)
             ok("Hello World!")
         }
     }
@@ -66,7 +66,7 @@ import java.net.URI
         val server = serve(serverSettings, serverAdapter) {
             get("/hello") {
                 // We can access the certificate used by the client from the request
-                val subjectDn = request.certificateChain.first().subjectDN.name
+                val subjectDn = request.certificate?.subjectDN?.name
                 response.setHeader("cert", subjectDn)
                 ok("Hello World!")
             }
