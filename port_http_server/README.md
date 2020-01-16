@@ -249,14 +249,16 @@ different routers. Check [CorsSettings] class for more details.
 ### HTTPS
 
 It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
-certificate and its key in the server's [SslSettings].
+certificate and its key in the server's [SslSettings]. Once you use a server certificate, it is also
+possible to serve content using [HTTP/2], for this to work, [ALPN] is required (however, this is
+already handled if you use Java 11).
 
 The certificate common name should match the host that will serve the content in order to be
 accepted by an HTTP client without a security error. There is a [Gradle] helper to
 [create sample certificates] for development purposes.
 
 HTTP clients can also be configured to use a certificate. This is required to implement a double
-ended authorization (mutual TLS). This is also done by passing a [SslSettings] object the the
+ended authorization ([mutual TLS]). This is also done by passing a [SslSettings] object the the
 HTTP client.
 
 If you want to implement mutual trust, you must enforce client certificate in the server
@@ -269,8 +271,11 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt:https
 
 [SslSettings]: /hexagon_core/com.hexagonkt.http/-ssl-settings/
+[HTTP/2]: https://en.wikipedia.org/wiki/HTTP/2
+[ALPN]: https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation
 [Gradle]: https://gradle.org
 [create sample certificates]: /gradle/#certificates
+[mutual TLS]: https://en.wikipedia.org/wiki/Mutual_authentication
 [SslSettings.clientAuth]: /hexagon_core/com.hexagonkt.http/-ssl-settings/client-auth
 [Request.certificateChain]: /port_http_server/com.hexagonkt.http.server/-Request/certificate-chain
 
