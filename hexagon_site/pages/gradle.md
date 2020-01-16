@@ -270,9 +270,9 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 * sslDomain (REQUIRED): main domain for the identity store.
 * sslOrganization (REQUIRED): organization stated in created certificates.
-* sslCaFile = certificate authority key store file. By default: "ca.p12"
-* sslCaAlias = CA alias in the key store. If not provided, it will be "ca"
-* sslTrustFile = trust store file name, by default it is "trust.p12"
+* sslCaFile: certificate authority key store file. By default: "ca.p12"
+* sslCaAlias: CA alias in the key store. If not provided, it will be "ca"
+* sslTrustFile: trust store file name, by default it is "trust.p12"
 * sslPath: path used to generate the key stores. By default it will be project's build directory.
 * sslPassword: password used for the generated key stores. By default it is the file name reversed.
 * sslValidity: validity period (in days) for certificates. If not provided, it will be 365.

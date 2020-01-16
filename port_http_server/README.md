@@ -277,7 +277,7 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 [create sample certificates]: /gradle/#certificates
 [mutual TLS]: https://en.wikipedia.org/wiki/Mutual_authentication
 [SslSettings.clientAuth]: /hexagon_core/com.hexagonkt.http/-ssl-settings/client-auth
-[Request.certificateChain]: /port_http_server/com.hexagonkt.http.server/-Request/certificate-chain
+[Request.certificateChain]: /port_http_server/com.hexagonkt.http.server/-request/certificate-chain
 
 ### Testing
 
