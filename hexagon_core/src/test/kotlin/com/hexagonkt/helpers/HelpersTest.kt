@@ -1,6 +1,8 @@
 package com.hexagonkt.helpers
 
 import org.testng.annotations.Test
+import java.net.URI
+import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
 
 @Test class HelpersTest {
@@ -13,6 +15,12 @@ import kotlin.test.assertFailsWith
         ),
         0 to 1
     )
+
+    @Test fun `'URI stream' handles schemes properly`() {
+        val userDir = System.getProperty("user.dir")
+        assert(URI("file://$userDir/README.md").stream().reader().readText() != "")
+        assertFails { URI("file://$userDir/invalid.file").stream() }
+    }
 
     @Test fun `System setting works ok` () {
         System.setProperty("system_property", "value")

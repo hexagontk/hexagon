@@ -148,12 +148,6 @@ import kotlin.test.assertFails
         assert(client.authority(URI("resource:///resourceWithoutAuthority")) == "")
     }
 
-    @Test fun `'uriStream' handles schemes properly`() {
-        val userDir = System.getProperty("user.dir")
-        assert(client.uriStream(URI("file://$userDir/README.md")).reader().readText() != "")
-        assertFails { client.uriStream(URI("file://$userDir/invalid.file")) }
-    }
-
     private fun checkResponse(response: Response, parameter: Map<String, String>?) {
         assert(response.statusCode == 200)
         assert(response.responseBody.trim() == parameter?.serialize()?.trim() ?: "")

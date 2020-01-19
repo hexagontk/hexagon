@@ -2,6 +2,7 @@ package com.hexagonkt.http.client
 
 import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.ensureSize
+import com.hexagonkt.helpers.stream
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.http.Method
@@ -102,7 +103,7 @@ class Client(val endpoint: String = "", val settings: ClientSettings = ClientSet
     private fun keyStore(uri: URI): KeyStore {
         val keyStore = KeyStore.getInstance("pkcs12")
         val password = authority(uri)
-        keyStore.load(uriStream(uri), password.toCharArray())
+        keyStore.load(uri.stream(), password.toCharArray())
         return keyStore
     }
 
@@ -242,10 +243,4 @@ class Client(val endpoint: String = "", val settings: ClientSettings = ClientSet
 
     internal fun authority(uri: URI): String =
         uri.authority ?: ""
-
-    internal fun uriStream(uri: URI): InputStream =
-        if (uri.scheme == "resource")
-            Resource(uri.path.removePrefix("/")).requireStream()
-        else
-            uri.toURL().openStream()
 }
