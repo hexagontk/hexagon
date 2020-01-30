@@ -1,6 +1,7 @@
 package com.hexagonkt.web
 
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Router
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
@@ -22,7 +23,7 @@ import java.time.LocalDateTime
 
     private val server: Server = Server(JettyServletAdapter(), router, SettingsManager.settings)
 
-    private val client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client by lazy { Client(AhcAdapter(), "http://localhost:${server.runtimePort}") }
 
     @BeforeTest fun start() {
         server.start()
@@ -34,7 +35,7 @@ import java.time.LocalDateTime
 
     @Test fun template() {
         val response = client.get("/template")
-        assert(response.statusCode == 200)
+        assert(response.status == 200)
     }
 }
 

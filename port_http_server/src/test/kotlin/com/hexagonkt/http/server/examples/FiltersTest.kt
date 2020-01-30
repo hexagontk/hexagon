@@ -1,10 +1,11 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.Response
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.client.ClientSettings
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -47,7 +48,9 @@ import java.util.*
     }
     // filters
 
-    private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client: Client by lazy {
+        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    }
 
     @BeforeClass fun initialize() {
         server.start()
@@ -65,7 +68,9 @@ import java.util.*
 
     @Test fun `HTTP request with valid credentials returns valid response`() {
         val endpoint = "http://localhost:${server.runtimePort}"
-        val httpClient = Client(endpoint, ClientSettings(user = "Turing", password = "London"))
+        val adapter = AhcAdapter()
+        val settings = ClientSettings(user = "Turing", password = "London")
+        val httpClient = Client(adapter, endpoint, settings)
         val response = httpClient.get ("/protected/hi")
         assertResponseEquals(response, "Hello Turing!", 200)
         assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
@@ -73,7 +78,9 @@ import java.util.*
 
     @Test fun `Request with invalid password returns 403`() {
         val endpoint = "http://localhost:${server.runtimePort}"
-        val httpClient = Client(endpoint, ClientSettings(user = "Turing", password = "Millis"))
+        val adapter = AhcAdapter()
+        val settings = ClientSettings(user = "Turing", password = "Millis")
+        val httpClient = Client(adapter, endpoint, settings)
         val response = httpClient.get ("/protected/hi")
         assertResponseEquals(response, "Forbidden", 403)
         assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
@@ -81,14 +88,16 @@ import java.util.*
 
     @Test fun `Request with invalid user returns 403`() {
         val endpoint = "http://localhost:${server.runtimePort}"
-        val httpClient = Client(endpoint, ClientSettings(user = "Curry", password = "Millis"))
+        val adapter = AhcAdapter()
+        val settings = ClientSettings(user = "Curry", password = "Millis")
+        val httpClient = Client(adapter, endpoint, settings)
         val response = httpClient.get ("/protected/hi")
         assertResponseEquals(response, "Forbidden", 403)
         assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
-        assert (response?.statusCode == status)
-        assert (response?.responseBody == content)
+        assert (response?.status == status)
+        assert (response?.body == content)
     }
 }

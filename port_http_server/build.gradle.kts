@@ -22,5 +22,5 @@ tasks.named<Jar>("testJar") {
 
 dependencies {
     "api"(project(":hexagon_core"))
-    "testImplementation"(project(":port_http_client"))
+    "testImplementation"(project(":http_client_ahc"))
 }

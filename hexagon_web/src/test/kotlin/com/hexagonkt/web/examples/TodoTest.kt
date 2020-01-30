@@ -3,11 +3,12 @@ package com.hexagonkt.web.examples
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.parse
-import org.asynchttpclient.Response
+import com.hexagonkt.http.client.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -94,7 +95,9 @@ import org.testng.annotations.Test
     }
     // sample
 
-    private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client: Client by lazy {
+        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    }
 
     @BeforeClass fun initialize() {
         server.start()
@@ -107,8 +110,8 @@ import org.testng.annotations.Test
     @Test fun `Create task`() {
         val body = Task(101, "Tidy Things", "Tidy everything")
         val result = client.post("/tasks", body, Json.contentType)
-        assert(Integer.valueOf(result.responseBody) == 101)
-        assert(201 == result.statusCode)
+        assert(Integer.valueOf(result.body) == 101)
+        assert(201 == result.status)
     }
 
     @Test fun `List tasks`() {
@@ -141,9 +144,9 @@ import org.testng.annotations.Test
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert(response?.statusCode == status)
+        assert(response?.status == status)
         content.forEach {
-            assert(response?.responseBody?.contains(it) ?: false)
+            assert(response?.body?.contains(it) ?: false)
         }
     }
 

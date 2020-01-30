@@ -8,7 +8,7 @@ apply(from = "../gradle/testng.gradle")
 
 val compileTestKotlin: KotlinCompile by tasks
 
-plugins{
+plugins {
     java
 }
 
@@ -22,13 +22,11 @@ dependencies {
     val jettyVersion = properties["jettyVersion"]
 
     "api"(project(":http_server_servlet"))
-    "api"("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude(module = "slf4j-api") }
-    "api"("org.eclipse.jetty.http2:http2-server:$jettyVersion") { exclude(module = "slf4j-api") }
-    "api"("org.eclipse.jetty:jetty-alpn-java-server:$jettyVersion") {
-        exclude(module = "slf4j-api")
-    }
+    "api"("org.eclipse.jetty:jetty-webapp:$jettyVersion")
+    "api"("org.eclipse.jetty.http2:http2-server:$jettyVersion")
+    "api"("org.eclipse.jetty:jetty-alpn-java-server:$jettyVersion")
 
-    "testImplementation"(project(":port_http_client"))
+    "testImplementation"(project(":http_client_ahc"))
     "testImplementation"(entityTests)
     "testImplementation"(project(":hexagon_web"))
     "testImplementation"(entityTestsHexagonWeb)

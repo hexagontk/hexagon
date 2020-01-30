@@ -2,9 +2,10 @@ package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import org.asynchttpclient.Response
+import com.hexagonkt.http.client.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -58,7 +59,9 @@ import org.testng.annotations.Test
     }
     // session
 
-    private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client: Client by lazy {
+        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    }
 
     @BeforeClass fun initialize() {
         server.start()
@@ -69,46 +72,46 @@ import org.testng.annotations.Test
     }
 
     @Test fun `Attribute is added to session`() {
-        assert(client.put("/session/foo/bar").statusCode == 200)
+        assert(client.put("/session/foo/bar").status == 200)
         assertResponseEquals(client.get("/session/foo"), "bar")
     }
 
     @Test fun `Session attribute lifecycle test`() {
         client.post("/session/invalidate")
 
-        assert(client.get("/session/id").responseBody == "null")
-        assert(client.get("/session/inactive").responseBody == "null")
-        assert(client.get("/session/creation").responseBody == "null")
-        assert(client.get("/session/access").responseBody == "null")
-        assert(client.get("/session/new").responseBody == "true")
+        assert(client.get("/session/id").body == "null")
+        assert(client.get("/session/inactive").body == "null")
+        assert(client.get("/session/creation").body == "null")
+        assert(client.get("/session/access").body == "null")
+        assert(client.get("/session/new").body == "true")
 
-        assert(client.put("/session/foo/bar").statusCode == 200)
-        assert(client.put("/session/foo/bazz").statusCode == 200)
-        assert(client.put("/session/temporal/_").statusCode == 200)
-        assert(client.delete("/session/temporal").statusCode == 200)
+        assert(client.put("/session/foo/bar").status == 200)
+        assert(client.put("/session/foo/bazz").status == 200)
+        assert(client.put("/session/temporal/_").status == 200)
+        assert(client.delete("/session/temporal").status == 200)
 
-        assert(client.get("/session").statusCode == 200)
+        assert(client.get("/session").status == 200)
         assertResponseEquals(client.get("/session/foo"), "bazz")
 
-        assert(client.get("/session/id").responseBody != "null")
-        assert(client.get("/session/inactive").responseBody != "null")
-        assert(client.get("/session/creation").responseBody != "null")
-        assert(client.get("/session/access").responseBody != "null")
-        assert(client.get("/session/new").responseBody == "false")
+        assert(client.get("/session/id").body != "null")
+        assert(client.get("/session/inactive").body != "null")
+        assert(client.get("/session/creation").body != "null")
+        assert(client.get("/session/access").body != "null")
+        assert(client.get("/session/new").body == "false")
 
-        assert(client.put("/session/inactive/10").statusCode == 200)
-        assert(client.get("/session/inactive").responseBody == "10")
+        assert(client.put("/session/inactive/10").status == 200)
+        assert(client.get("/session/inactive").body == "10")
 
         client.post("/session/invalidate")
 
-        assert(client.get("/session/id").responseBody == "null")
-        assert(client.get("/session/inactive").responseBody == "null")
-        assert(client.get("/session/creation").responseBody == "null")
-        assert(client.get("/session/access").responseBody == "null")
+        assert(client.get("/session/id").body == "null")
+        assert(client.get("/session/inactive").body == "null")
+        assert(client.get("/session/creation").body == "null")
+        assert(client.get("/session/access").body == "null")
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
-        assert (response?.statusCode == status)
-        assert (response?.responseBody == content)
+        assert (response?.status == status)
+        assert (response?.body == content)
     }
 }

@@ -2,6 +2,7 @@ package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.http.Method.POST
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.CorsSettings
 import com.hexagonkt.http.server.Router
 import com.hexagonkt.http.server.Server
@@ -42,7 +43,9 @@ import org.testng.annotations.Test
     }
     // cors
 
-    private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client: Client by lazy {
+        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    }
 
     @BeforeClass fun initialize() {
         server.start()
@@ -57,8 +60,8 @@ import org.testng.annotations.Test
             client.get("/default"),
             client.get("/default/path")
         ).forEach {
-            assert(it.statusCode == 200)
-            assert(it.responseBody == "GET")
+            assert(it.status == 200)
+            assert(it.body == "GET")
         }
     }
 
@@ -67,8 +70,8 @@ import org.testng.annotations.Test
             client.get("/example/org", mapOf("Origin" to listOf("other.com"))),
             client.get("/example/org/path", mapOf("Origin" to listOf("other.com")))
         ).forEach {
-            assert(it.statusCode == 403)
-            assert(it.responseBody == "Not allowed origin: other.com")
+            assert(it.status == 403)
+            assert(it.body == "Not allowed origin: other.com")
         }
     }
 
@@ -77,25 +80,25 @@ import org.testng.annotations.Test
             client.get("/no/credentials", mapOf("Origin" to listOf("other.com"))),
             client.get("/no/credentials/path", mapOf("Origin" to listOf("other.com")))
         ).forEach {
-            assert(it.statusCode == 200)
-            assert(it.responseBody == "GET")
-            assert(it.headers["Access-Control-Allow-Origin"] == "*")
+            assert(it.status == 200)
+            assert(it.body == "GET")
+            assert(it.headers["Access-Control-Allow-Origin"]?.first() == "*")
             assert(it.headers["Vary"] == null)
         }
     }
 
     @Test fun `Simple CORS request`() {
         val result = client.get("/default", mapOf("Origin" to listOf("example.org")))
-        assert(result.statusCode == 200)
-        assert(result.headers["Access-Control-Allow-Origin"] == "example.org")
-        assert(result.headers["Vary"] == "Origin")
-        assert(result.headers["Access-Control-Allow-Credentials"] == "true")
+        assert(result.status == 200)
+        assert(result.headers["Access-Control-Allow-Origin"]?.first() == "example.org")
+        assert(result.headers["Vary"]?.first() == "Origin")
+        assert(result.headers["Access-Control-Allow-Credentials"]?.first() == "true")
     }
 
     @Test fun `Simple CORS request with not allowed method`() {
         val result = client.get("/only/post", mapOf("Origin" to listOf("example.org")))
-        assert(result.statusCode == 403)
-        assert(result.responseBody == "Not allowed method: GET")
+        assert(result.status == 403)
+        assert(result.body == "Not allowed method: GET")
     }
 
     @Test fun `Simple CORS request with exposed headers`() {
@@ -103,11 +106,11 @@ import org.testng.annotations.Test
             "Origin" to listOf("example.org"),
             "head" to listOf("exposed header")
         ))
-        assert(result.statusCode == 200)
-        assert(result.headers["Access-Control-Allow-Origin"] == "example.org")
-        assert(result.headers["Vary"] == "Origin")
-        assert(result.headers["Access-Control-Allow-Credentials"] == "true")
-        assert(result.headers["Access-Control-Expose-Headers"] == "head")
+        assert(result.status == 200)
+        assert(result.headers["Access-Control-Allow-Origin"]?.first() == "example.org")
+        assert(result.headers["Vary"]?.first() == "Origin")
+        assert(result.headers["Access-Control-Allow-Credentials"]?.first() == "true")
+        assert(result.headers["Access-Control-Expose-Headers"]?.first() == "head")
     }
 
     @Test fun `CORS pre flight with empty request method`() {
@@ -115,16 +118,16 @@ import org.testng.annotations.Test
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to emptyList()
         ))
-        assert(result.statusCode == 403)
-        assert(result.responseBody == "Access-Control-Request-Method required header not found")
+        assert(result.status == 403)
+        assert(result.body == "Access-Control-Request-Method required header not found")
     }
 
     @Test fun `CORS pre flight without request method`() {
         val result = client.options("/default", callHeaders = mapOf(
             "Origin" to listOf("example.org")
         ))
-        assert(result.statusCode == 403)
-        assert(result.responseBody == "Access-Control-Request-Method required header not found")
+        assert(result.status == 403)
+        assert(result.body == "Access-Control-Request-Method required header not found")
     }
 
     @Test fun `CORS pre flight`() {
@@ -132,8 +135,8 @@ import org.testng.annotations.Test
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to listOf("GET")
         ))
-        assert(result.statusCode == 204)
-        assert(result.responseBody.isEmpty())
+        assert(result.status == 204)
+        assert(result.body?.isEmpty() ?: false)
     }
 
     @Test fun `CORS full pre flight`() {
@@ -142,17 +145,17 @@ import org.testng.annotations.Test
             "Access-Control-Request-Method" to listOf("GET"),
             "Access-Control-Request-Headers" to listOf("header1,header2")
         )).apply {
-            assert(statusCode == 204)
-            assert(responseBody.isEmpty())
+            assert(status == 204)
+            assert(body?.isEmpty() ?: false)
         }
         client.options("/cache", callHeaders = mapOf(
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to listOf("GET"),
             "Access-Control-Request-Headers" to listOf("header1,header2")
         )).apply {
-            assert(statusCode == 204)
-            assert(responseBody.isEmpty())
-            assert(headers["Access-Control-Max-Age"] == "10")
+            assert(status == 204)
+            assert(body?.isEmpty() ?: false)
+            assert(headers["Access-Control-Max-Age"]?.first() == "10")
         }
     }
 
@@ -161,8 +164,8 @@ import org.testng.annotations.Test
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to listOf("GET")
         ))
-        assert(result.statusCode == 403)
-        assert(result.responseBody == "Not allowed method: GET")
+        assert(result.status == 403)
+        assert(result.body == "Not allowed method: GET")
     }
 
     @Test fun `CORS pre flight with not allowed headers`() {
@@ -171,8 +174,8 @@ import org.testng.annotations.Test
             "Access-Control-Request-Method" to listOf("GET"),
             "Access-Control-Request-Headers" to listOf("header1,header2")
         ))
-        assert(result.statusCode == 403)
-        assert(result.responseBody == "Not allowed headers")
+        assert(result.status == 403)
+        assert(result.body == "Not allowed headers")
     }
 
     @Test fun `CORS pre flight with allowed headers`() {
@@ -181,7 +184,7 @@ import org.testng.annotations.Test
             "Access-Control-Request-Method" to listOf("GET"),
             "Access-Control-Request-Headers" to listOf("head")
         ))
-        assert(result.statusCode == 204)
-        assert(result.responseBody.isEmpty())
+        assert(result.status == 204)
+        assert(result.body?.isEmpty() ?: false)
     }
 }

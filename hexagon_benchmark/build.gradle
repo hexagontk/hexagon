@@ -34,7 +34,7 @@ dependencies {
     // Declared *ONLY* to properly setup IntelliJ project
     compileOnly("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 
-    testImplementation(project(":port_http_client"))
+    testImplementation(project(":http_client_ahc"))
     testImplementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 }
 
@@ -49,6 +49,8 @@ task("tfb", type: Copy, dependsOn: [ "gradleSettings", "benchmarkConfig", "setup
     include("resin.xml")
     from("$projectDir/tfb")
     include(".gitignore", "build.gradle", "settings.gradle", "README.md")
+    from("$rootDir")
+    include("gradle", "gradlew", "gradlew.bat")
     into(tfbBuildDir)
 
     doLast {

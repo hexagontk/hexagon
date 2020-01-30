@@ -2,6 +2,7 @@ package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import org.testng.annotations.*
@@ -37,7 +38,9 @@ import java.net.HttpCookie
     }
     // cookies
 
-    private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client: Client by lazy {
+        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    }
 
     @BeforeClass fun initialize() {
         server.start()
@@ -52,7 +55,7 @@ import java.net.HttpCookie
     }
 
     @Test(priority = 1) fun `Empty cookies assures there is no cookies`() {
-        assert(client.post("/assertNoCookies").statusCode == 200)
+        assert(client.post("/assertNoCookies").status == 200)
     }
 
     @Test(priority = 2) fun `Create cookie adds a new cookie to the request`() {
@@ -63,7 +66,7 @@ import java.net.HttpCookie
         client.post("/addCookie?$cookie")
         val result = client.post("/assertHasCookie?$cookie")
         assert(client.cookies.size == 1)
-        assert(result.statusCode == 200)
+        assert(result.status == 200)
     }
 
     @Test(priority = 3) fun `Remove cookie deletes the given cookie`() {
@@ -72,10 +75,10 @@ import java.net.HttpCookie
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
         client.post("/addCookie?$cookie")
         assert(client.cookies.size == 1)
-        assert(client.post("/assertHasCookie?$cookie").statusCode == 200)
+        assert(client.post("/assertHasCookie?$cookie").status == 200)
         client.post("/removeCookie?$cookie")
         val result = client.post("/assertNoCookies")
-        assert(result.statusCode == 200)
+        assert(result.status == 200)
     }
 
     @Test(priority = 4) fun `Remove not available cookie does not fail`() {
@@ -83,6 +86,6 @@ import java.net.HttpCookie
         client.post("/removeCookie?$cookieName")
         assert(client.cookies.isEmpty())
         val result = client.post("/assertNoCookies")
-        assert(result.statusCode == 200)
+        assert(result.status == 200)
     }
 }

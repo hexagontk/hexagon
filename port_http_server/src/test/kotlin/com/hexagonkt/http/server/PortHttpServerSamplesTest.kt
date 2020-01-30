@@ -2,17 +2,16 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Resource
-import com.hexagonkt.http.Method
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.Json
-import io.netty.handler.codec.http.cookie.DefaultCookie
 import org.testng.annotations.Test
 import java.lang.IllegalStateException
 import java.net.HttpCookie
 import java.net.InetAddress
 
-import org.asynchttpclient.Response as ClientResponse
+import com.hexagonkt.http.client.Response as ClientResponse
 
 @Test abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
 
@@ -39,9 +38,9 @@ import org.asynchttpclient.Response as ClientResponse
 
         customServer.start()
 
-        val customClient = Client("http://localhost:${customServer.runtimePort}")
+        val customClient = Client(AhcAdapter(), "http://localhost:${customServer.runtimePort}")
         assert(customServer.started())
-        assert(customClient.get("/context/hello").responseBody == "Hello World!")
+        assert(customClient.get("/context/hello").body == "Hello World!")
 
         customServer.stop()
 
@@ -54,9 +53,9 @@ import org.asynchttpclient.Response as ClientResponse
 
         defaultServer.start()
 
-        val defaultClient = Client("http://localhost:${defaultServer.runtimePort}")
+        val defaultClient = Client(AhcAdapter(), "http://localhost:${defaultServer.runtimePort}")
         assert(defaultServer.started())
-        assert(defaultClient.get("/hello").responseBody == "Hello World!")
+        assert(defaultClient.get("/hello").body == "Hello World!")
 
         defaultServer.stop()
         // serverCreation
@@ -76,12 +75,12 @@ import org.asynchttpclient.Response as ClientResponse
         }
 
         server.start()
-        val client = Client("http://localhost:${server.runtimePort}")
-        assert(client.get("/hello").responseBody == "Get greeting")
-        assert(client.put("/hello").responseBody == "Put greeting")
-        assert(client.post("/hello").responseBody == "Post greeting")
-        assert(client.options("/hello").responseBody == "Fallback if HTTP verb was not used before")
-        assert(client.get("/").responseBody == "Get at '/' if no route matched before")
+        val client = Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+        assert(client.get("/hello").body == "Get greeting")
+        assert(client.put("/hello").body == "Put greeting")
+        assert(client.post("/hello").body == "Post greeting")
+        assert(client.options("/hello").body == "Fallback if HTTP verb was not used before")
+        assert(client.get("/").body == "Get at '/' if no route matched before")
         server.stop()
     }
 
@@ -101,10 +100,10 @@ import org.asynchttpclient.Response as ClientResponse
         }
 
         server.start()
-        val client = Client("http://localhost:${server.runtimePort}")
-        assert(client.get("/nested/hello").responseBody == "Greeting")
-        assert(client.get("/nested/secondLevel/hello").responseBody == "Second level greeting")
-        assert(client.get("/nested").responseBody == "Get at '/nested'")
+        val client = Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+        assert(client.get("/nested/hello").body == "Greeting")
+        assert(client.get("/nested/secondLevel/hello").body == "Second level greeting")
+        assert(client.get("/nested").body == "Get at '/nested'")
         server.stop()
     }
 
@@ -123,15 +122,15 @@ import org.asynchttpclient.Response as ClientResponse
         // routers
 
         server.start()
-        val client = Client("http://localhost:${server.runtimePort}")
+        val client = Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
 
-        assert(client.get("/clients").responseBody == "Get client")
-        assert(client.put("/clients").responseBody == "Put client")
-        assert(client.post("/clients").responseBody == "Post client")
+        assert(client.get("/clients").body == "Get client")
+        assert(client.put("/clients").body == "Put client")
+        assert(client.post("/clients").body == "Post client")
 
-        assert(client.get("/customers").responseBody == "Get customer")
-        assert(client.put("/customers").responseBody == "Put customer")
-        assert(client.post("/customers").responseBody == "Post customer")
+        assert(client.get("/customers").body == "Get customer")
+        assert(client.put("/customers").body == "Put customer")
+        assert(client.post("/customers").body == "Post customer")
 
         server.stop()
     }
@@ -258,35 +257,35 @@ import org.asynchttpclient.Response as ClientResponse
         }
 
         server.start()
-        val client = Client("http://localhost:${server.runtimePort}")
-        client.cookies["foo"] = DefaultCookie("foo", "bar")
+        val client = Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+        client.cookies["foo"] = HttpCookie("foo", "bar")
 
         val callResponse = client.get("/call")
-        assert(callResponse.statusCode == 400)
-        assert(callResponse.responseBody == "Invalid request")
-        assert(client.send(Method.GET, "/request", Type(), Json.contentType).statusCode == 200)
-        assert(client.get("/response").statusCode == 401)
-        assert(client.get("/pathParam/param").statusCode == 200)
-        assert(client.get("/queryParam").statusCode == 200)
-        assert(client.get("/redirect").statusCode == 302)
-        assert(client.get("/cookie").statusCode == 200)
-        assert(client.get("/session").statusCode == 200)
-        assert(client.get("/halt").statusCode == 500)
+        assert(callResponse.status == 400)
+        assert(callResponse.body == "Invalid request")
+        assert(client.get("/request", body = Type(), contentType = Json.contentType).status == 200)
+        assert(client.get("/response").status == 401)
+        assert(client.get("/pathParam/param").status == 200)
+        assert(client.get("/queryParam").status == 200)
+        assert(client.get("/redirect").status == 302)
+        assert(client.get("/cookie").status == 200)
+        assert(client.get("/session").status == 200)
+        assert(client.get("/halt").status == 500)
 
         server.stop()
     }
 
     @Test fun filters() {
         fun assertResponse(response: ClientResponse, body: String, vararg headers: String) {
-            assert(response.statusCode == 200)
+            assert(response.status == 200)
             (headers.toList() + "b_all" + "a_all").forEach { assert(response.headers.contains(it)) }
-            assert(response.responseBody == body)
+            assert(response.body == body)
         }
 
         fun assertFail(code: Int, response: ClientResponse, body: String, vararg headers: String) {
-            assert(response.statusCode == code)
+            assert(response.status == code)
             (headers.toList() + "b_all" + "a_all").forEach { assert(response.headers.contains(it)) }
-            assert(response.responseBody == body)
+            assert(response.body == body)
         }
 
         val server = Server(adapter) {
@@ -313,7 +312,7 @@ import org.asynchttpclient.Response as ClientResponse
         }
 
         server.start()
-        val client = Client("http://localhost:${server.runtimePort}")
+        val client = Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
 
         assertResponse(client.get("/filters/route"), "filters route", "b_filters", "a_filters")
         assertResponse(client.get("/filters"), "filters")
@@ -346,17 +345,17 @@ import org.asynchttpclient.Response as ClientResponse
         }
 
         server.start()
-        val client = Client("http://localhost:${server.runtimePort}")
+        val client = Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
 
         val errors = client.get("/errors")
-        assert(errors.statusCode == 500)
-        assert(errors.responseBody == "Ouch")
+        assert(errors.status == 500)
+        assert(errors.body == "Ouch")
         val exceptions = client.get("/exceptions")
-        assert(exceptions.statusCode == 505)
-        assert(exceptions.responseBody == "Message")
+        assert(exceptions.status == 505)
+        assert(exceptions.body == "Message")
         val codedExceptions = client.get("/codedExceptions")
-        assert(codedExceptions.statusCode == 599)
-        assert(codedExceptions.responseBody == "code")
+        assert(codedExceptions.status == 599)
+        assert(codedExceptions.body == "code")
 
         server.stop()
     }
@@ -376,19 +375,19 @@ import org.asynchttpclient.Response as ClientResponse
         }
 
         server.start()
-        val client = Client("http://localhost:${server.runtimePort}")
+        val client = Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
 
-        assert(client.get("/web/file.txt").responseBody.startsWith("It matches this route"))
+        assert(client.get("/web/file.txt").body?.startsWith("It matches this route") ?: false)
 
         val index = client.get("/index.html")
-        assert(index.statusCode == 200)
+        assert(index.status == 200)
         assert(index.contentType == "text/html")
         val file = client.get("/web/file.css")
-        assert(file.statusCode == 200)
+        assert(file.status == 200)
         assert(file.contentType == "text/css")
 
         val unavailable = client.get("/web/unavailable.css")
-        assert(unavailable.statusCode == 404)
+        assert(unavailable.status == 404)
 
         server.stop()
     }
@@ -403,8 +402,8 @@ import org.asynchttpclient.Response as ClientResponse
         val server = Server(adapter, router, serverSettings)
 
         server.start()
-        val client = Client("http://localhost:${server.runtimePort}")
-        assert(client.get("/hello").responseBody == "Hi!")
+        val client = Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+        assert(client.get("/hello").body == "Hi!")
         server.stop()
         // test
     }

@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.http.Method
+import com.hexagonkt.http.Part
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.SerializationManager.defaultFormat

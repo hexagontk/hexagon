@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.test
 
 import com.hexagonkt.http.Method
-import com.hexagonkt.http.server.Part
+import com.hexagonkt.http.Part
 import com.hexagonkt.http.server.Request
 import java.net.HttpCookie
 import java.security.cert.X509Certificate

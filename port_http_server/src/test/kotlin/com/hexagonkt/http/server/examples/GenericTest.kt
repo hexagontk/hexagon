@@ -2,14 +2,17 @@ package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Method.GET
+import com.hexagonkt.http.Path
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.Request
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parse
-import org.asynchttpclient.Response
+import com.hexagonkt.http.client.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -119,7 +122,9 @@ import kotlin.text.Charsets.UTF_8
         }
     }
 
-    private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client: Client by lazy {
+        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    }
 
     @BeforeClass fun initialize() {
         server.start()
@@ -136,77 +141,79 @@ import kotlin.text.Charsets.UTF_8
             "Origin" to listOf("origin"),
             "User-Agent" to listOf("AHC")
         )
-        val response = client.send(GET, "/request/body", tag, Json.contentType, headers)
-        assert(response.statusCode == 200)
-        assert("origin" == response.headers["requestOrigin"])
+        val response = client.send(
+            Request(GET, Path("/request/body"), tag, headers, contentType = Json.contentType)
+        )
+        assert(response.status == 200)
+        assert("origin" == response.headers["requestOrigin"]?.first())
         assert(response.contentType == "${Json.contentType};charset=utf-8")
-        assert(response.responseBody.parse(Tag::class) == tag.copy(name = "${tag.name} processed"))
+        assert(response.body?.parse(Tag::class) == tag.copy(name = "${tag.name} processed"))
     }
 
     @Test fun `Empty query string is handled properly`() {
         val response = client.get("/request/data", mapOf("Accept" to listOf("text/plain")))
         val port = URL(client.endpoint).port.toString()
-        val host = response.headers["host"]
-        val ip = response.headers["ip"]
+        val host = response.headers["Host"]?.first()
+        val ip = response.headers["ip"]?.first()
         val protocol = "http"
 
-        assert("text/plain" == response.headers["accept"])
-        assert("AHC/2.1" == response.headers["agent"])
-        assert(protocol == response.headers["scheme"])
+        assert("text/plain" == response.headers["Accept"]?.first())
+        assert("AHC/2.1" == response.headers["agent"]?.first())
+        assert(protocol == response.headers["scheme"]?.first())
         assert("127.0.0.1" == host || "localhost" == host)
         assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
-        assert("" == response.headers["query"])
-        assert(port == response.headers["port"])
-        assert("0" == response.headers["params"])
-        assert("0" == response.headers["queryParams"])
-        assert("0" == response.headers["formParams"])
-        assert(null == response.headers["origin"])
+        assert("" == response.headers["query"]?.first())
+        assert(port == response.headers["port"]?.first())
+        assert("0" == response.headers["params"]?.first())
+        assert("0" == response.headers["queryParams"]?.first())
+        assert("0" == response.headers["formParams"]?.first())
+        assert(null == response.headers["origin"]?.first())
 
-        assert("false" == response.headers["secure"])
+        assert("false" == response.headers["secure"]?.first())
         assert(response.headers["referer"] == null)
-        assert("text/plain" == response.headers["preferredType"])
-        assert(response.headers["contentLength"].isNotEmpty())
+        assert("text/plain" == response.headers["preferredType"]?.first())
+        assert(response.headers["contentLength"]?.first()?.isNotEmpty() ?: false)
 
-        assert(response.responseBody == "$protocol://localhost:$port/request/data!!!")
-        assert(200 == response.statusCode)
+        assert(response.body == "$protocol://localhost:$port/request/data!!!")
+        assert(200 == response.status)
     }
 
     @Test fun `Request data is read properly`() {
         val response = client.get ("/request/data?query")
         val port = URL(client.endpoint).port.toString ()
-        val host = response.headers["host"]
-        val ip = response.headers["ip"]
+        val host = response.headers["Host"]?.first()
+        val ip = response.headers["ip"]?.first()
         val protocol = "http"
 
-        assert("AHC/2.1" == response.headers["agent"])
-        assert(protocol == response.headers["scheme"])
+        assert("AHC/2.1" == response.headers["agent"]?.first())
+        assert(protocol == response.headers["scheme"]?.first())
         assert("127.0.0.1" == host || "localhost" == host)
         assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
-        assert("query" == response.headers["query"])
-        assert(port == response.headers["port"])
-        assert("1" == response.headers["params"])
-        assert("1" == response.headers["queryParams"])
-        assert("0" == response.headers["formParams"])
-        assert(null == response.headers["origin"])
+        assert("query" == response.headers["query"]?.first())
+        assert(port == response.headers["port"]?.first())
+        assert("1" == response.headers["params"]?.first())
+        assert("1" == response.headers["queryParams"]?.first())
+        assert("0" == response.headers["formParams"]?.first())
+        assert(null == response.headers["origin"]?.first())
 
-        assert("false" == response.headers["secure"])
+        assert("false" == response.headers["secure"]?.first())
         assert(response.headers["referer"] == null)
-        assert("*/*" == response.headers["preferredType"])
-        assert(response.headers["contentLength"].isNotEmpty())
+        assert("*/*" == response.headers["preferredType"]?.first())
+        assert(response.headers["contentLength"]?.isNotEmpty() ?: false)
 
-        assert(response.responseBody == "$protocol://localhost:$port/request/data!!!")
-        assert(200 == response.statusCode)
+        assert(response.body == "$protocol://localhost:$port/request/data!!!")
+        assert(200 == response.status)
     }
 
     @Test fun `HTTP methods are handled correctly`() {
-        checkMethod (client, "HEAD")
-        checkMethod (client, "DELETE")
-        checkMethod (client, "OPTIONS")
-        checkMethod (client, "GET")
-        checkMethod (client, "PATCH")
-        checkMethod (client, "POST")
-        checkMethod (client, "PUT")
-        checkMethod (client, "TRACE")
+        checkMethod(client, "HEAD")
+        checkMethod(client, "DELETE")
+        checkMethod(client, "OPTIONS")
+        checkMethod(client, "GET")
+        checkMethod(client, "PATCH")
+        checkMethod(client, "POST")
+        checkMethod(client, "PUT")
+        checkMethod(client, "TRACE")
     }
 
     @Test fun `Response data is generated properly`() {
@@ -228,9 +235,9 @@ import kotlin.text.Charsets.UTF_8
 
     @Test fun `Root files content type is returned properly`() {
         val responseFile = client.get("/css/mkdocs.css")
-        assert(responseFile.contentType.contains("css"))
-        assert(responseFile.statusCode == 200)
-        assert(responseFile.responseBody.contains("article"))
+        assert(responseFile.contentType?.contains("css") ?: false)
+        assert(responseFile.status == 200)
+        assert(responseFile.body?.contains("article") ?: false)
     }
 
     @Test fun echoParamWithUpperCaseInValue() {
@@ -261,8 +268,8 @@ import kotlin.text.Charsets.UTF_8
 
     @Test fun redirect() {
         val response = client.get ("/redirect")
-        assert(response.statusCode == 302)
-        assert(response.headers["Location"] == "http://example.com")
+        assert(response.status == 302)
+        assert(response.headers["Location"]?.first() == "http://example.com")
     }
 
     @Test fun requestDataWithDifferentHeaders() {
@@ -271,10 +278,10 @@ import kotlin.text.Charsets.UTF_8
             "User-Agent" to listOf("ua")
         ))
 
-        assert("ua" == response.headers["agent"])
-        assert("/" == response.headers["referer"])
+        assert("ua" == response.headers["agent"]?.first())
+        assert("/" == response.headers["Referer"]?.first())
 
-        assert(200 == response.statusCode)
+        assert(200 == response.status)
     }
 
     @Test fun contentType () {
@@ -282,12 +289,12 @@ import kotlin.text.Charsets.UTF_8
             "/content/type",
             params.map { it.first to listOf(it.second) }.toMap()
         )
-        .responseBody
+        .body
 
         assert(contentType("responseType" to "application/yaml") == "application/yaml")
         assert(contentType("Accept" to "text/plain") == "text/plain")
         // Check start because http client adds encoding
-        assert(contentType("Content-Type" to "text/html").startsWith("text/html"))
+        assert(contentType("Content-Type" to "text/html")?.startsWith("text/html") ?: false)
         assert(contentType() == "application/json")
     }
 
@@ -296,23 +303,23 @@ import kotlin.text.Charsets.UTF_8
     }
 
     private fun checkMethod (client: Client, methodName: String) {
-        val response = client.send(Method.valueOf (methodName), "/method")
-        assert(response.headers.get("method") == methodName)
-        assert(response.headers.get("before") == "filter")
-        assert(200 == response.statusCode)
+        val response = client.send(Request(Method.valueOf (methodName), Path("/method")))
+        assert(response.headers["method"]?.first() == methodName)
+        assert(response.headers["before"]?.first() == "filter")
+        assert(200 == response.status)
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
-        assert(response?.headers?.get("before") == "filter")
-        assert(response?.statusCode == status)
-        assert(response?.responseBody == content)
+        assert(response?.headers?.get("before")?.first() == "filter")
+        assert(response?.status == status)
+        assert(response?.body == content)
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert(response?.headers?.get("before") == "filter")
-        assert(response?.statusCode == status)
+        assert(response?.headers?.get("before")?.first() == "filter")
+        assert(response?.status == status)
         content.forEach {
-            assert(response?.responseBody?.contains (it) ?: false)
+            assert(response?.body?.contains (it) ?: false)
         }
     }
 

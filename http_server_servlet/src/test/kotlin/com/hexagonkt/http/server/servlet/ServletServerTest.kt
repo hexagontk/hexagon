@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Router
 import io.mockk.Runs
 import io.mockk.every
@@ -43,8 +44,8 @@ import javax.servlet.annotation.WebListener
     }
 
     @Test fun `Servlet server starts`() {
-        val response = Client("http://127.0.0.1:9897").get("/")
-        assert(response.responseBody == "Hello Servlet!")
+        val response = Client(AhcAdapter(), "http://127.0.0.1:9897").get("/")
+        assert(response.body == "Hello Servlet!")
     }
 
     @Test(expectedExceptions = [ IllegalStateException::class ])

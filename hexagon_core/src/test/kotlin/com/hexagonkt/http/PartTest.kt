@@ -1,4 +1,4 @@
-package com.hexagonkt.http.server
+package com.hexagonkt.http
 
 import com.hexagonkt.helpers.toStream
 import org.testng.annotations.Test
@@ -7,7 +7,7 @@ import org.testng.annotations.Test
 
     @Test fun `Full part contains expected values`() {
         val content = "content"
-        val fullPart = Part (
+        val fullPart = Part(
             contentType = "text/plain",
             headers = emptyMap(),
             inputStream = content.toStream(),
