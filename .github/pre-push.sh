@@ -17,7 +17,6 @@ dc -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml rm -sf
 dc -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
 
 gw all
-gw dokkaMd checkSite
 
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
