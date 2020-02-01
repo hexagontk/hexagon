@@ -25,8 +25,6 @@ plugins {
     id("uk.co.cacoethes.lazybones-templates") version "1.2.3" apply false
 }
 
-apply(plugin = "java")
-
 apply(from = "gradle/sonarqube.gradle")
 apply(from = "gradle/certificates.gradle")
 
@@ -55,7 +53,8 @@ task("publish") {
 task("release") {
     dependsOn("publish")
     doLast {
-        project.exec { commandLine = listOf("git", "tag", "-m", "Release $version", version.toString()) }
+        val release = version.toString()
+        project.exec { commandLine = listOf("git", "tag", "-m", "Release $release", release) }
         project.exec { commandLine = listOf("git", "push", "--tags") }
     }
 }
@@ -67,9 +66,9 @@ tasks.register<JacocoReport>("jacocoReport") {
     val execPattern = "**/build/jacoco/test.exec"
     executionData.setFrom(fileTree(rootPath).include(execPattern))
 
-//    subprojects.forEach {
+    subprojects.forEach {
 //        sourceSets(it.sourceSets.main as SourceSet)
-//    }
+    }
 
     reports {
         html.isEnabled = true
@@ -87,7 +86,6 @@ childProjects.forEach { pair ->
 
     if (!(name in listOf("hexagon_benchmark", "hexagon_site", "hexagon_starters")) && empty) {
         project(name) {
-//            tasks.named<DokkaTask>("dokkaBase") {
             tasks.register<DokkaTask>("dokkaMd") {
                 outputFormat = "gfm"
                 outputDirectory = siteContentPath
@@ -106,13 +104,6 @@ childProjects.forEach { pair ->
                     addMetadata(siteContentPath, prj)
                 }
             }
-
-//            task("dokkaMd") {
-//                dependsOn("dokkaBase")
-//                doLast {
-//                    addMetadata(siteContentPath, prj)
-//                }
-//            }
         }
     }
 }

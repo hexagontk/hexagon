@@ -1,3 +1,4 @@
+
 rootProject.name = "hexagon"
 
 gradle.rootProject {
@@ -13,8 +14,8 @@ gradle.rootProject {
         val vcsUrl by extra("https://github.com/hexagonkt/hexagon.git")
 
         // SonarQube
-        val sonarqubeProject by extra("hexagonkt_hexagon")
-        val sonarqubeOrganization by extra("hexagonkt")
+        val sonarQubeProject by extra("hexagonkt_hexagon")
+        val sonarQubeOrganization by extra("hexagonkt")
 
         // SSL
         val sslOrganization by extra("Hexagon")
