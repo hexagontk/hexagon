@@ -13,26 +13,26 @@
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
-    `idea`
-    `eclipse`
-    `java`
-    `jacoco`
+    idea
+    eclipse
+//    java
+//    jacoco
 
-    id("org.sonarqube") version "2.8"
+    id("org.sonarqube") version "2.8" apply false
     id("org.jetbrains.kotlin.jvm") version "1.3.61" apply false
     id("org.jetbrains.dokka") version "0.10.0" apply false
     id("com.jfrog.bintray") version "1.8.4" apply false
     id("uk.co.cacoethes.lazybones-templates") version "1.2.3" apply false
 }
 
-apply(from = "gradle/sonarqube.gradle")
+//apply(from = "gradle/sonarqube.gradle")
 apply(from = "gradle/certificates.gradle")
 
-repositories {
-    jcenter() // Repository required by Jacoco Report
-}
+//repositories {
+//    jcenter() // Repository required by Jacoco Report
+//}
 
-tasks.clean {
+tasks.register<Delete>("clean") {
     delete("build", "log", "out", ".vertx", "file-uploads")
 
     delete(
@@ -59,16 +59,16 @@ task("release") {
     }
 }
 
-tasks.register<JacocoReport>("jacocoReport") {
-    dependsOn(getTasksByName("jacocoTestReport", true))
-
-    val rootPath = rootDir.absolutePath
-    val execPattern = "**/build/jacoco/test.exec"
-    val sourcePattern = "**/src/main/kotlin"
-    executionData.setFrom(fileTree(rootPath).include(execPattern))
-    sourceDirectories.setFrom(fileTree(rootPath).include(sourcePattern))
-
-    subprojects.forEach {
+//tasks.register<JacocoReport>("jacocoReport") {
+//    dependsOn(getTasksByName("jacocoTestReport", true))
+//
+//    val rootPath = rootDir.absolutePath
+//    val execPattern = "**/build/jacoco/test.exec"
+//    val sourcePattern = "**/src/main/kotlin"
+//    executionData.setFrom(fileTree(rootPath).include(execPattern))
+//    sourceDirectories.setFrom(fileTree(rootPath).include(sourcePattern))
+//
+//    subprojects.forEach {
 //        try {
 //            println(it.tasks["build"].javaClass)
 //        }
@@ -76,20 +76,20 @@ tasks.register<JacocoReport>("jacocoReport") {
 //            e.printStackTrace()
 //        }
 //        sourceSets(it.sourceSets.main as SourceSet)
-    }
+//    }
+//
+//    reports {
+//        html.isEnabled = true
+//        xml.isEnabled = true
+//    }
+//}
 
-    reports {
-        html.isEnabled = true
-        xml.isEnabled = true
-    }
-}
-
-project.tasks["sonarqube"].dependsOn("jacocoReport")
+//project.tasks["sonarqube"].dependsOn("jacocoTestReport")
 
 childProjects.forEach { pair ->
     val name = pair.key
     val prj = pair.value
-    val empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
+    val empty = prj.getTasksByName("dokkaMd", false).isEmpty()
     val siteContentPath = "${rootDir}/hexagon_site/content"
 
     if (name !in listOf("hexagon_benchmark", "hexagon_site", "hexagon_starters") && empty) {
@@ -114,18 +114,20 @@ childProjects.forEach { pair ->
 task("all") {
     dependsOn(
         project.getTasksByName("build", true),
-        project.getTasksByName("jacocoReport", true),
+        project.getTasksByName("jacocoTestReport", true),
         project.getTasksByName("installDist", true),
         project.getTasksByName("installAllTemplates", true),
         project.getTasksByName("publishToMavenLocal", true),
         project.getTasksByName("createCa", true),
         project.getTasksByName("createIdentity", true),
+        project.getTasksByName("dokkaMd", true),
+        project.getTasksByName("checkSite", true),
         project.getTasksByName("tfb", true)
     )
 }
 
 fun filesCollection(dir: Any, pattern: String): List<String> =
-    fileTree(dir) { include(pattern) }.getFiles().map { it.absolutePath }
+    fileTree(dir) { include(pattern) }.files.map { it.absolutePath }
 
 fun addMetadata(siteContentPath: String, project: Project) {
     val projectDirName = project.projectDir.name
@@ -160,7 +162,7 @@ fun toEditUrl(mdPath: String, siteContentPath: String, projectDirName: String): 
             if (afterPackage == "index.md") {
                 editUrl = "${srcPrefix}/${packageName}/package-info.java"
             } else if (afterPackage.endsWith(".md") || afterPackage.contains(".")) {
-                val lastPath = packageName.split("/")?.last()
+                val lastPath = packageName.split("/").last()
 
                 editUrl = "${srcPrefix}/${packageName}/${lastPath.capitalize()}.kt"
             } else {
