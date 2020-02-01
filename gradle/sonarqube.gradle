@@ -14,4 +14,4 @@ sonarqube {
     }
 }
 
-tasks["sonarqube"].dependsOn("jacocoTestReport")
+//tasks["sonarqube"].dependsOn("jacocoTestReport")
