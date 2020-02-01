@@ -51,14 +51,13 @@ install:
   - sudo /etc/init.d/postgresql stop
 
 script:
-  - alias gw='./gradlew --quiet'
-  - alias dc='docker-compose --log-level warning'
-  - alias d='docker --log-level warning'
-  - gw clean installDist -x test
-  - dc -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
-  - gw all
-  - gw --no-daemon -x test sonarqube
-  - d run --rm -v "$PWD/hexagon_site:/docs" "squidfunk/mkdocs-material:4.6.0" build
+  - ./gradlew --quiet clean installDist -x test
+  - docker-compose --log-level warning
+    -f docker-compose.yml -f hexagon_benchmark/docker-compose.yml up -d
+  - ./gradlew --quiet all
+  - ./gradlew --quiet --no-daemon -x test sonarqube
+  - docker --log-level warning
+    run --rm -v "$PWD/hexagon_site:/docs" "squidfunk/mkdocs-material:4.6.0" build
 
 after_success: bash <(curl -s https://codecov.io/bash)
 after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
