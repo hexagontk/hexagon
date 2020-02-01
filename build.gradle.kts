@@ -15,8 +15,6 @@ import org.jetbrains.dokka.gradle.DokkaTask
 plugins {
     idea
     eclipse
-//    java
-//    jacoco
 
     id("org.sonarqube") version "2.8" apply false
     id("org.jetbrains.kotlin.jvm") version "1.3.61" apply false
@@ -27,10 +25,6 @@ plugins {
 
 //apply(from = "gradle/sonarqube.gradle")
 apply(from = "gradle/certificates.gradle")
-
-//repositories {
-//    jcenter() // Repository required by Jacoco Report
-//}
 
 tasks.register<Delete>("clean") {
     delete("build", "log", "out", ".vertx", "file-uploads")
@@ -58,33 +52,6 @@ task("release") {
         project.exec { commandLine = listOf("git", "push", "--tags") }
     }
 }
-
-//tasks.register<JacocoReport>("jacocoReport") {
-//    dependsOn(getTasksByName("jacocoTestReport", true))
-//
-//    val rootPath = rootDir.absolutePath
-//    val execPattern = "**/build/jacoco/test.exec"
-//    val sourcePattern = "**/src/main/kotlin"
-//    executionData.setFrom(fileTree(rootPath).include(execPattern))
-//    sourceDirectories.setFrom(fileTree(rootPath).include(sourcePattern))
-//
-//    subprojects.forEach {
-//        try {
-//            println(it.tasks["build"].javaClass)
-//        }
-//        catch (e: Throwable) {
-//            e.printStackTrace()
-//        }
-//        sourceSets(it.sourceSets.main as SourceSet)
-//    }
-//
-//    reports {
-//        html.isEnabled = true
-//        xml.isEnabled = true
-//    }
-//}
-
-//project.tasks["sonarqube"].dependsOn("jacocoTestReport")
 
 childProjects.forEach { pair ->
     val name = pair.key

@@ -13,3 +13,5 @@ sonarqube {
         property("sonar.login", findProperty("sonarQubeToken") ?: System.getenv("SONARQUBE_TOKEN"))
     }
 }
+
+tasks["sonarqube"].dependsOn("jacocoTestReport")

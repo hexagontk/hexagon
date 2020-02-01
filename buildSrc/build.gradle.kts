@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.10.1"
+    val jacksonVersion = "2.10.2"
     val testngVersion = "6.14.3"
 
     implementation(kotlin("stdlib-jdk8"))

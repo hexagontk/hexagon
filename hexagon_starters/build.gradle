@@ -3,6 +3,7 @@ import static java.lang.System.getenv
 
 apply(from: "../gradle/kotlin.gradle")
 apply(from: "../gradle/junit.gradle")
+apply(from: "../gradle/sonarqube.gradle")
 
 apply(plugin: "uk.co.cacoethes.lazybones-templates")
 

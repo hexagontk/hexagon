@@ -4,6 +4,7 @@ import org.apache.tools.ant.DirectoryScanner
 apply(from: "../gradle/kotlin.gradle")
 apply(from: "../gradle/service.gradle")
 apply(from: "../gradle/testng.gradle")
+apply(from: "../gradle/sonarqube.gradle")
 
 apply(plugin: "scala")
 apply(plugin: "war")
