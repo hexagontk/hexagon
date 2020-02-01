@@ -2,7 +2,8 @@
 # Gradle
 .gradle/
 build/
-local*
+local_*
+private_*
 
 # Eclipse
 .settings/

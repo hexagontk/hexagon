@@ -64,9 +64,17 @@ tasks.register<JacocoReport>("jacocoReport") {
 
     val rootPath = rootDir.absolutePath
     val execPattern = "**/build/jacoco/test.exec"
+    val sourcePattern = "**/src/main/kotlin"
     executionData.setFrom(fileTree(rootPath).include(execPattern))
+    sourceDirectories.setFrom(fileTree(rootPath).include(sourcePattern))
 
     subprojects.forEach {
+//        try {
+//            println(it.tasks["build"].javaClass)
+//        }
+//        catch (e: Throwable) {
+//            e.printStackTrace()
+//        }
 //        sourceSets(it.sourceSets.main as SourceSet)
     }
 
@@ -84,25 +92,20 @@ childProjects.forEach { pair ->
     val empty = prj.getTasksByName("dokkaMd", false)?.isEmpty() ?: true
     val siteContentPath = "${rootDir}/hexagon_site/content"
 
-    if (!(name in listOf("hexagon_benchmark", "hexagon_site", "hexagon_starters")) && empty) {
-        project(name) {
-            tasks.register<DokkaTask>("dokkaMd") {
-                outputFormat = "gfm"
-                outputDirectory = siteContentPath
+    if (name !in listOf("hexagon_benchmark", "hexagon_site", "hexagon_starters") && empty) {
+        project(name).tasks.register<DokkaTask>("dokkaMd") {
+            outputFormat = "gfm"
+            outputDirectory = siteContentPath
 
-                configuration {
-                    reportUndocumented = false
-                    includes = filesCollection(prj.projectDir, "*.md")
-                    samples = filesCollection(
-                        "${prj.projectDir}/src/test/kotlin",
-                        "**/*SamplesTest.kt"
-                    )
-                    sourceRoot { path = "$projectDir/src/main/kotlin" }
-                }
+            configuration {
+                reportUndocumented = false
+                includes = filesCollection(prj.projectDir, "*.md")
+                samples = filesCollection("${prj.projectDir}/src/test/kotlin", "**/*SamplesTest.kt")
+                sourceRoot { path = "$projectDir/src/main/kotlin" }
+            }
 
-                doLast {
-                    addMetadata(siteContentPath, prj)
-                }
+            doLast {
+                addMetadata(siteContentPath, prj)
             }
         }
     }
