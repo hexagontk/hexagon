@@ -16,14 +16,14 @@ plugins {
     idea
     eclipse
 
-    id("org.sonarqube") version "2.8" apply false
+    id("org.sonarqube") version "2.8"
     id("org.jetbrains.kotlin.jvm") version "1.3.61" apply false
     id("org.jetbrains.dokka") version "0.10.0" apply false
     id("com.jfrog.bintray") version "1.8.4" apply false
     id("uk.co.cacoethes.lazybones-templates") version "1.2.3" apply false
 }
 
-//apply(from = "gradle/sonarqube.gradle")
+apply(from = "gradle/sonarqube.gradle")
 apply(from = "gradle/certificates.gradle")
 
 tasks.register<Delete>("clean") {
