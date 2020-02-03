@@ -3,9 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.hexagonkt</groupId>
-  <artifactId>maven_starter</artifactId>
+  <artifactId>starter_pom</artifactId>
   <version>1.0.0</version>
-  <description>Hexagon's Maven parent POM</description>
+  <packaging>pom</packaging>
+  <description>Hexagon's Maven starter POM</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
