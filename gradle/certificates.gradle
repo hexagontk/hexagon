@@ -94,6 +94,10 @@ private void concatenate(final String output, final String... files) {
 private String sslPath(final String fileName) {
     final String sslPath = findProperty("sslPath")
 
+    final File sslPathFile = file(sslPath == null? project.buildDir.absolutePath : sslPath)
+    if (!sslPathFile.exists())
+        sslPathFile.mkdir()
+
     if (sslPath == null)
         return project.buildDir.absolutePath + "/" + fileName
 

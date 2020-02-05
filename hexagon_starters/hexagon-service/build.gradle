@@ -13,5 +13,5 @@ dependencies {
     implementation("com.hexagonkt:http_server_jetty:\$hexagonVersion")
 
     testImplementation("junit:junit:\$junitVersion")
-    testImplementation("com.hexagonkt:port_http_client:\$hexagonVersion")
+    testImplementation("com.hexagonkt:http_client_ahc:\$hexagonVersion")
 }

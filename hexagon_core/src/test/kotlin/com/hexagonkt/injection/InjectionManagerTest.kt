@@ -15,7 +15,7 @@ class InjectionManagerTest {
     }
 
     @Test fun `DI just works`() {
-        val injector = InjectionManager {
+        val injector = InjectionManager.apply {
             bind(Foo::class, ::SubFoo1)
             bind<Foo>(::SubFoo1)
         }
@@ -75,7 +75,7 @@ class InjectionManagerTest {
     }
 
     @Test fun `DI don't override bindings`() {
-        val injector = InjectionManager {
+        val injector = InjectionManager.apply {
             bind(Foo::class, ::SubFoo1)
             bind<Foo>(::SubFoo1)
         }

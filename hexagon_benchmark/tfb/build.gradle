@@ -31,5 +31,5 @@ dependencies {
     // providedCompile excludes the dependency only in the WAR, not in the distribution
     providedCompile("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude module: "slf4j-api" }
 
-    testImplementation("com.hexagonkt:port_http_client:$hexagonVersion")
+    testImplementation("com.hexagonkt:http_client_ahc:$hexagonVersion")
 }

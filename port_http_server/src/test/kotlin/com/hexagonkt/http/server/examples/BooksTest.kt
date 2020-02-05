@@ -2,9 +2,10 @@ package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.Response
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -75,7 +76,9 @@ import org.testng.annotations.Test
     }
     // books
 
-    private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client: Client by lazy {
+        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    }
 
     @BeforeClass fun initialize() {
         server.start()
@@ -87,8 +90,8 @@ import org.testng.annotations.Test
 
     @Test fun `Create book returns 201 and new book ID`() {
         val result = client.post("/books?author=Vladimir%20Nabokov&title=Lolita")
-        assert(Integer.valueOf(result.responseBody) > 0)
-        assert(201 == result.statusCode)
+        assert(Integer.valueOf(result.body) > 0)
+        assert(201 == result.status)
     }
 
     @Test fun `List books contains all books IDs`() {
@@ -121,13 +124,13 @@ import org.testng.annotations.Test
 
     @Test fun `Invalid method returns 405`() {
         val result = client.options("/books/9999")
-        assert(405 == result.statusCode)
+        assert(405 == result.status)
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert(response?.statusCode == status)
+        assert(response?.status == status)
         content.forEach {
-            assert(response?.responseBody?.contains(it) ?: false)
+            assert(response?.body?.contains(it) ?: false)
         }
     }
 

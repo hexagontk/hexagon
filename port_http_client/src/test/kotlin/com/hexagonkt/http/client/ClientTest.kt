@@ -7,16 +7,13 @@ import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.serialize
 
-import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 import java.io.File
-import java.net.URI
-import kotlin.test.assertFails
 
-@Test class ClientTest {
+@Test abstract class ClientTest(private val adapter: ClientPort) {
 
     private var handler: Call.() -> Unit = {}
 
@@ -34,7 +31,7 @@ import kotlin.test.assertFails
     }
 
     private val client by lazy {
-        Client("http://localhost:${server.runtimePort}", ClientSettings(Json))
+        Client(adapter, "http://localhost:${server.runtimePort}", ClientSettings(Json))
     }
 
     @BeforeClass fun startup() {
@@ -57,11 +54,11 @@ import kotlin.test.assertFails
         val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
-        val body = client.post("/", requestBody, Json.contentType).responseBody
-        assert(body.trim() == expectedBody)
+        val body = client.post("/", requestBody, Json.contentType).body
+        assert(body.toString().trim() == expectedBody)
 
-        val body2 = client.post("/", body = requestBody).responseBody
-        assert(body2.trim() == expectedBody)
+        val body2 = client.post("/", body = requestBody).body
+        assert(body2.toString().trim() == expectedBody)
 
         client.get("/")
         client.get("/")
@@ -89,7 +86,7 @@ import kotlin.test.assertFails
         val endpoint = "http://localhost:${server.runtimePort}"
         val h = mapOf("header1" to listOf("val1", "val2"))
         val settings = ClientSettings(Json.contentType, false, h, "user", "password", true)
-        val c = Client(endpoint, settings)
+        val c = Client(adapter, endpoint, settings)
 
         assert(c.settings.contentType == Json.contentType)
         assert(!c.settings.useCookies)
@@ -100,11 +97,12 @@ import kotlin.test.assertFails
             response.headers["head1"] = request.headers.require("header1")
         }
 
-        val r = c.get("/auth")
-        assert(r.headers.get("auth").startsWith("Basic"))
-        assert(r.headers.getAll("head1").contains("val1"))
-        assert(r.headers.getAll("head1").contains("val2"))
-        assert(r.statusCode == 200)
+        c.get("/auth").apply {
+            assert(headers["auth"]?.firstOrNull()?.startsWith("Basic") ?: false)
+            assert(headers["head1"]?.contains("val1") ?: false)
+            assert(headers["head1"]?.contains("val2") ?: false)
+            assert(status == 200)
+        }
     }
 
     @Test fun `Files are sent in base64` () {
@@ -116,16 +114,16 @@ import kotlin.test.assertFails
         }
 
         val r = client.post("/file", file)
-        assert(r.headers.get("file64").isNotEmpty())
-        assert(r.statusCode == 200)
+        assert(r.headers.require("file64").isNotEmpty())
+        assert(r.status == 200)
     }
 
     @Test fun `Integers are sent properly` () {
-        var run = false
+        var run: Boolean
 
-        client.post("/string", 42) {
-            assert(headers.get("body").isNotEmpty())
-            assert(statusCode == 200)
+        client.post("/string", 42).apply {
+            assert(headers.require("body").isNotEmpty())
+            assert(status == 200)
             run = true
         }
 
@@ -133,29 +131,19 @@ import kotlin.test.assertFails
     }
 
     @Test fun `Strings are sent properly` () {
-        var run = false
+        var run: Boolean
 
-        client.post("/string", "text") {
-            assert(headers.get("body").isNotEmpty())
-            assert(statusCode == 200)
+        client.post("/string", "text").apply {
+            assert(headers["body"]?.isNotEmpty() ?: false)
+            assert(status == 200)
             run = true
         }
 
         assert(run)
     }
 
-    @Test fun `Empty authority don't return null in URIs`() {
-        assert(client.authority(URI("resource:///resourceWithoutAuthority")) == "")
-    }
-
-    @Test fun `'uriStream' handles schemes properly`() {
-        val userDir = System.getProperty("user.dir")
-        assert(client.uriStream(URI("file://$userDir/README.md")).reader().readText() != "")
-        assertFails { client.uriStream(URI("file://$userDir/invalid.file")) }
-    }
-
     private fun checkResponse(response: Response, parameter: Map<String, String>?) {
-        assert(response.statusCode == 200)
-        assert(response.responseBody.trim() == parameter?.serialize()?.trim() ?: "")
+        assert(response.status == 200)
+        assert(response.body?.trim() == parameter?.serialize()?.trim() ?: "")
     }
 }

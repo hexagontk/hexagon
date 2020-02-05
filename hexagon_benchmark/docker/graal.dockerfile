@@ -1,17 +1,18 @@
 
-FROM oracle/graalvm-ce:19.3.0-java11 as build
+FROM oracle/graalvm-ce:19.3.1-java11 as build
 USER root
 WORKDIR /build
 
-ADD . /build
-RUN ./gradlew jarAll
+ADD ./build/libs/*-all-*.jar /build
+RUN gu install native-image
 RUN native-image -jar \
-  /build/build/libs/hexagon_benchmark-all*.jar \
-  -H:ReflectionConfigurationFiles=reflection.json \
-  -H:+JNI \
-  -H:Name="Hexagon Benchmark" \
-  --static \
-  --delay-class-initialization-to-runtime=hexagonBenchmark
+  /build/hexagon_benchmark-all*.jar
+#  /build/hexagon_benchmark-all*.jar \
+#  -H:ReflectionConfigurationFiles=reflection.json \
+#  -H:+JNI \
+#  -H:Name="Hexagon Benchmark" \
+#  --static \
+#  --delay-class-initialization-to-runtime=hexagonBenchmark
 
 FROM scratch
 COPY --from=build /build/hexagon_benchmark /

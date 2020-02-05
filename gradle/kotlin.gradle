@@ -94,6 +94,7 @@ jacoco {
 
 jacocoTestReport {
     dependsOn("test")
+    executionData.setFrom(fileTree(rootDir.absolutePath).include("**/*.exec"))
     reports {
         xml.enabled = true
         html.enabled = true

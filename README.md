@@ -525,11 +525,12 @@ val server = serve(serverSettings, serverAdapter) {
 val clientSettings = ClientSettings(sslSettings = sslSettings)
 
 // Create a HTTP client and make a HTTPS request
-Client("https://localhost:${server.runtimePort}", clientSettings).get("/hello") {
-    logger.debug { responseBody }
+val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
+client.get ("/hello").apply {
+    logger.debug { body }
     // Assure the certificate received (and returned) by the server is correct
-    assert(headers["cert"].startsWith("CN=hexagonkt.com"))
-    assert(responseBody == "Hello World!")
+    assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))
+    assert(body == "Hello World!")
 }
 // https
 ```

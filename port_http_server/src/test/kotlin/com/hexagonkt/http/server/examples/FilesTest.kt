@@ -1,13 +1,15 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.helpers.Resource
-import com.hexagonkt.http.Method
+import com.hexagonkt.http.Method.POST
+import com.hexagonkt.http.Part
+import com.hexagonkt.http.Path
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.Request
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import org.asynchttpclient.Response
-import org.asynchttpclient.request.body.multipart.InputStreamPart
-import org.asynchttpclient.request.body.multipart.StringPart
+import com.hexagonkt.http.client.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -57,7 +59,9 @@ import java.io.File
     }
     // files
 
-    private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client: Client by lazy {
+        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    }
 
     @BeforeClass fun initialize() {
         server.start()
@@ -68,14 +72,16 @@ import java.io.File
     }
 
     @Test fun `Parameters are separated from each other`() {
-        val parts = listOf(StringPart("name", "value"))
-        val response = client.send(Method.POST, "/form?queryName=queryValue", parts = parts)
-        assert(response.headers["queryParams"].contains("queryName:queryValue"))
-        assert(!response.headers["queryParams"].contains("name:value"))
-        assert(response.headers["formParams"].contains("name:value"))
-        assert(!response.headers["formParams"].contains("queryName:queryValue"))
-        assert(response.headers["params"].contains("queryName:queryValue"))
-        assert(response.headers["params"].contains("name:value"))
+        val parts = mapOf("name" to Part("name", "value"))
+        val response = client.send(
+            Request(POST, Path("/form?queryName=queryValue"), parts = parts)
+        )
+        assert(response.headers["queryParams"]?.first()?.contains("queryName:queryValue") ?: false)
+        assert(!(response.headers["queryParams"]?.first()?.contains("name:value") ?: true))
+        assert(response.headers["formParams"]?.first()?.contains("name:value") ?: false)
+        assert(!(response.headers["formParams"]?.first()?.contains("queryName:queryValue") ?: true))
+        assert(response.headers["params"]?.first()?.contains("queryName:queryValue") ?: false)
+        assert(response.headers["params"]?.first()?.contains("name:value") ?: false)
     }
 
     @Test fun `Requesting a folder with an existing file name returns 404`() {
@@ -90,56 +96,56 @@ import java.io.File
 
     @Test fun `Files content type is returned properly`() {
         val response = client.get("/file.css")
-        assert(response.contentType.contains("css"))
+        assert(response.contentType?.contains("css") ?: false)
         assertResponseEquals(response, "/* css */\n")
 
         val responseFile = client.get("/pub/css/mkdocs.css")
-        assert(responseFile.contentType.contains("css"))
+        assert(responseFile.contentType?.contains("css") ?: false)
         assertResponseContains(responseFile, 200, "article")
 
         client.get("/static/resources/css/mkdocs.css").apply {
-            assert(contentType.contains("css"))
+            assert(contentType?.contains("css") ?: false)
             assertResponseContains(this, 200, "article")
         }
     }
 
     @Test fun `Not found resources return 404`() {
-        assert(client.get("/not_found.css").statusCode == 404)
+        assert(client.get("/not_found.css").status == 404)
     }
 
     @Test fun `Sending multi part content works properly`() {
-        val parts = listOf(StringPart("name", "value"))
-        val response = client.send(Method.POST, "/multipart", parts = parts)
-        assert(response.responseBody == "name")
+        val parts = mapOf("name" to Part("name", "value"))
+        val response = client.send(Request(POST, Path("/multipart"), parts = parts))
+        assert(response.body == "name")
     }
 
     @Test fun `Sending files works properly`() {
         val stream = Resource("assets/index.html").requireStream()
-        val parts = listOf(InputStreamPart("file", stream, "index.html"))
-        val response = client.send(Method.POST, "/file", parts = parts)
+        val parts = mapOf("file" to Part("file", stream, "index.html"))
+        val response = client.send(Request(POST, Path("/file"), parts = parts))
         assertResponseContains(response, 200, "<title>Hexagon</title>")
     }
 
     @Test fun `Files mounted on a path are returned properly`() {
         val response = client.get("/html/index.html")
-        assert(response.contentType.contains("html"))
+        assert(response.contentType?.contains("html") ?: false)
         assertResponseContains(response, 200, "<title>Hexagon</title>")
 
         client.get("/static/files/index.html").apply {
-            assert(contentType.contains("html"))
+            assert(contentType?.contains("html") ?: false)
             assertResponseContains(this, 200, "<title>Hexagon</title>")
         }
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
-        assert(response?.statusCode == status)
-        assert(response?.responseBody == content)
+        assert(response?.status == status)
+        assert(response?.body == content)
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert(response?.statusCode == status)
+        assert(response?.status == status)
         content.forEach {
-            assert (response?.responseBody?.contains (it) ?: false)
+            assert (response?.body?.contains (it) ?: false)
         }
     }
 }

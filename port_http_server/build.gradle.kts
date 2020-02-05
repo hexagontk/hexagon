@@ -4,12 +4,11 @@ apply(from = "../gradle/bintray.gradle")
 apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/testng.gradle")
 
-// Overridden because this test bundle requires the templates
-
 plugins {
     java
 }
 
+// Overridden because this test bundle requires the templates
 tasks.named<Jar>("testJar") {
     archiveClassifier.set("test")
     from(sourceSets.test.get().output){
@@ -22,5 +21,5 @@ tasks.named<Jar>("testJar") {
 
 dependencies {
     "api"(project(":hexagon_core"))
-    "testImplementation"(project(":port_http_client"))
+    "testImplementation"(project(":http_client_ahc"))
 }

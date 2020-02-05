@@ -8,7 +8,7 @@ apply(plugin: "uk.co.cacoethes.lazybones-templates")
 
 dependencies {
     implementation(project(":http_server_jetty"))
-    implementation(project(":port_http_client"))
+    implementation(project(":http_client_ahc"))
 }
 
 lazybones {

@@ -1,9 +1,10 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.Response
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import org.asynchttpclient.Response
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -41,7 +42,9 @@ import org.testng.annotations.Test
     }
     // errors
 
-    private val client: Client by lazy { Client("http://localhost:${server.runtimePort}") }
+    private val client: Client by lazy {
+        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    }
 
     @BeforeClass fun initialize() {
         server.start()
@@ -63,13 +66,14 @@ import org.testng.annotations.Test
 
     @Test fun `Handle exception allows to catch unhandled callback exceptions`() {
         val response = client.get ("/exception")
-        assert("error message" == response.headers["error"]?.toString())
+        assert("error message" == response.headers["error"]?.first().toString())
         assertResponseContains(response, 599, "Unsupported")
     }
 
     @Test fun `Base error handler catch all exceptions that subclass a given one`() {
         val response = client.get ("/baseException")
-        assert(response.headers["runtimeError"]?.toString() == CustomException::class.java.name)
+        val runtimeError = response.headers["runtimeError"]?.first()
+        assert(runtimeError.toString() == CustomException::class.java.name)
         assertResponseContains(response, 598, "Runtime")
     }
 
@@ -79,14 +83,14 @@ import org.testng.annotations.Test
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
-        assert (response?.statusCode == status)
-        assert (response?.responseBody == content)
+        assert (response?.status == status)
+        assert (response?.body == content)
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
-        assert (response?.statusCode == status)
+        assert (response?.status == status)
         content.forEach {
-            assert (response?.responseBody?.contains (it) ?: false)
+            assert (response?.body?.contains (it) ?: false)
         }
     }
 }

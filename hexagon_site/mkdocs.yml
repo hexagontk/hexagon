@@ -61,7 +61,7 @@ nav:
       - Jetty: http_server_jetty/index.md
       - Servlet: http_server_servlet/index.md
     - HTTP Client:
-      - Async HTTP Client: port_http_client/index.md
+      - Async HTTP Client: http_client_ahc/index.md
     - Store:
       - MongoDB: store_mongodb/index.md
     - Messaging:

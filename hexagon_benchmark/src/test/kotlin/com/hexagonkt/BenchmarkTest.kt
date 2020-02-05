@@ -3,10 +3,11 @@ package com.hexagonkt
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.serialization.Json
-import com.hexagonkt.serialization.parseObjects
 import com.hexagonkt.http.Method.GET
+import com.hexagonkt.http.client.Response
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import org.asynchttpclient.Response
+import com.hexagonkt.serialization.parseObjects
 import org.testng.annotations.AfterClass
 import org.testng.annotations.BeforeClass
 import org.testng.annotations.Test
@@ -22,7 +23,9 @@ import java.lang.System.setProperty
     private val databaseEngine: String,
     private val templateEngine: String = "pebble"
 ) {
-    private val client by lazy { Client("http://localhost:${benchmarkServer.runtimePort}") }
+    private val client by lazy {
+        Client(AhcAdapter(), "http://localhost:${benchmarkServer.runtimePort}")
+    }
 
     @BeforeClass fun startUp() {
         setProperty("WEBENGINE", webEngine)
@@ -66,15 +69,15 @@ import java.lang.System.setProperty
 
     @Test fun json() {
         val response = client.get("/json")
-        val content = response.responseBody
+        val content = response.body
 
         checkResponse(response, Json.contentType)
-        assert("Hello, World!" == content.parse<Message>().message)
+        assert("Hello, World!" == content?.parse<Message>()?.message)
     }
 
     @Test fun plaintext() {
         val response = client.get("/plaintext")
-        val content = response.responseBody
+        val content = response.body
 
         checkResponse(response, "text/plain")
         assert("Hello, World!" == content)
@@ -82,7 +85,7 @@ import java.lang.System.setProperty
 
     @Test fun fortunes() {
         val response = client.get("/$databaseEngine/$templateEngine/fortunes")
-        val content = response.responseBody
+        val content = response.body ?: error("body is required")
 
         checkResponse(response, "text/html;charset=utf-8")
         assert(content.contains("<td>&lt;script&gt;alert(&quot;This should not be"))
@@ -92,7 +95,7 @@ import java.lang.System.setProperty
 
     @Test fun `no query parameter`() {
         val response = client.get("/$databaseEngine/db")
-        val body = response.responseBody
+        val body = response.body ?: error("body is required")
 
         checkResponse(response, Json.contentType)
         val bodyMap = body.parse(Map::class)
@@ -102,7 +105,7 @@ import java.lang.System.setProperty
 
     @Test fun `no updates parameter`() {
         val response = client.get("/$databaseEngine/update")
-        val body = response.responseBody
+        val body = response.body ?: error("body is required")
 
         checkResponse(response, Json.contentType)
         val bodyMap = body.parseObjects(Map::class).first()
@@ -130,11 +133,11 @@ import java.lang.System.setProperty
 
     private fun checkDbRequest(path: String, itemsCount: Int) {
         val response = client.get(path)
-        val content = response.responseBody
+        val content = response.body
 
         checkResponse(response, Json.contentType)
 
-        val resultsList = content.parse(List::class)
+        val resultsList = content?.parse(List::class) ?: error("")
         assert(itemsCount == resultsList.size)
 
         (1..itemsCount).forEach {
@@ -146,9 +149,9 @@ import java.lang.System.setProperty
     }
 
     private fun checkResponse(res: Response, contentType: String) {
-        assert(res.headers ["Date"] != null)
-        assert(res.headers ["Server"] != null)
-        assert(res.headers ["Transfer-Encoding"] != null)
-        assert(res.headers ["Content-Type"] == contentType)
+        assert(res.headers["Date"] != null)
+        assert(res.headers["Server"] != null)
+        assert(res.headers["Transfer-Encoding"] != null)
+        assert(res.headers["Content-Type"]?.first() == contentType)
     }
 }

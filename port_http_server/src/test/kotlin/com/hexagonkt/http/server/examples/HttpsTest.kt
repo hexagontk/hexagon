@@ -1,9 +1,11 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.helpers.logger
+import com.hexagonkt.helpers.require
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.Protocol.HTTPS
 import com.hexagonkt.http.SslSettings
+import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ClientSettings
 import com.hexagonkt.http.server.*
@@ -35,7 +37,7 @@ import java.net.URI
 
     private val router = Router {
         get("/hello") {
-            response.setHeader("cert", request.certificate?.subjectDN?.name)
+            response.setHeader("cert", request.certificateChain.firstOrNull()?.subjectDN?.name)
             ok("Hello World!")
         }
     }
@@ -76,11 +78,12 @@ import java.net.URI
         val clientSettings = ClientSettings(sslSettings = sslSettings)
 
         // Create a HTTP client and make a HTTPS request
-        Client("https://localhost:${server.runtimePort}", clientSettings).get("/hello") {
-            logger.debug { responseBody }
+        val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
+        client.get ("/hello").apply {
+            logger.debug { body }
             // Assure the certificate received (and returned) by the server is correct
-            assert(headers["cert"].startsWith("CN=hexagonkt.com"))
-            assert(responseBody == "Hello World!")
+            assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))
+            assert(body == "Hello World!")
         }
         // https
 
@@ -92,10 +95,11 @@ import java.net.URI
         val server = Server(serverAdapter, router, serverSettings.copy(protocol = HTTPS))
         server.start()
 
-        Client("https://localhost:${server.runtimePort}", clientSettings).get("/hello") {
-            logger.debug { responseBody }
-            assert(headers["cert"].startsWith("CN=hexagonkt.com"))
-            assert(responseBody == "Hello World!")
+        val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
+        client.get("/hello").apply {
+            logger.debug { body }
+            assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))
+            assert(body == "Hello World!")
         }
 
         server.stop()
@@ -105,10 +109,11 @@ import java.net.URI
 
         val server = serve(serverSettings, router)
 
-        Client("https://localhost:${server.runtimePort}", clientSettings).get("/hello") {
-            logger.debug { responseBody }
-            assert(headers["cert"].startsWith("CN=hexagonkt.com"))
-            assert(responseBody == "Hello World!")
+        val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
+        client.get("/hello").apply {
+            logger.debug { body }
+            assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))
+            assert(body == "Hello World!")
         }
 
         server.stop()

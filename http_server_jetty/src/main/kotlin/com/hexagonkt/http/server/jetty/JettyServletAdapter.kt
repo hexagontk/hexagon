@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.jetty
 
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.error
+import com.hexagonkt.helpers.stream
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
@@ -15,9 +15,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS
 import org.eclipse.jetty.util.component.AbstractLifeCycle.AbstractLifeCycleListener
 import org.eclipse.jetty.util.component.LifeCycle
 import org.eclipse.jetty.util.ssl.SslContextFactory
-import java.io.InputStream
 import java.net.InetSocketAddress
-import java.net.URI
 import java.security.KeyStore
 import java.util.*
 import javax.servlet.DispatcherType
@@ -74,7 +72,7 @@ class JettyServletAdapter : ServerPort {
         val keyStore = sslSettings.keyStore
         if (keyStore != null) {
             val keyStorePassword = keyStore.authority ?: ""
-            val keyStoreStream = uriStream(keyStore)
+            val keyStoreStream = keyStore.stream()
             sslContextFactory.keyStore = KeyStore.getInstance("pkcs12")
             sslContextFactory.keyStore.load(keyStoreStream, keyStorePassword.toCharArray())
             sslContextFactory.setKeyStorePassword(keyStorePassword)
@@ -83,7 +81,7 @@ class JettyServletAdapter : ServerPort {
         val trustStore = sslSettings.trustStore
         if (trustStore != null) {
             val trustStorePassword = trustStore.authority ?: ""
-            val trustStoreStream = uriStream(trustStore)
+            val trustStoreStream = trustStore.stream()
             sslContextFactory.trustStore = KeyStore.getInstance("pkcs12")
             sslContextFactory.trustStore.load(trustStoreStream, trustStorePassword.toCharArray())
             sslContextFactory.setTrustStorePassword(trustStorePassword)
@@ -106,10 +104,4 @@ class JettyServletAdapter : ServerPort {
             )
         }
     }
-
-    private fun uriStream(uri: URI): InputStream =
-        if (uri.scheme == "resource")
-            Resource(uri.path.removePrefix("/")).requireStream()
-        else
-            uri.toURL().openStream() ?: error
 }
