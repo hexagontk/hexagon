@@ -6,15 +6,11 @@ hero: |
     <a href="https://travis-ci.org/hexagonkt/hexagon">
       <img src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master" alt="Travis CI" />
     </a>
-    <a href="https://codecov.io/gh/hexagonkt/hexagon">
+    <a href="https://sonarcloud.io/dashboard?id=hexagonkt_hexagon">
       <img
-        src="https://codecov.io/gh/hexagonkt/hexagon/branch/master/graph/badge.svg"
-        alt="Codecov" />
-    </a>
-    <a href="https://codebeat.co/projects/github-com-hexagonkt-hexagon-master">
-      <img
-        src="https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971"
-        alt="Codebeat" />
+        src=
+         "https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=alert_status"
+        alt="SonarQube" />
     </a>
     <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
       <img
@@ -22,9 +18,9 @@ hero: |
         alt="Bintray" />
     </a>
   </p>
-  
+
   <h1 align="center">The atoms of your platform</h1>
-  
+
   <p align="center" id="description">
     Hexagon is a microservices
     <a href="https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework">
@@ -64,20 +60,20 @@ Hexagon's high-level features.
 
 * [Simple to Use](/quick_start): Hexagon is focused in allowing you to use the features you use the
   most in your daily coding in the easiest way.
-    
+
 * [Easy to Hack](https://github.com/hexagonkt/hexagon/blob/master/contributing.md): The library is
   done to be lean and simple so you can tweak it to suit your needs instead relying on third
   parties.
-  
+
 * [Pluggable Adapters](/developer_guide): Adding an adapter is just implementing the port's
   interface. You can code your own adapters from scratch or tune the existing ones.
-    
+
 * [Kotlin First](http://kotlinlang.org): The library is coded in Kotlin for coding with Kotlin. No
   strings attached to Java (as a Language).
-    
+
 * [Properly Tested](https://github.com/hexagonkt/hexagon#status): Project's coverage is checked in
   every Pull Request. It is also stress tested at [TechEmpower Frameworks Benchmark][benchmark].
-    
+
 * [Modular](/developer_guide): Each feature is isolated in its own module. Use only the modules you
   need without unneeded dependencies.
 

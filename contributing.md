@@ -95,14 +95,12 @@ If you want to generate the documentation site, check the [site module readme][h
 ## Tools Used
 
 * [Travis]: For continuous integration.
-* [Codecov]: To check code coverage.
-* [Codebeat]: To measure code quality.
+* [SonarQube]: To check code coverage and measure code quality.
 * [Github]: Web hosting, project board and code hosting.
 * [Bintray]: Artifact repository for JARs.
 
 [Travis]: https://travis-ci.org
-[Codecov]: https://codecov.io
-[Codebeat]: https://codebeat.co
+[SonarQube]: https://sonarcloud.io
 [Github]: https://github.com
 [Bintray]: https://bintray.com
 

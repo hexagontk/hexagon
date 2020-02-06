@@ -56,7 +56,6 @@ script:
   - export BRANCH_NAME="$TRAVIS_BRANCH"
   - ./gradlew --quiet --no-daemon -x test sonarqube
 
-after_success: bash <(curl -s https://codecov.io/bash)
 after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
 
 deploy:

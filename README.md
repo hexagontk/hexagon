@@ -13,15 +13,11 @@
   <a href="https://travis-ci.org/hexagonkt/hexagon">
     <img src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master" alt="Travis CI" />
   </a>
-  <a href="https://codecov.io/gh/hexagonkt/hexagon">
+  <a href="https://sonarcloud.io/dashboard?id=hexagonkt_hexagon">
     <img
-      src="https://codecov.io/gh/hexagonkt/hexagon/branch/master/graph/badge.svg"
-      alt="Codecov" />
-  </a>
-  <a href="https://codebeat.co/projects/github-com-hexagonkt-hexagon-master">
-    <img
-      src="https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971"
-      alt="Codebeat" />
+      src=
+       "https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=alert_status"
+      alt="SonarQube" />
   </a>
   <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
     <img
@@ -546,18 +542,23 @@ Performance is not the primary goal, but it is taken seriously. You can check pe
 in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
 so, read the [Benchmark readme](hexagon_benchmark/README.md)
 
-Tests, of course, are taken into account. This is the coverage grid:
+Tests, of course, are taken into account. These are some coverage metrics:
 
-[![CoverageGrid]][Coverage]
+[![Coverage]][SonarProject] [![Lines]][SonarProject]
 
-The code quality is checked by Codebeat:
+[Coverage]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=coverage
+[Lines]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=ncloc
 
-[![codebeat badge]][codebeat page]
+The code quality is checked by [SonarQube]:
 
-[CoverageGrid]: https://codecov.io/gh/hexagonkt/hexagon/branch/master/graphs/icicle.svg
-[Coverage]: https://codecov.io/gh/hexagonkt/hexagon
-[codebeat badge]: https://codebeat.co/badges/f8fafe6f-767a-4248-bc34-e6d4a2acb971
-[codebeat page]: https://codebeat.co/projects/github-com-hexagonkt-hexagon-master
+[![Maintainability]][SonarProject] [![Reliability]][SonarProject] [![Security]][SonarProject]
+
+[Maintainability]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=sqale_rating
+[Reliability]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=reliability_rating
+[Security]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=security_rating
+
+[SonarProject]: https://sonarcloud.io/dashboard?id=hexagonkt_hexagon
+[SonarQube]: https://sonarcloud.io
 
 ## Contribute
 
