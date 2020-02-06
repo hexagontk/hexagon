@@ -4,71 +4,71 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.1"
+        version = "1.2.2"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
         // Bintray
-        val bintrayRepo by extra("maven")
-        val licenses by extra("MIT")
-        val vcsUrl by extra("https://github.com/hexagonkt/hexagon.git")
+        extra["bintrayRepo"] = "maven"
+        extra["licenses"] = "MIT"
+        extra["vcsUrl"] = "https://github.com/hexagonkt/hexagon.git"
 
         // SonarQube
-        val sonarQubeProject by extra("hexagonkt_hexagon")
-        val sonarQubeOrganization by extra("hexagonkt")
+        extra["sonarQubeProject"] = "hexagonkt_hexagon"
+        extra["sonarQubeOrganization"] = "hexagonkt"
 
         // SSL
-        val sslOrganization by extra("Hexagon")
-        val sslDomain by extra("hexagonkt.com")
+        extra["sslOrganization"] = "Hexagon"
+        extra["sslDomain"] = "hexagonkt.com"
 
         // Site
-        val siteHost by extra("https://hexagonkt.com")
+        extra["siteHost"] = "https://hexagonkt.com"
 
         // Relative to hexagon_site
-        val logoSmall by extra("assets/img/logo.svg")
-        val logoWide by extra("assets/img/logo_wide.svg")
-        val logoLarge by extra("assets/img/logo.svg")
+        extra["logoSmall"] = "assets/img/logo.svg"
+        extra["logoWide"] = "assets/img/logo_wide.svg"
+        extra["logoLarge"] = "assets/img/logo.svg"
 
         // VERSIONS
-        val kotlinVersion by extra("1.3.61")
-        val kotlinCoroutinesVersion by extra("1.3.3")
+        extra["kotlinVersion"] = "1.3.61"
+        extra["kotlinCoroutinesVersion"] = "1.3.3"
 
         // hexagon_benchmark
-        val hikariVersion by extra("3.4.1")
-        val postgresqlVersion by extra("42.2.9")
+        extra["hikariVersion"] = "3.4.1"
+        extra["postgresqlVersion"] = "42.2.9"
 
         // http_server_servlet
-        val servletVersion by extra("3.1.0")
-        val jettyVersion by extra("9.4.24.v20191120")
+        extra["servletVersion"] = "3.1.0"
+        extra["jettyVersion"] = "9.4.24.v20191120"
 
         // hexagon_core
-        val slf4jVersion by extra("1.7.30")
-        val logbackVersion by extra("1.2.3")
-        val jacksonVersion by extra("2.10.2")
+        extra["slf4jVersion"] = "1.7.30"
+        extra["logbackVersion"] = "1.2.3"
+        extra["jacksonVersion"] = "2.10.2"
 
         // hexagon_scheduler
-        val cronutilsVersion by extra("9.0.2")
+        extra["cronutilsVersion"] = "9.0.2"
 
         // hexagon_web
-        val kotlinxHtmlVersion by extra("0.6.12")
+        extra["kotlinxHtmlVersion"] = "0.6.12"
 
         // messaging_rabbitmq
-        val rabbitVersion by extra("5.8.0")
-        val qpidVersion by extra("6.1.4")
+        extra["rabbitVersion"] = "5.8.0"
+        extra["qpidVersion"] = "6.1.4"
 
         // http_client_ahc
-        val ahcVersion by extra("2.10.4")
+        extra["ahcVersion"] = "2.10.4"
 
         // store_mongodb
-        val mongodbVersion by extra("3.12.1")
+        extra["mongodbVersion"] = "3.12.1"
 
         // templates_pebble
-        val pebbleVersion by extra("3.1.2")
+        extra["pebbleVersion"] = "3.1.2"
 
         // Test
-        val testngVersion by extra("6.14.3")
-        val gatlingVersion by extra("3.3.1")
-        val junitVersion by extra("5.6.0")
+        extra["testngVersion"] = "6.14.3"
+        extra["gatlingVersion"] = "3.3.1"
+        extra["junitVersion"] = "5.6.0"
     }
 }
 

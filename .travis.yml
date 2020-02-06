@@ -51,9 +51,11 @@ install:
   - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
   - sudo /etc/init.d/postgresql stop
 
-script: .github/pre-push.sh
+script:
+  - .github/pre-push.sh
+  - export BRANCH_NAME="$TRAVIS_BRANCH"
+  - ./gradlew --quiet --no-daemon -x test sonarqube
 
-after_success: bash <(curl -s https://codecov.io/bash)
 after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
 
 deploy:
