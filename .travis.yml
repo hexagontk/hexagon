@@ -3,13 +3,11 @@
 # https://docs.travis-ci.com/user/encrypting-files
 #
 
+os: linux
 dist: bionic
 
 language: java
 jdk: openjdk11
-
-git:
-  depth: false
 
 branches:
   only:
@@ -61,14 +59,14 @@ after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
 deploy:
 
   - provider: script
-    skip_cleanup: true
+    cleanup: true
     script: ./gradlew --quiet --no-daemon -x test release
     on:
       branch: master
 
   - provider: pages
-    skip_cleanup: true
-    github_token: $GRGIT_PASS
+    cleanup: true
+    token: $GRGIT_PASS
     local_dir: hexagon_site/build
     fqdn: hexagonkt.com
     on:
