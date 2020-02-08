@@ -23,15 +23,15 @@ docker-compose --log-level warning up -d
 #
 # Runs all tests
 #
-./gradlew --quiet all
+./gradlew --console=plain --quiet all
 
 #
 # Generate documentation
 #
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
-mkdocsImage="squidfunk/mkdocs-material:4.6.0"
-docker --log-level warning run --rm -v "$PWD/hexagon_site:/docs" -u "$user" $mkdocsImage build
+mkdocsImage="squidfunk/mkdocs-material:4.6.1"
+docker --log-level warning run --rm -v "$PWD/hexagon_site:/docs" -u "$user" $mkdocsImage build -sq
 
 #
 # Clean up
