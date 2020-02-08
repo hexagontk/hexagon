@@ -52,7 +52,7 @@ install:
 script:
   - .github/pre-push.sh
   - export BRANCH_NAME="$TRAVIS_BRANCH"
-  - ./gradlew --quiet --no-daemon -x test sonarqube
+  - ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
 
 after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
 
