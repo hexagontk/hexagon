@@ -119,30 +119,31 @@ from scratch following these steps:
 
 ```kotlin
 // hello
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.http.httpDate
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.injection.InjectionManager.bindObject
+import com.hexagonkt.injection.InjectionManager
+
+val injector = InjectionManager.apply {
+    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
+}
 
 /**
- * Service server. It is created lazily to allow ServerPort injection (set up in main).
+ * Service server. Adapter is injected.
  */
-val server: Server by lazy {
-    Server {
-        before {
-            response.setHeader("Date", httpDate())
-        }
+val server: Server = Server {
+    before { response.setHeader("Date", httpDate()) }
 
-        get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
-    }
+    get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
 }
 
 /**
  * Start the service from the command line.
  */
 fun main() {
-    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
+    logger.info { injector }
     server.start()
 }
 // hello
