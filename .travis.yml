@@ -36,7 +36,7 @@ before_cache:
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
   - rm -rf $HOME/.gradle/caches/*/workerMain/
-  - rm -rf $HOME/.gradle/caches/*/gradle-kotlin-dsl/
+  - rm -rf $HOME/.gradle/caches/*/gradle-kotlin-dsl*/
 
 cache:
   directories:
