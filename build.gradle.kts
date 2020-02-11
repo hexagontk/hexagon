@@ -20,7 +20,6 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.61" apply false
     id("org.jetbrains.dokka") version "0.10.1" apply false
     id("com.jfrog.bintray") version "1.8.4" apply false
-    id("uk.co.cacoethes.lazybones-templates") version "1.2.3" apply false
 }
 
 apply(from = "gradle/sonarqube.gradle")
@@ -38,10 +37,7 @@ tasks.register<Delete>("clean") {
 }
 
 task("publish") {
-    dependsOn(
-        project.getTasksByName("bintrayUpload", true),
-        tasks.getByPath(":hexagon_starters:publishAllTemplates")
-    )
+    dependsOn(project.getTasksByName("bintrayUpload", true))
 }
 
 task("release") {
@@ -87,7 +83,6 @@ task("all") {
         project.getTasksByName("build", true),
         project.getTasksByName("jacocoTestReport", true),
         project.getTasksByName("installDist", true),
-        project.getTasksByName("installAllTemplates", true),
         project.getTasksByName("publishToMavenLocal", true),
         project.getTasksByName("createCa", true),
         project.getTasksByName("createIdentity", true),

@@ -28,22 +28,10 @@ dependencies {
 }
 ```
 
-# From a template
+# From a Maven Archetype
 
-You can create a service from a [Lazybones] template. To do so type:
-`lazybones create hexagon-service srvName`
-
-```bash
-curl -s get.sdkman.io | bash && source ~/.sdkman/bin/sdkman-init.sh
-sdk i lazybones
-mkdir ~/.lazybones
-lazybones config set bintrayRepositories pledbrook/lazybones-templates jamming/maven
-lazybones create hexagon-service srvName -Pgroup=org.example -Pversion=0.1 -Pdescription=Description
-cd srvName
-./gradlew
-```
+TODO Document. Explain how archetypes can be used to also generate Gradle projects.
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
 [Gradle]: https://gradle.org
-[Lazybones]: https://github.com/pledbrook/lazybones

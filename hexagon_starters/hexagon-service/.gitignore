@@ -22,7 +22,6 @@ out/
 .vscode/
 
 # Other Tools
-.lazybones/
 .java-version
 
 # Runtime
