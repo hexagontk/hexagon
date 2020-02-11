@@ -9,7 +9,7 @@ import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.client.*
 import io.netty.handler.codec.http.cookie.DefaultCookie
 import io.netty.handler.ssl.SslContext
-import io.netty.handler.ssl.SslContextBuilder
+import io.netty.handler.ssl.SslContextBuilder.forClient as sslContextBuilderClient
 import org.asynchttpclient.BoundRequestBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
 import org.asynchttpclient.DefaultAsyncHttpClient
@@ -49,7 +49,7 @@ class AhcAdapter : ClientPort {
         )
     }
 
-    private fun sslContext(settings: ClientSettings): SslContext = SslContextBuilder.forClient().let {
+    private fun sslContext(settings: ClientSettings): SslContext = sslContextBuilderClient().let {
         when {
             settings.insecure -> it.trustManager(InsecureTrustManager).build()
 

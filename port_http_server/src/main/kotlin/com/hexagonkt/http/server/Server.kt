@@ -22,8 +22,6 @@ import java.lang.management.ManagementFactory.getRuntimeMXBean
 /**
  * A server that listen to HTTP connections on a port and address and route requests using a
  * router.
- *
- * TODO Write documentation.
  */
 data class Server(
     private val adapter: ServerPort = inject(),

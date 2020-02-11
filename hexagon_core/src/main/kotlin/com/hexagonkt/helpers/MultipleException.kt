@@ -1,9 +1,11 @@
 package com.hexagonkt.helpers
 
 /**
- * Exception with a list of causes. Cause is `null` as it can't be tell which one of the list is the cause.
+ * Exception with a list of causes. Cause is `null` as it can't be tell which one of the list is the
+ * cause.
  *
- * A coded multiple exception should be created this way: CodedException(400, "Many errors", MultipleException())
+ * A coded multiple exception should be created this way:
+ * CodedException(400, "Many errors", MultipleException())
  *
  * To pass a list of causes
  * CodedException (500, "Error", *list)
