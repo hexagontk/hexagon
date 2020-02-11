@@ -7,6 +7,7 @@ apply(plugin: "org.sonarqube")
 
 sonarqube {
     properties {
+        final String pullRequest = System.getenv("PULL_REQUEST")
         final String branchName = System.getenv("BRANCH_NAME")
 
         property("sonar.projectKey", findProperty("sonarQubeProject"))
@@ -14,7 +15,9 @@ sonarqube {
         property("sonar.host.url", findProperty("sonarQubeHost") ?: "https://sonarcloud.io")
         property("sonar.login", findProperty("sonarQubeToken") ?: System.getenv("SONARQUBE_TOKEN"))
 
-        if (branchName != null)
+        if (pullRequest != null && pullRequest == "true")
+            property("sonar.pullrequest.key", pullRequest)
+        else if (branchName != null)
             property("sonar.branch.name", branchName)
     }
 }

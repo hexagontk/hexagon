@@ -55,6 +55,7 @@ install:
 script:
   - .github/pre-push.sh
   - export BRANCH_NAME="$TRAVIS_BRANCH"
+  - export PULL_REQUEST="$TRAVIS_PULL_REQUEST"
   - ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
 
 after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
