@@ -3,7 +3,6 @@ import static java.lang.System.getenv
 
 apply(from: "../gradle/kotlin.gradle")
 apply(from: "../gradle/junit.gradle")
-apply(from: "../gradle/testng.gradle")
 //apply(from: "../gradle/bintray.gradle")
 
 dependencies {
@@ -42,7 +41,6 @@ task("processTemplate") {
         copy {
             from("$projectDir/src".toString())
             into("$buildDir/$dir/src".toString())
-            exclude("test/kotlin/ServiceTestNgTest.kt") // See ServiceTestNgTest.kt
         }
 
         copy {
