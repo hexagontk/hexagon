@@ -10,7 +10,7 @@ language: java
 jdk: openjdk11
 
 git:
-  depth: 3
+  depth: false
 
 branches:
   only:
@@ -54,8 +54,10 @@ install:
 
 script:
   - .github/pre-push.sh
-  - export BRANCH_NAME="$TRAVIS_BRANCH"
+  - export BRANCH="$TRAVIS_BRANCH"
   - export PULL_REQUEST="$TRAVIS_PULL_REQUEST"
+  - export PULL_REQUEST_BRANCH="$TRAVIS_PULL_REQUEST_BRANCH"
+  - export PULL_REQUEST_BASE="$TRAVIS_BRANCH"
   - ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
 
 after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
