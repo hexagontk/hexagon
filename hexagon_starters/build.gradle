@@ -41,6 +41,7 @@ task("processTemplate") {
         copy {
             from("$projectDir/src".toString())
             into("$buildDir/$dir/src".toString())
+            exclude("test/kotlin/com") // TODO See com.hexagonkt.starter.ServiceTest
         }
 
         copy {
