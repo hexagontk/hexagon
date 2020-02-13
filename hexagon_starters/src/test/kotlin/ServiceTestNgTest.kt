@@ -1,29 +1,23 @@
-package com.hexagonkt.starter
 
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import server
-import main
+import org.testng.annotations.AfterClass
+import org.testng.annotations.BeforeClass
+import org.testng.annotations.Test
 
 /**
- * TODO Required because SonarQube doesn't seem to run tests without package.
+ * Required because SonarQube doesn't seem to take into account JUnit tests. Ignored for archetype.
  */
-@TestInstance(PER_CLASS)
-class ServiceTest {
+class ServiceTestNgTest {
     private val client: Client by lazy {
         Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
     }
 
-    @BeforeAll fun startup() {
+    @BeforeClass fun startup() {
         main()
     }
 
-    @AfterAll fun shutdown() {
+    @AfterClass fun shutdown() {
         server.stop()
     }
 
