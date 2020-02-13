@@ -15,23 +15,9 @@ sonarqube {
         final String pullRequest = System.getenv("PULL_REQUEST")
         final String branch = System.getenv("BRANCH")
 
-        println("""
-            ********************************************
-            $pullRequest PULL_REQUEST
-            $branch BRANCH
-            ********************************************
-        """)
-
         if (pullRequest != null && !pullRequest.isBlank() && pullRequest != "false") {
             final String pullRequestBranch = System.getenv("PULL_REQUEST_BRANCH")
             final String pullRequestBase = System.getenv("PULL_REQUEST_BASE")
-
-            println("""
-                ********************************************
-                $pullRequestBranch PULL_REQUEST_BRANCH
-                $pullRequestBase PULL_REQUEST_BASE
-                ********************************************
-            """)
 
             property("sonar.pullrequest.key", pullRequest)
             property("sonar.pullrequest.branch", pullRequestBranch)
