@@ -19,3 +19,18 @@ with:
 
 For convenience, the code used to generate the templates is in `src/`. It is tested before being
 copied to the template.
+
+# TODO
+
+Filter templates' files with these properties:
+
+```groovy
+[
+    projectDir : projectDir,
+    group : group,
+    version : version,
+    description : description,
+    projectName : projectName,
+    className : className,
+]
+```
