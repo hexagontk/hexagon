@@ -119,6 +119,8 @@ from scratch following these steps:
 
 ```kotlin
 // hello
+package com.hexagonkt.starters
+
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.http.httpDate
 import com.hexagonkt.http.server.Server
