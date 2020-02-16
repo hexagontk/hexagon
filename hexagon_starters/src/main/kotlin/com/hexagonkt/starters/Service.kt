@@ -1,3 +1,4 @@
+package com.hexagonkt.starters
 
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.http.httpDate

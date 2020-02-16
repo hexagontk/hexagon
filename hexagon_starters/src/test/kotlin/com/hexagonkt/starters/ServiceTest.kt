@@ -1,3 +1,4 @@
+package com.hexagonkt.starters
 
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
