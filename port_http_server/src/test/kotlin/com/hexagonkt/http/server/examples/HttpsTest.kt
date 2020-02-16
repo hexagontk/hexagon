@@ -79,7 +79,7 @@ import java.net.URI
 
         // Create a HTTP client and make a HTTPS request
         val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
-        client.get ("/hello").apply {
+        client.get("/hello").apply {
             logger.debug { body }
             // Assure the certificate received (and returned) by the server is correct
             assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))
