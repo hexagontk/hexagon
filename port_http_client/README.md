@@ -3,6 +3,8 @@
 
 TODO
 
+HTTP Client
+
 # Package com.hexagonkt.client
 
 TODO

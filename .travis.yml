@@ -3,6 +3,7 @@
 # https://docs.travis-ci.com/user/encrypting-files
 #
 
+os: linux
 dist: bionic
 
 language: java
@@ -35,7 +36,7 @@ before_cache:
   - rm -rf $HOME/.gradle/caches/*/scripts*/
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
   - rm -rf $HOME/.gradle/caches/*/workerMain/
-  - rm -rf $HOME/.gradle/caches/*/gradle-kotlin-dsl/
+  - rm -rf $HOME/.gradle/caches/*/gradle-kotlin-dsl*/
 
 cache:
   directories:
@@ -53,22 +54,25 @@ install:
 
 script:
   - .github/pre-push.sh
-  - export BRANCH_NAME="$TRAVIS_BRANCH"
-  - ./gradlew --quiet --no-daemon -x test sonarqube
+  - export BRANCH="$TRAVIS_BRANCH"
+  - export PULL_REQUEST="$TRAVIS_PULL_REQUEST"
+  - export PULL_REQUEST_BRANCH="$TRAVIS_PULL_REQUEST_BRANCH"
+  - export PULL_REQUEST_BASE="$TRAVIS_BRANCH"
+  - ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
 
 after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
 
 deploy:
 
   - provider: script
-    skip_cleanup: true
+    cleanup: true
     script: ./gradlew --quiet --no-daemon -x test release
     on:
       branch: master
 
   - provider: pages
-    skip_cleanup: true
-    github_token: $GRGIT_PASS
+    cleanup: true
+    token: $GRGIT_PASS
     local_dir: hexagon_site/build
     fqdn: hexagonkt.com
     on:

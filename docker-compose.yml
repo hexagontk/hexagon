@@ -10,7 +10,7 @@ version: '3'
 services:
 
   postgresql:
-    image: postgres:12.0
+    image: postgres:12.1
     volumes:
       - ./hexagon_benchmark/data/postgresql.sql:/docker-entrypoint-initdb.d/db.sql:ro
     ports:

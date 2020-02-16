@@ -41,9 +41,12 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         .asSequence()
         .map {
             when (it) {
-                is ResourceHandler -> RouteHandler(it.route, createResourceHandler(it.route, it.resource))
-                is FileHandler -> RouteHandler(it.route, createResourceHandler(it.route, it.file))
-                else -> it
+                is ResourceHandler ->
+                    RouteHandler(it.route, createResourceHandler(it.route, it.resource))
+                is FileHandler ->
+                    RouteHandler(it.route, createResourceHandler(it.route, it.file))
+                else ->
+                    it
             }
         }
         .filterIsInstance(RouteHandler::class.java)
@@ -85,7 +88,8 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
 
     private fun route(call: Call, bRequest: Request): Boolean {
         val routes = routesByMethod[call.request.method]
-        val methodRoutes = routes?.filter { it.route.path.matches(call.request.path) } ?: emptyList()
+        val methodRoutes =
+            routes?.filter { it.route.path.matches(call.request.path) } ?: emptyList()
 
         try {
             for ((first, second) in methodRoutes) {

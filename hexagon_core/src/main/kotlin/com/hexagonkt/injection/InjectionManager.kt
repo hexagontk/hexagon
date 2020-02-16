@@ -1,5 +1,6 @@
 package com.hexagonkt.injection
 
+import com.hexagonkt.helpers.eol
 import kotlin.reflect.KClass
 
 /**
@@ -80,4 +81,12 @@ object InjectionManager {
     fun <T : Any> inject(type: KClass<T>): T = inject(type, Unit)
 
     inline fun <reified T : Any> inject(): T = inject(T::class)
+
+    override fun toString(): String =
+        registry
+            .map { it.key }
+            .map { it.first.java.name to if (it.second is Unit) "" else " (${it.second})"}
+            .joinToString(eol, "Bound classes with parameters:\n") {
+                "\t * ${it.first}${it.second}"
+            }
 }

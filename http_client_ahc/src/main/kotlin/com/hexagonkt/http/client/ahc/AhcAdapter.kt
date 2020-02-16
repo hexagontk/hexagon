@@ -9,7 +9,7 @@ import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.client.*
 import io.netty.handler.codec.http.cookie.DefaultCookie
 import io.netty.handler.ssl.SslContext
-import io.netty.handler.ssl.SslContextBuilder
+import io.netty.handler.ssl.SslContextBuilder.forClient as sslContextBuilderClient
 import org.asynchttpclient.BoundRequestBuilder
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
 import org.asynchttpclient.DefaultAsyncHttpClient
@@ -49,9 +49,10 @@ class AhcAdapter : ClientPort {
         )
     }
 
-    private fun sslContext(settings: ClientSettings): SslContext = SslContextBuilder.forClient().let {
+    private fun sslContext(settings: ClientSettings): SslContext = sslContextBuilderClient().let {
         when {
-            settings.insecure -> it.trustManager(InsecureTrustManager).build()
+            settings.insecure ->
+                it.trustManager(InsecureTrustManager).build()
 
             settings.sslSettings != null -> {
                 val sslSettings = settings.sslSettings ?: error("sslSettings cannot be null")
@@ -61,22 +62,22 @@ class AhcAdapter : ClientPort {
                 var sslContextBuilder = it
 
                 if (keyStore != null) {
-                    val store = keyStore(keyStore)
-                    val password = authority(keyStore)
+                    val password = sslSettings.keyStorePassword
+                    val store = keyStore(keyStore, password)
                     val passwordProtection = PasswordProtection(password.toCharArray())
                     val key = store
                         .aliases()
                         .toList()
                         .filter { alias -> store.isKeyEntry(alias) }
                         .mapNotNull { alias ->
-                            store.getEntry(alias, passwordProtection) as? PrivateKeyEntry
+                            store.getEntry(alias, passwordProtection) as PrivateKeyEntry
                         }
                         .ensureSize(1..1)
                         .first()
 
                     val certificateChain = key.certificateChain
                         .toList()
-                        .mapNotNull { certificate -> certificate as? X509Certificate }
+                        .mapNotNull { certificate -> certificate as X509Certificate }
                         .toTypedArray()
 
                     sslContextBuilder = sslContextBuilder
@@ -84,11 +85,11 @@ class AhcAdapter : ClientPort {
                 }
 
                 if (trustStore != null) {
-                    val store = keyStore(trustStore)
+                    val store = keyStore(trustStore, sslSettings.trustStorePassword)
                     val certs = store
                         .aliases()
                         .toList()
-                        .mapNotNull { alias -> store.getCertificate(alias) as? X509Certificate }
+                        .mapNotNull { alias -> store.getCertificate(alias) as X509Certificate }
                         .toTypedArray()
 
                     sslContextBuilder = sslContextBuilder.trustManager(*certs)
@@ -97,13 +98,13 @@ class AhcAdapter : ClientPort {
                 sslContextBuilder.build()
             }
 
-            else -> it.build()
+            else ->
+                it.build()
         }
     }
 
-    private fun keyStore(uri: URI): KeyStore {
+    private fun keyStore(uri: URI, password: String): KeyStore {
         val keyStore = KeyStore.getInstance("pkcs12")
-        val password = authority(uri)
         keyStore.load(uri.stream(), password.toCharArray())
         return keyStore
     }
@@ -207,7 +208,4 @@ class AhcAdapter : ClientPort {
 
         return req
     }
-
-    private fun authority(uri: URI): String =
-        uri.authority ?: ""
 }

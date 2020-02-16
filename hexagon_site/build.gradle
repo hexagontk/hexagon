@@ -10,7 +10,7 @@ task("checkSite", dependsOn: "mkdocs") {
     doLast {
         final File readme = rootProject.file("README.md")
         final String starters = "hexagon_starters/src/main/kotlin"
-        final File service = rootProject.file("$starters/Service.kt")
+        final File service = rootProject.file("$starters/com/hexagonkt/starters/Service.kt")
         final String examplesSources = "port_http_server/src/test/kotlin"
         final String examples = "$examplesSources/com/hexagonkt/http/server/examples"
 

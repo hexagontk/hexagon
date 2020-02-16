@@ -1,5 +1,6 @@
 package com.hexagonkt.injection
 
+import com.hexagonkt.helpers.logger
 import org.testng.annotations.Test
 import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.injection.InjectionManager.bind
@@ -72,6 +73,8 @@ class InjectionManagerTest {
         val bar3 = inject<Bar>()
         assert(bar3.javaClass == SubBar3a::class.java)
         assert(bar3.foo.javaClass == SubFoo3::class.java)
+
+        logger.info { injector }
     }
 
     @Test fun `DI don't override bindings`() {

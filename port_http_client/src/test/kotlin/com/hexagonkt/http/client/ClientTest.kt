@@ -4,6 +4,7 @@ import com.hexagonkt.helpers.require
 import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.serialize
 
@@ -30,8 +31,12 @@ import java.io.File
         }
     }
 
+    init {
+        InjectionManager.bindObject(ClientPort::class, adapter)
+    }
+
     private val client by lazy {
-        Client(adapter, "http://localhost:${server.runtimePort}", ClientSettings(Json))
+        Client("http://localhost:${server.runtimePort}", ClientSettings(Json))
     }
 
     @BeforeClass fun startup() {

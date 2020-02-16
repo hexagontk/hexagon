@@ -119,30 +119,33 @@ from scratch following these steps:
 
 ```kotlin
 // hello
+package com.hexagonkt.starters
+
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.http.httpDate
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.injection.InjectionManager.bindObject
+import com.hexagonkt.injection.InjectionManager
+
+val injector = InjectionManager.apply {
+    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
+}
 
 /**
- * Service server. It is created lazily to allow ServerPort injection (set up in main).
+ * Service server. Adapter is injected.
  */
-val server: Server by lazy {
-    Server {
-        before {
-            response.setHeader("Date", httpDate())
-        }
+val server: Server = Server {
+    before { response.setHeader("Date", httpDate()) }
 
-        get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
-    }
+    get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
 }
 
 /**
  * Start the service from the command line.
  */
 fun main() {
-    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
+    logger.info { injector }
     server.start()
 }
 // hello
@@ -492,13 +495,19 @@ The snippet below shows how to set up your server to use HTTPS and HTTP/2. You c
 val identity = "hexagonkt.p12"
 val trust = "trust.p12"
 
-// Key stores can be set as URIs to classpath resources (password is file name reversed)
-val keyStore = URI("resource://${identity.reversed()}/ssl/$identity")
-val trustStore = URI("resource://${trust.reversed()}/ssl/$trust")
+// Default passwords are file name reversed
+val keyStorePassword = identity.reversed()
+val trustStorePassword = trust.reversed()
+
+// Key stores can be set as URIs to classpath resources (the triple slash is needed)
+val keyStore = URI("resource:///ssl/$identity")
+val trustStore = URI("resource:///ssl/$trust")
 
 val sslSettings = SslSettings(
     keyStore = keyStore,
+    keyStorePassword = keyStorePassword,
     trustStore = trustStore,
+    trustStorePassword = trustStorePassword,
     clientAuth = true // Requires a valid certificate from the client (mutual TLS)
 )
 
@@ -522,7 +531,7 @@ val clientSettings = ClientSettings(sslSettings = sslSettings)
 
 // Create a HTTP client and make a HTTPS request
 val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
-client.get ("/hello").apply {
+client.get("/hello").apply {
     logger.debug { body }
     // Assure the certificate received (and returned) by the server is correct
     assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))

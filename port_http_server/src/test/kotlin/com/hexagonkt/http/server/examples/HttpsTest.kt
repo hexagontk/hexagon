@@ -11,6 +11,7 @@ import com.hexagonkt.http.client.ClientSettings
 import com.hexagonkt.http.server.*
 import org.testng.annotations.Test
 import java.net.URI
+import kotlin.test.assertFails
 
 @Test abstract class HttpsTest(adapter: ServerPort) {
 
@@ -18,12 +19,16 @@ import java.net.URI
 
     private val identity = "hexagonkt.p12"
     private val trust = "trust.p12"
-    private val keyStore = URI("resource://${identity.reversed()}/ssl/$identity")
-    private val trustStore = URI("resource://${trust.reversed()}/ssl/$trust")
+    private val keyStore = URI("resource:///ssl/$identity")
+    private val trustStore = URI("resource:///ssl/$trust")
+    private val keyStorePassword = identity.reversed()
+    private val trustStorePassword = trust.reversed()
 
     private val sslSettings = SslSettings(
         keyStore = keyStore,
+        keyStorePassword = keyStorePassword,
         trustStore = trustStore,
+        trustStorePassword = trustStorePassword,
         clientAuth = true
     )
 
@@ -49,13 +54,19 @@ import java.net.URI
         val identity = "hexagonkt.p12"
         val trust = "trust.p12"
 
-        // Key stores can be set as URIs to classpath resources (password is file name reversed)
-        val keyStore = URI("resource://${identity.reversed()}/ssl/$identity")
-        val trustStore = URI("resource://${trust.reversed()}/ssl/$trust")
+        // Default passwords are file name reversed
+        val keyStorePassword = identity.reversed()
+        val trustStorePassword = trust.reversed()
+
+        // Key stores can be set as URIs to classpath resources (the triple slash is needed)
+        val keyStore = URI("resource:///ssl/$identity")
+        val trustStore = URI("resource:///ssl/$trust")
 
         val sslSettings = SslSettings(
             keyStore = keyStore,
+            keyStorePassword = keyStorePassword,
             trustStore = trustStore,
+            trustStorePassword = trustStorePassword,
             clientAuth = true // Requires a valid certificate from the client (mutual TLS)
         )
 
@@ -79,7 +90,7 @@ import java.net.URI
 
         // Create a HTTP client and make a HTTPS request
         val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
-        client.get ("/hello").apply {
+        client.get("/hello").apply {
             logger.debug { body }
             // Assure the certificate received (and returned) by the server is correct
             assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))
@@ -115,6 +126,56 @@ import java.net.URI
             assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))
             assert(body == "Hello World!")
         }
+
+        server.stop()
+    }
+
+    @Test fun `Serve insecure HTTPS example`() {
+
+        val identity = "hexagonkt.p12"
+        val trust = "trust.p12"
+
+        val sslSettings = SslSettings(
+            keyStore = URI("resource:///ssl/$identity"),
+            keyStorePassword = identity.reversed()
+        )
+
+        val serverSettings = ServerSettings(
+            bindPort = 0,
+            protocol = HTTPS,
+            sslSettings = sslSettings
+        )
+
+        val server = serve(serverSettings, serverAdapter) {
+            get("/hello") {
+                ok("Hello World!")
+            }
+        }
+
+        val clientSettings = ClientSettings(
+            sslSettings = SslSettings(
+                trustStore = URI("resource:///ssl/$trust"),
+                trustStorePassword = trust.reversed()
+            )
+        )
+
+        // Create a HTTP client and make a HTTPS request
+        val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
+        client.get("/hello").apply {
+            assert(body == "Hello World!")
+        }
+
+        assertFails {
+            val adapter = AhcAdapter()
+            Client(adapter, "https://127.0.0.1:${server.runtimePort}", clientSettings).get("/hello")
+        }
+
+        val insecureClient = Client(
+            AhcAdapter(),
+            "https://127.0.0.1:${server.runtimePort}",
+            clientSettings.copy(insecure = true)
+        )
+        insecureClient.get("/hello").apply { assert(body == "Hello World!") }
 
         server.stop()
     }

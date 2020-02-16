@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.2"
+        version = "1.2.3"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
@@ -34,12 +34,12 @@ gradle.rootProject {
         extra["kotlinCoroutinesVersion"] = "1.3.3"
 
         // hexagon_benchmark
-        extra["hikariVersion"] = "3.4.1"
-        extra["postgresqlVersion"] = "42.2.9"
+        extra["hikariVersion"] = "3.4.2"
+        extra["postgresqlVersion"] = "42.2.10"
 
         // http_server_servlet
         extra["servletVersion"] = "3.1.0"
-        extra["jettyVersion"] = "9.4.24.v20191120"
+        extra["jettyVersion"] = "9.4.26.v20200117"
 
         // hexagon_core
         extra["slf4jVersion"] = "1.7.30"
@@ -50,14 +50,14 @@ gradle.rootProject {
         extra["cronutilsVersion"] = "9.0.2"
 
         // hexagon_web
-        extra["kotlinxHtmlVersion"] = "0.6.12"
+        extra["kotlinxHtmlVersion"] = "0.7.1"
 
         // messaging_rabbitmq
         extra["rabbitVersion"] = "5.8.0"
         extra["qpidVersion"] = "6.1.4"
 
         // http_client_ahc
-        extra["ahcVersion"] = "2.10.4"
+        extra["ahcVersion"] = "2.10.5"
 
         // store_mongodb
         extra["mongodbVersion"] = "3.12.1"

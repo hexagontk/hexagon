@@ -71,7 +71,7 @@ class JettyServletAdapter : ServerPort {
 
         val keyStore = sslSettings.keyStore
         if (keyStore != null) {
-            val keyStorePassword = keyStore.authority ?: ""
+            val keyStorePassword = sslSettings.keyStorePassword
             val keyStoreStream = keyStore.stream()
             sslContextFactory.keyStore = KeyStore.getInstance("pkcs12")
             sslContextFactory.keyStore.load(keyStoreStream, keyStorePassword.toCharArray())
@@ -80,7 +80,7 @@ class JettyServletAdapter : ServerPort {
 
         val trustStore = sslSettings.trustStore
         if (trustStore != null) {
-            val trustStorePassword = trustStore.authority ?: ""
+            val trustStorePassword = sslSettings.trustStorePassword
             val trustStoreStream = trustStore.stream()
             sslContextFactory.trustStore = KeyStore.getInstance("pkcs12")
             sslContextFactory.trustStore.load(trustStoreStream, trustStorePassword.toCharArray())

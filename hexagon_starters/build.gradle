@@ -3,29 +3,11 @@ import static java.lang.System.getenv
 
 apply(from: "../gradle/kotlin.gradle")
 apply(from: "../gradle/junit.gradle")
-
-apply(plugin: "uk.co.cacoethes.lazybones-templates")
+//apply(from: "../gradle/bintray.gradle")
 
 dependencies {
     implementation(project(":http_server_jetty"))
     implementation(project(":http_client_ahc"))
-}
-
-lazybones {
-    final String btUser = findProperty("bintrayUser") ?: getenv("BINTRAY_USER") ?: "anonymous"
-    final String btKey = findProperty("bintrayKey") ?: getenv("BINTRAY_KEY") ?: "anonymous"
-    final String btRepo = findProperty("bintrayRepo") ?: "maven"
-    final String btRepomaven = findProperty("bintrayRepo") ?: "pom.xml"
-    final List<String> templateDirs = listTemplateBuildDirectories()
-
-    repositoryName = "$btUser/$btRepo"
-    publish = true
-
-    setRepositoryUsername(btUser.toString ())
-    setRepositoryApiKey(btKey.toString ())
-
-    licenses = project.findProperty("licenses").toString().split(",").collect {it.trim()}
-    setTemplateDirs(files(templateDirs))
 }
 
 // This is required because of a flaw in this Gradle plugin :/
@@ -91,8 +73,19 @@ task("processTemplate") {
     }
 }
 
-packageAllTemplates.dependsOn("build", "processTemplate")
-installAllTemplates.dependsOn("packageAllTemplates")
+//packageAllTemplates.dependsOn("build", "processTemplate")
+//installAllTemplates.dependsOn("packageAllTemplates")
+
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            from(components.java)
+//
+//            artifact(sourceJar) // To be accepted in JCenter, the package need to include sources
+//            artifact(testJar)
+//        }
+//    }
+//}
 
 private void setupTemplate() {
     listTemplateBuildDirectories().forEach {

@@ -6,9 +6,6 @@ import com.hexagonkt.serialization.serialize
 import java.net.URI
 import kotlin.reflect.KClass
 
-/**
- * TODO .
- */
 class RabbitMqAdapter : MessagingPort {
     private companion object {
         private const val exchange = "messages"
