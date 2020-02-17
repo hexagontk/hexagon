@@ -65,13 +65,13 @@ after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
 deploy:
 
   - provider: script
-    cleanup: true
+    cleanup: false
     script: ./gradlew --quiet --no-daemon -x test release
     on:
       branch: master
 
   - provider: pages
-    cleanup: true
+    cleanup: false
     token: $GRGIT_PASS
     local_dir: hexagon_site/build
     fqdn: hexagonkt.com
