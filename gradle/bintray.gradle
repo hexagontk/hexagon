@@ -12,6 +12,7 @@ bintray {
 
     pkg {
         repo = project.findProperty("bintrayRepo")
+        userOrg = project.findProperty("bintrayOrganization")
         name = project.name
         licenses = project.findProperty("licenses").toString().split(",").collect { it.trim() }
         vcsUrl = project.findProperty("vcsUrl")

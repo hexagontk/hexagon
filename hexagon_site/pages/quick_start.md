@@ -12,10 +12,18 @@ a project from scratch following these steps:
 3. Add the dependency in [Gradle] or [Maven]:
 
 ```groovy tab="build.gradle"
+repositories {
+    maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
+}
+
 implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 ```
 
 ```xml tab="pom.xml"
+<repository>
+  <url>https://dl.bintray.com/hexagonkt/hexagon</url>
+</repository>
+
 <dependency>
   <groupId>com.hexagonkt</groupId>
   <artifactId>http_server_jetty</artifactId>

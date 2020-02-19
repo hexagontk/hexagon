@@ -19,9 +19,9 @@
        "https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=alert_status"
       alt="SonarQube" />
   </a>
-  <a href="https://bintray.com/jamming/maven/hexagon_core/_latestVersion">
+  <a href="https://bintray.com/hexagonkt/hexagon/hexagon_core/_latestVersion">
     <img
-      src="https://api.bintray.com/packages/jamming/maven/hexagon_core/images/download.svg"
+      src="https://api.bintray.com/packages/hexagonkt/hexagon/hexagon_core/images/download.svg"
       alt="Bintray" />
   </a>
 </p>

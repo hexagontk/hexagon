@@ -9,7 +9,8 @@ gradle.rootProject {
         description = "The atoms of your platform"
 
         // Bintray
-        extra["bintrayRepo"] = "maven"
+        extra["bintrayRepo"] = "hexagon"
+        extra["bintrayOrganization"] = "hexagonkt"
         extra["licenses"] = "MIT"
         extra["vcsUrl"] = "https://github.com/hexagonkt/hexagon.git"
 
