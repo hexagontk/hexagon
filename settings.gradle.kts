@@ -4,12 +4,13 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.5"
+        version = "1.2.6"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
         // Bintray
-        extra["bintrayRepo"] = "maven"
+        extra["bintrayRepo"] = "hexagon"
+        extra["bintrayOrganization"] = "hexagonkt"
         extra["licenses"] = "MIT"
         extra["vcsUrl"] = "https://github.com/hexagonkt/hexagon.git"
 

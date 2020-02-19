@@ -21,6 +21,7 @@ mainClassName = 'HelloKt'
 
 repositories {
     jcenter ()
+    maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
 }
 
 dependencies {

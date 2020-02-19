@@ -55,8 +55,8 @@ class AhcAdapter : ClientPort {
                 it.trustManager(InsecureTrustManager).build()
 
             settings.sslSettings != null -> {
-                val sslSettings = settings.sslSettings ?: error("sslSettings cannot be null")
-                val keyStore = sslSettings.keyStore
+                val sslSettings = settings.sslSettings
+                val keyStore = sslSettings!!.keyStore
                 val trustStore = sslSettings.trustStore
 
                 var sslContextBuilder = it

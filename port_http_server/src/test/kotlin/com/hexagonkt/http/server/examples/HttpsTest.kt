@@ -167,6 +167,12 @@ import kotlin.test.assertFails
 
         assertFails {
             val adapter = AhcAdapter()
+            val noTrustStore = ClientSettings()
+            Client(adapter, "https://localhost:${server.runtimePort}", noTrustStore).get("/hello")
+        }
+
+        assertFails {
+            val adapter = AhcAdapter()
             Client(adapter, "https://127.0.0.1:${server.runtimePort}", clientSettings).get("/hello")
         }
 

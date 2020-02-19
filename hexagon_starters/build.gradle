@@ -10,71 +10,64 @@ dependencies {
     implementation(project(":http_client_ahc"))
 }
 
-// This is required because of a flaw in this Gradle plugin :/
-clean {
-    doLast { setupTemplate() }
-}
-
-task("processTemplate") {
-    // This must be done in *CONFIGURATION* phase because of a flaw in this Gradle plugin :/
-    setupTemplate()
+task("processTemplate", dependsOn: "test") {
 
     final Map<String, ?> stringProperties = project.getProperties()
         .findAll { it.value instanceof String }
 
-    listTemplateDirectoryNames().forEach { dir ->
-        copy {
-            from("$projectDir/$dir".toString())
-            into("$buildDir/$dir".toString())
-            filter {
-                String content = it
+    projectDir
+        .listFiles({ File f -> f.isDirectory() && f.name.startsWith("hexagon_") } as FileFilter)
+        .collect { it.name }
+        .forEach { dir ->
+            copy {
+                from("$projectDir/$dir".toString())
+                into("$buildDir/$dir".toString())
+                filter {
+                    String content = it
 
-                stringProperties.entrySet().forEach { entry ->
-                    final String entryValue = entry.value.toString()
-                    content = content.replace("\${project.${entry.key}}".toString(), entryValue)
+                    stringProperties.entrySet().forEach { entry ->
+                        final String entryValue = entry.value.toString()
+                        content = content.replace("\${project.${entry.key}}".toString(), entryValue)
+                    }
+
+                    content
                 }
-
-                content
             }
+
+            copy {
+                from("$projectDir/src".toString())
+                into("$buildDir/$dir/src".toString())
+            }
+
+            copy {
+                from("$rootDir/gradle/wrapper".toString())
+                into("$buildDir/$dir/gradle/wrapper".toString())
+            }
+
+            copy {
+                from(rootDir.toString())
+                into("$buildDir/$dir".toString())
+                include("gradlew", "gradlew.bat", ".editorconfig")
+            }
+
+            file("$buildDir/$dir/gradle.properties".toString()).text = """
+                name=\${projectName}
+                version=\${version}
+                group=\${group}
+                description=\${description}
+
+                gradleScripts=https://raw.githubusercontent.com/hexagonkt/hexagon/$rootProject.version/gradle
+
+                kotlinVersion=$kotlinVersion
+                kotlinCoroutinesVersion=$kotlinCoroutinesVersion
+                hexagonVersion=$rootProject.version
+                jettyVersion=$jettyVersion
+                logbackVersion=$logbackVersion
+
+                junitVersion=$junitVersion
+            """.stripIndent()
         }
-
-        copy {
-            from("$projectDir/src".toString())
-            into("$buildDir/$dir/src".toString())
-        }
-
-        copy {
-            from("$rootDir/gradle/wrapper".toString())
-            into("$buildDir/$dir/gradle/wrapper".toString())
-        }
-
-        copy {
-            from(rootDir.toString())
-            into("$buildDir/$dir".toString())
-            include("gradlew", "gradlew.bat", ".editorconfig")
-        }
-
-        file("$buildDir/$dir/gradle.properties".toString()).text = """
-            name=\${projectName}
-            version=\${version}
-            group=\${group}
-            description=\${description}
-
-            gradleScripts=https://raw.githubusercontent.com/hexagonkt/hexagon/$rootProject.version/gradle
-
-            kotlinVersion=$kotlinVersion
-            kotlinCoroutinesVersion=$kotlinCoroutinesVersion
-            hexagonVersion=$rootProject.version
-            jettyVersion=$jettyVersion
-            logbackVersion=$logbackVersion
-
-            junitVersion=$junitVersion
-        """.stripIndent()
-    }
 }
-
-//packageAllTemplates.dependsOn("build", "processTemplate")
-//installAllTemplates.dependsOn("packageAllTemplates")
 
 //publishing {
 //    publications {
@@ -86,23 +79,3 @@ task("processTemplate") {
 //        }
 //    }
 //}
-
-private void setupTemplate() {
-    listTemplateBuildDirectories().forEach {
-        mkdir(it)
-        file("$it/VERSION".toString()).text = rootProject.version
-    }
-}
-
-private List<String> listTemplateDirectoryNames() {
-    return listTemplateDirectories().collect { it.name }
-}
-
-private List<String> listTemplateBuildDirectories() {
-    return listTemplateDirectories().collect { "$buildDir/$it.name".toString() }
-}
-
-private List<File> listTemplateDirectories() {
-    return projectDir
-        .listFiles({ File f -> f.isDirectory() && f.name.startsWith("hexagon-") } as FileFilter)
-}

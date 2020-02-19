@@ -21,6 +21,12 @@ war {
     archiveFileName = "ROOT.war"
 }
 
+jarAll {
+    manifest {
+        attributes("Main-Class": mainClassName)
+    }
+}
+
 installDist.dependsOn("war")
 
 dependencies {
