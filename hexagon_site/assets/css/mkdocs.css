@@ -3,6 +3,12 @@ article p a, article li a {
   text-decoration: underline;
 }
 
+.md-header-nav__topic {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-left: -1rem;
+}
+
 [data-md-color-primary=indigo] .md-hero {
   background-image: linear-gradient(0deg, #31415C 7%, #546691 100%);
 }
@@ -12,6 +18,8 @@ article p a, article li a {
   line-height: 1.1;
   margin: 0;
 }
+
+.md-hero__inner { padding: 0 }
 
 @media(min-width: 768px) {
   .md-hero p {
@@ -42,6 +50,21 @@ article p a, article li a {
   font-weight: bold;
 }
 
-.codehilite {
-  font-size: 0.7rem;
+.codehilite, .linenodiv {
+  font-size: .7rem;
+}
+
+.md-typeset .codehilitetable .linenodiv, .md-typeset .highlighttable .linenodiv,
+.md-typeset pre>code {
+  padding: .525rem .3rem;
+}
+
+div.md-hero + nav.md-tabs.md-tabs--active {
+  background: #31415C;
+  text-align: center;
+}
+
+.md-tabs__link {
+  font-size: .8rem;
+  font-weight: bold;
 }
