@@ -104,7 +104,11 @@ jacocoTestReport {
 
 task("jarAll", type: Jar, dependsOn: "test") {
     archiveBaseName.set("${archiveBaseName.orNull}-all")
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA")
+    }
     with(jar)
 }
 
