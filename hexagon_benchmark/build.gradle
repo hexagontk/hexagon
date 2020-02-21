@@ -37,8 +37,11 @@ dependencies {
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
 
-    // Declared *ONLY* to properly setup IntelliJ project
-    compileOnly("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
+    // Needed by GraalVM to build a native image
+    implementation("org.codehaus.janino:janino:$janinoVersion")
+
+    // Required to avoid IntelliJ warning
+    compileOnly("org.scala-lang:scala-library:$scalaVersion")
 
     testImplementation(project(":http_client_ahc"))
     testImplementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")

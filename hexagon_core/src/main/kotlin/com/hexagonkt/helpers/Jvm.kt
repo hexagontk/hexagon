@@ -19,9 +19,9 @@ object Jvm {
     /** The IP address of the machine running this program. */
     val ip: String = InetAddress.getLocalHost().hostAddress
 
-    val id: String = ManagementFactory.getRuntimeMXBean().name
-    val name: String = ManagementFactory.getRuntimeMXBean().vmName
-    val version: String = ManagementFactory.getRuntimeMXBean().specVersion
+    val id: String = safeJmx { ManagementFactory.getRuntimeMXBean().name }
+    val name: String = safeJmx { ManagementFactory.getRuntimeMXBean().vmName }
+    val version: String = safeJmx { ManagementFactory.getRuntimeMXBean().specVersion }
     val cpuCount: Int = Runtime.getRuntime().availableProcessors()
     val timezone: String = System.getProperty("user.timezone")
     val locale: String = "%s_%s.%s".format(
@@ -30,15 +30,23 @@ object Jvm {
         System.getProperty("file.encoding")
     )
 
-    private val heap: MemoryUsage = ManagementFactory.getMemoryMXBean().heapMemoryUsage
+    private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }
 
-    fun initialMemory(): String = "%,d".format(heap.init / 1024)
+    fun initialMemory(): String =
+        safeJmx { "%,d".format(heap.init / 1024) }
 
-    fun usedMemory(): String = "%,d".format(heap.used / 1024)
+    fun usedMemory(): String =
+        safeJmx { "%,d".format(heap.used / 1024) }
 
-    fun uptime(): String = "%01.3f".format(ManagementFactory.getRuntimeMXBean().uptime / 1e3)
+    fun uptime(): String =
+        safeJmx { "%01.3f".format(ManagementFactory.getRuntimeMXBean().uptime / 1e3) }
 
-    fun systemSetting(name: String): String? = System.getProperty(name) ?: System.getenv(name)
+    fun systemSetting(name: String): String? =
+        System.getProperty(name) ?: System.getenv(name)
 
-    fun systemSetting(name: String, default: String): String = systemSetting(name) ?: default
+    fun systemSetting(name: String, default: String): String =
+        systemSetting(name) ?: default
+
+    internal fun safeJmx(block: () -> String): String =
+        if (System.getProperty("com.hexagonkt.noJmx") == null) block() else "N/A"
 }

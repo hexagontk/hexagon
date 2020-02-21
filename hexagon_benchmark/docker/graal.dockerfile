@@ -1,24 +1,26 @@
 
-FROM oracle/graalvm-ce:19.3.1-java11 as build
+FROM oracle/graalvm-ce:20.0.0-java11 as build
 USER root
 WORKDIR /build
 
 ADD ./build/libs/*-all-*.jar /build
 RUN gu install native-image
+
+# Generates a fallback image that requires a JDK for execution (the binary is smaller)
+#RUN native-image -jar /build/hexagon_benchmark-all*.jar --force-fallback hexagon_benchmark
+
+# ./hexagon_benchmark -Dcom.hexagonkt.noJmx=true -Duser.timezone=$TZ
+# This creates a stand alone binary. Fails at start up (missing Logback and Pebble configuration)
 RUN native-image -jar \
   /build/hexagon_benchmark-all*.jar \
-  -H:+ReportExceptionStackTraces \
   --no-fallback \
   --static \
+  --allow-incomplete-classpath \
+  --report-unsupported-elements-at-runtime \
+  --initialize-at-run-time=com.hexagonkt \
+  -H:IncludeResources=".*" \
+  -Djava.system.class.loader=com.oracle.svm.hosted.NativeImageSystemClassLoader \
   hexagon_benchmark
-
-#RUN native-image -jar \
-#  /build/hexagon_benchmark-all*.jar \
-#  -H:ReflectionConfigurationFiles=reflection.json \
-#  -H:+JNI \
-#  -H:Name="Hexagon Benchmark" \
-#  --static \
-#  --delay-class-initialization-to-runtime=hexagonBenchmark
 
 FROM scratch
 COPY --from=build /build/hexagon_benchmark /

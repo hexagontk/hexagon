@@ -37,6 +37,8 @@ gradle.rootProject {
         // hexagon_benchmark
         extra["hikariVersion"] = "3.4.2"
         extra["postgresqlVersion"] = "42.2.10"
+        extra["janinoVersion"] = "3.1.0" // To build GraalVM native image
+        extra["scalaVersion"] = "2.12.10" // To avoid IntelliJ warning
 
         // http_server_servlet
         extra["servletVersion"] = "3.1.0"

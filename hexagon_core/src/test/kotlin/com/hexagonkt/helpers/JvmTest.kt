@@ -1,6 +1,7 @@
 package com.hexagonkt.helpers
 
 import org.testng.annotations.Test
+import java.lang.management.ManagementFactory
 import java.net.Inet4Address
 
 @Test class JvmTest {
@@ -28,5 +29,11 @@ import java.net.Inet4Address
 
         System.setProperty("existing_java_property", "value")
         assert(Jvm.systemSetting("existing_java_property", "default") == "value")
+    }
+
+    @Test fun `'safeJmx' returns constant when JMX is disabled`() {
+        System.setProperty("com.hexagonkt.noJmx", "true")
+        assert(Jvm.safeJmx { ManagementFactory.getRuntimeMXBean().name } == "N/A")
+        System.clearProperty("com.hexagonkt.noJmx")
     }
 }
