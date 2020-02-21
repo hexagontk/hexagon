@@ -13,47 +13,45 @@ import org.testng.annotations.Test
 @Test abstract class SessionTest(adapter: ServerPort) {
 
     // session
-    val server: Server by lazy {
-        Server(adapter) {
-            path("/session") {
-                get("/id") { ok(session.id ?: "null") }
-                get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
-                get("/new") { ok(session.isNew()) }
+    val server: Server = Server(adapter) {
+        path("/session") {
+            get("/id") { ok(session.id ?: "null") }
+            get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
+            get("/new") { ok(session.isNew()) }
 
-                path("/inactive") {
-                    get { ok(session.maxInactiveInterval ?: "null") }
+            path("/inactive") {
+                get { ok(session.maxInactiveInterval ?: "null") }
 
-                    put("/{time}") {
-                        session.maxInactiveInterval = pathParameters.require("time").toInt()
-                    }
+                put("/{time}") {
+                    session.maxInactiveInterval = pathParameters.require("time").toInt()
+                }
+            }
+
+            get("/creation") { ok(session.creationTime ?: "null") }
+            post("/invalidate") { session.invalidate() }
+
+            path("/{key}") {
+                put("/{value}") {
+                    session.set(pathParameters.require("key"), pathParameters.require("value"))
                 }
 
-                get("/creation") { ok(session.creationTime ?: "null") }
-                post("/invalidate") { session.invalidate() }
+                get { ok(session.get(pathParameters.require("key")).toString()) }
+                delete { session.remove(pathParameters.require("key")) }
+            }
 
-                path("/{key}") {
-                    put("/{value}") {
-                        session.set(pathParameters.require("key"), pathParameters.require("value"))
-                    }
+            get {
+                val attributes = session.attributes
+                val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
 
-                    get { ok(session.get(pathParameters.require("key")).toString()) }
-                    delete { session.remove(pathParameters.require("key")) }
-                }
+                response.setHeader("attributes", attributeTexts.joinToString(", "))
+                response.setHeader("attribute values", attributes.values.joinToString(", "))
+                response.setHeader("attribute names", attributes.keys.joinToString(", "))
 
-                get {
-                    val attributes = session.attributes
-                    val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
+                response.setHeader("creation", session.creationTime.toString())
+                response.setHeader("id", session.id ?: "")
+                response.setHeader("last access", session.lastAccessedTime.toString())
 
-                    response.setHeader("attributes", attributeTexts.joinToString(", "))
-                    response.setHeader("attribute values", attributes.values.joinToString(", "))
-                    response.setHeader("attribute names", attributes.keys.joinToString(", "))
-
-                    response.setHeader("creation", session.creationTime.toString())
-                    response.setHeader("id", session.id ?: "")
-                    response.setHeader("last access", session.lastAccessedTime.toString())
-
-                    response.status = 200
-                }
+                response.status = 200
             }
         }
     }

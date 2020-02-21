@@ -34,92 +34,90 @@ import kotlin.text.Charsets.UTF_8
 
     private val part = "param"
 
-    private val server: Server by lazy {
-        Server(adapter) {
-            before { response.setHeader("before", "filter") }
+    private val server: Server = Server(adapter) {
+        before { response.setHeader("before", "filter") }
 
-            get("/request/body") {
-                val tag = request.body<Tag>()
-                val tags = request.bodyObjects<Tag>()
-                val tagMap = request.body<Map<String, *>>()
-                val tagsMaps = request.bodyObjects<Map<String, *>>()
+        get("/request/body") {
+            val tag = request.body<Tag>()
+            val tags = request.bodyObjects<Tag>()
+            val tagMap = request.body<Map<String, *>>()
+            val tagsMaps = request.bodyObjects<Map<String, *>>()
 
-                assert(tags.first() == tag)
-                assert(tagMap.convertToObject(Tag::class) == tag)
-                assert(tagsMaps.first() == tagMap)
-                assert(requestType == requestFormat.contentType)
+            assert(tags.first() == tag)
+            assert(tagMap.convertToObject(Tag::class) == tag)
+            assert(tagsMaps.first() == tagMap)
+            assert(requestType == requestFormat.contentType)
 
-                response.setHeader("requestOrigin", request.origin)
-                response.setHeader("requestUserAgent", request.userAgent)
-                response.setHeader("requestAccept", request.accept)
+            response.setHeader("requestOrigin", request.origin)
+            response.setHeader("requestUserAgent", request.userAgent)
+            response.setHeader("requestAccept", request.accept)
 
-                ok(tag.copy(name = "${tag.name} processed"), charset = UTF_8)
-            }
-
-            get("/request/data") {
-                response.setHeader("method", request.method.toString())
-                response.setHeader("ip", request.ip)
-                response.setHeader("uri", request.url)
-                response.setHeader("params", parameters.size.toString())
-                response.setHeader("queryParams", queryParameters.size.toString())
-                response.setHeader("formParams", formParameters.size.toString())
-
-                response.setHeader("agent", request.userAgent)
-                response.setHeader("scheme", request.scheme)
-                response.setHeader("host", request.host)
-                response.setHeader("query", request.queryString)
-                response.setHeader("port", request.port.toString())
-
-                response.setHeader("secure", request.secure.toString())
-                response.setHeader("referer", request.referer)
-                response.setHeader("preferredType", request.preferredType)
-                response.setHeader("accept", request.accept.joinToString(","))
-                response.setHeader("contentLength", request.contentLength.toString())
-                response.setHeader("origin", request.origin)
-
-                ok("${request.url}!!!")
-            }
-
-            delete("/method") { okRequestMethod() }
-            options("/method") { okRequestMethod() }
-            get("/method") { okRequestMethod() }
-            patch("/method") { okRequestMethod() }
-            post("/method") { okRequestMethod() }
-            put("/method") { okRequestMethod() }
-            trace("/method") { okRequestMethod() }
-            head("/method") { okRequestMethod() }
-
-            get("/response/status") { send(201) }
-            get("/response/body") { ok("body") }
-            get("/response/pair") { send(202, "funky status") }
-            get("/response/list") { ok(listOf("alpha", "beta")) }
-            get("/response/map") { ok(mapOf("alpha" to 0, "beta" to true)) }
-            get("/response/object") { ok(Tag(name = "Message")) }
-            get("/response/pair/list") { send(201, listOf("alpha", "beta")) }
-            get("/response/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
-            get("/response/pair/object") { send(201, Tag(name = "Message")) }
-
-            get("/") { ok("Hello Root!") }
-            get("/redirect") { redirect("http://example.com") }
-
-            get("/content/type") {
-                val headerResponseType = request.headers["responseType"]?.first()
-
-                if (headerResponseType != null)
-                    response.contentType = headerResponseType
-
-                ok(responseType)
-            }
-
-            get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
-            get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
-            get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
-            get("/tworoutes/${part.toUpperCase()}/{param}") {
-                ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
-            }
-
-            get(File(directory))
+            ok(tag.copy(name = "${tag.name} processed"), charset = UTF_8)
         }
+
+        get("/request/data") {
+            response.setHeader("method", request.method.toString())
+            response.setHeader("ip", request.ip)
+            response.setHeader("uri", request.url)
+            response.setHeader("params", parameters.size.toString())
+            response.setHeader("queryParams", queryParameters.size.toString())
+            response.setHeader("formParams", formParameters.size.toString())
+
+            response.setHeader("agent", request.userAgent)
+            response.setHeader("scheme", request.scheme)
+            response.setHeader("host", request.host)
+            response.setHeader("query", request.queryString)
+            response.setHeader("port", request.port.toString())
+
+            response.setHeader("secure", request.secure.toString())
+            response.setHeader("referer", request.referer)
+            response.setHeader("preferredType", request.preferredType)
+            response.setHeader("accept", request.accept.joinToString(","))
+            response.setHeader("contentLength", request.contentLength.toString())
+            response.setHeader("origin", request.origin)
+
+            ok("${request.url}!!!")
+        }
+
+        delete("/method") { okRequestMethod() }
+        options("/method") { okRequestMethod() }
+        get("/method") { okRequestMethod() }
+        patch("/method") { okRequestMethod() }
+        post("/method") { okRequestMethod() }
+        put("/method") { okRequestMethod() }
+        trace("/method") { okRequestMethod() }
+        head("/method") { okRequestMethod() }
+
+        get("/response/status") { send(201) }
+        get("/response/body") { ok("body") }
+        get("/response/pair") { send(202, "funky status") }
+        get("/response/list") { ok(listOf("alpha", "beta")) }
+        get("/response/map") { ok(mapOf("alpha" to 0, "beta" to true)) }
+        get("/response/object") { ok(Tag(name = "Message")) }
+        get("/response/pair/list") { send(201, listOf("alpha", "beta")) }
+        get("/response/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
+        get("/response/pair/object") { send(201, Tag(name = "Message")) }
+
+        get("/") { ok("Hello Root!") }
+        get("/redirect") { redirect("http://example.com") }
+
+        get("/content/type") {
+            val headerResponseType = request.headers["responseType"]?.first()
+
+            if (headerResponseType != null)
+                response.contentType = headerResponseType
+
+            ok(responseType)
+        }
+
+        get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
+        get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
+        get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
+        get("/tworoutes/${part.toUpperCase()}/{param}") {
+            ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
+        }
+
+        get(File(directory))
     }
 
     private val client: Client by lazy {

@@ -23,38 +23,36 @@ import java.io.File
     }
 
     // files
-    private val server: Server by lazy {
-        Server(adapter) {
-            path("/static") {
-                get("/files/*", Resource("assets")) // Serve `assets` resources on `/html/*`
-                get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
-            }
+    private val server: Server = Server(adapter) {
+        path("/static") {
+            get("/files/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+            get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
+        }
 
-            get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
-            get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
-            get(Resource("public")) // Serve `public` resources folder on `/*`
+        get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+        get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
+        get(Resource("public")) // Serve `public` resources folder on `/*`
 
-            post("/multipart") { ok(request.parts.keys.joinToString(":")) }
+        post("/multipart") { ok(request.parts.keys.joinToString(":")) }
 
-            post("/file") {
-                val part = request.parts.values.first()
-                val content = part.inputStream.reader().readText()
-                ok(content)
-            }
+        post("/file") {
+            val part = request.parts.values.first()
+            val content = part.inputStream.reader().readText()
+            ok(content)
+        }
 
-            post("/form") {
-                fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
-                    map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
-                )
+        post("/form") {
+            fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
+                map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+            )
 
-                val queryParams = serializeMap(queryParameters)
-                val formParams = serializeMap(formParameters)
-                val params = serializeMap(parameters)
+            val queryParams = serializeMap(queryParameters)
+            val formParams = serializeMap(formParameters)
+            val params = serializeMap(parameters)
 
-                response.headers["queryParams"] = queryParams
-                response.headers["formParams"] = formParams
-                response.headers["params"] = params
-            }
+            response.headers["queryParams"] = queryParams
+            response.headers["formParams"] = formParams
+            response.headers["params"] = params
         }
     }
     // files

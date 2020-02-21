@@ -21,58 +21,56 @@ import org.testng.annotations.Test
         102 to Book("Homer", "The Odyssey")
     )
 
-    val server: Server by lazy {
-        Server(adapter) {
-            post("/books") {
-                // Require fails if parameter does not exists
-                val author = queryParameters.require("author").first()
-                val title = queryParameters.require("title").first()
-                val id = (books.keys.max() ?: 0) + 1
-                books += id to Book(author, title)
-                send(201, id)
-            }
-
-            get("/books/{id}") {
-                val bookId = pathParameters.require("id").toInt()
-                val book = books[bookId]
-                if (book != null)
-                    // ok() is a shortcut to send(200)
-                    ok("Title: ${book.title}, Author: ${book.author}")
-                else
-                    send(404, "Book not found")
-            }
-
-            put("/books/{id}") {
-                val bookId = pathParameters.require("id").toInt()
-                val book = books[bookId]
-                if (book != null) {
-                    books += bookId to book.copy(
-                        author = queryParameters["author"]?.first() ?: book.author,
-                        title = queryParameters["title"]?.first() ?: book.title
-                    )
-
-                    ok("Book with id '$bookId' updated")
-                }
-                else {
-                    send(404, "Book not found")
-                }
-            }
-
-            delete("/books/{id}") {
-                val bookId = pathParameters.require("id").toInt()
-                val book = books[bookId]
-                books -= bookId
-                if (book != null)
-                    ok("Book with id '$bookId' deleted")
-                else
-                    send(404, "Book not found")
-            }
-
-            // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-            any("/books/{id}") { send(405) }
-
-            get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
+    val server: Server = Server(adapter) {
+        post("/books") {
+            // Require fails if parameter does not exists
+            val author = queryParameters.require("author").first()
+            val title = queryParameters.require("title").first()
+            val id = (books.keys.max() ?: 0) + 1
+            books += id to Book(author, title)
+            send(201, id)
         }
+
+        get("/books/{id}") {
+            val bookId = pathParameters.require("id").toInt()
+            val book = books[bookId]
+            if (book != null)
+                // ok() is a shortcut to send(200)
+                ok("Title: ${book.title}, Author: ${book.author}")
+            else
+                send(404, "Book not found")
+        }
+
+        put("/books/{id}") {
+            val bookId = pathParameters.require("id").toInt()
+            val book = books[bookId]
+            if (book != null) {
+                books += bookId to book.copy(
+                    author = queryParameters["author"]?.first() ?: book.author,
+                    title = queryParameters["title"]?.first() ?: book.title
+                )
+
+                ok("Book with id '$bookId' updated")
+            }
+            else {
+                send(404, "Book not found")
+            }
+        }
+
+        delete("/books/{id}") {
+            val bookId = pathParameters.require("id").toInt()
+            val book = books[bookId]
+            books -= bookId
+            if (book != null)
+                ok("Book with id '$bookId' deleted")
+            else
+                send(404, "Book not found")
+        }
+
+        // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+        any("/books/{id}") { send(405) }
+
+        get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
     }
     // books
 

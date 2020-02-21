@@ -179,58 +179,56 @@ private val books: MutableMap<Int, Book> = linkedMapOf(
     102 to Book("Homer", "The Odyssey")
 )
 
-val server: Server by lazy {
-    Server(adapter) {
-        post("/books") {
-            // Require fails if parameter does not exists
-            val author = queryParameters.require("author").first()
-            val title = queryParameters.require("title").first()
-            val id = (books.keys.max() ?: 0) + 1
-            books += id to Book(author, title)
-            send(201, id)
-        }
-
-        get("/books/{id}") {
-            val bookId = pathParameters.require("id").toInt()
-            val book = books[bookId]
-            if (book != null)
-                // ok() is a shortcut to send(200)
-                ok("Title: ${book.title}, Author: ${book.author}")
-            else
-                send(404, "Book not found")
-        }
-
-        put("/books/{id}") {
-            val bookId = pathParameters.require("id").toInt()
-            val book = books[bookId]
-            if (book != null) {
-                books += bookId to book.copy(
-                    author = queryParameters["author"]?.first() ?: book.author,
-                    title = queryParameters["title"]?.first() ?: book.title
-                )
-
-                ok("Book with id '$bookId' updated")
-            }
-            else {
-                send(404, "Book not found")
-            }
-        }
-
-        delete("/books/{id}") {
-            val bookId = pathParameters.require("id").toInt()
-            val book = books[bookId]
-            books -= bookId
-            if (book != null)
-                ok("Book with id '$bookId' deleted")
-            else
-                send(404, "Book not found")
-        }
-
-        // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-        any("/books/{id}") { send(405) }
-
-        get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
+val server: Server = Server(adapter) {
+    post("/books") {
+        // Require fails if parameter does not exists
+        val author = queryParameters.require("author").first()
+        val title = queryParameters.require("title").first()
+        val id = (books.keys.max() ?: 0) + 1
+        books += id to Book(author, title)
+        send(201, id)
     }
+
+    get("/books/{id}") {
+        val bookId = pathParameters.require("id").toInt()
+        val book = books[bookId]
+        if (book != null)
+            // ok() is a shortcut to send(200)
+            ok("Title: ${book.title}, Author: ${book.author}")
+        else
+            send(404, "Book not found")
+    }
+
+    put("/books/{id}") {
+        val bookId = pathParameters.require("id").toInt()
+        val book = books[bookId]
+        if (book != null) {
+            books += bookId to book.copy(
+                author = queryParameters["author"]?.first() ?: book.author,
+                title = queryParameters["title"]?.first() ?: book.title
+            )
+
+            ok("Book with id '$bookId' updated")
+        }
+        else {
+            send(404, "Book not found")
+        }
+    }
+
+    delete("/books/{id}") {
+        val bookId = pathParameters.require("id").toInt()
+        val book = books[bookId]
+        books -= bookId
+        if (book != null)
+            ok("Book with id '$bookId' deleted")
+        else
+            send(404, "Book not found")
+    }
+
+    // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+    any("/books/{id}") { send(405) }
+
+    get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
 }
 // books
 ```
@@ -242,47 +240,45 @@ Example showing how to use sessions. Here you can check the
 
 ```kotlin
 // session
-val server: Server by lazy {
-    Server(adapter) {
-        path("/session") {
-            get("/id") { ok(session.id ?: "null") }
-            get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
-            get("/new") { ok(session.isNew()) }
+val server: Server = Server(adapter) {
+    path("/session") {
+        get("/id") { ok(session.id ?: "null") }
+        get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
+        get("/new") { ok(session.isNew()) }
 
-            path("/inactive") {
-                get { ok(session.maxInactiveInterval ?: "null") }
+        path("/inactive") {
+            get { ok(session.maxInactiveInterval ?: "null") }
 
-                put("/{time}") {
-                    session.maxInactiveInterval = pathParameters.require("time").toInt()
-                }
+            put("/{time}") {
+                session.maxInactiveInterval = pathParameters.require("time").toInt()
+            }
+        }
+
+        get("/creation") { ok(session.creationTime ?: "null") }
+        post("/invalidate") { session.invalidate() }
+
+        path("/{key}") {
+            put("/{value}") {
+                session.set(pathParameters.require("key"), pathParameters.require("value"))
             }
 
-            get("/creation") { ok(session.creationTime ?: "null") }
-            post("/invalidate") { session.invalidate() }
+            get { ok(session.get(pathParameters.require("key")).toString()) }
+            delete { session.remove(pathParameters.require("key")) }
+        }
 
-            path("/{key}") {
-                put("/{value}") {
-                    session.set(pathParameters.require("key"), pathParameters.require("value"))
-                }
+        get {
+            val attributes = session.attributes
+            val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
 
-                get { ok(session.get(pathParameters.require("key")).toString()) }
-                delete { session.remove(pathParameters.require("key")) }
-            }
+            response.setHeader("attributes", attributeTexts.joinToString(", "))
+            response.setHeader("attribute values", attributes.values.joinToString(", "))
+            response.setHeader("attribute names", attributes.keys.joinToString(", "))
 
-            get {
-                val attributes = session.attributes
-                val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
+            response.setHeader("creation", session.creationTime.toString())
+            response.setHeader("id", session.id ?: "")
+            response.setHeader("last access", session.lastAccessedTime.toString())
 
-                response.setHeader("attributes", attributeTexts.joinToString(", "))
-                response.setHeader("attribute values", attributes.values.joinToString(", "))
-                response.setHeader("attribute names", attributes.keys.joinToString(", "))
-
-                response.setHeader("creation", session.creationTime.toString())
-                response.setHeader("id", session.id ?: "")
-                response.setHeader("last access", session.lastAccessedTime.toString())
-
-                response.status = 200
-            }
+            response.status = 200
         }
     }
 }
@@ -296,29 +292,27 @@ Demo server to show the use of cookies. Here you can check the
 
 ```kotlin
 // cookies
-val server: Server by lazy {
-    Server(adapter) {
-        post("/assertNoCookies") {
-            if (request.cookies.isNotEmpty())
-                halt(500)
-        }
+val server: Server = Server(adapter) {
+    post("/assertNoCookies") {
+        if (request.cookies.isNotEmpty())
+            halt(500)
+    }
 
-        post("/addCookie") {
-            val name = queryParameters["cookieName"]?.first()
-            val value = queryParameters["cookieValue"]?.first()
-            response.addCookie(HttpCookie(name, value))
-        }
+    post("/addCookie") {
+        val name = queryParameters["cookieName"]?.first()
+        val value = queryParameters["cookieValue"]?.first()
+        response.addCookie(HttpCookie(name, value))
+    }
 
-        post("/assertHasCookie") {
-            val cookieName = queryParameters.require("cookieName").first()
-            val cookieValue = request.cookies[cookieName]?.value
-            if (queryParameters["cookieValue"]?.first() != cookieValue)
-                halt(500)
-        }
+    post("/assertHasCookie") {
+        val cookieName = queryParameters.require("cookieName").first()
+        val cookieValue = request.cookies[cookieName]?.value
+        if (queryParameters["cookieValue"]?.first() != cookieValue)
+            halt(500)
+    }
 
-        post("/removeCookie") {
-            response.removeCookie(queryParameters.require("cookieName").first())
-        }
+    post("/removeCookie") {
+        response.removeCookie(queryParameters.require("cookieName").first())
     }
 }
 // cookies
@@ -333,31 +327,29 @@ Code to show how to handle callback exceptions and HTTP error codes. Here you ca
 // errors
 class CustomException : IllegalArgumentException()
 
-val server: Server by lazy {
-    Server(adapter) {
-        error(UnsupportedOperationException::class) {
-            response.setHeader("error", it.message ?: it.javaClass.name)
-            send(599, "Unsupported")
-        }
-
-        error(IllegalArgumentException::class) {
-            response.setHeader("runtimeError", it.message ?: it.javaClass.name)
-            send(598, "Runtime")
-        }
-
-        // Catching `Exception` handles any unhandled exception before (it has to be the last)
-        error(Exception::class) { send(500, "Root handler") }
-
-        // It is possible to execute a handler upon a given status code before returning
-        error(588) { send(578, "588 -> 578") }
-
-        get("/exception") { throw UnsupportedOperationException("error message") }
-        get("/baseException") { throw CustomException() }
-        get("/unhandledException") { error("error message") }
-
-        get("/halt") { halt("halted") }
-        get("/588") { halt(588) }
+val server: Server = Server(adapter) {
+    error(UnsupportedOperationException::class) {
+        response.setHeader("error", it.message ?: it.javaClass.name)
+        send(599, "Unsupported")
     }
+
+    error(IllegalArgumentException::class) {
+        response.setHeader("runtimeError", it.message ?: it.javaClass.name)
+        send(598, "Runtime")
+    }
+
+    // Catching `Exception` handles any unhandled exception before (it has to be the last)
+    error(Exception::class) { send(500, "Root handler") }
+
+    // It is possible to execute a handler upon a given status code before returning
+    error(588) { send(578, "588 -> 578") }
+
+    get("/exception") { throw UnsupportedOperationException("error message") }
+    get("/baseException") { throw CustomException() }
+    get("/unhandledException") { error("error message") }
+
+    get("/halt") { halt("halted") }
+    get("/588") { halt(588) }
 }
 // errors
 ```
@@ -374,31 +366,29 @@ private val users: Map<String, String> = mapOf(
     "Dijkstra" to "Rotterdam"
 )
 
-private val server: Server by lazy {
-    Server(adapter) {
-        before { attributes["start"] = nanoTime() }
+private val server: Server = Server(adapter) {
+    before { attributes["start"] = nanoTime() }
 
-        before("/protected/*") {
-            val authorization = request.headers["Authorization"] ?: halt(401, "Unauthorized")
-            val credentials = authorization.first().removePrefix("Basic ")
-            val userPassword = String(Base64.getDecoder().decode(credentials)).split(":")
+    before("/protected/*") {
+        val authorization = request.headers["Authorization"] ?: halt(401, "Unauthorized")
+        val credentials = authorization.first().removePrefix("Basic ")
+        val userPassword = String(Base64.getDecoder().decode(credentials)).split(":")
 
-            // Parameters set in call attributes are accessible in other filters and routes
-            attributes["username"] = userPassword[0]
-            attributes["password"] = userPassword[1]
-        }
-
-        // All matching filters are run in order unless call is halted
-        before("/protected/*") {
-            if(users[attributes["username"]] != attributes["password"])
-                halt(403, "Forbidden")
-        }
-
-        get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
-
-        // After filters are ran even if request was halted before
-        after { response.setHeader("time", nanoTime() - attributes["start"] as Long) }
+        // Parameters set in call attributes are accessible in other filters and routes
+        attributes["username"] = userPassword[0]
+        attributes["password"] = userPassword[1]
     }
+
+    // All matching filters are run in order unless call is halted
+    before("/protected/*") {
+        if(users[attributes["username"]] != attributes["password"])
+            halt(403, "Forbidden")
+    }
+
+    get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
+
+    // After filters are ran even if request was halted before
+    after { response.setHeader("time", nanoTime() - attributes["start"] as Long) }
 }
 // filters
 ```
@@ -410,38 +400,36 @@ The following code shows how to serve resources and receive files. Here you can 
 
 ```kotlin
 // files
-private val server: Server by lazy {
-    Server(adapter) {
-        path("/static") {
-            get("/files/*", Resource("assets")) // Serve `assets` resources on `/html/*`
-            get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
-        }
+private val server: Server = Server(adapter) {
+    path("/static") {
+        get("/files/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+        get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
+    }
 
-        get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
-        get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
-        get(Resource("public")) // Serve `public` resources folder on `/*`
+    get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+    get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
+    get(Resource("public")) // Serve `public` resources folder on `/*`
 
-        post("/multipart") { ok(request.parts.keys.joinToString(":")) }
+    post("/multipart") { ok(request.parts.keys.joinToString(":")) }
 
-        post("/file") {
-            val part = request.parts.values.first()
-            val content = part.inputStream.reader().readText()
-            ok(content)
-        }
+    post("/file") {
+        val part = request.parts.values.first()
+        val content = part.inputStream.reader().readText()
+        ok(content)
+    }
 
-        post("/form") {
-            fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
-                map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
-            )
+    post("/form") {
+        fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
+            map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+        )
 
-            val queryParams = serializeMap(queryParameters)
-            val formParams = serializeMap(formParameters)
-            val params = serializeMap(parameters)
+        val queryParams = serializeMap(queryParameters)
+        val formParams = serializeMap(formParameters)
+        val params = serializeMap(parameters)
 
-            response.headers["queryParams"] = queryParams
-            response.headers["formParams"] = formParams
-            response.headers["params"] = params
-        }
+        response.headers["queryParams"] = queryParams
+        response.headers["formParams"] = formParams
+        response.headers["params"] = params
     }
 }
 // files
@@ -454,16 +442,14 @@ The following code shows how to set up CORS for REST APIs used from the browser.
 
 ```kotlin
 // cors
-val server: Server by lazy {
-    Server(adapter) {
-        corsPath("/default", CorsSettings())
-        corsPath("/example/org", CorsSettings("example.org"))
-        corsPath("/no/credentials", CorsSettings(supportCredentials = false))
-        corsPath("/only/post", CorsSettings(allowedMethods = setOf(POST)))
-        corsPath("/cache", CorsSettings(preFlightMaxAge = 10))
-        corsPath("/exposed/headers", CorsSettings(exposedHeaders = setOf("head")))
-        corsPath("/allowed/headers", CorsSettings(allowedHeaders = setOf("head")))
-    }
+val server: Server = Server(adapter) {
+    corsPath("/default", CorsSettings())
+    corsPath("/example/org", CorsSettings("example.org"))
+    corsPath("/no/credentials", CorsSettings(supportCredentials = false))
+    corsPath("/only/post", CorsSettings(allowedMethods = setOf(POST)))
+    corsPath("/cache", CorsSettings(preFlightMaxAge = 10))
+    corsPath("/exposed/headers", CorsSettings(exposedHeaders = setOf("head")))
+    corsPath("/allowed/headers", CorsSettings(allowedHeaders = setOf("head")))
 }
 
 private fun Router.corsPath(path: String, settings: CorsSettings) {

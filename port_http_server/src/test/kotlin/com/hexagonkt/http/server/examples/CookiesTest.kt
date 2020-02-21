@@ -11,29 +11,27 @@ import java.net.HttpCookie
 @Test abstract class CookiesTest(adapter: ServerPort) {
 
     // cookies
-    val server: Server by lazy {
-        Server(adapter) {
-            post("/assertNoCookies") {
-                if (request.cookies.isNotEmpty())
-                    halt(500)
-            }
+    val server: Server = Server(adapter) {
+        post("/assertNoCookies") {
+            if (request.cookies.isNotEmpty())
+                halt(500)
+        }
 
-            post("/addCookie") {
-                val name = queryParameters["cookieName"]?.first()
-                val value = queryParameters["cookieValue"]?.first()
-                response.addCookie(HttpCookie(name, value))
-            }
+        post("/addCookie") {
+            val name = queryParameters["cookieName"]?.first()
+            val value = queryParameters["cookieValue"]?.first()
+            response.addCookie(HttpCookie(name, value))
+        }
 
-            post("/assertHasCookie") {
-                val cookieName = queryParameters.require("cookieName").first()
-                val cookieValue = request.cookies[cookieName]?.value
-                if (queryParameters["cookieValue"]?.first() != cookieValue)
-                    halt(500)
-            }
+        post("/assertHasCookie") {
+            val cookieName = queryParameters.require("cookieName").first()
+            val cookieValue = request.cookies[cookieName]?.value
+            if (queryParameters["cookieValue"]?.first() != cookieValue)
+                halt(500)
+        }
 
-            post("/removeCookie") {
-                response.removeCookie(queryParameters.require("cookieName").first())
-            }
+        post("/removeCookie") {
+            response.removeCookie(queryParameters.require("cookieName").first())
         }
     }
     // cookies
