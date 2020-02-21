@@ -30,7 +30,7 @@ docker-compose --log-level warning up -d
 #
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
-mkdocsImage="squidfunk/mkdocs-material:4.6.3"
+mkdocsImage="squidfunk/mkdocs-material:4.6.2"
 docker --log-level warning run --rm -v "$PWD/hexagon_site:/docs" -u "$user" $mkdocsImage build -sq
 
 #
