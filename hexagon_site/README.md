@@ -2,7 +2,7 @@
 # Project Site
 
 To generate the site source, execute: `gw mkdocs` and for testing run:
-`docker run --rm -it -p 8000:8000 -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.6.2 serve`
+`docker run --rm -it -p 8000:8000 -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.6.3 serve`
 the site will be served at: [http://localhost:8000](http://localhost:8000).
 
 The site uses [Google Analytics] for usage statistics.
@@ -33,4 +33,4 @@ To customize MkDocs generated content, these steps are required:
 4. Copy theme `css` to site `mkdocs_palette.css` file
 5. Copy `palette.html` partial and update the indigo color in that file for the desired one
 6. To generate the site using Docker check: `https://hub.docker.com/r/squidfunk/mkdocs-material`
-   `docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.6.2 build -sq`
+   `docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.6.3 build -sq`

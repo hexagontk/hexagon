@@ -14,16 +14,14 @@ import org.testng.annotations.Test
 @Test abstract class CorsTest(adapter: ServerPort) {
 
     // cors
-    val server: Server by lazy {
-        Server(adapter) {
-            corsPath("/default", CorsSettings())
-            corsPath("/example/org", CorsSettings("example.org"))
-            corsPath("/no/credentials", CorsSettings(supportCredentials = false))
-            corsPath("/only/post", CorsSettings(allowedMethods = setOf(POST)))
-            corsPath("/cache", CorsSettings(preFlightMaxAge = 10))
-            corsPath("/exposed/headers", CorsSettings(exposedHeaders = setOf("head")))
-            corsPath("/allowed/headers", CorsSettings(allowedHeaders = setOf("head")))
-        }
+    val server: Server = Server(adapter) {
+        corsPath("/default", CorsSettings())
+        corsPath("/example/org", CorsSettings("example.org"))
+        corsPath("/no/credentials", CorsSettings(supportCredentials = false))
+        corsPath("/only/post", CorsSettings(allowedMethods = setOf(POST)))
+        corsPath("/cache", CorsSettings(preFlightMaxAge = 10))
+        corsPath("/exposed/headers", CorsSettings(exposedHeaders = setOf("head")))
+        corsPath("/allowed/headers", CorsSettings(allowedHeaders = setOf("head")))
     }
 
     private fun Router.corsPath(path: String, settings: CorsSettings) {

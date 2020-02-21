@@ -118,7 +118,7 @@ import kotlin.test.assertFails
 
     @Test fun `Serve HTTP2 works properly`() {
 
-        val server = serve(serverSettings, router)
+        val server = serve(serverSettings, router, serverAdapter)
 
         val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
         client.get("/hello").apply {

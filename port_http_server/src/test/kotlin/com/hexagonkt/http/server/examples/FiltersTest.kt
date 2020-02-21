@@ -20,31 +20,29 @@ import java.util.*
         "Dijkstra" to "Rotterdam"
     )
 
-    private val server: Server by lazy {
-        Server(adapter) {
-            before { attributes["start"] = nanoTime() }
+    private val server: Server = Server(adapter) {
+        before { attributes["start"] = nanoTime() }
 
-            before("/protected/*") {
-                val authorization = request.headers["Authorization"] ?: halt(401, "Unauthorized")
-                val credentials = authorization.first().removePrefix("Basic ")
-                val userPassword = String(Base64.getDecoder().decode(credentials)).split(":")
+        before("/protected/*") {
+            val authorization = request.headers["Authorization"] ?: halt(401, "Unauthorized")
+            val credentials = authorization.first().removePrefix("Basic ")
+            val userPassword = String(Base64.getDecoder().decode(credentials)).split(":")
 
-                // Parameters set in call attributes are accessible in other filters and routes
-                attributes["username"] = userPassword[0]
-                attributes["password"] = userPassword[1]
-            }
-
-            // All matching filters are run in order unless call is halted
-            before("/protected/*") {
-                if(users[attributes["username"]] != attributes["password"])
-                    halt(403, "Forbidden")
-            }
-
-            get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
-
-            // After filters are ran even if request was halted before
-            after { response.setHeader("time", nanoTime() - attributes["start"] as Long) }
+            // Parameters set in call attributes are accessible in other filters and routes
+            attributes["username"] = userPassword[0]
+            attributes["password"] = userPassword[1]
         }
+
+        // All matching filters are run in order unless call is halted
+        before("/protected/*") {
+            if(users[attributes["username"]] != attributes["password"])
+                halt(403, "Forbidden")
+        }
+
+        get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
+
+        // After filters are ran even if request was halted before
+        after { response.setHeader("time", nanoTime() - attributes["start"] as Long) }
     }
     // filters
 

@@ -14,31 +14,29 @@ import org.testng.annotations.Test
     // errors
     class CustomException : IllegalArgumentException()
 
-    val server: Server by lazy {
-        Server(adapter) {
-            error(UnsupportedOperationException::class) {
-                response.setHeader("error", it.message ?: it.javaClass.name)
-                send(599, "Unsupported")
-            }
-
-            error(IllegalArgumentException::class) {
-                response.setHeader("runtimeError", it.message ?: it.javaClass.name)
-                send(598, "Runtime")
-            }
-
-            // Catching `Exception` handles any unhandled exception before (it has to be the last)
-            error(Exception::class) { send(500, "Root handler") }
-
-            // It is possible to execute a handler upon a given status code before returning
-            error(588) { send(578, "588 -> 578") }
-
-            get("/exception") { throw UnsupportedOperationException("error message") }
-            get("/baseException") { throw CustomException() }
-            get("/unhandledException") { error("error message") }
-
-            get("/halt") { halt("halted") }
-            get("/588") { halt(588) }
+    val server: Server = Server(adapter) {
+        error(UnsupportedOperationException::class) {
+            response.setHeader("error", it.message ?: it.javaClass.name)
+            send(599, "Unsupported")
         }
+
+        error(IllegalArgumentException::class) {
+            response.setHeader("runtimeError", it.message ?: it.javaClass.name)
+            send(598, "Runtime")
+        }
+
+        // Catching `Exception` handles any unhandled exception before (it has to be the last)
+        error(Exception::class) { send(500, "Root handler") }
+
+        // It is possible to execute a handler upon a given status code before returning
+        error(588) { send(578, "588 -> 578") }
+
+        get("/exception") { throw UnsupportedOperationException("error message") }
+        get("/baseException") { throw CustomException() }
+        get("/unhandledException") { error("error message") }
+
+        get("/halt") { halt("halted") }
+        get("/588") { halt(588) }
     }
     // errors
 
