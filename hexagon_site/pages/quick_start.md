@@ -21,6 +21,7 @@ implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 
 ```xml tab="pom.xml"
 <repository>
+  <id>hexagon</id>
   <url>https://dl.bintray.com/hexagonkt/hexagon</url>
 </repository>
 
