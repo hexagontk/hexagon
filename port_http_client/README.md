@@ -3,7 +3,17 @@
 
 TODO
 
-HTTP Client
+### Settings
+
+### Requests
+
+### Responses
+
+### Cookies
+
+### TLS
+
+### Mutual TLS
 
 # Package com.hexagonkt.client
 

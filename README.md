@@ -62,7 +62,7 @@ Which are NOT project goals:
 3. To be usable from Java. Hexagon is *Kotlin first*.
 
 [Kotlin]: http://kotlinlang.org
-[framework]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
+[framework]: https://stackoverflow.com/a/3057818/973418
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
@@ -96,7 +96,8 @@ You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you ca
 from scratch following these steps:
 
 1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
-2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
+2. Setup the [JCenter] and [Hexagon] repositories (follow the links and click on the `Set me up!`
+   button).
 3. Add the dependency:
 
   * In Gradle. Import it inside `build.gradle`:
@@ -161,6 +162,7 @@ You can check the [Developer Guide] for more details. Or you can clone the [Grad
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
+[Hexagon]: https://bintray.com/hexagonkt/hexagon
 [Endpoint]: http://localhost:2010/hello/world
 [Developer Guide]: http://hexagonkt.com/developer_guide/index.html
 
@@ -528,10 +530,7 @@ client.get("/hello").apply {
 
 ## Status
 
-**DISCLAIMER**: The project is not yet production ready. Use it at your own risk. There are some
-modules not finished yet (e.g.: storage and HTTP client).
-
-It is used in personal not released projects to develop APIs and Web applications.
+**DISCLAIMER**: The project is not yet production ready. Use it at your own risk.
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
@@ -539,20 +538,26 @@ so, read the [Benchmark readme](hexagon_benchmark/README.md)
 
 Tests, of course, are taken into account. These are some coverage metrics:
 
-[![Coverage]][SonarProject] [![Lines]][SonarProject]
+[![Coverage]][SonarCoverage] [![Lines]][SonarLines]
 
 [Coverage]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=coverage
 [Lines]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=ncloc
 
 The code quality is checked by [SonarQube]:
 
-[![Maintainability]][SonarProject] [![Reliability]][SonarProject] [![Security]][SonarProject]
+[![Maintainability]][SonarMaintainability] [![Reliability]][SonarReliability] [![Security]][SonarSecurity]
 
 [Maintainability]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=sqale_rating
 [Reliability]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=reliability_rating
 [Security]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=security_rating
 
-[SonarProject]: https://sonarcloud.io/dashboard?id=hexagonkt_hexagon
+[SonarCoverage]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=coverage&view=list
+[SonarLines]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=ncloc&view=list
+
+[SonarMaintainability]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=Maintainability
+[SonarReliability]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=Reliability
+[SonarSecurity]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=Security
+
 [SonarQube]: https://sonarcloud.io
 
 ## Contribute

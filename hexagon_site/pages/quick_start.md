@@ -8,23 +8,31 @@ You can start by cloning a starter project ([Gradle Starter] or [Maven Starter])
 a project from scratch following these steps:
 
 1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
-2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
-3. Add the dependency in [Gradle] or [Maven]:
+2. Setup the [JCenter] and [Hexagon] repositories (follow the links and click on the `Set me up!`
+   button).
 
 ```groovy tab="build.gradle"
 repositories {
     maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
 }
+```
 
+```xml tab="pom.xml"
+<repositories>
+  <repository>
+    <id>hexagon</id>
+    <url>https://dl.bintray.com/hexagonkt/hexagon</url>
+  </repository>
+</repositories>
+```
+
+3. Add the dependency in [Gradle] or [Maven]:
+
+```groovy tab="build.gradle"
 implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 ```
 
 ```xml tab="pom.xml"
-<repository>
-  <id>hexagon</id>
-  <url>https://dl.bintray.com/hexagonkt/hexagon</url>
-</repository>
-
 <dependency>
   <groupId>com.hexagonkt</groupId>
   <artifactId>http_server_jetty</artifactId>
@@ -47,6 +55,7 @@ You can check the [Developer Guide] for more details. Or you can clone the [Grad
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
+[Hexagon]: https://bintray.com/hexagonkt/hexagon
 [Gradle]: https://gradle.org
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello/world
@@ -102,3 +111,10 @@ This example shows how to set up CORS for REST APIs used from the browser. Here 
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt).
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt:cors
+
+# HTTPS Example
+
+The snippet below shows how to set up your server to use HTTPS and HTTP/2. You can check the
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt).
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt:https
