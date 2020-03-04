@@ -26,47 +26,51 @@ task("createCa") {
     }
 }
 
-task("createIdentity", dependsOn: "createCa") {
+task("createIdentities", dependsOn: "createCa") {
     doLast {
-        final String sslDomain = findProperty("sslDomain").toString().trim()
-        final String sslSubdomains = findProperty("sslSubdomains")?.toString()?.trim()
+        final List<String> sslDomains = findProperty("sslDomains").toString().trim().split(":")
 
-        final int dotIndex = sslDomain.lastIndexOf('.')
-        final String domain = sslDomain.substring(0, dotIndex)
-        final String tld = sslDomain.substring(dotIndex + 1)
-        final List<String> sslSubdomainsList = sslSubdomains?.split(",")?.toList() ?: []
-        final String storeFile = domain.replace(".", "_") + ".p12"
+        sslDomains.each { sslFullDomain ->
+            final List<String> parts = sslFullDomain.trim().split("\\|").reverse()
+            final String sslDomain = parts.head()
+            final List<String> sslSubdomains = parts.tail()
 
-        if (file(sslPath(storeFile)).exists())
-            return
+            final int dotIndex = sslDomain.lastIndexOf('.')
+            final String domain = sslDomain.substring(0, dotIndex)
+            final String tld = sslDomain.substring(dotIndex + 1)
+            final String storeFile = domain.replace(".", "_") + ".p12"
 
-        // Create key pairs
-        createKeyPair(storeFile, domain, sslValidity, sslDomain, sslOrganization, sslCountry)
+            if (file(sslPath(storeFile)).exists())
+                return
 
-        // Export CA certificate
-        final String caPem = sslPath("ca.pem")
-        keytool("-exportcert", sslCaFile, sslCaAlias, "-rfc", "-file", caPem)
+            // Create key pairs
+            createKeyPair(storeFile, domain, sslValidity, sslDomain, sslOrganization, sslCountry)
 
-        // Generate chained server certificate (PEM)
-        final String identityCsr = sslPath("identity.csr")
-        final String identityPem = sslPath("identity.pem")
-        final String identityChainPem = sslPath("identity_chain.pem")
-        final String san = createSan(domain, tld, sslSubdomainsList)
-        keytool("-certreq", storeFile, domain, "-ext", "san=${san}", "-file", identityCsr)
-        keytool("-gencert", sslCaFile, sslCaAlias,
-            "-validity", sslValidity,
-            "-ext", "san=${san}",
-            "-rfc",
-            "-infile", identityCsr,
-            "-outfile", identityPem
-        )
-        concatenate(identityChainPem, caPem, identityPem)
+            // Export CA certificate
+            final String caPem = sslPath("ca.pem")
+            keytool("-exportcert", sslCaFile, sslCaAlias, "-rfc", "-file", caPem)
 
-        // Replace server certificate with chained PEM
-        keytool("-importcert", storeFile, domain, "-file", identityChainPem, "-noprompt")
+            // Generate chained server certificate (PEM)
+            final String identityCsr = sslPath("identity.csr")
+            final String identityPem = sslPath("identity.pem")
+            final String identityChainPem = sslPath("identity_chain.pem")
+            final String san = createSan(domain, tld, sslSubdomains)
+            keytool("-certreq", storeFile, domain, "-ext", "san=${san}", "-file", identityCsr)
+            keytool("-gencert", sslCaFile, sslCaAlias,
+                "-validity", sslValidity,
+                "-ext", "san=${san}",
+                "-rfc",
+                "-infile", identityCsr,
+                "-outfile", identityPem
+            )
+            concatenate(identityChainPem, caPem, identityPem)
 
-        // Clean up
-        delete(identityCsr, caPem, identityPem, identityChainPem)
+            // Replace server certificate with chained PEM
+            keytool("-importcert", storeFile, domain, "-file", identityChainPem, "-noprompt")
+
+            // Clean up
+            delete(identityCsr, caPem, identityPem, identityChainPem)
+        }
     }
 }
 
@@ -124,7 +128,14 @@ private void keytool(
     ]
 
     final List<Object> fullCommand = commandList + others.toList()
+    logCommand(fullCommand)
     project.exec { commandLine(fullCommand) }
+}
+
+private void logCommand(final List<Object> fullCommand) {
+    final boolean sslLogCommands = findProperty("sslLogCommands") != null ?: false
+    if (sslLogCommands)
+        println("SHELL> ${fullCommand.join(" ")}")
 }
 
 private static String createSan(

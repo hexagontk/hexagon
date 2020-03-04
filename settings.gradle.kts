@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.8"
+        version = "1.2.9"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
@@ -20,7 +20,7 @@ gradle.rootProject {
 
         // SSL
         extra["sslOrganization"] = "Hexagon"
-        extra["sslDomain"] = "hexagonkt.com"
+        extra["sslDomains"] = "hexagonkt.com : benchmark.test : name1|name2|subdomains.es"
 
         // Site
         extra["siteHost"] = "https://hexagonkt.com"
@@ -31,7 +31,7 @@ gradle.rootProject {
         extra["logoLarge"] = "assets/img/logo.svg"
 
         // VERSIONS
-        extra["kotlinVersion"] = "1.3.61"
+        extra["kotlinVersion"] = "1.3.70"
         extra["kotlinCoroutinesVersion"] = "1.3.3"
 
         // hexagon_benchmark
@@ -42,7 +42,7 @@ gradle.rootProject {
 
         // http_server_servlet
         extra["servletVersion"] = "3.1.0"
-        extra["jettyVersion"] = "9.4.26.v20200117"
+        extra["jettyVersion"] = "9.4.27.v20200227"
 
         // hexagon_core
         extra["slf4jVersion"] = "1.7.30"
