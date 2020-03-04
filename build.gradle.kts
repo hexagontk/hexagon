@@ -49,6 +49,10 @@ task("release") {
     }
 }
 
+/*
+ * TODO Move `dokkaMd` task to `gradle/dokka.gradle.kts` when it is ported to Kotlin DSL.
+ *   Check: https://github.com/Kotlin/dokka/issues/50
+ */
 childProjects.forEach { pair ->
     val name = pair.key
     val prj = pair.value
@@ -92,6 +96,7 @@ task("all") {
     )
 }
 
+// TODO Move these functions to `buildSrc` (to Site.kt, or Helpers.kt)
 fun filesCollection(dir: Any, pattern: String): List<String> =
     fileTree(dir) { include(pattern) }.files.map { it.absolutePath }
 
