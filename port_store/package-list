@@ -1,0 +1,5 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+
+com.hexagonkt.store
+com.hexagonkt.store.hashmap

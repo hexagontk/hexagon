@@ -1,0 +1,1794 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="The atoms of your platform">
+      
+      
+        <link rel="canonical" href="https://hexagonkt.com/gradle/">
+      
+      
+        <meta name="author" content="Juanjo Aguililla">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../favicon.ico">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>Gradle Helpers - Hexagon</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#546691">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Titillium Web","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+      <link rel="stylesheet" href="../css/mkdocs_palette.css">
+    
+      <link rel="stylesheet" href="../css/mkdocs.css">
+    
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-48216810-3", "auto")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web" />
+<meta name="application-name" content="Hexagon" />
+<meta name="theme-color" content="#135AA1" />
+
+<meta name="msapplication-navbutton-color" content="#135AA1" />
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#135AA1">
+<meta name="msapplication-TileImage" content="/apple-touch-icon.png">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="#135AA1" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@hexagon_kt">
+<meta name="twitter:creator" content="@hexagon_kt">
+<meta name="twitter:title" content="Hexagon">
+<meta name="twitter:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
+">
+<meta name="twitter:image" content="https://hexagonkt.comapple-touch-icon.png">
+
+<meta property="og:title" content="Hexagon" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hexagonkt.com" />
+<meta property="og:image" content="https://hexagonkt.comapple-touch-icon.png" />
+<meta property="og:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
+" />
+
+<meta itemprop="name" content="Hexagon">
+<meta itemprop="description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
+ ">
+<meta itemprop="image" content="https://hexagonkt.comapple-touch-icon.png">
+
+<link rel="author" href="/humans.txt" />
+<link rel="manifest" href="/manifest.json">
+
+<!-- Web worker -->
+<!--
+<script>
+if ('serviceWorker' in navigator)
+  navigator.serviceWorker
+    .register('/service_worker.js')
+    .then(function() { console.log('Worker Registered'); });
+</script>
+-->
+
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#build-variables" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://hexagonkt.com" title="Hexagon" aria-label="Hexagon" class="md-header-nav__button md-logo">
+          
+            <img alt="logo" src="../img/logo_white.svg" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Hexagon
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Gradle Helpers
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/hexagonkt/hexagon/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href=".." class="md-tabs__link md-tabs__link--active">
+          Getting Started
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    
+    
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../hexagon_core/" class="md-tabs__link">
+          Documentation
+        </a>
+      
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../guides/mtls/" class="md-tabs__link">
+          Guides
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    
+    
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../examples/http_server_examples/" class="md-tabs__link">
+          Examples
+        </a>
+      
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../help/" class="md-tabs__link">
+          Community
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://hexagonkt.com" title="Hexagon" class="md-nav__button md-logo">
+      
+        <img alt="logo" src="../img/logo_white.svg" width="48" height="48">
+      
+    </a>
+    Hexagon
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/hexagonkt/hexagon/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
+    
+    <label class="md-nav__link" for="nav-1">
+      Getting Started
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Getting Started
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../quick_start/" title="Quick Start" class="md-nav__link">
+      Quick Start
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../developer_guide/" title="Developer Guide" class="md-nav__link">
+      Developer Guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../hexagon_core/" title="Core" class="md-nav__link">
+      Core
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../port_http_server/" title="HTTP Server" class="md-nav__link">
+      HTTP Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../port_http_client/" title="HTTP Client" class="md-nav__link">
+      HTTP Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../port_store/" title="Data Store" class="md-nav__link">
+      Data Store
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../create_services/" title="Create Services" class="md-nav__link">
+      Create Services
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Gradle Helpers
+      </label>
+    
+    <a href="./" title="Gradle Helpers" class="md-nav__link md-nav__link--active">
+      Gradle Helpers
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Page Contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#build-variables" class="md-nav__link">
+    Build Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helper-scripts" class="md-nav__link">
+    Helper scripts
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bintray" class="md-nav__link">
+    Bintray
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dokka" class="md-nav__link">
+    Dokka
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#icons" class="md-nav__link">
+    Icons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jmh" class="md-nav__link">
+    JMH
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#junit" class="md-nav__link">
+    JUnit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kotlin" class="md-nav__link">
+    Kotlin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kotlin-js" class="md-nav__link">
+    Kotlin JS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service" class="md-nav__link">
+    Service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jbake" class="md-nav__link">
+    JBake
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sonarqube" class="md-nav__link">
+    SonarQube
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#certificates" class="md-nav__link">
+    Certificates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testng" class="md-nav__link">
+    TestNG
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Documentation
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Documentation
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-1" type="checkbox" id="nav-2-1">
+    
+    <label class="md-nav__link" for="nav-2-1">
+      Modules
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-1">
+        Modules
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../hexagon_core/" title="Core" class="md-nav__link">
+      Core
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../hexagon_scheduler/" title="Scheduler" class="md-nav__link">
+      Scheduler
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../hexagon_web/" title="Web" class="md-nav__link">
+      Web
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2">
+    
+    <label class="md-nav__link" for="nav-2-2">
+      Ports
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-2">
+        Ports
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../port_http_server/" title="HTTP Server" class="md-nav__link">
+      HTTP Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../port_http_client/" title="HTTP Client" class="md-nav__link">
+      HTTP Client
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../port_store/" title="Store" class="md-nav__link">
+      Store
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../port_messaging/" title="Messaging" class="md-nav__link">
+      Messaging
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../port_templates/" title="Templates" class="md-nav__link">
+      Templates
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-3" type="checkbox" id="nav-2-3">
+    
+    <label class="md-nav__link" for="nav-2-3">
+      Adapters
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-2-3">
+        Adapters
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-3-1" type="checkbox" id="nav-2-3-1">
+    
+    <label class="md-nav__link" for="nav-2-3-1">
+      HTTP Server
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-3-1">
+        HTTP Server
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../http_server_jetty/" title="Jetty" class="md-nav__link">
+      Jetty
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../http_server_servlet/" title="Servlet" class="md-nav__link">
+      Servlet
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-3-2" type="checkbox" id="nav-2-3-2">
+    
+    <label class="md-nav__link" for="nav-2-3-2">
+      HTTP Client
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-3-2">
+        HTTP Client
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../http_client_ahc/" title="Async HTTP Client" class="md-nav__link">
+      Async HTTP Client
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-3-3" type="checkbox" id="nav-2-3-3">
+    
+    <label class="md-nav__link" for="nav-2-3-3">
+      Store
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-3-3">
+        Store
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../store_mongodb/" title="MongoDB" class="md-nav__link">
+      MongoDB
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-3-4" type="checkbox" id="nav-2-3-4">
+    
+    <label class="md-nav__link" for="nav-2-3-4">
+      Messaging
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-3-4">
+        Messaging
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../messaging_rabbitmq/" title="RabbitMQ" class="md-nav__link">
+      RabbitMQ
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2-3-5" type="checkbox" id="nav-2-3-5">
+    
+    <label class="md-nav__link" for="nav-2-3-5">
+      Templates
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-2-3-5">
+        Templates
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../templates_pebble/" title="Pebble" class="md-nav__link">
+      Pebble
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/" title="API" class="md-nav__link">
+      API
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Guides
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../guides/mtls/" title="Mutual TLS" class="md-nav__link">
+      Mutual TLS
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Examples
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Code Examples
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        Code Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../examples/http_server_examples/" title="HTTP Server" class="md-nav__link">
+      HTTP Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../examples/http_client_examples/" title="HTTP Client" class="md-nav__link">
+      HTTP Client
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../examples/example_projects/" title="Example Projects" class="md-nav__link">
+      Example Projects
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Community
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Community
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../help/" title="Help and Support" class="md-nav__link">
+      Help and Support
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/hexagonkt/hexagon/blob/master/contributing.md" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/hexagonkt/hexagon/projects/1" title="Planning" class="md-nav__link">
+      Planning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/hexagonkt/hexagon/milestones" title="Roadmap" class="md-nav__link">
+      Roadmap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/hexagonkt" title="Organization" class="md-nav__link">
+      Organization
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Page Contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#build-variables" class="md-nav__link">
+    Build Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helper-scripts" class="md-nav__link">
+    Helper scripts
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bintray" class="md-nav__link">
+    Bintray
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dokka" class="md-nav__link">
+    Dokka
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#icons" class="md-nav__link">
+    Icons
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jmh" class="md-nav__link">
+    JMH
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#junit" class="md-nav__link">
+    JUnit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kotlin" class="md-nav__link">
+    Kotlin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kotlin-js" class="md-nav__link">
+    Kotlin JS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service" class="md-nav__link">
+    Service
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jbake" class="md-nav__link">
+    JBake
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sonarqube" class="md-nav__link">
+    SonarQube
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#certificates" class="md-nav__link">
+    Certificates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testng" class="md-nav__link">
+    TestNG
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+  
+    
+      <a href="https://github.com/hexagonkt/hexagon/edit/master/hexagon_site/pages/gradle.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+    
+  
+  
+    <h1>Gradle Helpers</h1>
+  
+  <h2 id="build-variables">Build Variables<a class="headerlink" href="#build-variables" title="Permanent link">&para;</a></h2>
+<p>The build process and imported build scripts (like the ones documented here) use variables to
+customize their behaviour. It is possible to add/change variables of a build from the following
+places:</p>
+<ol>
+<li>In the project's <code class="codehilite"><span class="err">gradle.properties</span></code> file.</li>
+<li>In your user's gradle configuration: <code class="codehilite"><span class="err">~/.gradle/gradle.properties</span></code>.</li>
+<li>Passing them from the command line with the following switch: <code class="codehilite"><span class="err">-Pkey=val</span></code>.</li>
+<li>Defining a project's extra property inside <code class="codehilite"><span class="err">build.gradle</span></code>. Ie: <code class="codehilite"><span class="err">project.ext.key=&#39;val&#39;</span></code>.</li>
+</ol>
+<p>For examples and reference, check <a href="https://github.com/hexagonkt/hexagon/blob/master/.travis.yml">.travis.yml</a>, <a href="https://github.com/hexagonkt/hexagon/blob/master/build.gradle">build.gradle</a> and <a href="https://github.com/hexagonkt/hexagon/blob/master/gradle.properties">gradle.properties</a>.</p>
+<h2 id="helper-scripts">Helper scripts<a class="headerlink" href="#helper-scripts" title="Permanent link">&para;</a></h2>
+<p>These scripts can be added to your build to include a whole new capability to your building logic.</p>
+<p>To use them, you can import the online versions, or copy them to your <code class="codehilite"><span class="err">gradle</span></code> directory before
+importing the script.</p>
+<p>You can import these scripts by adding add <code class="codehilite"><span class="err">apply from: $gradleScripts/$script.gradle</span></code> to your
+<code class="codehilite"><span class="err">build.gradle</span></code> file some of them may require additional plugins inside the <code class="codehilite"><span class="err">plugins</span></code> section in the
+root <code class="codehilite"><span class="err">build.gradle</span></code>. Check toolkit's <code class="codehilite"><span class="err">build.gradle</span></code> files for examples.</p>
+<h3 id="bintray">Bintray<a class="headerlink" href="#bintray" title="Permanent link">&para;</a></h3>
+<p>This script setup the project/module for publishing in <a href="https://bintray.com">Bintray</a>.</p>
+<p>It publishes all artifacts attached to the <code class="codehilite"><span class="err">mavenJava</span></code> publication (check <a href="https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle">kotlin.gradle</a> publishing
+section) at the bare minimum binaries are published. For an Open Source project, you must include
+sources and javadoc also.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/bintray.gradle</span></code> and add the
+<code class="codehilite"><span class="err">id &#39;com.jfrog.bintray&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>bintrayKey (REQUIRED): if not defined will try to load BINTRAY_KEY environment variable.</li>
+<li>bintrayUser (REQUIRED): or BINTRAY_USER environment variable if not defined.</li>
+<li>bintrayRepo (REQUIRED): Bintray's repository to upload the artifacts.</li>
+<li>license (REQUIRED): the license used to publish in Bintray.</li>
+<li>vcsUrl (REQUIRED): code repository location.</li>
+</ul>
+<h3 id="dokka">Dokka<a class="headerlink" href="#dokka" title="Permanent link">&para;</a></h3>
+<p>This script setup <a href="https://github.com/Kotlin/dokka">Dokka</a> tool and add a JAR with the project's code documentation to the published
+JARs.</p>
+<p>All modules' Markdown files are added to the documentation and test classes ending in <code class="codehilite"><span class="err">SamplesTest</span></code>
+are available to be referenced as samples.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/dokka.gradle</span></code> and add the
+<code class="codehilite"><span class="err">id &#39;org.jetbrains.dokka&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>The format for the generated documentation will be <code class="codehilite"><span class="err">javadoc</span></code> to make it compatible with current
+IDEs.</p>
+<h3 id="icons">Icons<a class="headerlink" href="#icons" title="Permanent link">&para;</a></h3>
+<p>Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (logos).</p>
+<p>For image rendering you will need <a href="https://github.com/GNOME/librsvg">rsvg</a> (librsvg2-bin) and <a href="https://www.imagemagick.org">imagemagick</a> installed in the
+development machine.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/icons.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>logoSmall (REQUIRED): SVG file used to render the small logo. Used for the favicon.</li>
+<li>logoLarge (REQUIRED): SVG file used to render the large logo.</li>
+<li>logoWide (REQUIRED): SVG file used to render the wide logo. Used for MS Windows tiles.</li>
+</ul>
+<h3 id="jmh">JMH<a class="headerlink" href="#jmh" title="Permanent link">&para;</a></h3>
+<p>This scripts adds support for running <a href="https://openjdk.java.net/projects/code-tools/jmh">JMH micro benchmarks</a>.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/jmh.gradle</span></code> and add the
+<code class="codehilite"><span class="err">id &#39;me.champeau.gradle.jmh&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>jmhBenchmarkVersion: JMH version. The default is 1.21.</li>
+<li>iterations (REQUIRED): number of measurement iterations to do.</li>
+<li>benchmarkModes (REQUIRED): benchmark mode. Available modes are:
+  Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all</li>
+<li>batchSize (REQUIRED): number of benchmark method calls per operation (some benchmark modes can
+  ignore this setting).</li>
+<li>fork (REQUIRED): how many times to forks a single benchmark. Use 0 to disable forking altogether.</li>
+<li>operationsPerInvocation (REQUIRED): operations per invocation.</li>
+<li>timeOnIteration (REQUIRED): time to spend at each measurement iteration.</li>
+<li>warmup (REQUIRED): time to spend at each warmup iteration.</li>
+<li>warmupBatchSize (REQUIRED): number of benchmark method calls per operation.</li>
+<li>warmupIterations (REQUIRED): number of warmup iterations to do.</li>
+</ul>
+<p>Sample benchmark code:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">import</span> <span class="nn">org.openjdk.jmh.annotations.Benchmark</span>
+
+<span class="k">open</span> <span class="k">class</span> <span class="nc">Benchmark</span> <span class="p">{</span>
+    <span class="n">@Benchmark</span> <span class="k">fun</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">println</span><span class="p">(</span><span class="s">&quot;foo bench&quot;</span><span class="p">)</span>
+        <span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="m">100L</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="n">@Benchmark</span> <span class="k">fun</span> <span class="nf">bar</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">println</span><span class="p">(</span><span class="s">&quot;bar bench&quot;</span><span class="p">)</span>
+        <span class="n">Thread</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="m">100L</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
+<h3 id="junit">JUnit<a class="headerlink" href="#junit" title="Permanent link">&para;</a></h3>
+<p>Uses JUnit 5 as the test framework.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/junit.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>junitVersion: JUnit version (5+), the default value is: 5.5.1.</li>
+</ul>
+<h3 id="kotlin">Kotlin<a class="headerlink" href="#kotlin" title="Permanent link">&para;</a></h3>
+<p>Adds Kotlin's Gradle plugin. It sets up:</p>
+<ul>
+<li>Java version</li>
+<li>Repositories</li>
+<li>Kotlin dependencies</li>
+<li>Resource processing (replacing build variables)</li>
+<li>Cleaning (deleting runtime files as logs and dump files)</li>
+<li>Tests (pass properties, output and mocks)</li>
+<li>Setup coverage report</li>
+<li>IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)</li>
+<li>Published artifacts (binaries, sources and test): sourceJar and testJar tasks</li>
+<li>Jar with dependencies: jarAll task</li>
+</ul>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/kotlin.gradle</span></code> and add the
+<code class="codehilite"><span class="err">id &#39;org.jetbrains.kotlin.jvm&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>kotlinVersion (REQUIRED): Kotlin version.</li>
+<li>kotlinCoroutinesVersion (REQUIRED): Kotlin coroutines version.</li>
+<li>mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.</li>
+<li>jacocoVersion: Jacoco code coverage tool version.</li>
+</ul>
+<h3 id="kotlin-js">Kotlin JS<a class="headerlink" href="#kotlin-js" title="Permanent link">&para;</a></h3>
+<p>This script provides the following tasks for compiling Kotlin to JavaScript:</p>
+<ul>
+<li><code class="codehilite"><span class="err">jsAll</span></code>: compiles the project to JavaScript including all of
+  its dependencies. It copies all the resulting files to <code class="codehilite"><span class="err">build/js</span></code>.</li>
+<li><code class="codehilite"><span class="err">assembleWeb</span></code>: copies all project resources and JavaScript files to <code class="codehilite"><span class="err">build/web</span></code>.</li>
+</ul>
+<p>IMPORTANT: This script must be applied at the end of the build script.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/kotlin_js.gradle</span></code> at the end of the build script, also apply the
+<code class="codehilite"><span class="err">kotlin2js</span></code> plugin. And finally, add the <code class="codehilite"><span class="err">id &#39;org.jetbrains.kotlin.jvm&#39; version &#39;VERSION&#39;</span></code> plugin to
+the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).</p>
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>javaScriptDirectory: JavaScript directory inside the <code class="codehilite"><span class="err">web</span></code> directory. By default it is: "js".</li>
+</ul>
+<h3 id="service">Service<a class="headerlink" href="#service" title="Permanent link">&para;</a></h3>
+<p>Gradle's script for a service or application. It adds two extra tasks:</p>
+<ul>
+<li>buildInfo: add configuration file (<code class="codehilite"><span class="err">service.properties</span></code>) with build variables to the package.</li>
+<li>serve: Run the service in another thread. This allow the possibility to 'watch' source changes. To
+  run the services and watch for changes you need to execute this task with the <code class="codehilite"><span class="err">--continuous</span></code>
+  (<code class="codehilite"><span class="err">-t</span></code>) Gradle flag. Ie: <code class="codehilite"><span class="err">gw -t serve</span></code>.</li>
+</ul>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/service.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<h3 id="jbake">JBake<a class="headerlink" href="#jbake" title="Permanent link">&para;</a></h3>
+<p>Adds support for site generation using <a href="https://jbake.org">JBake</a>.</p>
+<p>To generate the site execute: <code class="codehilite"><span class="err">gw bake</span></code> and to test it run: <code class="codehilite"><span class="err">gw bakePreview</span></code>.</p>
+<p>The preview site will be served at: <a href="http://localhost:8888">http://localhost:8888</a>. You can change
+the port defining the <code class="codehilite"><span class="err">sitePort</span></code> variable inside <code class="codehilite"><span class="err">gradle.properties</span></code>.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/jbake.gradle</span></code> and add the
+<code class="codehilite"><span class="err">id &#39;org.jbake.site&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>JBake <code class="codehilite"><span class="err">content</span></code> folder can not be changed (it seems a bug).</p>
+<p>To generate clean URLs, add the following settings:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">configuration</span><span class="o">[</span><span class="s1">&#39;uri.noExtension&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="n">configuration</span><span class="o">[</span><span class="s1">&#39;uri.noExtension.prefix&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span>
+</code></pre></div>
+</td></tr></table>
+
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>siteHost: site canonical URL, by default it is: "".</li>
+<li>configData: JBake settings map. It is an empty map by default.</li>
+<li>jbakeVersion: JBake version. By default: "2.6.4".</li>
+<li>sitePort: preview site port for development. It is "8888" if not set.</li>
+</ul>
+<h3 id="sonarqube">SonarQube<a class="headerlink" href="#sonarqube" title="Permanent link">&para;</a></h3>
+<p>Set up the project to be analyzed by the <a href="https://sonarcloud.io">SonarQube instance running in the cloud</a>.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/sonarqube.gradle</span></code> and add the
+<code class="codehilite"><span class="err">id &#39;org.sonarqube&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>sonarQubeProject (REQUIRED): ID used to locate the project in SonarQube host.</li>
+<li>sonarQubeOrganization (REQUIRED): organization owning the project.</li>
+<li>sonarQubeHost: SonarQube server to be used. By default it is: <code class="codehilite"><span class="c">https://sonarcloud.io</span></code>.</li>
+<li>sonarQubeToken (REQUIRED): If not set, the <code class="codehilite"><span class="err">SONARQUBE_TOKEN</span></code> environment variable will be used.</li>
+</ul>
+<h3 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h3>
+<p>Creates three different key stores for development purposes. <strong>IMPORTANT</strong> these key stores must not
+be used for production environments.</p>
+<p>The created key stores are:</p>
+<ul>
+<li><code class="codehilite"><span class="err">ca.p12</span></code>: self signed certificate authority (CA). This store holds the CA private key. This store
+  must be private and will be used to sign other certificates. The key pair alias is <code class="codehilite"><span class="err">ca</span></code>.</li>
+<li><code class="codehilite"><span class="err">trust.p12</span></code>: key store with CA's public certificate. It can be set as the Java process trust store
+  which make that every certificate signed with the CA will be trusted. However, if used as the
+  trust store, the JDK <code class="codehilite"><span class="err">cacerts</span></code> entries won't be loaded and thus, not trusted.</li>
+<li><code class="codehilite"><span class="err">&lt;domain&gt;.p12</span></code>: there would be one per each domain (see <code class="codehilite"><span class="err">sslDomain</span></code> variable). These stores are
+  signed by the CA and they contain the service private key and its full chain certificate.
+  <code class="codehilite"><span class="err">&lt;domain&gt;</span></code> will be the domain name without the TLD, and the Subject alternative names will include
+  <code class="codehilite"><span class="err">&lt;domain&gt;.test</span></code> (<a href="https://tools.ietf.org/html/rfc2606">TLD for local environments</a>) and <code class="codehilite"><span class="err">localhost</span></code>.</li>
+</ul>
+<p>The defined tasks are:</p>
+<ul>
+<li>createCa: creates <code class="codehilite"><span class="err">ca.p12</span></code> and import its public certificate inside <code class="codehilite"><span class="err">trust.p12</span></code>.</li>
+<li>createIdentity: creates the <code class="codehilite"><span class="err">&lt;domain&gt;.p12</span></code> store for a service https configuration.</li>
+</ul>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/testng.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>sslDomain (REQUIRED): main domain for the identity store.</li>
+<li>
+<p>sslSubdomains: subdomains to be added to <code class="codehilite"><span class="err">&lt;domain&gt;.p12</span></code> (aside of <code class="codehilite"><span class="err">&lt;domain&gt;.test</span></code> and <code class="codehilite"><span class="err">localhost</span></code>
+  which are always added). By default, no extra domains are added to the key store.</p>
+</li>
+<li>
+<p>sslDomains (REQUIRED): main domain for the identity store.</p>
+</li>
+<li>sslOrganization (REQUIRED): organization stated in created certificates.</li>
+<li>sslCaFile: certificate authority key store file. By default: "ca.p12"</li>
+<li>sslCaAlias: CA alias in the key store. If not provided, it will be "ca"</li>
+<li>sslTrustFile: trust store file name, by default it is "trust.p12"</li>
+<li>sslPath: path used to generate the key stores. By default it will be project's build directory.</li>
+<li>sslPassword: password used for the generated key stores. By default it is the file name reversed.</li>
+<li>sslValidity: validity period (in days) for certificates. If not provided, it will be 365.</li>
+<li>sslCountry: country used in the certificates. By default it is the current locale's country code.</li>
+</ul>
+<h3 id="testng">TestNG<a class="headerlink" href="#testng" title="Permanent link">&para;</a></h3>
+<p>Uses TestNG as the test framework.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/testng.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>testngVersion: TestNG version, the default value is: 6.14.3.</li>
+</ul>
+  
+    
+  
+
+              
+  
+
+
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://hexagonkt.com/gradle/";
+      this.page.identifier =
+        "/gradle/";
+    };
+    (function() {
+      var d = document, s = d.createElement("script");
+      s.src = "//hexagonkt-com.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+
+
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a
+            href="../create_services/"
+            title="Create Services"
+            class="md-flex md-footer-nav__link md-footer-nav__link--prev"
+            rel="prev">
+
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Create Services
+              </span>
+            </div>
+          </a>
+        
+        
+          <a
+            href="../hexagon_core/"
+            title="Core"
+            class="md-flex md-footer-nav__link md-footer-nav__link--next"
+            rel="next">
+
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Core
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Made with <i class="fa fa-heart"></i> by <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md">MIT License</a>
+
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and <a href="https://squidfunk.github.io/mkdocs-material/"> Material for MkDocs</a>
+        <div class="social-buttons">
+          <a
+            class="github-button"
+            href="https://github.com/hexagonkt/hexagon/"
+            data-icon="octicon-star"
+            data-show-count="true"
+            aria-label="Star hexagonkt/hexagon on GitHub">Star</a>
+          <a
+            class="github-button"
+            href="https://github.com/hexagonkt/hexagon/subscription"
+            data-icon="octicon-eye"
+            data-show-count="true"
+            aria-label="Watch hexagonkt/hexagon on GitHub">Watch</a>
+          <a
+            class="github-button"
+            href="https://github.com/hexagonkt/hexagon/fork"
+            data-icon="octicon-git-branch"
+            data-show-count="true"
+            aria-label="Fork hexagonkt/hexagon on GitHub">Fork</a>
+          <a
+            class="twitter-share-button"
+            href="https://twitter.com/share?text=Hexagon Kotlin library">Tweet</a>
+        </div>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/hexagonkt/hexagon" target="_blank" rel="noopener" title="github" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/hexagon_kt" target="_blank" rel="noopener" title="twitter" class="md-footer-social__link fa fa-twitter"></a>
+    
+      <a href="https://kotlinlang.slack.com/messages/hexagon" target="_blank" rel="noopener" title="slack" class="md-footer-social__link fa fa-slack"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.df00da5d.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+        <script src="https://buttons.github.io/buttons.js"></script>
+      
+        <script src="https://platform.twitter.com/widgets.js"></script>
+      
+    
+  </body>
+</html>

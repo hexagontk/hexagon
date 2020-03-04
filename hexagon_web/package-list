@@ -1,0 +1,7 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:com.hexagonkt.web$fullContext(com.hexagonkt.http.server.Call)com.hexagonkt.web/com.hexagonkt.http.server.-call/full-context.md
+$dokka.location:com.hexagonkt.web$obtainLocale(com.hexagonkt.http.server.Call)com.hexagonkt.web/com.hexagonkt.http.server.-call/obtain-locale.md
+$dokka.location:com.hexagonkt.web$template(com.hexagonkt.http.server.Call, com.hexagonkt.templates.TemplatePort, kotlin.String, java.util.Locale, kotlin.collections.Map((kotlin.String, kotlin.Any)))com.hexagonkt.web/com.hexagonkt.http.server.-call/template.md
+$dokka.location:com.hexagonkt.web$templateType(com.hexagonkt.http.server.Call, kotlin.String)com.hexagonkt.web/com.hexagonkt.http.server.-call/template-type.md
+com.hexagonkt.web

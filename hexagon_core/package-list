@@ -1,0 +1,63 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:com.hexagonkt.helpers$banner(kotlin.String, kotlin.String)com.hexagonkt.helpers/kotlin.-string/banner.md
+$dokka.location:com.hexagonkt.helpers$camelToSnake(kotlin.String)com.hexagonkt.helpers/kotlin.-string/camel-to-snake.md
+$dokka.location:com.hexagonkt.helpers$ensureSize(kotlin.collections.Collection((com.hexagonkt.helpers.ensureSize.Z)), kotlin.ranges.IntRange)com.hexagonkt.helpers/kotlin.collections.-collection/ensure-size.md
+$dokka.location:com.hexagonkt.helpers$filter(kotlin.String, kotlin.String, kotlin.String, kotlin.Array((kotlin.Pair((kotlin.String, )))))com.hexagonkt.helpers/kotlin.-string/filter.md
+$dokka.location:com.hexagonkt.helpers$filterEmpty(kotlin.collections.List((com.hexagonkt.helpers.filterEmpty.V)))com.hexagonkt.helpers/kotlin.collections.-list/filter-empty.md
+$dokka.location:com.hexagonkt.helpers$filterEmpty(kotlin.collections.Map((com.hexagonkt.helpers.filterEmpty.K, com.hexagonkt.helpers.filterEmpty.V)))com.hexagonkt.helpers/kotlin.collections.-map/filter-empty.md
+$dokka.location:com.hexagonkt.helpers$filterStackTrace(kotlin.Throwable, kotlin.String)com.hexagonkt.helpers/kotlin.-throwable/filter-stack-trace.md
+$dokka.location:com.hexagonkt.helpers$filterVars(kotlin.String, kotlin.Array((kotlin.Pair((kotlin.Any, )))))com.hexagonkt.helpers/kotlin.-string/filter-vars.md
+$dokka.location:com.hexagonkt.helpers$filterVars(kotlin.String, kotlin.collections.Map((kotlin.Any, )))com.hexagonkt.helpers/kotlin.-string/filter-vars.md
+$dokka.location:com.hexagonkt.helpers$findGroups(kotlin.text.Regex, kotlin.String)com.hexagonkt.helpers/kotlin.text.-regex/find-groups.md
+$dokka.location:com.hexagonkt.helpers$get(kotlin.collections.Map((kotlin.Any, )), kotlin.Array((kotlin.Any)))com.hexagonkt.helpers/kotlin.collections.-map/get.md
+$dokka.location:com.hexagonkt.helpers$globToRegex(kotlin.String)com.hexagonkt.helpers/kotlin.-string/glob-to-regex.md
+$dokka.location:com.hexagonkt.helpers$require(kotlin.collections.Map((com.hexagonkt.helpers.require.K, com.hexagonkt.helpers.require.V)), com.hexagonkt.helpers.require.K)com.hexagonkt.helpers/kotlin.collections.-map/require.md
+$dokka.location:com.hexagonkt.helpers$requireKeys(kotlin.collections.Map((kotlin.Any, )), kotlin.Array((kotlin.Any)))com.hexagonkt.helpers/kotlin.collections.-map/require-keys.md
+$dokka.location:com.hexagonkt.helpers$snakeToCamel(kotlin.String)com.hexagonkt.helpers/kotlin.-string/snake-to-camel.md
+$dokka.location:com.hexagonkt.helpers$stream(java.net.URI)com.hexagonkt.helpers/java.net.-u-r-i/stream.md
+$dokka.location:com.hexagonkt.helpers$stripAccents(kotlin.String)com.hexagonkt.helpers/kotlin.-string/strip-accents.md
+$dokka.location:com.hexagonkt.helpers$toDate(java.time.LocalDate)com.hexagonkt.helpers/java.time.-local-date/to-date.md
+$dokka.location:com.hexagonkt.helpers$toDate(java.time.LocalDateTime)com.hexagonkt.helpers/java.time.-local-date-time/to-date.md
+$dokka.location:com.hexagonkt.helpers$toDate(java.time.ZonedDateTime)com.hexagonkt.helpers/java.time.-zoned-date-time/to-date.md
+$dokka.location:com.hexagonkt.helpers$toLocalDate(java.util.Date)com.hexagonkt.helpers/java.util.-date/to-local-date.md
+$dokka.location:com.hexagonkt.helpers$toLocalDate(kotlin.Int)com.hexagonkt.helpers/kotlin.-int/to-local-date.md
+$dokka.location:com.hexagonkt.helpers$toLocalDateTime(java.util.Date)com.hexagonkt.helpers/java.util.-date/to-local-date-time.md
+$dokka.location:com.hexagonkt.helpers$toLocalDateTime(kotlin.Long)com.hexagonkt.helpers/kotlin.-long/to-local-date-time.md
+$dokka.location:com.hexagonkt.helpers$toLocalTime(kotlin.Int)com.hexagonkt.helpers/kotlin.-int/to-local-time.md
+$dokka.location:com.hexagonkt.helpers$toNumber(java.time.LocalDate)com.hexagonkt.helpers/java.time.-local-date/to-number.md
+$dokka.location:com.hexagonkt.helpers$toNumber(java.time.LocalDateTime)com.hexagonkt.helpers/java.time.-local-date-time/to-number.md
+$dokka.location:com.hexagonkt.helpers$toNumber(java.time.LocalTime)com.hexagonkt.helpers/java.time.-local-time/to-number.md
+$dokka.location:com.hexagonkt.helpers$toStream(kotlin.String)com.hexagonkt.helpers/kotlin.-string/to-stream.md
+$dokka.location:com.hexagonkt.helpers$toText(kotlin.Throwable, kotlin.String)com.hexagonkt.helpers/kotlin.-throwable/to-text.md
+$dokka.location:com.hexagonkt.helpers$withZone(java.time.LocalDateTime, java.time.ZoneId)com.hexagonkt.helpers/java.time.-local-date-time/with-zone.md
+$dokka.location:com.hexagonkt.http$urlDecode(kotlin.String)com.hexagonkt.http/kotlin.-string/url-decode.md
+$dokka.location:com.hexagonkt.http$urlEncode(kotlin.String)com.hexagonkt.http/kotlin.-string/url-encode.md
+$dokka.location:com.hexagonkt.serialization$convertToMap(kotlin.Any)com.hexagonkt.serialization/kotlin.-any/convert-to-map.md
+$dokka.location:com.hexagonkt.serialization$convertToObject(kotlin.collections.Map((kotlin.Any, )))com.hexagonkt.serialization/kotlin.collections.-map/convert-to-object.md
+$dokka.location:com.hexagonkt.serialization$convertToObject(kotlin.collections.Map((kotlin.Any, )), kotlin.reflect.KClass((com.hexagonkt.serialization.convertToObject.T)))com.hexagonkt.serialization/kotlin.collections.-map/convert-to-object.md
+$dokka.location:com.hexagonkt.serialization$convertToObjects(kotlin.collections.List((kotlin.collections.Map((kotlin.Any, )))))com.hexagonkt.serialization/kotlin.collections.-list/convert-to-objects.md
+$dokka.location:com.hexagonkt.serialization$convertToObjects(kotlin.collections.List((kotlin.collections.Map((kotlin.Any, )))), kotlin.reflect.KClass((com.hexagonkt.serialization.convertToObjects.T)))com.hexagonkt.serialization/kotlin.collections.-list/convert-to-objects.md
+$dokka.location:com.hexagonkt.serialization$parse(java.io.File)com.hexagonkt.serialization/java.io.-file/parse.md
+$dokka.location:com.hexagonkt.serialization$parse(java.io.File, kotlin.reflect.KClass((com.hexagonkt.serialization.parse.T)))com.hexagonkt.serialization/java.io.-file/parse.md
+$dokka.location:com.hexagonkt.serialization$parse(java.io.InputStream, com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/java.io.-input-stream/parse.md
+$dokka.location:com.hexagonkt.serialization$parse(java.io.InputStream, kotlin.reflect.KClass((com.hexagonkt.serialization.parse.T)), com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/java.io.-input-stream/parse.md
+$dokka.location:com.hexagonkt.serialization$parse(java.net.URL)com.hexagonkt.serialization/java.net.-u-r-l/parse.md
+$dokka.location:com.hexagonkt.serialization$parse(java.net.URL, kotlin.reflect.KClass((com.hexagonkt.serialization.parse.T)))com.hexagonkt.serialization/java.net.-u-r-l/parse.md
+$dokka.location:com.hexagonkt.serialization$parse(kotlin.String, com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/kotlin.-string/parse.md
+$dokka.location:com.hexagonkt.serialization$parse(kotlin.String, kotlin.reflect.KClass((com.hexagonkt.serialization.parse.T)), com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/kotlin.-string/parse.md
+$dokka.location:com.hexagonkt.serialization$parseObjects(java.io.File)com.hexagonkt.serialization/java.io.-file/parse-objects.md
+$dokka.location:com.hexagonkt.serialization$parseObjects(java.io.File, kotlin.reflect.KClass((com.hexagonkt.serialization.parseObjects.T)))com.hexagonkt.serialization/java.io.-file/parse-objects.md
+$dokka.location:com.hexagonkt.serialization$parseObjects(java.io.InputStream, com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/java.io.-input-stream/parse-objects.md
+$dokka.location:com.hexagonkt.serialization$parseObjects(java.io.InputStream, kotlin.reflect.KClass((com.hexagonkt.serialization.parseObjects.T)), com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/java.io.-input-stream/parse-objects.md
+$dokka.location:com.hexagonkt.serialization$parseObjects(java.net.URL)com.hexagonkt.serialization/java.net.-u-r-l/parse-objects.md
+$dokka.location:com.hexagonkt.serialization$parseObjects(java.net.URL, kotlin.reflect.KClass((com.hexagonkt.serialization.parseObjects.T)))com.hexagonkt.serialization/java.net.-u-r-l/parse-objects.md
+$dokka.location:com.hexagonkt.serialization$parseObjects(kotlin.String, com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/kotlin.-string/parse-objects.md
+$dokka.location:com.hexagonkt.serialization$parseObjects(kotlin.String, kotlin.reflect.KClass((com.hexagonkt.serialization.parseObjects.T)), com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/kotlin.-string/parse-objects.md
+$dokka.location:com.hexagonkt.serialization$serialize(kotlin.Any, com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/kotlin.-any/serialize.md
+$dokka.location:com.hexagonkt.serialization$serialize(kotlin.Any, kotlin.String)com.hexagonkt.serialization/kotlin.-any/serialize.md
+com.hexagonkt.helpers
+com.hexagonkt.http
+com.hexagonkt.injection
+com.hexagonkt.serialization
+com.hexagonkt.settings
