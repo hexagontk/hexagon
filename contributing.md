@@ -19,13 +19,13 @@ to date of project's news following [@hexagon_kt] in Twitter.
 ## Project Structure
 
 The Hexagon project is composed of several modules. Most of the modules publish libraries for their
-use by other projects (check the [Project Libraries] section of the readme file for more details).
+use by other projects (check the [Hexagon Structure] section of the readme file for more details).
 
 Aside of that kind of modules, you can also find infrastructure modules: components used by the
 project itself. These are internal modules not intended to be used by users (like the
 [hexagon_benchmark] or the [hexagon_site]).
 
-[Project Libraries]: https://github.com/hexagonkt/hexagon/blob/master/README.md#hexagon-libraries
+[Hexagon Structure]: https://github.com/hexagonkt/hexagon/blob/master/README.md#hexagon-structure
 [hexagon_benchmark]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_benchmark/README.md
 [hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/README.md
 
@@ -95,9 +95,15 @@ If you want to generate the documentation site, check the [site module readme][h
 ## Tools Used
 
 * [Travis]: For continuous integration.
+  * Create schedule job for nightly builds.
+  * Secrets are created with command line tools.
 * [SonarQube]: To check code coverage and measure code quality.
+  * Create Personal Access Token in GitHub with `repo` scope.
+  * Use the token in repository's settings `Administration > General Settings > Pull Requests`.
+  * Set up branches to include `develop` as a long lived one.
 * [Github]: Web hosting, project board and code hosting.
 * [Bintray]: Artifact repository for JARs.
+  * JCenter synchronization must be done manually.
 
 [Travis]: https://travis-ci.org
 [SonarQube]: https://sonarcloud.io

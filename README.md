@@ -73,22 +73,12 @@ Which are NOT project goals:
 There are three kind of client libraries:
 
 * The ones that provide a single functionality that does not depend on different implementations.
+  These modules can depend on any Ports, but never on Adapters (see below).
 * Modules that define a "Port": An interface to a feature that may have different implementations.
+  Ports are independent from each other.
 * Adapter modules, which are Port implementations for a given tool.
 
-Ports are independent from each other.
-
-Hexagon Core module provides convenience utilities. The main features it has are:
-
-* [Helpers]: JVM information, a logger and other useful utilities.
-* [Dependency Injection]: bind classes to creation closures or instances and inject them.
-* [Instance Serialization]: parse/serialize data in different formats to class instances.
-* [Configuration Settings]: load settings from different data sources and formats.
-
-[Helpers]: http://hexagonkt.com/hexagon_core/com.hexagonkt.helpers
-[Dependency Injection]: http://hexagonkt.com/hexagon_core/com.hexagonkt.injection
-[Instance Serialization]: http://hexagonkt.com/hexagon_core/com.hexagonkt.serialization
-[Configuration Settings]: http://hexagonkt.com/hexagon_core/com.hexagonkt.settings
+For more information, take a look at the [Developer Guide].
 
 ## Simple HTTP service
 
@@ -166,7 +156,10 @@ You can check the [Developer Guide] for more details. Or you can clone the [Grad
 [Endpoint]: http://localhost:2010/hello/world
 [Developer Guide]: http://hexagonkt.com/developer_guide/index.html
 
-## Books Example
+## Examples
+
+<details>
+<summary>Books Example</summary>
 
 A simple CRUD example showing how to manage book resources. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt).
@@ -234,8 +227,10 @@ val server: Server = Server(adapter) {
 }
 // books
 ```
+</details>
 
-## Session Example
+<details>
+<summary>Session Example</summary>
 
 Example showing how to use sessions. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt).
@@ -286,8 +281,10 @@ val server: Server = Server(adapter) {
 }
 // session
 ```
+</details>
 
-## Cookies Example
+<details>
+<summary>Cookies Example</summary>
 
 Demo server to show the use of cookies. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt).
@@ -319,8 +316,10 @@ val server: Server = Server(adapter) {
 }
 // cookies
 ```
+</details>
 
-## Error Handling Example
+<details>
+<summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt).
@@ -355,8 +354,10 @@ val server: Server = Server(adapter) {
 }
 // errors
 ```
+</details>
 
-## Filters Example
+<details>
+<summary>Filters Example</summary>
 
 This example shows how to add filters before and after route execution. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt).
@@ -394,8 +395,10 @@ private val server: Server = Server(adapter) {
 }
 // filters
 ```
+</details>
 
-## Files Example
+<details>
+<summary>Files Example</summary>
 
 The following code shows how to serve resources and receive files. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt).
@@ -436,8 +439,10 @@ private val server: Server = Server(adapter) {
 }
 // files
 ```
+</details>
 
-## CORS Example
+<details>
+<summary>CORS Example</summary>
 
 The following code shows how to set up CORS for REST APIs used from the browser. You can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt).
@@ -471,8 +476,10 @@ private fun Router.corsPath(path: String, settings: CorsSettings) {
 }
 // cors
 ```
+</details>
 
-## HTTPS Example
+<details>
+<summary>HTTPS Example</summary>
 
 The snippet below shows how to set up your server to use HTTPS and HTTP/2. You can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt).
@@ -527,6 +534,7 @@ client.get("/hello").apply {
 }
 // https
 ```
+</details>
 
 ## Status
 

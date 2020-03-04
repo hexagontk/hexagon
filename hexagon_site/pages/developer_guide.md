@@ -1,19 +1,27 @@
 
+# Concepts
+
+* *Port*: interface for a task, does not aim to cover all possible use cases (only the most used
+  things) you could need to access underlying technology, and that is fine.
+* *Adapter*: implementation of a functionality for a given product/technology.
+* *Manager*: singleton object to manage a cross toolkit aspect. Serialization, Injection or
+  Settings.
+
 # Toolkit Structure
 
 The project is composed by modules, each module provide a single functionality. There are three kind
 of modules:
 
 * The ones that provide a functionality that does not depend on different implementations, like
-  [hexagon_scheduler] or [hexagon_core].
+  [hexagon_scheduler] or [hexagon_core]. Their name always start with the `hexagon_` prefix. These
+  modules can depend on several Ports, but never on Adapters (see below).
 * Modules that define a "Port": these are interfaces to a feature that may have different
   implementations (ie: [port_http_server] or [port_store]). They can not be used by themselves and
-  in their place, an adapter implementing them should be added to the list of dependencies.
+  in their place, an adapter implementing them should be added to the list of dependencies. These
+  modules names start with the `port_` prefix. Ports are independent from each other.
 * Adapter modules, which are Port implementations for a given tool. [store_mongodb] and
-  [messaging_rabbitmq] are examples of this type of modules.
-  
-All ports are independent from each other. Some modules can depend on several Ports, however
-dependencies to Adapters won't be allowed.
+  [messaging_rabbitmq] are examples of this type of modules. Adapter names must start with their
+  port name.
 
 [hexagon_scheduler]: /hexagon_scheduler/index.html
 [hexagon_core]: /hexagon_core/index.html

@@ -51,8 +51,6 @@ nav:
     - Data Store: port_store/index.md
     - Create Services: create_services.md
     - Gradle Helpers: gradle.md
-  - Guides:
-    - Mutual TLS: guides/mtls.md
   - Documentation:
     - Modules:
       - Core: hexagon_core/index.md
@@ -76,8 +74,14 @@ nav:
         - RabbitMQ: messaging_rabbitmq/index.md
       - Templates:
         - Pebble: templates_pebble/index.md
+    - API: api.md
+  - Guides:
+    - Mutual TLS: guides/mtls.md
   - Examples:
-      - Examples: examples.md
+    - Code Examples:
+      - HTTP Server: examples/http_server_examples.md
+      - HTTP Client: examples/http_client_examples.md
+    - Example Projects: examples/example_projects.md
   - Community:
     - Help and Support: help.md
     - Contributing: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
