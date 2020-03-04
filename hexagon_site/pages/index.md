@@ -23,10 +23,9 @@ hero: |
 
   <p align="center" id="description">
     Hexagon is a microservices
-    <a href="https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework">
-    toolkit</a> written in <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the
-    building of services (Web applications, APIs or queue consumers) that run inside a cloud
-    platform
+    <a href="https://stackoverflow.com/a/3057818/973418">toolkit</a> written in
+    <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the building of services (Web
+    applications, APIs or queue consumers) that run inside a cloud platform.
   </p>
 ---
 
@@ -36,17 +35,9 @@ server engines, etc.) to be able to change them with minimum impact.
 It is designed to fit in applications that conform to the [Hexagonal Architecture] (also called
 [Clean Architecture] or [Ports and Adapters Architecture]).
 
-* To see some simple examples you can read the [Quick Start] page.
-* For more information you can check the [Developer Guide].
-* You can read the [Core] or [HTTP Server] modules documentation.
-
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
-[Quick Start]: /quick_start
-[Developer Guide]: /developer_guide
-[Core]: /hexagon_core
-[HTTP Server]: /port_http_server
 
 # Hello World
 
@@ -61,8 +52,8 @@ Hexagon's high-level features.
 * [Simple to Use](/quick_start): Hexagon is focused in allowing you to use the features you use the
   most in your daily coding in the easiest way.
 
-* [Easy to Hack](https://github.com/hexagonkt/hexagon/blob/master/contributing.md): The library is
-  done to be lean and simple so you can tweak it to suit your needs instead relying on third
+* [Easy to Hack](https://github.com/hexagonkt/hexagon/blob/master/contributing.md): The libraries
+  are done to be lean and simple so you can tweak it to suit your needs instead relying on third
   parties.
 
 * [Pluggable Adapters](/developer_guide): Adding an adapter is just implementing the port's
@@ -92,12 +83,22 @@ Ports with their provided implementations (Adapters).
 | PORT                    | ADAPTERS
 |-------------------------|---------
 | [HTTP Server]           | [Jetty], [Servlet]
+| [HTTP Client]           | [AHC]
+| [Messaging]             | [RabbitMQ]
+| [Store]                 | [MongoDB]
 | [Templates]             | [Pebble]
 | [Serialization Formats] | [JSON], [YAML]
 | [Settings]              | [Environment], [Files], [Resources]
 
+[HTTP Server]: /port_http_server
 [Jetty]: /http_server_jetty
 [Servlet]: /http_server_servlet
+[HTTP Client]: /port_http_client
+[AHC]: /http_client_ahc
+[Messaging]: /port_messaging
+[RabbitMQ]: /messaging_rabbitmq
+[Store]: /port_store
+[MongoDB]: /store_mongodb
 [Templates]: /port_templates
 [Pebble]: /templates_pebble
 [Serialization Formats]: /hexagon_core/#serialization

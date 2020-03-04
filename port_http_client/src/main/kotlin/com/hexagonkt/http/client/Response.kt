@@ -10,7 +10,7 @@ import java.io.InputStream
  */
 data class Response(
     var status: Int,
-    var body: String?,
+    var body: String?, // TODO Change by generic T
     val headers: MutableMap<String, List<String>>,
     var contentType: String?,
     val inputStream: InputStream

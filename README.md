@@ -62,7 +62,7 @@ Which are NOT project goals:
 3. To be usable from Java. Hexagon is *Kotlin first*.
 
 [Kotlin]: http://kotlinlang.org
-[framework]: https://www.quora.com/Whats-the-difference-between-a-library-and-a-framework
+[framework]: https://stackoverflow.com/a/3057818/973418
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
@@ -73,22 +73,12 @@ Which are NOT project goals:
 There are three kind of client libraries:
 
 * The ones that provide a single functionality that does not depend on different implementations.
+  These modules can depend on any Ports, but never on Adapters (see below).
 * Modules that define a "Port": An interface to a feature that may have different implementations.
+  Ports are independent from each other.
 * Adapter modules, which are Port implementations for a given tool.
 
-Ports are independent from each other.
-
-Hexagon Core module provides convenience utilities. The main features it has are:
-
-* [Helpers]: JVM information, a logger and other useful utilities.
-* [Dependency Injection]: bind classes to creation closures or instances and inject them.
-* [Instance Serialization]: parse/serialize data in different formats to class instances.
-* [Configuration Settings]: load settings from different data sources and formats.
-
-[Helpers]: http://hexagonkt.com/hexagon_core/com.hexagonkt.helpers
-[Dependency Injection]: http://hexagonkt.com/hexagon_core/com.hexagonkt.injection
-[Instance Serialization]: http://hexagonkt.com/hexagon_core/com.hexagonkt.serialization
-[Configuration Settings]: http://hexagonkt.com/hexagon_core/com.hexagonkt.settings
+For more information, take a look at the [Developer Guide].
 
 ## Simple HTTP service
 
@@ -96,7 +86,8 @@ You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you ca
 from scratch following these steps:
 
 1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
-2. Setup the [JCenter] repository (follow the link and click on the `Set me up!` button).
+2. Setup the [JCenter] and [Hexagon] repositories (follow the links and click on the `Set me up!`
+   button).
 3. Add the dependency:
 
   * In Gradle. Import it inside `build.gradle`:
@@ -161,10 +152,14 @@ You can check the [Developer Guide] for more details. Or you can clone the [Grad
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [JCenter]: https://bintray.com/bintray/jcenter
+[Hexagon]: https://bintray.com/hexagonkt/hexagon
 [Endpoint]: http://localhost:2010/hello/world
 [Developer Guide]: http://hexagonkt.com/developer_guide/index.html
 
-## Books Example
+## Examples
+
+<details>
+<summary>Books Example</summary>
 
 A simple CRUD example showing how to manage book resources. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt).
@@ -232,8 +227,10 @@ val server: Server = Server(adapter) {
 }
 // books
 ```
+</details>
 
-## Session Example
+<details>
+<summary>Session Example</summary>
 
 Example showing how to use sessions. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt).
@@ -284,8 +281,10 @@ val server: Server = Server(adapter) {
 }
 // session
 ```
+</details>
 
-## Cookies Example
+<details>
+<summary>Cookies Example</summary>
 
 Demo server to show the use of cookies. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt).
@@ -317,8 +316,10 @@ val server: Server = Server(adapter) {
 }
 // cookies
 ```
+</details>
 
-## Error Handling Example
+<details>
+<summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt).
@@ -353,8 +354,10 @@ val server: Server = Server(adapter) {
 }
 // errors
 ```
+</details>
 
-## Filters Example
+<details>
+<summary>Filters Example</summary>
 
 This example shows how to add filters before and after route execution. Here you can check the
 [full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt).
@@ -392,8 +395,10 @@ private val server: Server = Server(adapter) {
 }
 // filters
 ```
+</details>
 
-## Files Example
+<details>
+<summary>Files Example</summary>
 
 The following code shows how to serve resources and receive files. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt).
@@ -434,8 +439,10 @@ private val server: Server = Server(adapter) {
 }
 // files
 ```
+</details>
 
-## CORS Example
+<details>
+<summary>CORS Example</summary>
 
 The following code shows how to set up CORS for REST APIs used from the browser. You can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt).
@@ -469,8 +476,10 @@ private fun Router.corsPath(path: String, settings: CorsSettings) {
 }
 // cors
 ```
+</details>
 
-## HTTPS Example
+<details>
+<summary>HTTPS Example</summary>
 
 The snippet below shows how to set up your server to use HTTPS and HTTP/2. You can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt).
@@ -525,13 +534,11 @@ client.get("/hello").apply {
 }
 // https
 ```
+</details>
 
 ## Status
 
-**DISCLAIMER**: The project is not yet production ready. Use it at your own risk. There are some
-modules not finished yet (e.g.: storage and HTTP client).
-
-It is used in personal not released projects to develop APIs and Web applications.
+**DISCLAIMER**: The project is not yet production ready. Use it at your own risk.
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
@@ -539,20 +546,26 @@ so, read the [Benchmark readme](hexagon_benchmark/README.md)
 
 Tests, of course, are taken into account. These are some coverage metrics:
 
-[![Coverage]][SonarProject] [![Lines]][SonarProject]
+[![Coverage]][SonarCoverage] [![Lines]][SonarLines]
 
 [Coverage]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=coverage
 [Lines]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=ncloc
 
 The code quality is checked by [SonarQube]:
 
-[![Maintainability]][SonarProject] [![Reliability]][SonarProject] [![Security]][SonarProject]
+[![Maintainability]][SonarMaintainability] [![Reliability]][SonarReliability] [![Security]][SonarSecurity]
 
 [Maintainability]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=sqale_rating
 [Reliability]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=reliability_rating
 [Security]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=security_rating
 
-[SonarProject]: https://sonarcloud.io/dashboard?id=hexagonkt_hexagon
+[SonarCoverage]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=coverage&view=list
+[SonarLines]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=ncloc&view=list
+
+[SonarMaintainability]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=Maintainability
+[SonarReliability]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=Reliability
+[SonarSecurity]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=Security
+
 [SonarQube]: https://sonarcloud.io
 
 ## Contribute

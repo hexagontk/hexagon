@@ -10,6 +10,27 @@ dependencies {
     implementation(project(":http_client_ahc"))
 }
 
+task("processPom") {
+
+    final Map<String, ?> stringProperties =
+        project.getProperties().findAll { it.value instanceof String }
+
+    copy {
+        from("$projectDir/kotlin_pom".toString())
+        into("$buildDir/kotlin_pom".toString())
+        filter {
+            String content = it
+
+            stringProperties.entrySet().forEach { entry ->
+                final String entryValue = entry.value.toString()
+                content = content.replace("\${project.${entry.key}}".toString(), entryValue)
+            }
+
+            content
+        }
+    }
+}
+
 task("processTemplate", dependsOn: "test") {
 
     final Map<String, ?> stringProperties = project.getProperties()
@@ -71,7 +92,7 @@ task("processTemplate", dependsOn: "test") {
 
 //publishing {
 //    publications {
-//        mavenJava(MavenPublication) {
+//        kotlinPom(MavenPublication) {
 //            from(components.java)
 //
 //            artifact(sourceJar) // To be accepted in JCenter, the package need to include sources

@@ -243,10 +243,6 @@ To setup this script's parameters, check the [build variables section]. This hel
 Creates three different key stores for development purposes. **IMPORTANT** these key stores must not
 be used for production environments.
 
-These tasks can be used several times in a multi module project to generate a CA for the root
-project, and an identity for the modules that apply (bear in mind that some variables will have to
-be overwritten).
-
 The created key stores are:
 
 * `ca.p12`: self signed certificate authority (CA). This store holds the CA private key. This store
@@ -254,10 +250,10 @@ The created key stores are:
 * `trust.p12`: key store with CA's public certificate. It can be set as the Java process trust store
   which make that every certificate signed with the CA will be trusted. However, if used as the
   trust store, the JDK `cacerts` entries won't be loaded and thus, not trusted.
-* `<domain>.p12`: this store is signed by the CA and it contains the service private key and
-  its full chain certificate, the certificate its root certificate (CA). `<domain>` will be the
-  domain name without the TLD, and the Subject alternative names will include `<domain>.test`
-  ([TLD for local environments]) and `localhost`.
+* `<domain>.p12`: there would be one per each domain (see `sslDomain` variable). These stores are
+  signed by the CA and they contain the service private key and its full chain certificate.
+  `<domain>` will be the domain name without the TLD, and the Subject alternative names will include
+  `<domain>.test` ([TLD for local environments]) and `localhost`.
 
 The defined tasks are:
 
@@ -269,6 +265,10 @@ To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
 To setup this script's parameters, check the [build variables section]. This helper settings are:
 
 * sslDomain (REQUIRED): main domain for the identity store.
+* sslSubdomains: subdomains to be added to `<domain>.p12` (aside of `<domain>.test` and `localhost`
+  which are always added). By default, no extra domains are added to the key store.
+
+* sslDomains (REQUIRED): main domain for the identity store.
 * sslOrganization (REQUIRED): organization stated in created certificates.
 * sslCaFile: certificate authority key store file. By default: "ca.p12"
 * sslCaAlias: CA alias in the key store. If not provided, it will be "ca"
@@ -277,8 +277,6 @@ To setup this script's parameters, check the [build variables section]. This hel
 * sslPassword: password used for the generated key stores. By default it is the file name reversed.
 * sslValidity: validity period (in days) for certificates. If not provided, it will be 365.
 * sslCountry: country used in the certificates. By default it is the current locale's country code.
-* sslSubdomains: subdomains to be added to `<domain>.p12` (aside of `<domain>.test` and `localhost`
-  which are always added). By default, no extra domains are added to the key store.
 
 [TLD for local environments]: https://tools.ietf.org/html/rfc2606
 

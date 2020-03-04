@@ -22,6 +22,7 @@ charset = latin1
 [*.{java,js,kt,kts,gradle,groovy}]
 indent_size = 4
 
+# IntelliJ JSON specific rules
 [*.json]
 ij_json_keep_blank_lines_in_code = 1
 ij_json_keep_line_breaks = true
@@ -33,6 +34,7 @@ ij_json_spaces_within_braces = true
 ij_json_spaces_within_brackets = true
 ij_json_wrap_long_lines = true
 
+# IntelliJ Kotlin specific rules
 [*.{kt,kts}]
 ij_continuation_indent_size = 4
 ij_kotlin_block_comment_at_first_column = true

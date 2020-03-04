@@ -3,6 +3,7 @@ package com.hexagonkt.http.client
 import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.serialization.SerializationFormat
 import java.net.HttpCookie
 
 /**
@@ -54,9 +55,8 @@ class Client(
     fun trace(
         url: String,
         body: Any? = null,
-        contentType: String? = settings.contentType,
-        callback: Response.() -> Unit = {}): Response =
-            send(Request(TRACE, Path(url), body, contentType = contentType)).apply(callback)
+        contentType: String? = settings.contentType): Response =
+            send(Request(TRACE, Path(url), body, contentType = contentType))
 
     fun options(
         url: String,
@@ -70,4 +70,45 @@ class Client(
         body: Any? = null,
         contentType: String? = settings.contentType): Response =
             send(Request(PATCH, Path(url), body, contentType = contentType))
+
+    fun get(
+        url: String,
+        callHeaders: Map<String, List<String>> = emptyMap(),
+        body: Any,
+        format: SerializationFormat): Response =
+            get(url, callHeaders, body, format.contentType)
+
+    fun post(url: String, body: Any, format: SerializationFormat): Response =
+        post(url, body, format.contentType)
+
+    fun put(
+        url: String,
+        body: Any,
+        format: SerializationFormat): Response =
+            put(url, body, format.contentType)
+
+    fun delete(
+        url: String,
+        body: Any,
+        format: SerializationFormat): Response =
+            delete(url, body, format.contentType)
+
+    fun trace(
+        url: String,
+        body: Any,
+        format: SerializationFormat): Response =
+            trace(url, body, format.contentType)
+
+    fun options(
+        url: String,
+        body: Any,
+        format: SerializationFormat,
+        callHeaders: Map<String, List<String>> = emptyMap()): Response =
+            options(url, body, format.contentType, callHeaders)
+
+    fun patch(
+        url: String,
+        body: Any,
+        format: SerializationFormat): Response =
+            patch(url, body, format.contentType)
 }
