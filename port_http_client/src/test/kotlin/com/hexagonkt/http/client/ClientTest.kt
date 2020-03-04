@@ -1,11 +1,18 @@
 package com.hexagonkt.http.client
 
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.require
+import com.hexagonkt.http.Protocol.HTTPS
+import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
+import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.http.server.serve
 import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationFormat
+import com.hexagonkt.serialization.Yaml
 import com.hexagonkt.serialization.serialize
 
 import org.testng.annotations.AfterClass
@@ -13,6 +20,7 @@ import org.testng.annotations.BeforeClass
 import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Test
 import java.io.File
+import java.net.URI
 
 @Test abstract class ClientTest(private val adapter: ClientPort) {
 
@@ -85,6 +93,12 @@ import java.io.File
         checkResponse(client.trace("/", parameter), parameter)
         checkResponse(client.options("/", parameter), parameter)
         checkResponse(client.patch("/", parameter), parameter)
+        checkResponse(client.post("/", parameter, Yaml), parameter, Yaml)
+        checkResponse(client.put("/", parameter, Yaml), parameter, Yaml)
+        checkResponse(client.delete("/", parameter, Yaml), parameter, Yaml)
+        checkResponse(client.trace("/", parameter, Yaml), parameter, Yaml)
+        checkResponse(client.options("/", parameter, Yaml), parameter, Yaml)
+        checkResponse(client.patch("/", parameter, Yaml), parameter, Yaml)
     }
 
     @Test fun `Parameters are set properly` () {
@@ -147,8 +161,64 @@ import java.io.File
         assert(run)
     }
 
-    private fun checkResponse(response: Response, parameter: Map<String, String>?) {
+    @Test fun `Request HTTPS example`() {
+
+        val serverAdapter = JettyServletAdapter()
+
+        // Key store files
+        val identity = "hexagonkt.p12"
+        val trust = "trust.p12"
+
+        // Default passwords are file name reversed
+        val keyStorePassword = identity.reversed()
+        val trustStorePassword = trust.reversed()
+
+        // Key stores can be set as URIs to classpath resources (the triple slash is needed)
+        val keyStore = URI("resource:///ssl/$identity")
+        val trustStore = URI("resource:///ssl/$trust")
+
+        val sslSettings = SslSettings(
+            keyStore = keyStore,
+            keyStorePassword = keyStorePassword,
+            trustStore = trustStore,
+            trustStorePassword = trustStorePassword,
+            clientAuth = true // Requires a valid certificate from the client (mutual TLS)
+        )
+
+        val serverSettings = ServerSettings(
+            bindPort = 0,
+            protocol = HTTPS, // You can also use HTTP2
+            sslSettings = sslSettings
+        )
+
+        val server = serve(serverSettings, serverAdapter) {
+            get("/hello") {
+                // We can access the certificate used by the client from the request
+                val subjectDn = request.certificate?.subjectDN?.name
+                response.setHeader("cert", subjectDn)
+                ok("Hello World!")
+            }
+        }
+
+        // We'll use the same certificate for the client (in a real scenario it would be different)
+        val clientSettings = ClientSettings(sslSettings = sslSettings)
+
+        // Create a HTTP client and make a HTTPS request
+        val client = Client(adapter, "https://localhost:${server.runtimePort}", clientSettings)
+        client.get("/hello").apply {
+            logger.debug { body }
+            // Assure the certificate received (and returned) by the server is correct
+            assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))
+            assert(body == "Hello World!")
+        }
+
+        server.stop()
+    }
+
+    private fun checkResponse(
+        response: Response, parameter: Map<String, String>?, format: SerializationFormat = Json) {
+
         assert(response.status == 200)
-        assert(response.body?.trim() == parameter?.serialize()?.trim() ?: "")
+        assert(response.body?.trim() == parameter?.serialize(format)?.trim() ?: "")
     }
 }
