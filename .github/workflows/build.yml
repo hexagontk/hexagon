@@ -10,3 +10,6 @@ jobs:
         with:
           java-version: 11
       - run: .github/pre-push.sh
+      - run: echo "$GITHUB_REF"
+      - run: echo "$GITHUB_HEAD_REF"
+      - run: echo "$GITHUB_BASE_REF"
