@@ -89,7 +89,7 @@ task("all") {
         project.getTasksByName("installDist", true),
         project.getTasksByName("publishToMavenLocal", true),
         project.getTasksByName("createCa", true),
-        project.getTasksByName("createIdentity", true),
+        project.getTasksByName("createIdentities", true),
         project.getTasksByName("dokkaMd", true),
         project.getTasksByName("checkSite", true),
         project.getTasksByName("tfb", true)

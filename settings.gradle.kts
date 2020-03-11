@@ -20,7 +20,10 @@ gradle.rootProject {
 
         // SSL
         extra["sslOrganization"] = "Hexagon"
-        extra["sslDomains"] = "hexagonkt.com : benchmark.test : name1|name2|subdomains.es"
+        extra["sslDomain"] = "hexagonkt.com"
+        extra["sslDomain1"] = "benchmark.test" // Domain to test `certificates` helper
+        extra["sslDomain2"] = "name1|name2|subdomains.es" // Domain to test `certificates` helper
+        extra["sslLogCommands"] = "true" // Used to test the Gradle helper script
 
         // Site
         extra["siteHost"] = "https://hexagonkt.com"
@@ -32,7 +35,7 @@ gradle.rootProject {
 
         // VERSIONS
         extra["kotlinVersion"] = "1.3.70"
-        extra["kotlinCoroutinesVersion"] = "1.3.3"
+        extra["kotlinCoroutinesVersion"] = "1.3.4"
 
         // hexagon_benchmark
         extra["hikariVersion"] = "3.4.2"

@@ -240,35 +240,37 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 ## Certificates
 
-Creates three different key stores for development purposes. **IMPORTANT** these key stores must not
-be used for production environments.
+Creates the required key stores for development purposes. **IMPORTANT** these key stores must not be
+used for production environments.
 
 The created key stores are:
 
-* `ca.p12`: self signed certificate authority (CA). This store holds the CA private key. This store
+* `ca.p12`: self signed certificate authority (CA). This store holds the CA private key. The store
   must be private and will be used to sign other certificates. The key pair alias is `ca`.
 * `trust.p12`: key store with CA's public certificate. It can be set as the Java process trust store
-  which make that every certificate signed with the CA will be trusted. However, if used as the
-  trust store, the JDK `cacerts` entries won't be loaded and thus, not trusted.
+  which make every certificate signed with the CA trusted. However, if used as the trust store, the
+  JDK `cacerts` entries won't be loaded and thus, not trusted. It can be used to setup HTTPS clients
+  (not required to be set at JVM level).
 * `<domain>.p12`: there would be one per each domain (see `sslDomain` variable). These stores are
   signed by the CA and they contain the service private key and its full chain certificate.
-  `<domain>` will be the domain name without the TLD, and the Subject alternative names will include
-  `<domain>.test` ([TLD for local environments]) and `localhost`.
+  `<domain>` will be the domain name without the TLD, and the Subject alternative names (SAN) will
+  include `<domain>.test` ([TLD for local environments]) and `localhost` (along the extra subdomains
+  specified).
 
 The defined tasks are:
 
 * createCa: creates `ca.p12` and import its public certificate inside `trust.p12`.
-* createIdentity: creates the `<domain>.p12` store for a service https configuration.
+* createIdentities: creates the `<domain>.p12` store for all `sslDomain` variables.
 
-To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
+To use it apply `$gradleScripts/certificates.gradle` to your `build.gradle`.
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
 
-* sslDomain (REQUIRED): main domain for the identity store.
-* sslSubdomains: subdomains to be added to `<domain>.p12` (aside of `<domain>.test` and `localhost`
-  which are always added). By default, no extra domains are added to the key store.
-
-* sslDomains (REQUIRED): main domain for the identity store.
+* sslDomain\[1-9] (REQUIRED): main domain for the identity store. You can create up to ten (from
+ `sslDomain` to `sslDomain9`). Each of these variables has the format
+ `subdomain1|subdomain2|subdomainN|domain.tld` subdomains are added to `<domain>.p12` alternative
+ names (aside of `<domain>.test` and `localhost` which are always added). By default, no extra
+ domains are added to the key store.
 * sslOrganization (REQUIRED): organization stated in created certificates.
 * sslCaFile: certificate authority key store file. By default: "ca.p12"
 * sslCaAlias: CA alias in the key store. If not provided, it will be "ca"
