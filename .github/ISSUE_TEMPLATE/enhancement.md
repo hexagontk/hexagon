@@ -1,7 +1,7 @@
 ---
 name: Enhancement
 about: New feature or improvement.
-title: Enhancement
+title: <Enhancement>
 labels: enhancement
 ---
 
