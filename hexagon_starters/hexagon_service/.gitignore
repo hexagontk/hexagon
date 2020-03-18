@@ -1,8 +1,11 @@
 
+# Private / Local
+private_*
+local_*
+
 # Gradle
 .gradle/
 build/
-local.*
 
 # Maven
 /target/
@@ -21,10 +24,16 @@ out/
 # VS Code
 .vscode/
 
-# Other Tools
-.java-version
-
 # Runtime
 log/
 *.log
 *.hprof
+.attach_pid*
+hs_err_pid*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Others
+.java-version
