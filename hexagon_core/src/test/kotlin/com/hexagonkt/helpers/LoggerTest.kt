@@ -11,7 +11,7 @@ import org.testng.annotations.Test
  */
 @Test class LoggerTest {
 
-    @Test fun messages_are_logged_without_errors () {
+    @Test fun messages_are_logged_without_errors() {
         val log = logger.log as? ch.qos.logback.classic.Logger ?: error
 
         log.level = Level.TRACE
@@ -29,15 +29,15 @@ import org.testng.annotations.Test
         assert(appender.length == 4)
         logger.error { mapOf(0 to 1, 2 to 3) }
         assert(appender.length == 5)
-        logger.warn (RuntimeException ()) { 'c' }
+        logger.warn(RuntimeException()) { 'c' }
         assert(appender.length == 6)
-        logger.error(RuntimeException ()) { 0..100 }
+        logger.error(RuntimeException()) { 0..100 }
         assert(appender.length == 7)
         logger.flare { "message" }
         assert(appender.length == 8)
         logger.flare()
         assert(appender.length == 9)
-        logger.time ("message") {}
+        logger.time("message") {}
         assert(appender.length == 10)
         logger.time {}
         assert(appender.length == 11)
@@ -51,10 +51,10 @@ import org.testng.annotations.Test
         logger.info { 0.0 }
         logger.warn { listOf(0, 1) }
         logger.error { mapOf(0 to 1, 2 to 3) }
-        logger.warn(RuntimeException (), { 'c' })
-        logger.error(RuntimeException (), { 0..100 })
+        logger.warn(RuntimeException(), { 'c' })
+        logger.error(RuntimeException(), { 0..100 })
         logger.flare { "message" }
-        logger.time ("message") {}
+        logger.time("message") {}
         logger.time {}
         assert(appender.length == 12)
     }

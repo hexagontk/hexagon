@@ -41,13 +41,14 @@ class AhcAdapter : ClientPort {
     private lateinit var ssl: ClientSettings
 
     // TODO Cache this as this will be done in each request
-    private val ahcClient: DefaultAsyncHttpClient get() =
-        DefaultAsyncHttpClient(
-            Builder()
-                .setConnectTimeout(5000)
-                .setSslContext(sslContext(ssl))
-                .build()
-        )
+    private val ahcClient: DefaultAsyncHttpClient
+        get() =
+            DefaultAsyncHttpClient(
+                Builder()
+                    .setConnectTimeout(5000)
+                    .setSslContext(sslContext(ssl))
+                    .build()
+            )
 
     private fun sslContext(settings: ClientSettings): SslContext = sslContextBuilderClient().let {
         when {
