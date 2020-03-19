@@ -1,5 +1,6 @@
 package com.hexagonkt.web
 
+import com.hexagonkt.helpers.logger
 import java.util.Locale.forLanguageTag as localeFor
 
 import com.hexagonkt.http.server.Call
@@ -14,6 +15,8 @@ fun Call.templateType(template: String) {
     if (response.contentType == null) {
         val mimeType = SerializationManager.contentTypeOf(template.substringAfterLast('.'))
         response.contentType = "$mimeType; charset=${defaultCharset().name()}"
+        logger.trace { response }
+        logger.trace { response.contentType }
     }
 }
 
@@ -22,6 +25,7 @@ fun Call.fullContext(): Map<String, *> {
         "path" to request.path.removeSuffix("/"), // Do not allow trailing slash
         "lang" to obtainLocale().language
     )
+    logger.trace { extraParameters }
 
     return settings + session.attributes + extraParameters
 }

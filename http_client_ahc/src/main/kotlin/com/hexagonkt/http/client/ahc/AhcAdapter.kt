@@ -1,6 +1,7 @@
 package com.hexagonkt.http.client.ahc
 
 import com.hexagonkt.helpers.ensureSize
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.stream
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
@@ -106,6 +107,7 @@ class AhcAdapter : ClientPort {
     private fun keyStore(uri: URI, password: String): KeyStore {
         val keyStore = KeyStore.getInstance("pkcs12")
         keyStore.load(uri.stream(), password.toCharArray())
+        logger.trace { keyStore }
         return keyStore
     }
 
@@ -126,6 +128,7 @@ class AhcAdapter : ClientPort {
             }
 
         val response = ahcRequest.execute().get()
+        logger.trace { response }
 
         if (settings.useCookies) {
             response.cookies.forEach {
@@ -142,6 +145,7 @@ class AhcAdapter : ClientPort {
                 .map { it to response.headers.getAll(it) }
                 .toMap()
         )
+        logger.trace { returnHeaders }
 
         return response.let {
             Response(
@@ -179,6 +183,14 @@ class AhcAdapter : ClientPort {
         }
 
         ssl = cl.settings
+
+        logger.trace { method }
+        logger.trace { path }
+        logger.trace { settings }
+        logger.trace { contentType }
+        logger.trace { parts }
+        logger.trace { ssl }
+
         val req = when (method) {
             GET -> ahcClient.prepareGet(path)
             HEAD -> ahcClient.prepareHead(path)
@@ -206,6 +218,7 @@ class AhcAdapter : ClientPort {
         if (authorization != null)
             req.addHeader("Authorization", "Basic $authorization")
 
+        logger.trace { req }
         return req
     }
 }
