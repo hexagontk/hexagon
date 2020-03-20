@@ -1,6 +1,8 @@
 package com.hexagonkt.http.client.ahc
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.ensureSize
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.stream
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
@@ -39,6 +41,9 @@ class AhcAdapter : ClientPort {
     private var authorization: String? = null
 
     private lateinit var ssl: ClientSettings
+
+    private val log: Logger = Logger(this)
+
 
     // TODO Cache this as this will be done in each request
     private val ahcClient: DefaultAsyncHttpClient get() =
@@ -179,6 +184,7 @@ class AhcAdapter : ClientPort {
         }
 
         ssl = cl.settings
+
         val req = when (method) {
             GET -> ahcClient.prepareGet(path)
             HEAD -> ahcClient.prepareHead(path)
@@ -205,6 +211,15 @@ class AhcAdapter : ClientPort {
                 null
         if (authorization != null)
             req.addHeader("Authorization", "Basic $authorization")
+
+        val info = """
+            REQUEST METHOD:     $method
+            REQUEST PATH:       $path
+            CLIENT SETTINGS:    $settings
+            CONTENT TYPE:       $contentType
+            SSL:                $ssl
+        """.trimIndent()
+        log.info { "Request Created: $info" }
 
         return req
     }
