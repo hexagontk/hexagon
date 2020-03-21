@@ -57,12 +57,11 @@ childProjects.forEach { pair ->
     val name = pair.key
     val prj = pair.value
     val empty = prj.getTasksByName("dokkaMd", false).isEmpty()
-    val siteContentPath = "${rootDir}/hexagon_site/content"
 
     if (name !in listOf("hexagon_benchmark", "hexagon_site", "hexagon_starters") && empty) {
         project(name).tasks.register<DokkaTask>("dokkaMd") {
             outputFormat = "gfm"
-            outputDirectory = siteContentPath
+            outputDirectory = "${rootDir}/hexagon_site/content"
 
             configuration {
                 reportUndocumented = false
@@ -70,17 +69,13 @@ childProjects.forEach { pair ->
                 samples = filesCollection("${prj.projectDir}/src/test/kotlin", "**/*SamplesTest.kt")
                 sourceRoot { path = "$projectDir/src/main/kotlin" }
             }
-
-            doLast {
-                addMetadata(siteContentPath, prj)
-            }
         }
     }
 }
 
-project.getTasksByName("jacocoTestReport", true).forEach {
-    it.dependsOn(project.getTasksByName("test", true))
-}
+//project.getTasksByName("jacocoTestReport", true).forEach {
+//    it.dependsOn(project.getTasksByName("test", true))
+//}
 
 task("all") {
     dependsOn(
@@ -95,61 +90,3 @@ task("all") {
         project.getTasksByName("tfb", true)
     )
 }
-
-// TODO Move these functions to `buildSrc` (to Site.kt, or Helpers.kt)
-fun filesCollection(dir: Any, pattern: String): List<String> =
-    fileTree(dir) { include(pattern) }.files.map { it.absolutePath }
-
-fun addMetadata(siteContentPath: String, project: Project) {
-    val projectDirName = project.projectDir.name
-    filesCollection(siteContentPath, "**/${projectDirName}/**/*.md").forEach {
-        val md = File(it)
-        val tempFile = File.createTempFile("temp", md.name)
-        tempFile.printWriter().use { writer ->
-            writer.println(toEditUrl(it, siteContentPath, projectDirName))
-            md.forEachLine { line ->
-                writer.println(line)
-            }
-        }
-        ant.withGroovyBuilder {
-            "move"("file" to tempFile, "tofile" to md)
-        }
-    }
-}
-
-fun toEditUrl(mdPath: String, siteContentPath: String, projectDirName: String): String {
-    val prefix = "edit_url: edit/master/${projectDirName}"
-    val withoutContentPath = mdPath.replace("${siteContentPath}/${projectDirName}/", "")
-    val parts = withoutContentPath.split(File.separator)
-
-    var editUrl = ""
-
-    if (parts.size > 1 && withoutContentPath.startsWith("com.hexagon")) {
-        val afterPackage = parts[1]
-        if ("test" !in afterPackage) {
-            val srcPrefix = "${prefix}/src/main/kotlin"
-            val packageName = parts[0].replace(".", "/")
-
-            if (afterPackage == "index.md") {
-                editUrl = "${srcPrefix}/${packageName}/package-info.java"
-            } else if (afterPackage.endsWith(".md") || afterPackage.contains(".")) {
-                val lastPath = packageName.split("/").last()
-
-                editUrl = "${srcPrefix}/${packageName}/${lastPath.capitalize()}.kt"
-            } else {
-                val className = toClassName(afterPackage)
-
-                editUrl = "${srcPrefix}/${packageName}/${className}.kt"
-            }
-        }
-    } else if (withoutContentPath == "index.md") {
-        editUrl = "${prefix}/README.md"
-    }
-
-    return editUrl
-}
-
-fun toClassName(mdClassName: String): String =
-    mdClassName.replace("\\-[a-z][a-z]*".toRegex()) {
-        it.value[1].toUpperCase() + it.value.substring(2)
-    }

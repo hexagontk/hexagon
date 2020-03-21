@@ -30,8 +30,8 @@ markdown_extensions:
   - pymdownx.tilde
   - pymdownx.smartsymbols
   - pymdownx.inlinehilite
-  - pymdownx.superfences
   - pymdownx.emoji
+  - pymdownx.superfences
   - codehilite:
       linenums: true
   - pymdownx.tasklist:
@@ -45,10 +45,10 @@ nav:
     - Home: index.md
     - Quick Start: quick_start.md
     - Developer Guide: developer_guide.md
-    - Core: hexagon_core/index.md
-    - HTTP Server: port_http_server/index.md
-    - HTTP Client: port_http_client/index.md
-    - Data Store: port_store/index.md
+    - Core: hexagon_core/hexagon_core.md
+    - HTTP Server: port_http_server/port_http_server.md
+    - HTTP Client: port_http_client/port_http_client.md
+    - Data Store: port_store/port_store.md
     - Create Services: create_services.md
     - Gradle Helpers: gradle.md
   - Documentation:
@@ -78,10 +78,10 @@ nav:
   - Guides:
     - Mutual TLS: guides/mtls.md
   - Examples:
+    - Example Projects: examples/example_projects.md
     - Code Examples:
       - HTTP Server: examples/http_server_examples.md
       - HTTP Client: examples/http_client_examples.md
-    - Example Projects: examples/example_projects.md
   - Community:
     - Help and Support: help.md
     - Contributing: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
