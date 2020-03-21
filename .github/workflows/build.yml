@@ -13,3 +13,6 @@ jobs:
       - run: echo "$GITHUB_REF"
       - run: echo "$GITHUB_HEAD_REF"
       - run: echo "$GITHUB_BASE_REF"
+      - run: echo "$GITHUB_EVENT_PATH"
+      - run: cat "$GITHUB_EVENT_PATH"
+      - run: jq --raw-output . "$GITHUB_EVENT_PATH"
