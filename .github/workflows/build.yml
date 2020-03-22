@@ -12,8 +12,8 @@ jobs:
       - run: .github/pre-push.sh
       - env:
           SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-        run:
-          - echo "REF> $GITHUB_REF"
-          - export BRANCH=$(echo "$GITHUB_REF" | sed -e "s/refs\/heads\///")
-          - echo "BRANCH> $BRANCH"
-          - ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
+        run: |
+          echo "REF> $GITHUB_REF"
+          export BRANCH=$(echo "$GITHUB_REF" | sed -e "s/refs\/heads\///")
+          echo "BRANCH> $BRANCH"
+          ./gradlew --console=plain --quiet --no-daemon -x test sonarqube

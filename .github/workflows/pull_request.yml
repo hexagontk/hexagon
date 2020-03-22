@@ -11,14 +11,14 @@ jobs:
           java-version: 11
       - env:
           SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-        run:
-          - echo "REF> $GITHUB_REF"
-          - echo "HEAD> $GITHUB_HEAD_REF"
-          - echo "BASE> $GITHUB_BASE_REF"
-          - export PULL_REQUEST=$(echo "$GITHUB_REF" | sed -e "s/refs\/pull\///" -e "s/\/merge//")
-          - export PULL_REQUEST_BRANCH="$GITHUB_SOURCE_REF"
-          - export PULL_REQUEST_BASE="$GITHUB_BASE_REF"
-          - echo "PULL_REQUEST> $PULL_REQUEST"
-          - echo "PULL_REQUEST_BRANCH> $PULL_REQUEST_BRANCH"
-          - echo "PULL_REQUEST_BASE> $PULL_REQUEST_BASE"
-          - ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
+        run: |
+          echo "REF> $GITHUB_REF"
+          echo "HEAD> $GITHUB_HEAD_REF"
+          echo "BASE> $GITHUB_BASE_REF"
+          export PULL_REQUEST=$(echo "$GITHUB_REF" | sed -e "s/refs\/pull\///" -e "s/\/merge//")
+          export PULL_REQUEST_BRANCH="$GITHUB_SOURCE_REF"
+          export PULL_REQUEST_BASE="$GITHUB_BASE_REF"
+          echo "PULL_REQUEST> $PULL_REQUEST"
+          echo "PULL_REQUEST_BRANCH> $PULL_REQUEST_BRANCH"
+          echo "PULL_REQUEST_BASE> $PULL_REQUEST_BASE"
+          ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
