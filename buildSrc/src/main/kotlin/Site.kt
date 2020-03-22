@@ -129,14 +129,24 @@ fun insertSamplesCode(parent: File, content: String): String {
     return result
 }
 
+/**
+ * @param siteContentPath .
+ * @param project .
+ */
 fun addMetadata(siteContentPath: String, project: Project) {
     project.filesCollection(siteContentPath, "**/*.md").forEach { fileName ->
         val md = File(fileName)
         val mdText = md.readText()
-        md.writeText(toEditUrl(fileName.removePrefix("$siteContentPath/")) + "\n" + mdText)
+        val mdPath = fileName.removePrefix("$siteContentPath/")
+        if (mdPath != "index.md")
+            md.writeText(toEditUrl(mdPath) + "\n" + mdText)
     }
 }
 
+/**
+ * @param mdPath .
+ * @return .
+ */
 fun toEditUrl(mdPath: String): String {
     val mdParts = mdPath.split(File.separator)
     val modules = listOf(
