@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -29,7 +30,7 @@ jobs:
           export PULL_REQUEST_BASE="$GITHUB_BASE_REF"
 
       - name: SonarQube Analysis
-      - env:
+        env:
           SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
         run: |
           export BRANCH=$(echo "$GITHUB_REF" | sed -e "s/refs\/heads\///")
