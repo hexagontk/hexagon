@@ -1,19 +1,37 @@
 
-on: push
+on:
+  - push
+  - pull_request
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-java@v1
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Install Java
+        uses: actions/setup-java@v1
         with:
           java-version: 11
-      - run: .github/pre-push.sh
+
+      - name: Build & Test
+        run: .github/pre-push.sh
+
+      - name: Set up SonarQube Branch
+        if: github.head_ref == null
+        run: export BRANCH=$(echo "$GITHUB_REF" | sed -e "s/refs\/heads\///")
+      - name: Set up SonarQube Pull Request
+        if: github.head_ref != null
+        run: |
+          export PULL_REQUEST=$(echo "$GITHUB_REF" | sed -e "s/refs\/pull\///" -e "s/\/merge//")
+          export PULL_REQUEST_BRANCH="$GITHUB_SOURCE_REF"
+          export PULL_REQUEST_BASE="$GITHUB_BASE_REF"
+
+      - name: SonarQube Analysis
       - env:
           SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
         run: |
-          echo "REF> $GITHUB_REF"
           export BRANCH=$(echo "$GITHUB_REF" | sed -e "s/refs\/heads\///")
-          echo "BRANCH> $BRANCH"
           ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
