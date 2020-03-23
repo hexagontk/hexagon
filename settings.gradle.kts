@@ -34,14 +34,14 @@ gradle.rootProject {
         extra["logoLarge"] = "assets/img/logo.svg"
 
         // VERSIONS
-        extra["kotlinVersion"] = "1.3.70"
+        extra["kotlinVersion"] = "1.3.71"
         extra["kotlinCoroutinesVersion"] = "1.3.5"
 
         // hexagon_benchmark
         extra["hikariVersion"] = "3.4.2"
-        extra["postgresqlVersion"] = "42.2.10"
-        extra["janinoVersion"] = "3.1.0" // To build GraalVM native image
-        extra["scalaVersion"] = "2.12.10" // To avoid IntelliJ warning
+        extra["postgresqlVersion"] = "42.2.11"
+        extra["janinoVersion"] = "3.1.2" // To build GraalVM native image
+        extra["scalaVersion"] = "2.12.11" // To avoid IntelliJ warning
 
         // http_server_servlet
         extra["servletVersion"] = "3.1.0"
@@ -50,7 +50,7 @@ gradle.rootProject {
         // hexagon_core
         extra["slf4jVersion"] = "1.7.30"
         extra["logbackVersion"] = "1.2.3"
-        extra["jacksonVersion"] = "2.10.2"
+        extra["jacksonVersion"] = "2.10.3"
 
         // hexagon_scheduler
         extra["cronutilsVersion"] = "9.0.2"
@@ -74,7 +74,7 @@ gradle.rootProject {
         // Test
         extra["testngVersion"] = "6.14.3"
         extra["gatlingVersion"] = "3.3.1"
-        extra["junitVersion"] = "5.6.0"
+        extra["junitVersion"] = "5.6.1"
     }
 }
 
