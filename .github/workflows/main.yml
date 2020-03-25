@@ -46,7 +46,7 @@ jobs:
           ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
 
       - name: Publish Packages & Site
-        if: github.ref == "refs/heads/master"
+        if: github.ref == 'refs/heads/master'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BINTRAY_KEY: ${{ secrets.BINTRAY_TOKEN }}
