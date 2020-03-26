@@ -73,6 +73,10 @@ childProjects.forEach { pair ->
     }
 }
 
+project.getTasksByName("jacocoTestReport", true).forEach {
+    it.dependsOn(project.getTasksByName("test", true))
+}
+
 task("all") {
     dependsOn(
         project.getTasksByName("build", true),
