@@ -49,31 +49,31 @@ services:
 
 install:
   # Git set up is required for release tag creation
-  - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
+#  - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
   - sudo /etc/init.d/postgresql stop
 
 script:
   - .github/pre-push.sh
-  - export BRANCH="$TRAVIS_BRANCH"
-  - export PULL_REQUEST="$TRAVIS_PULL_REQUEST"
-  - export PULL_REQUEST_BRANCH="$TRAVIS_PULL_REQUEST_BRANCH"
-  - export PULL_REQUEST_BASE="$TRAVIS_BRANCH"
-  - ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
+#  - export BRANCH="$TRAVIS_BRANCH"
+#  - export PULL_REQUEST="$TRAVIS_PULL_REQUEST"
+#  - export PULL_REQUEST_BRANCH="$TRAVIS_PULL_REQUEST_BRANCH"
+#  - export PULL_REQUEST_BASE="$TRAVIS_BRANCH"
+#  - ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
 
-after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
+#after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
 
-deploy:
-
-  - provider: script
-    skip_cleanup: true
-    script: ./gradlew --quiet --no-daemon -x test release
-    on:
-      branch: master
-
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GRGIT_PASS
-    local_dir: hexagon_site/build
-    fqdn: hexagonkt.com
-    on:
-      branch: master
+#deploy:
+#
+#  - provider: script
+#    skip_cleanup: true
+#    script: ./gradlew --quiet --no-daemon -x test release
+#    on:
+#      branch: master
+#
+#  - provider: pages
+#    skip_cleanup: true
+#    github_token: $GRGIT_PASS
+#    local_dir: hexagon_site/build
+#    fqdn: hexagonkt.com
+#    on:
+#      branch: master

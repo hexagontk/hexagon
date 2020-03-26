@@ -1,9 +1,11 @@
 
+# Private / Local
+private_*
+local_*
+
 # Gradle
 .gradle/
 build/
-local_*
-private_*
 
 # Eclipse
 .settings/
@@ -22,8 +24,11 @@ log/
 .attach_pid*
 hs_err_pid*
 
-# Others
+# OS
 .DS_Store
+Thumbs.db
+
+# Others
 .java-version
 
 # Added because of site generation settings

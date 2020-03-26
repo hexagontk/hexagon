@@ -49,7 +49,9 @@ class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
      * Shuts down this scheduler's thread pool. Calling over an already closed scheduler does not
      * have any effect. It is called by the JVM when it is shut down.
      */
-    fun shutdown() { scheduler.shutdown() }
+    fun shutdown() {
+        scheduler.shutdown()
+    }
 
     private fun delay(cronExecution: ExecutionTime): Long =
         cronExecution.timeToNextExecution(ZonedDateTime.now()).orElseThrow { error }.seconds

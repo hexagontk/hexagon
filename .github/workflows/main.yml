@@ -1,0 +1,70 @@
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  main:
+    name: Main
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Install Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Restore Cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle-
+      - name: Build & Test
+        run: .github/pre-push.sh
+      - name: Set up Tests Reports (ON FAILURE)
+        if: failure()
+        run: |
+          mkdir build/test
+          export PATTERN="**/build/test-results/test/TEST-*.xml"
+          find . -type f -wholename "$PATTERN" -exec cp {} build/test \;
+      - name: Upload Tests Reports (ON FAILURE)
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: test_reports
+          path: build/test
+
+      - name: Set up SonarQube (ON PUSH)
+        if: github.head_ref == null
+        run: export BRANCH=$(echo "$GITHUB_REF" | sed -e "s/refs\/heads\///")
+      - name: Set up SonarQube (ON PR)
+        if: github.head_ref != null
+        run: |
+          export PULL_REQUEST=$(echo "$GITHUB_REF" | sed -e "s/refs\/pull\///" -e "s/\/merge//")
+          export PULL_REQUEST_BRANCH="$GITHUB_SOURCE_REF"
+          export PULL_REQUEST_BASE="$GITHUB_BASE_REF"
+
+      - name: SonarQube Analysis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+        run: ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
+
+      - name: Publish Packages & Site (ON MASTER)
+        if: github.ref == 'refs/heads/master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BINTRAY_KEY: ${{ secrets.BINTRAY_TOKEN }}
+          BINTRAY_USER: hexagonkt
+        run: |
+          export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          git remote set-url origin "$REMOTE"
+          ./gradlew --quiet --no-daemon -x test release
+          git clone "$REMOTE" --branch gh-pages build/gh-pages
+          cp -rf hexagon_site/build/* build/gh-pages/
+          echo "hexagonkt.com" >build/gh-pages/CNAME
+          export MESSAGE="Publishing to gh-pages"
+          cd build/gh-pages && git add --all && git commit -m "$MESSAGE" && git push origin gh-pages

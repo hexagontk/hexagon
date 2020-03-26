@@ -1,7 +1,12 @@
 
 # Module port_http_client
 
-TODO
+This port provides a common interface for using HTTP clients. Many adapters can be developed to use
+different technologies.
+
+The functionality provided are:
+
+* Security
 
 ### Settings
 
@@ -28,4 +33,4 @@ TODO
 
 # Package com.hexagonkt.client
 
-TODO
+This package holds the classes that define the HTTP client and its configuration settings.

@@ -26,9 +26,12 @@ task("createCa") {
     }
 }
 
-task("createIdentities", dependsOn: "createCa") {
+task("createIdentities") {
     doLast {
-        final List<String> sslDomains = findProperty("sslDomains").toString().trim().split(":")
+        final List<String> sslDomains = (("9".."1") + "")
+            .reverse()
+            .collect { findProperty("sslDomain$it")?.toString()?.trim() }
+            .findAll { it != null }
 
         sslDomains.each { sslFullDomain ->
             final List<String> parts = sslFullDomain.trim().split("\\|").reverse()
@@ -92,6 +95,7 @@ private void createKeyPair(
 
 private void concatenate(final String output, final String... files) {
     final File chain = project.file(output)
+    logCommand([ "cat", files, ">>", output ].flatten())
     project.files(files).each { chain << it.text }
 }
 

@@ -6,53 +6,61 @@ task("clean", type: Delete) {
     delete("build", "content")
 }
 
-task("checkSite", dependsOn: "mkdocs") {
-    doLast {
-        final File readme = rootProject.file("README.md")
-        final String starters = "hexagon_starters/src/main/kotlin"
-        final File service = rootProject.file("$starters/com/hexagonkt/starters/Service.kt")
-        final String examplesSources = "port_http_server/src/test/kotlin"
-        final String examples = "$examplesSources/com/hexagonkt/http/server/examples"
+task("checkSite", dependsOn: "mkdocs").doLast {
+    final File readme = rootProject.file("README.md")
+    final String starters = "hexagon_starters/src/main/kotlin"
+    final File service = rootProject.file("$starters/com/hexagonkt/starters/Service.kt")
+    final String examplesSources = "port_http_server/src/test/kotlin"
+    final String examples = "$examplesSources/com/hexagonkt/http/server/examples"
 
-        SiteKt.checkSamplesCode(new FileRange(readme, "hello"), new FileRange(service))
-        SiteKt.checkSamplesCode(
-            new FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
-            new FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
-            new FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
-            new FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
-            new FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
-            new FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files"),
-            new FilesRange(readme, rootProject.file("$examples/CorsTest.kt"), "cors"),
-            new FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https")
-        )
+    SiteKt.checkSamplesCode(new FileRange(readme, "hello"), new FileRange(service))
+    SiteKt.checkSamplesCode(
+        new FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
+        new FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
+        new FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
+        new FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
+        new FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
+        new FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files"),
+        new FilesRange(readme, rootProject.file("$examples/CorsTest.kt"), "cors"),
+        new FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https")
+    )
 
-        final String contentTarget = project.file("content").absolutePath
-        final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
+    final String contentTarget = project.file("content").absolutePath
+    final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
 
-        markdownFiles.each { File markdownFile ->
-            if (markdownFile.text.contains("@sample")) {
-                final String message = "${markdownFile.absolutePath} Contains `@sample` placeholder"
-                throw new GradleException(message)
-            }
+    markdownFiles.each { File markdownFile ->
+        if (markdownFile.text.contains("@sample")) {
+            final String message = "${markdownFile.absolutePath} Contains `@sample` placeholder"
+            throw new GradleException(message)
         }
     }
 }
 
-task("mkdocs") {
-    doLast {
-        final String contentTarget = project.file("content").absolutePath
-        final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
+task("mkdocs").doLast {
+    final String contentTarget = project.file("content").absolutePath
+    final ConfigurableFileTree markdownFiles = fileTree(dir: contentTarget, include: "**/*.md")
 
+    copy {
+        from(project.file("pages"))
+        from(project.file("assets"))
+        into(contentTarget)
+    }
+
+    // Hack to fix site tabs when two of them point to the same file
+    [ "hexagon_core", "port_http_server", "port_http_client", "port_store" ].each { dir ->
         copy {
-            from(project.file('pages'))
-            from(project.file('assets'))
-            into(contentTarget)
-        }
-
-        markdownFiles.each { File markdownFile ->
-            String content = markdownFile.text
-            content = SiteKt.insertSamplesCode(rootProject.projectDir, content)
-            markdownFile.text = content
+            from(rootProject.file(dir))
+            include("README.md")
+            into("$contentTarget/$dir")
+            rename("(.*)", "${dir}.md")
         }
     }
+
+    markdownFiles.each { File markdownFile ->
+        String content = markdownFile.text
+        content = SiteKt.insertSamplesCode(rootProject.projectDir, content)
+        markdownFile.text = content
+    }
+
+    SiteKt.addMetadata(contentTarget, project)
 }
