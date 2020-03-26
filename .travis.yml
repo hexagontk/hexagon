@@ -49,7 +49,7 @@ services:
 
 install:
   # Git set up is required for release tag creation
-  - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
+#  - git remote set-url origin https://$GRGIT_USER:$GRGIT_PASS@github.com/hexagonkt/hexagon.git
   - sudo /etc/init.d/postgresql stop
 
 script:
@@ -60,7 +60,7 @@ script:
 #  - export PULL_REQUEST_BASE="$TRAVIS_BRANCH"
 #  - ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
 
-after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
+#after_failure: find . -type f -name 'TEST-*.xml' | xargs cat
 
 #deploy:
 #
