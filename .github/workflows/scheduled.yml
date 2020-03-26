@@ -18,5 +18,22 @@ jobs:
         with:
           java-version: 11
 
+      - name: Restore Cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle-
       - name: Build & Test
         run: .github/pre-push.sh
+      - name: Set up Tests Reports (ON FAILURE)
+        if: failure()
+        run: |
+          mkdir build/test
+          find . -type f -wholename "*/build/*/*/TEST-*.xml" -exec cp {} build/test \;
+      - name: Upload Tests Reports (ON FAILURE)
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: test_reports
+          path: build/test

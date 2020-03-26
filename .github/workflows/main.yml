@@ -28,8 +28,7 @@ jobs:
         if: failure()
         run: |
           mkdir build/test
-          export PATTERN="**/build/test-results/test/TEST-*.xml"
-          find . -type f -wholename "$PATTERN" -exec cp {} build/test \;
+          find . -type f -wholename "*/build/*/*/TEST-*.xml" -exec cp {} build/test \;
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v1
         if: failure()
@@ -46,7 +45,6 @@ jobs:
           export PULL_REQUEST=$(echo "$GITHUB_REF" | sed -e "s/refs\/pull\///" -e "s/\/merge//")
           export PULL_REQUEST_BRANCH="$GITHUB_SOURCE_REF"
           export PULL_REQUEST_BASE="$GITHUB_BASE_REF"
-
       - name: SonarQube Analysis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +56,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BINTRAY_KEY: ${{ secrets.BINTRAY_TOKEN }}
-          BINTRAY_USER: hexagonkt
+          BINTRAY_USER: jamming
         run: |
           export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git remote set-url origin "$REMOTE"
