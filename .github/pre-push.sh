@@ -8,7 +8,7 @@
 set -e
 
 # Package libraries and examples prior to Docker image generation
-./gradlew --quiet clean installDist -x test
+./gradlew --console=plain --quiet clean installDist -x test
 
 # Start containers required for tests and benchmarks
 # shellcheck disable=SC2034

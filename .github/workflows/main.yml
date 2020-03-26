@@ -60,9 +60,13 @@ jobs:
         run: |
           export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git remote set-url origin "$REMOTE"
-          ./gradlew --quiet --no-daemon -x test release
+          git config --global user.email "juanjoaguililla@gmail.com"
+          git config --global user.name "jaguililla"
+          ./gradlew --console=plain --quiet --no-daemon -x test release
           git clone "$REMOTE" --branch gh-pages build/gh-pages
           cp -rf hexagon_site/build/* build/gh-pages/
           echo "hexagonkt.com" >build/gh-pages/CNAME
-          export MESSAGE="Publishing to gh-pages"
-          cd build/gh-pages && git add --all && git commit -m "$MESSAGE" && git push origin gh-pages
+          cd build/gh-pages
+          git add --all
+          git commit -m "Publishing to gh-pages"
+          git push origin gh-pages
