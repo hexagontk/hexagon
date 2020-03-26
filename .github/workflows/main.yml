@@ -21,26 +21,26 @@ jobs:
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          restore-keys: ${{ runner.os }}-gradle-
       - name: Build & Test
         run: .github/pre-push.sh
-      - name: Set up Tests Reports
+      - name: Set up Tests Reports (ON FAILURE)
         if: failure()
         run: |
           mkdir build/test
           export PATTERN="**/build/test-results/test/TEST-*.xml"
           find . -type f -wholename "$PATTERN" -exec cp {} build/test \;
-      - uses: actions/upload-artifact@v1
+      - name: Upload Tests Reports (ON FAILURE)
+        uses: actions/upload-artifact@v1
         if: failure()
         with:
           name: test_reports
           path: build/test
 
-      - name: Set up SonarQube Branch
+      - name: Set up SonarQube (ON PUSH)
         if: github.head_ref == null
         run: export BRANCH=$(echo "$GITHUB_REF" | sed -e "s/refs\/heads\///")
-      - name: Set up SonarQube Pull Request
+      - name: Set up SonarQube (ON PR)
         if: github.head_ref != null
         run: |
           export PULL_REQUEST=$(echo "$GITHUB_REF" | sed -e "s/refs\/pull\///" -e "s/\/merge//")
@@ -50,11 +50,9 @@ jobs:
       - name: SonarQube Analysis
         env:
           SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-        run: |
-          export BRANCH=$(echo "$GITHUB_REF" | sed -e "s/refs\/heads\///")
-          ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
+        run: ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
 
-      - name: Publish Packages & Site
+      - name: Publish Packages & Site (ON MASTER)
         if: github.ref == 'refs/heads/master'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
