@@ -319,19 +319,13 @@ if ('serviceWorker' in navigator)
         
   
   
-    
-    
-  
-  
     <li class="md-tabs__item">
       
-        <a href="../examples/http_server_examples/" class="md-tabs__link">
+        <a href="../examples/example_projects/" class="md-tabs__link">
           Examples
         </a>
       
     </li>
-  
-
   
 
       
@@ -452,7 +446,7 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
-    <a href="../hexagon_core/" title="Core" class="md-nav__link">
+    <a href="../hexagon_core/hexagon_core/" title="Core" class="md-nav__link">
       Core
     </a>
   </li>
@@ -464,272 +458,9 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        HTTP Server
-      </label>
-    
-    <a href="./" title="HTTP Server" class="md-nav__link md-nav__link--active">
+    <a href="port_http_server/" title="HTTP Server" class="md-nav__link">
       HTTP Server
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Page Contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#server" class="md-nav__link">
-    Server
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#servlet-web-server" class="md-nav__link">
-    Servlet Web server
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#routes" class="md-nav__link">
-    Routes
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#route-groups" class="md-nav__link">
-    Route groups
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#routers" class="md-nav__link">
-    Routers
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#callbacks" class="md-nav__link">
-    Callbacks
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#call" class="md-nav__link">
-    Call
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#request" class="md-nav__link">
-    Request
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#response" class="md-nav__link">
-    Response
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#path-parameters" class="md-nav__link">
-    Path Parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#query-parameters" class="md-nav__link">
-    Query Parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#redirects" class="md-nav__link">
-    Redirects
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cookies" class="md-nav__link">
-    Cookies
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sessions" class="md-nav__link">
-    Sessions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#halting" class="md-nav__link">
-    Halting
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#filters" class="md-nav__link">
-    Filters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
-    Error Handling
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#http-errors-handlers" class="md-nav__link">
-    HTTP Errors Handlers
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exception-mapping" class="md-nav__link">
-    Exception Mapping
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#static-files" class="md-nav__link">
-    Static Files
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mime-types" class="md-nav__link">
-    MIME types
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cors" class="md-nav__link">
-    CORS
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#https" class="md-nav__link">
-    HTTPS
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing" class="md-nav__link">
-    Testing
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#integration-tests" class="md-nav__link">
-    Integration tests
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mocking-calls" class="md-nav__link">
-    Mocking calls
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#packages" class="md-nav__link">
-    Packages
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#index" class="md-nav__link">
-    Index
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-        <li class="md-nav__item">
-          <a href="#__comments" class="md-nav__link md-nav__link--active">
-            Comments
-          </a>
-        </li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -739,7 +470,7 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
-    <a href="../port_http_client/" title="HTTP Client" class="md-nav__link">
+    <a href="../port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
       HTTP Client
     </a>
   </li>
@@ -751,7 +482,7 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
-    <a href="../port_store/" title="Data Store" class="md-nav__link">
+    <a href="../port_store/port_store/" title="Data Store" class="md-nav__link">
       Data Store
     </a>
   </li>
@@ -1511,15 +1242,27 @@ if ('serviceWorker' in navigator)
           
 
 
+  <li class="md-nav__item">
+    <a href="../examples/example_projects/" title="Example Projects" class="md-nav__link">
+      Example Projects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
     
-    <label class="md-nav__link" for="nav-4-1">
+    <label class="md-nav__link" for="nav-4-2">
       Code Examples
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-1">
+      <label class="md-nav__title" for="nav-4-2">
         Code Examples
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1551,18 +1294,6 @@ if ('serviceWorker' in navigator)
         
       </ul>
     </nav>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../examples/example_projects/" title="Example Projects" class="md-nav__link">
-      Example Projects
-    </a>
   </li>
 
         
@@ -1927,7 +1658,9 @@ if ('serviceWorker' in navigator)
             <article class="md-content__inner md-typeset">
               
   
-    <a href="https://github.com/hexagonkt/hexagon/edit/master/port_http_server/README.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+    
+      <a href="https://github.com/hexagonkt/hexagon/edit/master/hexagon_site/pages/port_http_server/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+    
   
   
     <h1>HTTP Server</h1>
@@ -2251,7 +1984,7 @@ Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/t
             aria-label="Fork hexagonkt/hexagon on GitHub">Fork</a>
           <a
             class="twitter-share-button"
-            href="https://twitter.com/share?text=Hexagon Kotlin library">Tweet</a>
+            href="https://twitter.com/share?text=Hexagon Kotlin toolkit">Tweet</a>
         </div>
       </div>
       
