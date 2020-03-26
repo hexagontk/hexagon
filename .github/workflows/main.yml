@@ -49,6 +49,7 @@ jobs:
 
       - name: SonarQube Analysis
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
         run: ./gradlew --console=plain --quiet --no-daemon -x test sonarqube
 
