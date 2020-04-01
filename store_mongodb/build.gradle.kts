@@ -8,6 +8,5 @@ dependencies {
     val mongodbVersion = properties["mongodbVersion"]
 
     "api"(project(":port_store"))
-    "api"("org.mongodb:mongodb-driver:$mongodbVersion")
-    "api"("org.mongodb:mongodb-driver-async:$mongodbVersion")
+    "api"("org.mongodb:mongodb-driver-sync:$mongodbVersion")
 }
