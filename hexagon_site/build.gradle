@@ -63,4 +63,5 @@ task("mkdocs").doLast {
     }
 
     SiteKt.addMetadata(contentTarget, project)
+    project.file("content/CNAME").write(findProperty("sslDomain").toString())
 }
