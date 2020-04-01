@@ -76,8 +76,6 @@ task("gradleSettings", type: WriteProperties) {
         gradleScripts : "$repositoryFilesPath/$rootProject.version/gradle",
 
         hexagonVersion : rootProject.version,
-        kotlinVersion : kotlinVersion,
-        kotlinCoroutinesVersion : kotlinCoroutinesVersion,
         logbackVersion : logbackVersion,
 
         hikariVersion : hikariVersion,

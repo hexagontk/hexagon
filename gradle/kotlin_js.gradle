@@ -29,9 +29,11 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion")
+    final String finalKotlinVersion = findProperty("kotlinVersion") ?: "1.3.71"
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test-js:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-js:$finalKotlinVersion")
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test-js:$finalKotlinVersion")
 }
 
 compileKotlin2Js {
@@ -67,7 +69,7 @@ task("jsAll", type: Sync, dependsOn: "classes") {
 task("assembleWeb", type: Sync, dependsOn: "jsAll") {
 
     // TODO Set 'inputs' to know when to execute
-    
+
     doFirst {
         copy {
             from("$buildDir/resources/main")
@@ -76,7 +78,7 @@ task("assembleWeb", type: Sync, dependsOn: "jsAll") {
     }
 
     final String javaScriptDirectory = findProperty("javaScriptDirectory") ?: "js"
-    
+
     from("$buildDir/js")
     into("$buildDir/web/$javaScriptDirectory")
 }

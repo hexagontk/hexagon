@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.10"
+        version = "1.2.11"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
@@ -35,7 +35,6 @@ gradle.rootProject {
 
         // VERSIONS
         extra["kotlinVersion"] = "1.3.71"
-        extra["kotlinCoroutinesVersion"] = "1.3.5"
 
         // hexagon_benchmark
         extra["hikariVersion"] = "3.4.2"
@@ -66,7 +65,7 @@ gradle.rootProject {
         extra["ahcVersion"] = "2.10.5"
 
         // store_mongodb
-        extra["mongodbVersion"] = "3.12.2"
+        extra["mongodbVersion"] = "4.0.1"
 
         // templates_pebble
         extra["pebbleVersion"] = "3.1.2"

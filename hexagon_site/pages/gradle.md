@@ -156,8 +156,7 @@ To use it apply `$gradleScripts/kotlin.gradle` and add the
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
 
-* kotlinVersion (REQUIRED): Kotlin version.
-* kotlinCoroutinesVersion (REQUIRED): Kotlin coroutines version.
+* kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
 * mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.
 * jacocoVersion: Jacoco code coverage tool version.
 
