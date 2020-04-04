@@ -1,4 +1,5 @@
 
+import org.gradle.testfixtures.ProjectBuilder
 import org.testng.annotations.Test
 import java.io.File
 
@@ -20,5 +21,9 @@ class SiteKtTest {
     @Test fun `Test insert samples code`() {
         val testTag = "@sample test.md:TestMd"
         assert(insertSamplesCode(resourceFile, testTag).contains("kotlin"))
+    }
+
+    @Test fun `'addMetadata' inserts proper edit link`() {
+        addMetadata("build", ProjectBuilder.builder().withProjectDir(File("buildSrc")).build())
     }
 }
