@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # SET UP #####################################################################################
+      # SET UP
       - name: Checkout
         uses: actions/checkout@v1
         with:
@@ -20,7 +20,7 @@ jobs:
         with:
           java-version: 11
 
-      # BUILD ######################################################################################
+      # BUILD
       - name: Restore Cache
         uses: actions/cache@v1
         with:

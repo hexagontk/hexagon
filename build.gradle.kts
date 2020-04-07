@@ -60,6 +60,8 @@ childProjects.forEach { pair ->
 
     if (name !in listOf("hexagon_benchmark", "hexagon_site", "hexagon_starters") && empty) {
         project(name).tasks.register<DokkaTask>("dokkaMd") {
+            project("hexagon_site").tasks["mkdocs"].dependsOn(":$name:dokkaMd")
+
             outputFormat = "gfm"
             outputDirectory = "${rootDir}/hexagon_site/content"
 

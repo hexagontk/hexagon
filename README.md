@@ -10,8 +10,11 @@
 <h4 align="center">The atoms of your platform</h4>
 
 <p align="center">
-  <a href="https://travis-ci.org/hexagonkt/hexagon">
-    <img src="https://travis-ci.org/hexagonkt/hexagon.svg?branch=master" alt="Travis CI" />
+  <a href="https://github.com/hexagonkt/hexagon/actions">
+    <img
+      alt="GitHub Actions"
+      src=
+        "https://github.com/hexagonkt/hexagon/workflows/.github/workflows/main.yml/badge.svg?branch=master&event=push" />
   </a>
   <a href="https://sonarcloud.io/dashboard?id=hexagonkt_hexagon">
     <img

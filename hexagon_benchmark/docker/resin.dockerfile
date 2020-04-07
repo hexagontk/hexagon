@@ -4,7 +4,7 @@ LABEL description="Hexagon Benchmark Resin"
 USER root
 
 ENV TZ Europe/Madrid
-ENV RESIN 4.0.58
+ENV RESIN 4.0.64
 
 # Machine setup
 VOLUME /tmp

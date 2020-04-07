@@ -2,14 +2,14 @@
 # Contributing
 
 You can contribute code or documentation to the framework. This document will guide you through the
-process or picking a task or building the code.
+process or picking a task and building the code.
 
 To know what issues are currently open and be aware of the next features yo can check the
 [Project Board] at Github. Issues with the [help wanted] tag are recommended for a first time
 contribution.
 
-You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
-to date of project's news following [@hexagon_kt] in Twitter.
+You can ask any question, make suggestions or complaints at the project's
+[Slack channel][Slack]. And be up to date of project's news following [@hexagon_kt] in Twitter.
 
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
@@ -29,17 +29,6 @@ project itself. These are internal modules not intended to be used by users (lik
 [hexagon_benchmark]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_benchmark/README.md
 [hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/README.md
 
-## API Design Principles
-
-For the public API of the library's classes and methods. The following rules are applied:
-
-1. Prefer Kotlin STD lib methods if they exist.
-2. Follow Kotlin language and library conventions. Ie: check methods will be named `require...`
-3. Use named parameters instead builders.
-4. Use fields instead getters/setters.
-5. Objects used across the library (Singletons) are named 'Managers'. Ie: EventManager,
-   SettingsManager, TemplatesManager.
-
 ## Build Hexagon
 
 Hexagon build process requires [Docker Compose installed](https://docs.docker.com/compose/install)
@@ -54,10 +43,11 @@ typing:
 git clone https://github.com/hexagonkt/hexagon.git
 cd hexagon
 docker-compose up -d
-./gradlew clean all publishToMavenLocal
+./gradlew all publishToMavenLocal
 ```
 
-The binaries are located in the `/build` directory. And the site in `/hexagon_site/build`.
+The binaries are located in the `/build` directory. And the documentation site in
+`/hexagon_site/build`.
 
 ## Local Setup
 
@@ -69,32 +59,21 @@ alias dcup='docker-compose up -d'
 ```
 
 It is recommended that you link `.github/pre-push.sh` to your `.git/hooks/pre-push` script. As
-this command will be executed before pushing code to the repository (saving time fixing [Travis]
-build errors).
+this command will be executed before pushing code to the repository (saving you time fixing
+[GitHub Actions] build errors).
 
 You can do so running: `ln -s $PWD/.github/pre-push.sh .git/hooks/pre-push`
 
-WARNING: This script can leave a lot of Docker artifacts using a lot of disk space, you can clean
-this up by running: `sudo docker system prune -af` and `sudo docker volume prune -f`.
-
 IMPORTANT: For `rabbitmq` container to work properly, you should follow the setup described in:
 https://www.rabbitmq.com/install-debian.html (inside the "With Docker" section)
-
-If you want to commit to the project. It is convenient to setup your own [Travis] account to execute
-the CI job defined in `.travis.yml` when code is pushed to your fork.
-
-Inside [IntelliJ Idea IDE], you need to review Kotlin's settings to make sure the JVM version is
-1.8+ and API one is 1.3+ (`Project Structure > Modules > <Any Module> > Kotlin > Target Platform`).
 
 To run the benchmarks, refer to the [hexagon_benchmark readme][hexagon_benchmark]
 
 If you want to generate the documentation site, check the [site module readme][hexagon_site]
 
-[IntelliJ Idea IDE]: https://www.jetbrains.com/idea
-
 ## Tools Used
 
-* [Travis]: For continuous integration.
+* [GitHub Actions]: For continuous integration.
   * Create schedule job for nightly builds.
   * Secrets are created with command line tools.
 * [SonarQube]: To check code coverage and measure code quality.
@@ -105,7 +84,7 @@ If you want to generate the documentation site, check the [site module readme][h
 * [Bintray]: Artifact repository for JARs.
   * JCenter synchronization must be done manually.
 
-[Travis]: https://travis-ci.org
+[GitHub Actions]: https://github.com/features/actions
 [SonarQube]: https://sonarcloud.io
 [Github]: https://github.com
 [Bintray]: https://bintray.com
@@ -126,7 +105,7 @@ If you want to generate the documentation site, check the [site module readme][h
 
 * For a Pull Request to be accepted, follow the [pull request template] recommendations. And check
   that the code follows the [Kotlin Coding Conventions], with the exception of final brace position
-  in `else`, `catch` and `finally` (in its own line). If you use IntelliJ and Editor Config this
+  in `else`, `catch` and `finally` (in its own line). If you use [IntelliJ] and [Editor Config] this
   will be checked for you.
 
 * Commit format: the preferred commit format would have:
@@ -145,6 +124,8 @@ If you want to generate the documentation site, check the [site module readme][h
 * A feature requests should follow the [feature template] rules.
 
 [pull request template]: https://github.com/hexagonkt/hexagon/blob/master/.github/pull_request_template.md
+[IntelliJ]: https://www.jetbrains.com/idea
+[Editor Config]: https://editorconfig.org
 [Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
 [bug template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/bug.md
 [feature template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/feature.md
