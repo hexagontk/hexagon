@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.10"
+        version = "1.2.11"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
@@ -35,12 +35,10 @@ gradle.rootProject {
 
         // VERSIONS
         extra["kotlinVersion"] = "1.3.71"
-        extra["kotlinCoroutinesVersion"] = "1.3.5"
 
         // hexagon_benchmark
         extra["hikariVersion"] = "3.4.2"
-        extra["postgresqlVersion"] = "42.2.11"
-        extra["janinoVersion"] = "3.1.2" // To build GraalVM native image
+        extra["postgresqlVersion"] = "42.2.12"
         extra["scalaVersion"] = "2.12.11" // To avoid IntelliJ warning
 
         // http_server_servlet
@@ -63,10 +61,10 @@ gradle.rootProject {
         extra["qpidVersion"] = "6.1.4"
 
         // http_client_ahc
-        extra["ahcVersion"] = "2.10.5"
+        extra["ahcVersion"] = "2.12.0"
 
         // store_mongodb
-        extra["mongodbVersion"] = "3.12.2"
+        extra["mongodbVersion"] = "4.0.1"
 
         // templates_pebble
         extra["pebbleVersion"] = "3.1.2"

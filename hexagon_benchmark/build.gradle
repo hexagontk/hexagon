@@ -37,9 +37,6 @@ dependencies {
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
 
-    // Needed by GraalVM to build a native image
-    implementation("org.codehaus.janino:janino:$janinoVersion")
-
     // Required to avoid IntelliJ warning
     compileOnly("org.scala-lang:scala-library:$scalaVersion")
 
@@ -76,8 +73,6 @@ task("gradleSettings", type: WriteProperties) {
         gradleScripts : "$repositoryFilesPath/$rootProject.version/gradle",
 
         hexagonVersion : rootProject.version,
-        kotlinVersion : kotlinVersion,
-        kotlinCoroutinesVersion : kotlinCoroutinesVersion,
         logbackVersion : logbackVersion,
 
         hikariVersion : hikariVersion,

@@ -165,6 +165,11 @@ import com.hexagonkt.http.client.Response as ClientResponse
                 request.accept                   // Client accepted content types
                 request.headers                  // the HTTP header list
                 request.headers["BAR"]           // value of BAR header
+                request.pathParameters           // map with all parameters
+                request.pathParameters["foo"]    // value of foo path parameter
+                request.formParameters           // map with all parameters
+                request.formParameters["foo"]    // value of foo path parameter
+                request.parameters
                 request.userAgent                // user agent (browser requests)
                 request.origin                   // origin (browser requests)
                 request.body(Type::class)        // Object passed in the body as a typed object

@@ -10,8 +10,10 @@ apply(plugin: "maven-publish")
 
 defaultTasks("build")
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = sourceCompatibility
+}
 
 idea {
     module {
@@ -35,12 +37,13 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion")
+    final String finalKotlinVersion = findProperty("kotlinVersion") ?: "1.3.71"
+    final String finalMockkVersion = findProperty("mockkVersion") ?: "1.9.3"
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
-    testImplementation("io.mockk:mockk:" + (findProperty("mockkVersion") ?: "1.9.3"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$finalKotlinVersion")
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test:$finalKotlinVersion")
+    testImplementation("io.mockk:mockk:$finalMockkVersion")
 }
 
 // Replace build variables in resource files

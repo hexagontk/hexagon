@@ -24,7 +24,5 @@ dependencies {
 
     "testImplementation"(project(":http_client_ahc"))
     "testImplementation"(entityTests)
-    "testImplementation"("org.eclipse.jetty:jetty-webapp:${properties["jettyVersion"]}") {
-        exclude(module = "slf4j-api")
-    }
+    "testImplementation"("org.eclipse.jetty:jetty-webapp:${properties["jettyVersion"]}")
 }

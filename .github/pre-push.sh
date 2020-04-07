@@ -7,23 +7,27 @@
 
 set -e
 
+alias dc='docker-compose --log-level warning'
+alias gw='./gradlew --warn --quiet --console plain'
+alias d='docker --log-level warning'
+
 # Package libraries and examples prior to Docker image generation
-./gradlew --console=plain --quiet clean installDist -x test
+gw clean installDist -x test
 
 # Start containers required for tests and benchmarks
 # shellcheck disable=SC2034
 export COMPOSE_FILE="docker-compose.yml:hexagon_benchmark/docker-compose.yml"
-docker-compose --log-level warning rm -sf
-docker-compose --log-level warning up -d
+dc rm -sfv
+dc up -d --build
 
-# Runs all tests
-./gradlew --console=plain --quiet all
+# Run all tests
+gw all
 
 # Generate documentation
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
-mkdocsImage="squidfunk/mkdocs-material:4.6.3"
-docker --log-level warning run --rm -v "$PWD/hexagon_site:/docs" -u "$user" $mkdocsImage build -sq
+d run --rm -v "$PWD/hexagon_site:/docs" -u "$user" "squidfunk/mkdocs-material:4.6.3" build -sq
 
 # Clean up
-docker --log-level warning volume prune -f
+d volume prune -f
+d system prune -f

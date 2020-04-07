@@ -31,5 +31,5 @@ Thumbs.db
 # Others
 .java-version
 
-# Added because of site generation settings
+# Added because of custom project settings
 hexagon_site/content/

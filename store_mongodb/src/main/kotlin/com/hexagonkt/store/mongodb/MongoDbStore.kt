@@ -6,11 +6,8 @@ import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
-import com.mongodb.MongoClient
-import com.mongodb.MongoClientURI
-import com.mongodb.client.FindIterable
-import com.mongodb.client.MongoDatabase
-import com.mongodb.client.MongoCollection
+import com.mongodb.ConnectionString
+import com.mongodb.client.*
 import com.mongodb.client.model.*
 import org.bson.Document
 import org.bson.conversions.Bson
@@ -25,8 +22,8 @@ class MongoDbStore <T : Any, K : Any>(
     override val mapper: Mapper<T> = MongoDbMapper(type, key)) : Store<T, K> {
 
     companion object {
-        fun database(url: String): MongoDatabase = MongoClientURI(url).let {
-            MongoClient(it).getDatabase(it.database ?: error())
+        fun database(url: String): MongoDatabase = ConnectionString(url).let {
+            MongoClients.create(it).getDatabase(it.database ?: error())
         }
     }
 

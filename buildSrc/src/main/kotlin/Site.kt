@@ -130,8 +130,10 @@ fun insertSamplesCode(parent: File, content: String): String {
 }
 
 /**
- * @param siteContentPath .
- * @param project .
+ * Adds the correct `edit_url` to the site's Markdown pages.
+ *
+ * @param siteContentPath Base URL to process .md` files and add them the `edit_url` property.
+ * @param project Gradle project used to look for `.md` files.
  */
 fun addMetadata(siteContentPath: String, project: Project) {
     project.filesCollection(siteContentPath, "**/*.md").forEach { fileName ->
@@ -139,39 +141,31 @@ fun addMetadata(siteContentPath: String, project: Project) {
         val mdText = md.readText()
         val mdPath = fileName.removePrefix("$siteContentPath/")
         if (mdPath != "index.md")
-            md.writeText(toEditUrl(mdPath) + "\n" + mdText)
+            md.writeText("edit_url: edit/develop/" + toEditUrl(mdPath) + "\n" + mdText)
     }
 }
 
-/**
- * @param mdPath .
- * @return .
- */
-fun toEditUrl(mdPath: String): String {
+private fun toEditUrl(mdPath: String): String {
     val mdParts = mdPath.split(File.separator)
-    val modules = listOf(
-        "hexagon_core", "hexagon_scheduler", "hexagon_web",
-        "port_http_client", "port_http_server", "port_messaging", "port_store", "port_templates",
-        "messaging_rabbitmq", "http_client_ahc", "http_server_servlet", "http_server_jetty",
-        "store_mongodb", "templates_pebble"
-    )
 
-    val sourcePath = when {
-        mdParts.size == 1 || (mdParts.size > 1 && mdParts[0] !in modules) ->
-            "hexagon_site/pages/$mdPath"
-        mdParts.size == 2 || (mdParts.size == 3 && mdParts[2] == "index.md") ->
+    return when {
+        mdParts.size == 2 && mdParts[1].removeSuffix(".md") in listOf("index", mdParts[0]) ->
             "${mdParts[0]}/README.md"
-        mdParts.size == 4 && mdParts[1].contains("com.hexagon") -> {
+        mdParts.size == 3 && mdParts[2] == "index.md" ->
+            "${mdParts[0]}/README.md"
+        mdParts.size >= 3 && mdParts[1].contains("com.hexagon") -> {
+            val module = mdParts[0]
             val sourceType =
                 if (mdParts[1].contains("test") || mdParts[2].endsWith("-test")) "test"
                 else "main"
             val packagePath = mdParts[1].replace(".", "/")
             val className =
-                mdParts[2].replace("-[a-z]".toRegex()) { it.value.toUpperCase().substring(1) }
-            "${mdParts[0]}/src/$sourceType/kotlin/$packagePath/${className}.kt"
+                mdParts[2]
+                    .replace("-[a-z]".toRegex()) { it.value.toUpperCase().substring(1) }
+                    .removeSuffix(".md")
+            "$module/src/$sourceType/kotlin/$packagePath/${className}.kt"
         }
-        else -> "not_found.md"
+        else ->
+            "hexagon_site/pages/$mdPath"
     }
-
-    return "edit_url: edit/develop/$sourcePath"
 }

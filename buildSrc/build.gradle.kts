@@ -10,13 +10,15 @@ repositories {
 }
 
 dependencies {
-    val jacksonVersion = "2.10.2"
+    val jacksonVersion = "2.10.3"
     val testngVersion = "6.14.3"
 
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+
     testImplementation("org.testng:testng:$testngVersion")
+    testImplementation(gradleTestKit())
 }
 
 tasks.withType<KotlinCompile> {

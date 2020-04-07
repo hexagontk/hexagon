@@ -79,10 +79,7 @@ task("processTemplate", dependsOn: "test") {
 
                 gradleScripts=https://raw.githubusercontent.com/hexagonkt/hexagon/$rootProject.version/gradle
 
-                kotlinVersion=$kotlinVersion
-                kotlinCoroutinesVersion=$kotlinCoroutinesVersion
                 hexagonVersion=$rootProject.version
-                jettyVersion=$jettyVersion
                 logbackVersion=$logbackVersion
 
                 junitVersion=$junitVersion

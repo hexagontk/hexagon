@@ -10,9 +10,8 @@ places:
 3. Passing them from the command line with the following switch: `-Pkey=val`.
 4. Defining a project's extra property inside `build.gradle`. Ie: `project.ext.key='val'`.
 
-For examples and reference, check [.travis.yml], [build.gradle] and [gradle.properties].
+For examples and reference, check [build.gradle] and [gradle.properties].
 
-[.travis.yml]: https://github.com/hexagonkt/hexagon/blob/master/.travis.yml
 [build.gradle]: https://github.com/hexagonkt/hexagon/blob/master/build.gradle
 [gradle.properties]: https://github.com/hexagonkt/hexagon/blob/master/gradle.properties
 
@@ -156,8 +155,7 @@ To use it apply `$gradleScripts/kotlin.gradle` and add the
 
 To setup this script's parameters, check the [build variables section]. This helper settings are:
 
-* kotlinVersion (REQUIRED): Kotlin version.
-* kotlinCoroutinesVersion (REQUIRED): Kotlin coroutines version.
+* kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
 * mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.
 * jacocoVersion: Jacoco code coverage tool version.
 
