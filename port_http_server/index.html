@@ -1658,9 +1658,7 @@ if ('serviceWorker' in navigator)
             <article class="md-content__inner md-typeset">
               
   
-    
-      <a href="https://github.com/hexagonkt/hexagon/edit/master/hexagon_site/pages/port_http_server/index.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
-    
+    <a href="https://github.com/hexagonkt/hexagon/edit/develop/port_http_server/README.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
   
   
     <h1>HTTP Server</h1>
@@ -1690,7 +1688,86 @@ parameters list:</p>
 <code class="codehilite"><span class="err">InjectionManager.bindObject&lt;ServerPort&gt;(JettyServletAdapter())</span></code></p>
 <p>To create a server, you need to provide a router (check the <a href="/port_http_server/#routes">next section</a> for more information),
 and after creating a server you can run it or stop it with <a href="com.hexagonkt.http.server/-server/start/">start</a> and <a href="com.hexagonkt.http.server/-server/stop/">stop</a> methods.</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:serverCreation</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm"> * All settings are optional, you can supply any combination</span>
+<span class="cm"> * Parameters not set will fall back to the defaults</span>
+<span class="cm"> */</span>
+<span class="k">val</span> <span class="py">settings</span> <span class="p">=</span> <span class="n">ServerSettings</span><span class="p">(</span>
+    <span class="n">serverName</span> <span class="p">=</span> <span class="s">&quot;name&quot;</span><span class="p">,</span>
+    <span class="n">bindAddress</span> <span class="p">=</span> <span class="n">InetAddress</span><span class="p">.</span><span class="n">getByName</span><span class="p">(</span><span class="s">&quot;0.0.0&quot;</span><span class="p">),</span>
+    <span class="n">bindPort</span> <span class="p">=</span> <span class="m">2020</span><span class="p">,</span>
+    <span class="n">contextPath</span> <span class="p">=</span> <span class="s">&quot;/context&quot;</span>
+<span class="p">)</span>
+
+<span class="k">val</span> <span class="py">router</span> <span class="p">=</span> <span class="n">Router</span> <span class="p">{</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">val</span> <span class="py">customServer</span> <span class="p">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">router</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+
+<span class="n">customServer</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">val</span> <span class="py">customClient</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:${customServer.runtimePort}&quot;</span><span class="p">)</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">customServer</span><span class="p">.</span><span class="n">started</span><span class="p">())</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">customClient</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/context/hello&quot;</span><span class="p">).</span><span class="n">body</span> <span class="p">==</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+
+<span class="n">customServer</span><span class="p">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * You can skip the adapter is you previously bound one</span>
+<span class="cm"> * You may also skip the settings an the defaults will be used</span>
+<span class="cm"> */</span>
+<span class="n">InjectionManager</span><span class="p">.</span><span class="n">bindObject</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">defaultServer</span> <span class="p">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">router</span> <span class="p">=</span> <span class="n">router</span><span class="p">)</span>
+
+<span class="n">defaultServer</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">val</span> <span class="py">defaultClient</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:${defaultServer.runtimePort}&quot;</span><span class="p">)</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">defaultServer</span><span class="p">.</span><span class="n">started</span><span class="p">())</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">defaultClient</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="n">body</span> <span class="p">==</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+
+<span class="n">defaultServer</span><span class="p">.</span><span class="n">stop</span><span class="p">()</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="servlet-web-server">Servlet Web server<a class="headerlink" href="#servlet-web-server" title="Permanent link">&para;</a></h5>
 <p>There is an special server adapter for running inside Servlet Containers. To use it you should
 import the <a href="/http_server_servlet">Servlet HTTP Server Adapter</a> into your project. Check the
@@ -1708,16 +1785,71 @@ be returned to the user.</p>
 <p>Routes are matched in the order they are defined. The first route that matches the request is
 invoked and the following ones are ignored.</p>
 <p>Check the next snippet for usage examples:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:routesCreation</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get greeting&quot;</span><span class="p">)}</span>
+<span class="n">put</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Put greeting&quot;</span><span class="p">)}</span>
+<span class="n">post</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Post greeting&quot;</span><span class="p">)}</span>
+
+<span class="n">any</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Fallback if HTTP verb was not used before&quot;</span><span class="p">)}</span>
+
+<span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/&#39; if no route matched before&quot;</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <p>HTTP clients will be able to reuse the routes to create REST services clients.</p>
 <h5 id="route-groups">Route groups<a class="headerlink" href="#route-groups" title="Permanent link">&para;</a></h5>
 <p>Routes can be nested by calling the <code class="codehilite"><span class="err">path()</span></code> method, which takes a String prefix and gives you a
 scope to declare routes and filters (or more nested paths). Ie:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:routeGroups</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">path</span><span class="p">(</span><span class="s">&quot;/nested&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Greeting&quot;</span><span class="p">)}</span>
+
+    <span class="n">path</span><span class="p">(</span><span class="s">&quot;/secondLevel&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Second level greeting&quot;</span><span class="p">)}</span>
+    <span class="p">}</span>
+
+    <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/nested&#39;&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="routers">Routers<a class="headerlink" href="#routers" title="Permanent link">&para;</a></h5>
 <p>If you have a lot of routes, it can be helpful to group them into routers. You can create routers
 to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:routers</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">fun</span> <span class="nf">personRouter</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">=</span> <span class="n">Router</span> <span class="p">{</span>
+    <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get $kind&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">put</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Put $kind&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">post</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Post $kind&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">val</span> <span class="py">server</span> <span class="p">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">path</span><span class="p">(</span><span class="s">&quot;/clients&quot;</span><span class="p">,</span> <span class="n">personRouter</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">))</span>
+    <span class="n">path</span><span class="p">(</span><span class="s">&quot;/customers&quot;</span><span class="p">,</span> <span class="n">personRouter</span><span class="p">(</span><span class="s">&quot;customer&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h4 id="callbacks">Callbacks<a class="headerlink" href="#callbacks" title="Permanent link">&para;</a></h4>
 <p>Callbacks are request's handling blocks that are bound to routes or filters. They make the request,
 response and session objects available to the handling code.</p>
@@ -1728,39 +1860,238 @@ read parameters or pass attributes among filters/routes.</p>
 <p>The methods are available directly from the callback (<code class="codehilite"><span class="err">Call</span></code> is the callback receiver). You can
 check the <a href="/port_http_server/com.hexagonkt.http.server/-call/">API documentation</a> for the full list of methods.</p>
 <p>This sample code illustrates the usage:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackCall</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/call&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">attributes</span>                   <span class="c1">// the attributes list</span>
+    <span class="n">attributes</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span>            <span class="c1">// value of foo attribute</span>
+    <span class="n">attributes</span><span class="p">[</span><span class="s">&quot;A&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&quot;V&quot;</span>        <span class="c1">// sets value of attribute A to V</span>
+
+    <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Response body&quot;</span><span class="p">)</span>          <span class="c1">// returns a 200 status</span>
+    <span class="n">send</span><span class="p">(</span><span class="m">400</span><span class="p">,</span> <span class="s">&quot;Invalid request&quot;</span><span class="p">)</span> <span class="c1">// returns any status</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h5>
 <p>Request functionality is provided by the <code class="codehilite"><span class="err">request</span></code> field:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackRequest</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/request&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">method</span>                   <span class="c1">// the HTTP method (GET, ..etc)</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">scheme</span>                   <span class="c1">// http or https</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">secure</span>                   <span class="c1">// true if scheme is https</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">host</span>                     <span class="c1">// the host, e.g. &quot;example.com&quot;</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">ip</span>                       <span class="c1">// client IP address</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">port</span>                     <span class="c1">// the server port</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">path</span>                     <span class="c1">// the request path, e.g. /result.jsp</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">body</span>                     <span class="c1">// request body sent by the client</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">url</span>                      <span class="c1">// the url. e.g. &quot;http://example.com/foo&quot;</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">contentLength</span>            <span class="c1">// length of request body</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">contentType</span>              <span class="c1">// content type of request.body</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">accept</span>                   <span class="c1">// Client accepted content types</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">headers</span>                  <span class="c1">// the HTTP header list</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;BAR&quot;</span><span class="p">]</span>           <span class="c1">// value of BAR header</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">pathParameters</span>           <span class="c1">// map with all parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">pathParameters</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span>    <span class="c1">// value of foo path parameter</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">formParameters</span>           <span class="c1">// map with all parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">formParameters</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span>    <span class="c1">// value of foo path parameter</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">userAgent</span>                <span class="c1">// user agent (browser requests)</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">origin</span>                   <span class="c1">// origin (browser requests)</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">body</span><span class="p">(</span><span class="n">Type</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>        <span class="c1">// Object passed in the body as a typed object</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">body</span><span class="p">&lt;</span><span class="n">Type</span><span class="p">&gt;()</span>             <span class="c1">// Syntactic sugar for the previous statement</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">bodyObjects</span><span class="p">(</span><span class="n">Type</span><span class="o">::</span><span class="k">class</span><span class="p">)</span> <span class="c1">// Object(s) passed in the body as a typed list</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">bodyObjects</span><span class="p">&lt;</span><span class="n">Type</span><span class="p">&gt;()</span>      <span class="c1">// Syntactic sugar for the previous statement</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">body</span><span class="p">(</span><span class="n">Map</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>         <span class="c1">// Object passed in the body as a field map</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">body</span><span class="p">&lt;</span><span class="n">Map</span><span class="p">&lt;*,</span> <span class="p">*&gt;&gt;()</span>        <span class="c1">// Syntactic sugar for the previous statement</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">bodyObjects</span><span class="p">(</span><span class="n">Map</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>  <span class="c1">// Object(s) passed in the body as a list of maps</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">bodyObjects</span><span class="p">&lt;</span><span class="n">Map</span><span class="p">&lt;*,</span> <span class="p">*&gt;&gt;()</span> <span class="c1">// Syntactic sugar for the previous statement</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h5>
 <p>Response information is provided by the <code class="codehilite"><span class="err">response</span></code> field:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackResponse</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">body</span>                           <span class="c1">// get response content</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">body</span> <span class="p">=</span> <span class="s">&quot;Hello&quot;</span>                 <span class="c1">// sets content to Hello</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;FOO&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">)</span> <span class="c1">// sets header FOO with value bar</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">status</span>                         <span class="c1">// get the response status</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">status</span> <span class="p">=</span> <span class="m">401</span>                   <span class="c1">// set status code to 401</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">contentType</span>                    <span class="c1">// get the content type</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">contentType</span> <span class="p">=</span> <span class="s">&quot;text/xml&quot;</span>       <span class="c1">// set content type to text/xml</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="path-parameters">Path Parameters<a class="headerlink" href="#path-parameters" title="Permanent link">&para;</a></h5>
 <p>Route patterns can include named parameters, accessible via the <code class="codehilite"><span class="err">pathParameters</span></code> map on the request
 object:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackPathParam</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/pathParam/{foo}&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">pathParameters</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span> <span class="c1">// value of foo path parameter</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">pathParameters</span>        <span class="c1">// map with all parameters</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="query-parameters">Query Parameters<a class="headerlink" href="#query-parameters" title="Permanent link">&para;</a></h5>
 <p>It is possible to access the whole query string or only an specific query parameter using the
 <code class="codehilite"><span class="err">parameters</span></code> map on the <code class="codehilite"><span class="err">request</span></code> object:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackQueryParam</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/queryParam&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">queryString</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">queryParameters</span>                 <span class="c1">// the query param list</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">queryParameters</span><span class="p">[</span><span class="s">&quot;FOO&quot;</span><span class="p">]</span><span class="o">?.</span><span class="n">first</span><span class="p">()</span> <span class="c1">// value of FOO query param</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">queryParameters</span><span class="p">[</span><span class="s">&quot;FOO&quot;</span><span class="p">]</span>          <span class="c1">// all values of FOO query param</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="redirects">Redirects<a class="headerlink" href="#redirects" title="Permanent link">&para;</a></h5>
 <p>You can redirect requests (returning 30x codes) by using <code class="codehilite"><span class="err">Call</span></code> utility methods:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackRedirect</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/redirect&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">redirect</span><span class="p">(</span><span class="s">&quot;/call&quot;</span><span class="p">)</span> <span class="c1">// browser redirect to /call</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="cookies">Cookies<a class="headerlink" href="#cookies" title="Permanent link">&para;</a></h5>
 <p>The request and response cookie functions provide a convenient way for sharing information between
 handlers, requests, or even servers.</p>
 <p>You can read client sent cookies from the request's <code class="codehilite"><span class="err">cookies</span></code> read only map. To change cookies or
 add new ones you have to use <code class="codehilite"><span class="err">response.addCookie()</span></code> and <code class="codehilite"><span class="err">response.removeCookie()</span></code> methods.</p>
 <p>Check the following sample code for details:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackCookie</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/cookie&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">cookies</span>                       <span class="c1">// get map of all request cookies</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">cookies</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span>                <span class="c1">// access request cookie by name</span>
+
+    <span class="k">val</span> <span class="py">cookie</span> <span class="p">=</span> <span class="n">HttpCookie</span><span class="p">(</span><span class="s">&quot;new_foo&quot;</span><span class="p">,</span> <span class="s">&quot;bar&quot;</span><span class="p">)</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">addCookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>            <span class="c1">// set cookie with a value</span>
+
+    <span class="n">cookie</span><span class="p">.</span><span class="n">maxAge</span> <span class="p">=</span> <span class="m">3600</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">addCookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>            <span class="c1">// set cookie with a max-age</span>
+
+    <span class="n">cookie</span><span class="p">.</span><span class="n">secure</span> <span class="p">=</span> <span class="k">true</span>
+    <span class="n">response</span><span class="p">.</span><span class="n">addCookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>            <span class="c1">// secure cookie</span>
+
+    <span class="n">response</span><span class="p">.</span><span class="n">removeCookie</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span>          <span class="c1">// remove cookie</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="sessions">Sessions<a class="headerlink" href="#sessions" title="Permanent link">&para;</a></h5>
 <p>Every request has access to the session created on the server side, the <code class="codehilite"><span class="err">session</span></code> object provides
 the following methods:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackSession</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/session&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">session</span>                         <span class="c1">// create and return session</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">attributes</span><span class="p">[</span><span class="s">&quot;user&quot;</span><span class="p">]</span>      <span class="c1">// Get session attribute &#39;user&#39;</span>
+    <span class="n">session</span><span class="p">.</span><span class="k">set</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">,</span> <span class="s">&quot;foo&quot;</span><span class="p">)</span>      <span class="c1">// Set session attribute &#39;user&#39;</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">removeAttribute</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">)</span> <span class="c1">// Remove session attribute &#39;user&#39;</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">attributes</span>              <span class="c1">// Get all session attributes</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">id</span>                      <span class="c1">// Get session id</span>
+    <span class="n">session</span><span class="p">.</span><span class="n">isNew</span><span class="p">()</span>                 <span class="c1">// Check if session is new</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="halting">Halting<a class="headerlink" href="#halting" title="Permanent link">&para;</a></h5>
 <p>To immediately stop a request within a filter or route use <code class="codehilite"><span class="err">halt()</span></code>. <code class="codehilite"><span class="err">halt()</span></code> is not intended to be
 used inside exception-mappers. Check the following snippet for an example:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackHalt</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halt&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">halt</span><span class="p">()</span>                <span class="c1">// halt with status 500 and stop route processing</span>
+
+    <span class="cm">/*</span>
+<span class="cm">     * These are just examples the following code will never be reached</span>
+<span class="cm">     */</span>
+    <span class="n">halt</span><span class="p">(</span><span class="m">401</span><span class="p">)</span>             <span class="c1">// halt with status</span>
+    <span class="n">halt</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span>  <span class="c1">// halt with message (status 500)</span>
+    <span class="n">halt</span><span class="p">(</span><span class="m">401</span><span class="p">,</span> <span class="s">&quot;Go away!&quot;</span><span class="p">)</span> <span class="c1">// halt with status and message</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h4 id="filters">Filters<a class="headerlink" href="#filters" title="Permanent link">&para;</a></h4>
 <p>You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
 code executed before or after one or more routes. They can read the request and read/modify the
@@ -1774,7 +2105,44 @@ the execution chain if halted.</p>
 or <em>after</em>). In the case of before filters, this also prevent the route from being executed (but
 after filters are executed anyway).</p>
 <p>The following code details filters usage:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:filters</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">before</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;b_all&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="n">before</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;b_filters&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters/route&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters route&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">after</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;a_filters&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="n">path</span><span class="p">(</span><span class="s">&quot;/nested&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">before</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;b_nested&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">before</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;b_nested_2&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested filters&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/halted&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">499</span><span class="p">,</span> <span class="s">&quot;halted&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested also&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">after</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;a_nested&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">after</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;a_all&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h4 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h4>
 <p>You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
 callbacks, or handlers halted with an error code.</p>
@@ -1783,11 +2151,33 @@ will be used.</p>
 <h5 id="http-errors-handlers">HTTP Errors Handlers<a class="headerlink" href="#http-errors-handlers" title="Permanent link">&para;</a></h5>
 <p>Allows to handle routes halted with a given code. These handlers are only applied if the route is
 halted, if the error code is returned with <code class="codehilite"><span class="err">send</span></code> it won't be handled as an error. Example:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:errors</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c1">// Register handler for routes halted with 512 code</span>
+<span class="n">error</span><span class="p">(</span><span class="m">512</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">500</span><span class="p">,</span> <span class="s">&quot;Ouch&quot;</span><span class="p">)}</span>
+
+<span class="c1">// If status code (512) is returned with `send` error won&#39;t be triggered</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/errors&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">512</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="exception-mapping">Exception Mapping<a class="headerlink" href="#exception-mapping" title="Permanent link">&para;</a></h5>
 <p>You can handle exceptions of a given type for all routes and filters. The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:exceptions</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c1">// Register handler for routes which callbacks throw exceptions</span>
+<span class="n">error</span><span class="p">(</span><span class="n">CodedException</span><span class="o">::</span><span class="k">class</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">599</span><span class="p">,</span> <span class="n">it</span><span class="p">.</span><span class="n">message</span> <span class="o">?:</span> <span class="s">&quot;empty&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">error</span><span class="p">(</span><span class="n">IllegalStateException</span><span class="o">::</span><span class="k">class</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">505</span><span class="p">,</span> <span class="n">it</span><span class="p">.</span><span class="n">message</span> <span class="o">?:</span> <span class="s">&quot;empty&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/exceptions&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">error</span><span class="p">(</span><span class="s">&quot;Message&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/codedExceptions&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">509</span><span class="p">,</span> <span class="s">&quot;code&quot;</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h4 id="static-files">Static Files<a class="headerlink" href="#static-files" title="Permanent link">&para;</a></h4>
 <p>You can use a folder in the classpath for serving static files with the <code class="codehilite"><span class="err">get()</span></code> methods. Note that
 the public directory name is not included in the URL.</p>
@@ -1796,14 +2186,82 @@ will be checked (assets or other routes). And also, if a previous route is match
 mapping will never be checked.</p>
 <p>Being <code class="codehilite"><span class="err">get(resource)</span></code> a shortcut of <code class="codehilite"><span class="err">get(&quot;/*&quot;, resource)</span></code> it should be placed as the last route.
 Check the next example for details:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:files</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/file.txt&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;It matches this route and won&#39;t search for the file&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="c1">// Expose resources on the &#39;/public&#39; resource folder over the &#39;/web&#39; HTTP path</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/*&quot;</span><span class="p">,</span> <span class="n">Resource</span><span class="p">(</span><span class="s">&quot;public&quot;</span><span class="p">))</span>
+
+<span class="c1">// Maps resources on &#39;assets&#39; on the server root (assets/f.css -&gt; /f.css)</span>
+<span class="c1">// &#39;/public/css/style.css&#39; resource would be: &#39;http://{host}:{port}/css/style.css&#39;</span>
+<span class="k">get</span><span class="p">(</span><span class="n">Resource</span><span class="p">(</span><span class="s">&quot;assets&quot;</span><span class="p">))</span>
+</code></pre></div>
+</td></tr></table>
+
 <h5 id="mime-types">MIME types<a class="headerlink" href="#mime-types" title="Permanent link">&para;</a></h5>
 <p>The MIME types of static files are computed from the file extension using the
 <a href="/hexagon_core/com.hexagonkt.serialization/-serialization-manager/content-type-of/">SerializationManager.contentTypeOf</a> method.</p>
 <h4 id="cors">CORS<a class="headerlink" href="#cors" title="Permanent link">&para;</a></h4>
 <p>CORS behaviour can be different depending on the path. You can attach different <a href="/port_http_server/com.hexagonkt.http.server/-cors-settings/">CorsSettings</a> to
 different routers. Check <a href="/port_http_server/com.hexagonkt.http.server/-cors-settings/">CorsSettings</a> class for more details.</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt:cors</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">server</span><span class="p">:</span> <span class="n">Server</span> <span class="p">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/default&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">())</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/example/org&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="s">&quot;example.org&quot;</span><span class="p">))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/no/credentials&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">supportCredentials</span> <span class="p">=</span> <span class="k">false</span><span class="p">))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/only/post&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">allowedMethods</span> <span class="p">=</span> <span class="n">setOf</span><span class="p">(</span><span class="n">POST</span><span class="p">)))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/cache&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">preFlightMaxAge</span> <span class="p">=</span> <span class="m">10</span><span class="p">))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/exposed/headers&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">exposedHeaders</span> <span class="p">=</span> <span class="n">setOf</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/allowed/headers&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">allowedHeaders</span> <span class="p">=</span> <span class="n">setOf</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)))</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">fun</span> <span class="nc">Router</span><span class="p">.</span><span class="nf">corsPath</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">CorsSettings</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// CORS settings can change for different routes</span>
+        <span class="n">cors</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+
+        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">post</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">put</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">delete</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">post</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">put</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">delete</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">method</span><span class="p">)</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h4 id="https">HTTPS<a class="headerlink" href="#https" title="Permanent link">&para;</a></h4>
 <p>It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
 certificate and its key in the server's <a href="/hexagon_core/com.hexagonkt.http/-ssl-settings/">SslSettings</a>. Once you use a server certificate, it is also
@@ -1820,12 +2278,128 @@ configuration (check <a href="/hexagon_core/com.hexagonkt.http/-ssl-settings/cli
 client used to connect (assuming it is valid, if not the connection will end with an error) with the
 <a href="/port_http_server/com.hexagonkt.http.server/-request/certificate-chain">Request.certificateChain</a> property.</p>
 <p>Below you can find a simple example to set up an HTTPS server and client with mutual TLS:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt:https</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c1">// Key store files</span>
+<span class="k">val</span> <span class="py">identity</span> <span class="p">=</span> <span class="s">&quot;hexagonkt.p12&quot;</span>
+<span class="k">val</span> <span class="py">trust</span> <span class="p">=</span> <span class="s">&quot;trust.p12&quot;</span>
+
+<span class="c1">// Default passwords are file name reversed</span>
+<span class="k">val</span> <span class="py">keyStorePassword</span> <span class="p">=</span> <span class="n">identity</span><span class="p">.</span><span class="n">reversed</span><span class="p">()</span>
+<span class="k">val</span> <span class="py">trustStorePassword</span> <span class="p">=</span> <span class="n">trust</span><span class="p">.</span><span class="n">reversed</span><span class="p">()</span>
+
+<span class="c1">// Key stores can be set as URIs to classpath resources (the triple slash is needed)</span>
+<span class="k">val</span> <span class="py">keyStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$identity&quot;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">trustStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$trust&quot;</span><span class="p">)</span>
+
+<span class="k">val</span> <span class="py">sslSettings</span> <span class="p">=</span> <span class="n">SslSettings</span><span class="p">(</span>
+    <span class="n">keyStore</span> <span class="p">=</span> <span class="n">keyStore</span><span class="p">,</span>
+    <span class="n">keyStorePassword</span> <span class="p">=</span> <span class="n">keyStorePassword</span><span class="p">,</span>
+    <span class="n">trustStore</span> <span class="p">=</span> <span class="n">trustStore</span><span class="p">,</span>
+    <span class="n">trustStorePassword</span> <span class="p">=</span> <span class="n">trustStorePassword</span><span class="p">,</span>
+    <span class="n">clientAuth</span> <span class="p">=</span> <span class="k">true</span> <span class="c1">// Requires a valid certificate from the client (mutual TLS)</span>
+<span class="p">)</span>
+
+<span class="k">val</span> <span class="py">serverSettings</span> <span class="p">=</span> <span class="n">ServerSettings</span><span class="p">(</span>
+    <span class="n">bindPort</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span>
+    <span class="n">protocol</span> <span class="p">=</span> <span class="n">HTTPS</span><span class="p">,</span> <span class="c1">// You can also use HTTP2</span>
+    <span class="n">sslSettings</span> <span class="p">=</span> <span class="n">sslSettings</span>
+<span class="p">)</span>
+
+<span class="k">val</span> <span class="py">server</span> <span class="p">=</span> <span class="n">serve</span><span class="p">(</span><span class="n">serverSettings</span><span class="p">,</span> <span class="n">serverAdapter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// We can access the certificate used by the client from the request</span>
+        <span class="k">val</span> <span class="py">subjectDn</span> <span class="p">=</span> <span class="n">request</span><span class="p">.</span><span class="n">certificate</span><span class="o">?.</span><span class="n">subjectDN</span><span class="o">?.</span><span class="n">name</span>
+        <span class="n">response</span><span class="p">.</span><span class="n">setHeader</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">,</span> <span class="n">subjectDn</span><span class="p">)</span>
+        <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// We&#39;ll use the same certificate for the client (in a real scenario it would be different)</span>
+<span class="k">val</span> <span class="py">clientSettings</span> <span class="p">=</span> <span class="n">ClientSettings</span><span class="p">(</span><span class="n">sslSettings</span> <span class="p">=</span> <span class="n">sslSettings</span><span class="p">)</span>
+
+<span class="c1">// Create a HTTP client and make a HTTPS request</span>
+<span class="k">val</span> <span class="py">client</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;https://localhost:${server.runtimePort}&quot;</span><span class="p">,</span> <span class="n">clientSettings</span><span class="p">)</span>
+<span class="n">client</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="n">apply</span> <span class="p">{</span>
+    <span class="n">logger</span><span class="p">.</span><span class="n">debug</span> <span class="p">{</span> <span class="n">body</span> <span class="p">}</span>
+    <span class="c1">// Assure the certificate received (and returned) by the server is correct</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">headers</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">).</span><span class="n">first</span><span class="p">().</span><span class="n">startsWith</span><span class="p">(</span><span class="s">&quot;CN=hexagonkt.com&quot;</span><span class="p">))</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">body</span> <span class="p">==</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h4 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h4>
 <h5 id="integration-tests">Integration tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h5>
 <p>To test HTTP servers from outside using a real Adapter, you can create a server setting <code class="codehilite"><span class="err">0</span></code> as port.
 This will pick a random free port that you can check later:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:test</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">router</span> <span class="p">=</span> <span class="n">Router</span> <span class="p">{</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hi!&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">val</span> <span class="py">serverSettings</span> <span class="p">=</span> <span class="n">ServerSettings</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="n">InetAddress</span><span class="p">.</span><span class="n">getLoopbackAddress</span><span class="p">(),</span> <span class="m">0</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">server</span> <span class="p">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">router</span><span class="p">,</span> <span class="n">serverSettings</span><span class="p">)</span>
+
+<span class="n">server</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
+<span class="k">val</span> <span class="py">client</span> <span class="p">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:${server.runtimePort}&quot;</span><span class="p">)</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="n">body</span> <span class="p">==</span> <span class="s">&quot;Hi!&quot;</span><span class="p">)</span>
+<span class="n">server</span><span class="p">.</span><span class="n">stop</span><span class="p">()</span>
+</code></pre></div>
+</td></tr></table>
+
 <p>To do this kind of tests without creating a custom server (using the real production code).
 Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt">tests of the starter projects</a>.</p>
 <h5 id="mocking-calls">Mocking calls<a class="headerlink" href="#mocking-calls" title="Permanent link">&para;</a></h5>
@@ -1855,7 +2429,34 @@ Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/t
 </div>
 <p>Check <a href="/port_http_server/com.hexagonkt.http.server.test/test-call/">testCall</a>, <a href="/port_http_server/com.hexagonkt.http.server.test/-test-request/">TestRequest</a>, <a href="#">TestResponse</a> and <a href="#">TestSession</a> for more details.</p>
 <p>For a quick sample, check the snipped below:</p>
-<p>@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/TestsTest.kt:test</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">private</span> <span class="k">fun</span> <span class="nc">Call</span><span class="p">.</span><span class="nf">testedCallback</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">body</span> <span class="p">==</span> <span class="s">&quot;weird&quot;</span><span class="p">)</span>
+        <span class="n">send</span><span class="p">(</span><span class="m">999</span><span class="p">,</span> <span class="s">&quot;Weird error&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">@Test</span> <span class="k">fun</span> <span class="nf">`Test call behaves as expected`</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">testCall</span> <span class="p">=</span> <span class="n">testCall</span><span class="p">(</span><span class="n">TestRequest</span><span class="p">(</span><span class="n">body</span> <span class="p">=</span> <span class="s">&quot;weird&quot;</span><span class="p">))</span>
+
+    <span class="n">testCall</span><span class="p">.</span><span class="n">testedCallback</span><span class="p">()</span>
+
+    <span class="n">assert</span><span class="p">(</span><span class="n">testCall</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">status</span> <span class="p">==</span> <span class="m">999</span><span class="p">)</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">testCall</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">body</span> <span class="p">==</span> <span class="s">&quot;Weird error&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h4 id="packages">Packages<a class="headerlink" href="#packages" title="Permanent link">&para;</a></h4>
 <table>
 <thead>

@@ -1415,7 +1415,7 @@ places:</p>
 <li>Passing them from the command line with the following switch: <code class="codehilite"><span class="err">-Pkey=val</span></code>.</li>
 <li>Defining a project's extra property inside <code class="codehilite"><span class="err">build.gradle</span></code>. Ie: <code class="codehilite"><span class="err">project.ext.key=&#39;val&#39;</span></code>.</li>
 </ol>
-<p>For examples and reference, check <a href="https://github.com/hexagonkt/hexagon/blob/master/.travis.yml">.travis.yml</a>, <a href="https://github.com/hexagonkt/hexagon/blob/master/build.gradle">build.gradle</a> and <a href="https://github.com/hexagonkt/hexagon/blob/master/gradle.properties">gradle.properties</a>.</p>
+<p>For examples and reference, check <a href="https://github.com/hexagonkt/hexagon/blob/master/build.gradle">build.gradle</a> and <a href="https://github.com/hexagonkt/hexagon/blob/master/gradle.properties">gradle.properties</a>.</p>
 <h2 id="helper-scripts">Helper scripts<a class="headerlink" href="#helper-scripts" title="Permanent link">&para;</a></h2>
 <p>These scripts can be added to your build to include a whole new capability to your building logic.</p>
 <p>To use them, you can import the online versions, or copy them to your <code class="codehilite"><span class="err">gradle</span></code> directory before
@@ -1531,8 +1531,7 @@ development machine.</p>
 <code class="codehilite"><span class="err">id &#39;org.jetbrains.kotlin.jvm&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
-<li>kotlinVersion (REQUIRED): Kotlin version.</li>
-<li>kotlinCoroutinesVersion (REQUIRED): Kotlin coroutines version.</li>
+<li>kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.</li>
 <li>mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.</li>
 <li>jacocoVersion: Jacoco code coverage tool version.</li>
 </ul>

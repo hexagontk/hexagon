@@ -1915,7 +1915,12 @@ check the <a href="/port_http_server/com.hexagonkt.http.server/-call/">API docum
 23
 24
 25
-26</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/request&quot;</span><span class="p">)</span> <span class="p">{</span>
+26
+27
+28
+29
+30
+31</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/request&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">request</span><span class="p">.</span><span class="n">method</span>                   <span class="c1">// the HTTP method (GET, ..etc)</span>
     <span class="n">request</span><span class="p">.</span><span class="n">scheme</span>                   <span class="c1">// http or https</span>
     <span class="n">request</span><span class="p">.</span><span class="n">secure</span>                   <span class="c1">// true if scheme is https</span>
@@ -1930,6 +1935,11 @@ check the <a href="/port_http_server/com.hexagonkt.http.server/-call/">API docum
     <span class="n">request</span><span class="p">.</span><span class="n">accept</span>                   <span class="c1">// Client accepted content types</span>
     <span class="n">request</span><span class="p">.</span><span class="n">headers</span>                  <span class="c1">// the HTTP header list</span>
     <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;BAR&quot;</span><span class="p">]</span>           <span class="c1">// value of BAR header</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">pathParameters</span>           <span class="c1">// map with all parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">pathParameters</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span>    <span class="c1">// value of foo path parameter</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">formParameters</span>           <span class="c1">// map with all parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">formParameters</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span>    <span class="c1">// value of foo path parameter</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">parameters</span>
     <span class="n">request</span><span class="p">.</span><span class="n">userAgent</span>                <span class="c1">// user agent (browser requests)</span>
     <span class="n">request</span><span class="p">.</span><span class="n">origin</span>                   <span class="c1">// origin (browser requests)</span>
     <span class="n">request</span><span class="p">.</span><span class="n">body</span><span class="p">(</span><span class="n">Type</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>        <span class="c1">// Object passed in the body as a typed object</span>
