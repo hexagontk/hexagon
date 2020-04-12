@@ -15,9 +15,13 @@ val injector = InjectionManager.apply {
  * Service server. Adapter is injected.
  */
 val server: Server = Server {
-    before { response.setHeader("Date", httpDate()) }
+    before {
+        response.headers["Date"] = httpDate()
+    }
 
-    get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
+    get("/hello/{name}") {
+        ok("Hello, ${pathParameters["name"]}!", "text/plain")
+    }
 }
 
 /**

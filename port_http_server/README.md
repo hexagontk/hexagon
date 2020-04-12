@@ -112,12 +112,6 @@ Request functionality is provided by the `request` field:
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackRequest
 
-#### Response
-
-Response information is provided by the `response` field:
-
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackResponse
-
 #### Path Parameters
 
 Route patterns can include named parameters, accessible via the `pathParameters` map on the request
@@ -131,6 +125,24 @@ It is possible to access the whole query string or only an specific query parame
 `parameters` map on the `request` object:
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackQueryParam
+
+#### Form Parameters
+
+HTML Form processing. Don't parse body!
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackFormParam
+
+#### File Uploads
+
+Multipart Requests
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackFile
+
+#### Response
+
+Response information is provided by the `response` field:
+
+@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackResponse
 
 #### Redirects
 
@@ -207,14 +219,6 @@ You can handle exceptions of a given type for all routes and filters. The handle
 refer to the thrown exception. Look at the following code for a detailed example:
 
 @sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:exceptions
-
-<!--
-### Multipart Requests
-
-#### HTML Form processing
-
-#### File Uploads
--->
 
 ### Static Files
 

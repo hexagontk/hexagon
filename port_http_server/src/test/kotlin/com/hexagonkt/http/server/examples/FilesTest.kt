@@ -46,13 +46,11 @@ import java.io.File
                 map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
             )
 
-            val queryParams = serializeMap(queryParameters)
-            val formParams = serializeMap(formParameters)
-            val params = serializeMap(parameters)
+            val queryParams = serializeMap(queryParametersValues)
+            val formParams = serializeMap(formParametersValues)
 
-            response.headers["queryParams"] = queryParams
-            response.headers["formParams"] = formParams
-            response.headers["params"] = params
+            response.headersValues["queryParams"] = queryParams
+            response.headersValues["formParams"] = formParams
         }
     }
     // files
@@ -78,8 +76,6 @@ import java.io.File
         assert(!(response.headers["queryParams"]?.first()?.contains("name:value") ?: true))
         assert(response.headers["formParams"]?.first()?.contains("name:value") ?: false)
         assert(!(response.headers["formParams"]?.first()?.contains("queryName:queryValue") ?: true))
-        assert(response.headers["params"]?.first()?.contains("queryName:queryValue") ?: false)
-        assert(response.headers["params"]?.first()?.contains("name:value") ?: false)
     }
 
     @Test fun `Requesting a folder with an existing file name returns 404`() {

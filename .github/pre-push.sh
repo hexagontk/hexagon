@@ -12,7 +12,7 @@ alias gw='./gradlew --warn --quiet --console plain'
 alias d='docker --log-level warning'
 
 # Package libraries and examples prior to Docker image generation
-gw clean installDist -x test
+gw clean installDist
 
 # Start containers required for tests and benchmarks
 # shellcheck disable=SC2034

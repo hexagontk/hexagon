@@ -1,34 +1,16 @@
+import org.w3c.dom.Document
 
-import static java.lang.System.getenv
+import javax.xml.parsers.DocumentBuilderFactory
 
 apply(from: "../gradle/kotlin.gradle")
 apply(from: "../gradle/junit.gradle")
 //apply(from: "../gradle/bintray.gradle")
 
+apply(plugin: "maven-publish")
+
 dependencies {
     implementation(project(":http_server_jetty"))
     implementation(project(":http_client_ahc"))
-}
-
-task("processPom") {
-
-    final Map<String, ?> stringProperties =
-        project.getProperties().findAll { it.value instanceof String }
-
-    copy {
-        from("$projectDir/kotlin_pom".toString())
-        into("$buildDir/kotlin_pom".toString())
-        filter {
-            String content = it
-
-            stringProperties.entrySet().forEach { entry ->
-                final String entryValue = entry.value.toString()
-                content = content.replace("\${project.${entry.key}}".toString(), entryValue)
-            }
-
-            content
-        }
-    }
 }
 
 task("processTemplate", dependsOn: "test") {
@@ -87,13 +69,33 @@ task("processTemplate", dependsOn: "test") {
         }
 }
 
-//publishing {
-//    publications {
-//        kotlinPom(MavenPublication) {
-//            from(components.java)
-//
-//            artifact(sourceJar) // To be accepted in JCenter, the package need to include sources
-//            artifact(testJar)
-//        }
-//    }
-//}
+publishing {
+    publications {
+        kotlinPom(MavenPublication) {
+            def pomFile = project.file("kotlin_pom/pom.xml")
+            def pomDom = new XmlParser().parse(pomFile)
+            final Document domDom =
+                DocumentBuilderFactory.newDefaultInstance().newDocumentBuilder().parse(pomFile)
+
+            artifactId = pomDom.artifactId.text()
+
+            pom {
+                packaging = pomDom.packaging.text()
+                description = pomDom.description.text()
+
+                withXml {
+                    def node = asNode()
+//                    println(domDom.getElementsByTagName("properties").item(0))
+//                    node.appendNode(domDom.getElementsByTagName("properties").item(0))
+//                    node.appendNode(prop)
+//                    println(pomDom.properties.getClass())
+//                    println(pomDom.properties.size())
+//                    pomDom.properties.forEach { println(it) }
+//                    node.appendNode(pomDom.properties.get(0))
+//                    node.appendNode(pomDom.repositories.get(0))
+//                    node.appendNode(pomDom.build.get(0))
+                }
+            }
+        }
+    }
+}

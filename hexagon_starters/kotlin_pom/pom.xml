@@ -4,7 +4,6 @@
 
   <groupId>com.hexagonkt</groupId>
   <artifactId>kotlin_pom</artifactId>
-  <version>${project.version}</version>
   <packaging>pom</packaging>
   <description>Hexagon's Maven starter POM</description>
 

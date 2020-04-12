@@ -8,10 +8,6 @@ apply(from: "../gradle/testng.gradle")
 apply(plugin: "scala")
 apply(plugin: "war")
 
-mainClassName = "com.hexagonkt.BenchmarkKt"
-
-applicationDefaultJvmArgs = [ "-XX:+UseNUMA", "-XX:+UseParallelGC" ]
-
 project.ext.tfbBuildDir = "$project.buildDir.absolutePath/tfb"
 project.ext.databases = [ "MongoDB", "PostgreSQL" ]
 project.ext.servers = [ "Jetty", "Resin" ]
@@ -19,12 +15,6 @@ project.ext.tests = [ servers, databases ].combinations ()
 
 war {
     archiveFileName = "ROOT.war"
-}
-
-jarAll {
-    manifest {
-        attributes("Main-Class": mainClassName)
-    }
 }
 
 installDist.dependsOn("war")
@@ -71,6 +61,7 @@ task("gradleSettings", type: WriteProperties) {
         description : "Hexagon web framework's benchmark",
 
         gradleScripts : "$repositoryFilesPath/$rootProject.version/gradle",
+        applicationClassName : applicationClassName,
 
         hexagonVersion : rootProject.version,
         logbackVersion : logbackVersion,
@@ -86,120 +77,116 @@ task("gradleSettings", type: WriteProperties) {
     outputFile = "$tfbBuildDir/gradle.properties"
 }
 
-task("benchmarkConfig") {
-    doLast {
-        Map<String, Object> testsMap = [:]
-        tests.collect { it as List<List<String>> }.forEach {
-            final String server = it[0]
-            final String database = it[1]
-            final String databaseEngine = database.toLowerCase()
-            final boolean defaultCase = (server == servers.first() && database == databases.first())
-            final String name = defaultCase? "default" : "${server}-${database}"
-            final int port = (server == "Resin"? 8080 : 9090)
+task("benchmarkConfig").doLast {
+    final Map<String, Object> testsMap = [:]
+    tests.collect { it as List<List<String>> }.forEach {
+        final String server = it[0]
+        final String database = it[1]
+        final String databaseEngine = database.toLowerCase()
+        final boolean defaultCase = (server == servers.first() && database == databases.first())
+        final String name = defaultCase? "default" : "${server}-${database}"
+        final int port = (server == "Resin"? 8080 : 9090)
 
-            testsMap[name.toLowerCase()] = [
-                json_url : "/json",
-                db_url : "/$databaseEngine/db",
-                query_url : "/$databaseEngine/query?queries=",
-                fortune_url : "/$databaseEngine/pebble/fortunes",
-                update_url : "/$databaseEngine/update?queries=",
-                plaintext_url : "/plaintext",
-                port : port,
-                approach : "Realistic",
-                classification : "Micro",
-                database : database == "PostgreSQL"? "postgres" : databaseEngine,
-                framework : "Hexagon",
-                language : "Kotlin",
-                orm : "Raw",
-                platform : "Servlet",
-                webserver : "None",
-                os : "Linux",
-                database_os : "Linux",
-                display_name : "Hexagon $server $database",
-                notes : "http://hexagonkt.com",
-                versus : "servlet"
-            ]
-        }
-
-        final Map<String, ?> config = [
-            framework : "hexagon",
-            tests : [ testsMap ]
+        testsMap[name.toLowerCase()] = [
+            json_url : "/json",
+            db_url : "/$databaseEngine/db",
+            query_url : "/$databaseEngine/query?queries=",
+            fortune_url : "/$databaseEngine/pebble/fortunes",
+            update_url : "/$databaseEngine/update?queries=",
+            plaintext_url : "/plaintext",
+            port : port,
+            approach : "Realistic",
+            classification : "Micro",
+            database : database == "PostgreSQL"? "postgres" : databaseEngine,
+            framework : "Hexagon",
+            language : "Kotlin",
+            orm : "Raw",
+            platform : "Servlet",
+            webserver : "None",
+            os : "Linux",
+            database_os : "Linux",
+            display_name : "Hexagon $server $database",
+            notes : "http://hexagonkt.com",
+            versus : "servlet"
         ]
-
-        // noinspection UnnecessaryQualifiedReference
-        final String json = groovy.json.JsonOutput.toJson(config)
-        final File file = file("$tfbBuildDir/benchmark_config.json")
-
-        mkdir(tfbBuildDir)
-        file.createNewFile()
-
-        // noinspection UnnecessaryQualifiedReference
-        file.text = groovy.json.JsonOutput.prettyPrint(json) + "\n"
     }
+
+    final Map<String, ?> config = [
+        framework : "hexagon",
+        tests : [ testsMap ]
+    ]
+
+    // noinspection UnnecessaryQualifiedReference
+    final String json = groovy.json.JsonOutput.toJson(config)
+    final File file = file("$tfbBuildDir/benchmark_config.json")
+
+    mkdir(tfbBuildDir)
+    file.createNewFile()
+
+    // noinspection UnnecessaryQualifiedReference
+    file.text = groovy.json.JsonOutput.prettyPrint(json) + "\n"
 }
 
-task("setupDockerfiles") {
-    doLast {
-        tests.collect { it as List<List<String>> }.forEach { final List<String> row ->
-            final String server = row[0].toLowerCase()
-            final String database = row[1].toLowerCase()
-            final boolean defaultCase = row[0] == servers.first() && row[1] == databases.first()
-            final String name = defaultCase? "hexagon" : "hexagon-${server}-${database}"
-            final File file = new File("$tfbBuildDir/${name}.dockerfile".toString())
-            final String gradleImage = "5.5.1-jdk11"
-            final String jdkImage = "11.0.3-jre-stretch"
+task("setupDockerfiles").doLast {
+    tests.collect { it as List<List<String>> }.forEach { final List<String> row ->
+        final String server = row[0].toLowerCase()
+        final String database = row[1].toLowerCase()
+        final boolean defaultCase = row[0] == servers.first() && row[1] == databases.first()
+        final String name = defaultCase? "hexagon" : "hexagon-${server}-${database}"
+        final File file = new File("$tfbBuildDir/${name}.dockerfile".toString())
+        final String gradleImage = "6.3-jdk11"
+        final String jdkImage = "11-jre"
 
-            final String dockerfileBuild = """
-                FROM gradle:$gradleImage AS gradle_build
-                USER root
-                WORKDIR /hexagon
+        final String dockerfileBuild = """
+            FROM gradle:$gradleImage AS gradle_build
+            USER root
+            WORKDIR /hexagon
 
-                COPY src src
-                COPY build.gradle build.gradle
-                COPY gradle.properties gradle.properties
-                RUN gradle --quiet --exclude-task test
-            """
+            COPY src src
+            COPY build.gradle build.gradle
+            COPY gradle.properties gradle.properties
+            RUN gradle --quiet --exclude-task test
+        """
 
-            final String resinDockerfileRuntime = """
-                FROM openjdk:$jdkImage
-                ENV DBSTORE $database
-                ENV ${database.toUpperCase()}_DB_HOST tfb-database
-                ENV RESIN http://caucho.com/download/resin-4.0.61.tar.gz
+        final String resinDockerfileRuntime = """
+            FROM openjdk:$jdkImage
+            ENV DBSTORE $database
+            ENV ${database.toUpperCase()}_DB_HOST tfb-database
+            ENV RESIN http://caucho.com/download/resin-4.0.64.tar.gz
 
-                WORKDIR /resin
-                RUN curl -sL \$RESIN | tar xz --strip-components=1
-                RUN rm -rf webapps/*
-                COPY --from=gradle_build /hexagon/build/libs/ROOT.war webapps/ROOT.war
-                COPY resin.xml conf/resin.xml
-                CMD ["java", "-jar", "lib/resin.jar", "console"]
-            """
+            WORKDIR /resin
+            RUN curl -sL \$RESIN | tar xz --strip-components=1
+            RUN rm -rf webapps/*
+            COPY --from=gradle_build /hexagon/build/libs/ROOT.war webapps/ROOT.war
+            COPY resin.xml conf/resin.xml
+            CMD ["java", "-jar", "lib/resin.jar", "console"]
+        """
 
-            final String defaultDockerfileRuntime = """
-                FROM openjdk:$jdkImage
-                ENV DBSTORE $database
-                ENV ${database.toUpperCase()}_DB_HOST tfb-database
-                ENV WEBENGINE $server
-                ENV PROJECT hexagon
+        final String defaultDockerfileRuntime = """
+            FROM openjdk:$jdkImage
+            ENV DBSTORE $database
+            ENV ${database.toUpperCase()}_DB_HOST tfb-database
+            ENV WEBENGINE $server
+            ENV PROJECT hexagon
 
-                COPY --from=gradle_build /hexagon/build/install/\$PROJECT /opt/\$PROJECT
-                ENTRYPOINT /opt/\$PROJECT/bin/\$PROJECT
-            """
+            COPY --from=gradle_build /hexagon/build/install/\$PROJECT /opt/\$PROJECT
+            ENTRYPOINT /opt/\$PROJECT/bin/\$PROJECT
+        """
 
-            final String dockerfileRuntime =
-                server == "resin"? resinDockerfileRuntime : defaultDockerfileRuntime
+        final String dockerfileRuntime =
+            server == "resin"? resinDockerfileRuntime : defaultDockerfileRuntime
 
-            file.createNewFile()
-            file.text = """
-                #
-                # BUILD
-                #
-                ${dockerfileBuild.trim()}
+        file.createNewFile()
+        file.text = """
+            #
+            # BUILD
+            #
+            ${dockerfileBuild.trim()}
 
-                #
-                # RUNTIME
-                #
-                ${dockerfileRuntime.trim()}
-            """.stripIndent()
-        }
+            #
+            # RUNTIME
+            #
+            ${dockerfileRuntime.trim()}
+        """.stripIndent()
     }
 }

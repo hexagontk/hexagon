@@ -1,3 +1,6 @@
+/*
+ * Check usage information at: http://hexagonkt.com/gradle.html#certificates
+ */
 
 final String sslCaFile = findProperty("sslCaFile") ?: "ca.p12"
 final String sslCaAlias = findProperty("sslCaAlias") ?: "ca"
@@ -7,73 +10,69 @@ final String sslValidity = findProperty("sslValidity") ?: 365.toString()
 final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user.country")
 final String sslOrganization = findProperty("sslOrganization")
 
-task("createCa") {
-    doLast {
-        if (file(sslPath(sslCaFile)).exists())
-            return
+task("createCa").doLast {
+    if (file(sslPath(sslCaFile)).exists())
+        return
 
-        // Create CA (root) key pair
-        final String commonName = "$sslOrganization TEST Root CA"
-        createKeyPair(sslCaFile, sslCaAlias, sslValidity, commonName, sslOrganization, sslCountry)
+    // Create CA (root) key pair
+    final String commonName = "$sslOrganization TEST Root CA"
+    createKeyPair(sslCaFile, sslCaAlias, sslValidity, commonName, sslOrganization, sslCountry)
 
-        // Create trust store with CA certificate (PEM)
-        final String caPem = sslPath("ca.pem")
-        keytool("-exportcert", sslCaFile, sslCaAlias, "-rfc", "-file", caPem)
-        keytool("-importcert", sslTrustFile, sslCaAlias, "-file", caPem, "-noprompt")
+    // Create trust store with CA certificate (PEM)
+    final String caPem = sslPath("ca.pem")
+    keytool("-exportcert", sslCaFile, sslCaAlias, "-rfc", "-file", caPem)
+    keytool("-importcert", sslTrustFile, sslCaAlias, "-file", caPem, "-noprompt")
 
-        // Clean up
-        delete(caPem)
-    }
+    // Clean up
+    delete(caPem)
 }
 
-task("createIdentities") {
-    doLast {
-        final List<String> sslDomains = (("9".."1") + "")
-            .reverse()
-            .collect { findProperty("sslDomain$it")?.toString()?.trim() }
-            .findAll { it != null }
+task("createIdentities").doLast {
+    final List<String> sslDomains = (("9".."1") + "")
+        .reverse()
+        .collect { findProperty("sslDomain$it")?.toString()?.trim() }
+        .findAll { it != null }
 
-        sslDomains.each { sslFullDomain ->
-            final List<String> parts = sslFullDomain.trim().split("\\|").reverse()
-            final String sslDomain = parts.head()
-            final List<String> sslSubdomains = parts.tail()
+    sslDomains.each { sslFullDomain ->
+        final List<String> parts = sslFullDomain.trim().split("\\|").reverse()
+        final String sslDomain = parts.head()
+        final List<String> sslSubdomains = parts.tail()
 
-            final int dotIndex = sslDomain.lastIndexOf('.')
-            final String domain = sslDomain.substring(0, dotIndex)
-            final String tld = sslDomain.substring(dotIndex + 1)
-            final String storeFile = domain.replace(".", "_") + ".p12"
+        final int dotIndex = sslDomain.lastIndexOf('.')
+        final String domain = sslDomain.substring(0, dotIndex)
+        final String tld = sslDomain.substring(dotIndex + 1)
+        final String storeFile = domain.replace(".", "_") + ".p12"
 
-            if (file(sslPath(storeFile)).exists())
-                return
+        if (file(sslPath(storeFile)).exists())
+            return
 
-            // Create key pairs
-            createKeyPair(storeFile, domain, sslValidity, sslDomain, sslOrganization, sslCountry)
+        // Create key pairs
+        createKeyPair(storeFile, domain, sslValidity, sslDomain, sslOrganization, sslCountry)
 
-            // Export CA certificate
-            final String caPem = sslPath("ca.pem")
-            keytool("-exportcert", sslCaFile, sslCaAlias, "-rfc", "-file", caPem)
+        // Export CA certificate
+        final String caPem = sslPath("ca.pem")
+        keytool("-exportcert", sslCaFile, sslCaAlias, "-rfc", "-file", caPem)
 
-            // Generate chained server certificate (PEM)
-            final String identityCsr = sslPath("identity.csr")
-            final String identityPem = sslPath("identity.pem")
-            final String identityChainPem = sslPath("identity_chain.pem")
-            final String san = createSan(domain, tld, sslSubdomains)
-            keytool("-certreq", storeFile, domain, "-ext", "san=${san}", "-file", identityCsr)
-            keytool("-gencert", sslCaFile, sslCaAlias,
-                "-validity", sslValidity,
-                "-ext", "san=${san}",
-                "-rfc",
-                "-infile", identityCsr,
-                "-outfile", identityPem
-            )
-            concatenate(identityChainPem, caPem, identityPem)
+        // Generate chained server certificate (PEM)
+        final String identityCsr = sslPath("identity.csr")
+        final String identityPem = sslPath("identity.pem")
+        final String identityChainPem = sslPath("identity_chain.pem")
+        final String san = createSan(domain, tld, sslSubdomains)
+        keytool("-certreq", storeFile, domain, "-ext", "san=${san}", "-file", identityCsr)
+        keytool("-gencert", sslCaFile, sslCaAlias,
+            "-validity", sslValidity,
+            "-ext", "san=${san}",
+            "-rfc",
+            "-infile", identityCsr,
+            "-outfile", identityPem
+        )
+        concatenate(identityChainPem, caPem, identityPem)
 
-            // Replace server certificate with chained PEM
-            keytool("-importcert", storeFile, domain, "-file", identityChainPem, "-noprompt")
+        // Replace server certificate with chained PEM
+        keytool("-importcert", storeFile, domain, "-file", identityChainPem, "-noprompt")
 
-            // Clean up
-            delete(identityCsr, caPem, identityPem, identityChainPem)
-        }
+        // Clean up
+        delete(identityCsr, caPem, identityPem, identityChainPem)
     }
 }
 

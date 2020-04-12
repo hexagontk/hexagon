@@ -6,7 +6,7 @@ import com.hexagonkt.http.server.Request
 import java.net.HttpCookie
 import java.security.cert.X509Certificate
 
-internal class MockRequest(private val testRequest: TestRequest): Request() {
+internal class MockRequest(private val testRequest: TestRequest) : Request() {
 
     override fun contentLength(): Long = testRequest.contentLength
     override fun contentType(): String? = testRequest.contentType
@@ -19,7 +19,6 @@ internal class MockRequest(private val testRequest: TestRequest): Request() {
     override fun ip(): String = testRequest.ip
     override fun loadBody(): String = testRequest.body
     override fun method(): Method = testRequest.method
-    override fun parameters(): Map<String, List<String>> = testRequest.parameters
     override fun parts(): Map<String, Part> = testRequest.parts
     override fun path(): String = testRequest.path
     override fun pathParameters(): Map<String, String> = testRequest.pathParameters

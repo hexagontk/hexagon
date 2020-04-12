@@ -16,12 +16,12 @@ import org.testng.annotations.Test
 
     val server: Server = Server(adapter) {
         error(UnsupportedOperationException::class) {
-            response.setHeader("error", it.message ?: it.javaClass.name)
+            response.headers["error"] = it.message ?: it.javaClass.name
             send(599, "Unsupported")
         }
 
         error(IllegalArgumentException::class) {
-            response.setHeader("runtimeError", it.message ?: it.javaClass.name)
+            response.headers["runtimeError"] = it.message ?: it.javaClass.name
             send(598, "Runtime")
         }
 

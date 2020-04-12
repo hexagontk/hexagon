@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.11"
+        version = "1.2.12"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
@@ -32,6 +32,9 @@ gradle.rootProject {
         extra["logoSmall"] = "assets/img/logo.svg"
         extra["logoWide"] = "assets/img/logo_wide.svg"
         extra["logoLarge"] = "assets/img/logo.svg"
+
+        // Benchmark
+        extra["applicationClassName"] = "com.hexagonkt.BenchmarkKt"
 
         // VERSIONS
         extra["kotlinVersion"] = "1.3.71"
@@ -64,7 +67,7 @@ gradle.rootProject {
         extra["ahcVersion"] = "2.12.0"
 
         // store_mongodb
-        extra["mongodbVersion"] = "4.0.1"
+        extra["mongodbVersion"] = "4.0.2"
 
         // templates_pebble
         extra["pebbleVersion"] = "3.1.2"
@@ -72,7 +75,7 @@ gradle.rootProject {
         // Test
         extra["testngVersion"] = "6.14.3"
         extra["gatlingVersion"] = "3.3.1"
-        extra["junitVersion"] = "5.6.1"
+        extra["junitVersion"] = "5.6.2"
     }
 }
 

@@ -19,7 +19,7 @@ plugins {
     id("org.sonarqube") version "2.8"
     id("org.jetbrains.kotlin.jvm") version "1.3.71" apply false
     id("org.jetbrains.dokka") version "0.10.1" apply false
-    id("com.jfrog.bintray") version "1.8.4" apply false
+    id("com.jfrog.bintray") version "1.8.5" apply false
 }
 
 apply(from = "gradle/sonarqube.gradle")

@@ -2,6 +2,7 @@
  * Check usage information at: http://hexagonkt.com/gradle.html#bintray
  */
 
+apply(plugin: "java")
 apply(plugin: "com.jfrog.bintray")
 
 bintray {

@@ -190,6 +190,10 @@ Gradle's script for a service or application. It adds two extra tasks:
 
 To use it apply `$gradleScripts/service.gradle` to your `build.gradle`.
 
+To setup this script's parameters, check the [build variables section]. This helper settings are:
+
+* applicationClassName: name of the class with the main method of the service.
+
 ## JBake
 
 Adds support for site generation using [JBake].

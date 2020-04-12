@@ -29,22 +29,25 @@ abstract class Request {
     val queryString: String by lazy { queryString() }
     val url: String by lazy { url() }
     val parts: Map<String, Part> by lazy { parts() }
-    val parameters: Map<String, List<String>> by lazy { parameters() }
-    val queryParameters: Map<String, List<String>> by lazy { queryParameters() }
-    val formParameters: Map<String, List<String>> by lazy { formParameters() }
+    val queryParametersValues: Map<String, List<String>> by lazy { queryParameters() }
+    val formParametersValues: Map<String, List<String>> by lazy { formParameters() }
+    val queryParameters: Map<String, String> by lazy { firsts(queryParametersValues) }
+    val formParameters: Map<String, String> by lazy { firsts(formParametersValues) }
     val pathParameters: Map<String, String> by lazy { pathParameters() }
     val certificateChain: List<X509Certificate> by lazy { certificateChain() }
 
     val secure: Boolean by lazy { scheme == "https" }
-    val accept: List<String> by lazy { headers["Accept"] ?: emptyList() }
-    val preferredType: String? by lazy { accept.firstOrNull() }
-    val userAgent: String? by lazy { headers["User-Agent"]?.firstOrNull() }
-    val referer: String? by lazy { headers["Referer"]?.firstOrNull() }
-    val origin: String? by lazy { headers["Origin"]?.firstOrNull() }
+    val acceptValues: List<String> by lazy { headersValues["Accept"] ?: emptyList() }
+    val accept: String? by lazy { acceptValues.firstOrNull() }
+    val preferredType: String? by lazy { accept }
+    val userAgent: String? by lazy { headersValues["User-Agent"]?.firstOrNull() }
+    val referer: String? by lazy { headersValues["Referer"]?.firstOrNull() }
+    val origin: String? by lazy { headersValues["Origin"]?.firstOrNull() }
     val certificate: X509Certificate? by lazy { certificateChain.firstOrNull() }
 
     val body: String by lazy { loadBody() }
-    val headers: Map<String, List<String>> by lazy { headers() }
+    val headersValues: Map<String, List<String>> by lazy { headers() }
+    val headers: Map<String, String> by lazy { firsts(headersValues) }
     val cookies: Map<String, HttpCookie> by lazy { cookies() }
     val contentType: String? by lazy { contentType() }
     val contentLength: Long by lazy { contentLength() }
@@ -65,7 +68,6 @@ abstract class Request {
     protected abstract fun queryString(): String                 // ""
     protected abstract fun url(): String                         // "http://example.com/example/foo"
     protected abstract fun parts(): Map<String, Part>            // hash of multipart parts
-    protected abstract fun parameters(): Map<String, List<String>> // ["p"] "p" query/form parameter
     protected abstract fun queryParameters(): Map<String, List<String>>
     protected abstract fun formParameters(): Map<String, List<String>>
     protected abstract fun certificateChain(): List<X509Certificate>
@@ -81,4 +83,7 @@ abstract class Request {
 
     internal fun requestFormat(): SerializationFormat =
         SerializationManager.formatOf(requestType())
+
+    private fun <K, V>firsts(map: Map<K, List<V>>): Map<K, V> =
+        map.mapValues { it.value.first() }
 }

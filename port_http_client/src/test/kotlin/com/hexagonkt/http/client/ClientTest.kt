@@ -57,8 +57,8 @@ import java.net.URI
 
     @BeforeMethod fun resetHandler() {
         handler = {
-            response.headers["content-type"] = listOf("application/json;charset=utf-8")
-            response.headers["body"] = listOf(request.body)
+            response.headers["content-type"] = "application/json;charset=utf-8"
+            response.headers["body"] = request.body
             ok(request.body)
         }
     }
@@ -114,8 +114,8 @@ import java.net.URI
         assert(c.settings.headers == h)
 
         handler = {
-            response.headers["auth"] = listOf(request.headers.require("Authorization").first())
-            response.headers["head1"] = request.headers.require("header1")
+            response.headersValues["auth"] = listOf(request.headers.require("Authorization"))
+            response.headersValues["head1"] = request.headersValues.require("header1")
         }
 
         c.get("/auth").apply {
@@ -127,7 +127,7 @@ import java.net.URI
     }
 
     @Test fun `Files are sent in base64` () {
-        handler = { response.headers["file64"] = listOf(request.body) }
+        handler = { response.headersValues["file64"] = listOf(request.body) }
 
         val file = File("src/test/resources/logback-test.xml").let {
             if (it.exists()) it
@@ -197,7 +197,7 @@ import java.net.URI
             get("/hello") {
                 // We can access the certificate used by the client from the request
                 val subjectDn = request.certificate?.subjectDN?.name
-                response.setHeader("cert", subjectDn)
+                response.headers["cert"] = subjectDn
                 ok("Hello World!")
             }
         }
