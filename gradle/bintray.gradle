@@ -3,12 +3,14 @@
  */
 
 apply(plugin: "java")
+apply(plugin: "maven-publish")
 apply(plugin: "com.jfrog.bintray")
 
 bintray {
     key = findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY")
     user = findProperty("bintrayUser") ?: System.getenv("BINTRAY_USER")
-    publications = [ "mavenJava" ]
+    publications = findProperty("bintrayPublications") ?: [ "mavenJava" ]
+    dryRun = findProperty("bintrayDryRun") ?: false
     publish = true
 
     pkg {
