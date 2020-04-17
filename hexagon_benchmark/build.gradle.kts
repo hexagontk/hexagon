@@ -60,7 +60,8 @@ dependencies {
 
 tasks.register<Copy>("addGradlew") {
     from("$rootDir")
-    include("gradle", "gradlew", "gradlew.bat")
+    include("gradle/", "gradlew", "gradlew.bat")
+    exclude("gradle/*.gradle")
     into(tfbBuildDir)
 }
 
