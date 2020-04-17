@@ -37,7 +37,7 @@ gradle.rootProject {
         extra["applicationClassName"] = "com.hexagonkt.BenchmarkKt"
 
         // VERSIONS
-        extra["kotlinVersion"] = "1.3.71"
+        extra["kotlinVersion"] = "1.3.72"
 
         // hexagon_benchmark
         extra["hikariVersion"] = "3.4.2"
@@ -60,7 +60,7 @@ gradle.rootProject {
         extra["kotlinxHtmlVersion"] = "0.7.1"
 
         // messaging_rabbitmq
-        extra["rabbitVersion"] = "5.8.0"
+        extra["rabbitVersion"] = "5.9.0"
         extra["qpidVersion"] = "6.1.4"
 
         // http_client_ahc
