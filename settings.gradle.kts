@@ -64,7 +64,7 @@ gradle.rootProject {
         extra["qpidVersion"] = "6.1.4"
 
         // http_client_ahc
-        extra["ahcVersion"] = "2.12.0"
+        extra["ahcVersion"] = "2.12.1"
 
         // store_mongodb
         extra["mongodbVersion"] = "4.0.2"

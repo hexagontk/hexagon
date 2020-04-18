@@ -22,7 +22,7 @@ import org.testng.annotations.Test
 import java.io.File
 import java.net.URI
 
-@Test abstract class ClientTest(private val adapter: ClientPort) {
+@Test abstract class ClientTest(adapter: () -> ClientPort) {
 
     private var handler: Call.() -> Unit = {}
 
@@ -40,7 +40,7 @@ import java.net.URI
     }
 
     init {
-        InjectionManager.bindObject(ClientPort::class, adapter)
+        InjectionManager.bind(ClientPort::class, adapter)
     }
 
     private val client by lazy {
@@ -107,7 +107,7 @@ import java.net.URI
         val endpoint = "http://localhost:${server.runtimePort}"
         val h = mapOf("header1" to listOf("val1", "val2"))
         val settings = ClientSettings(Json.contentType, false, h, "user", "password", true)
-        val c = Client(adapter, endpoint, settings)
+        val c = Client(endpoint, settings)
 
         assert(c.settings.contentType == Json.contentType)
         assert(!c.settings.useCookies)
@@ -206,7 +206,7 @@ import java.net.URI
         val clientSettings = ClientSettings(sslSettings = sslSettings)
 
         // Create a HTTP client and make a HTTPS request
-        val client = Client(adapter, "https://localhost:${server.runtimePort}", clientSettings)
+        val client = Client("https://localhost:${server.runtimePort}", clientSettings)
         client.get("/hello").apply {
             logger.debug { body }
             // Assure the certificate received (and returned) by the server is correct
