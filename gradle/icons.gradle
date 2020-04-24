@@ -2,28 +2,26 @@
  * Check usage information at: http://hexagonkt.com/gradle.html#icons
  */
 
-task("icons") {
-    doLast {
-        try {
-            final String logoSmall = findProperty("logoSmall")
-            final String logoLarge = findProperty("logoLarge")
-            final String logoWide = findProperty("logoWide")
+task("icons").doLast {
+    try {
+        final String logoSmall = findProperty("logoSmall")
+        final String logoLarge = findProperty("logoLarge")
+        final String logoWide = findProperty("logoWide")
 
-            createIco((String)logoSmall, "favicon.ico", 16, 32, 48, 64)
-            extendImage((String)logoSmall, "180x180", 180, "apple-touch-icon.png")
-            extendImage((String)logoSmall, "128x128", 128, "tile-small.png")
-            extendImage((String)logoLarge, "270x270", 270, "tile-medium.png")
-            extendImage((String)logoWide, "558x270", 558, "tile-wide.png")
-            extendImage((String)logoLarge, "558x558", 558, "tile-large.png")
+        createIco((String)logoSmall, "favicon.ico", 16, 32, 48, 64)
+        extendImage((String)logoSmall, "180x180", 180, "apple-touch-icon.png")
+        extendImage((String)logoSmall, "128x128", 128, "tile-small.png")
+        extendImage((String)logoLarge, "270x270", 270, "tile-medium.png")
+        extendImage((String)logoWide, "558x270", 558, "tile-wide.png")
+        extendImage((String)logoLarge, "558x558", 558, "tile-large.png")
 
-            // Sanity
-            [ 16, 32, 48, 64, 128, 180, 270, 558 ].each {
-                new File("$buildDir/_${it}.png".toString()).delete()
-            }
+        // Sanity
+        [ 16, 32, 48, 64, 128, 180, 270, 558 ].each {
+            new File("$buildDir/_${it}.png".toString()).delete()
         }
-        catch (Exception e) {
-            logger.error(e.message)
-        }
+    }
+    catch (Exception e) {
+        logger.error(e.message)
     }
 }
 

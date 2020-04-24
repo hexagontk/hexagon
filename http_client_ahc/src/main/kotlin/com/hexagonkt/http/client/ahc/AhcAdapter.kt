@@ -2,7 +2,6 @@ package com.hexagonkt.http.client.ahc
 
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.ensureSize
-import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.stream
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
@@ -44,16 +43,14 @@ class AhcAdapter : ClientPort {
 
     private val log: Logger = Logger(this)
 
-
-    // TODO Cache this as this will be done in each request
-    private val ahcClient: DefaultAsyncHttpClient
-        get() =
-            DefaultAsyncHttpClient(
-                Builder()
-                    .setConnectTimeout(5000)
-                    .setSslContext(sslContext(ssl))
-                    .build()
-            )
+    private val ahcClient: DefaultAsyncHttpClient by lazy {
+        DefaultAsyncHttpClient(
+            Builder()
+                .setConnectTimeout(5000)
+                .setSslContext(sslContext(ssl))
+                .build()
+        )
+    }
 
     private fun sslContext(settings: ClientSettings): SslContext = sslContextBuilderClient().let {
         when {

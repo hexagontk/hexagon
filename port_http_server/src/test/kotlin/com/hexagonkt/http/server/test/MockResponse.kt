@@ -25,7 +25,7 @@ internal class MockResponse(private val testResponse: TestResponse): Response() 
 
     override fun redirect(url: String) {
         testResponse.status = 301
-        headers["location"] = listOf(url)
+        headersValues["location"] = listOf(url)
     }
 
     override fun removeCookie(name: String) {

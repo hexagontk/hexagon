@@ -14,13 +14,17 @@ internal class Request(private val req: HttpServletRequest) : Request() {
 
     private val certificateAttribute = "javax.servlet.request.X509Certificate"
 
+    private val parameters: Map<String, List<String>> by lazy {
+        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()
+    }
+
     var actionPath: Path? = null
 
     override fun path(): String = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath
     override fun loadBody(): String = InputStreamReader(req.inputStream).readText()
     override fun scheme(): String = req.scheme
     override fun port(): Int = req.serverPort
-    override fun method(): Method = Method.valueOf (req.method)
+    override fun method(): Method = Method.valueOf(req.method)
     override fun queryString(): String = req.queryString ?: ""
     override fun contentLength(): Long = req.contentLength.toLong()
     override fun contentType(): String? = req.contentType
@@ -28,16 +32,14 @@ internal class Request(private val req: HttpServletRequest) : Request() {
     override fun url(): String = req.requestURL.toString()
     override fun ip(): String = req.remoteAddr
 
-
     override fun pathParameters(): Map<String, String> =
         actionPath?.extractParameters(path()) ?: emptyMap()
 
-    override fun parameters(): Map<String, List<String>> =
-        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()
     override fun queryParameters(): Map<String, List<String>> =
         parseQueryParameters(queryString)
+
     override fun formParameters(): Map<String, List<String>> =
-        parameters.filter { it.key !in queryParameters.keys }
+        parameters.filter { it.key !in queryParametersValues.keys }
 
     @Suppress("UNCHECKED_CAST")
     override fun certificateChain(): List<X509Certificate> =

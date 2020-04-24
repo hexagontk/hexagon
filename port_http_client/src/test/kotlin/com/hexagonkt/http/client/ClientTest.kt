@@ -22,7 +22,7 @@ import org.testng.annotations.Test
 import java.io.File
 import java.net.URI
 
-@Test abstract class ClientTest(private val adapter: ClientPort) {
+@Test abstract class ClientTest(adapter: () -> ClientPort) {
 
     private var handler: Call.() -> Unit = {}
 
@@ -40,7 +40,7 @@ import java.net.URI
     }
 
     init {
-        InjectionManager.bindObject(ClientPort::class, adapter)
+        InjectionManager.bind(ClientPort::class, adapter)
     }
 
     private val client by lazy {
@@ -57,8 +57,8 @@ import java.net.URI
 
     @BeforeMethod fun resetHandler() {
         handler = {
-            response.headers["content-type"] = listOf("application/json;charset=utf-8")
-            response.headers["body"] = listOf(request.body)
+            response.headers["content-type"] = "application/json;charset=utf-8"
+            response.headers["body"] = request.body
             ok(request.body)
         }
     }
@@ -107,15 +107,15 @@ import java.net.URI
         val endpoint = "http://localhost:${server.runtimePort}"
         val h = mapOf("header1" to listOf("val1", "val2"))
         val settings = ClientSettings(Json.contentType, false, h, "user", "password", true)
-        val c = Client(adapter, endpoint, settings)
+        val c = Client(endpoint, settings)
 
         assert(c.settings.contentType == Json.contentType)
         assert(!c.settings.useCookies)
         assert(c.settings.headers == h)
 
         handler = {
-            response.headers["auth"] = listOf(request.headers.require("Authorization").first())
-            response.headers["head1"] = request.headers.require("header1")
+            response.headersValues["auth"] = listOf(request.headers.require("Authorization"))
+            response.headersValues["head1"] = request.headersValues.require("header1")
         }
 
         c.get("/auth").apply {
@@ -127,7 +127,7 @@ import java.net.URI
     }
 
     @Test fun `Files are sent in base64` () {
-        handler = { response.headers["file64"] = listOf(request.body) }
+        handler = { response.headersValues["file64"] = listOf(request.body) }
 
         val file = File("src/test/resources/logback-test.xml").let {
             if (it.exists()) it
@@ -197,7 +197,7 @@ import java.net.URI
             get("/hello") {
                 // We can access the certificate used by the client from the request
                 val subjectDn = request.certificate?.subjectDN?.name
-                response.setHeader("cert", subjectDn)
+                response.headers["cert"] = subjectDn
                 ok("Hello World!")
             }
         }
@@ -206,7 +206,7 @@ import java.net.URI
         val clientSettings = ClientSettings(sslSettings = sslSettings)
 
         // Create a HTTP client and make a HTTPS request
-        val client = Client(adapter, "https://localhost:${server.runtimePort}", clientSettings)
+        val client = Client("https://localhost:${server.runtimePort}", clientSettings)
         client.get("/hello").apply {
             logger.debug { body }
             // Assure the certificate received (and returned) by the server is correct

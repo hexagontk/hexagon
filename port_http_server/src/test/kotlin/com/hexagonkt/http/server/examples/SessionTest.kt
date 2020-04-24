@@ -43,13 +43,13 @@ import org.testng.annotations.Test
                 val attributes = session.attributes
                 val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
 
-                response.setHeader("attributes", attributeTexts.joinToString(", "))
-                response.setHeader("attribute values", attributes.values.joinToString(", "))
-                response.setHeader("attribute names", attributes.keys.joinToString(", "))
+                response.headers["attributes"] = attributeTexts.joinToString(", ")
+                response.headers["attribute values"] = attributes.values.joinToString(", ")
+                response.headers["attribute names"] = attributes.keys.joinToString(", ")
 
-                response.setHeader("creation", session.creationTime.toString())
-                response.setHeader("id", session.id ?: "")
-                response.setHeader("last access", session.lastAccessedTime.toString())
+                response.headers["creation"] = session.creationTime.toString()
+                response.headers["id"] = session.id ?: ""
+                response.headers["last access"] = session.lastAccessedTime.toString()
 
                 response.status = 200
             }

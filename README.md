@@ -130,9 +130,13 @@ val injector = InjectionManager.apply {
  * Service server. Adapter is injected.
  */
 val server: Server = Server {
-    before { response.setHeader("Date", httpDate()) }
+    before {
+        response.headers["Date"] = httpDate()
+    }
 
-    get("/hello/{name}") { ok("Hello, ${pathParameters["name"]}!", "text/plain") }
+    get("/hello/{name}") {
+        ok("Hello, ${pathParameters["name"]}!", "text/plain")
+    }
 }
 
 /**
@@ -180,8 +184,8 @@ private val books: MutableMap<Int, Book> = linkedMapOf(
 val server: Server = Server(adapter) {
     post("/books") {
         // Require fails if parameter does not exists
-        val author = queryParameters.require("author").first()
-        val title = queryParameters.require("title").first()
+        val author = queryParameters.require("author")
+        val title = queryParameters.require("title")
         val id = (books.keys.max() ?: 0) + 1
         books += id to Book(author, title)
         send(201, id)
@@ -202,8 +206,8 @@ val server: Server = Server(adapter) {
         val book = books[bookId]
         if (book != null) {
             books += bookId to book.copy(
-                author = queryParameters["author"]?.first() ?: book.author,
-                title = queryParameters["title"]?.first() ?: book.title
+                author = queryParameters["author"] ?: book.author,
+                title = queryParameters["title"] ?: book.title
             )
 
             ok("Book with id '$bookId' updated")
@@ -270,13 +274,13 @@ val server: Server = Server(adapter) {
             val attributes = session.attributes
             val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
 
-            response.setHeader("attributes", attributeTexts.joinToString(", "))
-            response.setHeader("attribute values", attributes.values.joinToString(", "))
-            response.setHeader("attribute names", attributes.keys.joinToString(", "))
+            response.headers["attributes"] = attributeTexts.joinToString(", ")
+            response.headers["attribute values"] = attributes.values.joinToString(", ")
+            response.headers["attribute names"] = attributes.keys.joinToString(", ")
 
-            response.setHeader("creation", session.creationTime.toString())
-            response.setHeader("id", session.id ?: "")
-            response.setHeader("last access", session.lastAccessedTime.toString())
+            response.headers["creation"] = session.creationTime.toString()
+            response.headers["id"] = session.id ?: ""
+            response.headers["last access"] = session.lastAccessedTime.toString()
 
             response.status = 200
         }
@@ -301,20 +305,20 @@ val server: Server = Server(adapter) {
     }
 
     post("/addCookie") {
-        val name = queryParameters["cookieName"]?.first()
-        val value = queryParameters["cookieValue"]?.first()
+        val name = queryParameters["cookieName"]
+        val value = queryParameters["cookieValue"]
         response.addCookie(HttpCookie(name, value))
     }
 
     post("/assertHasCookie") {
-        val cookieName = queryParameters.require("cookieName").first()
+        val cookieName = queryParameters.require("cookieName")
         val cookieValue = request.cookies[cookieName]?.value
-        if (queryParameters["cookieValue"]?.first() != cookieValue)
+        if (queryParameters["cookieValue"] != cookieValue)
             halt(500)
     }
 
     post("/removeCookie") {
-        response.removeCookie(queryParameters.require("cookieName").first())
+        response.removeCookie(queryParameters.require("cookieName"))
     }
 }
 // cookies
@@ -333,12 +337,12 @@ class CustomException : IllegalArgumentException()
 
 val server: Server = Server(adapter) {
     error(UnsupportedOperationException::class) {
-        response.setHeader("error", it.message ?: it.javaClass.name)
+        response.headers["error"] = it.message ?: it.javaClass.name
         send(599, "Unsupported")
     }
 
     error(IllegalArgumentException::class) {
-        response.setHeader("runtimeError", it.message ?: it.javaClass.name)
+        response.headers["runtimeError"] = it.message ?: it.javaClass.name
         send(598, "Runtime")
     }
 
@@ -377,7 +381,7 @@ private val server: Server = Server(adapter) {
 
     before("/protected/*") {
         val authorization = request.headers["Authorization"] ?: halt(401, "Unauthorized")
-        val credentials = authorization.first().removePrefix("Basic ")
+        val credentials = authorization.removePrefix("Basic ")
         val userPassword = String(Base64.getDecoder().decode(credentials)).split(":")
 
         // Parameters set in call attributes are accessible in other filters and routes
@@ -394,7 +398,7 @@ private val server: Server = Server(adapter) {
     get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
 
     // After filters are ran even if request was halted before
-    after { response.setHeader("time", nanoTime() - attributes["start"] as Long) }
+    after { response.headers["time"] = nanoTime() - attributes["start"] as Long }
 }
 // filters
 ```
@@ -431,13 +435,11 @@ private val server: Server = Server(adapter) {
             map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
         )
 
-        val queryParams = serializeMap(queryParameters)
-        val formParams = serializeMap(formParameters)
-        val params = serializeMap(parameters)
+        val queryParams = serializeMap(queryParametersValues)
+        val formParams = serializeMap(formParametersValues)
 
-        response.headers["queryParams"] = queryParams
-        response.headers["formParams"] = formParams
-        response.headers["params"] = params
+        response.headersValues["queryParams"] = queryParams
+        response.headersValues["formParams"] = formParams
     }
 }
 // files
@@ -519,7 +521,7 @@ val server = serve(serverSettings, serverAdapter) {
     get("/hello") {
         // We can access the certificate used by the client from the request
         val subjectDn = request.certificate?.subjectDN?.name
-        response.setHeader("cert", subjectDn)
+        response.headers["cert"] = subjectDn
         ok("Hello World!")
     }
 }
