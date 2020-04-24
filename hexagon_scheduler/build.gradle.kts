@@ -8,5 +8,5 @@ dependencies {
     val cronutilsVersion = properties["cronutilsVersion"]
 
     "api"(project(":hexagon_core"))
-    "api"("com.cronutils:cron-utils:$cronutilsVersion") { exclude(module = "slf4j-api") }
+    "api"("com.cronutils:cron-utils:$cronutilsVersion")
 }

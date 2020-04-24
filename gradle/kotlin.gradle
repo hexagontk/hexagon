@@ -105,27 +105,19 @@ jacocoTestReport {
     }
 }
 
-task("jarAll", type: Jar, dependsOn: "test") {
-    archiveBaseName.set("${archiveBaseName.orNull}-all")
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    } {
-        exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA")
-    }
-    with(jar)
-}
-
 task("sourceJar", type: Jar) {
     archiveClassifier.set("sources")
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(sourceSets.main.allSource)
 }
 
 task("testJar", type: Jar, dependsOn: testClasses) {
     archiveClassifier.set("test")
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(sourceSets.test.output.classesDirs)
 }
 
-assemble.dependsOn("test", "jarAll", "sourceJar", "testJar")
+assemble.dependsOn("sourceJar", "testJar")
 
 publishing {
     publications {

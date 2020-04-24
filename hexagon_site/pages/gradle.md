@@ -28,7 +28,7 @@ root `build.gradle`. Check toolkit's `build.gradle` files for examples.
 
 ## Bintray
 
-This script setup the project/module for publishing in [Bintray].
+This script set up the project/module for publishing in [Bintray].
 
 It publishes all artifacts attached to the `mavenJava` publication (check [kotlin.gradle] publishing
 section) at the bare minimum binaries are published. For an Open Source project, you must include
@@ -37,13 +37,15 @@ sources and javadoc also.
 To use it apply `$gradleScripts/bintray.gradle` and add the
 `id 'com.jfrog.bintray' version 'VERSION'` plugin to the root `build.gradle`.
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * bintrayKey (REQUIRED): if not defined will try to load BINTRAY_KEY environment variable.
 * bintrayUser (REQUIRED): or BINTRAY_USER environment variable if not defined.
 * bintrayRepo (REQUIRED): Bintray's repository to upload the artifacts.
 * license (REQUIRED): the license used to publish in Bintray.
 * vcsUrl (REQUIRED): code repository location.
+* bintrayPublications: list of Maven publications published . By default `[ "mavenJava" ]`.
+* bintrayDryRun: when set to true, no actual publishing happens. Default value is false.
 
 [Bintray]: https://bintray.com
 [kotlin.gradle]: https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle
@@ -51,7 +53,7 @@ To setup this script's parameters, check the [build variables section]. This hel
 
 ## Dokka
 
-This script setup [Dokka] tool and add a JAR with the project's code documentation to the published
+This script set up [Dokka] tool and add a JAR with the project's code documentation to the published
 JARs.
 
 All modules' Markdown files are added to the documentation and test classes ending in `SamplesTest`
@@ -74,7 +76,7 @@ development machine.
 
 To use it apply `$gradleScripts/icons.gradle` to your `build.gradle`.
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * logoSmall (REQUIRED): SVG file used to render the small logo. Used for the favicon.
 * logoLarge (REQUIRED): SVG file used to render the large logo.
@@ -90,7 +92,7 @@ This scripts adds support for running [JMH micro benchmarks][JMH].
 To use it apply `$gradleScripts/jmh.gradle` and add the
 `id 'me.champeau.gradle.jmh' version 'VERSION'` plugin to the root `build.gradle`.
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * jmhBenchmarkVersion: JMH version. The default is 1.21.
 * iterations (REQUIRED): number of measurement iterations to do.
@@ -129,7 +131,7 @@ Uses JUnit 5 as the test framework.
 
 To use it apply `$gradleScripts/junit.gradle` to your `build.gradle`.
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * junitVersion: JUnit version (5+), the default value is: 5.5.1.
 
@@ -145,7 +147,7 @@ Adds Kotlin's Gradle plugin. It sets up:
 - Resource processing (replacing build variables)
 - Cleaning (deleting runtime files as logs and dump files)
 - Tests (pass properties, output and mocks)
-- Setup coverage report
+- Set up coverage report
 - IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)
 - Published artifacts (binaries, sources and test): sourceJar and testJar tasks
 - Jar with dependencies: jarAll task
@@ -153,7 +155,7 @@ Adds Kotlin's Gradle plugin. It sets up:
 To use it apply `$gradleScripts/kotlin.gradle` and add the
 `id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to the root `build.gradle`.
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
 * mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.
@@ -175,7 +177,7 @@ the root `build.gradle`.
 
 Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * javaScriptDirectory: JavaScript directory inside the `web` directory. By default it is: "js".
 
@@ -189,6 +191,10 @@ Gradle's script for a service or application. It adds two extra tasks:
   (`-t`) Gradle flag. Ie: `gw -t serve`.
 
 To use it apply `$gradleScripts/service.gradle` to your `build.gradle`.
+
+To set up this script's parameters, check the [build variables section]. This helper settings are:
+
+* applicationClassName: name of the class with the main method of the service.
 
 ## JBake
 
@@ -211,7 +217,7 @@ configuration['uri.noExtension'] = true
 configuration['uri.noExtension.prefix'] = '/'
 ```
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * siteHost: site canonical URL, by default it is: "".
 * configData: JBake settings map. It is an empty map by default.
@@ -227,7 +233,7 @@ Set up the project to be analyzed by the [SonarQube instance running in the clou
 To use it apply `$gradleScripts/sonarqube.gradle` and add the
 `id 'org.sonarqube' version 'VERSION'` plugin to the root `build.gradle`.
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * sonarQubeProject (REQUIRED): ID used to locate the project in SonarQube host.
 * sonarQubeOrganization (REQUIRED): organization owning the project.
@@ -247,8 +253,8 @@ The created key stores are:
   must be private and will be used to sign other certificates. The key pair alias is `ca`.
 * `trust.p12`: key store with CA's public certificate. It can be set as the Java process trust store
   which make every certificate signed with the CA trusted. However, if used as the trust store, the
-  JDK `cacerts` entries won't be loaded and thus, not trusted. It can be used to setup HTTPS clients
-  (not required to be set at JVM level).
+  JDK `cacerts` entries won't be loaded and thus, not trusted. It can be used to set up HTTPS
+  clients (not required to be set at JVM level).
 * `<domain>.p12`: there would be one per each domain (see `sslDomain` variable). These stores are
   signed by the CA and they contain the service private key and its full chain certificate.
   `<domain>` will be the domain name without the TLD, and the Subject alternative names (SAN) will
@@ -262,7 +268,7 @@ The defined tasks are:
 
 To use it apply `$gradleScripts/certificates.gradle` to your `build.gradle`.
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * sslDomain\[1-9] (REQUIRED): main domain for the identity store. You can create up to ten (from
  `sslDomain` to `sslDomain9`). Each of these variables has the format
@@ -286,6 +292,6 @@ Uses TestNG as the test framework.
 
 To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
 
-To setup this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * testngVersion: TestNG version, the default value is: 6.14.3.

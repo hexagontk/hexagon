@@ -4,7 +4,6 @@
 
   <groupId>com.hexagonkt</groupId>
   <artifactId>kotlin_pom</artifactId>
-  <version>${project.version}</version>
   <packaging>pom</packaging>
   <description>Hexagon's Maven starter POM</description>
 
@@ -36,6 +35,10 @@
         <artifactId>kotlin-maven-plugin</artifactId>
         <groupId>org.jetbrains.kotlin</groupId>
         <version>${kotlin.version}</version>
+
+        <configuration>
+          <jvmTarget>1.8</jvmTarget>
+        </configuration>
 
         <executions>
           <execution>

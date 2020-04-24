@@ -12,7 +12,7 @@ alias gw='./gradlew --warn --quiet --console plain'
 alias d='docker --log-level warning'
 
 # Package libraries and examples prior to Docker image generation
-gw clean installDist -x test
+gw clean installDist
 
 # Start containers required for tests and benchmarks
 # shellcheck disable=SC2034
@@ -27,6 +27,9 @@ gw all
 me="$(whoami)"
 user="$(id -u "$me"):$(id -g "$me")"
 d run --rm -v "$PWD/hexagon_site:/docs" -u "$user" "squidfunk/mkdocs-material:4.6.3" build -sq
+
+# Check publishing
+gw publish -PbintrayDryRun=true
 
 # Clean up
 d volume prune -f
