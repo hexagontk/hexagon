@@ -53,7 +53,7 @@ jobs:
       - name: Set up Tests Reports (ON FAILURE)
         if: failure()
         run: |
-          mkdir build/test
+          mkdir -p build/test
           find . -type f -wholename "*/build/*/*/TEST-*.xml" -exec cp {} build/test \;
 
       - name: Upload Tests Reports (ON FAILURE)
