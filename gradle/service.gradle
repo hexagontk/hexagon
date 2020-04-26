@@ -39,7 +39,7 @@ task("jarAll", type: Jar, dependsOn: "jar") {
     }
 }
 
-assemble.dependsOn("jarAll")
+assemble.dependsOn("jarAll", "installDist")
 
 task("serve", dependsOn: "classes").doLast {
     final JavaExec runTask = run
