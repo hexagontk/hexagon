@@ -28,8 +28,24 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      - name: Build & Test
-        run: .github/pre-push.sh
+      - name: All Checks
+        run: |
+          alias gw='./gradlew --warn --quiet --console plain'
+
+          # Build and check all artifacts
+          gw build
+          gw createCa createIdentities
+          gw buildSite
+          gw tfb
+
+          # Test publishing
+          gw publish -PbintrayDryRun=true
+
+          # Build and start containers required for tests and benchmarks
+          alias dc='docker-compose --log-level warning'
+          export COMPOSE_FILE="docker-compose.yml:hexagon_benchmark/docker-compose.yml"
+          dc rm -sfv
+          dc up -d --build
 
       - name: Set up Tests Reports (ON FAILURE)
         if: failure()
