@@ -75,20 +75,14 @@ childProjects.forEach { pair ->
     }
 }
 
-project.getTasksByName("jacocoTestReport", true).forEach {
-    it.dependsOn(project.getTasksByName("test", true))
+getTasksByName("jacocoTestReport", true).forEach {
+    it.dependsOn(getTasksByName("test", true))
 }
 
-task("all") {
-    dependsOn(
-        project.getTasksByName("build", true),
-        project.getTasksByName("jacocoTestReport", true),
-        project.getTasksByName("installDist", true),
-        project.getTasksByName("publishToMavenLocal", true),
-        project.getTasksByName("createCa", true),
-        project.getTasksByName("createIdentities", true),
-        project.getTasksByName("dokkaMd", true),
-        project.getTasksByName("checkSite", true),
-        project.getTasksByName("tfb", true)
-    )
+tasks.register<Exec>("infrastructure") {
+    commandLine("docker-compose --log-level warning up -d mongodb postgresql rabbitmq".split(" "))
+}
+
+getTasksByName("test", true).forEach {
+    it.dependsOn(tasks["infrastructure"])
 }
