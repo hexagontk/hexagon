@@ -9,6 +9,13 @@ version: '3'
 
 services:
 
+  site:
+    image: squidfunk/mkdocs-material:4.6.3
+    volumes:
+      - ./hexagon_site:/docs
+    ports:
+      - 8000:8000
+
   postgresql:
     image: postgres:12.2
     environment:

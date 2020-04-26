@@ -6,7 +6,19 @@ tasks.register<Delete>("clean") {
     delete("build", "content")
 }
 
-task("checkSite") {
+tasks.register<Exec>("serveSite") {
+    dependsOn("mkdocs")
+    workingDir = rootDir
+    commandLine("docker-compose --log-level warning up -d site".split(" "))
+}
+
+tasks.register<Exec>("buildSite") {
+    dependsOn("mkdocs")
+    workingDir = rootDir
+    commandLine("docker-compose --log-level warning run site build -csq".split(" "))
+}
+
+task("checkDocs") {
     dependsOn("mkdocs")
     doLast {
         val readme = rootProject.file("README.md")

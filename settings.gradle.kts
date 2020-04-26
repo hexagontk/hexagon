@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.12"
+        version = "1.2.13"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
