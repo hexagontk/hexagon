@@ -8,6 +8,6 @@ dependencies {
     testImplementation("org.testng:testng:" + (findProperty("testngVersion") ?: "6.14.3"))
 }
 
-test {
-    useTestNG()
+tasks.withType(Test).each { testTask ->
+    testTask.useTestNG()
 }

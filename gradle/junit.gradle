@@ -9,6 +9,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$scriptJunitVersion")
 }
 
-test {
-    useJUnitPlatform()
+tasks.withType(Test).each { testTask ->
+    testTask.useJUnitPlatform()
 }
