@@ -28,8 +28,7 @@ jobs:
 
       - name: Build & Test
         run: |
-          alias gw='./gradlew --warn --quiet --console plain'
-          gw build
+          ./gradlew --warn --quiet --console plain build
 
       - name: All Checks (ON PR)
         if: github.head_ref != null
