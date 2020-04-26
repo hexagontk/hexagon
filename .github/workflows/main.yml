@@ -88,7 +88,7 @@ jobs:
           git config --global user.name "jaguililla"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
 
-          ./gradlew --console=plain --quiet --no-daemon -x test release
+          ./gradlew --console=plain --quiet --no-daemon -x test buildSite release
           cp -rf hexagon_site/build/* build/gh-pages/
 
           cd build/gh-pages
