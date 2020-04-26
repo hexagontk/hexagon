@@ -2,7 +2,11 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Resource
+import com.hexagonkt.http.Method.POST
+import com.hexagonkt.http.Part
+import com.hexagonkt.http.Path
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.Request
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.Json
@@ -151,6 +155,7 @@ import com.hexagonkt.http.client.Response as ClientResponse
 
             // callbackRequest
             get("/request") {
+                // URL Information
                 request.method                   // the HTTP method (GET, ..etc)
                 request.scheme                   // http or https
                 request.secure                   // true if scheme is https
@@ -160,18 +165,28 @@ import com.hexagonkt.http.client.Response as ClientResponse
                 request.path                     // the request path, e.g. /result.jsp
                 request.body                     // request body sent by the client
                 request.url                      // the url. e.g. "http://example.com/foo"
-                request.contentLength            // length of request body
+
+                // Headers
+                request.headers                  // the HTTP header list with first values only
+                request.headers["BAR"]           // first value of BAR header
+                request.headersValues            // the HTTP header list with their full values list
+                request.headersValues["BAR"]     // list of values of BAR header
+
+                // Common headers shortcuts
                 request.contentType              // content type of request.body
-                request.accept                   // Client accepted content types
-                request.headers                  // the HTTP header list
-                request.headers["BAR"]           // value of BAR header
-                request.pathParameters           // map with all parameters
-                request.pathParameters["foo"]    // value of foo path parameter
-                request.formParameters           // map with all parameters
-                request.formParameters["foo"]    // value of foo path parameter
-                request.parameters
+                request.acceptValues             // Client accepted content types
                 request.userAgent                // user agent (browser requests)
                 request.origin                   // origin (browser requests)
+
+                // Parameters
+                request.pathParameters           // map with all path parameters
+                request.formParameters           // map with first values of all form fields
+                request.formParametersValues     // map with all form fields values
+                request.queryParameters          // map with first values of all query parameters
+                request.queryParametersValues    // map with all query parameters values
+
+                // Body processing
+                request.contentLength            // length of request body
                 request.body(Type::class)        // Object passed in the body as a typed object
                 request.body<Type>()             // Syntactic sugar for the previous statement
                 request.bodyObjects(Type::class) // Object(s) passed in the body as a typed list
@@ -185,13 +200,14 @@ import com.hexagonkt.http.client.Response as ClientResponse
 
             // callbackResponse
             get("/response") {
-                response.body                           // get response content
-                response.body = "Hello"                 // sets content to Hello
-                response.headers["FOO"] = listOf("bar") // sets header FOO with value bar
-                response.status                         // get the response status
-                response.status = 401                   // set status code to 401
-                response.contentType                    // get the content type
-                response.contentType = "text/xml"       // set content type to text/xml
+                response.body                             // get response content
+                response.body = "Hello"                   // sets content to Hello
+                response.headers["FOO"] = "bar"           // sets header FOO with single value bar
+                response.headersValues["FOO"] = listOf("bar") // sets header FOO values with [ bar ]
+                response.status                           // get the response status
+                response.status = 401                     // set status code to 401
+                response.contentType                      // get the content type
+                response.contentType = "text/xml"         // set content type to text/xml
             }
             // callbackResponse
 
@@ -205,11 +221,28 @@ import com.hexagonkt.http.client.Response as ClientResponse
             // callbackQueryParam
             get("/queryParam") {
                 request.queryString
-                request.queryParameters                 // the query param list
-                request.queryParameters["FOO"]?.first() // value of FOO query param
-                request.queryParameters["FOO"]          // all values of FOO query param
+                request.queryParameters                       // the query param list
+                request.queryParameters["FOO"]                // value of FOO query param
+                request.queryParametersValues                 // the query param list
+                request.queryParametersValues["FOO"]          // all values of FOO query param
             }
             // callbackQueryParam
+
+            // callbackFormParam
+            get("/formParam") {
+                request.formParameters                       // the query param list
+                request.formParameters["FOO"]                // value of FOO query param
+                request.formParametersValues                 // the query param list
+                request.formParametersValues["FOO"]          // all values of FOO query param
+            }
+            // callbackFormParam
+
+            // callbackFile
+            post("/file") {
+                val filePart = request.parts["file"] ?: error("File not available")
+                ok(filePart.inputStream.reader().readText())
+            }
+            // callbackFile
 
             // callbackRedirect
             get("/redirect") {
@@ -272,10 +305,16 @@ import com.hexagonkt.http.client.Response as ClientResponse
         assert(client.get("/response").status == 401)
         assert(client.get("/pathParam/param").status == 200)
         assert(client.get("/queryParam").status == 200)
+        assert(client.get("/formParam").status == 200)
         assert(client.get("/redirect").status == 302)
         assert(client.get("/cookie").status == 200)
         assert(client.get("/session").status == 200)
         assert(client.get("/halt").status == 500)
+
+        val stream = Resource("assets/index.html").requireStream()
+        val parts = mapOf("file" to Part("file", stream, "index.html"))
+        val response = client.send(Request(POST, Path("/file"), parts = parts))
+        assert(response.body?.contains("<title>Hexagon</title>") ?: false)
 
         server.stop()
     }
@@ -295,24 +334,24 @@ import com.hexagonkt.http.client.Response as ClientResponse
 
         val server = Server(adapter) {
             // filters
-            before { response.headers["b_all"] = listOf("true") }
+            before { response.headersValues["b_all"] = listOf("true") }
 
-            before("/filters/*") { response.headers["b_filters"] = listOf("true") }
+            before("/filters/*") { response.headersValues["b_filters"] = listOf("true") }
             get("/filters/route") { ok("filters route") }
-            after("/filters/*") { response.headers["a_filters"] = listOf("true") }
+            after("/filters/*") { response.headersValues["a_filters"] = listOf("true") }
 
             get("/filters") { ok("filters") }
 
             path("/nested") {
-                before { response.headers["b_nested"] = listOf("true") }
-                before("/") { response.headers["b_nested_2"] = listOf("true") }
+                before { response.headersValues["b_nested"] = listOf("true") }
+                before("/") { response.headersValues["b_nested_2"] = listOf("true") }
                 get("/filters") { ok("nested filters") }
                 get("/halted") { halt(499, "halted") }
                 get { ok("nested also") }
-                after { response.headers["a_nested"] = listOf("true") }
+                after { response.headersValues["a_nested"] = listOf("true") }
             }
 
-            after { response.headers["a_all"] = listOf("true") }
+            after { response.headersValues["a_all"] = listOf("true") }
             // filters
         }
 

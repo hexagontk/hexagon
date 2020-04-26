@@ -55,7 +55,7 @@ import org.testng.annotations.Test
             after {}
             before {}
 
-            before("/infix") { response.setHeader("infix", "before") }
+            before("/infix") { response.headers["infix"] = "before" }
 
             get("/get") {}
             head("/head") {}

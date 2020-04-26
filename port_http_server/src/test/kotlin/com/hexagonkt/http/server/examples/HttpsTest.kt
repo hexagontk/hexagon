@@ -42,7 +42,7 @@ import kotlin.test.assertFails
 
     private val router = Router {
         get("/hello") {
-            response.setHeader("cert", request.certificateChain.firstOrNull()?.subjectDN?.name)
+            response.headers["cert"] = request.certificateChain.firstOrNull()?.subjectDN?.name
             ok("Hello World!")
         }
     }
@@ -80,7 +80,7 @@ import kotlin.test.assertFails
             get("/hello") {
                 // We can access the certificate used by the client from the request
                 val subjectDn = request.certificate?.subjectDN?.name
-                response.setHeader("cert", subjectDn)
+                response.headers["cert"] = subjectDn
                 ok("Hello World!")
             }
         }

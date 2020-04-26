@@ -16,7 +16,6 @@ data class TestRequest(
     val queryString: String = "",
     val url: String = "$scheme://$host$path",
     val parts: Map<String, Part> = emptyMap(),
-    val parameters: Map<String, List<String>> = emptyMap(),
     val queryParameters: Map<String, List<String>> = emptyMap(),
     val formParameters: Map<String, List<String>> = emptyMap(),
     val certificateChain: List<X509Certificate> = emptyList(),

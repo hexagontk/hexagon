@@ -26,7 +26,7 @@ class Call(val request: Request, val response: Response, val session: Session) {
 
     val responseType: String get() =
         response.contentType ?:
-        request.accept.firstOrNull()?.let { if (it == "*/*") null else it } ?:
+        request.accept?.let { if (it == "*/*") null else it } ?:
         requestType
 
     val responseFormat: SerializationFormat get() =
@@ -34,9 +34,10 @@ class Call(val request: Request, val response: Response, val session: Session) {
 
     // Request shortcuts
     val pathParameters: Map<String, String> by lazy { request.pathParameters }
-    val queryParameters: Map<String, List<String>> by lazy { request.queryParameters }
-    val formParameters: Map<String, List<String>> by lazy { request.formParameters }
-    val parameters: Map<String, List<String>> by lazy { request.parameters }
+    val queryParametersValues: Map<String, List<String>> by lazy { request.queryParametersValues }
+    val formParametersValues: Map<String, List<String>> by lazy { request.formParametersValues }
+    val queryParameters: Map<String, String> by lazy { request.queryParameters }
+    val formParameters: Map<String, String> by lazy { request.formParameters }
 
     fun ok(content: Any = "", contentType: String? = null) = send(200, content, contentType)
 

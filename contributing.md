@@ -9,7 +9,8 @@ To know what issues are currently open and be aware of the next features yo can 
 contribution.
 
 You can ask any question, make suggestions or complaints at the project's
-[Slack channel][Slack]. And be up to date of project's news following [@hexagon_kt] in Twitter.
+[Slack channel][Slack]. You can also be up to date of project's news following [@hexagon_kt] on
+Twitter.
 
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
@@ -46,7 +47,7 @@ docker-compose up -d
 ./gradlew all publishToMavenLocal
 ```
 
-The binaries are located in the `/build` directory. And the documentation site in
+The binaries are located in the `/build` directory. The documentation site is in
 `/hexagon_site/build`.
 
 ## Local Setup
@@ -78,11 +79,11 @@ If you want to generate the documentation site, check the [site module readme][h
   * Secrets are created with command line tools.
 * [SonarQube]: To check code coverage and measure code quality.
   * Create Personal Access Token in GitHub with `repo` scope.
-  * Use the token in repository's settings `Administration > General Settings > Pull Requests`.
-  * Set up branches to include `develop` as a long lived one.
+  * Use the token in the repository's settings `Administration > General Settings > Pull Requests`.
+  * Set up branches to include `develop` as a long-lived one.
 * [Github]: Web hosting, project board and code hosting.
 * [Bintray]: Artifact repository for JARs.
-  * JCenter synchronization must be done manually.
+  * JCenter's synchronization must be done manually.
 
 [GitHub Actions]: https://github.com/features/actions
 [SonarQube]: https://sonarcloud.io
@@ -95,22 +96,22 @@ If you want to generate the documentation site, check the [site module readme][h
   `help wanted` tag available in the `Ready` column.
 
 * Claim an issue you want to work in with a comment (after that I can assign it to you and move it
-  to the `Working` column. If you want to contribute to non tagged (or a non existing) tasks, write
-  a comment and we'll discuss the scope of the feature.
+  to the `Working` column. If you want to contribute to a non tagged (or a non existing) tasks:
+  write a comment, and we'll discuss the scope of the feature.
 
 * New features should be discussed within an issue in the issue tracker before actual coding.
 
 * For code, file names, tags and branches use either camel case or snake case only. Ie: avoid `-` or
   `.` in file names if it is possible.
 
-* For a Pull Request to be accepted, follow the [pull request template] recommendations. And check
-  that the code follows the [Kotlin Coding Conventions], with the exception of final brace position
-  in `else`, `catch` and `finally` (in its own line). If you use [IntelliJ] and [Editor Config] this
-  will be checked for you.
+* For a Pull Request to be accepted, follow the [pull request template] recommendations. Check the
+  code follows the [Kotlin Coding Conventions], except final brace position in `else`, `catch` and
+  `finally` (in its own line). If you use [IntelliJ] and [Editor Config] this will be checked for
+  you.
 
 * Commit format: the preferred commit format would have:
   - Summary: small summary of the change. In imperative form.
-  - Issue Id: it should be written in Github's format: `#taskNumber`. Optional.
+  - Issue ID: it should be written in Github's format: `#taskNumber`. Optional.
   - Description: a more complete description of the issue. It is optional.
 
   ```

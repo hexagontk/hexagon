@@ -35,7 +35,7 @@ import kotlin.text.Charsets.UTF_8
     private val part = "param"
 
     private val server: Server = Server(adapter) {
-        before { response.setHeader("before", "filter") }
+        before { response.headers["before"] = "filter" }
 
         get("/request/body") {
             val tag = request.body<Tag>()
@@ -48,33 +48,32 @@ import kotlin.text.Charsets.UTF_8
             assert(tagsMaps.first() == tagMap)
             assert(requestType == requestFormat.contentType)
 
-            response.setHeader("requestOrigin", request.origin)
-            response.setHeader("requestUserAgent", request.userAgent)
-            response.setHeader("requestAccept", request.accept)
+            response.headers["requestOrigin"] = request.origin
+            response.headers["requestUserAgent"] = request.userAgent
+            response.headers["requestAccept"] = request.acceptValues
 
             ok(tag.copy(name = "${tag.name} processed"), charset = UTF_8)
         }
 
         get("/request/data") {
-            response.setHeader("method", request.method.toString())
-            response.setHeader("ip", request.ip)
-            response.setHeader("uri", request.url)
-            response.setHeader("params", parameters.size.toString())
-            response.setHeader("queryParams", queryParameters.size.toString())
-            response.setHeader("formParams", formParameters.size.toString())
+            response.headers["method"] = request.method.toString()
+            response.headers["ip"] = request.ip
+            response.headers["uri"] = request.url
+            response.headers["queryParams"] = queryParametersValues.size.toString()
+            response.headers["formParams"] = formParametersValues.size.toString()
 
-            response.setHeader("agent", request.userAgent)
-            response.setHeader("scheme", request.scheme)
-            response.setHeader("host", request.host)
-            response.setHeader("query", request.queryString)
-            response.setHeader("port", request.port.toString())
+            response.headers["agent"] = request.userAgent
+            response.headers["scheme"] = request.scheme
+            response.headers["host"] = request.host
+            response.headers["query"] = request.queryString
+            response.headers["port"] = request.port.toString()
 
-            response.setHeader("secure", request.secure.toString())
-            response.setHeader("referer", request.referer)
-            response.setHeader("preferredType", request.preferredType)
-            response.setHeader("accept", request.accept.joinToString(","))
-            response.setHeader("contentLength", request.contentLength.toString())
-            response.setHeader("origin", request.origin)
+            response.headers["secure"] = request.secure.toString()
+            response.headers["referer"] = request.referer
+            response.headers["preferredType"] = request.preferredType
+            response.headers["accept"] = request.acceptValues.joinToString(",")
+            response.headers["contentLength"] = request.contentLength.toString()
+            response.headers["origin"] = request.origin
 
             ok("${request.url}!!!")
         }
@@ -98,11 +97,18 @@ import kotlin.text.Charsets.UTF_8
         get("/response/pair/map") { send(201, mapOf("alpha" to 0, "beta" to true)) }
         get("/response/pair/object") { send(201, Tag(name = "Message")) }
 
+        get("/response/headers") {
+            response.headers["unknown"] = null
+            response.headers["unknown"] = "known"
+            response.headers["unknown"] = null
+            ok(response.headers["unknown"] ?: "unknown")
+        }
+
         get("/") { ok("Hello Root!") }
         get("/redirect") { redirect("http://example.com") }
 
         get("/content/type") {
-            val headerResponseType = request.headers["responseType"]?.first()
+            val headerResponseType = request.headers["responseType"]
 
             if (headerResponseType != null)
                 response.contentType = headerResponseType
@@ -162,7 +168,6 @@ import kotlin.text.Charsets.UTF_8
         assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
         assert("" == response.headers["query"]?.first())
         assert(port == response.headers["port"]?.first())
-        assert("0" == response.headers["params"]?.first())
         assert("0" == response.headers["queryParams"]?.first())
         assert("0" == response.headers["formParams"]?.first())
         assert(null == response.headers["origin"]?.first())
@@ -189,7 +194,6 @@ import kotlin.text.Charsets.UTF_8
         assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
         assert("query" == response.headers["query"]?.first())
         assert(port == response.headers["port"]?.first())
-        assert("1" == response.headers["params"]?.first())
         assert("1" == response.headers["queryParams"]?.first())
         assert("0" == response.headers["formParams"]?.first())
         assert(null == response.headers["origin"]?.first())
@@ -224,6 +228,7 @@ import kotlin.text.Charsets.UTF_8
         assertResponseContains(client.get ("/response/pair/list"), 201, "alpha", "beta")
         assertResponseContains(client.get ("/response/pair/map"), 201, "alpha", "beta", "0", "true")
         assertResponseContains(client.get ("/response/pair/object"), 201, "id", "name", "Message")
+        assertResponseEquals(client.get ("/response/headers"), "unknown", 200)
     }
 
     @Test fun getRoot() {
@@ -297,7 +302,7 @@ import kotlin.text.Charsets.UTF_8
     }
 
     private fun Call.okRequestMethod() {
-        response.setHeader("method", request.method.toString())
+        response.headers["method"] = request.method.toString()
     }
 
     private fun checkMethod (client: Client, methodName: String) {

@@ -10,6 +10,15 @@ import java.net.HttpCookie
  * HTTP response context.
  */
 abstract class Response {
+
+    interface MapInterface<K, V> {
+        operator fun get(name: K): V?
+
+        operator fun set(name: K, value: V?)
+
+        fun remove(name: K)
+    }
+
     val outputStream: OutputStream by lazy { outputStream() }
 
     var status: Int
@@ -24,12 +33,23 @@ abstract class Response {
         get() = contentType()
         set(value) { contentType(value) }
 
-    @Suppress("RemoveExplicitTypeArguments") // Without types fails inside IntelliJ
-    val headers: MutableMap<String, List<Any>> by lazy { LinkedHashMap<String, List<Any>>() }
+    @Suppress("RemoveExplicitTypeArguments") // Without types fails inside IntelliJ (not in CLI)
+    val headersValues: MutableMap<String, List<Any>> by lazy { LinkedHashMap<String, List<Any>>() }
 
-    fun setHeader(name: String, value: Any?) {
-        if (value != null)
-            headers[name] = listOf(value)
+    val headers: MapInterface<String, Any> = object : MapInterface<String, Any> {
+        override operator fun get(name: String): Any? =
+            headersValues[name]?.firstOrNull()
+
+        override operator fun set(name: String, value: Any?) {
+            if (value == null)
+                remove(name)
+            else
+                headersValues[name] = listOf(value)
+        }
+
+        override fun remove(name: String) {
+            headersValues.remove(name)
+        }
     }
 
     protected abstract fun outputStream(): OutputStream

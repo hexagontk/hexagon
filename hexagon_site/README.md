@@ -1,15 +1,14 @@
 
 # Project Site
 
-To generate the site source, execute: `gw mkdocs` and for testing run:
-`docker run --rm -it -p 8000:8000 -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.6.3 serve`
-the site will be served at: [http://localhost:8000](http://localhost:8000).
+To generate the site source, execute: `gw mkdocs`. To test the site after that, run:
+`docker-compose up -d site`. The site will be served at:
+[http://localhost:8000](http://localhost:8000).
 
 The site uses [Google Analytics] for usage statistics.
 
-The site properties are loaded from `mkdocs.yaml` file.
-
-The content from `pages` is copied to `content` in order to add the API Markdown to content.
+The site properties are loaded from `mkdocs.yaml` file. The content from `pages` is copied to
+`content` in order to add the API Markdown to content.
 
 As `content` directory is created from `pages` processed content, it should be ignored by SCM and it
 will be deleted by the clean task.
@@ -33,4 +32,4 @@ To customize MkDocs generated content, these steps are required:
 4. Copy theme `css` to site `mkdocs_palette.css` file
 5. Copy `palette.html` partial and update the indigo color in that file for the desired one
 6. To generate the site using Docker check: `https://hub.docker.com/r/squidfunk/mkdocs-material`
-   `docker run --rm -v $PWD/hexagon_site:/docs squidfunk/mkdocs-material:4.6.3 build -sq`
+   `docker-compose run site build -csq`

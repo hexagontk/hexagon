@@ -25,7 +25,7 @@ import java.util.*
 
         before("/protected/*") {
             val authorization = request.headers["Authorization"] ?: halt(401, "Unauthorized")
-            val credentials = authorization.first().removePrefix("Basic ")
+            val credentials = authorization.removePrefix("Basic ")
             val userPassword = String(Base64.getDecoder().decode(credentials)).split(":")
 
             // Parameters set in call attributes are accessible in other filters and routes
@@ -42,7 +42,7 @@ import java.util.*
         get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
 
         // After filters are ran even if request was halted before
-        after { response.setHeader("time", nanoTime() - attributes["start"] as Long) }
+        after { response.headers["time"] = nanoTime() - attributes["start"] as Long }
     }
     // filters
 

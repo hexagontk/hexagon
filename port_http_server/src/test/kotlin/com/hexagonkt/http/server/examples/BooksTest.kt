@@ -24,8 +24,8 @@ import org.testng.annotations.Test
     val server: Server = Server(adapter) {
         post("/books") {
             // Require fails if parameter does not exists
-            val author = queryParameters.require("author").first()
-            val title = queryParameters.require("title").first()
+            val author = queryParameters.require("author")
+            val title = queryParameters.require("title")
             val id = (books.keys.max() ?: 0) + 1
             books += id to Book(author, title)
             send(201, id)
@@ -46,8 +46,8 @@ import org.testng.annotations.Test
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = queryParameters["author"]?.first() ?: book.author,
-                    title = queryParameters["title"]?.first() ?: book.title
+                    author = queryParameters["author"] ?: book.author,
+                    title = queryParameters["title"] ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
