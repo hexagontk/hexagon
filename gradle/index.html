@@ -1424,22 +1424,24 @@ importing the script.</p>
 <code class="codehilite"><span class="err">build.gradle</span></code> file some of them may require additional plugins inside the <code class="codehilite"><span class="err">plugins</span></code> section in the
 root <code class="codehilite"><span class="err">build.gradle</span></code>. Check toolkit's <code class="codehilite"><span class="err">build.gradle</span></code> files for examples.</p>
 <h3 id="bintray">Bintray<a class="headerlink" href="#bintray" title="Permanent link">&para;</a></h3>
-<p>This script setup the project/module for publishing in <a href="https://bintray.com">Bintray</a>.</p>
+<p>This script set up the project/module for publishing in <a href="https://bintray.com">Bintray</a>.</p>
 <p>It publishes all artifacts attached to the <code class="codehilite"><span class="err">mavenJava</span></code> publication (check <a href="https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle">kotlin.gradle</a> publishing
 section) at the bare minimum binaries are published. For an Open Source project, you must include
 sources and javadoc also.</p>
 <p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/bintray.gradle</span></code> and add the
 <code class="codehilite"><span class="err">id &#39;com.jfrog.bintray&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>bintrayKey (REQUIRED): if not defined will try to load BINTRAY_KEY environment variable.</li>
 <li>bintrayUser (REQUIRED): or BINTRAY_USER environment variable if not defined.</li>
 <li>bintrayRepo (REQUIRED): Bintray's repository to upload the artifacts.</li>
 <li>license (REQUIRED): the license used to publish in Bintray.</li>
 <li>vcsUrl (REQUIRED): code repository location.</li>
+<li>bintrayPublications: list of Maven publications published . By default <code class="codehilite"><span class="err">[ &quot;mavenJava&quot; ]</span></code>.</li>
+<li>bintrayDryRun: when set to true, no actual publishing happens. Default value is false.</li>
 </ul>
 <h3 id="dokka">Dokka<a class="headerlink" href="#dokka" title="Permanent link">&para;</a></h3>
-<p>This script setup <a href="https://github.com/Kotlin/dokka">Dokka</a> tool and add a JAR with the project's code documentation to the published
+<p>This script set up <a href="https://github.com/Kotlin/dokka">Dokka</a> tool and add a JAR with the project's code documentation to the published
 JARs.</p>
 <p>All modules' Markdown files are added to the documentation and test classes ending in <code class="codehilite"><span class="err">SamplesTest</span></code>
 are available to be referenced as samples.</p>
@@ -1452,7 +1454,7 @@ IDEs.</p>
 <p>For image rendering you will need <a href="https://github.com/GNOME/librsvg">rsvg</a> (librsvg2-bin) and <a href="https://www.imagemagick.org">imagemagick</a> installed in the
 development machine.</p>
 <p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/icons.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>logoSmall (REQUIRED): SVG file used to render the small logo. Used for the favicon.</li>
 <li>logoLarge (REQUIRED): SVG file used to render the large logo.</li>
@@ -1462,7 +1464,7 @@ development machine.</p>
 <p>This scripts adds support for running <a href="https://openjdk.java.net/projects/code-tools/jmh">JMH micro benchmarks</a>.</p>
 <p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/jmh.gradle</span></code> and add the
 <code class="codehilite"><span class="err">id &#39;me.champeau.gradle.jmh&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>jmhBenchmarkVersion: JMH version. The default is 1.21.</li>
 <li>iterations (REQUIRED): number of measurement iterations to do.</li>
@@ -1509,7 +1511,7 @@ development machine.</p>
 <h3 id="junit">JUnit<a class="headerlink" href="#junit" title="Permanent link">&para;</a></h3>
 <p>Uses JUnit 5 as the test framework.</p>
 <p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/junit.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>junitVersion: JUnit version (5+), the default value is: 5.5.1.</li>
 </ul>
@@ -1522,14 +1524,14 @@ development machine.</p>
 <li>Resource processing (replacing build variables)</li>
 <li>Cleaning (deleting runtime files as logs and dump files)</li>
 <li>Tests (pass properties, output and mocks)</li>
-<li>Setup coverage report</li>
+<li>Set up coverage report</li>
 <li>IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)</li>
 <li>Published artifacts (binaries, sources and test): sourceJar and testJar tasks</li>
 <li>Jar with dependencies: jarAll task</li>
 </ul>
 <p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/kotlin.gradle</span></code> and add the
 <code class="codehilite"><span class="err">id &#39;org.jetbrains.kotlin.jvm&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.</li>
 <li>mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.</li>
@@ -1547,7 +1549,7 @@ development machine.</p>
 <code class="codehilite"><span class="err">kotlin2js</span></code> plugin. And finally, add the <code class="codehilite"><span class="err">id &#39;org.jetbrains.kotlin.jvm&#39; version &#39;VERSION&#39;</span></code> plugin to
 the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).</p>
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>javaScriptDirectory: JavaScript directory inside the <code class="codehilite"><span class="err">web</span></code> directory. By default it is: "js".</li>
 </ul>
@@ -1560,6 +1562,10 @@ the root <code class="codehilite"><span class="err">build.gradle</span></code>.<
   (<code class="codehilite"><span class="err">-t</span></code>) Gradle flag. Ie: <code class="codehilite"><span class="err">gw -t serve</span></code>.</li>
 </ul>
 <p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/service.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>applicationClassName: name of the class with the main method of the service.</li>
+</ul>
 <h3 id="jbake">JBake<a class="headerlink" href="#jbake" title="Permanent link">&para;</a></h3>
 <p>Adds support for site generation using <a href="https://jbake.org">JBake</a>.</p>
 <p>To generate the site execute: <code class="codehilite"><span class="err">gw bake</span></code> and to test it run: <code class="codehilite"><span class="err">gw bakePreview</span></code>.</p>
@@ -1575,7 +1581,7 @@ the port defining the <code class="codehilite"><span class="err">sitePort</span>
 </code></pre></div>
 </td></tr></table>
 
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>siteHost: site canonical URL, by default it is: "".</li>
 <li>configData: JBake settings map. It is an empty map by default.</li>
@@ -1586,7 +1592,7 @@ the port defining the <code class="codehilite"><span class="err">sitePort</span>
 <p>Set up the project to be analyzed by the <a href="https://sonarcloud.io">SonarQube instance running in the cloud</a>.</p>
 <p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/sonarqube.gradle</span></code> and add the
 <code class="codehilite"><span class="err">id &#39;org.sonarqube&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>sonarQubeProject (REQUIRED): ID used to locate the project in SonarQube host.</li>
 <li>sonarQubeOrganization (REQUIRED): organization owning the project.</li>
@@ -1602,8 +1608,8 @@ used for production environments.</p>
   must be private and will be used to sign other certificates. The key pair alias is <code class="codehilite"><span class="err">ca</span></code>.</li>
 <li><code class="codehilite"><span class="err">trust.p12</span></code>: key store with CA's public certificate. It can be set as the Java process trust store
   which make every certificate signed with the CA trusted. However, if used as the trust store, the
-  JDK <code class="codehilite"><span class="err">cacerts</span></code> entries won't be loaded and thus, not trusted. It can be used to setup HTTPS clients
-  (not required to be set at JVM level).</li>
+  JDK <code class="codehilite"><span class="err">cacerts</span></code> entries won't be loaded and thus, not trusted. It can be used to set up HTTPS
+  clients (not required to be set at JVM level).</li>
 <li><code class="codehilite"><span class="err">&lt;domain&gt;.p12</span></code>: there would be one per each domain (see <code class="codehilite"><span class="err">sslDomain</span></code> variable). These stores are
   signed by the CA and they contain the service private key and its full chain certificate.
   <code class="codehilite"><span class="err">&lt;domain&gt;</span></code> will be the domain name without the TLD, and the Subject alternative names (SAN) will
@@ -1616,7 +1622,7 @@ used for production environments.</p>
 <li>createIdentities: creates the <code class="codehilite"><span class="err">&lt;domain&gt;.p12</span></code> store for all <code class="codehilite"><span class="err">sslDomain</span></code> variables.</li>
 </ul>
 <p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/certificates.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>sslDomain[1-9] (REQUIRED): main domain for the identity store. You can create up to ten (from
  <code class="codehilite"><span class="err">sslDomain</span></code> to <code class="codehilite"><span class="err">sslDomain9</span></code>). Each of these variables has the format
@@ -1635,7 +1641,7 @@ used for production environments.</p>
 <h3 id="testng">TestNG<a class="headerlink" href="#testng" title="Permanent link">&para;</a></h3>
 <p>Uses TestNG as the test framework.</p>
 <p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/testng.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To setup this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>testngVersion: TestNG version, the default value is: 6.14.3.</li>
 </ul>

@@ -1328,7 +1328,11 @@ server engines, etc.) to be able to change them with minimum impact.</p>
 26
 27
 28
-29</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">package</span> <span class="nn">com.hexagonkt.starters</span>
+29
+30
+31
+32
+33</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">package</span> <span class="nn">com.hexagonkt.starters</span>
 
 <span class="k">import</span> <span class="nn">com.hexagonkt.helpers.logger</span>
 <span class="k">import</span> <span class="nn">com.hexagonkt.http.httpDate</span>
@@ -1345,9 +1349,13 @@ server engines, etc.) to be able to change them with minimum impact.</p>
 <span class="cm"> * Service server. Adapter is injected.</span>
 <span class="cm"> */</span>
 <span class="k">val</span> <span class="py">server</span><span class="p">:</span> <span class="n">Server</span> <span class="p">=</span> <span class="n">Server</span> <span class="p">{</span>
-    <span class="n">before</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="n">setHeader</span><span class="p">(</span><span class="s">&quot;Date&quot;</span><span class="p">,</span> <span class="n">httpDate</span><span class="p">())</span> <span class="p">}</span>
+    <span class="n">before</span> <span class="p">{</span>
+        <span class="n">response</span><span class="p">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&quot;Date&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">httpDate</span><span class="p">()</span>
+    <span class="p">}</span>
 
-    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello/{name}&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello, ${pathParameters[&quot;</span><span class="n">name</span><span class="s">&quot;]}!&quot;</span><span class="p">,</span> <span class="s">&quot;text/plain&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello/{name}&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello, ${pathParameters[&quot;</span><span class="n">name</span><span class="s">&quot;]}!&quot;</span><span class="p">,</span> <span class="s">&quot;text/plain&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>

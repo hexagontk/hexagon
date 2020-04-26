@@ -1142,6 +1142,13 @@ if ('serviceWorker' in navigator)
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#types" class="md-nav__link">
+    Types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#constructors" class="md-nav__link">
     Constructors
   </a>
@@ -1194,6 +1201,21 @@ if ('serviceWorker' in navigator)
 <p>Check 'Request' comment. And also note that lists should be updated by engines after callback
 is processed, this data is like a buffer that needs to be dumped to the real response.</p>
 <p>HTTP response context.</p>
+<h4 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="-map-interface/">MapInterface</a></td>
+<td><code class="codehilite"><span class="err">interface MapInterface&lt;K, V&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
 <h4 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -1228,7 +1250,11 @@ is processed, this data is like a buffer that needs to be dumped to the real res
 </tr>
 <tr>
 <td><a href="headers/">headers</a></td>
-<td><code class="codehilite">val headers:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><code class="codehilite"><span class="err">MutableMap</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
+<td><code class="codehilite">val headers: MapInterface<span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt;</span></code></td>
+</tr>
+<tr>
+<td><a href="headers-values/">headersValues</a></td>
+<td><code class="codehilite">val headersValues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><code class="codehilite"><span class="err">MutableMap</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
 </tr>
 <tr>
 <td><a href="output-stream/">outputStream</a></td>
@@ -1272,10 +1298,6 @@ is processed, this data is like a buffer that needs to be dumped to the real res
 <tr>
 <td><a href="remove-cookie/">removeCookie</a></td>
 <td><code class="codehilite"><span class="err">abstract fun removeCookie(name:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">):</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code class="codehilite"><span class="err">Unit</span></code></a></td>
-</tr>
-<tr>
-<td><a href="set-header/">setHeader</a></td>
-<td><code class="codehilite"><span class="err">fun setHeader(name:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">, value:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">?):</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code class="codehilite"><span class="err">Unit</span></code></a></td>
 </tr>
 <tr>
 <td><a href="status/">status</a></td>

@@ -1222,7 +1222,11 @@ would be using a 'Map/List wrapper that delegates calls to abstract methods in t
 <tbody>
 <tr>
 <td><a href="accept/">accept</a></td>
-<td><code class="codehilite">val accept:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;</span></code></td>
+<td><code class="codehilite">val accept:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">?</span></code></td>
+</tr>
+<tr>
+<td><a href="accept-values/">acceptValues</a></td>
+<td><code class="codehilite">val acceptValues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;</span></code></td>
 </tr>
 <tr>
 <td><a href="body/">body</a></td>
@@ -1250,11 +1254,19 @@ would be using a 'Map/List wrapper that delegates calls to abstract methods in t
 </tr>
 <tr>
 <td><a href="form-parameters/">formParameters</a></td>
-<td><code class="codehilite">val formParameters:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
+<td><code class="codehilite">val formParameters:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;</span></code></td>
+</tr>
+<tr>
+<td><a href="form-parameters-values/">formParametersValues</a></td>
+<td><code class="codehilite">val formParametersValues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
 </tr>
 <tr>
 <td><a href="headers/">headers</a></td>
-<td><code class="codehilite">val headers:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
+<td><code class="codehilite">val headers:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;</span></code></td>
+</tr>
+<tr>
+<td><a href="headers-values/">headersValues</a></td>
+<td><code class="codehilite">val headersValues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
 </tr>
 <tr>
 <td><a href="host/">host</a></td>
@@ -1271,10 +1283,6 @@ would be using a 'Map/List wrapper that delegates calls to abstract methods in t
 <tr>
 <td><a href="origin/">origin</a></td>
 <td><code class="codehilite">val origin:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">?</span></code></td>
-</tr>
-<tr>
-<td><a href="parameters/">parameters</a></td>
-<td><code class="codehilite">val parameters:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
 </tr>
 <tr>
 <td><a href="parts/">parts</a></td>
@@ -1298,7 +1306,11 @@ would be using a 'Map/List wrapper that delegates calls to abstract methods in t
 </tr>
 <tr>
 <td><a href="query-parameters/">queryParameters</a></td>
-<td><code class="codehilite">val queryParameters:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
+<td><code class="codehilite">val queryParameters:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;</span></code></td>
+</tr>
+<tr>
+<td><a href="query-parameters-values/">queryParametersValues</a></td>
+<td><code class="codehilite">val queryParametersValues:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
 </tr>
 <tr>
 <td><a href="query-string/">queryString</a></td>
@@ -1382,10 +1394,6 @@ would be using a 'Map/List wrapper that delegates calls to abstract methods in t
 <tr>
 <td><a href="method/">method</a></td>
 <td><code class="codehilite"><span class="err">abstract fun method(): Method</span></code></td>
-</tr>
-<tr>
-<td><a href="parameters/">parameters</a></td>
-<td><code class="codehilite"><span class="err">abstract fun parameters():</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><code class="codehilite"><span class="err">Map</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">,</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><code class="codehilite"><span class="err">List</span></code></a><code class="codehilite"><span class="err">&lt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code class="codehilite"><span class="err">String</span></code></a><code class="codehilite"><span class="err">&gt;&gt;</span></code></td>
 </tr>
 <tr>
 <td><a href="parts/">parts</a></td>
