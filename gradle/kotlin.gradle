@@ -30,10 +30,10 @@ eclipse {
 }
 
 repositories {
+    maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
     jcenter()
     mavenCentral()
     mavenLocal()
-    maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
 }
 
 dependencies {

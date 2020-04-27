@@ -46,7 +46,7 @@ clean {
 }
 
 task("jsAll", type: Sync, dependsOn: "classes") {
-    configurations.compile.each { File file ->
+    configurations.runtimeClasspath.each { File file ->
         from(zipTree(file.absolutePath)) {
             includeEmptyDirs = false
             include { FileTreeElement element ->

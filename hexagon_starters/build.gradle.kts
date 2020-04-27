@@ -108,6 +108,7 @@ publishing {
                     pomProperties.appendElement("kotlin.version", gradleProperties["kotlinVersion"])
                     pomProperties.appendElement("hexagon.version", rootProject.version)
                     node.importElement(pomDom.firstElement("repositories"))
+                    node.importElement(pomDom.firstElement("dependencyManagement"))
                     node.importElement(pomDom.firstElement("build"))
                 }
             }
