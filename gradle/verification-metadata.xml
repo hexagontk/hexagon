@@ -12,6 +12,8 @@
 
     <trusted-artifacts>
       <trust file=".*[.]pom" regex="true"/>
+      <trust file=".*-javadoc\.jar" regex="true"/>
+      <trust file=".*-sources\.jar" regex="true"/>
       <trust group="org.jetbrains.kotlin"/>
     </trusted-artifacts>
 
