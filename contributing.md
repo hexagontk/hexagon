@@ -43,8 +43,7 @@ typing:
 ```bash
 git clone https://github.com/hexagonkt/hexagon.git
 cd hexagon
-docker-compose up -d
-./gradlew all publishToMavenLocal
+./gradlew build publishToMavenLocal
 ```
 
 The binaries are located in the `/build` directory. The documentation site is in

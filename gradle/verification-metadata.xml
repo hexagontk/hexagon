@@ -185,8 +185,8 @@
         <pgp value="6560b52227e14a62a9a04685fb67739451ec486a"/>
       </artifact>
     </component>
-    <component group="com.zaxxer" name="HikariCP" version="3.4.2">
-      <artifact name="HikariCP-3.4.2.jar">
+    <component group="com.zaxxer" name="HikariCP" version="3.4.3">
+      <artifact name="HikariCP-3.4.3.jar">
         <pgp value="f3a90e6b10e809f851ab4fc54cc08e7f47c3ec76"/>
       </artifact>
     </component>
@@ -452,8 +452,8 @@
         <pgp value="839323a4780d5bf9a6978970152888e10ef880b3"/>
       </artifact>
     </component>
-    <component group="org.yaml" name="snakeyaml" version="1.24">
-      <artifact name="snakeyaml-1.24.jar">
+    <component group="org.yaml" name="snakeyaml" version="*">
+      <artifact name="snakeyaml-*.jar">
         <pgp value="120d6f34e627ed3a772ebbfe55c7e5e701832382"/>
       </artifact>
     </component>

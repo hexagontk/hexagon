@@ -40,18 +40,18 @@ gradle.rootProject {
         extra["kotlinVersion"] = "1.3.72"
 
         // hexagon_benchmark
-        extra["hikariVersion"] = "3.4.2"
+        extra["hikariVersion"] = "3.4.3"
         extra["postgresqlVersion"] = "42.2.12"
         extra["scalaVersion"] = "2.12.11" // To avoid IntelliJ warning
 
         // http_server_servlet
         extra["servletVersion"] = "3.1.0"
-        extra["jettyVersion"] = "9.4.27.v20200227"
+        extra["jettyVersion"] = "9.4.28.v20200408"
 
         // hexagon_core
         extra["slf4jVersion"] = "1.7.30"
         extra["logbackVersion"] = "1.2.3"
-        extra["jacksonVersion"] = "2.10.3"
+        extra["jacksonVersion"] = "2.11.0"
 
         // hexagon_scheduler
         extra["cronutilsVersion"] = "9.0.2"

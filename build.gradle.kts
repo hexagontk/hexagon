@@ -24,16 +24,35 @@ plugins {
 
 apply(from = "gradle/sonarqube.gradle")
 apply(from = "gradle/certificates.gradle")
+apply(from = "gradle/docker.gradle.kts")
 
 tasks.register<Delete>("clean") {
-    delete("build", "log", "out", ".vertx", "file-uploads")
+    group = "build"
+    description = "Delete root project's generated artifacts, logs and error dumps."
+    dependsOn("cleanDocker")
 
+    delete("build", "log", "out", ".vertx", "file-uploads")
     delete(
         fileTree(rootDir) { include("**/*.log") },
         fileTree(rootDir) { include("**/*.hprof") },
         fileTree(rootDir) { include("**/.attach_pid*") },
         fileTree(rootDir) { include("**/hs_err_pid*") }
     )
+}
+
+task("setUp") {
+    group = "build setup"
+    description = "Set up project for development. Creates the Git pre push hook (run build task)."
+
+    doLast {
+        val prePush = file(".git/hooks/pre-push")
+        prePush.writeText("""
+            #!/usr/bin/env sh
+            set -e
+            ./gradlew --warn --console plain clean build publishToMavenLocal
+        """.trimIndent())
+        prePush.setExecutable(true)
+    }
 }
 
 task("publish") {
