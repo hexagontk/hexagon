@@ -452,8 +452,13 @@
         <pgp value="839323a4780d5bf9a6978970152888e10ef880b3"/>
       </artifact>
     </component>
-    <component group="org.yaml" name="snakeyaml" version="*">
-      <artifact name="snakeyaml-*.jar">
+    <component group="org.yaml" name="snakeyaml" version="1.26">
+      <artifact name="snakeyaml-1.26.jar">
+        <pgp value="120d6f34e627ed3a772ebbfe55c7e5e701832382"/>
+      </artifact>
+    </component>
+    <component group="org.yaml" name="snakeyaml" version="1.24">
+      <artifact name="snakeyaml-1.24.jar">
         <pgp value="120d6f34e627ed3a772ebbfe55c7e5e701832382"/>
       </artifact>
     </component>
