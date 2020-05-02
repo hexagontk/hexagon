@@ -101,6 +101,7 @@ check.dependsOn("verify")
 tasks.withType(Test).each { testTask ->
     testTask.systemProperties(project.getProperties().findAll { it.value instanceof String })
 
+    // TODO Make this depend on the logging level
     testTask.testLogging {
         if (Boolean.parseBoolean(findProperty("logTestOutput").toString() ?: "false"))
             events("skipped", "failed", "standardOut", "standardError")

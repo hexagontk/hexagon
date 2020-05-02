@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.14"
+        version = "1.2.15"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
@@ -70,7 +70,7 @@ gradle.rootProject {
         extra["mongodbVersion"] = "4.0.2"
 
         // templates_pebble
-        extra["pebbleVersion"] = "3.1.2"
+        extra["pebbleVersion"] = "3.1.3"
 
         // Test
         extra["testngVersion"] = "6.14.3"
