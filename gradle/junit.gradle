@@ -6,7 +6,12 @@ apply(plugin: "java")
 
 dependencies {
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.6.2"
+    final String scriptKotestVersion = findProperty("kotestVersion") ?: "4.0.5"
+
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$scriptJunitVersion")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:$scriptKotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:$scriptKotestVersion")
+    testImplementation("io.kotest:kotest-property-jvm:$scriptKotestVersion")
 }
 
 tasks.withType(Test).each { testTask ->

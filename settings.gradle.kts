@@ -42,7 +42,6 @@ gradle.rootProject {
         // hexagon_benchmark
         extra["hikariVersion"] = "3.4.3"
         extra["postgresqlVersion"] = "42.2.12"
-        extra["scalaVersion"] = "2.12.11" // To avoid IntelliJ warning
 
         // http_server_servlet
         extra["servletVersion"] = "3.1.0"
@@ -74,7 +73,6 @@ gradle.rootProject {
 
         // Test
         extra["testngVersion"] = "6.14.3"
-        extra["gatlingVersion"] = "3.3.1"
         extra["junitVersion"] = "5.6.2"
     }
 }
