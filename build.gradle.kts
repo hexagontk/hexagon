@@ -11,6 +11,7 @@
  */
 
 import org.jetbrains.dokka.gradle.DokkaTask
+import java.io.OutputStream.nullOutputStream
 
 plugins {
     idea
@@ -99,6 +100,7 @@ getTasksByName("jacocoTestReport", true).forEach {
 }
 
 tasks.register<Exec>("infrastructure") {
+    errorOutput = nullOutputStream()
     commandLine("docker-compose --log-level warning up -d mongodb postgresql rabbitmq".split(" "))
 }
 
