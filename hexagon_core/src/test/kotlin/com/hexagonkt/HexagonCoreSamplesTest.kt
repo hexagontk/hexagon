@@ -13,7 +13,12 @@ import java.time.LocalDate
 import java.util.*
 
 class HexagonCoreSamplesTest {
-    internal data class Person(val givenName: String, val familyName: String, val birthDate: LocalDate)
+
+    internal data class Person(
+        val givenName: String,
+        val familyName: String,
+        val birthDate: LocalDate
+    )
 
     @Suppress("RedundantExplicitType")
     @Test fun loggerUsage() {
@@ -23,7 +28,7 @@ class HexagonCoreSamplesTest {
 
         logger.info {
             """
-            You can add a quick log without declaring a Logger using 'com.hexagonkt.helpers.logger'.
+            You can add a quick log without declaring a Logger with 'com.hexagonkt.helpers.logger'.
             It is a default logger created for the System class (same as `Logger(System::class)`).
             """
         }
@@ -57,8 +62,10 @@ class HexagonCoreSamplesTest {
         InjectionManager.bindObject<String>("STR")
 
         // You can use labels to inject different instances
-        InjectionManager.bind<Date>("+1h") { java.sql.Date(System.currentTimeMillis() + 3_600_000) }
         InjectionManager.bindObject<String>("toolkit", "Hexagon")
+        InjectionManager.bind<Date>("+1h") {
+            java.sql.Date(System.currentTimeMillis() + 3_600_000)
+        }
 
         val currentSqlDate = InjectionManager.inject<Date>()
         val currentSqlDateInferredType: Date = InjectionManager.inject()
