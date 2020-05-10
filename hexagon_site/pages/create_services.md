@@ -6,7 +6,7 @@ or the [Maven Starter].
 
 # From scratch
 
-You can write a [Gradle] project from scratch (Gradle 5.3 or newer is required) using the following
+You can write a [Gradle] project from scratch (Gradle 6.4 or newer is required) using the following
 `build.gradle`:
 
 ```groovy
@@ -31,7 +31,7 @@ dependencies {
 
 # From a Maven Archetype
 
-TODO Document. Explain how archetypes can be used to also generate Gradle projects.
+TODO Explain how archetypes can be used to also generate Gradle projects.
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter

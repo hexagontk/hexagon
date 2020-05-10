@@ -73,12 +73,12 @@ Which are NOT project goals:
 
 ## Hexagon Structure
 
-There are three kind of client libraries:
+There are three kinds of client libraries:
 
 * The ones that provide a single functionality that does not depend on different implementations.
   These modules can depend on any Ports, but never on Adapters (see below).
 * Modules that define a "Port": An interface to a feature that may have different implementations.
-  Ports are independent from each other.
+  Ports are independent of each other.
 * Adapter modules, which are Port implementations for a given tool.
 
 For more information, take a look at the [Developer Guide].
@@ -547,7 +547,7 @@ client.get("/hello").apply {
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
-so, read the [Benchmark readme](hexagon_benchmark/README.md)
+so, read the [Benchmark readme](hexagon_benchmark/README.md).
 
 Tests, of course, are taken into account. These are some coverage metrics:
 
@@ -588,8 +588,8 @@ If you feel like you can do more. You can contribute to the project in different
 To know what issues are currently open and be aware of the next features you can check the
 [Project Board] at GitHub.
 
-You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. And be up
-to date of project's news following [@hexagon_kt] in Twitter.
+You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. You can
+be up to date of project's news following [@hexagon_kt] on Twitter.
 
 Thanks to all project's [contributors]!
 

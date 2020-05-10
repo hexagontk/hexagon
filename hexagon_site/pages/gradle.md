@@ -127,15 +127,17 @@ open class Benchmark {
 
 ## JUnit
 
-Uses JUnit 5 as the test framework.
+Uses JUnit 5 as the test framework. It also includes [Kotest] in the test classpath.
 
 To use it apply `$gradleScripts/junit.gradle` to your `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
-* junitVersion: JUnit version (5+), the default value is: 5.5.1.
+* junitVersion: JUnit version (5+), the default value is: 5.6.2.
+* kotestVersion: Kotest version, the default value is: 4.0.5.
 
 [JMH]: https://openjdk.java.net/projects/code-tools/jmh
+[Kotest]: https://github.com/kotest/kotest
 
 ## Kotlin
 
@@ -285,6 +287,11 @@ To set up this script's parameters, check the [build variables section]. This he
 * sslCountry: country used in the certificates. By default it is the current locale's country code.
 
 [TLD for local environments]: https://tools.ietf.org/html/rfc2606
+
+## Lean
+
+This script changes the default Gradle source layout to be less bulky. It must be applied after the
+Kotlin plugin. TODO Describe source structure.
 
 ## TestNG
 
