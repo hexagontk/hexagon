@@ -1,15 +1,7 @@
 
 <project>
-  <modelVersion>4.0.0</modelVersion>
-
-  <groupId>com.hexagonkt</groupId>
-  <artifactId>kotlin_pom</artifactId>
-  <packaging>pom</packaging>
-  <description>Hexagon's Maven starter POM</description>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <name>Hexagon POM</name>
+  <description>Hexagon's starter POM.</description>
 
   <repositories>
     <repository>

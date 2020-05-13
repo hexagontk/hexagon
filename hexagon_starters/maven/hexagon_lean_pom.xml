@@ -1,0 +1,26 @@
+
+<project>
+  <parent>
+    <groupId>com.hexagonkt</groupId>
+    <artifactId>hexagon_pom</artifactId>
+  </parent>
+
+  <name>Hexagon lean POM</name>
+  <description>Hexagon's starter POM for lean projects.</description>
+
+  <build>
+    <sourceDirectory>${basedir}/main</sourceDirectory>
+    <testSourceDirectory>${basedir}/test</testSourceDirectory>
+
+    <resources>
+      <resource>
+        <directory>${basedir}/main</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>${basedir}/test</directory>
+      </testResource>
+    </testResources>
+  </build>
+</project>
