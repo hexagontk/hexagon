@@ -29,10 +29,6 @@ dependencies {
 }
 ```
 
-# From a Maven Archetype
-
-TODO Explain how archetypes can be used to also generate Gradle projects.
-
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
 [Gradle]: https://gradle.org

@@ -17,6 +17,9 @@ build/
 out/
 *.iml
 
+# VS Code
+.vscode/
+
 # Runtime
 log/
 *.log
