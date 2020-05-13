@@ -7,8 +7,6 @@ apply(from: "\$gradleScripts/kotlin.gradle")
 apply(from: "\$gradleScripts/application.gradle")
 apply(from: "\$gradleScripts/junit.gradle")
 
-mainClassName = '${group}.ServiceKt'
-
 dependencies {
     implementation("com.hexagonkt:http_server_jetty:\$hexagonVersion")
 

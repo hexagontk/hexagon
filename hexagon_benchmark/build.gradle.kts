@@ -79,8 +79,7 @@ tasks.register<Copy>("tfb") {
     }
 }
 
-val applicationClassName =
-    project.extra["applicationClassName"]?.toString() ?: error("applicationClassName not found")
+val mainClassName = properties["mainClassName"]?.toString() ?: error("mainClassName not found")
 
 tasks.register<WriteProperties>("gradleSettings") {
     val repositoryFilesPath = project.extra["gradleScripts"] ?: error("Gradle helpers URL missing")
@@ -91,7 +90,7 @@ tasks.register<WriteProperties>("gradleSettings") {
             "description" to "Hexagon web framework's benchmark",
 
             "gradleScripts" to "$repositoryFilesPath/${rootProject.version}/gradle",
-            "applicationClassName" to applicationClassName,
+            "mainClassName" to mainClassName,
 
             "hexagonVersion" to rootProject.version.toString(),
             "logbackVersion" to logbackVersion,

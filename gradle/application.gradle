@@ -5,7 +5,7 @@
 apply(plugin: "application")
 
 application {
-    mainClassName = findProperty("applicationClassName")
+    mainClassName = findProperty("mainClassName")
 }
 
 defaultTasks("installDist")
@@ -41,7 +41,7 @@ task("jarAll", type: Jar, dependsOn: "jar") {
 
 assemble.dependsOn("jarAll", "installDist")
 
-task("serve", dependsOn: "classes").doLast {
+task("watch", dependsOn: "classes").doLast {
     final JavaExec runTask = run
 
     // NOTE: these two statements are *REQUIRED* to load classpath and main class

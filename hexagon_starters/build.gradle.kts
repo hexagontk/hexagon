@@ -65,6 +65,8 @@ task("processTemplate") {
 
                 gradleScripts=${properties["gradleScripts"]}/${rootProject.version}/gradle
 
+                mainClassName=${group}.ServiceKt
+
                 hexagonVersion=$rootProject.version
                 logbackVersion=${properties["logbackVersion"]}
 

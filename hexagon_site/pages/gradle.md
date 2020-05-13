@@ -74,7 +74,7 @@ Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (l
 For image rendering you will need [rsvg] (librsvg2-bin) and [imagemagick] installed in the
 development machine.
 
-To use it apply `$gradleScripts/icons.gradle` to your `build.gradle`.
+To use it, apply `$gradleScripts/icons.gradle` to your `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
@@ -87,9 +87,9 @@ To set up this script's parameters, check the [build variables section]. This he
 
 ## JMH
 
-This scripts adds support for running [JMH micro benchmarks][JMH].
+This script adds support for running [JMH micro benchmarks][JMH].
 
-To use it apply `$gradleScripts/jmh.gradle` and add the
+To use it, apply `$gradleScripts/jmh.gradle` and add the
 `id 'me.champeau.gradle.jmh' version 'VERSION'` plugin to the root `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
@@ -103,9 +103,9 @@ To set up this script's parameters, check the [build variables section]. This he
 * fork (REQUIRED): how many times to forks a single benchmark. Use 0 to disable forking altogether.
 * operationsPerInvocation (REQUIRED): operations per invocation.
 * timeOnIteration (REQUIRED): time to spend at each measurement iteration.
-* warmup (REQUIRED): time to spend at each warmup iteration.
+* warmup (REQUIRED): time to spend at each warm up iteration.
 * warmupBatchSize (REQUIRED): number of benchmark method calls per operation.
-* warmupIterations (REQUIRED): number of warmup iterations to do.
+* warmupIterations (REQUIRED): number of warm up iterations to do.
 
 Sample benchmark code:
 
@@ -129,7 +129,7 @@ open class Benchmark {
 
 Uses JUnit 5 as the test framework. It also includes [Kotest] in the test classpath.
 
-To use it apply `$gradleScripts/junit.gradle` to your `build.gradle`.
+To use it, apply `$gradleScripts/junit.gradle` to your `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
@@ -181,22 +181,22 @@ Applying this script at the beginning won't work until it allows dependencies to
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
-* javaScriptDirectory: JavaScript directory inside the `web` directory. By default it is: "js".
+* javaScriptDirectory: JavaScript directory inside the `web` directory. By default, it is: "js".
 
 ## Application
 
 Gradle's script for a service or application. It adds two extra tasks:
 
 * buildInfo: add configuration file (`application.properties`) with build variables to the package.
-* serve: Run the service in another thread. This allows the possibility to 'watch' source changes.
-  To run the services and watch for changes you need to execute this task with the	`--continuous`
-  (`-t`) Gradle flag. Ie: `gw -t serve`.
+* watch: Run the application in another thread. This allows the possibility to watch source changes.
+  To run the application and watch for changes you need to execute this task with the `--continuous`
+  (`-t`) Gradle flag. Ie: `gw -t watch`.
 
-To use it apply `$gradleScripts/application.gradle` to your `build.gradle`.
+To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
-* applicationClassName: name of the class with the main method of the service.
+* mainClassName: name of the class with the main method of the application.
 
 ## JBake
 
@@ -207,10 +207,10 @@ To generate the site execute: `gw bake` and to test it run: `gw bakePreview`.
 The preview site will be served at: [http://localhost:8888](http://localhost:8888). You can change
 the port defining the `sitePort` variable inside `gradle.properties`.
 
-To use it apply `$gradleScripts/jbake.gradle` and add the
+To use it, apply `$gradleScripts/jbake.gradle` and add the
 `id 'org.jbake.site' version 'VERSION'` plugin to the root `build.gradle`.
 
-JBake `content` folder can not be changed (it seems a bug).
+JBake `content` folder cannot be changed (it seems a bug).
 
 To generate clean URLs, add the following settings:
 
@@ -232,14 +232,14 @@ To set up this script's parameters, check the [build variables section]. This he
 
 Set up the project to be analyzed by the [SonarQube instance running in the cloud][sonarcloud].
 
-To use it apply `$gradleScripts/sonarqube.gradle` and add the
+To use it, apply `$gradleScripts/sonarqube.gradle` and add the
 `id 'org.sonarqube' version 'VERSION'` plugin to the root `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * sonarQubeProject (REQUIRED): ID used to locate the project in SonarQube host.
 * sonarQubeOrganization (REQUIRED): organization owning the project.
-* sonarQubeHost: SonarQube server to be used. By default it is: `https://sonarcloud.io`.
+* sonarQubeHost: SonarQube server to be used. By default, it is: `https://sonarcloud.io`.
 * sonarQubeToken (REQUIRED): If not set, the `SONARQUBE_TOKEN` environment variable will be used.
 
 [sonarcloud]: https://sonarcloud.io
@@ -258,7 +258,7 @@ The created key stores are:
   JDK `cacerts` entries won't be loaded and thus, not trusted. It can be used to set up HTTPS
   clients (not required to be set at JVM level).
 * `<domain>.p12`: there would be one per each domain (see `sslDomain` variable). These stores are
-  signed by the CA and they contain the service private key and its full chain certificate.
+  signed by the CA, and they contain the service private key and its full chain certificate.
   `<domain>` will be the domain name without the TLD, and the Subject alternative names (SAN) will
   include `<domain>.test` ([TLD for local environments]) and `localhost` (along the extra subdomains
   specified).
@@ -268,30 +268,34 @@ The defined tasks are:
 * createCa: creates `ca.p12` and import its public certificate inside `trust.p12`.
 * createIdentities: creates the `<domain>.p12` store for all `sslDomain` variables.
 
-To use it apply `$gradleScripts/certificates.gradle` to your `build.gradle`.
+To use it, apply `$gradleScripts/certificates.gradle` to your `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
-* sslDomain\[1-9] (REQUIRED): main domain for the identity store. You can create up to ten (from
+* sslDomain\[1-9] (REQUIRED): the main domain for the identity store. You can create up to ten (from
  `sslDomain` to `sslDomain9`). Each of these variables has the format
  `subdomain1|subdomain2|subdomainN|domain.tld` subdomains are added to `<domain>.p12` alternative
  names (aside of `<domain>.test` and `localhost` which are always added). By default, no extra
  domains are added to the key store.
 * sslOrganization (REQUIRED): organization stated in created certificates.
-* sslCaFile: certificate authority key store file. By default: "ca.p12"
-* sslCaAlias: CA alias in the key store. If not provided, it will be "ca"
-* sslTrustFile: trust store file name, by default it is "trust.p12"
-* sslPath: path used to generate the key stores. By default it will be project's build directory.
-* sslPassword: password used for the generated key stores. By default it is the file name reversed.
+* sslCaFile: certificate authority key store file. By default: "ca.p12".
+* sslCaAlias: CA alias in the key store. If not provided, it will be "ca".
+* sslTrustFile: trust store file name, by default it is "trust.p12".
+* sslPath: path used to generate the key stores. By default, it will be project's build directory.
+* sslPassword: password used for the generated key stores. By default, it is the file name reversed.
 * sslValidity: validity period (in days) for certificates. If not provided, it will be 365.
-* sslCountry: country used in the certificates. By default it is the current locale's country code.
+* sslCountry: country used in the certificates. By default, it is the current locale's country code.
 
 [TLD for local environments]: https://tools.ietf.org/html/rfc2606
 
 ## Lean
 
-This script changes the default Gradle source layout to be less bulky. It must be applied after the
-Kotlin plugin. TODO Describe source structure.
+This script changes the default Gradle source layout to be less bulky. To use it you must apply the
+`$gradleScripts/lean.gradle` script to your `build.gradle` file. It must be applied after the
+Kotlin plugin.
+
+After applying this script, the source folders will be `${projectDir}/main` and
+`${projectDir}/test`, and the resources will be stored also in these folders.
 
 ## TestNG
 
