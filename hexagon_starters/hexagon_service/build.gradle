@@ -4,14 +4,11 @@ plugins {
 }
 
 apply(from: "\$gradleScripts/kotlin.gradle")
-apply(from: "\$gradleScripts/service.gradle")
-
-mainClassName = '${group}.ServiceKt'
-applicationDefaultJvmArgs = [ '-XX:+UseNUMA', '-XX:+UseParallelGC' ]
+apply(from: "\$gradleScripts/application.gradle")
+apply(from: "\$gradleScripts/junit.gradle")
 
 dependencies {
     implementation("com.hexagonkt:http_server_jetty:\$hexagonVersion")
 
-    testImplementation("junit:junit:\$junitVersion")
     testImplementation("com.hexagonkt:http_client_ahc:\$hexagonVersion")
 }

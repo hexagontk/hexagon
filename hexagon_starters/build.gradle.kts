@@ -1,3 +1,4 @@
+import org.gradle.api.publish.maven.MavenPom
 import javax.xml.parsers.DocumentBuilderFactory
 import org.w3c.dom.Document
 import org.w3c.dom.Element
@@ -20,12 +21,11 @@ dependencies {
 task("processTemplate") {
     dependsOn("test")
 
-    val stringProperties: Map<String, *> = project.properties.filter { it.value is String }
-
-    projectDir
-        .listFiles { f -> f.isDirectory && f.name.startsWith("hexagon_") }
-        ?.map { it.name }
-        ?.forEach { dir ->
+    doLast {
+        val stringProperties: Map<String, *> = project.properties.filter { it.value is String }
+        val templates = projectDir.listFiles { f -> f.isDirectory && f.name.startsWith("hexagon_") }
+        val templateDirs = templates?.map { it.name } ?: emptyList()
+        templateDirs.forEach { dir ->
             copy {
                 from("$projectDir/$dir")
                 into("$buildDir/$dir")
@@ -57,61 +57,81 @@ task("processTemplate") {
                 include("gradlew", "gradlew.bat", ".editorconfig")
             }
 
-            val ghUrl = "https://raw.githubusercontent.com/hexagonkt/hexagon"
-            val logbackVersion = properties["logbackVersion"]
-            val junitVersion = properties["junitVersion"]
-
             file("$buildDir/$dir/gradle.properties").writeText("""
                 name=\${project.name}
                 version=\${version}
                 group=\${group}
                 description=\${description}
 
-                gradleScripts=$ghUrl/${rootProject.version}/gradle
+                gradleScripts=${properties["gradleScripts"]}/${rootProject.version}/gradle
+
+                mainClassName=${group}.ServiceKt
 
                 hexagonVersion=$rootProject.version
-                logbackVersion=$logbackVersion
+                logbackVersion=${properties["logbackVersion"]}
 
-                junitVersion=$junitVersion
+                junitVersion=${properties["junitVersion"]}
             """.trimIndent())
         }
+    }
 }
 
 publishing {
     publications {
-        create<MavenPublication>("kotlinPom") {
-            val pomFile = project.file("kotlin_pom/pom.xml")
-            val pomDom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(pomFile)
 
-            fun Document.firstElement(name: String): Element =
-                getElementsByTagName(name).item(0) as Element
+        createPomPublication("hexagon_pom") { pomDom ->
+            properties.set(mapOf(
+                "project.build.sourceEncoding" to Charsets.UTF_8.name(),
+                "kotlin.version" to project.properties["kotlinVersion"].toString(),
+                "hexagon.version" to rootProject.version.toString()
+            ))
 
-            fun Element.appendElement(name: String, value: Any?): Element =
-                appendChild(
-                    ownerDocument.createElement(name).also { it.textContent = value.toString() }
-                ) as Element
-
-            fun Element.importElement(element: Element): Element =
-                appendChild(ownerDocument.importNode(element, true)) as Element
-
-            groupId = pomDom.firstElement("groupId").textContent
-            artifactId = pomDom.firstElement("artifactId").textContent
-
-            pom {
-                packaging = pomDom.firstElement("packaging").textContent
-                description.set(pomDom.firstElement("description").textContent)
-
-                withXml {
-                    val node = asElement()
-                    val pomProperties = node.importElement(pomDom.firstElement("properties"))
-                    val gradleProperties = project.properties
-                    pomProperties.appendElement("kotlin.version", gradleProperties["kotlinVersion"])
-                    pomProperties.appendElement("hexagon.version", rootProject.version)
-                    node.importElement(pomDom.firstElement("repositories"))
-                    node.importElement(pomDom.firstElement("dependencyManagement"))
-                    node.importElement(pomDom.firstElement("build"))
+            withXml {
+                listOf("repositories", "dependencyManagement", "build").forEach {
+                    asElement().importElement(pomDom.firstElement(it))
                 }
             }
+        }
+
+        createPomPublication("hexagon_lean_pom") { pomDom ->
+            withXml {
+                val root = asElement()
+                val version = rootProject.version.toString()
+                listOf("parent", "build").forEach {
+                    root.importElement(pomDom.firstElement(it))
+                }
+                root.ownerDocument.firstElement("parent").appendElement("version", version)
+            }
+        }
+    }
+}
+
+fun File.parseDom(): Document =
+    DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this)
+
+fun Document.firstElement(name: String): Element =
+    getElementsByTagName(name).item(0) as Element
+
+fun Element.appendElement(name: String, value: Any?): Element =
+    appendChild(
+        ownerDocument.createElement(name).also { it.textContent = value.toString() }
+    ) as Element
+
+fun Element.importElement(element: Element): Element =
+    appendChild(ownerDocument.importNode(element, true)) as Element
+
+fun PublicationContainer.createPomPublication(
+    artifact: String, block: MavenPom.(Document) -> Unit = {}) {
+
+    create<MavenPublication>(artifact) {
+        artifactId = this.name
+        pom {
+            packaging = "pom"
+            url.set(project.properties["siteHost"].toString())
+            val pomDom = project.file("maven/${artifactId}.xml").parseDom()
+            name.set(pomDom.firstElement("name").textContent)
+            description.set(pomDom.firstElement("description").textContent)
+            block(pomDom)
         }
     }
 }

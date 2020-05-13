@@ -2,12 +2,11 @@
 import org.apache.tools.ant.DirectoryScanner
 
 apply(from = "../gradle/kotlin.gradle")
-apply(from = "../gradle/service.gradle")
-apply(from = "../gradle/testng.gradle")
+apply(from = "../gradle/application.gradle")
+apply(from = "../gradle/junit.gradle")
 
 plugins {
     application
-    scala
     war
 }
 
@@ -16,8 +15,6 @@ fun version(name: String): String =
 
 val hikariVersion: String = version("hikari")
 val postgresqlVersion: String = version("postgresql")
-val scalaVersion: String = version("scala")
-val gatlingVersion: String = version("gatling")
 val logbackVersion: String = version("logback")
 val jettyVersion: String = version("jetty")
 val testngVersion: String = version("testng")
@@ -51,11 +48,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("org.postgresql:postgresql:$postgresqlVersion")
 
-    // Required to avoid IntelliJ warning
-    compileOnly("org.scala-lang:scala-library:$scalaVersion")
-
     testImplementation(project(":http_client_ahc"))
-    testImplementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 }
 
 tasks.register<Copy>("addGradlew") {
@@ -86,11 +79,10 @@ tasks.register<Copy>("tfb") {
     }
 }
 
-val applicationClassName =
-    project.extra["applicationClassName"]?.toString() ?: error("applicationClassName not found")
+val mainClassName = properties["mainClassName"]?.toString() ?: error("mainClassName not found")
 
 tasks.register<WriteProperties>("gradleSettings") {
-    val repositoryFilesPath = "https://raw.githubusercontent.com/hexagonkt/hexagon"
+    val repositoryFilesPath = project.extra["gradleScripts"] ?: error("Gradle helpers URL missing")
 
     setProperties(
         mapOf(
@@ -98,7 +90,7 @@ tasks.register<WriteProperties>("gradleSettings") {
             "description" to "Hexagon web framework's benchmark",
 
             "gradleScripts" to "$repositoryFilesPath/${rootProject.version}/gradle",
-            "applicationClassName" to applicationClassName,
+            "mainClassName" to mainClassName,
 
             "hexagonVersion" to rootProject.version.toString(),
             "logbackVersion" to logbackVersion,

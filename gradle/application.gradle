@@ -1,11 +1,11 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle.html#service
+ * Check usage information at: http://hexagonkt.com/gradle.html#application
  */
 
 apply(plugin: "application")
 
 application {
-    mainClassName = findProperty("applicationClassName")
+    mainClassName = findProperty("mainClassName")
 }
 
 defaultTasks("installDist")
@@ -14,7 +14,7 @@ classes.dependsOn("buildInfo")
 
 task("buildInfo").doLast {
     file("$buildDir/resources/main").mkdirs()
-    file("$buildDir/resources/main/service.properties").write("""
+    file("$buildDir/resources/main/application.properties").write("""
         project=$rootProject.name
         module=$project.name
         version=${project.version.toString()}
@@ -41,7 +41,7 @@ task("jarAll", type: Jar, dependsOn: "jar") {
 
 assemble.dependsOn("jarAll", "installDist")
 
-task("serve", dependsOn: "classes").doLast {
+task("watch", dependsOn: "classes").doLast {
     final JavaExec runTask = run
 
     // NOTE: these two statements are *REQUIRED* to load classpath and main class

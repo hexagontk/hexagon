@@ -7,7 +7,7 @@ hero: |
       <img
         alt="GitHub Actions"
         src=
-          "https://github.com/hexagonkt/hexagon/workflows/.github/workflows/main.yml/badge.svg?branch=master&event=push" />
+          "https://github.com/hexagonkt/hexagon/workflows/.github/workflows/Release/badge.svg?branch=master&event=push" />
     </a>
     <a href="https://sonarcloud.io/dashboard?id=hexagonkt_hexagon">
       <img
@@ -76,6 +76,10 @@ Hexagon's high-level features.
 # Architecture
 
 How Hexagon fits in your architecture in a picture.
+
+!!! Note
+    Using this toolkit won't make your application compliant with Hexagonal Architecture (by its
+    nature, no tool can do that), you have to provide a layer of abstraction by yourself.
 
 ![architecture](/img/architecture.svg)
 

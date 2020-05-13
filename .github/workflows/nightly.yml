@@ -1,0 +1,52 @@
+
+name: Nightly
+
+on:
+  schedule:
+    - cron: "59 23 * * *"
+
+jobs:
+  nightly:
+    name: Nightly
+    runs-on: ubuntu-latest
+
+    steps:
+      # SET UP
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+
+      - name: Install Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Restore Cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      # BUILD
+      - name: Build Project
+        run: ./gradlew --warn --console=plain build
+
+      - name: Check Artifacts
+        run: ./gradlew --warn --console=plain createCa createIdentities buildSite tfb
+
+      - name: Test Publishing
+        run: ./gradlew --warn --console=plain publish -PbintrayDryRun=true
+
+      - name: Start Benchmark Containers
+        run: |
+          export COMPOSE_FILE="docker-compose.yml:hexagon_benchmark/docker-compose.yml"
+          docker-compose --log-level=warning up -d --build
+
+      - name: Upload Tests Reports (ON FAILURE)
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: test_reports
+          path: "*/build/**/TEST-*.xml"
