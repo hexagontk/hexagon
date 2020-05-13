@@ -14,7 +14,7 @@
     <img
       alt="GitHub Actions"
       src=
-        "https://github.com/hexagonkt/hexagon/workflows/.github/workflows/main.yml/badge.svg?branch=master&event=push" />
+        "https://github.com/hexagonkt/hexagon/workflows/.github/workflows/Release/badge.svg?branch=master&event=push" />
   </a>
   <a href="https://sonarcloud.io/dashboard?id=hexagonkt_hexagon">
     <img
