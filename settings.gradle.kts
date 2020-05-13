@@ -8,6 +8,9 @@ gradle.rootProject {
         group = "com.hexagonkt"
         description = "The atoms of your platform"
 
+        // Gradle
+        extra["gradleScripts"] = "https://raw.githubusercontent.com/hexagonkt/hexagon"
+
         // Bintray
         extra["bintrayRepo"] = "hexagon"
         extra["bintrayOrganization"] = "hexagonkt"
@@ -66,7 +69,7 @@ gradle.rootProject {
         extra["ahcVersion"] = "2.12.1"
 
         // store_mongodb
-        extra["mongodbVersion"] = "4.0.2"
+        extra["mongodbVersion"] = "4.0.3"
 
         // templates_pebble
         extra["pebbleVersion"] = "3.1.3"

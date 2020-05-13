@@ -2,7 +2,7 @@
 import org.apache.tools.ant.DirectoryScanner
 
 apply(from = "../gradle/kotlin.gradle")
-apply(from = "../gradle/service.gradle")
+apply(from = "../gradle/application.gradle")
 apply(from = "../gradle/junit.gradle")
 
 plugins {
@@ -83,7 +83,7 @@ val applicationClassName =
     project.extra["applicationClassName"]?.toString() ?: error("applicationClassName not found")
 
 tasks.register<WriteProperties>("gradleSettings") {
-    val repositoryFilesPath = "https://raw.githubusercontent.com/hexagonkt/hexagon"
+    val repositoryFilesPath = project.extra["gradleScripts"] ?: error("Gradle helpers URL missing")
 
     setProperties(
         mapOf(

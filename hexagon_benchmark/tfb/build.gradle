@@ -4,8 +4,8 @@ plugins {
 }
 
 apply(from: "$gradleScripts/kotlin.gradle")
-apply(from: "$gradleScripts/service.gradle")
-apply(from: "$gradleScripts/testng.gradle")
+apply(from: "$gradleScripts/application.gradle")
+apply(from: "$gradleScripts/junit.gradle")
 
 apply(plugin: "war")
 

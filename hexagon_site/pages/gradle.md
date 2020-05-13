@@ -183,16 +183,16 @@ To set up this script's parameters, check the [build variables section]. This he
 
 * javaScriptDirectory: JavaScript directory inside the `web` directory. By default it is: "js".
 
-## Service
+## Application
 
 Gradle's script for a service or application. It adds two extra tasks:
 
-* buildInfo: add configuration file (`service.properties`) with build variables to the package.
-* serve: Run the service in another thread. This allow the possibility to 'watch' source changes. To
-  run the services and watch for changes you need to execute this task with the	`--continuous`
+* buildInfo: add configuration file (`application.properties`) with build variables to the package.
+* serve: Run the service in another thread. This allows the possibility to 'watch' source changes.
+  To run the services and watch for changes you need to execute this task with the	`--continuous`
   (`-t`) Gradle flag. Ie: `gw -t serve`.
 
-To use it apply `$gradleScripts/service.gradle` to your `build.gradle`.
+To use it apply `$gradleScripts/application.gradle` to your `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
@@ -297,7 +297,7 @@ Kotlin plugin. TODO Describe source structure.
 
 Uses TestNG as the test framework.
 
-To use it apply `$gradleScripts/testng.gradle` to your `build.gradle`.
+To use it, apply `$gradleScripts/testng.gradle` to your `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
