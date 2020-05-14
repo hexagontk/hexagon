@@ -3,7 +3,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
-project.extra["bintrayPublications"] = listOf("kotlinPom")
+project.extra["bintrayPublications"] = listOf("hexagon_pom", "hexagon_lean_pom")
 
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/junit.gradle")
