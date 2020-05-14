@@ -308,19 +308,6 @@ if ('serviceWorker' in navigator)
   
     <li class="md-tabs__item">
       
-        <a href="../guides/mtls/" class="md-tabs__link">
-          Guides
-        </a>
-      
-    </li>
-  
-
-      
-        
-  
-  
-    <li class="md-tabs__item">
-      
         <a href="../examples/example_projects/" class="md-tabs__link">
           Examples
         </a>
@@ -472,18 +459,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="../port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
       HTTP Client
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../port_store/port_store/" title="Data Store" class="md-nav__link">
-      Data Store
     </a>
   </li>
 
@@ -1002,46 +977,10 @@ if ('serviceWorker' in navigator)
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
-      Guides
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        Guides
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../guides/mtls/" title="Mutual TLS" class="md-nav__link">
-      Mutual TLS
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
-    <label class="md-nav__link" for="nav-4">
       Examples
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
+      <label class="md-nav__title" for="nav-3">
         Examples
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1066,13 +1005,13 @@ if ('serviceWorker' in navigator)
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
     
-    <label class="md-nav__link" for="nav-4-2">
+    <label class="md-nav__link" for="nav-3-2">
       Code Examples
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-2">
+      <label class="md-nav__title" for="nav-3-2">
         Code Examples
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1119,13 +1058,13 @@ if ('serviceWorker' in navigator)
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
-    <label class="md-nav__link" for="nav-5">
+    <label class="md-nav__link" for="nav-4">
       Community
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
+      <label class="md-nav__title" for="nav-4">
         Community
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1319,7 +1258,7 @@ below.</p>
 
 <span class="n">logger</span><span class="p">.</span><span class="n">info</span> <span class="p">{</span>
     <span class="s">&quot;&quot;&quot;</span>
-<span class="s">    You can add a quick log without declaring a Logger using &#39;com.hexagonkt.helpers.logger&#39;.</span>
+<span class="s">    You can add a quick log without declaring a Logger with &#39;com.hexagonkt.helpers.logger&#39;.</span>
 <span class="s">    It is a default logger created for the System class (same as `Logger(System::class)`).</span>
 <span class="s">    &quot;&quot;&quot;</span>
 <span class="p">}</span>
@@ -1376,15 +1315,19 @@ a binding (in tests for example).</p>
 25
 26
 27
-28</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c1">// Bind classes to functions (create a different instance with each `inject` call)</span>
+28
+29
+30</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c1">// Bind classes to functions (create a different instance with each `inject` call)</span>
 <span class="n">InjectionManager</span><span class="p">.</span><span class="n">bind</span><span class="p">&lt;</span><span class="n">Date</span><span class="p">&gt;</span> <span class="p">{</span> <span class="n">java</span><span class="p">.</span><span class="n">sql</span><span class="p">.</span><span class="n">Date</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">currentTimeMillis</span><span class="p">())</span> <span class="p">}</span>
 
 <span class="c1">// Bind classes to objects (returns the same instance for all `inject` calls)</span>
 <span class="n">InjectionManager</span><span class="p">.</span><span class="n">bindObject</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;(</span><span class="s">&quot;STR&quot;</span><span class="p">)</span>
 
 <span class="c1">// You can use labels to inject different instances</span>
-<span class="n">InjectionManager</span><span class="p">.</span><span class="n">bind</span><span class="p">&lt;</span><span class="n">Date</span><span class="p">&gt;(</span><span class="s">&quot;+1h&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">java</span><span class="p">.</span><span class="n">sql</span><span class="p">.</span><span class="n">Date</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">currentTimeMillis</span><span class="p">()</span> <span class="p">+</span> <span class="m">3</span><span class="n">_600_000</span><span class="p">)</span> <span class="p">}</span>
 <span class="n">InjectionManager</span><span class="p">.</span><span class="n">bindObject</span><span class="p">&lt;</span><span class="n">String</span><span class="p">&gt;(</span><span class="s">&quot;toolkit&quot;</span><span class="p">,</span> <span class="s">&quot;Hexagon&quot;</span><span class="p">)</span>
+<span class="n">InjectionManager</span><span class="p">.</span><span class="n">bind</span><span class="p">&lt;</span><span class="n">Date</span><span class="p">&gt;(</span><span class="s">&quot;+1h&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">java</span><span class="p">.</span><span class="n">sql</span><span class="p">.</span><span class="n">Date</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">currentTimeMillis</span><span class="p">()</span> <span class="p">+</span> <span class="m">3</span><span class="n">_600_000</span><span class="p">)</span>
+<span class="p">}</span>
 
 <span class="k">val</span> <span class="py">currentSqlDate</span> <span class="p">=</span> <span class="n">InjectionManager</span><span class="p">.</span><span class="n">inject</span><span class="p">&lt;</span><span class="n">Date</span><span class="p">&gt;()</span>
 <span class="k">val</span> <span class="py">currentSqlDateInferredType</span><span class="p">:</span> <span class="n">Date</span> <span class="p">=</span> <span class="n">InjectionManager</span><span class="p">.</span><span class="n">inject</span><span class="p">()</span>

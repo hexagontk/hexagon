@@ -308,19 +308,6 @@ if ('serviceWorker' in navigator)
   
     <li class="md-tabs__item">
       
-        <a href="../guides/mtls/" class="md-tabs__link">
-          Guides
-        </a>
-      
-    </li>
-  
-
-      
-        
-  
-  
-    <li class="md-tabs__item">
-      
         <a href="../examples/example_projects/" class="md-tabs__link">
           Examples
         </a>
@@ -484,18 +471,6 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
-    <a href="../port_store/port_store/" title="Data Store" class="md-nav__link">
-      Data Store
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../create_services/" title="Create Services" class="md-nav__link">
       Create Services
     </a>
@@ -595,8 +570,8 @@ if ('serviceWorker' in navigator)
 </li>
         
           <li class="md-nav__item">
-  <a href="#service" class="md-nav__link">
-    Service
+  <a href="#application" class="md-nav__link">
+    Application
   </a>
   
 </li>
@@ -618,6 +593,13 @@ if ('serviceWorker' in navigator)
           <li class="md-nav__item">
   <a href="#certificates" class="md-nav__link">
     Certificates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lean" class="md-nav__link">
+    Lean
   </a>
   
 </li>
@@ -1062,46 +1044,10 @@ if ('serviceWorker' in navigator)
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
-      Guides
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        Guides
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../guides/mtls/" title="Mutual TLS" class="md-nav__link">
-      Mutual TLS
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
-    <label class="md-nav__link" for="nav-4">
       Examples
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
+      <label class="md-nav__title" for="nav-3">
         Examples
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1126,13 +1072,13 @@ if ('serviceWorker' in navigator)
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
     
-    <label class="md-nav__link" for="nav-4-2">
+    <label class="md-nav__link" for="nav-3-2">
       Code Examples
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-2">
+      <label class="md-nav__title" for="nav-3-2">
         Code Examples
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1179,13 +1125,13 @@ if ('serviceWorker' in navigator)
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
-    <label class="md-nav__link" for="nav-5">
+    <label class="md-nav__link" for="nav-4">
       Community
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
+      <label class="md-nav__title" for="nav-4">
         Community
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1339,8 +1285,8 @@ if ('serviceWorker' in navigator)
 </li>
         
           <li class="md-nav__item">
-  <a href="#service" class="md-nav__link">
-    Service
+  <a href="#application" class="md-nav__link">
+    Application
   </a>
   
 </li>
@@ -1362,6 +1308,13 @@ if ('serviceWorker' in navigator)
           <li class="md-nav__item">
   <a href="#certificates" class="md-nav__link">
     Certificates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lean" class="md-nav__link">
+    Lean
   </a>
   
 </li>
@@ -1453,7 +1406,7 @@ IDEs.</p>
 <p>Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (logos).</p>
 <p>For image rendering you will need <a href="https://github.com/GNOME/librsvg">rsvg</a> (librsvg2-bin) and <a href="https://www.imagemagick.org">imagemagick</a> installed in the
 development machine.</p>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/icons.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/icons.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>logoSmall (REQUIRED): SVG file used to render the small logo. Used for the favicon.</li>
@@ -1461,8 +1414,8 @@ development machine.</p>
 <li>logoWide (REQUIRED): SVG file used to render the wide logo. Used for MS Windows tiles.</li>
 </ul>
 <h3 id="jmh">JMH<a class="headerlink" href="#jmh" title="Permanent link">&para;</a></h3>
-<p>This scripts adds support for running <a href="https://openjdk.java.net/projects/code-tools/jmh">JMH micro benchmarks</a>.</p>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/jmh.gradle</span></code> and add the
+<p>This script adds support for running <a href="https://openjdk.java.net/projects/code-tools/jmh">JMH micro benchmarks</a>.</p>
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/jmh.gradle</span></code> and add the
 <code class="codehilite"><span class="err">id &#39;me.champeau.gradle.jmh&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
@@ -1475,9 +1428,9 @@ development machine.</p>
 <li>fork (REQUIRED): how many times to forks a single benchmark. Use 0 to disable forking altogether.</li>
 <li>operationsPerInvocation (REQUIRED): operations per invocation.</li>
 <li>timeOnIteration (REQUIRED): time to spend at each measurement iteration.</li>
-<li>warmup (REQUIRED): time to spend at each warmup iteration.</li>
+<li>warmup (REQUIRED): time to spend at each warm up iteration.</li>
 <li>warmupBatchSize (REQUIRED): number of benchmark method calls per operation.</li>
-<li>warmupIterations (REQUIRED): number of warmup iterations to do.</li>
+<li>warmupIterations (REQUIRED): number of warm up iterations to do.</li>
 </ul>
 <p>Sample benchmark code:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -1509,11 +1462,12 @@ development machine.</p>
 </td></tr></table>
 
 <h3 id="junit">JUnit<a class="headerlink" href="#junit" title="Permanent link">&para;</a></h3>
-<p>Uses JUnit 5 as the test framework.</p>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/junit.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>Uses JUnit 5 as the test framework. It also includes <a href="https://github.com/kotest/kotest">Kotest</a> in the test classpath.</p>
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/junit.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
-<li>junitVersion: JUnit version (5+), the default value is: 5.5.1.</li>
+<li>junitVersion: JUnit version (5+), the default value is: 5.6.2.</li>
+<li>kotestVersion: Kotest version, the default value is: 4.0.5.</li>
 </ul>
 <h3 id="kotlin">Kotlin<a class="headerlink" href="#kotlin" title="Permanent link">&para;</a></h3>
 <p>Adds Kotlin's Gradle plugin. It sets up:</p>
@@ -1551,29 +1505,29 @@ the root <code class="codehilite"><span class="err">build.gradle</span></code>.<
 <p>Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
-<li>javaScriptDirectory: JavaScript directory inside the <code class="codehilite"><span class="err">web</span></code> directory. By default it is: "js".</li>
+<li>javaScriptDirectory: JavaScript directory inside the <code class="codehilite"><span class="err">web</span></code> directory. By default, it is: "js".</li>
 </ul>
-<h3 id="service">Service<a class="headerlink" href="#service" title="Permanent link">&para;</a></h3>
+<h3 id="application">Application<a class="headerlink" href="#application" title="Permanent link">&para;</a></h3>
 <p>Gradle's script for a service or application. It adds two extra tasks:</p>
 <ul>
-<li>buildInfo: add configuration file (<code class="codehilite"><span class="err">service.properties</span></code>) with build variables to the package.</li>
-<li>serve: Run the service in another thread. This allow the possibility to 'watch' source changes. To
-  run the services and watch for changes you need to execute this task with the <code class="codehilite"><span class="err">--continuous</span></code>
-  (<code class="codehilite"><span class="err">-t</span></code>) Gradle flag. Ie: <code class="codehilite"><span class="err">gw -t serve</span></code>.</li>
+<li>buildInfo: add configuration file (<code class="codehilite"><span class="err">application.properties</span></code>) with build variables to the package.</li>
+<li>watch: Run the application in another thread. This allows the possibility to watch source changes.
+  To run the application and watch for changes you need to execute this task with the <code class="codehilite"><span class="err">--continuous</span></code>
+  (<code class="codehilite"><span class="err">-t</span></code>) Gradle flag. Ie: <code class="codehilite"><span class="err">gw -t watch</span></code>.</li>
 </ul>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/service.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/application.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
-<li>applicationClassName: name of the class with the main method of the service.</li>
+<li>mainClassName: name of the class with the main method of the application.</li>
 </ul>
 <h3 id="jbake">JBake<a class="headerlink" href="#jbake" title="Permanent link">&para;</a></h3>
 <p>Adds support for site generation using <a href="https://jbake.org">JBake</a>.</p>
 <p>To generate the site execute: <code class="codehilite"><span class="err">gw bake</span></code> and to test it run: <code class="codehilite"><span class="err">gw bakePreview</span></code>.</p>
 <p>The preview site will be served at: <a href="http://localhost:8888">http://localhost:8888</a>. You can change
 the port defining the <code class="codehilite"><span class="err">sitePort</span></code> variable inside <code class="codehilite"><span class="err">gradle.properties</span></code>.</p>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/jbake.gradle</span></code> and add the
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/jbake.gradle</span></code> and add the
 <code class="codehilite"><span class="err">id &#39;org.jbake.site&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>JBake <code class="codehilite"><span class="err">content</span></code> folder can not be changed (it seems a bug).</p>
+<p>JBake <code class="codehilite"><span class="err">content</span></code> folder cannot be changed (it seems a bug).</p>
 <p>To generate clean URLs, add the following settings:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">configuration</span><span class="o">[</span><span class="s1">&#39;uri.noExtension&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span>
@@ -1590,13 +1544,13 @@ the port defining the <code class="codehilite"><span class="err">sitePort</span>
 </ul>
 <h3 id="sonarqube">SonarQube<a class="headerlink" href="#sonarqube" title="Permanent link">&para;</a></h3>
 <p>Set up the project to be analyzed by the <a href="https://sonarcloud.io">SonarQube instance running in the cloud</a>.</p>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/sonarqube.gradle</span></code> and add the
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/sonarqube.gradle</span></code> and add the
 <code class="codehilite"><span class="err">id &#39;org.sonarqube&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>sonarQubeProject (REQUIRED): ID used to locate the project in SonarQube host.</li>
 <li>sonarQubeOrganization (REQUIRED): organization owning the project.</li>
-<li>sonarQubeHost: SonarQube server to be used. By default it is: <code class="codehilite"><span class="c">https://sonarcloud.io</span></code>.</li>
+<li>sonarQubeHost: SonarQube server to be used. By default, it is: <code class="codehilite"><span class="c">https://sonarcloud.io</span></code>.</li>
 <li>sonarQubeToken (REQUIRED): If not set, the <code class="codehilite"><span class="err">SONARQUBE_TOKEN</span></code> environment variable will be used.</li>
 </ul>
 <h3 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h3>
@@ -1611,7 +1565,7 @@ used for production environments.</p>
   JDK <code class="codehilite"><span class="err">cacerts</span></code> entries won't be loaded and thus, not trusted. It can be used to set up HTTPS
   clients (not required to be set at JVM level).</li>
 <li><code class="codehilite"><span class="err">&lt;domain&gt;.p12</span></code>: there would be one per each domain (see <code class="codehilite"><span class="err">sslDomain</span></code> variable). These stores are
-  signed by the CA and they contain the service private key and its full chain certificate.
+  signed by the CA, and they contain the service private key and its full chain certificate.
   <code class="codehilite"><span class="err">&lt;domain&gt;</span></code> will be the domain name without the TLD, and the Subject alternative names (SAN) will
   include <code class="codehilite"><span class="err">&lt;domain&gt;.test</span></code> (<a href="https://tools.ietf.org/html/rfc2606">TLD for local environments</a>) and <code class="codehilite"><span class="err">localhost</span></code> (along the extra subdomains
   specified).</li>
@@ -1621,26 +1575,32 @@ used for production environments.</p>
 <li>createCa: creates <code class="codehilite"><span class="err">ca.p12</span></code> and import its public certificate inside <code class="codehilite"><span class="err">trust.p12</span></code>.</li>
 <li>createIdentities: creates the <code class="codehilite"><span class="err">&lt;domain&gt;.p12</span></code> store for all <code class="codehilite"><span class="err">sslDomain</span></code> variables.</li>
 </ul>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/certificates.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/certificates.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
-<li>sslDomain[1-9] (REQUIRED): main domain for the identity store. You can create up to ten (from
+<li>sslDomain[1-9] (REQUIRED): the main domain for the identity store. You can create up to ten (from
  <code class="codehilite"><span class="err">sslDomain</span></code> to <code class="codehilite"><span class="err">sslDomain9</span></code>). Each of these variables has the format
  <code class="codehilite"><span class="err">subdomain1|subdomain2|subdomainN|domain.tld</span></code> subdomains are added to <code class="codehilite"><span class="err">&lt;domain&gt;.p12</span></code> alternative
  names (aside of <code class="codehilite"><span class="err">&lt;domain&gt;.test</span></code> and <code class="codehilite"><span class="err">localhost</span></code> which are always added). By default, no extra
  domains are added to the key store.</li>
 <li>sslOrganization (REQUIRED): organization stated in created certificates.</li>
-<li>sslCaFile: certificate authority key store file. By default: "ca.p12"</li>
-<li>sslCaAlias: CA alias in the key store. If not provided, it will be "ca"</li>
-<li>sslTrustFile: trust store file name, by default it is "trust.p12"</li>
-<li>sslPath: path used to generate the key stores. By default it will be project's build directory.</li>
-<li>sslPassword: password used for the generated key stores. By default it is the file name reversed.</li>
+<li>sslCaFile: certificate authority key store file. By default: "ca.p12".</li>
+<li>sslCaAlias: CA alias in the key store. If not provided, it will be "ca".</li>
+<li>sslTrustFile: trust store file name, by default it is "trust.p12".</li>
+<li>sslPath: path used to generate the key stores. By default, it will be project's build directory.</li>
+<li>sslPassword: password used for the generated key stores. By default, it is the file name reversed.</li>
 <li>sslValidity: validity period (in days) for certificates. If not provided, it will be 365.</li>
-<li>sslCountry: country used in the certificates. By default it is the current locale's country code.</li>
+<li>sslCountry: country used in the certificates. By default, it is the current locale's country code.</li>
 </ul>
+<h3 id="lean">Lean<a class="headerlink" href="#lean" title="Permanent link">&para;</a></h3>
+<p>This script changes the default Gradle source layout to be less bulky. To use it you must apply the
+<code class="codehilite"><span class="err">$gradleScripts/lean.gradle</span></code> script to your <code class="codehilite"><span class="err">build.gradle</span></code> file. It must be applied after the
+Kotlin plugin.</p>
+<p>After applying this script, the source folders will be <code class="codehilite"><span class="cp">${</span><span class="n">projectDir</span><span class="cp">}</span>/main</code> and
+<code class="codehilite"><span class="cp">${</span><span class="n">projectDir</span><span class="cp">}</span>/test</code>, and the resources will be stored also in these folders.</p>
 <h3 id="testng">TestNG<a class="headerlink" href="#testng" title="Permanent link">&para;</a></h3>
 <p>Uses TestNG as the test framework.</p>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/testng.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/testng.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>testngVersion: TestNG version, the default value is: 6.14.3.</li>

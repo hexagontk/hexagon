@@ -308,19 +308,6 @@ if ('serviceWorker' in navigator)
   
     <li class="md-tabs__item">
       
-        <a href="../guides/mtls/" class="md-tabs__link">
-          Guides
-        </a>
-      
-    </li>
-  
-
-      
-        
-  
-  
-    <li class="md-tabs__item">
-      
         <a href="../examples/example_projects/" class="md-tabs__link">
           Examples
         </a>
@@ -482,18 +469,6 @@ if ('serviceWorker' in navigator)
           
           
 
-
-  <li class="md-nav__item">
-    <a href="../port_store/port_store/" title="Data Store" class="md-nav__link">
-      Data Store
-    </a>
-  </li>
-
-        
-          
-          
-          
-
   
 
 
@@ -528,13 +503,6 @@ if ('serviceWorker' in navigator)
         <li class="md-nav__item">
   <a href="#from-scratch" class="md-nav__link">
     From scratch
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#from-a-maven-archetype" class="md-nav__link">
-    From a Maven Archetype
   </a>
   
 </li>
@@ -979,46 +947,10 @@ if ('serviceWorker' in navigator)
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
     
     <label class="md-nav__link" for="nav-3">
-      Guides
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        Guides
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../guides/mtls/" title="Mutual TLS" class="md-nav__link">
-      Mutual TLS
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
-    <label class="md-nav__link" for="nav-4">
       Examples
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
+      <label class="md-nav__title" for="nav-3">
         Examples
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1043,13 +975,13 @@ if ('serviceWorker' in navigator)
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
     
-    <label class="md-nav__link" for="nav-4-2">
+    <label class="md-nav__link" for="nav-3-2">
       Code Examples
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
-      <label class="md-nav__title" for="nav-4-2">
+      <label class="md-nav__title" for="nav-3-2">
         Code Examples
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1096,13 +1028,13 @@ if ('serviceWorker' in navigator)
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
-    <label class="md-nav__link" for="nav-5">
+    <label class="md-nav__link" for="nav-4">
       Community
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
+      <label class="md-nav__title" for="nav-4">
         Community
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1205,13 +1137,6 @@ if ('serviceWorker' in navigator)
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#from-a-maven-archetype" class="md-nav__link">
-    From a Maven Archetype
-  </a>
-  
-</li>
-      
       
       
       
@@ -1243,7 +1168,7 @@ if ('serviceWorker' in navigator)
 <p>To create a new Hexagon service, you can clone a minimum running example using the <a href="https://github.com/hexagonkt/gradle_starter">Gradle Starter</a>
 or the <a href="https://github.com/hexagonkt/maven_starter">Maven Starter</a>.</p>
 <h2 id="from-scratch">From scratch<a class="headerlink" href="#from-scratch" title="Permanent link">&para;</a></h2>
-<p>You can write a <a href="https://gradle.org">Gradle</a> project from scratch (Gradle 5.3 or newer is required) using the following
+<p>You can write a <a href="https://gradle.org">Gradle</a> project from scratch (Gradle 6.4 or newer is required) using the following
 <code class="codehilite"><span class="err">build.gradle</span></code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -1280,9 +1205,6 @@ or the <a href="https://github.com/hexagonkt/maven_starter">Maven Starter</a>.</
 <span class="o">}</span>
 </code></pre></div>
 </td></tr></table>
-
-<h2 id="from-a-maven-archetype">From a Maven Archetype<a class="headerlink" href="#from-a-maven-archetype" title="Permanent link">&para;</a></h2>
-<p>TODO Document. Explain how archetypes can be used to also generate Gradle projects.</p>
   
     
   
@@ -1320,8 +1242,8 @@ or the <a href="https://github.com/hexagonkt/maven_starter">Maven Starter</a>.</
       <nav class="md-footer-nav__inner md-grid">
         
           <a
-            href="../port_store/port_store/"
-            title="Data Store"
+            href="../port_http_client/port_http_client/"
+            title="HTTP Client"
             class="md-flex md-footer-nav__link md-footer-nav__link--prev"
             rel="prev">
 
@@ -1333,7 +1255,7 @@ or the <a href="https://github.com/hexagonkt/maven_starter">Maven Starter</a>.</
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Data Store
+                HTTP Client
               </span>
             </div>
           </a>
