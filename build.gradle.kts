@@ -50,7 +50,7 @@ task("setUp") {
         prePush.writeText("""
             #!/usr/bin/env sh
             set -e
-            ./gradlew --warn --console plain clean build publishToMavenLocal
+            ./gradlew --warn --console=plain clean build publishToMavenLocal
         """.trimIndent())
         prePush.setExecutable(true)
     }

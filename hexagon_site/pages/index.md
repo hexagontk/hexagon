@@ -6,8 +6,7 @@ hero: |
     <a href="https://github.com/hexagonkt/hexagon/actions">
       <img
         alt="GitHub Actions"
-        src=
-          "https://github.com/hexagonkt/hexagon/workflows/.github/workflows/Release/badge.svg?branch=master&event=push" />
+        src= "https://github.com/hexagonkt/hexagon/workflows/Release/badge.svg" />
     </a>
     <a href="https://sonarcloud.io/dashboard?id=hexagonkt_hexagon">
       <img
