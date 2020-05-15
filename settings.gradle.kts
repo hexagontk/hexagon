@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.16"
+        version = "1.2.17"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
     }
@@ -14,7 +14,7 @@ include(
     // Infrastructure
     "hexagon_site",
     "hexagon_starters",
-    "hexagon_benchmark",
+//    "hexagon_benchmark",
 
     // Internal modules
     "hexagon_core",

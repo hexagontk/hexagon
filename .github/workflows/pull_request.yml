@@ -36,10 +36,10 @@ jobs:
       - name: Test Publishing
         run: ./gradlew --warn --console=plain publish -PbintrayDryRun=true
 
-      - name: Start Benchmark Containers
-        run: |
-          export COMPOSE_FILE="docker-compose.yml:hexagon_benchmark/docker-compose.yml"
-          docker-compose --log-level=warning up -d --build
+#      - name: Start Benchmark Containers
+#        run: |
+#          export COMPOSE_FILE="docker-compose.yml:hexagon_benchmark/docker-compose.yml"
+#          docker-compose --log-level=warning up -d --build
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2
