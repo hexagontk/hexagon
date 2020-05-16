@@ -545,8 +545,7 @@ client.get("/hello").apply {
 **DISCLAIMER**: The project is not yet production ready. Use it at your own risk.
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
-in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
-so, read the [Benchmark readme](hexagon_benchmark/README.md).
+in the [TechEmpower Web Framework Benchmarks][benchmark].
 
 Tests, of course, are taken into account. These are some coverage metrics:
 
