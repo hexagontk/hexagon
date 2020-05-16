@@ -9,14 +9,17 @@ import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.http.client.Response
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 
 /**
  * TODO Use templates
  */
-@Test abstract class TodoTest(adapter: ServerPort) {
+@TestInstance(PER_CLASS)
+abstract class TodoTest(adapter: ServerPort) {
 
     // sample
     private val log: Logger = Logger(TodoTest::class)
@@ -99,11 +102,11 @@ import org.testng.annotations.Test
         Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
     }
 
-    @BeforeClass fun initialize() {
+    @BeforeAll fun initialize() {
         server.start()
     }
 
-    @AfterClass fun shutdown() {
+    @AfterAll fun shutdown() {
         server.stop()
     }
 
