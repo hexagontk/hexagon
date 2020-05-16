@@ -78,7 +78,7 @@ childProjects.forEach { pair ->
     val prj = pair.value
     val empty = prj.getTasksByName("dokkaMd", false).isEmpty()
 
-    if (name !in listOf("hexagon_benchmark", "hexagon_site", "hexagon_starters") && empty) {
+    if (name !in listOf("hexagon_site", "hexagon_starters") && empty) {
         project(name).tasks.register<DokkaTask>("dokkaMd") {
             project("hexagon_site").tasks["mkdocs"].dependsOn(":$name:dokkaMd")
 
@@ -101,7 +101,7 @@ getTasksByName("jacocoTestReport", true).forEach {
 
 tasks.register<Exec>("infrastructure") {
     errorOutput = nullOutputStream()
-    commandLine("docker-compose --log-level warning up -d mongodb postgresql rabbitmq".split(" "))
+    commandLine("docker-compose --log-level warning up -d mongodb rabbitmq".split(" "))
 }
 
 getTasksByName("test", true).forEach {

@@ -33,12 +33,7 @@ jobs:
         run: ./gradlew --warn --console=plain build
 
       - name: Check Artifacts
-        run: ./gradlew --warn --console=plain createCa createIdentities buildSite tfb
-
-#      - name: Start Benchmark Containers
-#        run: |
-#          export COMPOSE_FILE="docker-compose.yml:hexagon_benchmark/docker-compose.yml"
-#          docker-compose --log-level=warning up -d --build
+        run: ./gradlew --warn --console=plain createCa createIdentities buildSite
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2

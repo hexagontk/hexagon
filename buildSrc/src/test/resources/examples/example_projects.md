@@ -18,11 +18,6 @@ checked [:package: here][Contact Application].
 
 Example REST service using Ryanair's APIs. You can find the repository [:package: here][Flyhopper].
 
-# [Benchmark]
-
-This is an application for checking the [TechEmpower Web Framework Benchmarks][TFB]. It is an
-internal Hexagon module. You can find the code [:package: here][Benchmark].
-
 # [Gradle Starter]
 
 Hexagon starter project using Gradle as the build tool. The source code is inside this
@@ -35,8 +30,6 @@ Hexagon example service built with Maven. The sources are located [:package: her
 [Todo-Backend]: https://github.com/hexagonkt/todo_backend
 [Real World]: https://github.com/hexagonkt/real_world
 [Contact Application]: https://github.com/hexagonkt/contact_application
-[TFB]: https://www.techempower.com/benchmarks
-[Benchmark]: https://github.com/hexagonkt/tfb/tree/master/frameworks/Kotlin/hexagon
 [Flyhopper]: https://github.com/hexagonkt/flyhopper
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter

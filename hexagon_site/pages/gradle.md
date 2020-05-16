@@ -198,36 +198,6 @@ To set up this script's parameters, check the [build variables section]. This he
 
 * mainClassName: name of the class with the main method of the application.
 
-## JBake
-
-Adds support for site generation using [JBake].
-
-To generate the site execute: `gw bake` and to test it run: `gw bakePreview`.
-
-The preview site will be served at: [http://localhost:8888](http://localhost:8888). You can change
-the port defining the `sitePort` variable inside `gradle.properties`.
-
-To use it, apply `$gradleScripts/jbake.gradle` and add the
-`id 'org.jbake.site' version 'VERSION'` plugin to the root `build.gradle`.
-
-JBake `content` folder cannot be changed (it seems a bug).
-
-To generate clean URLs, add the following settings:
-
-```groovy
-configuration['uri.noExtension'] = true
-configuration['uri.noExtension.prefix'] = '/'
-```
-
-To set up this script's parameters, check the [build variables section]. This helper settings are:
-
-* siteHost: site canonical URL, by default it is: "".
-* configData: JBake settings map. It is an empty map by default.
-* jbakeVersion: JBake version. By default: "2.6.4".
-* sitePort: preview site port for development. It is "8888" if not set.
-
-[JBake]: https://jbake.org
-
 ## SonarQube
 
 Set up the project to be analyzed by the [SonarQube instance running in the cloud][sonarcloud].

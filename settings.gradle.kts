@@ -14,7 +14,6 @@ include(
     // Infrastructure
     "hexagon_site",
     "hexagon_starters",
-//    "hexagon_benchmark",
 
     // Internal modules
     "hexagon_core",

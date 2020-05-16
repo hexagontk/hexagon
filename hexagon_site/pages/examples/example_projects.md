@@ -21,5 +21,4 @@ Example REST service using Ryanair's APIs. You can find the repository [:package
 [Todo-Backend]: https://github.com/hexagonkt/todo_backend
 [Real World]: https://github.com/hexagonkt/real_world
 [Contact Application]: https://github.com/hexagonkt/contact_application
-[TFB]: https://www.techempower.com/benchmarks
 [Flyhopper]: https://github.com/hexagonkt/flyhopper
