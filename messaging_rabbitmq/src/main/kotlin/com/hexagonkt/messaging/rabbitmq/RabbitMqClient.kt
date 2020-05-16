@@ -86,6 +86,7 @@ class RabbitMqClient(
     fun bindExchange(exchange: String, exchangeType: String, routingKey: String, queue: String) {
         withChannel {
             it.queueDeclare(queue, false, false, false, null)
+            it.queuePurge(queue);
             it.exchangeDeclare(exchange, exchangeType, false, false, false, null)
             it.queueBind(queue, exchange, routingKey)
         }
@@ -97,12 +98,12 @@ class RabbitMqClient(
 
         withChannel {
             it.queueDeclare(routingKey, false, false, false, null)
+            it.queuePurge(routingKey);
             it.queueBind(routingKey, exchange, routingKey)
         }
         consume(routingKey, type, handler)
     }
 
-    /** . */
     fun <T : Any, R : Any> consume(queueName: String, type: KClass<T>, handler: (T) -> R) {
         val channel = createChannel()
         val callback = Handler(connectionFactory, channel, threadPool, type, handler)
@@ -206,12 +207,17 @@ class RabbitMqClient(
                     if (properties?.correlationId == correlationId)
                         result = String(body ?: byteArrayOf())
                 }
+
+                override fun handleCancelOk(consumerTag: String) {
+                    log.debug { "Explicit cancel for the consumer $consumerTag" }
+                }
             }
 
-            it.basicConsume(replyQueueName, true, consumer)
+            val ctag = it.basicConsume(replyQueueName, true, consumer)
             while (result == null) {
                 sleep(5)
             } // Wait until callback is called
+            it.basicCancel(ctag)
             result ?: ""
         }
 }
