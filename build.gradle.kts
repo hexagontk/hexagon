@@ -51,7 +51,7 @@ task("setUp") {
             #!/usr/bin/env sh
             set -e
             ./gradlew --warn --console=plain clean build publishToMavenLocal
-        """.trimIndent())
+        """.trimIndent() + "\n")
         prePush.setExecutable(true)
     }
 }
