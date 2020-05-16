@@ -6,12 +6,8 @@ import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
+import com.rabbitmq.client.*
 import com.rabbitmq.client.AMQP.BasicProperties
-import com.rabbitmq.client.Channel
-import com.rabbitmq.client.ConnectionFactory
-import com.rabbitmq.client.DefaultConsumer
-import com.rabbitmq.client.Envelope
-
 import java.nio.charset.Charset
 import java.nio.charset.Charset.defaultCharset
 import java.util.concurrent.ExecutorService
@@ -73,6 +69,21 @@ internal class Handler<T : Any, R : Any> internal constructor (
                 }
             }
         }
+    }
+
+    /** @see DefaultConsumer.handleCancel */
+    override fun handleCancel(consumerTag: String?) {
+        log.error { "Unexpected cancel for the consumer $consumerTag" }
+    }
+
+    override fun handleCancelOk(consumerTag: String) {
+        log.debug { "Explicit cancel for the consumer $consumerTag" }
+    }
+
+    /** @see DefaultConsumer.handleShutdownSignal */
+    override fun handleShutdownSignal(consumerTag: String?, sig: ShutdownSignalException?) {
+        val msg = sig?.localizedMessage ?: ""
+        log.error { "Error shutting down $msg" }
     }
 
     private fun handleResponse(response: R, replyTo: String, correlationId: String?) {
