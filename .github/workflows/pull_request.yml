@@ -45,6 +45,7 @@ jobs:
 
       # QUALITY ANALYSIS
       - name: SonarQube Analysis
+        if: github.repository == 'hexagonkt/hexagon'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
