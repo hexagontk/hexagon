@@ -112,8 +112,8 @@ getTasksByName("test", true).forEach {
 
 sonarqube {
     properties {
-        property("sonar.projectKey", findProperty("sonarQubeProject"))
-        property("sonar.organization", findProperty("sonarQubeOrganization"))
+        property("sonar.projectKey", findProperty("sonarQubeProject") ?: "error")
+        property("sonar.organization", findProperty("sonarQubeOrganization") ?: "error")
         property("sonar.host.url", findProperty("sonarQubeHost") ?: "https://sonarcloud.io")
         property("sonar.login", findProperty("sonarQubeToken") ?: System.getenv("SONARQUBE_TOKEN"))
         property("sonar.coverage.jacoco.xmlReportPaths",
