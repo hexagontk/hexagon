@@ -23,7 +23,7 @@ plugins {
     id("com.jfrog.bintray") version "1.8.5" apply false
 }
 
-apply(from = "gradle/sonarqube.gradle")
+//apply(from = "gradle/sonarqube.gradle")
 apply(from = "gradle/certificates.gradle")
 apply(from = "gradle/docker.gradle.kts")
 
@@ -107,3 +107,74 @@ tasks.register<Exec>("infrastructure") {
 getTasksByName("test", true).forEach {
     it.dependsOn(tasks["infrastructure"])
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+sonarqube {
+    properties {
+//        property("sonar.projectKey", findProperty("sonarQubeProject"))
+//        property("sonar.organization", findProperty("sonarQubeOrganization"))
+        property("sonar.host.url", findProperty("sonarQubeHost") ?: "https://sonarcloud.io")
+        property("sonar.login", findProperty("sonarQubeToken") ?: System.getenv("SONARQUBE_TOKEN"))
+        property("sonar.coverage.jacoco.xmlReportPaths",
+            "build/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
+        )
+
+//        val pullRequest = System.getenv("PULL_REQUEST")
+//        val branch = System.getenv("BRANCH")
+//
+//        if (pullRequest != null && !pullRequest.isBlank() && pullRequest != "false") {
+//            val pullRequestBranch = System.getenv("PULL_REQUEST_BRANCH")
+//            val pullRequestBase = System.getenv("PULL_REQUEST_BASE")
+//
+//            property("sonar.pullrequest.key", pullRequest)
+//            property("sonar.pullrequest.branch", pullRequestBranch)
+//            property("sonar.pullrequest.base", pullRequestBase)
+//        }
+//        else if (branch != null) {
+//            property("sonar.branch.name", branch)
+//        }
+    }
+}
+
+apply(plugin = "jacoco")
+apply(plugin = "org.sonarqube")
+
+repositories {
+    mavenCentral()
+}
+
+tasks.register<JacocoReport>("jacocoRootReport") {
+    dependsOn(
+        *allprojects
+            .mapNotNull {
+                try {
+                    it.tasks.named<Test>("test")
+                }
+                catch(e: Exception) {
+                    null
+                }
+            }
+            .toTypedArray()
+    )
+
+    executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
+    sourceSets(
+        *allprojects
+            .mapNotNull {
+                try {
+                    extensions.getByType(SourceSetContainer::class.java).getByName("main")
+                }
+                catch(e: Exception) {
+                    null
+                }
+            }
+            .toTypedArray()
+    )
+
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = true
+    }
+}
+
