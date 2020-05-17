@@ -110,6 +110,8 @@ getTasksByName("test", true).forEach {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+apply(plugin = "org.sonarqube")
+
 sonarqube {
     properties {
         property("sonar.projectKey", findProperty("sonarQubeProject") ?: "error")
@@ -137,8 +139,9 @@ sonarqube {
     }
 }
 
+tasks.getByPath("sonarqube").dependsOn("jacocoRootReport")
+
 apply(plugin = "jacoco")
-apply(plugin = "org.sonarqube")
 
 repositories {
     mavenCentral()
