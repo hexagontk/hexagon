@@ -112,28 +112,28 @@ getTasksByName("test", true).forEach {
 
 sonarqube {
     properties {
-//        property("sonar.projectKey", findProperty("sonarQubeProject"))
-//        property("sonar.organization", findProperty("sonarQubeOrganization"))
+        property("sonar.projectKey", findProperty("sonarQubeProject"))
+        property("sonar.organization", findProperty("sonarQubeOrganization"))
         property("sonar.host.url", findProperty("sonarQubeHost") ?: "https://sonarcloud.io")
         property("sonar.login", findProperty("sonarQubeToken") ?: System.getenv("SONARQUBE_TOKEN"))
         property("sonar.coverage.jacoco.xmlReportPaths",
             "build/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
         )
 
-//        val pullRequest = System.getenv("PULL_REQUEST")
-//        val branch = System.getenv("BRANCH")
-//
-//        if (pullRequest != null && !pullRequest.isBlank() && pullRequest != "false") {
-//            val pullRequestBranch = System.getenv("PULL_REQUEST_BRANCH")
-//            val pullRequestBase = System.getenv("PULL_REQUEST_BASE")
-//
-//            property("sonar.pullrequest.key", pullRequest)
-//            property("sonar.pullrequest.branch", pullRequestBranch)
-//            property("sonar.pullrequest.base", pullRequestBase)
-//        }
-//        else if (branch != null) {
-//            property("sonar.branch.name", branch)
-//        }
+        val pullRequest = System.getenv("PULL_REQUEST")
+        val branch = System.getenv("BRANCH")
+
+        if (pullRequest != null && !pullRequest.isBlank() && pullRequest != "false") {
+            val pullRequestBranch = System.getenv("PULL_REQUEST_BRANCH")
+            val pullRequestBase = System.getenv("PULL_REQUEST_BASE")
+
+            property("sonar.pullrequest.key", pullRequest)
+            property("sonar.pullrequest.branch", pullRequestBranch)
+            property("sonar.pullrequest.base", pullRequestBase)
+        }
+        else if (branch != null) {
+            property("sonar.branch.name", branch)
+        }
     }
 }
 
