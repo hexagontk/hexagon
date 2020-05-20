@@ -88,17 +88,18 @@ repositories {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
-    dependsOn(*rootProject.subprojects
-        .mapNotException { it.tasks.named<Test>("check") }
-        .toTypedArray()
-    )
+    dependsOn(rootProject.getTasksByName("check", true))
 
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
-    sourceDirectories.from(rootProject.modulesPaths("/src/main/kotlin"))
-    classDirectories.from(rootProject.modulesPaths("/build/classes/kotlin/main"))
+    sourceDirectories.from(rootProject.modulesPaths("src/main/kotlin"))
+    classDirectories.from(rootProject.modulesPaths("build/classes/kotlin/main"))
 
     reports {
-        xml.isEnabled = true
         html.isEnabled = true
+        xml.isEnabled = true
+
+        val reportsOutput = file("content/jacoco").also { it.mkdirs() }
+        html.outputLocation.set(reportsOutput)
+        xml.outputLocation.set(reportsOutput.resolve("jacoco.xml"))
     }
 }

@@ -10,7 +10,7 @@
  * them.
  */
 
-import java.io.OutputStream
+import java.io.OutputStream.nullOutputStream
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
@@ -81,16 +81,16 @@ childProjects.forEach { pair ->
 
             configuration {
                 reportUndocumented = false
-                includes = filesCollection(prj.projectDir, "*.md")
-                samples = filesCollection("${prj.projectDir}/src/test/kotlin", "**/*SamplesTest.kt")
-                sourceRoot { path = "$projectDir/src/main/kotlin" }
+                includes = prj.pathsCollection(include = "*.md")
+                samples = prj.pathsCollection(include = "src/test/kotlin/**/*SamplesTest.kt")
+                sourceRoot { path = "${prj.projectDir}/src/main/kotlin" }
             }
         }
     }
 }
 
 tasks.register<Exec>("infrastructure") {
-    errorOutput = OutputStream.nullOutputStream()
+    errorOutput = nullOutputStream()
     commandLine("docker-compose --log-level warning up -d mongodb rabbitmq".split(" "))
 }
 

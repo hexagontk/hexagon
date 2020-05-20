@@ -84,7 +84,7 @@ clean {
 }
 
 test {
-    finalizedBy("jacocoTestReport")
+//    finalizedBy("jacocoTestReport")
     exclude("**/*IT.*")
 }
 
@@ -92,7 +92,7 @@ task("verify", type: Test) {
     group = "verification"
     description = "Runs integration tests."
 
-    finalizedBy("jacocoTestReport")
+//    finalizedBy("jacocoTestReport")
     shouldRunAfter(test)
     include("**/*IT.*")
 }
