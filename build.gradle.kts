@@ -10,6 +10,7 @@
  * them.
  */
 
+import java.io.OutputStream
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
@@ -89,7 +90,7 @@ childProjects.forEach { pair ->
 }
 
 tasks.register<Exec>("infrastructure") {
-    errorOutput = java.io.OutputStream.nullOutputStream()
+    errorOutput = OutputStream.nullOutputStream()
     commandLine("docker-compose --log-level warning up -d mongodb rabbitmq".split(" "))
 }
 
