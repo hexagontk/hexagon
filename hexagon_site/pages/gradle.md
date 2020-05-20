@@ -161,7 +161,6 @@ To set up this script's parameters, check the [build variables section]. This he
 
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
 * mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.
-* jacocoVersion: Jacoco code coverage tool version.
 
 ## Kotlin JS
 
@@ -197,22 +196,6 @@ To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * mainClassName: name of the class with the main method of the application.
-
-## SonarQube
-
-Set up the project to be analyzed by the [SonarQube instance running in the cloud][sonarcloud].
-
-To use it, apply `$gradleScripts/sonarqube.gradle` and add the
-`id 'org.sonarqube' version 'VERSION'` plugin to the root `build.gradle`.
-
-To set up this script's parameters, check the [build variables section]. This helper settings are:
-
-* sonarQubeProject (REQUIRED): ID used to locate the project in SonarQube host.
-* sonarQubeOrganization (REQUIRED): organization owning the project.
-* sonarQubeHost: SonarQube server to be used. By default, it is: `https://sonarcloud.io`.
-* sonarQubeToken (REQUIRED): If not set, the `SONARQUBE_TOKEN` environment variable will be used.
-
-[sonarcloud]: https://sonarcloud.io
 
 ## Certificates
 

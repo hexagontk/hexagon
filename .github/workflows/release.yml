@@ -32,8 +32,8 @@ jobs:
       - name: Build Project
         run: ./gradlew --warn --console=plain build
 
-      - name: Check Artifacts
-        run: ./gradlew --warn --console=plain createCa createIdentities buildSite
+      - name: Create Sample Keystores
+        run: ./gradlew --warn --console=plain createCa createIdentities
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2
@@ -42,32 +42,27 @@ jobs:
           name: test_reports
           path: "*/build/**/TEST-*.xml"
 
-      # QUALITY ANALYSIS
-      - name: SonarQube Analysis
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-        run: |
-          export BRANCH=$(echo "$GITHUB_REF" | sed -e "s/refs\/heads\///")
-          ./gradlew --console=plain --no-daemon -x test sonarqube
-
       # PUBLISH
-      - name: Publish Packages & Site
+      - name: Update Site
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BINTRAY_KEY: ${{ secrets.BINTRAY_TOKEN }}
-          BINTRAY_USER: jamming
         run: |
           export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-
           git remote set-url origin "$REMOTE"
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
+          ./gradlew --warn --console=plain --no-daemon -x test buildSite
 
-          ./gradlew --console=plain --no-daemon -x test buildSite release
+      - name: Publish Packages
+        env:
+          BINTRAY_KEY: ${{ secrets.BINTRAY_TOKEN }}
+          BINTRAY_USER: jamming
+        run: ./gradlew --warn --console=plain --no-daemon -x test release
+
+      - name: Publish Site
+        run: |
           cp -rf hexagon_site/build/* build/gh-pages/
-
           cd build/gh-pages
           git add --all
           git commit -m "Publishing to gh-pages"

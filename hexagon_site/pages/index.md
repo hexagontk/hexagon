@@ -45,7 +45,7 @@ It is designed to fit in applications that conform to the [Hexagonal Architectur
 
 Simple Hello World HTTP example.
 
-@sample hexagon_starters/src/main/kotlin/com/hexagonkt/starters/Service.kt
+@sample hexagon_starters/src/main/kotlin/Service.kt
 
 # Features
 

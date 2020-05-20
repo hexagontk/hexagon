@@ -10,4 +10,18 @@ import org.gradle.api.Project
  * @receiver Project which path is used to resolve the passed directory.
  */
 fun Project.filesCollection(directory: Any, pattern: String): List<String> =
-    fileTree(directory) { it.include(pattern) }.files.map { it.absolutePath }
+    fileTree(directory) { include(pattern) }.files.map { it.absolutePath }
+
+fun <T, R : Any> Iterable<T>.mapNotException(transform: (T) -> R?): List<R> = this.mapNotNull {
+    try {
+        transform(it)
+    }
+    catch (e: Exception) {
+        null
+    }
+}
+
+fun Project.modulesPaths(path: String) = subprojects
+    .map { sp -> rootProject.file(sp.name + path) }
+    .filter { it .exists() }
+    .toTypedArray()

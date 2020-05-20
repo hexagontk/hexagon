@@ -33,11 +33,14 @@ jobs:
       - name: Build Project
         run: ./gradlew --warn --console=plain build
 
-      - name: Check Artifacts
-        run: ./gradlew --warn --console=plain createCa createIdentities buildSite
+      - name: Create Sample Keystores
+        run: ./gradlew --warn --console=plain createCa createIdentities
+
+      - name: Build Site
+        run: ./gradlew --warn --console=plain buildSite
 
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain publish -PbintrayDryRun=true
+        run: ./gradlew --warn --console=plain bintrayUpload -PbintrayDryRun=true
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2

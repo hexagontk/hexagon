@@ -168,7 +168,7 @@ You can check the [Developer Guide] for more details. Or you can clone the [Grad
 <summary>Books Example</summary>
 
 A simple CRUD example showing how to manage book resources. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/BooksTest.kt).
 
 ```kotlin
 // books
@@ -239,7 +239,7 @@ val server: Server = Server(adapter) {
 <summary>Session Example</summary>
 
 Example showing how to use sessions. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/SessionTest.kt).
 
 ```kotlin
 // session
@@ -293,7 +293,7 @@ val server: Server = Server(adapter) {
 <summary>Cookies Example</summary>
 
 Demo server to show the use of cookies. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/CookiesTest.kt).
 
 ```kotlin
 // cookies
@@ -328,7 +328,7 @@ val server: Server = Server(adapter) {
 <summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/ErrorsTest.kt).
 
 ```kotlin
 // errors
@@ -366,7 +366,7 @@ val server: Server = Server(adapter) {
 <summary>Filters Example</summary>
 
 This example shows how to add filters before and after route execution. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/FiltersTest.kt).
 
 ```kotlin
 // filters
@@ -407,7 +407,7 @@ private val server: Server = Server(adapter) {
 <summary>Files Example</summary>
 
 The following code shows how to serve resources and receive files. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/FilesTest.kt).
 
 ```kotlin
 // files
@@ -449,7 +449,7 @@ private val server: Server = Server(adapter) {
 <summary>CORS Example</summary>
 
 The following code shows how to set up CORS for REST APIs used from the browser. You can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/CorsTest.kt).
 
 ```kotlin
 // cors
@@ -486,7 +486,7 @@ private fun Router.corsPath(path: String, settings: CorsSettings) {
 <summary>HTTPS Example</summary>
 
 The snippet below shows how to set up your server to use HTTPS and HTTP/2. You can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/HttpsTest.kt).
 
 ```kotlin
 // https

@@ -9,7 +9,7 @@ below.
 
 The following code block shows the most common use cases for the [Logger] class:
 
-@sample hexagon_core/src/test/kotlin/com/hexagonkt/HexagonCoreSamplesTest.kt:logger
+@sample hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:logger
 
 [Logger]: com.hexagonkt.helpers/-logger/index.md
 
@@ -23,7 +23,7 @@ a binding (in tests for example).
 
 Check this sample to bind constructor functions or objects to classes, and inject them later:
 
-@sample hexagon_core/src/test/kotlin/com/hexagonkt/HexagonCoreSamplesTest.kt:injectionUsage
+@sample hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:injectionUsage
 
 [InjectionManager]: com.hexagonkt.injection/-injection-manager/index.md
 
@@ -32,7 +32,7 @@ Check this sample to bind constructor functions or objects to classes, and injec
 The core module has utilities to serialize/parse data classes to JSON and YAML. Read the following
 snippet for details:
 
-@sample hexagon_core/src/test/kotlin/com/hexagonkt/HexagonCoreSamplesTest.kt:serializationUsage
+@sample hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:serializationUsage
 
 ### Settings
 
@@ -47,7 +47,7 @@ sources, the default ones are (bottom sources override top ones):
 
 Below there is a code fragment showing how to add a custom settings source and load its properties:
 
-@sample hexagon_core/src/test/kotlin/com/hexagonkt/HexagonCoreSamplesTest.kt:settingsUsage
+@sample hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:settingsUsage
 
 # Package com.hexagonkt.helpers
 

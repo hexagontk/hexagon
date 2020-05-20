@@ -11,19 +11,16 @@
  */
 
 import org.jetbrains.dokka.gradle.DokkaTask
-import java.io.OutputStream.nullOutputStream
 
 plugins {
     idea
     eclipse
 
-    id("org.sonarqube") version "2.8"
     id("org.jetbrains.kotlin.jvm") version "1.3.72" apply false
     id("org.jetbrains.dokka") version "0.10.1" apply false
     id("com.jfrog.bintray") version "1.8.5" apply false
 }
 
-//apply(from = "gradle/sonarqube.gradle")
 apply(from = "gradle/certificates.gradle")
 apply(from = "gradle/docker.gradle.kts")
 
@@ -56,12 +53,8 @@ task("setUp") {
     }
 }
 
-task("publish") {
-    dependsOn(project.getTasksByName("bintrayUpload", true))
-}
-
 task("release") {
-    dependsOn("publish")
+    dependsOn(project.getTasksByName("bintrayUpload", true))
     doLast {
         val release = version.toString()
         project.exec { commandLine = listOf("git", "tag", "-m", "Release $release", release) }
@@ -95,89 +88,11 @@ childProjects.forEach { pair ->
     }
 }
 
-getTasksByName("jacocoTestReport", true).forEach {
-    it.dependsOn(getTasksByName("test", true))
-}
-
 tasks.register<Exec>("infrastructure") {
-    errorOutput = nullOutputStream()
+    errorOutput = java.io.OutputStream.nullOutputStream()
     commandLine("docker-compose --log-level warning up -d mongodb rabbitmq".split(" "))
 }
 
 getTasksByName("test", true).forEach {
     it.dependsOn(tasks["infrastructure"])
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-apply(plugin = "org.sonarqube")
-
-sonarqube {
-    properties {
-        property("sonar.projectKey", findProperty("sonarQubeProject") ?: "error")
-        property("sonar.organization", findProperty("sonarQubeOrganization") ?: "error")
-        property("sonar.host.url", findProperty("sonarQubeHost") ?: "https://sonarcloud.io")
-        property("sonar.login", findProperty("sonarQubeToken") ?: System.getenv("SONARQUBE_TOKEN"))
-        property("sonar.coverage.jacoco.xmlReportPaths",
-            "build/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
-        )
-
-        val pullRequest = System.getenv("PULL_REQUEST")
-        val branch = System.getenv("BRANCH")
-
-        if (pullRequest != null && !pullRequest.isBlank() && pullRequest != "false") {
-            val pullRequestBranch = System.getenv("PULL_REQUEST_BRANCH")
-            val pullRequestBase = System.getenv("PULL_REQUEST_BASE")
-
-            property("sonar.pullrequest.key", pullRequest)
-            property("sonar.pullrequest.branch", pullRequestBranch)
-            property("sonar.pullrequest.base", pullRequestBase)
-        }
-        else if (branch != null) {
-            property("sonar.branch.name", branch)
-        }
-    }
-}
-
-tasks.getByPath("sonarqube").dependsOn("jacocoRootReport")
-
-apply(plugin = "jacoco")
-
-repositories {
-    mavenCentral()
-}
-
-tasks.register<JacocoReport>("jacocoRootReport") {
-    dependsOn(
-        *allprojects
-            .mapNotNull {
-                try {
-                    it.tasks.named<Test>("test")
-                }
-                catch(e: Exception) {
-                    null
-                }
-            }
-            .toTypedArray()
-    )
-
-    executionData(fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec"))
-    sourceSets(
-        *allprojects
-            .mapNotNull {
-                try {
-                    extensions.getByType(SourceSetContainer::class.java).getByName("main")
-                }
-                catch(e: Exception) {
-                    null
-                }
-            }
-            .toTypedArray()
-    )
-
-    reports {
-        xml.isEnabled = true
-        html.isEnabled = true
-    }
-}
-

@@ -1,6 +1,7 @@
 
 apply(from = "../gradle/icons.gradle")
 apply(plugin = "org.jetbrains.dokka")
+apply(plugin = "jacoco")
 
 tasks.register<Delete>("clean") {
     delete("build", "content")
@@ -22,10 +23,8 @@ task("checkDocs") {
     dependsOn("mkdocs")
     doLast {
         val readme = rootProject.file("README.md")
-        val starters = "hexagon_starters/src/main/kotlin"
-        val service = rootProject.file("$starters/com/hexagonkt/starters/Service.kt")
-        val examplesSources = "port_http_server/src/test/kotlin"
-        val examples = "$examplesSources/com/hexagonkt/http/server/examples"
+        val service = rootProject.file("hexagon_starters/src/main/kotlin/Service.kt")
+        val examples = "port_http_server/src/test/kotlin/examples"
 
         checkSamplesCode(FileRange (readme, "hello"), FileRange(service))
         checkSamplesCode(
@@ -52,6 +51,7 @@ task("checkDocs") {
 }
 
 task("mkdocs") {
+    dependsOn("jacocoRootReport")
     doLast {
         val contentTarget = project.file("content").absolutePath
         val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
@@ -80,5 +80,25 @@ task("mkdocs") {
 
         addMetadata(contentTarget, project)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks.register<JacocoReport>("jacocoRootReport") {
+    dependsOn(*rootProject.subprojects
+        .mapNotException { it.tasks.named<Test>("check") }
+        .toTypedArray()
+    )
+
+    executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
+    sourceDirectories.from(rootProject.modulesPaths("/src/main/kotlin"))
+    classDirectories.from(rootProject.modulesPaths("/build/classes/kotlin/main"))
+
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = true
     }
 }

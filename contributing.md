@@ -5,7 +5,7 @@ You can contribute code or documentation to the framework. This document will gu
 process or picking a task and building the code.
 
 To know what issues are currently open and be aware of the next features yo can check the
-[Project Board] at Github. Issues with the [help wanted] tag are recommended for a first time
+[Project Board] at GitHub. Issues with the [help wanted] tag are recommended for a first time
 contribution.
 
 You can ask any question, make suggestions or complaints at the project's
@@ -23,11 +23,11 @@ The Hexagon project is composed of several modules. Most of the modules publish 
 use by other projects (check the [Hexagon Structure] section of the readme file for more details).
 
 Aside of that kind of modules, you can also find infrastructure modules: components used by the
-project itself. These are internal modules not intended to be used by users (like the
-[hexagon_benchmark] or the [hexagon_site]).
+project itself. These are internal modules not intended to be directly used by users (like the
+[hexagon_starters] or the [hexagon_site]).
 
 [Hexagon Structure]: https://github.com/hexagonkt/hexagon/blob/master/README.md#hexagon-structure
-[hexagon_benchmark]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_benchmark/README.md
+[hexagon_starters]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_starters/README.md
 [hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/README.md
 
 ## Build Hexagon
@@ -58,34 +58,25 @@ alias gw='./gradlew'
 alias dcup='docker-compose up -d'
 ```
 
-It is recommended that you link `.github/pre-push.sh` to your `.git/hooks/pre-push` script. As
+It is recommended that you create a Git pre-push script to check the code before pushing it. As
 this command will be executed before pushing code to the repository (saving you time fixing
 [GitHub Actions] build errors).
 
-You can do so running: `ln -s $PWD/.github/pre-push.sh .git/hooks/pre-push`
+You can do so executing the `setUp` task by running: `./gradlew setUp`
 
 IMPORTANT: For `rabbitmq` container to work properly, you should follow the setup described in:
 https://www.rabbitmq.com/install-debian.html (inside the "With Docker" section)
-
-To run the benchmarks, refer to the [hexagon_benchmark readme][hexagon_benchmark]
 
 If you want to generate the documentation site, check the [site module readme][hexagon_site]
 
 ## Tools Used
 
-* [GitHub Actions]: For continuous integration.
-  * Create schedule job for nightly builds.
-  * Secrets are created with command line tools.
-* [SonarQube]: To check code coverage and measure code quality.
-  * Create Personal Access Token in GitHub with `repo` scope.
-  * Use the token in the repository's settings `Administration > General Settings > Pull Requests`.
-  * Set up branches to include `develop` as a long-lived one.
-* [Github]: Web hosting, project board and code hosting.
+* [Github]: Web hosting, project board, code hosting and continuous integration.
+  * Secrets should be created inside the repository settings.
 * [Bintray]: Artifact repository for JARs.
   * JCenter's synchronization must be done manually.
 
 [GitHub Actions]: https://github.com/features/actions
-[SonarQube]: https://sonarcloud.io
 [Github]: https://github.com
 [Bintray]: https://bintray.com
 
