@@ -30,16 +30,14 @@ jobs:
       - name: Build Project
         run: ./gradlew --warn --console=plain build
 
-      - name: Check Artifacts
-        run: ./gradlew --warn --console=plain createCa createIdentities buildSite tfb
+      - name: Create Sample Keystores
+        run: ./gradlew --warn --console=plain createCa createIdentities
+
+      - name: Build Site
+        run: ./gradlew --warn --console=plain buildSite
 
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain publish -PbintrayDryRun=true
-
-      - name: Start Benchmark Containers
-        run: |
-          export COMPOSE_FILE="docker-compose.yml:hexagon_benchmark/docker-compose.yml"
-          docker-compose --log-level=warning up -d --build
+        run: ./gradlew --warn --console=plain bintrayUpload -PbintrayDryRun=true
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2
@@ -47,14 +45,3 @@ jobs:
         with:
           name: test_reports
           path: "*/build/**/TEST-*.xml"
-
-      # QUALITY ANALYSIS
-      - name: SonarQube Analysis
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONARQUBE_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-        run: |
-          export PULL_REQUEST=$(echo "$GITHUB_REF" | sed -e "s/refs\/pull\///" -e "s/\/merge//")
-          export PULL_REQUEST_BRANCH="$GITHUB_SOURCE_REF"
-          export PULL_REQUEST_BASE="$GITHUB_BASE_REF"
-          ./gradlew --console=plain --no-daemon -x test sonarqube

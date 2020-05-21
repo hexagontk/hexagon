@@ -15,10 +15,9 @@
       alt="GitHub Actions"
       src="https://github.com/hexagonkt/hexagon/workflows/Release/badge.svg" />
   </a>
-  <a href="https://sonarcloud.io/dashboard?id=hexagonkt_hexagon">
+  <a href="https://hexagonkt.com/jacoco">
     <img
-      src=
-       "https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=alert_status"
+      src="https://hexagonkt.com/img/coverage.svg"
       alt="SonarQube" />
   </a>
   <a href="https://bintray.com/hexagonkt/hexagon/hexagon_core/_latestVersion">
@@ -168,7 +167,7 @@ You can check the [Developer Guide] for more details. Or you can clone the [Grad
 <summary>Books Example</summary>
 
 A simple CRUD example showing how to manage book resources. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/BooksTest.kt).
 
 ```kotlin
 // books
@@ -239,7 +238,7 @@ val server: Server = Server(adapter) {
 <summary>Session Example</summary>
 
 Example showing how to use sessions. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/SessionTest.kt).
 
 ```kotlin
 // session
@@ -293,7 +292,7 @@ val server: Server = Server(adapter) {
 <summary>Cookies Example</summary>
 
 Demo server to show the use of cookies. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/CookiesTest.kt).
 
 ```kotlin
 // cookies
@@ -328,7 +327,7 @@ val server: Server = Server(adapter) {
 <summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/ErrorsTest.kt).
 
 ```kotlin
 // errors
@@ -366,7 +365,7 @@ val server: Server = Server(adapter) {
 <summary>Filters Example</summary>
 
 This example shows how to add filters before and after route execution. Here you can check the
-[full test](port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt).
+[full test](port_http_server/src/test/kotlin/examples/FiltersTest.kt).
 
 ```kotlin
 // filters
@@ -407,7 +406,7 @@ private val server: Server = Server(adapter) {
 <summary>Files Example</summary>
 
 The following code shows how to serve resources and receive files. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/FilesTest.kt).
 
 ```kotlin
 // files
@@ -449,7 +448,7 @@ private val server: Server = Server(adapter) {
 <summary>CORS Example</summary>
 
 The following code shows how to set up CORS for REST APIs used from the browser. You can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/CorsTest.kt).
 
 ```kotlin
 // cors
@@ -486,7 +485,7 @@ private fun Router.corsPath(path: String, settings: CorsSettings) {
 <summary>HTTPS Example</summary>
 
 The snippet below shows how to set up your server to use HTTPS and HTTP/2. You can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/HttpsTest.kt).
 
 ```kotlin
 // https
@@ -545,8 +544,7 @@ client.get("/hello").apply {
 **DISCLAIMER**: The project is not yet production ready. Use it at your own risk.
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
-in the [TechEmpower Web Framework Benchmarks][benchmark]. You can also run the stress tests, to do
-so, read the [Benchmark readme](hexagon_benchmark/README.md).
+in the [TechEmpower Web Framework Benchmarks][benchmark].
 
 Tests, of course, are taken into account. These are some coverage metrics:
 

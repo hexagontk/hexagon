@@ -1,6 +1,8 @@
+import kotlin.math.floor
 
 apply(from = "../gradle/icons.gradle")
 apply(plugin = "org.jetbrains.dokka")
+apply(plugin = "jacoco")
 
 tasks.register<Delete>("clean") {
     delete("build", "content")
@@ -22,10 +24,8 @@ task("checkDocs") {
     dependsOn("mkdocs")
     doLast {
         val readme = rootProject.file("README.md")
-        val starters = "hexagon_starters/src/main/kotlin"
-        val service = rootProject.file("$starters/com/hexagonkt/starters/Service.kt")
-        val examplesSources = "port_http_server/src/test/kotlin"
-        val examples = "$examplesSources/com/hexagonkt/http/server/examples"
+        val service = rootProject.file("hexagon_starters/src/main/kotlin/Service.kt")
+        val examples = "port_http_server/src/test/kotlin/examples"
 
         checkSamplesCode(FileRange (readme, "hello"), FileRange(service))
         checkSamplesCode(
@@ -52,6 +52,7 @@ task("checkDocs") {
 }
 
 task("mkdocs") {
+    dependsOn("jacocoRootReport")
     doLast {
         val contentTarget = project.file("content").absolutePath
         val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
@@ -80,5 +81,49 @@ task("mkdocs") {
 
         addMetadata(contentTarget, project)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
+
+        // Generate coverage badge
+        val coverageReport = file("content/jacoco/jacoco.xml")
+        val coverageReportLength = coverageReport.length()
+        val groups = coverageReport.reader().use {
+            val buffer = CharArray(1024)
+            it.skip(coverageReportLength - buffer.size)
+            it.read(buffer)
+            """</package>\s*<counter type="INSTRUCTION" missed="(\d*)" covered="(\d*)"/>"""
+                .toRegex()
+                .findAll(String(buffer))
+                .lastOrNull()
+                ?.groupValues
+                ?: error("No match found")
+        }
+        val missed = groups[1].toInt()
+        val covered = groups[2].toInt()
+        val total = missed + covered
+        val percentage = floor((covered * 100.0) / total).toInt()
+
+        val badge = file("content/img/coverage.svg")
+        val svg = badge.readText().replace("\${coverage}", "$percentage%")
+        badge.writeText(svg)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks.register<JacocoReport>("jacocoRootReport") {
+    dependsOn(rootProject.getTasksByName("check", true))
+
+    executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
+    sourceDirectories.from(rootProject.modulesPaths("src/main/kotlin"))
+    classDirectories.from(rootProject.modulesPaths("build/classes/kotlin/main"))
+
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = true
+
+        val reportsOutput = file("content/jacoco").also { it.mkdirs() }
+        html.outputLocation.set(reportsOutput)
+        xml.outputLocation.set(reportsOutput.resolve("jacoco.xml"))
     }
 }

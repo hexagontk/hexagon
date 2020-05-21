@@ -1,6 +1,7 @@
 
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.*
 import org.gradle.testfixtures.ProjectBuilder
-import org.testng.annotations.Test
 import java.io.File
 
 class SiteKtTest {
@@ -13,9 +14,10 @@ class SiteKtTest {
         checkSamplesCode(FilesRange(testFile, testFileOut, "t"))
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `When file ranges don't match 'checkSamplesCode' throws exception`() {
-        checkSamplesCode(FileRange(testFile, "hello"), FileRange(testFileOut, "hello"))
+    @Test fun `When file ranges don't match 'checkSamplesCode' throws exception`() {
+        assertThrows(IllegalStateException::class.java) {
+            checkSamplesCode(FileRange(testFile, "hello"), FileRange(testFileOut, "hello"))
+        }
     }
 
     @Test fun `Test insert samples code`() {

@@ -33,16 +33,14 @@ jobs:
       - name: Build Project
         run: ./gradlew --warn --console=plain build
 
-      - name: Check Artifacts
-        run: ./gradlew --warn --console=plain createCa createIdentities buildSite tfb
+      - name: Create Sample Keystores
+        run: ./gradlew --warn --console=plain createCa createIdentities
+
+      - name: Build Site
+        run: ./gradlew --warn --console=plain buildSite
 
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain publish -PbintrayDryRun=true
-
-      - name: Start Benchmark Containers
-        run: |
-          export COMPOSE_FILE="docker-compose.yml:hexagon_benchmark/docker-compose.yml"
-          docker-compose --log-level=warning up -d --build
+        run: ./gradlew --warn --console=plain bintrayUpload -PbintrayDryRun=true
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2

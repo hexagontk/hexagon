@@ -6,13 +6,12 @@ hero: |
     <a href="https://github.com/hexagonkt/hexagon/actions">
       <img
         alt="GitHub Actions"
-        src= "https://github.com/hexagonkt/hexagon/workflows/Release/badge.svg" />
+        src="https://github.com/hexagonkt/hexagon/workflows/Release/badge.svg" />
     </a>
-    <a href="https://sonarcloud.io/dashboard?id=hexagonkt_hexagon">
+    <a href="/jacoco">
       <img
-        src=
-         "https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=alert_status"
-        alt="SonarQube" />
+        src="/img/coverage.svg"
+        alt="Coverage" />
     </a>
     <a href="https://bintray.com/hexagonkt/hexagon/hexagon_core/_latestVersion">
       <img
@@ -45,7 +44,7 @@ It is designed to fit in applications that conform to the [Hexagonal Architectur
 
 Simple Hello World HTTP example.
 
-@sample hexagon_starters/src/main/kotlin/com/hexagonkt/starters/Service.kt
+@sample hexagon_starters/src/main/kotlin/Service.kt
 
 # Features
 

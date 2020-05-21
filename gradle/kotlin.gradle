@@ -84,6 +84,7 @@ clean {
 }
 
 test {
+//    finalizedBy("jacocoTestReport")
     exclude("**/*IT.*")
 }
 
@@ -91,6 +92,7 @@ task("verify", type: Test) {
     group = "verification"
     description = "Runs integration tests."
 
+//    finalizedBy("jacocoTestReport")
     shouldRunAfter(test)
     include("**/*IT.*")
 }
@@ -110,20 +112,13 @@ tasks.withType(Test).each { testTask ->
     }
 }
 
-jacoco {
-    toolVersion = findProperty("jacocoVersion") ?: "0.8.5"
-}
-
 jacocoTestReport {
     dependsOn("check")
-    executionData.setFrom(fileTree(rootDir.absolutePath).include("**/*.exec"))
     reports {
         xml.enabled = true
         html.enabled = true
     }
 }
-
-build.dependsOn("jacocoTestReport")
 
 task("sourceJar", type: Jar) {
     archiveClassifier.set("sources")

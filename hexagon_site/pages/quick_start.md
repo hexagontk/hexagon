@@ -42,7 +42,7 @@ implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-@sample hexagon_starters/src/main/kotlin/com/hexagonkt/starters/Service.kt
+@sample hexagon_starters/src/main/kotlin/Service.kt
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 

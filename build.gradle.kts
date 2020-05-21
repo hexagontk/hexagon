@@ -10,20 +10,18 @@
  * them.
  */
 
-import org.jetbrains.dokka.gradle.DokkaTask
 import java.io.OutputStream.nullOutputStream
+import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     idea
     eclipse
 
-    id("org.sonarqube") version "2.8"
     id("org.jetbrains.kotlin.jvm") version "1.3.72" apply false
     id("org.jetbrains.dokka") version "0.10.1" apply false
     id("com.jfrog.bintray") version "1.8.5" apply false
 }
 
-apply(from = "gradle/sonarqube.gradle")
 apply(from = "gradle/certificates.gradle")
 apply(from = "gradle/docker.gradle.kts")
 
@@ -51,17 +49,13 @@ task("setUp") {
             #!/usr/bin/env sh
             set -e
             ./gradlew --warn --console=plain clean build publishToMavenLocal
-        """.trimIndent())
+        """.trimIndent() + "\n")
         prePush.setExecutable(true)
     }
 }
 
-task("publish") {
-    dependsOn(project.getTasksByName("bintrayUpload", true))
-}
-
 task("release") {
-    dependsOn("publish")
+    dependsOn(project.getTasksByName("bintrayUpload", true))
     doLast {
         val release = version.toString()
         project.exec { commandLine = listOf("git", "tag", "-m", "Release $release", release) }
@@ -78,7 +72,7 @@ childProjects.forEach { pair ->
     val prj = pair.value
     val empty = prj.getTasksByName("dokkaMd", false).isEmpty()
 
-    if (name !in listOf("hexagon_benchmark", "hexagon_site", "hexagon_starters") && empty) {
+    if (name !in listOf("hexagon_site", "hexagon_starters") && empty) {
         project(name).tasks.register<DokkaTask>("dokkaMd") {
             project("hexagon_site").tasks["mkdocs"].dependsOn(":$name:dokkaMd")
 
@@ -87,21 +81,17 @@ childProjects.forEach { pair ->
 
             configuration {
                 reportUndocumented = false
-                includes = filesCollection(prj.projectDir, "*.md")
-                samples = filesCollection("${prj.projectDir}/src/test/kotlin", "**/*SamplesTest.kt")
-                sourceRoot { path = "$projectDir/src/main/kotlin" }
+                includes = prj.pathsCollection(include = "*.md")
+                samples = prj.pathsCollection(include = "src/test/kotlin/**/*SamplesTest.kt")
+                sourceRoot { path = "${prj.projectDir}/src/main/kotlin" }
             }
         }
     }
 }
 
-getTasksByName("jacocoTestReport", true).forEach {
-    it.dependsOn(getTasksByName("test", true))
-}
-
 tasks.register<Exec>("infrastructure") {
     errorOutput = nullOutputStream()
-    commandLine("docker-compose --log-level warning up -d mongodb postgresql rabbitmq".split(" "))
+    commandLine("docker-compose --log-level warning up -d mongodb rabbitmq".split(" "))
 }
 
 getTasksByName("test", true).forEach {
