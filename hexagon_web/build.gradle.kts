@@ -13,4 +13,5 @@ dependencies {
     "testImplementation"(project(":http_client_ahc"))
     "testImplementation"(project(":http_server_jetty"))
     "testImplementation"(project(":templates_pebble"))
+    "testImplementation"(project(":templates_freemarker"))
 }

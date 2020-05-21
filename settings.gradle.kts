@@ -34,5 +34,6 @@ include(
     "http_server_servlet",
     "http_server_jetty",
     "store_mongodb",
-    "templates_pebble"
+    "templates_pebble",
+    "templates_freemarker"
 )
