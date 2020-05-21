@@ -577,20 +577,6 @@ if ('serviceWorker' in navigator)
 </li>
         
           <li class="md-nav__item">
-  <a href="#jbake" class="md-nav__link">
-    JBake
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sonarqube" class="md-nav__link">
-    SonarQube
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#certificates" class="md-nav__link">
     Certificates
   </a>
@@ -1292,20 +1278,6 @@ if ('serviceWorker' in navigator)
 </li>
         
           <li class="md-nav__item">
-  <a href="#jbake" class="md-nav__link">
-    JBake
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sonarqube" class="md-nav__link">
-    SonarQube
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#certificates" class="md-nav__link">
     Certificates
   </a>
@@ -1489,7 +1461,6 @@ development machine.</p>
 <ul>
 <li>kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.</li>
 <li>mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.</li>
-<li>jacocoVersion: Jacoco code coverage tool version.</li>
 </ul>
 <h3 id="kotlin-js">Kotlin JS<a class="headerlink" href="#kotlin-js" title="Permanent link">&para;</a></h3>
 <p>This script provides the following tasks for compiling Kotlin to JavaScript:</p>
@@ -1519,39 +1490,6 @@ the root <code class="codehilite"><span class="err">build.gradle</span></code>.<
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>mainClassName: name of the class with the main method of the application.</li>
-</ul>
-<h3 id="jbake">JBake<a class="headerlink" href="#jbake" title="Permanent link">&para;</a></h3>
-<p>Adds support for site generation using <a href="https://jbake.org">JBake</a>.</p>
-<p>To generate the site execute: <code class="codehilite"><span class="err">gw bake</span></code> and to test it run: <code class="codehilite"><span class="err">gw bakePreview</span></code>.</p>
-<p>The preview site will be served at: <a href="http://localhost:8888">http://localhost:8888</a>. You can change
-the port defining the <code class="codehilite"><span class="err">sitePort</span></code> variable inside <code class="codehilite"><span class="err">gradle.properties</span></code>.</p>
-<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/jbake.gradle</span></code> and add the
-<code class="codehilite"><span class="err">id &#39;org.jbake.site&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>JBake <code class="codehilite"><span class="err">content</span></code> folder cannot be changed (it seems a bug).</p>
-<p>To generate clean URLs, add the following settings:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">configuration</span><span class="o">[</span><span class="s1">&#39;uri.noExtension&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span>
-<span class="n">configuration</span><span class="o">[</span><span class="s1">&#39;uri.noExtension.prefix&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span>
-</code></pre></div>
-</td></tr></table>
-
-<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
-<ul>
-<li>siteHost: site canonical URL, by default it is: "".</li>
-<li>configData: JBake settings map. It is an empty map by default.</li>
-<li>jbakeVersion: JBake version. By default: "2.6.4".</li>
-<li>sitePort: preview site port for development. It is "8888" if not set.</li>
-</ul>
-<h3 id="sonarqube">SonarQube<a class="headerlink" href="#sonarqube" title="Permanent link">&para;</a></h3>
-<p>Set up the project to be analyzed by the <a href="https://sonarcloud.io">SonarQube instance running in the cloud</a>.</p>
-<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/sonarqube.gradle</span></code> and add the
-<code class="codehilite"><span class="err">id &#39;org.sonarqube&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
-<ul>
-<li>sonarQubeProject (REQUIRED): ID used to locate the project in SonarQube host.</li>
-<li>sonarQubeOrganization (REQUIRED): organization owning the project.</li>
-<li>sonarQubeHost: SonarQube server to be used. By default, it is: <code class="codehilite"><span class="c">https://sonarcloud.io</span></code>.</li>
-<li>sonarQubeToken (REQUIRED): If not set, the <code class="codehilite"><span class="err">SONARQUBE_TOKEN</span></code> environment variable will be used.</li>
 </ul>
 <h3 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h3>
 <p>Creates the required key stores for development purposes. <strong>IMPORTANT</strong> these key stores must not be

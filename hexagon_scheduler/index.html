@@ -1169,6 +1169,12 @@ if ('serviceWorker' in navigator)
   <p><a href="./">hexagon_scheduler</a></p>
 <p>Repeated tasks execution based on <a href="https://en.wikipedia.org/wiki/Cron">Cron</a> expressions for Hexagon framework. It uses the
 <a href="http://cron-parser.com">Cron-utils Java Library</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In some platforms I.e.: Kubernetes there is a way to execute repeated tasks, you should take
+advantage of them as using your own service will raise problems scaling those services'
+instances (you will have to coordinate them)</p>
+</div>
 <p>You can check an usage example in the following method:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
