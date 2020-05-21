@@ -15,10 +15,9 @@
       alt="GitHub Actions"
       src="https://github.com/hexagonkt/hexagon/workflows/Release/badge.svg" />
   </a>
-  <a href="https://sonarcloud.io/dashboard?id=hexagonkt_hexagon">
+  <a href="https://hexagonkt.com/jacoco">
     <img
-      src=
-       "https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=alert_status"
+      src="https://hexagonkt.com/img/coverage.svg"
       alt="SonarQube" />
   </a>
   <a href="https://bintray.com/hexagonkt/hexagon/hexagon_core/_latestVersion">

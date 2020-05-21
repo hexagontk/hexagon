@@ -1,3 +1,4 @@
+import kotlin.math.floor
 
 apply(from = "../gradle/icons.gradle")
 apply(plugin = "org.jetbrains.dokka")
@@ -80,6 +81,29 @@ task("mkdocs") {
 
         addMetadata(contentTarget, project)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
+
+        // Generate coverage badge
+        val coverageReport = file("content/jacoco/jacoco.xml")
+        val coverageReportLength = coverageReport.length()
+        val groups = coverageReport.reader().use {
+            val buffer = CharArray(1024)
+            it.skip(coverageReportLength - buffer.size)
+            it.read(buffer)
+            """</package>\s*<counter type="INSTRUCTION" missed="(\d*)" covered="(\d*)"/>"""
+                .toRegex()
+                .findAll(String(buffer))
+                .lastOrNull()
+                ?.groupValues
+                ?: error("No match found")
+        }
+        val missed = groups[1].toInt()
+        val covered = groups[2].toInt()
+        val total = missed + covered
+        val percentage = floor((covered * 100.0) / total).toInt()
+
+        val badge = file("content/img/coverage.svg")
+        val svg = badge.readText().replace("\${coverage}", "$percentage%")
+        badge.writeText(svg)
     }
 }
 
