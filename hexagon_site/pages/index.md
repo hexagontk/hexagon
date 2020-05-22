@@ -92,7 +92,7 @@ Ports with their provided implementations (Adapters).
 | [HTTP Client]           | [AHC]
 | [Messaging]             | [RabbitMQ]
 | [Store]                 | [MongoDB]
-| [Templates]             | [Pebble]
+| [Templates]             | [Pebble], [Freemarker]
 | [Serialization Formats] | [JSON], [YAML]
 | [Settings]              | [Environment], [Files], [Resources]
 
@@ -107,6 +107,7 @@ Ports with their provided implementations (Adapters).
 [MongoDB]: /store_mongodb
 [Templates]: /port_templates
 [Pebble]: /templates_pebble
+[Freemarker]: /templates_freemarker
 [Serialization Formats]: /hexagon_core/#serialization
 [JSON]: /hexagon_core/com.hexagonkt.serialization/-json
 [YAML]: /hexagon_core/com.hexagonkt.serialization/-yaml

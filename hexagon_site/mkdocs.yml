@@ -73,6 +73,7 @@ nav:
         - RabbitMQ: messaging_rabbitmq/index.md
       - Templates:
         - Pebble: templates_pebble/index.md
+        - Freemarker: templates_freemarker/index.md
     - API: api.md
 #  - Guides:
 #    - Mutual TLS: guides/mtls.md
