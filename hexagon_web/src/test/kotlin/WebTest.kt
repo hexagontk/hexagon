@@ -7,12 +7,15 @@ import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.templates.pebble.PebbleAdapter
-import org.testng.annotations.AfterTest
-import org.testng.annotations.BeforeTest
-import org.testng.annotations.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.time.LocalDateTime
 
-@Test class WebTest {
+@TestInstance(PER_CLASS)
+class WebTest {
 
     private val router: Router = Router {
         get("/template") {
@@ -25,11 +28,11 @@ import java.time.LocalDateTime
 
     private val client by lazy { Client(AhcAdapter(), "http://localhost:${server.runtimePort}") }
 
-    @BeforeTest fun start() {
+    @BeforeAll fun start() {
         server.start()
     }
 
-    @AfterTest fun stop() {
+    @AfterAll fun stop() {
         server.stop()
     }
 

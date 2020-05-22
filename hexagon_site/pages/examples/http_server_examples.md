@@ -2,55 +2,55 @@
 # Books Example
 
 A simple CRUD example showing how to manage book resources. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/BooksTest.kt).
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/BooksTest.kt:books
+@sample port_http_server/src/test/kotlin/examples/BooksTest.kt:books
 
 # Session Example
 
 Example showing how to use sessions. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/SessionTest.kt).
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/SessionTest.kt:session
+@sample port_http_server/src/test/kotlin/examples/SessionTest.kt:session
 
 # Cookies Example
 
 Demo server to show the use of cookies. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/CookiesTest.kt).
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CookiesTest.kt:cookies
+@sample port_http_server/src/test/kotlin/examples/CookiesTest.kt:cookies
 
 # Error Handling Example
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/ErrorsTest.kt).
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/ErrorsTest.kt:errors
+@sample port_http_server/src/test/kotlin/examples/ErrorsTest.kt:errors
 
 # Filters Example
 
 This example shows how to add filters before and after route execution. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/FiltersTest.kt).
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FiltersTest.kt:filters
+@sample port_http_server/src/test/kotlin/examples/FiltersTest.kt:filters
 
 # Files Example
 
 The following code shows how to serve resources and receive files. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/FilesTest.kt).
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/FilesTest.kt:files
+@sample port_http_server/src/test/kotlin/examples/FilesTest.kt:files
 
 # CORS Example
 
 This example shows how to set up CORS for REST APIs used from the browser. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/CorsTest.kt).
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt:cors
+@sample port_http_server/src/test/kotlin/examples/CorsTest.kt:cors
 
 # HTTPS Example
 
 The snippet below shows how to set up your server to use HTTPS and HTTP/2. You can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/HttpsTest.kt).
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt:https
+@sample port_http_server/src/test/kotlin/examples/HttpsTest.kt:https

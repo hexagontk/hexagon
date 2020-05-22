@@ -161,7 +161,6 @@ To set up this script's parameters, check the [build variables section]. This he
 
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
 * mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.
-* jacocoVersion: Jacoco code coverage tool version.
 
 ## Kotlin JS
 
@@ -197,52 +196,6 @@ To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * mainClassName: name of the class with the main method of the application.
-
-## JBake
-
-Adds support for site generation using [JBake].
-
-To generate the site execute: `gw bake` and to test it run: `gw bakePreview`.
-
-The preview site will be served at: [http://localhost:8888](http://localhost:8888). You can change
-the port defining the `sitePort` variable inside `gradle.properties`.
-
-To use it, apply `$gradleScripts/jbake.gradle` and add the
-`id 'org.jbake.site' version 'VERSION'` plugin to the root `build.gradle`.
-
-JBake `content` folder cannot be changed (it seems a bug).
-
-To generate clean URLs, add the following settings:
-
-```groovy
-configuration['uri.noExtension'] = true
-configuration['uri.noExtension.prefix'] = '/'
-```
-
-To set up this script's parameters, check the [build variables section]. This helper settings are:
-
-* siteHost: site canonical URL, by default it is: "".
-* configData: JBake settings map. It is an empty map by default.
-* jbakeVersion: JBake version. By default: "2.6.4".
-* sitePort: preview site port for development. It is "8888" if not set.
-
-[JBake]: https://jbake.org
-
-## SonarQube
-
-Set up the project to be analyzed by the [SonarQube instance running in the cloud][sonarcloud].
-
-To use it, apply `$gradleScripts/sonarqube.gradle` and add the
-`id 'org.sonarqube' version 'VERSION'` plugin to the root `build.gradle`.
-
-To set up this script's parameters, check the [build variables section]. This helper settings are:
-
-* sonarQubeProject (REQUIRED): ID used to locate the project in SonarQube host.
-* sonarQubeOrganization (REQUIRED): organization owning the project.
-* sonarQubeHost: SonarQube server to be used. By default, it is: `https://sonarcloud.io`.
-* sonarQubeToken (REQUIRED): If not set, the `SONARQUBE_TOKEN` environment variable will be used.
-
-[sonarcloud]: https://sonarcloud.io
 
 ## Certificates
 

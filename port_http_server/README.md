@@ -35,7 +35,7 @@ You can inject an adapter for the `Server` port using the [InjectionManager] obj
 To create a server, you need to provide a router (check the [next section] for more information),
 and after creating a server you can run it or stop it with [start()] and [stop()] methods.
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:serverCreation
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:serverCreation
 
 [InjectionManager]: /hexagon_core/#dependency-injection
 [next section]: /port_http_server/#routes
@@ -67,7 +67,7 @@ invoked and the following ones are ignored.
 
 Check the next snippet for usage examples:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:routesCreation
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:routesCreation
 
 HTTP clients will be able to reuse the routes to create REST services clients.
 
@@ -76,14 +76,14 @@ HTTP clients will be able to reuse the routes to create REST services clients.
 Routes can be nested by calling the `path()` method, which takes a String prefix and gives you a
 scope to declare routes and filters (or more nested paths). Ie:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:routeGroups
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:routeGroups
 
 #### Routers
 
 If you have a lot of routes, it can be helpful to group them into routers. You can create routers
 to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:routers
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:routers
 
 ### Callbacks
 
@@ -102,7 +102,7 @@ check the [API documentation] for the full list of methods.
 
 This sample code illustrates the usage:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackCall
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackCall
 
 [API documentation]: /port_http_server/com.hexagonkt.http.server/-call/
 
@@ -110,45 +110,45 @@ This sample code illustrates the usage:
 
 Request functionality is provided by the `request` field:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackRequest
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackRequest
 
 #### Path Parameters
 
 Route patterns can include named parameters, accessible via the `pathParameters` map on the request
 object:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackPathParam
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackPathParam
 
 #### Query Parameters
 
 It is possible to access the whole query string or only an specific query parameter using the
 `parameters` map on the `request` object:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackQueryParam
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackQueryParam
 
 #### Form Parameters
 
 HTML Form processing. Don't parse body!
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackFormParam
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackFormParam
 
 #### File Uploads
 
 Multipart Requests
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackFile
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackFile
 
 #### Response
 
 Response information is provided by the `response` field:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackResponse
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackResponse
 
 #### Redirects
 
 You can redirect requests (returning 30x codes) by using `Call` utility methods:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackRedirect
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackRedirect
 
 #### Cookies
 
@@ -160,21 +160,21 @@ add new ones you have to use `response.addCookie()` and `response.removeCookie()
 
 Check the following sample code for details:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackCookie
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackCookie
 
 #### Sessions
 
 Every request has access to the session created on the server side, the `session` object provides
 the following methods:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackSession
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackSession
 
 #### Halting
 
 To immediately stop a request within a filter or route use `halt()`. `halt()` is not intended to be
 used inside exception-mappers. Check the following snippet for an example:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:callbackHalt
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackHalt
 
 ### Filters
 
@@ -196,7 +196,7 @@ after filters are executed anyway).
 
 The following code details filters usage:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:filters
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:filters
 
 ### Error Handling
 
@@ -211,14 +211,14 @@ will be used.
 Allows to handle routes halted with a given code. These handlers are only applied if the route is
 halted, if the error code is returned with `send` it won't be handled as an error. Example:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:errors
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:errors
 
 #### Exception Mapping
 
 You can handle exceptions of a given type for all routes and filters. The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:exceptions
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:exceptions
 
 ### Static Files
 
@@ -232,7 +232,7 @@ mapping will never be checked.
 Being `get(resource)` a shortcut of `get("/*", resource)` it should be placed as the last route.
 Check the next example for details:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:files
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:files
 
 #### MIME types
 
@@ -246,7 +246,7 @@ The MIME types of static files are computed from the file extension using the
 CORS behaviour can be different depending on the path. You can attach different [CorsSettings] to
 different routers. Check [CorsSettings] class for more details.
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/CorsTest.kt:cors
+@sample port_http_server/src/test/kotlin/examples/CorsTest.kt:cors
 
 [CorsSettings]: /port_http_server/com.hexagonkt.http.server/-cors-settings/
 
@@ -272,7 +272,7 @@ client used to connect (assuming it is valid, if not the connection will end wit
 
 Below you can find a simple example to set up an HTTPS server and client with mutual TLS:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/examples/HttpsTest.kt:https
+@sample port_http_server/src/test/kotlin/examples/HttpsTest.kt:https
 
 [SslSettings]: /hexagon_core/com.hexagonkt.http/-ssl-settings/
 [HTTP/2]: https://en.wikipedia.org/wiki/HTTP/2
@@ -290,7 +290,7 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 To test HTTP servers from outside using a real Adapter, you can create a server setting `0` as port.
 This will pick a random free port that you can check later:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/PortHttpServerSamplesTest.kt:test
+@sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:test
 
 To do this kind of tests without creating a custom server (using the real production code).
 Check the [tests of the starter projects].
@@ -320,7 +320,7 @@ Check [testCall], [TestRequest], [TestResponse] and [TestSession] for more detai
 
 For a quick sample, check the snipped below:
 
-@sample port_http_server/src/test/kotlin/com/hexagonkt/http/server/TestsTest.kt:test
+@sample port_http_server/src/test/kotlin/TestsTest.kt:test
 
 [testCall]: /port_http_server/com.hexagonkt.http.server.test/test-call/
 [TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-request/

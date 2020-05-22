@@ -136,7 +136,7 @@ fun insertSamplesCode(parent: File, content: String): String {
  * @param project Gradle project used to look for `.md` files.
  */
 fun addMetadata(siteContentPath: String, project: Project) {
-    project.filesCollection(siteContentPath, "**/*.md").forEach { fileName ->
+    project.pathsCollection(siteContentPath, "**/*.md").forEach { fileName ->
         val md = File(fileName)
         val mdText = md.readText()
         val mdPath = fileName.removePrefix("$siteContentPath/")

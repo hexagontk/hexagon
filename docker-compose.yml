@@ -16,20 +16,8 @@ services:
     ports:
       - 8000:8000
 
-  postgresql:
-    image: postgres:12.2
-    environment:
-      POSTGRES_USER: benchmarkdbuser
-      POSTGRES_PASSWORD: benchmarkdbpass
-    volumes:
-      - ./hexagon_benchmark/data/postgresql.sql:/docker-entrypoint-initdb.d/db.sql:ro
-    ports:
-      - 5432:5432
-
   mongodb:
     image: mongo:4.2
-    volumes:
-      - ./hexagon_benchmark/data/mongodb.js:/docker-entrypoint-initdb.d/mongodb.js:ro
     ports:
       - 27017:27017
 
