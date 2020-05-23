@@ -1,6 +1,6 @@
 package com.hexagonkt.helpers
 
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalDateTime.of as dateTime
@@ -9,7 +9,7 @@ import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.Calendar.MILLISECOND
 
-@Test class DatesTest {
+class DatesTest {
 
     @Test fun `Date conversion`() {
         val cal = Calendar.getInstance()

@@ -4,11 +4,12 @@ import com.hexagonkt.helpers.Logger
 import com.hexagonkt.messaging.rabbitmq.RabbitMqClient.Companion.createConnectionFactory
 import com.hexagonkt.serialization.serialize
 
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.net.URI
 import kotlin.test.assertFailsWith
 
-@Test class RabbitMqClientTest {
+class RabbitMqClientTest {
+
     private val log: Logger = Logger(this)
 
     @Test fun `Create a connection factory with empty URI fails` () {

@@ -1,12 +1,11 @@
 package com.hexagonkt.helpers
 
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
-@Test class ResourceTest {
+class ResourceTest {
 
-    @Test
-    fun `Require resource`() {
+    @Test fun `Require resource`() {
         val resource = Resource("service_test.yaml")
         assert(resource.requireUrl().file == resource.url()?.file)
         assertFailsWith<IllegalStateException>("foo.txt not found") {

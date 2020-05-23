@@ -2,9 +2,9 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.ALL
 import com.hexagonkt.http.Method.*
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
-@Test internal class CorsSettingsTest {
+internal class CorsSettingsTest {
 
     @Test fun `Default values are returned if created without parameters`() {
         val settings = CorsSettings()

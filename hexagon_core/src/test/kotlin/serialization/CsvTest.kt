@@ -1,9 +1,10 @@
 package com.hexagonkt.serialization
 
-import org.testng.annotations.Test
+import io.kotest.assertions.throwables.shouldThrow
+import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
-@Test class CsvTest {
+class CsvTest {
     data class Player (val name: String, val number: Int, val category: Int)
 
     @Test fun `CSV is serialized properly` () {
@@ -28,9 +29,10 @@ import kotlin.test.assertFailsWith
         assert (players[1].category == deserializedPlayers[1].category)
     }
 
-    @Test(expectedExceptions = [ ParseException::class ])
-    fun `Parse invalid CSV type` () {
-        "Michael,23,error".parse(Player::class, Csv)
+    @Test fun `Parse invalid CSV type` () {
+        shouldThrow<ParseException> {
+            "Michael,23,error".parse(Player::class, Csv)
+        }
     }
 
     @Test fun `Parse exceptions contains failed field`() {

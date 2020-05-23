@@ -1,12 +1,14 @@
 package com.hexagonkt.helpers
 
-import org.testng.annotations.Test
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.throwables.shouldThrowMessage
+import org.junit.jupiter.api.Test
 import java.net.URI
 import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
 
-@Test class HelpersTest {
-    private val m = mapOf(
+class HelpersTest {
+    private val m: Map<Any, Any> = mapOf(
         "alpha" to "bravo",
         "tango" to 0,
         "list" to listOf("first", "second"),
@@ -61,24 +63,28 @@ import kotlin.test.assertFailsWith
         assert(m.requireKeys<Int>(0) == 1)
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Require not found key fails`() {
-        m.require("void")
+    @Test fun `Require not found key fails`() {
+        shouldThrow<IllegalStateException> {
+            m.require("void")
+        }
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Require keys with non existing keys fails`() {
-        m.requireKeys<Any>("nested", "zulu", "tango")
+    @Test fun `Require keys with non existing keys fails`() {
+        shouldThrow<IllegalStateException> {
+            m.requireKeys("nested", "zulu", "tango")
+        }
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Require not found key in map fails`() {
-        m.requireKeys<Any>("nested", "empty")
+    @Test fun `Require not found key in map fails`() {
+        shouldThrow<IllegalStateException> {
+            m.requireKeys("nested", "empty")
+        }
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Require key not found first level throws an error`() {
-        m.requireKeys<Any>("empty")
+    @Test fun `Require key not found first level throws an error`() {
+        shouldThrow<IllegalStateException> {
+            m.requireKeys("empty")
+        }
     }
 
     @Test fun `Require existing key returns correct value`() {
@@ -129,12 +135,10 @@ import kotlin.test.assertFailsWith
         )
     }
 
-    @Test(
-        expectedExceptions = [ IllegalStateException::class ],
-        expectedExceptionsMessageRegExp = "Invalid state"
-    )
-    fun `'error' generates the correct exception`() {
-        error()
+    @Test fun `'error' generates the correct exception`() {
+        shouldThrowMessage<IllegalStateException>("Invalid state") {
+            error()
+        }
     }
 
     @Test fun `Printing an exception returns its stack trace in the string` () {
@@ -167,14 +171,16 @@ import kotlin.test.assertFailsWith
         retry(1, 0) {} // Ok case
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Ensure fails if collection size is larger`() {
-        listOf(1, 2, 3).ensureSize(1..2)
+    @Test fun `Ensure fails if collection size is larger`() {
+        shouldThrow<IllegalStateException> {
+            listOf(1, 2, 3).ensureSize(1..2)
+        }
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Ensure fails if collection size is smaller`() {
-        listOf(1, 2, 3).ensureSize(4..5)
+    @Test fun `Ensure fails if collection size is smaller`() {
+        shouldThrow<IllegalStateException> {
+            listOf(1, 2, 3).ensureSize(4..5)
+        }
     }
 
     @Test fun `Ensure returns the collection if size is correct`() {

@@ -1,6 +1,6 @@
 package com.hexagonkt.serialization
 
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.net.InetAddress
 import java.net.URL
 import java.nio.ByteBuffer
@@ -8,7 +8,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@Test class CompanySerializationTest : SerializationTest<Company>(Company::class) {
+class CompanySerializationTest : SerializationTest<Company>(Company::class) {
 
     private fun createObject() = Company(
         id = "id",

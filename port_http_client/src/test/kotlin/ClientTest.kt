@@ -14,15 +14,14 @@ import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.Yaml
 import com.hexagonkt.serialization.serialize
+import org.junit.jupiter.api.*
 
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.BeforeMethod
-import org.testng.annotations.Test
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
 import java.net.URI
 
-@Test abstract class ClientTest(adapter: () -> ClientPort) {
+@TestInstance(PER_CLASS)
+abstract class ClientTest(adapter: () -> ClientPort) {
 
     private var handler: Call.() -> Unit = {}
 
@@ -47,15 +46,15 @@ import java.net.URI
         Client("http://localhost:${server.runtimePort}", ClientSettings(Json))
     }
 
-    @BeforeClass fun startup() {
+    @BeforeAll fun startup() {
         server.start()
     }
 
-    @AfterClass fun shutdown() {
+    @AfterAll fun shutdown() {
         server.stop()
     }
 
-    @BeforeMethod fun resetHandler() {
+    @BeforeEach fun resetHandler() {
         handler = {
             response.headers["content-type"] = "application/json;charset=utf-8"
             response.headers["body"] = request.body

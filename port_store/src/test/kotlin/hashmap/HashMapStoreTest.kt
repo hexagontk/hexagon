@@ -2,40 +2,27 @@ package com.hexagonkt.store.hashmap
 
 import com.hexagonkt.helpers.error
 import com.hexagonkt.store.Store
-import org.testng.annotations.BeforeMethod
-import org.testng.annotations.Test
+import io.kotest.assertions.throwables.shouldThrow
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@Test class HashMapStoreTest {
+class HashMapStoreTest {
 
     private val store: Store<Company, String> =
         HashMapStore(Company::class, Company::id, "companies")
 
-    private fun createTestEntities() = (0..9)
-        .map {
-            Company(
-                id = it.toString(),
-                foundation = LocalDate.of(2014, 1, 25),
-                closeTime = LocalTime.of(11, 42),
-                openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
-                web = URL("http://$it.example.org"),
-                people = setOf(
-                    Person(name = "John"),
-                    Person(name = "Mike")
-                )
-            )
-        }
-
-    @BeforeMethod fun dropCollection() {
+    @BeforeEach fun dropCollection() {
         store.drop()
     }
 
-    @Test(expectedExceptions = [ UnsupportedOperationException::class ])
-    fun `Create index throws UnsupportedOperationException`() {
-        store.createIndex(true, emptyMap())
+    @Test fun `Create index throws UnsupportedOperationException`() {
+        shouldThrow<UnsupportedOperationException> {
+            store.createIndex(true, emptyMap())
+        }
     }
 
     @Test fun `Store type is correct`() {
@@ -189,6 +176,54 @@ import java.time.LocalTime
         assert(store.replaceMany(updatedCompanies).isEmpty())
     }
 
+    @Test fun `Entities are stored`() {
+        val testEntities = createTestEntities()
+
+        val keys = store.saveMany(testEntities)
+
+        val entities = keys.map { store.findOne(it ?: error) }
+
+        assert(entities.map { it?.id }.all { it in keys })
+
+        store.saveMany(testEntities.map { it.copy(web = URL(it.web.toString() + "/modified")) })
+    }
+
+    @Test fun `Insert one record returns the proper key`() {
+        // TODO Do with MappedClass
+        val id = 1.toString()
+        val mappedClass = Company(
+            id = id,
+            foundation = LocalDate.of(2014, 1, 25),
+            closeTime = LocalTime.of(11, 42),
+            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+            web = URL("http://example.org"),
+            people = setOf(
+                Person(name = "John"),
+                Person(name = "Mike")
+            )
+        )
+
+        val await = store.insertOne(mappedClass)
+        val storedClass = store.findOne(await)
+        assert(await.isNotBlank())
+        assert(mappedClass == storedClass)
+    }
+
+    private fun createTestEntities() = (0..9)
+        .map {
+            Company(
+                id = it.toString(),
+                foundation = LocalDate.of(2014, 1, 25),
+                closeTime = LocalTime.of(11, 42),
+                openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+                web = URL("http://$it.example.org"),
+                people = setOf(
+                    Person(name = "John"),
+                    Person(name = "Mike")
+                )
+            )
+        }
+
     private fun checkFindAllObjects() {
         val results = store.findAll(4, 8, mapOf("id" to false))
         assert(results.size == 2)
@@ -282,38 +317,5 @@ import java.time.LocalTime
         val results6 = store.findMany(filter, fields)
         assert(results6.size == 10)
         assert(results6.all { it["web"] == "http://change.example.org" })
-    }
-
-    @Test fun `Entities are stored`() {
-        val testEntities = createTestEntities()
-
-        val keys = store.saveMany(testEntities)
-
-        val entities = keys.map { store.findOne(it ?: error) }
-
-        assert(entities.map { it?.id }.all { it in keys })
-
-        store.saveMany(testEntities.map { it.copy(web = URL(it.web.toString() + "/modified")) })
-    }
-
-    @Test fun `Insert one record returns the proper key`() {
-        // TODO Do with MappedClass
-        val id = 1.toString()
-        val mappedClass = Company(
-            id = id,
-            foundation = LocalDate.of(2014, 1, 25),
-            closeTime = LocalTime.of(11, 42),
-            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
-            web = URL("http://example.org"),
-            people = setOf(
-                Person(name = "John"),
-                Person(name = "Mike")
-            )
-        )
-
-        val await = store.insertOne(mappedClass)
-        val storedClass = store.findOne(await)
-        assert(await.isNotBlank())
-        assert(mappedClass == storedClass)
     }
 }

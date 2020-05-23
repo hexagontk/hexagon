@@ -7,15 +7,16 @@ import com.hexagonkt.settings.SettingsManager.defaultSetting
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.settings.SettingsManager.requireSetting
-import org.testng.annotations.BeforeMethod
-import org.testng.annotations.Test
+import io.kotest.assertions.throwables.shouldThrow
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Check `gradle.build` to see the related files creation.
  */
-@Test class SettingsManagerTest {
+class SettingsManagerTest {
 
-    @BeforeMethod fun resetSettingSources() {
+    @BeforeEach fun resetSettingSources() {
         SettingsManager.settingsSources = listOf(
             ResourceSource("$SETTINGS.yaml"),
             ResourceSource("development.yaml"),
@@ -60,9 +61,10 @@ import org.testng.annotations.Test
         assert(requireSetting<String>("parent", "key") == "val")
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Require not found setting`() {
-        requireSetting<String>("not_found")
+    @Test fun `Require not found setting`() {
+        shouldThrow<IllegalStateException> {
+            requireSetting<String>("not_found")
+        }
     }
 
     @Test fun `Using the 'apply' shortcut works correctly`() {

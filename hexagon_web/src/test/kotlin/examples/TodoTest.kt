@@ -9,10 +9,7 @@ import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.http.client.Response
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 
 /**
@@ -118,6 +115,7 @@ abstract class TodoTest(adapter: ServerPort) {
     }
 
     @Test fun `List tasks`() {
+        client.post("/tasks", Task(101, "Tidy Things", "Tidy everything"), Json.contentType)
         val result = client.get("/tasks")
         assertResponseContains(result, "1", "101")
     }

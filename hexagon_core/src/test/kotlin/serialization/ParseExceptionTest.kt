@@ -3,10 +3,11 @@ package com.hexagonkt.serialization
 import com.fasterxml.jackson.databind.JsonMappingException
 import io.mockk.every
 import io.mockk.mockk
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
 
 class ParseExceptionTest {
+
     @Test fun `ParseException obtains field name properly`() {
         assert(ParseException(null).field == "")
         assert(ParseException(IllegalStateException()).field == "")

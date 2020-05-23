@@ -8,7 +8,7 @@ import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.settings.*
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.util.*
 

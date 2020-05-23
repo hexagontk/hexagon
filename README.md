@@ -541,34 +541,15 @@ client.get("/hello").apply {
 
 ## Status
 
-**DISCLAIMER**: The project is not yet production ready. Use it at your own risk.
+The toolkit is properly tested. This is the coverage report:
+
+[![Coverage]][CoverageReport]
 
 Performance is not the primary goal, but it is taken seriously. You can check performance numbers
 in the [TechEmpower Web Framework Benchmarks][benchmark].
 
-Tests, of course, are taken into account. These are some coverage metrics:
-
-[![Coverage]][SonarCoverage] [![Lines]][SonarLines]
-
-[Coverage]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=coverage
-[Lines]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=ncloc
-
-The code quality is checked by [SonarQube]:
-
-[![Maintainability]][SonarMaintainability] [![Reliability]][SonarReliability] [![Security]][SonarSecurity]
-
-[Maintainability]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=sqale_rating
-[Reliability]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=reliability_rating
-[Security]: https://sonarcloud.io/api/project_badges/measure?project=hexagonkt_hexagon&metric=security_rating
-
-[SonarCoverage]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=coverage&view=list
-[SonarLines]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=ncloc&view=list
-
-[SonarMaintainability]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=Maintainability
-[SonarReliability]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=Reliability
-[SonarSecurity]: https://sonarcloud.io/component_measures?id=hexagonkt_hexagon&metric=Security
-
-[SonarQube]: https://sonarcloud.io
+[Coverage]: https://hexagonkt.com/img/coverage.svg
+[CoverageReport]: https://hexagonkt.com/jacoco
 
 ## Contribute
 

@@ -2,7 +2,7 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.server.test.testCall
 import com.hexagonkt.http.server.test.TestRequest
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
 internal class TestsTest {
 

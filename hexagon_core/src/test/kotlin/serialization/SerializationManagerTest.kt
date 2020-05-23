@@ -5,15 +5,18 @@ import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.SerializationManager.formatOf
-import org.testng.annotations.AfterMethod
-import org.testng.annotations.BeforeMethod
-import org.testng.annotations.Test
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.throwables.shouldThrowUnit
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.URL
 import kotlin.test.assertFailsWith
 
-@Test class SerializationManagerTest {
-    @BeforeMethod @AfterMethod fun resetSerializationFormats () { formats = coreFormats }
+class SerializationManagerTest {
+
+    @BeforeEach @AfterEach fun resetSerializationFormats () { formats = coreFormats }
 
     @Test fun `User can add and remove serialization formats` () {
         assert(formats == coreFormats)
@@ -43,24 +46,27 @@ import kotlin.test.assertFailsWith
         assert (defaultFormat == Yaml)
     }
 
-    @Test(expectedExceptions = [ IllegalArgumentException::class ])
-    fun `User can not set an empty list of formats` () {
-        formats = linkedSetOf()
+    @Test fun `User can not set an empty list of formats` () {
+        shouldThrowUnit<IllegalArgumentException> {
+            formats = linkedSetOf()
+        }
     }
 
-    @Test(expectedExceptions = [ IllegalArgumentException::class ])
-    fun `User can not set a default format not loaded` () {
-        formats = linkedSetOf(Yaml)
-        defaultFormat = Json
+    @Test fun `User can not set a default format not loaded` () {
+        shouldThrowUnit<IllegalArgumentException> {
+            formats = linkedSetOf(Yaml)
+            defaultFormat = Json
+        }
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Searching a format not loaded raises an exception` () {
-        formats = linkedSetOf(Yaml)
-        formatOf(Json.contentType)
+    @Test fun `Searching a format not loaded raises an exception` () {
+        shouldThrow<IllegalStateException> {
+            formats = linkedSetOf(Yaml)
+            formatOf(Json.contentType)
+        }
     }
 
-    fun `Searching serialization format for content types, URLs, files and resources works` () {
+    @Test fun `Searching serialization format for content types, URLs, files and resources works` () {
         assert(formatOf(Json.contentType) == Json)
         assert(formatOf(URL("http://l/a.yaml")) == Yaml)
         assert(formatOf(File("f.json")) == Json)

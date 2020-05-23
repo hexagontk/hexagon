@@ -13,14 +13,17 @@ import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.http.client.Response
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
 import java.net.URL
 import kotlin.text.Charsets.UTF_8
 
-@Test abstract class GenericTest(adapter: ServerPort) {
+@TestInstance(PER_CLASS)
+abstract class GenericTest(adapter: ServerPort) {
 
     private data class Tag(
         val id: String = System.currentTimeMillis().toString(),
@@ -130,11 +133,11 @@ import kotlin.text.Charsets.UTF_8
         Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
     }
 
-    @BeforeClass fun initialize() {
+    @BeforeAll fun initialize() {
         server.start()
     }
 
-    @AfterClass fun shutdown() {
+    @AfterAll fun shutdown() {
         server.stop()
     }
 

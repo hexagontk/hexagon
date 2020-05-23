@@ -5,10 +5,14 @@ import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import org.testng.annotations.*
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.HttpCookie
 
-@Test abstract class CookiesTest(adapter: ServerPort) {
+@TestInstance(PER_CLASS)
+@TestMethodOrder(OrderAnnotation::class)
+abstract class CookiesTest(adapter: ServerPort) {
 
     // cookies
     val server: Server = Server(adapter) {
@@ -40,23 +44,27 @@ import java.net.HttpCookie
         Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
     }
 
-    @BeforeClass fun initialize() {
+    @BeforeAll fun initialize() {
         server.start()
     }
 
-    @AfterClass fun shutdown() {
+    @AfterAll fun shutdown() {
         server.stop()
     }
 
-    @BeforeMethod fun clearCookies() {
+    @BeforeEach fun clearCookies() {
         client.cookies.clear()
     }
 
-    @Test(priority = 1) fun `Empty cookies assures there is no cookies`() {
+    @Test
+    @Order(1)
+    fun `Empty cookies assures there is no cookies`() {
         assert(client.post("/assertNoCookies").status == 200)
     }
 
-    @Test(priority = 2) fun `Create cookie adds a new cookie to the request`() {
+    @Test
+    @Order(2)
+    fun `Create cookie adds a new cookie to the request`() {
         val cookieName = "testCookie"
         val cookieValue = "testCookieValue"
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
@@ -67,7 +75,9 @@ import java.net.HttpCookie
         assert(result.status == 200)
     }
 
-    @Test(priority = 3) fun `Remove cookie deletes the given cookie`() {
+    @Test
+    @Order(3)
+    fun `Remove cookie deletes the given cookie`() {
         val cookieName = "testCookie"
         val cookieValue = "testCookieValue"
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
@@ -79,7 +89,9 @@ import java.net.HttpCookie
         assert(result.status == 200)
     }
 
-    @Test(priority = 4) fun `Remove not available cookie does not fail`() {
+    @Test
+    @Order(4)
+    fun `Remove not available cookie does not fail`() {
         val cookieName = "unknownCookie"
         client.post("/removeCookie?$cookieName")
         assert(client.cookies.isEmpty())
