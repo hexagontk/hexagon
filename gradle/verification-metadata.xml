@@ -26,6 +26,7 @@
       <trust group="ch.qos.logback" version="1.2.3"/> <!-- TODO This is trusted by a key below -->
       <trust group="io.netty" version="4.1.48.Final"/>
       <trust group="org.asynchttpclient" name="async-http-client.*" version="2.12.1" regex="true"/>
+      <trust group="org.freemarker" name="freemarker" version="2.3.30"/>
 
       <!-- Tests -->
       <trust group="com.github.mifmif" name="generex" version="1.0.2"/>
