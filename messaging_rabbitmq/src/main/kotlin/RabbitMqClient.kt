@@ -1,9 +1,11 @@
 package com.hexagonkt.messaging.rabbitmq
 
+import com.codahale.metrics.MetricRegistry
 import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.helpers.*
 import com.rabbitmq.client.*
 import com.rabbitmq.client.AMQP.BasicProperties
+import com.rabbitmq.client.impl.StandardMetricsCollector
 
 import java.io.Closeable
 import java.lang.Runtime.getRuntime
@@ -43,11 +45,13 @@ class RabbitMqClient(
             val recoveryInterval = params["recoveryInterval"]?.firstOrNull()?.toLong()
             val shutdownTimeout = params["shutdownTimeout"]?.firstOrNull()?.toInt()
             val heartbeat = params["heartbeat"]?.firstOrNull()?.toInt()
+            val metricsCollector = StandardMetricsCollector(MetricRegistry())
 
             setVar(automaticRecovery) { cf.isAutomaticRecoveryEnabled = it }
             setVar(recoveryInterval) { cf.networkRecoveryInterval = it }
             setVar(shutdownTimeout) { cf.shutdownTimeout = it }
             setVar(heartbeat) { cf.requestedHeartbeat = it }
+            setVar(metricsCollector) { cf.metricsCollector = it }
 
             return cf
         }
@@ -58,6 +62,7 @@ class RabbitMqClient(
     @Volatile private var count: Int = 0
     private val threadPool = newFixedThreadPool(poolSize) { Thread(it, "rabbitmq-" + count++) }
     private var connection: Connection? = connectionFactory.newConnection()
+    private val metrics: Metrics = Metrics(connectionFactory.metricsCollector)
 
     /** . */
     constructor (uri: URI) : this(createConnectionFactory(uri))
@@ -69,6 +74,7 @@ class RabbitMqClient(
     override fun close() {
         connection?.close()
         connection = null
+        metrics.report()
         log.info { "RabbitMQ client closed" }
     }
 
@@ -86,7 +92,7 @@ class RabbitMqClient(
     fun bindExchange(exchange: String, exchangeType: String, routingKey: String, queue: String) {
         withChannel {
             it.queueDeclare(queue, false, false, false, null)
-            it.queuePurge(queue);
+            it.queuePurge(queue)
             it.exchangeDeclare(exchange, exchangeType, false, false, false, null)
             it.queueBind(queue, exchange, routingKey)
         }
@@ -98,7 +104,7 @@ class RabbitMqClient(
 
         withChannel {
             it.queueDeclare(routingKey, false, false, false, null)
-            it.queuePurge(routingKey);
+            it.queuePurge(routingKey)
             it.queueBind(routingKey, exchange, routingKey)
         }
         consume(routingKey, type, handler)
