@@ -56,6 +56,7 @@ $dokka.location:com.hexagonkt.serialization$parseObjects(kotlin.String, com.hexa
 $dokka.location:com.hexagonkt.serialization$parseObjects(kotlin.String, kotlin.reflect.KClass((com.hexagonkt.serialization.parseObjects.T)), com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/kotlin.-string/parse-objects.md
 $dokka.location:com.hexagonkt.serialization$serialize(kotlin.Any, com.hexagonkt.serialization.SerializationFormat)com.hexagonkt.serialization/kotlin.-any/serialize.md
 $dokka.location:com.hexagonkt.serialization$serialize(kotlin.Any, kotlin.String)com.hexagonkt.serialization/kotlin.-any/serialize.md
+com.hexagonkt
 com.hexagonkt.helpers
 com.hexagonkt.http
 com.hexagonkt.injection

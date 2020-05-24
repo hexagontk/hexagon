@@ -549,13 +549,6 @@ if ('serviceWorker' in navigator)
 </li>
         
           <li class="md-nav__item">
-  <a href="#junit" class="md-nav__link">
-    JUnit
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#kotlin" class="md-nav__link">
     Kotlin
   </a>
@@ -586,13 +579,6 @@ if ('serviceWorker' in navigator)
           <li class="md-nav__item">
   <a href="#lean" class="md-nav__link">
     Lean
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#testng" class="md-nav__link">
-    TestNG
   </a>
   
 </li>
@@ -993,6 +979,18 @@ if ('serviceWorker' in navigator)
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../templates_freemarker/" title="Freemarker" class="md-nav__link">
+      Freemarker
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1250,13 +1248,6 @@ if ('serviceWorker' in navigator)
 </li>
         
           <li class="md-nav__item">
-  <a href="#junit" class="md-nav__link">
-    JUnit
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#kotlin" class="md-nav__link">
     Kotlin
   </a>
@@ -1287,13 +1278,6 @@ if ('serviceWorker' in navigator)
           <li class="md-nav__item">
   <a href="#lean" class="md-nav__link">
     Lean
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#testng" class="md-nav__link">
-    TestNG
   </a>
   
 </li>
@@ -1391,7 +1375,7 @@ development machine.</p>
 <code class="codehilite"><span class="err">id &#39;me.champeau.gradle.jmh&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
-<li>jmhBenchmarkVersion: JMH version. The default is 1.21.</li>
+<li>jmhBenchmarkVersion: JMH version. The default is Hexagon's used version.</li>
 <li>iterations (REQUIRED): number of measurement iterations to do.</li>
 <li>benchmarkModes (REQUIRED): benchmark mode. Available modes are:
   Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all</li>
@@ -1433,34 +1417,30 @@ development machine.</p>
 </code></pre></div>
 </td></tr></table>
 
-<h3 id="junit">JUnit<a class="headerlink" href="#junit" title="Permanent link">&para;</a></h3>
-<p>Uses JUnit 5 as the test framework. It also includes <a href="https://github.com/kotest/kotest">Kotest</a> in the test classpath.</p>
-<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/junit.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
-<ul>
-<li>junitVersion: JUnit version (5+), the default value is: 5.6.2.</li>
-<li>kotestVersion: Kotest version, the default value is: 4.0.5.</li>
-</ul>
 <h3 id="kotlin">Kotlin<a class="headerlink" href="#kotlin" title="Permanent link">&para;</a></h3>
-<p>Adds Kotlin's Gradle plugin. It sets up:</p>
+<p>Adds Kotlin's Gradle plugin.</p>
+<p>Uses <a href="https://junit.org">JUnit 5</a> as the test framework. It also includes <a href="https://github.com/kotest/kotest">Kotest</a> in the test classpath.</p>
+<p>It sets up:</p>
 <ul>
 <li>Java version</li>
 <li>Repositories</li>
 <li>Kotlin dependencies</li>
 <li>Resource processing (replacing build variables)</li>
 <li>Cleaning (deleting runtime files as logs and dump files)</li>
-<li>Tests (pass properties, output and mocks)</li>
+<li>Tests (pass properties, output and mocks). Test's output depends on Gradle logging level</li>
 <li>Set up coverage report</li>
 <li>IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)</li>
 <li>Published artifacts (binaries, sources and test): sourceJar and testJar tasks</li>
 <li>Jar with dependencies: jarAll task</li>
 </ul>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/kotlin.gradle</span></code> and add the
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/kotlin.gradle</span></code> and add the
 <code class="codehilite"><span class="err">id &#39;org.jetbrains.kotlin.jvm&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.</li>
-<li>mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.</li>
+<li>mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.</li>
+<li>junitVersion: JUnit version (5+), the default value is the toolkit's version.</li>
+<li>kotestVersion: Kotest version, the default value is the version used by Hexagon.</li>
 </ul>
 <h3 id="kotlin-js">Kotlin JS<a class="headerlink" href="#kotlin-js" title="Permanent link">&para;</a></h3>
 <p>This script provides the following tasks for compiling Kotlin to JavaScript:</p>
@@ -1481,16 +1461,25 @@ the root <code class="codehilite"><span class="err">build.gradle</span></code>.<
 <h3 id="application">Application<a class="headerlink" href="#application" title="Permanent link">&para;</a></h3>
 <p>Gradle's script for a service or application. It adds two extra tasks:</p>
 <ul>
-<li>buildInfo: add configuration file (<code class="codehilite"><span class="err">application.properties</span></code>) with build variables to the package.</li>
+<li>buildInfo: add configuration file (<code class="codehilite"><span class="err">application.properties</span></code>) with build variables to the package.
+  It is executed automatically before compiling classes.</li>
 <li>watch: Run the application in another thread. This allows the possibility to watch source changes.
   To run the application and watch for changes you need to execute this task with the <code class="codehilite"><span class="err">--continuous</span></code>
   (<code class="codehilite"><span class="err">-t</span></code>) Gradle flag. Ie: <code class="codehilite"><span class="err">gw -t watch</span></code>.</li>
+<li>jarAll: creates a single JAR with all dependencies, and the application main class set up. This
+  task is an alternative to the Gradle <code class="codehilite"><span class="err">installDist</span></code> task.</li>
 </ul>
 <p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/application.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
-<ul>
-<li>mainClassName: name of the class with the main method of the application.</li>
-</ul>
+<p>To set up this script you need to add the main class name to your <code class="codehilite"><span class="err">build.gradle</span></code> file with the
+following code:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">application</span> <span class="o">{</span>
+    <span class="n">mainClassName</span> <span class="o">=</span> <span class="s2">&quot;com.example.ApplicationKt&quot;</span>
+<span class="o">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <h3 id="certificates">Certificates<a class="headerlink" href="#certificates" title="Permanent link">&para;</a></h3>
 <p>Creates the required key stores for development purposes. <strong>IMPORTANT</strong> these key stores must not be
 used for production environments.</p>
@@ -1536,13 +1525,6 @@ used for production environments.</p>
 Kotlin plugin.</p>
 <p>After applying this script, the source folders will be <code class="codehilite"><span class="cp">${</span><span class="n">projectDir</span><span class="cp">}</span>/main</code> and
 <code class="codehilite"><span class="cp">${</span><span class="n">projectDir</span><span class="cp">}</span>/test</code>, and the resources will be stored also in these folders.</p>
-<h3 id="testng">TestNG<a class="headerlink" href="#testng" title="Permanent link">&para;</a></h3>
-<p>Uses TestNG as the test framework.</p>
-<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/testng.gradle</span></code> to your <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
-<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
-<ul>
-<li>testngVersion: TestNG version, the default value is: 6.14.3.</li>
-</ul>
   
     
   

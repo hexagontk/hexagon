@@ -910,6 +910,18 @@ if ('serviceWorker' in navigator)
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../templates_freemarker/" title="Freemarker" class="md-nav__link">
+      Freemarker
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1186,22 +1198,26 @@ or the <a href="https://github.com/hexagonkt/maven_starter">Maven Starter</a>.</
 14
 15
 16
-17</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">plugins</span> <span class="o">{</span>
-    <span class="n">id</span> <span class="s1">&#39;org.jetbrains.kotlin.jvm&#39;</span> <span class="n">version</span> <span class="s1">&#39;1.3.72&#39;</span>
+17
+18
+19</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">plugins</span> <span class="o">{</span>
+    <span class="n">id</span> <span class="s2">&quot;org.jetbrains.kotlin.jvm&quot;</span> <span class="n">version</span> <span class="s2">&quot;1.3.72&quot;</span>
 <span class="o">}</span>
 
-<span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;kotlin&#39;</span>
-<span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;application&#39;</span>
+<span class="n">apply</span><span class="o">(</span><span class="nl">plugin:</span> <span class="s2">&quot;kotlin&quot;</span><span class="o">)</span>
+<span class="n">apply</span><span class="o">(</span><span class="nl">plugin:</span> <span class="s2">&quot;application&quot;</span><span class="o">)</span>
 
-<span class="n">mainClassName</span> <span class="o">=</span> <span class="s1">&#39;HelloKt&#39;</span>
+<span class="n">application</span> <span class="o">{</span>
+    <span class="n">mainClassName</span> <span class="o">=</span> <span class="s2">&quot;HelloKt&quot;</span>
+<span class="o">}</span>
 
 <span class="n">repositories</span> <span class="o">{</span>
     <span class="n">jcenter</span> <span class="o">()</span>
-    <span class="n">maven</span> <span class="o">{</span> <span class="n">url</span>  <span class="s2">&quot;https://dl.bintray.com/hexagonkt/hexagon&quot;</span> <span class="o">}</span>
+    <span class="n">maven</span> <span class="o">{</span> <span class="n">url</span> <span class="s2">&quot;https://dl.bintray.com/hexagonkt/hexagon&quot;</span> <span class="o">}</span>
 <span class="o">}</span>
 
 <span class="n">dependencies</span> <span class="o">{</span>
-    <span class="n">compile</span> <span class="o">(</span><span class="s2">&quot;com.hexagonkt:http_server_jetty:$hexagonVersion&quot;</span><span class="o">)</span>
+    <span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:http_server_jetty:$hexagonVersion&quot;</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div>
 </td></tr></table>
