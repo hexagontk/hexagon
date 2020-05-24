@@ -1,12 +1,14 @@
 package com.hexagonkt.serialization
 
-import org.testng.annotations.Test
+import io.kotest.assertions.throwables.shouldThrow
+import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import kotlin.reflect.KClass
 
-@Test class SerializationFormatTest {
+class SerializationFormatTest {
+
     class TextTestFormat : SerializationFormat {
         override val contentType = "text/test"
         override val extensions = setOf("test")
@@ -34,9 +36,10 @@ import kotlin.reflect.KClass
         }
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `A binary format fails to serialize to a string` () {
-        BinaryTestFormat().serialize("foo")
+    @Test fun `A binary format fails to serialize to a string` () {
+        shouldThrow<IllegalStateException> {
+            BinaryTestFormat().serialize("foo")
+        }
     }
 
     @Test fun `A text format can be serialized to a string` () {

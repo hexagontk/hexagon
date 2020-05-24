@@ -94,7 +94,7 @@ To use it, apply `$gradleScripts/jmh.gradle` and add the
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
-* jmhBenchmarkVersion: JMH version. The default is 1.21.
+* jmhBenchmarkVersion: JMH version. The default is Hexagon's used version.
 * iterations (REQUIRED): number of measurement iterations to do.
 * benchmarkModes (REQUIRED): benchmark mode. Available modes are:
   Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all
@@ -125,42 +125,39 @@ open class Benchmark {
 }
 ```
 
-## JUnit
-
-Uses JUnit 5 as the test framework. It also includes [Kotest] in the test classpath.
-
-To use it, apply `$gradleScripts/junit.gradle` to your `build.gradle`.
-
-To set up this script's parameters, check the [build variables section]. This helper settings are:
-
-* junitVersion: JUnit version (5+), the default value is: 5.6.2.
-* kotestVersion: Kotest version, the default value is: 4.0.5.
-
 [JMH]: https://openjdk.java.net/projects/code-tools/jmh
-[Kotest]: https://github.com/kotest/kotest
 
 ## Kotlin
 
-Adds Kotlin's Gradle plugin. It sets up:
+Adds Kotlin's Gradle plugin.
+
+Uses [JUnit 5] as the test framework. It also includes [Kotest] in the test classpath.
+
+It sets up:
 
 - Java version
 - Repositories
 - Kotlin dependencies
 - Resource processing (replacing build variables)
 - Cleaning (deleting runtime files as logs and dump files)
-- Tests (pass properties, output and mocks)
+- Tests (pass properties, output and mocks). Test's output depends on Gradle logging level
 - Set up coverage report
 - IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)
 - Published artifacts (binaries, sources and test): sourceJar and testJar tasks
 - Jar with dependencies: jarAll task
 
-To use it apply `$gradleScripts/kotlin.gradle` and add the
+To use it, apply `$gradleScripts/kotlin.gradle` and add the
 `id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to the root `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
-* mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.
+* mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.
+* junitVersion: JUnit version (5+), the default value is the toolkit's version.
+* kotestVersion: Kotest version, the default value is the version used by Hexagon.
+
+[JUnit 5]: https://junit.org
+[Kotest]: https://github.com/kotest/kotest
 
 ## Kotlin JS
 
@@ -187,15 +184,23 @@ To set up this script's parameters, check the [build variables section]. This he
 Gradle's script for a service or application. It adds two extra tasks:
 
 * buildInfo: add configuration file (`application.properties`) with build variables to the package.
+  It is executed automatically before compiling classes.
 * watch: Run the application in another thread. This allows the possibility to watch source changes.
   To run the application and watch for changes you need to execute this task with the `--continuous`
   (`-t`) Gradle flag. Ie: `gw -t watch`.
+* jarAll: creates a single JAR with all dependencies, and the application main class set up. This
+  task is an alternative to the Gradle `installDist` task.
 
 To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
 
-To set up this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script you need to add the main class name to your `build.gradle` file with the
+following code:
 
-* mainClassName: name of the class with the main method of the application.
+```groovy
+application {
+    mainClassName = "com.example.ApplicationKt"
+}
+```
 
 ## Certificates
 
@@ -249,13 +254,3 @@ Kotlin plugin.
 
 After applying this script, the source folders will be `${projectDir}/main` and
 `${projectDir}/test`, and the resources will be stored also in these folders.
-
-## TestNG
-
-Uses TestNG as the test framework.
-
-To use it, apply `$gradleScripts/testng.gradle` to your `build.gradle`.
-
-To set up this script's parameters, check the [build variables section]. This helper settings are:
-
-* testngVersion: TestNG version, the default value is: 6.14.3.

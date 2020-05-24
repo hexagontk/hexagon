@@ -1,9 +1,10 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.toStream
-import org.testng.annotations.Test
+import io.kotest.assertions.throwables.shouldThrow
+import org.junit.jupiter.api.Test
 
-@Test class YamlTest {
+class YamlTest {
 
     data class Player (val name: String, val number: Int, val category: ClosedRange<Int>)
 
@@ -18,41 +19,44 @@ import org.testng.annotations.Test
         assert (player.category.endInclusive == deserializedPlayer.category.endInclusive)
     }
 
-    @Test(expectedExceptions = [ ParseException::class ])
-    fun `Parse invalid YAML range` () {
-        """
+    @Test fun `Parse invalid YAML range` () {
+        shouldThrow<ParseException> {
+            """
             name: Michael
             number: 23
             category: error
-        """
-        .trimIndent()
-        .parse(Player::class, Yaml)
+            """
+            .trimIndent()
+            .parse(Player::class, Yaml)
+        }
     }
 
-    @Test(expectedExceptions = [ ParseException::class ])
-    fun `Parse invalid YAML range start` () {
-        """
+    @Test fun `Parse invalid YAML range start` () {
+        shouldThrow<ParseException> {
+            """
             name: Michael
             number: 23
             category:
                 error: 18
                 endInclusive: 65
-        """
-        .trimIndent()
-        .parse(Player::class, Yaml)
+            """
+            .trimIndent()
+            .parse(Player::class, Yaml)
+        }
     }
 
-    @Test(expectedExceptions = [ ParseException::class ])
-    fun `Parse invalid YAML range end` () {
-        """
+    @Test fun `Parse invalid YAML range end` () {
+        shouldThrow<ParseException> {
+            """
             name: Michael
             number: 23
             category:
                 start: 18
                 error: 65
-        """
-        .trimIndent()
-        .parse(Player::class, Yaml)
+            """
+            .trimIndent()
+            .parse(Player::class, Yaml)
+        }
     }
 
     @Test fun `Parse valid YAML` () {

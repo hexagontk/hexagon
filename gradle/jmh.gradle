@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle.html#jmh
+ * Check usage information at: http://hexagonkt.com/gradle/#jmh
  */
 
 apply(plugin: "me.champeau.gradle.jmh")

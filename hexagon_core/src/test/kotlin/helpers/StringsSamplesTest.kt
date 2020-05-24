@@ -1,8 +1,8 @@
 package com.hexagonkt.helpers
 
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
-@Test class StringsSamplesTest {
+class StringsSamplesTest {
 
     @Test fun filterVarsExample () {
         val template = "User #{user}"

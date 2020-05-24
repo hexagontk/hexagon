@@ -1,9 +1,9 @@
 package com.hexagonkt.http
 
 import com.hexagonkt.helpers.toStream
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
-@Test class PartTest {
+class PartTest {
 
     @Test fun `Full part contains expected values`() {
         val content = "content"

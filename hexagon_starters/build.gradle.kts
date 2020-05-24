@@ -6,7 +6,6 @@ import org.w3c.dom.Element
 project.extra["bintrayPublications"] = listOf("hexagon_pom", "hexagon_lean_pom")
 
 apply(from = "../gradle/kotlin.gradle")
-apply(from = "../gradle/junit.gradle")
 apply(from = "../gradle/bintray.gradle")
 
 plugins {
@@ -15,7 +14,8 @@ plugins {
 
 dependencies {
     "implementation"(project(":http_server_jetty"))
-    "implementation"(project(":http_client_ahc"))
+
+    "testImplementation"(project(":http_client_ahc"))
 }
 
 task("processTemplate") {

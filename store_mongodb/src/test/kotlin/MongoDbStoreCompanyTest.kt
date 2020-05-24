@@ -7,15 +7,15 @@ import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.IndexOrder.DESCENDING
 import com.hexagonkt.store.Store
 import org.bson.types.ObjectId
-import org.testng.annotations.BeforeMethod
-import org.testng.annotations.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@Test class MongoDbStoreCompanyTest {
+class MongoDbStoreCompanyTest {
 
     private val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String?
         ?: "mongodb://localhost/test"
@@ -45,7 +45,7 @@ import java.time.LocalTime
     private fun changeObject(obj: Company) =
         obj.copy(web = URL("http://change.example.org"))
 
-    @BeforeMethod fun dropCollection() {
+    @BeforeEach fun dropCollection() {
         store.drop()
         store.createIndex(true, store.key)
     }
@@ -142,6 +142,63 @@ import java.time.LocalTime
         assert(store.replaceMany(updatedCompanies).isEmpty())
     }
 
+    @Test fun `Entities are stored`() {
+        val testEntities = createTestEntities()
+
+        val keys = store.saveMany(testEntities)
+
+        val entities = keys.map { store.findOne(it ?: error) }
+
+        assert(entities.map { it?.id }.all { it in keys })
+
+        store.saveMany(testEntities.map { changeObject(it) })
+    }
+
+    @Test fun `Insert one record returns the proper key`() {
+
+        createTestEntities().forEach { mappedClass ->
+            val await = store.insertOne(mappedClass)
+            val storedClass = store.findOne(await)
+            assert(await.isNotBlank())
+            assert(mappedClass == storedClass)
+        }
+    }
+
+    @Test fun `Collection can be used for custom queries`() {
+        store.insertMany(
+            listOf(
+                Company(
+                    id = ObjectId().toHexString(),
+                    foundation = LocalDate.of(2014, 1, 25),
+                    closeTime = LocalTime.of(11, 42),
+                    openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+                    web = URL("http://example.org"),
+                    people = setOf(
+                        Person(name = "John"),
+                        Person(name = "Mike")
+                    )
+                )
+            )
+        )
+
+        assert((store as MongoDbStore<Company, String>).collection.countDocuments() == 1L)
+    }
+
+    // TODO Check inserted data
+    @Test fun `Resources are loaded`() {
+        store.import(Resource("companies.json"))
+        store.drop()
+
+        // File paths change from IDE to build tool
+        val file = File("hexagon_core/src/test/resources/data/companies.json").let {
+            if (it.exists()) it
+            else File("src/test/resources/companies.json")
+        }
+
+        store.import(file)
+        store.drop()
+    }
+
     private fun checkFindAllObjects() {
         val results = store.findAll(4, 8, mapOf("id" to false))
         assert(results.size == 2)
@@ -235,62 +292,5 @@ import java.time.LocalTime
         val results6 = store.findMany(filter, fields)
         assert(results6.size == 10)
         assert(results6.all { it["web"] == "http://change.example.org" })
-    }
-
-    @Test fun `Entities are stored`() {
-        val testEntities = createTestEntities()
-
-        val keys = store.saveMany(testEntities)
-
-        val entities = keys.map { store.findOne(it ?: error) }
-
-        assert(entities.map { it?.id }.all { it in keys })
-
-        store.saveMany(testEntities.map { changeObject(it) })
-    }
-
-    @Test fun `Insert one record returns the proper key`() {
-
-        createTestEntities().forEach { mappedClass ->
-            val await = store.insertOne(mappedClass)
-            val storedClass = store.findOne(await)
-            assert(await.isNotBlank())
-            assert(mappedClass == storedClass)
-        }
-    }
-
-    @Test fun `Collection can be used for custom queries`() {
-        store.insertMany(
-            listOf(
-                Company(
-                    id = ObjectId().toHexString(),
-                    foundation = LocalDate.of(2014, 1, 25),
-                    closeTime = LocalTime.of(11, 42),
-                    openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
-                    web = URL("http://example.org"),
-                    people = setOf(
-                        Person(name = "John"),
-                        Person(name = "Mike")
-                    )
-                )
-            )
-        )
-
-        assert((store as MongoDbStore<Company, String>).collection.countDocuments() == 1L)
-    }
-
-    // TODO Check inserted data
-    @Test fun `Resources are loaded`() {
-        store.import(Resource("companies.json"))
-        store.drop()
-
-        // File paths change from IDE to build tool
-        val file = File("hexagon_core/src/test/resources/data/companies.json").let {
-            if (it.exists()) it
-            else File("src/test/resources/companies.json")
-        }
-
-        store.import(file)
-        store.drop()
     }
 }

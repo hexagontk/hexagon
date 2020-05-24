@@ -2,7 +2,6 @@
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/bintray.gradle")
 apply(from = "../gradle/dokka.gradle")
-apply(from = "../gradle/junit.gradle")
 
 dependencies {
     "api"(project(":port_http_server"))

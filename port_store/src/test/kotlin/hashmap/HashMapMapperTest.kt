@@ -1,11 +1,12 @@
 package com.hexagonkt.store.hashmap
 
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.LocalDateTime
 import kotlin.reflect.full.declaredMemberProperties
 
 class HashMapMapperTest {
+
     data class MappedClass (
         val oneString: String = "String",
         val oneBoolean: Boolean = true,

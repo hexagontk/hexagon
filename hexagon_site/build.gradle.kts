@@ -79,7 +79,7 @@ task("mkdocs") {
             markdownFile.writeText(content)
         }
 
-        addMetadata(contentTarget, project)
+        project.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
         // Generate coverage badge

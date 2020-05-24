@@ -1,10 +1,12 @@
 package com.hexagonkt.store.mongodb
 
-import org.testng.annotations.Test
+import io.kotest.assertions.throwables.shouldThrow
+import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
 import java.util.*
 
 class MongoDbMapperTest {
+
     data class MappedClass (
         val oneString: String = "String",
         val oneBoolean: Boolean = true,
@@ -28,9 +30,10 @@ class MongoDbMapperTest {
         assert(instance == mapper.fromStore(map))
     }
 
-    @Test(expectedExceptions = [ IllegalStateException::class ])
-    fun `Mapping a date to an invalid field type results in error`() {
-        val mapper = MongoDbMapper(MappedClass::class, MappedClass::oneString)
-        mapper.fromStore("onePlus", Date())
+    @Test fun `Mapping a date to an invalid field type results in error`() {
+        shouldThrow<IllegalStateException> {
+            val mapper = MongoDbMapper(MappedClass::class, MappedClass::oneString)
+            mapper.fromStore("onePlus", Date())
+        }
     }
 }

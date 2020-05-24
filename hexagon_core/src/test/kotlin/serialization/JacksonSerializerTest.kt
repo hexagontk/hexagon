@@ -1,10 +1,11 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.Resource
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
-@Test class JacksonSerializerTest {
-    fun `Parse URL works ok`() {
+class JacksonSerializerTest {
+
+    @Test fun `Parse URL works ok`() {
         assert(Resource("data/companies.json").requireUrl().parseObjects<Map<*, *>>().isNotEmpty())
         assert(Resource("data/tags.json").requireUrl().parseObjects<Map<*, *>>().isNotEmpty())
         assert(Resource("data/companies.yaml").requireUrl().parseObjects<Map<*, *>>().isNotEmpty())
@@ -16,7 +17,7 @@ import org.testng.annotations.Test
         assert(Resource("data/tag.yaml").requireUrl().parse<Map<*, *>>().isNotEmpty())
     }
 
-    fun `Parse resource works ok`() {
+    @Test fun `Parse resource works ok`() {
         assert(Resource("data/companies.json").parseObjects<Map<*, *>>().isNotEmpty())
         assert(Resource("data/tags.json").parseObjects<Map<*, *>>().isNotEmpty())
         assert(Resource("data/companies.yaml").parseObjects<Map<*, *>>().isNotEmpty())

@@ -10,14 +10,14 @@ import com.hexagonkt.http.client.Request
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.Json
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
 import java.net.HttpCookie
 import java.net.InetAddress
 
 import com.hexagonkt.http.client.Response as ClientResponse
 
-@Test abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
+abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
 
     private data class Type(val value: String = "value")
 

@@ -11,21 +11,23 @@ You can write a [Gradle] project from scratch (Gradle 6.4 or newer is required) 
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id "org.jetbrains.kotlin.jvm" version "1.3.72"
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'application'
+apply(plugin: "kotlin")
+apply(plugin: "application")
 
-mainClassName = 'HelloKt'
+application {
+    mainClassName = "HelloKt"
+}
 
 repositories {
     jcenter ()
-    maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
+    maven { url "https://dl.bintray.com/hexagonkt/hexagon" }
 }
 
 dependencies {
-    compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
+    implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 }
 ```
 

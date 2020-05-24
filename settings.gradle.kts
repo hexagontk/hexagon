@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.17"
+        version = "1.2.18"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
     }
@@ -33,5 +33,6 @@ include(
     "http_server_servlet",
     "http_server_jetty",
     "store_mongodb",
-    "templates_pebble"
+    "templates_pebble",
+    "templates_freemarker"
 )

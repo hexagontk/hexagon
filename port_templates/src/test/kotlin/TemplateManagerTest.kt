@@ -2,17 +2,18 @@ package com.hexagonkt.templates
 
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.util.*
 
-@Test class TemplateManagerTest {
+class TemplateManagerTest {
+
     private object VoidTemplateAdapter : TemplatePort {
         override fun render(resource: String, locale: Locale, context: Map<String, *>): String {
             return context.serialize()
         }
     }
 
-    fun `Template with unparseable properties is rendered`() {
+    @Test fun `Template with unparseable properties is rendered`() {
         val locale = Locale.getDefault()
         val context = mapOf("a" to "b")
         val resource = "test.pebble.html"
@@ -22,7 +23,7 @@ import java.util.*
         assert(contextMap["a"] == "b")
     }
 
-    fun `Invalid resource path will return empty map`() {
+    @Test fun `Invalid resource path will return empty map`() {
         val locale = Locale.getDefault()
         val resource = "invalid.html"
         val context = emptyMap<String, Any>()

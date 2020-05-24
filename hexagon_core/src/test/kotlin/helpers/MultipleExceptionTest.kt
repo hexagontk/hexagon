@@ -1,8 +1,8 @@
 package com.hexagonkt.helpers
 
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
-@Test class MultipleExceptionTest {
+class MultipleExceptionTest {
 
     @Test fun `'MultipleException' contains a list of causes`() {
         val causes = (0..9).map { RuntimeException (it.toString()) }

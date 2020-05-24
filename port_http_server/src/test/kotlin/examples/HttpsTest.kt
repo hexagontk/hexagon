@@ -9,11 +9,11 @@ import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ClientSettings
 import com.hexagonkt.http.server.*
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.net.URI
 import kotlin.test.assertFails
 
-@Test abstract class HttpsTest(adapter: ServerPort) {
+abstract class HttpsTest(adapter: ServerPort) {
 
     private val serverAdapter = adapter
 
