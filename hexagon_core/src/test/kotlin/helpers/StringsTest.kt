@@ -2,11 +2,11 @@ package com.hexagonkt.helpers
 
 import io.mockk.every
 import io.mockk.mockk
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
 import kotlin.test.assertFailsWith
 
-@Test class StringsTest {
+class StringsTest {
 
     @Test fun `Find groups takes care of 'nulls'` () {
         val reEmpty = mockk<Regex>()

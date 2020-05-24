@@ -2,7 +2,7 @@ package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.error
 import com.hexagonkt.store.Store
-import org.testng.annotations.BeforeMethod
+import org.junit.jupiter.api.BeforeEach
 import java.net.URL
 import kotlin.reflect.KProperty1
 
@@ -22,7 +22,7 @@ abstract class StoreTest<T : Any, K : Any> {
 
     protected abstract fun changeObject(obj: T): T
 
-    @BeforeMethod fun dropCollection() {
+    @BeforeEach fun dropCollection() {
         store.drop()
         store.createIndex(true, store.key)
     }

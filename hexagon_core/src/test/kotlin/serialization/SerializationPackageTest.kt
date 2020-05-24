@@ -1,7 +1,7 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.toStream
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.net.InetAddress
 import java.net.URL
 import java.nio.ByteBuffer

@@ -1,11 +1,12 @@
 package com.hexagonkt.templates.pebble
 
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import java.util.*
 
-@Test class PebbleAdapterTest {
-    fun `Dates are converted properly`() {
+class PebbleAdapterTest {
+
+    @Test fun `Dates are converted properly`() {
         val context = "localDate" to LocalDateTime.of(2000, 12, 31, 23, 45)
         val html = PebbleAdapter.render("templates/test.pebble.html", Locale.getDefault(), context)
         assert(html.contains("23:45"))

@@ -1,13 +1,13 @@
 package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.messaging.MessagingPort
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
-@Test class RabbitMqAdapterTest {
+class RabbitMqAdapterTest {
     /**
      * TODO Add asserts
      */
-    fun `event manager` () {
+    @Test fun `Event manager` () {
         val engine: MessagingPort = RabbitMqAdapter()
         engine.consume(com.hexagonkt.messaging.rabbitmq.RabbitTest.Sample::class) {
             if (it.str == "no message error")

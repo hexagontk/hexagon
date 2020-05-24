@@ -6,11 +6,14 @@ import com.hexagonkt.http.client.Response
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 
-@Test abstract class BooksTest(adapter: ServerPort) {
+@TestInstance(PER_CLASS)
+abstract class BooksTest(adapter: ServerPort) {
 
     // books
     data class Book(val author: String, val title: String)
@@ -78,11 +81,11 @@ import org.testng.annotations.Test
         Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
     }
 
-    @BeforeClass fun initialize() {
+    @BeforeAll fun initialize() {
         server.start()
     }
 
-    @AfterClass fun shutdown() {
+    @AfterAll fun shutdown() {
         server.stop()
     }
 

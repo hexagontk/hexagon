@@ -8,9 +8,9 @@ import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
 import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.Resource
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
-@Test class RouterTest {
+class RouterTest {
 
     @Test fun `Nested routes are flattened properly inside by Router`() {
         val router = Router {

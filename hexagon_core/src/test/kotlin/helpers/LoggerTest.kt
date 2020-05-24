@@ -3,15 +3,15 @@ package com.hexagonkt.helpers
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.read.CyclicBufferAppender
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
 /**
  * As the logger is only a facade and it is hard to check outputs, the only check is that
  * no exceptions are thrown.
  */
-@Test class LoggerTest {
+class LoggerTest {
 
-    @Test fun messages_are_logged_without_errors() {
+    @Test fun `Messages are logged without errors`() {
         val log = logger.log as? ch.qos.logback.classic.Logger ?: error
 
         log.level = Level.TRACE

@@ -38,7 +38,7 @@ internal object JacksonHelper {
         .configure(SORT_PROPERTIES_ALPHABETICALLY, false)
         .setSerializationInclusion(NON_EMPTY)
         .setDateFormat(SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"))
-        .registerModule(KotlinModule ())
+        .registerModule(KotlinModule())
         .registerModule(JavaTimeModule())
         .registerModule(Jdk8Module())
         .registerModule(SimpleModule("SerializationModule", Version.unknownVersion())

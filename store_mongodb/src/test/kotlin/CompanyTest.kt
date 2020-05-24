@@ -4,7 +4,7 @@ import com.hexagonkt.helpers.Resource
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.Store
 import com.hexagonkt.store.mongodb.Department.*
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.URL
 import java.nio.ByteBuffer
@@ -12,7 +12,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@Test class CompanyTest : StoreTest<Company, String>() {
+class CompanyTest : StoreTest<Company, String>() {
+
     override fun createTestEntities(): List<Company> = listOf (
         Company(
             id = "id",
@@ -55,24 +56,24 @@ import java.time.LocalTime
     override fun changeObject(obj: Company) =
         obj.copy(web = URL("http://change.example.org"))
 
-    fun `New records are stored`() {
+    @Test fun `New records are stored`() {
         new_records_are_stored()
     }
 
-    fun `Many records are stored`() {
+    @Test fun `Many records are stored`() {
         many_records_are_stored()
     }
 
-    fun `Entities are stored`() {
+    @Test fun `Entities are stored`() {
         entities_are_stored()
     }
 
-    fun `Insert one record returns the proper key`() {
+    @Test fun `Insert one record returns the proper key`() {
         insert_one_record_returns_the_proper_key()
     }
 
     // TODO Check inserted data
-    fun `Resources are loaded`() {
+    @Test fun `Resources are loaded`() {
         store.import(Resource("companies.json"))
         store.drop()
 

@@ -1,9 +1,9 @@
 package com.hexagonkt.settings
 
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import java.io.File
 
-@Test class SettingsTest {
+class SettingsTest {
 
     @Test fun `Load environment variables add settings with provided prefixes`() {
         assert(EnvironmentVariablesSource("PATH").load().size == 1)

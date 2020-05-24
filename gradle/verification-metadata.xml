@@ -14,7 +14,31 @@
       <trust file=".*\.pom" regex="true"/>
       <trust file=".*-javadoc\.jar" regex="true"/>
       <trust file=".*-sources\.jar" regex="true"/>
-      <trust group="org.jetbrains.kotlin"/>
+
+      <!-- TODO Review these (exclude the ones not needed) -->
+      <trust group="org.gradle.kotlin" name="plugins" version="1.3.5"/>
+      <trust group="org.jetbrains.kotlin" version="1\.3\..*" regex="true"/>
+      <trust group="org.jetbrains.intellij.deps" name="trove4j" version="1.0.20181211"/>
+      <trust group="org.jetbrains.kotlinx" name="kotlinx-coroutines-core" version="1.2.1"/>
+
+      <!-- Modules -->
+      <trust group="org.slf4j" version="1.7.30"/> <!-- TODO This is trusted by a key below -->
+      <trust group="ch.qos.logback" version="1.2.3"/> <!-- TODO This is trusted by a key below -->
+      <trust group="io.netty" version="4.1.48.Final"/>
+      <trust group="org.asynchttpclient" name="async-http-client.*" version="2.12.1" regex="true"/>
+      <trust group="org.freemarker" name="freemarker" version="2.3.30"/>
+
+      <!-- Tests -->
+      <trust group="com.github.mifmif" name="generex" version="1.0.2"/>
+      <trust group="com.github.wumpz" name="diffutils" version="2.2"/>
+      <trust group="com.univocity" name="univocity-parsers" version="2.8.4"/>
+      <trust group="commons-io" name="commons-io" version="2.6"/>
+      <trust group="dk.brics.automaton" name="automaton" version="1.11-8"/>
+      <trust group="io.github.classgraph" name="classgraph" version="4.8.67"/>
+      <trust group="io.kotest" version="4.0.5"/>
+      <trust group="net.bytebuddy" name="byte-buddy.*" version="1.10.9" regex="true"/>
+      <trust group="org.eclipse.jgit" name="org.eclipse.jgit" version="4.4.1.201607150455-r"/>
+      <trust group="org.objenesis" name="objenesis" version="3.1"/>
     </trusted-artifacts>
 
     <ignored-keys>
@@ -28,28 +52,29 @@
       <trusted-key id="08f0aab4d0c1a4bdde340765b341ddb020fcb6ab" group="org.bouncycastle"/>
       <trusted-key id="1fcffe916b6670868fa0ea0391ae1504568ec4dd" group="org.jodd"/>
       <trusted-key id="3a04f5ae8a2b44ee08352ee933c663310c1b8dc5" group="org.apache.qpid"/>
-      <trusted-key id="475f3b8e59e6e63aa78067482c7b12f2a511e325">
-        <trusting group="org.slf4j"/>
+      <trusted-key id="475f3b8e59e6e63aa78067482c7b12f2a511e325" group="org.slf4j">
         <trusting group="ch.qos.logback"/>
       </trusted-key>
       <trusted-key id="4e25dcaf7fe5f10d7228309dbd646d93190a1f12" group="org.simpleflatmapper"/>
       <trusted-key id="53c935821aa6a755bd337db53595395eb3d8e1ba" group="org.apache.logging.log4j"/>
-      <trusted-key id="5989baf76217b843d66be55b2d0e1fb8fe4b68b4"
-                   group="^org[.]eclipse[.]jetty($|([.].*))" regex="true"/>
-      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994"
-                   group="^com[.]fasterxml[.]jackson($|([.].*))" regex="true"/>
-      <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>
-      <trusted-key id="6fca825c6e85fcb4df9a96b27a3c11434ec6434e"
-                   group="^com[.]trueaccord($|([.].*))" regex="true"/>
-      <trusted-key id="7e22d50a7ebd9d2cd269b2d4056aca74d46000bf" group="io.netty"/>
-      <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="^org[.]jetbrains($|([.].*))"
+      <trusted-key id="5989baf76217b843d66be55b2d0e1fb8fe4b68b4" group="org.eclipse.jetty">
+        <trusting group="org.eclipse.jetty.http2"/>
+      </trusted-key>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*"
                    regex="true"/>
-      <trusted-key id="9ffed7a118d45a44e4a1e47130e6f80434a72a7f"
-                   group="^org[.]apache[.]maven($|([.].*))" regex="true"/>
+      <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>
+      <trusted-key id="6fca825c6e85fcb4df9a96b27a3c11434ec6434e" group="com\.trueaccord\..*"
+                   regex="true"/>
+      <trusted-key id="7e22d50a7ebd9d2cd269b2d4056aca74d46000bf" group="io.netty"/>
+      <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="org\.jetbrains\..*"
+                   regex="true"/>
+      <trusted-key id="9ffed7a118d45a44e4a1e47130e6f80434a72a7f" group="org.apache.maven">
+        <trusting group="org.apache.maven.wagon"/>
+      </trusted-key>
       <trusted-key id="a413f67d71beec23add0ce0acb43338e060cf9fa" group="org.jacoco"/>
       <trusted-key id="a5bd02b93e7a40482eb1d66a5f69ad087600b22c" group="org.ow2.asm"/>
       <trusted-key id="bd95a93175bfe816fc152de5f9fd57a03b80305d" group="com.lihaoyi"/>
-      <trusted-key id="bf58b3573debef83cc6232890753c4188493fd20" group="^com[.]typesafe($|([.].*))"
+      <trusted-key id="bf58b3573debef83cc6232890753c4188493fd20" group="com\.typesafe\..*"
                    regex="true"/>
       <trusted-key id="bfd244af9e85f6abdca2b65cde61fb98f06ce8ae" group="org.json4s"/>
       <trusted-key id="c62c0ce2e5c346b2d9bf2d8bb2ca0dfe9ed21c6e" group="io.burt"/>
@@ -57,7 +82,7 @@
       <trusted-key id="df49fa14952e59a7b21931ec8edf2667d0ecffaf" group="io.mockk"/>
       <trusted-key id="f42b96b8648b5c4a1c43a62fbb2914c1fa0811c3" group="net.bytebuddy"/>
       <trusted-key id="fa7929f83ad44c4590f6cc6815c71c0a4e0b8edd" group="net.java.dev.jna"/>
-      <trusted-key id="ff6e2c001948c5f2f38b0cc385911f425ec61b51" group="^org[.]junit($|([.].*))"
+      <trusted-key id="ff6e2c001948c5f2f38b0cc385911f425ec61b51" group="org\.junit\..*"
                    regex="true"/>
     </trusted-keys>
   </configuration>
@@ -75,29 +100,9 @@
                 origin="Generated by Gradle because artifact wasn't signed"/>
       </artifact>
     </component>
-    <component group="com.beust" name="jcommander" version="1.72">
-      <artifact name="jcommander-1.72.jar">
-        <pgp value="67497e9d680ce8e95bd6b8f85ad66315fc018797"/>
-      </artifact>
-    </component>
     <component group="com.cronutils" name="cron-utils" version="9.0.2">
       <artifact name="cron-utils-9.0.2.jar">
         <pgp value="6f40ecde384366da530495270717d4b27f36f5c7"/>
-      </artifact>
-    </component>
-    <component group="com.eatthepath" name="fast-uuid" version="0.1">
-      <artifact name="fast-uuid-0.1.jar">
-        <pgp value="8822c1150cb43540f20a97db5216d78789719faf"/>
-      </artifact>
-    </component>
-    <component group="com.github.ben-manes.caffeine" name="caffeine" version="2.8.0">
-      <artifact name="caffeine-2.8.0.jar">
-        <pgp value="0d8f8561aa7a5dd20bae27043c0a8f4744f37328"/>
-      </artifact>
-    </component>
-    <component group="com.github.scopt" name="scopt_2.12" version="3.7.1">
-      <artifact name="scopt_2.12-3.7.1.jar">
-        <pgp value="ea313384ca0eba950ea017e937890e298d9a2bfa"/>
       </artifact>
     </component>
     <component group="com.google.code.gson" name="gson" version="2.8.5">
@@ -105,19 +110,9 @@
         <pgp value="afcc4c7594d09e2182c60e0f7a01b0f236e5430f"/>
       </artifact>
     </component>
-    <component group="com.google.errorprone" name="error_prone_annotations" version="2.3.3">
-      <artifact name="error_prone_annotations-2.3.3.jar">
-        <pgp value="e77417ac194160a3fabd04969a259c7ee636c5ed"/>
-      </artifact>
-    </component>
     <component group="com.google.guava" name="guava" version="18.0">
       <artifact name="guava-18.0.jar">
         <pgp value="694621a7227d8d5289699830abe9f3126bb741c1"/>
-      </artifact>
-    </component>
-    <component group="com.google.protobuf" name="protobuf-java" version="3.7.0">
-      <artifact name="protobuf-java-3.7.0.jar">
-        <pgp value="3a82f1b557594a6194be271d0e621275cdadb760"/>
       </artifact>
     </component>
     <component group="com.jfrog.bintray.gradle" name="gradle-bintray-plugin" version="1.8.5">

@@ -52,13 +52,13 @@ jobs:
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
-          ./gradlew --warn --console=plain --no-daemon -x test buildSite
+          ./gradlew --info --console=plain --no-daemon -x test buildSite
 
       - name: Publish Packages
         env:
           BINTRAY_KEY: ${{ secrets.BINTRAY_TOKEN }}
           BINTRAY_USER: jamming
-        run: ./gradlew --warn --console=plain --no-daemon -x test release
+        run: ./gradlew --info --console=plain --no-daemon -x test release
 
       - name: Publish Site
         run: |

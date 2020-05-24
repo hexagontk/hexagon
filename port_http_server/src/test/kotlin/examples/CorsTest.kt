@@ -7,11 +7,14 @@ import com.hexagonkt.http.server.CorsSettings
 import com.hexagonkt.http.server.Router
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 
-@Test abstract class CorsTest(adapter: ServerPort) {
+@TestInstance(PER_CLASS)
+abstract class CorsTest(adapter: ServerPort) {
 
     // cors
     val server: Server = Server(adapter) {
@@ -45,11 +48,11 @@ import org.testng.annotations.Test
         Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
     }
 
-    @BeforeClass fun initialize() {
+    @BeforeAll fun initialize() {
         server.start()
     }
 
-    @AfterClass fun shutdown() {
+    @AfterAll fun shutdown() {
         server.stop()
     }
 

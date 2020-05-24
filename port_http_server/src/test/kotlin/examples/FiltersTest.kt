@@ -6,13 +6,16 @@ import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.client.ClientSettings
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.lang.System.nanoTime
 import java.util.*
 
-@Test abstract class FiltersTest(adapter: ServerPort) {
+@TestInstance(PER_CLASS)
+abstract class FiltersTest(adapter: ServerPort) {
 
     // filters
     private val users: Map<String, String> = mapOf(
@@ -50,11 +53,11 @@ import java.util.*
         Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
     }
 
-    @BeforeClass fun initialize() {
+    @BeforeAll fun initialize() {
         server.start()
     }
 
-    @AfterClass fun shutdown() {
+    @AfterAll fun shutdown() {
         server.stop()
     }
 

@@ -2,13 +2,17 @@ package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.helpers.Logger
 
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.lang.System.currentTimeMillis
 import java.net.URI
 
-@Test class RabbitConnectionTest {
+@TestInstance(PER_CLASS)
+class RabbitConnectionTest {
+
     private companion object {
         private const val port = 5673
         private const val user = "guest"
@@ -29,7 +33,7 @@ import java.net.URI
     private val consumer: RabbitMqClient by lazy { RabbitMqClient(URI(URI)) }
     private val client: RabbitMqClient by lazy { RabbitMqClient(URI(URI)) }
 
-    @BeforeClass fun startConsumer() {
+    @BeforeAll fun startConsumer() {
         broker.startup()
 
         consumer.declareQueue(QUEUE)
@@ -44,7 +48,7 @@ import java.net.URI
         }
     }
 
-    @AfterClass fun deleteTestQueue() {
+    @AfterAll fun deleteTestQueue() {
         consumer.deleteQueue(QUEUE)
         consumer.deleteQueue(QUEUE_ERROR)
         consumer.close()
@@ -52,7 +56,7 @@ import java.net.URI
         broker.shutdown()
     }
 
-    fun `call return expected results` () {
+    @Test fun `call return expected results`() {
         val ts = currentTimeMillis().toString()
         assert(client.call(QUEUE, ts) == ts + SUFFIX)
         val result = client.call(QUEUE_ERROR, ts)

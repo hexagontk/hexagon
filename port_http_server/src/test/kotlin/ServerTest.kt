@@ -1,12 +1,12 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.injection.InjectionManager.bindObject
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
 import java.net.InetAddress.getByName as address
 
-@Test class ServerTest {
+class ServerTest {
 
     @Test fun `Injected parameters`() {
         bindObject<ServerPort>(VoidAdapter)

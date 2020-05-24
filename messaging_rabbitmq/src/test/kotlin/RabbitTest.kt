@@ -2,13 +2,14 @@ package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.messaging.Message
 import com.hexagonkt.serialization.serialize
-import org.testng.annotations.AfterClass
-import org.testng.annotations.BeforeClass
-import org.testng.annotations.Test
+import org.junit.jupiter.api.*
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.lang.System.currentTimeMillis
 import java.net.URI
 
-@Test class RabbitTest {
+@TestInstance(PER_CLASS)
+class RabbitTest {
+
     data class Sample(val str: String, val int: Int) : Message()
 
     private companion object {
@@ -22,7 +23,7 @@ import java.net.URI
     private val consumer: RabbitMqClient = RabbitMqClient(URI(URI))
     private val client: RabbitMqClient = RabbitMqClient(URI(URI))
 
-    @BeforeClass fun startConsumer() {
+    @BeforeAll fun startConsumer() {
         consumer.declareQueue(QUEUE)
         consumer.consume(QUEUE, String::class) { a ->
             Thread.sleep(DELAY)
@@ -35,21 +36,22 @@ import java.net.URI
         }
     }
 
-    @AfterClass fun deleteTestQueue() {
+    @AfterAll fun deleteTestQueue() {
         consumer.deleteQueue(QUEUE)
         consumer.deleteQueue(QUEUE_ERROR)
         consumer.close()
     }
 
-    fun `call return expected results` () {
+    @Test fun `Call return expected results` () {
         val ts = currentTimeMillis().toString()
         assert(client.call(QUEUE, ts) == ts + SUFFIX)
         val result = client.call(QUEUE_ERROR, ts)
         assert(result.contains(ts) && result.contains("Error with: $ts"))
     }
 
-    // TODO Test call errors
-    @Test(enabled = false) fun `call errors` () {
+    @Test
+    @Disabled // TODO Fix test
+    fun `Call errors` () {
         consumer.consume("aq", Sample::class) {
             if (it.str == "no message error")
                 throw IllegalStateException()

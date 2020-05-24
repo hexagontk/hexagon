@@ -1,12 +1,8 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle.html#application
+ * Check usage information at: http://hexagonkt.com/gradle/#application
  */
 
 apply(plugin: "application")
-
-application {
-    mainClassName = findProperty("mainClassName")
-}
 
 defaultTasks("installDist")
 
@@ -34,12 +30,12 @@ task("jarAll", type: Jar, dependsOn: "jar") {
     }
     with(jar)
 
-    manifest {
-        attributes("Main-Class": mainClassName)
+    doFirst {
+        manifest {
+            attributes("Main-Class": application.mainClassName)
+        }
     }
 }
-
-assemble.dependsOn("jarAll", "installDist")
 
 task("watch", dependsOn: "classes").doLast {
     final JavaExec runTask = run

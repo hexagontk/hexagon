@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.serialization.convertToObject
-import org.testng.annotations.Test
+import org.junit.jupiter.api.Test
 
 class ServerSettingsTest {
 

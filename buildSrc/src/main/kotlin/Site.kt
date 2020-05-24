@@ -133,10 +133,10 @@ fun insertSamplesCode(parent: File, content: String): String {
  * Adds the correct `edit_url` to the site's Markdown pages.
  *
  * @param siteContentPath Base URL to process .md` files and add them the `edit_url` property.
- * @param project Gradle project used to look for `.md` files.
+ * @receiver Gradle project used to look for `.md` files.
  */
-fun addMetadata(siteContentPath: String, project: Project) {
-    project.pathsCollection(siteContentPath, "**/*.md").forEach { fileName ->
+fun Project.addMetadata(siteContentPath: String) {
+    pathsCollection(siteContentPath, "**/*.md").forEach { fileName ->
         val md = File(fileName)
         val mdText = md.readText()
         val mdPath = fileName.removePrefix("$siteContentPath/")
@@ -145,7 +145,7 @@ fun addMetadata(siteContentPath: String, project: Project) {
     }
 }
 
-private fun toEditUrl(mdPath: String): String {
+private fun Project.toEditUrl(mdPath: String): String {
     val mdParts = mdPath.split(File.separator)
 
     return when {
@@ -158,14 +158,23 @@ private fun toEditUrl(mdPath: String): String {
             val sourceType =
                 if (mdParts[1].contains("test") || mdParts[2].endsWith("-test")) "test"
                 else "main"
-            val packagePath = mdParts[1].replace(".", "/")
-            val className =
+            val classFile =
                 mdParts[2]
                     .replace("-[a-z]".toRegex()) { it.value.toUpperCase().substring(1) }
-                    .removeSuffix(".md")
-            "$module/src/$sourceType/kotlin/$packagePath/${className}.kt"
+                    .removeSuffix(".md") + ".kt"
+            val packagePath = rootProject.project(module).classPackage(sourceType, classFile)
+            "$module/src/$sourceType/kotlin/$packagePath$classFile"
         }
         else ->
             "hexagon_site/pages/$mdPath"
     }
 }
+
+internal fun Project.classPackage(sourceType: String, classFile: String): String =
+    filesCollection("src/$sourceType/kotlin", "**/$classFile")
+        .firstOrNull()
+        ?.relativeTo(file("src/$sourceType/kotlin"))
+        ?.parentFile
+        ?.path
+        ?.let { "$it/" }
+        ?: ""

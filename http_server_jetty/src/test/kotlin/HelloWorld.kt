@@ -1,8 +1,7 @@
-package com.hexagonkt.http
+package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.http.server.serve
 import com.hexagonkt.injection.InjectionManager.bindObject
 

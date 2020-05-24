@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle.html#dokka
+ * Check usage information at: http://hexagonkt.com/gradle/#dokka
  */
 
 apply(plugin: "kotlin")
@@ -21,8 +21,6 @@ task("dokkaJar", type: Jar, dependsOn: "dokka") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(fileTree("$buildDir/dokka"))
 }
-
-assemble.dependsOn("dokkaJar")
 
 publishing {
     publications {
