@@ -94,7 +94,7 @@ To use it, apply `$gradleScripts/jmh.gradle` and add the
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
-* jmhBenchmarkVersion: JMH version. The default is 1.21.
+* jmhBenchmarkVersion: JMH version. The default is Hexagon's used version.
 * iterations (REQUIRED): number of measurement iterations to do.
 * benchmarkModes (REQUIRED): benchmark mode. Available modes are:
   Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all
@@ -140,7 +140,7 @@ It sets up:
 - Kotlin dependencies
 - Resource processing (replacing build variables)
 - Cleaning (deleting runtime files as logs and dump files)
-- Tests (pass properties, output and mocks)
+- Tests (pass properties, output and mocks). Test's output depends on Gradle logging level
 - Set up coverage report
 - IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)
 - Published artifacts (binaries, sources and test): sourceJar and testJar tasks
@@ -152,9 +152,9 @@ To use it, apply `$gradleScripts/kotlin.gradle` and add the
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
-* mockkVersion: MockK mocking library version. If no value is supplied, version 1.9.3 is taken.
-* junitVersion: JUnit version (5+), the default value is: 5.6.2.
-* kotestVersion: Kotest version, the default value is: 4.0.5.
+* mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.
+* junitVersion: JUnit version (5+), the default value is the toolkit's version.
+* kotestVersion: Kotest version, the default value is the version used by Hexagon.
 
 [JUnit 5]: https://junit.org
 [Kotest]: https://github.com/kotest/kotest
@@ -193,9 +193,14 @@ Gradle's script for a service or application. It adds two extra tasks:
 
 To use it, apply `$gradleScripts/application.gradle` to your `build.gradle`.
 
-To set up this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script you need to add the main class name to your `build.gradle` file with the
+following code:
 
-* mainClassName: name of the class with the main method of the application.
+```groovy
+application {
+    mainClassName = "com.example.ApplicationKt"
+}
+```
 
 ## Certificates
 

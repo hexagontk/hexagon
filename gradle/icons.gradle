@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle.html#icons
+ * Check usage information at: http://hexagonkt.com/gradle/#icons
  */
 
 task("icons").doLast {

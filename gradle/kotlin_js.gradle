@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle.html#kotlin-js
+ * Check usage information at: http://hexagonkt.com/gradle/#kotlin-js
  */
 
 apply(plugin: "idea")

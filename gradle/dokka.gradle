@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle.html#dokka
+ * Check usage information at: http://hexagonkt.com/gradle/#dokka
  */
 
 apply(plugin: "kotlin")

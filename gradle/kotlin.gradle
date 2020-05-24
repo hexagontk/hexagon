@@ -1,5 +1,5 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle.html#kotlin
+ * Check usage information at: http://hexagonkt.com/gradle/#kotlin
  */
 
 apply(plugin: "idea")
@@ -31,6 +31,7 @@ eclipse {
 
 repositories {
     mavenLocal()
+    // TODO Remove when published to Maven Central
     maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
     mavenCentral()
     jcenter()
@@ -48,6 +49,9 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core-jvm:$scriptKotestVersion")
     testImplementation("io.kotest:kotest-property-jvm:$scriptKotestVersion")
     testImplementation("io.mockk:mockk:$scriptMockkVersion")
+
+    // NOTE This dependency is *REQUIRED* to run the tests (otherwise, they are ignored silently)
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 // Replace build variables in resource files
@@ -109,9 +113,8 @@ check.dependsOn("test", "verify")
 tasks.withType(Test).each { testTask ->
     testTask.systemProperties(project.getProperties().findAll { it.value instanceof String })
 
-    // TODO Make this depend on the logging level
     testTask.testLogging {
-        if (Boolean.parseBoolean(findProperty("logTestOutput").toString() ?: "false"))
+        if (logger.isInfoEnabled())
             events("skipped", "failed", "standardOut", "standardError")
         else
             events("skipped", "failed")
