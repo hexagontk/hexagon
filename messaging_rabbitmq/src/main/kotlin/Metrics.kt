@@ -10,10 +10,9 @@ import com.rabbitmq.client.impl.StandardMetricsCollector
 import java.util.concurrent.TimeUnit
 
 
-internal class Metrics(_metrics: MetricsCollector) {
+internal class Metrics(private val metrics: StandardMetricsCollector) {
 
     private val log: Logger = Logger(this)
-    private val metrics: StandardMetricsCollector = _metrics as StandardMetricsCollector
     private val reg: MetricRegistry = metrics.metricRegistry
 
     fun setJmxReporter() {
