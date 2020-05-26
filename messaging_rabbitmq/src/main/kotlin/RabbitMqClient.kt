@@ -62,7 +62,7 @@ class RabbitMqClient(
     @Volatile private var count: Int = 0
     private val threadPool = newFixedThreadPool(poolSize) { Thread(it, "rabbitmq-" + count++) }
     private var connection: Connection? = connectionFactory.newConnection()
-    private val metrics: Metrics = Metrics(connectionFactory.metricsCollector)
+    private val metrics: Metrics = Metrics(connectionFactory.metricsCollector as StandardMetricsCollector)
 
     /** . */
     constructor (uri: URI) : this(createConnectionFactory(uri))
