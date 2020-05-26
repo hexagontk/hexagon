@@ -8,7 +8,6 @@ dependencies {
     "api"("com.rabbitmq:amqp-client:${properties["rabbitVersion"]}") {
         exclude(module = "slf4j-api")
     }
-    "api"("io.dropwizard.metrics:metrics-core:${properties["metricsVersion"]}")
     "api"("io.dropwizard.metrics:metrics-jmx:${properties["metricsVersion"]}")
 
     "testImplementation"("org.apache.qpid:qpid-broker:${properties["qpidVersion"]}") {
