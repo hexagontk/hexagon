@@ -162,7 +162,7 @@ private fun Project.toEditUrl(mdPath: String): String {
                 mdParts[2]
                     .replace("-[a-z]".toRegex()) { it.value.toUpperCase().substring(1) }
                     .removeSuffix(".md") + ".kt"
-            val packagePath = rootProject.project(module).classPackage(sourceType, classFile)
+            val packagePath = classPackage(module, sourceType, classFile)
             "$module/src/$sourceType/kotlin/$packagePath$classFile"
         }
         else ->
@@ -170,10 +170,10 @@ private fun Project.toEditUrl(mdPath: String): String {
     }
 }
 
-internal fun Project.classPackage(sourceType: String, classFile: String): String =
-    filesCollection("src/$sourceType/kotlin", "**/$classFile")
+private fun Project.classPackage(module: String, sourceType: String, classFile: String): String =
+    filesCollection("$module/src/$sourceType/kotlin", "**/$classFile")
         .firstOrNull()
-        ?.relativeTo(file("src/$sourceType/kotlin"))
+        ?.relativeTo(file("$module/src/$sourceType/kotlin"))
         ?.parentFile
         ?.path
         ?.let { "$it/" }
