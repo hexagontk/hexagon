@@ -6,7 +6,7 @@ import freemarker.template.Version
 import java.io.StringWriter
 import java.util.*
 
-object FreemarkerAdapter : TemplatePort {
+object FreeMarkerAdapter : TemplatePort {
 
     private val config = Configuration(Version("2.3.30"))
 
@@ -26,5 +26,4 @@ object FreemarkerAdapter : TemplatePort {
             it.buffer.toString()
         }
     }
-
 }
