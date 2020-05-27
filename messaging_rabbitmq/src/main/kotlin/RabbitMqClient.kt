@@ -9,10 +9,10 @@ import com.rabbitmq.client.impl.StandardMetricsCollector
 
 import java.io.Closeable
 import java.lang.Runtime.getRuntime
-import java.lang.Thread.sleep
 import java.net.URI
 import java.nio.charset.Charset.defaultCharset
 import java.util.UUID.randomUUID
+import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.Executors.newFixedThreadPool
 import kotlin.reflect.KClass
 
@@ -80,7 +80,9 @@ class RabbitMqClient(
 
     /** . */
     fun declareQueue(name: String) {
-        withChannel { it.queueDeclare(name, false, false, false, null) }
+        val args = hashMapOf<String, Any>()
+        args["x-max-length-bytes"] = 1048576  // max queue length
+        withChannel { it.queueDeclare(name, false, false, false, args) }
     }
 
     /** . */
@@ -202,7 +204,7 @@ class RabbitMqClient(
 
             publish(it, "", requestQueue, charset, message, correlationId, replyQueueName)
 
-            var result: String? = null
+            val response = ArrayBlockingQueue<String>(1)
             val consumer = object : DefaultConsumer(it) {
                 override fun handleDelivery(
                     consumerTag: String?,
@@ -211,7 +213,7 @@ class RabbitMqClient(
                     body: ByteArray?) {
 
                     if (properties?.correlationId == correlationId)
-                        result = String(body ?: byteArrayOf())
+                        response.offer(String(body ?: byteArrayOf()))
                 }
 
                 override fun handleCancelOk(consumerTag: String) {
@@ -220,10 +222,9 @@ class RabbitMqClient(
             }
 
             val ctag = it.basicConsume(replyQueueName, true, consumer)
-            while (result == null) {
-                sleep(5)
-            } // Wait until callback is called
+
+            val result: String = response.take() // Wait until there is an element in the array blocking queue
             it.basicCancel(ctag)
-            result ?: ""
+            result
         }
 }
