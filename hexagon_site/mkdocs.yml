@@ -48,6 +48,7 @@ nav:
     - Core: hexagon_core/hexagon_core.md
     - HTTP Server: port_http_server/port_http_server.md
     - HTTP Client: port_http_client/port_http_client.md
+    - Templates: port_templates/port_templates.md
     - Create Services: create_services.md
     - Gradle Helpers: gradle.md
   - Documentation:

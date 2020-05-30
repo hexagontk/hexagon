@@ -64,7 +64,7 @@ task("mkdocs") {
         }
 
         // Hack to fix site tabs when two of them point to the same file
-        listOf("hexagon_core", "port_http_server", "port_http_client", "port_store").forEach {
+        listOf("hexagon_core", "port_http_server", "port_http_client", "port_templates").forEach {
             copy {
                 from(rootProject.file(it))
                 include("README.md")
