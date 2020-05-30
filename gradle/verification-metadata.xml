@@ -201,8 +201,8 @@
         <pgp value="1fa37fbe4453c1073e7ef61d6449005f96bc97a3"/>
       </artifact>
     </component>
-    <component group="io.pebbletemplates" name="pebble" version="3.1.3">
-      <artifact name="pebble-3.1.3.jar">
+    <component group="io.pebbletemplates" name="pebble" version="3.1.4">
+      <artifact name="pebble-3.1.4.jar">
         <pgp value="4548945a7793445b67f8f8723b17bfc1fcc1b644"/>
       </artifact>
     </component>
