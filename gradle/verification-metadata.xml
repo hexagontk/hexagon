@@ -27,6 +27,7 @@
       <trust group="io.netty" version="4.1.48.Final"/>
       <trust group="org.asynchttpclient" name="async-http-client.*" version="2.12.1" regex="true"/>
       <trust group="org.freemarker" name="freemarker" version="2.3.30"/>
+      <trust group="com.beust" name="jcommander" version="1.78"/>
 
       <!-- Tests -->
       <trust group="com.github.mifmif" name="generex" version="1.0.2"/>
@@ -46,6 +47,9 @@
     </ignored-keys>
 
     <trusted-keys>
+      <trusted-key
+        id="5f6c2148ad4911fe308110e5f0d0ae433308b042"
+        group="io.gitlab.arturbosch.detekt"/>
       <trusted-key id="06a228aab83a18a8df7b84b08614d6ab265b4c63" group="org.apache.ant"/>
       <trusted-key id="0785b3eff60b1b1bea94e0bb7c25280eae63ebe5" group="org.apache.httpcomponents"/>
       <trusted-key id="08ba61cf501c09f70911b83b82216a03caa86c78" group="org.mongodb"/>
