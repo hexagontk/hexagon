@@ -10,6 +10,11 @@ apply(plugin: "maven-publish")
 
 defaultTasks("build")
 
+apply(plugin: "io.gitlab.arturbosch.detekt")
+detekt {
+    ignoreFailures = true
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = sourceCompatibility

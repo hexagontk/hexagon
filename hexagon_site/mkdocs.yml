@@ -59,22 +59,22 @@ nav:
     - Ports:
       - HTTP Server: port_http_server/index.md
       - HTTP Client: port_http_client/index.md
-      - Store: port_store/index.md
-      - Messaging: port_messaging/index.md
       - Templates: port_templates/index.md
+      - Store (β): port_store/index.md
+      - Messaging (β): port_messaging/index.md
     - Adapters:
       - HTTP Server:
         - Jetty: http_server_jetty/index.md
         - Servlet: http_server_servlet/index.md
       - HTTP Client:
         - Async HTTP Client: http_client_ahc/index.md
-      - Store:
-        - MongoDB: store_mongodb/index.md
-      - Messaging:
-        - RabbitMQ: messaging_rabbitmq/index.md
       - Templates:
         - Pebble: templates_pebble/index.md
         - Freemarker: templates_freemarker/index.md
+      - Store (β):
+        - MongoDB: store_mongodb/index.md
+      - Messaging (β):
+        - RabbitMQ: messaging_rabbitmq/index.md
     - API: api.md
 #  - Guides:
 #    - Mutual TLS: guides/mtls.md
@@ -85,10 +85,13 @@ nav:
       - HTTP Client: examples/http_client_examples.md
   - Community:
     - Help and Support: help.md
-    - Contributing: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
-    - Planning: https://github.com/hexagonkt/hexagon/projects/1
-    - Roadmap: https://github.com/hexagonkt/hexagon/milestones
-    - Organization: https://github.com/hexagonkt
+    - Dev.to ↗: https://dev.to/hexagonkt
+    - LibHunt ↗: https://kotlin.libhunt.com/hexagon-alternatives
+    - StackShare ↗: https://stackshare.io/hexagon
+    - Contributing ↗: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
+    - Planning ↗: https://github.com/hexagonkt/hexagon/projects/1
+    - Roadmap ↗: https://github.com/hexagonkt/hexagon/milestones
+    - Organization ↗: https://github.com/hexagonkt
 
 theme:
   name: material
