@@ -31,7 +31,7 @@
   <a href="https://hexagonkt.com/index.html">Home Site</a> |
   <a href="https://hexagonkt.com/quick_start/index.html">Quick Start</a> |
   <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a> |
-  <a href="https://hexagonkt.com/port_http_server/index.html">HTTP Server</a>
+  <a href="https://hexagonkt.com/port_http_server/port_http_server/index.html">HTTP Server</a>
 </p>
 
 ---
@@ -109,6 +109,8 @@ from scratch following these steps:
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
+TODO Change by smaller hello world example
+
 ```kotlin
 // hello
 package com.hexagonkt.starters
@@ -148,9 +150,6 @@ fun main() {
 ```
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
-
-You can check the [Developer Guide] for more details. Or you can clone the [Gradle Starter] or
-[Maven Starter] for a minimal fully working example (including tests).
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
@@ -538,6 +537,8 @@ client.get("/hello").apply {
 // https
 ```
 </details>
+
+TODO Reduce examples here, and add link to the examples page
 
 ## Status
 
