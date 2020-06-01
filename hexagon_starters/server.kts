@@ -1,4 +1,4 @@
-#!/bin/env kscript
+#!/usr/bin/env kscript
 
 /*
  * Due to a Kscript bug, this example runs only over Java 8
