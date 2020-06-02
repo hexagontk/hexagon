@@ -11,9 +11,9 @@ object TemplateManager {
 
     private var parametersCache: Map<String, Map<String, Any?>> = mapOf()
 
-    private fun loadProps (path: String) =
+    private fun loadProps (path: String): Map<String, Any> =
         try {
-            Resource("$basePath/$path.yaml").url()?.parse () ?: mapOf<String, Any>()
+            Resource("$basePath/$path.yaml").url()?.parse () ?: mapOf()
         }
         catch (e: Exception) {
             mapOf()
