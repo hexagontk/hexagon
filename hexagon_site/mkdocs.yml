@@ -48,7 +48,7 @@ nav:
     - Core: hexagon_core/hexagon_core.md
     - HTTP Server: port_http_server/port_http_server.md
     - HTTP Client: port_http_client/port_http_client.md
-    - Templates: port_templates/port_templates.md
+#    - Templates: port_templates/port_templates.md
     - Create Services: create_services.md
     - Gradle Helpers: gradle.md
   - Documentation:
@@ -60,8 +60,8 @@ nav:
       - HTTP Server: port_http_server/index.md
       - HTTP Client: port_http_client/index.md
       - Templates: port_templates/index.md
-      - Store (β): port_store/index.md
-      - Messaging (β): port_messaging/index.md
+      - Store (beta): port_store/index.md
+      - Messaging (beta): port_messaging/index.md
     - Adapters:
       - HTTP Server:
         - Jetty: http_server_jetty/index.md
@@ -70,11 +70,11 @@ nav:
         - Async HTTP Client: http_client_ahc/index.md
       - Templates:
         - Pebble: templates_pebble/index.md
-        - Freemarker: templates_freemarker/index.md
-      - Store (β):
-        - MongoDB: store_mongodb/index.md
-      - Messaging (β):
-        - RabbitMQ: messaging_rabbitmq/index.md
+        - FreeMarker: templates_freemarker/index.md
+      - Store (beta):
+        - MongoDB (beta): store_mongodb/index.md
+      - Messaging (beta):
+        - RabbitMQ (beta): messaging_rabbitmq/index.md
     - API: api.md
 #  - Guides:
 #    - Mutual TLS: guides/mtls.md
@@ -83,6 +83,7 @@ nav:
     - Code Examples:
       - HTTP Server: examples/http_server_examples.md
       - HTTP Client: examples/http_client_examples.md
+#      - Templates: examples/templates_examples.md
   - Community:
     - Help and Support: help.md
     - Dev.to ↗: https://dev.to/hexagonkt

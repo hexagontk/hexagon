@@ -16,7 +16,7 @@ object TemplateManager {
             Resource("$basePath/$path.yaml").url()?.parse () ?: mapOf<String, Any>()
         }
         catch (e: Exception) {
-            mapOf<String, Any>()
+            mapOf()
         }
 
     @Suppress("UNCHECKED_CAST")
@@ -32,7 +32,7 @@ object TemplateManager {
         if (!parametersCache.containsKey(key)) {
             val commonBundle = loadBundle("common", locale)
             val templateBundle = loadBundle(bundlePath, locale)
-            parametersCache += (key to commonBundle + templateBundle)
+            parametersCache = parametersCache + (key to commonBundle + templateBundle)
         }
 
         val parameters: Map<String, Any?> = parametersCache[key] ?: emptyMap()
