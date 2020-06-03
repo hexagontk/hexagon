@@ -10,6 +10,7 @@ apply(plugin: "maven-publish")
 
 defaultTasks("build")
 
+// TODO Extract to different helper
 apply(plugin: "io.gitlab.arturbosch.detekt")
 detekt {
     ignoreFailures = true
@@ -35,7 +36,6 @@ eclipse {
 }
 
 repositories {
-    mavenLocal()
     // TODO Remove when published to Maven Central
     maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
     mavenCentral()

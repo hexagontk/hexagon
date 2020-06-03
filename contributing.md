@@ -66,7 +66,11 @@ If you want to generate the documentation site, check the [site module readme][h
 
 [Docker setup documentation]: https://www.rabbitmq.com/install-debian.html
 
-TODO Add information about verifying dependencies and troubleshooting
+## Dependency verification
+
+If you get a dependency verification error building the project after adding or changing a
+dependency, maybe you need to add the key fingerprint (verify it previously on:
+http://keys.gnupg.net)
 
 ## Tools Used
 
