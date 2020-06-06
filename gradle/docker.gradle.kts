@@ -1,3 +1,6 @@
+/*
+ * Check usage information at: http://hexagonkt.com/gradle/#docker
+ */
 
 tasks.register<Exec>("cleanDocker") {
     logging.captureStandardOutput(LogLevel.INFO)

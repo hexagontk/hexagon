@@ -1,0 +1,9 @@
+/*
+ * Check usage information at: http://hexagonkt.com/gradle/#detekt
+ */
+
+apply(plugin: "io.gitlab.arturbosch.detekt")
+
+detekt {
+    ignoreFailures = true
+}

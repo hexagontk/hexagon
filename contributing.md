@@ -69,8 +69,11 @@ If you want to generate the documentation site, check the [site module readme][h
 ## Dependency verification
 
 If you get a dependency verification error building the project after adding or changing a
-dependency, maybe you need to add the key fingerprint (verify it previously on:
-http://keys.gnupg.net)
+dependency, you need to add the key fingerprint inside the `trusted-keys` element at the
+`gradle/verification-metadata.xml` file.
+
+Prior to trusting the key, you should verify it belongs to the person it claims to be on the
+http://keys.gnupg.net key search tool.
 
 ## Tools Used
 
