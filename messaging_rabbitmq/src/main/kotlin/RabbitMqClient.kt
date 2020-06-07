@@ -58,11 +58,13 @@ class RabbitMqClient(
     }
 
     private val log: Logger = Logger(this)
+    private val args = hashMapOf<String, Any>()
 
     @Volatile private var count: Int = 0
     private val threadPool = newFixedThreadPool(poolSize) { Thread(it, "rabbitmq-" + count++) }
     private var connection: Connection? = connectionFactory.newConnection()
     private val metrics: Metrics = Metrics(connectionFactory.metricsCollector as StandardMetricsCollector)
+    private val listener = ConnectionListener()
 
     /** . */
     constructor (uri: URI) : this(createConnectionFactory(uri))
@@ -72,6 +74,8 @@ class RabbitMqClient(
 
     /** @see Closeable.close */
     override fun close() {
+        connection?.removeShutdownListener(listener)
+        (connection as? Recoverable)?.removeRecoveryListener(listener)
         connection?.close()
         connection = null
         metrics.report()
@@ -80,7 +84,6 @@ class RabbitMqClient(
 
     /** . */
     fun declareQueue(name: String) {
-        val args = hashMapOf<String, Any>()
         args["x-max-length-bytes"] = 1048576  // max queue length
         withChannel { it.queueDeclare(name, false, false, false, args) }
     }
@@ -119,6 +122,17 @@ class RabbitMqClient(
         log.info { "Consuming messages in $queueName" }
     }
 
+    fun restoreConnection() {
+        retry(times = 3, delay = 50) {
+            log.debug { "Restoring Rabbit connection" }
+            connection = connectionFactory.newConnection()
+            connection?.addShutdownListener(listener)
+            (connection as Recoverable).addRecoveryListener(listener)
+
+            log.warn { "Rabbit connection RESTORED" }
+        }
+    }
+
     /**
      * Tries to get a channel for five times. If it do not succeed it throws an
      * IllegalStateException.
@@ -133,6 +147,8 @@ class RabbitMqClient(
             }
             val channel = connection?.createChannel() ?: error
             channel.basicQos(poolSize)
+            channel.addShutdownListener(listener)
+            (channel as Recoverable).addRecoveryListener(listener)
             channel
         }
 
