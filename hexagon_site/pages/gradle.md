@@ -85,48 +85,6 @@ To set up this script's parameters, check the [build variables section]. This he
 [rsvg]: https://github.com/GNOME/librsvg
 [imagemagick]: https://www.imagemagick.org
 
-## JMH
-
-This script adds support for running [JMH micro benchmarks][JMH].
-
-To use it, apply `$gradleScripts/jmh.gradle` and add the
-`id 'me.champeau.gradle.jmh' version 'VERSION'` plugin to the root `build.gradle`.
-
-To set up this script's parameters, check the [build variables section]. This helper settings are:
-
-* jmhBenchmarkVersion: JMH version. The default is Hexagon's used version.
-* iterations (REQUIRED): number of measurement iterations to do.
-* benchmarkModes (REQUIRED): benchmark mode. Available modes are:
-  Throughput/thrpt, AverageTime/avgt, SampleTime/sample, SingleShotTime/ss, All/all
-* batchSize (REQUIRED): number of benchmark method calls per operation (some benchmark modes can
-  ignore this setting).
-* fork (REQUIRED): how many times to forks a single benchmark. Use 0 to disable forking altogether.
-* operationsPerInvocation (REQUIRED): operations per invocation.
-* timeOnIteration (REQUIRED): time to spend at each measurement iteration.
-* warmup (REQUIRED): time to spend at each warm up iteration.
-* warmupBatchSize (REQUIRED): number of benchmark method calls per operation.
-* warmupIterations (REQUIRED): number of warm up iterations to do.
-
-Sample benchmark code:
-
-```kotlin
-import org.openjdk.jmh.annotations.Benchmark
-
-open class Benchmark {
-    @Benchmark fun foo() {
-        println("foo bench")
-        Thread.sleep(100L)
-    }
-
-    @Benchmark fun bar() {
-        println("bar bench")
-        Thread.sleep(100L)
-    }
-}
-```
-
-[JMH]: https://openjdk.java.net/projects/code-tools/jmh
-
 ## Kotlin
 
 Adds Kotlin's Gradle plugin.
@@ -254,3 +212,31 @@ Kotlin plugin.
 
 After applying this script, the source folders will be `${projectDir}/main` and
 `${projectDir}/test`, and the resources will be stored also in these folders.
+
+## Detekt
+
+This script sets up the build to analyze the code with the [Detekt] static code analyzer. To use it
+you must apply the `$gradleScripts/detekt.gradle` script to your `build.gradle` file. It must be
+applied after the Kotlin plugin.
+
+For the script to work you need to add the plugin to the plugins build section before importing the
+script. I.e.:
+
+```kotlin
+plugins {
+    id("io.gitlab.arturbosch.detekt") version "1.9.1" apply false
+}
+```
+
+[Detekt]: https://detekt.github.io/detekt
+
+## Docker
+
+This script adds helper tasks for dealing with [Docker] inside a project. To use it
+you must apply the `$gradleScripts/docker.gradle` script to your `build.gradle` file.
+
+This script provides the following tasks:
+
+* `cleanDocker`: deletes unused containers, images and volumes.
+
+[Docker]: https://www.docker.com

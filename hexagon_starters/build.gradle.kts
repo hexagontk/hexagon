@@ -54,7 +54,7 @@ task("processTemplate") {
             copy {
                 from(rootDir.toString())
                 into("$buildDir/$dir")
-                include("gradlew", "gradlew.bat", ".editorconfig")
+                include("gradlew", "gradlew.bat")
             }
 
             file("$buildDir/$dir/gradle.properties").writeText("""

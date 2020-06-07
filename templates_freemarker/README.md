@@ -1,19 +1,12 @@
 
-# [FreeMarker] template engine adapter for Hexagon.
+# Module templates_freemarker
 
-Module: templates_freemarker
-
-Package: com.hexagonkt.templates.freemarker
+This module provides an adapter for the templates Port supporting the Apache [FreeMarker] template
+engine.
 
 [FreeMarker]: https://freemarker.apache.org
 
 ### How to Use
-
-TODO Replace with @sample to test usage
-
-TODO Add the package description at this file's end
-
-TODO Review documentation in site
 
 ```
 val contextVariables = hashMapOf(
@@ -26,7 +19,7 @@ val renderedPage = FreeMarkerAdapter.render(
 )
 ```
 
-If you have no context variables, you can simply pass an empty HashMap
+If you have no context variables, you can simply pass an empty map:
 
 ```
 val renderedPage = FreeMarkerAdapter.render(
@@ -35,3 +28,8 @@ val renderedPage = FreeMarkerAdapter.render(
     hashMapOf<String, Any>()
 )
 ```
+
+# Package com.hexagonkt.templates.freemarker
+
+Classes defined in this package implement the Templates Port interface with the [FreeMarker]
+implementation.
