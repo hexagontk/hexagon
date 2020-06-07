@@ -122,17 +122,6 @@ class RabbitMqClient(
         log.info { "Consuming messages in $queueName" }
     }
 
-    fun restoreConnection() {
-        retry(times = 3, delay = 50) {
-            log.debug { "Restoring Rabbit connection" }
-            connection = connectionFactory.newConnection()
-            connection?.addShutdownListener(listener)
-            (connection as Recoverable).addRecoveryListener(listener)
-
-            log.warn { "Rabbit connection RESTORED" }
-        }
-    }
-
     /**
      * Tries to get a channel for five times. If it do not succeed it throws an
      * IllegalStateException.
@@ -143,6 +132,8 @@ class RabbitMqClient(
         retry(times = 3, delay = 50) {
             if (connection?.isOpen != true) {
                 connection = connectionFactory.newConnection()
+                connection?.addShutdownListener(listener)
+                (connection as Recoverable).addRecoveryListener(listener)
                 log.warn { "Rabbit connection RESTORED" }
             }
             val channel = connection?.createChannel() ?: error
