@@ -49,6 +49,7 @@
       <trusted-key id="0785b3eff60b1b1bea94e0bb7c25280eae63ebe5" group="org.apache.httpcomponents"/>
       <trusted-key id="08ba61cf501c09f70911b83b82216a03caa86c78" group="org.mongodb"/>
       <trusted-key id="08f0aab4d0c1a4bdde340765b341ddb020fcb6ab" group="org.bouncycastle"/>
+      <trusted-key id="0b9236488a3b927470b4027d2fc1b61a8d1f4bb0" group="io.dropwizard.metrics"/>
       <trusted-key id="1fcffe916b6670868fa0ea0391ae1504568ec4dd" group="org.jodd"/>
       <trusted-key id="3a04f5ae8a2b44ee08352ee933c663310c1b8dc5" group="org.apache.qpid"/>
       <trusted-key id="4e25dcaf7fe5f10d7228309dbd646d93190a1f12" group="org.simpleflatmapper"/>

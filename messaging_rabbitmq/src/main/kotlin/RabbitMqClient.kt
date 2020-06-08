@@ -1,16 +1,18 @@
 package com.hexagonkt.messaging.rabbitmq
 
+import com.codahale.metrics.MetricRegistry
 import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.helpers.*
 import com.rabbitmq.client.*
 import com.rabbitmq.client.AMQP.BasicProperties
+import com.rabbitmq.client.impl.StandardMetricsCollector
 
 import java.io.Closeable
 import java.lang.Runtime.getRuntime
-import java.lang.Thread.sleep
 import java.net.URI
 import java.nio.charset.Charset.defaultCharset
 import java.util.UUID.randomUUID
+import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.Executors.newFixedThreadPool
 import kotlin.reflect.KClass
 
@@ -43,21 +45,26 @@ class RabbitMqClient(
             val recoveryInterval = params["recoveryInterval"]?.firstOrNull()?.toLong()
             val shutdownTimeout = params["shutdownTimeout"]?.firstOrNull()?.toInt()
             val heartbeat = params["heartbeat"]?.firstOrNull()?.toInt()
+            val metricsCollector = StandardMetricsCollector(MetricRegistry())
 
             setVar(automaticRecovery) { cf.isAutomaticRecoveryEnabled = it }
             setVar(recoveryInterval) { cf.networkRecoveryInterval = it }
             setVar(shutdownTimeout) { cf.shutdownTimeout = it }
             setVar(heartbeat) { cf.requestedHeartbeat = it }
+            setVar(metricsCollector) { cf.metricsCollector = it }
 
             return cf
         }
     }
 
     private val log: Logger = Logger(this)
+    private val args = hashMapOf<String, Any>()
 
     @Volatile private var count: Int = 0
     private val threadPool = newFixedThreadPool(poolSize) { Thread(it, "rabbitmq-" + count++) }
     private var connection: Connection? = connectionFactory.newConnection()
+    private val metrics: Metrics = Metrics(connectionFactory.metricsCollector as StandardMetricsCollector)
+    private val listener = ConnectionListener()
 
     /** . */
     constructor (uri: URI) : this(createConnectionFactory(uri))
@@ -67,14 +74,18 @@ class RabbitMqClient(
 
     /** @see Closeable.close */
     override fun close() {
+        connection?.removeShutdownListener(listener)
+        (connection as? Recoverable)?.removeRecoveryListener(listener)
         connection?.close()
         connection = null
+        metrics.report()
         log.info { "RabbitMQ client closed" }
     }
 
     /** . */
     fun declareQueue(name: String) {
-        withChannel { it.queueDeclare(name, false, false, false, null) }
+        args["x-max-length-bytes"] = 1048576  // max queue length
+        withChannel { it.queueDeclare(name, false, false, false, args) }
     }
 
     /** . */
@@ -86,7 +97,7 @@ class RabbitMqClient(
     fun bindExchange(exchange: String, exchangeType: String, routingKey: String, queue: String) {
         withChannel {
             it.queueDeclare(queue, false, false, false, null)
-            it.queuePurge(queue);
+            it.queuePurge(queue)
             it.exchangeDeclare(exchange, exchangeType, false, false, false, null)
             it.queueBind(queue, exchange, routingKey)
         }
@@ -98,7 +109,7 @@ class RabbitMqClient(
 
         withChannel {
             it.queueDeclare(routingKey, false, false, false, null)
-            it.queuePurge(routingKey);
+            it.queuePurge(routingKey)
             it.queueBind(routingKey, exchange, routingKey)
         }
         consume(routingKey, type, handler)
@@ -121,10 +132,14 @@ class RabbitMqClient(
         retry(times = 3, delay = 50) {
             if (connection?.isOpen != true) {
                 connection = connectionFactory.newConnection()
+                connection?.addShutdownListener(listener)
+                (connection as Recoverable).addRecoveryListener(listener)
                 log.warn { "Rabbit connection RESTORED" }
             }
             val channel = connection?.createChannel() ?: error
             channel.basicQos(poolSize)
+            channel.addShutdownListener(listener)
+            (channel as Recoverable).addRecoveryListener(listener)
             channel
         }
 
@@ -196,7 +211,7 @@ class RabbitMqClient(
 
             publish(it, "", requestQueue, charset, message, correlationId, replyQueueName)
 
-            var result: String? = null
+            val response = ArrayBlockingQueue<String>(1)
             val consumer = object : DefaultConsumer(it) {
                 override fun handleDelivery(
                     consumerTag: String?,
@@ -205,7 +220,7 @@ class RabbitMqClient(
                     body: ByteArray?) {
 
                     if (properties?.correlationId == correlationId)
-                        result = String(body ?: byteArrayOf())
+                        response.offer(String(body ?: byteArrayOf()))
                 }
 
                 override fun handleCancelOk(consumerTag: String) {
@@ -214,10 +229,9 @@ class RabbitMqClient(
             }
 
             val ctag = it.basicConsume(replyQueueName, true, consumer)
-            while (result == null) {
-                sleep(5)
-            } // Wait until callback is called
+
+            val result: String = response.take() // Wait until there is an element in the array blocking queue
             it.basicCancel(ctag)
-            result ?: ""
+            result
         }
 }

@@ -76,14 +76,25 @@ internal class Handler<T : Any, R : Any> internal constructor (
         log.error { "Unexpected cancel for the consumer $consumerTag" }
     }
 
+    /** @see DefaultConsumer.handleCancelOk */
     override fun handleCancelOk(consumerTag: String) {
         log.debug { "Explicit cancel for the consumer $consumerTag" }
     }
 
     /** @see DefaultConsumer.handleShutdownSignal */
-    override fun handleShutdownSignal(consumerTag: String?, sig: ShutdownSignalException?) {
-        val msg = sig?.localizedMessage ?: ""
-        log.error { "Error shutting down $msg" }
+    override fun handleShutdownSignal(consumerTag: String, sig: ShutdownSignalException) {
+        if (sig.isInitiatedByApplication) {
+            log.debug { "Consumer $consumerTag: shutdown is initiated by application. Ignoring it" }
+        }
+        else {
+            val msg = sig.localizedMessage ?: ""
+            log.debug { "Consumer $consumerTag shutdown error $msg" }
+        }
+    }
+
+    /** @see DefaultConsumer.handleConsumeOk */
+    override fun handleConsumeOk(consumerTag: String) {
+        log.debug { "Consumer $consumerTag has been registered" }
     }
 
     private fun handleResponse(response: R, replyTo: String, correlationId: String?) {
