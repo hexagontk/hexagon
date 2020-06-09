@@ -3,8 +3,14 @@
  */
 
 apply(plugin: "java")
+apply(plugin: "maven")
+apply(plugin: "signing")
 apply(plugin: "maven-publish")
 apply(plugin: "com.jfrog.bintray")
+
+signing {
+    sign configurations.archives
+}
 
 bintray {
     key = findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY")
