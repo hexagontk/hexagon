@@ -24,7 +24,7 @@ plugins {
 }
 
 apply(from = "gradle/certificates.gradle")
-apply(from = "gradle/docker.gradle.kts")
+apply(from = "gradle/docker.gradle")
 
 tasks.register<Delete>("clean") {
     group = "build"
