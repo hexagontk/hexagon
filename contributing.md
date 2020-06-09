@@ -75,6 +75,13 @@ dependency, you need to add the key fingerprint inside the `trusted-keys` elemen
 Prior to trusting the key, you should verify it belongs to the person it claims to be on the
 http://keys.gnupg.net key search tool.
 
+For Continuous Integration runners, you need to import the keys inside the `gradle/verification
+-keyring.gpg` file, you can do so with the following command:
+
+```shell script
+gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint
+```
+
 ## Tools Used
 
 * [Github]: Web hosting, project board, code hosting and continuous integration.
