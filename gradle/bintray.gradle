@@ -28,23 +28,23 @@ apply(plugin: "com.jfrog.bintray")
 //                url("https://hexagonkt.com")
 //
 //                scm {
-//                    connection 'scm:svn:http://foo.googlecode.com/svn/trunk/'
-//                    developerConnection 'scm:svn:https://foo.googlecode.com/svn/trunk/'
-//                    url 'http://foo.googlecode.com/svn/trunk/'
+//                    connection("scm:git:https://github.com/hexagonkt/hexagon.git")
+//                    developerConnection("scm:git:git@github.com:hexagonkt/hexagon.git")
+//                    url("https://github.com/hexagonkt/hexagon")
 //                }
 //
 //                licenses {
 //                    license {
-//                        name 'The Apache License, Version 2.0'
-//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                        name("The Apache License, Version 2.0")
+//                        url("http://www.apache.org/licenses/LICENSE-2.0.txt")
 //                    }
 //                }
 //
 //                developers {
 //                    developer {
-//                        id 'manfred'
-//                        name 'Manfred Moser'
-//                        email 'manfred@sonatype.com'
+//                        id("manfred")
+//                        name("Manfred Moser")
+//                        email("manfred@sonatype.com")
 //                    }
 //                }
 //            }
