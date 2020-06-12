@@ -26,8 +26,8 @@
     </trusted-artifacts>
 
     <key-servers>
-      <key-server uri="https://pool.sks-keyservers.net"/>
-      <key-server uri="https://keys.openpgp.org"/>
+<!--      <key-server uri="https://pool.sks-keyservers.net"/>-->
+<!--      <key-server uri="https://keys.openpgp.org"/>-->
     </key-servers>
 
     <trusted-keys>

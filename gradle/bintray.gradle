@@ -7,50 +7,53 @@ apply(plugin: "signing")
 apply(plugin: "maven-publish")
 apply(plugin: "com.jfrog.bintray")
 
-//signing {
-//    sign configurations.archives
-//}
-//
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            beforeDeployment { signing.signPom(it) }
-//
-//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-//                authentication(userName: ossrhUsername, password: ossrhPassword)
-//            }
-//
-//            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-//                authentication(userName: ossrhUsername, password: ossrhPassword)
-//            }
-//
-//            pom.project {
-//                url("https://hexagonkt.com")
-//
-//                scm {
-//                    connection("scm:git:https://github.com/hexagonkt/hexagon.git")
-//                    developerConnection("scm:git:git@github.com:hexagonkt/hexagon.git")
-//                    url("https://github.com/hexagonkt/hexagon")
-//                }
-//
-//                licenses {
-//                    license {
-//                        name("The Apache License, Version 2.0")
-//                        url("http://www.apache.org/licenses/LICENSE-2.0.txt")
-//                    }
-//                }
-//
-//                developers {
-//                    developer {
-//                        id("manfred")
-//                        name("Manfred Moser")
-//                        email("manfred@sonatype.com")
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+signing {
+    sign(publishing.publications.mavenJava)
+}
+
+publishing {
+    repositories {
+        maven {
+            url = version.endsWith("SNAPSHOT")?
+                "https://oss.sonatype.org/content/repositories/snapshots" :
+                "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+
+            credentials {
+                username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+                password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                url = findProperty("siteHost")
+
+                scm {
+                    connection = "scm:git:$vcsUrl"
+                    developerConnection = "scm:git:git@github.com:hexagonkt/hexagon.git"
+                    url = "https://github.com/hexagonkt/hexagon"
+                }
+
+                licenses {
+                    license {
+                        name = "The MIT License"
+                        url = "https://opensource.org/licenses/MIT"
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = "jaguililla"
+                        name = "Juanjo Aguililla"
+                        email = "jaguililla@hexagonkt.com"
+                    }
+                }
+            }
+        }
+    }
+}
 
 bintray {
     key = findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY")
