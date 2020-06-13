@@ -4,6 +4,8 @@ apply(from = "../gradle/bintray.gradle")
 apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
 
+description = "Hexagon core utilities. Includes DI, serialization, http and settings helpers."
+
 dependencies {
     val slf4jVersion = properties["slf4jVersion"]
     val logbackVersion = properties["logbackVersion"]

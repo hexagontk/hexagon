@@ -8,7 +8,12 @@ apply(plugin: "maven-publish")
 apply(plugin: "com.jfrog.bintray")
 
 signing {
-    sign(publishing.publications.mavenJava)
+    useInMemoryPgpKeys(
+        findProperty("signingKey") ?: System.getenv("SIGNING_KEY"),
+        findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
+    )
+    required { gradle.taskGraph.hasTask("publish") }
+    sign(publishing.publications)
 }
 
 publishing {
@@ -27,27 +32,31 @@ publishing {
 
     publications {
         mavenJava(MavenPublication) {
-            pom {
-                url = findProperty("siteHost")
+            afterEvaluate {
+                pom {
+                    name = project.name
+                    description = project.description
+                    url = findProperty("siteHost")
 
-                scm {
-                    connection = "scm:git:$vcsUrl"
-                    developerConnection = "scm:git:git@github.com:hexagonkt/hexagon.git"
-                    url = "https://github.com/hexagonkt/hexagon"
-                }
-
-                licenses {
-                    license {
-                        name = "The MIT License"
-                        url = "https://opensource.org/licenses/MIT"
+                    scm {
+                        connection = "scm:git:$vcsUrl"
+                        developerConnection = "scm:git:git@github.com:hexagonkt/hexagon.git"
+                        url = "https://github.com/hexagonkt/hexagon"
                     }
-                }
 
-                developers {
-                    developer {
-                        id = "jaguililla"
-                        name = "Juanjo Aguililla"
-                        email = "jaguililla@hexagonkt.com"
+                    licenses {
+                        license {
+                            name = "The MIT License"
+                            url = "https://opensource.org/licenses/MIT"
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = "jaguililla"
+                            name = "Juanjo Aguililla"
+                            email = "jaguililla@hexagonkt.com"
+                        }
                     }
                 }
             }
