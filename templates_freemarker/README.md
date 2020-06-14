@@ -1,9 +1,10 @@
 
-# [Freemarker](https://freemarker.apache.org/) template engine adapter for Hexagon.
+# Module templates_freemarker
 
-Module: templates_freemarker
+This module provides an adapter for the templates Port supporting the Apache [FreeMarker] template
+engine.
 
-Package: com.hexagonkt.templates.freemarker
+[FreeMarker]: https://freemarker.apache.org
 
 ### How to Use
 
@@ -11,19 +12,24 @@ Package: com.hexagonkt.templates.freemarker
 val contextVariables = hashMapOf(
     "contextVariableKey" to contextVariableValue
 )
-val renderedPage = FreemarkerAdapter.render(
+val renderedPage = FreeMarkerAdapter.render(
     "templates/page.html",
     Locale.getDefault(),
     contextVariables
 )
 ```
 
-If you have no context variables, you can simply pass an empty HashMap
+If you have no context variables, you can simply pass an empty map:
 
 ```
-val renderedPage = FreemarkerAdapter.render(
+val renderedPage = FreeMarkerAdapter.render(
     "templates/page.html",
     Locale.getDefault(),
     hashMapOf<String, Any>()
 )
 ```
+
+# Package com.hexagonkt.templates.freemarker
+
+Classes defined in this package implement the Templates Port interface with the [FreeMarker]
+implementation.

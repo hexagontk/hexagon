@@ -51,7 +51,3 @@ ij_continuation_indent_size = 4
 [*.{kt,kts}]
 ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
 ij_kotlin_import_nested_classes = true
-
-# This project specific exception for a long lines file
-[/gradle/verification-metadata.xml]
-max_line_length = 150

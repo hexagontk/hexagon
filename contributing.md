@@ -30,12 +30,9 @@ project itself. These are internal modules not intended to be directly used by u
 [hexagon_starters]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_starters/README.md
 [hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/README.md
 
-## Build Hexagon
+## Local Setup
 
 Hexagon build process requires [Docker Compose installed](https://docs.docker.com/compose/install)
-
-For `rabbitmq` container to work properly, you should follow the Docker setup described in:
-[https://www.rabbitmq.com/install-debian.html] (inside the "With Docker" section)
 
 You can build the project, generate the documentation and install it in your local repository
 typing:
@@ -43,15 +40,13 @@ typing:
 ```bash
 git clone https://github.com/hexagonkt/hexagon.git
 cd hexagon
-./gradlew build publishToMavenLocal
+./gradlew build buildSite publishToMavenLocal
 ```
 
-The binaries are located in the `/build` directory. The documentation site is in
+The binaries are located in the `/build` directory of each module. The documentation site is in
 `/hexagon_site/build`.
 
-## Local Setup
-
-You can define some useful aliases like:
+To work more comfortable, you can define some useful aliases like:
 
 ```bash
 alias gw='./gradlew'
@@ -64,10 +59,28 @@ this command will be executed before pushing code to the repository (saving you 
 
 You can do so executing the `setUp` task by running: `./gradlew setUp`
 
-IMPORTANT: For `rabbitmq` container to work properly, you should follow the setup described in:
-https://www.rabbitmq.com/install-debian.html (inside the "With Docker" section)
+IMPORTANT: For `rabbitmq` container to work properly, you should follow the
+[Docker setup documentation] (inside the "With Docker" section)
 
 If you want to generate the documentation site, check the [site module readme][hexagon_site]
+
+[Docker setup documentation]: https://www.rabbitmq.com/install-debian.html
+
+## Dependency verification
+
+If you get a dependency verification error building the project after adding or changing a
+dependency, you need to add the key fingerprint inside the `trusted-keys` element at the
+`gradle/verification-metadata.xml` file.
+
+Prior to trusting the key, you should verify it belongs to the person it claims to be on the
+http://keys.gnupg.net key search tool.
+
+For Continuous Integration runners, you need to import the keys inside the `gradle/verification
+-keyring.gpg` file, you can do so with the following command:
+
+```shell script
+gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint
+```
 
 ## Tools Used
 
@@ -112,14 +125,14 @@ If you want to generate the documentation site, check the [site module readme][h
 
 * Bug format: when filing bugs please comply with the [bug template] requirements.
 
-* A feature requests should follow the [feature template] rules.
+* A feature requests should follow the [enhancement template] rules.
 
 [pull request template]: https://github.com/hexagonkt/hexagon/blob/master/.github/pull_request_template.md
 [IntelliJ]: https://www.jetbrains.com/idea
 [Editor Config]: https://editorconfig.org
 [Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
 [bug template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/bug.md
-[feature template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/feature.md
+[enhancement template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/enhancement.md
 
 ## Tasks and Milestones
 

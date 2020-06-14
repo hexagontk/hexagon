@@ -64,7 +64,22 @@ div.md-hero + nav.md-tabs.md-tabs--active {
   text-align: center;
 }
 
+div.md-hero + .md-tabs__item {
+    height: 2.4rem;
+}
+
+.md-hero {
+  font-size: .95rem;
+}
+
 .md-tabs__link {
   font-size: .8rem;
+}
+
+.md-tabs__link--active {
   font-weight: bold;
+}
+
+.md-tabs__item {
+  margin-top: -0.8rem
 }

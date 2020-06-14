@@ -30,4 +30,4 @@
 
 #### Templates
 * [Pebble](/templates_pebble/#packages)
-* [Freemarker](/templates_freemarker/#packages)
+* [FreeMarker](/templates_freemarker/#packages)

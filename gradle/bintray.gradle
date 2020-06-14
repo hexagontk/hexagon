@@ -3,23 +3,82 @@
  */
 
 apply(plugin: "java")
+apply(plugin: "signing")
 apply(plugin: "maven-publish")
-apply(plugin: "com.jfrog.bintray")
+//apply(plugin: "com.jfrog.bintray")
 
-bintray {
-    key = findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY")
-    user = findProperty("bintrayUser") ?: System.getenv("BINTRAY_USER")
-    publications = findProperty("bintrayPublications") ?: [ "mavenJava" ]
-    dryRun = findProperty("bintrayDryRun") ?: false
-    publish = true
+signing {
+    useInMemoryPgpKeys(
+        findProperty("signingKey") ?: System.getenv("SIGNING_KEY"),
+        findProperty("signingPassword") ?: System.getenv("SIGNING_PASSWORD")
+    )
+    required { gradle.taskGraph.hasTask("publish") }
+    sign(publishing.publications)
+}
 
-    pkg {
-        repo = project.findProperty("bintrayRepo")
-        userOrg = project.findProperty("bintrayOrganization")
-        name = project.name
-        licenses = project.findProperty("licenses").toString().split(",").collect { it.trim() }
-        vcsUrl = project.findProperty("vcsUrl")
+publishing {
+
+    repositories {
+        maven {
+            url = version.endsWith("SNAPSHOT")?
+                "https://oss.sonatype.org/content/repositories/snapshots" :
+                "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+
+            credentials {
+                username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+                password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+
+    publications {
+        mavenJava(MavenPublication) {
+            afterEvaluate {
+                pom {
+                    name = project.name
+                    description = project.description
+                    url = findProperty("siteHost")
+
+                    scm {
+                        connection = "scm:git:$vcsUrl"
+                        developerConnection = "scm:git:git@github.com:hexagonkt/hexagon.git"
+                        url = "https://github.com/hexagonkt/hexagon"
+                    }
+
+                    licenses {
+                        license {
+                            name = "The MIT License"
+                            url = "https://opensource.org/licenses/MIT"
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = "jaguililla"
+                            name = "Juanjo Aguililla"
+                            email = "jaguililla@hexagonkt.com"
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
-bintrayUpload.dependsOn("build")
+//bintray {
+//    key = findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY")
+//    user = findProperty("bintrayUser") ?: System.getenv("BINTRAY_USER")
+//    publications = findProperty("bintrayPublications") ?: [ "mavenJava" ]
+//    dryRun = findProperty("bintrayDryRun") ?: false
+//    publish = true
+//
+//    pkg {
+//        repo = project.findProperty("bintrayRepo")
+//        userOrg = project.findProperty("bintrayOrganization")
+//        name = project.name
+//        licenses = project.findProperty("licenses").toString().split(",").collect { it.trim() }
+//        vcsUrl = project.findProperty("vcsUrl")
+//    }
+//}
+//
+//bintrayUpload.dependsOn("build")

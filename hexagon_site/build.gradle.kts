@@ -64,7 +64,7 @@ task("mkdocs") {
         }
 
         // Hack to fix site tabs when two of them point to the same file
-        listOf("hexagon_core", "port_http_server", "port_http_client", "port_store").forEach {
+        listOf("hexagon_core", "port_http_server", "port_http_client", "port_templates").forEach {
             copy {
                 from(rootProject.file(it))
                 include("README.md")
@@ -79,7 +79,7 @@ task("mkdocs") {
             markdownFile.writeText(content)
         }
 
-        project.addMetadata(contentTarget)
+        rootProject.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
         // Generate coverage badge
@@ -104,6 +104,11 @@ task("mkdocs") {
         val badge = file("content/img/coverage.svg")
         val svg = badge.readText().replace("\${coverage}", "$percentage%")
         badge.writeText(svg)
+
+        // Generate download badge
+        val downloadBadge = file("content/img/download.svg")
+        val downloadSvg = downloadBadge.readText().replace("\${download}", "${rootProject.version}")
+        downloadBadge.writeText(downloadSvg)
     }
 }
 

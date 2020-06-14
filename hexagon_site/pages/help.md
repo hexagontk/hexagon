@@ -6,6 +6,8 @@
 * To notify bugs create a [new bug issue] using Github.
 * You can request a new feature using the [enhancement] Github template.
 * If you want to prioritize issues, add the :+1: [reaction] on them.
+* You can also write an email at [support@hexagonkt.com](mailto:support@hexagonkt.com) to ask for
+  support.
 
 [new bug issue]: https://github.com/hexagonkt/hexagon/issues/new?template=bug.md
 [enhancement]: https://github.com/hexagonkt/hexagon/issues/new?template=enhancement.md
