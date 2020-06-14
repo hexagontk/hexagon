@@ -3,20 +3,22 @@ import javax.xml.parsers.DocumentBuilderFactory
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
-project.extra["bintrayPublications"] = listOf("hexagon_pom", "hexagon_lean_pom")
+//project.extra["bintrayPublications"] = listOf("hexagon_pom", "hexagon_lean_pom")
 
-apply(from = "../gradle/kotlin.gradle")
+//apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/bintray.gradle")
+//apply(from = "../gradle/dokka.gradle")
 
 plugins {
+//    signing
     `maven-publish`
 }
 
-dependencies {
-    "implementation"(project(":http_server_jetty"))
-
-    "testImplementation"(project(":http_client_ahc"))
-}
+//dependencies {
+//    "implementation"(project(":http_server_jetty"))
+//
+//    "testImplementation"(project(":http_client_ahc"))
+//}
 
 task("processTemplate") {
     dependsOn("test")
@@ -76,7 +78,35 @@ task("processTemplate") {
     }
 }
 
+//signing {
+//    useInMemoryPgpKeys(
+//        findProperty("signingKey")?.toString() ?: System.getenv("SIGNING_KEY"),
+//        findProperty("signingPassword")?.toString() ?: System.getenv("SIGNING_PASSWORD")
+//    )
+//    setRequired { gradle.taskGraph.hasTask("publish") }
+//    sign(publishing.publications)
+//}
+
 publishing {
+
+//    repositories {
+//        maven {
+//            url = java.net.URI(
+//                if (rootProject.version.toString().endsWith("SNAPSHOT"))
+//                    "https://oss.sonatype.org/content/repositories/snapshots"
+//                else
+//                    "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+//            )
+//
+//            credentials {
+//                username =
+//                    findProperty("ossrhUsername")?.toString() ?: System.getenv("OSSRH_USERNAME")
+//                password =
+//                    findProperty("ossrhPassword")?.toString() ?: System.getenv("OSSRH_PASSWORD")
+//            }
+//        }
+//    }
+
     publications {
 
         createPomPublication("hexagon_pom") { pomDom ->
@@ -127,6 +157,30 @@ fun PublicationContainer.createPomPublication(
         artifactId = this.name
         pom {
             packaging = "pom"
+
+            scm {
+                val vcsUrl = findProperty("vcsUrl") ?: error("'vcsUrl' property must be defined")
+
+                connection.set("scm:git:$vcsUrl")
+                developerConnection.set("scm:git:git@github.com:hexagonkt/hexagon.git")
+                url.set("https://github.com/hexagonkt/hexagon")
+            }
+
+            licenses {
+                license {
+                    name.set("The MIT License")
+                    url.set("https://opensource.org/licenses/MIT")
+                }
+            }
+
+            developers {
+                developer {
+                    id.set("hexagonkt")
+                    name.set("Hexagon Toolkit")
+                    email.set("project@hexagonkt.com")
+                }
+            }
+
             url.set(project.properties["siteHost"].toString())
             val pomDom = project.file("maven/${artifactId}.xml").parseDom()
             name.set(pomDom.firstElement("name").textContent)

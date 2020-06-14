@@ -37,7 +37,7 @@ jobs:
         run: ./gradlew --warn --console=plain buildSite
 
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain bintrayUpload -PbintrayDryRun=true
+        run: ./gradlew --warn --console=plain publishToMavenLocal
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2

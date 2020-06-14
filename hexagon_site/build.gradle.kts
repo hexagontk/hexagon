@@ -104,6 +104,11 @@ task("mkdocs") {
         val badge = file("content/img/coverage.svg")
         val svg = badge.readText().replace("\${coverage}", "$percentage%")
         badge.writeText(svg)
+
+        // Generate download badge
+        val downloadBadge = file("content/img/download.svg")
+        val downloadSvg = downloadBadge.readText().replace("\${download}", "${rootProject.version}")
+        downloadBadge.writeText(downloadSvg)
     }
 }
 

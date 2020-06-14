@@ -128,7 +128,7 @@ jacocoTestReport {
     }
 }
 
-task("sourceJar", type: Jar) {
+task("sourcesJar", type: Jar) {
     archiveClassifier.set("sources")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(sourceSets.main.allSource)
@@ -145,7 +145,7 @@ publishing {
         mavenJava(MavenPublication) {
             from(components.java)
 
-            artifact(sourceJar) // To be accepted in JCenter, the package need to include sources
+            artifact(sourcesJar) // To be accepted in JCenter, the package need to include sources
             artifact(testJar)
         }
     }

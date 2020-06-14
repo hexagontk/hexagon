@@ -101,7 +101,7 @@ It sets up:
 - Tests (pass properties, output and mocks). Test's output depends on Gradle logging level
 - Set up coverage report
 - IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)
-- Published artifacts (binaries, sources and test): sourceJar and testJar tasks
+- Published artifacts (binaries, sources and test): sourcesJar and testJar tasks
 - Jar with dependencies: jarAll task
 
 To use it, apply `$gradleScripts/kotlin.gradle` and add the

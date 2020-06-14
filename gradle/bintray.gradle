@@ -5,7 +5,7 @@
 apply(plugin: "java")
 apply(plugin: "signing")
 apply(plugin: "maven-publish")
-apply(plugin: "com.jfrog.bintray")
+//apply(plugin: "com.jfrog.bintray")
 
 signing {
     useInMemoryPgpKeys(
@@ -17,6 +17,7 @@ signing {
 }
 
 publishing {
+
     repositories {
         maven {
             url = version.endsWith("SNAPSHOT")?
@@ -64,20 +65,20 @@ publishing {
     }
 }
 
-bintray {
-    key = findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY")
-    user = findProperty("bintrayUser") ?: System.getenv("BINTRAY_USER")
-    publications = findProperty("bintrayPublications") ?: [ "mavenJava" ]
-    dryRun = findProperty("bintrayDryRun") ?: false
-    publish = true
-
-    pkg {
-        repo = project.findProperty("bintrayRepo")
-        userOrg = project.findProperty("bintrayOrganization")
-        name = project.name
-        licenses = project.findProperty("licenses").toString().split(",").collect { it.trim() }
-        vcsUrl = project.findProperty("vcsUrl")
-    }
-}
-
-bintrayUpload.dependsOn("build")
+//bintray {
+//    key = findProperty("bintrayKey") ?: System.getenv("BINTRAY_KEY")
+//    user = findProperty("bintrayUser") ?: System.getenv("BINTRAY_USER")
+//    publications = findProperty("bintrayPublications") ?: [ "mavenJava" ]
+//    dryRun = findProperty("bintrayDryRun") ?: false
+//    publish = true
+//
+//    pkg {
+//        repo = project.findProperty("bintrayRepo")
+//        userOrg = project.findProperty("bintrayOrganization")
+//        name = project.name
+//        licenses = project.findProperty("licenses").toString().split(",").collect { it.trim() }
+//        vcsUrl = project.findProperty("vcsUrl")
+//    }
+//}
+//
+//bintrayUpload.dependsOn("build")
