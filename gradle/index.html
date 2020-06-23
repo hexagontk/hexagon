@@ -521,8 +521,8 @@ if ('serviceWorker' in navigator)
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#bintray" class="md-nav__link">
-    Bintray
+  <a href="#publish" class="md-nav__link">
+    Publish
   </a>
   
 </li>
@@ -1263,8 +1263,8 @@ if ('serviceWorker' in navigator)
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#bintray" class="md-nav__link">
-    Bintray
+  <a href="#publish" class="md-nav__link">
+    Publish
   </a>
   
 </li>
@@ -1382,22 +1382,18 @@ importing the script.</p>
 <p>You can import these scripts by adding add <code class="codehilite"><span class="err">apply from: $gradleScripts/$script.gradle</span></code> to your
 <code class="codehilite"><span class="err">build.gradle</span></code> file some of them may require additional plugins inside the <code class="codehilite"><span class="err">plugins</span></code> section in the
 root <code class="codehilite"><span class="err">build.gradle</span></code>. Check toolkit's <code class="codehilite"><span class="err">build.gradle</span></code> files for examples.</p>
-<h3 id="bintray">Bintray<a class="headerlink" href="#bintray" title="Permanent link">&para;</a></h3>
-<p>This script set up the project/module for publishing in <a href="https://bintray.com">Bintray</a>.</p>
+<h3 id="publish">Publish<a class="headerlink" href="#publish" title="Permanent link">&para;</a></h3>
+<p>This script set up the project/module for publishing in <a href="https://search.maven.org">Maven Central</a>.</p>
 <p>It publishes all artifacts attached to the <code class="codehilite"><span class="err">mavenJava</span></code> publication (check <a href="https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle">kotlin.gradle</a> publishing
 section) at the bare minimum binaries are published. For an Open Source project, you must include
 sources and javadoc also.</p>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/bintray.gradle</span></code> and add the
-<code class="codehilite"><span class="err">id &#39;com.jfrog.bintray&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
+<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/publish.gradle</span></code>.</p>
 <p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
 <ul>
 <li>bintrayKey (REQUIRED): if not defined will try to load BINTRAY_KEY environment variable.</li>
 <li>bintrayUser (REQUIRED): or BINTRAY_USER environment variable if not defined.</li>
-<li>bintrayRepo (REQUIRED): Bintray's repository to upload the artifacts.</li>
-<li>license (REQUIRED): the license used to publish in Bintray.</li>
+<li>license (REQUIRED): the license used in published POMs.</li>
 <li>vcsUrl (REQUIRED): code repository location.</li>
-<li>bintrayPublications: list of Maven publications published . By default <code class="codehilite"><span class="err">[ &quot;mavenJava&quot; ]</span></code>.</li>
-<li>bintrayDryRun: when set to true, no actual publishing happens. Default value is false.</li>
 </ul>
 <h3 id="dokka">Dokka<a class="headerlink" href="#dokka" title="Permanent link">&para;</a></h3>
 <p>This script set up <a href="https://github.com/Kotlin/dokka">Dokka</a> tool and add a JAR with the project's code documentation to the published
@@ -1536,7 +1532,7 @@ script. I.e.:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">plugins</span> <span class="p">{</span>
-    <span class="n">id</span><span class="p">(</span><span class="s">&quot;io.gitlab.arturbosch.detekt&quot;</span><span class="p">)</span> <span class="n">version</span> <span class="s">&quot;1.9.1&quot;</span> <span class="n">apply</span> <span class="k">false</span>
+    <span class="n">id</span><span class="p">(</span><span class="s">&quot;io.gitlab.arturbosch.detekt&quot;</span><span class="p">)</span> <span class="n">version</span> <span class="s">&quot;VERSION&quot;</span> <span class="n">apply</span> <span class="k">false</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
