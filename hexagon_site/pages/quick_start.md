@@ -34,9 +34,10 @@ implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 
 # Dependencies Verification
 
-Hexagon dependencies are signed, you can check the fingerprint [here][pgp key].
+Hexagon's dependencies are signed, you can get the public key at the
+[OpenPGP Public Key Server][pgp key] or [here][site pgp key].
 
-These are the details of the public key you can use to verify the project's files:
+These are the details of the public key:
 
 ```
 pub  4096R/2AEE3721 2020-05-30 Hexagon Toolkit (Key used to sign published binaries) <project@hexagonkt.com>
@@ -53,6 +54,7 @@ pub  2048R/657676D1 2020-05-30 Hexagon Toolkit <project@hexagonkt.com>
 ```
 
 [pgp key]: https://keys.openpgp.org/search?q=project%40hexagonkt.com
+[site pgp key]: /project_hexagonkt_com_public.key
 
 # Next Steps
 
