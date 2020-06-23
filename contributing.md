@@ -4,7 +4,7 @@
 You can contribute code or documentation to the framework. This document will guide you through the
 process or picking a task and building the code.
 
-To know what issues are currently open and be aware of the next features yo can check the
+To know what issues are currently open and be aware of the next features you can check the
 [Project Board] at GitHub. Issues with the [help wanted] tag are recommended for a first time
 contribution.
 
@@ -65,6 +65,7 @@ IMPORTANT: For `rabbitmq` container to work properly, you should follow the
 If you want to generate the documentation site, check the [site module readme][hexagon_site]
 
 [Docker setup documentation]: https://www.rabbitmq.com/install-debian.html
+[GitHub Actions]: https://github.com/features/actions
 
 ## Dependency verification
 
@@ -81,17 +82,6 @@ For Continuous Integration runners, you need to import the keys inside the `grad
 ```shell script
 gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint
 ```
-
-## Tools Used
-
-* [Github]: Web hosting, project board, code hosting and continuous integration.
-  * Secrets should be created inside the repository settings.
-* [Bintray]: Artifact repository for JARs.
-  * JCenter's synchronization must be done manually.
-
-[GitHub Actions]: https://github.com/features/actions
-[Github]: https://github.com
-[Bintray]: https://bintray.com
 
 ## Contribute
 
@@ -114,7 +104,7 @@ gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys
 
 * Commit format: the preferred commit format would have:
   - Summary: small summary of the change. In imperative form.
-  - Issue ID: it should be written in Github's format: `#taskNumber`. Optional.
+  - Issue ID: it should be written in GitHub's format: `#taskNumber`. Optional.
   - Description: a more complete description of the issue. It is optional.
 
   ```
@@ -136,7 +126,7 @@ gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys
 
 ## Tasks and Milestones
 
-Project's tasks and milestones are tracked in a [Github board][Project Board]. You can use that
+Project's tasks and milestones are tracked in a [GitHub board][Project Board]. You can use that
 board to check the roadmap, vote the features you want (using [issue reactions]) or to pick tasks
 that you wish to contribute.
 

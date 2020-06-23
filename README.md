@@ -20,10 +20,10 @@
       src="https://hexagonkt.com/img/coverage.svg"
       alt="SonarQube" />
   </a>
-  <a href="https://bintray.com/hexagonkt/hexagon/hexagon_core/_latestVersion">
+  <a href="https://search.maven.org/search?q=g:com.hexagonkt">
     <img
-      src="https://api.bintray.com/packages/hexagonkt/hexagon/hexagon_core/images/download.svg"
-      alt="Bintray" />
+      src="https://hexagonkt.com/img/download.svg"
+      alt="Maven Central Repository" />
   </a>
 </p>
 
@@ -87,14 +87,16 @@ You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you ca
 from scratch following these steps:
 
 1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
-2. Setup the [JCenter] and [Hexagon] repositories (follow the links and click on the `Set me up!`
-   button).
-3. Add the dependency:
+2. Add the dependency:
 
   * In Gradle. Import it inside `build.gradle`:
 
     ```groovy
-    compile ("com.hexagonkt:http_server_jetty:$hexagonVersion")
+    repositories {
+        mavenCentral()
+    }
+
+    implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
     ```
 
   * In Maven. Declare the dependency in `pom.xml`:
@@ -107,56 +109,34 @@ from scratch following these steps:
     </dependency>
     ```
 
-4. Write the code in the `src/main/kotlin/Hello.kt` file:
-
-TODO Change by smaller hello world example
+3. Write the code in the `src/main/kotlin/Hello.kt` file:
 
 ```kotlin
 // hello
-package com.hexagonkt.starters
+package com.hexagonkt.http.server.jetty
 
-import com.hexagonkt.helpers.logger
-import com.hexagonkt.http.httpDate
 import com.hexagonkt.http.server.Server
-import com.hexagonkt.http.server.ServerPort
-import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.injection.InjectionManager
 
-val injector = InjectionManager.apply {
-    bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
-}
+lateinit var server: Server
 
-/**
- * Service server. Adapter is injected.
- */
-val server: Server = Server {
-    before {
-        response.headers["Date"] = httpDate()
-    }
-
-    get("/hello/{name}") {
-        ok("Hello, ${pathParameters["name"]}!", "text/plain")
-    }
-}
-
-/**
- * Start the service from the command line.
- */
 fun main() {
-    logger.info { injector }
+    server = Server(JettyServletAdapter()) {
+        get("/hello") {
+            ok("Hello World!")
+        }
+    }
+
     server.start()
 }
 // hello
 ```
 
-5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
+4. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
-[JCenter]: https://bintray.com/bintray/jcenter
-[Hexagon]: https://bintray.com/hexagonkt/hexagon
 [Endpoint]: http://localhost:2010/hello/world
 [Developer Guide]: http://hexagonkt.com/developer_guide/index.html
 
@@ -288,41 +268,6 @@ val server: Server = Server(adapter) {
 </details>
 
 <details>
-<summary>Cookies Example</summary>
-
-Demo server to show the use of cookies. Here you can check the
-[full test](port_http_server/src/test/kotlin/examples/CookiesTest.kt).
-
-```kotlin
-// cookies
-val server: Server = Server(adapter) {
-    post("/assertNoCookies") {
-        if (request.cookies.isNotEmpty())
-            halt(500)
-    }
-
-    post("/addCookie") {
-        val name = queryParameters["cookieName"]
-        val value = queryParameters["cookieValue"]
-        response.addCookie(HttpCookie(name, value))
-    }
-
-    post("/assertHasCookie") {
-        val cookieName = queryParameters.require("cookieName")
-        val cookieValue = request.cookies[cookieName]?.value
-        if (queryParameters["cookieValue"] != cookieValue)
-            halt(500)
-    }
-
-    post("/removeCookie") {
-        response.removeCookie(queryParameters.require("cookieName"))
-    }
-}
-// cookies
-```
-</details>
-
-<details>
 <summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
@@ -443,102 +388,9 @@ private val server: Server = Server(adapter) {
 ```
 </details>
 
-<details>
-<summary>CORS Example</summary>
+You can check more sample projects and snippets at the [examples page].
 
-The following code shows how to set up CORS for REST APIs used from the browser. You can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/CorsTest.kt).
-
-```kotlin
-// cors
-val server: Server = Server(adapter) {
-    corsPath("/default", CorsSettings())
-    corsPath("/example/org", CorsSettings("example.org"))
-    corsPath("/no/credentials", CorsSettings(supportCredentials = false))
-    corsPath("/only/post", CorsSettings(allowedMethods = setOf(POST)))
-    corsPath("/cache", CorsSettings(preFlightMaxAge = 10))
-    corsPath("/exposed/headers", CorsSettings(exposedHeaders = setOf("head")))
-    corsPath("/allowed/headers", CorsSettings(allowedHeaders = setOf("head")))
-}
-
-private fun Router.corsPath(path: String, settings: CorsSettings) {
-    path(path) {
-        // CORS settings can change for different routes
-        cors(settings)
-
-        get("/path") { ok(request.method) }
-        post("/path") { ok(request.method) }
-        put("/path") { ok(request.method) }
-        delete("/path") { ok(request.method) }
-        get { ok(request.method) }
-        post { ok(request.method) }
-        put { ok(request.method) }
-        delete { ok(request.method) }
-    }
-}
-// cors
-```
-</details>
-
-<details>
-<summary>HTTPS Example</summary>
-
-The snippet below shows how to set up your server to use HTTPS and HTTP/2. You can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/HttpsTest.kt).
-
-```kotlin
-// https
-// Key store files
-val identity = "hexagonkt.p12"
-val trust = "trust.p12"
-
-// Default passwords are file name reversed
-val keyStorePassword = identity.reversed()
-val trustStorePassword = trust.reversed()
-
-// Key stores can be set as URIs to classpath resources (the triple slash is needed)
-val keyStore = URI("resource:///ssl/$identity")
-val trustStore = URI("resource:///ssl/$trust")
-
-val sslSettings = SslSettings(
-    keyStore = keyStore,
-    keyStorePassword = keyStorePassword,
-    trustStore = trustStore,
-    trustStorePassword = trustStorePassword,
-    clientAuth = true // Requires a valid certificate from the client (mutual TLS)
-)
-
-val serverSettings = ServerSettings(
-    bindPort = 0,
-    protocol = HTTPS, // You can also use HTTP2
-    sslSettings = sslSettings
-)
-
-val server = serve(serverSettings, serverAdapter) {
-    get("/hello") {
-        // We can access the certificate used by the client from the request
-        val subjectDn = request.certificate?.subjectDN?.name
-        response.headers["cert"] = subjectDn
-        ok("Hello World!")
-    }
-}
-
-// We'll use the same certificate for the client (in a real scenario it would be different)
-val clientSettings = ClientSettings(sslSettings = sslSettings)
-
-// Create a HTTP client and make a HTTPS request
-val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
-client.get("/hello").apply {
-    logger.debug { body }
-    // Assure the certificate received (and returned) by the server is correct
-    assert(headers.require("cert").first().startsWith("CN=hexagonkt.com"))
-    assert(body == "Hello World!")
-}
-// https
-```
-</details>
-
-TODO Reduce examples here, and add link to the examples page
+[examples page]: https://hexagonkt.com/examples/example_projects
 
 ## Status
 
