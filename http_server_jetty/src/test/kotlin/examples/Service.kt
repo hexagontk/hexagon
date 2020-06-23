@@ -1,4 +1,4 @@
-package com.hexagonkt.starters
+package com.hexagonkt.http.server.jetty.examples
 
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.http.httpDate

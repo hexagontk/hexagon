@@ -11,6 +11,7 @@ sourceSets {
         }
         resources {
             setSrcDirs([sourceSet.name])
+            exclude("**/*.kt", "**/*.java")
         }
     }
     test { sourceSet ->
@@ -19,6 +20,7 @@ sourceSets {
         }
         resources {
             setSrcDirs([sourceSet.name])
+            exclude("**/*.kt", "**/*.java")
         }
     }
 }

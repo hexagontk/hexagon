@@ -9,14 +9,10 @@ hero: |
         src="https://github.com/hexagonkt/hexagon/workflows/Release/badge.svg" />
     </a>
     <a href="/jacoco">
-      <img
-        src="/img/coverage.svg"
-        alt="Coverage" />
+      <img src="/img/coverage.svg" alt="Coverage" />
     </a>
-    <a href="https://bintray.com/hexagonkt/hexagon/hexagon_core/_latestVersion">
-      <img
-        src="https://api.bintray.com/packages/hexagonkt/hexagon/hexagon_core/images/download.svg"
-        alt="Bintray" />
+    <a href="https://search.maven.org/search?q=g:com.hexagonkt">
+      <img src="/img/download.svg" alt="Maven Central Repository" />
     </a>
   </p>
 
@@ -44,7 +40,7 @@ It is designed to fit in applications that conform to the [Hexagonal Architectur
 
 Simple Hello World HTTP example.
 
-@sample hexagon_starters/src/main/kotlin/Service.kt
+@sample http_server_jetty/src/test/kotlin/HelloWorld.kt
 
 # Features
 

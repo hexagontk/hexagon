@@ -5,15 +5,11 @@
 
   <repositories>
     <repository>
-      <id>hexagon</id>
-      <url>https://dl.bintray.com/hexagonkt/hexagon</url>
-    </repository>
-    <repository>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
       <id>central</id>
-      <name>bintray</name>
+      <name>jcenter</name>
       <url>https://jcenter.bintray.com</url>
     </repository>
   </repositories>

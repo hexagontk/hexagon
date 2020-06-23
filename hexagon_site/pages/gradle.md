@@ -26,28 +26,24 @@ You can import these scripts by adding add `apply from: $gradleScripts/$script.g
 `build.gradle` file some of them may require additional plugins inside the `plugins` section in the
 root `build.gradle`. Check toolkit's `build.gradle` files for examples.
 
-## Bintray
+## Publish
 
-This script set up the project/module for publishing in [Bintray].
+This script set up the project/module for publishing in [Maven Central].
 
 It publishes all artifacts attached to the `mavenJava` publication (check [kotlin.gradle] publishing
 section) at the bare minimum binaries are published. For an Open Source project, you must include
 sources and javadoc also.
 
-To use it apply `$gradleScripts/bintray.gradle` and add the
-`id 'com.jfrog.bintray' version 'VERSION'` plugin to the root `build.gradle`.
+To use it apply `$gradleScripts/publish.gradle`.
 
 To set up this script's parameters, check the [build variables section]. This helper settings are:
 
 * bintrayKey (REQUIRED): if not defined will try to load BINTRAY_KEY environment variable.
 * bintrayUser (REQUIRED): or BINTRAY_USER environment variable if not defined.
-* bintrayRepo (REQUIRED): Bintray's repository to upload the artifacts.
-* license (REQUIRED): the license used to publish in Bintray.
+* license (REQUIRED): the license used in published POMs.
 * vcsUrl (REQUIRED): code repository location.
-* bintrayPublications: list of Maven publications published . By default `[ "mavenJava" ]`.
-* bintrayDryRun: when set to true, no actual publishing happens. Default value is false.
 
-[Bintray]: https://bintray.com
+[Maven Central]: https://search.maven.org
 [kotlin.gradle]: https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle
 [build variables section]: /gradle/#build-variables
 
@@ -224,7 +220,7 @@ script. I.e.:
 
 ```kotlin
 plugins {
-    id("io.gitlab.arturbosch.detekt") version "1.9.1" apply false
+    id("io.gitlab.arturbosch.detekt") version "VERSION" apply false
 }
 ```
 
