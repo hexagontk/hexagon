@@ -22,8 +22,7 @@ application {
 }
 
 repositories {
-    jcenter ()
-    maven { url "https://dl.bintray.com/hexagonkt/hexagon" }
+    mavenCentral()
 }
 
 dependencies {

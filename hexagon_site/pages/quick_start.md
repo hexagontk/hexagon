@@ -8,27 +8,13 @@ You can start by cloning a starter project ([Gradle Starter] or [Maven Starter])
 a project from scratch following these steps:
 
 1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
-2. Setup the [JCenter] and [Hexagon] repositories (follow the links and click on the `Set me up!`
-   button).
+2. Add the dependency in [Gradle] or [Maven]:
 
 ```groovy tab="build.gradle"
 repositories {
-    maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
+    mavenCentral()
 }
-```
 
-```xml tab="pom.xml"
-<repositories>
-  <repository>
-    <id>hexagon</id>
-    <url>https://dl.bintray.com/hexagonkt/hexagon</url>
-  </repository>
-</repositories>
-```
-
-3. Add the dependency in [Gradle] or [Maven]:
-
-```groovy tab="build.gradle"
 implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 ```
 
@@ -42,9 +28,31 @@ implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-@sample hexagon_starters/src/main/kotlin/Service.kt
+@sample http_server_jetty/src/test/kotlin/HelloWorld.kt
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
+
+# Dependencies Verification
+
+Hexagon dependencies are signed, you can check the fingerprint [here][pgp key].
+
+These are the details of the public key you can use to verify the project's files:
+
+```
+pub  4096R/2AEE3721 2020-05-30 Hexagon Toolkit (Key used to sign published binaries) <project@hexagonkt.com>
+     Fingerprint=792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721
+```
+
+!!! Warning
+    You may find a deprecated public key in public GPG key servers (check the details
+    below). Please, ignore it and use the above one. The information about the obsolete is:
+
+```
+pub  2048R/657676D1 2020-05-30 Hexagon Toolkit <project@hexagonkt.com>
+     Fingerprint=F263 9BBC 4A6A FE50 D098  9F08 5352 7033 6576 76D1
+```
+
+[pgp key]: https://keys.openpgp.org/search?q=project%40hexagonkt.com
 
 # Next Steps
 
@@ -61,8 +69,6 @@ To continue learning about this toolkit, you can:
 [Kotlin]: https://kotlinlang.org
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
-[JCenter]: https://bintray.com/bintray/jcenter
-[Hexagon]: https://bintray.com/hexagonkt/hexagon
 [Gradle]: https://gradle.org
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello/world

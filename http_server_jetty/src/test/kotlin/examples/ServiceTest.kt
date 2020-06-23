@@ -1,4 +1,4 @@
-package com.hexagonkt.starters
+package com.hexagonkt.http.server.jetty.examples
 
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter

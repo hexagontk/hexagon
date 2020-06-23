@@ -224,7 +224,7 @@ script. I.e.:
 
 ```kotlin
 plugins {
-    id("io.gitlab.arturbosch.detekt") version "1.9.1" apply false
+    id("io.gitlab.arturbosch.detekt") version "VERSION" apply false
 }
 ```
 
