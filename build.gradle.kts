@@ -1,10 +1,10 @@
 /*
  * Main build script, responsible for:
  *
- *  1. Publishing: upload binaries and templates to Bintray
+ *  1. Publishing: upload binaries and templates to Maven Central
  *  2. Releasing: tag source code in GitHub
  *  3. Coverage report: aggregated coverage report for all modules
- *  4. Group all tasks: shortcut for all tasks to ease the release process
+ *  4. Handle Docker containers: take care of tasks depending on Docker and containers clean up
  *
  * Plugins that are not used in the root project (this one) are only applied by the modules that use
  * them.
@@ -19,7 +19,6 @@ plugins {
 
     id("org.jetbrains.kotlin.jvm") version "1.3.72" apply false
     id("org.jetbrains.dokka") version "0.10.1" apply false
-//    id("com.jfrog.bintray") version "1.8.5" apply false
     id("io.gitlab.arturbosch.detekt") version "1.9.1" apply false
 }
 

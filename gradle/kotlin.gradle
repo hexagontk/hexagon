@@ -30,8 +30,6 @@ eclipse {
 }
 
 repositories {
-    // TODO Remove when published to Maven Central
-    maven { url  "https://dl.bintray.com/hexagonkt/hexagon" }
     mavenCentral()
     jcenter()
 }
