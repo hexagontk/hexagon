@@ -45,3 +45,10 @@ jobs:
         with:
           name: test_reports
           path: "*/build/**/TEST-*.xml"
+
+      - name: Upload Verification Reports (ON FAILURE)
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: verification_reports
+          path: "build/reports/dependency-verification/at-*/**/*"

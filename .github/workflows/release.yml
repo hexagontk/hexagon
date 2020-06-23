@@ -42,6 +42,13 @@ jobs:
           name: test_reports
           path: "*/build/**/TEST-*.xml"
 
+      - name: Upload Verification Reports (ON FAILURE)
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: verification_reports
+          path: "build/reports/dependency-verification/at-*/**/*"
+
       # PUBLISH
       - name: Update Site
         env:
@@ -56,8 +63,6 @@ jobs:
 
       - name: Publish Packages
         env:
-#          BINTRAY_KEY: ${{ secrets.BINTRAY_TOKEN }}
-#          BINTRAY_USER: jamming
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
