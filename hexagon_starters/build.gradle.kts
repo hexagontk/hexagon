@@ -3,7 +3,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 
-apply(from = "../gradle/bintray.gradle")
+apply(from = "../gradle/publish.gradle")
 
 plugins {
     `maven-publish`
@@ -38,6 +38,7 @@ publishing {
     }
 }
 
+// TODO Move these methods to `buildSrc` and consider using dom4j or jdom
 fun File.parseDom(): Document =
     DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this)
 

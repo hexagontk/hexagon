@@ -1,8 +1,7 @@
 /*
- * Check usage information at: http://hexagonkt.com/gradle/#bintray
+ * Check usage information at: http://hexagonkt.com/gradle/#publish
  */
 
-apply(plugin: "java")
 apply(plugin: "signing")
 apply(plugin: "maven-publish")
 
@@ -46,7 +45,7 @@ publishing {
 
                     licenses {
                         license {
-                            name = "The MIT License"
+                            name = project.findProperty("licenses")
                             url = "https://opensource.org/licenses/MIT"
                         }
                     }
