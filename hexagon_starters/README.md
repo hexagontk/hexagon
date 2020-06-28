@@ -8,8 +8,8 @@ This module holds the Maven parent POMs with Kotlin setup to ease the project cr
 ```xml
 <parent>
 <groupId>com.hexagonkt</groupId>
-<artifactId>hexagon_pom</artifactId>
-<version>1.2.19</version>
+<artifactId>kotlin_pom</artifactId>
+<version>$VERSION</version>
 </parent>
 ```
 
@@ -19,7 +19,7 @@ Or:
 ```xml
 <parent>
 <groupId>com.hexagonkt</groupId>
-<artifactId>hexagon_lean_pom</artifactId>
-<version>1.2.19</version>
+<artifactId>kotlin_lean_pom</artifactId>
+<version>$VERSION</version>
 </parent>
 ```

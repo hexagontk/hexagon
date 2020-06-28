@@ -19,7 +19,7 @@ plugins {
 
     id("org.jetbrains.kotlin.jvm") version "1.3.72" apply false
     id("org.jetbrains.dokka") version "0.10.1" apply false
-    id("io.gitlab.arturbosch.detekt") version "1.9.1" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.10.0" apply false
 }
 
 apply(from = "gradle/certificates.gradle")

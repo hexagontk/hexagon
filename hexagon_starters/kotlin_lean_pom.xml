@@ -2,11 +2,11 @@
 <project>
   <parent>
     <groupId>com.hexagonkt</groupId>
-    <artifactId>hexagon_pom</artifactId>
+    <artifactId>kotlin_pom</artifactId>
   </parent>
 
-  <name>Hexagon lean POM</name>
-  <description>Hexagon's starter POM for lean projects.</description>
+  <name>Kotlin lean POM</name>
+  <description>Kotlin's starter POM for lean projects.</description>
 
   <build>
     <sourceDirectory>${basedir}/main</sourceDirectory>
