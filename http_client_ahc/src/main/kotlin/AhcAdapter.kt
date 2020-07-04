@@ -171,7 +171,7 @@ class AhcAdapter : ClientPort {
         cl: Client, request: Request): BoundRequestBuilder {
 
         val method: Method = request.method
-        val path: String = cl.endpoint + request.path.path
+        val path: String = cl.endpoint + request.path.pattern
         val settings: ClientSettings = cl.settings
         val contentType: String? = request.contentType
         val parts: List<AhcPart> = request.parts.values.toList().map {

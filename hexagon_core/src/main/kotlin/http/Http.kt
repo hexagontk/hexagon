@@ -39,7 +39,7 @@ fun put(path: String = "/"): Route = Route(path, PUT)
 fun delete(path: String = "/"): Route = Route(path, DELETE)
 
 /** Shortcut to create a TRACE route. */
-fun tracer(path: String = "/"): Route = Route(path, TRACE)
+fun trace(path: String = "/"): Route = Route(path, TRACE)
 
 /** Shortcut to create a OPTIONS route. */
 fun options(path: String = "/"): Route = Route(path, OPTIONS)

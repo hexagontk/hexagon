@@ -11,7 +11,7 @@ class PathTest {
 
     @Test fun `A path without parameters do not have regex neither params table`() {
         val pathWithoutData = Path("/alpha/bravo/tango")
-        assert(pathWithoutData.path == "/alpha/bravo/tango")
+        assert(pathWithoutData.pattern == "/alpha/bravo/tango")
         assert(!pathWithoutData.hasParameters)
         assert(!pathWithoutData.hasWildcards)
         assert(pathWithoutData.regex == null)
@@ -50,7 +50,7 @@ class PathTest {
         assert(!Path("/alpha/{param}/tango").matches("/alpha/a/tango/zulu"))
 
         val pathWith1Parameter = Path("/alpha/{param}/tango*")
-        assert(pathWith1Parameter.path == "/alpha/{param}/tango*")
+        assert(pathWith1Parameter.pattern == "/alpha/{param}/tango*")
         assert(pathWith1Parameter.hasParameters)
         assert(pathWith1Parameter.hasWildcards)
         assert(pathWith1Parameter.regex?.pattern == "/alpha/(.+?)/tango(.*?)$")
@@ -66,7 +66,7 @@ class PathTest {
         assert(params == mapOf("param" to "abc"))
 
         val pathWith2Parameters = Path("/alpha/{param}/tango/{arg}")
-        assert(pathWith2Parameters.path == "/alpha/{param}/tango/{arg}")
+        assert(pathWith2Parameters.pattern == "/alpha/{param}/tango/{arg}")
         assert(pathWith2Parameters.hasParameters)
         assert(pathWith2Parameters.regex?.pattern == "/alpha/(.+?)/tango/(.+?)$")
         assert(pathWith2Parameters.parameterIndex == listOf("param", "arg"))
@@ -77,13 +77,13 @@ class PathTest {
 
     @Test fun `Path with a wildcard resolve parameters properly`() {
         val pathWith1Parameter = Path("/alpha/*/{param}/tango")
-        assert(pathWith1Parameter.path == "/alpha/*/{param}/tango")
+        assert(pathWith1Parameter.pattern == "/alpha/*/{param}/tango")
         assert(pathWith1Parameter.hasParameters)
         assert(pathWith1Parameter.regex?.pattern == "/alpha/(.*?)/(.+?)/tango$")
         assert(pathWith1Parameter.parameterIndex == listOf("", "param"))
 
         val pathWith2Parameters = Path("/alpha/{param}/tango/{arg}/*")
-        assert(pathWith2Parameters.path == "/alpha/{param}/tango/{arg}/*")
+        assert(pathWith2Parameters.pattern == "/alpha/{param}/tango/{arg}/*")
         assert(pathWith2Parameters.hasParameters)
         assert(pathWith2Parameters.regex?.pattern == "/alpha/(.+?)/tango/(.+?)/(.*?)$")
         assert(pathWith2Parameters.parameterIndex == listOf("param", "arg", ""))
@@ -91,13 +91,13 @@ class PathTest {
 
     @Test fun `Path with many wildcards resolve parameters properly`() {
         val pathWith1Parameter = Path("/*/alpha/*/{param}/tango")
-        assert(pathWith1Parameter.path == "/*/alpha/*/{param}/tango")
+        assert(pathWith1Parameter.pattern == "/*/alpha/*/{param}/tango")
         assert(pathWith1Parameter.hasParameters)
         assert(pathWith1Parameter.regex?.pattern == "/(.*?)/alpha/(.*?)/(.+?)/tango$")
         assert(pathWith1Parameter.parameterIndex == listOf("", "", "param"))
 
         val pathWith2Parameters = Path("/alpha/*/{param}/tango/{arg}/*")
-        assert(pathWith2Parameters.path == "/alpha/*/{param}/tango/{arg}/*")
+        assert(pathWith2Parameters.pattern == "/alpha/*/{param}/tango/{arg}/*")
         assert(pathWith2Parameters.hasParameters)
         assert(pathWith2Parameters.regex?.pattern == "/alpha/(.*?)/(.+?)/tango/(.+?)/(.*?)$")
         assert(pathWith2Parameters.parameterIndex == listOf("", "param", "arg", ""))
