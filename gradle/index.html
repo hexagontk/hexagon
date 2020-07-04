@@ -471,8 +471,8 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
-    <a href="../create_services/" title="Create Services" class="md-nav__link">
-      Create Services
+    <a href="../create_applications/" title="Create Applications" class="md-nav__link">
+      Create Applications
     </a>
   </li>
 
@@ -1537,6 +1537,11 @@ script. I.e.:</p>
 </code></pre></div>
 </td></tr></table>
 
+<p>To set up this script's parameters, check the <a href="/gradle/#build-variables">build variables section</a>. This helper settings are:</p>
+<ul>
+<li>detektConfigPath: file with Detekt rules and settings. If not set, the default Detekt setup will
+  be used.</li>
+</ul>
 <h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h3>
 <p>This script adds helper tasks for dealing with <a href="https://www.docker.com">Docker</a> inside a project. To use it
 you must apply the <code class="codehilite"><span class="err">$gradleScripts/docker.gradle</span></code> script to your <code class="codehilite"><span class="err">build.gradle</span></code> file.</p>
@@ -1581,8 +1586,8 @@ you must apply the <code class="codehilite"><span class="err">$gradleScripts/doc
       <nav class="md-footer-nav__inner md-grid">
         
           <a
-            href="../create_services/"
-            title="Create Services"
+            href="../create_applications/"
+            title="Create Applications"
             class="md-flex md-footer-nav__link md-footer-nav__link--prev"
             rel="prev">
 
@@ -1594,7 +1599,7 @@ you must apply the <code class="codehilite"><span class="err">$gradleScripts/doc
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Create Services
+                Create Applications
               </span>
             </div>
           </a>
@@ -1622,6 +1627,31 @@ you must apply the <code class="codehilite"><span class="err">$gradleScripts/doc
       </nav>
     </div>
   
+
+  <!-- Sponsors -->
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        <p>This project is supported by:</p>
+        <p>
+          <a
+            href="https://www.digitalocean.com/?utm_medium=opensource&utm_source=Hexagon-Toolkit"
+            style="vertical-align: middle">
+            <img
+              height="128px"
+              src=
+                "https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_vertical_white.svg">
+          </a>
+          <a href="https://www.jetbrains.com/?from=Hexagon-Toolkit" style="vertical-align: middle">
+            <img
+              height="96px"
+              src="/img/sponsors/jetbrains-variant-4-bw.svg">
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
