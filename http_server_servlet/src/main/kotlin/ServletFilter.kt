@@ -244,6 +244,6 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         if (request.path.endsWith("/"))
             throw PassException()
 
-        return request.path.removePrefix(route.path.path.removeSuffix("/*"))
+        return request.path.removePrefix(route.path.pattern.removeSuffix("/*"))
     }
 }

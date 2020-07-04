@@ -53,7 +53,7 @@ class Router(block: Router.() -> Unit = {}) {
 
     fun delete(path: String = "/", block: RouteCallback) = delete(path) by block
 
-    fun trace(path: String = "/", block: RouteCallback) = tracer(path) by block
+    fun trace(path: String = "/", block: RouteCallback) = trace(path) by block
 
     fun options(path: String = "/", block: RouteCallback) = options(path) by block
 
@@ -121,15 +121,15 @@ class Router(block: Router.() -> Unit = {}) {
         return handler.router.requestHandlers.flatMap {
             val route = it.route
             val path = route.path
-            val handlerPath = handler.route.path.path
+            val handlerPath = handler.route.path.pattern
 
             val finalPath =
                 if (handlerPath == "/")
-                    if (path.path == "/") "/" else path.path
+                    if (path.pattern == "/") "/" else path.pattern
                 else
-                    if (path.path == "/") handlerPath else handlerPath + path.path
+                    if (path.pattern == "/") handlerPath else handlerPath + path.pattern
 
-            val nestedPath = path.copy(path = finalPath)
+            val nestedPath = path.copy(pattern = finalPath)
             val nestedRoute = route.copy(path = nestedPath)
 
             when (it) {

@@ -224,6 +224,11 @@ plugins {
 }
 ```
 
+To set up this script's parameters, check the [build variables section]. This helper settings are:
+
+* detektConfigPath: file with Detekt rules and settings. If not set, the default Detekt setup will
+  be used.
+
 [Detekt]: https://detekt.github.io/detekt
 
 ## Docker

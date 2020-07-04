@@ -1,7 +1,7 @@
 
 <project>
-  <name>Hexagon POM</name>
-  <description>Hexagon's starter POM.</description>
+  <name>Kotlin POM</name>
+  <description>Kotlin's starter POM.</description>
 
   <repositories>
     <repository>

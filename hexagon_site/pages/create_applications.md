@@ -1,8 +1,8 @@
 
 # Cloning a Starter repository
 
-To create a new Hexagon service, you can clone a minimum running example using the [Gradle Starter]
-or the [Maven Starter].
+To create a new Hexagon application, you can clone a minimum running example using the
+[Gradle Starter] or the [Maven Starter].
 
 # From scratch
 

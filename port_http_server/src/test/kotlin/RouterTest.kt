@@ -88,7 +88,7 @@ class RouterTest {
         val requestHandlers = server.contextRouter.requestHandlers
 
         val assets = requestHandlers.filterIsInstance(ResourceHandler::class.java)
-        assert (assets.any { it.route.path.path == "/*" && it.resource.path == "assets" })
+        assert (assets.any { it.route.path.pattern == "/*" && it.resource.path == "assets" })
 
         val filters = requestHandlers.filterIsInstance(FilterHandler::class.java)
         assert(filters.any { it.route == Route(Path("/after"), ALL) && it.order == AFTER })
@@ -119,7 +119,7 @@ class RouterTest {
         val paths = requestHandlers.filterIsInstance(PathHandler::class.java)
         val subRouter = paths.first { it.route == Route(Path("/router")) }.router
         val subGet = subRouter.requestHandlers.filterIsInstance(RouteHandler::class.java).first()
-        assert(subGet.route.path.path == "/subRoute")
+        assert(subGet.route.path.pattern == "/subRoute")
 
         val codedErrors = requestHandlers.filterIsInstance(CodeHandler::class.java)
         assert (codedErrors.any { it.code == 401 })
@@ -130,7 +130,7 @@ class RouterTest {
 
     private fun assertHandler(handler: RequestHandler, path: String, vararg methods: Method) {
         val route = handler.route
-        assert(route.path.path == path)
+        assert(route.path.pattern == path)
         assert(route.methods.containsAll(methods.toSet()))
     }
 }

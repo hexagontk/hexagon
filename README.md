@@ -392,6 +392,23 @@ You can check more sample projects and snippets at the [examples page].
 
 [examples page]: https://hexagonkt.com/examples/example_projects
 
+## Thanks!!!
+
+This project is supported by:
+
+<a href="https://www.digitalocean.com/?utm_medium=opensource&utm_source=Hexagon-Toolkit">
+  <img
+    height="128px"
+    src=
+      "https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_vertical_white.svg">
+</a>
+
+<a href="https://www.jetbrains.com/?from=Hexagon-Toolkit">
+  <img
+    height="96px"
+    src="https://hexagonkt.com/img/sponsors/jetbrains-variant-4-bw.svg">
+</a>
+
 ## Status
 
 The toolkit is properly tested. This is the coverage report:

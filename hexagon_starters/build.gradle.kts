@@ -11,7 +11,7 @@ plugins {
 
 publishing {
     publications {
-        createPomPublication("hexagon_pom") { pomDom ->
+        createPomPublication("kotlin_pom") { pomDom ->
             properties.set(mapOf(
                 "project.build.sourceEncoding" to Charsets.UTF_8.name(),
                 "kotlin.version" to project.properties["kotlinVersion"].toString(),
@@ -25,7 +25,7 @@ publishing {
             }
         }
 
-        createPomPublication("hexagon_lean_pom") { pomDom ->
+        createPomPublication("kotlin_lean_pom") { pomDom ->
             withXml {
                 val root = asElement()
                 val version = rootProject.version.toString()
