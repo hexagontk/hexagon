@@ -392,7 +392,7 @@ You can check more sample projects and snippets at the [examples page].
 
 [examples page]: https://hexagonkt.com/examples/example_projects
 
-## Thanks!!!
+## Thanks
 
 This project is supported by:
 
@@ -400,13 +400,13 @@ This project is supported by:
   <img
     height="128px"
     src=
-      "https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_vertical_white.svg">
+      "https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_vertical_blue.svg">
 </a>
 
 <a href="https://www.jetbrains.com/?from=Hexagon-Toolkit">
   <img
     height="96px"
-    src="https://hexagonkt.com/img/sponsors/jetbrains-variant-4-bw.svg">
+    src="https://hexagonkt.com/img/sponsors/jetbrains-variant-4.svg">
 </a>
 
 ## Status
