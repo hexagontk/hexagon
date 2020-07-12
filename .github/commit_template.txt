@@ -1,0 +1,15 @@
+
+# Summary [#TaskId]
+#
+# [Details]
+#
+# 1. 'TaskId' and 'Details' are optional
+# 2. Use the imperative mood in the summary line
+# 3. Capitalize the summary line
+# 4. Do not end the summary line with a period
+# 5. Limit the summary line to 50 characters
+# 6. Separate summary from details with a blank line
+# 7. Wrap the details at 72 characters
+# 8. Use the details to explain what and why vs. how
+#
+# RATIONALE: https://chris.beams.io/posts/git-commit
