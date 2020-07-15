@@ -119,10 +119,6 @@ tasks.withType(Test).each { testTask ->
     }
 }
 
-tasks.withType(Zip).each { zipTask ->
-    zipTask.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
 jacocoTestReport {
     dependsOn("check")
     reports {
@@ -139,6 +135,10 @@ task("sourcesJar", type: Jar) {
 task("testJar", type: Jar, dependsOn: testClasses) {
     archiveClassifier.set("test")
     from(sourceSets.test.output.classesDirs)
+}
+
+tasks.withType(Zip).each { zipTask ->
+    zipTask.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 publishing {
