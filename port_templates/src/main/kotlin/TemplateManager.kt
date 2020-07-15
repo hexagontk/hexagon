@@ -13,7 +13,7 @@ object TemplateManager {
 
     private fun loadProps (path: String): Map<String, Any> =
         try {
-            Resource("$basePath/$path.yaml").url()?.parse () ?: mapOf()
+            Resource("$basePath/$path.yml").url()?.parse () ?: mapOf()
         }
         catch (e: Exception) {
             mapOf()

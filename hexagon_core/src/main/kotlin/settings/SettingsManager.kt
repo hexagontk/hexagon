@@ -9,15 +9,15 @@ object SettingsManager {
 
     val log: Logger = Logger(this)
 
-    internal const val SETTINGS = "service"
-    internal const val ENVIRONMENT_PREFIX = "SERVICE_"
+    internal const val SETTINGS = "application"
+    internal const val ENVIRONMENT_PREFIX = "APPLICATION_"
 
     private val defaultSettingsSources: List<SettingsSource> = listOf(
-        ResourceSource("$SETTINGS.yaml"),
+        ResourceSource("$SETTINGS.yml"),
         EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
         SystemPropertiesSource(SETTINGS),
-        FileSource("$SETTINGS.yaml"),
-        ResourceSource("${SETTINGS}_test.yaml")
+        FileSource("$SETTINGS.yml"),
+        ResourceSource("${SETTINGS}_test.yml")
     )
 
     var settingsSources: List<SettingsSource> = defaultSettingsSources

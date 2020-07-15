@@ -98,12 +98,6 @@ assert(jason !== parsedJason)
 This module helps loading external settings from different sources. You can change the settings
 sources, the default ones are (bottom sources override top ones):
 
-1. Resource `/service.yaml`.
-2. Environment variables starting with `SERVICE_`.
-3. System properties starting with `service`.
-4. File `./service.yaml` from the application run directory.
-5. Resource `/service_test.yaml`.
-
 Below there is a code fragment showing how to add a custom settings source and load its properties:
 
 ```kotlin

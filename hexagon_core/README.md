@@ -39,11 +39,11 @@ snippet for details:
 This module helps loading external settings from different sources. You can change the settings
 sources, the default ones are (bottom sources override top ones):
 
-1. Resource `/service.yaml`.
-2. Environment variables starting with `SERVICE_`.
+1. Resource `/application.yml`.
+2. Environment variables starting with `APPLICATION_`.
 3. System properties starting with `service`.
-4. File `./service.yaml` from the application run directory.
-5. Resource `/service_test.yaml`.
+4. File `./application.yml` from the application run directory.
+5. Resource `/application_test.yml`.
 
 Below there is a code fragment showing how to add a custom settings source and load its properties:
 
@@ -52,10 +52,6 @@ Below there is a code fragment showing how to add a custom settings source and l
 # Package com.hexagonkt.helpers
 
 JVM information, a logger class and other useful utilities.
-
-# Package com.hexagonkt.http
-
-HTTP code shared between clients and servers and independent of third party libraries.
 
 # Package com.hexagonkt.injection
 
