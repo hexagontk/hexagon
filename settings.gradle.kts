@@ -4,7 +4,7 @@ rootProject.name = "hexagon"
 gradle.rootProject {
 
     allprojects {
-        version = "1.2.22"
+        version = "1.2.23"
         group = "com.hexagonkt"
         description = "The atoms of your platform"
     }
@@ -17,6 +17,7 @@ include(
 
     // Internal modules
     "hexagon_core",
+    "hexagon_http",
     "hexagon_scheduler",
     "hexagon_web",
 
