@@ -9,13 +9,13 @@ class RabbitMqAdapterTest {
      */
     @Test fun `Event manager` () {
         val engine: MessagingPort = RabbitMqAdapter()
-        engine.consume(com.hexagonkt.messaging.rabbitmq.RabbitTest.Sample::class) {
+        engine.consume(RabbitTest.Sample::class) {
             if (it.str == "no message error")
                 throw IllegalStateException()
             if (it.str == "message error")
                 error("message")
         }
-        engine.publish(com.hexagonkt.messaging.rabbitmq.RabbitTest.Sample("foo", 1))
+        engine.publish(RabbitTest.Sample("foo", 1))
 //        EventManager.publish(Sample("no message error", 1))
 //        EventManager.publish(Sample("message error", 1))
     }
