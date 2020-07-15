@@ -8,18 +8,28 @@ defaultTasks("installDist")
 
 classes.dependsOn("buildInfo")
 
-task("buildInfo").doLast {
-    file("$buildDir/resources/main").mkdirs()
-    file("$buildDir/resources/main/application.properties").write("""
+task("buildInfo") {
+    group = "build"
+    description =
+        "Add configuration file (`application.properties`) with build variables to the package."
+
+    doLast {
+        file("$buildDir/resources/main").mkdirs()
+        file("$buildDir/resources/main/application.properties").write("""
         project=$rootProject.name
         module=$project.name
         version=${project.version.toString()}
         group=$project.group
         description=$project.description
     """.stripIndent ())
+    }
 }
 
 task("jarAll", type: Jar, dependsOn: "jar") {
+    group = "distribution"
+    description =
+        "Creates a single JAR with all dependencies, and the application main class set up."
+
     archiveBaseName.set("${archiveBaseName.orNull}-all")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
@@ -37,25 +47,31 @@ task("jarAll", type: Jar, dependsOn: "jar") {
     }
 }
 
-task("watch", dependsOn: "classes").doLast {
-    final JavaExec runTask = run
+task("watch", dependsOn: "classes") {
+    group = "application"
+    description =
+        "Run the application in another thread. Allows the possibility to watch source changes."
 
-    // NOTE: these two statements are *REQUIRED* to load classpath and main class
-    runTask.classpath.each { it.toString() }
-    runTask.main.toString()
+    doLast {
+        final JavaExec runTask = run
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream()
-    exec {
-        commandLine("jps", "-l")
-        standardOutput = out
-    }
-    out.toString().readLines()
-        .findAll { it.endsWith((String)runTask.main) }
-        .collect { it.split(" ")[0] }
-        .each { pid -> exec { commandLine("kill", pid) } }
+        // NOTE: these two statements are *REQUIRED* to load classpath and main class
+        runTask.classpath.each { it.toString() }
+        runTask.main.toString()
 
-    Thread.startDaemon {
-        runTask.setIgnoreExitValue(true)
-        runTask.actions.each { action -> action.execute(runTask) }
+        ByteArrayOutputStream out = new ByteArrayOutputStream()
+        exec {
+            commandLine("jps", "-l")
+            standardOutput = out
+        }
+        out.toString().readLines()
+            .findAll { it.endsWith((String)runTask.main) }
+            .collect { it.split(" ")[0] }
+            .each { pid -> exec { commandLine("kill", pid) } }
+
+        Thread.startDaemon {
+            runTask.setIgnoreExitValue(true)
+            runTask.actions.each { action -> action.execute(runTask) }
+        }
     }
 }

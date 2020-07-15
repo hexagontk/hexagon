@@ -30,7 +30,7 @@ tasks.register<Delete>("clean") {
     description = "Delete root project's generated artifacts, logs and error dumps."
     dependsOn("cleanDocker")
 
-    delete("build", "log", "out", ".vertx", "file-uploads")
+    delete("build", "log", "out", ".vertx", "file-uploads", "config")
     delete(
         fileTree(rootDir) { include("**/*.log") },
         fileTree(rootDir) { include("**/*.hprof") },
@@ -51,6 +51,10 @@ task("setUp") {
             ./gradlew clean build
         """.trimIndent() + "\n")
         prePush.setExecutable(true)
+
+        exec { commandLine("docker version".split(" ")) }
+        exec { commandLine("docker-compose version".split(" ")) }
+        exec { commandLine("git config commit.template .github/commit_template.txt".split(" ")) }
     }
 }
 
