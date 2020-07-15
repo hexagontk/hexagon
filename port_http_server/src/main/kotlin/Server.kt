@@ -52,6 +52,12 @@ data class Server(
         block: Router.() -> Unit):
             this(adapter, Router(block), settings)
 
+    constructor(
+        adapter: ServerPort = inject(),
+        settings: ServerSettings,
+        block: Router.() -> Unit):
+            this(adapter, Router(block), settings)
+
     constructor(adapter: ServerPort, router: Router, settings: Map<String, *>) :
         this (adapter, router, settings.convertToObject(ServerSettings::class))
 
@@ -93,8 +99,8 @@ data class Server(
         val scheme = if (protocol == HTTP) "http" else "https"
 
         val information = """
-            SERVICE:     ${settings.serverName}
-            SERVER TYPE: $portName
+            SERVER NAME:     ${settings.serverName}
+            SERVER ADAPTER: $portName
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
             Java $version [$name]
