@@ -9,6 +9,7 @@ import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.http.client.Response
+import com.hexagonkt.http.server.ServerSettings
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 
@@ -33,7 +34,7 @@ abstract class TodoTest(adapter: ServerPort) {
         LinkedHashMap(taskList.map { it.number to it }.toMap())
 
     private val server: Server by lazy {
-        Server(adapter) {
+        Server(adapter, ServerSettings(bindPort = 0)) {
             before { log.debug { "Start" } }
             after { log.debug { "End" } }
 
