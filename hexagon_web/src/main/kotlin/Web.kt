@@ -9,6 +9,9 @@ import java.util.*
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.templates.TemplateManager.render
 import com.hexagonkt.templates.TemplatePort
+import kotlinx.html.HTML
+import kotlinx.html.html
+import kotlinx.html.stream.createHTML
 
 fun Call.templateType(template: String) {
     if (response.contentType == null) {
@@ -49,4 +52,11 @@ fun Call.template(
 
     templateType(templateName)
     ok(render(templateAdapter, templateName, locale, context))
+}
+
+/**
+ * Return HTML setting the proper content type.
+ */
+fun Call.html(block: HTML.() -> Unit) {
+    ok(createHTML().html { block() }, "text/html")
 }
