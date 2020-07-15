@@ -30,17 +30,16 @@
 <p align="center">
   <a href="https://hexagonkt.com/index.html">Home Site</a> |
   <a href="https://hexagonkt.com/quick_start/index.html">Quick Start</a> |
-  <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a> |
-  <a href="https://hexagonkt.com/port_http_server/port_http_server/index.html">HTTP Server</a>
+  <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a>
 </p>
 
 ---
 
 ## What is Hexagon
 
-Hexagon is a microservices toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
-the building of services (Web applications, APIs or queue consumers) that run inside a cloud
-platform.
+Hexagon is a microservices' toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
+the building of server applications (Web applications, APIs or queue consumers) that run inside a
+cloud platform.
 
 It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
 etc.) to be able to change them with minimum impact. It is designed to fit in applications that

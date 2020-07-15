@@ -49,7 +49,6 @@ nav:
     - HTTP Server: port_http_server/port_http_server.md
     - HTTP Client: port_http_client/port_http_client.md
 #    - Templates: port_templates/port_templates.md
-    - Create Applications: create_applications.md
     - Gradle Helpers: gradle.md
   - Documentation:
     - Modules:
