@@ -122,7 +122,7 @@ extra_javascript:
 extra:
   repo: hexagonkt/hexagon
   theme_color: '#135AA1'
-  site_keywords: Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web
+  site_keywords: Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework
   site_long_description: >
     Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of
     services (Web applications, APIs or queue consumers) that run inside a cloud platform
