@@ -25,6 +25,9 @@
       <!-- Tests -->
       <trust group="com.github.mifmif" name="generex" version="1.0.2"/>
       <trust group="com.github.wumpz" name="diffutils" version="2.2"/>
+
+      <!-- TODO Find key -->
+      <trust group="io.kotest" version="4.1.2"/>
     </trusted-artifacts>
 
     <key-servers>
@@ -79,7 +82,8 @@
       <trusted-key id="636de9055c4c75c7bd9830771241bc872c5e4ec0" group="commons-cli" name="commons-cli" version="1.2"/>
       <trusted-key id="2db4f1ef0fa761ecc4ea935c86fdc7e2a11262cb" group="commons-codec" name="commons-codec" version="1.6"/>
       <trusted-key id="d196a5e3e70732eeb2e5007f1861c322c56014b2" group="commons-collections" name="commons-collections" version="3.2.1"/>
-      <trusted-key id="636de9055c4c75c7bd9830771241bc872c5e4ec0" group="commons-lang" name="commons-lang" version="2.4"/>
+      <trusted-key id="636de9055c4c75c7bd9830771241bc872c5e4ec0" group="commons-lang" name="commons-lang"/>
+      <trusted-key id="b6e73d84ea4fcc47166087253faad2cd5ecbb314" group="org.apache.commons" name="commons-lang3"/>
       <trusted-key id="b920d295bf0e61cb4cf0896c33cd6733af5ec452" group="commons-logging" name="commons-logging" version="1.1.1"/>
       <trusted-key id="1fa37fbe4453c1073e7ef61d6449005f96bc97a3" group="de.undercouch" name="gradle-download-task" version="4.0.2"/>
       <trusted-key id="4548945a7793445b67f8f8723b17bfc1fcc1b644" group="io.pebbletemplates" name="pebble" version="3.1.4"/>
