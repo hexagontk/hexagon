@@ -134,7 +134,7 @@ To set up this script's parameters, check the [build variables section]. This he
 
 ## Application
 
-Gradle's script for a service or application. It adds two extra tasks:
+Gradle's script for a service or application. It adds these extra tasks:
 
 * buildInfo: add configuration file (`application.properties`) with build variables to the package.
   It is executed automatically before compiling classes.
