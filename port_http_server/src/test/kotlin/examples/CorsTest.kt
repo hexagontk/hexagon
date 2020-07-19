@@ -115,7 +115,7 @@ abstract class CorsTest(adapter: ServerPort) {
     }
 
     @Test fun `CORS pre flight with empty request method`() {
-        val result = client.options("/default", callHeaders = mapOf(
+        val result = client.options("/default", headers = mapOf(
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to emptyList()
         ))
@@ -124,7 +124,7 @@ abstract class CorsTest(adapter: ServerPort) {
     }
 
     @Test fun `CORS pre flight without request method`() {
-        val result = client.options("/default", callHeaders = mapOf(
+        val result = client.options("/default", headers = mapOf(
             "Origin" to listOf("example.org")
         ))
         assert(result.status == 403)
@@ -132,7 +132,7 @@ abstract class CorsTest(adapter: ServerPort) {
     }
 
     @Test fun `CORS pre flight`() {
-        val result = client.options("/default", callHeaders = mapOf(
+        val result = client.options("/default", headers = mapOf(
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to listOf("GET")
         ))
@@ -141,7 +141,7 @@ abstract class CorsTest(adapter: ServerPort) {
     }
 
     @Test fun `CORS full pre flight`() {
-        client.options("/default", callHeaders = mapOf(
+        client.options("/default", headers = mapOf(
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to listOf("GET"),
             "Access-Control-Request-Headers" to listOf("header1,header2")
@@ -149,7 +149,7 @@ abstract class CorsTest(adapter: ServerPort) {
             assert(status == 204)
             assert(body?.isEmpty() ?: false)
         }
-        client.options("/cache", callHeaders = mapOf(
+        client.options("/cache", headers = mapOf(
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to listOf("GET"),
             "Access-Control-Request-Headers" to listOf("header1,header2")
@@ -161,7 +161,7 @@ abstract class CorsTest(adapter: ServerPort) {
     }
 
     @Test fun `CORS pre flight with not allowed method`() {
-        val result = client.options("/only/post", callHeaders = mapOf(
+        val result = client.options("/only/post", headers = mapOf(
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to listOf("GET")
         ))
@@ -170,7 +170,7 @@ abstract class CorsTest(adapter: ServerPort) {
     }
 
     @Test fun `CORS pre flight with not allowed headers`() {
-        val result = client.options("/allowed/headers", callHeaders = mapOf(
+        val result = client.options("/allowed/headers", headers = mapOf(
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to listOf("GET"),
             "Access-Control-Request-Headers" to listOf("header1,header2")
@@ -180,7 +180,7 @@ abstract class CorsTest(adapter: ServerPort) {
     }
 
     @Test fun `CORS pre flight with allowed headers`() {
-        val result = client.options("/allowed/headers", callHeaders = mapOf(
+        val result = client.options("/allowed/headers", headers = mapOf(
             "Origin" to listOf("example.org"),
             "Access-Control-Request-Method" to listOf("GET"),
             "Access-Control-Request-Headers" to listOf("head")

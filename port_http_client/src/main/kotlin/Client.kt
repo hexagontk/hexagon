@@ -27,88 +27,88 @@ class Client(
         adapter.send(this, request)
 
     fun get(
-        url: String,
-        callHeaders: Map<String, List<String>> = emptyMap(),
+        path: String,
+        headers: Map<String, List<String>> = emptyMap(),
         body: Any? = null,
         contentType: String? = settings.contentType): Response =
-            send(Request(GET, Path(url), body, headers = callHeaders, contentType = contentType))
+            send(Request(GET, Path(path), body, headers = headers, contentType = contentType))
 
-    fun head(url: String, callHeaders: Map<String, List<String>> = emptyMap()): Response =
-            send(Request(HEAD, Path(url), null, headers = callHeaders))
+    fun head(path: String, headers: Map<String, List<String>> = emptyMap()): Response =
+            send(Request(HEAD, Path(path), null, headers = headers))
 
     fun post(
-        url: String, body: Any? = null, contentType: String? = settings.contentType): Response =
-            send(Request(POST, Path(url), body, contentType = contentType))
+        path: String, body: Any? = null, contentType: String? = settings.contentType): Response =
+            send(Request(POST, Path(path), body, contentType = contentType))
 
     fun put(
-        url: String,
+        path: String,
         body: Any? = null,
         contentType: String? = settings.contentType): Response =
-            send(Request(PUT, Path(url), body, contentType = contentType))
+            send(Request(PUT, Path(path), body, contentType = contentType))
 
     fun delete(
-        url: String,
+        path: String,
         body: Any? = null,
         contentType: String? = settings.contentType): Response =
-            send(Request(DELETE, Path(url), body, contentType = contentType))
+            send(Request(DELETE, Path(path), body, contentType = contentType))
 
     fun trace(
-        url: String,
+        path: String,
         body: Any? = null,
         contentType: String? = settings.contentType): Response =
-            send(Request(TRACE, Path(url), body, contentType = contentType))
+            send(Request(TRACE, Path(path), body, contentType = contentType))
 
     fun options(
-        url: String,
+        path: String,
         body: Any? = null,
         contentType: String? = settings.contentType,
-        callHeaders: Map<String, List<String>> = emptyMap()): Response =
-            send(Request(OPTIONS, Path(url), body, callHeaders, contentType = contentType))
+        headers: Map<String, List<String>> = emptyMap()): Response =
+            send(Request(OPTIONS, Path(path), body, headers, contentType = contentType))
 
     fun patch(
-        url: String,
+        path: String,
         body: Any? = null,
         contentType: String? = settings.contentType): Response =
-            send(Request(PATCH, Path(url), body, contentType = contentType))
+            send(Request(PATCH, Path(path), body, contentType = contentType))
 
     fun get(
-        url: String,
-        callHeaders: Map<String, List<String>> = emptyMap(),
+        path: String,
+        headers: Map<String, List<String>> = emptyMap(),
         body: Any,
         format: SerializationFormat): Response =
-            get(url, callHeaders, body, format.contentType)
+            get(path, headers, body, format.contentType)
 
-    fun post(url: String, body: Any, format: SerializationFormat): Response =
-        post(url, body, format.contentType)
+    fun post(path: String, body: Any, format: SerializationFormat): Response =
+        post(path, body, format.contentType)
 
     fun put(
-        url: String,
+        path: String,
         body: Any,
         format: SerializationFormat): Response =
-            put(url, body, format.contentType)
+            put(path, body, format.contentType)
 
     fun delete(
-        url: String,
+        path: String,
         body: Any,
         format: SerializationFormat): Response =
-            delete(url, body, format.contentType)
+            delete(path, body, format.contentType)
 
     fun trace(
-        url: String,
+        path: String,
         body: Any,
         format: SerializationFormat): Response =
-            trace(url, body, format.contentType)
+            trace(path, body, format.contentType)
 
     fun options(
-        url: String,
+        path: String,
         body: Any,
         format: SerializationFormat,
-        callHeaders: Map<String, List<String>> = emptyMap()): Response =
-            options(url, body, format.contentType, callHeaders)
+        headers: Map<String, List<String>> = emptyMap()): Response =
+            options(path, body, format.contentType, headers)
 
     fun patch(
-        url: String,
+        path: String,
         body: Any,
         format: SerializationFormat): Response =
-            patch(url, body, format.contentType)
+            patch(path, body, format.contentType)
 }
