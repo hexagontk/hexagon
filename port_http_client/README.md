@@ -8,6 +8,24 @@ The functionality provided are:
 
 * Security
 
+### Install Dependency
+
+```groovy tab="build.gradle"
+repositories {
+    mavenCentral()
+}
+
+implementation("com.hexagonkt:port_http_client:$hexagonVersion")
+```
+
+```xml tab="pom.xml"
+<dependency>
+  <groupId>com.hexagonkt</groupId>
+  <artifactId>port_http_client</artifactId>
+  <version>$hexagonVersion</version>
+</dependency>
+```
+
 ### Settings
 
     val contentType: String? = null,

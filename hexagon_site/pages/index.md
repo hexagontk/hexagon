@@ -31,27 +31,19 @@ single standalone features[^1] and are referred to as ["Ports"][Ports and Adapte
 
 The main ports are:
 
-* [The HTTP server]: supports nested routers, grouped routes, static files, forms processing,
-* [The HTTP client]: which supports mutual TLS, HTTP/2, cookies
-
-The toolkit's ports are designed to work on their own. For example: you can use the `http_server`
-module without importing the `templates` one, and the other way around.
+* [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
+  processing, cookies, sessions, CORS and more.
+* [The HTTP client]: which supports mutual TLS, HTTP/2 and cookies among other things.
 
 Each of these features or ports may have different implementations called
-["Adapters"][Ports and Adapters Architecture]. Clients should only use ports code, this makes easy
-to switch among different ports' adapters with minimum impact.
-
-[Core utilities]: like settings handling, logging, serialization and dependency injection[^2].
-The toolkit's ports are designed to use core functionalities. You can use a third party DI library
-instead using the Core one.
+["Adapters"][Ports and Adapters Architecture].
 
 Hexagon is designed to fit in applications that conform to the [Hexagonal Architecture] (also called
-[Clean Architecture] or [Ports and Adapters Architecture]). Its design principles also fits in this
-architecture.
+[Clean Architecture] or [Ports and Adapters Architecture]). Also, its design principles also fits in
+this architecture.
 
 [^1]: Except the Core module that contains a set of utilities like serialization and dependency
-injection among others.
-[^2]: You are not going to use it a lot.
+injection. However, some of these capacities can be replaced by other third party libraries.
 
 [The HTTP server]: /port_http_server/index.html
 [The HTTP client]: /port_http_client/index.html
@@ -75,35 +67,25 @@ You can check the [code examples] and [demo projects] for more complex use cases
 
 Hexagon's goals and design principles:
 
-* [Simple to Use](/quick_start): Hexagon is focused in allowing you to use the features you use the
-  most in your daily coding in the easiest way.
-> 6. No complicated things. Easy to hack, easy to understand (no source code generation, no
->    annotation processing)
+* **Put you in Charge**: There is no code generation, no runtime annotation processing and no logic
+  based on your classpath. You control your tools, not the other way around.
 
-* [Pluggable Adapters](/developer_guide): Adding an adapter is just implementing the port's
-  interface. You can code your own adapters from scratch or tune the existing ones.
-> 3. Easily change underlying technologies, a thin layer always impact flexibility and performance
->    but usually is more important to adapt fast than ease common tasks at the expense of a little
->    performance. Swap adapters without changing application code.
+* **Modular**: Each feature (Port) or adapter is isolated in its own module. Use only the modules
+  you need without carrying unneeded dependencies.
 
-* [Kotlin First](http://kotlinlang.org): The library is coded in Kotlin for coding with Kotlin. No
-  strings attached to Java (as a Language).
-> 2. Take advantage of Kotlin, this new language makes previous Java problems not existent. I.e.:
->    DI is hard to implement in Java, but it is a breeze to do in Kotlin
+* **Pluggable Adapters**: Every Port may have many implementations (Adapters) using different
+  technologies. You can swap adapters without changing application code.
 
-* [Properly Tested](https://github.com/hexagonkt/hexagon#status): Project's coverage is checked in
-  every Pull Request. It is also stress tested at [TechEmpower Frameworks Benchmark][benchmark].
+* **Batteries Included**: It contains all required pieces to make production grade applications:
+  settings management, serialization and dependency injection[^2].
 
-* [Modular](/developer_guide): Each feature is isolated in its own module. Use only the modules you
-  need without unneeded dependencies.
-> 1. Modular (take only 3rd party libraries you need). I.e.: you can use templates without using the
->    http server
+* **Kotlin First**: Take full advantage of Kotlin instead just calling Java code from Kotlin. The
+  library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).
 
-> 5. All minimum pieces to make production services (HTTP servers, Queue consumers, etc):
->    settings, serialization...
->    Have all minimum app development requirements together (settings, di, serialization)
->    "Batteries included"
-> 7. Toolkit not framework. You control your tools, not the other way around.
+* **Properly Tested**: Project's coverage is checked in every Pull Request. It is also stress tested
+  at [TechEmpower Frameworks Benchmark][benchmark].
+
+[^2]: However, you can replace the core DI implementation with any other library.
 
 [benchmark]: https://www.techempower.com/benchmarks
 

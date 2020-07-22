@@ -9,6 +9,10 @@ Provides repeated tasks execution based on [Cron] expressions for Hexagon framew
     advantage of them as using your own service will raise problems scaling those services'
     instances (you will have to coordinate them)
 
+This feature does not include any sort of synchronization if you have many instances of a scheduler
+service. If you want your scheduled jobs to be executed just once, you have to take care of
+synchronization yourself.
+
 ### Install Dependency
 
 ```groovy tab="build.gradle"
