@@ -34,13 +34,13 @@ project itself. These are internal modules not intended to be directly used by u
 
 Hexagon build process requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
-You can build the project, generate the documentation and install it in your local repository
-typing:
+You can check the required software, build the project, generate the documentation and install it in
+your local repository typing:
 
 ```bash
 git clone https://github.com/hexagonkt/hexagon.git
 cd hexagon
-./gradlew build buildSite publishToMavenLocal
+./gradlew setUp build buildSite publishToMavenLocal
 ```
 
 The binaries are located in the `/build` directory of each module. The documentation site is in
@@ -53,11 +53,24 @@ alias gw='./gradlew'
 alias dcup='docker-compose up -d'
 ```
 
+Other useful Gradle commands (assuming `alias gw='./gradlew'`) are:
+
+* Help: `gw help`
+* Tasks: `gw tasks`
+* Module Tasks: `gw [module:]tasks [--all]`
+* Task details: `gw help --task <task>`
+* Package: `gw clean assemble`
+* Build: `gw build`
+* Rebuild: `gw clean build`
+* Documentation: `gw javadoc`
+* Test: `gw test`
+* Run: `gw ${MODULE}:run`
+
 It is recommended that you create a Git pre-push script to check the code before pushing it. As
 this command will be executed before pushing code to the repository (saving you time fixing
 [GitHub Actions] build errors).
 
-You can do so executing the `setUp` task by running: `./gradlew setUp`
+This can be done executing the `setUp` task by running: `./gradlew setUp`
 
 IMPORTANT: For `rabbitmq` container to work properly, you should follow the
 [Docker setup documentation] (inside the "With Docker" section)
@@ -87,34 +100,19 @@ gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys
 
 * You can check available tasks in the [Project Board] and pick one of the issues with the
   `help wanted` tag available in the `Ready` column.
-
 * Claim an issue you want to work in with a comment (after that I can assign it to you and move it
   to the `Working` column. If you want to contribute to a non tagged (or a non existing) tasks:
   write a comment, and we'll discuss the scope of the feature.
-
-* New features should be discussed within an issue in the issue tracker before actual coding.
-
-* For code, file names, tags and branches use either camel case or snake case only. Ie: avoid `-` or
-  `.` in file names if it is possible.
-
+* New features should be discussed within an issue in the issue tracker before actual coding. You
+  may do a PR directly, but you take the risk of it being not suitable and discarded.
+* For code, file names, tags and branches use either camel case or snake case only. I.e.: avoid `-`
+  or `.` in file names if it is possible.
 * For a Pull Request to be accepted, follow the [pull request template] recommendations. Check the
   code follows the [Kotlin Coding Conventions], except final brace position in `else`, `catch` and
   `finally` (in its own line). If you use [IntelliJ] and [Editor Config] this will be checked for
   you.
-
-* Commit format: the preferred commit format would have:
-  - Summary: small summary of the change. In imperative form.
-  - Issue ID: it should be written in GitHub's format: `#taskNumber`. Optional.
-  - Description: a more complete description of the issue. It is optional.
-
-  ```
-  Summary [#Id]
-
-  [Description]
-  ```
-
+* Follow the commit rules defined at the [commit template](.github/commit_template.txt)
 * Bug format: when filing bugs please comply with the [bug template] requirements.
-
 * A feature requests should follow the [enhancement template] rules.
 
 [pull request template]: https://github.com/hexagonkt/hexagon/blob/master/.github/pull_request_template.md

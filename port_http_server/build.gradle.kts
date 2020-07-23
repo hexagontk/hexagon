@@ -11,7 +11,6 @@ plugins {
 tasks.named<Jar>("testJar") {
     archiveClassifier.set("test")
     from(sourceSets.test.get().output){
-        exclude("*.yaml")
         exclude("**.yml")
         exclude("**.properties")
         exclude("**.xml")
@@ -19,6 +18,6 @@ tasks.named<Jar>("testJar") {
 }
 
 dependencies {
-    "api"(project(":hexagon_core"))
+    "api"(project(":hexagon_http"))
     "testImplementation"(project(":http_client_ahc"))
 }

@@ -21,17 +21,33 @@ hero: |
   <p align="center" id="description">
     Hexagon is a microservices
     <a href="https://stackoverflow.com/a/3057818/973418">toolkit</a> written in
-    <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the building of services (Web
-    applications, APIs or queue consumers) that run inside a cloud platform.
+    <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the building of server
+    applications (Web applications, APIs or queue consumers) that run inside a cloud platform.
   </p>
 ---
 
-The Hexagon toolkit is meant to provide abstraction from underlying technologies (data storage, HTTP
-server engines, etc.) to be able to change them with minimum impact.
+The Hexagon Toolkit provides several libraries to build server applications. These libraries provide
+single standalone features[^1] and are referred to as ["Ports"][Ports and Adapters Architecture].
 
-It is designed to fit in applications that conform to the [Hexagonal Architecture] (also called
-[Clean Architecture] or [Ports and Adapters Architecture]).
+The main ports are:
 
+* [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
+  processing, cookies, sessions, CORS and more.
+* [The HTTP client]: which supports mutual TLS, HTTP/2 and cookies among other things.
+
+Each of these features or ports may have different implementations called
+["Adapters"][Ports and Adapters Architecture].
+
+Hexagon is designed to fit in applications that conform to the [Hexagonal Architecture] (also called
+[Clean Architecture] or [Ports and Adapters Architecture]). Also, its design principles also fits in
+this architecture.
+
+[^1]: Except the Core module that contains a set of utilities like serialization and dependency
+injection. However, some of these capacities can be replaced by other third party libraries.
+
+[The HTTP server]: /port_http_server/index.html
+[The HTTP client]: /port_http_client/index.html
+[Core utilities]: /hexagon_core/index.html
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
@@ -42,28 +58,34 @@ Simple Hello World HTTP example.
 
 @sample http_server_jetty/src/test/kotlin/HelloWorld.kt
 
+You can check the [code examples] and [demo projects] for more complex use cases.
+
+[code examples]: /examples/http_server_examples
+[demo projects]: /examples/example_projects
+
 # Features
 
-Hexagon's high-level features.
+Hexagon's goals and design principles:
 
-* [Simple to Use](/quick_start): Hexagon is focused in allowing you to use the features you use the
-  most in your daily coding in the easiest way.
+* **Put you in Charge**: There is no code generation, no runtime annotation processing and no logic
+  based on your classpath. You control your tools, not the other way around.
 
-* [Easy to Hack](https://github.com/hexagonkt/hexagon/blob/master/contributing.md): The libraries
-  are done to be lean and simple so you can tweak it to suit your needs instead relying on third
-  parties.
+* **Modular**: Each feature (Port) or adapter is isolated in its own module. Use only the modules
+  you need without carrying unneeded dependencies.
 
-* [Pluggable Adapters](/developer_guide): Adding an adapter is just implementing the port's
-  interface. You can code your own adapters from scratch or tune the existing ones.
+* **Pluggable Adapters**: Every Port may have many implementations (Adapters) using different
+  technologies. You can swap adapters without changing application code.
 
-* [Kotlin First](http://kotlinlang.org): The library is coded in Kotlin for coding with Kotlin. No
-  strings attached to Java (as a Language).
+* **Batteries Included**: It contains all required pieces to make production grade applications:
+  settings management, serialization and dependency injection[^2].
 
-* [Properly Tested](https://github.com/hexagonkt/hexagon#status): Project's coverage is checked in
-  every Pull Request. It is also stress tested at [TechEmpower Frameworks Benchmark][benchmark].
+* **Kotlin First**: Take full advantage of Kotlin instead just calling Java code from Kotlin. The
+  library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).
 
-* [Modular](/developer_guide): Each feature is isolated in its own module. Use only the modules you
-  need without unneeded dependencies.
+* **Properly Tested**: Project's coverage is checked in every Pull Request. It is also stress tested
+  at [TechEmpower Frameworks Benchmark][benchmark].
+
+[^2]: However, you can replace the core DI implementation with any other library.
 
 [benchmark]: https://www.techempower.com/benchmarks
 

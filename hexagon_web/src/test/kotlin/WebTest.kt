@@ -4,9 +4,11 @@ import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Router
 import com.hexagonkt.http.server.Server
+import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.templates.pebble.PebbleAdapter
+import kotlinx.html.body
+import kotlinx.html.p
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -22,9 +24,17 @@ class WebTest {
             attributes += "date" to LocalDateTime.now()
             template(PebbleAdapter, "pebble_template.html")
         }
+
+        get("/html") {
+            html {
+                body {
+                    p { +"Hello HTML DSL" }
+                }
+            }
+        }
     }
 
-    private val server: Server = Server(JettyServletAdapter(), router, SettingsManager.settings)
+    private val server: Server = Server(JettyServletAdapter(), router, ServerSettings(bindPort = 0))
 
     private val client by lazy { Client(AhcAdapter(), "http://localhost:${server.runtimePort}") }
 
@@ -40,5 +50,11 @@ class WebTest {
         val response = client.get("/template")
         assert(response.status == 200)
     }
-}
 
+    @Test fun html() {
+        val response = client.get("/html")
+        assert(response.headers["Content-Type"]?.first() == "text/html")
+        assert(response.status == 200)
+        assert(response.body?.contains("<p>Hello HTML DSL</p>") ?: false)
+    }
+}

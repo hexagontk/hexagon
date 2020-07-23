@@ -4,6 +4,7 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 
 dependencies {
+    "api"(project(":hexagon_http"))
     "api"(project(":port_messaging"))
     "api"("com.rabbitmq:amqp-client:${properties["rabbitVersion"]}") {
         exclude(module = "slf4j-api")

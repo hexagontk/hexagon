@@ -27,12 +27,17 @@ log/
 .attach_pid*
 hs_err_pid*
 
-# OS
+# Other Tools
+node_modules/
+.java-version
+package-lock.json
+
+# System Files
 .DS_Store
 Thumbs.db
 
-# Others
-.java-version
-
 # Added because of custom project settings
 hexagon_site/content/
+
+# Added because IntelliJ Gradle creates it from Detekt plugin
+/config/

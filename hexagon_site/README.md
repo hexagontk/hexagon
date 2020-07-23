@@ -30,7 +30,8 @@ The MkDocs theme used is [MkDocs Material], in order to customize it, these step
 3. Build the theme
 4. Copy theme's `css` folder to site `mkdocs_palette.css` file
 5. Copy `palette.html` partial and update the indigo color in that file for the desired one
-6. To generate the site using Docker check: `https://hub.docker.com/r/squidfunk/mkdocs-material`
-   `docker-compose run site build -csq`
+6. To generate the site use: `./gradlew buildSite` which executes:
+   `docker-compose run site build -csq`. You can check more details [here][site build].
 
+[site build]: https://hub.docker.com/r/squidfunk/mkdocs-material
 [MkDocs Material]: https://squidfunk.github.io/mkdocs-material

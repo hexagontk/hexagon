@@ -6,7 +6,7 @@ import kotlin.test.assertFailsWith
 class ResourceTest {
 
     @Test fun `Require resource`() {
-        val resource = Resource("service_test.yaml")
+        val resource = Resource("application_test.yml")
         assert(resource.requireUrl().file == resource.url()?.file)
         assertFailsWith<IllegalStateException>("foo.txt not found") {
             Resource("foo.txt").requireUrl()

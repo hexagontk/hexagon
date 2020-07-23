@@ -98,7 +98,6 @@ It sets up:
 - Set up coverage report
 - IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)
 - Published artifacts (binaries, sources and test): sourcesJar and testJar tasks
-- Jar with dependencies: jarAll task
 
 To use it, apply `$gradleScripts/kotlin.gradle` and add the
 `id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to the root `build.gradle`.
@@ -123,7 +122,7 @@ This script provides the following tasks for compiling Kotlin to JavaScript:
 
 IMPORTANT: This script must be applied at the end of the build script.
 
-To use it apply `$gradleScripts/kotlin_js.gradle` at the end of the build script, also apply the
+To use it, apply `$gradleScripts/kotlin_js.gradle` at the end of the build script, also apply the
 `kotlin2js` plugin. And finally, add the `id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to
 the root `build.gradle`.
 
@@ -135,12 +134,12 @@ To set up this script's parameters, check the [build variables section]. This he
 
 ## Application
 
-Gradle's script for a service or application. It adds two extra tasks:
+Gradle's script for a service or application. It adds these extra tasks:
 
 * buildInfo: add configuration file (`application.properties`) with build variables to the package.
   It is executed automatically before compiling classes.
-* watch: Run the application in another thread. This allows the possibility to watch source changes.
-  To run the application and watch for changes you need to execute this task with the `--continuous`
+* watch: run the application in another thread. Allows the possibility to watch source changes. To
+  run the application and watch for changes you need to execute this task with the `--continuous`
   (`-t`) Gradle flag. Ie: `gw -t watch`.
 * jarAll: creates a single JAR with all dependencies, and the application main class set up. This
   task is an alternative to the Gradle `installDist` task.

@@ -18,12 +18,12 @@ class SettingsManagerTest {
 
     @BeforeEach fun resetSettingSources() {
         SettingsManager.settingsSources = listOf(
-            ResourceSource("$SETTINGS.yaml"),
-            ResourceSource("development.yaml"),
+            ResourceSource("$SETTINGS.yml"),
+            ResourceSource("development.yml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
             SystemPropertiesSource(SETTINGS),
-            FileSource("$SETTINGS.yaml"),
-            ResourceSource("${SETTINGS}_test.yaml")
+            FileSource("$SETTINGS.yml"),
+            ResourceSource("${SETTINGS}_test.yml")
         )
     }
 
@@ -40,12 +40,12 @@ class SettingsManagerTest {
 
     @Test fun `Get configuration properties`() {
         SettingsManager.settingsSources = listOf(
-            ResourceSource("$SETTINGS.yaml"),
-            ResourceSource("development.yaml"),
+            ResourceSource("$SETTINGS.yml"),
+            ResourceSource("development.yml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
             SystemPropertiesSource(SETTINGS),
-            FileSource("$SETTINGS.yaml"),
-            ResourceSource("${SETTINGS}_test.yaml")
+            FileSource("$SETTINGS.yml"),
+            ResourceSource("${SETTINGS}_test.yml")
         )
 
         assert(settings["property"] as String == "value")
@@ -83,15 +83,15 @@ class SettingsManagerTest {
 
     @Test fun `Set default settings add command line arguments`() {
         SettingsManager.settingsSources = listOf(
-            ResourceSource("$SETTINGS.yaml"),
+            ResourceSource("$SETTINGS.yml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
             SystemPropertiesSource(SETTINGS),
-            FileSource("$SETTINGS.yaml"),
-            ResourceSource("${SETTINGS}_test.yaml"),
+            FileSource("$SETTINGS.yml"),
+            ResourceSource("${SETTINGS}_test.yml"),
             CommandLineArgumentsSource(listOf("key=val", "param=data"))
         )
 
-        assert(settings.size == 12)
+        assert(settings.size == 9)
         assert(requireSetting<String>("key") == "val")
         assert(requireSetting<String>("param") == "data")
         assert(requireSetting<String>("property") == "value")

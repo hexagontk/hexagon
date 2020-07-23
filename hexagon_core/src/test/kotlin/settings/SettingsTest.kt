@@ -18,7 +18,7 @@ class SettingsTest {
 
     @Test fun `Load file add variables contained in that file`() {
         assert(FileSource("invalid").load().isEmpty())
-        val file = "src/test/resources/development.yaml"
+        val file = "src/test/resources/development.yml"
         val fileName = if (File(file).exists()) file else "hexagon_core/$file"
         assert(FileSource(fileName).load().size == 2)
     }

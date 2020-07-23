@@ -1,25 +1,38 @@
 
 # Concepts
 
-* *Port*: interface for a task, does not aim to cover all possible use cases (only the most used
-  things) you could need to access underlying technology, and that is fine.
-* *Adapter*: implementation of a functionality for a given product/technology.
-* *Manager*: singleton object to manage a cross toolkit aspect. Serialization, Injection or
-  Settings.
+### Port
+
+It is an interface for a task. The toolkit's ports are designed to work on their own. For example:
+you can use the `http_server` module without importing the `templates` one, and the other way around
+(taking only the dependencies you need for your application).
+
+### Adapter
+
+They are implementations of a functionality (Port) for a given product/technology. Clients should
+only use ports' code (not Adapters specific code), this makes easy to switch among different
+adapters with minimum impact.
+
+Adapters are independent of each other, but you can use several adapters for the same port in a
+single application.
+
+### Manager
+
+Singleton object to manage a cross toolkit aspect. I.e.: Serialization, Injection or Settings.
 
 # Toolkit Structure
 
-The project is composed by modules, each module provide a single functionality. There are three kind
-of modules:
+The project is composed by modules, each module provide a single functionality. There are three
+kinds of modules:
 
 * The ones that provide a functionality that does not depend on different implementations, like
   [hexagon_scheduler] or [hexagon_core]. Their name always start with the `hexagon_` prefix. These
   modules can depend on several Ports, but never on Adapters (see below).
 * Modules that define a "Port": these are interfaces to a feature that may have different
-  implementations (ie: [port_http_server] or [port_store]). They can not be used by themselves and
-  in their place, an adapter implementing them should be added to the list of dependencies. These
-  modules names start with the `port_` prefix. Ports are independent from each other.
-* Adapter modules, which are Port implementations for a given tool. [store_mongodb] and
+  implementations (ie: [port_http_server] or [port_store]). They cannot be used by themselves and in
+  their place, an adapter implementing them should be added to the list of dependencies. These
+  modules' names start with the `port_` prefix. Ports are independent of each other.
+* Adapter modules, which are Port implementations for a given tool, [store_mongodb] and
   [messaging_rabbitmq] are examples of this type of modules. Adapter names must start with their
   port name.
 
@@ -36,6 +49,10 @@ of modules:
 
 The [Hexagon Core] module is used by all other libraries, so it would be added to your project
 anyway just by using any adapter.
+
+Core utilities like settings handling, logging, serialization and dependency injection.
+The toolkit's ports are designed to use core functionalities. You can use a third party DI library
+instead using the Core one. It depends on Logback and Jackson.
 
 The main features it has are:
 
@@ -57,8 +74,12 @@ The following libraries provide extra features not bound to different implementa
 use dependencies outside the Hexagon toolkit.
 
 * [Scheduling]: this module allows services to execute tasks periodically using Cron expressions.
+  However, you have to be careful to not run tasks twice if you have many instances.
+* [Web]: this module is meant to ease web applications development. Provides helpers for
+  generating HTML and depends on the [HTTP Server] and [Templates] ports.
 
 [Scheduling]: /hexagon_scheduler/index.html
+[Web]: /hexagon_web/index.html
 
 # Toolkit Ports
 

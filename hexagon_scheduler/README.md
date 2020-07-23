@@ -1,15 +1,39 @@
 
 # Module hexagon_scheduler
 
-Repeated tasks execution based on [Cron] expressions for Hexagon framework. It uses the
+Provides repeated tasks execution based on [Cron] expressions for Hexagon framework. It uses the
 [Cron-utils Java Library].
 
 !!! Note
-    In some platforms I.e.: Kubernetes there is a way to execute repeated tasks, you should take
-    advantage of them as using your own service will raise problems scaling those services'
-    instances (you will have to coordinate them)
+    In some platforms (i.e.: Kubernetes) there is a way to execute repeated tasks, you could take
+    advantage of them, as using your own service will raise problems scaling those services'
+    instances (you will have to coordinate them).
 
-You can check an usage example in the following method:
+This feature does not include any sort of synchronization if you have many instances of a scheduler
+service. If you want your scheduled jobs to be executed just once, you have to take care of
+synchronization yourself.
+
+### Install Dependency
+
+```groovy tab="build.gradle"
+repositories {
+    mavenCentral()
+}
+
+implementation("com.hexagonkt:hexagon_scheduler:$hexagonVersion")
+```
+
+```xml tab="pom.xml"
+<dependency>
+  <groupId>com.hexagonkt</groupId>
+  <artifactId>hexagon_scheduler</artifactId>
+  <version>$hexagonVersion</version>
+</dependency>
+```
+
+### Example
+
+You can check a usage example in the following code:
 
 @sample hexagon_scheduler/src/test/kotlin/CronSchedulerSamplesTest.kt:sample
 

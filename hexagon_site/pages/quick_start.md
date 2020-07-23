@@ -2,13 +2,14 @@
 # Simple HTTP service
 
 In this guide, we are going to create a sample HTTP service. You can read the [Core] or
-[HTTP Server] modules documentation for more information.
+[HTTP Server] modules documentation for more information. You can use both [Gradle] and [Maven] to
+build your application.
 
 You can start by cloning a starter project ([Gradle Starter] or [Maven Starter]). Or you can create
 a project from scratch following these steps:
 
-1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
-2. Add the dependency in [Gradle] or [Maven]:
+1. Configure Kotlin in [Gradle][Setup Gradle] or [Maven][Setup Maven].
+2. Add the dependency in Gradle or Maven:
 
 ```groovy tab="build.gradle"
 repositories {
@@ -31,6 +32,12 @@ implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
 @sample http_server_jetty/src/test/kotlin/HelloWorld.kt
 
 5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
+
+!!! Tip
+    If you use Gradle, you can use the [Application Helper] and run the application watching for
+    changes with the command: `./gradlew watch -t`
+
+[Application Helper]: /gradle/#application
 
 # Dependencies Verification
 
@@ -68,7 +75,6 @@ To continue learning about this toolkit, you can:
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
 [Examples]: /examples/http_server_examples/index.html
-[Kotlin]: https://kotlinlang.org
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [Gradle]: https://gradle.org

@@ -18,7 +18,7 @@
   <a href="https://hexagonkt.com/jacoco">
     <img
       src="https://hexagonkt.com/img/coverage.svg"
-      alt="SonarQube" />
+      alt="Coverage" />
   </a>
   <a href="https://search.maven.org/search?q=g:com.hexagonkt">
     <img
@@ -30,63 +30,51 @@
 <p align="center">
   <a href="https://hexagonkt.com/index.html">Home Site</a> |
   <a href="https://hexagonkt.com/quick_start/index.html">Quick Start</a> |
-  <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a> |
-  <a href="https://hexagonkt.com/port_http_server/port_http_server/index.html">HTTP Server</a>
+  <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a>
 </p>
 
 ---
 
 ## What is Hexagon
 
-Hexagon is a microservices toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
-the building of services (Web applications, APIs or queue consumers) that run inside a cloud
-platform.
+Hexagon is a microservices' toolkit (not a [framework]) written in [Kotlin]. Its purpose is to ease
+the building of server applications (Web applications, APIs or queue consumers) that run inside a
+cloud platform.
 
-It is meant to provide abstraction from underlying technologies (data storage, HTTP server engines,
-etc.) to be able to change them with minimum impact. It is designed to fit in applications that
-conforms to the [Hexagonal Architecture] (also called [Clean Architecture] or
-[Ports and Adapters Architecture]).
+The Hexagon Toolkit provides several libraries to build server applications. These libraries provide
+single standalone features and are referred to as ["Ports"][Ports and Adapters Architecture].
 
-The goals of the project are:
+The main ports are:
 
-1. Be simple to use: make it easy to develop user services (HTTP or message consumers) quickly. It
-   is focused on making the usual tasks easy.
-2. Make it easy to hack: allow the user to add extensions or change the toolkit itself. The code is
-   meant to be simple for the users to understand it.
+* [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
+  processing, cookies, sessions, CORS and more.
+* [The HTTP client]: which supports mutual TLS, HTTP/2 and cookies among other things.
 
-Which are NOT project goals:
+Each of these features or ports may have different implementations called
+["Adapters"][Ports and Adapters Architecture].
 
-1. To be the fastest framework. Write the code fast and optimize only the critical parts. It is
-   [not slow][benchmark] anyway.
-2. Support all available technologies and tools: the spirit is to define simple interfaces for
-   the most common features , so users can implement integrations with different tools easily.
-3. To be usable from Java. Hexagon is *Kotlin first*.
+Hexagon is designed to fit in applications that conform to the [Hexagonal Architecture] (also called
+[Clean Architecture] or [Ports and Adapters Architecture]). Also, its design principles also fits in
+this architecture.
 
-[Kotlin]: http://kotlinlang.org
+For more information check the [Quick Start Guide] or the [Developer Guide].
+
 [framework]: https://stackoverflow.com/a/3057818/973418
+[Kotlin]: http://kotlinlang.org
+[The HTTP server]: http://hexagonkt.com/port_http_server/index.html
+[The HTTP client]: http://hexagonkt.com/port_http_client/index.html
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
-[benchmark]: https://www.techempower.com/benchmarks
-
-## Hexagon Structure
-
-There are three kinds of client libraries:
-
-* The ones that provide a single functionality that does not depend on different implementations.
-  These modules can depend on any Ports, but never on Adapters (see below).
-* Modules that define a "Port": An interface to a feature that may have different implementations.
-  Ports are independent of each other.
-* Adapter modules, which are Port implementations for a given tool.
-
-For more information, take a look at the [Developer Guide].
+[Quick Start Guide]: http://hexagonkt.com/quick_start/index.html
+[Developer Guide]: http://hexagonkt.com/developer_guide/index.html
 
 ## Simple HTTP service
 
 You can clone a starter project ([Gradle Starter] or [Maven Starter]). Or you can create a project
 from scratch following these steps:
 
-1. Configure [Kotlin] in [Gradle][Setup Gradle] or [Maven][Setup Maven].
+1. Configure Kotlin in [Gradle][Setup Gradle] or [Maven][Setup Maven].
 2. Add the dependency:
 
   * In Gradle. Import it inside `build.gradle`:
@@ -138,7 +126,6 @@ fun main() {
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [Endpoint]: http://localhost:2010/hello/world
-[Developer Guide]: http://hexagonkt.com/developer_guide/index.html
 
 ## Examples
 
@@ -420,6 +407,7 @@ in the [TechEmpower Web Framework Benchmarks][benchmark].
 
 [Coverage]: https://hexagonkt.com/img/coverage.svg
 [CoverageReport]: https://hexagonkt.com/jacoco
+[benchmark]: https://www.techempower.com/benchmarks
 
 ## Contribute
 
