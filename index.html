@@ -104,7 +104,7 @@
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web" />
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework" />
 <meta name="application-name" content="Hexagon" />
 <meta name="theme-color" content="#135AA1" />
 
@@ -287,8 +287,8 @@ if ('serviceWorker' in navigator)
 <p align="center" id="description">
   Hexagon is a microservices
   <a href="https://stackoverflow.com/a/3057818/973418">toolkit</a> written in
-  <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the building of services (Web
-  applications, APIs or queue consumers) that run inside a cloud platform.
+  <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the building of server
+  applications (Web applications, APIs or queue consumers) that run inside a cloud platform.
 </p>
 
   </div>
@@ -555,18 +555,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
       HTTP Client
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="create_applications/" title="Create Applications" class="md-nav__link">
-      Create Applications
     </a>
   </li>
 
@@ -1275,10 +1263,19 @@ if ('serviceWorker' in navigator)
   
     <h1>Home</h1>
   
-  <p>The Hexagon toolkit is meant to provide abstraction from underlying technologies (data storage, HTTP
-server engines, etc.) to be able to change them with minimum impact.</p>
-<p>It is designed to fit in applications that conform to the <a href="http://fideloper.com/hexagonal-architecture">Hexagonal Architecture</a> (also called
-<a href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a> or <a href="https://herbertograca.com/2017/09/14/ports-adapters-architecture">Ports and Adapters Architecture</a>).</p>
+  <p>The Hexagon Toolkit provides several libraries to build server applications. These libraries provide
+single standalone features<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> and are referred to as <a href="https://herbertograca.com/2017/09/14/ports-adapters-architecture">"Ports"</a>.</p>
+<p>The main ports are:</p>
+<ul>
+<li><a href="/port_http_server/index.html">The HTTP server</a>: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
+  processing, cookies, sessions, CORS and more.</li>
+<li><a href="/port_http_client/index.html">The HTTP client</a>: which supports mutual TLS, HTTP/2 and cookies among other things.</li>
+</ul>
+<p>Each of these features or ports may have different implementations called
+<a href="https://herbertograca.com/2017/09/14/ports-adapters-architecture">"Adapters"</a>.</p>
+<p>Hexagon is designed to fit in applications that conform to the <a href="http://fideloper.com/hexagonal-architecture">Hexagonal Architecture</a> (also called
+<a href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a> or <a href="https://herbertograca.com/2017/09/14/ports-adapters-architecture">Ports and Adapters Architecture</a>). Also, its design principles also fits in
+this architecture.</p>
 <h2 id="hello-world">Hello World<a class="headerlink" href="#hello-world" title="Permanent link">&para;</a></h2>
 <p>Simple Hello World HTTP example.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -1313,33 +1310,33 @@ server engines, etc.) to be able to change them with minimum impact.</p>
 </code></pre></div>
 </td></tr></table>
 
+<p>You can check the <a href="/examples/http_server_examples">code examples</a> and <a href="/examples/example_projects">demo projects</a> for more complex use cases.</p>
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
-<p>Hexagon's high-level features.</p>
+<p>Hexagon's goals and design principles:</p>
 <ul>
 <li>
-<p><a href="/quick_start">Simple to Use</a>: Hexagon is focused in allowing you to use the features you use the
-  most in your daily coding in the easiest way.</p>
+<p><strong>Put you in Charge</strong>: There is no code generation, no runtime annotation processing and no logic
+  based on your classpath. You control your tools, not the other way around.</p>
 </li>
 <li>
-<p><a href="https://github.com/hexagonkt/hexagon/blob/master/contributing.md">Easy to Hack</a>: The libraries
-  are done to be lean and simple so you can tweak it to suit your needs instead relying on third
-  parties.</p>
+<p><strong>Modular</strong>: Each feature (Port) or adapter is isolated in its own module. Use only the modules
+  you need without carrying unneeded dependencies.</p>
 </li>
 <li>
-<p><a href="/developer_guide">Pluggable Adapters</a>: Adding an adapter is just implementing the port's
-  interface. You can code your own adapters from scratch or tune the existing ones.</p>
+<p><strong>Pluggable Adapters</strong>: Every Port may have many implementations (Adapters) using different
+  technologies. You can swap adapters without changing application code.</p>
 </li>
 <li>
-<p><a href="http://kotlinlang.org">Kotlin First</a>: The library is coded in Kotlin for coding with Kotlin. No
-  strings attached to Java (as a Language).</p>
+<p><strong>Batteries Included</strong>: It contains all required pieces to make production grade applications:
+  settings management, serialization and dependency injection<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
 </li>
 <li>
-<p><a href="https://github.com/hexagonkt/hexagon#status">Properly Tested</a>: Project's coverage is checked in
-  every Pull Request. It is also stress tested at <a href="https://www.techempower.com/benchmarks">TechEmpower Frameworks Benchmark</a>.</p>
+<p><strong>Kotlin First</strong>: Take full advantage of Kotlin instead just calling Java code from Kotlin. The
+  library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).</p>
 </li>
 <li>
-<p><a href="/developer_guide">Modular</a>: Each feature is isolated in its own module. Use only the modules you
-  need without unneeded dependencies.</p>
+<p><strong>Properly Tested</strong>: Project's coverage is checked in every Pull Request. It is also stress tested
+  at <a href="https://www.techempower.com/benchmarks">TechEmpower Frameworks Benchmark</a>.</p>
 </li>
 </ul>
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
@@ -1390,6 +1387,18 @@ nature, no tool can do that), you have to provide a layer of abstraction by your
 </tr>
 </tbody>
 </table>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Except the Core module that contains a set of utilities like serialization and dependency
+injection. However, some of these capacities can be replaced by other third party libraries.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>However, you can replace the core DI implementation with any other library.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
   
     
   

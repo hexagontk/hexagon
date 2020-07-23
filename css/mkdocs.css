@@ -83,3 +83,8 @@ div.md-hero + .md-tabs__item {
 .md-tabs__item {
   margin-top: -0.8rem
 }
+
+.md-typeset .footnote-ref:before {
+    border-left: none;
+    margin-left: 0;
+}

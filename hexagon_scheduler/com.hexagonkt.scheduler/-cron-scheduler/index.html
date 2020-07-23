@@ -104,7 +104,7 @@
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web" />
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework" />
 <meta name="application-name" content="Hexagon" />
 <meta name="theme-color" content="#135AA1" />
 
@@ -457,18 +457,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="../../../port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
       HTTP Client
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../create_applications/" title="Create Applications" class="md-nav__link">
-      Create Applications
     </a>
   </li>
 
@@ -1191,11 +1179,13 @@ the JVM finishes without calling <a href="shutdown/">shutdown</a>, it will be ca
  9
 10
 11
-12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c1">// sample</span>
+12
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c1">// sample</span>
        <span class="k">val</span> <span class="py">cron</span> <span class="p">=</span> <span class="n">CronScheduler</span><span class="p">()</span>
        <span class="k">val</span> <span class="py">times</span> <span class="p">=</span> <span class="m">1</span>
        <span class="k">var</span> <span class="py">count</span> <span class="p">=</span> <span class="m">0</span>
 
+       <span class="c1">// Increments the counter by one each second</span>
        <span class="n">cron</span><span class="p">.</span><span class="n">schedule</span><span class="p">(</span><span class="s">&quot;0/1 * * * * ?&quot;</span><span class="p">)</span> <span class="p">{</span>
            <span class="n">count</span><span class="p">++</span>
        <span class="p">}</span>

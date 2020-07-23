@@ -104,7 +104,7 @@
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web" />
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework" />
 <meta name="application-name" content="Hexagon" />
 <meta name="theme-color" content="#135AA1" />
 
@@ -459,18 +459,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="../../port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
       HTTP Client
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../create_applications/" title="Create Applications" class="md-nav__link">
-      Create Applications
     </a>
   </li>
 
@@ -1201,8 +1189,14 @@ if ('serviceWorker' in navigator)
     <h1>HTTP Client</h1>
   
   <h2 id="http-request-example">HTTP Request Example<a class="headerlink" href="#http-request-example" title="Permanent link">&para;</a></h2>
-<p>Simple example to show how to make HTTP requests using a HTTP Client.
-<a href="https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/BooksTest.kt">full test</a>.</p>
+<p>This example shows the HTTP Client used to test the <a href="../http_server_examples/#books-example">HTTP Server Books Example</a>. <a href="https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/BooksTest.kt">full test</a>.</p>
+<p><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">private</span> <span class="k">val</span> <span class="py">client</span><span class="p">:</span> <span class="n">Client</span> <span class="k">by</span> <span class="n">lazy</span> <span class="p">{</span>
+    <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:${server.runtimePort}&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -1240,88 +1234,46 @@ if ('serviceWorker' in navigator)
 35
 36
 37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">data</span> <span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="k">val</span> <span class="py">author</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">title</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+38</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">@Test</span> <span class="k">fun</span> <span class="nf">`Create book returns 201 and new book ID`</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/books?author=Vladimir%20Nabokov&amp;title=Lolita&quot;</span><span class="p">)</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">Integer</span><span class="p">.</span><span class="n">valueOf</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">body</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+    <span class="n">assert</span><span class="p">(</span><span class="m">201</span> <span class="p">==</span> <span class="n">result</span><span class="p">.</span><span class="n">status</span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="k">private</span> <span class="k">val</span> <span class="py">books</span><span class="p">:</span> <span class="n">MutableMap</span><span class="p">&lt;</span><span class="n">Int</span><span class="p">,</span> <span class="n">Book</span><span class="p">&gt;</span> <span class="p">=</span> <span class="n">linkedMapOf</span><span class="p">(</span>
-    <span class="m">100</span> <span class="n">to</span> <span class="n">Book</span><span class="p">(</span><span class="s">&quot;Miguel de Cervantes&quot;</span><span class="p">,</span> <span class="s">&quot;Don Quixote&quot;</span><span class="p">),</span>
-    <span class="m">101</span> <span class="n">to</span> <span class="n">Book</span><span class="p">(</span><span class="s">&quot;William Shakespeare&quot;</span><span class="p">,</span> <span class="s">&quot;Hamlet&quot;</span><span class="p">),</span>
-    <span class="m">102</span> <span class="n">to</span> <span class="n">Book</span><span class="p">(</span><span class="s">&quot;Homer&quot;</span><span class="p">,</span> <span class="s">&quot;The Odyssey&quot;</span><span class="p">)</span>
-<span class="p">)</span>
+<span class="n">@Test</span> <span class="k">fun</span> <span class="nf">`List books contains all books IDs`</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/books&quot;</span><span class="p">)</span>
+    <span class="n">assertResponseContains</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&quot;100&quot;</span><span class="p">,</span> <span class="s">&quot;101&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="k">val</span> <span class="py">server</span><span class="p">:</span> <span class="n">Server</span> <span class="p">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">post</span><span class="p">(</span><span class="s">&quot;/books&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// Require fails if parameter does not exists</span>
-        <span class="k">val</span> <span class="py">author</span> <span class="p">=</span> <span class="n">queryParameters</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;author&quot;</span><span class="p">)</span>
-        <span class="k">val</span> <span class="py">title</span> <span class="p">=</span> <span class="n">queryParameters</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;title&quot;</span><span class="p">)</span>
-        <span class="k">val</span> <span class="py">id</span> <span class="p">=</span> <span class="p">(</span><span class="n">books</span><span class="p">.</span><span class="n">keys</span><span class="p">.</span><span class="n">max</span><span class="p">()</span> <span class="o">?:</span> <span class="m">0</span><span class="p">)</span> <span class="p">+</span> <span class="m">1</span>
-        <span class="n">books</span> <span class="p">+=</span> <span class="n">id</span> <span class="n">to</span> <span class="n">Book</span><span class="p">(</span><span class="n">author</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
-        <span class="n">send</span><span class="p">(</span><span class="m">201</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
-    <span class="p">}</span>
+<span class="n">@Test</span> <span class="k">fun</span> <span class="err">`</span><span class="nf">Get</span> <span class="n">book</span> <span class="n">returns</span> <span class="n">all</span> <span class="n">book</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">fields</span><span class="err">`</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/books/101&quot;</span><span class="p">)</span>
+    <span class="n">assertResponseContains</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&quot;William Shakespeare&quot;</span><span class="p">,</span> <span class="s">&quot;Hamlet&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 
-    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/books/{id}&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">val</span> <span class="py">bookId</span> <span class="p">=</span> <span class="n">pathParameters</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">).</span><span class="n">toInt</span><span class="p">()</span>
-        <span class="k">val</span> <span class="py">book</span> <span class="p">=</span> <span class="n">books</span><span class="p">[</span><span class="n">bookId</span><span class="p">]</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">book</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-            <span class="c1">// ok() is a shortcut to send(200)</span>
-            <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Title: ${book.title}, Author: ${book.author}&quot;</span><span class="p">)</span>
-        <span class="k">else</span>
-            <span class="n">send</span><span class="p">(</span><span class="m">404</span><span class="p">,</span> <span class="s">&quot;Book not found&quot;</span><span class="p">)</span>
-    <span class="p">}</span>
+<span class="n">@Test</span> <span class="k">fun</span> <span class="nf">`Update book overrides existing book data`</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">resultPut</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;/books/100?title=Don%20Quixote&quot;</span><span class="p">)</span>
+    <span class="n">assertResponseContains</span><span class="p">(</span><span class="n">resultPut</span><span class="p">,</span> <span class="s">&quot;100&quot;</span><span class="p">,</span> <span class="s">&quot;updated&quot;</span><span class="p">)</span>
 
-    <span class="n">put</span><span class="p">(</span><span class="s">&quot;/books/{id}&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">val</span> <span class="py">bookId</span> <span class="p">=</span> <span class="n">pathParameters</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">).</span><span class="n">toInt</span><span class="p">()</span>
-        <span class="k">val</span> <span class="py">book</span> <span class="p">=</span> <span class="n">books</span><span class="p">[</span><span class="n">bookId</span><span class="p">]</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">book</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">books</span> <span class="p">+=</span> <span class="n">bookId</span> <span class="n">to</span> <span class="n">book</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span>
-                <span class="n">author</span> <span class="p">=</span> <span class="n">queryParameters</span><span class="p">[</span><span class="s">&quot;author&quot;</span><span class="p">]</span> <span class="o">?:</span> <span class="n">book</span><span class="p">.</span><span class="n">author</span><span class="p">,</span>
-                <span class="n">title</span> <span class="p">=</span> <span class="n">queryParameters</span><span class="p">[</span><span class="s">&quot;title&quot;</span><span class="p">]</span> <span class="o">?:</span> <span class="n">book</span><span class="p">.</span><span class="n">title</span>
-            <span class="p">)</span>
+    <span class="k">val</span> <span class="py">resultGet</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/books/100&quot;</span><span class="p">)</span>
+    <span class="n">assertResponseContains</span><span class="p">(</span><span class="n">resultGet</span><span class="p">,</span> <span class="s">&quot;Miguel de Cervantes&quot;</span><span class="p">,</span> <span class="s">&quot;Don Quixote&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 
-            <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Book with id &#39;$bookId&#39; updated&quot;</span><span class="p">)</span>
-        <span class="p">}</span>
-        <span class="k">else</span> <span class="p">{</span>
-            <span class="n">send</span><span class="p">(</span><span class="m">404</span><span class="p">,</span> <span class="s">&quot;Book not found&quot;</span><span class="p">)</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<span class="n">@Test</span> <span class="k">fun</span> <span class="nf">`Delete book returns the deleted record ID`</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="s">&quot;/books/102&quot;</span><span class="p">)</span>
+    <span class="n">assertResponseContains</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s">&quot;102&quot;</span><span class="p">,</span> <span class="s">&quot;deleted&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 
-    <span class="n">delete</span><span class="p">(</span><span class="s">&quot;/books/{id}&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">val</span> <span class="py">bookId</span> <span class="p">=</span> <span class="n">pathParameters</span><span class="p">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">).</span><span class="n">toInt</span><span class="p">()</span>
-        <span class="k">val</span> <span class="py">book</span> <span class="p">=</span> <span class="n">books</span><span class="p">[</span><span class="n">bookId</span><span class="p">]</span>
-        <span class="n">books</span> <span class="p">-=</span> <span class="n">bookId</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">book</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-            <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Book with id &#39;$bookId&#39; deleted&quot;</span><span class="p">)</span>
-        <span class="k">else</span>
-            <span class="n">send</span><span class="p">(</span><span class="m">404</span><span class="p">,</span> <span class="s">&quot;Book not found&quot;</span><span class="p">)</span>
-    <span class="p">}</span>
+<span class="n">@Test</span> <span class="k">fun</span> <span class="nf">`Book not found returns a 404`</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="s">&quot;/books/9999&quot;</span><span class="p">)</span>
+    <span class="n">assertResponseContains</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="m">404</span><span class="p">,</span> <span class="s">&quot;not found&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 
-    <span class="c1">// Matches path&#39;s requests with *any* HTTP method as a fallback (return 404 instead 405)</span>
-    <span class="n">any</span><span class="p">(</span><span class="s">&quot;/books/{id}&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">405</span><span class="p">)</span> <span class="p">}</span>
-
-    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/books&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">books</span><span class="p">.</span><span class="n">keys</span><span class="p">.</span><span class="n">joinToString</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="n">transform</span> <span class="p">=</span> <span class="n">Int</span><span class="o">::</span><span class="n">toString</span><span class="p">))</span> <span class="p">}</span>
+<span class="n">@Test</span> <span class="k">fun</span> <span class="nf">`Invalid method returns 405`</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">val</span> <span class="py">result</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">options</span><span class="p">(</span><span class="s">&quot;/books/9999&quot;</span><span class="p">)</span>
+    <span class="n">assert</span><span class="p">(</span><span class="m">405</span> <span class="p">==</span> <span class="n">result</span><span class="p">.</span><span class="n">status</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-</td></tr></table>
+</td></tr></table></p>
   
     
   

@@ -104,7 +104,7 @@
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web" />
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework" />
 <meta name="application-name" content="Hexagon" />
 <meta name="theme-color" content="#135AA1" />
 
@@ -506,13 +506,6 @@ if ('serviceWorker' in navigator)
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonkthttp" class="md-nav__link">
-    Package com.hexagonkt.http
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#package-comhexagonktinjection" class="md-nav__link">
     Package com.hexagonkt.injection
   </a>
@@ -570,18 +563,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="../../port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
       HTTP Client
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../create_applications/" title="Create Applications" class="md-nav__link">
-      Create Applications
     </a>
   </li>
 
@@ -1282,13 +1263,6 @@ if ('serviceWorker' in navigator)
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonkthttp" class="md-nav__link">
-    Package com.hexagonkt.http
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#package-comhexagonktinjection" class="md-nav__link">
     Package com.hexagonkt.injection
   </a>
@@ -1398,6 +1372,8 @@ below.</p>
 
 <h4 id="dependency-injection">Dependency injection<a class="headerlink" href="#dependency-injection" title="Permanent link">&para;</a></h4>
 <p>You can take advantage of dependency injection using the <a href="../com.hexagonkt.injection/-injection-manager/">InjectionManager</a> object.</p>
+<p>The implementation is a map of classes (with an optional tag) to provider functions (in essence:
+<code class="codehilite"><span class="err">Map&lt;KClass&lt;*&gt;, () -&gt; Any&gt;</span></code>). It is a very simple, yet complete, DI implementation.</p>
 <p>You can bind supplier functions or objects to classes. If a class is already bound, later calls to
 <code class="codehilite"><span class="err">bind*</span></code> methods are ignored. However, you can use the <code class="codehilite"><span class="err">forceBind*</span></code> methods if you need to override
 a binding (in tests for example).</p>
@@ -1464,6 +1440,12 @@ a binding (in tests for example).</p>
 </code></pre></div>
 </td></tr></table>
 
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Dependency Injection is not required by the toolkit. All classes and methods have versions
+receiving all of their dependencies, so you can use them instead relying on injection (or use
+another DI library of your choice).</p>
+</div>
 <h4 id="serialization">Serialization<a class="headerlink" href="#serialization" title="Permanent link">&para;</a></h4>
 <p>The core module has utilities to serialize/parse data classes to JSON and YAML. Read the following
 snippet for details:</p>
@@ -1487,11 +1469,11 @@ snippet for details:</p>
 <p>This module helps loading external settings from different sources. You can change the settings
 sources, the default ones are (bottom sources override top ones):</p>
 <ol>
-<li>Resource <code class="codehilite"><span class="err">/service.yaml</span></code>.</li>
-<li>Environment variables starting with <code class="codehilite"><span class="err">SERVICE_</span></code>.</li>
+<li>Resource <code class="codehilite"><span class="err">/application.yml</span></code>.</li>
+<li>Environment variables starting with <code class="codehilite"><span class="err">APPLICATION_</span></code>.</li>
 <li>System properties starting with <code class="codehilite"><span class="err">service</span></code>.</li>
-<li>File <code class="codehilite"><span class="err">./service.yaml</span></code> from the application run directory.</li>
-<li>Resource <code class="codehilite"><span class="err">/service_test.yaml</span></code>.</li>
+<li>File <code class="codehilite"><span class="err">./application.yml</span></code> from the application run directory.</li>
+<li>Resource <code class="codehilite"><span class="err">/application_test.yml</span></code>.</li>
 </ol>
 <p>Below there is a code fragment showing how to add a custom settings source and load its properties:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
@@ -1516,8 +1498,6 @@ sources, the default ones are (bottom sources override top ones):</p>
 
 <h2 id="package-comhexagonkthelpers">Package com.hexagonkt.helpers<a class="headerlink" href="#package-comhexagonkthelpers" title="Permanent link">&para;</a></h2>
 <p>JVM information, a logger class and other useful utilities.</p>
-<h2 id="package-comhexagonkthttp">Package com.hexagonkt.http<a class="headerlink" href="#package-comhexagonkthttp" title="Permanent link">&para;</a></h2>
-<p>HTTP code shared between clients and servers and independent of third party libraries.</p>
 <h2 id="package-comhexagonktinjection">Package com.hexagonkt.injection<a class="headerlink" href="#package-comhexagonktinjection" title="Permanent link">&para;</a></h2>
 <p>Utilities to bind classes to creation closures or instances, and inject instances of those classes
 later.</p>

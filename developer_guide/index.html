@@ -104,7 +104,7 @@
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web" />
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework" />
 <meta name="application-name" content="Hexagon" />
 <meta name="theme-color" content="#135AA1" />
 
@@ -450,6 +450,33 @@ if ('serviceWorker' in navigator)
     Concepts
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#port" class="md-nav__link">
+    Port
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adapter" class="md-nav__link">
+    Adapter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manager" class="md-nav__link">
+    Manager
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -529,18 +556,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="../port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
       HTTP Client
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../create_applications/" title="Create Applications" class="md-nav__link">
-      Create Applications
     </a>
   </li>
 
@@ -1197,6 +1212,33 @@ if ('serviceWorker' in navigator)
     Concepts
   </a>
   
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#port" class="md-nav__link">
+    Port
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adapter" class="md-nav__link">
+    Adapter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manager" class="md-nav__link">
+    Manager
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1255,31 +1297,39 @@ if ('serviceWorker' in navigator)
     <h1>Developer Guide</h1>
   
   <h2 id="concepts">Concepts<a class="headerlink" href="#concepts" title="Permanent link">&para;</a></h2>
-<ul>
-<li><em>Port</em>: interface for a task, does not aim to cover all possible use cases (only the most used
-  things) you could need to access underlying technology, and that is fine.</li>
-<li><em>Adapter</em>: implementation of a functionality for a given product/technology.</li>
-<li><em>Manager</em>: singleton object to manage a cross toolkit aspect. Serialization, Injection or
-  Settings.</li>
-</ul>
+<h4 id="port">Port<a class="headerlink" href="#port" title="Permanent link">&para;</a></h4>
+<p>It is an interface for a task. The toolkit's ports are designed to work on their own. For example:
+you can use the <code class="codehilite"><span class="err">http_server</span></code> module without importing the <code class="codehilite"><span class="err">templates</span></code> one, and the other way around
+(taking only the dependencies you need for your application).</p>
+<h4 id="adapter">Adapter<a class="headerlink" href="#adapter" title="Permanent link">&para;</a></h4>
+<p>They are implementations of a functionality (Port) for a given product/technology. Clients should
+only use ports' code (not Adapters specific code), this makes easy to switch among different
+adapters with minimum impact.</p>
+<p>Adapters are independent of each other, but you can use several adapters for the same port in a
+single application.</p>
+<h4 id="manager">Manager<a class="headerlink" href="#manager" title="Permanent link">&para;</a></h4>
+<p>Singleton object to manage a cross toolkit aspect. I.e.: Serialization, Injection or Settings.</p>
 <h2 id="toolkit-structure">Toolkit Structure<a class="headerlink" href="#toolkit-structure" title="Permanent link">&para;</a></h2>
-<p>The project is composed by modules, each module provide a single functionality. There are three kind
-of modules:</p>
+<p>The project is composed by modules, each module provide a single functionality. There are three
+kinds of modules:</p>
 <ul>
 <li>The ones that provide a functionality that does not depend on different implementations, like
   <a href="/hexagon_scheduler/index.html">hexagon_scheduler</a> or <a href="/hexagon_core/index.html">hexagon_core</a>. Their name always start with the <code class="codehilite"><span class="err">hexagon_</span></code> prefix. These
   modules can depend on several Ports, but never on Adapters (see below).</li>
 <li>Modules that define a "Port": these are interfaces to a feature that may have different
-  implementations (ie: <a href="/port_http_server/index.html">port_http_server</a> or <a href="/port_store/index.html">port_store</a>). They can not be used by themselves and
-  in their place, an adapter implementing them should be added to the list of dependencies. These
-  modules names start with the <code class="codehilite"><span class="err">port_</span></code> prefix. Ports are independent from each other.</li>
-<li>Adapter modules, which are Port implementations for a given tool. <a href="/store_mongodb/index.html">store_mongodb</a> and
+  implementations (ie: <a href="/port_http_server/index.html">port_http_server</a> or <a href="/port_store/index.html">port_store</a>). They cannot be used by themselves and in
+  their place, an adapter implementing them should be added to the list of dependencies. These
+  modules' names start with the <code class="codehilite"><span class="err">port_</span></code> prefix. Ports are independent of each other.</li>
+<li>Adapter modules, which are Port implementations for a given tool, <a href="/store_mongodb/index.html">store_mongodb</a> and
   <a href="/messaging_rabbitmq/index.html">messaging_rabbitmq</a> are examples of this type of modules. Adapter names must start with their
   port name.</li>
 </ul>
 <h2 id="hexagon-core">Hexagon Core<a class="headerlink" href="#hexagon-core" title="Permanent link">&para;</a></h2>
 <p>The <a href="/hexagon_core/index.html">Hexagon Core</a> module is used by all other libraries, so it would be added to your project
 anyway just by using any adapter.</p>
+<p>Core utilities like settings handling, logging, serialization and dependency injection.
+The toolkit's ports are designed to use core functionalities. You can use a third party DI library
+instead using the Core one. It depends on Logback and Jackson.</p>
 <p>The main features it has are:</p>
 <ul>
 <li><a href="/hexagon_core/com.hexagonkt.helpers">Helpers</a>: JVM information, a logger and other useful utilities.</li>
@@ -1291,7 +1341,10 @@ anyway just by using any adapter.</p>
 <p>The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.</p>
 <ul>
-<li><a href="/hexagon_scheduler/index.html">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.</li>
+<li><a href="/hexagon_scheduler/index.html">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.
+  However, you have to be careful to not run tasks twice if you have many instances.</li>
+<li><a href="/hexagon_web/index.html">Web</a>: this module is meant to ease web applications development. Provides helpers for
+  generating HTML and depends on the <a href="/port_http_server/index.html">HTTP Server</a> and <a href="/port_templates/index.html">Templates</a> ports.</li>
 </ul>
 <h2 id="toolkit-ports">Toolkit Ports<a class="headerlink" href="#toolkit-ports" title="Permanent link">&para;</a></h2>
 <p>These modules define features that need an specific implementation. You can use many implementations

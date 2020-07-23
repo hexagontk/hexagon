@@ -104,7 +104,7 @@
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web" />
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework" />
 <meta name="application-name" content="Hexagon" />
 <meta name="theme-color" content="#135AA1" />
 
@@ -171,7 +171,7 @@ if ('serviceWorker' in navigator)
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#packages" tabindex="0" class="md-skip">
+      <a href="#install-dependency" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -469,18 +469,6 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
-    <a href="../create_applications/" title="Create Applications" class="md-nav__link">
-      Create Applications
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../gradle/" title="Gradle Helpers" class="md-nav__link">
       Gradle Helpers
     </a>
@@ -573,6 +561,20 @@ if ('serviceWorker' in navigator)
   
     <label class="md-nav__title" for="__toc">Page Contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-dependency" class="md-nav__link">
+    Install Dependency
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#packages" class="md-nav__link">
@@ -1174,6 +1176,20 @@ if ('serviceWorker' in navigator)
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#install-dependency" class="md-nav__link">
+    Install Dependency
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#packages" class="md-nav__link">
     Packages
   </a>
@@ -1215,15 +1231,48 @@ if ('serviceWorker' in navigator)
     <h1>Scheduler</h1>
   
   <p><a href="./">hexagon_scheduler</a></p>
-<p>Repeated tasks execution based on <a href="https://en.wikipedia.org/wiki/Cron">Cron</a> expressions for Hexagon framework. It uses the
+<p>Provides repeated tasks execution based on <a href="https://en.wikipedia.org/wiki/Cron">Cron</a> expressions for Hexagon framework. It uses the
 <a href="http://cron-parser.com">Cron-utils Java Library</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>In some platforms I.e.: Kubernetes there is a way to execute repeated tasks, you should take
-advantage of them as using your own service will raise problems scaling those services'
-instances (you will have to coordinate them)</p>
+<p>In some platforms (i.e.: Kubernetes) there is a way to execute repeated tasks, you could take
+advantage of them, as using your own service will raise problems scaling those services'
+instances (you will have to coordinate them).</p>
 </div>
-<p>You can check an usage example in the following method:</p>
+<p>This feature does not include any sort of synchronization if you have many instances of a scheduler
+service. If you want your scheduled jobs to be executed just once, you have to take care of
+synchronization yourself.</p>
+<h4 id="install-dependency">Install Dependency<a class="headerlink" href="#install-dependency" title="Permanent link">&para;</a></h4>
+<div class="superfences-tabs">
+<input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
+<label for="__tab_1_0">build.gradle</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
+    <span class="n">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:hexagon_scheduler:$hexagonVersion&quot;</span><span class="o">)</span>
+</code></pre></div>
+</td></tr></table></div>
+<input name="__tabs_1" type="radio" id="__tab_1_1" />
+<label for="__tab_1_1">pom.xml</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>hexagon_scheduler<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+</td></tr></table></div>
+</div>
+<h4 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h4>
+<p>You can check a usage example in the following code:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -1234,10 +1283,12 @@ instances (you will have to coordinate them)</p>
  8
  9
 10
-11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">cron</span> <span class="p">=</span> <span class="n">CronScheduler</span><span class="p">()</span>
+11
+12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">cron</span> <span class="p">=</span> <span class="n">CronScheduler</span><span class="p">()</span>
 <span class="k">val</span> <span class="py">times</span> <span class="p">=</span> <span class="m">1</span>
 <span class="k">var</span> <span class="py">count</span> <span class="p">=</span> <span class="m">0</span>
 
+<span class="c1">// Increments the counter by one each second</span>
 <span class="n">cron</span><span class="p">.</span><span class="n">schedule</span><span class="p">(</span><span class="s">&quot;0/1 * * * * ?&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">count</span><span class="p">++</span>
 <span class="p">}</span>

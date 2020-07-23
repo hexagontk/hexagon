@@ -104,7 +104,7 @@
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web" />
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework" />
 <meta name="application-name" content="Hexagon" />
 <meta name="theme-color" content="#135AA1" />
 
@@ -461,18 +461,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="../port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
       HTTP Client
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../create_applications/" title="Create Applications" class="md-nav__link">
-      Create Applications
     </a>
   </li>
 
@@ -1429,7 +1417,6 @@ development machine.</p>
 <li>Set up coverage report</li>
 <li>IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)</li>
 <li>Published artifacts (binaries, sources and test): sourcesJar and testJar tasks</li>
-<li>Jar with dependencies: jarAll task</li>
 </ul>
 <p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/kotlin.gradle</span></code> and add the
 <code class="codehilite"><span class="err">id &#39;org.jetbrains.kotlin.jvm&#39; version &#39;VERSION&#39;</span></code> plugin to the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
@@ -1448,7 +1435,7 @@ development machine.</p>
 <li><code class="codehilite"><span class="err">assembleWeb</span></code>: copies all project resources and JavaScript files to <code class="codehilite"><span class="err">build/web</span></code>.</li>
 </ul>
 <p>IMPORTANT: This script must be applied at the end of the build script.</p>
-<p>To use it apply <code class="codehilite"><span class="err">$gradleScripts/kotlin_js.gradle</span></code> at the end of the build script, also apply the
+<p>To use it, apply <code class="codehilite"><span class="err">$gradleScripts/kotlin_js.gradle</span></code> at the end of the build script, also apply the
 <code class="codehilite"><span class="err">kotlin2js</span></code> plugin. And finally, add the <code class="codehilite"><span class="err">id &#39;org.jetbrains.kotlin.jvm&#39; version &#39;VERSION&#39;</span></code> plugin to
 the root <code class="codehilite"><span class="err">build.gradle</span></code>.</p>
 <p>Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).</p>
@@ -1457,12 +1444,12 @@ the root <code class="codehilite"><span class="err">build.gradle</span></code>.<
 <li>javaScriptDirectory: JavaScript directory inside the <code class="codehilite"><span class="err">web</span></code> directory. By default, it is: "js".</li>
 </ul>
 <h3 id="application">Application<a class="headerlink" href="#application" title="Permanent link">&para;</a></h3>
-<p>Gradle's script for a service or application. It adds two extra tasks:</p>
+<p>Gradle's script for a service or application. It adds these extra tasks:</p>
 <ul>
 <li>buildInfo: add configuration file (<code class="codehilite"><span class="err">application.properties</span></code>) with build variables to the package.
   It is executed automatically before compiling classes.</li>
-<li>watch: Run the application in another thread. This allows the possibility to watch source changes.
-  To run the application and watch for changes you need to execute this task with the <code class="codehilite"><span class="err">--continuous</span></code>
+<li>watch: run the application in another thread. Allows the possibility to watch source changes. To
+  run the application and watch for changes you need to execute this task with the <code class="codehilite"><span class="err">--continuous</span></code>
   (<code class="codehilite"><span class="err">-t</span></code>) Gradle flag. Ie: <code class="codehilite"><span class="err">gw -t watch</span></code>.</li>
 <li>jarAll: creates a single JAR with all dependencies, and the application main class set up. This
   task is an alternative to the Gradle <code class="codehilite"><span class="err">installDist</span></code> task.</li>
@@ -1586,8 +1573,8 @@ you must apply the <code class="codehilite"><span class="err">$gradleScripts/doc
       <nav class="md-footer-nav__inner md-grid">
         
           <a
-            href="../create_applications/"
-            title="Create Applications"
+            href="../port_http_client/port_http_client/"
+            title="HTTP Client"
             class="md-flex md-footer-nav__link md-footer-nav__link--prev"
             rel="prev">
 
@@ -1599,7 +1586,7 @@ you must apply the <code class="codehilite"><span class="err">$gradleScripts/doc
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Create Applications
+                HTTP Client
               </span>
             </div>
           </a>

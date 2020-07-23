@@ -104,7 +104,7 @@
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web" />
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework" />
 <meta name="application-name" content="Hexagon" />
 <meta name="theme-color" content="#135AA1" />
 
@@ -457,18 +457,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="../../../port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
       HTTP Client
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../create_applications/" title="Create Applications" class="md-nav__link">
-      Create Applications
     </a>
   </li>
 
@@ -1156,8 +1144,8 @@ if ('serviceWorker' in navigator)
   
   <p><a href="../../">port_http_server</a> / <a href="../">com.hexagonkt.http.server</a> / <a href="./">serve</a></p>
 <h2 id="serve">serve<a class="headerlink" href="#serve" title="Permanent link">&para;</a></h2>
-<p><code class="codehilite"><span class="err">fun serve(settings:</span></code><a href="../-server-settings/"><code class="codehilite"><span class="err">ServerSettings</span></code></a><code class="codehilite"><span class="err">= ServerSettings(), router:</span></code><a href="../-router/"><code class="codehilite"><span class="err">Router</span></code></a><code class="codehilite"><span class="err">, port:</span></code><a href="../-server-port/"><code class="codehilite"><span class="err">ServerPort</span></code></a><code class="codehilite"><span class="err">= InjectionManager.inject()):</span></code><a href="../-server/"><code class="codehilite"><span class="err">Server</span></code></a>
-<code class="codehilite"><span class="err">fun serve(settings:</span></code><a href="../-server-settings/"><code class="codehilite"><span class="err">ServerSettings</span></code></a><code class="codehilite"><span class="err">= ServerSettings(), port:</span></code><a href="../-server-port/"><code class="codehilite"><span class="err">ServerPort</span></code></a><code class="codehilite"><span class="err">= InjectionManager.inject(), block:</span></code><a href="../-router/"><code class="codehilite"><span class="err">Router</span></code></a><code class="codehilite"><span class="err">.() -&gt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code class="codehilite"><span class="err">Unit</span></code></a><code class="codehilite"><span class="err">):</span></code><a href="../-server/"><code class="codehilite"><span class="err">Server</span></code></a></p>
+<p><code class="codehilite"><span class="err">fun serve(settings:</span></code><a href="../-server-settings/"><code class="codehilite"><span class="err">ServerSettings</span></code></a><code class="codehilite"><span class="err">= ServerSettings(), router:</span></code><a href="../-router/"><code class="codehilite"><span class="err">Router</span></code></a><code class="codehilite"><span class="err">, adapter:</span></code><a href="../-server-port/"><code class="codehilite"><span class="err">ServerPort</span></code></a><code class="codehilite"><span class="err">= InjectionManager.inject()):</span></code><a href="../-server/"><code class="codehilite"><span class="err">Server</span></code></a>
+<code class="codehilite"><span class="err">fun serve(settings:</span></code><a href="../-server-settings/"><code class="codehilite"><span class="err">ServerSettings</span></code></a><code class="codehilite"><span class="err">= ServerSettings(), adapter:</span></code><a href="../-server-port/"><code class="codehilite"><span class="err">ServerPort</span></code></a><code class="codehilite"><span class="err">= InjectionManager.inject(), block:</span></code><a href="../-router/"><code class="codehilite"><span class="err">Router</span></code></a><code class="codehilite"><span class="err">.() -&gt;</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code class="codehilite"><span class="err">Unit</span></code></a><code class="codehilite"><span class="err">):</span></code><a href="../-server/"><code class="codehilite"><span class="err">Server</span></code></a></p>
   
     
   

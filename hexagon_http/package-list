@@ -1,0 +1,5 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+$dokka.location:com.hexagonkt.http$urlDecode(kotlin.String)com.hexagonkt.http/kotlin.-string/url-decode.md
+$dokka.location:com.hexagonkt.http$urlEncode(kotlin.String)com.hexagonkt.http/kotlin.-string/url-encode.md
+com.hexagonkt.http
