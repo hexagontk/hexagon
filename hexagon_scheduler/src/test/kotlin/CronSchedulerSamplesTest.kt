@@ -10,6 +10,7 @@ class CronSchedulerSamplesTest {
         val times = 1
         var count = 0
 
+        // Increments the counter by one each second
         cron.schedule("0/1 * * * * ?") {
             count++
         }

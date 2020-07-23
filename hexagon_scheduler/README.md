@@ -5,9 +5,9 @@ Provides repeated tasks execution based on [Cron] expressions for Hexagon framew
 [Cron-utils Java Library].
 
 !!! Note
-    In some platforms I.e.: Kubernetes there is a way to execute repeated tasks, you should take
-    advantage of them as using your own service will raise problems scaling those services'
-    instances (you will have to coordinate them)
+    In some platforms (i.e.: Kubernetes) there is a way to execute repeated tasks, you could take
+    advantage of them, as using your own service will raise problems scaling those services'
+    instances (you will have to coordinate them).
 
 This feature does not include any sort of synchronization if you have many instances of a scheduler
 service. If you want your scheduled jobs to be executed just once, you have to take care of
