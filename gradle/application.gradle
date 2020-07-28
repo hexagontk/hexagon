@@ -4,8 +4,6 @@
 
 apply(plugin: "application")
 
-defaultTasks("installDist")
-
 classes.dependsOn("buildInfo")
 
 task("buildInfo") {

@@ -13,7 +13,7 @@ jobs:
 
     steps:
       # SET UP
-      - name: Checkout
+      - name: Check Out
         uses: actions/checkout@v2
 
       - name: Install Java
