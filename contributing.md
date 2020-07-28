@@ -1,21 +1,45 @@
 
 # Contributing
 
-You can contribute code or documentation to the framework. This document will guide you through the
+You can contribute code or documentation to the toolkit. This document will guide you through the
 process or picking a task and building the code.
-
-To know what issues are currently open and be aware of the next features you can check the
-[Project Board] at GitHub. Issues with the [help wanted] tag are recommended for a first time
-contribution.
 
 You can ask any question, make suggestions or complaints at the project's
 [Slack channel][Slack]. You can also be up to date of project's news following [@hexagon_kt] on
 Twitter.
 
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
+[Organization Board]: https://github.com/orgs/hexagonkt/projects/1
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
 [@hexagon_kt]: https://twitter.com/hexagon_kt
 [help wanted]: https://github.com/hexagonkt/hexagon/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
+
+## Contribution Steps
+
+1. You can check available tasks in the [Project Board] or the [Organization Board]. Issues with the
+   [help wanted] tag in the `Ready` column are recommended for a first time contribution.
+2. Claim an issue you want to work in with a comment (after that I can assign it to you and move it
+   to the `Working` column. If you want to contribute to a non tagged (or a non existing) tasks:
+   write a comment, and we'll discuss the scope of the feature.
+3. New features should be discussed within an issue in the issue tracker before actual coding. You
+   may do a PR directly, but you take the risk of it being not suitable and discarded.
+4. For code, file names, tags and branches use either camel case or snake case only. I.e.: avoid `-`
+   or `.` in file names if it is possible.
+5. For a Pull Request to be accepted, follow the [pull request template] recommendations. Check the
+   code follows the [Kotlin Coding Conventions], except final brace position in `else`, `catch` and
+   `finally` (in its own line). If you use [IntelliJ] and [Editor Config] this will be checked for
+   you.
+6. Follow the commit rules defined at the [commit template].
+7. Bug format: when filing bugs please comply with the [bug template] requirements.
+8. A feature requests should follow the [enhancement template] rules.
+
+[pull request template]: https://github.com/hexagonkt/hexagon/blob/master/.github/pull_request_template.md
+[IntelliJ]: https://www.jetbrains.com/idea
+[Editor Config]: https://editorconfig.org
+[Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
+[commit template]: https://github.com/hexagonkt/hexagon/blob/master/.github/commit_template.txt
+[bug template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/bug.md
+[enhancement template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/enhancement.md
 
 ## Project Structure
 
@@ -95,37 +119,3 @@ For Continuous Integration runners, you need to import the keys inside the `grad
 ```shell script
 gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint
 ```
-
-## Contribute
-
-* You can check available tasks in the [Project Board] and pick one of the issues with the
-  `help wanted` tag available in the `Ready` column.
-* Claim an issue you want to work in with a comment (after that I can assign it to you and move it
-  to the `Working` column. If you want to contribute to a non tagged (or a non existing) tasks:
-  write a comment, and we'll discuss the scope of the feature.
-* New features should be discussed within an issue in the issue tracker before actual coding. You
-  may do a PR directly, but you take the risk of it being not suitable and discarded.
-* For code, file names, tags and branches use either camel case or snake case only. I.e.: avoid `-`
-  or `.` in file names if it is possible.
-* For a Pull Request to be accepted, follow the [pull request template] recommendations. Check the
-  code follows the [Kotlin Coding Conventions], except final brace position in `else`, `catch` and
-  `finally` (in its own line). If you use [IntelliJ] and [Editor Config] this will be checked for
-  you.
-* Follow the commit rules defined at the [commit template](.github/commit_template.txt)
-* Bug format: when filing bugs please comply with the [bug template] requirements.
-* A feature requests should follow the [enhancement template] rules.
-
-[pull request template]: https://github.com/hexagonkt/hexagon/blob/master/.github/pull_request_template.md
-[IntelliJ]: https://www.jetbrains.com/idea
-[Editor Config]: https://editorconfig.org
-[Kotlin Coding Conventions]: https://kotlinlang.org/docs/reference/coding-conventions.html
-[bug template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/bug.md
-[enhancement template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/enhancement.md
-
-## Tasks and Milestones
-
-Project's tasks and milestones are tracked in a [GitHub board][Project Board]. You can use that
-board to check the roadmap, vote the features you want (using [issue reactions]) or to pick tasks
-that you wish to contribute.
-
-[issue reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments

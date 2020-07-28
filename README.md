@@ -422,7 +422,7 @@ If you feel like you can do more. You can contribute to the project in different
 * And... Drum roll... Submitting [code or documentation][contributing].
 
 To know what issues are currently open and be aware of the next features you can check the
-[Project Board] at GitHub.
+[Project Board] and the [Organization Board] at GitHub.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. You can
 be up to date of project's news following [@hexagon_kt] on Twitter.
@@ -438,6 +438,7 @@ Thanks to all project's [contributors]!
 [reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
 [contributing]: contributing.md
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
+[Organization Board]: https://github.com/orgs/hexagonkt/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
 [CodeTriage]: https://www.codetriage.com/hexagonkt/hexagon
 
