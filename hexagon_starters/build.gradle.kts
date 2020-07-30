@@ -14,12 +14,16 @@ publishing {
         createPomPublication("kotlin_pom") { pomDom ->
             properties.set(mapOf(
                 "project.build.sourceEncoding" to Charsets.UTF_8.name(),
+                "maven.compiler.source" to "11",
+                "maven.compiler.target" to "11",
                 "kotlin.version" to project.properties["kotlinVersion"].toString(),
+                "mockk.version" to project.properties["mockkVersion"].toString(),
+                "kotest.version" to project.properties["kotestVersion"].toString(),
                 "hexagon.version" to rootProject.version.toString()
             ))
 
             withXml {
-                listOf("repositories", "dependencyManagement", "build").forEach {
+                listOf("repositories", "dependencyManagement", "dependencies", "build").forEach {
                     asElement().importElement(pomDom.firstElement(it))
                 }
             }
