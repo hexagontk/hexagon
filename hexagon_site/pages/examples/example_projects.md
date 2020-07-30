@@ -19,12 +19,7 @@ checked [here ↗][Contact Application].
 Mini Twitter clone application showcasing the use of template rendering, handling form data and
 integration with MongoDB. You can find the repository [here ↗][Twitter Clone].
 
-# [Flyhopper]
-
-Example REST service using Ryanair's APIs. You can find the repository [here ↗][Flyhopper].
-
 [Todo-Backend]: https://github.com/hexagonkt/todo_backend
 [Real World]: https://github.com/hexagonkt/real_world
 [Contact Application]: https://github.com/hexagonkt/contact_application
 [Twitter Clone]: https://github.com/hexagonkt/twitter_clone
-[Flyhopper]: https://github.com/hexagonkt/flyhopper
