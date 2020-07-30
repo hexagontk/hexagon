@@ -1,6 +1,6 @@
 package com.hexagonkt.scheduler
 
-import com.hexagonkt.helpers.error
+import com.hexagonkt.helpers.fail
 import com.cronutils.model.CronType.QUARTZ
 import com.cronutils.model.definition.CronDefinitionBuilder.instanceDefinitionFor as cronDefinition
 import com.cronutils.model.time.ExecutionTime
@@ -54,7 +54,7 @@ class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
     }
 
     private fun delay(cronExecution: ExecutionTime): Long =
-        cronExecution.timeToNextExecution(ZonedDateTime.now()).orElseThrow { error }.seconds
+        cronExecution.timeToNextExecution(ZonedDateTime.now()).orElseThrow { fail }.seconds
 
     private fun function(callback: () -> Unit, cronExecution: ExecutionTime) {
         try {

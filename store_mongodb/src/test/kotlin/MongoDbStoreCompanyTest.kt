@@ -1,7 +1,7 @@
 package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.Resource
-import com.hexagonkt.helpers.error
+import com.hexagonkt.helpers.fail
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.IndexOrder.DESCENDING
@@ -147,7 +147,7 @@ class MongoDbStoreCompanyTest {
 
         val keys = store.saveMany(testEntities)
 
-        val entities = keys.map { store.findOne(it ?: error) }
+        val entities = keys.map { store.findOne(it ?: fail) }
 
         assert(entities.map { it?.id }.all { it in keys })
 
