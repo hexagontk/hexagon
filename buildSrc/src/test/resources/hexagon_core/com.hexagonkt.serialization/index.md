@@ -19,7 +19,7 @@ Parse/serialize data in different formats to class instances.
 
 | Name | Summary |
 |---|---|
-| [ParseException](-parse-exception/index.md) | `class ParseException : `[`RuntimeException`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-runtime-exception/index.html) |
+| [ParseException](-parse-exception/index.md) | `class ParseException : `[`RuntimeException`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-runtime-exception) |
 
 ### Extensions for External Classes
 
@@ -37,5 +37,5 @@ Parse/serialize data in different formats to class instances.
 
 | Name | Summary |
 |---|---|
-| [parse](parse.md) | `fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parse(type: `[`KClass`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html)`<T>): T`<br>`fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parse(): T` |
-| [parseObjects](parse-objects.md) | `fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parseObjects(type: `[`KClass`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html)`<T>): `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<T>`<br>`fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parseObjects(): `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)`<T>` |
+| [parse](parse.md) | `fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parse(type: `[`KClass`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class)`<T>): T`<br>`fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parse(): T` |
+| [parseObjects](parse-objects.md) | `fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parseObjects(type: `[`KClass`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class)`<T>): `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list)`<T>`<br>`fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parseObjects(): `[`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list)`<T>` |
