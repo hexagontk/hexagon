@@ -6,7 +6,7 @@ import org.w3c.dom.Element
 apply(from = "../gradle/publish.gradle")
 
 plugins {
-    `maven-publish`
+    id("maven-publish")
 }
 
 publishing {
