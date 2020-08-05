@@ -121,6 +121,7 @@ tasks.withType(Test).each { testTask ->
 
 jacocoTestReport {
     dependsOn("check")
+    executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     reports {
         xml.enabled = true
         html.enabled = true
