@@ -171,7 +171,7 @@ if ('serviceWorker' in navigator)
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#packages" tabindex="0" class="md-skip">
+      <a href="#install-the-dependency" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -716,6 +716,13 @@ if ('serviceWorker' in navigator)
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#packages" class="md-nav__link">
     Packages
   </a>
@@ -1062,6 +1069,42 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
+    <a href="../planning/" title="Planning" class="md-nav__link">
+      Planning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/hexagonkt" title="GitHub ↗" class="md-nav__link">
+      GitHub ↗
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="https://dev.to/hexagonkt" title="Dev.to ↗" class="md-nav__link">
       Dev.to ↗
     </a>
@@ -1092,54 +1135,6 @@ if ('serviceWorker' in navigator)
   </li>
 
         
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/blob/master/contributing.md" title="Contributing ↗" class="md-nav__link">
-      Contributing ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/projects/1" title="Planning ↗" class="md-nav__link">
-      Planning ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/milestones" title="Roadmap ↗" class="md-nav__link">
-      Roadmap ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt" title="Organization ↗" class="md-nav__link">
-      Organization ↗
-    </a>
-  </li>
-
-        
       </ul>
     </nav>
   </li>
@@ -1162,6 +1157,13 @@ if ('serviceWorker' in navigator)
   
     <label class="md-nav__title" for="__toc">Page Contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#packages" class="md-nav__link">
@@ -1205,6 +1207,36 @@ if ('serviceWorker' in navigator)
     <h1>Jetty</h1>
   
   <p><a href="./">http_server_jetty</a></p>
+<p><a href="https://www.eclipse.org/jetty">Jetty</a> adapter for the <a href="/port_http_server">port_http_server</a> port.</p>
+<h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
+<div class="superfences-tabs">
+<input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
+<label for="__tab_1_0">build.gradle</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
+    <span class="n">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:http_server_jetty:$hexagonVersion&quot;</span><span class="o">)</span>
+</code></pre></div>
+</td></tr></table></div>
+<input name="__tabs_1" type="radio" id="__tab_1_1" />
+<label for="__tab_1_1">pom.xml</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>http_server_jetty<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+</td></tr></table></div>
+</div>
 <h4 id="packages">Packages<a class="headerlink" href="#packages" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -1216,7 +1248,7 @@ if ('serviceWorker' in navigator)
 <tbody>
 <tr>
 <td><a href="com.hexagonkt.http.server.jetty/">com.hexagonkt.http.server.jetty</a></td>
-<td></td>
+<td>Code implementing the Jetty HTTP server adapter.</td>
 </tr>
 </tbody>
 </table>

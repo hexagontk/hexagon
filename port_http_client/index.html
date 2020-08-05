@@ -171,7 +171,7 @@ if ('serviceWorker' in navigator)
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#install-dependency" tabindex="0" class="md-skip">
+      <a href="#install-the-dependency" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -623,8 +623,15 @@ if ('serviceWorker' in navigator)
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-dependency" class="md-nav__link">
-    Install Dependency
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-an-http-client" class="md-nav__link">
+    Create an HTTP client
   </a>
   
 </li>
@@ -632,6 +639,13 @@ if ('serviceWorker' in navigator)
         <li class="md-nav__item">
   <a href="#settings" class="md-nav__link">
     Settings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#send-simple-requests" class="md-nav__link">
+    Send simple requests
   </a>
   
 </li>
@@ -646,6 +660,13 @@ if ('serviceWorker' in navigator)
         <li class="md-nav__item">
   <a href="#responses" class="md-nav__link">
     Responses
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authorization" class="md-nav__link">
+    Authorization
   </a>
   
 </li>
@@ -1129,6 +1150,42 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
+    <a href="../planning/" title="Planning" class="md-nav__link">
+      Planning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/hexagonkt" title="GitHub ↗" class="md-nav__link">
+      GitHub ↗
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="https://dev.to/hexagonkt" title="Dev.to ↗" class="md-nav__link">
       Dev.to ↗
     </a>
@@ -1159,54 +1216,6 @@ if ('serviceWorker' in navigator)
   </li>
 
         
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/blob/master/contributing.md" title="Contributing ↗" class="md-nav__link">
-      Contributing ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/projects/1" title="Planning ↗" class="md-nav__link">
-      Planning ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/milestones" title="Roadmap ↗" class="md-nav__link">
-      Roadmap ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt" title="Organization ↗" class="md-nav__link">
-      Organization ↗
-    </a>
-  </li>
-
-        
       </ul>
     </nav>
   </li>
@@ -1231,8 +1240,15 @@ if ('serviceWorker' in navigator)
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-dependency" class="md-nav__link">
-    Install Dependency
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-an-http-client" class="md-nav__link">
+    Create an HTTP client
   </a>
   
 </li>
@@ -1240,6 +1256,13 @@ if ('serviceWorker' in navigator)
         <li class="md-nav__item">
   <a href="#settings" class="md-nav__link">
     Settings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#send-simple-requests" class="md-nav__link">
+    Send simple requests
   </a>
   
 </li>
@@ -1254,6 +1277,13 @@ if ('serviceWorker' in navigator)
         <li class="md-nav__item">
   <a href="#responses" class="md-nav__link">
     Responses
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authorization" class="md-nav__link">
+    Authorization
   </a>
   
 </li>
@@ -1343,56 +1373,61 @@ if ('serviceWorker' in navigator)
   <p><a href="./">port_http_client</a></p>
 <p>This port provides a common interface for using HTTP clients. Many adapters can be developed to use
 different technologies.</p>
-<p>The functionality provided are:</p>
+<p>Its main functionalities are:</p>
 <ul>
-<li>Security</li>
+<li>HTTP, HTTPS and HTTP/2 support</li>
+<li>Mutual TLS</li>
+<li>Body encoding/decoding</li>
+<li>Request/response exchange</li>
+<li>Form submissions</li>
+<li>Cookie management</li>
+<li>File uploading/downloading</li>
 </ul>
-<h4 id="install-dependency">Install Dependency<a class="headerlink" href="#install-dependency" title="Permanent link">&para;</a></h4>
-<div class="superfences-tabs">
-<input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
-<label for="__tab_1_0">build.gradle</label>
-<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
-    <span class="n">mavenCentral</span><span class="o">()</span>
-<span class="o">}</span>
-
-<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:port_http_client:$hexagonVersion&quot;</span><span class="o">)</span>
-</code></pre></div>
-</td></tr></table></div>
-<input name="__tabs_1" type="radio" id="__tab_1_1" />
-<label for="__tab_1_1">pom.xml</label>
-<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
-  <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
-  <span class="nt">&lt;artifactId&gt;</span>port_http_client<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div>
-</td></tr></table></div>
-</div>
-<h4 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h4>
+<h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
+<p>This module is not meant to be used directly. You should include and Adapter implementing this
+feature (as <a href="/http_client_ahc">http_client_ahc</a>) in order to create HTTP clients.</p>
+<h4 id="create-an-http-client">Create an HTTP client<a class="headerlink" href="#create-an-http-client" title="Permanent link">&para;</a></h4>
+<p>You create an HTTP Client instance with default options as follows:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
 5
-6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    val contentType: String? = null,
-    val useCookies: Boolean = true,
-    val headers: Map<span class="nt">&lt;String</span><span class="err">,</span> <span class="err">List&lt;String</span><span class="nt">&gt;</span>&gt; = LinkedHashMap(),
-    val user: String? = null,
-    val password: String? = null,
-    val insecure: Boolean = false,
+6
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c1">// Adapter injected</span>
+<span class="n">Client</span><span class="p">()</span>
+<span class="n">Client</span><span class="p">(</span><span class="s">&quot;http://host:1234/base&quot;</span><span class="p">)</span>
+
+<span class="c1">// Adapter provided explicitly</span>
+<span class="n">Client</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span>
+<span class="n">Client</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="s">&quot;http://host:1234/base&quot;</span><span class="p">)</span>
 </code></pre></div>
 </td></tr></table>
 
+<h4 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h4>
+<p>If you want to configure options for the client, you create it with the following code:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">Client</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">ClientSettings</span><span class="p">(</span>
+    <span class="n">contentType</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span>
+    <span class="n">useCookies</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+    <span class="n">headers</span> <span class="p">=</span> <span class="n">LinkedHashMap</span><span class="p">(),</span>
+    <span class="n">user</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span>
+    <span class="n">password</span> <span class="p">=</span> <span class="k">null</span><span class="p">,</span>
+    <span class="n">insecure</span> <span class="p">=</span> <span class="k">false</span>
+<span class="p">))</span>
+</code></pre></div>
+</td></tr></table>
+
+<h4 id="send-simple-requests">Send simple requests<a class="headerlink" href="#send-simple-requests" title="Permanent link">&para;</a></h4>
 <h4 id="requests">Requests<a class="headerlink" href="#requests" title="Permanent link">&para;</a></h4>
 <h4 id="responses">Responses<a class="headerlink" href="#responses" title="Permanent link">&para;</a></h4>
+<h4 id="authorization">Authorization<a class="headerlink" href="#authorization" title="Permanent link">&para;</a></h4>
 <h4 id="cookies">Cookies<a class="headerlink" href="#cookies" title="Permanent link">&para;</a></h4>
 <h4 id="tls">TLS<a class="headerlink" href="#tls" title="Permanent link">&para;</a></h4>
 <h5 id="key-store">Key Store<a class="headerlink" href="#key-store" title="Permanent link">&para;</a></h5>
@@ -1409,7 +1444,7 @@ different technologies.</p>
 <tbody>
 <tr>
 <td><a href="com.hexagonkt.http.client/">com.hexagonkt.http.client</a></td>
-<td></td>
+<td>This package holds the classes that define the HTTP client and its configuration settings.</td>
 </tr>
 </tbody>
 </table>

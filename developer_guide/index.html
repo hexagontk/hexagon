@@ -1106,6 +1106,42 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
+    <a href="../planning/" title="Planning" class="md-nav__link">
+      Planning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/hexagonkt" title="GitHub ↗" class="md-nav__link">
+      GitHub ↗
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="https://dev.to/hexagonkt" title="Dev.to ↗" class="md-nav__link">
       Dev.to ↗
     </a>
@@ -1132,54 +1168,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="https://stackshare.io/hexagon" title="StackShare ↗" class="md-nav__link">
       StackShare ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/blob/master/contributing.md" title="Contributing ↗" class="md-nav__link">
-      Contributing ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/projects/1" title="Planning ↗" class="md-nav__link">
-      Planning ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/milestones" title="Roadmap ↗" class="md-nav__link">
-      Roadmap ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt" title="Organization ↗" class="md-nav__link">
-      Organization ↗
     </a>
   </li>
 
@@ -1314,18 +1302,18 @@ single application.</p>
 kinds of modules:</p>
 <ul>
 <li>The ones that provide a functionality that does not depend on different implementations, like
-  <a href="/hexagon_scheduler/index.html">hexagon_scheduler</a> or <a href="/hexagon_core/index.html">hexagon_core</a>. Their name always start with the <code class="codehilite"><span class="err">hexagon_</span></code> prefix. These
+  <a href="/hexagon_scheduler">hexagon_scheduler</a> or <a href="/hexagon_core">hexagon_core</a>. Their name always start with the <code class="codehilite"><span class="err">hexagon_</span></code> prefix. These
   modules can depend on several Ports, but never on Adapters (see below).</li>
 <li>Modules that define a "Port": these are interfaces to a feature that may have different
-  implementations (ie: <a href="/port_http_server/index.html">port_http_server</a> or <a href="/port_store/index.html">port_store</a>). They cannot be used by themselves and in
+  implementations (ie: <a href="/port_http_server">port_http_server</a> or <a href="/port_store">port_store</a>). They cannot be used by themselves and in
   their place, an adapter implementing them should be added to the list of dependencies. These
   modules' names start with the <code class="codehilite"><span class="err">port_</span></code> prefix. Ports are independent of each other.</li>
-<li>Adapter modules, which are Port implementations for a given tool, <a href="/store_mongodb/index.html">store_mongodb</a> and
-  <a href="/messaging_rabbitmq/index.html">messaging_rabbitmq</a> are examples of this type of modules. Adapter names must start with their
+<li>Adapter modules, which are Port implementations for a given tool, <a href="/store_mongodb">store_mongodb</a> and
+  <a href="/messaging_rabbitmq">messaging_rabbitmq</a> are examples of this type of modules. Adapter names must start with their
   port name.</li>
 </ul>
 <h2 id="hexagon-core">Hexagon Core<a class="headerlink" href="#hexagon-core" title="Permanent link">&para;</a></h2>
-<p>The <a href="/hexagon_core/index.html">Hexagon Core</a> module is used by all other libraries, so it would be added to your project
+<p>The <a href="/hexagon_core">Hexagon Core</a> module is used by all other libraries, so it would be added to your project
 anyway just by using any adapter.</p>
 <p>Core utilities like settings handling, logging, serialization and dependency injection.
 The toolkit's ports are designed to use core functionalities. You can use a third party DI library
@@ -1341,10 +1329,10 @@ instead using the Core one. It depends on Logback and Jackson.</p>
 <p>The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.</p>
 <ul>
-<li><a href="/hexagon_scheduler/index.html">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.
+<li><a href="/hexagon_scheduler">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.
   However, you have to be careful to not run tasks twice if you have many instances.</li>
-<li><a href="/hexagon_web/index.html">Web</a>: this module is meant to ease web applications development. Provides helpers for
-  generating HTML and depends on the <a href="/port_http_server/index.html">HTTP Server</a> and <a href="/port_templates/index.html">Templates</a> ports.</li>
+<li><a href="/hexagon_web">Web</a>: this module is meant to ease web applications development. Provides helpers for
+  generating HTML and depends on the <a href="/port_http_server">HTTP Server</a> and <a href="/port_templates">Templates</a> ports.</li>
 </ul>
 <h2 id="toolkit-ports">Toolkit Ports<a class="headerlink" href="#toolkit-ports" title="Permanent link">&para;</a></h2>
 <p>These modules define features that need an specific implementation. You can use many implementations
@@ -1352,11 +1340,11 @@ of each port at the same time. You can even provide a custom implementations if 
 a particular use case.</p>
 <p>These are the implemented ports:</p>
 <ul>
-<li><a href="/port_http_server/index.html">HTTP Server</a>: describes how to use HTTP routing and HTML templates for Web services.</li>
-<li><a href="/port_http_client/index.html">HTTP Client</a>: documentation to use the HTTP client module to connect to other services.</li>
-<li><a href="/port_store/index.html">Storage</a>: gives an overview of how to store data using different data stores.</li>
-<li><a href="/port_messaging/index.html">Messaging</a>: how to support asynchronous communication with messages through message brokers.</li>
-<li><a href="/port_templates/index.html">Templates</a>: describes how to render pages using template engines.</li>
+<li><a href="/port_http_server">HTTP Server</a>: describes how to use HTTP routing and HTML templates for Web services.</li>
+<li><a href="/port_http_client">HTTP Client</a>: documentation to use the HTTP client module to connect to other services.</li>
+<li><a href="/port_store">Storage</a>: gives an overview of how to store data using different data stores.</li>
+<li><a href="/port_messaging">Messaging</a>: how to support asynchronous communication with messages through message brokers.</li>
+<li><a href="/port_templates">Templates</a>: describes how to render pages using template engines.</li>
 </ul>
   
     

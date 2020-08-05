@@ -478,6 +478,13 @@ if ('serviceWorker' in navigator)
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#server" class="md-nav__link">
     Server
   </a>
@@ -1296,6 +1303,42 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-nav__item">
+    <a href="../../planning/" title="Planning" class="md-nav__link">
+      Planning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="https://github.com/hexagonkt" title="GitHub ↗" class="md-nav__link">
+      GitHub ↗
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="https://dev.to/hexagonkt" title="Dev.to ↗" class="md-nav__link">
       Dev.to ↗
     </a>
@@ -1322,54 +1365,6 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="https://stackshare.io/hexagon" title="StackShare ↗" class="md-nav__link">
       StackShare ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/blob/master/contributing.md" title="Contributing ↗" class="md-nav__link">
-      Contributing ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/projects/1" title="Planning ↗" class="md-nav__link">
-      Planning ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt/hexagon/milestones" title="Roadmap ↗" class="md-nav__link">
-      Roadmap ↗
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt" title="Organization ↗" class="md-nav__link">
-      Organization ↗
     </a>
   </li>
 
@@ -1404,6 +1399,13 @@ if ('serviceWorker' in navigator)
   
     <nav class="md-nav">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#server" class="md-nav__link">
@@ -1679,10 +1681,13 @@ if ('serviceWorker' in navigator)
   <h2 id="module-port_http_server">Module port_http_server<a class="headerlink" href="#module-port_http_server" title="Permanent link">&para;</a></h2>
 <p>This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL
 to declare HTTP request handlers.</p>
-<p>Adapters implementing this port are responsible of transforming the DSL into a runtime. And allows
-you to switch implementations without changing the service.</p>
+<p>Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you
+to switch implementations without changing the service.</p>
 <p>The <a href="/hexagon_web">hexagon_web</a> module provides utilities on top of this port for Web application development
 (like templates helpers).</p>
+<h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
+<p>This module is not meant to be used directly. You should include and Adapter implementing this
+feature (as <a href="/http_server_jetty">http_server_jetty</a>) in order to create an HTTP server.</p>
 <h4 id="server">Server<a class="headerlink" href="#server" title="Permanent link">&para;</a></h4>
 <p>A server is a process listening to HTTP requests on a TCP port.</p>
 <p>You can run multiple ones on different ports at the same time (this can be useful to test many
