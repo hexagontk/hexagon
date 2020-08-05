@@ -1,7 +1,6 @@
 package com.hexagonkt.serialization
 
 import com.fasterxml.jackson.core.JsonParser.Feature.*
-import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.fasterxml.jackson.core.*
 import com.fasterxml.jackson.databind.DeserializationFeature.*
 import com.fasterxml.jackson.databind.SerializationFeature.*
@@ -36,7 +35,6 @@ internal object JacksonHelper {
         .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
         .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
         .configure(SORT_PROPERTIES_ALPHABETICALLY, false)
-        .setSerializationInclusion(NON_EMPTY)
         .setDateFormat(SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"))
         .registerModule(KotlinModule())
         .registerModule(JavaTimeModule())

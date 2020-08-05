@@ -9,8 +9,5 @@ dependencies {
     val cronutilsVersion = properties["cronutilsVersion"]
 
     "api"(project(":hexagon_core"))
-    "api"("com.cronutils:cron-utils:$cronutilsVersion") {
-        // TODO Remove when the scope is changed in cron-utils
-        exclude(group = "org.projectlombok")
-    }
+    "api"("com.cronutils:cron-utils:$cronutilsVersion")
 }

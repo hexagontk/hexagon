@@ -136,7 +136,7 @@ class RabbitMqClient(
                 (connection as Recoverable).addRecoveryListener(listener)
                 log.warn { "Rabbit connection RESTORED" }
             }
-            val channel = connection?.createChannel() ?: error
+            val channel = connection?.createChannel() ?: fail
             channel.basicQos(poolSize)
             channel.addShutdownListener(listener)
             (channel as Recoverable).addRecoveryListener(listener)

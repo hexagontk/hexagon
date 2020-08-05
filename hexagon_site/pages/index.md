@@ -33,7 +33,7 @@ The main ports are:
 
 * [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
   processing, cookies, sessions, CORS and more.
-* [The HTTP client]: which supports mutual TLS, HTTP/2 and cookies among other things.
+* [The HTTP client]: which supports mutual TLS, HTTP/2 and cookies among other features.
 
 Each of these features or ports may have different implementations called
 ["Adapters"][Ports and Adapters Architecture].
@@ -45,9 +45,9 @@ this architecture.
 [^1]: Except the Core module that contains a set of utilities like serialization and dependency
 injection. However, some of these capacities can be replaced by other third party libraries.
 
-[The HTTP server]: /port_http_server/index.html
-[The HTTP client]: /port_http_client/index.html
-[Core utilities]: /hexagon_core/index.html
+[The HTTP server]: /port_http_server
+[The HTTP client]: /port_http_client
+[Core utilities]: /hexagon_core
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture

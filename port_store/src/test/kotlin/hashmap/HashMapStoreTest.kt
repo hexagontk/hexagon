@@ -1,6 +1,6 @@
 package com.hexagonkt.store.hashmap
 
-import com.hexagonkt.helpers.error
+import com.hexagonkt.helpers.fail
 import com.hexagonkt.store.Store
 import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.BeforeEach
@@ -181,7 +181,7 @@ class HashMapStoreTest {
 
         val keys = store.saveMany(testEntities)
 
-        val entities = keys.map { store.findOne(it ?: error) }
+        val entities = keys.map { store.findOne(it ?: fail) }
 
         assert(entities.map { it?.id }.all { it in keys })
 

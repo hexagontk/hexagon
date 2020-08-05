@@ -44,7 +44,7 @@ fun String.filter(prefix: String, suffix: String, vararg parameters: Pair<String
 
 fun Regex.findGroups(str: String): List<MatchGroup> =
     (this.find(str)?.groups ?: emptyList<MatchGroup>())
-        .map { it ?: error }
+        .map { it ?: fail }
         .drop(1)
 
 /**

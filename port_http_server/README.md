@@ -4,13 +4,20 @@
 This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL
 to declare HTTP request handlers.
 
-Adapters implementing this port are responsible of transforming the DSL into a runtime. And allows
-you to switch implementations without changing the service.
+Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you
+to switch implementations without changing the service.
 
 The [hexagon_web] module provides utilities on top of this port for Web application development
 (like templates helpers).
 
 [hexagon_web]: /hexagon_web
+
+### Install the Dependency
+
+This module is not meant to be used directly. You should include and Adapter implementing this
+feature (as [http_server_jetty]) in order to create an HTTP server.
+
+[http_server_jetty]: /http_server_jetty
 
 ### Server
 

@@ -1,6 +1,6 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.error
+import com.hexagonkt.helpers.fail
 import com.hexagonkt.helpers.filterEmpty
 import com.hexagonkt.store.IndexOrder
 import com.hexagonkt.store.IndexOrder.ASCENDING
@@ -23,7 +23,7 @@ class MongoDbStore <T : Any, K : Any>(
 
     companion object {
         fun database(url: String): MongoDatabase = ConnectionString(url).let {
-            MongoClients.create(it).getDatabase(it.database ?: error())
+            MongoClients.create(it).getDatabase(it.database ?: fail)
         }
     }
 

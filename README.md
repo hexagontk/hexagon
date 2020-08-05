@@ -28,9 +28,9 @@
 </p>
 
 <p align="center">
-  <a href="https://hexagonkt.com/index.html">Home Site</a> |
-  <a href="https://hexagonkt.com/quick_start/index.html">Quick Start</a> |
-  <a href="https://hexagonkt.com/developer_guide/index.html">Developer Guide</a>
+  <a href="https://hexagonkt.com">Home Site</a> |
+  <a href="https://hexagonkt.com/quick_start">Quick Start</a> |
+  <a href="https://hexagonkt.com/developer_guide">Developer Guide</a>
 </p>
 
 ---
@@ -61,13 +61,13 @@ For more information check the [Quick Start Guide] or the [Developer Guide].
 
 [framework]: https://stackoverflow.com/a/3057818/973418
 [Kotlin]: http://kotlinlang.org
-[The HTTP server]: http://hexagonkt.com/port_http_server/index.html
-[The HTTP client]: http://hexagonkt.com/port_http_client/index.html
+[The HTTP server]: http://hexagonkt.com/port_http_server
+[The HTTP client]: http://hexagonkt.com/port_http_client
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
-[Quick Start Guide]: http://hexagonkt.com/quick_start/index.html
-[Developer Guide]: http://hexagonkt.com/developer_guide/index.html
+[Quick Start Guide]: http://hexagonkt.com/quick_start
+[Developer Guide]: http://hexagonkt.com/developer_guide
 
 ## Simple HTTP service
 
@@ -422,7 +422,7 @@ If you feel like you can do more. You can contribute to the project in different
 * And... Drum roll... Submitting [code or documentation][contributing].
 
 To know what issues are currently open and be aware of the next features you can check the
-[Project Board] at GitHub.
+[Project Board] and the [Organization Board] at GitHub.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. You can
 be up to date of project's news following [@hexagon_kt] on Twitter.
@@ -438,6 +438,7 @@ Thanks to all project's [contributors]!
 [reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
 [contributing]: contributing.md
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
+[Organization Board]: https://github.com/orgs/hexagonkt/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
 [CodeTriage]: https://www.codetriage.com/hexagonkt/hexagon
 

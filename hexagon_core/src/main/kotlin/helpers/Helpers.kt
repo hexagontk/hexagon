@@ -10,7 +10,7 @@ fun URI.stream(): InputStream =
     if (this.scheme == "resource")
         Resource(this.path.removePrefix("/")).requireStream()
     else
-        this.toURL().openStream() ?: error
+        this.toURL().openStream() ?: fail
 
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -41,11 +41,11 @@ fun <T> retry(times: Int, delay: Long, func: () -> T): T {
 
 // ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
 /** Syntax sugar to throw errors. */
-val error: Nothing
-    get() = error()
+val fail: Nothing
+    get() = fail()
 
 /** Syntax sugar to throw errors. */
-fun error(): Nothing =
+fun fail(): Nothing =
     error("Invalid state")
 
 /**

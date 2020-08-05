@@ -135,9 +135,9 @@ class HelpersTest {
         )
     }
 
-    @Test fun `'error' generates the correct exception`() {
+    @Test fun `'fail' generates the correct exception`() {
         shouldThrowMessage<IllegalStateException>("Invalid state") {
-            error()
+            fail
         }
     }
 

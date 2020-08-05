@@ -1,6 +1,4 @@
 
-# Simple HTTP service
-
 In this guide, we are going to create a sample HTTP service. You can read the [Core] or
 [HTTP Server] modules documentation for more information. You can use both [Gradle] and [Maven] to
 build your application.
@@ -74,12 +72,12 @@ To continue learning about this toolkit, you can:
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
-[Examples]: /examples/http_server_examples/index.html
+[Examples]: /examples/http_server_examples
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [Gradle]: https://gradle.org
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello/world
-[Developer Guide]: /developer_guide/index.html
-[Core]: /hexagon_core/index.html
-[HTTP Server]: /port_http_server/index.html
+[Developer Guide]: /developer_guide
+[Core]: /hexagon_core
+[HTTP Server]: /port_http_server
