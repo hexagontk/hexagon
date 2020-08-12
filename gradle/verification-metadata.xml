@@ -34,6 +34,8 @@
 
     <trusted-keys>
       <trusted-key id="cb43338e060cf9fa" group="org.jacoco"/>
+      <trusted-key id="55e770230e69cc6de143fb5b62c82e50836eb3ee" group="com.github.gundy" name="semver4j"/>
+      <trusted-key id="d54a395b5cf3f86eb45f6e426b1b008864323b92" group="org.antlr" name="antlr4-runtime"/>
       <trusted-key id="7c669810892cbd3148fa92995b05ccde140c2876" group="org.eclipse.jgit" name="org.eclipse.jgit"/>
       <trusted-key id="cd5464315f0b98c77e6e8ecd9daadc1c9fcc82d0" group="commons-io" name="commons-io"/>
       <trusted-key id="1abe38b92f812c1f7bf1d647d0d1b9a54efd603d" group="com.univocity" name="univocity-parsers"/>
