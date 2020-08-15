@@ -62,6 +62,7 @@ class MockServer(pathToSpec: String) {
 
     private fun handleRequest(operation: Operation, call: Call) {
         verifyParams(operation, call)
+        verifyBody(operation, call)
         call.ok(content = getResponseContentForStatus(operation, status = 200))
     }
 
@@ -179,4 +180,14 @@ class MockServer(pathToSpec: String) {
         return true
     }
 
+    private fun verifyBody(operation: Operation, call: Call) {
+        operation.requestBody?.let { requestBody ->
+            if (requestBody.required && call.request.body.isBlank()) {
+                call.halt(
+                    code = 400,
+                    content = getResponseContentForStatus(operation, 400)
+                )
+            }
+        }
+    }
 }
