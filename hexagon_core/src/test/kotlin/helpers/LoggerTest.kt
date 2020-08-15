@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 class LoggerTest {
 
     @Test fun `Messages are logged without errors`() {
-        val log = logger.log as? ch.qos.logback.classic.Logger ?: error
+        val log = logger.log as? ch.qos.logback.classic.Logger ?: fail
 
         log.level = Level.TRACE
         val appender = CyclicBufferAppender<ILoggingEvent>()

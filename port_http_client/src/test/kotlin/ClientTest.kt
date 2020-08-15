@@ -21,7 +21,7 @@ import java.io.File
 import java.net.URI
 
 @TestInstance(PER_CLASS)
-abstract class ClientTest(adapter: () -> ClientPort) {
+abstract class ClientTest(private val adapter: () -> ClientPort) {
 
     private var handler: Call.() -> Unit = {}
 
@@ -60,6 +60,31 @@ abstract class ClientTest(adapter: () -> ClientPort) {
             response.headers["body"] = request.body
             ok(request.body)
         }
+    }
+
+    @Test fun `Create HTTP clients`() {
+        val adapter = adapter()
+
+        // clientCreation
+        // Adapter injected
+        Client()
+        Client("http://host:1234/base")
+
+        // Adapter provided explicitly
+        Client(adapter)
+        Client(adapter, "http://host:1234/base")
+        // clientCreation
+
+        // clientSettingsCreation
+        Client("", ClientSettings(
+            contentType = null,
+            useCookies = true,
+            headers = LinkedHashMap(),
+            user = null,
+            password = null,
+            insecure = false
+        ))
+        // clientSettingsCreation
     }
 
     @Test fun `JSON requests works as expected`() {
@@ -128,9 +153,9 @@ abstract class ClientTest(adapter: () -> ClientPort) {
     @Test fun `Files are sent in base64` () {
         handler = { response.headersValues["file64"] = listOf(request.body) }
 
-        val file = File("src/test/resources/logback-test.xml").let {
+        val file = File("../hexagon_core/src/test/resources/logback-test.xml").let {
             if (it.exists()) it
-            else File("port_http_client/src/test/resources/logback-test.xml")
+            else File("hexagon_core/src/test/resources/logback-test.xml")
         }
 
         val r = client.post("/file", file)

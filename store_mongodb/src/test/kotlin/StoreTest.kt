@@ -1,6 +1,6 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.error
+import com.hexagonkt.helpers.fail
 import com.hexagonkt.store.Store
 import org.junit.jupiter.api.BeforeEach
 import java.net.URL
@@ -85,7 +85,7 @@ abstract class StoreTest<T : Any, K : Any> {
         val keys = store.saveMany(testEntities)
 
         if (keys.any { it == null  })
-            error()
+            fail()
 
         val entities = keys.filterNotNull().mapNotNull { store.findOne(it) }
 

@@ -2,7 +2,7 @@ package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.Resource
-import com.hexagonkt.helpers.error
+import com.hexagonkt.helpers.fail
 import java.io.File
 import java.net.URL
 
@@ -87,12 +87,14 @@ object SerializationManager {
     fun formatOf(contentType: String, defaultFormat: SerializationFormat): SerializationFormat =
         formatsMap[contentType] ?: defaultFormat
 
-    fun formatOf(url: URL): SerializationFormat = formatOf(contentTypeOf(url) ?: error)
+    fun formatOf(url: URL): SerializationFormat =
+        formatOf(contentTypeOf(url) ?: fail)
 
-    fun formatOf(file: File): SerializationFormat = formatOf(contentTypeOf(file) ?: error)
+    fun formatOf(file: File): SerializationFormat =
+        formatOf(contentTypeOf(file) ?: fail)
 
     fun formatOf(resource: Resource): SerializationFormat =
-        formatOf(contentTypeOf(resource) ?: error)
+        formatOf(contentTypeOf(resource) ?: fail)
 
     private fun pathExtension(path: String): String = path.substringAfterLast('.')
 

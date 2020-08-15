@@ -36,14 +36,14 @@ kinds of modules:
   [messaging_rabbitmq] are examples of this type of modules. Adapter names must start with their
   port name.
 
-[hexagon_scheduler]: /hexagon_scheduler/index.html
-[hexagon_core]: /hexagon_core/index.html
+[hexagon_scheduler]: /hexagon_scheduler
+[hexagon_core]: /hexagon_core
 
-[port_http_server]: /port_http_server/index.html
-[port_store]: /port_store/index.html
+[port_http_server]: /port_http_server
+[port_store]: /port_store
 
-[store_mongodb]: /store_mongodb/index.html
-[messaging_rabbitmq]: /messaging_rabbitmq/index.html
+[store_mongodb]: /store_mongodb
+[messaging_rabbitmq]: /messaging_rabbitmq
 
 # Hexagon Core
 
@@ -61,7 +61,7 @@ The main features it has are:
 * [Instance Serialization]: parse/serialize data in different formats to class instances.
 * [Configuration Settings]: load settings from different data sources and formats.
 
-[Hexagon Core]: /hexagon_core/index.html
+[Hexagon Core]: /hexagon_core
 
 [Helpers]: /hexagon_core/com.hexagonkt.helpers
 [Dependency Injection]: /hexagon_core/com.hexagonkt.injection
@@ -78,8 +78,8 @@ use dependencies outside the Hexagon toolkit.
 * [Web]: this module is meant to ease web applications development. Provides helpers for
   generating HTML and depends on the [HTTP Server] and [Templates] ports.
 
-[Scheduling]: /hexagon_scheduler/index.html
-[Web]: /hexagon_web/index.html
+[Scheduling]: /hexagon_scheduler
+[Web]: /hexagon_web
 
 # Toolkit Ports
 
@@ -95,8 +95,8 @@ These are the implemented ports:
 * [Messaging]: how to support asynchronous communication with messages through message brokers.
 * [Templates]: describes how to render pages using template engines.
 
-[HTTP Server]: /port_http_server/index.html
-[HTTP Client]: /port_http_client/index.html
-[Storage]: /port_store/index.html
-[Messaging]: /port_messaging/index.html
-[Templates]: /port_templates/index.html
+[HTTP Server]: /port_http_server
+[HTTP Client]: /port_http_client
+[Storage]: /port_store
+[Messaging]: /port_messaging
+[Templates]: /port_templates

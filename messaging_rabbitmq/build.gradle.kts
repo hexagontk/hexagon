@@ -22,4 +22,9 @@ dependencies {
         exclude(module = "qpid-broker-plugins-management-http")
         exclude(module = "qpid-broker-plugins-websocket")
     }
+
+    val logbackVersion = properties["logbackVersion"]
+    "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") {
+        exclude(group = "org.slf4j")
+    }
 }

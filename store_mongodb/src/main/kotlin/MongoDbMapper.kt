@@ -42,7 +42,7 @@ class MongoDbMapper<T : Any, K : Any>(
         is Date -> when (fields[property]?.returnType?.javaType) {
             LocalDate::class.java -> value.toLocalDate()
             LocalDateTime::class.java -> value.toLocalDateTime()
-            else -> error
+            else -> fail
         }
         else -> value
     }

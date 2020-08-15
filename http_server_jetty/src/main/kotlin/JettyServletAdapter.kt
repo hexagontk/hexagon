@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.jetty
 
-import com.hexagonkt.helpers.error
+import com.hexagonkt.helpers.fail
 import com.hexagonkt.helpers.stream
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.server.Server
@@ -25,7 +25,7 @@ class JettyServletAdapter : ServerPort {
     private var jettyServer: JettyServer? = null
 
     override fun runtimePort(): Int =
-        ((jettyServer?.connectors?.get(0) ?: error) as ServerConnector).localPort
+        ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort
 
     override fun started() = jettyServer?.isStarted ?: false
 
@@ -66,7 +66,7 @@ class JettyServletAdapter : ServerPort {
         httpConfiguration.addCustomizer(SecureRequestCustomizer())
 
         val sslContextFactory = SslContextFactory.Server()
-        val sslSettings = settings.sslSettings ?: error
+        val sslSettings = settings.sslSettings ?: fail
         sslContextFactory.needClientAuth = sslSettings.clientAuth
 
         val keyStore = sslSettings.keyStore

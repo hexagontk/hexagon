@@ -99,7 +99,7 @@ data class Server(
         val scheme = if (protocol == HTTP) "http" else "https"
 
         val information = """
-            SERVER NAME:     ${settings.serverName}
+            SERVER NAME:    ${settings.serverName}
             SERVER ADAPTER: $portName
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB

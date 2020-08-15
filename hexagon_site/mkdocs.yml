@@ -85,13 +85,12 @@ nav:
 #      - Templates: examples/templates_examples.md
   - Community:
     - Help and Support: help.md
+    - Planning: planning.md
+    - Contributing: contributing.md
+    - GitHub ↗: https://github.com/hexagonkt
     - Dev.to ↗: https://dev.to/hexagonkt
     - LibHunt ↗: https://kotlin.libhunt.com/hexagon-alternatives
     - StackShare ↗: https://stackshare.io/hexagon
-    - Contributing ↗: https://github.com/hexagonkt/hexagon/blob/master/contributing.md
-    - Planning ↗: https://github.com/hexagonkt/hexagon/projects/1
-    - Roadmap ↗: https://github.com/hexagonkt/hexagon/milestones
-    - Organization ↗: https://github.com/hexagonkt
 
 theme:
   name: material

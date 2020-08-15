@@ -2,5 +2,5 @@
 
 # parse
 
-`fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parse(type: `[`KClass`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html)`<T>): T`
-`fun <reified T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parse(): T`
+`fun <T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parse(type: `[`KClass`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class)`<T>): T`
+`fun <reified T : `[`Any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any)`> `[`Resource`](../com.hexagonkt.helpers/-resource/index.md)`.parse(): T`

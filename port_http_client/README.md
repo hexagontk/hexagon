@@ -4,40 +4,42 @@
 This port provides a common interface for using HTTP clients. Many adapters can be developed to use
 different technologies.
 
-The functionality provided are:
+Its main functionalities are:
 
-* Security
+* HTTP, HTTPS and HTTP/2 support
+* Mutual TLS
+* Body encoding/decoding
+* Request/response exchange
+* Form submissions
+* Cookie management
+* File uploading/downloading
 
-### Install Dependency
+### Install the Dependency
 
-```groovy tab="build.gradle"
-repositories {
-    mavenCentral()
-}
+This module is not meant to be used directly. You should include and Adapter implementing this
+feature (as [http_client_ahc]) in order to create HTTP clients.
 
-implementation("com.hexagonkt:port_http_client:$hexagonVersion")
-```
+[http_client_ahc]: /http_client_ahc
 
-```xml tab="pom.xml"
-<dependency>
-  <groupId>com.hexagonkt</groupId>
-  <artifactId>port_http_client</artifactId>
-  <version>$hexagonVersion</version>
-</dependency>
-```
+### Create an HTTP client
+
+You create an HTTP Client instance with default options as follows:
+
+@sample port_http_client/src/test/kotlin/ClientTest.kt:clientCreation
 
 ### Settings
 
-    val contentType: String? = null,
-    val useCookies: Boolean = true,
-    val headers: Map<String, List<String>> = LinkedHashMap(),
-    val user: String? = null,
-    val password: String? = null,
-    val insecure: Boolean = false,
+If you want to configure options for the client, you create it with the following code:
+
+@sample port_http_client/src/test/kotlin/ClientTest.kt:clientSettingsCreation
+
+### Send simple requests
 
 ### Requests
 
 ### Responses
+
+### Authorization
 
 ### Cookies
 
@@ -49,6 +51,6 @@ implementation("com.hexagonkt:port_http_client:$hexagonVersion")
 
 ### Mutual TLS
 
-# Package com.hexagonkt.client
+# Package com.hexagonkt.http.client
 
 This package holds the classes that define the HTTP client and its configuration settings.

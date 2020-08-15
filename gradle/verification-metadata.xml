@@ -34,6 +34,8 @@
 
     <trusted-keys>
       <trusted-key id="cb43338e060cf9fa" group="org.jacoco"/>
+      <trusted-key id="55e770230e69cc6de143fb5b62c82e50836eb3ee" group="com.github.gundy" name="semver4j"/>
+      <trusted-key id="d54a395b5cf3f86eb45f6e426b1b008864323b92" group="org.antlr" name="antlr4-runtime"/>
       <trusted-key id="7c669810892cbd3148fa92995b05ccde140c2876" group="org.eclipse.jgit" name="org.eclipse.jgit"/>
       <trusted-key id="cd5464315f0b98c77e6e8ecd9daadc1c9fcc82d0" group="commons-io" name="commons-io"/>
       <trusted-key id="1abe38b92f812c1f7bf1d647d0d1b9a54efd603d" group="com.univocity" name="univocity-parsers"/>
@@ -55,7 +57,7 @@
       <trusted-key id="3a04f5ae8a2b44ee08352ee933c663310c1b8dc5" group="org.apache.qpid"/>
       <trusted-key id="4e25dcaf7fe5f10d7228309dbd646d93190a1f12" group="org.simpleflatmapper"/>
       <trusted-key id="53c935821aa6a755bd337db53595395eb3d8e1ba" group="org.apache.logging.log4j"/>
-      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" regex="true"/>
+      <trusted-key id="8a10792983023d5d14c93b488d7f1bec1e2ecae7" group="com\.fasterxml\.jackson\..*" regex="true"/>
       <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>
       <trusted-key id="6fca825c6e85fcb4df9a96b27a3c11434ec6434e" group="com\.trueaccord\..*" regex="true"/>
       <trusted-key id="7e22d50a7ebd9d2cd269b2d4056aca74d46000bf" group="io.netty"/>

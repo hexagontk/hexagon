@@ -20,7 +20,7 @@ jobs:
           java-version: 11
 
       - name: Restore Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
