@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Test OpenAPI Spec",
+    "description": "This is a test OpenAPI spec for the Hexagon Mock Server project."
+  },
+  "paths": {
+    "/ping" : {
+      "get": {
+        "summary": "A basic ping endpoint",
+        "description": "A basic ping endpoint",
+        "responses": {
+          "200": {
+            "description": " Successful operation",
+            "content": {
+              "application/json": {
+                "example": "pong"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
