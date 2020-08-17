@@ -20,6 +20,120 @@
           }
         }
       }
+    },
+    "/get-example-from-schema": {
+      "get": {
+        "summary": "Another basic endpoint",
+        "description": "Another basic endpoint, and the response description is in the mediatype schema",
+        "responses": {
+          "200": {
+            "description": "Successful operation, and the response description is in the mediatype schema",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get-example-from-mediatype": {
+      "get": {
+        "summary": "Another basic endpoint",
+        "description": "Another basic endpoint, and the response description is in the mediatype schema",
+        "responses": {
+          "200": {
+            "description": "Successful operation, and the response description is in the mediatype schema",
+            "content": {
+              "application/json": {
+                "example": "response"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-query-param": {
+      "get": {
+        "summary": "An endpoint to check if the mock server correctly parses query params",
+        "description": "An endpoint to check if the mock server correctly parses query params, and returns the correct response if they are missing or not of the required value",
+        "parameters": [
+          {
+            "name": "queryParam",
+            "in": "query",
+            "description": "A query param that is required",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum":[
+                "aValidValue",
+                "anotherValidValue"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing query param sent",
+            "content": {
+              "application/json": {
+                "example": "invalid or missing query param"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-optional-query-param": {
+      "get": {
+        "summary": "An endpoint to check if the mock server correctly ignores optional query params",
+        "description": "An endpoint to check if the mock server correctly ignores optional query params, and returns the correct response if they are missing or not of the required value",
+        "parameters": [
+          {
+            "name": "queryParam",
+            "in": "query",
+            "description": "A query param that is optional, so the mock server should not check this",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum":[
+                "aValidValue",
+                "anotherValidValue"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing query param sent",
+            "content": {
+              "application/json": {
+                "example": "invalid or missing query param"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
