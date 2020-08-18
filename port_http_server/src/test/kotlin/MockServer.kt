@@ -8,14 +8,16 @@ import io.swagger.v3.oas.models.parameters.Parameter
 import io.swagger.v3.oas.models.responses.ApiResponse
 import io.swagger.v3.parser.OpenAPIV3Parser
 
-class MockServer(pathToSpec: String) {
+class MockServer(pathToSpec: String, port: Int = 0) {
 
     val server: Server by lazy { createServer() }
+
+    private val serverSettings = ServerSettings(bindPort = port)
 
     private val openAPIParser = OpenAPIV3Parser()
     private val openAPISpec: OpenAPI = openAPIParser.read(pathToSpec) ?: throw IllegalArgumentException()
 
-    private fun createServer() = Server {
+    private fun createServer() = Server(settings = serverSettings) {
         openAPISpec.paths.forEach { path: String, pathItem: PathItem ->
             pathItem.get?.let { getOperation ->
                 this.get(path = path) {

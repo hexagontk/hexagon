@@ -9,14 +9,23 @@ import java.net.HttpCookie
 
 class MockServerTest {
 
-    @Test fun `Injected parameters`() {
+    @Test fun `Basic server is created correctly`() {
         InjectionManager.bindObject<ServerPort>(VoidAdapter)
 
         val mockServer = MockServer("https://petstore3.swagger.io/api/v3/openapi.json")
         val server = mockServer.server
 
-        assert(server.settings.bindAddress.hostAddress == "0.0.0.0")
-        assert(server.settings.bindPort == 0)
+        assert(server.settings.bindAddress.hostAddress == "127.0.0.1")
+    }
+
+    @Test fun `Server at specific port is created correctly`() {
+        InjectionManager.bindObject<ServerPort>(VoidAdapter)
+
+        val mockServer = MockServer("https://petstore3.swagger.io/api/v3/openapi.json", port = 9090)
+        val server = mockServer.server
+
+        assert(server.settings.bindAddress.hostAddress == "127.0.0.1")
+        assert(server.settings.bindPort == 9090)
     }
 
     @Test fun `Basic routes are created correctly`() {
@@ -26,7 +35,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
         val response = client.get("/ping")
         assert(response.status == 200)
         assert(response.body == "pong")
@@ -39,7 +48,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
         val response = client.get("/get-example-from-schema")
         assert(response.status == 200)
         assert(response.body == "response")
@@ -52,7 +61,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
         val response = client.get("/get-example-from-mediatype")
         assert(response.status == 200)
         assert(response.body == "response")
@@ -65,7 +74,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
         val response = client.get("/unknown-path")
         assert(response.status == 404)
     }
@@ -77,7 +86,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
         val response1 = client.get("/check-query-param")
         assert(response1.status == 400)
         assert(response1.body == "invalid or missing query param")
@@ -98,7 +107,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
         val response1 = client.get("/check-optional-query-param")
         assert(response1.status == 200)
         assert(response1.body == "success")
@@ -119,7 +128,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
         val response1 = client.get("/check-path-param/aValidValue")
         assert(response1.status == 200)
         assert(response1.body == "success")
@@ -136,7 +145,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
         val response1 = client.get("/check-header-param")
         assert(response1.status == 400)
         assert(response1.body == "invalid or missing header param")
@@ -159,7 +168,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
         val response1 = client.get("/check-optional-header-param")
         assert(response1.status == 200)
         assert(response1.body == "success")
@@ -182,7 +191,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
 
         client.cookies["cookieParam"] = HttpCookie("cookieParam", "aValidValue")
         val response1 = client.get("/check-cookie-param")
@@ -208,7 +217,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
 
         client.cookies["cookieParam"] = HttpCookie("cookieParam", "aValidValue")
         val response1 = client.get("/check-optional-cookie-param")
@@ -234,7 +243,7 @@ class MockServerTest {
         val server = mockServer.server
         server.start()
 
-        val client = Client(AhcAdapter(), endpoint = "http://0.0.0.0:${server.runtimePort}")
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
 
         val response1 = client.get("/check-body", body = "Some body content")
         assert(response1.status == 200)
