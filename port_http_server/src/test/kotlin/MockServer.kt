@@ -124,7 +124,6 @@ class MockServer(pathToSpec: String) {
      * Returns true in all other cases.
      */
     private fun verifyPathParam(parameter: Parameter, call: Call): Boolean {
-        if (!parameter.required) return true
         if (call.request.pathParameters[parameter.name].isNullOrBlank()) return false
         parameter.schema.enum?.let {
             if (call.request.pathParameters[parameter.name] !in it) return false
@@ -140,8 +139,9 @@ class MockServer(pathToSpec: String) {
      * Returns true in all other cases.
      */
     private fun verifyQueryParam(parameter: Parameter, call: Call): Boolean {
-        if (!parameter.required) return true
-        if (call.request.queryParameters[parameter.name].isNullOrBlank()) return false
+        if (call.request.queryParameters[parameter.name].isNullOrBlank()) {
+            return !parameter.required
+        }
         parameter.schema.enum?.let {
             if (call.request.queryParameters[parameter.name] !in it) return false
         }
@@ -156,8 +156,9 @@ class MockServer(pathToSpec: String) {
      * Returns true in all other cases.
      */
     private fun verifyHeaderParam(parameter: Parameter, call: Call): Boolean {
-        if (!parameter.required) return true
-        if (call.request.headers[parameter.name].isNullOrBlank()) return false
+        if (call.request.headers[parameter.name].isNullOrBlank()) {
+            return !parameter.required
+        }
         parameter.schema.enum?.let {
             if (call.request.headers[parameter.name] !in it) return false
         }
@@ -172,10 +173,11 @@ class MockServer(pathToSpec: String) {
      * Returns true in all other cases.
      */
     private fun verifyCookieParam(parameter: Parameter, call: Call): Boolean {
-        if (!parameter.required) return true
-        if (call.request.cookies[parameter.name] == null) return false
+        if (call.request.cookies[parameter.name] == null) {
+            return !parameter.required
+        }
         parameter.schema.enum?.let {
-            if (call.request.cookies[parameter.name] !in it) return false
+            if (call.request.cookies[parameter.name]?.value !in it) return false
         }
         return true
     }

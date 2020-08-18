@@ -134,6 +134,240 @@
           }
         }
       }
+    },
+    "/check-path-param/{pathParam}": {
+      "get": {
+        "summary": "An endpoint to check if the mock server correctly verifies path params",
+        "description": "An endpoint to check if the mock server correctly verifies path params, and returns the correct response if they are missing or not of the required value",
+        "parameters": [
+          {
+            "name": "pathParam",
+            "in": "path",
+            "description": "A path param that is required",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum":[
+                "aValidValue",
+                "anotherValidValue"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing path param sent",
+            "content": {
+              "application/json": {
+                "example": "invalid or missing path param"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-header-param": {
+      "get": {
+        "summary": "An endpoint to check if the mock server correctly parses header params",
+        "description": "An endpoint to check if the mock server correctly parses header params, and returns the correct response if they are missing or not of the required value",
+        "parameters": [
+          {
+            "name": "headerParam",
+            "in": "header",
+            "description": "A header param that is required",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum":[
+                "aValidValue",
+                "anotherValidValue"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing header param sent",
+            "content": {
+              "application/json": {
+                "example": "invalid or missing header param"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-optional-header-param": {
+      "get": {
+        "summary": "An endpoint to check if the mock server correctly ignores optional header params",
+        "description": "An endpoint to check if the mock server correctly ignores optional header params, and returns the correct response if they are missing or not of the required value",
+        "parameters": [
+          {
+            "name": "headerParam",
+            "in": "header",
+            "description": "A header param that is optional, so the mock server should not check this",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum":[
+                "aValidValue",
+                "anotherValidValue"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing header param sent",
+            "content": {
+              "application/json": {
+                "example": "invalid or missing header param"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-cookie-param": {
+      "get": {
+        "summary": "An endpoint to check if the mock server correctly parses cookie params",
+        "description": "An endpoint to check if the mock server correctly parses cookie params, and returns the correct response if they are missing or not of the required value",
+        "parameters": [
+          {
+            "name": "cookieParam",
+            "in": "cookie",
+            "description": "A cookie param that is required",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum":[
+                "aValidValue",
+                "anotherValidValue"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing cookie param sent",
+            "content": {
+              "application/json": {
+                "example": "invalid or missing cookie param"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-optional-cookie-param": {
+      "get": {
+        "summary": "An endpoint to check if the mock server correctly ignores optional cookie params",
+        "description": "An endpoint to check if the mock server correctly ignores optional cookie params, and returns the correct response if they are missing or not of the required value",
+        "parameters": [
+          {
+            "name": "cookieParam",
+            "in": "cookie",
+            "description": "A cookie param that is optional, so the mock server should not check this",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum":[
+                "aValidValue",
+                "anotherValidValue"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing cookie param sent",
+            "content": {
+              "application/json": {
+                "example": "invalid or missing cookie param"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-body": {
+      "get": {
+        "summary": "An endpoint to check if the mock server correctly verifies the request body",
+        "description": "An endpoint to check if the mock server correctly verifies the request body, and returns the correct response if they are missing or not of the required value",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing request body",
+            "content": {
+              "application/json": {
+                "example": "invalid or missing request body"
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
