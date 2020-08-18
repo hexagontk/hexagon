@@ -77,7 +77,13 @@ class MockServer(pathToSpec: String, port: Int = 0) {
 
     private fun getExampleFromSchema(mediaType: MediaType) = mediaType.schema?.example
 
-    private fun getExampleFromMediaType(mediaType: MediaType) = mediaType.example
+    private fun getExampleFromMediaType(mediaType: MediaType): Any? {
+        return if (mediaType.example != null) {
+            mediaType.example
+        } else {
+            mediaType.examples?.toList()?.get(0)?.second?.value
+        }
+    }
 
     private fun verifyParams(operation: Operation, call: Call) {
         operation.parameters?.forEach { parameter ->

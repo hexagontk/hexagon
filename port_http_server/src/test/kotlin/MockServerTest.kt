@@ -67,6 +67,32 @@ class MockServerTest {
         assert(response.body == "response")
     }
 
+    @Test fun `Examples are fetched from multiple examples correctly`() {
+        InjectionManager.bindObject<ServerPort>(JettyServletAdapter())
+
+        val mockServer = MockServer("openapi_test.json")
+        val server = mockServer.server
+        server.start()
+
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
+        val response = client.get("/get-from-multiple-examples")
+        assert(response.status == 200)
+        assert(response.body in listOf("foo", "bar"))
+    }
+
+    @Test fun `Empty string is returned if no examples specified`() {
+        InjectionManager.bindObject<ServerPort>(JettyServletAdapter())
+
+        val mockServer = MockServer("openapi_test.json")
+        val server = mockServer.server
+        server.start()
+
+        val client = Client(AhcAdapter(), endpoint = "http://127.0.0.1:${server.runtimePort}")
+        val response = client.get("/get-from-no-examples")
+        assert(response.status == 200)
+        assert(response.body == "")
+    }
+
     @Test fun `Paths not present in OpenAPI spec return 404`() {
         InjectionManager.bindObject<ServerPort>(JettyServletAdapter())
 

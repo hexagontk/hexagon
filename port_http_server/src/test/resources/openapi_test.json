@@ -55,6 +55,45 @@
         }
       }
     },
+    "/get-from-multiple-examples": {
+      "get": {
+        "summary": "Another basic endpoint",
+        "description": "Another basic endpoint, and the response description is in the mediatype schema",
+        "responses": {
+          "200": {
+            "description": "Successful operation, and the response description is in the mediatype schema",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "example1": {
+                    "value": "foo"
+                  },
+                  "example2": {
+                    "value": "bar"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get-from-no-examples": {
+      "get": {
+        "summary": "Another basic endpoint",
+        "description": "Another basic endpoint, and the response description is in the mediatype schema",
+        "responses": {
+          "200": {
+            "description": "Successful operation, and the response description is in the mediatype schema",
+            "content": {
+              "application/json": {
+
+              }
+            }
+          }
+        }
+      }
+    },
     "/check-query-param": {
       "get": {
         "summary": "An endpoint to check if the mock server correctly parses query params",
