@@ -4,12 +4,19 @@ import com.hexagonkt.injection.InjectionManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.assertThrows
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MockServerTest {
 
     @BeforeAll fun setUp() {
         InjectionManager.bindObject<ServerPort>(VoidAdapter)
+    }
+
+    @Test fun `Incorrect OpenAPI spec causes error to be thrown`() {
+        assertThrows<IllegalArgumentException> {
+            MockServer("some illegal path")
+        }
     }
 
     @Test fun `Basic server is created correctly`() {
