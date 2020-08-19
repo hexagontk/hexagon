@@ -2,7 +2,8 @@
   "openapi": "3.0.2",
   "info": {
     "title": "Test OpenAPI Spec",
-    "description": "This is a test OpenAPI spec for the Hexagon Mock Server project."
+    "description": "This is a test OpenAPI spec for the Hexagon Mock Server project.",
+    "version": "1.0.0"
   },
   "paths": {
     "/ping" : {
@@ -24,10 +25,10 @@
     "/get-example-from-schema": {
       "get": {
         "summary": "Another basic endpoint",
-        "description": "Another basic endpoint, and the response description is in the mediatype schema",
+        "description": "Another basic endpoint, and the response example is in the mediatype schema",
         "responses": {
           "200": {
-            "description": "Successful operation, and the response description is in the mediatype schema",
+            "description": "Successful operation, and the response example is in the mediatype schema",
             "content": {
               "application/json": {
                 "schema": {
@@ -42,10 +43,10 @@
     "/get-example-from-mediatype": {
       "get": {
         "summary": "Another basic endpoint",
-        "description": "Another basic endpoint, and the response description is in the mediatype schema",
+        "description": "Another basic endpoint, and the response example is in the mediatype",
         "responses": {
           "200": {
-            "description": "Successful operation, and the response description is in the mediatype schema",
+            "description": "Successful operation, and the response example is in the mediatype",
             "content": {
               "application/json": {
                 "example": "response"
@@ -58,10 +59,10 @@
     "/get-from-multiple-examples": {
       "get": {
         "summary": "Another basic endpoint",
-        "description": "Another basic endpoint, and the response description is in the mediatype schema",
+        "description": "Another basic endpoint, and there are multiple response examples in the mediatype",
         "responses": {
           "200": {
-            "description": "Successful operation, and the response description is in the mediatype schema",
+            "description": "Successful operation, and there are multiple response examples in the mediatype",
             "content": {
               "application/json": {
                 "examples": {
@@ -81,10 +82,10 @@
     "/get-from-no-examples": {
       "get": {
         "summary": "Another basic endpoint",
-        "description": "Another basic endpoint, and the response description is in the mediatype schema",
+        "description": "Another basic endpoint, and there are no examples",
         "responses": {
           "200": {
-            "description": "Successful operation, and the response description is in the mediatype schema",
+            "description": "Successful operation, and there are no examples",
             "content": {
               "application/json": {
 
@@ -136,13 +137,13 @@
     },
     "/check-optional-query-param": {
       "get": {
-        "summary": "An endpoint to check if the mock server correctly ignores optional query params",
-        "description": "An endpoint to check if the mock server correctly ignores optional query params, and returns the correct response if they are missing or not of the required value",
+        "summary": "An endpoint to check if the mock server correctly verifies optional query params",
+        "description": "An endpoint to check if the mock server correctly verifies optional query params, and returns the correct response if they are missing or not of the required value",
         "parameters": [
           {
             "name": "queryParam",
             "in": "query",
-            "description": "A query param that is optional, so the mock server should not check this",
+            "description": "A query param that is optional, so the mock server should check this if it is present",
             "required": false,
             "explode": true,
             "schema": {
@@ -216,8 +217,8 @@
     },
     "/check-header-param": {
       "get": {
-        "summary": "An endpoint to check if the mock server correctly parses header params",
-        "description": "An endpoint to check if the mock server correctly parses header params, and returns the correct response if they are missing or not of the required value",
+        "summary": "An endpoint to check if the mock server correctly verifies header params",
+        "description": "An endpoint to check if the mock server correctly verifies header params, and returns the correct response if they are missing or not of the required value",
         "parameters": [
           {
             "name": "headerParam",
@@ -256,13 +257,13 @@
     },
     "/check-optional-header-param": {
       "get": {
-        "summary": "An endpoint to check if the mock server correctly ignores optional header params",
-        "description": "An endpoint to check if the mock server correctly ignores optional header params, and returns the correct response if they are missing or not of the required value",
+        "summary": "An endpoint to check if the mock server correctly verifies optional header params",
+        "description": "An endpoint to check if the mock server correctly verifies optional header params, and returns the correct response if they are missing or not of the required value",
         "parameters": [
           {
             "name": "headerParam",
             "in": "header",
-            "description": "A header param that is optional, so the mock server should not check this",
+            "description": "A header param that is optional, so the mock server should check this if it is present",
             "required": false,
             "explode": true,
             "schema": {
@@ -296,8 +297,8 @@
     },
     "/check-cookie-param": {
       "get": {
-        "summary": "An endpoint to check if the mock server correctly parses cookie params",
-        "description": "An endpoint to check if the mock server correctly parses cookie params, and returns the correct response if they are missing or not of the required value",
+        "summary": "An endpoint to check if the mock server correctly verifies cookie params",
+        "description": "An endpoint to check if the mock server correctly verifies cookie params, and returns the correct response if they are missing or not of the required value",
         "parameters": [
           {
             "name": "cookieParam",
@@ -336,13 +337,13 @@
     },
     "/check-optional-cookie-param": {
       "get": {
-        "summary": "An endpoint to check if the mock server correctly ignores optional cookie params",
-        "description": "An endpoint to check if the mock server correctly ignores optional cookie params, and returns the correct response if they are missing or not of the required value",
+        "summary": "An endpoint to check if the mock server correctly verifies optional cookie params",
+        "description": "An endpoint to check if the mock server correctly verifies optional cookie params, and returns the correct response if they are missing or not of the required value",
         "parameters": [
           {
             "name": "cookieParam",
             "in": "cookie",
-            "description": "A cookie param that is optional, so the mock server should not check this",
+            "description": "A cookie param that is optional, so the mock server should check this if it is present",
             "required": false,
             "explode": true,
             "schema": {
