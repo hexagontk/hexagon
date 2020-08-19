@@ -15,7 +15,8 @@ class MockServer(pathToSpec: String, port: Int = 0) {
     private val serverSettings = ServerSettings(bindPort = port)
 
     private val openAPIParser = OpenAPIV3Parser()
-    private val openAPISpec: OpenAPI = openAPIParser.read(pathToSpec) ?: throw IllegalArgumentException()
+    private val openAPISpec: OpenAPI = openAPIParser.read(pathToSpec)
+        ?: throw IllegalArgumentException("OpenAPI Spec could not be read. Please check the path to the file and verify it is correctly formatted")
 
     private fun createServer() = Server(settings = serverSettings) {
         openAPISpec.paths.forEach { path: String, pathItem: PathItem ->
@@ -69,8 +70,8 @@ class MockServer(pathToSpec: String, port: Int = 0) {
     }
 
     private fun getResponseContentForStatus(operation: Operation, status: Int): String {
-        val responsesForStatus: ApiResponse = operation.responses[status.toString()] ?: throw Exception("responses missing")
-        val jsonResponses: MediaType = responsesForStatus.content["application/json"] ?: throw Exception("responses for status missing")
+        val responsesForStatus: ApiResponse = operation.responses[status.toString()] ?: throw IllegalArgumentException("The OpenAPI Spec contains no responses for this operation")
+        val jsonResponses: MediaType = responsesForStatus.content["application/json"] ?: throw IllegalArgumentException("The OpenAPI Spec contains no JSON responses for this operation")
         val exampleResponse: Any? = getExampleFromSchema(jsonResponses) ?: getExampleFromMediaType(jsonResponses)
         return exampleResponse?.toString() ?: ""
     }
