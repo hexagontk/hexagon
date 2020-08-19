@@ -18,6 +18,13 @@ class MockServer(pathToSpec: String, port: Int = 0) {
     private val openAPISpec: OpenAPI = openAPIParser.read(pathToSpec)
         ?: throw IllegalArgumentException("OpenAPI Spec could not be read. Please check the path to the file and verify it is correctly formatted")
 
+    /**
+     * Creates and returns a Server object representing the mock server. The provided OpenAPI spec
+     * is parsed and each path within it is registered in the router of the mock server.
+     *
+     * If an explicit port number was provided in the constructor, the
+     * mock server listens at the specified port, else a dynamic port number is assigned.
+     */
     private fun createServer() = Server(settings = serverSettings) {
         openAPISpec.paths.forEach { path: String, pathItem: PathItem ->
             pathItem.get?.let { getOperation ->
@@ -63,12 +70,25 @@ class MockServer(pathToSpec: String, port: Int = 0) {
         }
     }
 
+    /**
+     * Handles a request by verifying the parameters and body against the OpenAPI spec file and
+     * returning the appropriate response.
+     */
     private fun handleRequest(operation: Operation, call: Call) {
         verifyParams(operation, call)
         verifyBody(operation, call)
         call.ok(content = getResponseContentForStatus(operation, status = 200))
     }
 
+    /**
+     * Gets the example response for a particular status code (200, 400, etc). The priority order
+     * for fetching examples is as follows:
+     *
+     * 1. First, it tries to fetch an example from the schema key within the mediatype.
+     * 2. If no example is found here, it then attempts to fetch the example from the mediatype
+     * object.
+     * 3. If still no example is found, it simply returns a blank string as the content.
+     */
     private fun getResponseContentForStatus(operation: Operation, status: Int): String {
         val responsesForStatus: ApiResponse = operation.responses[status.toString()] ?: throw IllegalArgumentException("The OpenAPI Spec contains no responses for this operation")
         val jsonResponses: MediaType = responsesForStatus.content["application/json"] ?: throw IllegalArgumentException("The OpenAPI Spec contains no JSON responses for this operation")
@@ -76,8 +96,19 @@ class MockServer(pathToSpec: String, port: Int = 0) {
         return exampleResponse?.toString() ?: ""
     }
 
+    /**
+     * Fetches the example response content from the mediatype schema, or null if not present.
+     */
     private fun getExampleFromSchema(mediaType: MediaType) = mediaType.schema?.example
 
+    /**
+     * Fetches the example response content from the mediatype.
+     *
+     * 1. If an `example` (singular) key is present, the response content is fetched from there.
+     * 2. Else, it attempts to get the examples from the `examples` (plural) key and returns the
+     * first one.
+     * 3. If this is also not present, it simply returns null.
+     */
     private fun getExampleFromMediaType(mediaType: MediaType): Any? {
         return if (mediaType.example != null) {
             mediaType.example
@@ -86,6 +117,12 @@ class MockServer(pathToSpec: String, port: Int = 0) {
         }
     }
 
+    /**
+     * Verifies all the parameters specified for the operation. If a parameter is optional, it is
+     * verified if present in the request, else it is ignored. If a certain parameter is found to
+     * fail verification (i.e it may be absent or its value may be incorrect) a 400 response is
+     * returned with the body being an example present in the OpenAPI spec file.
+     */
     private fun verifyParams(operation: Operation, call: Call) {
         operation.parameters?.forEach { parameter ->
             when (parameter.`in`) {
@@ -126,10 +163,10 @@ class MockServer(pathToSpec: String, port: Int = 0) {
     }
 
     /**
-     * Verifies a single path parameter. Returns false if the following conditions are fulfilled:
-     * 1. Parameter is required as per the OpenAPI Spec
-     * 2. No value is passed for the parameter in the Request
-     * 3. The value passed is not in the list of valid values as per the OpenAPI Spec
+     * Verifies a single path parameter. According to the OpenAPI specification, path parameters
+     * cannot be optional. Returns false if the following conditions are fulfilled:
+     * 1. No value is passed for the parameter in the Request
+     * 2. The value passed is not in the list of valid values as per the OpenAPI Spec
      * Returns true in all other cases.
      */
     private fun verifyPathParam(parameter: Parameter, call: Call): Boolean {
@@ -142,9 +179,8 @@ class MockServer(pathToSpec: String, port: Int = 0) {
 
     /**
      * Verifies a single query parameter. Returns false if the following conditions are fulfilled:
-     * 1. Parameter is required as per the OpenAPI Spec
-     * 2. No value is passed for the parameter in the Request
-     * 3. The value passed is not in the list of valid values as per the OpenAPI Spec
+     * 1. Parameter is required as per the OpenAPI Spec but not present in the request
+     * 2. The value passed is not in the list of valid values as per the OpenAPI Spec
      * Returns true in all other cases.
      */
     private fun verifyQueryParam(parameter: Parameter, call: Call): Boolean {
@@ -159,9 +195,8 @@ class MockServer(pathToSpec: String, port: Int = 0) {
 
     /**
      * Verifies a single header parameter. Returns false if the following conditions are fulfilled:
-     * 1. Parameter is required as per the OpenAPI Spec
-     * 2. No value is passed for the parameter in the Request
-     * 3. The value passed is not in the list of valid values as per the OpenAPI Spec
+     * 1. Parameter is required as per the OpenAPI Spec but not present in the request
+     * 2. The value passed is not in the list of valid values as per the OpenAPI Spec
      * Returns true in all other cases.
      */
     private fun verifyHeaderParam(parameter: Parameter, call: Call): Boolean {
@@ -176,9 +211,8 @@ class MockServer(pathToSpec: String, port: Int = 0) {
 
     /**
      * Verifies a single cookie parameter. Returns false if the following conditions are fulfilled:
-     * 1. Parameter is required as per the OpenAPI Spec
-     * 2. No value is passed for the parameter in the Request
-     * 3. The value passed is not in the list of valid values as per the OpenAPI Spec
+     * 1. Parameter is required as per the OpenAPI Spec but not present in the request
+     * 2. The value passed is not in the list of valid values as per the OpenAPI Spec
      * Returns true in all other cases.
      */
     private fun verifyCookieParam(parameter: Parameter, call: Call): Boolean {
@@ -191,6 +225,10 @@ class MockServer(pathToSpec: String, port: Int = 0) {
         return true
     }
 
+    /**
+     * Verifies the request body. At present, the only verification done is whether the body is
+     * blank or not. The actual contents of the body are not verified.
+     */
     private fun verifyBody(operation: Operation, call: Call) {
         operation.requestBody?.let { requestBody ->
             if (requestBody.required && call.request.body.isBlank()) {
