@@ -16,27 +16,15 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-test</artifactId>
       <version>${kotlin.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.kotest</groupId>
-      <artifactId>kotest-runner-junit5-jvm</artifactId>
-      <version>${kotest.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.kotest</groupId>
-      <artifactId>kotest-assertions-core-jvm</artifactId>
-      <version>${kotest.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.kotest</groupId>
-      <artifactId>kotest-property-jvm</artifactId>
-      <version>${kotest.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

@@ -18,7 +18,7 @@ publishing {
                 "maven.compiler.target" to "11",
                 "kotlin.version" to project.properties["kotlinVersion"].toString(),
                 "mockk.version" to project.properties["mockkVersion"].toString(),
-                "kotest.version" to project.properties["kotestVersion"].toString(),
+                "junit.version" to project.properties["junitVersion"].toString(),
                 "hexagon.version" to rootProject.version.toString()
             ))
 
