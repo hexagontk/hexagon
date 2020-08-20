@@ -17,6 +17,9 @@ class Client(
 
     val cookies: MutableMap<String, HttpCookie> = mutableMapOf()
 
+    constructor(settings: ClientSettings = ClientSettings()) :
+        this(InjectionManager.inject<ClientPort>(), settings = settings)
+
     constructor(endpoint: String = "", settings: ClientSettings = ClientSettings()) :
         this(InjectionManager.inject(), endpoint, settings)
 

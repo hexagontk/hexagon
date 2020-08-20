@@ -67,8 +67,8 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
 
         // clientCreation
         // Adapter injected
-        Client()
-        Client("http://host:1234/base")
+        Client()                        // No base endpoint, whole URL must be passed each request
+        Client("http://host:1234/base") // Requests' paths will be appended to supplied base URL
 
         // Adapter provided explicitly
         Client(adapter)
@@ -76,13 +76,14 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         // clientCreation
 
         // clientSettingsCreation
-        Client("", ClientSettings(
-            contentType = null,
+        // All client settings parameters are optionals and provide default values
+        Client("http://host:1234/base", ClientSettings(
+            contentType = "application/json",
             useCookies = true,
-            headers = LinkedHashMap(),
-            user = null,
-            password = null,
-            insecure = false
+            headers = mapOf("X-Api-Key" to listOf("cafebabe")), // Headers to use in all requests
+            user = "user",                                      // HTTP Basic auth user
+            password = "password",                              // HTTP Basic auth password
+            insecure = false                // If true, the client doesn't check server certificates
         ))
         // clientSettingsCreation
     }
@@ -102,29 +103,63 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
     }
 
     @Test fun `HTTP methods with objects work ok`() {
-        val parameter = mapOf("key" to "value")
-        checkResponse(client.get("/"), null)
-        checkResponse(client.head("/"), null)
-        checkResponse(client.post("/"), null)
-        checkResponse(client.put("/"), null)
-        checkResponse(client.delete("/"), null)
-        checkResponse(client.trace("/"), null)
-        checkResponse(client.options("/"), null)
-        checkResponse(client.patch("/"), null)
-        checkResponse(client.get("/", body = parameter), parameter)
-        checkResponse(client.post("/", parameter), parameter)
-        checkResponse(client.put("/", parameter), parameter)
-        checkResponse(client.delete("/", parameter), parameter)
-        checkResponse(client.trace("/", parameter), parameter)
-        checkResponse(client.options("/", parameter), parameter)
-        checkResponse(client.patch("/", parameter), parameter)
-        checkResponse(client.get("/", body = parameter, format = Yaml), parameter, Yaml)
-        checkResponse(client.post("/", parameter, Yaml), parameter, Yaml)
-        checkResponse(client.put("/", parameter, Yaml), parameter, Yaml)
-        checkResponse(client.delete("/", parameter, Yaml), parameter, Yaml)
-        checkResponse(client.trace("/", parameter, Yaml), parameter, Yaml)
-        checkResponse(client.options("/", parameter, Yaml), parameter, Yaml)
-        checkResponse(client.patch("/", parameter, Yaml), parameter, Yaml)
+
+        // simpleRequests
+        // Send requests without body
+        val responseGet = client.get("/")
+        val responseHead = client.head("/")
+        val responsePost = client.post("/")
+        val responsePut = client.put("/")
+        val responseDelete = client.delete("/")
+        val responseTrace = client.trace("/")
+        val responseOptions = client.options("/")
+        val responsePatch = client.patch("/")
+
+        // Send requests with body
+        val body = mapOf("key" to "value")
+
+        val responseGetBody = client.get("/", body = body)
+        val responsePostBody = client.post("/", body)
+        val responsePutBody = client.put("/", body)
+        val responseDeleteBody = client.delete("/", body)
+        val responseTraceBody = client.trace("/", body)
+        val responseOptionsBody = client.options("/", body)
+        val responsePatchBody = client.patch("/", body)
+
+        // Send requests with body and content type
+        val responseGetBodyFormat = client.get("/", body = body, format = Yaml)
+        val responsePostBodyFormat = client.post("/", body, Yaml)
+        val responsePutBodyFormat = client.put("/", body, Yaml)
+        val responseDeleteBodyFormat = client.delete("/", body, Yaml)
+        val responseTraceBodyFormat = client.trace("/", body, Yaml)
+        val responseOptionsBodyFormat = client.options("/", body, Yaml)
+        val responsePatchBodyFormat = client.patch("/", body, Yaml)
+        // simpleRequests
+
+        checkResponse(responseGet, null)
+        checkResponse(responseHead, null)
+        checkResponse(responsePost, null)
+        checkResponse(responsePut, null)
+        checkResponse(responseDelete, null)
+        checkResponse(responseTrace, null)
+        checkResponse(responseOptions, null)
+        checkResponse(responsePatch, null)
+
+        checkResponse(responseGetBody, body)
+        checkResponse(responsePostBody, body)
+        checkResponse(responsePutBody, body)
+        checkResponse(responseDeleteBody, body)
+        checkResponse(responseTraceBody, body)
+        checkResponse(responseOptionsBody, body)
+        checkResponse(responsePatchBody, body)
+
+        checkResponse(responseGetBodyFormat, body, Yaml)
+        checkResponse(responsePostBodyFormat, body, Yaml)
+        checkResponse(responsePutBodyFormat, body, Yaml)
+        checkResponse(responseDeleteBodyFormat, body, Yaml)
+        checkResponse(responseTraceBodyFormat, body, Yaml)
+        checkResponse(responseOptionsBodyFormat, body, Yaml)
+        checkResponse(responsePatchBodyFormat, body, Yaml)
     }
 
     @Test fun `Parameters are set properly` () {
