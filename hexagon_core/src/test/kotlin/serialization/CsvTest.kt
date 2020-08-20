@@ -1,6 +1,5 @@
 package com.hexagonkt.serialization
 
-import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
@@ -30,7 +29,7 @@ class CsvTest {
     }
 
     @Test fun `Parse invalid CSV type` () {
-        shouldThrow<ParseException> {
+        assertFailsWith<ParseException> {
             "Michael,23,error".parse(Player::class, Csv)
         }
     }

@@ -1,8 +1,8 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.toStream
-import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFailsWith
 
 class YamlTest {
 
@@ -20,7 +20,7 @@ class YamlTest {
     }
 
     @Test fun `Parse invalid YAML range` () {
-        shouldThrow<ParseException> {
+        assertFailsWith<ParseException> {
             """
             name: Michael
             number: 23
@@ -32,7 +32,7 @@ class YamlTest {
     }
 
     @Test fun `Parse invalid YAML range start` () {
-        shouldThrow<ParseException> {
+        assertFailsWith<ParseException> {
             """
             name: Michael
             number: 23
@@ -46,7 +46,7 @@ class YamlTest {
     }
 
     @Test fun `Parse invalid YAML range end` () {
-        shouldThrow<ParseException> {
+        assertFailsWith<ParseException> {
             """
             name: Michael
             number: 23

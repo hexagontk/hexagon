@@ -3,7 +3,6 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Router
-import io.kotest.assertions.throwables.shouldThrow
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -20,6 +19,7 @@ import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.annotation.WebListener
+import kotlin.test.assertFailsWith
 
 @TestInstance(PER_CLASS)
 class ServletServerTest {
@@ -60,7 +60,7 @@ class ServletServerTest {
         val chain = mockk<FilterChain>()
 
         every { request.setAttribute(any(), any()) } just Runs
-        shouldThrow<java.lang.IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             filter.doFilter(request, response, chain)
         }
     }

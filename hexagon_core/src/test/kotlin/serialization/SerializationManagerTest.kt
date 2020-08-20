@@ -5,8 +5,6 @@ import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.SerializationManager.formatOf
-import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.assertions.throwables.shouldThrowUnit
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -47,20 +45,20 @@ class SerializationManagerTest {
     }
 
     @Test fun `User can not set an empty list of formats` () {
-        shouldThrowUnit<IllegalArgumentException> {
+        assertFailsWith<IllegalArgumentException> {
             formats = linkedSetOf()
         }
     }
 
     @Test fun `User can not set a default format not loaded` () {
-        shouldThrowUnit<IllegalArgumentException> {
+        assertFailsWith<IllegalArgumentException> {
             formats = linkedSetOf(Yaml)
             defaultFormat = Json
         }
     }
 
     @Test fun `Searching a format not loaded raises an exception` () {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             formats = linkedSetOf(Yaml)
             formatOf(Json.contentType)
         }

@@ -1,8 +1,8 @@
 package com.hexagonkt.helpers
 
-import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
+import kotlin.test.assertFailsWith
 
 class RequiredKeysMapTest {
 
@@ -13,7 +13,7 @@ class RequiredKeysMapTest {
     }
 
     @Test fun `Missing keys raise an exception instead returning 'null'`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             map["b"]
         }
     }
