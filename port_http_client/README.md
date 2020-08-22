@@ -29,11 +29,17 @@ You create an HTTP Client instance with default options as follows:
 
 ### Settings
 
-If you want to configure options for the client, you create it with the following code:
+If you want to configure options for the client, you can create it with the following code:
 
 @sample port_http_client/src/test/kotlin/ClientTest.kt:clientSettingsCreation
 
+### Send requests
+
 ### Send simple requests
+
+To send simple HTTP requests there are utility methods detailed in the following snippet:
+
+@sample port_http_client/src/test/kotlin/ClientTest.kt:simpleRequests
 
 ### Requests
 

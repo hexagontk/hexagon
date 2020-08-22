@@ -2,13 +2,13 @@ package com.hexagonkt.store.hashmap
 
 import com.hexagonkt.helpers.fail
 import com.hexagonkt.store.Store
-import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import kotlin.test.assertFailsWith
 
 class HashMapStoreTest {
 
@@ -20,7 +20,7 @@ class HashMapStoreTest {
     }
 
     @Test fun `Create index throws UnsupportedOperationException`() {
-        shouldThrow<UnsupportedOperationException> {
+        assertFailsWith<UnsupportedOperationException> {
             store.createIndex(true, emptyMap())
         }
     }
