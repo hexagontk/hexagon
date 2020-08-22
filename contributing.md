@@ -111,7 +111,9 @@ dependency, you need to add the key fingerprint inside the `trusted-keys` elemen
 `gradle/verification-metadata.xml` file.
 
 Prior to trusting the key, you should verify it belongs to the person it claims to be on the
-http://keys.gnupg.net key search tool.
+http://keys.gnupg.net key search tool. I.e.: you can check the Hexagon fingerprint
+(`792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721`) issuing [this search] (don't forget to add
+`0x` before the fingerprint without spaces).
 
 For Continuous Integration runners, you need to import the keys inside the `gradle/verification
 -keyring.gpg` file, you can do so with the following command:
@@ -119,3 +121,5 @@ For Continuous Integration runners, you need to import the keys inside the `grad
 ```shell script
 gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint
 ```
+
+[this search]: http://keys.gnupg.net/pks/lookup?search=0x792BD37FF59891C4AC6F8D923B26711D2AEE3721
