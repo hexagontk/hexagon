@@ -6,13 +6,16 @@ different technologies.
 
 Its main functionalities are:
 
-* HTTP, HTTPS and HTTP/2 support
-* Mutual TLS
+* HTTP, HTTPS and [HTTP/2] support
+* [Mutual TLS]
 * Body encoding/decoding
 * Request/response exchange
 * Form submissions
 * Cookie management
 * File uploading/downloading
+
+[HTTP/2]: https://en.wikipedia.org/wiki/HTTP/2
+[Mutual TLS]: https://en.wikipedia.org/wiki/Mutual_authentication
 
 ### Install the Dependency
 This module is not meant to be used directly. You should include and Adapter implementing this
@@ -76,18 +79,35 @@ or files.
 @sample port_http_server/src/test/kotlin/examples/FilesTest.kt:clientFile
 
 ### TLS
+The HTTP client supports server certificates (to use HTTPS and HTTP/2) and also client certificates
+(to be able to do mutual TLS). Key stores may have the JKS format (deprecated), or the newer PKCS12
+format.
+
+To set up client/server certificates, you need to include [SslSettings] in your [ClientSettings]. In
+the sections below you can see how to configure these parameters.
+
+[SslSettings]: /hexagon_http/com.hexagonkt.http/-ssl-settings
+[ClientSettings]: /port_http_client/com.hexagonkt.http.client/-client-settings
 
 #### Key Store
+This store holds the identity certificate, this certificate is presented to the server by the client
+in the handshake for the server to authorize or deny the connection. The following code:
+
+@sample port_http_server/src/test/kotlin/examples/HttpsTest.kt:keyStoreSettings
 
 #### Trust Store
+This key store should include all the trusted certificates. Any certificate added as CA (certificate
+authority) makes the client trust any other certificate signed by them. However, you can also add
+standalone server certificates.
+
+@sample port_http_server/src/test/kotlin/examples/HttpsTest.kt:trustStoreSettings
 
 ### Mutual TLS
+If you set up the identity (service's own certificate) and the trust store (CAs and servers trusted
+by the client), you will achieve double ended authentication (server authenticated by the client,
+and client authenticated by the server). You can see a complete example below:
 
-### TODO
-TODO Handle redirection
-TODO Authorization (after being implemented in server)
-TODO File handling
-TODO Allow sending a list of parts to avoid repeating the part name
+@sample port_http_server/src/test/kotlin/examples/HttpsTest.kt:https
 
 Package com.hexagonkt.http.client
 =================================

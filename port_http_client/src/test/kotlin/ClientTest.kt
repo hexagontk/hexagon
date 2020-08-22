@@ -84,7 +84,8 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
             headers = mapOf("X-Api-Key" to listOf("cafebabe")), // Headers to use in all requests
             user = "user",                                      // HTTP Basic auth user
             password = "password",                              // HTTP Basic auth password
-            insecure = false                // If true, the client doesn't check server certificates
+            insecure = false,               // If true, the client doesn't check server certificates
+            sslSettings = SslSettings()     // Key stores settings (check TLS section for details)
         ))
         // clientSettingsCreation
     }
