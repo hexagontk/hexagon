@@ -85,7 +85,7 @@ To set up this script's parameters, check the [build variables section]. This he
 
 Adds Kotlin's Gradle plugin.
 
-Uses [JUnit 5] as the test framework. It also includes [Kotest] in the test classpath.
+Uses [JUnit 5] as the test framework. It also includes [MockK] in the test classpath.
 
 It sets up:
 
@@ -107,10 +107,9 @@ To set up this script's parameters, check the [build variables section]. This he
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
 * mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.
 * junitVersion: JUnit version (5+), the default value is the toolkit's version.
-* kotestVersion: Kotest version, the default value is the version used by Hexagon.
 
 [JUnit 5]: https://junit.org
-[Kotest]: https://github.com/kotest/kotest
+[MockK]: https://mockk.io
 
 ## Kotlin JS
 

@@ -111,15 +111,19 @@ abstract class FilesTest(adapter: ServerPort) {
     }
 
     @Test fun `Sending multi part content works properly`() {
+        // clientForm
         val parts = mapOf("name" to Part("name", "value"))
-        val response = client.send(Request(POST, Path("/multipart"), parts = parts))
+        val response = client.send(Request(POST, "/multipart", parts = parts))
+        // clientForm
         assert(response.body == "name")
     }
 
     @Test fun `Sending files works properly`() {
+        // clientFile
         val stream = Resource("assets/index.html").requireStream()
         val parts = mapOf("file" to Part("file", stream, "index.html"))
-        val response = client.send(Request(POST, Path("/file"), parts = parts))
+        val response = client.send(Request(POST, "/file", parts = parts))
+        // clientFile
         assertResponseContains(response, 200, "<title>Hexagon</title>")
     }
 

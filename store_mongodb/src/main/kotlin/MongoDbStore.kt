@@ -202,12 +202,24 @@ class MongoDbStore <T : Any, K : Any>(
             mapper.fields.keys.contains (firstKeySegment)
         }
         .map {
-            val key = it.key
+            val keyFields = it.key.split(":")
+            val key = keyFields.firstOrNull() ?: fail
+            val operator = keyFields.getOrNull(1)
+            val value = it.value
 
-            when (val value = it.value) {
-                is List<*> ->
+            when {
+                value is List<*> ->
                     if (value.size > 1) Filters.`in`(key, value)
                     else Filters.eq(key, value.first())
+                operator != null ->
+                    when (operator) {
+                        "gt" -> Filters.gt(key, value ?: fail)
+                        "gte" -> Filters.gte(key, value ?: fail)
+                        "lt" -> Filters.lt(key, value ?: fail)
+                        "lte" -> Filters.lte(key, value ?: fail)
+                        "re" -> Filters.regex(key, value?.toString() ?: fail)
+                        else -> Filters.eq(key, value)
+                    }
                 else ->
                     Filters.eq(key, value)
             }

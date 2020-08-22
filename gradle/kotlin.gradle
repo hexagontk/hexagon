@@ -35,20 +35,16 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.3.72"
+    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.4.0"
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.10.0"
-    final String scriptKotestVersion = findProperty("kotestVersion") ?: "4.0.5"
+    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.6.2"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$scriptKotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$scriptKotlinVersion")
 
+    testImplementation("org.junit.jupiter:junit-jupiter:$scriptJunitVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$scriptKotlinVersion")
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:$scriptKotestVersion")
-    testImplementation("io.kotest:kotest-assertions-core-jvm:$scriptKotestVersion")
-    testImplementation("io.kotest:kotest-property-jvm:$scriptKotestVersion")
     testImplementation("io.mockk:mockk:$scriptMockkVersion")
-
-    // NOTE This dependency is *REQUIRED* to run the tests (otherwise, they are ignored silently)
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 // Replace build variables in resource files

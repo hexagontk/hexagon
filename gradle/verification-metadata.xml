@@ -34,6 +34,8 @@
 
     <trusted-keys>
       <trusted-key id="cb43338e060cf9fa" group="org.jacoco"/>
+      <trusted-key id="55e770230e69cc6de143fb5b62c82e50836eb3ee" group="com.github.gundy" name="semver4j"/>
+      <trusted-key id="d54a395b5cf3f86eb45f6e426b1b008864323b92" group="org.antlr" name="antlr4-runtime"/>
       <trusted-key id="7c669810892cbd3148fa92995b05ccde140c2876" group="org.eclipse.jgit" name="org.eclipse.jgit"/>
       <trusted-key id="cd5464315f0b98c77e6e8ecd9daadc1c9fcc82d0" group="commons-io" name="commons-io"/>
       <trusted-key id="1abe38b92f812c1f7bf1d647d0d1b9a54efd603d" group="com.univocity" name="univocity-parsers"/>
@@ -43,7 +45,6 @@
       <trusted-key id="c70b844f002f21f6d2b9c87522e44ac0622b91c3" group="com.beust"/>
       <trusted-key id="97c08b18d326d56a124041153d1ccf9c16361512" group="com.typesafe.netty"/>
       <trusted-key id="13ac2213964abe1d1c147c0e1939a2520bab1d90" group="org.freemarker"/>
-      <trusted-key id="7184ba44a830800058f1c05fc7bbed0b8f878af8" group="io.kotest"/>
       <trusted-key id="afcc4c7594d09e2182c60e0f7a01b0f236e5430f" group="com.google.code.gson"/>
       <trusted-key id="5f6c2148ad4911fe308110e5f0d0ae433308b042" group="io.gitlab.arturbosch.detekt"/>
       <trusted-key id="06a228aab83a18a8df7b84b08614d6ab265b4c63" group="org.apache.ant"/>

@@ -1,7 +1,5 @@
 package com.hexagonkt.helpers
 
-import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.assertions.throwables.shouldThrowMessage
 import org.junit.jupiter.api.Test
 import java.net.URI
 import kotlin.test.assertFails
@@ -64,25 +62,25 @@ class HelpersTest {
     }
 
     @Test fun `Require not found key fails`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             m.require("void")
         }
     }
 
     @Test fun `Require keys with non existing keys fails`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             m.requireKeys("nested", "zulu", "tango")
         }
     }
 
     @Test fun `Require not found key in map fails`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             m.requireKeys("nested", "empty")
         }
     }
 
     @Test fun `Require key not found first level throws an error`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             m.requireKeys("empty")
         }
     }
@@ -136,7 +134,7 @@ class HelpersTest {
     }
 
     @Test fun `'fail' generates the correct exception`() {
-        shouldThrowMessage<IllegalStateException>("Invalid state") {
+        assertFailsWith<IllegalStateException>("Invalid state") {
             fail
         }
     }
@@ -172,13 +170,13 @@ class HelpersTest {
     }
 
     @Test fun `Ensure fails if collection size is larger`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             listOf(1, 2, 3).ensureSize(1..2)
         }
     }
 
     @Test fun `Ensure fails if collection size is smaller`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             listOf(1, 2, 3).ensureSize(4..5)
         }
     }

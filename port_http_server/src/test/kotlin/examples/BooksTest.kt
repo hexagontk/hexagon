@@ -77,11 +77,9 @@ abstract class BooksTest(adapter: ServerPort) {
     }
     // books
 
-    // client_init
     private val client: Client by lazy {
         Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
     }
-    // client_init
 
     @BeforeAll fun initialize() {
         server.start()
@@ -91,7 +89,6 @@ abstract class BooksTest(adapter: ServerPort) {
         server.stop()
     }
 
-    // client_usage
     @Test fun `Create book returns 201 and new book ID`() {
         val result = client.post("/books?author=Vladimir%20Nabokov&title=Lolita")
         assert(Integer.valueOf(result.body) > 0)
@@ -130,7 +127,6 @@ abstract class BooksTest(adapter: ServerPort) {
         val result = client.options("/books/9999")
         assert(405 == result.status)
     }
-    // client_usage
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
         assert(response?.status == status)

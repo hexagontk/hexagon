@@ -1,11 +1,11 @@
 package com.hexagonkt.serialization
 
-import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import kotlin.reflect.KClass
+import kotlin.test.assertFailsWith
 
 class SerializationFormatTest {
 
@@ -37,7 +37,7 @@ class SerializationFormatTest {
     }
 
     @Test fun `A binary format fails to serialize to a string` () {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             BinaryTestFormat().serialize("foo")
         }
     }

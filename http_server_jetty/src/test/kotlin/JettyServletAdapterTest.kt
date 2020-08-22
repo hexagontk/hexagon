@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.jetty
 
-import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFailsWith
 
 class JettyServletAdapterTest {
 
@@ -13,7 +13,7 @@ class JettyServletAdapterTest {
     }
 
     @Test fun `Getting the runtime port on stopped instance raises an exception`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             JettyServletAdapter().runtimePort()
         }
     }

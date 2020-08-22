@@ -7,9 +7,9 @@ import com.hexagonkt.settings.SettingsManager.defaultSetting
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.settings.SettingsManager.requireSetting
-import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFailsWith
 
 /**
  * Check `gradle.build` to see the related files creation.
@@ -62,7 +62,7 @@ class SettingsManagerTest {
     }
 
     @Test fun `Require not found setting`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             requireSetting<String>("not_found")
         }
     }
