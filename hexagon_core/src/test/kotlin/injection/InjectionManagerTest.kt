@@ -6,17 +6,17 @@ import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.injection.InjectionManager.bind
 import com.hexagonkt.injection.InjectionManager.bindObject
 import com.hexagonkt.injection.InjectionManager.forceBind
-import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.TestMethodOrder
 import java.lang.IllegalStateException
+import kotlin.test.assertFailsWith
 
 @TestMethodOrder(OrderAnnotation::class)
 class InjectionManagerTest {
 
     @Test fun `Inject not bound class throws exception`() {
-        shouldThrow<IllegalStateException> {
+        assertFailsWith<IllegalStateException> {
             inject<Test>()
         }
     }
