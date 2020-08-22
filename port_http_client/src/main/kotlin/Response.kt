@@ -3,10 +3,7 @@ package com.hexagonkt.http.client
 import java.io.InputStream
 
 /**
- * Check 'Request' comment. And also note that lists should be updated by engines after callback
- * is processed, this data is like a buffer that needs to be dumped to the real response.
- *
- * HTTP response context.
+ * HTTP response fetched from a server request.
  */
 data class Response(
     var status: Int,

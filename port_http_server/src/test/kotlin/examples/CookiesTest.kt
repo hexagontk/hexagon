@@ -98,4 +98,26 @@ abstract class CookiesTest(adapter: ServerPort) {
         val result = client.post("/assertNoCookies")
         assert(result.status == 200)
     }
+
+    @Test
+    @Order(5)
+    fun `Full cookie lifecycle`() {
+        client.cookies.clear()
+        assert(client.cookies.isEmpty())
+
+        // clientCookies
+        val cookieName = "sampleCookie"
+        val cookieValue = "sampleCookieValue"
+
+        // Set the cookie in the client
+        client.cookies["sampleCookie"] = HttpCookie(cookieName, cookieValue)
+
+        // Assert that it is received in the server and change its value afterwards
+        client.post("/assertHasCookie?cookieName=$cookieName")
+        client.post("/addCookie?cookieName=$cookieName&cookieValue=${cookieValue}_changed")
+
+        // Verify that the client cookie is updated
+        assert(client.cookies[cookieName]?.value == cookieValue + "_changed")
+        // clientCookies
+    }
 }
