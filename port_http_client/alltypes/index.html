@@ -1165,8 +1165,7 @@ if ('serviceWorker' in navigator)
   
     <h1>Home</h1>
   
-  <p>This port provides a common interface for using HTTP clients. Many adapters can be developed to use
-different technologies.</p>
+  <p>Module port_http_client</p>
 <h4 id="all-types">All Types<a class="headerlink" href="#all-types" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -1190,14 +1189,10 @@ different technologies.</p>
 <h6 id="comhexagonkthttpclientclientsettings"><a href="../com.hexagonkt.http.client/-client-settings/">com.hexagonkt.http.client.ClientSettings</a><a class="headerlink" href="#comhexagonkthttpclientclientsettings" title="Permanent link">&para;</a></h6>
 <p>|</p>
 <h6 id="comhexagonkthttpclientrequest"><a href="../com.hexagonkt.http.client/-request/">com.hexagonkt.http.client.Request</a><a class="headerlink" href="#comhexagonkthttpclientrequest" title="Permanent link">&para;</a></h6>
-<p>Lists would be initialized loading all elements when they are used (set it as lazy in
-implementations) this will have a performance penalty in favor of ease of use. The alternative
-would be using a 'Map/List wrapper that delegates calls to abstract methods in the interface
-(I won't do this just now).</p>
+<p>HTTP request send to the server.</p>
 <p>|</p>
 <h6 id="comhexagonkthttpclientresponse"><a href="../com.hexagonkt.http.client/-response/">com.hexagonkt.http.client.Response</a><a class="headerlink" href="#comhexagonkthttpclientresponse" title="Permanent link">&para;</a></h6>
-<p>Check 'Request' comment. And also note that lists should be updated by engines after callback
-is processed, this data is like a buffer that needs to be dumped to the real response.</p>
+<p>HTTP response fetched from a server request.</p>
   
     
   

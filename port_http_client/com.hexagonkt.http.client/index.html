@@ -1139,7 +1139,6 @@ if ('serviceWorker' in navigator)
   
   <p><a href="../">port_http_client</a> / <a href="./">com.hexagonkt.http.client</a></p>
 <h3 id="package-comhexagonkthttpclient">Package com.hexagonkt.http.client<a class="headerlink" href="#package-comhexagonkthttpclient" title="Permanent link">&para;</a></h3>
-<p>This package holds the classes that define the HTTP client and its configuration settings.</p>
 <h4 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -1163,11 +1162,11 @@ if ('serviceWorker' in navigator)
 </tr>
 <tr>
 <td><a href="-request/">Request</a></td>
-<td>Lists would be initialized loading all elements when they are used (set it as lazy in implementations) this will have a performance penalty in favor of ease of use. The alternative would be using a 'Map/List wrapper that delegates calls to abstract methods in the interface (I won't do this just now).<code class="codehilite"><span class="err">data class Request</span></code></td>
+<td>HTTP request send to the server.<code class="codehilite"><span class="err">data class Request</span></code></td>
 </tr>
 <tr>
 <td><a href="-response/">Response</a></td>
-<td>Check 'Request' comment. And also note that lists should be updated by engines after callback is processed, this data is like a buffer that needs to be dumped to the real response.<code class="codehilite"><span class="err">data class Response</span></code></td>
+<td>HTTP response fetched from a server request.<code class="codehilite"><span class="err">data class Response</span></code></td>
 </tr>
 </tbody>
 </table>

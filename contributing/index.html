@@ -1319,7 +1319,9 @@ this command will be executed before pushing code to the repository (saving you 
 dependency, you need to add the key fingerprint inside the <code class="codehilite"><span class="err">trusted-keys</span></code> element at the
 <code class="codehilite"><span class="err">gradle/verification-metadata.xml</span></code> file.</p>
 <p>Prior to trusting the key, you should verify it belongs to the person it claims to be on the
-http://keys.gnupg.net key search tool.</p>
+http://keys.gnupg.net key search tool. I.e.: you can check the Hexagon fingerprint
+(<code class="codehilite"><span class="err">792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721</span></code>) issuing <a href="http://keys.gnupg.net/pks/lookup?search=0x792BD37FF59891C4AC6F8D923B26711D2AEE3721">this search</a> (don't forget to add
+<code class="codehilite"><span class="err">0x</span></code> before the fingerprint without spaces).</p>
 <p>For Continuous Integration runners, you need to import the keys inside the <code class="codehilite"><span class="err">gradle/verification</span><span class="err">-keyring.gpg</span></code> file, you can do so with the following command:</p>
 <p><code class="codehilite"><span class="err">shell script</span><span class="err">gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint</span></code></p>
   
