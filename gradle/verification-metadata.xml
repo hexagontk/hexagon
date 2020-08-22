@@ -25,6 +25,9 @@
       <!-- Tests -->
       <trust group="com.github.mifmif" name="generex" version="1.0.2"/>
       <trust group="com.github.wumpz" name="diffutils" version="2.2"/>
+      <trust group="jakarta.validation" name="jakarta.validation-api" version="2.0.2"/>
+      <trust group="javax.activation" name="activation" version="1.1"/>
+      <trust group="javax.validation" name="validation-api" version="1.1.0.Final"/>
     </trusted-artifacts>
 
     <key-servers>
