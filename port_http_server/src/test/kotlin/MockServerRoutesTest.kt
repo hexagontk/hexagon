@@ -23,6 +23,7 @@ class MockServerRoutesTest {
     @BeforeAll fun setUp() {
         InjectionManager.bindObject<ServerPort>(JettyServletAdapter())
         server.start()
+        assert(server.started())
     }
 
     @Test fun `Basic routes are created correctly`() {
