@@ -1,6 +1,5 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
@@ -68,7 +67,7 @@ class SerializationManagerTest {
         assert(formatOf(Json.contentType) == Json)
         assert(formatOf(URL("http://l/a.yaml")) == Yaml)
         assert(formatOf(File("f.json")) == Json)
-        assert(formatOf(Resource("r.yaml")) == Yaml)
+        assert(formatOf(URL("classpath:r.yaml")) == Yaml)
     }
 
     @Test fun `MIME types return correct content type for extensions`() {
@@ -104,19 +103,19 @@ class SerializationManagerTest {
     }
 
     @Test fun `MIME types return correct content type for resources`() {
-        assert(SerializationManager.contentTypeOf(Resource("r.json")) == Json.contentType)
-        assert(SerializationManager.contentTypeOf(Resource("r.yaml")) == Yaml.contentType)
-        assert(SerializationManager.contentTypeOf(Resource("r.yml")) == Yaml.contentType)
-        assert(SerializationManager.contentTypeOf(Resource("r.png")) == "image/png")
-        assert(SerializationManager.contentTypeOf(Resource("r.rtf")) == "application/rtf")
+        assert(SerializationManager.contentTypeOf(URL("classpath:r.json")) == Json.contentType)
+        assert(SerializationManager.contentTypeOf(URL("classpath:r.yaml")) == Yaml.contentType)
+        assert(SerializationManager.contentTypeOf(URL("classpath:r.yml")) == Yaml.contentType)
+        assert(SerializationManager.contentTypeOf(URL("classpath:r.png")) == "image/png")
+        assert(SerializationManager.contentTypeOf(URL("classpath:r.rtf")) == "application/rtf")
 
-        assert(formatOf(Resource("r.json")) == Json)
-        assert(formatOf(Resource("r.yaml")) == Yaml)
-        assert(formatOf(Resource("r.yml")) == Yaml)
+        assert(formatOf(URL("classpath:r.json")) == Json)
+        assert(formatOf(URL("classpath:r.yaml")) == Yaml)
+        assert(formatOf(URL("classpath:r.yml")) == Yaml)
     }
 
     @Test fun `Not found Serialization format throws an exception`() {
-        assertFailsWith<IllegalStateException> { formatOf(Resource("r._")) }
+        assertFailsWith<IllegalStateException> { formatOf(URL("classpath:r._")) }
         assertFailsWith<IllegalStateException> { formatOf(File("r._")) }
         assertFailsWith<IllegalStateException> { formatOf(URL("http://r._")) }
         assertFailsWith<IllegalStateException> { formatOf("_") }

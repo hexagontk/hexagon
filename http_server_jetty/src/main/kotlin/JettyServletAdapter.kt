@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.helpers.fail
-import com.hexagonkt.helpers.stream
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
@@ -72,7 +71,7 @@ class JettyServletAdapter : ServerPort {
         val keyStore = sslSettings.keyStore
         if (keyStore != null) {
             val keyStorePassword = sslSettings.keyStorePassword
-            val keyStoreStream = keyStore.stream()
+            val keyStoreStream = keyStore.openStream()
             sslContextFactory.keyStore = KeyStore.getInstance("pkcs12")
             sslContextFactory.keyStore.load(keyStoreStream, keyStorePassword.toCharArray())
             sslContextFactory.setKeyStorePassword(keyStorePassword)
@@ -81,7 +80,7 @@ class JettyServletAdapter : ServerPort {
         val trustStore = sslSettings.trustStore
         if (trustStore != null) {
             val trustStorePassword = sslSettings.trustStorePassword
-            val trustStoreStream = trustStore.stream()
+            val trustStoreStream = trustStore.openStream()
             sslContextFactory.trustStore = KeyStore.getInstance("pkcs12")
             sslContextFactory.trustStore.load(trustStoreStream, trustStorePassword.toCharArray())
             sslContextFactory.setTrustStorePassword(trustStorePassword)

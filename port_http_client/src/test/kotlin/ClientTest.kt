@@ -19,7 +19,7 @@ import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
-import java.net.URI
+import java.net.URL
 
 @TestInstance(PER_CLASS)
 abstract class ClientTest(private val adapter: () -> ClientPort) {
@@ -263,8 +263,8 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         val trustStorePassword = trust.reversed()
 
         // Key stores can be set as URIs to classpath resources (the triple slash is needed)
-        val keyStore = URI("resource:///ssl/$identity")
-        val trustStore = URI("resource:///ssl/$trust")
+        val keyStore = URL("classpath:ssl/$identity")
+        val trustStore = URL("classpath:ssl/$trust")
 
         val sslSettings = SslSettings(
             keyStore = keyStore,

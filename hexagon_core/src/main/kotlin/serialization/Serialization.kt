@@ -1,6 +1,5 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.toStream
 import com.hexagonkt.serialization.JacksonHelper.mapper
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
@@ -83,17 +82,4 @@ inline fun <reified T : Any> URL.parse(): T =
     this.parse(T::class)
 
 inline fun <reified T : Any> URL.parseObjects(): List<T> =
-    this.parseObjects(T::class)
-
-// RESOURCE ////////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> Resource.parse(type: KClass<T>): T =
-    this.requireUrl().parse(type)
-
-fun <T : Any> Resource.parseObjects(type: KClass<T>): List<T> =
-    this.requireUrl().parseObjects(type)
-
-inline fun <reified T : Any> Resource.parse(): T =
-    this.parse(T::class)
-
-inline fun <reified T : Any> Resource.parseObjects(): List<T> =
     this.parseObjects(T::class)

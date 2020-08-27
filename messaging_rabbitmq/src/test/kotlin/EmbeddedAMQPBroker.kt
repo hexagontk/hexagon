@@ -1,8 +1,8 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.helpers.Resource
 import org.apache.qpid.server.Broker
 import org.apache.qpid.server.BrokerOptions
+import java.net.URL
 import java.nio.file.Files.createTempDirectory
 
 internal class EmbeddedAMQPBroker(
@@ -16,7 +16,7 @@ internal class EmbeddedAMQPBroker(
     internal fun startup() {
         val options = with(BrokerOptions()) {
             isStartupLoggedToSystemOut = false
-            initialConfigurationLocation = Resource("qpid.json").requireUrl().toString()
+            initialConfigurationLocation = URL("classpath:qpid.json").toString()
             configurationStoreType = "Memory"
 
             val storeAttributes = """{"type": "Noop"}"""

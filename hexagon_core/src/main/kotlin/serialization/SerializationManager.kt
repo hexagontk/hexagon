@@ -1,7 +1,6 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.fail
 import java.io.File
 import java.net.URL
@@ -17,7 +16,7 @@ object SerializationManager {
 
     private val logger: Logger = Logger(this)
 
-    private val mimeTypesResource = Resource("serialization/mime.types")
+    private val mimeTypesResource = URL("classpath:serialization/mime.types")
 
     internal val coreFormats: LinkedHashSet<SerializationFormat> =
         linkedSetOf(Json, Yaml)
@@ -79,8 +78,6 @@ object SerializationManager {
 
     fun contentTypeOf(file: File): String? = mimeTypes[file.extension]
 
-    fun contentTypeOf(resource: Resource): String? = contentTypeOf(pathExtension(resource.path))
-
     fun formatOf(contentType: String): SerializationFormat =
         formatsMap[contentType] ?: error("$contentType not found")
 
@@ -93,14 +90,11 @@ object SerializationManager {
     fun formatOf(file: File): SerializationFormat =
         formatOf(contentTypeOf(file) ?: fail)
 
-    fun formatOf(resource: Resource): SerializationFormat =
-        formatOf(contentTypeOf(resource) ?: fail)
-
     private fun pathExtension(path: String): String = path.substringAfterLast('.')
 
-    private fun loadContentTypeExtensions(input: Resource): Map<String, List<String>> =
+    private fun loadContentTypeExtensions(input: URL): Map<String, List<String>> =
         input
-            .requireStream()
+            .openStream()
             .bufferedReader()
             .readLines()
             .asSequence()

@@ -2,7 +2,7 @@ package com.hexagonkt.http.client.ahc
 
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.ensureSize
-import com.hexagonkt.helpers.stream
+import com.hexagonkt.helpers.fail
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.http.Method
@@ -20,7 +20,7 @@ import org.asynchttpclient.request.body.multipart.StringPart
 import org.asynchttpclient.request.body.multipart.Part as AhcPart
 import java.io.File
 import java.net.HttpCookie
-import java.net.URI
+import java.net.URL
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
 import java.security.KeyStore
@@ -58,8 +58,8 @@ class AhcAdapter : ClientPort {
                 it.trustManager(InsecureTrustManager).build()
 
             settings.sslSettings != null -> {
-                val sslSettings = settings.sslSettings
-                val keyStore = sslSettings!!.keyStore
+                val sslSettings = settings.sslSettings ?: fail
+                val keyStore = sslSettings.keyStore
                 val trustStore = sslSettings.trustStore
 
                 var sslContextBuilder = it
@@ -106,9 +106,9 @@ class AhcAdapter : ClientPort {
         }
     }
 
-    private fun keyStore(uri: URI, password: String): KeyStore {
+    private fun keyStore(url: URL, password: String): KeyStore {
         val keyStore = KeyStore.getInstance("pkcs12")
-        keyStore.load(uri.stream(), password.toCharArray())
+        keyStore.load(url.openStream(), password.toCharArray())
         return keyStore
     }
 

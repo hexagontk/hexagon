@@ -1,27 +1,26 @@
 package com.hexagonkt.helpers
 
 import org.junit.jupiter.api.Test
+import java.net.URL
 import kotlin.test.assertFailsWith
 
 class ResourceTest {
 
     @Test fun `Require resource`() {
-        val resource = Resource("application_test.yml")
-        assert(resource.requireUrl().file == resource.url()?.file)
-        assertFailsWith<IllegalStateException>("foo.txt not found") {
-            Resource("foo.txt").requireUrl()
+        val resource = URL("classpath:application_test.yml")
+        assert(resource.file == resource.file)
+        val e = assertFailsWith<IllegalStateException> {
+            URL("classpath:foo.txt").openConnection()
         }
-        assertFailsWith<IllegalStateException>("foo.txt not found") {
-            Resource("foo.txt").requireStream()
-        }
+        assert(e.message == "foo.txt cannot be open")
     }
 
     @Test fun `Resource folder`() {
-        assert(Resource("data").url()?.readText()?.lines()?.size ?: 0 > 0)
+        assert(URL("classpath:data").readText().lines().isNotEmpty())
     }
 
     @Test fun `readResource returns resource's text` () {
-        val resourceText = Resource("logback-test.xml").readText()
-        assert(resourceText?.contains("Logback configuration for tests") ?:false)
+        val resourceText = URL("classpath:logback-test.xml").readText()
+        assert(resourceText.contains("Logback configuration for tests"))
     }
 }
