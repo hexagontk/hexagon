@@ -1,15 +1,6 @@
 
 rootProject.name = "hexagon"
 
-gradle.rootProject {
-
-    allprojects {
-        version = "1.3.0"
-        group = "com.hexagonkt"
-        description = "The atoms of your platform"
-    }
-}
-
 include(
     // Infrastructure
     "hexagon_site",
