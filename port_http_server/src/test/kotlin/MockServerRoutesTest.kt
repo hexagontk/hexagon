@@ -14,10 +14,10 @@ import java.net.HttpCookie
 class MockServerRoutesTest {
 
     val server by lazy {
-        MockServer("openapi_test.json", 12345).server
+        MockServer("openapi_test.json").server
     }
     val client by lazy {
-        Client(AhcAdapter(), endpoint = "http://127.0.0.1:12345")
+        Client(AhcAdapter(), endpoint = "http://localhost:${server.runtimePort}")
     }
 
     @BeforeAll fun setUp() {
