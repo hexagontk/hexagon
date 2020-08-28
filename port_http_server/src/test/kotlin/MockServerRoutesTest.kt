@@ -17,7 +17,7 @@ class MockServerRoutesTest {
         MockServer("openapi_test.json", 12345).server
     }
     val client by lazy {
-        Client(AhcAdapter(), endpoint = "http://127.0.0.1:9897")
+        Client(AhcAdapter(), endpoint = "http://127.0.0.1:12345")
     }
 
     @BeforeAll fun setUp() {
