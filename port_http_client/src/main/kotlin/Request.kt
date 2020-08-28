@@ -5,12 +5,7 @@ import com.hexagonkt.http.Part
 import com.hexagonkt.http.Path
 
 /**
- * Lists would be initialized loading all elements when they are used (set it as lazy in
- * implementations) this will have a performance penalty in favor of ease of use. The alternative
- * would be using a 'Map/List wrapper that delegates calls to abstract methods in the interface
- * (I won't do this just now).
- *
- * HTTP request context. It holds client supplied data and methods to change the response.
+ * HTTP request send to the server.
  */
 data class Request(
     val method: Method,
@@ -21,4 +16,24 @@ data class Request(
     val formParameters: Map<String, List<String>> = emptyMap(),
     val parts: Map<String, Part> = emptyMap(),
     val contentType: String? = null
-)
+) {
+    constructor(
+        method: Method,
+        path: String,
+        body: Any? = null,
+        headers: Map<String, List<String>> = emptyMap(),
+        pathParameters: Map<String, List<String>> = emptyMap(),
+        formParameters: Map<String, List<String>> = emptyMap(),
+        parts: Map<String, Part> = emptyMap(),
+        contentType: String? = null
+    ) : this (
+        method,
+        Path(path),
+        body,
+        headers,
+        pathParameters,
+        formParameters,
+        parts,
+        contentType
+    )
+}

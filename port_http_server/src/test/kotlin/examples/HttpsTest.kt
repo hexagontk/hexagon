@@ -135,15 +135,17 @@ abstract class HttpsTest(adapter: ServerPort) {
         val identity = "hexagonkt.p12"
         val trust = "trust.p12"
 
-        val sslSettings = SslSettings(
+        // keyStoreSettings
+        val keyStoreSettings = SslSettings(
             keyStore = URI("resource:///ssl/$identity"),
             keyStorePassword = identity.reversed()
         )
+        // keyStoreSettings
 
         val serverSettings = ServerSettings(
             bindPort = 0,
             protocol = HTTPS,
-            sslSettings = sslSettings
+            sslSettings = keyStoreSettings
         )
 
         val server = serve(serverSettings, serverAdapter) {
@@ -152,11 +154,15 @@ abstract class HttpsTest(adapter: ServerPort) {
             }
         }
 
+        // trustStoreSettings
+        val trustStoreSettings = SslSettings(
+            trustStore = URI("resource:///ssl/$trust"),
+            trustStorePassword = trust.reversed()
+        )
+        // trustStoreSettings
+
         val clientSettings = ClientSettings(
-            sslSettings = SslSettings(
-                trustStore = URI("resource:///ssl/$trust"),
-                trustStorePassword = trust.reversed()
-            )
+            sslSettings = trustStoreSettings
         )
 
         // Create a HTTP client and make a HTTPS request

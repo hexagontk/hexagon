@@ -29,7 +29,7 @@ processors:
   # - 'KtFileCountProcessor'
 
 console-reports:
-  active: true
+  active: false
   exclude:
     - 'ProjectStatisticsReport'
     - 'ComplexityReport'
