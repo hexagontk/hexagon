@@ -1,8 +1,5 @@
 package com.hexagonkt.helpers
 
-import java.io.InputStream
-import java.net.URI
-
 /** Default logger when you are lazy to declare one. */
 val logger: Logger = Logger(Logger::class)
 
