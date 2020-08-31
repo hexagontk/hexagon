@@ -17,12 +17,12 @@ services:
       - 8000:8000
 
   mongodb:
-    image: mongo:4.2
+    image: mongo:4.4-bionic
     ports:
       - 27017:27017
 
   rabbitmq:
-    image: rabbitmq:3.8
+    image: rabbitmq:3.8-alpine
     ports:
       - 5672:5672
       - 15672:15672
