@@ -38,6 +38,25 @@ class SettingsManagerTest {
         assert(defaultSetting("fakeIntProperty", 42) == 42)
     }
 
+    @Test fun `Get JSON properties`() {
+        SettingsManager.settingsSources = listOf(
+            ResourceSource("classpath:$SETTINGS.yml"),
+            ResourceSource("classpath:development.yml"),
+            EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
+            SystemPropertiesSource(SETTINGS),
+            FileSource("$SETTINGS.yml"),
+            ResourceSource("classpath:${SETTINGS}_test.yml"),
+            ResourceSource("classpath:integration.json")
+        )
+
+        assert(settings["property"] as String == "final property")
+        assert(settings["intProperty"] as Int == 42)
+        assert(settings["foo"] as String == "final")
+        assert(settings["parent", "key"] as String == "val")
+        assert(settings["added"] as Boolean)
+        assert(settings["integer"] as Int == 1)
+    }
+
     @Test fun `Get configuration properties`() {
         SettingsManager.settingsSources = listOf(
             ResourceSource("classpath:$SETTINGS.yml"),

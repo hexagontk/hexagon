@@ -1,4 +1,7 @@
+
 {
-  foo: "bar",
-  property: "changed"
+  foo: "final",
+  property: "final property",
+  added: true,
+  integer: 1
 }

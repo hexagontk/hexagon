@@ -8,6 +8,12 @@ import kotlin.reflect.KClass
  * objects bound to classes. Different suppliers can be bound to the same type using 'tags'.
  */
 object InjectionManager {
+
+    enum class OverwritePolicy { ALLOW, IGNORE, FORBID }
+
+    // TODO
+    var overwriteBindings: OverwritePolicy = OverwritePolicy.IGNORE
+
     private var registry: Map<Pair<KClass<*>, *>, () -> Any> = emptyMap()
 
     fun <T : Any, R : T> bind(type: KClass<T>, tag: Any, force: Boolean, provider: () -> R) {
