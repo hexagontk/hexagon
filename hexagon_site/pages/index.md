@@ -22,7 +22,7 @@ hero: |
     Hexagon is a microservices
     <a href="https://stackoverflow.com/a/3057818/973418">toolkit</a> written in
     <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the building of server
-    applications (Web applications, APIs or queue consumers) that run inside a cloud platform.
+    applications (Web applications, APIs, or queue consumers) that run inside a cloud platform.
   </p>
 ---
 
@@ -39,8 +39,8 @@ Each of these features or ports may have different implementations called
 ["Adapters"][Ports and Adapters Architecture].
 
 Hexagon is designed to fit in applications that conform to the [Hexagonal Architecture] (also called
-[Clean Architecture] or [Ports and Adapters Architecture]). Also, its design principles also fits in
-this architecture.
+[Clean Architecture] or [Ports and Adapters Architecture]). Its design principles also fit into this
+architecture.
 
 [^1]: Except the Core module that contains a set of utilities like serialization and dependency
 injection. However, some of these capacities can be replaced by other third party libraries.
@@ -67,22 +67,22 @@ You can check the [code examples] and [demo projects] for more complex use cases
 
 Hexagon's goals and design principles:
 
-* **Put you in Charge**: There is no code generation, no runtime annotation processing and no logic
+* **Put you in Charge**: There is no code generation, no runtime annotation processing, and no logic
   based on your classpath. You control your tools, not the other way around.
 
 * **Modular**: Each feature (Port) or adapter is isolated in its own module. Use only the modules
   you need without carrying unneeded dependencies.
 
 * **Pluggable Adapters**: Every Port may have many implementations (Adapters) using different
-  technologies. You can swap adapters without changing application code.
+  technologies. You can swap adapters without changing the application code.
 
-* **Batteries Included**: It contains all required pieces to make production grade applications:
+* **Batteries Included**: It contains all the required pieces to make production-grade applications:
   settings management, serialization, dependency injection[^2] and build helpers.
 
-* **Kotlin First**: Take full advantage of Kotlin instead just calling Java code from Kotlin. The
+* **Kotlin First**: Take full advantage of Kotlin instead of just calling Java code from Kotlin. The
   library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).
 
-* **Properly Tested**: Project's coverage is checked in every Pull Request. It is also stress tested
+* **Properly Tested**: The project's coverage is checked in every Pull Request. It is also stress-tested
   at [TechEmpower Frameworks Benchmark][benchmark].
 
 [^2]: However, you can replace the core DI implementation with any other library.

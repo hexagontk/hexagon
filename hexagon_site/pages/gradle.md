@@ -2,7 +2,7 @@
 # Build Variables
 
 The build process and imported build scripts (like the ones documented here) use variables to
-customize their behaviour. It is possible to add/change variables of a build from the following
+customize their behavior. It is possible to add/change variables of a build from the following
 places:
 
 1. In the project's `gradle.properties` file.
@@ -32,11 +32,11 @@ This script set up the project/module for publishing in [Maven Central].
 
 It publishes all artifacts attached to the `mavenJava` publication (check [kotlin.gradle] publishing
 section) at the bare minimum binaries are published. For an Open Source project, you must include
-sources and javadoc also.
+sources and javadoc.
 
 To use it apply `$gradleScripts/publish.gradle`.
 
-To set up this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * bintrayKey (REQUIRED): if not defined will try to load BINTRAY_KEY environment variable.
 * bintrayUser (REQUIRED): or BINTRAY_USER environment variable if not defined.
@@ -72,7 +72,7 @@ development machine.
 
 To use it, apply `$gradleScripts/icons.gradle` to your `build.gradle`.
 
-To set up this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * logoSmall (REQUIRED): SVG file used to render the small logo. Used for the favicon.
 * logoLarge (REQUIRED): SVG file used to render the large logo.
@@ -94,15 +94,15 @@ It sets up:
 - Kotlin dependencies
 - Resource processing (replacing build variables)
 - Cleaning (deleting runtime files as logs and dump files)
-- Tests (pass properties, output and mocks). Test's output depends on Gradle logging level
+- Tests (pass properties, output, and mocks). Test's output depends on Gradle logging level
 - Set up coverage report
 - IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)
-- Published artifacts (binaries, sources and test): sourcesJar and testJar tasks
+- Published artifacts (binaries, sources, and test): sourcesJar and testJar tasks
 
 To use it, apply `$gradleScripts/kotlin.gradle` and add the
 `id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to the root `build.gradle`.
 
-To set up this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
 * mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.
@@ -127,7 +127,7 @@ the root `build.gradle`.
 
 Applying this script at the beginning won't work until it allows dependencies to be merged (a bug).
 
-To set up this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * javaScriptDirectory: JavaScript directory inside the `web` directory. By default, it is: "js".
 
@@ -161,10 +161,10 @@ used for production environments.
 
 The created key stores are:
 
-* `ca.p12`: self signed certificate authority (CA). This store holds the CA private key. The store
+* `ca.p12`: self-signed certificate authority (CA). This store holds the CA private key. The store
   must be private and will be used to sign other certificates. The key pair alias is `ca`.
 * `trust.p12`: key store with CA's public certificate. It can be set as the Java process trust store
-  which make every certificate signed with the CA trusted. However, if used as the trust store, the
+  which makes every certificate signed with the CA trusted. However, if used as the trust store, the
   JDK `cacerts` entries won't be loaded and thus, not trusted. It can be used to set up HTTPS
   clients (not required to be set at JVM level).
 * `<domain>.p12`: there would be one per each domain (see `sslDomain` variable). These stores are
@@ -180,7 +180,7 @@ The defined tasks are:
 
 To use it, apply `$gradleScripts/certificates.gradle` to your `build.gradle`.
 
-To set up this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * sslDomain\[1-9] (REQUIRED): the main domain for the identity store. You can create up to ten (from
  `sslDomain` to `sslDomain9`). Each of these variables has the format
@@ -191,7 +191,7 @@ To set up this script's parameters, check the [build variables section]. This he
 * sslCaFile: certificate authority key store file. By default: "ca.p12".
 * sslCaAlias: CA alias in the key store. If not provided, it will be "ca".
 * sslTrustFile: trust store file name, by default it is "trust.p12".
-* sslPath: path used to generate the key stores. By default, it will be project's build directory.
+* sslPath: path used to generate the key stores. By default, it will be the project's build directory.
 * sslPassword: password used for the generated key stores. By default, it is the file name reversed.
 * sslValidity: validity period (in days) for certificates. If not provided, it will be 365.
 * sslCountry: country used in the certificates. By default, it is the current locale's country code.
@@ -222,7 +222,7 @@ plugins {
 }
 ```
 
-To set up this script's parameters, check the [build variables section]. This helper settings are:
+To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * detektConfigPath: file with Detekt rules and settings. If not set, the default Detekt setup will
   be used.
@@ -236,6 +236,6 @@ you must apply the `$gradleScripts/docker.gradle` script to your `build.gradle` 
 
 This script provides the following tasks:
 
-* `cleanDocker`: deletes unused containers, images and volumes.
+* `cleanDocker`: deletes unused containers, images, and volumes.
 
 [Docker]: https://www.docker.com
