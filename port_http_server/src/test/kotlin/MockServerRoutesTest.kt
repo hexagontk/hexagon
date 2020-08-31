@@ -21,7 +21,7 @@ class MockServerRoutesTest {
     }
 
     @BeforeAll fun setUp() {
-        InjectionManager.bindObject<ServerPort>(JettyServletAdapter())
+        InjectionManager.forceBindObject<ServerPort>(JettyServletAdapter())
         server.start()
         assert(server.started())
     }

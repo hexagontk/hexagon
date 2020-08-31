@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.injection.InjectionManager.bindObject
+import com.hexagonkt.injection.InjectionManager.forceBindObject
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
@@ -9,7 +9,7 @@ import java.net.InetAddress.getByName as address
 class ServerTest {
 
     @Test fun `Injected parameters`() {
-        bindObject<ServerPort>(VoidAdapter)
+        forceBindObject<ServerPort>(VoidAdapter)
 
         val server = Server {}
 

@@ -2,6 +2,7 @@ package com.hexagonkt.http.client
 
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.helpers.require
+import com.hexagonkt.http.Method.GET
 import com.hexagonkt.http.Protocol.HTTPS
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.server.Call
@@ -83,7 +84,8 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
             headers = mapOf("X-Api-Key" to listOf("cafebabe")), // Headers to use in all requests
             user = "user",                                      // HTTP Basic auth user
             password = "password",                              // HTTP Basic auth password
-            insecure = false                // If true, the client doesn't check server certificates
+            insecure = false,               // If true, the client doesn't check server certificates
+            sslSettings = SslSettings()     // Key stores settings (check TLS section for details)
         ))
         // clientSettingsCreation
     }
@@ -102,10 +104,26 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         client.get("/")
     }
 
-    @Test fun `HTTP methods with objects work ok`() {
+    @Test fun `HTTP generic requests work ok`() {
 
-        // simpleRequests
-        // Send requests without body
+        // genericRequest
+        val request = Request(
+            method = GET,
+            path = "/",
+            body = mapOf("body" to "payload"),
+            headers = mapOf("X-Header" to listOf("value")),
+            contentType = Json.contentType
+        )
+
+        val response = client.send(request)
+        // genericRequest
+
+        checkResponse(response, mapOf("body" to "payload"))
+    }
+
+    @Test fun `HTTP methods without body work ok`() {
+
+        // withoutBodyRequests
         val responseGet = client.get("/")
         val responseHead = client.head("/")
         val responsePost = client.post("/")
@@ -114,27 +132,7 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         val responseTrace = client.trace("/")
         val responseOptions = client.options("/")
         val responsePatch = client.patch("/")
-
-        // Send requests with body
-        val body = mapOf("key" to "value")
-
-        val responseGetBody = client.get("/", body = body)
-        val responsePostBody = client.post("/", body)
-        val responsePutBody = client.put("/", body)
-        val responseDeleteBody = client.delete("/", body)
-        val responseTraceBody = client.trace("/", body)
-        val responseOptionsBody = client.options("/", body)
-        val responsePatchBody = client.patch("/", body)
-
-        // Send requests with body and content type
-        val responseGetBodyFormat = client.get("/", body = body, format = Yaml)
-        val responsePostBodyFormat = client.post("/", body, Yaml)
-        val responsePutBodyFormat = client.put("/", body, Yaml)
-        val responseDeleteBodyFormat = client.delete("/", body, Yaml)
-        val responseTraceBodyFormat = client.trace("/", body, Yaml)
-        val responseOptionsBodyFormat = client.options("/", body, Yaml)
-        val responsePatchBodyFormat = client.patch("/", body, Yaml)
-        // simpleRequests
+        // withoutBodyRequests
 
         checkResponse(responseGet, null)
         checkResponse(responseHead, null)
@@ -144,22 +142,52 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         checkResponse(responseTrace, null)
         checkResponse(responseOptions, null)
         checkResponse(responsePatch, null)
+    }
 
-        checkResponse(responseGetBody, body)
-        checkResponse(responsePostBody, body)
-        checkResponse(responsePutBody, body)
-        checkResponse(responseDeleteBody, body)
-        checkResponse(responseTraceBody, body)
-        checkResponse(responseOptionsBody, body)
-        checkResponse(responsePatchBody, body)
+    @Test fun `HTTP methods with body work ok`() {
 
-        checkResponse(responseGetBodyFormat, body, Yaml)
-        checkResponse(responsePostBodyFormat, body, Yaml)
-        checkResponse(responsePutBodyFormat, body, Yaml)
-        checkResponse(responseDeleteBodyFormat, body, Yaml)
-        checkResponse(responseTraceBodyFormat, body, Yaml)
-        checkResponse(responseOptionsBodyFormat, body, Yaml)
-        checkResponse(responsePatchBodyFormat, body, Yaml)
+        // bodyRequests
+        val body = mapOf("key" to "value")
+
+        val responseGet = client.get("/", body = body)
+        val responsePost = client.post("/", body)
+        val responsePut = client.put("/", body)
+        val responseDelete = client.delete("/", body)
+        val responseTrace = client.trace("/", body)
+        val responseOptions = client.options("/", body)
+        val responsePatch = client.patch("/", body)
+        // bodyRequests
+
+        checkResponse(responseGet, body)
+        checkResponse(responsePost, body)
+        checkResponse(responsePut, body)
+        checkResponse(responseDelete, body)
+        checkResponse(responseTrace, body)
+        checkResponse(responseOptions, body)
+        checkResponse(responsePatch, body)
+    }
+
+    @Test fun `HTTP methods with body and content type work ok`() {
+
+        // bodyAndContentTypeRequests
+        val body = mapOf("key" to "value")
+
+        val responseGet = client.get("/", body = body, format = Yaml)
+        val responsePost = client.post("/", body, Yaml)
+        val responsePut = client.put("/", body, Yaml)
+        val responseDelete = client.delete("/", body, Yaml)
+        val responseTrace = client.trace("/", body, Yaml)
+        val responseOptions = client.options("/", body, Yaml)
+        val responsePatch = client.patch("/", body, Yaml)
+        // bodyAndContentTypeRequests
+
+        checkResponse(responseGet, body, Yaml)
+        checkResponse(responsePost, body, Yaml)
+        checkResponse(responsePut, body, Yaml)
+        checkResponse(responseDelete, body, Yaml)
+        checkResponse(responseTrace, body, Yaml)
+        checkResponse(responseOptions, body, Yaml)
+        checkResponse(responsePatch, body, Yaml)
     }
 
     @Test fun `Parameters are set properly` () {

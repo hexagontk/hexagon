@@ -1,6 +1,5 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.helpers.RequiredKeysMap
 import com.hexagonkt.http.Path
 import io.mockk.every
 import io.mockk.mockk
@@ -42,7 +41,7 @@ class RequestTest {
         request.actionPath = Path("/{a}/{b}")
 
         val pathParameters = request.pathParameters
-        val requiredKeysMap = RequiredKeysMap(linkedMapOf("a" to "1", "b" to "2"))
+        val requiredKeysMap = linkedMapOf("a" to "1", "b" to "2")
         assert(pathParameters.entries == requiredKeysMap.entries)
     }
 }

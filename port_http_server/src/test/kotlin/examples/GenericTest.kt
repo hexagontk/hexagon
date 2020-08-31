@@ -168,7 +168,7 @@ abstract class GenericTest(adapter: ServerPort) {
         assert("AHC/2.1" == response.headers["agent"]?.first())
         assert(protocol == response.headers["scheme"]?.first())
         assert("127.0.0.1" == host || "localhost" == host)
-        assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force IP
+        assert("127.0.0.1" == ip || "localhost" == ip) // TODO Force returning IP (not localhost)
         assert("" == response.headers["query"]?.first())
         assert(port == response.headers["port"]?.first())
         assert("0" == response.headers["queryParams"]?.first())

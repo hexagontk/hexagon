@@ -1,6 +1,6 @@
 
-# Contributing
-
+Contributing
+============
 You can contribute code or documentation to the toolkit. This document will guide you through the
 process or picking a task and building the code.
 
@@ -14,8 +14,8 @@ Twitter.
 [@hexagon_kt]: https://twitter.com/hexagon_kt
 [help wanted]: https://github.com/hexagonkt/hexagon/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 
-## Contribution Steps
-
+Contribution Steps
+------------------
 1. You can check available tasks in the [Project Board] or the [Organization Board]. Issues with the
    [help wanted] tag in the `Ready` column are recommended for a first time contribution.
 2. Claim an issue you want to work in with a comment (after that I can assign it to you and move it
@@ -41,8 +41,8 @@ Twitter.
 [bug template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/bug.md
 [enhancement template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/enhancement.md
 
-## Project Structure
-
+Project Structure
+-----------------
 The Hexagon project is composed of several modules. Most of the modules publish libraries for their
 use by other projects (check the [Hexagon Structure] section of the readme file for more details).
 
@@ -54,8 +54,8 @@ project itself. These are internal modules not intended to be directly used by u
 [hexagon_starters]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_starters/README.md
 [hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/README.md
 
-## Local Setup
-
+Local Setup
+-----------
 Hexagon build process requires [Docker Compose installed](https://docs.docker.com/compose/install)
 
 You can check the required software, build the project, generate the documentation and install it in
@@ -104,14 +104,16 @@ If you want to generate the documentation site, check the [site module readme][h
 [Docker setup documentation]: https://www.rabbitmq.com/install-debian.html
 [GitHub Actions]: https://github.com/features/actions
 
-## Dependency verification
-
+Dependency verification
+-----------------------
 If you get a dependency verification error building the project after adding or changing a
 dependency, you need to add the key fingerprint inside the `trusted-keys` element at the
 `gradle/verification-metadata.xml` file.
 
 Prior to trusting the key, you should verify it belongs to the person it claims to be on the
-http://keys.gnupg.net key search tool.
+http://keys.gnupg.net key search tool. I.e.: you can check the Hexagon fingerprint
+(`792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721`) issuing [this search] (don't forget to add
+`0x` before the fingerprint without spaces).
 
 For Continuous Integration runners, you need to import the keys inside the `gradle/verification
 -keyring.gpg` file, you can do so with the following command:
@@ -119,3 +121,5 @@ For Continuous Integration runners, you need to import the keys inside the `grad
 ```shell script
 gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint
 ```
+
+[this search]: http://keys.gnupg.net/pks/lookup?search=0x792BD37FF59891C4AC6F8D923B26711D2AEE3721
