@@ -217,11 +217,6 @@ TODO
 
 |
 
-##### [com.hexagonkt.settings.SettingsManager](../com.hexagonkt.settings/-settings-manager/index.md)
-
-
-|
-
 ##### [com.hexagonkt.settings.SettingsSource](../com.hexagonkt.settings/-settings-source/index.md)
 
 

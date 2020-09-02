@@ -20,6 +20,7 @@ dependencies {
         exclude(module = "slf4j-api")
     }
 
+    "testImplementation"(project(":serialization_yaml"))
     "testImplementation"(project(":http_server_jetty"))
     "testImplementation"(entityTests)
 }

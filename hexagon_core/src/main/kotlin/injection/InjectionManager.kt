@@ -79,14 +79,30 @@ object InjectionManager {
         forceBindObject(T::class, instance)
 
     @Suppress("UNCHECKED_CAST") // bind operation takes care of type matching
+    fun <T : Any> injectOrNull(type: KClass<T>, tag: Any): T? =
+        registry[type to tag]?.invoke() as? T
+
+    @Suppress("UNCHECKED_CAST") // bind operation takes care of type matching
     fun <T : Any> inject(type: KClass<T>, tag: Any): T =
-        registry[type to tag]?.invoke() as? T ?: error("${type.java.name} generator missing")
+        injectOrNull(type, tag) ?: error("${type.java.name} generator missing")
 
-    inline fun <reified T : Any> inject(tag: Any): T = inject(T::class, tag)
+    inline fun <reified T : Any> inject(tag: Any): T =
+        inject(T::class, tag)
 
-    fun <T : Any> inject(type: KClass<T>): T = inject(type, Unit)
+    fun <T : Any> inject(type: KClass<T>): T =
+        inject(type, Unit)
 
-    inline fun <reified T : Any> inject(): T = inject(T::class)
+    inline fun <reified T : Any> inject(): T =
+        inject(T::class)
+
+    inline fun <reified T : Any> injectOrNull(tag: Any): T? =
+        injectOrNull(T::class, tag)
+
+    fun <T : Any> injectOrNull(type: KClass<T>): T? =
+        injectOrNull(type, Unit)
+
+    inline fun <reified T : Any> injectOrNull(): T? =
+        injectOrNull(T::class)
 
     override fun toString(): String =
         registry

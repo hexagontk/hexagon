@@ -4,19 +4,20 @@ import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.SerializationManager.formatOf
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 import java.io.File
 import java.net.URL
 import kotlin.test.assertFailsWith
 
 class SerializationManagerTest {
 
+    @BeforeEach fun setUpSerializationManager() {
+        formats = linkedSetOf(Json, Yaml)
+    }
+
     @BeforeEach @AfterEach fun resetSerializationFormats () { formats = coreFormats }
 
     @Test fun `User can add and remove serialization formats` () {
-        assert(formats == coreFormats)
         assert(formatOf(Json.contentType) == Json)
         assert(formatOf(Yaml.contentType) == Yaml)
 

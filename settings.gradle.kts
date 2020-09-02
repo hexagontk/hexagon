@@ -21,6 +21,7 @@ include(
 
     // Adapters
     "serialization_csv",
+    "serialization_yaml",
     "messaging_rabbitmq",
     "http_client_ahc",
     "http_server_servlet",

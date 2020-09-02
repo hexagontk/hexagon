@@ -1,9 +1,16 @@
 package com.hexagonkt.serialization
 
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import java.net.URL
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JacksonSerializerTest {
+
+    @BeforeAll fun setUpSerializationManager() {
+        SerializationManager.formats = linkedSetOf(Json, Yaml)
+    }
 
     @Test fun `Parse URL works ok`() {
         assert(URL("classpath:data/companies.json").parseObjects<Map<*, *>>().isNotEmpty())

@@ -13,7 +13,6 @@ dependencies {
 
     "api"("org.slf4j:slf4j-api:$slf4jVersion")
 
-    "api"("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
     "api"("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     "api"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     "api"("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")
@@ -21,6 +20,7 @@ dependencies {
 
     "testRuntimeOnly"("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     "testRuntimeOnly"("org.slf4j:jul-to-slf4j:$slf4jVersion")
+    "testImplementation"(project(":serialization_yaml"))
     "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") {
         exclude(group = "org.slf4j")
     }

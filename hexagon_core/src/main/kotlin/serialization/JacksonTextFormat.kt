@@ -11,7 +11,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import kotlin.reflect.KClass
 
-internal open class JacksonTextFormat(
+open class JacksonTextFormat(
     final override val extensions: LinkedHashSet<String>,
     factoryGenerator: (() -> JsonFactory)? = null
 ) :
