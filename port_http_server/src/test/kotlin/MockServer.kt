@@ -87,7 +87,7 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * 1. First, it tries to fetch an example from the schema key within the mediatype.
      * 2. If no example is found here, it then attempts to fetch the example from the mediatype
      * object.
-     * 3. If still no example is found, it simply returns a blank string as the content.
+     * 3. If still no example is found, it simply raises an exception.
      */
     private fun getResponseContentForStatus(operation: Operation, status: Int): String {
         val responsesForStatus: ApiResponse = operation.responses[status.toString()] ?: throw IllegalArgumentException("The OpenAPI Spec contains no responses for this operation")
