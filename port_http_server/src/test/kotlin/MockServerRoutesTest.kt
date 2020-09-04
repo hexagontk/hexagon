@@ -52,8 +52,7 @@ class MockServerRoutesTest {
 
     @Test fun `Empty string is returned if no examples specified`() {
         val response = client.get("/get-from-no-examples")
-        assert(response.status == 200)
-        assert(response.body == "")
+        assert(response.status == 500)
     }
 
     @Test fun `Paths not present in OpenAPI spec return 404`() {
