@@ -93,7 +93,7 @@ class MockServer(pathToSpec: String, port: Int = 0) {
         val responsesForStatus: ApiResponse = operation.responses[status.toString()] ?: throw IllegalArgumentException("The OpenAPI Spec contains no responses for this operation")
         val jsonResponses: MediaType = responsesForStatus.content["application/json"] ?: throw IllegalArgumentException("The OpenAPI Spec contains no JSON responses for this operation")
         val exampleResponse: Any? = getExampleFromSchema(jsonResponses) ?: getExampleFromMediaType(jsonResponses)
-        return exampleResponse?.toString() ?: ""
+        return exampleResponse?.toString() ?: throw IllegalArgumentException("The OpenAPI Spec contains no response examples for this operation")
     }
 
     /**
