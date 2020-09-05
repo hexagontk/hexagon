@@ -35,11 +35,6 @@ Exception with a numeric code.
 ##### [com.hexagonkt.serialization.ContentType](../com.hexagonkt.serialization/-content-type/index.md)
 
 
-|
-
-##### [com.hexagonkt.serialization.Csv](../com.hexagonkt.serialization/-csv/index.md)
-
-
 | (extensions in package com.hexagonkt.helpers)
 
 ##### [java.util.Date](../com.hexagonkt.helpers/java.util.-date/index.md)
@@ -222,11 +217,6 @@ TODO
 
 |
 
-##### [com.hexagonkt.settings.SettingsManager](../com.hexagonkt.settings/-settings-manager/index.md)
-
-
-|
-
 ##### [com.hexagonkt.settings.SettingsSource](../com.hexagonkt.settings/-settings-source/index.md)
 
 
@@ -273,11 +263,6 @@ TODO
 | (extensions in package com.hexagonkt.serialization)
 
 ##### [java.net.URL](../com.hexagonkt.serialization/java.net.-u-r-l/index.md)
-
-
-|
-
-##### [com.hexagonkt.serialization.Yaml](../com.hexagonkt.serialization/-yaml.md)
 
 
 | (extensions in package com.hexagonkt.helpers)

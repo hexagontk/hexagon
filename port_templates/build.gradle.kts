@@ -5,4 +5,6 @@ apply(from = "../gradle/dokka.gradle")
 
 dependencies {
     "api"(project(":hexagon_core"))
+
+    "testImplementation"(project(":serialization_yaml"))
 }

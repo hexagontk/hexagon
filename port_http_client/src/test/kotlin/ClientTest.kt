@@ -11,15 +11,12 @@ import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.http.server.serve
 import com.hexagonkt.injection.InjectionManager
-import com.hexagonkt.serialization.Json
-import com.hexagonkt.serialization.SerializationFormat
-import com.hexagonkt.serialization.Yaml
-import com.hexagonkt.serialization.serialize
+import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
-import java.net.URI
+import java.net.URL
 
 @TestInstance(PER_CLASS)
 abstract class ClientTest(private val adapter: () -> ClientPort) {
@@ -40,6 +37,7 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
     }
 
     init {
+        SerializationManager.formats = linkedSetOf(Json, Yaml)
         InjectionManager.bind(ClientPort::class, adapter)
     }
 
@@ -263,8 +261,8 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         val trustStorePassword = trust.reversed()
 
         // Key stores can be set as URIs to classpath resources (the triple slash is needed)
-        val keyStore = URI("resource:///ssl/$identity")
-        val trustStore = URI("resource:///ssl/$trust")
+        val keyStore = URL("classpath:ssl/$identity")
+        val trustStore = URL("classpath:ssl/$trust")
 
         val sslSettings = SslSettings(
             keyStore = keyStore,

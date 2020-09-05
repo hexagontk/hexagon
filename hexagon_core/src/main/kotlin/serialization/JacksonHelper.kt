@@ -19,7 +19,7 @@ import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.*
 
-internal object JacksonHelper {
+object JacksonHelper {
 
     internal val mapper: ObjectMapper by lazy { createObjectMapper () }
 

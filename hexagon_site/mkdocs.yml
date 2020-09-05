@@ -50,6 +50,7 @@ nav:
     - HTTP Client: port_http_client/port_http_client.md
 #    - Templates: port_templates/port_templates.md
     - Gradle Helpers: gradle.md
+    - Maven Parent POM: maven.md
   - Documentation:
     - Modules:
       - Core: hexagon_core/index.md

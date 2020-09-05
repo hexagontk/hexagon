@@ -3,7 +3,7 @@
 
 ## Supported Versions
 
-Currently there is only one published release and it will get security updates.
+Currently, there is only one published release, and it will get security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |

@@ -6,6 +6,18 @@ import kotlin.test.assertFailsWith
 class CsvTest {
     data class Player (val name: String, val number: Int, val category: Int)
 
+    enum class DeviceOs { ANDROID, IOS }
+
+    data class Device(
+        val id: String,
+        val brand: String,
+        val model: String,
+        val os: DeviceOs,
+        val osVersion: String,
+
+        val alias: String = "$brand $model"
+    )
+
     @Test fun `CSV is serialized properly` () {
         val player = Player("Michael", 23, 18)
         val serializedPlayer = player.serialize(Csv)
@@ -41,7 +53,7 @@ class CsvTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.Device[\"os\"]")
+            assert(e.field == "com.hexagonkt.serialization.CsvTest\$Device[\"os\"]")
         }
     }
 

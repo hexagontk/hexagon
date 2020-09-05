@@ -1,10 +1,10 @@
 package com.hexagonkt.store
 
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.ensureSize
 import com.hexagonkt.serialization.parseObjects
 import com.hexagonkt.store.IndexOrder.ASCENDING
 import java.io.File
+import java.net.URL
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
@@ -105,7 +105,7 @@ interface Store<T : Any, K : Any> {
         insertMany(input.parseObjects(type))
     }
 
-    fun import(input: Resource) {
+    fun import(input: URL) {
         insertMany(input.parseObjects(type))
     }
 }

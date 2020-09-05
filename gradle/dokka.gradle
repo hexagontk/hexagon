@@ -17,6 +17,9 @@ dokka {
 }
 
 task("dokkaJar", type: Jar, dependsOn: "dokka") {
+    group = "distribution"
+    description = "Create a jar file with the source code documentation in Javadoc format."
+
     archiveClassifier.set("javadoc")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(fileTree("$buildDir/dokka"))

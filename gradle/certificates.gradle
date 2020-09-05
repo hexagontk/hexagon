@@ -11,6 +11,9 @@ final String sslCountry = findProperty("sslCountry") ?: System.getProperty("user
 final String sslOrganization = findProperty("sslOrganization")
 
 task("createCa").doLast {
+    group = "build setup"
+    description = "Creates `ca.p12` and import its public certificate inside `trust.p12`."
+
     if (file(sslPath(sslCaFile)).exists())
         return
 
@@ -28,6 +31,9 @@ task("createCa").doLast {
 }
 
 task("createIdentities").doLast {
+    group = "build setup"
+    description = "Creates the `<domain>.p12` store for all `sslDomain` variables."
+
     final List<String> sslDomains = (("9".."1") + "")
         .reverse()
         .collect { findProperty("sslDomain$it")?.toString()?.trim() }

@@ -12,12 +12,12 @@ import com.hexagonkt.helpers.Jvm.timezone
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.Protocol.HTTP
 import com.hexagonkt.injection.InjectionManager.inject
-import com.hexagonkt.serialization.convertToObject
-import com.hexagonkt.settings.SettingsManager
+import com.hexagonkt.injection.InjectionManager.injectOrNull
 
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
+import java.net.URL
 
 /**
  * A server that listen to HTTP connections on a port and address and route requests using a
@@ -48,18 +48,9 @@ data class Server(
      */
     constructor(
         adapter: ServerPort = inject(),
-        settings: Map<String, *> = SettingsManager.settings,
+        settings: ServerSettings = injectOrNull() ?: ServerSettings(),
         block: Router.() -> Unit):
             this(adapter, Router(block), settings)
-
-    constructor(
-        adapter: ServerPort = inject(),
-        settings: ServerSettings,
-        block: Router.() -> Unit):
-            this(adapter, Router(block), settings)
-
-    constructor(adapter: ServerPort, router: Router, settings: Map<String, *>) :
-        this (adapter, router, settings.convertToObject(ServerSettings::class))
 
     val runtimePort
         get() = if (started()) adapter.runtimePort() else error("Server is not running")
@@ -113,7 +104,7 @@ data class Server(
         // TODO Load banner from ${serverName}.txt
         // TODO Do not trim the banner (it could break ASCII art ;)
         val bannerResource = settings.serverName.toLowerCase().replace(' ', '_')
-        val banner = (Resource("$bannerResource.txt").readText() ?: "") + information
+        val banner = (URL("classpath:$bannerResource.txt").readText()) + information
         return banner
             .trimIndent()
             .lines()

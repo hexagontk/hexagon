@@ -1,16 +1,7 @@
 package com.hexagonkt.helpers
 
-import java.io.InputStream
-import java.net.URI
-
 /** Default logger when you are lazy to declare one. */
 val logger: Logger = Logger(Logger::class)
-
-fun URI.stream(): InputStream =
-    if (this.scheme == "resource")
-        Resource(this.path.removePrefix("/")).requireStream()
-    else
-        this.toURL().openStream() ?: fail
 
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**

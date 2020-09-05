@@ -2,7 +2,7 @@ package com.hexagonkt.settings
 
 import com.hexagonkt.helpers.get
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.serialization.Yaml
+import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.serialize
 
 object SettingsManager {
@@ -10,14 +10,16 @@ object SettingsManager {
     val log: Logger = Logger(this)
 
     internal const val SETTINGS = "application"
-    internal const val ENVIRONMENT_PREFIX = "APPLICATION_"
+    internal const val ENVIRONMENT_PREFIX = "application_"
 
     private val defaultSettingsSources: List<SettingsSource> = listOf(
-        ResourceSource("$SETTINGS.yml"),
+        ResourceSource("classpath:$SETTINGS.json"),
+        ResourceSource("classpath:$SETTINGS.yml"),
         EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
         SystemPropertiesSource(SETTINGS),
         FileSource("$SETTINGS.yml"),
-        ResourceSource("${SETTINGS}_test.yml")
+        ResourceSource("classpath:${SETTINGS}_test.json"),
+        ResourceSource("classpath:${SETTINGS}_test.yml")
     )
 
     var settingsSources: List<SettingsSource> = defaultSettingsSources
@@ -54,7 +56,7 @@ object SettingsManager {
                         log.info { "No settings found for $it" }
                     }
                     else {
-                        val serialize = s.serialize(Yaml).prependIndent(" ".repeat(4))
+                        val serialize = s.serialize(Json).prependIndent(" ".repeat(4))
                         log.info { "Settings loaded from $it:\n\n$serialize" }
                     }
                 }

@@ -17,9 +17,9 @@ plugins {
     idea
     eclipse
 
-    id("org.jetbrains.kotlin.jvm") version "1.4.0" apply false
-    id("org.jetbrains.dokka") version "0.10.1" apply false
-    id("io.gitlab.arturbosch.detekt") version "1.11.2" apply false
+    id("org.jetbrains.kotlin.jvm") version("1.4.0") apply(false)
+    id("org.jetbrains.dokka") version("0.10.1") apply(false)
+    id("io.gitlab.arturbosch.detekt") version("1.11.2") apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
@@ -59,7 +59,10 @@ task("setUp") {
 }
 
 task("release") {
+    group = "publishing"
+    description = "Tag the source code with the version number after publishing all artifacts."
     dependsOn(project.getTasksByName("publish", true))
+
     doLast {
         val release = version.toString()
         project.exec { commandLine = listOf("git", "tag", "-m", "Release $release", release) }
@@ -94,6 +97,9 @@ childProjects.forEach { pair ->
 }
 
 tasks.register<Exec>("infrastructure") {
+    group = "build"
+    description = "Start the project's infrastructure (with Docker Compose) required for the tests."
+
     errorOutput = nullOutputStream()
     commandLine("docker-compose --log-level warning up -d mongodb rabbitmq".split(" "))
 }

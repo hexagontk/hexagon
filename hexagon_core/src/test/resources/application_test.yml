@@ -1,8 +1,8 @@
 
-serviceName : Hexagon Tests
+serviceName: Hexagon Tests
 
-bindPort : 0
-bindAddress : 0.0.0.0
+bindPort: 0
+bindAddress: 0.0.0.0
 
 property: value
 intProperty: 42
@@ -10,4 +10,4 @@ intProperty: 42
 parent:
   key: val
 
-global : globalValue
+global: globalValue
