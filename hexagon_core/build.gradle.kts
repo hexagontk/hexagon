@@ -21,7 +21,5 @@ dependencies {
     "testRuntimeOnly"("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     "testRuntimeOnly"("org.slf4j:jul-to-slf4j:$slf4jVersion")
     "testImplementation"(project(":serialization_yaml"))
-    "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") {
-        exclude(group = "org.slf4j")
-    }
+    "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") { exclude("org.slf4j") }
 }

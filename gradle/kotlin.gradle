@@ -125,11 +125,17 @@ jacocoTestReport {
 }
 
 task("sourcesJar", type: Jar) {
+    group = "distribution"
+    description = "Create a jar file with the source code files."
+
     archiveClassifier.set("sources")
     from(sourceSets.main.allSource)
 }
 
 task("testJar", type: Jar, dependsOn: testClasses) {
+    group = "distribution"
+    description = "Create a jar file with the test classes."
+
     archiveClassifier.set("test")
     from(sourceSets.test.output.classesDirs)
 }

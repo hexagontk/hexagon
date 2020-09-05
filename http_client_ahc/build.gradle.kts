@@ -1,9 +1,11 @@
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 
-val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+val compileTestKotlin: KotlinCompile by tasks
 
 plugins {
     java
