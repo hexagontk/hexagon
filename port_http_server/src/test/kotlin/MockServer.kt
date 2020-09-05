@@ -77,7 +77,11 @@ class MockServer(pathToSpec: String, port: Int = 0) {
     private fun handleRequest(operation: Operation, call: Call) {
         verifyParams(operation, call)
         verifyBody(operation, call)
-        call.ok(content = getResponseContentForStatus(operation, status = 200))
+        call.ok(content = getResponseContentForStatus(
+            operation,
+            status = 200,
+            exampleName = call.request.headers["X-Mock-Response-Example"]
+        ))
     }
 
     /**
@@ -89,11 +93,20 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * object.
      * 3. If still no example is found, it simply raises an exception.
      */
-    private fun getResponseContentForStatus(operation: Operation, status: Int): String {
-        val responsesForStatus: ApiResponse = operation.responses[status.toString()] ?: throw IllegalArgumentException("The OpenAPI Spec contains no responses for this operation")
-        val jsonResponses: MediaType = responsesForStatus.content["application/json"] ?: throw IllegalArgumentException("The OpenAPI Spec contains no JSON responses for this operation")
-        val exampleResponse: Any? = getExampleFromSchema(jsonResponses) ?: getExampleFromMediaType(jsonResponses)
-        return exampleResponse?.toString() ?: throw IllegalArgumentException("The OpenAPI Spec contains no response examples for this operation")
+    private fun getResponseContentForStatus(operation: Operation, status: Int, exampleName: String? = null): String {
+        val responsesForStatus: ApiResponse = operation.responses[status.toString()]
+            ?: throw IllegalArgumentException("The OpenAPI Spec contains no responses for this operation")
+        val jsonResponses: MediaType = responsesForStatus.content["application/json"]
+            ?: throw IllegalArgumentException("The OpenAPI Spec contains no JSON responses for this operation")
+
+        return if (exampleName != null) {
+            jsonResponses.examples[exampleName]?.value.toString()
+        } else {
+            val exampleResponse: Any? =
+                getExampleFromSchema(jsonResponses) ?: getExampleFromMediaType(jsonResponses)
+            exampleResponse?.toString()
+                ?: throw IllegalArgumentException("The OpenAPI Spec contains no response examples for this operation")
+        }
     }
 
     /**

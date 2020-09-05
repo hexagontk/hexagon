@@ -50,6 +50,13 @@ class MockServerRoutesTest {
         assert(response.body in listOf("foo", "bar"))
     }
 
+    @Test fun `X-Mock-Response-Example is fetched from multiple examples correctly`() {
+        val headers = mapOf("X-Mock-Response-Example" to listOf("example2"))
+        val response = client.get("/get-from-multiple-examples", headers = headers)
+        assert(response.status == 200)
+        assert(response.body == "bar")
+    }
+
     @Test fun `Empty string is returned if no examples specified`() {
         val response = client.get("/get-from-no-examples")
         assert(response.status == 500)
