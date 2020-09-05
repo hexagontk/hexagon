@@ -88,10 +88,13 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * Gets the example response for a particular status code (200, 400, etc). The priority order
      * for fetching examples is as follows:
      *
-     * 1. First, it tries to fetch an example from the schema key within the mediatype.
-     * 2. If no example is found here, it then attempts to fetch the example from the mediatype
+     * 1. If a certain example name is required - as specified in the X-Mock-Response-Example
+     * header, then that example is immediately fetched and returned. If the X-Mock-Response header
+     * is missing, then the following steps are followed to get the example.
+     * 2. First, it tries to fetch an example from the schema key within the mediatype.
+     * 3. If no example is found here, it then attempts to fetch the example from the mediatype
      * object.
-     * 3. If still no example is found, it simply raises an exception.
+     * 4. If still no example is found, it simply raises an exception.
      */
     private fun getResponseContentForStatus(operation: Operation, status: Int, exampleName: String? = null): String {
         val responsesForStatus: ApiResponse = operation.responses[status.toString()]
