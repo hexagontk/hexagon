@@ -146,7 +146,11 @@ class MockServer(pathToSpec: String, port: Int = 0) {
                     if (!verifyPathParam(parameter, call)) {
                         call.halt(
                             code = 400,
-                            content = getResponseContentForStatus(operation, status = 400)
+                            content = getResponseContentForStatus(
+                                operation,
+                                status = 400,
+                                exampleName = call.request.headers["X-Mock-Response-Example"]
+                            )
                         )
                     }
                 }
@@ -154,7 +158,11 @@ class MockServer(pathToSpec: String, port: Int = 0) {
                     if (!verifyQueryParam(parameter, call)) {
                         call.halt(
                             code = 400,
-                            content = getResponseContentForStatus(operation, status = 400)
+                            content = getResponseContentForStatus(
+                                operation,
+                                status = 400,
+                                exampleName = call.request.headers["X-Mock-Response-Example"]
+                            )
                         )
                     }
                 }
@@ -162,7 +170,11 @@ class MockServer(pathToSpec: String, port: Int = 0) {
                     if (!verifyHeaderParam(parameter, call)) {
                         call.halt(
                             code = 400,
-                            content = getResponseContentForStatus(operation, status = 400)
+                            content = getResponseContentForStatus(
+                                operation,
+                                status = 400,
+                                exampleName = call.request.headers["X-Mock-Response-Example"]
+                            )
                         )
                     }
                 }
@@ -170,7 +182,11 @@ class MockServer(pathToSpec: String, port: Int = 0) {
                     if (!verifyCookieParam(parameter, call)) {
                         call.halt(
                             code = 400,
-                            content = getResponseContentForStatus(operation, status = 400)
+                            content = getResponseContentForStatus(
+                                operation,
+                                status = 400,
+                                exampleName = call.request.headers["X-Mock-Response-Example"]
+                            )
                         )
                     }
                 }
