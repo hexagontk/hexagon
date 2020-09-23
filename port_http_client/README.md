@@ -18,7 +18,7 @@ Its main functionalities are:
 [Mutual TLS]: https://en.wikipedia.org/wiki/Mutual_authentication
 
 ### Install the Dependency
-This module is not meant to be used directly. You should include and Adapter implementing this
+This module is not meant to be used directly. You should include an Adapter implementing this
 feature (as [http_client_ahc]) in order to create HTTP clients.
 
 [http_client_ahc]: /http_client_ahc

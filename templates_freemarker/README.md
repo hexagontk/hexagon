@@ -6,6 +6,23 @@ engine.
 
 [FreeMarker]: https://freemarker.apache.org
 
+### Install the Dependency
+```groovy tab="build.gradle"
+repositories {
+    mavenCentral()
+}
+
+implementation("com.hexagonkt:templates_freemarker:$hexagonVersion")
+```
+
+```xml tab="pom.xml"
+<dependency>
+  <groupId>com.hexagonkt</groupId>
+  <artifactId>templates_freemarker</artifactId>
+  <version>$hexagonVersion</version>
+</dependency>
+```
+
 ### How to Use
 
 ```

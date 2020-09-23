@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    final String finalKotlinVersion = findProperty("kotlinVersion") ?: "1.4.0"
+    final String finalKotlinVersion = findProperty("kotlinVersion") ?: "1.4.10"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-js:$finalKotlinVersion")
 

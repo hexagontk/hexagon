@@ -21,7 +21,7 @@ class HashMapMapper<T: Any>(private val type: KClass<T>): Mapper<T> {
         instance.convertToMap()
             .filterEmpty()
             .mapKeys { it.key.toString() }
-            .mapValues { it.value as Any }
+            .mapValues { it.value }
 
     @Suppress("UNCHECKED_CAST")
     override fun fromStore(map: Map<String, Any>): T =

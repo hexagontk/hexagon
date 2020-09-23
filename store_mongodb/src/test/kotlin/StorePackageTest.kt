@@ -6,7 +6,6 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-import org.bson.types.ObjectId
 import java.time.temporal.ChronoUnit.MILLIS
 
 enum class Department { DESIGN, DEVELOPMENT }
@@ -25,9 +24,4 @@ data class Company(
     val people: Set<Person> = setOf(),
     val departments: Set<Department> = setOf(),
     val creationDate: LocalDateTime = LocalDateTime.now().truncatedTo(MILLIS)
-)
-
-data class Tag(
-    val id: String = ObjectId().toHexString(),
-    val name: String
 )

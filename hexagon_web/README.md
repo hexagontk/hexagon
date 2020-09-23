@@ -1,7 +1,7 @@
 
 # Module hexagon_web
 
-TODO Add support for [kotlinx.html].
+Adds utilities for serving HTML pages over HTTP servers. Includes [kotlinx.html] support.
 
 [kotlinx.html]: https://github.com/Kotlin/kotlinx.html
 
