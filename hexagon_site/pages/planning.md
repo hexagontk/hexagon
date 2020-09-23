@@ -1,14 +1,14 @@
 
-You can check current tasks, priorities and upcoming milestones on the following places:
+You can check current tasks, priorities, and upcoming milestones on the following places:
 
-* [Project board]: main the toolkit's tasks. Tasks related to project's libraries.
+* [Project board]: main the toolkit's tasks. Tasks related to the project's libraries.
 * [Organization board]: organization's tasks (i.e.: create example projects).
 * [Roadmap]: upcoming releases status. Contains milestones' pending and completed tasks.
 
 If you miss some feature you would like to see implemented. You can request it using the
 [enhancement] Github template.
 
-And if you want to help us decide which tasks to pick first. You may prioritize issues, adding the
+If you want to help us decide which tasks to pick first. You may prioritize issues, adding the
 :+1: [reaction] on the issues more important to you.
 
 [project board]: https://github.com/hexagonkt/hexagon/projects/1

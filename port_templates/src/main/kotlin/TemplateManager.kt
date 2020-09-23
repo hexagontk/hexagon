@@ -1,8 +1,8 @@
 package com.hexagonkt.templates
 
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.toDate
 import com.hexagonkt.serialization.parse
+import java.net.URL
 import java.time.LocalDateTime
 import java.util.*
 
@@ -13,7 +13,7 @@ object TemplateManager {
 
     private fun loadProps (path: String): Map<String, Any> =
         try {
-            Resource("$basePath/$path.yml").url()?.parse () ?: mapOf()
+            URL("classpath:$basePath/$path.yml").parse()
         }
         catch (e: Exception) {
             mapOf()

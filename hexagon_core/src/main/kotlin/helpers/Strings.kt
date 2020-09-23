@@ -100,4 +100,3 @@ fun String.globToRegex(): Regex = Regex(
 
 internal fun Sequence<Int>.maxOrElse(fallback: Int): Int =
     this.max() ?: fallback
-

@@ -4,12 +4,12 @@ import com.hexagonkt.http.*
 import com.hexagonkt.http.server.FilterOrder.AFTER
 import com.hexagonkt.http.server.FilterOrder.BEFORE
 
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.Method.GET
 import com.hexagonkt.http.server.RequestHandler.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
 import java.io.File
+import java.net.URL
 
 import kotlin.reflect.KClass
 
@@ -86,11 +86,11 @@ class Router(block: Router.() -> Unit = {}) {
 
     fun path(path: String, block: Router.() -> Unit) = path(Path(path), Router(block))
 
-    fun get(resource: Resource) {
+    fun get(resource: URL) {
         get("/*", resource)
     }
 
-    fun get(path: String, resource: Resource) {
+    fun get(path: String, resource: URL) {
         requestHandlers = requestHandlers + ResourceHandler(Route(Path(path), GET), resource)
     }
 

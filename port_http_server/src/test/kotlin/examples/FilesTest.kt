@@ -1,6 +1,5 @@
 package com.hexagonkt.http.server.examples
 
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.Method.POST
 import com.hexagonkt.http.Part
 import com.hexagonkt.http.Path
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
+import java.net.URL
 
 @TestInstance(PER_CLASS)
 abstract class FilesTest(adapter: ServerPort) {
@@ -28,13 +28,13 @@ abstract class FilesTest(adapter: ServerPort) {
     // files
     private val server: Server = Server(adapter) {
         path("/static") {
-            get("/files/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+            get("/files/*", URL("classpath:assets")) // Serve `assets` resources on `/html/*`
             get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
         }
 
-        get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+        get("/html/*", URL("classpath:assets")) // Serve `assets` resources on `/html/*`
         get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
-        get(Resource("public")) // Serve `public` resources folder on `/*`
+        get(URL("classpath:public")) // Serve `public` resources folder on `/*`
 
         post("/multipart") { ok(request.parts.keys.joinToString(":")) }
 
@@ -120,7 +120,7 @@ abstract class FilesTest(adapter: ServerPort) {
 
     @Test fun `Sending files works properly`() {
         // clientFile
-        val stream = Resource("assets/index.html").requireStream()
+        val stream = URL("classpath:assets/index.html").openStream()
         val parts = mapOf("file" to Part("file", stream, "index.html"))
         val response = client.send(Request(POST, "/file", parts = parts))
         // clientFile

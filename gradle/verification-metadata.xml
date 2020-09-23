@@ -59,6 +59,11 @@
       <trusted-key id="3a04f5ae8a2b44ee08352ee933c663310c1b8dc5" group="org.apache.qpid"/>
       <trusted-key id="4e25dcaf7fe5f10d7228309dbd646d93190a1f12" group="org.simpleflatmapper"/>
       <trusted-key id="53c935821aa6a755bd337db53595395eb3d8e1ba" group="org.apache.logging.log4j"/>
+      <trusted-key id="f3184bcd55f4d016e30d4c9bf42e87f9665015c9" group="org.jsoup" name="jsoup"/>
+      <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="org.jetbrains" name="markdown"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-(annotations|core)" regex="true"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-databind" regex="true"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-module-kotlin" regex="true"/>
       <trusted-key id="8a10792983023d5d14c93b488d7f1bec1e2ecae7" group="com\.fasterxml\.jackson\..*" regex="true"/>
       <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>
       <trusted-key id="6fca825c6e85fcb4df9a96b27a3c11434ec6434e" group="com\.trueaccord\..*" regex="true"/>

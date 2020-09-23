@@ -7,8 +7,8 @@ import com.hexagonkt.http.server.RequestHandler.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
 import com.hexagonkt.http.Method
-import com.hexagonkt.helpers.Resource
 import org.junit.jupiter.api.Test
+import java.net.URL
 
 class RouterTest {
 
@@ -29,7 +29,7 @@ class RouterTest {
                 after("/bar") {}
                 error(404) {}
                 error(IllegalArgumentException::class) {}
-                get("/files", Resource("/assets"))
+                get("/files", URL("classpath:/assets"))
             }
         }
 
@@ -48,7 +48,7 @@ class RouterTest {
 
     @Test fun `Routes are stored in server's router`() {
         val server = Server(VoidAdapter) {
-            get(Resource("assets"))
+            get(URL("classpath:assets"))
 
             after("/after") {}
             before("/before") {}

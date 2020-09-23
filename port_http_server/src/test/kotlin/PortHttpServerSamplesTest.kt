@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.Method.POST
 import com.hexagonkt.http.Part
 import com.hexagonkt.http.Path
@@ -14,6 +13,7 @@ import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
 import java.net.HttpCookie
 import java.net.InetAddress
+import java.net.URL
 
 import com.hexagonkt.http.client.Response as ClientResponse
 
@@ -311,7 +311,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
         assert(client.get("/session").status == 200)
         assert(client.get("/halt").status == 500)
 
-        val stream = Resource("assets/index.html").requireStream()
+        val stream = URL("classpath:assets/index.html").openStream()
         val parts = mapOf("file" to Part("file", stream, "index.html"))
         val response = client.send(Request(POST, Path("/file"), parts = parts))
         assert(response.body?.contains("<title>Hexagon</title>") ?: false)
@@ -410,11 +410,11 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
             get("/web/file.txt") { ok("It matches this route and won't search for the file") }
 
             // Expose resources on the '/public' resource folder over the '/web' HTTP path
-            get("/web/*", Resource("public"))
+            get("/web/*", URL("classpath:public"))
 
             // Maps resources on 'assets' on the server root (assets/f.css -> /f.css)
             // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
-            get(Resource("assets"))
+            get(URL("classpath:assets"))
             // files
         }
 

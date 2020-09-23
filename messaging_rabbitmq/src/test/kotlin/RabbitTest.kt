@@ -50,17 +50,20 @@ class RabbitTest {
     }
 
     @Test
-    @Disabled // TODO Fix test
     fun `Call errors` () {
-        consumer.consume("aq", Sample::class) {
+        consumer.consume(QUEUE_ERROR, Sample::class) {
             if (it.str == "no message error")
-                throw IllegalStateException()
+                error("")
             if (it.str == "message error")
                 error("message")
         }
 
-        client.publish("aq", Sample("foo", 1).serialize())
-        client.call("aq", Sample("no message error", 1).serialize())
-        client.call("aq", Sample("message error", 1).serialize())
+        client.publish(QUEUE_ERROR, Sample("foo", 1).serialize())
+        val result = client.call(QUEUE_ERROR, Sample("no message error", 1).serialize())
+        assert(result == IllegalStateException::class.java.name)
+
+        // TODO Fix the case below
+//        val result2 = client.call(QUEUE_ERROR, Sample("message error", 1).serialize())
+//        assert(result2 == "message error")
     }
 }

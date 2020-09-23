@@ -3,6 +3,10 @@
  */
 
 task("icons").doLast {
+    group = "build setup"
+    description =
+        "Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (logos)."
+
     try {
         final String logoSmall = findProperty("logoSmall")
         final String logoLarge = findProperty("logoLarge")
