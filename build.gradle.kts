@@ -17,9 +17,9 @@ plugins {
     idea
     eclipse
 
-    id("org.jetbrains.kotlin.jvm") version("1.4.0") apply(false)
+    kotlin("jvm") version("1.4.10") apply(false)
     id("org.jetbrains.dokka") version("0.10.1") apply(false)
-    id("io.gitlab.arturbosch.detekt") version("1.11.2") apply(false)
+    id("io.gitlab.arturbosch.detekt") version("1.13.1") apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
