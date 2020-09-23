@@ -24,7 +24,6 @@ abstract class StoreTest<T : Any, K : Any> {
 
     @BeforeEach fun dropCollection() {
         store.drop()
-        store.createIndex(true, store.key)
     }
 
     fun new_records_are_stored() {
