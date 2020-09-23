@@ -1,12 +1,31 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.toStream
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertFailsWith
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class YamlTest {
 
+    enum class DeviceOs { ANDROID, IOS }
+
+    data class Device(
+        val id: String,
+        val brand: String,
+        val model: String,
+        val os: DeviceOs,
+        val osVersion: String,
+
+        val alias: String = "$brand $model"
+    )
+
     data class Player (val name: String, val number: Int, val category: ClosedRange<Int>)
+
+    @BeforeAll fun setUpSerializationManager() {
+        SerializationManager.formats = linkedSetOf(Json, Yaml)
+    }
 
     @Test fun `YAML is serialized properly` () {
         val player = Player("Michael", 23, 18..65)
@@ -89,7 +108,7 @@ class YamlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.Device[\"os\"]")
+            assert(e.field == "com.hexagonkt.serialization.YamlTest\$Device[\"os\"]")
         }
     }
 
@@ -130,7 +149,8 @@ class YamlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            assert(e.field == "java.util.ArrayList[0]->com.hexagonkt.serialization.Device[\"os\"]")
+            val fieldFullName = "com.hexagonkt.serialization.YamlTest\$Device[\"os\"]"
+            assert(e.field == "java.util.ArrayList[0]->$fieldFullName")
         }
     }
 }

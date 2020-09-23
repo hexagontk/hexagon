@@ -10,7 +10,7 @@ import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ClientSettings
 import com.hexagonkt.http.server.*
 import org.junit.jupiter.api.Test
-import java.net.URI
+import java.net.URL
 import kotlin.test.assertFails
 
 abstract class HttpsTest(adapter: ServerPort) {
@@ -19,8 +19,8 @@ abstract class HttpsTest(adapter: ServerPort) {
 
     private val identity = "hexagonkt.p12"
     private val trust = "trust.p12"
-    private val keyStore = URI("resource:///ssl/$identity")
-    private val trustStore = URI("resource:///ssl/$trust")
+    private val keyStore = URL("classpath:ssl/$identity")
+    private val trustStore = URL("classpath:ssl/$trust")
     private val keyStorePassword = identity.reversed()
     private val trustStorePassword = trust.reversed()
 
@@ -59,8 +59,8 @@ abstract class HttpsTest(adapter: ServerPort) {
         val trustStorePassword = trust.reversed()
 
         // Key stores can be set as URIs to classpath resources (the triple slash is needed)
-        val keyStore = URI("resource:///ssl/$identity")
-        val trustStore = URI("resource:///ssl/$trust")
+        val keyStore = URL("classpath:ssl/$identity")
+        val trustStore = URL("classpath:ssl/$trust")
 
         val sslSettings = SslSettings(
             keyStore = keyStore,
@@ -137,7 +137,7 @@ abstract class HttpsTest(adapter: ServerPort) {
 
         // keyStoreSettings
         val keyStoreSettings = SslSettings(
-            keyStore = URI("resource:///ssl/$identity"),
+            keyStore = URL("classpath:ssl/$identity"),
             keyStorePassword = identity.reversed()
         )
         // keyStoreSettings
@@ -156,7 +156,7 @@ abstract class HttpsTest(adapter: ServerPort) {
 
         // trustStoreSettings
         val trustStoreSettings = SslSettings(
-            trustStore = URI("resource:///ssl/$trust"),
+            trustStore = URL("classpath:ssl/$trust"),
             trustStorePassword = trust.reversed()
         )
         // trustStoreSettings

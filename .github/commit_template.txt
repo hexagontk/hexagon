@@ -1,15 +1,16 @@
 
-# Summary [#TaskId]
+# [type[!]:] summary [#TaskId]
 #
 # [Details]
 #
-# 1. 'TaskId' and 'Details' are optional
-# 2. Use the imperative mood in the summary line
-# 3. Capitalize the summary line
-# 4. Do not end the summary line with a period
-# 5. Limit the summary line to 50 characters
-# 6. Separate summary from details with a blank line
-# 7. Wrap the details at 72 characters
-# 8. Use the details to explain what and why vs. how
+# 1. 'type' is optional and can be: fix, feature or chore (default)
+# 2. If type ends with "!" the commit contains breaking changes
+# 3. 'TaskId' and 'Details' are optional
+# 4. Use the imperative mood in the summary line
+# 5. Do not end the summary line with a period
+# 6. Limit the summary line to 50 characters
+# 7. Separate summary from details with a blank line
+# 8. Wrap the details at 72 characters
+# 9. Use the details to explain what and why vs. how
 #
-# RATIONALE: https://chris.beams.io/posts/git-commit
+# These rules are a modified subset of https://www.conventionalcommits.org

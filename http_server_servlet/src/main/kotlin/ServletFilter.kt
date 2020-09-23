@@ -3,7 +3,6 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.CodedException
 import com.hexagonkt.helpers.Logger
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.http.ALL
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.FilterOrder.AFTER
@@ -14,6 +13,7 @@ import com.hexagonkt.http.Route
 import com.hexagonkt.serialization.SerializationManager.contentTypeOf
 import java.io.File
 import java.io.InputStream
+import java.net.URL
 
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest as HttpRequest
@@ -206,7 +206,7 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         }
     }
 
-    private fun createResourceHandler(route: Route, resourcesFolder: Resource): RouteCallback = {
+    private fun createResourceHandler(route: Route, resourcesFolder: URL): RouteCallback = {
         val requestPath = getRequestPath(route)
         val resourcePath = "/${resourcesFolder.path}$requestPath"
         val stream = javaClass.getResourceAsStream(resourcePath)

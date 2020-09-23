@@ -25,15 +25,3 @@ data class Company(
     val creationDate: LocalDateTime = LocalDateTime.now(),
     val host: InetAddress
 )
-
-enum class DeviceOs { ANDROID, IOS }
-
-data class Device(
-    val id: String,
-    val brand: String,
-    val model: String,
-    val os: DeviceOs,
-    val osVersion: String,
-
-    val alias: String = "$brand $model"
-)

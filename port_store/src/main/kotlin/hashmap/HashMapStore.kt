@@ -63,7 +63,7 @@ class HashMapStore<T : Any, K : Any>(
         updates
             .filterEmpty()
             .forEach {
-                instance[it.key] = mapper.toStore(it.key, it.value as Any)
+                instance[it.key] = mapper.toStore(it.key, it.value)
             }
 
         return store.replace(key, instance) != null

@@ -8,6 +8,12 @@ import kotlin.reflect.KClass
  * objects bound to classes. Different suppliers can be bound to the same type using 'tags'.
  */
 object InjectionManager {
+
+    enum class OverwritePolicy { ALLOW, IGNORE, FORBID }
+
+    // TODO
+    var overwriteBindings: OverwritePolicy = OverwritePolicy.IGNORE
+
     private var registry: Map<Pair<KClass<*>, *>, () -> Any> = emptyMap()
 
     fun <T : Any, R : T> bind(type: KClass<T>, tag: Any, force: Boolean, provider: () -> R) {
@@ -73,14 +79,30 @@ object InjectionManager {
         forceBindObject(T::class, instance)
 
     @Suppress("UNCHECKED_CAST") // bind operation takes care of type matching
+    fun <T : Any> injectOrNull(type: KClass<T>, tag: Any): T? =
+        registry[type to tag]?.invoke() as? T
+
+    @Suppress("UNCHECKED_CAST") // bind operation takes care of type matching
     fun <T : Any> inject(type: KClass<T>, tag: Any): T =
-        registry[type to tag]?.invoke() as? T ?: error("${type.java.name} generator missing")
+        injectOrNull(type, tag) ?: error("${type.java.name} generator missing")
 
-    inline fun <reified T : Any> inject(tag: Any): T = inject(T::class, tag)
+    inline fun <reified T : Any> inject(tag: Any): T =
+        inject(T::class, tag)
 
-    fun <T : Any> inject(type: KClass<T>): T = inject(type, Unit)
+    fun <T : Any> inject(type: KClass<T>): T =
+        inject(type, Unit)
 
-    inline fun <reified T : Any> inject(): T = inject(T::class)
+    inline fun <reified T : Any> inject(): T =
+        inject(T::class)
+
+    inline fun <reified T : Any> injectOrNull(tag: Any): T? =
+        injectOrNull(T::class, tag)
+
+    fun <T : Any> injectOrNull(type: KClass<T>): T? =
+        injectOrNull(type, Unit)
+
+    inline fun <reified T : Any> injectOrNull(): T? =
+        injectOrNull(T::class)
 
     override fun toString(): String =
         registry

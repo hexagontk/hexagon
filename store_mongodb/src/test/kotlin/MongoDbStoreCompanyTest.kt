@@ -1,6 +1,5 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.helpers.fail
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.IndexOrder.ASCENDING
@@ -47,7 +46,6 @@ class MongoDbStoreCompanyTest {
 
     @BeforeEach fun dropCollection() {
         store.drop()
-        store.createIndex(true, store.key)
     }
 
     @Test fun `Store type is correct`() {
@@ -186,7 +184,7 @@ class MongoDbStoreCompanyTest {
 
     // TODO Check inserted data
     @Test fun `Resources are loaded`() {
-        store.import(Resource("companies.json"))
+        store.import(URL("classpath:companies.json"))
         store.drop()
 
         // File paths change from IDE to build tool

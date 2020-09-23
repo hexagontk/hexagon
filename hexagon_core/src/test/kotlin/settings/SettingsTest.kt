@@ -1,5 +1,8 @@
 package com.hexagonkt.settings
 
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.Yaml
 import org.junit.jupiter.api.Test
 import java.io.File
 
@@ -17,6 +20,7 @@ class SettingsTest {
     }
 
     @Test fun `Load file add variables contained in that file`() {
+        SerializationManager.formats = linkedSetOf(Json, Yaml)
         assert(FileSource("invalid").load().isEmpty())
         val file = "src/test/resources/development.yml"
         val fileName = if (File(file).exists()) file else "hexagon_core/$file"

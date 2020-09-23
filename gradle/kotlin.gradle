@@ -35,9 +35,9 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.4.0"
+    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.4.10"
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.10.0"
-    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.6.2"
+    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.0"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$scriptKotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$scriptKotlinVersion")
@@ -115,6 +115,10 @@ tasks.withType(Test).each { testTask ->
     }
 }
 
+jacoco {
+    toolVersion = "0.8.6"
+}
+
 jacocoTestReport {
     dependsOn("check")
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
@@ -125,11 +129,17 @@ jacocoTestReport {
 }
 
 task("sourcesJar", type: Jar) {
+    group = "distribution"
+    description = "Create a jar file with the source code files."
+
     archiveClassifier.set("sources")
     from(sourceSets.main.allSource)
 }
 
 task("testJar", type: Jar, dependsOn: testClasses) {
+    group = "distribution"
+    description = "Create a jar file with the test classes."
+
     archiveClassifier.set("test")
     from(sourceSets.test.output.classesDirs)
 }

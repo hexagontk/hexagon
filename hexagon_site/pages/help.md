@@ -3,7 +3,7 @@
 
 * Please, check if your issue already exists at the [project board], the [organization board] or the
   [issues list] before creating a new one.
-* To notify bugs create a [new bug issue] using Github.
+* To notify bugs - create a [new bug issue] using Github.
 * You can also write an email at [support@hexagonkt.com](mailto:support@hexagonkt.com) to ask for
   support.
 
@@ -15,7 +15,7 @@
 # Help
 
 * You can use [Slack] for questions, comments, etc.
-* you can also create a [Github issue][question] tagged as question.
+* you can also create a [Github issue][question] tagged as a question.
 
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
 [question]: https://github.com/hexagonkt/hexagon/issues/new?template=question.md

@@ -1,6 +1,5 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.Resource
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.Store
 import com.hexagonkt.store.mongodb.Department.*
@@ -74,7 +73,7 @@ class CompanyTest : StoreTest<Company, String>() {
 
     // TODO Check inserted data
     @Test fun `Resources are loaded`() {
-        store.import(Resource("companies.json"))
+        store.import(URL("classpath:companies.json"))
         store.drop()
 
         // File paths change from IDE to build tool

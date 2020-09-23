@@ -1,31 +1,38 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.helpers.Resource
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import java.net.URL
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JacksonSerializerTest {
 
-    @Test fun `Parse URL works ok`() {
-        assert(Resource("data/companies.json").requireUrl().parseObjects<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/tags.json").requireUrl().parseObjects<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/companies.yml").requireUrl().parseObjects<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/tags.yml").requireUrl().parseObjects<Map<*, *>>().isNotEmpty())
+    @BeforeAll fun setUpSerializationManager() {
+        SerializationManager.formats = linkedSetOf(Json, Yaml)
+    }
 
-        assert(Resource("data/company.json").requireUrl().parse<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/tag.json").requireUrl().parse<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/company.yml").requireUrl().parse<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/tag.yml").requireUrl().parse<Map<*, *>>().isNotEmpty())
+    @Test fun `Parse URL works ok`() {
+        assert(URL("classpath:data/companies.json").parseObjects<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/tags.json").parseObjects<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/companies.yml").parseObjects<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/tags.yml").parseObjects<Map<*, *>>().isNotEmpty())
+
+        assert(URL("classpath:data/company.json").parse<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/tag.json").parse<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/company.yml").parse<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/tag.yml").parse<Map<*, *>>().isNotEmpty())
     }
 
     @Test fun `Parse resource works ok`() {
-        assert(Resource("data/companies.json").parseObjects<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/tags.json").parseObjects<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/companies.yml").parseObjects<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/tags.yml").parseObjects<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/companies.json").parseObjects<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/tags.json").parseObjects<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/companies.yml").parseObjects<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/tags.yml").parseObjects<Map<*, *>>().isNotEmpty())
 
-        assert(Resource("data/company.json").parse<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/tag.json").parse<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/company.yml").parse<Map<*, *>>().isNotEmpty())
-        assert(Resource("data/tag.yml").parse<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/company.json").parse<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/tag.json").parse<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/company.yml").parse<Map<*, *>>().isNotEmpty())
+        assert(URL("classpath:data/tag.yml").parse<Map<*, *>>().isNotEmpty())
     }
 }

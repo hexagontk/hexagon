@@ -1,0 +1,6 @@
+{
+  serverName: 'Hexagon Tests',
+
+  bindPort: 0,
+  bindAddress: '0.0.0.0'
+}

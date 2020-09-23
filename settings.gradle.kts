@@ -1,15 +1,6 @@
 
 rootProject.name = "hexagon"
 
-gradle.rootProject {
-
-    allprojects {
-        version = "1.3.0"
-        group = "com.hexagonkt"
-        description = "The atoms of your platform"
-    }
-}
-
 include(
     // Infrastructure
     "hexagon_site",
@@ -29,6 +20,8 @@ include(
     "port_templates",
 
     // Adapters
+    "serialization_csv",
+    "serialization_yaml",
     "messaging_rabbitmq",
     "http_client_ahc",
     "http_server_servlet",
