@@ -46,7 +46,6 @@ class MongoDbStoreCompanyTest {
 
     @BeforeEach fun dropCollection() {
         store.drop()
-        store.createIndex(true, store.key)
     }
 
     @Test fun `Store type is correct`() {

@@ -87,11 +87,13 @@ fun <T : Any> Map<*, *>.requireKeys(vararg name: Any): T =
 fun <K, V> Map<K, V>.require(name: K): V =
     this[name] ?: error("$name required key not found")
 
-fun <K, V> Map<K, V>.filterEmpty(): Map<K, V> = this.filterValues(::notEmpty)
+fun <K, V> Map<K, V?>.filterEmpty(): Map<K, V> =
+    this.filterValues(::notEmpty).mapValues { (_, v) -> v ?: fail }
 
-fun <V> List<V>.filterEmpty(): List<V> = this.filter(::notEmpty)
+fun <V> List<V?>.filterEmpty(): List<V> =
+    this.filter(::notEmpty).map { it ?: fail }
 
-fun <V> notEmpty(it: V): Boolean {
+fun <V> notEmpty(it: V?): Boolean {
     return when (it) {
         null -> false
         is List<*> -> it.isNotEmpty()

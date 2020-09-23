@@ -14,12 +14,13 @@ import org.bson.conversions.Bson
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
-class MongoDbStore <T : Any, K : Any>(
+class MongoDbStore<T : Any, K : Any>(
     override val type: KClass<T>,
     override val key: KProperty1<T, K>,
     private val database: MongoDatabase,
     override val name: String = type.java.simpleName,
-    override val mapper: Mapper<T> = MongoDbMapper(type, key)) : Store<T, K> {
+    override val mapper: Mapper<T> = MongoDbMapper(type, key)
+) : Store<T, K> {
 
     companion object {
         fun database(url: String): MongoDatabase = ConnectionString(url).let {
@@ -29,14 +30,10 @@ class MongoDbStore <T : Any, K : Any>(
 
     val collection: MongoCollection<Document> = this.database.getCollection(name)
 
-    init {
-        if (key.name != "_id")
-            createIndex(true, key)
-    }
-
     constructor(
-        type: KClass<T>, key: KProperty1<T, K>, url: String, name: String = type.java.simpleName) :
-            this(type, key, database(url), name)
+        type: KClass<T>, key: KProperty1<T, K>, url: String, name: String = type.java.simpleName
+    ) :
+        this(type, key, database(url), name)
 
     override fun createIndex(unique: Boolean, fields: Map<String, IndexOrder>): String {
         val indexes = fields.entries.map {
@@ -131,14 +128,15 @@ class MongoDbStore <T : Any, K : Any>(
             .projection(createProjection(fields))
             .first()?.filterEmpty()
 
-        return result?.mapValues { mapper.fromStore(it.key, it.value as Any) }
+        return result?.mapValues { mapper.fromStore(it.key, it.value) }
     }
 
     override fun findMany(
         filter: Map<String, *>,
         limit: Int?,
         skip: Int?,
-        sort: Map<String, Boolean>): List<T> {
+        sort: Map<String, Boolean>
+    ): List<T> {
 
         val findFilter = createFilter(filter)
         val findSort = createSort(sort)
@@ -155,7 +153,8 @@ class MongoDbStore <T : Any, K : Any>(
         fields: List<String>,
         limit: Int?,
         skip: Int?,
-        sort: Map<String, Boolean>): List<Map<String, *>> {
+        sort: Map<String, Boolean>
+    ): List<Map<String, *>> {
 
         val findFilter = createFilter(filter)
         val projection = createProjection(fields)
@@ -167,10 +166,9 @@ class MongoDbStore <T : Any, K : Any>(
         val result = query.into(ArrayList())
 
         return result.map { resultMap ->
-            resultMap.map { pair ->
-                pair.key to mapper.fromStore(pair.key, pair.value)
-            }
-            .toMap()
+            resultMap
+                .map { pair -> pair.key to mapper.fromStore(pair.key, pair.value) }
+                .toMap()
         }
     }
 
@@ -198,30 +196,31 @@ class MongoDbStore <T : Any, K : Any>(
     private fun createFilter(filter: Map<String, *>): Bson = filter
         .filterEmpty()
         .filter {
-            val firstKeySegment = it.key.split ("\\.")[0]
-            mapper.fields.keys.contains (firstKeySegment)
+            val firstKeySegment = it.key.split(".")[0]
+            mapper.fields.keys.contains(firstKeySegment)
         }
         .map {
             val keyFields = it.key.split(":")
             val key = keyFields.firstOrNull() ?: fail
+            val collectionKey = if (key == this.key.name) "_id" else key
             val operator = keyFields.getOrNull(1)
             val value = it.value
 
             when {
                 value is List<*> ->
-                    if (value.size > 1) Filters.`in`(key, value)
-                    else Filters.eq(key, value.first())
+                    if (value.size > 1) Filters.`in`(collectionKey, value)
+                    else Filters.eq(collectionKey, value.first())
                 operator != null ->
                     when (operator) {
-                        "gt" -> Filters.gt(key, value ?: fail)
-                        "gte" -> Filters.gte(key, value ?: fail)
-                        "lt" -> Filters.lt(key, value ?: fail)
-                        "lte" -> Filters.lte(key, value ?: fail)
-                        "re" -> Filters.regex(key, value?.toString() ?: fail)
-                        else -> Filters.eq(key, value)
+                        "gt" -> Filters.gt(collectionKey, value)
+                        "gte" -> Filters.gte(collectionKey, value)
+                        "lt" -> Filters.lt(collectionKey, value)
+                        "lte" -> Filters.lte(collectionKey, value)
+                        "re" -> Filters.regex(collectionKey, value.toString())
+                        else -> Filters.eq(collectionKey, value)
                     }
                 else ->
-                    Filters.eq(key, value)
+                    Filters.eq(collectionKey, value)
             }
         }
         .let {
@@ -229,16 +228,16 @@ class MongoDbStore <T : Any, K : Any>(
             else Filters.and(it)
         }
 
-    private fun createUpdate (update: Map<String, *>): Bson =
+    private fun createUpdate(update: Map<String, *>): Bson =
         Updates.combine(
             update
                 .filterEmpty()
-                .mapValues { mapper.toStore(it.key, it.value as Any) }
+                .mapValues { mapper.toStore(it.key, it.value) }
                 .map { Updates.set(it.key, it.value) }
         )
 
-    private fun createProjection (fields: List<String>): Bson =
-        if(fields.isEmpty ()) Document()
+    private fun createProjection(fields: List<String>): Bson =
+        if (fields.isEmpty()) Document()
         else
             fields
                 .asSequence()
@@ -248,9 +247,9 @@ class MongoDbStore <T : Any, K : Any>(
                 .toDocument()
                 .append("_id", 0)
 
-    private fun createSort(fields : Map<String, Boolean>): Bson =
+    private fun createSort(fields: Map<String, Boolean>): Bson =
         fields
-            .filter { fields.contains (it.key) }
+            .filter { fields.contains(it.key) }
             .mapValues { if (it.value) -1 else 1 }
             .toDocument()
 
