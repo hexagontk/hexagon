@@ -171,7 +171,7 @@ if ('serviceWorker' in navigator)
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#how-to-use" tabindex="0" class="md-skip">
+      <a href="#install-the-dependency" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -471,6 +471,18 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="../gradle/" title="Gradle Helpers" class="md-nav__link">
       Gradle Helpers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../maven/" title="Maven Parent POM" class="md-nav__link">
+      Maven Parent POM
     </a>
   </li>
 
@@ -810,6 +822,13 @@ if ('serviceWorker' in navigator)
   
     <label class="md-nav__title" for="__toc">Page Contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#how-to-use" class="md-nav__link">
@@ -1159,6 +1178,13 @@ if ('serviceWorker' in navigator)
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#how-to-use" class="md-nav__link">
     How to Use
   </a>
@@ -1209,6 +1235,35 @@ if ('serviceWorker' in navigator)
   <p><a href="./">templates_freemarker</a></p>
 <p>This module provides an adapter for the templates Port supporting the Apache <a href="https://freemarker.apache.org">FreeMarker</a> template
 engine.</p>
+<h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
+<div class="superfences-tabs">
+<input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
+<label for="__tab_1_0">build.gradle</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
+    <span class="n">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:templates_freemarker:$hexagonVersion&quot;</span><span class="o">)</span>
+</code></pre></div>
+</td></tr></table></div>
+<input name="__tabs_1" type="radio" id="__tab_1_1" />
+<label for="__tab_1_1">pom.xml</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>templates_freemarker<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+</td></tr></table></div>
+</div>
 <h4 id="how-to-use">How to Use<a class="headerlink" href="#how-to-use" title="Permanent link">&para;</a></h4>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2

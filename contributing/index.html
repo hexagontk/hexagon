@@ -475,6 +475,18 @@ if ('serviceWorker' in navigator)
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../maven/" title="Maven Parent POM" class="md-nav__link">
+      Maven Parent POM
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1320,10 +1332,84 @@ dependency, you need to add the key fingerprint inside the <code class="codehili
 <code class="codehilite"><span class="err">gradle/verification-metadata.xml</span></code> file.</p>
 <p>Prior to trusting the key, you should verify it belongs to the person it claims to be on the
 http://keys.gnupg.net key search tool. I.e.: you can check the Hexagon fingerprint
-(<code class="codehilite"><span class="err">792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721</span></code>) issuing <a href="http://keys.gnupg.net/pks/lookup?search=0x792BD37FF59891C4AC6F8D923B26711D2AEE3721">this search</a> (don't forget to add
+(<code class="codehilite"><span class="err">792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721</span></code>) issuing [this search] (don't forget to add
 <code class="codehilite"><span class="err">0x</span></code> before the fingerprint without spaces).</p>
 <p>For Continuous Integration runners, you need to import the keys inside the <code class="codehilite"><span class="err">gradle/verification</span><span class="err">-keyring.gpg</span></code> file, you can do so with the following command:</p>
-<p><code class="codehilite"><span class="err">shell script</span><span class="err">gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint</span></code></p>
+<p>```shell script
+gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="p">[</span><span class="n">this</span> <span class="n">search</span><span class="p">]</span><span class="o">:</span> <span class="nl">http</span><span class="p">:</span><span class="c1">//keys.gnupg.net/pks/lookup?search=0x792BD37FF59891C4AC6F8D923B26711D2AEE3721</span>
+
+<span class="n">Major</span> <span class="n">Release</span> <span class="n">Checklist</span>
+<span class="o">-----------------------</span>
+<span class="mf">1.</span> <span class="n">Release</span> <span class="n">site</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">dependent</span> <span class="n">projects</span> <span class="p">(</span><span class="err">`</span><span class="n">store</span><span class="err">`</span><span class="p">,</span> <span class="err">`</span><span class="n">messaging</span><span class="err">`</span><span class="p">)</span>
+<span class="mf">2.</span> <span class="n">Publish</span> <span class="n">their</span> <span class="n">packages</span> <span class="n">using</span> <span class="n">the</span> <span class="p">[</span><span class="n">Nexus</span> <span class="n">Repository</span> <span class="n">Manager</span><span class="p">]</span>
+<span class="mf">3.</span> <span class="n">Merge</span> <span class="n">Hexagon</span> <span class="n">main</span> <span class="n">project</span> <span class="n">to</span> <span class="err">`</span><span class="n">master</span><span class="err">`</span> <span class="k">in</span> <span class="n">GitHub</span>
+<span class="mf">4.</span> <span class="n">Check</span> <span class="n">the</span> <span class="n">site</span> <span class="n">deployment</span> <span class="n">is</span> <span class="n">OK</span> <span class="p">([</span><span class="nl">https</span><span class="p">:</span><span class="c1">//hexagonkt.com])</span>
+<span class="mf">5.</span> <span class="n">Publish</span> <span class="n">Hexagon</span> <span class="n">modules</span> <span class="n">using</span> <span class="n">the</span> <span class="p">[</span><span class="n">Nexus</span> <span class="n">Repository</span> <span class="n">Manager</span><span class="p">]</span>
+<span class="mf">6.</span> <span class="n">Update</span> <span class="n">starter</span> <span class="n">repositories</span> <span class="p">(</span><span class="n">Gradle</span> <span class="n">and</span> <span class="n">Maven</span> <span class="n">ones</span><span class="p">)</span>
+<span class="mf">7.</span> <span class="n">Update</span> <span class="n">TFB</span> <span class="n">benchmark</span>
+<span class="mf">8.</span> <span class="n">Update</span> <span class="n">example</span> <span class="n">projects</span> <span class="n">inside</span> <span class="n">the</span> <span class="n">organization</span>
+<span class="mf">9.</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">changelog</span> <span class="n">to</span> <span class="n">announce</span> <span class="n">the</span> <span class="k">release</span>
+<span class="mf">10.</span> <span class="n">Publish</span> <span class="n">changelog</span> <span class="nl">on</span><span class="p">:</span>
+ <span class="o">*</span> <span class="n">Dev</span><span class="p">.</span><span class="n">to</span>
+ <span class="o">*</span> <span class="n">Kotlin</span> <span class="n">Slack</span>
+ <span class="o">*</span> <span class="n">Reddit</span>
+ <span class="o">*</span> <span class="n">Twitter</span>
+ <span class="o">*</span> <span class="n">Kotlin</span> <span class="n">Weekly</span> <span class="n">Newsletter</span>
+ <span class="o">*</span> <span class="n">LinkedIn</span>
+
+<span class="p">[</span><span class="n">Nexus</span> <span class="n">Repository</span> <span class="n">Manager</span><span class="p">]</span><span class="o">:</span> <span class="nl">https</span><span class="p">:</span><span class="c1">//oss.sonatype.org</span>
+
+<span class="cp">### Changelog commands</span>
+
+<span class="n">Commit</span> <span class="n">messages</span> <span class="n">can</span> <span class="n">be</span> <span class="n">filtered</span> <span class="n">by</span> <span class="n">types</span> <span class="p">(</span><span class="n">check</span> <span class="p">[</span><span class="n">commit_template</span><span class="p">.</span><span class="n">txt</span><span class="p">](</span><span class="o">/</span><span class="p">.</span><span class="n">github</span><span class="o">/</span><span class="n">commit_template</span><span class="p">.</span><span class="n">txt</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">details</span><span class="p">.</span>
+
+<span class="err">```</span><span class="n">shell</span> <span class="n">script</span>
+<span class="n">git</span> <span class="n">log</span> <span class="mf">1.2.0</span><span class="p">..</span><span class="mf">.1.3.0</span> \
+  <span class="o">--</span><span class="n">date</span><span class="o">=</span><span class="n">iso8601</span> \
+  <span class="o">--</span><span class="n">reverse</span> \
+  <span class="o">--</span><span class="n">pretty</span><span class="o">=</span><span class="nl">format</span><span class="p">:</span><span class="err">&#39;</span><span class="o">*</span> <span class="o">%</span><span class="n">ad</span> <span class="o">%</span><span class="n">ar</span> <span class="o">&lt;%</span><span class="n">an</span> <span class="o">%</span><span class="n">ae</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">View</span><span class="p">](</span><span class="nl">http</span><span class="p">:</span><span class="c1">//github.com/hexagonkt/hexagon/commit/%H) · %s&#39; \</span>
+<span class="c1">  &gt;&gt;CHANGELOG.md</span>
+
+<span class="n">git</span> <span class="n">log</span> <span class="mf">1.2.0</span><span class="p">..</span><span class="mf">.1.3.0</span> <span class="o">--</span><span class="n">date</span><span class="o">=</span><span class="n">iso8601</span> <span class="o">--</span><span class="n">reverse</span> <span class="o">--</span><span class="n">pretty</span><span class="o">=</span><span class="nl">format</span><span class="p">:</span><span class="err">&#39;</span><span class="o">%</span><span class="n">an</span> <span class="o">%</span><span class="n">ae</span><span class="err">&#39;</span><span class="o">|</span><span class="n">sort</span><span class="o">|</span><span class="n">uniq</span> <span class="o">&gt;&gt;</span><span class="n">CHANGELOG</span><span class="p">.</span><span class="n">md</span>
+</code></pre></div>
+</td></tr></table></p>
   
     
   

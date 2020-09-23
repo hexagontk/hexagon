@@ -1,6 +1,7 @@
 $dokka.format:gfm
 $dokka.linkExtension:md
 $dokka.location:com.hexagonkt.helpers$banner(kotlin.String, kotlin.String)com.hexagonkt.helpers/kotlin.-string/banner.md
+$dokka.location:com.hexagonkt.helpers$bytes(java.util.UUID)com.hexagonkt.helpers/java.util.-u-u-i-d/bytes.md
 $dokka.location:com.hexagonkt.helpers$camelToSnake(kotlin.String)com.hexagonkt.helpers/kotlin.-string/camel-to-snake.md
 $dokka.location:com.hexagonkt.helpers$ensureSize(kotlin.collections.Collection((com.hexagonkt.helpers.ensureSize.Z)), kotlin.ranges.IntRange)com.hexagonkt.helpers/kotlin.collections.-collection/ensure-size.md
 $dokka.location:com.hexagonkt.helpers$filter(kotlin.String, kotlin.String, kotlin.String, kotlin.Array((kotlin.Pair((kotlin.String, )))))com.hexagonkt.helpers/kotlin.-string/filter.md
@@ -15,8 +16,8 @@ $dokka.location:com.hexagonkt.helpers$globToRegex(kotlin.String)com.hexagonkt.h
 $dokka.location:com.hexagonkt.helpers$require(kotlin.collections.Map((com.hexagonkt.helpers.require.K, com.hexagonkt.helpers.require.V)), com.hexagonkt.helpers.require.K)com.hexagonkt.helpers/kotlin.collections.-map/require.md
 $dokka.location:com.hexagonkt.helpers$requireKeys(kotlin.collections.Map((kotlin.Any, )), kotlin.Array((kotlin.Any)))com.hexagonkt.helpers/kotlin.collections.-map/require-keys.md
 $dokka.location:com.hexagonkt.helpers$snakeToCamel(kotlin.String)com.hexagonkt.helpers/kotlin.-string/snake-to-camel.md
-$dokka.location:com.hexagonkt.helpers$stream(java.net.URI)com.hexagonkt.helpers/java.net.-u-r-i/stream.md
 $dokka.location:com.hexagonkt.helpers$stripAccents(kotlin.String)com.hexagonkt.helpers/kotlin.-string/strip-accents.md
+$dokka.location:com.hexagonkt.helpers$toBase64(java.util.UUID)com.hexagonkt.helpers/java.util.-u-u-i-d/to-base64.md
 $dokka.location:com.hexagonkt.helpers$toDate(java.time.LocalDate)com.hexagonkt.helpers/java.time.-local-date/to-date.md
 $dokka.location:com.hexagonkt.helpers$toDate(java.time.LocalDateTime)com.hexagonkt.helpers/java.time.-local-date-time/to-date.md
 $dokka.location:com.hexagonkt.helpers$toDate(java.time.ZonedDateTime)com.hexagonkt.helpers/java.time.-zoned-date-time/to-date.md

@@ -475,6 +475,18 @@ if ('serviceWorker' in navigator)
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../maven/" title="Maven Parent POM" class="md-nav__link">
+      Maven Parent POM
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1352,6 +1364,124 @@ a desktop application), you can import it with the following code:</p>
 </code></pre></div>
 </td></tr></table>
 
+<p>Hexagon uses the <a href="http://www.slf4j.org">SLF4J</a> logging library, you can use any of its implementations by just adding the
+library to your classpath. Below you can see some alternatives:</p>
+<div class="superfences-tabs">
+<input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
+<label for="__tab_2_0">build.gradle</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    <span class="cm">/*</span>
+<span class="cm">     * Pick ONLY ONE of the options below</span>
+<span class="cm">     */</span>
+    <span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;ch.qos.logback:logback-classic:1.2.3&quot;</span><span class="o">)</span> <span class="c1">// Full featured implementation</span>
+    <span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;org.slf4j:slf4j-simple:1.7.30&quot;</span><span class="o">)</span> <span class="c1">// Lightweight logging implementation</span>
+    <span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;org.slf4j:slf4j-jdk14:1.7.30&quot;</span><span class="o">)</span> <span class="c1">// Uses JDK logging API</span>
+</code></pre></div>
+</td></tr></table></div>
+<input name="__tabs_2" type="radio" id="__tab_2_1" />
+<label for="__tab_2_1">pom.xml</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c">&lt;!--</span>
+<span class="c"> ! Pick ONLY ONE of the options below</span>
+<span class="c"> !--&gt;</span>
+<span class="c">&lt;!-- Full featured implementation --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>ch.qos.logback<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>logback-classic<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.2.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="c">&lt;!-- Lightweight logging implementation --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>slf4j-simple<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.7.30<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="c">&lt;!-- Uses JDK logging API --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>slf4j-jdk14<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.7.30<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+</td></tr></table></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>You can bridge other logging libraries (that may be used by other third party libraries you use
+importing adaptor libraries (check <a href="http://www.slf4j.org/legacy.html">SLF4J bridge guide</a> for
+details). For example:</p>
+</div>
+<div class="superfences-tabs">
+<input name="__tabs_3" type="radio" id="__tab_3_0" checked="checked" />
+<label for="__tab_3_0">build.gradle</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    <span class="c1">// Bridges</span>
+    <span class="n">runtimeOnly</span><span class="o">(</span><span class="s2">&quot;org.slf4j:jcl-over-slf4j:1.7.30&quot;</span><span class="o">)</span>
+    <span class="n">runtimeOnly</span><span class="o">(</span><span class="s2">&quot;org.slf4j:log4j-over-slf4j:1.7.30&quot;</span><span class="o">)</span>
+    <span class="n">runtimeOnly</span><span class="o">(</span><span class="s2">&quot;org.slf4j:jul-to-slf4j:1.7.30&quot;</span><span class="o">)</span> <span class="c1">// Don&#39;t add it if you are using &#39;slf4j-jdk14&#39;</span>
+</code></pre></div>
+</td></tr></table></div>
+<input name="__tabs_3" type="radio" id="__tab_3_1" />
+<label for="__tab_3_1">pom.xml</label>
+<div class="superfences-content"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>jcl-over-slf4j<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.7.30<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>log4j-over-slf4j<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.7.30<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="c">&lt;!-- Don&#39;t add the next one if you are using &#39;slf4j-jdk14&#39; --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>jul-to-slf4j<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.7.30<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+</td></tr></table></div>
+</div>
 <h4 id="dependency-injection">Dependency injection<a class="headerlink" href="#dependency-injection" title="Permanent link">&para;</a></h4>
 <p>You can take advantage of dependency injection using the <a href="com.hexagonkt.injection/-injection-manager/">InjectionManager</a> object.</p>
 <p>The implementation is a map of classes (with an optional tag) to provider functions (in essence:
@@ -1548,8 +1678,8 @@ sources, the default ones are (bottom sources override top ones):</p>
       <nav class="md-footer-nav__inner md-grid">
         
           <a
-            href="../gradle/"
-            title="Gradle Helpers"
+            href="../maven/"
+            title="Maven Parent POM"
             class="md-flex md-footer-nav__link md-footer-nav__link--prev"
             rel="prev">
 
@@ -1561,7 +1691,7 @@ sources, the default ones are (bottom sources override top ones):</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Gradle Helpers
+                Maven Parent POM
               </span>
             </div>
           </a>

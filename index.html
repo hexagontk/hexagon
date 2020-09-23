@@ -288,7 +288,7 @@ if ('serviceWorker' in navigator)
   Hexagon is a microservices
   <a href="https://stackoverflow.com/a/3057818/973418">toolkit</a> written in
   <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the building of server
-  applications (Web applications, APIs or queue consumers) that run inside a cloud platform.
+  applications (Web applications, APIs, or queue consumers) that run inside a cloud platform.
 </p>
 
   </div>
@@ -567,6 +567,18 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="gradle/" title="Gradle Helpers" class="md-nav__link">
       Gradle Helpers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="maven/" title="Maven Parent POM" class="md-nav__link">
+      Maven Parent POM
     </a>
   </li>
 
@@ -1262,8 +1274,8 @@ single standalone features<sup id="fnref:1"><a class="footnote-ref" href="#fn:1"
 <p>Each of these features or ports may have different implementations called
 <a href="https://herbertograca.com/2017/09/14/ports-adapters-architecture">"Adapters"</a>.</p>
 <p>Hexagon is designed to fit in applications that conform to the <a href="http://fideloper.com/hexagonal-architecture">Hexagonal Architecture</a> (also called
-<a href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a> or <a href="https://herbertograca.com/2017/09/14/ports-adapters-architecture">Ports and Adapters Architecture</a>). Also, its design principles also fits in
-this architecture.</p>
+<a href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a> or <a href="https://herbertograca.com/2017/09/14/ports-adapters-architecture">Ports and Adapters Architecture</a>). Its design principles also fit into this
+architecture.</p>
 <h2 id="hello-world">Hello World<a class="headerlink" href="#hello-world" title="Permanent link">&para;</a></h2>
 <p>Simple Hello World HTTP example.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -1303,7 +1315,7 @@ this architecture.</p>
 <p>Hexagon's goals and design principles:</p>
 <ul>
 <li>
-<p><strong>Put you in Charge</strong>: There is no code generation, no runtime annotation processing and no logic
+<p><strong>Put you in Charge</strong>: There is no code generation, no runtime annotation processing, and no logic
   based on your classpath. You control your tools, not the other way around.</p>
 </li>
 <li>
@@ -1312,18 +1324,18 @@ this architecture.</p>
 </li>
 <li>
 <p><strong>Pluggable Adapters</strong>: Every Port may have many implementations (Adapters) using different
-  technologies. You can swap adapters without changing application code.</p>
+  technologies. You can swap adapters without changing the application code.</p>
 </li>
 <li>
-<p><strong>Batteries Included</strong>: It contains all required pieces to make production grade applications:
+<p><strong>Batteries Included</strong>: It contains all the required pieces to make production-grade applications:
   settings management, serialization, dependency injection<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup> and build helpers.</p>
 </li>
 <li>
-<p><strong>Kotlin First</strong>: Take full advantage of Kotlin instead just calling Java code from Kotlin. The
+<p><strong>Kotlin First</strong>: Take full advantage of Kotlin instead of just calling Java code from Kotlin. The
   library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).</p>
 </li>
 <li>
-<p><strong>Properly Tested</strong>: Project's coverage is checked in every Pull Request. It is also stress tested
+<p><strong>Properly Tested</strong>: The project's coverage is checked in every Pull Request. It is also stress-tested
   at <a href="https://www.techempower.com/benchmarks">TechEmpower Frameworks Benchmark</a>.</p>
 </li>
 </ul>

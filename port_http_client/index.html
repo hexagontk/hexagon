@@ -475,6 +475,18 @@ if ('serviceWorker' in navigator)
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../maven/" title="Maven Parent POM" class="md-nav__link">
+      Maven Parent POM
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1465,7 +1477,7 @@ different technologies.</p>
 <li>File uploading/downloading</li>
 </ul>
 <h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
-<p>This module is not meant to be used directly. You should include and Adapter implementing this
+<p>This module is not meant to be used directly. You should include an Adapter implementing this
 feature (as <a href="/http_client_ahc">http_client_ahc</a>) in order to create HTTP clients.</p>
 <h4 id="create-an-http-client">Create an HTTP client<a class="headerlink" href="#create-an-http-client" title="Permanent link">&para;</a></h4>
 <p>You create an HTTP Client instance with default options as follows:</p>
@@ -1639,7 +1651,7 @@ or files.</p>
 <h5 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h5>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">stream</span> <span class="p">=</span> <span class="n">Resource</span><span class="p">(</span><span class="s">&quot;assets/index.html&quot;</span><span class="p">).</span><span class="n">requireStream</span><span class="p">()</span>
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">stream</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets/index.html&quot;</span><span class="p">).</span><span class="n">openStream</span><span class="p">()</span>
 <span class="k">val</span> <span class="py">parts</span> <span class="p">=</span> <span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;file&quot;</span> <span class="n">to</span> <span class="n">Part</span><span class="p">(</span><span class="s">&quot;file&quot;</span><span class="p">,</span> <span class="n">stream</span><span class="p">,</span> <span class="s">&quot;index.html&quot;</span><span class="p">))</span>
 <span class="k">val</span> <span class="py">response</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">POST</span><span class="p">,</span> <span class="s">&quot;/file&quot;</span><span class="p">,</span> <span class="n">parts</span> <span class="p">=</span> <span class="n">parts</span><span class="p">))</span>
 </code></pre></div>
@@ -1658,7 +1670,7 @@ in the handshake for the server to authorize or deny the connection. The followi
 2
 3
 4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">keyStoreSettings</span> <span class="p">=</span> <span class="n">SslSettings</span><span class="p">(</span>
-    <span class="n">keyStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$identity&quot;</span><span class="p">),</span>
+    <span class="n">keyStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$identity&quot;</span><span class="p">),</span>
     <span class="n">keyStorePassword</span> <span class="p">=</span> <span class="n">identity</span><span class="p">.</span><span class="n">reversed</span><span class="p">()</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -1672,7 +1684,7 @@ standalone server certificates.</p>
 2
 3
 4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">trustStoreSettings</span> <span class="p">=</span> <span class="n">SslSettings</span><span class="p">(</span>
-    <span class="n">trustStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$trust&quot;</span><span class="p">),</span>
+    <span class="n">trustStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$trust&quot;</span><span class="p">),</span>
     <span class="n">trustStorePassword</span> <span class="p">=</span> <span class="n">trust</span><span class="p">.</span><span class="n">reversed</span><span class="p">()</span>
 <span class="p">)</span>
 </code></pre></div>
@@ -1736,8 +1748,8 @@ and client authenticated by the server). You can see a complete example below:</
 <span class="k">val</span> <span class="py">trustStorePassword</span> <span class="p">=</span> <span class="n">trust</span><span class="p">.</span><span class="n">reversed</span><span class="p">()</span>
 
 <span class="c1">// Key stores can be set as URIs to classpath resources (the triple slash is needed)</span>
-<span class="k">val</span> <span class="py">keyStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$identity&quot;</span><span class="p">)</span>
-<span class="k">val</span> <span class="py">trustStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$trust&quot;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">keyStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$identity&quot;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">trustStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$trust&quot;</span><span class="p">)</span>
 
 <span class="k">val</span> <span class="py">sslSettings</span> <span class="p">=</span> <span class="n">SslSettings</span><span class="p">(</span>
     <span class="n">keyStore</span> <span class="p">=</span> <span class="n">keyStore</span><span class="p">,</span>

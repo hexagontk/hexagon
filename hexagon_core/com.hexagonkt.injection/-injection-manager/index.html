@@ -473,6 +473,18 @@ if ('serviceWorker' in navigator)
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../maven/" title="Maven Parent POM" class="md-nav__link">
+      Maven Parent POM
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1105,6 +1117,20 @@ if ('serviceWorker' in navigator)
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#types" class="md-nav__link">
+    Types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    Properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#functions" class="md-nav__link">
     Functions
   </a>
@@ -1142,6 +1168,36 @@ if ('serviceWorker' in navigator)
 <p><code class="codehilite"><span class="err">object InjectionManager</span></code></p>
 <p>Generators registry and utilities. This object keep tracks of supplier functions or specific
 objects bound to classes. Different suppliers can be bound to the same type using 'tags'.</p>
+<h4 id="types">Types<a class="headerlink" href="#types" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="-overwrite-policy/">OverwritePolicy</a></td>
+<td><code class="codehilite"><span class="err">enum class OverwritePolicy</span></code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="overwrite-bindings/">overwriteBindings</a></td>
+<td><code class="codehilite"><span class="err">var overwriteBindings: OverwritePolicy</span></code></td>
+</tr>
+</tbody>
+</table>
 <h4 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -1170,6 +1226,10 @@ objects bound to classes. Different suppliers can be bound to the same type usin
 <tr>
 <td><a href="inject/">inject</a></td>
 <td><code class="codehilite"><span class="err">fun &lt;T :</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt; inject(type:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html"><code class="codehilite"><span class="err">KClass</span></code></a><code class="codehilite"><span class="err">&lt;T&gt;, tag:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">): T</span></code><br><code class="codehilite"><span class="err">fun &lt;T :</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt; inject(tag:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">): T</span></code><br><code class="codehilite"><span class="err">fun &lt;T :</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt; inject(type:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html"><code class="codehilite"><span class="err">KClass</span></code></a><code class="codehilite"><span class="err">&lt;T&gt;): T</span></code><br><code class="codehilite"><span class="err">fun &lt;T :</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt; inject(): T</span></code></td>
+</tr>
+<tr>
+<td><a href="inject-or-null/">injectOrNull</a></td>
+<td><code class="codehilite"><span class="err">fun &lt;T :</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt; injectOrNull(type:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html"><code class="codehilite"><span class="err">KClass</span></code></a><code class="codehilite"><span class="err">&lt;T&gt;, tag:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">): T?</span></code><br><code class="codehilite"><span class="err">fun &lt;T :</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt; injectOrNull(tag:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">): T?</span></code><br><code class="codehilite"><span class="err">fun &lt;T :</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt; injectOrNull(type:</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html"><code class="codehilite"><span class="err">KClass</span></code></a><code class="codehilite"><span class="err">&lt;T&gt;): T?</span></code><br><code class="codehilite"><span class="err">fun &lt;T :</span></code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><code class="codehilite"><span class="err">Any</span></code></a><code class="codehilite"><span class="err">&gt; injectOrNull(): T?</span></code></td>
 </tr>
 <tr>
 <td><a href="to-string/">toString</a></td>

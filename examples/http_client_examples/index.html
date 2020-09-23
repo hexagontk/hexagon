@@ -475,6 +475,18 @@ if ('serviceWorker' in navigator)
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../maven/" title="Maven Parent POM" class="md-nav__link">
+      Maven Parent POM
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1550,7 +1562,7 @@ for more details.</p>
 <h3 id="send-and-attached-file">Send and attached file<a class="headerlink" href="#send-and-attached-file" title="Permanent link">&para;</a></h3>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">stream</span> <span class="p">=</span> <span class="n">Resource</span><span class="p">(</span><span class="s">&quot;assets/index.html&quot;</span><span class="p">).</span><span class="n">requireStream</span><span class="p">()</span>
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">val</span> <span class="py">stream</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets/index.html&quot;</span><span class="p">).</span><span class="n">openStream</span><span class="p">()</span>
 <span class="k">val</span> <span class="py">parts</span> <span class="p">=</span> <span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;file&quot;</span> <span class="n">to</span> <span class="n">Part</span><span class="p">(</span><span class="s">&quot;file&quot;</span><span class="p">,</span> <span class="n">stream</span><span class="p">,</span> <span class="s">&quot;index.html&quot;</span><span class="p">))</span>
 <span class="k">val</span> <span class="py">response</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">Request</span><span class="p">(</span><span class="n">POST</span><span class="p">,</span> <span class="s">&quot;/file&quot;</span><span class="p">,</span> <span class="n">parts</span> <span class="p">=</span> <span class="n">parts</span><span class="p">))</span>
 </code></pre></div>
@@ -1614,8 +1626,8 @@ for more details.</p>
 <span class="k">val</span> <span class="py">trustStorePassword</span> <span class="p">=</span> <span class="n">trust</span><span class="p">.</span><span class="n">reversed</span><span class="p">()</span>
 
 <span class="c1">// Key stores can be set as URIs to classpath resources (the triple slash is needed)</span>
-<span class="k">val</span> <span class="py">keyStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$identity&quot;</span><span class="p">)</span>
-<span class="k">val</span> <span class="py">trustStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$trust&quot;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">keyStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$identity&quot;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">trustStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$trust&quot;</span><span class="p">)</span>
 
 <span class="k">val</span> <span class="py">sslSettings</span> <span class="p">=</span> <span class="n">SslSettings</span><span class="p">(</span>
     <span class="n">keyStore</span> <span class="p">=</span> <span class="n">keyStore</span><span class="p">,</span>

@@ -769,6 +769,18 @@ if ('serviceWorker' in navigator)
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../maven/" title="Maven Parent POM" class="md-nav__link">
+      Maven Parent POM
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -2268,11 +2280,11 @@ Check the next example for details:</p>
 8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/file.txt&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;It matches this route and won&#39;t search for the file&quot;</span><span class="p">)</span> <span class="p">}</span>
 
 <span class="c1">// Expose resources on the &#39;/public&#39; resource folder over the &#39;/web&#39; HTTP path</span>
-<span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/*&quot;</span><span class="p">,</span> <span class="n">Resource</span><span class="p">(</span><span class="s">&quot;public&quot;</span><span class="p">))</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/*&quot;</span><span class="p">,</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:public&quot;</span><span class="p">))</span>
 
 <span class="c1">// Maps resources on &#39;assets&#39; on the server root (assets/f.css -&gt; /f.css)</span>
 <span class="c1">// &#39;/public/css/style.css&#39; resource would be: &#39;http://{host}:{port}/css/style.css&#39;</span>
-<span class="k">get</span><span class="p">(</span><span class="n">Resource</span><span class="p">(</span><span class="s">&quot;assets&quot;</span><span class="p">))</span>
+<span class="k">get</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">))</span>
 </code></pre></div>
 </td></tr></table>
 
@@ -2404,8 +2416,8 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="k">val</span> <span class="py">trustStorePassword</span> <span class="p">=</span> <span class="n">trust</span><span class="p">.</span><span class="n">reversed</span><span class="p">()</span>
 
 <span class="c1">// Key stores can be set as URIs to classpath resources (the triple slash is needed)</span>
-<span class="k">val</span> <span class="py">keyStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$identity&quot;</span><span class="p">)</span>
-<span class="k">val</span> <span class="py">trustStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$trust&quot;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">keyStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$identity&quot;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">trustStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$trust&quot;</span><span class="p">)</span>
 
 <span class="k">val</span> <span class="py">sslSettings</span> <span class="p">=</span> <span class="n">SslSettings</span><span class="p">(</span>
     <span class="n">keyStore</span> <span class="p">=</span> <span class="n">keyStore</span><span class="p">,</span>

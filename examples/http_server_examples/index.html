@@ -475,6 +475,18 @@ if ('serviceWorker' in navigator)
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../maven/" title="Maven Parent POM" class="md-nav__link">
+      Maven Parent POM
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -1691,13 +1703,13 @@ if ('serviceWorker' in navigator)
 29
 30</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">private</span> <span class="k">val</span> <span class="py">server</span><span class="p">:</span> <span class="n">Server</span> <span class="p">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">path</span><span class="p">(</span><span class="s">&quot;/static&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/files/*&quot;</span><span class="p">,</span> <span class="n">Resource</span><span class="p">(</span><span class="s">&quot;assets&quot;</span><span class="p">))</span> <span class="c1">// Serve `assets` resources on `/html/*`</span>
+        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/files/*&quot;</span><span class="p">,</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">))</span> <span class="c1">// Serve `assets` resources on `/html/*`</span>
         <span class="k">get</span><span class="p">(</span><span class="s">&quot;/resources/*&quot;</span><span class="p">,</span> <span class="n">File</span><span class="p">(</span><span class="n">directory</span><span class="p">))</span> <span class="c1">// Serve `test` folder on `/pub/*`</span>
     <span class="p">}</span>
 
-    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/html/*&quot;</span><span class="p">,</span> <span class="n">Resource</span><span class="p">(</span><span class="s">&quot;assets&quot;</span><span class="p">))</span> <span class="c1">// Serve `assets` resources on `/html/*`</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/html/*&quot;</span><span class="p">,</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">))</span> <span class="c1">// Serve `assets` resources on `/html/*`</span>
     <span class="k">get</span><span class="p">(</span><span class="s">&quot;/pub/*&quot;</span><span class="p">,</span> <span class="n">File</span><span class="p">(</span><span class="n">directory</span><span class="p">))</span> <span class="c1">// Serve `test` folder on `/pub/*`</span>
-    <span class="k">get</span><span class="p">(</span><span class="n">Resource</span><span class="p">(</span><span class="s">&quot;public&quot;</span><span class="p">))</span> <span class="c1">// Serve `public` resources folder on `/*`</span>
+    <span class="k">get</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:public&quot;</span><span class="p">))</span> <span class="c1">// Serve `public` resources folder on `/*`</span>
 
     <span class="n">post</span><span class="p">(</span><span class="s">&quot;/multipart&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">parts</span><span class="p">.</span><span class="n">keys</span><span class="p">.</span><span class="n">joinToString</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="p">))</span> <span class="p">}</span>
 
@@ -1834,8 +1846,8 @@ if ('serviceWorker' in navigator)
 <span class="k">val</span> <span class="py">trustStorePassword</span> <span class="p">=</span> <span class="n">trust</span><span class="p">.</span><span class="n">reversed</span><span class="p">()</span>
 
 <span class="c1">// Key stores can be set as URIs to classpath resources (the triple slash is needed)</span>
-<span class="k">val</span> <span class="py">keyStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$identity&quot;</span><span class="p">)</span>
-<span class="k">val</span> <span class="py">trustStore</span> <span class="p">=</span> <span class="n">URI</span><span class="p">(</span><span class="s">&quot;resource:///ssl/$trust&quot;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">keyStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$identity&quot;</span><span class="p">)</span>
+<span class="k">val</span> <span class="py">trustStore</span> <span class="p">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/$trust&quot;</span><span class="p">)</span>
 
 <span class="k">val</span> <span class="py">sslSettings</span> <span class="p">=</span> <span class="n">SslSettings</span><span class="p">(</span>
     <span class="n">keyStore</span> <span class="p">=</span> <span class="n">keyStore</span><span class="p">,</span>
