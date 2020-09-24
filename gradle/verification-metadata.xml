@@ -64,7 +64,7 @@
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-(annotations|core)" regex="true"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-databind" regex="true"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-module-kotlin" regex="true"/>
-      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-dataformat-yaml" regex="true"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-dataformat-yaml" regex="true"/> <!-- TODO Delete comment -->
       <trusted-key id="8a10792983023d5d14c93b488d7f1bec1e2ecae7" group="com\.fasterxml\.jackson\..*" regex="true"/>
       <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>
       <trusted-key id="6fca825c6e85fcb4df9a96b27a3c11434ec6434e" group="com\.trueaccord\..*" regex="true"/>
