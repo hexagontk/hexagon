@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew --warn --console=plain createCa createIdentities
 
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain publishToMavenLocal
+        run: ./gradlew --no-daemon --warn --console=plain publishToMavenLocal
 
       - name: Build Site
         run: ./gradlew --no-daemon --warn --console=plain buildSite
