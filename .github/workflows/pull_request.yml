@@ -33,11 +33,11 @@ jobs:
       - name: Create Sample Keystores
         run: ./gradlew --warn --console=plain createCa createIdentities
 
-      - name: Test Publishing
-        run: ./gradlew --no-daemon --warn --console=plain publishToMavenLocal
-
       - name: Build Site
         run: ./gradlew --no-daemon --warn --console=plain buildSite
+
+      - name: Test Publishing
+        run: ./gradlew --no-daemon --warn --console=plain publishToMavenLocal
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2
