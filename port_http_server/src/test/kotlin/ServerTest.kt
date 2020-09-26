@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.injection.InjectionManager.forceBindObject
 import com.hexagonkt.injection.InjectionManager.bindObject
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.settings.SettingsManager
@@ -10,8 +11,8 @@ import java.net.InetAddress.getByName as address
 class ServerTest {
 
     @Test fun `Injected parameters`() {
+        forceBindObject<ServerPort>(VoidAdapter)
         bindObject<ServerSettings>(SettingsManager.settings.convertToObject())
-        bindObject<ServerPort>(VoidAdapter)
 
         val server = Server {}
 
