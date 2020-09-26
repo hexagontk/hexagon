@@ -8,8 +8,22 @@ import java.io.File
 import java.io.InputStream
 import java.net.URL
 import kotlin.reflect.KClass
+import kotlin.reflect.full.declaredMemberProperties
 
 // MAPPING /////////////////////////////////////////////////////////////////////////////////////////
+fun Any.convertDataClassToMap(): Map<String, *> {
+    require(this::class.isData) { "Receiver should be a data class" }
+    return this::class.declaredMemberProperties
+        .map {
+            val value = it.getter.call(this)
+            it.name to if (value != null && value::class.isData)
+                value.convertDataClassToMap()
+            else
+                value
+        }
+        .toMap()
+}
+
 fun Any.convertToMap(): Map<*, *> =
     mapper.convertValue(this, Map::class.java)
 

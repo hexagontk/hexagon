@@ -1,13 +1,17 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.toStream
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.lang.IllegalArgumentException
+import java.math.BigDecimal
 import java.net.InetAddress
 import java.net.URL
 import java.nio.ByteBuffer
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.util.*
 
 class SerializationPackageTest {
 
@@ -67,5 +71,53 @@ class SerializationPackageTest {
 
         assert(m1 == m2)
         assert(m1 !== m2)
+    }
+
+    @Test fun `A data class can be converted to a map of fields`() {
+
+        data class Employee(
+            val id: UUID,
+            val name: String,
+            val startDate: LocalDateTime,
+            val wage: BigDecimal,
+            val boss: Employee? = null
+        )
+
+        val jimmy = Employee(
+            UUID.randomUUID(),
+            "Jimmy",
+            LocalDateTime.now().minusDays(365),
+            100.0.toBigDecimal()
+        )
+
+        assert(jimmy.convertDataClassToMap() == mapOf(
+            Employee::id.name to jimmy.id,
+            Employee::name.name to jimmy.name,
+            Employee::startDate.name to jimmy.startDate,
+            Employee::wage.name to jimmy.wage,
+            Employee::boss.name to jimmy.boss
+        ))
+    }
+
+    @Test fun `Converting a non data class to a map of fields fails`() {
+
+        class Employee(
+            val id: UUID,
+            val name: String,
+            val startDate: LocalDateTime,
+            val wage: BigDecimal,
+            val boss: Employee? = null
+        )
+
+        val jimmy = Employee(
+            UUID.randomUUID(),
+            "Jimmy",
+            LocalDateTime.now().minusDays(365),
+            100.0.toBigDecimal()
+        )
+
+        Assertions.assertThrows(IllegalArgumentException::class.java) {
+            jimmy.convertDataClassToMap()
+        }
     }
 }
