@@ -15,7 +15,7 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.javaType
 
-class MongoDbMapper<T : Any, K : Any>(
+open class MongoDbMapper<T : Any, K : Any>(
     private val type: KClass<T>,
     private val key: KProperty1<T, K>
 ) : Mapper<T> {
