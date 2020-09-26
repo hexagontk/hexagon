@@ -25,6 +25,9 @@
       <!-- Tests -->
       <trust group="com.github.mifmif" name="generex" version="1.0.2"/>
       <trust group="com.github.wumpz" name="diffutils" version="2.2"/>
+      <trust group="jakarta.validation" name="jakarta.validation-api" version="2.0.2"/>
+      <trust group="javax.activation" name="activation" version="1.1"/>
+      <trust group="javax.validation" name="validation-api" version="1.1.0.Final"/>
     </trusted-artifacts>
 
     <key-servers>
@@ -61,6 +64,7 @@
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-(annotations|core)" regex="true"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-databind" regex="true"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-module-kotlin" regex="true"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-dataformat-yaml" regex="true"/> <!-- TODO Delete comment -->
       <trusted-key id="8a10792983023d5d14c93b488d7f1bec1e2ecae7" group="com\.fasterxml\.jackson\..*" regex="true"/>
       <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>
       <trusted-key id="6fca825c6e85fcb4df9a96b27a3c11434ec6434e" group="com\.trueaccord\..*" regex="true"/>
@@ -106,6 +110,28 @@
       <trusted-key id="475f3b8e59e6e63aa78067482c7b12f2a511e325" group="org.slf4j">
         <trusting group="ch.qos.logback"/>
       </trusted-key>
+      <trusted-key id="f254b35617dc255d9344bcfa873a8e86b4372146" group="org.codehaus.mojo"/>
+      <trusted-key id="e231245c9e2d09f6f8a4259a37246fa6b97f0377" group="com.github.fge"/>
+      <trusted-key id="19beab2d799c020f17c69126b16698a4adf4d638" group="org.checkerframework"/>
+      <trusted-key id="2db4f1ef0fa761ecc4ea935c86fdc7e2a11262cb" group="commons-codec"/>
+      <trusted-key id="2db4f1ef0fa761ecc4ea935c86fdc7e2a11262cb" group="org.apache.commons"/>
+      <trusted-key id="0cc641c3a62453ab390066c4a41f13c999945293" group="commons-logging"/>
+      <trusted-key id="e77417ac194160a3fabd04969a259c7ee636c5ed" group="com.google.errorprone"/>
+      <trusted-key id="694621a7227d8d5289699830abe9f3126bb741c1" group="com.google.guava"/>
+      <trusted-key id="b801e2f8ef035068ec1139cc29579f18fa8fd93b" group="com.google.j2objc"/>
+      <trusted-key id="6dd3b8c64ef75253beb2c53ad908a43fb7ec07ac" group="jakarta.activation"/>
+      <trusted-key id="fc411cd3cb7dcb0abc9801058118b3bcdb1a5000" group="jakarta.xml.bind"/>
+      <trusted-key id="b41089a2da79b0fa5810252872385ff0af338d52" group="joda-time"/>
+      <trusted-key id="517b94f8d0a46317a28d8ab30da8a5ec02d11ead" group="net.sf.jopt-simple"/>
+      <trusted-key id="7616eb882daf57a11477aaf559a252fb1199d873" group="com.google.code.findbugs"/>
+      <trusted-key id="9a217ce48a52f04bedbbeb8d3975c16dda994fc0" group="com.googlecode.libphonenumber"/>
+      <trusted-key id="bdb5fa4fe719d787fb3d3197f6d4a1d411e9d1ae" group="com.google.guava"/>
+      <trusted-key id="69859cf50a3c1eb40a90d5fd2d6641c6af88103e" group="javax.mail"/>
+      <trusted-key id="2d9b483740ed802f0a4704abecf2faeaf38aeb5d" group="org.mozilla"/>
+      <trusted-key id="1f6774b9d58c5ea6bf84d534704514f6556102e5" group="io.swagger"/>
+      <trusted-key id="1f6774b9d58c5ea6bf84d534704514f6556102e5" group="io.swagger.core.v3"/>
+      <trusted-key id="1f6774b9d58c5ea6bf84d534704514f6556102e5" group="io.swagger.parser.v3"/>
+      <trusted-key id="36bb1c8a910cc6b5a6a7344626ed90a14377dcc4" group="com.github.java-json-tools"/>
     </trusted-keys>
   </configuration>
 
