@@ -1,7 +1,6 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.toStream
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
 import java.math.BigDecimal
@@ -12,6 +11,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.*
+import kotlin.test.assertFailsWith
 
 class SerializationPackageTest {
 
@@ -99,7 +99,9 @@ class SerializationPackageTest {
         ))
     }
 
-    @Test fun `Converting a non data class to a map of fields fails`() {
+    @Test
+    @Suppress("unused") // The class is only defined for this test
+    fun `Converting a non data class to a map of fields fails`() {
 
         class Employee(
             val id: UUID,
@@ -116,7 +118,7 @@ class SerializationPackageTest {
             100.0.toBigDecimal()
         )
 
-        Assertions.assertThrows(IllegalArgumentException::class.java) {
+        assertFailsWith<IllegalArgumentException> {
             jimmy.convertDataClassToMap()
         }
     }
