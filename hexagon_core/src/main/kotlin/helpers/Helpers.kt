@@ -9,8 +9,9 @@ val logger: Logger = Logger(Logger::class)
  *
  * @param times Number of times to try to execute the callback. Must be greater than 0.
  * @param delay Milliseconds to wait to next execution if there was an error. Must be 0 or greater.
+ * @param func Code to be executed.
  * @return The callback result if succeed.
- * @throws [CodedException] if the callback didn't succeed in the given times.
+ * @throws [MultipleException] if the callback didn't succeed in the given times.
  */
 fun <T> retry(times: Int, delay: Long, func: () -> T): T {
     require(times > 0)
@@ -33,11 +34,7 @@ fun <T> retry(times: Int, delay: Long, func: () -> T): T {
 // ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
 /** Syntax sugar to throw errors. */
 val fail: Nothing
-    get() = fail()
-
-/** Syntax sugar to throw errors. */
-fun fail(): Nothing =
-    error("Invalid state")
+    get() = error("Invalid state")
 
 /**
  * Returns the stack trace array of the frames that starts with the given prefix.
