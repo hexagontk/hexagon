@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test
 import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.injection.InjectionManager.bind
 import com.hexagonkt.injection.InjectionManager.bindObject
-import com.hexagonkt.injection.InjectionManager.forceBind
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.TestMethodOrder

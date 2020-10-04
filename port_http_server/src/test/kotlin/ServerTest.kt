@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.injection.InjectionManager.forceBindObject
+import com.hexagonkt.injection.forceBindObject
 import com.hexagonkt.injection.InjectionManager.bindObject
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.settings.SettingsManager
