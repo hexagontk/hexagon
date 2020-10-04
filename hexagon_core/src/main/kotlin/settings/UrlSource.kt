@@ -3,17 +3,17 @@ package com.hexagonkt.settings
 import com.hexagonkt.serialization.parse
 import java.net.URL
 
-class ResourceSource(val resource: URL) : SettingsSource {
+class UrlSource(val url: URL) : SettingsSource {
 
-    constructor(resource: String) : this(URL(resource))
+    constructor(url: String) : this(URL(url))
 
-    override fun toString(): String = "Resource with path: ${resource.path}"
+    override fun toString(): String = "URL with path: $url"
 
-    @Suppress("RemoveExplicitTypeArguments") // Compile error filed as warning inside IntelliJ
     override fun load(): Map<String, *> =
         LinkedHashMap(
             try {
-                resource
+                // TODO Fail if resource exists but format is not loaded
+                url
                     .parse<Map<String, *>>()
                     .mapKeys { e -> e.key }
             }

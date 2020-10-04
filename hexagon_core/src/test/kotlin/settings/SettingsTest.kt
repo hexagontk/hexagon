@@ -21,10 +21,10 @@ class SettingsTest {
 
     @Test fun `Load file add variables contained in that file`() {
         SerializationManager.formats = linkedSetOf(Json, Yaml)
-        assert(FileSource("invalid").load().isEmpty())
+        assert(UrlSource("file:invalid").load().isEmpty())
         val file = "src/test/resources/development.yml"
         val fileName = if (File(file).exists()) file else "hexagon_core/$file"
-        assert(FileSource(fileName).load().size == 2)
+        assert(UrlSource("file:$fileName").load().size == 2)
     }
 
     @Test fun `Settings are loaded from objects`() {
