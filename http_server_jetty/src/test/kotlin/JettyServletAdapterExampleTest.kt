@@ -4,6 +4,9 @@ import com.hexagonkt.http.server.PortHttpServerSamplesTest
 import com.hexagonkt.http.server.examples.*
 import com.hexagonkt.web.examples.TodoTest
 
+/**
+ * [JettyServletAdapter] instance
+ */
 val adapter = JettyServletAdapter()
 
 class JettyServletAdapterBooksTest : BooksTest(adapter)

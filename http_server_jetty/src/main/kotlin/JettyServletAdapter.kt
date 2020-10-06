@@ -20,14 +20,30 @@ import java.util.*
 import javax.servlet.DispatcherType
 import org.eclipse.jetty.server.Server as JettyServer
 
+/**
+ * Provides Adapter implementation for [ServerPort]
+ */
 class JettyServletAdapter : ServerPort {
+
+    /**
+     * [JettyServer] instance
+     */
     private var jettyServer: JettyServer? = null
 
+    /**
+     * Provides the port number the server is connected to.
+     */
     override fun runtimePort(): Int =
         ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort
 
+    /**
+     * Checks whether the [JettyServer] has been started
+     */
     override fun started() = jettyServer?.isStarted ?: false
 
+    /**
+     * Starts the server.
+     */
     override fun startup(server: Server) {
         val settings = server.settings
         val serverInstance = JettyServer(InetSocketAddress(settings.bindAddress, settings.bindPort))
@@ -54,10 +70,19 @@ class JettyServletAdapter : ServerPort {
         serverInstance.start()
     }
 
+    /**
+     * Stops the server
+     */
     override fun shutdown() {
         jettyServer?.stop()
     }
 
+    /**
+     * Sets up SSL settings for the server
+     *
+     * @param settings [ServerSettings] instance containing the settings of the [Server] instance
+     * @param serverInstance [JettyServer] instance of the adapter
+     */
     private fun setupSsl(settings: ServerSettings, serverInstance: JettyServer): ServerConnector {
         val httpConfiguration = HttpConfiguration()
         httpConfiguration.secureScheme = "https"
