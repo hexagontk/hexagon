@@ -9,7 +9,7 @@ import com.hexagonkt.injection.InjectionManager
 
 /**
  * [InjectionManager] instance to which an instance of [JettyServletAdapter]
- * is bound for dependency Injection
+ * is bound for dependency Injection.
  */
 val injector = InjectionManager.apply {
     bindObject<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
