@@ -47,6 +47,18 @@ fun options(path: String = "/"): Route = Route(path, OPTIONS)
 /** Shortcut to create a PATCH route. */
 fun patch(path: String = "/"): Route = Route(path, PATCH)
 
+/**
+ * Parsing input query such as 'paramA=valueA&paramB=valueB'
+ * into a map of several key-value pairs separated by the '&'
+ * where <b>key</b> is the param name before '=' as String
+ * and <b>value</b> is the string after '=' as List<String>
+ *
+ * Note: Missing value after '=' (e.g foo=) result into a list of empty string ("")
+ *
+ * @param query:String e.g. 'param=value&foo=bar'
+ * @return Map<String, List<String>>
+ *
+ */
 fun parseQueryParameters (query: String): Map<String, List<String>> =
     if (query.isBlank())
         mapOf()
