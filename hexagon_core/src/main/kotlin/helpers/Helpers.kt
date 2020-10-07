@@ -1,26 +1,26 @@
 package com.hexagonkt.helpers
 
-/** Default logger when you are lazy to declare one. */
+/** Default logger for when you feel too lazy to declare one. */
 val logger: Logger = Logger(Logger::class)
 
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
- * Executes a lambda until no exception is thrown or a number of times is reached.
+ * Execute a lambda until no exception is thrown or a number of times is reached.
  *
  * @param times Number of times to try to execute the callback. Must be greater than 0.
  * @param delay Milliseconds to wait to next execution if there was an error. Must be 0 or greater.
- * @param func Code to be executed.
- * @return The callback result if succeed.
+ * @param block Code to be executed.
+ * @return Callback result if succeed.
  * @throws [MultipleException] if the callback didn't succeed in the given times.
  */
-fun <T> retry(times: Int, delay: Long, func: () -> T): T {
+fun <T> retry(times: Int, delay: Long, block: () -> T): T {
     require(times > 0)
     require(delay >= 0)
 
     val exceptions = mutableListOf<Exception>()
     for (ii in 1 .. times) {
         try {
-            return func()
+            return block()
         }
         catch (e: Exception) {
             exceptions.add(e)
@@ -37,7 +37,7 @@ val fail: Nothing
     get() = error("Invalid state")
 
 /**
- * Returns the stack trace array of the frames that starts with the given prefix.
+ * Return the stack trace array of the frames that starts with the given prefix.
  */
 fun Throwable.filterStackTrace(prefix: String): Array<out StackTraceElement> =
     if (prefix.isEmpty())
@@ -46,7 +46,7 @@ fun Throwable.filterStackTrace(prefix: String): Array<out StackTraceElement> =
         this.stackTrace.filter { it.className.startsWith(prefix) }.toTypedArray()
 
 /**
- * Returns this throwable as a text.
+ * Return this throwable as a text.
  */
 fun Throwable.toText(prefix: String = ""): String =
     "${this.javaClass.name}: ${this.message}" +
