@@ -17,7 +17,6 @@ import com.hexagonkt.injection.InjectionManager.injectOrNull
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
-import java.net.URL
 
 /**
  * A server that listen to HTTP connections on a port and address and route requests using a
@@ -71,12 +70,20 @@ data class Server(
         )
 
         adapter.startup (this)
-        log.info { "${settings.serverName} started${createBanner()}" }
+        log.info { "${serverBinding()} started\n${createBanner()}" }
     }
 
     fun stop() {
         adapter.shutdown ()
-        log.info { "${settings.serverName} stopped" }
+        log.info { "${serverBinding()} stopped" }
+    }
+
+    private fun serverBinding(): String {
+        val bindAddress = settings.bindAddress
+        val protocol = settings.protocol
+        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
+        val scheme = if (protocol == HTTP) "http" else "https"
+        return "$scheme://$hostName:$runtimePort"
     }
 
     private fun createBanner(): String {
@@ -84,30 +91,20 @@ data class Server(
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
-        val bindAddress = settings.bindAddress
         val protocol = settings.protocol
-        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
-        val scheme = if (protocol == HTTP) "http" else "https"
 
         val information = """
-            SERVER NAME:    ${settings.serverName}
-            SERVER ADAPTER: $portName
+            Server Adapter: $portName
 
             Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
             Java $version [$name]
             Locale $locale Timezone $timezone Charset $charset
 
             Started in $bootTime s using $usedMemory KB
-            Served at $scheme://$hostName:$runtimePort${if (protocol == HTTP2) " (HTTP/2)" else ""}
-        """
+            Served at ${serverBinding()}${if (protocol == HTTP2) " (HTTP/2)" else ""}
+        """.trimIndent()
 
-        // TODO Load banner from ${serverName}.txt
-        // TODO Do not trim the banner (it could break ASCII art ;)
-        val bannerResource = settings.serverName.toLowerCase().replace(' ', '_')
-        val banner = (URL("classpath:$bannerResource.txt").readText()) + information
-        return banner
-            .trimIndent()
-            .lines()
-            .joinToString(eol, eol + eol, eol) { " ".repeat(4) + it.trim() }
+        val banner = (settings.banner?.let { "$it\n" } ?: "" ) + information
+        return banner.indent()
     }
 }

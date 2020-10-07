@@ -30,8 +30,7 @@ The server can be configured with different properties. If you do not provide a 
 are searched inside the application settings and lastly, a default value is picked. This is the
 parameters list:
 
-* serverName: name of this server, it is only informative, and it is displayed on the logs. If not
-  set `<undefined>` is used.
+* banner: informative text shown at start up logs. If not set only runtime information is displayed.
 * bindAddress: address to which this process is bound. If none is provided, `127.0.0.1` is taken.
 * bindPort: the port which the process listens to. By default, it is `2010`.
 * contextPath: initial path used for the rest of the routes, by default it is empty.
@@ -51,8 +50,8 @@ and after creating a server you can run it or stop it with [start()] and [stop()
 
 #### Servlet Web server
 
-There is an special server adapter for running inside Servlet Containers. To use it you should
-import the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check the
+There is a special server adapter for running inside Servlet Containers. To use it you should import
+the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check the
 [http_server_servlet] module for more information.
 
 [http_server_servlet]: /http_server_servlet
@@ -70,7 +69,7 @@ The callback has a void return type. You should use `Call.send()` to set the res
 be returned to the user.
 
 Routes are matched in the order they are defined. The first route that matches the request is
-invoked and the following ones are ignored.
+invoked, and the following ones are ignored.
 
 Check the next snippet for usage examples:
 
@@ -128,7 +127,7 @@ object:
 
 #### Query Parameters
 
-It is possible to access the whole query string or only an specific query parameter using the
+It is possible to access the whole query string or only a specific query parameter using the
 `parameters` map on the `request` object:
 
 @sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackQueryParam
@@ -194,8 +193,8 @@ All filters that match a route are executed in the order they are declared.
 Filters optionally take a pattern, causing them to be executed only if the request path matches
 that pattern.
 
-Before and after filters are always executed (if the route is matched). But any of them may stop
-the execution chain if halted.
+Before and after filters are always executed (if the route is matched). However, any of them may
+stop the execution chain if halted.
 
 If `halt()` is called in one filter, filter processing is stopped for that kind of filter (*before*
 or *after*). In the case of before filters, this also prevent the route from being executed (but
@@ -210,12 +209,12 @@ The following code details filters usage:
 You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
 callbacks, or handlers halted with an error code.
 
-Error handlers for a given code or exception are unique, and the first one defined is the one that
+Error handlers for a given code or exception are unique, and the first one defined is the one which
 will be used.
 
 #### HTTP Errors Handlers
 
-Allows to handle routes halted with a given code. These handlers are only applied if the route is
+Allows handling routes halted with a given code. These handlers are only applied if the route is
 halted, if the error code is returned with `send` it won't be handled as an error. Example:
 
 @sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:errors
@@ -233,8 +232,8 @@ You can use a folder in the classpath for serving static files with the `get()` 
 the public directory name is not included in the URL.
 
 Asset mapping is handled like any other route, so if an asset mapping is matched, no other route
-will be checked (assets or other routes). And also, if a previous route is matched, the asset
-mapping will never be checked.
+will be checked (assets or other routes). Also, if a previous route is matched, the asset mapping
+will never be checked.
 
 Being `get(resource)` a shortcut of `get("/*", resource)` it should be placed as the last route.
 Check the next example for details:
@@ -269,8 +268,8 @@ accepted by an HTTP client without a security error. There is a [Gradle] helper 
 [create sample certificates] for development purposes.
 
 HTTP clients can also be configured to use a certificate. This is required to implement a double
-ended authorization ([mutual TLS]). This is also done by passing a [SslSettings] object the the
-HTTP client.
+ended authorization ([mutual TLS]). This is also done by passing a [SslSettings] object the HTTP
+client.
 
 If you want to implement mutual trust, you must enforce client certificate in the server
 configuration (check [SslSettings.clientAuth]). If this is done, you can access the certificate the
@@ -295,7 +294,7 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 #### Integration tests
 
 To test HTTP servers from outside using a real Adapter, you can create a server setting `0` as port.
-This will pick a random free port that you can check later:
+This will pick a random free port which you can check later:
 
 @sample port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:test
 
@@ -373,7 +372,7 @@ raised at initialization time.
 
 For each path in the spec file, descriptions for 200 and 400 (in case parameter verification fails)
 status codes must be provided. In addition, for each status code, at least one example must be
-provided. Note that, at present, only the `application/json` mediatype is supported.
+provided. Note that, at present, only the `application/json` media type is supported.
 
 #### Providing Examples
 
@@ -385,10 +384,10 @@ The mock server follows the following priority order when parsing the spec file 
 1. If the X-Mock-Response-Example header is present, then the example corresponding to the value of
 that header is immediately fetched and returned.
 2. If no X-Mock-Response-Example header is present, it first tries to fetch an example from the
-schema key within the mediatype object.
+schema key within the media type object.
 3. If no example is found here, it then attempts to fetch the example from the example key in the
-mediatype object.
-4. Next, it attempts to fetch the first value found in the examples key of the mediatype object.
+media type object.
+4. Next, it attempts to fetch the first value found in the examples key of the media type object.
 5. If still no example is found, it simply raises an exception.
 
 ```json
