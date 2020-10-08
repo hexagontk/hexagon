@@ -8,8 +8,8 @@ class HttpTest {
     @Test fun `Parse strips spaces` () {
         assert(parseQueryParameters("a =1&b & c &d = e") == mapOf(
             "a" to listOf("1"),
-            "b" to emptyList(),
-            "c" to emptyList(),
+            "b" to listOf(""),
+            "c" to listOf(""),
             "d" to listOf("e")
         ))
     }
@@ -17,8 +17,8 @@ class HttpTest {
     @Test fun `Parse key only query parameters return correct data` () {
         assert(parseQueryParameters("a=1&b&c&d=e") == mapOf(
             "a" to listOf("1"),
-            "b" to emptyList(),
-            "c" to emptyList(),
+            "b" to listOf(""),
+            "c" to listOf(""),
             "d" to listOf("e")
         ))
     }
@@ -27,9 +27,38 @@ class HttpTest {
         assert(parseQueryParameters("a=1&b&c&d=e&a=2&b=c") == mapOf(
             "a" to listOf("1", "2"),
             "b" to listOf("", "c"),
-            "c" to emptyList(),
+            "c" to listOf(""),
             "d" to listOf("e")
         ))
+    }
+
+    @Test fun `Parse multiple empty values` () {
+        assert(parseQueryParameters("a=") == mapOf(
+            "a" to listOf("")
+        ))
+        assert(parseQueryParameters("a=&b=") == mapOf(
+            "a" to listOf(""),
+            "b" to listOf("")
+        ))
+        assert(parseQueryParameters("a=&b=&c") == mapOf(
+            "a" to listOf(""),
+            "b" to listOf(""),
+            "c" to listOf("")
+        ))
+    }
+
+    @Test fun `Parse key only` () {
+        assert(parseQueryParameters("ab") == mapOf(
+            "ab" to listOf("")
+        ))
+    }
+
+    @Test fun `Parse value only` () {
+        assert(parseQueryParameters(" =ab").none())
+    }
+
+    @Test fun `Parse white space only`() {
+        assert(parseQueryParameters("    ").none())
     }
 
     @Test fun `HTTP date has the correct format`() {
