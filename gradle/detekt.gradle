@@ -5,8 +5,12 @@
 apply(plugin: "io.gitlab.arturbosch.detekt")
 
 detekt {
-    ignoreFailures = true
 
-    if (findProperty("detektConfigPath") != null)
-        config = rootProject.files(findProperty("detektConfigPath"))
+    final String detektConfigPath = findProperty("detektConfigPath")
+
+    ignoreFailures = true
+    buildUponDefaultConfig = true
+
+    if (detektConfigPath != null)
+        config = rootProject.files(detektConfigPath)
 }

@@ -1,6 +1,7 @@
 package com.hexagonkt.helpers
 
 import org.junit.jupiter.api.Test
+import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalDateTime.of as dateTime
@@ -8,6 +9,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.Calendar.MILLISECOND
+import kotlin.test.assertFailsWith
 
 class DatesTest {
 
@@ -44,5 +46,11 @@ class DatesTest {
             LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
         assert(2016_09_05_17_45_58_101.toLocalDateTime() !=
             LocalDateTime.of(2016, 9, 5, 17, 45, 59, 101_000_000))
+    }
+
+    @Test fun `Negative numbers raise error when converted to dates`() {
+        assertFailsWith<IllegalArgumentException> { (-1L).toLocalDateTime() }
+        assertFailsWith<IllegalArgumentException> { (-1).toLocalDate() }
+        assertFailsWith<IllegalArgumentException> { (-1).toLocalTime() }
     }
 }

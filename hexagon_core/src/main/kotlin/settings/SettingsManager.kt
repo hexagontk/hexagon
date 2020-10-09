@@ -13,13 +13,13 @@ object SettingsManager {
     internal const val ENVIRONMENT_PREFIX = "application_"
 
     private val defaultSettingsSources: List<SettingsSource> = listOf(
-        ResourceSource("classpath:$SETTINGS.json"),
-        ResourceSource("classpath:$SETTINGS.yml"),
+        UrlSource("classpath:$SETTINGS.json"),
+        UrlSource("classpath:$SETTINGS.yml"),
         EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
         SystemPropertiesSource(SETTINGS),
-        FileSource("$SETTINGS.yml"),
-        ResourceSource("classpath:${SETTINGS}_test.json"),
-        ResourceSource("classpath:${SETTINGS}_test.yml")
+        UrlSource("file:$SETTINGS.yml"),
+        UrlSource("classpath:${SETTINGS}_test.json"),
+        UrlSource("classpath:${SETTINGS}_test.yml")
     )
 
     var settingsSources: List<SettingsSource> = defaultSettingsSources

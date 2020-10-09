@@ -15,7 +15,7 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.javaType
 
-class MongoDbMapper<T : Any, K : Any>(
+open class MongoDbMapper<T : Any, K : Any>(
     private val type: KClass<T>,
     private val key: KProperty1<T, K>
 ) : Mapper<T> {
@@ -61,10 +61,8 @@ class MongoDbMapper<T : Any, K : Any>(
             value is String && fieldType == UUID::class.java -> UUID.fromString(value)
             value is URL -> value.toString()
             value is String && fieldType == LocalDate::class.java -> LocalDate.parse(value)
-            value is String && fieldType == LocalDateTime::class.java -> LocalDateTime.parse(value)
-                .atZone(ZoneId.systemDefault())
-                .withZoneSameInstant(UTC)
-                .toLocalDateTime()
+            value is String && fieldType == LocalDateTime::class.java ->
+                toStore(property, LocalDateTime.parse(value))
             value is LocalDateTime && fieldType == LocalDateTime::class.java -> value
                 .atZone(ZoneId.systemDefault())
                 .withZoneSameInstant(UTC)

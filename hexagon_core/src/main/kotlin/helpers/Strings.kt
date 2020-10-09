@@ -15,7 +15,7 @@ private const val VARIABLE_SUFFIX = "}"
 val eol: String by lazy { getProperty("line.separator") }
 
 /**
- * Filters the target string substituting each key by its value. The keys format is:
+ * Filter the target string substituting each key by its value. The keys format is:
  * `#{key}` and all occurrences are replaced by the supplied value.
  *
  * If a variable does not have a parameter, it is left as it is.
@@ -48,7 +48,7 @@ fun Regex.findGroups(str: String): List<MatchGroup> =
         .drop(1)
 
 /**
- * Transforms the target string from snake case to camel case.
+ * Transform the target string from snake case to camel case.
  */
 fun String.snakeToCamel(): String =
     this.split("_")
@@ -58,7 +58,7 @@ fun String.snakeToCamel(): String =
         .decapitalize()
 
 /**
- * Transforms the target string from camel case to snake case.
+ * Transform the target string from camel case to snake case.
  */
 fun String.camelToSnake(): String =
     this.split("(?=\\p{Upper}\\p{Lower})".toRegex())
@@ -66,15 +66,20 @@ fun String.camelToSnake(): String =
         .decapitalize()
 
 /**
- * Formats the string as a banner with a delimiter above and below text. The character used to
+ * Format the string as a banner with a delimiter above and below text. The character used to
  * render the delimiter is defined.
  *
  * @param bannerDelimiter Delimiter char for banners.
  */
-fun String.banner(bannerDelimiter: String = "*"): String {
-    val separator = bannerDelimiter.repeat(this.lines().asSequence().map { it.length }.maxOrElse(0))
-    return "$separator$eol$this$eol$separator"
-}
+fun String.banner(bannerDelimiter: String = "*"): String =
+    bannerDelimiter
+        .repeat(this
+            .lines()
+            .asSequence()
+            .map { it.length }
+            .maxOrElse(0)
+        )
+        .let { "$it$eol$this$eol$it" }
 
 fun String.stripAccents(): String =
     normalize(this, NFD).replace("\\p{M}".toRegex(), "")
@@ -97,6 +102,9 @@ fun String.globToRegex(): Regex = Regex(
     }
     .joinToString("", "^", "$")
 )
+
+fun String.indent(count: Int = 4, pad: String = " ") =
+    this.lines().joinToString(eol) { pad.repeat(count) + it }
 
 internal fun Sequence<Int>.maxOrElse(fallback: Int): Int =
     this.max() ?: fallback

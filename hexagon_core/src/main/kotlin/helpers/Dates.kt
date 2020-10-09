@@ -3,104 +3,142 @@ package com.hexagonkt.helpers
 import java.time.*
 import java.util.Date
 
+private const val DATE_OFFSET: Long = 1_000_000_000L
+private const val YEAR_OFFSET: Int = 10_000
+private const val MONTH_OFFSET: Int = 100
+private const val HOUR_OFFSET: Int = 10_000_000
+private const val MINUTE_OFFSET: Int = 100_000
+private const val SECOND_OFFSET: Int = 1_000
+private const val NANO_OFFSET: Int = 1_000_000
+
 /**
- * Converts a date time to a number with the following format: `YYYYMMDDHHmmss`.
+ * Convert a date time to a number with the following format: `YYYYMMDDHHmmss`.
  *
- * @receiver The date to be converted to a number.
+ * @receiver Date to be converted to a number.
  * @return Numeric representation of the given date.
  */
 fun LocalDateTime.toNumber(): Long =
-    (this.toLocalDate().toNumber() * 1_000_000_000L) + this.toLocalTime().toNumber()
+    (this.toLocalDate().toNumber() * DATE_OFFSET) + this.toLocalTime().toNumber()
 
 /**
- * Converts a date to an integer with the following format: `YYYYMMDD`.
+ * Convert a date to an integer with the following format: `YYYYMMDD`.
  *
- * @receiver The date to be converted to a number.
+ * @receiver Date to be converted to a number.
  * @return Numeric representation of the given date.
  */
 fun LocalDate.toNumber(): Int =
-    (this.year * 10_000) +
-    (this.monthValue * 100) +
+    (this.year * YEAR_OFFSET) +
+    (this.monthValue * MONTH_OFFSET) +
     this.dayOfMonth
 
 /**
- * Converts a time to an integer with the following format: `HHmmssSSS`.
+ * Convert a time to an integer with the following format: `HHmmssSSS`.
  *
- * @receiver The time to be converted to a number.
+ * @receiver Time to be converted to a number.
  * @return Numeric representation of the given time.
  */
 fun LocalTime.toNumber(): Int =
-    (this.hour * 10_000_000) +
-    (this.minute * 100_000) +
-    (this.second * 1_000) +
-    (this.nano / 1_000_000) // Nanos to millis
+    (this.hour * HOUR_OFFSET) +
+    (this.minute * MINUTE_OFFSET) +
+    (this.second * SECOND_OFFSET) +
+    (this.nano / NANO_OFFSET) // Nanos to millis
 
 /**
- * Returns the date time in a given time zone for a local date time.
+ * Return the date time in a given time zone for a local date time.
  *
- * @receiver The local date time to be moved to another time zone.
+ * @receiver Local date time to be moved to another time zone.
  * @param zoneId Id of the target zone of the passed local date time.
- * @return The received date time at the given [zoneId].
+ * @return Received date time at the given [zoneId].
  */
 fun LocalDateTime.withZone(zoneId: ZoneId = Jvm.timeZone.toZoneId()): ZonedDateTime =
     ZonedDateTime.of(this, zoneId)
 
 /**
- * Parses a date time from a formatted number with this format: `YYYYMMDDHHmmss`.
+ * Parse a date time from a formatted number with this format: `YYYYMMDDHHmmss`.
  *
  * @receiver Number to be converted to a date time.
  * @return Local date time representation of the given number.
  */
-fun Long.toLocalDateTime(): LocalDateTime =
-    (this / 1_000_000_000)
+fun Long.toLocalDateTime(): LocalDateTime {
+    require(this >= 0) { "Number representing timestamp must be positive (format: YYYYMMDDHHmmss)" }
+    return (this / DATE_OFFSET)
         .toInt()
         .toLocalDate()
-        .atTime((this % 1_000_000_000).toInt().toLocalTime())
+        .atTime((this % DATE_OFFSET).toInt().toLocalTime())
+}
 
 /**
- * Parses a date from a formatted integer with this format: `YYYYMMDD`.
+ * Parse a date from a formatted integer with this format: `YYYYMMDD`.
  *
  * @receiver Number to be converted to a date.
  * @return Local date representation of the given number.
  */
-fun Int.toLocalDate(): LocalDate =
-    LocalDate.of(
-        this / 10_000,
-        (this % 10_000) / 100,
-        this % 100
+fun Int.toLocalDate(): LocalDate {
+    require(this >= 0) { "Number representing date must be positive (format: YYYYMMDD)" }
+    return LocalDate.of(
+        this / YEAR_OFFSET,
+        (this % YEAR_OFFSET) / MONTH_OFFSET,
+        this % MONTH_OFFSET
     )
+}
 
 /**
- * Parses a time from a formatted integer with this format: `HHmmssSSS`.
+ * Parse a time from a formatted integer with this format: `HHmmssSSS`.
  *
  * @receiver Number to be converted to a time.
  * @return Local time representation of the given number.
  */
-fun Int.toLocalTime(): LocalTime =
-    LocalTime.of(
-        (this / 10_000_000),
-        ((this % 10_000_000) / 100_000),
-        ((this % 100_000) / 1_000),
-        ((this % 1_000) * 1_000_000) // Millis to nanos
+fun Int.toLocalTime(): LocalTime {
+    require(this >= 0) { "Number representing time must be positive (format: HHmmssSSS)" }
+    return LocalTime.of(
+        (this / HOUR_OFFSET),
+        ((this % HOUR_OFFSET) / MINUTE_OFFSET),
+        ((this % MINUTE_OFFSET) / SECOND_OFFSET),
+        ((this % SECOND_OFFSET) * NANO_OFFSET) // Millis to nanos
     )
+}
 
 /**
- * .
+ * Convert a zoned date time to a date.
  *
- * @receiver .
- * @return .
+ * @receiver Zoned date time to be converted to a date.
+ * @return Date representation of the given zoned date time.
  */
 fun ZonedDateTime.toDate(): Date =
     Date.from(this.toInstant())
 
+/**
+ * Convert a local date time to a date.
+ *
+ * @receiver Local date time to be converted to a date.
+ * @return Date representation of the given local date time.
+ */
 fun LocalDateTime.toDate(): Date =
     this.atZone(Jvm.timeZone.toZoneId()).toDate()
 
+/**
+ * Convert a local date to a date.
+ *
+ * @receiver Local date to be converted to a date.
+ * @return Date representation of the given local date.
+ */
 fun LocalDate.toDate(): Date =
     this.atStartOfDay(Jvm.timeZone.toZoneId()).toDate()
 
+/**
+ * Convert a date to a local date time.
+ *
+ * @receiver Date to be converted to a local date time.
+ * @return Local date time representation of the given date.
+ */
 fun Date.toLocalDateTime(): LocalDateTime =
     LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), ZoneId.systemDefault())
 
+/**
+ * Convert a date to a local date.
+ *
+ * @receiver Date to be converted to a local date.
+ * @return Local date representation of the given date.
+ */
 fun Date.toLocalDate(): LocalDate =
     this.toLocalDateTime().toLocalDate()

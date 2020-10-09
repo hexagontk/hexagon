@@ -4,6 +4,7 @@ import com.hexagonkt.helpers.Jvm
 import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
 import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.injection.forceBindObject
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
@@ -20,7 +21,7 @@ class HexagonCoreSamplesTest {
         val birthDate: LocalDate
     )
 
-    @Suppress("RedundantExplicitType")
+    @Suppress("RedundantExplicitType") // Type declared for examples generation
     @Test fun loggerUsage() {
         // logger
         val classLogger: Logger = Logger(Runtime::class) // Logger for the `Runtime` class
@@ -83,7 +84,7 @@ class HexagonCoreSamplesTest {
         val ignoredBinding = InjectionManager.inject<String>()
 
         // You can overwrite previously bound classes using `forceBind*` methods
-        InjectionManager.forceBindObject<String>("STR Overridden")
+        forceBindObject<String>("STR Overridden")
         val overriddenBinding = InjectionManager.inject<String>()
         // injectionUsage
 

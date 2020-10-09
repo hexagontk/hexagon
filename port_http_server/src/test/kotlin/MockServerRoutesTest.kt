@@ -3,7 +3,7 @@ package com.hexagonkt.http.server
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.injection.forceBindObject
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -21,7 +21,7 @@ class MockServerRoutesTest {
     }
 
     @BeforeAll fun setUp() {
-        InjectionManager.forceBindObject<ServerPort>(JettyServletAdapter())
+        forceBindObject<ServerPort>(JettyServletAdapter())
         server.start()
         assert(server.started())
     }
