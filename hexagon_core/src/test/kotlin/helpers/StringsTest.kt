@@ -119,4 +119,28 @@ class StringsTest {
         assert("literal".globToRegex().pattern == "^literal$")
         assert("""*\*.bin?""".globToRegex().pattern == """^.*\\.*\.bin.$""")
     }
+
+    @Test fun `Indent works as expected`() {
+        assert(" text ".indent() == "     text ")
+        assert(" text ".indent(0) == " text ")
+        assert(" text ".indent(0, "·") == " text ")
+        assert(" text ".indent(1) == "  text ")
+        assert(" text ".indent(1, "") == " text ")
+        assert(" text ".indent(1, "·") == "· text ")
+        assert(" text ".indent(2, "·") == "·· text ")
+        assert(" text ".indent(1, "·*") == "·* text ")
+        assert(" text ".indent(2, "·*") == "·*·* text ")
+        assert("·*text ".indent(2, "·*") == "·*·*·*text ")
+
+        assert("line 1\nline 2".indent() == "    line 1\n    line 2")
+        assert("line 1\nline 2".indent(0) == "line 1\nline 2")
+        assert("line 1\nline 2".indent(0, "·") == "line 1\nline 2")
+        assert("line 1\nline 2".indent(1) == " line 1\n line 2")
+        assert("line 1\nline 2".indent(1, "") == "line 1\nline 2")
+        assert("line 1\nline 2".indent(1, "·") == "·line 1\n·line 2")
+        assert("line 1\nline 2".indent(2, "·") == "··line 1\n··line 2")
+        assert("line 1\nline 2".indent(1, "·*") == "·*line 1\n·*line 2")
+        assert("line 1\nline 2".indent(2, "·*") == "·*·*line 1\n·*·*line 2")
+        assert("·*line 1\n·*line 2".indent(2, "·*") == "·*·*·*line 1\n·*·*·*line 2")
+    }
 }

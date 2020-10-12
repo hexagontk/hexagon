@@ -1,11 +1,11 @@
 [
   {
     "id" : "id",
-    "foundation" : 20140125,
-    "closeTime" : 114200000,
-    "openTime" : {
-      "start" : 83000000,
-      "endInclusive" : 145100000
+    foundation : "2014-01-25",
+    closeTime : "11:42",
+    openTime : {
+      start : "08:30",
+      endInclusive : "14:51:00"
     },
     "web" : "http://example.org",
     "clients" : [
@@ -15,38 +15,11 @@
     "logo" : "AAEC",
     "notes" : "notes",
     "people" : [
-      {
-        "name" : "John"
-      },
-      {
-        "name" : "Mike"
-      }
+      { "name" : "John" },
+      { "name" : "Mike" }
     ],
-    "departments" : [
-      "DESIGN",
-      "DEVELOPMENT"
-    ],
-    "creationDate" : 20160101000000000,
-    "host" : "127.0.0.1"
-  },
-  {
-    "id" : "id1",
-    "foundation" : 20140125,
-    "closeTime" : 114200000,
-    "openTime" : {
-      "start" : 83000000,
-      "endInclusive" : 143600000
-    },
-    "web" : "http://example.org",
-    "people" : [
-      {
-        "name" : "John"
-      },
-      {
-        "name" : "Mike"
-      }
-    ],
-    "creationDate" : 20160825171704210,
+    "departments" : [ "DESIGN", "DEVELOPMENT" ],
+    "creationDate" : "2016-01-01T00:00",
     "host" : "127.0.0.1"
   }
 ]

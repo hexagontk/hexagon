@@ -1,5 +1,6 @@
 package com.hexagonkt.injection
 
+import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.eol
 import kotlin.reflect.KClass
 
@@ -9,29 +10,33 @@ import kotlin.reflect.KClass
  */
 object InjectionManager {
 
-    enum class OverwritePolicy { ALLOW, IGNORE, FORBID }
+    internal val logger: Logger by lazy { Logger(this) }
 
-    // TODO
-    var overwriteBindings: OverwritePolicy = OverwritePolicy.IGNORE
+    internal var bindings: Map<Pair<KClass<*>, Any>, () -> Any> = emptyMap()
 
-    private var registry: Map<Pair<KClass<*>, *>, () -> Any> = emptyMap()
-
-    fun <T : Any, R : T> bind(type: KClass<T>, tag: Any, force: Boolean, provider: () -> R) {
-        val key = type to tag
-        if (!registry.containsKey(key) || force)
-            registry = registry + (key to provider)
-    }
+    internal fun binding(key: Pair<KClass<*>, Any>): String =
+        if (key.second == Unit) key.first.toString()
+        else "${key.first} with tag '${key.second}'"
 
     fun <T : Any, R : T> bind(type: KClass<T>, tag: Any, provider: () -> R) {
-        bind(type, tag, false, provider)
+        val key = type to tag
+
+        val binding = binding(key)
+        if (!bindings.containsKey(key)) {
+            bindings = bindings + (key to provider)
+            logger.info { "$binding bound to function" }
+        }
+        else {
+            logger.warn { "$binding already bound (IGNORED). This should happen ONLY IN TEST" }
+        }
     }
 
     fun <T : Any, R : T> bind(type: KClass<T>, provider: () -> R) {
-        bind(type, Unit, false, provider)
+        bind(type, Unit, provider)
     }
 
     fun <T : Any, R : T> bindObject(type: KClass<T>, tag: Any, instance: R) {
-        bind(type, tag, false) { instance }
+        bind(type, tag) { instance }
     }
 
     fun <T : Any, R : T> bindObject(type: KClass<T>, instance: R) {
@@ -39,7 +44,7 @@ object InjectionManager {
     }
 
     inline fun <reified T : Any> bind(tag: Any, noinline provider: () -> T) =
-        bind(T::class, tag, false, provider)
+        bind(T::class, tag, provider)
 
     inline fun <reified T : Any> bindObject(tag: Any, instance: T) =
         bindObject(T::class, tag, instance)
@@ -50,37 +55,55 @@ object InjectionManager {
     inline fun <reified T : Any> bindObject(instance: T) =
         bindObject(T::class, instance)
 
-    fun <T : Any, R : T> forceBind(type: KClass<T>, tag: Any, provider: () -> R) {
-        bind(type, tag, true, provider)
+    fun <T : Any, R : T> bind(type: KClass<T>, providers: List<() -> R>) {
+        providers.forEachIndexed { ii, provider -> bind(type, ii, provider) }
     }
 
-    fun <T : Any, R : T> forceBind(type: KClass<T>, provider: () -> R) {
-        forceBind(type, Unit, provider)
+    inline fun <reified T : Any> bind(providers: List<() -> T>) {
+        bind(T::class, providers)
     }
 
-    fun <T : Any, R : T> forceBindObject(type: KClass<T>, tag: Any, instance: R) {
-        forceBind(type, tag) { instance }
+    fun <T : Any, R : T> bindObjects(type: KClass<T>, instances: List<R>) {
+        instances.forEachIndexed { ii, instance -> bindObject(type, ii, instance) }
     }
 
-    fun <T : Any, R : T> forceBindObject(type: KClass<T>, instance: R) {
-        forceBindObject(type, Unit, instance)
+    inline fun <reified T : Any> bindObjects(instances: List<T>) {
+        bindObjects(T::class, instances)
     }
 
-    inline fun <reified T : Any> forceBind(tag: Any, noinline provider: () -> T) =
-        forceBind(T::class, tag, provider)
+    fun <T : Any, R : T> bind(type: KClass<T>, providers: Map<Any, () -> R>) {
+        providers.forEach { (k, v) -> bind(type, k, v) }
+    }
 
-    inline fun <reified T : Any> forceBindObject(tag: Any, instance: T) =
-        forceBindObject(T::class, tag, instance)
+    inline fun <reified T : Any> bind(providers: Map<Any, () -> T>) {
+        bind(T::class, providers)
+    }
 
-    inline fun <reified T : Any> forceBind(noinline provider: () -> T) =
-        forceBind(T::class, provider)
+    fun <T : Any, R : T> bindObjects(type: KClass<T>, instances: Map<Any, R>) {
+        instances.forEach { (k, v) ->  bindObject(type, k, v) }
+    }
 
-    inline fun <reified T : Any> forceBindObject(instance: T) =
-        forceBindObject(T::class, instance)
+    inline fun <reified T : Any> bindObjects(instances: Map<Any, T>) {
+        bindObjects(T::class, instances)
+    }
 
     @Suppress("UNCHECKED_CAST") // bind operation takes care of type matching
     fun <T : Any> injectOrNull(type: KClass<T>, tag: Any): T? =
-        registry[type to tag]?.invoke() as? T
+        bindings[type to tag]?.invoke() as? T
+
+    @Suppress("UNCHECKED_CAST") // bind operation takes care of type matching
+    fun <T : Any> injectList(type: KClass<T>): List<T> =
+        bindings
+            .filter { it.key.first == type }
+            .map { it.value.invoke() as T }
+
+    @Suppress("UNCHECKED_CAST") // bind operation takes care of type matching
+    fun <T : Any> injectMap(type: KClass<T>): Map<Any, T> =
+        bindings
+            .filter { it.key.first == type }
+            .map { it.key.second to it.value.invoke() as T }
+            .map { it.first to it.second }
+            .toMap()
 
     @Suppress("UNCHECKED_CAST") // bind operation takes care of type matching
     fun <T : Any> inject(type: KClass<T>, tag: Any): T =
@@ -105,7 +128,7 @@ object InjectionManager {
         injectOrNull(T::class)
 
     override fun toString(): String =
-        registry
+        bindings
             .map { it.key }
             .map { it.first.java.name to if (it.second is Unit) "" else " (${it.second})"}
             .joinToString(eol, "Bound classes with parameters:\n") {

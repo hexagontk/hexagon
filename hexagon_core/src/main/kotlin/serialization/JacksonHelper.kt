@@ -16,12 +16,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.net.InetAddress
 import java.nio.ByteBuffer
-import java.text.SimpleDateFormat
 import java.util.*
 
 object JacksonHelper {
 
-    internal val mapper: ObjectMapper by lazy { createObjectMapper () }
+    val mapper: ObjectMapper by lazy { createObjectMapper () }
 
     fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
         setupObjectMapper(ObjectMapper(mapperFactory))
@@ -35,7 +34,6 @@ object JacksonHelper {
         .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
         .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
         .configure(SORT_PROPERTIES_ALPHABETICALLY, false)
-        .setDateFormat(SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"))
         .registerModule(KotlinModule())
         .registerModule(JavaTimeModule())
         .registerModule(Jdk8Module())
