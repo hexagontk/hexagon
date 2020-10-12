@@ -20,6 +20,9 @@ import java.util.*
 import javax.servlet.DispatcherType
 import org.eclipse.jetty.server.Server as JettyServer
 
+/**
+ * Implements [ServerPort] using [JettyServer].
+ */
 class JettyServletAdapter : ServerPort {
     private var jettyServer: JettyServer? = null
 
