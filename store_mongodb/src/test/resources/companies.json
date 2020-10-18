@@ -5,7 +5,7 @@
   {
     id : "id",
     foundation : "2014-01-25",
-    closeTime : [ 11, 42 ],
+    closeTime : "11:42",
     openTime : {
       start : "08:30",
       endInclusive : "14:51:03"
@@ -19,25 +19,6 @@
       { name : "Mike" }
     ],
     departments : [ "DESIGN", "DEVELOPMENT" ],
-    creationDate : "2016-08-25T17:17:04.210" // Or [ 2016, 8, 25, 17, 17, 4, 210 ]
-  },
-  {
-    "id" : "id1",
-    "foundation" : [ 2014, 1, 25 ],
-    "closeTime" : [ 11, 42 ],
-    "openTime" : {
-      "start" : [ 8, 30 ],
-      "endInclusive" : [ 14, 36 ]
-    },
-    "web" : "http://example.org",
-    "people" : [
-      {
-        "name" : "John"
-      },
-      {
-        "name" : "Mike"
-      }
-    ],
-    "creationDate" : [ 2016, 1, 1, 0, 0, 0, 0 ]
+    creationDate : "2016-08-25T17:17:04.210"
   }
 ]

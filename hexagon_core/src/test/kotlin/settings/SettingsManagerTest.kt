@@ -28,12 +28,12 @@ class SettingsManagerTest {
 
     @BeforeEach fun resetSettingSources() {
         SettingsManager.settingsSources = listOf(
-            ResourceSource("classpath:$SETTINGS.yml"),
-            ResourceSource("classpath:development.yml"),
+            UrlSource("classpath:$SETTINGS.yml"),
+            UrlSource("classpath:development.yml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
             SystemPropertiesSource(SETTINGS),
-            FileSource("$SETTINGS.yml"),
-            ResourceSource("classpath:${SETTINGS}_test.yml")
+            UrlSource("file:$SETTINGS.yml"),
+            UrlSource("classpath:${SETTINGS}_test.yml")
         )
     }
 
@@ -50,13 +50,13 @@ class SettingsManagerTest {
 
     @Test fun `Get JSON properties`() {
         SettingsManager.settingsSources = listOf(
-            ResourceSource("classpath:$SETTINGS.yml"),
-            ResourceSource("classpath:development.yml"),
+            UrlSource("classpath:$SETTINGS.yml"),
+            UrlSource("classpath:development.yml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
             SystemPropertiesSource(SETTINGS),
-            FileSource("$SETTINGS.yml"),
-            ResourceSource("classpath:${SETTINGS}_test.yml"),
-            ResourceSource("classpath:integration.json")
+            UrlSource("file:$SETTINGS.yml"),
+            UrlSource("classpath:${SETTINGS}_test.yml"),
+            UrlSource("classpath:integration.json")
         )
 
         assert(settings["property"] as String == "final property")
@@ -69,12 +69,12 @@ class SettingsManagerTest {
 
     @Test fun `Get configuration properties`() {
         SettingsManager.settingsSources = listOf(
-            ResourceSource("classpath:$SETTINGS.yml"),
-            ResourceSource("classpath:development.yml"),
+            UrlSource("classpath:$SETTINGS.yml"),
+            UrlSource("classpath:development.yml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
             SystemPropertiesSource(SETTINGS),
-            FileSource("$SETTINGS.yml"),
-            ResourceSource("classpath:${SETTINGS}_test.yml")
+            UrlSource("file:$SETTINGS.yml"),
+            UrlSource("classpath:${SETTINGS}_test.yml")
         )
 
         assert(settings["property"] as String == "value")
@@ -112,11 +112,11 @@ class SettingsManagerTest {
 
     @Test fun `Set default settings add command line arguments`() {
         SettingsManager.settingsSources = listOf(
-            ResourceSource("classpath:$SETTINGS.yml"),
+            UrlSource("classpath:$SETTINGS.yml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
             SystemPropertiesSource(SETTINGS),
-            FileSource("$SETTINGS.yml"),
-            ResourceSource("classpath:${SETTINGS}_test.yml"),
+            UrlSource("file:$SETTINGS.yml"),
+            UrlSource("classpath:${SETTINGS}_test.yml"),
             CommandLineArgumentsSource(listOf("key=val", "param=data"))
         )
 

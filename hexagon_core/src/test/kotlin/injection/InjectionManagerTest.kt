@@ -5,20 +5,41 @@ import org.junit.jupiter.api.Test
 import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.injection.InjectionManager.bind
 import com.hexagonkt.injection.InjectionManager.bindObject
-import com.hexagonkt.injection.InjectionManager.forceBind
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.TestMethodOrder
 import java.lang.IllegalStateException
 import kotlin.test.assertFailsWith
+import com.hexagonkt.injection.InjectionManager.bindObjects
+import com.hexagonkt.injection.InjectionManager.injectList
+import com.hexagonkt.injection.InjectionManager.injectMap
+import com.hexagonkt.injection.InjectionManager.injectOrNull
 
 @TestMethodOrder(OrderAnnotation::class)
 class InjectionManagerTest {
 
     @Test fun `Inject not bound class throws exception`() {
-        assertFailsWith<IllegalStateException> {
-            inject<Test>()
-        }
+
+        data class Example(val text: String)
+
+        bindObject("ex", Example("An example"))
+
+        assertFailsWith<IllegalStateException> { inject<Test>() }
+        assertFailsWith<IllegalStateException> { inject<Example>() }
+        assertFailsWith<IllegalStateException> { inject<Example>("ej") }
+        assert(inject<Example>("ex") == Example("An example"))
+    }
+
+    @Test fun `'injectOrNull' not bound class may return null`() {
+
+        data class Example(val text: String)
+
+        bindObject("ex", Example("An example"))
+
+        assert(injectOrNull<Test>() == null)
+        assert(injectOrNull<Example>() == null)
+        assert(injectOrNull<Example>("ej") == null)
+        assert(injectOrNull<Example>("ex") == Example("An example"))
     }
 
     @Test
@@ -119,10 +140,14 @@ class InjectionManagerTest {
         assert(foo2.javaClass == SubFoo2::class.java)
 
         forceBind(Foo::class) { SubFoo3 }
-        forceBind<Foo> { SubFoo3 }
+        forceBindObject<Foo>(SubFoo3)
+        bindObject<Foo>("tag", SubFoo3)
+        forceBindObject<Foo>("tag", SubFoo2())
 
         val foo3 = inject(Foo::class)
         assert(foo3.javaClass == SubFoo3::class.java)
+        val foo4 = inject(Foo::class, "tag")
+        assert(foo4.javaClass == SubFoo2::class.java)
 
         bind(Bar::class) { SubBar1(inject(Foo::class)) }
         bind<Bar> { SubBar1(inject()) }
@@ -144,7 +169,8 @@ class InjectionManagerTest {
         assert(bar3.javaClass == SubBar3a::class.java)
         assert(bar3.foo.javaClass == SubFoo3::class.java)
 
-        logger.info { injector }
+        assert(injector.toString().contains("com.hexagonkt.injection.Foo"))
+        assert(injector.toString().contains("com.hexagonkt.injection.Bar"))
     }
 
     @Test
@@ -172,4 +198,71 @@ class InjectionManagerTest {
 
         assert(srv2.b(true) == 200)
     }
+
+    @Test
+    @Order(4)
+    fun `Bind lists instances works properly`() {
+        InjectionManager.bindings = emptyMap()
+        bindObject("switch", true)
+
+        bindObjects(listOf(Bike(), Car()))
+        assert(injectList(Vehicle::class) == listOf(Bike(), Car()))
+        assert(injectMap(Vehicle::class) == mapOf(0 to Bike(), 1 to Car()))
+
+        forceBindObjects(listOf(Car(), Bike()))
+        assert(injectList(Vehicle::class) == listOf(Car(), Bike()))
+        assert(injectMap(Vehicle::class) == mapOf(0 to Car(), 1 to Bike()))
+    }
+
+    @Test
+    @Order(5)
+    fun `Bind maps instances works properly`() {
+        InjectionManager.bindings = emptyMap()
+        bindObject("switch", true)
+
+        bindObjects(mapOf("bike" to Bike(), "car" to Car()))
+        assert(injectList(Vehicle::class) == listOf(Bike(), Car()))
+        assert(injectMap(Vehicle::class) == mapOf("bike" to Bike(), "car" to Car()))
+
+        forceBindObjects(mapOf("car" to Car(), "bike" to Bike()))
+        assert(injectList(Vehicle::class) == listOf(Car(), Bike()))
+        assert(injectMap(Vehicle::class) == mapOf("car" to Car(), "bike" to Bike()))
+    }
+
+    @Test
+    @Order(6)
+    fun `Bind lists functions works properly`() {
+        InjectionManager.bindings = emptyMap()
+        bindObject("switch", true)
+
+        bind(listOf({ Bike() }, { Car() }))
+        assert(injectList(Vehicle::class) == listOf(Bike(), Car()))
+        assert(injectMap(Vehicle::class) == mapOf(0 to Bike(), 1 to Car()))
+
+        forceBind(listOf({ Car() }, { Bike() }))
+        assert(injectList(Vehicle::class) == listOf(Car(), Bike()))
+        assert(injectMap(Vehicle::class) == mapOf(0 to Car(), 1 to Bike()))
+    }
+
+    @Test
+    @Order(7)
+    fun `Bind maps functions works properly`() {
+        InjectionManager.bindings = emptyMap()
+        bindObject("switch", true)
+
+        bind(mapOf("bike" to { Bike() }, "car" to { Car() }))
+        assert(injectList(Vehicle::class) == listOf(Bike(), Car()))
+        assert(injectMap(Vehicle::class) == mapOf("bike" to Bike(), "car" to Car()))
+
+        forceBind(mapOf("car" to { Car() }, "bike" to { Bike() }))
+        assert(injectList(Vehicle::class) == listOf(Car(), Bike()))
+        assert(injectMap(Vehicle::class) == mapOf("car" to Car(), "bike" to Bike()))
+    }
+
+    interface Vehicle {
+        val wheels: Int
+    }
+
+    data class Bike(override val wheels: Int = 2) : Vehicle
+    data class Car(override val wheels: Int = 4) : Vehicle
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
 class HelpersTest {
+
     private val m: Map<Any, Any> = mapOf(
         "alpha" to "bravo",
         "tango" to 0,

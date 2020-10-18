@@ -84,7 +84,7 @@ abstract class StoreTest<T : Any, K : Any> {
         val keys = store.saveMany(testEntities)
 
         if (keys.any { it == null  })
-            fail()
+            fail
 
         val entities = keys.filterNotNull().mapNotNull { store.findOne(it) }
 

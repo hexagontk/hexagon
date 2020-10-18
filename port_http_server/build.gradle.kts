@@ -20,4 +20,8 @@ tasks.named<Jar>("testJar") {
 dependencies {
     "api"(project(":hexagon_http"))
     "testImplementation"(project(":http_client_ahc"))
+    "testImplementation"(project(":http_server_jetty"))
+
+    // For the Mock OpenAPI Server
+    "testImplementation"("io.swagger.parser.v3:swagger-parser:2.0.20")
 }
