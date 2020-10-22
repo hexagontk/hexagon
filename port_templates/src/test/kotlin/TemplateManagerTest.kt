@@ -1,37 +1,48 @@
 package com.hexagonkt.templates
 
-import com.hexagonkt.serialization.parse
-import com.hexagonkt.serialization.serialize
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.util.*
+import org.junit.jupiter.api.assertThrows
+import java.util.Locale
 
 class TemplateManagerTest {
 
-    private object VoidTemplateAdapter : TemplatePort {
-        override fun render(resource: String, locale: Locale, context: Map<String, *>): String {
-            return context.serialize()
+    private class ResourceTemplateAdapter(private val marker: String) : TemplatePort {
+        override fun render(
+            resource: String,
+            locale: Locale,
+            context: Map<String, *>,
+            settings: TemplateEngineSettings
+        ): String =
+            "$marker:$resource"
+    }
+
+    @Test fun `Use TemplateManager to handle multiple template engines`() {
+        val htmlTemplateAdapter = ResourceTemplateAdapter("HTML")
+        val plainTextTemplateAdapter = ResourceTemplateAdapter("PLAIN")
+
+        val locale = Locale.getDefault()
+        val context = mapOf<String, Any>()
+
+        // templateEngineRegistration
+        TemplateManager.register("html", TemplateEngine(htmlTemplateAdapter))
+        TemplateManager.register("plain", TemplateEngine(plainTextTemplateAdapter))
+
+        val html = TemplateManager.render("html:template.html", locale, context)
+        val plain = TemplateManager.render("plain:template.txt", locale, context)
+        // templateEngineRegistration
+
+        assertEquals("HTML:template.html", html)
+        assertEquals("PLAIN:template.txt", plain)
+
+    }
+
+    @Test fun `Throws IllegalArgumentException when no adapter is found for prefix`() {
+        val locale = Locale.getDefault()
+        val prefixedResource = "unknown:test.pebble.html"
+
+        assertThrows<IllegalArgumentException> {
+            TemplateManager.render(prefixedResource, locale, mapOf<String, Any>())
         }
-    }
-
-    @Test fun `Template with unparseable properties is rendered`() {
-        val locale = Locale.getDefault()
-        val context = mapOf("a" to "b")
-        val resource = "test.pebble.html"
-        val render = TemplateManager.render(VoidTemplateAdapter, resource, locale, context)
-        val contextMap = render.parse<Map<*, *>>()
-
-        assert(contextMap["a"] == "b")
-    }
-
-    @Test fun `Invalid resource path will return empty map`() {
-        val locale = Locale.getDefault()
-        val resource = "invalid.html"
-        val context = emptyMap<String, Any>()
-        val render = TemplateManager.render(VoidTemplateAdapter, resource, locale, context)
-        val contextMap = render.parse<Map<*, *>>()
-
-        assert(contextMap.size == 2)
-        assert(contextMap.containsKey("_template_"))
-        assert(contextMap.containsKey("_now_"))
     }
 }

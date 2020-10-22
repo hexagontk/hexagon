@@ -6,6 +6,9 @@ import com.hexagonkt.http.server.Router
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
+import com.hexagonkt.templates.TemplateEngine
+import com.hexagonkt.templates.TemplateEngineSettings
+import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.pebble.PebbleAdapter
 import kotlinx.html.body
 import kotlinx.html.p
@@ -19,10 +22,13 @@ import java.time.LocalDateTime
 @TestInstance(PER_CLASS)
 class WebTest {
 
+    private val templateEngine =
+        TemplateEngine(PebbleAdapter, TemplateEngineSettings(basePath = "templates"))
+
     private val router: Router = Router {
         get("/template") {
             attributes += "date" to LocalDateTime.now()
-            template(PebbleAdapter, "pebble_template.html")
+            template(templateEngine, "pebble_template.html")
         }
 
         get("/html") {
@@ -39,6 +45,7 @@ class WebTest {
     private val client by lazy { Client(AhcAdapter(), "http://localhost:${server.runtimePort}") }
 
     @BeforeAll fun start() {
+        TemplateManager.register("prefix", TemplateEngine(PebbleAdapter))
         server.start()
     }
 

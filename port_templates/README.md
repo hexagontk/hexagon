@@ -1,7 +1,8 @@
 
 # Module port_templates
 
-TODO
+This port provides a common interface for rendering templates with multiple different template
+engines.
 
 ### Install the Dependency
 This module is not meant to be used directly. You should include any Adapter implementing this
@@ -15,4 +16,24 @@ the same time.
 
 # Package com.hexagonkt.templates
 
-TODO
+### Create a Template Engine
+You can create a template engine with default settings as follows:
+
+@sample port_templates/src/test/kotlin/TemplateEngineTest.kt:templateEngineCreation
+
+### Settings
+Template engines can be configured:
+
+@sample port_templates/src/test/kotlin/TemplateEngineTest.kt:templateEngineSettingsCreation
+
+### Usage
+To render a template,  do something like this:
+
+@sample port_templates/src/test/kotlin/TemplateEngineTest.kt:templateEngineUsage
+
+### Using multiple template engines
+To make the use of multiple template engines more convenient, you can use the TemplateManager.
+Just register multiple template engines (or the same engine with different configurations) under a
+prefix and use it like follows:
+
+@sample port_templates/src/test/kotlin/TemplateManagerTest.kt:templateEngineRegistration
