@@ -70,20 +70,12 @@ data class Server(
         )
 
         adapter.startup (this)
-        log.info { "${serverBinding()} started\n${createBanner()}" }
+        log.info { "Server started\n${createBanner()}" }
     }
 
     fun stop() {
         adapter.shutdown ()
-        log.info { "${serverBinding()} stopped" }
-    }
-
-    private fun serverBinding(): String {
-        val bindAddress = settings.bindAddress
-        val protocol = settings.protocol
-        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
-        val scheme = if (protocol == HTTP) "http" else "https"
-        return "$scheme://$hostName:$runtimePort"
+        log.info { "Server stopped" }
     }
 
     private fun createBanner(): String {
@@ -91,7 +83,11 @@ data class Server(
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
+        val bindAddress = settings.bindAddress
         val protocol = settings.protocol
+        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
+        val scheme = if (protocol == HTTP) "http" else "https"
+        val binding = "$scheme://$hostName:$runtimePort"
 
         val information = """
             Server Adapter: $portName
@@ -101,7 +97,7 @@ data class Server(
             Locale $locale Timezone $timezone Charset $charset
 
             Started in $bootTime s using $usedMemory KB
-            Served at ${serverBinding()}${if (protocol == HTTP2) " (HTTP/2)" else ""}
+            Served at $binding${if (protocol == HTTP2) " (HTTP/2)" else ""}
         """.trimIndent()
 
         val banner = (settings.banner?.let { "$it\n" } ?: "" ) + information
