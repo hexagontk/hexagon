@@ -9,11 +9,11 @@ classes.dependsOn("buildInfo")
 task("buildInfo") {
     group = "build"
     description =
-        "Add configuration file (`application.properties`) with build variables to the package."
+        "Add configuration file (`META-INF/build.properties`) with build variables to the package."
 
     doLast {
-        file("$buildDir/resources/main").mkdirs()
-        file("$buildDir/resources/main/application.properties").write("""
+        file("$buildDir/resources/main/META-INF").mkdirs()
+        file("$buildDir/resources/main/META-INF/build.properties").write("""
         project=$rootProject.name
         module=$project.name
         version=${project.version.toString()}
