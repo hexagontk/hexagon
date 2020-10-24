@@ -83,7 +83,7 @@
       <trusted-key id="6f40ecde384366da530495270717d4b27f36f5c7" group="com.cronutils" name="cron-utils"/>
       <trusted-key id="ff6e2c001948c5f2f38b0cc385911f425ec61b51" group="org.opentest4j" name="opentest4j" version="1.2.0"/>
       <trusted-key id="a33a0b49a4c1ab590b0a4ddc1364c5e2df3e99c5" group="org.reactivestreams" name="reactive-streams" version="1.0.3"/>
-      <trusted-key id="0a9af2115f4687bd29803a206b73a36e6026dfca" group="com.rabbitmq" name="amqp-client" version="5.9.0"/>
+      <trusted-key id="0a9af2115f4687bd29803a206b73a36e6026dfca" group="com.rabbitmq" name="amqp-client" version="5.10.0"/>
       <trusted-key id="4f7e32d440ef90a83011a8fc6425559c47cc79c4" group="com.sun.activation" name="javax.activation" version="1.2.0"/>
       <trusted-key id="d196a5e3e70732eeb2e5007f1861c322c56014b2" group="commons-beanutils" name="commons-beanutils" version="1.8.0"/>
       <trusted-key id="636de9055c4c75c7bd9830771241bc872c5e4ec0" group="commons-cli" name="commons-cli" version="1.2"/>
