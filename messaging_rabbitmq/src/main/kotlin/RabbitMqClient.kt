@@ -41,10 +41,11 @@ class RabbitMqClient(
             cf.setUri(uri)
 
             val params = parseQueryParameters(uri.query ?: "")
-            val automaticRecovery = params["automaticRecovery"]?.firstOrNull { it.isNotBlank() }?.toBoolean()
-            val recoveryInterval = params["recoveryInterval"]?.firstOrNull{ it.isNotBlank() }?.toLong()
-            val shutdownTimeout = params["shutdownTimeout"]?.firstOrNull{ it.isNotBlank() }?.toInt()
-            val heartbeat = params["heartbeat"]?.firstOrNull{ it.isNotBlank() }?.toInt()
+            fun value(name: String): String? = params[name]?.firstOrNull { it.isNotBlank() }
+            val automaticRecovery = value("automaticRecovery")?.toBoolean()
+            val recoveryInterval = value("recoveryInterval")?.toLong()
+            val shutdownTimeout = value("shutdownTimeout")?.toInt()
+            val heartbeat = value("heartbeat")?.toInt()
             val metricsCollector = StandardMetricsCollector(MetricRegistry())
 
             setVar(automaticRecovery) { cf.isAutomaticRecoveryEnabled = it }
