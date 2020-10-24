@@ -1,10 +1,12 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.helpers.logger
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Part
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseObjects
 import java.net.HttpCookie
@@ -84,6 +86,56 @@ abstract class Request {
     internal fun requestFormat(): SerializationFormat =
         SerializationManager.formatOf(requestType())
 
-    private fun <K, V>firsts(map: Map<K, List<V>>): Map<K, V> =
+    private fun <K, V> firsts(map: Map<K, List<V>>): Map<K, V> =
         map.mapValues { it.value.first() }
 }
+
+/**
+ * This function aggregates path parameters, form parameters and query parameters into a map and convert it into given class using object mapper
+ * Usage : request.parseAllParameters(MyCustomDataClass::class)
+ *
+ * @param type is the KotlinClass of type T (where T can be any class eg:MyCustomDataClass)
+ * @return an object of type T  (eg: MyCustomDataClass())
+ */
+fun <T : Any> Request.parseAllParameters(type: KClass<T>): T? {
+    val requestMap = generateRequestMap(this)
+    return try {
+        requestMap.convertToObject<T>(type)
+    }
+    catch (iae: IllegalArgumentException) {
+        logger.warn { "Unable to parse request data into ${type.simpleName} : ${iae.message}" }
+        null
+    }
+}
+
+/**
+ * Function used to aggregate all request parameters and create a map object out of it
+ * @param request : an inherited instance of com.hexagonkt.http.server.Request
+ * @return a map containing all request parameters
+ */
+private fun generateRequestMap(request: Request): Map<String, Any> {
+    val requestMap: MutableMap<String, Any> = hashMapOf()
+    requestMap.putAll(transformValues(request.formParametersValues))
+    requestMap.putAll(transformValues(request.queryParametersValues))
+    requestMap.putAll(request.pathParameters)
+    return requestMap
+}
+
+/**
+ * Function will check the list of values against each key. Returns the value alone if the list size is 1
+ * else returns the entire list as is
+ * @param stringToListMap : Map<String,List<String>> type
+ * @return stringToAnyMap : Map<String,Any> type
+ */
+private fun transformValues(stringToListMap: Map<String, List<String>>): MutableMap<String, Any> {
+    val stringToAnyMap = mutableMapOf<String, Any>()
+    for (queryParameter in stringToListMap.entries) {
+        val value = when (queryParameter.value.size) {
+            1 -> queryParameter.value.first()
+            else -> queryParameter.value
+        }
+        stringToAnyMap[queryParameter.key] = value
+    }
+    return stringToAnyMap
+}
+
