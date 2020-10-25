@@ -163,6 +163,7 @@ val server: Server = Server(adapter) {
             ok("Title: ${book.title}, Author: ${book.author}")
         else
             send(404, "Book not found")
+            //sending a book not found error
     }
 
     put("/books/{id}") {
