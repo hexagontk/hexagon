@@ -30,6 +30,9 @@ data class Server(
 
     private val log: Logger = Logger(this)
 
+    /**
+     * Provides a [Router] instance configured with the context path in [ServerSettings].
+     */
     val contextRouter: Router by lazy {
         if (settings.contextPath.isEmpty())
             router
@@ -51,13 +54,29 @@ data class Server(
         block: Router.() -> Unit):
             this(adapter, Router(block), settings)
 
+    /**
+     * The runtime port of the server.
+     * @exception IllegalStateException Throws exception if the server hasn't been started.
+     */
     val runtimePort
         get() = if (started()) adapter.runtimePort() else error("Server is not running")
 
+    /**
+     * The port name of the server.
+     */
     val portName: String = adapter.javaClass.simpleName
 
+    /**
+     * Checks whether the server has been started.
+     *
+     * @return True if the server has started, else false.
+     */
     fun started(): Boolean = adapter.started()
 
+    /**
+     * Starts the server with the adapter instance and
+     * adds a shutdown hook for stopping the server.
+     */
     fun start() {
         getRuntime().addShutdownHook(
             Thread (
@@ -73,6 +92,9 @@ data class Server(
         log.info { "${serverBinding()} started\n${createBanner()}" }
     }
 
+    /**
+     * Stops the server.
+     */
     fun stop() {
         adapter.shutdown ()
         log.info { "${serverBinding()} stopped" }
