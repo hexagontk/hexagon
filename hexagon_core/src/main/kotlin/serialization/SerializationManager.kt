@@ -1,6 +1,6 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.fail
 import java.io.File
 import java.net.URL

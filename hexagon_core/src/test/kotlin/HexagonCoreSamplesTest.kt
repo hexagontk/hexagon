@@ -1,8 +1,8 @@
 package com.hexagonkt
 
 import com.hexagonkt.helpers.Jvm
-import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.injection.forceBindObject
 import com.hexagonkt.serialization.Json

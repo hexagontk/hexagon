@@ -1,5 +1,7 @@
 package com.hexagonkt.helpers
 
+import com.hexagonkt.logging.Logger
+
 /** Default logger for when you feel too lazy to declare one. */
 val logger: Logger = Logger(Logger::class)
 

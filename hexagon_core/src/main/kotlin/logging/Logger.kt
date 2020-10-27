@@ -1,4 +1,4 @@
-package com.hexagonkt.helpers
+package com.hexagonkt.logging
 
 import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.nanoTime

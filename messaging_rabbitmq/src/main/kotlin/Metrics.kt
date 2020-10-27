@@ -4,7 +4,7 @@ import com.codahale.metrics.ConsoleReporter
 import com.codahale.metrics.Meter
 import com.codahale.metrics.MetricRegistry
 import com.codahale.metrics.jmx.JmxReporter
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.rabbitmq.client.MetricsCollector
 import com.rabbitmq.client.impl.StandardMetricsCollector
 import java.util.concurrent.TimeUnit

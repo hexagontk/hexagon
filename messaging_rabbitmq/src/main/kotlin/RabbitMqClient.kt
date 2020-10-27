@@ -1,5 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
+import com.hexagonkt.logging.Logger
 import com.codahale.metrics.MetricRegistry
 import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.helpers.*

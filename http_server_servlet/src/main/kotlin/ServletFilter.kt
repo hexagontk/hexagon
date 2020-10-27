@@ -2,7 +2,7 @@ package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.http.ALL
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.FilterOrder.AFTER

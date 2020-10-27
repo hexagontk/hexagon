@@ -1,6 +1,5 @@
 package com.hexagonkt.injection
 
-import com.hexagonkt.helpers.logger
 import org.junit.jupiter.api.Test
 import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.injection.InjectionManager.bind

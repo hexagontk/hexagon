@@ -1,8 +1,10 @@
-package com.hexagonkt.helpers
+package com.hexagonkt.logging
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.read.CyclicBufferAppender
+import com.hexagonkt.helpers.fail
+import com.hexagonkt.helpers.logger
 import org.junit.jupiter.api.Test
 
 /**

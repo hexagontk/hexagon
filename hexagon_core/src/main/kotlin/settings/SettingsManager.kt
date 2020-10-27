@@ -1,7 +1,7 @@
 package com.hexagonkt.settings
 
 import com.hexagonkt.helpers.get
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.serialize
 

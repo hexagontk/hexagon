@@ -1,6 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll

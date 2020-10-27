@@ -1,6 +1,6 @@
 package com.hexagonkt.injection
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.eol
 import kotlin.reflect.KClass
 

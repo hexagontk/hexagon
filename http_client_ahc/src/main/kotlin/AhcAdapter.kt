@@ -1,6 +1,6 @@
 package com.hexagonkt.http.client.ahc
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.ensureSize
 import com.hexagonkt.helpers.fail
 import com.hexagonkt.serialization.SerializationManager.formatOf

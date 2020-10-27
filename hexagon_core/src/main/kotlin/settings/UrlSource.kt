@@ -3,7 +3,7 @@ package com.hexagonkt.settings
 import java.io.IOException
 import com.hexagonkt.serialization.parse
 import java.net.URL
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 
 class UrlSource(val url: URL) : SettingsSource {
 

@@ -5,7 +5,7 @@ import com.cronutils.model.CronType.QUARTZ
 import com.cronutils.model.definition.CronDefinitionBuilder.instanceDefinitionFor as cronDefinition
 import com.cronutils.model.time.ExecutionTime
 import com.cronutils.parser.CronParser
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 
 import java.lang.Runtime.getRuntime
 import java.time.ZonedDateTime

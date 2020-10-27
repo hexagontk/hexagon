@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.*
 import com.hexagonkt.helpers.Jvm.charset
 import com.hexagonkt.helpers.Jvm.cpuCount
