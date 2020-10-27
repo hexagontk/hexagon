@@ -116,7 +116,7 @@ formatting:
     continuationIndentSize: 4
   MaximumLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 100
   SpacingAroundDoubleColon:
     active: true
   SpacingBetweenDeclarationsWithAnnotations:
@@ -142,90 +142,46 @@ performance:
   SpreadOperator:
     active: true
 
-# TODO Review from here
-
 potential-bugs:
   Deprecation:
     active: true
-  HasPlatformType:
-    active: false
   IgnoredReturnValue:
-    active: false
+    active: true
     restrictToAnnotatedMethods: true
-    returnValueAnnotations: ['*.CheckReturnValue', '*.CheckResult']
-  ImplicitDefaultLocale:
-    active: false
   ImplicitUnitReturnType:
-    active: false
+    active: true
     allowExplicitReturnType: true
-  InvalidRange:
-    active: true
-  IteratorHasNextCallsNextMethod:
-    active: true
-  IteratorNotThrowingNoSuchElementException:
-    active: true
   LateinitUsage:
-    active: false
-    excludeAnnotatedProperties: []
-    ignoreOnClassesPattern: ''
-  MapGetWithNotNullAssertionOperator:
-    active: false
-  MissingWhenCase:
-    active: true
-  RedundantElseInWhen:
     active: true
   UnconditionalJumpStatementInLoop:
-    active: false
+    active: true
   UnnecessaryNotNullOperator:
-    active: false
+    active: true
   UnnecessarySafeCall:
-    active: false
+    active: true
   UnreachableCode:
     active: true
   UnsafeCallOnNullableType:
     active: true
   UnsafeCast:
-    active: false
+    active: true
   UselessPostfixExpression:
-    active: false
-  WrongEqualsTypeParameter:
     active: true
 
 style:
-  CollapsibleIfStatements:
-    active: false
-  DataClassContainsFunctions:
-    active: false
-    conversionFunctionPrefix: 'to'
-  DataClassShouldBeImmutable:
-    active: false
-  EqualsNullCall:
-    active: true
   EqualsOnSignatureLine:
-    active: false
+    active: true
   ExplicitCollectionElementAccessMethod:
-    active: false
+    active: true
   ExplicitItLambdaParameter:
-    active: false
+    active: true
   ExpressionBodySyntax:
-    active: false
-    includeLineWrapping: false
+    active: true
   ForbiddenComment:
     active: true
-    values: ['TODO:', 'FIXME:', 'STOPSHIP:']
-    allowedPatterns: ''
-  ForbiddenImport:
-    active: false
-    imports: []
-    forbiddenPatterns: ''
-  ForbiddenMethodCall:
-    active: false
-    methods: ['kotlin.io.println', 'kotlin.io.print']
-  ForbiddenPublicDataClass:
-    active: false
-    ignorePackages: ['*.internal', '*.internal.*']
+    values: [ TODO, FIXME ]
   ForbiddenVoid:
-    active: false
+    active: true
     ignoreOverridden: false
     ignoreUsageInGenerics: false
   FunctionOnlyReturningConstant:
@@ -233,14 +189,8 @@ style:
     ignoreOverridableFunction: true
     excludedFunctions: 'describeContents'
     excludeAnnotatedFunction: ['dagger.Provides']
-  LibraryCodeMustSpecifyReturnType:
-    active: true
-  LoopWithTooManyJumpStatements:
-    active: true
-    maxJumpCount: 1
   MagicNumber:
     active: true
-    ignoreNumbers: ['-1', '0', '1', '2']
     ignoreHashCodeFunction: true
     ignorePropertyDeclaration: false
     ignoreLocalVariableDeclaration: false
@@ -250,40 +200,26 @@ style:
     ignoreNamedArgument: true
     ignoreEnums: false
     ignoreRanges: false
-  MandatoryBracesIfStatements:
-    active: false
-  MandatoryBracesLoops:
-    active: false
   MaxLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 100
     excludePackageStatements: true
     excludeImportStatements: true
     excludeCommentStatements: false
-  MayBeConst:
-    active: true
-  ModifierOrder:
-    active: true
   NestedClassesVisibility:
-    active: false
-  NewLineAtEndOfFile:
     active: true
   NoTabs:
-    active: false
-  OptionalAbstractKeyword:
     active: true
   OptionalUnit:
-    active: false
+    active: true
   OptionalWhenBraces:
-    active: false
+    active: true
   PreferToOverPairSyntax:
-    active: false
-  ProtectedMemberInFinalClass:
     active: true
   RedundantExplicitType:
-    active: false
+    active: true
   RedundantVisibilityModifierRule:
-    active: false
+    active: true
   ReturnCount:
     active: true
     max: 2
@@ -291,60 +227,41 @@ style:
     excludeLabeled: false
     excludeReturnFromLambda: true
     excludeGuardClauses: false
-  SafeCast:
-    active: true
   SerialVersionUIDInSerializableClass:
-    active: false
+    active: true
   SpacingBetweenPackageAndImports:
-    active: false
+    active: true
   ThrowsCount:
-    active: true
-    max: 2
+    active: false
   TrailingWhitespace:
-    active: false
-  UnderscoresInNumericLiterals:
-    active: false
-    acceptableDecimalLength: 5
-  UnnecessaryAbstractClass:
     active: true
-    excludeAnnotatedClasses: ['dagger.Module']
   UnnecessaryAnnotationUseSiteTarget:
-    active: false
+    active: true
   UnnecessaryApply:
-    active: false
-  UnnecessaryInheritance:
     active: true
   UnnecessaryLet:
-    active: false
+    active: true
   UnnecessaryParentheses:
-    active: false
+    active: true
   UntilInsteadOfRangeTo:
-    active: false
+    active: true
   UnusedImports:
-    active: false
-  UnusedPrivateClass:
     active: true
   UnusedPrivateMember:
-    active: false
+    active: true
     allowedNames: '(_|ignored|expected|serialVersionUID)'
   UseArrayLiteralsInAnnotations:
-    active: false
-  UseCheckOrError:
-    active: false
-  UseDataClass:
-    active: false
-    excludeAnnotatedClasses: []
-    allowVars: false
-  UseIfInsteadOfWhen:
-    active: false
-  UseRequire:
-    active: false
-  UselessCallOnNotNull:
     active: true
-  UtilityClassWithPublicConstructor:
+  UseCheckOrError:
+    active: true
+  UseDataClass:
+    active: true
+  UseIfInsteadOfWhen:
+    active: true
+  UseRequire:
     active: true
   VarCouldBeVal:
-    active: false
+    active: true
   WildcardImport:
     active: true
-    excludeImports: ['java.util.*', 'kotlinx.android.synthetic.*']
+    excludeImports: ['kotlinx.android.synthetic.*']
