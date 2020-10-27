@@ -8,9 +8,9 @@ import java.net.URL
 /**
  * TODO
  *
- * Can be a Serializator immutable class and:
+ * Can be a Serializer immutable class and:
  *
- * object SerializationManager : Serializator(mimeTypesResource, formats)
+ * object SerializationManager : Serializer(mimeTypesResource, formats)
  */
 object SerializationManager {
 
@@ -79,7 +79,7 @@ object SerializationManager {
     fun contentTypeOf(file: File): String? = mimeTypes[file.extension]
 
     fun formatOf(contentType: String): SerializationFormat =
-        formatsMap[contentType] ?: error("$contentType not found")
+        formatsMap[contentType] ?: error("$contentType serialization format not found")
 
     fun formatOf(contentType: String, defaultFormat: SerializationFormat): SerializationFormat =
         formatsMap[contentType] ?: defaultFormat

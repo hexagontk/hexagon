@@ -1,5 +1,6 @@
 package com.hexagonkt.settings
 
+import kotlin.test.assertEquals
 import com.hexagonkt.helpers.get
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
@@ -10,7 +11,6 @@ import com.hexagonkt.settings.SettingsManager.defaultSetting
 import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.settings.SettingsManager.setting
 import com.hexagonkt.settings.SettingsManager.requireSetting
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -20,13 +20,10 @@ import kotlin.test.assertFailsWith
  * Check `gradle.build` to see the related files creation.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class SettingsManagerTest {
-
-    @BeforeAll fun setUpSerializationManager() {
-        SerializationManager.formats = linkedSetOf(Json, Yaml)
-    }
+internal class SettingsManagerTest {
 
     @BeforeEach fun resetSettingSources() {
+        SerializationManager.formats = linkedSetOf(Json, Yaml)
         SettingsManager.settingsSources = listOf(
             UrlSource("classpath:$SETTINGS.yml"),
             UrlSource("classpath:development.yml"),
@@ -35,6 +32,13 @@ class SettingsManagerTest {
             UrlSource("file:$SETTINGS.yml"),
             UrlSource("classpath:${SETTINGS}_test.yml")
         )
+    }
+
+    @Test fun `Loading existing resource with not loaded content format fails`() {
+        SerializationManager.formats = linkedSetOf(Json)
+        assertFailsWith<IllegalStateException> { UrlSource("classpath:development.yml").load() }
+        SerializationManager.formats = linkedSetOf(Json, Yaml)
+        assertEquals("bar", UrlSource("classpath:development.yml").load()["foo"])
     }
 
     @Test fun `Setting works as expected`() {

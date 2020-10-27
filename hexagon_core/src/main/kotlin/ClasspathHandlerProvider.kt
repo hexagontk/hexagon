@@ -12,7 +12,8 @@ internal class ClasspathHandlerProvider : URLStreamHandlerProvider() {
     ) : URLStreamHandler() {
 
         override fun openConnection(url: URL): URLConnection =
-            classLoader.getResource(url.path)?.openConnection() ?: error("$url cannot be open")
+            classLoader.getResource(url.path)?.openConnection()
+                ?: throw ResourceNotFoundException("$url cannot be open")
     }
 
     private val protocolHandlers: Map<String, URLStreamHandler> = mapOf("classpath" to Handler())

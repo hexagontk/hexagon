@@ -1,24 +1,26 @@
 package com.hexagonkt.settings
 
+import java.io.IOException
 import com.hexagonkt.serialization.parse
 import java.net.URL
+import com.hexagonkt.helpers.Logger
 
 class UrlSource(val url: URL) : SettingsSource {
+
+    private val logger: Logger = Logger(this)
 
     constructor(url: String) : this(URL(url))
 
     override fun toString(): String = "URL with path: $url"
 
     override fun load(): Map<String, *> =
-        LinkedHashMap(
-            try {
-                // TODO Fail if resource exists but format is not loaded
-                url
-                    .parse<Map<String, *>>()
-                    .mapKeys { e -> e.key }
-            }
-            catch (e: Exception) {
-                emptyMap<String, Any>()
-            }
-        )
+        try {
+            url
+                .parse<Map<String, *>>()
+                .mapKeys { e -> e.key }
+        }
+        catch (e: IOException) {
+            logger.warn(e) { "Error loading: $url" }
+            emptyMap<String, Any>()
+        }
 }

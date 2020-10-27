@@ -10,7 +10,7 @@ class ClasspathHandlerProviderTest {
     @Test fun `Require classpath resource`() {
         val resource = URL("classpath:application_test.yml")
         assert(resource.file == resource.file)
-        val e = assertFailsWith<IllegalStateException> {
+        val e = assertFailsWith<ResourceNotFoundException> {
             URL("classpath:foo.txt").openConnection()
         }
         assert(e.message == "classpath:foo.txt cannot be open")
