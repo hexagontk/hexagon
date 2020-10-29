@@ -38,12 +38,21 @@ article p a, article li a {
   color: hsla(0,0%,100%,.3);
 }
 
+.md-sponsors {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
 .social-buttons {
   margin-top: 5px;
 }
 
 .fa-heart {
   color: #2B9EE6;
+  fill: #2B9EE6;
+  vertical-align: middle;
+  width: 14px;
 }
 
 .md-hero p#description a {
