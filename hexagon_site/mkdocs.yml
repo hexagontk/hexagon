@@ -1,6 +1,6 @@
 
 strict: false
-dev_addr: 0.0.0.0:8000
+dev_addr: 127.0.0.1:8000
 
 site_name: Hexagon
 site_url: https://hexagonkt.com
