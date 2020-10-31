@@ -12,7 +12,7 @@ val logger: Logger = Logger(Logger::class)
  * @param times Number of times to try to execute the callback. Must be greater than 0.
  * @param delay Milliseconds to wait to next execution if there was an error. Must be 0 or greater.
  * @param block Code to be executed.
- * @return Callback result if succeed.
+ * @return Callback's result if succeed.
  * @throws [MultipleException] if the callback didn't succeed in the given times.
  */
 fun <T> retry(times: Int, delay: Long, block: () -> T): T {
@@ -40,6 +40,10 @@ val fail: Nothing
 
 /**
  * Return the stack trace array of the frames that starts with the given prefix.
+ *
+ * @receiver Throwable which stack trace will be filtered.
+ * @param prefix Prefix used to filter stack trace elements (applied to class names).
+ * @return Array with the frames of the throwable whose classes start with the given prefix.
  */
 fun Throwable.filterStackTrace(prefix: String): Array<out StackTraceElement> =
     if (prefix.isEmpty())
@@ -49,6 +53,10 @@ fun Throwable.filterStackTrace(prefix: String): Array<out StackTraceElement> =
 
 /**
  * Return this throwable as a text.
+ *
+ * @receiver Throwable to be printed to a string.
+ * @param prefix Optional prefix to filter stack trace elements.
+ * @return The filtered (if filter is provided) Throwable as a string.
  */
 fun Throwable.toText(prefix: String = ""): String =
     "${this.javaClass.name}: ${this.message}" +
@@ -59,6 +67,13 @@ fun Throwable.toText(prefix: String = ""): String =
             "${eol}Caused by: " + (this.cause as Throwable).toText(prefix)
 
 // COLLECTIONS /////////////////////////////////////////////////////////////////////////////////////
+/**
+ * .
+ *
+ * @receiver .
+ * @param count .
+ * @return .
+ */
 fun <Z> Collection<Z>.ensureSize(count: IntRange): Collection<Z> = this.apply {
     if (size !in count) error("$size items while expecting only $count element")
 }
