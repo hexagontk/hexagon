@@ -101,7 +101,7 @@ theme:
   favicon: favicon.ico
 
   feature:
-    tabs: true
+    navigation.tabs: true
 
   palette:
     primary: indigo
