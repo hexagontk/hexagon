@@ -1,4 +1,6 @@
 
+#disabling strict mode https://github.com/squidfunk/mkdocs-material/issues/1691
+#may be truly fixed in future releases.
 strict: false
 dev_addr: 127.0.0.1:8000
 
