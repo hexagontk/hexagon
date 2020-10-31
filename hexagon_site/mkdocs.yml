@@ -1,6 +1,8 @@
 
-strict: true
-dev_addr: 0.0.0.0:8000
+#disabling strict mode https://github.com/squidfunk/mkdocs-material/issues/1691
+#may be truly fixed in future releases.
+strict: false
+dev_addr: 127.0.0.1:8000
 
 site_name: Hexagon
 site_url: https://hexagonkt.com
@@ -9,7 +11,7 @@ site_dir: build
 site_description: The atoms of your platform
 
 copyright: >
-  Made with <i class="fa fa-heart"></i> by
+  Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by
   <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed
   under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md">MIT License</a>
 
@@ -99,9 +101,11 @@ theme:
 
   logo: img/logo_white.svg
   favicon: favicon.ico
+  icon:
+    repo: fontawesome/brands/github-alt
 
-  feature:
-    tabs: true
+  features:
+    - tabs
 
   palette:
     primary: indigo
@@ -130,9 +134,11 @@ extra:
   twitter_user: hexagon_kt
   disqus: hexagonkt-com
   social:
-    - type: github
+    - icon: fontawesome/brands/github
       link: https://github.com/hexagonkt/hexagon
-    - type: twitter
+    - icon: fontawesome/brands/dev
+      link: https://dev.to/hexagonkt
+    - icon: fontawesome/brands/twitter
       link: https://twitter.com/hexagon_kt
-    - type: slack
+    - icon: fontawesome/brands/slack
       link: https://kotlinlang.slack.com/messages/hexagon
