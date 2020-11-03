@@ -34,17 +34,40 @@ fun String.filterVars(parameters: Map<*, *>): String =
             result.replace("$VARIABLE_PREFIX$key$VARIABLE_SUFFIX", value)
         }
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param parameters .
+ * @return .
+ */
 fun String.filterVars(vararg parameters: Pair<*, *>) =
     this.filterVars(mapOf(*parameters))
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param prefix .
+ * @param suffix .
+ * @param parameters .
+ * @return .
+ */
 fun String.filter(prefix: String, suffix: String, vararg parameters: Pair<String, String>): String =
     parameters.fold(this) { result, (first, second) ->
         result.replace(prefix + first + suffix, second)
     }
 
-fun Regex.findGroups(str: String): List<MatchGroup> =
-    (this.find(str)?.groups ?: emptyList<MatchGroup>())
-        .map { it ?: fail }
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param text .
+ * @return .
+ */
+fun Regex.findGroups(text: String): List<MatchGroup> =
+    (this.find(text)?.groups ?: emptyList<MatchGroup>())
+        .filterNotNull()
         .drop(1)
 
 /**

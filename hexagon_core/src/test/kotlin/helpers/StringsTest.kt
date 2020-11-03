@@ -3,8 +3,6 @@ package com.hexagonkt.helpers
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
-import kotlin.test.assertFailsWith
 
 class StringsTest {
 
@@ -22,7 +20,7 @@ class StringsTest {
         val reNullGroup = mockk<Regex>()
         every { reNullGroup.find(any()) } returns matchResult
 
-        assertFailsWith<IllegalStateException> { reNullGroup.findGroups("") }
+        assert(reNullGroup.findGroups("").isEmpty())
     }
 
     @Test fun `Filter returns the given string if no parameters are set` () {
