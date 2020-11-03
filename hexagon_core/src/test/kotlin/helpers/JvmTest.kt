@@ -31,6 +31,11 @@ class JvmTest {
         assert(Jvm.systemSetting("existing_java_property", "default") == "value")
     }
 
+    @Test fun `Default charset is fetched correctly`() {
+        assert(Jvm.charset.isRegistered)
+        assert(Jvm.charset.canEncode())
+    }
+
     @Test fun `'safeJmx' returns constant when JMX is disabled`() {
         System.setProperty("com.hexagonkt.noJmx", "true")
         assert(Jvm.safeJmx { ManagementFactory.getRuntimeMXBean().name } == "N/A")
