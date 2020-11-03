@@ -18,6 +18,13 @@ import com.hexagonkt.injection.InjectionManager.injectOrNull
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
+import com.hexagonkt.helpers.Ansi.BLACK_FG
+import com.hexagonkt.helpers.Ansi.BLUE_FG
+import com.hexagonkt.helpers.Ansi.BOLD_ON
+import com.hexagonkt.helpers.Ansi.CYAN_FG
+import com.hexagonkt.helpers.Ansi.DEFAULT_FG
+import com.hexagonkt.helpers.Ansi.MAGENTA_FG
+import com.hexagonkt.helpers.Ansi.RESET
 
 /**
  * A server that listen to HTTP connections on a port and address and route requests using a
@@ -29,7 +36,22 @@ data class Server(
     val settings: ServerSettings = ServerSettings()
 ) {
 
-    private val log: Logger = Logger(this)
+    private val banner: String = """
+    $CYAN_FG          _________
+    $CYAN_FG         /         \
+    $CYAN_FG        /   ____   /
+    $CYAN_FG       /   /   /  /
+    $CYAN_FG      /   /   /__/$BLUE_FG   /\$BOLD_ON    H E X A G O N$RESET
+    $CYAN_FG     /   /$BLUE_FG          /  \$DEFAULT_FG        ___
+    $CYAN_FG     \  /$BLUE_FG   ___    /   /
+    $CYAN_FG      \/$BLUE_FG   /  /   /   /$CYAN_FG$BOLD_ON    T O O L K I T$RESET
+    $BLUE_FG          /  /___/   /
+    $BLUE_FG         /          /
+    $BLUE_FG         \_________/
+    $RESET
+    """.trimIndent()
+
+    private val log: Logger = Logger(this::class)
 
     val contextRouter: Router by lazy {
         if (settings.contextPath.isEmpty())
@@ -90,18 +112,34 @@ data class Server(
         val scheme = if (protocol == HTTP) "http" else "https"
         val binding = "$scheme://$hostName:$runtimePort"
 
+        val serverAdapterValue = "$BOLD_ON$CYAN_FG$portName$RESET"
+
+        val hostnameValue = "$BLACK_FG$hostname$RESET"
+        val cpuCountValue = "$BLACK_FG$cpuCount$RESET"
+        val jvmMemoryValue = "$BLACK_FG$jvmMemory$RESET"
+
+        val javaVersionValue = "$BOLD_ON$BLACK_FG$version$RESET [$BLACK_FG$name$RESET]"
+
+        val localeValue = "$BLACK_FG$locale$RESET"
+        val timezoneValue = "$BLACK_FG$timezone$RESET"
+        val charsetValue = "$BLACK_FG$charset$RESET"
+
+        val bootTimeValue = "$BOLD_ON$MAGENTA_FG$bootTime s$RESET"
+        val usedMemoryValue = "$BOLD_ON$MAGENTA_FG$usedMemory KB$RESET"
+
         val information = """
-            Server Adapter: $portName
 
-            Running in '$hostname' with $cpuCount CPUs $jvmMemory KB
-            Java $version [$name]
-            Locale $locale Timezone $timezone Charset $charset
+            Server Adapter: $serverAdapterValue
 
-            Started in $bootTime s using $usedMemory KB
+            Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB
+            Java $javaVersionValue
+            Locale $localeValue Timezone $timezoneValue Charset $charsetValue
+
+            Started in $bootTimeValue using $usedMemoryValue
             Served at $binding${if (protocol == HTTP2) " (HTTP/2)" else ""}
         """.trimIndent()
 
-        val banner = (settings.banner?.let { "$it\n" } ?: "" ) + information
+        val banner = (settings.banner?.let { "$it\n" } ?: banner ) + information
         return banner.indent()
     }
 }
