@@ -68,7 +68,7 @@ fun Throwable.toText(prefix: String = ""): String =
 
 // COLLECTIONS /////////////////////////////////////////////////////////////////////////////////////
 /**
- * .
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
  * @receiver .
  * @param count .
@@ -78,6 +78,13 @@ fun <Z> Collection<Z>.ensureSize(count: IntRange): Collection<Z> = this.apply {
     if (size !in count) error("$size items while expecting only $count element")
 }
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param keys .
+ * @return .
+ */
 @Suppress("UNCHECKED_CAST")
 operator fun Map<*, *>.get(vararg keys: Any): Any? =
     if (keys.size > 1)
@@ -94,24 +101,56 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
     else
         (this as Map<Any, Any>).getOrElse(keys.first()) { null }
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param name .
+ * @return .
+ */
 @Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
 fun <T : Any> Map<*, *>.requireKeys(vararg name: Any): T =
     this.get(*name) as? T ?: error("$name required key not found")
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param name .
+ * @return .
+ */
 fun <K, V> Map<K, V>.require(name: K): V =
     this[name] ?: error("$name required key not found")
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
 fun <K, V> Map<K, V?>.filterEmpty(): Map<K, V> =
     this.filterValues(::notEmpty).mapValues { (_, v) -> v ?: fail }
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
 fun <V> List<V?>.filterEmpty(): List<V> =
     this.filter(::notEmpty).map { it ?: fail }
 
-fun <V> notEmpty(it: V?): Boolean {
-    return when (it) {
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param value .
+ * @return .
+ */
+fun <V> notEmpty(value: V?): Boolean {
+    return when (value) {
         null -> false
-        is List<*> -> it.isNotEmpty()
-        is Map<*, *> -> it.isNotEmpty()
+        is List<*> -> value.isNotEmpty()
+        is Map<*, *> -> value.isNotEmpty()
         else -> true
     }
 }
