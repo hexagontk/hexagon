@@ -4,6 +4,8 @@ about: New feature or improvement.
 labels: enhancement
 ---
 
+**REPLACE WITH ENHANCEMENT DETAILS** (Check below for guidelines)
+
 ---
 
 Detailed description.
