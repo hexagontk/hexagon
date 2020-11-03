@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit.SECONDS
  * @sample com.hexagonkt.scheduler.CronSchedulerSamplesTest.callbackExecutedProperly
  */
 class CronScheduler(threads: Int = getRuntime().availableProcessors()) {
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     private val scheduler = ScheduledThreadPoolExecutor(threads)
     private val cronParser = CronParser(cronDefinition(QUARTZ))

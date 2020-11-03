@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 internal class Metrics(private val metrics: StandardMetricsCollector) {
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
     private val reg: MetricRegistry = metrics.metricRegistry
 
     fun setJmxReporter() {

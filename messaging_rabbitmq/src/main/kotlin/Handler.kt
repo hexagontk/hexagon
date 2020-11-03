@@ -31,7 +31,7 @@ internal class Handler<T : Any, R : Any> internal constructor (
         private const val DELAY = 50L
     }
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     private val client: RabbitMqClient by lazy { RabbitMqClient(connectionFactory) }
 

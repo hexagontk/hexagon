@@ -41,7 +41,7 @@ class AhcAdapter : ClientPort {
 
     private lateinit var ssl: ClientSettings
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     private val ahcClient: DefaultAsyncHttpClient by lazy {
         DefaultAsyncHttpClient(

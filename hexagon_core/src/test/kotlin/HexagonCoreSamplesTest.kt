@@ -25,7 +25,7 @@ class HexagonCoreSamplesTest {
     @Test fun loggerUsage() {
         // logger
         val classLogger: Logger = Logger(Runtime::class) // Logger for the `Runtime` class
-        val instanceLogger: Logger = Logger(this) // Logger for this instance's class
+        val instanceLogger: Logger = Logger(this::class) // Logger for this instance's class
 
         logger.info {
             """

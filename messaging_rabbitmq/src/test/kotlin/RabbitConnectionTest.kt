@@ -26,7 +26,7 @@ class RabbitConnectionTest {
         private const val DELAY = 10L
     }
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     private val broker = EmbeddedAMQPBroker(port, user, password, vhost)
 

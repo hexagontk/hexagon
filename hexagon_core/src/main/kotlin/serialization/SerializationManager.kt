@@ -14,7 +14,7 @@ import java.net.URL
  */
 object SerializationManager {
 
-    private val logger: Logger = Logger(this)
+    private val logger: Logger = Logger(this::class)
 
     private val mimeTypesResource = URL("classpath:serialization/mime.types")
 

@@ -10,7 +10,7 @@ import kotlin.test.assertFailsWith
 
 class RabbitMqClientTest {
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     @Test fun `Create a connection factory with empty URI fails` () {
         assertFailsWith(IllegalArgumentException::class) {

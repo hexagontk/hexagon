@@ -7,7 +7,7 @@ import com.hexagonkt.logging.Logger
 
 class UrlSource(val url: URL) : SettingsSource {
 
-    private val logger: Logger = Logger(this)
+    private val logger: Logger = Logger(this::class)
 
     constructor(url: String) : this(URL(url))
 

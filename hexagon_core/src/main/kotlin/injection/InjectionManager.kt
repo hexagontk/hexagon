@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
  */
 object InjectionManager {
 
-    internal val logger: Logger by lazy { Logger(this) }
+    internal val logger: Logger by lazy { Logger(this::class) }
 
     internal var bindings: Map<Pair<KClass<*>, Any>, () -> Any> = emptyMap()
 

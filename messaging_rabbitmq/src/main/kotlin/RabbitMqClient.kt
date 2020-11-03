@@ -59,7 +59,7 @@ class RabbitMqClient(
         }
     }
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
     private val args = hashMapOf<String, Any>()
 
     @Volatile private var count: Int = 0

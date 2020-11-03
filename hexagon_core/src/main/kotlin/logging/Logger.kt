@@ -1,9 +1,8 @@
 package com.hexagonkt.logging
 
-import org.slf4j.LoggerFactory.getLogger
 import java.lang.System.nanoTime
 import kotlin.reflect.KClass
-import org.slf4j.Logger as Slf4jLogger
+import com.hexagonkt.logging.LoggingLevel.*
 
 /**
  * Logger class with Kotlin improvements like lazy evaluation. It is backed by a SLF4J compatible
@@ -13,53 +12,58 @@ import org.slf4j.Logger as Slf4jLogger
  *
  * @sample com.hexagonkt.HexagonCoreSamplesTest.loggerUsage
  *
- * @param type Logger type. It is shown in the logs messages and used for log filtering.
+ * @param name Logger name. It is shown in the logs messages and used for log filtering.
  */
-class Logger(type: KClass<*>) {
+class Logger(val name: String) {
 
     private companion object {
         const val FLARE_PREFIX = ">>>>>>>>"
     }
 
-    internal val log: Slf4jLogger = getLogger(type.java)
+    internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)
 
-    constructor(instance: Any) : this(instance::class)
+    /**
+     * Logger class with Kotlin improvements like lazy evaluation.
+     *
+     * @param type Logger type. It is shown in the logs messages and used for log filtering.
+     */
+    constructor(type: KClass<*>):
+        this(type.qualifiedName ?: error("Cannot get qualified name of $type"))
 
     fun trace(message: () -> Any?) {
-        if (log.isTraceEnabled) log.trace(message().toString())
+        log.log(TRACE, message)
     }
 
     fun debug(message: () -> Any?) {
-        if (log.isDebugEnabled) log.debug(message().toString())
+        log.log(DEBUG, message)
     }
 
     fun info(message: () -> Any?) {
-        if (log.isInfoEnabled) log.info(message().toString())
+        log.log(INFO, message)
     }
 
     fun warn(message: () -> Any?) {
-        if (log.isWarnEnabled) log.warn(message().toString())
+        log.log(WARN, message)
     }
 
     fun error(message: () -> Any?) {
-        if (log.isErrorEnabled) log.error(message().toString())
+        log.log(ERROR, message)
     }
 
     fun <E : Throwable> warn(exception: E, message: (E) -> Any?) {
-        if (log.isWarnEnabled) log.warn(message(exception).toString(), exception)
+        log.log(WARN, exception, message)
     }
 
     fun <E : Throwable> error(exception: E, message: (E) -> Any?) {
-        if (log.isErrorEnabled) log.error(message(exception).toString(), exception)
+        log.log(ERROR, exception, message)
     }
 
     fun flare(message: () -> Any? = { "" }) {
-        if (log.isTraceEnabled) log.trace("$FLARE_PREFIX ${message()}")
+        log.log(TRACE) { "$FLARE_PREFIX ${message()}" }
     }
 
     fun time(startNanos: Long, message: () -> Any? = { "" }) {
-        if (log.isTraceEnabled)
-            log.trace("${message() ?: "TIME"} : ${formatNanos(nanoTime() - startNanos)}")
+        log.log(TRACE) { "${message() ?: "TIME"} : ${formatNanos(nanoTime() - startNanos)}" }
     }
 
     fun <T> time(message: () -> Any? = { null }, block: () -> T): T {

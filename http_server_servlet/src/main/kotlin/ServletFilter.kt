@@ -26,7 +26,7 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
      */
     private class PassException: RuntimeException()
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     private val notFoundHandler: ErrorCodeCallback = { send(404, "${request.url} not found") }
     private val baseExceptionHandler: ExceptionCallback =

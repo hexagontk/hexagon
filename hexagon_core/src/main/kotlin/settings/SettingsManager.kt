@@ -7,7 +7,7 @@ import com.hexagonkt.serialization.serialize
 
 object SettingsManager {
 
-    val log: Logger = Logger(this)
+    val log: Logger = Logger(this::class)
 
     internal const val SETTINGS = "application"
     internal const val ENVIRONMENT_PREFIX = "application_"
