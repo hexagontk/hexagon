@@ -22,7 +22,7 @@ class ClasspathHandlerProviderTest {
 
     @Test fun `Read classpath resource returns resource's text` () {
         val resourceText = URL("classpath:logback-test.xml").readText()
-        assert(resourceText.contains("Logback configuration for tests"))
+        assert(resourceText.contains("<configuration>"))
     }
 
     @Test fun `Unknown protocol throws exception`() {
