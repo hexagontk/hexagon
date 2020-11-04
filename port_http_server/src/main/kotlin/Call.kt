@@ -39,14 +39,34 @@ class Call(val request: Request, val response: Response, val session: Session) {
     val queryParameters: Map<String, String> by lazy { request.queryParameters }
     val formParameters: Map<String, String> by lazy { request.formParameters }
 
+    /**
+     * Sends success response with given content type.
+     *
+     * @param content Content of the response.
+     * @param contentType Content type of the response.
+     */
     fun ok(content: Any = "", contentType: String? = null) = send(200, content, contentType)
 
+    /**
+     * Sends success response serialized using given [SerializationFormat] and [Charset].
+     *
+     * @param content Content of the response.
+     * @param serializationFormat Serialization format for serializing the response.
+     * @param charset Character Set to be used for the content type.
+     */
     fun ok(
         content: Any,
         serializationFormat: SerializationFormat = responseFormat,
         charset: Charset? = null) =
             send(200, content, serializationFormat, charset)
 
+    /**
+     * Sends response to the client.
+     *
+     * @param code Status code of the response.
+     * @param content Content of the response.
+     * @param contentType Content type of the response.
+     */
     fun send(code: Int, content: Any = "", contentType: String? = null) {
         response.status = code
         response.body = content
@@ -55,21 +75,54 @@ class Call(val request: Request, val response: Response, val session: Session) {
             response.contentType = contentType
     }
 
+    /**
+     * Sends response to the client after serializing using given [SerializationFormat]
+     * and [Charset].
+     *
+     * @param code Status code of the response.
+     * @param content Content of the response.
+     * @param serializationFormat Serialization format for serializing the response.
+     * @param charset Character Set to be used for the content type.
+     */
     fun send(code: Int, content: Any, serializationFormat: SerializationFormat, charset: Charset?) {
         send(code, content, ContentType(serializationFormat, charset))
     }
 
+    /**
+     * Sends response to the client after serializing using given [ContentType] instance.
+     *
+     * @param code Status code of the response.
+     * @param content Content of the response.
+     * @param contentType Content type of the response.
+     */
     // TODO Handle charset: transform content to the proper encoding
     fun send(code: Int, content: Any, contentType: ContentType) =
         send(code, content.serialize(contentType.format), contentType.toString())
 
+    /**
+     * Sends error response.
+     *
+     * @param content Message for error response.
+     */
     fun halt(content: Any): Nothing =
         halt(500, content)
 
+    /**
+     * Sends error response.
+     *
+     * @param code Status code for error response.
+     * @param content Message for error response.
+     */
     fun halt(code: Int = 500, content: Any = ""): Nothing {
         throw CodedException(code, content.toString())
     }
 
+    /**
+     * Sends a redirect response to the client using the
+     * specified redirect URL.
+     *
+     * @param url Redirect URL.
+     */
     fun redirect(url: String) {
         response.redirect(url)
     }

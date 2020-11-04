@@ -22,42 +22,169 @@ import kotlin.reflect.KClass
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
 abstract class Request {
+    /**
+     * Provides the HTTP method of the request.
+     */
     val method: Method by lazy { method() }
+
+    /**
+     * Provides the name of the scheme used to make this request.
+     */
     val scheme: String by lazy { scheme() }
+
+    /**
+     * Provides the fully qualified name of the client.
+     */
     val host: String by lazy { host() }
+
+    /**
+     * Provides the client IP address.
+     */
     val ip: String by lazy { ip() }
+
+    /**
+     * Provides the port number used to make the request.
+     */
     val port: Int by lazy { port() }
+
+    /**
+     * Provides the servlet path of the request.
+     */
     val path: String by lazy { path() }
+
+    /**
+     * Provides the query string of the request.
+     */
     val queryString: String by lazy { queryString() }
+
+    /**
+     * Provides the URL client used to make the request.
+     */
     val url: String by lazy { url() }
+
+    /**
+     * Provides a [Map] of multipart parts in the request.
+     */
     val parts: Map<String, Part> by lazy { parts() }
+
+    /**
+     * Provides [Map] of parsed key-value pairs of query parameters in the request.
+     */
     val queryParametersValues: Map<String, List<String>> by lazy { queryParameters() }
+
+    /**
+     * Provides [Map] of request parameters contained in form fields.
+     */
     val formParametersValues: Map<String, List<String>> by lazy { formParameters() }
+
+    /**
+     * Provides a [Map] of first values of all query parameters in the request.
+     */
     val queryParameters: Map<String, String> by lazy { firsts(queryParametersValues) }
+
+    /**
+     * Provides a [Map] of first values of all form fields.
+     */
     val formParameters: Map<String, String> by lazy { firsts(formParametersValues) }
+
+    /**
+     * Provides a [Map] of all path parameters.
+     */
     val pathParameters: Map<String, String> by lazy { pathParameters() }
+
+    /**
+     * Provides a [List] of certificate chain used for SSL.
+     */
     val certificateChain: List<X509Certificate> by lazy { certificateChain() }
 
+    /**
+     * Check if the request is secure.
+     */
     val secure: Boolean by lazy { scheme == "https" }
+
+    /**
+     * [List] of parameters for "Accept" header key.
+     */
     val acceptValues: List<String> by lazy { headersValues["Accept"] ?: emptyList() }
+
+    /**
+     * First value in "Accept" header key.
+     */
     val accept: String? by lazy { acceptValues.firstOrNull() }
+
+    /**
+     * Preferred content-type specified under "Accept" header key.
+     */
     val preferredType: String? by lazy { accept }
+
+    /**
+     * First value of "User-Agent" header key.
+     */
     val userAgent: String? by lazy { headersValues["User-Agent"]?.firstOrNull() }
+
+    /**
+     * First value of "Referer" header key.
+     */
     val referer: String? by lazy { headersValues["Referer"]?.firstOrNull() }
+
+    /**
+     * First value of "Origin" header key.
+     */
     val origin: String? by lazy { headersValues["Origin"]?.firstOrNull() }
+
+    /**
+     * First certificate in the [certificateChain].
+     */
     val certificate: X509Certificate? by lazy { certificateChain.firstOrNull() }
 
+    /**
+     * Request body sent by the client.
+     */
     val body: String by lazy { loadBody() }
+
+    /**
+     * [Map] of header values of the request.
+     */
     val headersValues: Map<String, List<String>> by lazy { headers() }
+
+    /**
+     * [Map] of first values of the headers of the request.
+     */
     val headers: Map<String, String> by lazy { firsts(headersValues) }
+
+    /**
+     * [Map] of the cookies contained in the browser.
+     */
     val cookies: Map<String, HttpCookie> by lazy { cookies() }
+
+    /**
+     * Content type of the request body.
+     */
     val contentType: String? by lazy { contentType() }
+
+    /**
+     * Length of the request body.
+     */
     val contentLength: Long by lazy { contentLength() }
 
+    /**
+     * Parses request body according to given [type].
+     *
+     * @param type Class specifying the type to which the body is to be parsed
+     */
     fun <T : Any> body(type: KClass<T>): T = body.parse(type, requestFormat())
+
+    /**
+     * Parses request body objects to given [type].
+     *
+     * @param type Class specifying the type to which the objects are to be parsed
+     */
     fun <T : Any> bodyObjects(type: KClass<T>): List<T> = body.parseObjects(type, requestFormat())
 
+    /** Parses request body. */
     inline fun <reified T : Any> body(): T = body(T::class)
+
+    /** Parses request body objects. */
     inline fun <reified T : Any> bodyObjects(): List<T> = bodyObjects(T::class)
 
     protected abstract fun method(): Method                      // "GET"
