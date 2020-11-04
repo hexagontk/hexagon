@@ -2,7 +2,7 @@
 # Project Site
 
 To generate the site source and run it inside a server, execute: `gw serveSite`. The site will be
-served at: [http://localhost:8000](http://localhost:8000).
+served at: [http://localhost:2090](http://localhost:2090).
 
 The site uses [Google Analytics] for usage statistics.
 

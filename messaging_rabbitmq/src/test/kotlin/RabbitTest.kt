@@ -13,7 +13,7 @@ class RabbitTest {
     data class Sample(val str: String, val int: Int) : Message()
 
     private companion object {
-        private const val URI = "amqp://guest:guest@localhost"
+        private const val URI = "amqp://guest:guest@localhost:2070"
         private const val QUEUE = "test"
         private const val QUEUE_ERROR = "error"
         private const val SUFFIX = "DONE"
