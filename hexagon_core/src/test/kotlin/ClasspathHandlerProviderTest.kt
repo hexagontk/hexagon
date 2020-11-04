@@ -33,7 +33,7 @@ class ClasspathHandlerProviderTest {
     }
 
     @Test fun `Resource loading using URL returns data`() {
-        assert(URL("classpath:application_test.yml").readText().isNotBlank())
+        assert(URL("classpath:data/companies.json").readText().isNotBlank())
         assert(URL("file:README.md").readText().isNotBlank())
         assert(URL("https://hexagonkt.com/index.html").readText().isNotBlank())
     }

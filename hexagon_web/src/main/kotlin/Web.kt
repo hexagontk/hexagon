@@ -2,7 +2,6 @@ package com.hexagonkt.web
 
 import com.hexagonkt.http.server.Call
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.settings.SettingsManager.settings
 import com.hexagonkt.templates.TemplateEngine
 import com.hexagonkt.templates.TemplatePort
 import kotlinx.html.HTML
@@ -25,7 +24,7 @@ fun Call.fullContext(): Map<String, *> {
         "lang" to obtainLocale().language
     )
 
-    return settings + session.attributes + extraParameters
+    return session.attributes + extraParameters
 }
 
 /**
