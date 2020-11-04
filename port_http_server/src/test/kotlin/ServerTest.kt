@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.injection.forceBindObject
-import com.hexagonkt.injection.InjectionManager.bindObject
+import com.hexagonkt.injection.forceBind
+import com.hexagonkt.injection.InjectionManager.bind
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.settings.SettingsManager
 import org.junit.jupiter.api.Test
@@ -11,8 +11,8 @@ import java.net.InetAddress.getByName as address
 class ServerTest {
 
     @Test fun `Injected parameters`() {
-        forceBindObject<ServerPort>(VoidAdapter)
-        bindObject<ServerSettings>(SettingsManager.settings.convertToObject())
+        forceBind(ServerPort::class, VoidAdapter)
+        bind(SettingsManager.settings.convertToObject<ServerSettings>())
 
         val server = Server {}
 

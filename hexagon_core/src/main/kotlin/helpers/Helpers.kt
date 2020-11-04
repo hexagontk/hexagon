@@ -5,6 +5,10 @@ import com.hexagonkt.logging.Logger
 /** Default logger for when you feel too lazy to declare one. */
 val logger: Logger = Logger(Logger::class)
 
+// NETWORK /////////////////////////////////////////////////////////////////////////////////////////
+// TODO Random port
+// TODO Wait for port
+
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
  * Execute a lambda until no exception is thrown or a number of times is reached.

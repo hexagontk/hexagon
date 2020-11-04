@@ -10,7 +10,7 @@ import org.junit.jupiter.api.assertThrows
 class MockServerTest {
 
     @BeforeAll fun setUp() {
-        InjectionManager.bindObject<ServerPort>(VoidAdapter)
+        InjectionManager.bind<ServerPort>(VoidAdapter)
     }
 
     @Test fun `Incorrect OpenAPI spec causes error to be thrown`() {
