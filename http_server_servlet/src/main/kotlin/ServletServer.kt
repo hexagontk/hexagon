@@ -12,10 +12,10 @@ import javax.servlet.ServletContextListener
  */
 abstract class ServletServer(
     private val router: Router = Router(),
-    private val async: Boolean = false) :
-        ServletContextListener {
+    private val async: Boolean = false
+) : ServletContextListener {
 
-    val serverRouter by lazy { createRouter() }
+    private val serverRouter by lazy { createRouter() }
 
     open fun createRouter(): Router = router
 
