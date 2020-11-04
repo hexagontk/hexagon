@@ -13,7 +13,7 @@ plugins {
 // IMPORTANT: Required for compiling classes in test dependencies. It *MUST* be before dependencies
 compileTestKotlin.dependsOn(tasks.getByPath(":port_templates:compileTestKotlin"))
 
-val entityTests: SourceSetOutput = project(":port_templates").sourceSets["test"].output
+val entityTests: SourceSetOutput = project(":port_templates").sourceSet("test").output
 
 dependencies {
     "api"(project(":port_templates"))
