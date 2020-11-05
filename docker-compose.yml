@@ -14,7 +14,7 @@ services:
     volumes:
       - ./hexagon_site:/docs
     ports:
-      - 2090:8000
+      - 8000:8000
 
   mongodb:
     image: mongo:4.4-bionic
