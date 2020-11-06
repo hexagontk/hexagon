@@ -47,58 +47,60 @@ class InjectionManagerTest {
             bind<Foo>(::SubFoo1)
         }
 
-        injector.bind(Foo::class, 2, ::SubFoo2)
-        injector.bind<Foo>(2, ::SubFoo2)
+        injector.apply {
+            bind(Foo::class, 2, ::SubFoo2)
+            bind<Foo>(2, ::SubFoo2)
 
-        val foo1 = inject(Foo::class)
-        assert(foo1.javaClass == SubFoo1::class.java)
+            val foo1 = inject(Foo::class)
+            assert(foo1.javaClass == SubFoo1::class.java)
 
-        val foo1a = inject<Foo>()
-        assert(foo1a.javaClass == SubFoo1::class.java)
+            val foo1a = inject<Foo>()
+            assert(foo1a.javaClass == SubFoo1::class.java)
 
-        val foo1b: Foo = inject()
-        assert(foo1b.javaClass == SubFoo1::class.java)
+            val foo1b: Foo = inject()
+            assert(foo1b.javaClass == SubFoo1::class.java)
 
-        val foo12 = inject(Foo::class, 2)
-        assert(foo12.javaClass == SubFoo2::class.java)
+            val foo12 = inject(Foo::class, 2)
+            assert(foo12.javaClass == SubFoo2::class.java)
 
-        val foo12a = inject<Foo>(2)
-        assert(foo12a.javaClass == SubFoo2::class.java)
+            val foo12a = inject<Foo>(2)
+            assert(foo12a.javaClass == SubFoo2::class.java)
 
-        val foo12b: Foo = inject(2)
-        assert(foo12b.javaClass == SubFoo2::class.java)
+            val foo12b: Foo = inject(2)
+            assert(foo12b.javaClass == SubFoo2::class.java)
 
-        InjectionManager.bind(Foo::class, ::SubFoo2)
-        InjectionManager.bind<Foo>(::SubFoo2)
+            bind(Foo::class, ::SubFoo2)
+            bind<Foo>(::SubFoo2)
 
-        val foo2 = inject(Foo::class)
-        assert(foo2.javaClass == SubFoo1::class.java)
+            val foo2 = inject(Foo::class)
+            assert(foo2.javaClass == SubFoo1::class.java)
 
-        InjectionManager.bind(Foo::class, Instance(SubFoo3))
-        InjectionManager.bind<Foo> { SubFoo3 }
+            bind(Foo::class, Instance(SubFoo3))
+            bind<Foo> { SubFoo3 }
 
-        val foo3 = inject(Foo::class)
-        assert(foo3.javaClass == SubFoo1::class.java)
+            val foo3 = inject(Foo::class)
+            assert(foo3.javaClass == SubFoo1::class.java)
 
-        InjectionManager.bind(Bar::class, Generator { SubBar1(inject(Foo::class)) })
-        InjectionManager.bind<Bar> { SubBar1(inject()) }
+            bind(Bar::class, Generator { SubBar1(inject(Foo::class)) })
+            bind<Bar> { SubBar1(inject()) }
 
-        val bar1 = inject(Bar::class)
-        assert(bar1.javaClass == SubBar1::class.java)
-        assert(bar1.foo.javaClass == SubFoo1::class.java)
+            val bar1 = inject(Bar::class)
+            assert(bar1.javaClass == SubBar1::class.java)
+            assert(bar1.foo.javaClass == SubFoo1::class.java)
 
-        InjectionManager.bind(Bar::class, Generator { SubBar2() })
+            bind(Bar::class, Generator { SubBar2() })
 
-        val bar2 = inject(Bar::class)
-        assert(bar2.javaClass == SubBar1::class.java)
-        assert(bar2.foo.javaClass == SubFoo1::class.java)
+            val bar2 = inject(Bar::class)
+            assert(bar2.javaClass == SubBar1::class.java)
+            assert(bar2.foo.javaClass == SubFoo1::class.java)
 
-        InjectionManager.bind(Bar::class, Generator { SubBar3() })
-        InjectionManager.bind(Bar::class, ::SubBar3a)
+            bind(Bar::class, Generator { SubBar3() })
+            bind(Bar::class, ::SubBar3a)
 
-        val bar3 = inject<Bar>()
-        assert(bar3.javaClass == SubBar1::class.java)
-        assert(bar3.foo.javaClass == SubFoo1::class.java)
+            val bar3 = inject<Bar>()
+            assert(bar3.javaClass == SubBar1::class.java)
+            assert(bar3.foo.javaClass == SubFoo1::class.java)
+        }
     }
 
     @Test
