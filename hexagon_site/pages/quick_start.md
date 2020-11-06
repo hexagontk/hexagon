@@ -9,21 +9,25 @@ a project from scratch following these steps:
 1. Configure Kotlin in [Gradle][Setup Gradle] or [Maven][Setup Maven].
 2. Add the dependency in Gradle or Maven:
 
-```groovy tab="build.gradle"
-repositories {
-    mavenCentral()
-}
+=== "build.gradle"
 
-implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
-```
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
 
-```xml tab="pom.xml"
-<dependency>
-  <groupId>com.hexagonkt</groupId>
-  <artifactId>http_server_jetty</artifactId>
-  <version>$hexagonVersion</version>
-</dependency>
-```
+    implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
+    ```
+
+=== "pom.xml"
+
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>http_server_jetty</artifactId>
+      <version>$hexagonVersion</version>
+    </dependency>
+    ```
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 

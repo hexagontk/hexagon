@@ -15,21 +15,25 @@ synchronization yourself.
 
 ### Install Dependency
 
-```groovy tab="build.gradle"
-repositories {
-    mavenCentral()
-}
+=== "build.gradle"
 
-implementation("com.hexagonkt:hexagon_scheduler:$hexagonVersion")
-```
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
 
-```xml tab="pom.xml"
-<dependency>
-  <groupId>com.hexagonkt</groupId>
-  <artifactId>hexagon_scheduler</artifactId>
-  <version>$hexagonVersion</version>
-</dependency>
-```
+    implementation("com.hexagonkt:hexagon_scheduler:$hexagonVersion")
+    ```
+
+=== "pom.xml"
+
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>hexagon_scheduler</artifactId>
+      <version>$hexagonVersion</version>
+    </dependency>
+    ```
 
 ### Example
 

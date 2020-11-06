@@ -6,21 +6,25 @@
 [Pebble]: https://pebbletemplates.io
 
 ### Install the Dependency
-```groovy tab="build.gradle"
-repositories {
-    mavenCentral()
-}
+=== "build.gradle"
 
-implementation("com.hexagonkt:templates_pebble:$hexagonVersion")
-```
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
 
-```xml tab="pom.xml"
-<dependency>
-  <groupId>com.hexagonkt</groupId>
-  <artifactId>templates_pebble</artifactId>
-  <version>$hexagonVersion</version>
-</dependency>
-```
+    implementation("com.hexagonkt:templates_pebble:$hexagonVersion")
+    ```
+
+=== "pom.xml"
+
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>templates_pebble</artifactId>
+      <version>$hexagonVersion</version>
+    </dependency>
+    ```
 
 # Package com.hexagonkt.templates.pebble
 
