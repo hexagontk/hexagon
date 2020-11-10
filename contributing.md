@@ -118,7 +118,7 @@ http://keys.gnupg.net key search tool. I.e.: you can check the Hexagon fingerpri
 For Continuous Integration runners, you need to import the keys inside the `gradle/verification
 -keyring.gpg` file, you can do so with the following command:
 
-```shell script
+```bash
 gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint
 ```
 
@@ -136,12 +136,12 @@ Major Release Checklist
 8. Update example projects inside the organization
 9. Create a changelog to announce the release
 10. Publish changelog on:
- * Dev.to
- * Kotlin Slack
- * Reddit
- * Twitter
- * Kotlin Weekly Newsletter
- * LinkedIn
+    * Dev.to
+    * Kotlin Slack
+    * Reddit
+    * Twitter
+    * Kotlin Weekly Newsletter
+    * LinkedIn
 
 [Nexus Repository Manager]: https://oss.sonatype.org
 
@@ -150,7 +150,7 @@ Major Release Checklist
 Commit messages can be filtered by types (check [commit_template.txt](/.github/commit_template.txt))
 for details.
 
-```shell script
+```bash
 git log 1.2.0...1.3.0 \
   --date=iso8601 \
   --reverse \
