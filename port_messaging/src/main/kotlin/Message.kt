@@ -8,10 +8,10 @@ import com.hexagonkt.helpers.toNumber
 import com.hexagonkt.helpers.Jvm
 
 open class Message (
-    val timestamp: Long = currentTimeMillis (),
+    val timestamp: Long = currentTimeMillis(),
     val dateTime: Long = LocalDateTime.now().toNumber(),
     val hostname: String = Jvm.hostname,
     val ip: String = Jvm.ip,
-    val jvmid: String = Jvm.id,
-    val thread: String = currentThread ().name
+    val jvmId: String = Jvm.id,
+    val thread: String = currentThread().name
 )
