@@ -34,7 +34,7 @@ It publishes all artifacts attached to the `mavenJava` publication (check [kotli
 section) at the bare minimum binaries are published. For an Open Source project, you must include
 sources and javadoc.
 
-To use it apply `$gradleScripts/publish.gradle`.
+To use it, apply `$gradleScripts/publish.gradle`.
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
@@ -96,7 +96,7 @@ It sets up:
 - Kotlin dependencies
 - Resource processing (replacing build variables)
 - Cleaning (deleting runtime files as logs and dump files)
-- Tests (pass properties, output, and mocks). Test's output depends on Gradle logging level
+- Tests run, handles properties, output, and mocks (test's output depends on Gradle logging level)
 - Set up coverage report
 - IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)
 - Published artifacts (binaries, sources, and test): sourcesJar and testJar tasks
@@ -109,6 +109,7 @@ To set up this script's parameters, check the [build variables section]. These h
 * kotlinVersion: Kotlin version. Defaults to the version used in the matching Hexagon release.
 * mockkVersion: MockK mocking library version. If no value is supplied, Hexagon's version is taken.
 * junitVersion: JUnit version (5+), the default value is the toolkit version.
+* basePackage: Module's base package (used by the Jacoco Report when using Kotlin Coding Standard)
 
 [JUnit 5]: https://junit.org
 [MockK]: https://mockk.io

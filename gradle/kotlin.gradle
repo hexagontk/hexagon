@@ -121,7 +121,21 @@ jacoco {
 
 jacocoTestReport {
     dependsOn("check")
+    doFirst {
+        final String basePackage = findProperty("basePackage")
+        if (basePackage != null) {
+            final String basePackageDirectory = basePackage.tr(".", "/")
+            final String relativePackageDirectory = "build/jacoco/src/$basePackageDirectory"
+            file(relativePackageDirectory).mkdirs()
+            copy {
+                from(sourceSets.main.allSource)
+                into(relativePackageDirectory)
+            }
+        }
+    }
+
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
+    sourceDirectories.from(sourceSets.main.allSource, "build/jacoco/src")
     reports {
         xml.enabled = true
         html.enabled = true
