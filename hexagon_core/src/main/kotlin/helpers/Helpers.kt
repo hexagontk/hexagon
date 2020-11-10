@@ -1,13 +1,34 @@
 package com.hexagonkt.helpers
 
+import java.net.ServerSocket
+import java.net.Socket
 import com.hexagonkt.logging.Logger
 
 /** Default logger for when you feel too lazy to declare one. */
 val logger: Logger = Logger(Logger::class)
 
 // NETWORK /////////////////////////////////////////////////////////////////////////////////////////
-// TODO Random port
-// TODO Wait for port
+/**
+ * Return a random free port (not used by any other local process).
+ *
+ * @return Random free port number.
+ */
+fun freePort(): Int =
+    ServerSocket(0).use { it.localPort }
+
+/**
+ * Check if a port is already opened.
+ *
+ * @param port Port number to check.
+ * @return True if the port is open, false otherwise.
+ */
+fun isPortOpened(port: Int): Boolean =
+    try {
+        Socket("localhost", port).use { it.isConnected }
+    }
+    catch (e: Exception) {
+        false
+    }
 
 // THREADING ///////////////////////////////////////////////////////////////////////////////////////
 /**
