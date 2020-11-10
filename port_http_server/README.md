@@ -312,21 +312,18 @@ To unit test callbacks you can create test calls with hardcoded requests, respon
 To use it in your project you'll have to include a dependency (with test scope):
 
 === "build.gradle"
-
-    ```groovy
-    testImplementation("com.hexagonkt:port_http_server:$hexagonVersion:test")
-    ```
-
+  ```groovy
+  testImplementation("com.hexagonkt:port_http_server:$hexagonVersion:test")
+  ```
 === "pom.xml"
-
-    ```xml
-    <dependency>
-      <groupId>com.hexagonkt</groupId>
-      <artifactId>port_http_server</artifactId>
-      <version>$hexagonVersion</version>
-      <scope>test</scope>
-    </dependency>
-    ```
+  ```xml
+  <dependency>
+    <groupId>com.hexagonkt</groupId>
+    <artifactId>port_http_server</artifactId>
+    <version>$hexagonVersion</version>
+    <scope>test</scope>
+  </dependency>
+  ```
 
 Check [testCall], [TestRequest], [TestResponse] and [TestSession] for more details.
 

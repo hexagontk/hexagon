@@ -9,24 +9,21 @@
 ### Install the Dependency
 
 === "build.gradle"
+  ```groovy
+  repositories {
+      mavenCentral()
+  }
 
-    ```groovy
-    repositories {
-        mavenCentral()
-    }
-
-    implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
-    ```
-
+  implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
+  ```
 === "pom.xml"
-
-    ```xml
-    <dependency>
-      <groupId>com.hexagonkt</groupId>
-      <artifactId>http_server_jetty</artifactId>
-      <version>$hexagonVersion</version>
-    </dependency>
-    ```
+  ```xml
+  <dependency>
+    <groupId>com.hexagonkt</groupId>
+    <artifactId>http_server_jetty</artifactId>
+    <version>$hexagonVersion</version>
+  </dependency>
+  ```
 
 # Package com.hexagonkt.http.server.jetty
 
