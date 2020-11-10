@@ -12,24 +12,21 @@ toolkit. However, if you only want to use the utilities, logging or dependency i
 a desktop application), you can import it with the following code:
 
 === "build.gradle"
+  ```groovy
+  repositories {
+      mavenCentral()
+  }
 
-    ```groovy
-    repositories {
-        mavenCentral()
-    }
-
-    implementation("com.hexagonkt:hexagon_core:$hexagonVersion")
-    ```
-
+  implementation("com.hexagonkt:hexagon_core:$hexagonVersion")
+  ```
 === "pom.xml"
-
-    ```xml
-    <dependency>
-      <groupId>com.hexagonkt</groupId>
-      <artifactId>hexagon_core</artifactId>
-      <version>$hexagonVersion</version>
-    </dependency>
-    ```
+  ```xml
+  <dependency>
+    <groupId>com.hexagonkt</groupId>
+    <artifactId>hexagon_core</artifactId>
+    <version>$hexagonVersion</version>
+  </dependency>
+  ```
 
 ### Logger
 
@@ -43,41 +40,38 @@ library to your classpath. Below you can see some alternatives:
 [SLF4J]: http://www.slf4j.org
 
 === "build.gradle"
-
-    ```groovy
-        /*
-         * Pick ONLY ONE of the options below
-         */
-        implementation("ch.qos.logback:logback-classic:1.2.3") // Full featured implementation
-        implementation("org.slf4j:slf4j-simple:1.7.30") // Lightweight logging implementation
-        implementation("org.slf4j:slf4j-jdk14:1.7.30") // Uses JDK logging API
-    ```
-
+  ```groovy
+  /*
+   * Pick ONLY ONE of the options below
+   */
+  implementation("ch.qos.logback:logback-classic:1.2.3") // Full featured implementation
+  implementation("org.slf4j:slf4j-simple:1.7.30") // Lightweight logging implementation
+  implementation("org.slf4j:slf4j-jdk14:1.7.30") // Uses JDK logging API
+  ```
 === "pom.xml"
-
-    ```xml
-    <!--
-     ! Pick ONLY ONE of the options below
-     !-->
-    <!-- Full featured implementation -->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.2.3</version>
-    </dependency>
-    <!-- Lightweight logging implementation -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    <!-- Uses JDK logging API -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-jdk14</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    ```
+  ```xml
+  <!--
+   ! Pick ONLY ONE of the options below
+   !-->
+  <!-- Full featured implementation -->
+  <dependency>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+    <version>1.2.3</version>
+  </dependency>
+  <!-- Lightweight logging implementation -->
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-simple</artifactId>
+    <version>1.7.30</version>
+  </dependency>
+  <!-- Uses JDK logging API -->
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-jdk14</artifactId>
+    <version>1.7.30</version>
+  </dependency>
+  ```
 
 !!! Info
     You can bridge other logging libraries (that may be used by other third party libraries you use
@@ -85,34 +79,31 @@ library to your classpath. Below you can see some alternatives:
     details). For example:
 
 === "build.gradle"
-
-    ```groovy
-        // Bridges
-        runtimeOnly("org.slf4j:jcl-over-slf4j:1.7.30")
-        runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.30")
-        runtimeOnly("org.slf4j:jul-to-slf4j:1.7.30") // Don't add it if you are using 'slf4j-jdk14'
-    ```
-
+  ```groovy
+  // Bridges
+  runtimeOnly("org.slf4j:jcl-over-slf4j:1.7.30")
+  runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.30")
+  runtimeOnly("org.slf4j:jul-to-slf4j:1.7.30") // Don't add it if you are using 'slf4j-jdk14'
+  ```
 === "pom.xml"
-
-    ```xml
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>log4j-over-slf4j</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    <!-- Don't add the next one if you are using 'slf4j-jdk14' -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jul-to-slf4j</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    ```
+  ```xml
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>jcl-over-slf4j</artifactId>
+    <version>1.7.30</version>
+  </dependency>
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>log4j-over-slf4j</artifactId>
+    <version>1.7.30</version>
+  </dependency>
+  <!-- Don't add the next one if you are using 'slf4j-jdk14' -->
+  <dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>jul-to-slf4j</artifactId>
+    <version>1.7.30</version>
+  </dependency>
+  ```
 
 [Logger]: com.hexagonkt.helpers/-logger/index.md
 
@@ -145,21 +136,6 @@ snippet for details:
 
 @sample hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:serializationUsage
 
-### Settings
-
-This module helps loading external settings from different sources. You can change the settings
-sources, the default ones are (bottom sources override top ones):
-
-1. Resource `/application.yml`.
-2. Environment variables starting with `APPLICATION_`.
-3. System properties starting with `service`.
-4. File `./application.yml` from the application run directory.
-5. Resource `/application_test.yml`.
-
-Below there is a code fragment showing how to add a custom settings source and load its properties:
-
-@sample hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:settingsUsage
-
 # Package com.hexagonkt.helpers
 
 JVM information, a logger class and other useful utilities.
@@ -169,11 +145,11 @@ JVM information, a logger class and other useful utilities.
 Utilities to bind classes to creation closures or instances, and inject instances of those classes
 later.
 
+# Package com.hexagonkt.logging
+
+Provides a logging management capabilities abstracting the application from logging libraries.
+
 # Package com.hexagonkt.serialization
 
 Parse/serialize data in different formats to class instances.
-
-# Package com.hexagonkt.settings
-
-Load settings from different data sources and formats.
 

@@ -6,15 +6,25 @@ class HexagonSettingsSamplesTest {
 
     @Test fun settingsUsage() {
         // settingsUsage
-        SettingsManager.settingsSources += ObjectSource(
-            "stringProperty" to "str",
-            "integerProperty" to 101,
-            "booleanProperty" to true
+        data class Configuration(
+            val stringProperty: String,
+            val integerProperty: Int,
+            val booleanProperty: Boolean,
         )
 
-        assert(SettingsManager.settings["stringProperty"] == "str")
-        assert(SettingsManager.settings["integerProperty"] == 101)
-        assert(SettingsManager.settings["booleanProperty"] == true)
+        SettingsManager.settings = Settings(
+            Configuration::class,
+            ObjectSource(
+                "stringProperty" to "str",
+                "integerProperty" to 101,
+                "booleanProperty" to true
+            )
+        )
+
+        val configuration = SettingsManager.instance<Configuration>()
+        assert(configuration.stringProperty == "str")
+        assert(configuration.integerProperty == 101)
+        assert(configuration.booleanProperty)
         // settingsUsage
     }
 }

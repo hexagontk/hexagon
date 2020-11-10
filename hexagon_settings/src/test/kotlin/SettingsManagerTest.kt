@@ -1,20 +1,17 @@
 package com.hexagonkt.settings
 
 import kotlin.test.assertEquals
-import com.hexagonkt.helpers.get
 import com.hexagonkt.serialization.Json
-import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.Yaml
 import com.hexagonkt.settings.SettingsManager.ENVIRONMENT_PREFIX
-import com.hexagonkt.settings.SettingsManager.SETTINGS
-import com.hexagonkt.settings.SettingsManager.defaultSetting
+import com.hexagonkt.settings.SettingsManager.SETTINGS_FILE
 import com.hexagonkt.settings.SettingsManager.settings
-import com.hexagonkt.settings.SettingsManager.setting
-import com.hexagonkt.settings.SettingsManager.requireSetting
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertFailsWith
+import com.hexagonkt.serialization.SerializationManager.formats
+import com.hexagonkt.settings.SettingsManager.defaultSources
+import org.junit.jupiter.api.BeforeEach
 
 /**
  * Check `gradle.build` to see the related files creation.
@@ -22,111 +19,124 @@ import kotlin.test.assertFailsWith
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class SettingsManagerTest {
 
+    data class Configuration(
+        val foo: String = "bar",
+        val property: String = "",
+        val added: Boolean = true,
+        val integer: Int = 0,
+        val banner: String = "",
+        val bindPort: Int = 0,
+        val bindAddress: String = "",
+        val intProperty: Int = 0,
+        val global: String = "default",
+        val parent: Map<String, String> = emptyMap(),
+        val key: String = "",
+        val param: String = "",
+    )
+
     @BeforeEach fun resetSettingSources() {
-        SerializationManager.formats = linkedSetOf(Json, Yaml)
-        SettingsManager.settingsSources = listOf(
-            UrlSource("classpath:$SETTINGS.yml"),
-            UrlSource("classpath:development.yml"),
-            EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
-            SystemPropertiesSource(SETTINGS),
-            UrlSource("file:$SETTINGS.yml"),
-            UrlSource("classpath:${SETTINGS}_test.yml")
-        )
+        formats = linkedSetOf(Json, Yaml)
+        settings = Settings(Map::class, defaultSources)
     }
 
     @Test fun `Loading existing resource with not loaded content format fails`() {
-        SerializationManager.formats = linkedSetOf(Json)
+
+        formats = linkedSetOf(Json)
         assertFailsWith<IllegalStateException> { UrlSource("classpath:development.yml").load() }
-        SerializationManager.formats = linkedSetOf(Json, Yaml)
+
+        formats = linkedSetOf(Json, Yaml)
         assertEquals("bar", UrlSource("classpath:development.yml").load()["foo"])
     }
 
-    @Test fun `Setting works as expected`() {
-        assert(setting<String>("property") == "value")
-        assert(setting<Int>("intProperty") == 42)
-        assert(setting<String>("foo") == "bar")
+    @Test fun `Settings works as expected`() {
+
+        val settings = Settings(Configuration::class, defaultSources).instance
+
+        assert(settings.property == "value")
+        assert(settings.intProperty == 42)
+        assert(settings.foo == "bar")
+    }
+
+    @Test fun `Get configuration properties with empty properties load properly`() {
+
+        val settings = Settings(Configuration::class).instance
+        assert(settings.global == "default")
     }
 
     @Test fun `Get configuration properties with defaults`() {
-        assert(defaultSetting("fakeProperty", "changed") == "changed")
-        assert(defaultSetting("fakeIntProperty", 42) == 42)
+
+        val settings = Settings(Configuration::class, defaultSources).instance
+
+        assert(settings.integer == 0)
+        assert(settings.foo == "bar")
     }
 
     @Test fun `Get JSON properties`() {
-        SettingsManager.settingsSources = listOf(
-            UrlSource("classpath:$SETTINGS.yml"),
+
+        val settings = Settings(Configuration::class,
+            UrlSource("classpath:$SETTINGS_FILE.yml"),
             UrlSource("classpath:development.yml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
-            SystemPropertiesSource(SETTINGS),
-            UrlSource("file:$SETTINGS.yml"),
-            UrlSource("classpath:${SETTINGS}_test.yml"),
-            UrlSource("classpath:integration.json")
-        )
+            SystemPropertiesSource(SETTINGS_FILE),
+            UrlSource("file:$SETTINGS_FILE.yml"),
+            UrlSource("classpath:${SETTINGS_FILE}_test.yml"),
+            UrlSource("classpath:integration.json"),
+        ).instance
 
-        assert(settings["property"] as String == "final property")
-        assert(settings["intProperty"] as Int == 42)
-        assert(settings["foo"] as String == "final")
-        assert(settings["parent", "key"] as String == "val")
-        assert(settings["added"] as Boolean)
-        assert(settings["integer"] as Int == 1)
+        assert(settings.property == "final property")
+        assert(settings.intProperty == 42)
+        assert(settings.foo == "final")
+        assert(settings.parent["key"] == "val")
+        assert(settings.added)
+        assert(settings.integer == 1)
     }
 
     @Test fun `Get configuration properties`() {
-        SettingsManager.settingsSources = listOf(
-            UrlSource("classpath:$SETTINGS.yml"),
+
+        val settings = Settings(Configuration::class,
+            UrlSource("classpath:$SETTINGS_FILE.yml"),
             UrlSource("classpath:development.yml"),
             EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
-            SystemPropertiesSource(SETTINGS),
-            UrlSource("file:$SETTINGS.yml"),
-            UrlSource("classpath:${SETTINGS}_test.yml")
+            SystemPropertiesSource(SETTINGS_FILE),
+            UrlSource("file:$SETTINGS_FILE.yml"),
+            UrlSource("classpath:${SETTINGS_FILE}_test.yml"),
+        ).instance
+
+        assert(settings.property == "value")
+        assert(settings.intProperty == 42)
+        assert(settings.foo == "bar")
+        assert(settings.parent["key"] == "val")
+    }
+
+    @Test fun `Change settings manager settings works correctly`() {
+        settings = Settings(Configuration::class,
+            ObjectSource(
+                "foo" to "str",
+                "integer" to 101,
+                "added" to true
+            )
         )
 
-        assert(settings["property"] as String == "value")
-        assert(settings["intProperty"] as Int == 42)
-        assert(settings["foo"] as String == "bar")
-        assert(settings["parent", "key"] as String == "val")
-    }
+        val localSettings = SettingsManager.instance<Configuration>()
 
-    @Test fun `Require configuration properties`() {
-        assert(requireSetting<String>("property") == "value")
-        assert(requireSetting<Int>("intProperty") == 42)
-        assert(requireSetting<String>("foo") == "bar")
-        assert(requireSetting<String>("parent", "key") == "val")
-    }
-
-    @Test fun `Require not found setting`() {
-        assertFailsWith<IllegalStateException> {
-            requireSetting<String>("not_found")
-        }
-    }
-
-    @Test fun `Using the 'apply' shortcut works correctly`() {
-        val localSettings = SettingsManager {
-            settingsSources = settingsSources + ObjectSource(
-                "stringProperty" to "str",
-                "integerProperty" to 101,
-                "booleanProperty" to true
-            )
-        }
-
-        assert(localSettings.settings["stringProperty"] == "str")
-        assert(localSettings.settings["integerProperty"] == 101)
-        assert(localSettings.settings["booleanProperty"] == true)
+        assert(localSettings.foo == "str")
+        assert(localSettings.integer == 101)
+        assert(localSettings.added)
     }
 
     @Test fun `Set default settings add command line arguments`() {
-        SettingsManager.settingsSources = listOf(
-            UrlSource("classpath:$SETTINGS.yml"),
-            EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
-            SystemPropertiesSource(SETTINGS),
-            UrlSource("file:$SETTINGS.yml"),
-            UrlSource("classpath:${SETTINGS}_test.yml"),
-            CommandLineArgumentsSource(listOf("key=val", "param=data"))
-        )
 
-        assert(settings.size == 9)
-        assert(requireSetting<String>("key") == "val")
-        assert(requireSetting<String>("param") == "data")
-        assert(requireSetting<String>("property") == "value")
+        val settings = Settings(Configuration::class,
+            UrlSource("classpath:$SETTINGS_FILE.yml"),
+            EnvironmentVariablesSource(ENVIRONMENT_PREFIX),
+            SystemPropertiesSource(SETTINGS_FILE),
+            UrlSource("file:$SETTINGS_FILE.yml"),
+            UrlSource("classpath:${SETTINGS_FILE}_test.yml"),
+            CommandLineArgumentsSource(listOf("key=val", "param=data")),
+        ).instance
+
+        assert(settings.key == "val")
+        assert(settings.param == "data")
+        assert(settings.property == "value")
     }
 }

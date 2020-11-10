@@ -2,17 +2,17 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.injection.forceBind
 import com.hexagonkt.injection.InjectionManager.bind
-import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.settings.SettingsManager
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
+import com.hexagonkt.serialization.convertToObject
 import java.net.InetAddress.getByName as address
 
 class ServerTest {
 
     @Test fun `Injected parameters`() {
         forceBind(ServerPort::class, VoidAdapter)
-        bind(SettingsManager.settings.convertToObject<ServerSettings>())
+        bind(SettingsManager.instance<Map<*, *>>().convertToObject<ServerSettings>())
 
         val server = Server {}
 
