@@ -19,6 +19,7 @@ a desktop application), you can import it with the following code:
 
   implementation("com.hexagonkt:hexagon_core:$hexagonVersion")
   ```
+
 === "pom.xml"
   ```xml
   <dependency>
@@ -48,6 +49,7 @@ library to your classpath. Below you can see some alternatives:
   implementation("org.slf4j:slf4j-simple:1.7.30") // Lightweight logging implementation
   implementation("org.slf4j:slf4j-jdk14:1.7.30") // Uses JDK logging API
   ```
+
 === "pom.xml"
   ```xml
   <!--
@@ -85,6 +87,7 @@ library to your classpath. Below you can see some alternatives:
   runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.30")
   runtimeOnly("org.slf4j:jul-to-slf4j:1.7.30") // Don't add it if you are using 'slf4j-jdk14'
   ```
+
 === "pom.xml"
   ```xml
   <dependency>
@@ -105,7 +108,7 @@ library to your classpath. Below you can see some alternatives:
   </dependency>
   ```
 
-[Logger]: com.hexagonkt.helpers/-logger/index.md
+[Logger]: com.hexagonkt.logging/-logger/index.md
 
 ### Dependency injection
 

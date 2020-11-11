@@ -16,6 +16,8 @@ compileTestKotlin.dependsOn(tasks.getByPath(":port_templates:compileTestKotlin")
 
 val entityTests: SourceSetOutput = project(":port_templates").sourceSet("test").output
 
+extra["basePackage"] = "com.hexagonkt.templates.pebble"
+
 dependencies {
     "api"(project(":port_templates"))
     "api"("io.pebbletemplates:pebble:${properties["pebbleVersion"]}") {

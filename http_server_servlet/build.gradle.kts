@@ -17,6 +17,8 @@ val entityTests: SourceSetOutput = project(":port_http_server").sourceSet("test"
 
 compileTestKotlin.dependsOn(tasks.getByPath(":port_http_server:compileTestKotlin"))
 
+extra["basePackage"] = "com.hexagonkt.http.server.servlet"
+
 dependencies {
     "api"(project(":port_http_server"))
     "compileOnly"("javax.servlet:javax.servlet-api:${properties["servletVersion"]}")

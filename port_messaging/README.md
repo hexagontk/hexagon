@@ -6,6 +6,13 @@
 
 TODO
 
+### Install the Dependency
+
+This module is not meant to be used directly. You should include and Adapter implementing this
+feature (as [messaging_rabbitmq]) in order to create a queue client.
+
+[messaging_rabbitmq]: /messaging_rabbitmq
+
 # Package com.hexagonkt.messaging
 
 TODO

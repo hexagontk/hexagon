@@ -17,6 +17,8 @@ compileTestKotlin.dependsOn(tasks.getByPath(":port_http_server:compileTestKotlin
 val entityTests: SourceSetOutput = project(":port_http_server").sourceSet("test").output
 val entityTestsHexagonWeb: SourceSetOutput = project(":hexagon_web").sourceSet("test").output
 
+extra["basePackage"] = "com.hexagonkt.http.server.jetty"
+
 dependencies {
     val jettyVersion = properties["jettyVersion"]
     val logbackVersion = properties["logbackVersion"]

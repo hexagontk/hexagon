@@ -135,7 +135,10 @@ jacocoTestReport {
     }
 
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
-    sourceDirectories.from(sourceSets.main.allSource, "build/jacoco/src")
+    sourceDirectories.from(
+        sourceSets.main.allSource,
+        rootProject.subprojects.collect { it.file("build/jacoco/src") }
+    )
     reports {
         xml.enabled = true
         html.enabled = true

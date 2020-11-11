@@ -16,6 +16,8 @@ compileTestKotlin.dependsOn(tasks.getByPath(":port_http_client:compileTestKotlin
 
 val entityTests: SourceSetOutput = project(":port_http_client").sourceSet("test").output
 
+extra["basePackage"] = "com.hexagonkt.http.client.ahc"
+
 dependencies {
     "api"(project(":port_http_client"))
     "api"("org.asynchttpclient:async-http-client:${properties["ahcVersion"]}") {

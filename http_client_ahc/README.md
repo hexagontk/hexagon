@@ -16,6 +16,7 @@
 
   implementation("com.hexagonkt:http_client_ahc:$hexagonVersion")
   ```
+
 === "pom.xml"
   ```xml
   <dependency>

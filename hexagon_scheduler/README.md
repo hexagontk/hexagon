@@ -23,6 +23,7 @@ synchronization yourself.
 
   implementation("com.hexagonkt:hexagon_scheduler:$hexagonVersion")
   ```
+
 === "pom.xml"
   ```xml
   <dependency>

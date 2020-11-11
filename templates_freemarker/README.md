@@ -16,6 +16,7 @@ engine.
 
   implementation("com.hexagonkt:templates_freemarker:$hexagonVersion")
   ```
+
 === "pom.xml"
   ```xml
   <dependency>

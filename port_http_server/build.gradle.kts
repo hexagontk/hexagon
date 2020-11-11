@@ -17,6 +17,8 @@ tasks.named<Jar>("testJar") {
     }
 }
 
+extra["basePackage"] = "com.hexagonkt.http.server"
+
 dependencies {
     "api"(project(":hexagon_http"))
     "testImplementation"(project(":http_client_ahc"))

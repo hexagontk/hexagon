@@ -15,6 +15,7 @@
 
   implementation("com.hexagonkt:templates_pebble:$hexagonVersion")
   ```
+
 === "pom.xml"
   ```xml
   <dependency>

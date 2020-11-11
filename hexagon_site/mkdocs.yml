@@ -26,6 +26,9 @@ google_analytics: [ UA-48216810-3, auto ]
 
 docs_dir: content
 
+# Disable Search plugin as it stopped working with MkDocs Material v5
+plugins: []
+
 markdown_extensions:
   - meta
   - admonition
@@ -146,9 +149,3 @@ extra:
       link: https://twitter.com/hexagon_kt
     - icon: fontawesome/brands/slack
       link: https://kotlinlang.slack.com/messages/hexagon
-
-plugins:
-  - search:
-      lang: en
-      prebuild_index: true
-

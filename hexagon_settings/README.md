@@ -13,6 +13,7 @@ This module holds utilities to handle applications' configuration parameters.
 
   implementation("com.hexagonkt:hexagon_settings:$hexagonVersion")
   ```
+
 === "pom.xml"
   ```xml
   <dependency>
