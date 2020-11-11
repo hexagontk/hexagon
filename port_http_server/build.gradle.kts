@@ -10,12 +10,14 @@ plugins {
 // Overridden because this test bundle requires the templates
 tasks.named<Jar>("testJar") {
     archiveClassifier.set("test")
-    from(sourceSets.test.get().output){
+    from(project.sourceSet("test").output){
         exclude("**.yml")
         exclude("**.properties")
         exclude("**.xml")
     }
 }
+
+extra["basePackage"] = "com.hexagonkt.http.server"
 
 dependencies {
     "api"(project(":hexagon_http"))
@@ -24,4 +26,5 @@ dependencies {
 
     // For the Mock OpenAPI Server
     "testImplementation"("io.swagger.parser.v3:swagger-parser:2.0.20")
+    "testImplementation"(project(":hexagon_settings"))
 }

@@ -6,6 +6,8 @@ apply(from = "../gradle/detekt.gradle")
 
 description = "HTTP classes. These classes are shared among the HTTP client and the HTTP server."
 
+extra["basePackage"] = "com.hexagonkt.http"
+
 dependencies {
     "api"(project(":hexagon_core"))
 }

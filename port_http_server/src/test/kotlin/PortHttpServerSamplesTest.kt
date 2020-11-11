@@ -52,7 +52,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
          * You can skip the adapter is you previously bound one
          * You may also skip the settings an the defaults will be used
          */
-        InjectionManager.bindObject(adapter)
+        InjectionManager.bind(adapter)
         val defaultServer = Server(router = router)
 
         defaultServer.start()

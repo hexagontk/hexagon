@@ -218,7 +218,8 @@ abstract class Request {
 }
 
 /**
- * This function aggregates path parameters, form parameters and query parameters into a map and convert it into given class using object mapper
+ * This function aggregates path parameters, form parameters and query parameters into a map and
+ * convert it into given class using object mapper
  * Usage : request.parseAllParameters(MyCustomDataClass::class)
  *
  * @param type is the KotlinClass of type T (where T can be any class eg:MyCustomDataClass)
@@ -227,7 +228,7 @@ abstract class Request {
 fun <T : Any> Request.parseAllParameters(type: KClass<T>): T? {
     val requestMap = generateRequestMap(this)
     return try {
-        requestMap.convertToObject<T>(type)
+        requestMap.convertToObject(type)
     }
     catch (iae: IllegalArgumentException) {
         logger.warn { "Unable to parse request data into ${type.simpleName} : ${iae.message}" }
@@ -249,15 +250,15 @@ private fun generateRequestMap(request: Request): Map<String, Any> {
 }
 
 /**
- * Function will check the list of values against each key. Returns the value alone if the list size is 1
- * else returns the entire list as is
+ * Function will check the list of values against each key. Returns the value alone if the list size
+ * is 1 else returns the entire list as is
  * @param stringToListMap : Map<String,List<String>> type
  * @return stringToAnyMap : Map<String,Any> type
  */
 private fun transformValues(stringToListMap: Map<String, List<String>>): MutableMap<String, Any> {
     val stringToAnyMap = mutableMapOf<String, Any>()
     for (queryParameter in stringToListMap.entries) {
-        val value = when (queryParameter.value.size) {
+        val value: Any = when (queryParameter.value.size) {
             1 -> queryParameter.value.first()
             else -> queryParameter.value
         }

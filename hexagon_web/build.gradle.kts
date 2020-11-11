@@ -3,6 +3,8 @@ apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 
+extra["basePackage"] = "com.hexagonkt.web"
+
 dependencies {
     "api"(project(":port_http_server"))
     "api"(project(":port_templates"))

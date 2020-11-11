@@ -13,9 +13,11 @@ plugins{
 
 val compileTestKotlin: KotlinCompile by tasks
 
-val entityTests: SourceSetOutput = project(":port_http_server").sourceSets["test"].output
+val entityTests: SourceSetOutput = project(":port_http_server").sourceSet("test").output
 
 compileTestKotlin.dependsOn(tasks.getByPath(":port_http_server:compileTestKotlin"))
+
+extra["basePackage"] = "com.hexagonkt.http.server.servlet"
 
 dependencies {
     "api"(project(":port_http_server"))

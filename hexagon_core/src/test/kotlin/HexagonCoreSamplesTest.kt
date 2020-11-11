@@ -1,14 +1,13 @@
 package com.hexagonkt
 
 import com.hexagonkt.helpers.Jvm
-import com.hexagonkt.helpers.Logger
 import com.hexagonkt.helpers.logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.injection.InjectionManager
-import com.hexagonkt.injection.forceBindObject
+import com.hexagonkt.injection.forceBind
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
-import com.hexagonkt.settings.*
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.util.*
@@ -25,7 +24,7 @@ class HexagonCoreSamplesTest {
     @Test fun loggerUsage() {
         // logger
         val classLogger: Logger = Logger(Runtime::class) // Logger for the `Runtime` class
-        val instanceLogger: Logger = Logger(this) // Logger for this instance's class
+        val instanceLogger: Logger = Logger(this::class) // Logger for this instance's class
 
         logger.info {
             """
@@ -60,10 +59,10 @@ class HexagonCoreSamplesTest {
         InjectionManager.bind<Date> { java.sql.Date(System.currentTimeMillis()) }
 
         // Bind classes to objects (returns the same instance for all `inject` calls)
-        InjectionManager.bindObject<String>("STR")
+        InjectionManager.bind<String>("STR")
 
         // You can use labels to inject different instances
-        InjectionManager.bindObject<String>("toolkit", "Hexagon")
+        InjectionManager.bind<String>("Hexagon", "toolkit")
         InjectionManager.bind<Date>("+1h") {
             java.sql.Date(System.currentTimeMillis() + 3_600_000)
         }
@@ -80,11 +79,11 @@ class HexagonCoreSamplesTest {
         val taggedString: String = InjectionManager.inject("toolkit")
 
         // Overriding previously bound classes is not allowed (ignored)
-        InjectionManager.bindObject<String>("STR Ignored")
+        InjectionManager.bind<String>("STR Ignored")
         val ignoredBinding = InjectionManager.inject<String>()
 
         // You can overwrite previously bound classes using `forceBind*` methods
-        forceBindObject<String>("STR Overridden")
+        forceBind(String::class, "STR Overridden")
         val overriddenBinding = InjectionManager.inject<String>()
         // injectionUsage
 
@@ -113,19 +112,5 @@ class HexagonCoreSamplesTest {
         assert(jason == parsedJason)
         assert(jason !== parsedJason)
         // serializationUsage
-    }
-
-    @Test fun settingsUsage() {
-        // settingsUsage
-        SettingsManager.settingsSources += ObjectSource(
-            "stringProperty" to "str",
-            "integerProperty" to 101,
-            "booleanProperty" to true
-        )
-
-        assert(SettingsManager.settings["stringProperty"] == "str")
-        assert(SettingsManager.settings["integerProperty"] == 101)
-        assert(SettingsManager.settings["booleanProperty"] == true)
-        // settingsUsage
     }
 }

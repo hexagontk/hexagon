@@ -1,9 +1,10 @@
 package com.hexagonkt.helpers
 
+import java.net.ServerSocket
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
-class HelpersTest {
+internal class HelpersTest {
 
     private val m: Map<Any, Any> = mapOf(
         "alpha" to "bravo",
@@ -14,6 +15,13 @@ class HelpersTest {
         ),
         0 to 1
     )
+
+    @Test fun `Network ports utilities work properly`() {
+        assert(!isPortOpened(freePort()))
+        ServerSocket(0).use {
+            assert(isPortOpened(it.localPort))
+        }
+    }
 
     @Test fun `System setting works ok` () {
         System.setProperty("system_property", "value")

@@ -1,6 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -26,7 +26,7 @@ class RabbitConnectionTest {
         private const val DELAY = 10L
     }
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     private val broker = EmbeddedAMQPBroker(port, user, password, vhost)
 

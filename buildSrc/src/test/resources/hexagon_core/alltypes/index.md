@@ -110,7 +110,7 @@ objects bound to classes. Different suppliers can be bound to the same type usin
 
 |
 
-##### [com.hexagonkt.helpers.Logger](../com.hexagonkt.helpers/-logger/index.md)
+##### [com.hexagonkt.logging.Logger](../com.hexagonkt.helpers/-logger/index.md)
 
 Logger class with Kotlin improvements like lazy evaluation. It is backed by a SLF4J compatible
 logger.

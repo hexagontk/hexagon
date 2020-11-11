@@ -21,14 +21,3 @@ interface Service {
     fun a(p: Int)
     fun b(p: Boolean): Int
 }
-
-class FakeService : Service {
-
-    override fun a(p: Int) {
-        TODO("not implemented")
-    }
-
-    override fun b(p: Boolean): Int {
-        TODO("not implemented")
-    }
-}

@@ -1,6 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.retry
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formatOf
@@ -31,7 +31,7 @@ internal class Handler<T : Any, R : Any> internal constructor (
         private const val DELAY = 50L
     }
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     private val client: RabbitMqClient by lazy { RabbitMqClient(connectionFactory) }
 

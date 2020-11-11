@@ -9,6 +9,11 @@ package com.hexagonkt.helpers
  *
  * To pass a list of causes
  * CodedException (500, "Error", *list)
+ *
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @property causes .
+ * @property message .
  */
 class MultipleException (val causes: List<Throwable>, message: String = "") :
     RuntimeException (message, null) {

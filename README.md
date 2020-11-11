@@ -57,6 +57,26 @@ Hexagon is designed to fit in applications that conform to the [Hexagonal Archit
 [Clean Architecture] or [Ports and Adapters Architecture]). Also, its design principles also fits in
 this architecture.
 
+The Hexagon's goals and design principles are:
+
+* **Put you in Charge**: There is no code generation, no runtime annotation processing, no classpath
+  based logic, and no implicit behaviour. You control your tools, not the other way around.
+
+* **Modular**: Each feature (Port) or adapter is isolated in its own module. Use only the modules
+  you need without carrying unneeded dependencies.
+
+* **Pluggable Adapters**: Every Port may have many implementations (Adapters) using different
+  technologies. You can swap adapters without changing the application code.
+
+* **Batteries Included**: It contains all the required pieces to make production-grade applications:
+  settings management, serialization, dependency injection and build helpers.
+
+* **Kotlin First**: Take full advantage of Kotlin instead of just calling Java code from Kotlin. The
+  library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).
+
+* **Properly Tested**: The project's coverage is checked in every Pull Request. It is also
+  stress-tested at [TechEmpower Frameworks Benchmark][benchmark].
+
 For more information check the [Quick Start Guide] or the [Developer Guide].
 
 [framework]: https://stackoverflow.com/a/3057818/973418

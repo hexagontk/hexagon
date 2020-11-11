@@ -6,7 +6,7 @@ import com.hexagonkt.serialization.Yaml
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class SettingsTest {
+internal class SettingsTest {
 
     @Test fun `Load environment variables add settings with provided prefixes`() {
         assert(EnvironmentVariablesSource("PATH").load().size == 1)

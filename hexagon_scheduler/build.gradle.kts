@@ -5,6 +5,8 @@ apply(from = "../gradle/dokka.gradle")
 
 description = "Hexagon support for repeated tasks execution based on Cron expressions."
 
+extra["basePackage"] = "com.hexagonkt.scheduler"
+
 dependencies {
     val cronutilsVersion = properties["cronutilsVersion"]
 

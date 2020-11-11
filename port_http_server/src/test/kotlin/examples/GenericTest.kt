@@ -81,6 +81,12 @@ abstract class GenericTest(adapter: ServerPort) {
             ok("${request.url}!!!")
         }
 
+        get("/request/queryParameters") {
+            response.headers["queryParams"] = queryParameters.entries.joinToString(",") {
+                "${it.key}:${it.value}"
+            }
+        }
+
         delete("/method") { okRequestMethod() }
         options("/method") { okRequestMethod() }
         get("/method") { okRequestMethod() }
@@ -182,6 +188,19 @@ abstract class GenericTest(adapter: ServerPort) {
 
         assert(response.body == "$protocol://localhost:$port/request/data!!!")
         assert(200 == response.status)
+    }
+
+    @Test fun `Query string with no value parameters is handled properly`() {
+        client.get("/request/queryParameters?a").apply {
+            assert(headers["queryParams"]?.first()?.contains("a:") ?: false)
+            assert(200 == status)
+        }
+        client.get("/request/queryParameters?f=1&a&b=").apply {
+            assert(headers["queryParams"]?.first()?.contains("f:1") ?: false)
+            assert(headers["queryParams"]?.first()?.contains("a:") ?: false)
+            assert(headers["queryParams"]?.first()?.contains("b:") ?: false)
+            assert(200 == status)
+        }
     }
 
     @Test fun `Request data is read properly`() {

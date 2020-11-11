@@ -18,8 +18,8 @@ import java.util.*
 
 class MongoDbStoreCompanyTest {
 
-    private val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String?
-        ?: "mongodb://localhost/test"
+    private val mongodbUrl = SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
+        ?: "mongodb://localhost:2080/test"
 
     private val store: Store<Company, String> by lazy {
         createStore()

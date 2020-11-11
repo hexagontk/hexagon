@@ -19,10 +19,10 @@ services:
   mongodb:
     image: mongo:4.4-bionic
     ports:
-      - 27017:27017
+      - 2080:27017
 
   rabbitmq:
     image: rabbitmq:3.8-alpine
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 2070:5672
+      - 2060:15672

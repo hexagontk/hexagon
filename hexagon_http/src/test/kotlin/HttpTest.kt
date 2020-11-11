@@ -45,6 +45,9 @@ class HttpTest {
             "b" to listOf(""),
             "c" to listOf("")
         ))
+        assert(parseQueryParameters("c=&c") == mapOf(
+            "c" to listOf("", "")
+        ))
     }
 
     @Test fun `Parse key only` () {

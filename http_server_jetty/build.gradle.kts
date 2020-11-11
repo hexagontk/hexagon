@@ -14,11 +14,14 @@ plugins {
 // IMPORTANT: Required for compiling classes in test dependencies. It *MUST* be before dependencies
 compileTestKotlin.dependsOn(tasks.getByPath(":port_http_server:compileTestKotlin"))
 
-val entityTests: SourceSetOutput = project(":port_http_server").sourceSets["test"].output
-val entityTestsHexagonWeb: SourceSetOutput = project(":hexagon_web").sourceSets["test"].output
+val entityTests: SourceSetOutput = project(":port_http_server").sourceSet("test").output
+val entityTestsHexagonWeb: SourceSetOutput = project(":hexagon_web").sourceSet("test").output
+
+extra["basePackage"] = "com.hexagonkt.http.server.jetty"
 
 dependencies {
     val jettyVersion = properties["jettyVersion"]
+    val logbackVersion = properties["logbackVersion"]
 
     "api"(project(":http_server_servlet"))
     "api"("org.eclipse.jetty:jetty-webapp:$jettyVersion")
@@ -29,4 +32,6 @@ dependencies {
     "testImplementation"(entityTests)
     "testImplementation"(project(":hexagon_web"))
     "testImplementation"(entityTestsHexagonWeb)
+
+    "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") { exclude("org.slf4j") }
 }
