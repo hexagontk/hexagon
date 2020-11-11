@@ -13,6 +13,7 @@ $dokka.location:com.hexagonkt.helpers$filterVars(kotlin.String, kotlin.collectio
 $dokka.location:com.hexagonkt.helpers$findGroups(kotlin.text.Regex, kotlin.String)com.hexagonkt.helpers/kotlin.text.-regex/find-groups.md
 $dokka.location:com.hexagonkt.helpers$get(kotlin.collections.Map((kotlin.Any, )), kotlin.Array((kotlin.Any)))com.hexagonkt.helpers/kotlin.collections.-map/get.md
 $dokka.location:com.hexagonkt.helpers$globToRegex(kotlin.String)com.hexagonkt.helpers/kotlin.-string/glob-to-regex.md
+$dokka.location:com.hexagonkt.helpers$indent(kotlin.String, kotlin.Int, kotlin.String)com.hexagonkt.helpers/kotlin.-string/indent.md
 $dokka.location:com.hexagonkt.helpers$require(kotlin.collections.Map((com.hexagonkt.helpers.require.K, com.hexagonkt.helpers.require.V)), com.hexagonkt.helpers.require.K)com.hexagonkt.helpers/kotlin.collections.-map/require.md
 $dokka.location:com.hexagonkt.helpers$requireKeys(kotlin.collections.Map((kotlin.Any, )), kotlin.Array((kotlin.Any)))com.hexagonkt.helpers/kotlin.collections.-map/require-keys.md
 $dokka.location:com.hexagonkt.helpers$snakeToCamel(kotlin.String)com.hexagonkt.helpers/kotlin.-string/snake-to-camel.md
@@ -32,6 +33,7 @@ $dokka.location:com.hexagonkt.helpers$toNumber(java.time.LocalTime)com.hexagonk
 $dokka.location:com.hexagonkt.helpers$toStream(kotlin.String)com.hexagonkt.helpers/kotlin.-string/to-stream.md
 $dokka.location:com.hexagonkt.helpers$toText(kotlin.Throwable, kotlin.String)com.hexagonkt.helpers/kotlin.-throwable/to-text.md
 $dokka.location:com.hexagonkt.helpers$withZone(java.time.LocalDateTime, java.time.ZoneId)com.hexagonkt.helpers/java.time.-local-date-time/with-zone.md
+$dokka.location:com.hexagonkt.serialization$convertDataClassToMap(kotlin.Any)com.hexagonkt.serialization/kotlin.-any/convert-data-class-to-map.md
 $dokka.location:com.hexagonkt.serialization$convertToMap(kotlin.Any)com.hexagonkt.serialization/kotlin.-any/convert-to-map.md
 $dokka.location:com.hexagonkt.serialization$convertToObject(kotlin.collections.Map((kotlin.Any, )))com.hexagonkt.serialization/kotlin.collections.-map/convert-to-object.md
 $dokka.location:com.hexagonkt.serialization$convertToObject(kotlin.collections.Map((kotlin.Any, )), kotlin.reflect.KClass((com.hexagonkt.serialization.convertToObject.T)))com.hexagonkt.serialization/kotlin.collections.-map/convert-to-object.md
@@ -58,5 +60,5 @@ $dokka.location:com.hexagonkt.serialization$serialize(kotlin.Any, kotlin.String)
 com.hexagonkt
 com.hexagonkt.helpers
 com.hexagonkt.injection
+com.hexagonkt.logging
 com.hexagonkt.serialization
-com.hexagonkt.settings
