@@ -4,6 +4,9 @@ import com.hexagonkt.helpers.globToRegex
 import com.hexagonkt.http.ALL
 import com.hexagonkt.http.Method
 
+/**
+ * HTTP CORS setting. It holds info for CORS.
+ */
 data class CorsSettings(
     val allowedOrigin: Regex,
     val allowedMethods: Set<Method> = ALL,
@@ -31,9 +34,17 @@ data class CorsSettings(
                 preFlightMaxAge
             )
 
+    /**
+     * Checks whether given origin is allowed.
+     *
+     * @return True, if given origin is allowed, else false.
+     */
     fun allowOrigin(origin: String): Boolean =
         allowedOrigin.matches(origin)
 
+    /**
+     * Provides the origin based on access control check for CORS.
+     */
     fun accessControlAllowOrigin(origin: String): String =
         if (allowedOrigin.pattern == "^.*$" && !supportCredentials) "*"
         else origin

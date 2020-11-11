@@ -11,7 +11,9 @@ interface ServerPort {
     fun runtimePort(): Int
 
     /**
-     * .
+     * Checks whether the server has been started.
+     *
+     * @return True if the server has started, else false.
      */
     fun started(): Boolean
 

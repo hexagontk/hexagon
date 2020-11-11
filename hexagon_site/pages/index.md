@@ -67,8 +67,8 @@ You can check the [code examples] and [demo projects] for more complex use cases
 
 Hexagon's goals and design principles:
 
-* **Put you in Charge**: There is no code generation, no runtime annotation processing, and no logic
-  based on your classpath. You control your tools, not the other way around.
+* **Put you in Charge**: There is no code generation, no runtime annotation processing, no classpath
+  based logic, and no implicit behaviour. You control your tools, not the other way around.
 
 * **Modular**: Each feature (Port) or adapter is isolated in its own module. Use only the modules
   you need without carrying unneeded dependencies.
@@ -82,8 +82,8 @@ Hexagon's goals and design principles:
 * **Kotlin First**: Take full advantage of Kotlin instead of just calling Java code from Kotlin. The
   library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).
 
-* **Properly Tested**: The project's coverage is checked in every Pull Request. It is also stress-tested
-  at [TechEmpower Frameworks Benchmark][benchmark].
+* **Properly Tested**: The project's coverage is checked in every Pull Request. It is also
+  stress-tested at [TechEmpower Frameworks Benchmark][benchmark].
 
 [^2]: However, you can replace the core DI implementation with any other library.
 

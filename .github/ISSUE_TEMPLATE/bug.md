@@ -4,6 +4,8 @@ about: Software defect.
 labels: bug
 ---
 
+**REPLACE WITH BUG DETAILS** (Check below for guidelines)
+
 ---
 
 Describe the steps and expected results:

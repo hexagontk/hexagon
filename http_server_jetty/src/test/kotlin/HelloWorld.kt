@@ -4,6 +4,9 @@ import com.hexagonkt.http.server.Server
 
 lateinit var server: Server
 
+/**
+ * Start a Hello World server, serving at path "/hello".
+ */
 fun main() {
     server = Server(JettyServletAdapter()) {
         get("/hello") {

@@ -4,7 +4,7 @@ import com.codahale.metrics.ConsoleReporter
 import com.codahale.metrics.Meter
 import com.codahale.metrics.MetricRegistry
 import com.codahale.metrics.jmx.JmxReporter
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.rabbitmq.client.MetricsCollector
 import com.rabbitmq.client.impl.StandardMetricsCollector
 import java.util.concurrent.TimeUnit
@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 internal class Metrics(private val metrics: StandardMetricsCollector) {
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
     private val reg: MetricRegistry = metrics.metricRegistry
 
     fun setJmxReporter() {

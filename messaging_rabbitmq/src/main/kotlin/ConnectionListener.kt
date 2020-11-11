@@ -1,11 +1,11 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.rabbitmq.client.*
 
 internal class ConnectionListener : ShutdownListener, RecoveryListener {
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     /** @see ShutdownListener.shutdownCompleted */
     override fun shutdownCompleted(cause: ShutdownSignalException) {

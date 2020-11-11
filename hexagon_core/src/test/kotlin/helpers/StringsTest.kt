@@ -3,8 +3,6 @@ package com.hexagonkt.helpers
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
-import kotlin.test.assertFailsWith
 
 class StringsTest {
 
@@ -22,7 +20,7 @@ class StringsTest {
         val reNullGroup = mockk<Regex>()
         every { reNullGroup.find(any()) } returns matchResult
 
-        assertFailsWith<IllegalStateException> { reNullGroup.findGroups("") }
+        assert(reNullGroup.findGroups("").isEmpty())
     }
 
     @Test fun `Filter returns the given string if no parameters are set` () {
@@ -55,7 +53,7 @@ class StringsTest {
         assert (result == "john@example.co: User #{user} aka #{user} <john@example.co>")
     }
 
-    @Test fun `Filter replaces all occurences of variables with their values` () {
+    @Test fun `Filter replaces all occurrences of variables with their values` () {
         val result = "#{email}: User #{user} aka #{user} <#{email}>".filterVars (
             "user" to "John",
             "email" to "john@example.co"
@@ -118,5 +116,29 @@ class StringsTest {
         assert("""\""".globToRegex().pattern == """^\\$""")
         assert("literal".globToRegex().pattern == "^literal$")
         assert("""*\*.bin?""".globToRegex().pattern == """^.*\\.*\.bin.$""")
+    }
+
+    @Test fun `Indent works as expected`() {
+        assert(" text ".indent() == "     text ")
+        assert(" text ".indent(0) == " text ")
+        assert(" text ".indent(0, "·") == " text ")
+        assert(" text ".indent(1) == "  text ")
+        assert(" text ".indent(1, "") == " text ")
+        assert(" text ".indent(1, "·") == "· text ")
+        assert(" text ".indent(2, "·") == "·· text ")
+        assert(" text ".indent(1, "·*") == "·* text ")
+        assert(" text ".indent(2, "·*") == "·*·* text ")
+        assert("·*text ".indent(2, "·*") == "·*·*·*text ")
+
+        assert("line 1\nline 2".indent() == "    line 1\n    line 2")
+        assert("line 1\nline 2".indent(0) == "line 1\nline 2")
+        assert("line 1\nline 2".indent(0, "·") == "line 1\nline 2")
+        assert("line 1\nline 2".indent(1) == " line 1\n line 2")
+        assert("line 1\nline 2".indent(1, "") == "line 1\nline 2")
+        assert("line 1\nline 2".indent(1, "·") == "·line 1\n·line 2")
+        assert("line 1\nline 2".indent(2, "·") == "··line 1\n··line 2")
+        assert("line 1\nline 2".indent(1, "·*") == "·*line 1\n·*line 2")
+        assert("line 1\nline 2".indent(2, "·*") == "·*·*line 1\n·*·*line 2")
+        assert("·*line 1\n·*line 2".indent(2, "·*") == "·*·*·*line 1\n·*·*·*line 2")
     }
 }

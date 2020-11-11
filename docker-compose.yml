@@ -10,7 +10,7 @@ version: '3'
 services:
 
   site:
-    image: squidfunk/mkdocs-material:4.6.3
+    image: squidfunk/mkdocs-material:5.5.14
     volumes:
       - ./hexagon_site:/docs
     ports:
@@ -19,10 +19,10 @@ services:
   mongodb:
     image: mongo:4.4-bionic
     ports:
-      - 27017:27017
+      - 2080:27017
 
   rabbitmq:
     image: rabbitmq:3.8-alpine
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 2070:5672
+      - 2060:15672

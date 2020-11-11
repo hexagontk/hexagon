@@ -1,9 +1,21 @@
 
 import org.gradle.api.Project
 import java.io.File
+import org.gradle.api.tasks.SourceSet
+import org.gradle.api.tasks.SourceSetContainer
 
 /**
- * Returns the set of files matching the given pattern in the passed directory.
+ * Return the source set with the given name.
+ *
+ * @param name Name of the searched source set.
+ * @return Project's source set with the given name.
+ * @receiver Project used to search the source set.
+ */
+fun Project.sourceSet(name: String): SourceSet =
+    this.extensions.getByType(SourceSetContainer::class.java).getByName(name)
+
+/**
+ * Return the set of files matching the given pattern in the passed directory.
  *
  * @param directory Directory to look for files matching the pattern (relative to project's path).
  *   Defaults to the project directory.
@@ -15,7 +27,7 @@ fun Project.filesCollection(directory: Any = this.projectDir, include: String): 
     fileTree(directory) { this.include(include) }.files
 
 /**
- * Returns the list of absolute paths of files matching the given pattern in the passed directory.
+ * Return the list of absolute paths of files matching the given pattern in the passed directory.
  *
  * @param directory Directory to look for files matching the pattern (relative to project's path).
  *   Defaults to the project directory.

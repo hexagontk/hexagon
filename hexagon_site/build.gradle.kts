@@ -124,10 +124,13 @@ repositories {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
-    dependsOn(rootProject.getTasksByName("check", true))
+    dependsOn(rootProject.getTasksByName("jacocoTestReport", true))
 
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
-    sourceDirectories.from(rootProject.modulesPaths("src/main/kotlin"))
+    sourceDirectories.from(
+        rootProject.modulesPaths("src/main/kotlin") +
+        rootProject.modulesPaths("build/jacoco/src")
+    )
     classDirectories.from(rootProject.modulesPaths("build/classes/kotlin/main"))
 
     reports {

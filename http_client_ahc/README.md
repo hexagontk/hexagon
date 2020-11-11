@@ -8,21 +8,23 @@
 
 ### Install the Dependency
 
-```groovy tab="build.gradle"
-repositories {
-    mavenCentral()
-}
+=== "build.gradle"
+  ```groovy
+  repositories {
+      mavenCentral()
+  }
 
-implementation("com.hexagonkt:http_client_ahc:$hexagonVersion")
-```
+  implementation("com.hexagonkt:http_client_ahc:$hexagonVersion")
+  ```
 
-```xml tab="pom.xml"
-<dependency>
-  <groupId>com.hexagonkt</groupId>
-  <artifactId>http_client_ahc</artifactId>
-  <version>$hexagonVersion</version>
-</dependency>
-```
+=== "pom.xml"
+  ```xml
+  <dependency>
+    <groupId>com.hexagonkt</groupId>
+    <artifactId>http_client_ahc</artifactId>
+    <version>$hexagonVersion</version>
+  </dependency>
+  ```
 
 # Package com.hexagonkt.http.client.ahc
 

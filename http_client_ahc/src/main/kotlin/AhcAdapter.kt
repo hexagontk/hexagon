@@ -1,6 +1,6 @@
 package com.hexagonkt.http.client.ahc
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.ensureSize
 import com.hexagonkt.helpers.fail
 import com.hexagonkt.serialization.SerializationManager.formatOf
@@ -41,7 +41,7 @@ class AhcAdapter : ClientPort {
 
     private lateinit var ssl: ClientSettings
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     private val ahcClient: DefaultAsyncHttpClient by lazy {
         DefaultAsyncHttpClient(

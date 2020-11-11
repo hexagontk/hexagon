@@ -1,8 +1,4 @@
-<!--
- | Logback configuration for tests
- |
- | All output is ignored by default, to enable logs change root logger level.
- !-->
+
 <configuration>
   <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
 

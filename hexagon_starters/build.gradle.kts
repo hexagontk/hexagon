@@ -9,7 +9,7 @@ plugins {
     id("maven-publish")
 }
 
-publishing {
+extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("kotlin_pom") { pomDom ->
             properties.set(mapOf(

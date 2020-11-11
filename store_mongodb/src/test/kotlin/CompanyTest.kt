@@ -46,8 +46,8 @@ class CompanyTest : StoreTest<Company, String>() {
         )
     )
 
-    private val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String?
-        ?: "mongodb://localhost/test"
+    private val mongodbUrl = SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
+        ?: "mongodb://localhost:2080/test"
 
     override fun createStore(): Store<Company, String> =
         MongoDbStore(Company::class, Company::id, mongodbUrl, "companies")

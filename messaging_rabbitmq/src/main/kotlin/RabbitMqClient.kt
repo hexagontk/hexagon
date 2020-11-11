@@ -1,5 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
+import com.hexagonkt.logging.Logger
 import com.codahale.metrics.MetricRegistry
 import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.helpers.*
@@ -41,10 +42,11 @@ class RabbitMqClient(
             cf.setUri(uri)
 
             val params = parseQueryParameters(uri.query ?: "")
-            val automaticRecovery = params["automaticRecovery"]?.firstOrNull()?.toBoolean()
-            val recoveryInterval = params["recoveryInterval"]?.firstOrNull()?.toLong()
-            val shutdownTimeout = params["shutdownTimeout"]?.firstOrNull()?.toInt()
-            val heartbeat = params["heartbeat"]?.firstOrNull()?.toInt()
+            fun value(name: String): String? = params[name]?.firstOrNull { it.isNotBlank() }
+            val automaticRecovery = value("automaticRecovery")?.toBoolean()
+            val recoveryInterval = value("recoveryInterval")?.toLong()
+            val shutdownTimeout = value("shutdownTimeout")?.toInt()
+            val heartbeat = value("heartbeat")?.toInt()
             val metricsCollector = StandardMetricsCollector(MetricRegistry())
 
             setVar(automaticRecovery) { cf.isAutomaticRecoveryEnabled = it }
@@ -57,7 +59,7 @@ class RabbitMqClient(
         }
     }
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
     private val args = hashMapOf<String, Any>()
 
     @Volatile private var count: Int = 0

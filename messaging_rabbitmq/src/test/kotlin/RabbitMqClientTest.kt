@@ -1,6 +1,6 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.messaging.rabbitmq.RabbitMqClient.Companion.createConnectionFactory
 import com.hexagonkt.serialization.serialize
 
@@ -10,7 +10,7 @@ import kotlin.test.assertFailsWith
 
 class RabbitMqClientTest {
 
-    private val log: Logger = Logger(this)
+    private val log: Logger = Logger(this::class)
 
     @Test fun `Create a connection factory with empty URI fails` () {
         assertFailsWith(IllegalArgumentException::class) {
@@ -76,7 +76,7 @@ class RabbitMqClientTest {
     }
 
     @Test fun `Rabbit client disconnects properly` () {
-        val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val client = RabbitMqClient(URI("amqp://guest:guest@localhost:2070"))
         assert(client.connected)
         client.close()
         assert(!client.connected)
@@ -85,7 +85,7 @@ class RabbitMqClientTest {
     }
 
     @Test fun `Consumers handle numbers properly` () {
-        val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost:2070"))
         consumer.declareQueue("int_op")
         consumer.declareQueue("long_op")
         consumer.declareQueue("list_op")
@@ -93,7 +93,7 @@ class RabbitMqClientTest {
         consumer.consume("long_op", String::class, String::toLong)
         consumer.consume("list_op", List::class) { it }
 
-        val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val client = RabbitMqClient(URI("amqp://guest:guest@localhost:2070"))
         assert(client.call("int_op", "123") == "123")
         assert(client.call("long_op", "456") == "456")
         assert(client.call("list_op", listOf(1, 3, 4).serialize()) == listOf(1, 3, 4).serialize())
@@ -106,7 +106,7 @@ class RabbitMqClientTest {
     }
 
     @Test fun `Consumers handle no reply messages` () {
-        val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val consumer = RabbitMqClient(URI("amqp://guest:guest@localhost:2070"))
         consumer.declareQueue("int_handler")
         consumer.declareQueue("long_handler")
         consumer.declareQueue("exception_handler")
@@ -114,7 +114,7 @@ class RabbitMqClientTest {
         consumer.consume("long_handler", String::class) { log.info { it } }
         consumer.consume("exception_handler", String::class) { throw RuntimeException(it) }
 
-        val client = RabbitMqClient(URI("amqp://guest:guest@localhost"))
+        val client = RabbitMqClient(URI("amqp://guest:guest@localhost:2070"))
         client.publish("int_handler", "123")
         client.publish("long_handler", "456")
         client.publish("exception_handler", "error")

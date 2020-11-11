@@ -7,6 +7,11 @@ import java.nio.charset.Charset
 
 import java.util.TimeZone
 
+/**
+ * Object with utilities to gather information about the running JVM.
+ *
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ */
 object Jvm {
     /** Default character set. */
     val charset: Charset by lazy { Charset.defaultCharset() }

@@ -6,6 +6,7 @@ import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.IndexOrder.DESCENDING
 import com.hexagonkt.store.Store
 import org.bson.types.ObjectId
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -13,11 +14,12 @@ import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.util.*
 
 class MongoDbStoreCompanyTest {
 
-    private val mongodbUrl = SettingsManager.settings["mongodbUrl"] as? String?
-        ?: "mongodb://localhost/test"
+    private val mongodbUrl = SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
+        ?: "mongodb://localhost:2080/test"
 
     private val store: Store<Company, String> by lazy {
         createStore()
@@ -43,6 +45,14 @@ class MongoDbStoreCompanyTest {
 
     private fun changeObject(obj: Company) =
         obj.copy(web = URL("http://change.example.org"))
+
+    companion object {
+        @BeforeAll
+        @JvmStatic
+        fun resetTimeZone() {
+            TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+        }
+    }
 
     @BeforeEach fun dropCollection() {
         store.drop()

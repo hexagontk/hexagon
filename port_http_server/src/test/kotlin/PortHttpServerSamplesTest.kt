@@ -28,10 +28,10 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
          * Parameters not set will fall back to the defaults
          */
         val settings = ServerSettings(
-            serverName = "name",
             bindAddress = InetAddress.getByName("0.0.0"),
             bindPort = 2020,
-            contextPath = "/context"
+            contextPath = "/context",
+            banner = "name"
         )
 
         val router = Router {
@@ -52,7 +52,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
          * You can skip the adapter is you previously bound one
          * You may also skip the settings an the defaults will be used
          */
-        InjectionManager.bindObject(adapter)
+        InjectionManager.bind(adapter)
         val defaultServer = Server(router = router)
 
         defaultServer.start()
@@ -442,7 +442,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
             get("/hello") { ok("Hi!") }
         }
 
-        val serverSettings = ServerSettings("name", InetAddress.getLoopbackAddress(), 0)
+        val serverSettings = ServerSettings(InetAddress.getLoopbackAddress(), 0, banner = "name")
         val server = Server(adapter, router, serverSettings)
 
         server.start()

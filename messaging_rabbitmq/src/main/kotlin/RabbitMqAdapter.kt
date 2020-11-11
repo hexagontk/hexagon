@@ -11,7 +11,7 @@ class RabbitMqAdapter : MessagingPort {
         private const val exchange = "messages"
     }
 
-    private val client by lazy { RabbitMqClient(URI("amqp://guest:guest@localhost")) }
+    private val client by lazy { RabbitMqClient(URI("amqp://guest:guest@localhost:2070")) }
 
     init {
         client.bindExchange(exchange, "topic", "*.*.*", "event_pool")

@@ -1,17 +1,15 @@
 package com.hexagonkt.web
 
-import java.util.Locale.forLanguageTag as localeFor
-
 import com.hexagonkt.http.server.Call
 import com.hexagonkt.serialization.SerializationManager
-import java.nio.charset.Charset.defaultCharset
-import java.util.*
-import com.hexagonkt.settings.SettingsManager.settings
-import com.hexagonkt.templates.TemplateManager.render
+import com.hexagonkt.templates.TemplateEngine
 import com.hexagonkt.templates.TemplatePort
 import kotlinx.html.HTML
 import kotlinx.html.html
 import kotlinx.html.stream.createHTML
+import java.nio.charset.Charset.defaultCharset
+import java.util.Locale
+import java.util.Locale.forLanguageTag as localeFor
 
 fun Call.templateType(template: String) {
     if (response.contentType == null) {
@@ -26,7 +24,7 @@ fun Call.fullContext(): Map<String, *> {
         "lang" to obtainLocale().language
     )
 
-    return settings + session.attributes + extraParameters
+    return session.attributes + extraParameters
 }
 
 /**
@@ -48,10 +46,17 @@ fun Call.template(
     templateName: String,
     locale: Locale = obtainLocale(),
     context: Map<String, *> = fullContext()
+) = template(TemplateEngine(templateAdapter), templateName, locale, context)
+
+fun Call.template(
+    templateEngine: TemplateEngine,
+    templateName: String,
+    locale: Locale = obtainLocale(),
+    context: Map<String, *> = fullContext()
 ) {
 
     templateType(templateName)
-    ok(render(templateAdapter, templateName, locale, context))
+    ok(templateEngine.render(templateName, locale, context))
 }
 
 /**
