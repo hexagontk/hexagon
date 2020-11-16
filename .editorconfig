@@ -43,9 +43,13 @@ ij_json_spaces_within_brackets = true
 ij_json_wrap_long_lines = true
 
 # 4 space indentation
-[*.{java,js,kt,kts,gradle,groovy}]
+[*.{java,js,ts,kt,kts,gradle,groovy}]
 indent_size = 4
 ij_continuation_indent_size = 4
+
+# Go language uses tabs by default
+[*.go]
+indent_style = tab
 
 # IntelliJ Kotlin specific rules
 [*.{kt,kts}]
