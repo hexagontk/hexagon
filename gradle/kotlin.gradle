@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.4.10"
+    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.4.20"
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.10.0"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.0"
 
@@ -144,6 +144,8 @@ jacocoTestReport {
         html.enabled = true
     }
 }
+
+build.dependsOn("jacocoTestReport")
 
 task("sourcesJar", type: Jar) {
     group = "distribution"

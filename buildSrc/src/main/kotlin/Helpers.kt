@@ -15,18 +15,6 @@ fun Project.sourceSet(name: String): SourceSet =
     this.extensions.getByType(SourceSetContainer::class.java).getByName(name)
 
 /**
- * Return the set of files matching the given pattern in the passed directory.
- *
- * @param directory Directory to look for files matching the pattern (relative to project's path).
- *   Defaults to the project directory.
- * @param include Pattern to filter directory's files. Uses Ant glob syntax.
- * @return Set of files matching the given pattern.
- * @receiver Project which path is used to resolve the passed directory.
- */
-fun Project.filesCollection(directory: Any = this.projectDir, include: String): Set<File> =
-    fileTree(directory) { this.include(include) }.files
-
-/**
  * Return the list of absolute paths of files matching the given pattern in the passed directory.
  *
  * @param directory Directory to look for files matching the pattern (relative to project's path).
@@ -36,7 +24,9 @@ fun Project.filesCollection(directory: Any = this.projectDir, include: String): 
  * @receiver Project which path is used to resolve the passed directory.
  */
 fun Project.pathsCollection(directory: Any = this.projectDir, include: String): List<String> =
-    filesCollection(directory, include).map { it.absolutePath }
+    fileTree(directory) { include(include) }
+        .files
+        .map { it.absolutePath }
 
 /**
  * Get the list of files with the searched relative path in all modules that have them.

@@ -1,4 +1,11 @@
 
+//pluginManagement {
+//    repositories {
+//        gradlePluginPortal()
+//        jcenter()
+//    }
+//}
+
 rootProject.name = "hexagon"
 
 include(

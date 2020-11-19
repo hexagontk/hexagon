@@ -37,6 +37,8 @@
 
     <trusted-keys>
       <trusted-key id="cb43338e060cf9fa" group="org.jacoco"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="org.codehaus.woodstox" name="stax2-api"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com.fasterxml.woodstox" name="woodstox-core"/>
       <trusted-key id="4f7e32d440ef90a83011a8fc6425559c47cc79c4" group="org.glassfish" name="javax.el"/>
       <trusted-key id="55e770230e69cc6de143fb5b62c82e50836eb3ee" group="com.github.gundy" name="semver4j"/>
       <trusted-key id="d54a395b5cf3f86eb45f6e426b1b008864323b92" group="org.antlr" name="antlr4-runtime"/>
@@ -65,7 +67,9 @@
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-(annotations|core)" regex="true"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-databind" regex="true"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-module-kotlin" regex="true"/>
-      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-dataformat-yaml" regex="true"/> <!-- TODO Delete comment -->
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-module-jaxb-annotations" regex="true"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-dataformat-yaml" regex="true"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-dataformat-xml" regex="true"/>
       <trusted-key id="8a10792983023d5d14c93b488d7f1bec1e2ecae7" group="com\.fasterxml\.jackson\..*" regex="true"/>
       <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>
       <trusted-key id="6fca825c6e85fcb4df9a96b27a3c11434ec6434e" group="com\.trueaccord\..*" regex="true"/>
@@ -91,7 +95,7 @@
       <trusted-key id="2db4f1ef0fa761ecc4ea935c86fdc7e2a11262cb" group="commons-codec" name="commons-codec" version="1.6"/>
       <trusted-key id="d196a5e3e70732eeb2e5007f1861c322c56014b2" group="commons-collections" name="commons-collections" version="3.2.1"/>
       <trusted-key id="636de9055c4c75c7bd9830771241bc872c5e4ec0" group="commons-lang" name="commons-lang"/>
-      <trusted-key id="b6e73d84ea4fcc47166087253faad2cd5ecbb314" group="org.apache.commons" name="commons-lang3"/>
+      <trusted-key id="cd5464315f0b98c77e6e8ecd9daadc1c9fcc82d0" group="org.apache.commons" name="commons-lang3"/>
       <trusted-key id="b920d295bf0e61cb4cf0896c33cd6733af5ec452" group="commons-logging" name="commons-logging" version="1.1.1"/>
       <trusted-key id="1fa37fbe4453c1073e7ef61d6449005f96bc97a3" group="de.undercouch" name="gradle-download-task" version="4.0.2"/>
       <trusted-key id="4548945a7793445b67f8f8723b17bfc1fcc1b644" group="io.pebbletemplates" name="pebble" version="3.1.4"/>
