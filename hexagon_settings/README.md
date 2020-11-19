@@ -6,22 +6,24 @@ This module holds utilities to handle applications' configuration parameters.
 ### Install the Dependency
 
 === "build.gradle"
-  ```groovy
-  repositories {
-      mavenCentral()
-  }
 
-  implementation("com.hexagonkt:hexagon_settings:$hexagonVersion")
-  ```
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
+
+    implementation("com.hexagonkt:hexagon_settings:$hexagonVersion")
+    ```
 
 === "pom.xml"
-  ```xml
-  <dependency>
-    <groupId>com.hexagonkt</groupId>
-    <artifactId>hexagon_settings</artifactId>
-    <version>$hexagonVersion</version>
-  </dependency>
-  ```
+
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>hexagon_settings</artifactId>
+      <version>$hexagonVersion</version>
+    </dependency>
+    ```
 
 ### Settings
 
@@ -45,7 +47,7 @@ Optional simple settings can be handled with data classes
 
 Below there is a code fragment showing how to add a custom settings source and load its properties:
 
-@sample hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:settingsUsage
+@code hexagon_settings/src/test/kotlin/HexagonSettingsSamplesTest.kt:settingsUsage
 
 # Package com.hexagonkt.settings
 

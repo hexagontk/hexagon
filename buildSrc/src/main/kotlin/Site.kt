@@ -4,7 +4,7 @@ import java.io.File
 import org.gradle.api.Project
 
 /**
- * Represents a set of lines inside a text file.
+ * Set of lines inside a text file.
  *
  * @param file Text file holding the lines.
  * @param range Range of lines inside the supplied file.
@@ -69,7 +69,7 @@ class FileRange(private val file: File, private val range: IntRange) {
 }
 
 /**
- * Represent two file ranges from different files but with the same tag.
+ * Two file ranges from different files but with the same tag.
  *
  * @param source File for the first range.
  * @param target File for the second range.
@@ -78,7 +78,7 @@ class FileRange(private val file: File, private val range: IntRange) {
 data class FilesRange(val source: File, val target: File, val tag: String)
 
 /**
- * Assures that two file ranges are the same (to verify that documentation contains
+ * Assure that two file ranges are the same (to verify that documentation contains
  * only tested code).
  *
  * @param documentation File range for the documentation to check.
@@ -109,28 +109,47 @@ fun checkSamplesCode(vararg ranges: FilesRange) {
 }
 
 /**
- * Returns a text with samples replaced inside.
+ * Return a text with samples replaced inside.
  *
  * @param parent Base directory used to resolve the files in the content samples.
- * @param content Text with `@sample` placeholders to be replaced by actual file ranges.
+ * @param content Text with `@code` placeholders to be replaced by actual file ranges.
  * @return The content with the samples inserted in the placeholders.
  */
 fun insertSamplesCode(parent: File, content: String): String {
-    val samples = "@sample (.*)".toRegex().findAll(content)
+    val samples = "@code (.*)".toRegex().findAll(content)
     var result = content
 
     samples.forEach { sample ->
         val sampleLocation = sample.groups[1]?.value?.trim() ?: error("Location expected")
         val fileRange = FileRange.parse(parent, sampleLocation)
         val replacement = "```kotlin\n" + fileRange.text().trim() + "\n```"
-        result = result.replace("@sample $sampleLocation", replacement)
+        result = result.replace("@code $sampleLocation", replacement)
     }
 
     return result
 }
 
 /**
- * Adds the correct `edit_url` to the site's Markdown pages.
+ * Return a text with the proper syntax for the tabbed code blocks feature.
+ *
+ * @param content Text with incorrect format.
+ * @return The content with the tabbed code blocks fixed.
+ */
+fun fixCodeTabs(content: String): String {
+    val blocks = """=== "(.*)"\n\n```""".toRegex().findAll(content)
+    var result = content
+
+    blocks.forEach { block ->
+        val tabName = block.groups[1]?.value?.trim() ?: error("Tab name expected")
+        val replacement = "=== \"$tabName\"\n"
+        result = result.replace("=== \"$tabName\"\n\n```", replacement)
+    }
+
+    return result.replace("    ```\n```", "    ```")
+}
+
+/**
+ * Add the correct `edit_url` to the site's Markdown pages.
  *
  * @param siteContentPath Base URL to process .md` files and add them the `edit_url` property.
  * @receiver Gradle project used to look for `.md` files.
@@ -171,7 +190,8 @@ private fun Project.toEditUrl(mdPath: String): String {
 }
 
 private fun Project.classPackage(module: String, sourceType: String, classFile: String): String =
-    filesCollection("$module/src/$sourceType/kotlin", "**/$classFile")
+    fileTree("$module/src/$sourceType/kotlin") { include("**/$classFile") }
+        .files
         .firstOrNull()
         ?.relativeTo(file("$module/src/$sourceType/kotlin"))
         ?.parentFile

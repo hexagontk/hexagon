@@ -21,12 +21,62 @@ class SiteKtTest {
     }
 
     @Test fun `Test insert samples code`() {
-        val testTag = "@sample test.md:TestMd"
+        val testTag = "@code test.md:TestMd"
         assert(insertSamplesCode(resourceFile, testTag).contains("kotlin"))
     }
 
-    @Test
-    fun `'addMetadata' inserts proper edit link`() {
+    @Test fun `'fixCodeTabs' reformat code blocks`() {
+        val badCodeTabs =
+"""=== "build.gradle"
+
+```
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
+
+    implementation("com.hexagonkt:hexagon_core:#hexagonVersion")
+    ```
+```
+
+=== "pom.xml"
+
+```
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>hexagon_core</artifactId>
+      <version>#hexagonVersion</version>
+    </dependency>
+    ```
+```"""
+
+        val expectedCodeTabs =
+"""=== "build.gradle"
+
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
+
+    implementation("com.hexagonkt:hexagon_core:#hexagonVersion")
+    ```
+
+=== "pom.xml"
+
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>hexagon_core</artifactId>
+      <version>#hexagonVersion</version>
+    </dependency>
+    ```"""
+
+        val fixedCodeTabs = fixCodeTabs(badCodeTabs)
+        assertEquals(expectedCodeTabs, fixedCodeTabs)
+    }
+
+    @Test fun `'addMetadata' inserts proper edit link`() {
 
         val project = ProjectBuilder.builder().withProjectDir(File("build/resources/test")).build()
         val base = project.projectDir
