@@ -133,7 +133,7 @@ following code:
 
 ```groovy
 application {
-    mainClassName = "com.example.ApplicationKt"
+    mainClass.set("com.example.ApplicationKt")
 }
 ```
 
