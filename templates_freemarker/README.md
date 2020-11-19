@@ -9,22 +9,24 @@ engine.
 ### Install the Dependency
 
 === "build.gradle"
-  ```groovy
-  repositories {
-      mavenCentral()
-  }
 
-  implementation("com.hexagonkt:templates_freemarker:$hexagonVersion")
-  ```
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
+
+    implementation("com.hexagonkt:templates_freemarker:$hexagonVersion")
+    ```
 
 === "pom.xml"
-  ```xml
-  <dependency>
-    <groupId>com.hexagonkt</groupId>
-    <artifactId>templates_freemarker</artifactId>
-    <version>$hexagonVersion</version>
-  </dependency>
-  ```
+
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>templates_freemarker</artifactId>
+      <version>$hexagonVersion</version>
+    </dependency>
+    ```
 
 ### How to Use
 

@@ -9,22 +9,24 @@ Hexagon's event bus implementation based in RabbitMQ.
 ### Install the Dependency
 
 === "build.gradle"
-  ```groovy
-  repositories {
-      mavenCentral()
-  }
 
-  implementation("com.hexagonkt:messaging_rabbitmq:$hexagonVersion")
-  ```
+    ```groovy
+    repositories {
+        mavenCentral()
+    }
+
+    implementation("com.hexagonkt:messaging_rabbitmq:$hexagonVersion")
+    ```
 
 === "pom.xml"
-  ```xml
-  <dependency>
-    <groupId>com.hexagonkt</groupId>
-    <artifactId>messaging_rabbitmq</artifactId>
-    <version>$hexagonVersion</version>
-  </dependency>
-  ```
+
+    ```xml
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>messaging_rabbitmq</artifactId>
+      <version>$hexagonVersion</version>
+    </dependency>
+    ```
 
 # Package com.hexagonkt.messaging.rabbitmq
 
