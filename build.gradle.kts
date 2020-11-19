@@ -14,10 +14,12 @@ import java.io.OutputStream.nullOutputStream
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
-    idea
-    eclipse
+    id("idea")
+    id("eclipse")
 
-    kotlin("jvm") version("1.4.10") apply(false)
+    kotlin("jvm") version("1.4.20-RC") apply(false) // TODO
+
+//    id("org.jetbrains.dokka") version("1.4.10.2") apply(false)
     id("org.jetbrains.dokka") version("0.10.1") apply(false)
     id("io.gitlab.arturbosch.detekt") version("1.14.2") apply(false)
 }
@@ -70,18 +72,13 @@ task("release") {
     }
 }
 
-/*
- * TODO Move `dokkaMd` task to `gradle/dokka.gradle.kts` when it is ported to Kotlin DSL.
- *   Check: https://github.com/Kotlin/dokka/issues/50
- */
-childProjects.forEach { pair ->
-    val name = pair.key
-    val prj = pair.value
-    val empty = prj.getTasksByName("dokkaMd", false).isEmpty()
-
-    if (name !in listOf("hexagon_site", "hexagon_starters") && empty) {
-        project(name).tasks.register<DokkaTask>("dokkaMd") {
-            project("hexagon_site").tasks["mkdocs"].dependsOn(":$name:dokkaMd")
+// TODO Move `dokkaGfm` task to `gradle/dokka.gradle.kts`
+childProjects
+    .filter { (name, _) -> name !in listOf("hexagon_site", "hexagon_starters") }
+    .filter { (_, prj) -> prj.getTasksByName("dokkaGfm", false).isEmpty() }
+    .forEach { (_, prj) ->
+        prj.tasks.register<DokkaTask>("dokkaGfm") {
+            project("hexagon_site").tasks["mkdocs"].dependsOn(this)
 
             outputFormat = "gfm"
             outputDirectory = "${rootDir}/hexagon_site/content"
@@ -94,13 +91,13 @@ childProjects.forEach { pair ->
             }
         }
     }
-}
 
 tasks.register<Exec>("infrastructure") {
     group = "build"
     description = "Start the project's infrastructure (with Docker Compose) required for the tests."
+    standardOutput = nullOutputStream()
+    errorOutput = standardOutput
 
-    errorOutput = nullOutputStream()
     commandLine("docker-compose --log-level warning up -d mongodb rabbitmq".split(" "))
 }
 

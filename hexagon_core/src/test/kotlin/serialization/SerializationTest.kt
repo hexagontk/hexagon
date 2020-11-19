@@ -1,10 +1,15 @@
 package com.hexagonkt.serialization
 
+import java.io.File
+import java.nio.file.Files
 import com.hexagonkt.serialization.SerializationManager.formats
 import kotlin.reflect.KClass
 
 abstract class SerializationTest<out T : Any>(private val type: KClass<T>) {
     abstract val testObjects: List<T>
+
+    private fun tempFile(suffix: String): File =
+        Files.createTempFile("", suffix).toFile()
 
     protected fun checkMapParse() {
         formats.forEach { contentType ->
@@ -23,7 +28,7 @@ abstract class SerializationTest<out T : Any>(private val type: KClass<T>) {
 
                 assert(modelString.parse<Map<*, *>>(contentType) == map)
 
-                val tempFile = createTempFile(suffix = contentType.contentType.replace('/', '.'))
+                val tempFile = tempFile(contentType.contentType.replace('/', '.'))
                 tempFile.deleteOnExit()
                 tempFile.writeText(modelString)
 
@@ -31,7 +36,7 @@ abstract class SerializationTest<out T : Any>(private val type: KClass<T>) {
             }
 
             val serializedObjects = testObjects.serialize(contentType)
-            val tempFile = createTempFile(suffix = contentType.contentType.replace('/', '.'))
+            val tempFile = tempFile(contentType.contentType.replace('/', '.'))
             tempFile.deleteOnExit()
             tempFile.writeText(serializedObjects)
             val testMaps = testObjects.map { it.convertToMap() }

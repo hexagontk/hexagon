@@ -26,9 +26,6 @@ google_analytics: [ UA-48216810-3, auto ]
 
 docs_dir: content
 
-# Disable Search plugin as it stopped working with MkDocs Material v5
-plugins: []
-
 markdown_extensions:
   - meta
   - admonition
@@ -63,6 +60,7 @@ nav:
   - Documentation:
     - Modules:
       - Core: hexagon_core/index.md
+      - Settings: hexagon_settings/index.md
       - Scheduler: hexagon_scheduler/index.md
       - Web: hexagon_web/index.md
     - Ports:

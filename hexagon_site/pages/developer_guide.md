@@ -50,34 +50,36 @@ kinds of modules:
 The [Hexagon Core] module is used by all other libraries, so it would be added to your project
 anyway just by using any adapter.
 
-Core utilities like settings handling, logging, serialization, and dependency injection.
-The toolkit's ports are designed to use core functionalities. You can use a third party DI library
-instead of using the Core one. It depends on Logback and Jackson.
+Core utilities like, logging, serialization, and dependency injection. Toolkit's ports are designed
+to use core functionalities. You can use a third party DI library instead of using the Core one. It
+depends on Logback and Jackson.
 
-The main features it has are:
+The main features are the following:
 
 * [Helpers]: JVM information, a logger and other useful utilities.
 * [Dependency Injection]: bind classes to creation closures or instances and inject them.
 * [Instance Serialization]: parse/serialize data in different formats to class instances.
-* [Configuration Settings]: load settings from different data sources and formats.
 
 [Hexagon Core]: /hexagon_core
 
 [Helpers]: /hexagon_core/com.hexagonkt.helpers
 [Dependency Injection]: /hexagon_core/com.hexagonkt.injection
 [Instance Serialization]: /hexagon_core/com.hexagonkt.serialization
-[Configuration Settings]: /hexagon_core/com.hexagonkt.settings
 
 # Other Modules
 
 The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.
 
+* [Settings]: load settings from different data sources and formats. This properties are made
+  available to other components through the [SettingsManager].
 * [Scheduling]: this module allows services to execute tasks periodically using Cron expressions.
   However, you have to be careful to not run tasks twice if you have many instances.
 * [Web]: this module is meant to ease web application development. Provides helpers for
   generating HTML and depends on the [HTTP Server] and [Templates] ports.
 
+[Settings]: /hexagon_settings
+[SettingsManager]: /hexagon_settings/com.hexagonkt.settings/-settings-manager
 [Scheduling]: /hexagon_scheduler
 [Web]: /hexagon_web
 

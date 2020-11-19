@@ -1,7 +1,6 @@
 import kotlin.math.floor
 
 apply(from = "../gradle/icons.gradle")
-apply(plugin = "org.jetbrains.dokka")
 apply(plugin = "jacoco")
 
 tasks.register<Delete>("clean") {
@@ -43,8 +42,8 @@ task("checkDocs") {
         val markdownFiles = project.fileTree("dir" to contentTarget, "include" to "**/*.md")
 
         markdownFiles.forEach { markdownFile ->
-            if (markdownFile.readText().contains("@sample")) {
-                val message = "${markdownFile.absolutePath} Contains `@sample` placeholder"
+            if (markdownFile.readText().contains("@code")) {
+                val message = "${markdownFile.absolutePath} Contains `@code` placeholder"
                 throw GradleException(message)
             }
         }
@@ -53,6 +52,8 @@ task("checkDocs") {
 
 task("mkdocs") {
     dependsOn("jacocoRootReport")
+//    dependsOn(rootProject.getTasksByName("dokkaGfm", true))
+
     doLast {
         val contentTarget = project.file("content").absolutePath
         val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
@@ -83,39 +84,15 @@ task("mkdocs") {
         markdownFiles.forEach { markdownFile ->
             var content = markdownFile.readText()
             content = insertSamplesCode(rootProject.projectDir, content)
+            content = fixCodeTabs(content)
             markdownFile.writeText(content)
         }
 
         rootProject.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
-        // Generate coverage badge
-        val coverageReport = file("content/jacoco/jacoco.xml")
-        val coverageReportLength = coverageReport.length()
-        val groups = coverageReport.reader().use {
-            val buffer = CharArray(1024)
-            it.skip(coverageReportLength - buffer.size)
-            it.read(buffer)
-            """</package>\s*<counter type="INSTRUCTION" missed="(\d*)" covered="(\d*)"/>"""
-                .toRegex()
-                .findAll(String(buffer))
-                .lastOrNull()
-                ?.groupValues
-                ?: error("No match found")
-        }
-        val missed = groups[1].toInt()
-        val covered = groups[2].toInt()
-        val total = missed + covered
-        val percentage = floor((covered * 100.0) / total).toInt()
-
-        val badge = file("content/img/coverage.svg")
-        val svg = badge.readText().replace("\${coverage}", "$percentage%")
-        badge.writeText(svg)
-
-        // Generate download badge
-        val downloadBadge = file("content/img/download.svg")
-        val downloadSvg = downloadBadge.readText().replace("\${download}", "${rootProject.version}")
-        downloadBadge.writeText(downloadSvg)
+        generateCoverageBadge()
+        generateDownloadBadge()
     }
 }
 
@@ -124,7 +101,6 @@ repositories {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
-    dependsOn(rootProject.getTasksByName("jacocoTestReport", true))
 
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(
@@ -141,4 +117,35 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         html.outputLocation.set(reportsOutput)
         xml.outputLocation.set(reportsOutput.resolve("jacoco.xml"))
     }
+}
+
+fun generateCoverageBadge() {
+
+    val coverageReport = file("content/jacoco/jacoco.xml")
+    val coverageReportLength = coverageReport.length()
+    val groups = coverageReport.reader().use {
+        val buffer = CharArray(1024)
+        it.skip(coverageReportLength - buffer.size)
+        it.read(buffer)
+        """</package>\s*<counter type="INSTRUCTION" missed="(\d*)" covered="(\d*)"/>"""
+            .toRegex()
+            .findAll(String(buffer))
+            .lastOrNull()
+            ?.groupValues
+            ?: error("No match found")
+    }
+    val missed = groups[1].toInt()
+    val covered = groups[2].toInt()
+    val total = missed + covered
+    val percentage = floor((covered * 100.0) / total).toInt()
+
+    val badge = file("content/img/coverage.svg")
+    val svg = badge.readText().replace("\${coverage}", "$percentage%")
+    badge.writeText(svg)
+}
+
+fun generateDownloadBadge() {
+    val downloadBadge = file("content/img/download.svg")
+    val downloadSvg = downloadBadge.readText().replace("\${download}", "${rootProject.version}")
+    downloadBadge.writeText(downloadSvg)
 }

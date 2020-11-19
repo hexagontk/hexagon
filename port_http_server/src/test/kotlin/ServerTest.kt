@@ -22,6 +22,10 @@ class ServerTest {
         assert(server.settings.bindPort == 0)
     }
 
+    @Test fun `Default banner includes documentation URL`() {
+        assert(Server.banner.contains("https://hexagonkt.com/port_http_server"))
+    }
+
     @Test fun `Default parameters`() {
         val serverSettings = ServerSettings(address("localhost"), 9999, banner = "name")
         val server = Server(VoidAdapter, Router(), serverSettings)

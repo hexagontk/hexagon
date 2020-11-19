@@ -4,8 +4,9 @@
 The site is generated using [MkDocs] and uses [Google Analytics] for usage statistics. The MkDocs
 theme used is [MkDocs Material].
 
-To generate the site use: `./gradlew buildSite` which executes:
-`docker-compose run site build -csq`. You can check more details [here][site build].
+To generate the site you *MUST BUILD THE PROJECT* previously (`gw build`), after that you can use:
+`./gradlew buildSite` which executes: `docker-compose run site build -csq`. You can check more
+details [here][site build].
 
 To run the site inside a server for development, execute: `gw serveSite`. The site will be served
 at: [http://localhost:8000](http://localhost:8000). You can also build the site and serve the

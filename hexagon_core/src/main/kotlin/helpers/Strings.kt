@@ -130,4 +130,4 @@ fun String.indent(count: Int = 4, pad: String = " ") =
     this.lines().joinToString(eol) { pad.repeat(count) + it }
 
 internal fun Sequence<Int>.maxOrElse(fallback: Int): Int =
-    this.max() ?: fallback
+    this.maxOrNull() ?: fallback
