@@ -17,7 +17,7 @@ plugins {
     id("idea")
     id("eclipse")
 
-    kotlin("jvm") version("1.4.20-RC") apply(false) // TODO
+    kotlin("jvm") version("1.4.20") apply(false)
 
 //    id("org.jetbrains.dokka") version("1.4.10.2") apply(false)
     id("org.jetbrains.dokka") version("0.10.1") apply(false)
