@@ -132,7 +132,7 @@ if ('serviceWorker' in navigator)
     </div>
     
       <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid" aria-label="">
+  <nav class="md-header-nav md-grid" aria-label="Header">
     <a href="https://hexagonkt.com" title="Hexagon" class="md-header-nav__button md-logo" aria-label="Hexagon">
       
   <img src="../img/logo_white.svg" alt="logo">
@@ -155,6 +155,36 @@ if ('serviceWorker' in navigator)
         </div>
       
     </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
     
     
       <div class="md-header-nav__source">
@@ -183,7 +213,7 @@ if ('serviceWorker' in navigator)
 
   
 
-<nav class="md-tabs md-tabs--active" aria-label="" data-md-component="tabs">
+<nav class="md-tabs md-tabs--active" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
       
@@ -257,7 +287,7 @@ if ('serviceWorker' in navigator)
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" aria-label="" data-md-level="0">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="https://hexagonkt.com" title="Hexagon" class="md-nav__button md-logo" aria-label="Hexagon">
       
@@ -545,6 +575,18 @@ if ('serviceWorker' in navigator)
   <li class="md-nav__item">
     <a href="../hexagon_core/" title="Core" class="md-nav__link">
       Core
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../hexagon_settings/" title="Settings" class="md-nav__link">
+      Settings
     </a>
   </li>
 
@@ -1252,20 +1294,21 @@ kinds of modules:</p>
 <h2 id="hexagon-core">Hexagon Core<a class="headerlink" href="#hexagon-core" title="Permanent link">&para;</a></h2>
 <p>The <a href="/hexagon_core">Hexagon Core</a> module is used by all other libraries, so it would be added to your project
 anyway just by using any adapter.</p>
-<p>Core utilities like settings handling, logging, serialization, and dependency injection.
-The toolkit's ports are designed to use core functionalities. You can use a third party DI library
-instead of using the Core one. It depends on Logback and Jackson.</p>
-<p>The main features it has are:</p>
+<p>Core utilities like, logging, serialization, and dependency injection. Toolkit's ports are designed
+to use core functionalities. You can use a third party DI library instead of using the Core one. It
+depends on Logback and Jackson.</p>
+<p>The main features are the following:</p>
 <ul>
 <li><a href="/hexagon_core/com.hexagonkt.helpers">Helpers</a>: JVM information, a logger and other useful utilities.</li>
 <li><a href="/hexagon_core/com.hexagonkt.injection">Dependency Injection</a>: bind classes to creation closures or instances and inject them.</li>
 <li><a href="/hexagon_core/com.hexagonkt.serialization">Instance Serialization</a>: parse/serialize data in different formats to class instances.</li>
-<li><a href="/hexagon_core/com.hexagonkt.settings">Configuration Settings</a>: load settings from different data sources and formats.</li>
 </ul>
 <h2 id="other-modules">Other Modules<a class="headerlink" href="#other-modules" title="Permanent link">&para;</a></h2>
 <p>The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.</p>
 <ul>
+<li><a href="/hexagon_settings">Settings</a>: load settings from different data sources and formats. This properties are made
+  available to other components through the <a href="/hexagon_settings/com.hexagonkt.settings/-settings-manager">SettingsManager</a>.</li>
 <li><a href="/hexagon_scheduler">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.
   However, you have to be careful to not run tasks twice if you have many instances.</li>
 <li><a href="/hexagon_web">Web</a>: this module is meant to ease web application development. Provides helpers for
@@ -1305,7 +1348,7 @@ a particular use case.</p>
 <footer class="md-footer">
   
   <div class="md-footer-nav">
-    <nav class="md-footer-nav__inner md-grid" aria-label="">
+    <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
       
       <a href="../quick_start/"
          title="Quick Start"
@@ -1451,7 +1494,7 @@ a particular use case.</p>
     </div>
     
       <script src="../assets/javascripts/vendor.2d1db4bd.min.js"></script>
-      <script src="../assets/javascripts/bundle.6627ddf3.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "", "search.config.pipeline": "", "search.config.separator": "", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="../assets/javascripts/bundle.6627ddf3.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
       
       <script>
         app = initialize({

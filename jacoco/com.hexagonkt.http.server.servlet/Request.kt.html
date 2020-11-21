@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Request.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">Request.kt</span></div><h1>Request.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
+
+import com.hexagonkt.http.Method
+import com.hexagonkt.http.Part
+import com.hexagonkt.http.Path
+import com.hexagonkt.http.parseQueryParameters
+import com.hexagonkt.http.server.Request
+import java.io.InputStreamReader
+import java.net.HttpCookie
+import java.security.cert.X509Certificate
+import javax.servlet.http.HttpServletRequest
+
+<span class="fc" id="L13">internal class Request(private val req: HttpServletRequest) : Request() {</span>
+
+<span class="fc" id="L15">    private val certificateAttribute = &quot;javax.servlet.request.X509Certificate&quot;</span>
+
+<span class="fc" id="L17">    private val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
+    }
+
+<span class="fc" id="L21">    var actionPath: Path? = null</span>
+
+<span class="fc bfc" id="L23" title="All 4 branches covered.">    override fun path(): String = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath</span>
+<span class="fc" id="L24">    override fun loadBody(): String = InputStreamReader(req.inputStream).readText()</span>
+<span class="fc" id="L25">    override fun scheme(): String = req.scheme</span>
+<span class="fc" id="L26">    override fun port(): Int = req.serverPort</span>
+<span class="fc" id="L27">    override fun method(): Method = Method.valueOf(req.method)</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">    override fun queryString(): String = req.queryString ?: &quot;&quot;</span>
+<span class="fc" id="L29">    override fun contentLength(): Long = req.contentLength.toLong()</span>
+<span class="fc" id="L30">    override fun contentType(): String? = req.contentType</span>
+<span class="fc" id="L31">    override fun host(): String = req.remoteHost</span>
+<span class="fc" id="L32">    override fun url(): String = req.requestURL.toString()</span>
+<span class="fc" id="L33">    override fun ip(): String = req.remoteAddr</span>
+
+    override fun pathParameters(): Map&lt;String, String&gt; =
+<span class="pc bpc" id="L36" title="1 of 4 branches missed.">        actionPath?.extractParameters(path()) ?: emptyMap()</span>
+
+    override fun queryParameters(): Map&lt;String, List&lt;String&gt;&gt; =
+<span class="fc" id="L39">        parseQueryParameters(queryString)</span>
+
+    override fun formParameters(): Map&lt;String, List&lt;String&gt;&gt; =
+<span class="fc bfc" id="L42" title="All 4 branches covered.">        parameters.filter { it.key !in queryParametersValues.keys }</span>
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;)
+    override fun certificateChain(): List&lt;X509Certificate&gt; =
+<span class="pc bpc" id="L46" title="2 of 4 branches missed.">        (req.getAttribute(certificateAttribute) as? Array&lt;X509Certificate&gt;)</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">            ?.toList()</span>
+<span class="pc" id="L48">            ?: emptyList()</span>
+
+    override fun headers(): Map&lt;String, List&lt;String&gt;&gt; =
+<span class="fc" id="L51">        req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()</span>
+
+    override fun cookies(): Map&lt;String, HttpCookie&gt; =
+<span class="fc" id="L54">        try {</span>
+<span class="fc" id="L55">            val map = req.cookies.map { HttpCookie(it.name, it.value) }.map { it.name to it }</span>
+<span class="fc" id="L56">            map.toMap()</span>
+        }
+<span class="fc" id="L58">        catch (e: Exception) {</span>
+<span class="fc" id="L59">            mapOf()</span>
+<span class="fc" id="L60">        }</span>
+
+    override fun parts(): Map&lt;String, Part&gt; =
+<span class="fc" id="L63">        req.parts</span>
+<span class="fc" id="L64">            .map {</span>
+<span class="fc" id="L65">                Part(</span>
+<span class="fc" id="L66">                    contentType = it.contentType,</span>
+<span class="fc" id="L67">                    headers = it.headerNames</span>
+<span class="fc" id="L68">                        .filterNotNull()</span>
+<span class="fc" id="L69">                        .map { hn -&gt; hn to it.getHeaders(hn).toList() }</span>
+<span class="fc" id="L70">                        .toMap(),</span>
+<span class="fc" id="L71">                    inputStream = it.inputStream,</span>
+<span class="fc" id="L72">                    name = it.name,</span>
+<span class="fc" id="L73">                    size = it.size,</span>
+<span class="fc" id="L74">                    submittedFileName = it.submittedFileName</span>
+                )
+            }
+<span class="fc" id="L77">            .associateBy { it.name }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

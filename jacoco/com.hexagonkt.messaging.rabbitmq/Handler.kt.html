@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Handler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.messaging.rabbitmq</a> &gt; <span class="el_source">Handler.kt</span></div><h1>Handler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.helpers.Logger
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.retry
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formatOf
@@ -31,7 +31,7 @@ import kotlin.reflect.KClass
         private const val DELAY = 50L
     }
 
-<span class="fc" id="L34">    private val log: Logger = Logger(this)</span>
+<span class="fc" id="L34">    private val log: Logger = Logger(this::class)</span>
 
 <span class="fc" id="L36">    private val client: RabbitMqClient by lazy { RabbitMqClient(connectionFactory) }</span>
 
@@ -76,31 +76,42 @@ import kotlin.reflect.KClass
 <span class="fc" id="L76">        log.error { &quot;Unexpected cancel for the consumer $consumerTag&quot; }</span>
 <span class="fc" id="L77">    }</span>
 
+    /** @see DefaultConsumer.handleCancelOk */
     override fun handleCancelOk(consumerTag: String) {
-<span class="nc" id="L80">        log.debug { &quot;Explicit cancel for the consumer $consumerTag&quot; }</span>
-<span class="nc" id="L81">    }</span>
+<span class="nc" id="L81">        log.debug { &quot;Explicit cancel for the consumer $consumerTag&quot; }</span>
+<span class="nc" id="L82">    }</span>
 
     /** @see DefaultConsumer.handleShutdownSignal */
-    override fun handleShutdownSignal(consumerTag: String?, sig: ShutdownSignalException?) {
-<span class="pc bpc" id="L85" title="2 of 4 branches missed.">        val msg = sig?.localizedMessage ?: &quot;&quot;</span>
-<span class="fc" id="L86">        log.error { &quot;Error shutting down $msg&quot; }</span>
-<span class="fc" id="L87">    }</span>
-
-    private fun handleResponse(response: R, replyTo: String, correlationId: String?) {
-<span class="fc" id="L90">        val output = when (response) {</span>
-<span class="fc bfc" id="L91" title="All 2 branches covered.">            is String -&gt; response</span>
-<span class="fc bfc" id="L92" title="All 2 branches covered.">            is Int -&gt; response.toString()</span>
-<span class="fc bfc" id="L93" title="All 2 branches covered.">            is Long -&gt; response.toString()</span>
-<span class="fc" id="L94">            else -&gt; response.serialize()</span>
+    override fun handleShutdownSignal(consumerTag: String, sig: ShutdownSignalException) {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (sig.isInitiatedByApplication) {</span>
+<span class="fc" id="L87">            log.debug { &quot;Consumer $consumerTag: shutdown is initiated by application. Ignoring it&quot; }</span>
         }
+        else {
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">            val msg = sig.localizedMessage ?: &quot;&quot;</span>
+<span class="fc" id="L91">            log.debug { &quot;Consumer $consumerTag shutdown error $msg&quot; }</span>
+        }
+<span class="fc" id="L93">    }</span>
 
-<span class="fc" id="L97">        client.publish(replyTo, output, correlationId)</span>
+    /** @see DefaultConsumer.handleConsumeOk */
+    override fun handleConsumeOk(consumerTag: String) {
+<span class="fc" id="L97">        log.debug { &quot;Consumer $consumerTag has been registered&quot; }</span>
 <span class="fc" id="L98">    }</span>
 
+    private fun handleResponse(response: R, replyTo: String, correlationId: String?) {
+<span class="fc" id="L101">        val output = when (response) {</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            is String -&gt; response</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">            is Int -&gt; response.toString()</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">            is Long -&gt; response.toString()</span>
+<span class="fc" id="L105">            else -&gt; response.serialize()</span>
+        }
+
+<span class="fc" id="L108">        client.publish(replyTo, output, correlationId)</span>
+<span class="fc" id="L109">    }</span>
+
     private fun handleError(exception: Exception, replyTo: String, correlationId: String?) {
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        val message = exception.message ?: &quot;&quot;</span>
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        val errorMessage = if (message.isBlank()) exception.javaClass.name else message</span>
-<span class="fc" id="L103">        client.publish(replyTo, errorMessage, correlationId)</span>
-<span class="fc" id="L104">    }</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        val message = exception.message ?: &quot;&quot;</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        val errorMessage = if (message.isBlank()) exception.javaClass.name else message</span>
+<span class="fc" id="L114">        client.publish(replyTo, errorMessage, correlationId)</span>
+<span class="fc" id="L115">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

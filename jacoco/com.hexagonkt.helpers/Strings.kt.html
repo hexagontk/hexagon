@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Strings.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.helpers</a> &gt; <span class="el_source">Strings.kt</span></div><h1>Strings.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.helpers
+
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.lang.System.getProperty
+import java.text.Normalizer.Form.NFD
+import java.text.Normalizer.normalize
+
+/** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
+private const val VARIABLE_PREFIX = &quot;#{&quot;
+/** Variable suffix for string filtering. */
+private const val VARIABLE_SUFFIX = &quot;}&quot;
+
+/** Runtime specific end of line. */
+<span class="fc" id="L15">val eol: String by lazy { getProperty(&quot;line.separator&quot;) }</span>
+
+/**
+ * Filter the target string substituting each key by its value. The keys format is:
+ * `#{key}` and all occurrences are replaced by the supplied value.
+ *
+ * If a variable does not have a parameter, it is left as it is.
+ *
+ * @param parameters The map with the list of key/value tuples.
+ * @return The filtered text or the same string if no values are passed or found in the text.
+ * @sample com.hexagonkt.helpers.StringsSamplesTest.filterVarsExample
+ */
+fun String.filterVars(parameters: Map&lt;*, *&gt;): String =
+<span class="fc" id="L28">    parameters.entries</span>
+<span class="fc" id="L29">        .asSequence()</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        .filter { it.key.toString().isNotEmpty() }</span>
+<span class="fc" id="L31">        .fold(this) { result, pair -&gt;</span>
+<span class="fc" id="L32">            val key = pair.key.toString()</span>
+<span class="fc" id="L33">            val value = pair.value.toString()</span>
+<span class="fc" id="L34">            result.replace(&quot;$VARIABLE_PREFIX$key$VARIABLE_SUFFIX&quot;, value)</span>
+<span class="fc" id="L35">        }</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param parameters .
+ * @return .
+ */
+fun String.filterVars(vararg parameters: Pair&lt;*, *&gt;) =
+<span class="fc" id="L45">    this.filterVars(mapOf(*parameters))</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param prefix .
+ * @param suffix .
+ * @param parameters .
+ * @return .
+ */
+fun String.filter(prefix: String, suffix: String, vararg parameters: Pair&lt;String, String&gt;): String =
+<span class="fc" id="L57">    parameters.fold(this) { result, (first, second) -&gt;</span>
+<span class="fc" id="L58">        result.replace(prefix + first + suffix, second)</span>
+<span class="fc" id="L59">    }</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param text .
+ * @return .
+ */
+fun Regex.findGroups(text: String): List&lt;MatchGroup&gt; =
+<span class="pc bpc" id="L69" title="1 of 4 branches missed.">    (this.find(text)?.groups ?: emptyList&lt;MatchGroup&gt;())</span>
+<span class="fc" id="L70">        .filterNotNull()</span>
+<span class="fc" id="L71">        .drop(1)</span>
+
+/**
+ * Transform the target string from snake case to camel case.
+ */
+fun String.snakeToCamel(): String =
+<span class="fc" id="L77">    this.split(&quot;_&quot;)</span>
+<span class="fc" id="L78">        .asSequence()</span>
+<span class="fc" id="L79">        .filter(String::isNotEmpty)</span>
+<span class="fc" id="L80">        .joinToString(&quot;&quot;, transform = String::capitalize)</span>
+<span class="fc" id="L81">        .decapitalize()</span>
+
+/**
+ * Transform the target string from camel case to snake case.
+ */
+fun String.camelToSnake(): String =
+<span class="fc" id="L87">    this.split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex())</span>
+<span class="fc" id="L88">        .joinToString(&quot;_&quot;, transform = String::toLowerCase)</span>
+<span class="fc" id="L89">        .decapitalize()</span>
+
+/**
+ * Format the string as a banner with a delimiter above and below text. The character used to
+ * render the delimiter is defined.
+ *
+ * @param bannerDelimiter Delimiter char for banners.
+ */
+<span class="fc" id="L97">fun String.banner(bannerDelimiter: String = &quot;*&quot;): String =</span>
+<span class="fc" id="L98">    bannerDelimiter</span>
+<span class="fc" id="L99">        .repeat(this</span>
+<span class="fc" id="L100">            .lines()</span>
+<span class="fc" id="L101">            .asSequence()</span>
+<span class="fc" id="L102">            .map { it.length }</span>
+<span class="fc" id="L103">            .maxOrElse(0)</span>
+        )
+<span class="fc" id="L105">        .let { &quot;$it$eol$this$eol$it&quot; }</span>
+
+fun String.stripAccents(): String =
+<span class="fc" id="L108">    normalize(this, NFD).replace(&quot;\\p{M}&quot;.toRegex(), &quot;&quot;)</span>
+
+fun String.toStream(): InputStream =
+<span class="fc" id="L111">    ByteArrayInputStream(this.toByteArray())</span>
+
+fun utf8(vararg bytes: Int): String =
+<span class="fc" id="L114">    String(bytes.map(Int::toByte).toByteArray())</span>
+
+<span class="fc" id="L116">fun String.globToRegex(): Regex = Regex(</span>
+<span class="fc" id="L117">    this.map {</span>
+<span class="fc bfc" id="L118" title="All 5 branches covered.">        when (it) {</span>
+<span class="fc" id="L119">            '*' -&gt; &quot;.*&quot;</span>
+<span class="fc" id="L120">            '?' -&gt; &quot;.&quot;</span>
+<span class="fc" id="L121">            '.' -&gt; &quot;\\.&quot;</span>
+<span class="fc" id="L122">            '\\' -&gt; &quot;\\\\&quot;</span>
+<span class="fc" id="L123">            else -&gt; it.toString()</span>
+        }
+    }
+<span class="fc" id="L126">    .joinToString(&quot;&quot;, &quot;^&quot;, &quot;$&quot;)</span>
+<span class="fc" id="L127">)</span>
+
+<span class="fc" id="L129">fun String.indent(count: Int = 4, pad: String = &quot; &quot;) =</span>
+<span class="fc" id="L130">    this.lines().joinToString(eol) { pad.repeat(count) + it }</span>
+
+internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
+<span class="fc bfc" id="L133" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

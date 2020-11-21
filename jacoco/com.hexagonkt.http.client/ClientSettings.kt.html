@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientSettings.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.client</a> &gt; <span class="el_source">ClientSettings.kt</span></div><h1>ClientSettings.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.client
+
+import com.hexagonkt.http.SslSettings
+import com.hexagonkt.serialization.SerializationFormat
+
+<span class="fc" id="L6">data class ClientSettings(</span>
+<span class="fc" id="L7">    val contentType: String? = null,</span>
+<span class="fc" id="L8">    val useCookies: Boolean = true,</span>
+<span class="fc" id="L9">    val headers: Map&lt;String, List&lt;String&gt;&gt; = LinkedHashMap(),</span>
+<span class="fc" id="L10">    val user: String? = null,</span>
+<span class="fc" id="L11">    val password: String? = null,</span>
+<span class="fc" id="L12">    val insecure: Boolean = false,</span>
+<span class="fc" id="L13">    val sslSettings: SslSettings? = null</span>
+) {
+
+<span class="fc" id="L16">    constructor(</span>
+        format: SerializationFormat,
+<span class="fc" id="L18">        useCookies: Boolean = true,</span>
+<span class="fc" id="L19">        headers: Map&lt;String, List&lt;String&gt;&gt; = LinkedHashMap(),</span>
+<span class="fc" id="L20">        user: String? = null,</span>
+<span class="fc" id="L21">        password: String? = null,</span>
+<span class="fc" id="L22">        insecure: Boolean = false):</span>
+<span class="fc" id="L23">            this(format.contentType, useCookies, headers, user, password, insecure)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

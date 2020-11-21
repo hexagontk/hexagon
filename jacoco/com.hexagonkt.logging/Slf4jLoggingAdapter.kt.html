@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Slf4jLoggingAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging</a> &gt; <span class="el_source">Slf4jLoggingAdapter.kt</span></div><h1>Slf4jLoggingAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging
+
+import com.hexagonkt.logging.LoggingLevel.DEBUG
+import com.hexagonkt.logging.LoggingLevel.ERROR
+import com.hexagonkt.logging.LoggingLevel.INFO
+import com.hexagonkt.logging.LoggingLevel.TRACE
+import com.hexagonkt.logging.LoggingLevel.WARN
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+<span class="fc" id="L11">object Slf4jLoggingAdapter : LoggingPort {</span>
+
+    override fun createLogger(name: String): LoggerPort =
+<span class="fc" id="L14">        object : LoggerPort {</span>
+<span class="pc" id="L15">            val log: Logger = LoggerFactory.getLogger(name)</span>
+
+            override fun log(level: LoggingLevel, message: () -&gt; Any?) {
+<span class="pc bpc" id="L18" title="1 of 6 branches missed.">                when (level) {</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">                    TRACE -&gt; if (log.isTraceEnabled) log.trace(message().toString())</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">                    DEBUG -&gt; if (log.isDebugEnabled) log.debug(message().toString())</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">                    INFO -&gt; if (log.isInfoEnabled) log.info(message().toString())</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">                    WARN -&gt; if (log.isWarnEnabled) log.warn(message().toString())</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">                    ERROR -&gt; if (log.isErrorEnabled) log.error(message().toString())</span>
+                }
+<span class="fc" id="L25">            }</span>
+
+            override fun &lt;E : Throwable&gt; log(
+                level: LoggingLevel,
+                exception: E,
+                message: (E) -&gt; Any?,
+            ) {
+<span class="pc bpc" id="L32" title="4 of 6 branches missed.">                when (level) {</span>
+                    TRACE -&gt;
+<span class="nc bnc" id="L34" title="All 2 branches missed.">                        if (log.isTraceEnabled) log.trace(message(exception).toString(), exception)</span>
+                    DEBUG -&gt;
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                        if (log.isDebugEnabled) log.debug(message(exception).toString(), exception)</span>
+                    INFO -&gt;
+<span class="nc bnc" id="L38" title="All 2 branches missed.">                        if (log.isInfoEnabled) log.info(message(exception).toString(), exception)</span>
+                    WARN -&gt;
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                        if (log.isWarnEnabled) log.warn(message(exception).toString(), exception)</span>
+                    ERROR -&gt;
+<span class="fc bfc" id="L42" title="All 2 branches covered.">                        if (log.isErrorEnabled) log.error(message(exception).toString(), exception)</span>
+                }
+<span class="fc" id="L44">            }</span>
+<span class="fc" id="L45">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

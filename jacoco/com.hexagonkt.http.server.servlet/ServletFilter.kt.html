@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletFilter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletFilter.kt</span></div><h1>ServletFilter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
+
+import com.hexagonkt.http.Method
+import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.logging.Logger
+import com.hexagonkt.http.ALL
+import com.hexagonkt.http.server.*
+import com.hexagonkt.http.server.FilterOrder.AFTER
+import com.hexagonkt.http.server.FilterOrder.BEFORE
+import com.hexagonkt.http.server.RequestHandler.*
+import com.hexagonkt.http.Path
+import com.hexagonkt.http.Route
+import com.hexagonkt.serialization.SerializationManager.contentTypeOf
+import java.io.File
+import java.io.InputStream
+import java.net.URL
+
+import javax.servlet.*
+import javax.servlet.http.HttpServletRequest as HttpRequest
+import javax.servlet.http.HttpServletResponse as HttpResponse
+
+<span class="fc" id="L22">class ServletFilter(router: List&lt;RequestHandler&gt;) : Filter {</span>
+
+    /**
+     * Exception used for stopping the execution. It is used only for flow control.
+     */
+<span class="fc" id="L27">    private class PassException: RuntimeException()</span>
+
+<span class="fc" id="L29">    private val log: Logger = Logger(this::class)</span>
+
+<span class="fc" id="L31">    private val notFoundHandler: ErrorCodeCallback = { send(404, &quot;${request.url} not found&quot;) }</span>
+    private val baseExceptionHandler: ExceptionCallback =
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        { send(500, &quot;${it.javaClass.simpleName} (${it.message ?: &quot;no details&quot;})&quot;) }</span>
+
+<span class="fc" id="L35">    private val allHandlers = listOf(</span>
+<span class="fc" id="L36">        CodeHandler(Route(Path(&quot;/&quot;), ALL), 404, notFoundHandler),</span>
+<span class="fc" id="L37">        ExceptionHandler(Route(Path(&quot;/&quot;), ALL), Exception::class.java, baseExceptionHandler)</span>
+<span class="fc" id="L38">    ) + router</span>
+
+<span class="fc" id="L40">    private val routesByMethod: Map&lt;Method, List&lt;RouteHandler&gt;&gt; = router</span>
+<span class="fc" id="L41">        .asSequence()</span>
+<span class="fc" id="L42">        .map {</span>
+<span class="fc" id="L43">            when (it) {</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">                is ResourceHandler -&gt;</span>
+<span class="fc" id="L45">                    RouteHandler(it.route, createResourceHandler(it.route, it.resource))</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">                is FileHandler -&gt;</span>
+<span class="fc" id="L47">                    RouteHandler(it.route, createResourceHandler(it.route, it.file))</span>
+                else -&gt;
+<span class="fc" id="L49">                    it</span>
+            }
+        }
+<span class="fc" id="L52">        .filterIsInstance(RouteHandler::class.java)</span>
+<span class="fc" id="L53">        .groupBy { it.route.methods.first() }</span>
+
+<span class="fc" id="L55">    private val filtersByOrder: Map&lt;FilterOrder, List&lt;Pair&lt;Route, RouteCallback&gt;&gt;&gt; = router</span>
+<span class="fc" id="L56">        .asSequence()</span>
+<span class="fc" id="L57">        .filterIsInstance(FilterHandler::class.java)</span>
+<span class="fc" id="L58">        .groupBy { it.order }</span>
+<span class="fc" id="L59">        .mapValues { entry -&gt; entry.value.map { it.route to it.callback } }</span>
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">    private val beforeFilters = filtersByOrder[BEFORE] ?: listOf()</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">    private val afterFilters = filtersByOrder[AFTER] ?: listOf()</span>
+
+<span class="fc" id="L64">    private val codedErrors: Map&lt;Int, ErrorCodeCallback&gt; = allHandlers</span>
+<span class="fc" id="L65">        .asSequence()</span>
+<span class="fc" id="L66">        .filterIsInstance(CodeHandler::class.java)</span>
+<span class="fc" id="L67">        .map { it.code to it.callback }</span>
+<span class="fc" id="L68">        .toMap()</span>
+
+<span class="fc" id="L70">    private val exceptionErrors: Map&lt;Class&lt;out Exception&gt;, ExceptionCallback&gt; = allHandlers</span>
+<span class="fc" id="L71">        .asSequence()</span>
+<span class="fc" id="L72">        .filterIsInstance(ExceptionHandler::class.java)</span>
+<span class="fc" id="L73">        .map { it.exception to it.callback }</span>
+<span class="fc" id="L74">        .toMap()</span>
+
+    /**
+     * TODO Take care of filters that throw exceptions
+     */
+    private fun filter(req: Request, call: Call, filters: List&lt;Pair&lt;Route, RouteCallback&gt;&gt;) {
+<span class="fc" id="L80">        filters</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">            .filter { it.first.path.matches(req.path) }</span>
+<span class="fc" id="L82">            .map {</span>
+<span class="fc" id="L83">                req.actionPath = it.first.path</span>
+<span class="fc" id="L84">                call.(it.second)()</span>
+<span class="pc" id="L85">                log.trace { &quot;Filter for path '${it.first.path}' executed&quot; }</span>
+<span class="fc" id="L86">            }</span>
+<span class="fc" id="L87">    }</span>
+
+    private fun route(call: Call, bRequest: Request): Boolean {
+<span class="fc" id="L90">        val routes = routesByMethod[call.request.method]</span>
+<span class="fc" id="L91">        val methodRoutes =</span>
+<span class="pc bpc" id="L92" title="1 of 4 branches missed.">            routes?.filter { it.route.path.matches(call.request.path) } ?: emptyList()</span>
+
+<span class="fc" id="L94">        try {</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            for ((first, second) in methodRoutes) {</span>
+<span class="fc" id="L96">                try {</span>
+<span class="fc" id="L97">                    bRequest.actionPath = first.path</span>
+<span class="fc" id="L98">                    call.second()</span>
+
+<span class="pc" id="L100">                    log.trace { &quot;Route for path '${bRequest.actionPath}' executed&quot; }</span>
+<span class="fc" id="L101">                    return true</span>
+                }
+<span class="fc" id="L103">                catch (e: PassException) {</span>
+<span class="pc" id="L104">                    log.trace { &quot;Handler for path '${bRequest.actionPath}' passed&quot; }</span>
+<span class="fc" id="L105">                    continue</span>
+                }
+            }
+<span class="fc" id="L108">            return false</span>
+        }
+<span class="fc" id="L110">        catch(e: CodedException) {</span>
+<span class="fc" id="L111">            handleException(e, call)</span>
+<span class="fc" id="L112">            return true</span>
+        }
+    }
+
+<span class="fc" id="L116">    override fun init(filterConfig: FilterConfig) { /* Not implemented */ }</span>
+
+<span class="fc" id="L118">    override fun destroy() { /* Not implemented */ }</span>
+
+    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
+
+        // TODO Temporary hack only valid for Jetty
+<span class="fc" id="L123">        val multipartConfig = MultipartConfigElement(&quot;/tmp&quot;)</span>
+<span class="fc" id="L124">        request.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
+
+<span class="fc" id="L126">        doFilter(request, response)</span>
+<span class="fc" id="L127">    }</span>
+
+    private fun doFilter(request: ServletRequest, response: ServletResponse) {
+
+<span class="pc bpc" id="L131" title="1 of 4 branches missed.">        if (request !is HttpRequest || response !is HttpResponse)</span>
+<span class="fc" id="L132">            error(&quot;Invalid request/response parameters&quot;)</span>
+
+<span class="fc" id="L134">        val bRequest = Request(request)</span>
+<span class="fc" id="L135">        val bResponse = Response(request, response)</span>
+<span class="fc" id="L136">        val bSession = Session(request)</span>
+<span class="fc" id="L137">        val call = Call(bRequest, bResponse, bSession)</span>
+<span class="fc" id="L138">        var handled = false</span>
+
+<span class="fc" id="L140">        try {</span>
+<span class="fc" id="L141">            try {</span>
+<span class="fc" id="L142">                filter(bRequest, call, beforeFilters)</span>
+<span class="fc" id="L143">                handled = route(call, bRequest)</span>
+            }
+            finally {
+<span class="fc" id="L146">                filter(bRequest, call, afterFilters)</span>
+            }
+
+<span class="fc bfc" id="L149" title="All 2 branches covered.">            if (!handled)</span>
+<span class="fc" id="L150">                throw CodedException(404)</span>
+        }
+<span class="fc" id="L152">        catch (e: Exception) {</span>
+<span class="fc" id="L153">            handleException(e, call)</span>
+        }
+        finally {
+            // TODO Try needed because of a problem with Jetty's response redirect: fix and remove
+<span class="fc" id="L157">            try {</span>
+<span class="fc" id="L158">                call.response.headersValues.forEach { header -&gt;</span>
+<span class="fc" id="L159">                    header.value.forEach { value -&gt;</span>
+<span class="fc" id="L160">                        response.addHeader(header.key, value.toString())</span>
+<span class="fc" id="L161">                    }</span>
+<span class="fc" id="L162">                }</span>
+<span class="fc" id="L163">                response.status = call.response.status</span>
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">                response.outputStream.write(call.response.body.toString().toByteArray())</span>
+<span class="fc" id="L165">                response.outputStream.flush()</span>
+            }
+<span class="fc" id="L167">            catch (e: Exception) {</span>
+<span class="fc" id="L168">                log.warn(e) { &quot;Error handling request: ${bRequest.actionPath}&quot; }</span>
+            }
+
+<span class="pc bnc" id="L171" title="All 2 branches missed.">            log.trace { &quot;Status ${response.status} &lt;${if (handled) &quot;&quot; else &quot;NOT &quot;}HANDLED&gt;&quot; }</span>
+        }
+<span class="fc" id="L173">    }</span>
+
+    private fun handleException(
+<span class="fc" id="L176">        exception: Exception, call: Call, type: Class&lt;*&gt; = exception.javaClass) {</span>
+
+<span class="pc" id="L178">        log.trace { &quot;Handling '${exception.javaClass.simpleName}' exception at request processing&quot; }</span>
+
+<span class="fc" id="L180">        when (exception) {</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">            is CodedException -&gt; {</span>
+<span class="fc" id="L182">                val handler = codedErrors[exception.code]</span>
+
+<span class="fc bfc" id="L184" title="All 2 branches covered.">                if (handler != null)</span>
+<span class="fc" id="L185">                    call.handler(exception)</span>
+                else {
+<span class="fc" id="L187">                    val hnd = exceptionErrors[type]</span>
+
+<span class="fc bfc" id="L189" title="All 2 branches covered.">                    if (hnd != null)</span>
+<span class="fc" id="L190">                        call.hnd(exception)</span>
+                    else {
+<span class="fc" id="L192">                        val hnd2: ErrorCodeCallback =</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">                            { send(exception.code, exception.message ?: &quot;&quot;) }</span>
+<span class="fc" id="L194">                        call.hnd2(exception)</span>
+                    }
+<span class="fc" id="L196">                }</span>
+            }
+            else -&gt; {
+<span class="fc" id="L199">                val handler = exceptionErrors[type]</span>
+
+<span class="fc bfc" id="L201" title="All 2 branches covered.">                if (handler != null)</span>
+<span class="fc" id="L202">                    call.handler(exception)</span>
+                else
+<span class="fc" id="L204">                    type.superclass.also { handleException(exception, call, it) }</span>
+            }
+        }
+<span class="fc" id="L207">    }</span>
+
+<span class="fc" id="L209">    private fun createResourceHandler(route: Route, resourcesFolder: URL): RouteCallback = {</span>
+<span class="fc" id="L210">        val requestPath = getRequestPath(route)</span>
+<span class="fc" id="L211">        val resourcePath = &quot;/${resourcesFolder.path}$requestPath&quot;</span>
+<span class="fc" id="L212">        val stream = javaClass.getResourceAsStream(resourcePath)</span>
+
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        if (stream == null)</span>
+<span class="fc" id="L215">            response.status = 404</span>
+        else
+<span class="fc" id="L217">            returnAsset(resourcePath, stream)</span>
+<span class="fc" id="L218">    }</span>
+
+<span class="fc" id="L220">    private fun createResourceHandler(route: Route, resourcesFolder: File): RouteCallback = {</span>
+<span class="fc" id="L221">        val requestPath = getRequestPath(route).removePrefix(&quot;/&quot;)</span>
+<span class="fc" id="L222">        val file = resourcesFolder.resolve(requestPath).absoluteFile</span>
+
+<span class="fc bfc" id="L224" title="All 2 branches covered.">        if (!file.exists())</span>
+<span class="fc" id="L225">            response.status = 404</span>
+        else
+<span class="fc" id="L227">            returnAsset(file.absolutePath, file.inputStream())</span>
+<span class="fc" id="L228">    }</span>
+
+    private fun Call.returnAsset(resourcePath: String, stream: InputStream) {
+<span class="fc" id="L231">        val contentType by lazy { contentTypeOf(request.path.substringAfterLast('.')) }</span>
+
+        // Should be done BEFORE flushing the stream (if not content type is ignored)
+<span class="pc bpc" id="L234" title="2 of 4 branches missed.">        if (response.contentType == null &amp;&amp; contentType != null)</span>
+<span class="fc" id="L235">            response.contentType = contentType</span>
+
+<span class="pc" id="L237">        log.trace { &quot;Resource for '$resourcePath' (${response.contentType}) returned&quot; }</span>
+<span class="fc" id="L238">        val bytes = stream.readBytes()</span>
+<span class="fc" id="L239">        response.outputStream.write(bytes)</span>
+<span class="fc" id="L240">        response.outputStream.flush()</span>
+<span class="fc" id="L241">    }</span>
+
+    private fun Call.getRequestPath(route: Route): String {
+<span class="fc bfc" id="L244" title="All 2 branches covered.">        if (request.path.endsWith(&quot;/&quot;))</span>
+<span class="fc" id="L245">            throw PassException()</span>
+
+<span class="fc" id="L247">        return request.path.removePrefix(route.path.pattern.removeSuffix(&quot;/*&quot;))</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

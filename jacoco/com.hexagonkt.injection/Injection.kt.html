@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Injection.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.injection</a> &gt; <span class="el_source">Injection.kt</span></div><h1>Injection.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.injection
+
+import kotlin.reflect.KClass
+import com.hexagonkt.injection.InjectionManager.logger
+
+<span class="fc" id="L6">data class Target&lt;T : Any&gt;(</span>
+<span class="fc" id="L7">    val type: KClass&lt;T&gt;,</span>
+<span class="pc" id="L8">    val tag: Any = Unit,</span>
+)
+
+sealed class Provider&lt;out T : Any&gt; {
+    abstract fun provide(): T
+}
+
+<span class="pc" id="L15">data class Generator&lt;out T : Any&gt;(val generator: () -&gt; T) : Provider&lt;T&gt;() {</span>
+    override fun provide(): T =
+<span class="fc" id="L17">        generator()</span>
+}
+
+<span class="pc" id="L20">data class Instance&lt;out T : Any&gt;(val instance: T) : Provider&lt;T&gt;() {</span>
+    override fun provide(): T =
+<span class="fc" id="L22">        instance</span>
+}
+
+<span class="fc" id="L25">fun &lt;T : Any, R : T&gt; forceBind(type: KClass&lt;T&gt;, provider: Provider&lt;R&gt;, tag: Any = Unit) {</span>
+<span class="fc" id="L26">    val key = Target(type, tag)</span>
+
+<span class="fc" id="L28">    val binding = InjectionManager.binding(key)</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">    if (InjectionManager.bindings.containsKey(key)) {</span>
+<span class="fc" id="L30">        InjectionManager.bindings = InjectionManager.bindings - key // Required to change order</span>
+<span class="fc" id="L31">        logger.warn { &quot;$binding already bound (OVERRIDDEN). This should happen ONLY IN TEST&quot; }</span>
+    }
+    else {
+<span class="pc" id="L34">        logger.info { &quot;$binding bound to function (FORCED). This should happen ONLY IN TEST&quot; }</span>
+    }
+
+<span class="fc" id="L37">    InjectionManager.bindings = InjectionManager.bindings + (key to provider)</span>
+<span class="fc" id="L38">}</span>
+
+<span class="nc" id="L40">fun &lt;T : Any, R : T&gt; forceBind(type: KClass&lt;T&gt;, tag: Any = Unit, provider: () -&gt; R) {</span>
+<span class="nc" id="L41">    forceBind(type, Generator(provider), tag)</span>
+<span class="nc" id="L42">}</span>
+
+fun &lt;T : Any, R : T&gt; forceBind(type: KClass&lt;T&gt;, tag: Any, instance: R) {
+<span class="fc" id="L45">    forceBind(type, Instance(instance), tag)</span>
+<span class="fc" id="L46">}</span>
+
+fun &lt;T : Any, R : T&gt; forceBind(type: KClass&lt;T&gt;, instance: R) {
+<span class="fc" id="L49">    forceBind(type, Unit, instance)</span>
+<span class="fc" id="L50">}</span>
+
+fun &lt;T : Any, R : T&gt; forceBindSet(type: KClass&lt;T&gt;, instances: List&lt;Provider&lt;R&gt;&gt;) {
+<span class="fc" id="L53">    instances.forEachIndexed { ii, instance -&gt; forceBind(type, instance, ii) }</span>
+<span class="fc" id="L54">}</span>
+
+fun &lt;T : Any, R : T&gt; forceBindSet(type: KClass&lt;T&gt;, providers: Map&lt;Any, Provider&lt;R&gt;&gt;) {
+<span class="fc" id="L57">    providers.forEach { (k, v) -&gt; forceBind(type, v, k) }</span>
+<span class="fc" id="L58">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

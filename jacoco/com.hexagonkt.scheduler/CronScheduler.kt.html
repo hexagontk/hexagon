@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CronScheduler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.scheduler</a> &gt; <span class="el_source">CronScheduler.kt</span></div><h1>CronScheduler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.scheduler
+
+import com.hexagonkt.helpers.fail
+import com.cronutils.model.CronType.QUARTZ
+import com.cronutils.model.definition.CronDefinitionBuilder.instanceDefinitionFor as cronDefinition
+import com.cronutils.model.time.ExecutionTime
+import com.cronutils.parser.CronParser
+import com.hexagonkt.logging.Logger
+
+import java.lang.Runtime.getRuntime
+import java.time.ZonedDateTime
+import java.util.concurrent.ScheduledThreadPoolExecutor
+import java.util.concurrent.TimeUnit.SECONDS
+
+/**
+ * Scheduler to execute tasks repeatedly. After using it, you should call the [shutdown] method. If
+ * the JVM finishes without calling [shutdown], it will be called upon JVM termination.
+ *
+ * @param threads Number of threads used by the thread pool. By default it is equals to the number
+ *  of processors.
+ *
+ * @sample com.hexagonkt.scheduler.CronSchedulerSamplesTest.callbackExecutedProperly
+ */
+<span class="fc" id="L24">class CronScheduler(threads: Int = getRuntime().availableProcessors()) {</span>
+<span class="fc" id="L25">    private val log: Logger = Logger(this::class)</span>
+
+<span class="fc" id="L27">    private val scheduler = ScheduledThreadPoolExecutor(threads)</span>
+<span class="fc" id="L28">    private val cronParser = CronParser(cronDefinition(QUARTZ))</span>
+
+<span class="fc" id="L30">    init {</span>
+<span class="fc" id="L31">        getRuntime().addShutdownHook(Thread { shutdown() })</span>
+<span class="fc" id="L32">    }</span>
+
+    /**
+     * Schedules a block of code to be executed repeatedly by a
+     * [Cron](https://en.wikipedia.org/wiki/Cron) expresion.
+     *
+     * @param cronExpression Periodicity of the task in Cron format.
+     * @param callback Task code to be executed periodically.
+     */
+    fun schedule(cronExpression: String, callback: () -&gt; Unit) {
+<span class="fc" id="L42">        val cron = cronParser.parse(cronExpression)</span>
+<span class="fc" id="L43">        val cronExecution = ExecutionTime.forCron(cron)</span>
+
+<span class="fc" id="L45">        scheduler.schedule({ function(callback, cronExecution) }, delay(cronExecution), SECONDS)</span>
+<span class="fc" id="L46">    }</span>
+
+    /**
+     * Shuts down this scheduler's thread pool. Calling over an already closed scheduler does not
+     * have any effect. It is called by the JVM when it is shut down.
+     */
+    fun shutdown() {
+<span class="fc" id="L53">        scheduler.shutdown()</span>
+<span class="fc" id="L54">    }</span>
+
+    private fun delay(cronExecution: ExecutionTime): Long =
+<span class="pc" id="L57">        cronExecution.timeToNextExecution(ZonedDateTime.now()).orElseThrow { fail }.seconds</span>
+
+    private fun function(callback: () -&gt; Unit, cronExecution: ExecutionTime) {
+<span class="fc" id="L60">        try {</span>
+<span class="fc" id="L61">            callback()</span>
+        }
+<span class="fc" id="L63">        catch (e: Exception) {</span>
+<span class="pc" id="L64">            log.error(e) { &quot;Error executing cron job&quot; }</span>
+        }
+
+<span class="fc" id="L67">        scheduler.schedule({ function(callback, cronExecution) }, delay(cronExecution), SECONDS)</span>
+<span class="fc" id="L68">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

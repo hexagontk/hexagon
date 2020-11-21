@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AhcAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.client.ahc</a> &gt; <span class="el_source">AhcAdapter.kt</span></div><h1>AhcAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.client.ahc
+
+import com.hexagonkt.logging.Logger
+import com.hexagonkt.helpers.ensureSize
+import com.hexagonkt.helpers.fail
+import com.hexagonkt.serialization.SerializationManager.formatOf
+import com.hexagonkt.serialization.serialize
+import com.hexagonkt.http.Method
+import com.hexagonkt.http.Method.*
+import com.hexagonkt.http.client.*
+import io.netty.handler.codec.http.cookie.DefaultCookie
+import io.netty.handler.ssl.SslContext
+import io.netty.handler.ssl.SslContextBuilder.forClient as sslContextBuilderClient
+import org.asynchttpclient.BoundRequestBuilder
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory.INSTANCE as InsecureTrustManager
+import org.asynchttpclient.DefaultAsyncHttpClient
+import org.asynchttpclient.DefaultAsyncHttpClientConfig.Builder
+import org.asynchttpclient.request.body.multipart.InputStreamPart
+import org.asynchttpclient.request.body.multipart.StringPart
+import org.asynchttpclient.request.body.multipart.Part as AhcPart
+import java.io.File
+import java.net.HttpCookie
+import java.net.URL
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets.UTF_8
+import java.security.KeyStore
+import java.security.KeyStore.PasswordProtection
+import java.security.KeyStore.PrivateKeyEntry
+import java.security.cert.X509Certificate
+import java.util.*
+import java.util.Base64.Encoder
+
+/**
+ * Client to use other REST services.
+ */
+<span class="fc" id="L36">class AhcAdapter : ClientPort {</span>
+
+<span class="fc" id="L38">    private val base64encoder: Encoder by lazy { Base64.getEncoder() }</span>
+
+    private var authorization: String? = null
+
+    private lateinit var ssl: ClientSettings
+
+<span class="fc" id="L44">    private val log: Logger = Logger(this::class)</span>
+
+<span class="fc" id="L46">    private val ahcClient: DefaultAsyncHttpClient by lazy {</span>
+<span class="fc" id="L47">        DefaultAsyncHttpClient(</span>
+<span class="fc" id="L48">            Builder()</span>
+<span class="fc" id="L49">                .setConnectTimeout(5000)</span>
+<span class="fc" id="L50">                .setSslContext(sslContext(ssl))</span>
+<span class="fc" id="L51">                .build()</span>
+        )
+    }
+
+<span class="fc" id="L55">    private fun sslContext(settings: ClientSettings): SslContext = sslContextBuilderClient().let {</span>
+<span class="fc" id="L56">        when {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">            settings.insecure -&gt;</span>
+<span class="fc" id="L58">                it.trustManager(InsecureTrustManager).build()</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            settings.sslSettings != null -&gt; {</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">                val sslSettings = settings.sslSettings ?: fail</span>
+<span class="fc" id="L62">                val keyStore = sslSettings.keyStore</span>
+<span class="fc" id="L63">                val trustStore = sslSettings.trustStore</span>
+
+<span class="fc" id="L65">                var sslContextBuilder = it</span>
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                if (keyStore != null) {</span>
+<span class="fc" id="L68">                    val password = sslSettings.keyStorePassword</span>
+<span class="fc" id="L69">                    val store = keyStore(keyStore, password)</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">                    val passwordProtection = PasswordProtection(password.toCharArray())</span>
+<span class="fc" id="L71">                    val key = store</span>
+<span class="fc" id="L72">                        .aliases()</span>
+<span class="fc" id="L73">                        .toList()</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">                        .filter { alias -&gt; store.isKeyEntry(alias) }</span>
+<span class="fc" id="L75">                        .mapNotNull { alias -&gt;</span>
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">                            store.getEntry(alias, passwordProtection) as PrivateKeyEntry</span>
+                        }
+<span class="fc" id="L78">                        .ensureSize(1..1)</span>
+<span class="fc" id="L79">                        .first()</span>
+
+<span class="fc" id="L81">                    val certificateChain = key.certificateChain</span>
+<span class="fc" id="L82">                        .toList()</span>
+<span class="pc bpc" id="L83" title="2 of 4 branches missed.">                        .mapNotNull { certificate -&gt; certificate as X509Certificate }</span>
+<span class="fc" id="L84">                        .toTypedArray()</span>
+
+<span class="fc" id="L86">                    sslContextBuilder = sslContextBuilder</span>
+<span class="fc" id="L87">                        .keyManager(key.privateKey, *certificateChain)</span>
+                }
+
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">                if (trustStore != null) {</span>
+<span class="fc" id="L91">                    val store = keyStore(trustStore, sslSettings.trustStorePassword)</span>
+<span class="fc" id="L92">                    val certs = store</span>
+<span class="fc" id="L93">                        .aliases()</span>
+<span class="fc" id="L94">                        .toList()</span>
+<span class="pc bpc" id="L95" title="2 of 4 branches missed.">                        .mapNotNull { alias -&gt; store.getCertificate(alias) as X509Certificate }</span>
+<span class="fc" id="L96">                        .toTypedArray()</span>
+
+<span class="fc" id="L98">                    sslContextBuilder = sslContextBuilder.trustManager(*certs)</span>
+                }
+
+<span class="fc" id="L101">                sslContextBuilder.build()</span>
+            }
+
+            else -&gt;
+<span class="fc" id="L105">                it.build()</span>
+        }
+<span class="fc" id="L107">    }</span>
+
+    private fun keyStore(url: URL, password: String): KeyStore {
+<span class="fc" id="L110">        val keyStore = KeyStore.getInstance(&quot;pkcs12&quot;)</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        keyStore.load(url.openStream(), password.toCharArray())</span>
+<span class="fc" id="L112">        return keyStore</span>
+    }
+
+    override fun send(client: Client, request: Request): Response {
+
+<span class="fc" id="L117">        val settings: ClientSettings = client.settings</span>
+<span class="fc" id="L118">        val ahcRequest = createRequest(client, request)</span>
+<span class="fc" id="L119">        val bodyValue = createBodyValue(request.body, request.contentType)</span>
+
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (bodyValue != null)</span>
+<span class="fc" id="L122">            ahcRequest.setBody(bodyValue)</span>
+
+<span class="fc" id="L124">        (settings.headers + request.headers).forEach { ahcRequest.addHeader(it.key, it.value) }</span>
+
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        if (settings.useCookies)</span>
+<span class="fc" id="L127">            client.cookies.forEach {</span>
+<span class="fc" id="L128">                ahcRequest.addCookie(DefaultCookie(it.value.name, it.value.value))</span>
+<span class="fc" id="L129">            }</span>
+
+<span class="fc" id="L131">        val response = ahcRequest.execute().get()</span>
+
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (settings.useCookies) {</span>
+<span class="fc" id="L134">            response.cookies.forEach {</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">                if (it.value() == &quot;&quot;)</span>
+<span class="fc" id="L136">                    client.cookies.remove(it.name())</span>
+                else
+<span class="fc" id="L138">                    client.cookies[it.name()] = HttpCookie(it.name(), it.value())</span>
+<span class="fc" id="L139">            }</span>
+        }
+
+        // TODO Make header lookup case insensitive (and add tests)
+<span class="fc" id="L143">        val returnHeaders: MutableMap&lt;String, List&lt;String&gt;&gt; = HashMap(</span>
+<span class="fc" id="L144">            response.headers.names()</span>
+<span class="fc" id="L145">                .map { it to response.headers.getAll(it) }</span>
+<span class="fc" id="L146">                .toMap()</span>
+        )
+
+<span class="fc" id="L149">        return response.let {</span>
+<span class="fc" id="L150">            Response(</span>
+<span class="fc" id="L151">                status = it.statusCode,</span>
+<span class="fc" id="L152">                body = it.responseBody,</span>
+<span class="fc" id="L153">                headers = returnHeaders,</span>
+<span class="fc" id="L154">                contentType = it.contentType,</span>
+<span class="fc" id="L155">                inputStream = it.responseBodyAsStream</span>
+            )
+        }
+    }
+
+    private fun createBodyValue(body: Any?, contentType: String?): String? =
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        when (body) {</span>
+<span class="fc" id="L162">            null -&gt; null</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">            is File -&gt; Base64.getEncoder().encodeToString(body.readBytes())</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">            is String -&gt; body.toString()</span>
+            else -&gt;
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">                if (contentType == null) body.toString()</span>
+<span class="fc" id="L167">                else body.serialize(formatOf(contentType))</span>
+<span class="fc" id="L168">        }</span>
+
+    private fun createRequest(
+        cl: Client, request: Request): BoundRequestBuilder {
+
+<span class="fc" id="L173">        val method: Method = request.method</span>
+<span class="fc" id="L174">        val path: String = cl.endpoint + request.path.pattern</span>
+<span class="fc" id="L175">        val settings: ClientSettings = cl.settings</span>
+<span class="fc" id="L176">        val contentType: String? = request.contentType</span>
+<span class="fc" id="L177">        val parts: List&lt;AhcPart&gt; = request.parts.values.toList().map {</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">            if (it.submittedFileName == null)</span>
+<span class="fc" id="L179">                StringPart(it.name, it.inputStream.reader().readText())</span>
+            else
+<span class="fc" id="L181">                InputStreamPart(it.name, it.inputStream, it.submittedFileName)</span>
+        }
+
+<span class="fc" id="L184">        ssl = cl.settings</span>
+
+<span class="fc bfc" id="L186" title="All 8 branches covered.">        val req = when (method) {</span>
+<span class="fc" id="L187">            GET -&gt; ahcClient.prepareGet(path)</span>
+<span class="fc" id="L188">            HEAD -&gt; ahcClient.prepareHead(path)</span>
+<span class="fc" id="L189">            POST -&gt; ahcClient.preparePost(path)</span>
+<span class="fc" id="L190">            PUT -&gt; ahcClient.preparePut(path)</span>
+<span class="fc" id="L191">            DELETE -&gt; ahcClient.prepareDelete(path)</span>
+<span class="fc" id="L192">            TRACE -&gt; ahcClient.prepareTrace(path)</span>
+<span class="fc" id="L193">            OPTIONS -&gt; ahcClient.prepareOptions(path)</span>
+<span class="fc" id="L194">            PATCH -&gt; ahcClient.preparePatch(path)</span>
+        }
+
+<span class="fc" id="L197">        req.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?</span>
+
+<span class="fc" id="L199">        parts.forEach { part -&gt; req.addBodyPart(part) }</span>
+
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (contentType != null)</span>
+<span class="fc" id="L202">            req.addHeader(&quot;Content-Type&quot;, contentType)</span>
+
+        authorization =
+<span class="fc bfc" id="L205" title="All 2 branches covered.">            if (settings.user != null)</span>
+<span class="fc" id="L206">                base64encoder.encodeToString(&quot;${settings.user}:${settings.password}&quot;</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">                    .toByteArray(UTF_8))</span>
+            else
+<span class="fc" id="L209">                null</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        if (authorization != null)</span>
+<span class="fc" id="L211">            req.addHeader(&quot;Authorization&quot;, &quot;Basic $authorization&quot;)</span>
+
+<span class="fc" id="L213">        val info = &quot;&quot;&quot;</span>
+<span class="fc" id="L214">            REQUEST METHOD:     $method</span>
+<span class="fc" id="L215">            REQUEST PATH:       $path</span>
+<span class="fc" id="L216">            CLIENT SETTINGS:    $settings</span>
+<span class="fc" id="L217">            CONTENT TYPE:       $contentType</span>
+<span class="fc" id="L218">            SSL:                $ssl</span>
+<span class="fc" id="L219">        &quot;&quot;&quot;.trimIndent()</span>
+<span class="fc" id="L220">        log.info { &quot;Request Created: $info&quot; }</span>
+
+<span class="fc" id="L222">        return req</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

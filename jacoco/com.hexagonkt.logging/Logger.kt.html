@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Logger.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging</a> &gt; <span class="el_source">Logger.kt</span></div><h1>Logger.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging
+
+import java.lang.System.nanoTime
+import kotlin.reflect.KClass
+import com.hexagonkt.helpers.Ansi.BLINK_ON
+import com.hexagonkt.helpers.Ansi.BOLD_ON
+import com.hexagonkt.helpers.Ansi.RESET
+import com.hexagonkt.logging.LoggingLevel.*
+
+/**
+ * Logger class with Kotlin improvements like lazy evaluation. It is backed by a SLF4J compatible
+ * logger.
+ *
+ * Usage example:
+ *
+ * @sample com.hexagonkt.HexagonCoreSamplesTest.loggerUsage
+ *
+ * @param name Logger name. It is shown in the logs messages and used for log filtering.
+ */
+<span class="fc" id="L20">class Logger(val name: String) {</span>
+
+    private companion object {
+        const val FLARE_PREFIX = &quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;
+    }
+
+<span class="pc" id="L26">    internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)</span>
+
+    /**
+     * Logger class with Kotlin improvements like lazy evaluation.
+     *
+     * @param type Logger type. It is shown in the logs messages and used for log filtering.
+     */
+<span class="fc" id="L33">    constructor(type: KClass&lt;*&gt;):</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        this(type.qualifiedName ?: error(&quot;Cannot get qualified name of $type&quot;))</span>
+
+    fun trace(message: () -&gt; Any?) {
+<span class="fc" id="L37">        log.log(TRACE, message)</span>
+<span class="fc" id="L38">    }</span>
+
+    fun debug(message: () -&gt; Any?) {
+<span class="fc" id="L41">        log.log(DEBUG, message)</span>
+<span class="fc" id="L42">    }</span>
+
+    fun info(message: () -&gt; Any?) {
+<span class="fc" id="L45">        log.log(INFO, message)</span>
+<span class="fc" id="L46">    }</span>
+
+    fun warn(message: () -&gt; Any?) {
+<span class="fc" id="L49">        log.log(WARN, message)</span>
+<span class="fc" id="L50">    }</span>
+
+    fun error(message: () -&gt; Any?) {
+<span class="fc" id="L53">        log.log(ERROR, message)</span>
+<span class="fc" id="L54">    }</span>
+
+    fun &lt;E : Throwable&gt; warn(exception: E, message: (E) -&gt; Any?) {
+<span class="fc" id="L57">        log.log(WARN, exception, message)</span>
+<span class="fc" id="L58">    }</span>
+
+    fun &lt;E : Throwable&gt; error(exception: E, message: (E) -&gt; Any?) {
+<span class="fc" id="L61">        log.log(ERROR, exception, message)</span>
+<span class="fc" id="L62">    }</span>
+
+<span class="nc" id="L64">    fun flare(message: () -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc" id="L65">        log.log(TRACE) { &quot;$BOLD_ON$BLINK_ON$FLARE_PREFIX$RESET ${message()}&quot; }</span>
+<span class="fc" id="L66">    }</span>
+
+<span class="nc" id="L68">    fun time(startNanos: Long, message: () -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        log.log(TRACE) { &quot;${message() ?: &quot;TIME&quot;} : ${formatNanos(nanoTime() - startNanos)}&quot; }</span>
+<span class="fc" id="L70">    }</span>
+
+<span class="fc" id="L72">    fun &lt;T&gt; time(message: () -&gt; Any? = { null }, block: () -&gt; T): T {</span>
+<span class="fc" id="L73">        val start = nanoTime()</span>
+<span class="fc" id="L74">        return block().also { time(start, message) }</span>
+    }
+
+<span class="fc" id="L77">    fun &lt;T&gt; time(message: Any?, block: () -&gt; T): T = this.time({ message }, block)</span>
+
+<span class="fc" id="L79">    private fun formatNanos (nanoseconds: Long): String = &quot;%1.3f ms&quot;.format (nanoseconds / 1e6)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

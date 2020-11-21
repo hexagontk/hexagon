@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HashMapMapper.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.store.hashmap</a> &gt; <span class="el_source">HashMapMapper.kt</span></div><h1>HashMapMapper.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.store.hashmap
+
+import com.hexagonkt.helpers.filterEmpty
+import com.hexagonkt.helpers.logger
+import com.hexagonkt.serialization.convertToMap
+import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.store.Mapper
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
+import kotlin.reflect.full.declaredMemberProperties
+
+<span class="fc" id="L12">class HashMapMapper&lt;T: Any&gt;(private val type: KClass&lt;T&gt;): Mapper&lt;T&gt; {</span>
+
+<span class="fc" id="L14">    override val fields: Map&lt;String, KProperty1&lt;T, *&gt;&gt; by lazy {</span>
+<span class="fc" id="L15">        logger.time (&quot;REFLECT&quot;) { type.declaredMemberProperties }</span>
+<span class="fc" id="L16">            .map { it.name to it }</span>
+<span class="fc" id="L17">            .toMap()</span>
+    }
+
+    override fun toStore(instance: T): Map&lt;String, Any&gt;  =
+<span class="fc" id="L21">        instance.convertToMap()</span>
+<span class="fc" id="L22">            .filterEmpty()</span>
+<span class="fc" id="L23">            .mapKeys { it.key.toString() }</span>
+<span class="fc" id="L24">            .mapValues { it.value }</span>
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;)
+    override fun fromStore(map: Map&lt;String, Any&gt;): T =
+<span class="fc" id="L28">        map.filterEmpty().convertToObject(type)</span>
+
+    override fun fromStore(property: String, value: Any): Any =
+<span class="fc" id="L31">        value</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

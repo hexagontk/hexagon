@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Session.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">Session.kt</span></div><h1>Session.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
+
+import com.hexagonkt.http.server.Session
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpSession
+
+<span class="fc" id="L7">internal class Session(private val req: HttpServletRequest) : Session() {</span>
+
+<span class="fc" id="L9">    override fun getAttribute(name: String): Any? = req.session.getAttribute(name)</span>
+
+<span class="fc" id="L11">    override fun setAttribute(name: String, value: Any) { req.session.setAttribute(name, value) }</span>
+
+<span class="fc" id="L13">    override fun removeAttribute(name: String) { req.session.removeAttribute(name) }</span>
+
+<span class="fc" id="L15">    override fun attributes(): Map&lt;String, Any?&gt; = req.session.attributeNames</span>
+<span class="fc" id="L16">        .toList()</span>
+<span class="fc" id="L17">        .map { it to this.getAttribute(it) }</span>
+<span class="fc" id="L18">        .toMap()</span>
+
+<span class="fc bfc" id="L20" title="All 2 branches covered.">    override fun creationTime(): Long? = session(req)?.creationTime</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">    override fun lastAccessedTime(): Long? = session(req)?.lastAccessedTime</span>
+
+<span class="fc bfc" id="L23" title="All 2 branches covered.">    override fun id(): String? = session(req)?.id</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">    override fun maxInactiveInterval(): Int? = session(req)?.maxInactiveInterval</span>
+
+    override fun maxInactiveInterval(value: Int?) {
+<span class="pc bpc" id="L28" title="2 of 4 branches missed.">        session(req)?.maxInactiveInterval = value ?: 10</span>
+<span class="fc" id="L29">    }</span>
+
+<span class="fc" id="L31">    override fun invalidate() = req.session.invalidate()</span>
+
+<span class="fc" id="L33">    override fun isNew() = req.session.isNew</span>
+
+<span class="fc" id="L35">    private fun session (req: HttpServletRequest, create: Boolean = false): HttpSession? =</span>
+<span class="fc" id="L36">        req.getSession(create)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

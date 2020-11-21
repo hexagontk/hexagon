@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Part.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http</a> &gt; <span class="el_source">Part.kt</span></div><h1>Part.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http
+
+import java.io.InputStream
+
+<span class="fc" id="L5">data class Part (</span>
+<span class="fc" id="L6">    val contentType: String? = null,</span>
+<span class="fc" id="L7">    val headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap(),</span>
+<span class="fc" id="L8">    val inputStream: InputStream,</span>
+<span class="fc" id="L9">    val name: String,</span>
+<span class="fc" id="L10">    val size: Long = -1L,</span>
+<span class="fc" id="L11">    val submittedFileName: String? = null</span>
+) {
+<span class="fc" id="L13">    constructor(name: String, value: String) :</span>
+<span class="fc" id="L14">        this(name = name, inputStream = value.byteInputStream(), size = value.length.toLong())</span>
+
+<span class="fc" id="L16">    constructor(name: String, inputStream: InputStream, submittedFileName: String) :</span>
+<span class="fc" id="L17">        this(null, name = name, inputStream = inputStream, submittedFileName = submittedFileName)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

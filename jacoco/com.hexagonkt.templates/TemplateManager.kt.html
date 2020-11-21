@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplateManager.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.templates</a> &gt; <span class="el_source">TemplateManager.kt</span></div><h1>TemplateManager.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.templates
+
+import java.util.Locale
+
+/**
+ * The TemplateManager handles multiple templates engines.
+ */
+<span class="fc" id="L8">object TemplateManager {</span>
+
+<span class="fc" id="L10">    private val engines: MutableMap&lt;String, TemplateEngine&gt; = mutableMapOf()</span>
+
+    private const val PREFIX_DELIMITER = &quot;:&quot;
+
+    /**
+     * Register a template engine under a prefix.
+     */
+    fun register(prefix: String, engine: TemplateEngine) {
+<span class="fc" id="L18">        engines[prefix] = engine</span>
+<span class="fc" id="L19">    }</span>
+
+    /**
+     * Render a template with a registered template engine.
+     *
+     * @param prefixedResource selects engine and template, i.e. &quot;html:template.html&quot; uses the
+     * engine registered under prefix &quot;html&quot; to render the template &quot;template.html&quot;
+     *
+     * @throws IllegalArgumentException if no engine for prefix was found
+     */
+    fun render(prefixedResource: String, locale: Locale, context: Map&lt;String, *&gt;): String {
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        val (prefix: String, engine: TemplateEngine) = engine(prefixedResource)</span>
+<span class="fc" id="L31">            ?: throw IllegalArgumentException(&quot;No adapter found for resource: $prefixedResource&quot;)</span>
+
+<span class="fc" id="L33">        return engine.render(plainResource(prefixedResource, prefix), locale, context)</span>
+    }
+
+    private fun engine(prefixedResource: String): Map.Entry&lt;String, TemplateEngine&gt;? =
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        engines.filterKeys { prefix -&gt; prefixedResource.startsWith(prefix + PREFIX_DELIMITER) }</span>
+            .entries
+<span class="fc" id="L39">            .firstOrNull()</span>
+
+    private fun plainResource(prefixedResource: String, prefix: String): String =
+<span class="fc" id="L42">        prefixedResource.removePrefix(prefix + PREFIX_DELIMITER)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

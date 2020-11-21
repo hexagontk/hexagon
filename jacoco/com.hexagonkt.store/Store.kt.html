@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Store.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.store</a> &gt; <span class="el_source">Store.kt</span></div><h1>Store.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.store
+
+import com.hexagonkt.helpers.ensureSize
+import com.hexagonkt.serialization.parseObjects
+import com.hexagonkt.store.IndexOrder.ASCENDING
+import java.io.File
+import java.net.URL
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
+
+/**
+ * TODO All methods accepting maps rely on `mapOf` returning an insertion ordered map. Take care of
+ *   this in the future to avoid possible bugs
+ */
+interface Store&lt;T : Any, K : Any&gt; {
+    val type: KClass&lt;T&gt;
+    val key: KProperty1&lt;T, K&gt;
+    val name: String
+    val mapper: Mapper&lt;T&gt;
+
+    fun createIndex(unique: Boolean, fields: Map&lt;String, IndexOrder&gt;): String
+
+    fun createIndex(unique: Boolean, vararg fields: Pair&lt;KProperty1&lt;T, *&gt;, IndexOrder&gt;): String =
+<span class="fc" id="L24">        createIndex(unique, fields.map { it.first.name to it.second }.toMap())</span>
+
+    fun createIndex(unique: Boolean, vararg fields: KProperty1&lt;T, *&gt;): String =
+<span class="nc" id="L27">        createIndex(unique, *fields.map { it to ASCENDING }.toTypedArray())</span>
+
+    fun insertOne(instance: T): K
+
+    fun insertMany(instances: List&lt;T&gt;): List&lt;K&gt;
+
+    fun insertMany(vararg instances: T): List&lt;K&gt; =
+<span class="fc" id="L34">        insertMany(instances.toList())</span>
+
+    fun saveOne(instance: T): K? // returns key if created, null if updated
+
+    fun saveMany(instances: List&lt;T&gt;): List&lt;K?&gt;
+
+    fun replaceOne(instance: T): Boolean
+
+    fun replaceMany(instances: List&lt;T&gt;): List&lt;T&gt;
+
+    fun replaceMany(vararg instances: T): List&lt;T&gt; =
+<span class="fc" id="L45">        replaceMany(instances.toList())</span>
+
+    fun updateOne(key: K, updates: Map&lt;String, *&gt;): Boolean
+
+    fun updateOne(key: K, vararg updates: Pair&lt;KProperty1&lt;T, *&gt;, *&gt;): Boolean =
+<span class="fc" id="L50">        updateOne(key, fields(*updates))</span>
+
+    fun updateMany(filter: Map&lt;String, *&gt;, updates: Map&lt;String, *&gt;): Long
+
+    fun deleteOne(id: K): Boolean
+
+    fun deleteMany(filter: Map&lt;String, *&gt;): Long
+
+    fun findOne(key: K): T?
+
+    fun findOne(key: K, fields: List&lt;String&gt;): Map&lt;String, *&gt;?
+
+    fun findOne(filter: Map&lt;String, *&gt;): T? =
+<span class="fc" id="L63">        findMany(filter).ensureSize(0..1).firstOrNull()</span>
+
+    fun findOne(filter: Map&lt;String, *&gt;, fields: List&lt;String&gt;): Map&lt;String, *&gt;? =
+<span class="fc" id="L66">        findMany(filter, fields).ensureSize(0..1).firstOrNull()</span>
+
+    fun findMany(
+        filter: Map&lt;String, *&gt;,
+<span class="fc" id="L70">        limit: Int? = null,</span>
+<span class="fc" id="L71">        skip: Int? = null,</span>
+<span class="fc" id="L72">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;T&gt;</span>
+
+    fun findMany(
+        filter: Map&lt;String, *&gt;,
+        fields: List&lt;String&gt;,
+<span class="fc" id="L77">        limit: Int? = null,</span>
+<span class="fc" id="L78">        skip: Int? = null,</span>
+<span class="fc" id="L79">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;Map&lt;String, *&gt;&gt;</span>
+
+    fun findAll(
+<span class="fc" id="L82">        limit: Int? = null,</span>
+<span class="fc" id="L83">        skip: Int? = null,</span>
+<span class="fc" id="L84">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;T&gt; =</span>
+<span class="fc" id="L85">            findMany(emptyMap&lt;String, Any&gt;(), limit, skip, sort)</span>
+
+    fun findAll(
+        fields: List&lt;String&gt;,
+<span class="fc" id="L89">        limit: Int? = null,</span>
+<span class="fc" id="L90">        skip: Int? = null,</span>
+<span class="fc" id="L91">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;Map&lt;String, *&gt;&gt; =</span>
+<span class="fc" id="L92">            findMany(emptyMap&lt;String, Any&gt;(), fields, limit, skip, sort)</span>
+
+<span class="fc" id="L94">    fun count(filter: Map&lt;String, *&gt; = emptyMap&lt;String, Any&gt;()): Long</span>
+
+    fun drop()
+
+    fun fields(updates: Map&lt;KProperty1&lt;T, *&gt;, *&gt;): Map&lt;String, *&gt; =
+<span class="fc" id="L99">        updates.mapKeys { it.key.name }</span>
+
+    fun fields(vararg updates: Pair&lt;KProperty1&lt;T, *&gt;, *&gt;): Map&lt;String, *&gt; =
+<span class="fc" id="L102">        fields(updates.toMap())</span>
+
+    fun import(input: File) {
+<span class="fc" id="L105">        insertMany(input.parseObjects(type))</span>
+<span class="fc" id="L106">    }</span>
+
+    fun import(input: URL) {
+<span class="fc" id="L109">        insertMany(input.parseObjects(type))</span>
+<span class="fc" id="L110">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

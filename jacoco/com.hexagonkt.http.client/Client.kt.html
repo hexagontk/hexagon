@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Client.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.client</a> &gt; <span class="el_source">Client.kt</span></div><h1>Client.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.client
+
+import com.hexagonkt.http.Method.*
+import com.hexagonkt.http.Path
+import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.serialization.SerializationFormat
+import java.net.HttpCookie
+
+/**
+ * Client to use other REST services.
+ */
+<span class="fc" id="L12">class Client(</span>
+<span class="nc" id="L13">    private val adapter: ClientPort = InjectionManager.inject(),</span>
+<span class="fc" id="L14">    val endpoint: String = &quot;&quot;,</span>
+<span class="fc" id="L15">    val settings: ClientSettings = ClientSettings()</span>
+) {
+
+<span class="fc" id="L18">    val cookies: MutableMap&lt;String, HttpCookie&gt; = mutableMapOf()</span>
+
+<span class="fc" id="L20">    constructor(settings: ClientSettings = ClientSettings()) :</span>
+<span class="fc" id="L21">        this(InjectionManager.inject&lt;ClientPort&gt;(), settings = settings)</span>
+
+<span class="pc" id="L23">    constructor(endpoint: String = &quot;&quot;, settings: ClientSettings = ClientSettings()) :</span>
+<span class="fc" id="L24">        this(InjectionManager.inject(), endpoint, settings)</span>
+
+    /**
+     * Synchronous execution.
+     */
+    fun send(request: Request): Response =
+<span class="fc" id="L30">        adapter.send(this, request)</span>
+
+    fun get(
+        path: String,
+<span class="fc" id="L34">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap(),</span>
+<span class="fc" id="L35">        body: Any? = null,</span>
+<span class="fc" id="L36">        contentType: String? = settings.contentType): Response =</span>
+<span class="fc" id="L37">            send(Request(GET, Path(path), body, headers = headers, contentType = contentType))</span>
+
+<span class="fc" id="L39">    fun head(path: String, headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response =</span>
+<span class="fc" id="L40">            send(Request(HEAD, Path(path), null, headers = headers))</span>
+
+    fun post(
+<span class="fc" id="L43">        path: String, body: Any? = null, contentType: String? = settings.contentType): Response =</span>
+<span class="fc" id="L44">            send(Request(POST, Path(path), body, contentType = contentType))</span>
+
+    fun put(
+        path: String,
+<span class="fc" id="L48">        body: Any? = null,</span>
+<span class="fc" id="L49">        contentType: String? = settings.contentType): Response =</span>
+<span class="fc" id="L50">            send(Request(PUT, Path(path), body, contentType = contentType))</span>
+
+    fun delete(
+        path: String,
+<span class="fc" id="L54">        body: Any? = null,</span>
+<span class="fc" id="L55">        contentType: String? = settings.contentType): Response =</span>
+<span class="fc" id="L56">            send(Request(DELETE, Path(path), body, contentType = contentType))</span>
+
+    fun trace(
+        path: String,
+<span class="fc" id="L60">        body: Any? = null,</span>
+<span class="fc" id="L61">        contentType: String? = settings.contentType): Response =</span>
+<span class="fc" id="L62">            send(Request(TRACE, Path(path), body, contentType = contentType))</span>
+
+    fun options(
+        path: String,
+<span class="fc" id="L66">        body: Any? = null,</span>
+<span class="fc" id="L67">        contentType: String? = settings.contentType,</span>
+<span class="fc" id="L68">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response =</span>
+<span class="fc" id="L69">            send(Request(OPTIONS, Path(path), body, headers, contentType = contentType))</span>
+
+    fun patch(
+        path: String,
+<span class="fc" id="L73">        body: Any? = null,</span>
+<span class="fc" id="L74">        contentType: String? = settings.contentType): Response =</span>
+<span class="fc" id="L75">            send(Request(PATCH, Path(path), body, contentType = contentType))</span>
+
+    fun get(
+        path: String,
+<span class="fc" id="L79">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap(),</span>
+        body: Any,
+        format: SerializationFormat): Response =
+<span class="fc" id="L82">            get(path, headers, body, format.contentType)</span>
+
+    fun post(path: String, body: Any, format: SerializationFormat): Response =
+<span class="fc" id="L85">        post(path, body, format.contentType)</span>
+
+    fun put(
+        path: String,
+        body: Any,
+        format: SerializationFormat): Response =
+<span class="fc" id="L91">            put(path, body, format.contentType)</span>
+
+    fun delete(
+        path: String,
+        body: Any,
+        format: SerializationFormat): Response =
+<span class="fc" id="L97">            delete(path, body, format.contentType)</span>
+
+    fun trace(
+        path: String,
+        body: Any,
+        format: SerializationFormat): Response =
+<span class="fc" id="L103">            trace(path, body, format.contentType)</span>
+
+    fun options(
+        path: String,
+        body: Any,
+        format: SerializationFormat,
+<span class="fc" id="L109">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response =</span>
+<span class="fc" id="L110">            options(path, body, format.contentType, headers)</span>
+
+    fun patch(
+        path: String,
+        body: Any,
+        format: SerializationFormat): Response =
+<span class="fc" id="L116">            patch(path, body, format.contentType)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Http.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http</a> &gt; <span class="el_source">Http.kt</span></div><h1>Http.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http
+
+import com.hexagonkt.helpers.Jvm.charset
+import com.hexagonkt.http.Method.GET
+import com.hexagonkt.http.Method.HEAD
+import com.hexagonkt.http.Method.POST
+import com.hexagonkt.http.Method.PUT
+import com.hexagonkt.http.Method.DELETE
+import com.hexagonkt.http.Method.TRACE
+import com.hexagonkt.http.Method.OPTIONS
+import com.hexagonkt.http.Method.PATCH
+import java.net.URLDecoder
+import java.net.URLEncoder
+
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
+
+/** Set containing all HTTP methods. */
+<span class="fc" id="L21">val ALL: LinkedHashSet&lt;Method&gt; by lazy { linkedSetOf(*Method.values()) }</span>
+
+/** Shortcut to create a route for a filter (with all methods). */
+<span class="pc" id="L24">fun any(path: String = &quot;/&quot;): Route = Route(Path(path), ALL)</span>
+
+/** Shortcut to create a GET route. */
+<span class="pc" id="L27">fun get(path: String = &quot;/&quot;): Route = Route(path, GET)</span>
+
+/** Shortcut to create a HEAD route. */
+<span class="pc" id="L30">fun head(path: String = &quot;/&quot;): Route = Route(path, HEAD)</span>
+
+/** Shortcut to create a POST route. */
+<span class="pc" id="L33">fun post(path: String = &quot;/&quot;): Route = Route(path, POST)</span>
+
+/** Shortcut to create a PUT route. */
+<span class="pc" id="L36">fun put(path: String = &quot;/&quot;): Route = Route(path, PUT)</span>
+
+/** Shortcut to create a DELETE route. */
+<span class="pc" id="L39">fun delete(path: String = &quot;/&quot;): Route = Route(path, DELETE)</span>
+
+/** Shortcut to create a TRACE route. */
+<span class="pc" id="L42">fun trace(path: String = &quot;/&quot;): Route = Route(path, TRACE)</span>
+
+/** Shortcut to create a OPTIONS route. */
+<span class="pc" id="L45">fun options(path: String = &quot;/&quot;): Route = Route(path, OPTIONS)</span>
+
+/** Shortcut to create a PATCH route. */
+<span class="pc" id="L48">fun patch(path: String = &quot;/&quot;): Route = Route(path, PATCH)</span>
+
+/**
+ * Parse query string such as `paramA=valueA&amp;paramB=valueB` into a map of several key-value pairs
+ * separated by '&amp;' where *key* is the param name before '=' as String and *value* is the string
+ * after '=' as a list of String (as a query parameter may have many values).
+ *
+ * Note: Missing the '=' sign, or missing value after '=' (e.g `foo=` or `foo`) will result into an
+ * empty string value.
+ *
+ * @param query URL query string. E.g.: `param=value&amp;foo=bar`.
+ * @return Map with query parameter keys bound to a list with their values.
+ *
+ */
+fun parseQueryParameters (query: String): Map&lt;String, List&lt;String&gt;&gt; =
+<span class="fc bfc" id="L63" title="All 2 branches covered.">    if (query.isBlank())</span>
+<span class="fc" id="L64">        mapOf()</span>
+    else
+<span class="fc" id="L66">        query</span>
+<span class="fc" id="L67">            .split(&quot;&amp;&quot;.toRegex())</span>
+<span class="fc" id="L68">            .map {</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">                val keyValue = it.split(&quot;=&quot;).map(String::trim)</span>
+<span class="fc" id="L70">                val key = keyValue[0]</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">                val value = if (keyValue.size == 2) keyValue[1] else &quot;&quot;</span>
+<span class="fc" id="L72">                key.urlDecode() to value.urlDecode()</span>
+            }
+<span class="fc bfc" id="L74" title="All 4 branches covered.">            .filter { it.first.isNotBlank() }</span>
+<span class="fc" id="L75">            .groupBy { it.first }</span>
+<span class="fc" id="L76">            .mapValues { pair -&gt; pair.value.map { it.second } }</span>
+
+<span class="fc" id="L78">fun httpDate (date: LocalDateTime = LocalDateTime.now()): String =</span>
+<span class="fc" id="L79">    RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of(&quot;GMT&quot;)))</span>
+
+<span class="fc" id="L81">fun String.urlDecode(): String = URLDecoder.decode(this, charset.name())</span>
+
+<span class="fc" id="L83">fun String.urlEncode(): String = URLEncoder.encode(this, charset.name())</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

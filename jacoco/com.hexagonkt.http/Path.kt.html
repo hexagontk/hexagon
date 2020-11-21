@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Path.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http</a> &gt; <span class="el_source">Path.kt</span></div><h1>Path.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http
+
+import com.hexagonkt.helpers.filter
+import com.hexagonkt.helpers.findGroups
+
+/**
+ * A path definition. It parses path patterns and extract values for parameters.
+ *
+ * Differences with Sinatra:
+ *
+ *   * No splats (you can use named parameters though)
+ *   * Delimiter is {var} to conform with [RFC 6570](https://tools.ietf.org/html/rfc6570)
+ */
+<span class="fc" id="L14">data class Path(val pattern: String) {</span>
+    private companion object {
+        internal const val PARAMETER_PREFIX = &quot;{&quot;
+        internal const val PARAMETER_SUFFIX = &quot;}&quot;
+
+        internal const val WILDCARD = &quot;*&quot;
+
+<span class="fc" id="L21">        internal val WILDCARD_REGEX = Regex(&quot;\\$WILDCARD&quot;)</span>
+<span class="fc" id="L22">        internal val PARAMETER_REGEX = Regex(&quot;\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX&quot;)</span>
+<span class="fc" id="L23">        internal val PLACEHOLDER_REGEX =</span>
+<span class="fc" id="L24">            Regex(&quot;\\$WILDCARD|\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX&quot;)</span>
+    }
+
+<span class="fc" id="L27">    init {</span>
+<span class="fc bfc" id="L28" title="All 4 branches covered.">        val validPrefix = pattern.startsWith(&quot;/&quot;) || pattern.startsWith(&quot;*&quot;)</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        require(validPrefix) { &quot;'$pattern' must start with '/' or '*'&quot; }</span>
+<span class="fc bfc" id="L30" title="All 4 branches covered.">        require(!pattern.contains(&quot;:&quot;)) { &quot;Variables have {var} format. Path cannot have ':' $pattern&quot; }</span>
+<span class="fc" id="L31">    }</span>
+
+<span class="fc" id="L33">    val hasWildcards by lazy { WILDCARD_REGEX in pattern }</span>
+<span class="fc" id="L34">    val hasParameters by lazy { PARAMETER_REGEX in pattern }</span>
+
+<span class="fc" id="L36">    val parameterIndex: List&lt;String&gt; by lazy {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (hasParameters)</span>
+<span class="fc" id="L38">            PLACEHOLDER_REGEX.findAll(pattern)</span>
+<span class="fc" id="L39">                .map {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">                    if (it.value == WILDCARD) &quot;&quot;</span>
+<span class="fc" id="L41">                    else it.value.removePrefix(PARAMETER_PREFIX).removeSuffix(PARAMETER_SUFFIX)</span>
+                }
+<span class="fc" id="L43">                .toList()</span>
+        else
+<span class="fc" id="L45">            emptyList()</span>
+    }
+
+<span class="fc" id="L48">    val regex: Regex? by lazy {</span>
+<span class="fc" id="L49">        when (Pair(hasWildcards, hasParameters)) {</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">            Pair(first = true, second = true) -&gt;</span>
+<span class="fc" id="L51">                Regex(pattern.replace(WILDCARD, &quot;(.*?)&quot;).replace(PARAMETER_REGEX, &quot;(.+?)&quot;) + &quot;$&quot;)</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">            Pair(first = true, second = false) -&gt;</span>
+<span class="fc" id="L53">                Regex(pattern.replace(WILDCARD, &quot;(.*?)&quot;) + &quot;$&quot;)</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            Pair(first = false, second = true) -&gt;</span>
+<span class="fc" id="L55">                Regex(pattern.replace(PARAMETER_REGEX, &quot;(.+?)&quot;) + &quot;$&quot;)</span>
+<span class="fc" id="L56">            else -&gt; null</span>
+        }
+    }
+
+<span class="fc" id="L60">    val segments by lazy { pattern.split(PLACEHOLDER_REGEX) }</span>
+
+<span class="fc bfc" id="L62" title="All 2 branches covered.">    fun matches(requestUrl: String) = regex?.matches(requestUrl) ?: (pattern == requestUrl)</span>
+
+    fun extractParameters(requestUrl: String): Map&lt;String, String&gt; {
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        require(matches(requestUrl)) { &quot;URL '$requestUrl' does not match path&quot; }</span>
+
+<span class="fc" id="L67">        fun parameters(re: Regex) = re</span>
+<span class="fc" id="L68">            .findGroups(requestUrl)</span>
+<span class="fc" id="L69">            .mapIndexed { idx, (value) -&gt; parameterIndex[idx] to value }</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            .filter { (first) -&gt; first != &quot;&quot; }</span>
+<span class="fc" id="L71">            .toMap()</span>
+
+<span class="fc" id="L73">        val re = regex</span>
+<span class="pc bpc" id="L74" title="1 of 4 branches missed.">        return if (hasParameters &amp;&amp; re != null) parameters(re) else emptyMap()</span>
+    }
+
+    fun create(vararg parameters: Pair&lt;String, Any&gt;) =
+<span class="pc bpc" id="L78" title="1 of 4 branches missed.">        if (hasWildcards || parameters.size != parameterIndex.size) {</span>
+<span class="fc" id="L79">            val expectedParams = parameterIndex.size</span>
+<span class="fc" id="L80">            val paramCount = parameters.size</span>
+<span class="fc" id="L81">            error(&quot;Path has wildcards or different parameters: $expectedParams/$paramCount&quot;)</span>
+        }
+        else {
+<span class="fc" id="L84">            val map = parameters.map { it.first to it.second.toString() }</span>
+<span class="fc" id="L85">            pattern.filter(PARAMETER_PREFIX, PARAMETER_SUFFIX, *map.toTypedArray())</span>
+<span class="fc" id="L86">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

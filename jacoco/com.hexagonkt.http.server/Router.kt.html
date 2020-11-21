@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Router.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server</a> &gt; <span class="el_source">Router.kt</span></div><h1>Router.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server
+
+import com.hexagonkt.http.*
+import com.hexagonkt.http.server.FilterOrder.AFTER
+import com.hexagonkt.http.server.FilterOrder.BEFORE
+
+import com.hexagonkt.http.Method.GET
+import com.hexagonkt.http.server.RequestHandler.*
+import com.hexagonkt.http.Path
+import com.hexagonkt.http.Route
+import java.io.File
+import java.net.URL
+
+import kotlin.reflect.KClass
+
+/**
+ * Creates and initializes a [Router] based on a code block.
+ *
+ * @param block Router's setup block.
+ * @return A new router initialized by the passed block.
+ */
+<span class="fc" id="L22">class Router(block: Router.() -&gt; Unit = {}) {</span>
+
+    /**
+     * [List] of [RequestHandler] instances.
+     */
+<span class="fc" id="L27">    var requestHandlers: List&lt;RequestHandler&gt; = emptyList(); private set</span>
+
+<span class="fc" id="L29">    init {</span>
+<span class="fc" id="L30">        block()</span>
+<span class="fc" id="L31">    }</span>
+
+    private infix fun Route.before(block: RouteCallback) {
+<span class="fc" id="L34">        requestHandlers = requestHandlers + FilterHandler(this, BEFORE, block)</span>
+<span class="fc" id="L35">    }</span>
+
+    private infix fun Route.after(block: RouteCallback) {
+<span class="fc" id="L38">        requestHandlers = requestHandlers + FilterHandler(this, AFTER, block)</span>
+<span class="fc" id="L39">    }</span>
+
+    private infix fun Route.by(block: RouteCallback) {
+<span class="fc" id="L42">        requestHandlers = requestHandlers + RouteHandler(this, block)</span>
+<span class="fc" id="L43">    }</span>
+
+    /**
+     * Registers [FilterHandler] with [BEFORE] [FilterOrder] for given route [path].
+     *
+     * @param path Route path for which the handler is to be registered.
+     * @param block [RouteCallback] instance to be executed by the handler.
+     */
+<span class="fc" id="L51">    fun before(path: String = &quot;*&quot;, block: RouteCallback) = any(path) before block</span>
+
+    /**
+     * Registers [FilterHandler] with [AFTER] [FilterOrder] for given route [path].
+     *
+     * @param path Route path for which the handler is to be registered.
+     * @param block [RouteCallback] instance to be execited by the handler.
+     */
+<span class="fc" id="L59">    fun after(path: String = &quot;*&quot;, block: RouteCallback) = any(path) after block</span>
+
+    /**
+     * Creates GET route with given [RouteCallback] to be handled.
+     *
+     * @param path Route path of the request.
+     * @param block A [RouteCallback] instance to be handled.
+     */
+<span class="fc" id="L67">    fun get(path: String = &quot;/&quot;, block: RouteCallback) = get(path) by block</span>
+
+    /**
+     * Creates HEAD route with given [RouteCallback] to be handled.
+     *
+     * @param path Route path of the request.
+     * @param block A [RouteCallback] instance to be handled.
+     */
+<span class="fc" id="L75">    fun head(path: String = &quot;/&quot;, block: RouteCallback) = head(path) by block</span>
+
+    /**
+     * Creates POST route with given [RouteCallback] to be handled.
+     *
+     * @param path Route path of the request.
+     * @param block A [RouteCallback] instance to be handled.
+     */
+<span class="fc" id="L83">    fun post(path: String = &quot;/&quot;, block: RouteCallback) = post(path) by block</span>
+
+    /**
+     * Creates PUT route with given [RouteCallback] to be handled.
+     *
+     * @param path Route path of the request.
+     * @param block A [RouteCallback] instance to be handled.
+     */
+<span class="fc" id="L91">    fun put(path: String = &quot;/&quot;, block: RouteCallback) = put(path) by block</span>
+
+    /**
+     * Creates DELETE route with given [RouteCallback] to be handled.
+     *
+     * @param path Route path of the request.
+     * @param block A [RouteCallback] instance to be handled.
+     */
+<span class="fc" id="L99">    fun delete(path: String = &quot;/&quot;, block: RouteCallback) = delete(path) by block</span>
+
+    /**
+     * Creates TRACE route with given [RouteCallback] to be handled.
+     *
+     * @param path Route path of the request.
+     * @param block A [RouteCallback] instance to be handled.
+     */
+<span class="fc" id="L107">    fun trace(path: String = &quot;/&quot;, block: RouteCallback) = trace(path) by block</span>
+
+    /**
+     * Creates OPTIONS route with given [RouteCallback] to be handled.
+     *
+     * @param path Route path of the request.
+     * @param block A [RouteCallback] instance to be handled.
+     */
+<span class="fc" id="L115">    fun options(path: String = &quot;/&quot;, block: RouteCallback) = options(path) by block</span>
+
+    /**
+     * Creates PATH route with given [RouteCallback] to be handled.
+     *
+     * @param path Route path of the request.
+     * @param block A [RouteCallback] instance to be handled.
+     */
+<span class="fc" id="L123">    fun patch(path: String = &quot;/&quot;, block: RouteCallback) = patch(path) by block</span>
+
+    /**
+     * Creates a route for a filter (with all methods) with given [RouteCallback] to be handled.
+     *
+     * @param path Route path of the request.
+     * @param block A [RouteCallback] instance to be executed.
+     */
+<span class="pc" id="L131">    fun any(path: String = &quot;/&quot;, block: RouteCallback) = any(path) by block</span>
+
+    /**
+     * Registers handler for routes halted with specified [code].
+     *
+     * @param code Status code.
+     * @param block Callback to be executed by the handler.
+     */
+    fun error(code: Int, block: ErrorCodeCallback) {
+<span class="fc" id="L140">        requestHandlers = requestHandlers + CodeHandler(Route(Path(&quot;/&quot;), ALL), code, block)</span>
+<span class="fc" id="L141">    }</span>
+
+    /**
+     * Registers handler for routes halted due to specified [exception].
+     *
+     * @param exception [Exception] [KClass] to register callback for.
+     * @param block Callback to be executed by the handler.
+     */
+    fun error(exception: KClass&lt;out Exception&gt;, block: ExceptionCallback) {
+<span class="fc" id="L150">        error(exception.java, block)</span>
+<span class="fc" id="L151">    }</span>
+
+    /**
+     * Registers handler for routes halted due to specified [exception].
+     *
+     * @param exception [Exception] [Class] to register callback for.
+     * @param block Callback to be executed by the handler.
+     */
+    fun error(exception: Class&lt;out Exception&gt;, block: ExceptionCallback) {
+<span class="fc" id="L160">        val rootPath = Route(Path(&quot;/&quot;), ALL)</span>
+<span class="fc" id="L161">        requestHandlers = requestHandlers + ExceptionHandler(rootPath, exception, block)</span>
+<span class="fc" id="L162">    }</span>
+
+    /**
+     * Registers [PathHandler] for given route [path].
+     *
+     * @param path Route path for which the callback is to be registered.
+     * @param router Nested [Router] handler.
+     */
+    fun path(path: Path, router: Router) {
+<span class="fc" id="L171">        requestHandlers = requestHandlers + PathHandler(Route(path), router)</span>
+<span class="fc" id="L172">    }</span>
+
+    /**
+     * Registers [PathHandler] for &quot;/&quot; route with given [handler].
+     *
+     * @param handler Nested [Router] handler.
+     */
+<span class="fc" id="L179">    fun path(handler: Router) { path(&quot;/&quot;, handler) }</span>
+
+    /**
+     * Registers [PathHandler] with specified [block].
+     *
+     * @param block [Router] handler block.
+     */
+<span class="fc" id="L186">    fun path(block: Router.() -&gt; Unit) = path(Router(block))</span>
+
+    /**
+     * Registers [PathHandler] for given route [path].
+     *
+     * @param path Route path for which the callback is to be registered.
+     * @param router Nested [Router] handler.
+     */
+<span class="fc" id="L194">    fun path(path: String, router: Router) = path(Path(path), router)</span>
+
+    /**
+     * Registers [PathHandler] for given route [path].
+     *
+     * @param path Route path for which the callback is to be registered.
+     * @param block [Router] handler block.
+     */
+<span class="fc" id="L202">    fun path(path: String, block: Router.() -&gt; Unit) = path(Path(path), Router(block))</span>
+
+    /**
+     * Registers [ResourceHandler] for given [resource] URL for any route.
+     *
+     * @param resource The [URL] for which handler is to be registered.
+     */
+    fun get(resource: URL) {
+<span class="fc" id="L210">        get(&quot;/*&quot;, resource)</span>
+<span class="fc" id="L211">    }</span>
+
+    /**
+     * Registers [ResourceHandler] for given [resource] URL at given route [path].
+     *
+     * @param path Route path for which the handler is to be registered.
+     * @param resource The [URL] for which the handler is to be registered.
+     */
+    fun get(path: String, resource: URL) {
+<span class="fc" id="L220">        requestHandlers = requestHandlers + ResourceHandler(Route(Path(path), GET), resource)</span>
+<span class="fc" id="L221">    }</span>
+
+    /**
+     * Registers [FileHandler] for given [file] URL for any route.
+     *
+     * @param file The [File] for which handler is to be registered.
+     */
+    fun get(file: File) {
+<span class="fc" id="L229">        get(&quot;/*&quot;, file)</span>
+<span class="fc" id="L230">    }</span>
+
+    /**
+     * Registers [FileHandler] for given [file] at given route [path].
+     *
+     * @param path Route path for which the handler is to be registered.
+     * @param file The [File] for which the handler is to be registered.
+     */
+    fun get(path: String, file: File) {
+<span class="fc" id="L239">        requestHandlers = requestHandlers + FileHandler(Route(Path(path), GET), file)</span>
+<span class="fc" id="L240">    }</span>
+
+    /**
+     * Register CORS for the router.
+     *
+     * @param settings Instance of [CorsSettings].
+     */
+    fun cors(settings: CorsSettings) {
+<span class="fc" id="L248">        before { simpleRequest(settings) }</span>
+<span class="fc" id="L249">        options(&quot;/&quot;) { preFlightRequest(settings) }</span>
+<span class="pc" id="L250">        options(&quot;/*&quot;) { preFlightRequest(settings) }</span>
+<span class="fc" id="L251">    }</span>
+
+    /**
+     * Flattens the given [List] of [RequestHandler].
+     * @param h [List] of [RequestHandler].
+     * @return Flattened [List] of [RequestHandler].
+     */
+<span class="fc" id="L258">    fun flatRequestHandlers(h: List&lt;RequestHandler&gt; = requestHandlers): List&lt;RequestHandler&gt; = h</span>
+<span class="fc" id="L259">        .flatMap { handler -&gt;</span>
+<span class="fc" id="L260">            when (handler) {</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">                is PathHandler -&gt; flatPathHandler(handler)</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">                is RouteHandler -&gt; handler.route.list().map { handler.copy(route = it) }</span>
+<span class="fc" id="L263">                else -&gt; listOf(handler)</span>
+            }
+<span class="fc" id="L265">        }</span>
+
+    private fun flatPathHandler(handler: PathHandler): List&lt;RequestHandler&gt; {
+<span class="fc" id="L268">        return handler.router.requestHandlers.flatMap {</span>
+<span class="fc" id="L269">            val route = it.route</span>
+<span class="fc" id="L270">            val path = route.path</span>
+<span class="fc" id="L271">            val handlerPath = handler.route.path.pattern</span>
+
+<span class="fc" id="L273">            val finalPath =</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">                if (handlerPath == &quot;/&quot;)</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">                    if (path.pattern == &quot;/&quot;) &quot;/&quot; else path.pattern</span>
+                else
+<span class="fc bfc" id="L277" title="All 2 branches covered.">                    if (path.pattern == &quot;/&quot;) handlerPath else handlerPath + path.pattern</span>
+
+<span class="fc" id="L279">            val nestedPath = path.copy(pattern = finalPath)</span>
+<span class="fc" id="L280">            val nestedRoute = route.copy(path = nestedPath)</span>
+
+<span class="fc" id="L282">            when (it) {</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">                is FilterHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">                is RouteHandler -&gt; nestedRoute.list().map { r -&gt; it.copy(route = r) }</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">                is ExceptionHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">                is CodeHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">                is ResourceHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">                is FileHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc" id="L289">                is PathHandler -&gt; flatRequestHandlers(listOf(it.copy(route = nestedRoute)))</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

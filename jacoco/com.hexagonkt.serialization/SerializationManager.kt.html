@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SerializationManager.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.serialization</a> &gt; <span class="el_source">SerializationManager.kt</span></div><h1>SerializationManager.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.serialization
+
+import com.hexagonkt.logging.Logger
+import com.hexagonkt.helpers.fail
+import java.io.File
+import java.net.URL
+
+/**
+ * TODO
+ *
+ * Can be a Serializer immutable class and:
+ *
+ * object SerializationManager : Serializer(mimeTypesResource, formats)
+ */
+<span class="fc" id="L15">object SerializationManager {</span>
+
+<span class="fc" id="L17">    private val logger: Logger = Logger(this::class)</span>
+
+<span class="fc" id="L19">    private val mimeTypesResource = URL(&quot;classpath:serialization/mime.types&quot;)</span>
+
+<span class="fc" id="L21">    internal val coreFormats: LinkedHashSet&lt;SerializationFormat&gt; =</span>
+<span class="fc" id="L22">        linkedSetOf(Json)</span>
+
+    /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
+<span class="fc" id="L25">    var formats: LinkedHashSet&lt;SerializationFormat&gt; = coreFormats</span>
+        set(value) {
+<span class="fc bfc" id="L27" title="All 4 branches covered.">            require(value.isNotEmpty()) { &quot;Formats list can not be empty&quot; }</span>
+<span class="fc" id="L28">            field = value</span>
+
+<span class="fc" id="L30">            formatsMap = formatsMap()</span>
+<span class="fc" id="L31">            formats.forEach { format -&gt;</span>
+<span class="fc" id="L32">                extensions = extensions + (format.contentType to format.extensions.toList())</span>
+<span class="fc" id="L33">                mimeTypes = mimeTypes + format.extensions.map { ext -&gt; ext to format.contentType }</span>
+<span class="fc" id="L34">            }</span>
+
+<span class="fc" id="L36">            logger.info { serializationFormats() }</span>
+<span class="fc" id="L37">        }</span>
+
+<span class="fc" id="L39">    var defaultFormat: SerializationFormat = formats.first()</span>
+        set(value) {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            require(formats.contains(value)) {</span>
+<span class="fc" id="L42">                val contentTypes = formats.joinToString(&quot;, &quot;) { it.contentType }</span>
+<span class="fc" id="L43">                &quot;'$value' not available in: $contentTypes&quot;</span>
+            }
+<span class="fc" id="L45">            field = value</span>
+
+<span class="fc" id="L47">            logger.info { &quot;Default serialization format set to '${field.contentType}'&quot; }</span>
+<span class="fc" id="L48">        }</span>
+
+<span class="fc" id="L50">    private var formatsMap: LinkedHashMap&lt;String, SerializationFormat&gt; = formatsMap()</span>
+
+    /** Content Type -&gt; Extensions. */
+<span class="fc" id="L53">    private var extensions: Map&lt;String, List&lt;String&gt;&gt; = loadContentTypeExtensions(mimeTypesResource)</span>
+
+    /** Extension -&gt; Content Type. */
+    private var mimeTypes: Map&lt;String, String&gt; =
+<span class="fc" id="L57">        extensions.flatMap { it.value.map { ext -&gt; ext to it.key } }.toMap()</span>
+
+<span class="fc" id="L59">    init {</span>
+<span class="fc" id="L60">        logger.info { serializationFormats() }</span>
+
+<span class="fc" id="L62">        logger.info { &quot;Default serialization format set to '${defaultFormat.contentType}'&quot; }</span>
+
+<span class="fc" id="L64">        logger.info { &quot;${extensions.size} Content types loaded from: ${mimeTypesResource.path}&quot; }</span>
+<span class="fc" id="L65">    }</span>
+
+    fun formats(vararg formats: SerializationFormat) {
+<span class="fc" id="L68">        this.formats = LinkedHashSet(formats.toList())</span>
+<span class="fc" id="L69">    }</span>
+
+    fun defaultFormat(defaultFormat: SerializationFormat) {
+<span class="fc" id="L72">        this.defaultFormat = defaultFormat</span>
+<span class="fc" id="L73">    }</span>
+
+<span class="fc" id="L75">    fun contentTypeOf(extension: String): String? = mimeTypes[extension]</span>
+
+<span class="fc" id="L77">    fun contentTypeOf(url: URL): String? = contentTypeOf(pathExtension(url.file))</span>
+
+<span class="fc" id="L79">    fun contentTypeOf(file: File): String? = mimeTypes[file.extension]</span>
+
+    fun formatOf(contentType: String): SerializationFormat =
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        formatsMap[contentType] ?: error(&quot;$contentType serialization format not found&quot;)</span>
+
+    fun formatOf(contentType: String, defaultFormat: SerializationFormat): SerializationFormat =
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        formatsMap[contentType] ?: defaultFormat</span>
+
+    fun formatOf(url: URL): SerializationFormat =
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        formatOf(contentTypeOf(url) ?: fail)</span>
+
+    fun formatOf(file: File): SerializationFormat =
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        formatOf(contentTypeOf(file) ?: fail)</span>
+
+<span class="fc" id="L93">    private fun pathExtension(path: String): String = path.substringAfterLast('.')</span>
+
+    private fun loadContentTypeExtensions(input: URL): Map&lt;String, List&lt;String&gt;&gt; =
+<span class="fc" id="L96">        input</span>
+<span class="fc" id="L97">            .openStream()</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">            .bufferedReader()</span>
+<span class="fc" id="L99">            .readLines()</span>
+<span class="fc" id="L100">            .asSequence()</span>
+<span class="fc" id="L101">            .map { it.trim() }</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            .filter { it.isNotBlank() }</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">            .filter { !it.startsWith('#') }</span>
+<span class="fc" id="L104">            .map { it.split(&quot;&quot;&quot;\s+&quot;&quot;&quot;.toRegex()) }</span>
+<span class="fc" id="L105">            .map { it.first() to it.drop(1) }</span>
+<span class="fc" id="L106">            .toMap()</span>
+
+<span class="fc" id="L108">    private fun formatsMap () = linkedMapOf (*formats.map { it.contentType to it }.toTypedArray())</span>
+
+    private fun serializationFormats(): String =
+<span class="fc" id="L111">        formats.joinToString(&quot;\n&quot;, &quot;Serialization formats loaded:\n&quot;) {</span>
+<span class="fc" id="L112">            &quot;* ${it.contentType} (${it.extensions.joinToString(&quot;, &quot;)})&quot;</span>
+<span class="fc" id="L113">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

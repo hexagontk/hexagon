@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Response.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server</a> &gt; <span class="el_source">Response.kt</span></div><h1>Response.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server
+
+import java.io.OutputStream
+import java.net.HttpCookie
+
+/**
+ * Check 'Request' comment. And also note that lists should be updated by engines after callback
+ * is processed, this data is like a buffer that needs to be dumped to the real response.
+ *
+ * HTTP response context.
+ */
+<span class="fc" id="L12">abstract class Response {</span>
+
+    interface MapInterface&lt;K, V&gt; {
+        operator fun get(name: K): V?
+
+        operator fun set(name: K, value: V?)
+
+        fun remove(name: K)
+    }
+
+    /**
+     * Output Stream of the response.
+     */
+<span class="fc" id="L25">    val outputStream: OutputStream by lazy { outputStream() }</span>
+
+    /**
+     * Status code of the response.
+     */
+    var status: Int
+<span class="fc" id="L31">        get() = status()</span>
+<span class="fc" id="L32">        set(value) { status(value) }</span>
+
+    /**
+     * Body of the response.
+     */
+    var body: Any
+<span class="fc" id="L38">        get() = body()</span>
+<span class="fc" id="L39">        set(value) { body(value) }</span>
+
+    /**
+     * Content Type of the response.
+     */
+    var contentType: String?
+<span class="fc" id="L45">        get() = contentType()</span>
+<span class="fc" id="L46">        set(value) { contentType(value) }</span>
+
+    /**
+     * Response headers.
+     */
+    @Suppress(&quot;RemoveExplicitTypeArguments&quot;) // Without types fails inside IntelliJ (not in CLI)
+<span class="fc" id="L52">    val headersValues: MutableMap&lt;String, List&lt;Any&gt;&gt; by lazy { LinkedHashMap&lt;String, List&lt;Any&gt;&gt;() }</span>
+
+    /**
+     * A [MapInterface] implementation for response headers.
+     */
+<span class="fc" id="L57">    val headers: MapInterface&lt;String, Any&gt; = object : MapInterface&lt;String, Any&gt; {</span>
+        override operator fun get(name: String): Any? =
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">            headersValues[name]?.firstOrNull()</span>
+
+        override operator fun set(name: String, value: Any?) {
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (value == null)</span>
+<span class="fc" id="L63">                remove(name)</span>
+            else
+<span class="fc" id="L65">                headersValues[name] = listOf(value)</span>
+<span class="fc" id="L66">        }</span>
+
+        override fun remove(name: String) {
+<span class="fc" id="L69">            headersValues.remove(name)</span>
+<span class="fc" id="L70">        }</span>
+    }
+
+    /**
+     * Provides a [OutputStream] instance for the response.
+     */
+    protected abstract fun outputStream(): OutputStream
+
+    /**
+     * Provides the status code of the response.
+     */
+    protected abstract fun status(): Int
+
+    /**
+     * Sets the status code of the response.
+     *
+     * @param value Status code.
+     */
+    protected abstract fun status(value: Int)
+
+    /**
+     * Provides the body of the response.
+     */
+    protected abstract fun body(): Any
+
+    /**
+     * Sets the body of the response.
+     *
+     * @param value Body content.
+     */
+    protected abstract fun body(value: Any)
+
+    /**
+     * Provides the content type of the response.
+     */
+    protected abstract fun contentType(): String?
+
+    /**
+     * Sets the content type of the response.
+     *
+     * @param value Content type info.
+     */
+    protected abstract fun contentType(value: String?)
+
+    /**
+     * Sends a response by adding the given cookie.
+     *
+     * @param cookie Cookie to be added.
+     */
+    abstract fun addCookie (cookie: HttpCookie)
+
+    /**
+     * Sends a response by removing the cookie with specified name.
+     *
+     * @param name Cookie to be deleted.
+     */
+    abstract fun removeCookie (name: String)
+
+    /**
+     * Sends a redirect response to the client using the
+     * specified redirect URL.
+     *
+     * @param url Redirect URL.
+     */
+    abstract fun redirect (url: String)
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

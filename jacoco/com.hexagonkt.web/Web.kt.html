@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Web.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.web</a> &gt; <span class="el_source">Web.kt</span></div><h1>Web.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.web
+
+import com.hexagonkt.http.server.Call
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.templates.TemplateEngine
+import com.hexagonkt.templates.TemplatePort
+import kotlinx.html.HTML
+import kotlinx.html.html
+import kotlinx.html.stream.createHTML
+import java.nio.charset.Charset.defaultCharset
+import java.util.Locale
+import java.util.Locale.forLanguageTag as localeFor
+
+fun Call.templateType(template: String) {
+<span class="pc bpc" id="L15" title="1 of 2 branches missed.">    if (response.contentType == null) {</span>
+<span class="fc" id="L16">        val mimeType = SerializationManager.contentTypeOf(template.substringAfterLast('.'))</span>
+<span class="fc" id="L17">        response.contentType = &quot;$mimeType; charset=${defaultCharset().name()}&quot;</span>
+    }
+<span class="fc" id="L19">}</span>
+
+fun Call.fullContext(): Map&lt;String, *&gt; {
+<span class="fc" id="L22">    val extraParameters = mapOf(</span>
+<span class="fc" id="L23">        &quot;path&quot; to request.path.removeSuffix(&quot;/&quot;), // Do not allow trailing slash</span>
+<span class="fc" id="L24">        &quot;lang&quot; to obtainLocale().language</span>
+    )
+
+<span class="fc" id="L27">    return session.attributes + extraParameters</span>
+}
+
+/**
+ * TODO Review order precedence and complete code (now only taking request attribute)
+ *
+ * 1. Request
+ * 2. Session
+ * 3. Cookie
+ * 4. Accept-language
+ * 5. Server default locale
+ */
+<span class="fc" id="L39">fun Call.obtainLocale(): Locale = when {</span>
+<span class="pc bpc" id="L40" title="4 of 6 branches missed.">    attributes[&quot;lang&quot;] as? String != null -&gt; localeFor(attributes[&quot;lang&quot;] as String)</span>
+<span class="fc" id="L41">    else -&gt; Locale.getDefault()</span>
+<span class="fc" id="L42">}</span>
+
+fun Call.template(
+    templateAdapter: TemplatePort,
+    templateName: String,
+<span class="nc" id="L47">    locale: Locale = obtainLocale(),</span>
+<span class="nc" id="L48">    context: Map&lt;String, *&gt; = fullContext()</span>
+<span class="nc" id="L49">) = template(TemplateEngine(templateAdapter), templateName, locale, context)</span>
+
+fun Call.template(
+    templateEngine: TemplateEngine,
+    templateName: String,
+<span class="fc" id="L54">    locale: Locale = obtainLocale(),</span>
+<span class="fc" id="L55">    context: Map&lt;String, *&gt; = fullContext()</span>
+) {
+
+<span class="fc" id="L58">    templateType(templateName)</span>
+<span class="fc" id="L59">    ok(templateEngine.render(templateName, locale, context))</span>
+<span class="fc" id="L60">}</span>
+
+/**
+ * Return HTML setting the proper content type.
+ */
+fun Call.html(block: HTML.() -&gt; Unit) {
+<span class="fc" id="L66">    ok(createHTML().html { block() }, &quot;text/html&quot;)</span>
+<span class="fc" id="L67">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
