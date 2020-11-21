@@ -2,6 +2,9 @@ package com.hexagonkt.logging
 
 import java.lang.System.nanoTime
 import kotlin.reflect.KClass
+import com.hexagonkt.helpers.Ansi.BLINK_ON
+import com.hexagonkt.helpers.Ansi.BOLD_ON
+import com.hexagonkt.helpers.Ansi.RESET
 import com.hexagonkt.logging.LoggingLevel.*
 
 /**
@@ -59,7 +62,7 @@ class Logger(val name: String) {
     }
 
     fun flare(message: () -> Any? = { "" }) {
-        log.log(TRACE) { "$FLARE_PREFIX ${message()}" }
+        log.log(TRACE) { "$BOLD_ON$BLINK_ON$FLARE_PREFIX$RESET ${message()}" }
     }
 
     fun time(startNanos: Long, message: () -> Any? = { "" }) {

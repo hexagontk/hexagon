@@ -56,7 +56,7 @@ injection. However, some of these capacities can be replaced by other third part
 
 Simple Hello World HTTP example.
 
-@sample http_server_jetty/src/test/kotlin/HelloWorld.kt
+@code http_server_jetty/src/test/kotlin/HelloWorld.kt
 
 You can check the [code examples] and [demo projects] for more complex use cases.
 
@@ -111,7 +111,7 @@ Ports with their provided implementations (Adapters).
 | [Store]                 | [MongoDB]
 | [Templates]             | [Pebble], [FreeMarker]
 | [Serialization Formats] | [JSON], [YAML]
-| [Settings]              | [Environment], [Files], [Resources]
+| [Settings]              | [Environment], [URLs], [System Properties]
 
 [HTTP Server]: /port_http_server
 [Jetty]: /http_server_jetty
@@ -127,8 +127,8 @@ Ports with their provided implementations (Adapters).
 [FreeMarker]: /templates_freemarker
 [Serialization Formats]: /hexagon_core/#serialization
 [JSON]: /hexagon_core/com.hexagonkt.serialization/-json
-[YAML]: /hexagon_core/com.hexagonkt.serialization/-yaml
-[Settings]: /hexagon_core/#settings
-[Environment]: /hexagon_core/com.hexagonkt.settings/-environment-variables-source
-[Files]: /hexagon_core/com.hexagonkt.settings/-file-source
-[Resources]: /hexagon_core/com.hexagonkt.settings/-resource-source
+[YAML]: /serialization_yaml/com.hexagonkt.serialization/-yaml
+[Settings]: /hexagon_settings
+[Environment]: /hexagon_settings/com.hexagonkt.settings/-environment-variables-source
+[URLs]: /hexagon_settings/com.hexagonkt.settings/-url-source
+[System Properties]: /hexagon_settings/com.hexagonkt.settings/-system-properties-source

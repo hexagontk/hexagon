@@ -36,20 +36,22 @@ data class Server(
     val settings: ServerSettings = ServerSettings()
 ) {
 
-    private val banner: String = """
-    $CYAN_FG          _________
-    $CYAN_FG         /         \
-    $CYAN_FG        /   ____   /
-    $CYAN_FG       /   /   /  /
-    $CYAN_FG      /   /   /__/$BLUE_FG   /\$BOLD_ON    H E X A G O N$RESET
-    $CYAN_FG     /   /$BLUE_FG          /  \$DEFAULT_FG        ___
-    $CYAN_FG     \  /$BLUE_FG   ___    /   /
-    $CYAN_FG      \/$BLUE_FG   /  /   /   /$CYAN_FG    T O O L K I T$RESET
-    $BLUE_FG          /  /___/   /
-    $BLUE_FG         /          /
-    $BLUE_FG         \_________/
-    $RESET
-    """.trimIndent()
+    companion object {
+        val banner: String = """
+        $CYAN_FG          _________
+        $CYAN_FG         /         \
+        $CYAN_FG        /   ____   /
+        $CYAN_FG       /   /   /  /
+        $CYAN_FG      /   /   /__/$BLUE_FG   /\$BOLD_ON    H E X A G O N$RESET
+        $CYAN_FG     /   /$BLUE_FG          /  \$DEFAULT_FG        ___
+        $CYAN_FG     \  /$BLUE_FG   ___    /   /
+        $CYAN_FG      \/$BLUE_FG   /  /   /   /$CYAN_FG    T O O L K I T$RESET
+        $BLUE_FG          /  /___/   /
+        $BLUE_FG         /          /
+        $BLUE_FG         \_________/       https://hexagonkt.com/port_http_server
+        $RESET
+        """.trimIndent()
+    }
 
     private val log: Logger = Logger(this::class)
 

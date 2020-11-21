@@ -29,7 +29,7 @@ abstract class BooksTest(adapter: ServerPort) {
             // Require fails if parameter does not exists
             val author = queryParameters.require("author")
             val title = queryParameters.require("title")
-            val id = (books.keys.max() ?: 0) + 1
+            val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
             send(201, id)
         }
