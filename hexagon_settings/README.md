@@ -45,7 +45,7 @@ Loaded into type
 
 Optional simple settings can be handled with data classes
 
-Below there is a code fragment showing how to add a custom settings source and load its properties:
+Below there is a code fragment showing how to add custom settings sources and load its properties:
 
 @code hexagon_settings/src/test/kotlin/HexagonSettingsSamplesTest.kt:settingsUsage
 
