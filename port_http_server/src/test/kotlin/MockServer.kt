@@ -6,6 +6,9 @@ import io.swagger.v3.oas.models.PathItem
 import io.swagger.v3.oas.models.media.MediaType
 import io.swagger.v3.oas.models.parameters.Parameter
 import io.swagger.v3.oas.models.responses.ApiResponse
+import io.swagger.v3.oas.models.security.SecurityRequirement
+import io.swagger.v3.oas.models.security.SecurityScheme
+import io.swagger.v3.oas.models.security.SecurityScheme.Type
 import io.swagger.v3.parser.OpenAPIV3Parser
 
 class MockServer(pathToSpec: String, port: Int = 0) {
@@ -75,6 +78,7 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * returning the appropriate response.
      */
     private fun handleRequest(operation: Operation, call: Call) {
+        verifyAuth(operation, call)
         verifyParams(operation, call)
         verifyBody(operation, call)
         call.ok(content = getResponseContentForStatus(
@@ -130,6 +134,103 @@ class MockServer(pathToSpec: String, port: Int = 0) {
             mediaType.example
         } else {
             mediaType.examples?.toList()?.get(0)?.second?.value
+        }
+    }
+
+    /**
+     * Performs verification of the authentication information provided. If the operation does not
+     * require authentication or it is optional, this step is skipped. If the authentication
+     * fails, a 401 response is returned.
+     */
+    private fun verifyAuth(operation: Operation, call: Call) {
+        if (operation.security == null || operation.security.size == 0
+            || containsEmptySecurityRequirement(operation)) return
+
+        // Any one of the security mechanisms need to be satisfied
+        if (!operation.security.any { securityRequirement ->
+            verifySecurityRequirement(securityRequirement, call)
+        }) {
+            call.halt(code = 401, content = getResponseContentForStatus(operation, 401))
+        }
+    }
+
+    /**
+     * If an operation contains an empty security requirement, it is optional, so we can skip
+     * checking authorization.
+     */
+    private fun containsEmptySecurityRequirement(operation: Operation): Boolean =
+        operation.security.any { it.size == 0 }
+
+    /**
+     * A security mechanism may contain more than one security schemes. All of them need to be
+     * satisfied for the authorization to be successful.
+     */
+    private fun verifySecurityRequirement(securityRequirement: SecurityRequirement, call: Call): Boolean {
+        // All of the security schemes need to be satisfied
+        return securityRequirement.keys.all { securitySchemeName ->
+            verifySecurityScheme(securitySchemeName, call)
+        }
+    }
+
+    /**
+     * Verifies whether call satisfies a single security scheme.
+     */
+    private fun verifySecurityScheme(schemeName: String, call: Call): Boolean {
+        val securityScheme = openAPISpec.components.securitySchemes[schemeName]
+            ?: throw IllegalArgumentException("The OpenAPI Spec contains no security scheme component for $schemeName")
+
+        return when (securityScheme.type) {
+            Type.APIKEY -> {
+                validateApiKey(securityScheme, call)
+            }
+            Type.HTTP -> {
+                validateHttpAuth(securityScheme, call)
+            }
+            else -> {
+                throw UnsupportedOperationException("Currently the Mock Server only supports HTTP and API Key authentication")
+            }
+        }
+    }
+
+    /**
+     * Validates API key authentication, based on where the API key is meant to be located
+     */
+    private fun validateApiKey(securityScheme: SecurityScheme, call: Call): Boolean {
+        return when (securityScheme.`in`) {
+            SecurityScheme.In.QUERY -> {
+                !call.request.queryParameters[securityScheme.name].isNullOrBlank()
+            }
+            SecurityScheme.In.HEADER -> {
+                !call.request.headers[securityScheme.name].isNullOrBlank()
+            }
+            SecurityScheme.In.COOKIE -> {
+                call.request.cookies[securityScheme.name] != null
+            }
+            else -> {
+                throw IllegalArgumentException("Unknown `in` value found in OpenAPI Spec for security scheme")
+            }
+        }
+    }
+
+    /**
+     * Validates HTTP authentication, based on scheme. Currently only Basic and Bearer schemes
+     * are supported.
+     */
+    private fun validateHttpAuth(securityScheme: SecurityScheme, call: Call): Boolean {
+        return when (securityScheme.scheme.toLowerCase()) {
+            "basic" -> {
+                call.request.headers["Authorization"]?.let { authString ->
+                    authString.isNotBlank() && authString.startsWith("Basic")
+                } ?: false
+            }
+            "bearer" -> {
+                call.request.headers["Authorization"]?.let { authString ->
+                    authString.isNotBlank() && authString.startsWith("Bearer")
+                } ?: false
+            }
+            else -> {
+                throw UnsupportedOperationException("Currently the Mock Server only supports Basic and Bearer HTTP Authentication")
+            }
         }
     }
 
