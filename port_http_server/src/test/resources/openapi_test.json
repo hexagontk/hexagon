@@ -5,6 +5,43 @@
     "description": "This is a test OpenAPI spec for the Hexagon Mock Server project.",
     "version": "1.0.0"
   },
+  "components": {
+    "securitySchemes": {
+      "basic": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "unknown": {
+        "type": "http",
+        "scheme": "unknown"
+      },
+      "api_key_query": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "query"
+      },
+      "api_key_header": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      },
+      "api_key_cookie": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "cookie"
+      },
+      "api_key_unknown": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "unknown"
+      }
+    }
+  },
   "paths": {
     "/ping" : {
       "get": {
@@ -403,6 +440,301 @@
             "content": {
               "application/json": {
                 "example": "invalid or missing request body"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-optional-auth": {
+      "get": {
+        "summary": "An endpoint with optional authentication",
+        "description": "An endpoint with optional authentication",
+        "security": [
+          {
+            "basic": [ ]
+          },
+          { }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-basic-auth": {
+      "get": {
+        "summary": "An endpoint that requires basic (username/password) authentication",
+        "description": "An endpoint that requires basic (username/password) authentication",
+        "security": [
+          {
+            "basic": [ ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-bearer-auth": {
+      "get": {
+        "summary": "An endpoint that requires bearer JWT authentication",
+        "description": "An endpoint that requires bearer JWT authentication",
+        "security": [
+          {
+            "bearer": [ ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-unknown-auth": {
+      "get": {
+        "summary": "An endpoint that requires authentication of an unknown scheme",
+        "description": "An endpoint that requires authentication of an unknown scheme",
+        "security": [
+          {
+            "unknown": [ ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-query-api-auth": {
+      "get": {
+        "summary": "An endpoint that requires authentication with an API key present in the query params",
+        "description": "An endpoint that requires authentication with an API key present in the query params",
+        "security": [
+          {
+            "api_key_query": [ ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-header-api-auth": {
+      "get": {
+        "summary": "An endpoint that requires authentication with an API key present in the header",
+        "description": "An endpoint that requires authentication with an API key present in the header",
+        "security": [
+          {
+            "api_key_header": [ ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-cookie-api-auth": {
+      "get": {
+        "summary": "An endpoint that requires authentication with an API key present in the cookies",
+        "description": "An endpoint that requires authentication with an API key present in the cookies",
+        "security": [
+          {
+            "api_key_cookie": [ ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-unknown-api-auth": {
+      "get": {
+        "summary": "An endpoint that requires authentication with an API key present in an unknown location",
+        "description": "An endpoint that requires authentication with an API key present in an unknown location",
+        "security": [
+          {
+            "api_key_unknown": [ ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-multiple-mechanisms": {
+      "get": {
+        "summary": "An endpoint that contains multiple security mechanisms",
+        "description": "An endpoint that contains multiple security mechanisms, any one of which need to be satisfied",
+        "security": [
+          {
+            "api_key_cookie": [ ]
+          },
+          {
+            "basic": [ ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/check-multiple-schemes": {
+      "get": {
+        "summary": "An endpoint that contains multiple security schemes",
+        "description": "An endpoint that contains multiple security schemes, all of which need to be satisfied",
+        "security": [
+          {
+            "api_key_cookie": [ ],
+            "basic": [ ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": "success"
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid authorization credentials",
+            "content": {
+              "application/json": {
+                "example": "Invalid authorization credentials"
               }
             }
           }
