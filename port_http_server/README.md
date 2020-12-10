@@ -352,6 +352,7 @@ The mock server takes all its data from the spec and the request and response of
 determined by the routes' examples and schemas.
 During handling of a request, the mock server validates the request parameters against those
 specified in the spec file and returns an appropriate response from the [provided examples](#providing-examples).
+If any authentication requirements are specified, they are validated as well.
 #### How to Use
 
 To create the mock server object:
@@ -379,8 +380,16 @@ The file provided should be a syntactically valid OpenAPI spec file. If it is no
 raised at initialization time.
 
 For each path in the spec file, descriptions for 200 and 400 (in case parameter verification fails)
-status codes must be provided. In addition, for each status code, at least one example must be
+status codes must be provided. If the path contains authentication requirements, a 401 status code
+description must also be provided. In addition, for each status code, at least one example must be
 provided. Note that, at present, only the `application/json` media type is supported.
+
+#### Supported Authentication Methods
+
+Currently, the following Authentication methods/mechanisms are supported:
+
+* API Key authentication (key may be present in the headers, query parameters or cookies)
+* HTTP Authentication (Basic or Bearer authentication)
 
 #### Providing Examples
 

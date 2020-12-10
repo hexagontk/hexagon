@@ -183,6 +183,130 @@ class MockServerRoutesTest {
         assert(response2.body == "invalid or missing request body")
     }
 
+    @Test fun `If Authorization is optional, it is skipped`() {
+        val response1 = client.get("/check-optional-auth")
+        assert(response1.status == 200)
+        assert(response1.body == "success")
+
+        val headers = mapOf("Authorization" to listOf("Basic dGVzdDEwMDA6aW1vam8xMjM="))
+        val response2 = client.get("/check-optional-auth", headers = headers)
+        assert(response2.status == 200)
+        assert(response2.body == "success")
+    }
+
+    @Test fun `Basic HTTP Authentication is verified correctly`() {
+        val response1 = client.get("/check-basic-auth")
+        assert(response1.status == 401)
+        assert(response1.body == "Invalid authorization credentials")
+
+        val headers = mapOf("Authorization" to listOf("Basic dGVzdDEwMDA6aW1vam8xMjM="))
+        val response2 = client.get("/check-basic-auth", headers = headers)
+        assert(response2.status == 200)
+        assert(response2.body == "success")
+    }
+
+    @Test fun `Bearer HTTP Authentication is verified correctly`() {
+        val response1 = client.get("/check-bearer-auth")
+        assert(response1.status == 401)
+        assert(response1.body == "Invalid authorization credentials")
+
+        val headers = mapOf("Authorization" to listOf("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjI5NDc1LCJleHAiOjE3MDg2MDI1OTEsImlhdCI6MTYwMjA3MTM5MSwidXNlcl90eXBlIjoiMyJ9.oeeIax23lgfEY_rDt_iDXP5cONAXUgfoWZ43A4XCLIw"))
+        val response2 = client.get("/check-bearer-auth", headers = headers)
+        assert(response2.status == 200)
+        assert(response2.body == "success")
+    }
+
+    @Test fun `HTTP Authentication with unknown scheme throws error`() {
+        val response = client.get("/check-unknown-auth")
+        assert(response.status == 500)
+        assert(response.body != null)
+        response.body?.let {
+            assert(it.contains("Currently the Mock Server only supports Basic and Bearer HTTP Authentication"))
+        }
+    }
+
+    @Test fun `Query param API Key Authentication is verified correctly`() {
+        val response1 = client.get("/check-query-api-auth")
+        assert(response1.status == 401)
+        assert(response1.body == "Invalid authorization credentials")
+
+        val response2 = client.get("/check-query-api-auth?api_key=abcdefg")
+        assert(response2.status == 200)
+        assert(response2.body == "success")
+    }
+
+    @Test fun `Header API Key Authentication is verified correctly`() {
+        val response1 = client.get("/check-header-api-auth")
+        assert(response1.status == 401)
+        assert(response1.body == "Invalid authorization credentials")
+
+        val headers = mapOf("api_key" to listOf("abcdefg"))
+        val response2 = client.get("/check-header-api-auth", headers = headers)
+        assert(response2.status == 200)
+        assert(response2.body == "success")
+    }
+
+    @Test fun `Cookie API Key Authentication is verified correctly`() {
+        val response1 = client.get("/check-cookie-api-auth")
+        assert(response1.status == 401)
+        assert(response1.body == "Invalid authorization credentials")
+
+        client.cookies["api_key"] = HttpCookie("api_key", "abcdefg")
+        val response2 = client.get("/check-cookie-api-auth")
+        assert(response2.status == 200)
+        assert(response2.body == "success")
+        client.cookies.clear()
+    }
+
+    @Test fun `Unknown location API Key Authentication throws error`() {
+        val response = client.get("/check-unknown-api-auth")
+        assert(response.status == 500)
+        assert(response.body != null)
+        response.body?.let {
+            assert(it.contains("Unknown `in` value found in OpenAPI Spec for security scheme"))
+        }
+    }
+
+    @Test fun `When there are multiple security mechanisms, any one needs to be satisfied`() {
+        val response1 = client.get("/check-multiple-mechanisms")
+        assert(response1.status == 401)
+        assert(response1.body == "Invalid authorization credentials")
+
+        client.cookies["api_key"] = HttpCookie("api_key", "abcdefg")
+        val response2 = client.get("/check-multiple-mechanisms")
+        assert(response2.status == 200)
+        assert(response2.body == "success")
+        client.cookies.clear()
+
+        val headers = mapOf("Authorization" to listOf("Basic dGVzdDEwMDA6aW1vam8xMjM="))
+        val response3 = client.get("/check-multiple-mechanisms", headers = headers)
+        assert(response3.status == 200)
+        assert(response3.body == "success")
+    }
+
+    @Test fun `When there are multiple security schemes, all of them need to be satisfied`() {
+        val response1 = client.get("/check-multiple-mechanisms")
+        assert(response1.status == 401)
+        assert(response1.body == "Invalid authorization credentials")
+
+        client.cookies["api_key"] = HttpCookie("api_key", "abcdefg")
+        val response2 = client.get("/check-multiple-schemes")
+        assert(response2.status == 401)
+        assert(response2.body == "Invalid authorization credentials")
+        client.cookies.clear()
+
+        val headers = mapOf("Authorization" to listOf("Basic dGVzdDEwMDA6aW1vam8xMjM="))
+        val response3 = client.get("/check-multiple-schemes", headers = headers)
+        assert(response3.status == 401)
+        assert(response3.body == "Invalid authorization credentials")
+
+        client.cookies["api_key"] = HttpCookie("api_key", "abcdefg")
+        val response4 = client.get("/check-multiple-schemes", headers = headers)
+        assert(response4.status == 200)
+        assert(response4.body == "success")
+        client.cookies.clear()
+    }
+
     @AfterAll fun tearDown() {
         server.stop()
     }

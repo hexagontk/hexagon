@@ -20,8 +20,7 @@ extra["basePackage"] = "com.hexagonkt.templates.pebble"
 
 dependencies {
     "api"(project(":port_templates"))
-    "api"("io.pebbletemplates:pebble:${properties["pebbleVersion"]}") {
-        exclude (module = "slf4j-api")
-    }
+    "api"("io.pebbletemplates:pebble:${properties["pebbleVersion"]}")
+
     "testImplementation"(entityTests)
 }

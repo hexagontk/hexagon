@@ -28,6 +28,7 @@ include(
     "port_templates",
 
     // Adapters
+    "logging_slf4j",
     "serialization_csv",
     "serialization_yaml",
     "messaging_rabbitmq",

@@ -11,8 +11,6 @@ import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory
 import org.eclipse.jetty.server.*
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS
-import org.eclipse.jetty.util.component.AbstractLifeCycle.AbstractLifeCycleListener
-import org.eclipse.jetty.util.component.LifeCycle
 import org.eclipse.jetty.util.ssl.SslContextFactory
 import java.net.InetSocketAddress
 import java.security.KeyStore
@@ -37,14 +35,10 @@ class JettyServletAdapter : ServerPort {
         jettyServer = serverInstance
 
         val context = ServletContextHandler(SESSIONS)
-        context.addLifeCycleListener(object : AbstractLifeCycleListener() {
-            override fun lifeCycleStarting(event: LifeCycle?) {
-                val filter = ServletFilter(server.contextRouter.flatRequestHandlers())
-                val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
-                val filterBind = context.servletContext.addFilter("filters", filter)
-                filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
-            }
-        })
+        val filter = ServletFilter(server.contextRouter.flatRequestHandlers())
+        val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
+        val filterBind = context.servletContext.addFilter("filters", filter)
+        filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
 
         if (settings.sslSettings != null) {
             val serverConnector = setupSsl(settings, serverInstance)

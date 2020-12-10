@@ -5,14 +5,14 @@ import com.hexagonkt.logging.LoggingLevel.ERROR
 import com.hexagonkt.logging.LoggingLevel.INFO
 import com.hexagonkt.logging.LoggingLevel.TRACE
 import com.hexagonkt.logging.LoggingLevel.WARN
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.slf4j.Logger as Slf4jLogger
 
 object Slf4jLoggingAdapter : LoggingPort {
 
     override fun createLogger(name: String): LoggerPort =
         object : LoggerPort {
-            val log: Logger = LoggerFactory.getLogger(name)
+            val log: Slf4jLogger = LoggerFactory.getLogger(name)
 
             override fun log(level: LoggingLevel, message: () -> Any?) {
                 when (level) {

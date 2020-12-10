@@ -9,11 +9,7 @@ description = "Hexagon core utilities. Includes DI, serialization, http and sett
 extra["basePackage"] = "com.hexagonkt"
 
 dependencies {
-    val slf4jVersion = properties["slf4jVersion"]
-    val logbackVersion = properties["logbackVersion"]
     val jacksonVersion = properties["jacksonVersion"]
-
-    "api"("org.slf4j:slf4j-api:$slf4jVersion")
 
     "api"("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     "api"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
@@ -23,7 +19,6 @@ dependencies {
     }
 
     "testImplementation"(project(":serialization_yaml"))
-    "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") { exclude("org.slf4j") }
 }
 
 task("hexagonInfo") {
