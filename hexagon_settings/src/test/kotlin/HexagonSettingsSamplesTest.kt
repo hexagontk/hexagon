@@ -1,10 +1,16 @@
 package com.hexagonkt.settings
 
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.Yaml
 import org.junit.jupiter.api.Test
 
 class HexagonSettingsSamplesTest {
 
     @Test fun settingsUsage() {
+
+        SerializationManager.formats = linkedSetOf(Json, Yaml)
+
         // settingsUsage
         data class Configuration(
             val stringProperty: String,
