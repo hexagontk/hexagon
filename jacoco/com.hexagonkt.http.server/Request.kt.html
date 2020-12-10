@@ -231,7 +231,7 @@ fun &lt;T : Any&gt; Request.parseAllParameters(type: KClass&lt;T&gt;): T? {
 <span class="fc" id="L231">        requestMap.convertToObject(type)</span>
     }
 <span class="fc" id="L233">    catch (iae: IllegalArgumentException) {</span>
-<span class="pc" id="L234">        logger.warn { &quot;Unable to parse request data into ${type.simpleName} : ${iae.message}&quot; }</span>
+<span class="fc" id="L234">        logger.warn { &quot;Unable to parse request data into ${type.simpleName} : ${iae.message}&quot; }</span>
 <span class="fc" id="L235">        null</span>
     }
 }

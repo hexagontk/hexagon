@@ -5,22 +5,22 @@ import com.hexagonkt.logging.LoggingLevel.ERROR
 import com.hexagonkt.logging.LoggingLevel.INFO
 import com.hexagonkt.logging.LoggingLevel.TRACE
 import com.hexagonkt.logging.LoggingLevel.WARN
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.slf4j.Logger as Slf4jLogger
 
 <span class="fc" id="L11">object Slf4jLoggingAdapter : LoggingPort {</span>
 
     override fun createLogger(name: String): LoggerPort =
 <span class="fc" id="L14">        object : LoggerPort {</span>
-<span class="pc" id="L15">            val log: Logger = LoggerFactory.getLogger(name)</span>
+<span class="pc" id="L15">            val log: Slf4jLogger = LoggerFactory.getLogger(name)</span>
 
             override fun log(level: LoggingLevel, message: () -&gt; Any?) {
 <span class="pc bpc" id="L18" title="1 of 6 branches missed.">                when (level) {</span>
-<span class="fc bfc" id="L19" title="All 2 branches covered.">                    TRACE -&gt; if (log.isTraceEnabled) log.trace(message().toString())</span>
-<span class="fc bfc" id="L20" title="All 2 branches covered.">                    DEBUG -&gt; if (log.isDebugEnabled) log.debug(message().toString())</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">                    INFO -&gt; if (log.isInfoEnabled) log.info(message().toString())</span>
-<span class="fc bfc" id="L22" title="All 2 branches covered.">                    WARN -&gt; if (log.isWarnEnabled) log.warn(message().toString())</span>
-<span class="fc bfc" id="L23" title="All 2 branches covered.">                    ERROR -&gt; if (log.isErrorEnabled) log.error(message().toString())</span>
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">                    TRACE -&gt; if (log.isTraceEnabled) log.trace(message().toString())</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">                    DEBUG -&gt; if (log.isDebugEnabled) log.debug(message().toString())</span>
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">                    INFO -&gt; if (log.isInfoEnabled) log.info(message().toString())</span>
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">                    WARN -&gt; if (log.isWarnEnabled) log.warn(message().toString())</span>
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">                    ERROR -&gt; if (log.isErrorEnabled) log.error(message().toString())</span>
                 }
 <span class="fc" id="L25">            }</span>
 
@@ -37,9 +37,9 @@ import org.slf4j.LoggerFactory
                     INFO -&gt;
 <span class="nc bnc" id="L38" title="All 2 branches missed.">                        if (log.isInfoEnabled) log.info(message(exception).toString(), exception)</span>
                     WARN -&gt;
-<span class="fc bfc" id="L40" title="All 2 branches covered.">                        if (log.isWarnEnabled) log.warn(message(exception).toString(), exception)</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">                        if (log.isWarnEnabled) log.warn(message(exception).toString(), exception)</span>
                     ERROR -&gt;
-<span class="fc bfc" id="L42" title="All 2 branches covered.">                        if (log.isErrorEnabled) log.error(message(exception).toString(), exception)</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">                        if (log.isErrorEnabled) log.error(message(exception).toString(), exception)</span>
                 }
 <span class="fc" id="L44">            }</span>
 <span class="fc" id="L45">        }</span>

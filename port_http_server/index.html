@@ -848,6 +848,13 @@ if ('serviceWorker' in navigator)
 </li>
         
           <li class="md-nav__item">
+  <a href="#supported-authentication-methods" class="md-nav__link">
+    Supported Authentication Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#providing-examples" class="md-nav__link">
     Providing Examples
   </a>
@@ -1666,6 +1673,13 @@ if ('serviceWorker' in navigator)
           <li class="md-nav__item">
   <a href="#openapi-spec-file-requirements" class="md-nav__link">
     OpenAPI Spec File Requirements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-authentication-methods" class="md-nav__link">
+    Supported Authentication Methods
   </a>
   
 </li>
@@ -2581,7 +2595,8 @@ The path to the spec file can either be a URL or a local file. It can be either 
 <p>The mock server takes all its data from the spec and the request and response of the routes is
 determined by the routes' examples and schemas.
 During handling of a request, the mock server validates the request parameters against those
-specified in the spec file and returns an appropriate response from the <a href="#providing-examples">provided examples</a>.</p>
+specified in the spec file and returns an appropriate response from the <a href="#providing-examples">provided examples</a>.
+If any authentication requirements are specified, they are validated as well.</p>
 <h5 id="how-to-use">How to Use<a class="headerlink" href="#how-to-use" title="Permanent link">&para;</a></h5>
 <p>To create the mock server object:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="py">mockServer</span> <span class="p">=</span> <span class="n">MockServer</span><span class="p">(</span><span class="s">&quot;https://petstore3.swagger.io/api/v3/openapi.json&quot;</span><span class="p">)</span>
@@ -2607,8 +2622,15 @@ specified in the spec file and returns an appropriate response from the <a href=
 <p>The file provided should be a syntactically valid OpenAPI spec file. If it is not, an error will be
 raised at initialization time.</p>
 <p>For each path in the spec file, descriptions for 200 and 400 (in case parameter verification fails)
-status codes must be provided. In addition, for each status code, at least one example must be
+status codes must be provided. If the path contains authentication requirements, a 401 status code
+description must also be provided. In addition, for each status code, at least one example must be
 provided. Note that, at present, only the <code>application/json</code> media type is supported.</p>
+<h5 id="supported-authentication-methods">Supported Authentication Methods<a class="headerlink" href="#supported-authentication-methods" title="Permanent link">&para;</a></h5>
+<p>Currently, the following Authentication methods/mechanisms are supported:</p>
+<ul>
+<li>API Key authentication (key may be present in the headers, query parameters or cookies)</li>
+<li>HTTP Authentication (Basic or Bearer authentication)</li>
+</ul>
 <h5 id="providing-examples">Providing Examples<a class="headerlink" href="#providing-examples" title="Permanent link">&para;</a></h5>
 <p>There are several ways to define response examples in an OpenAPI spec file.
 If there are multiple examples defined for a particular path status code, you can specify a

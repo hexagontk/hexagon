@@ -61,4 +61,6 @@ com.hexagonkt
 com.hexagonkt.helpers
 com.hexagonkt.injection
 com.hexagonkt.logging
+com.hexagonkt.logging.jul
+com.hexagonkt.security
 com.hexagonkt.serialization

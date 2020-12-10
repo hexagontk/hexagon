@@ -2,7 +2,7 @@
 
 <span class="fc" id="L3">class SystemPropertiesSource(private val prefix: String) : SettingsSource {</span>
 
-<span class="nc" id="L5">    override fun toString(): String = &quot;System Properties starting with: $prefix&quot;</span>
+<span class="fc" id="L5">    override fun toString(): String = &quot;System Properties starting with: $prefix&quot;</span>
 
     override fun load(): Map&lt;String, *&gt; =
 <span class="fc" id="L8">        System.getProperties()</span>

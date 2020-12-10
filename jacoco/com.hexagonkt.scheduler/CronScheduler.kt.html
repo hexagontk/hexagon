@@ -61,7 +61,7 @@ import java.util.concurrent.TimeUnit.SECONDS
 <span class="fc" id="L61">            callback()</span>
         }
 <span class="fc" id="L63">        catch (e: Exception) {</span>
-<span class="pc" id="L64">            log.error(e) { &quot;Error executing cron job&quot; }</span>
+<span class="fc" id="L64">            log.error(e) { &quot;Error executing cron job&quot; }</span>
         }
 
 <span class="fc" id="L67">        scheduler.schedule({ function(callback, cronExecution) }, delay(cronExecution), SECONDS)</span>

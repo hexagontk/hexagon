@@ -82,7 +82,7 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 <span class="fc" id="L82">            .map {</span>
 <span class="fc" id="L83">                req.actionPath = it.first.path</span>
 <span class="fc" id="L84">                call.(it.second)()</span>
-<span class="pc" id="L85">                log.trace { &quot;Filter for path '${it.first.path}' executed&quot; }</span>
+<span class="fc" id="L85">                log.trace { &quot;Filter for path '${it.first.path}' executed&quot; }</span>
 <span class="fc" id="L86">            }</span>
 <span class="fc" id="L87">    }</span>
 
@@ -97,11 +97,11 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 <span class="fc" id="L97">                    bRequest.actionPath = first.path</span>
 <span class="fc" id="L98">                    call.second()</span>
 
-<span class="pc" id="L100">                    log.trace { &quot;Route for path '${bRequest.actionPath}' executed&quot; }</span>
+<span class="fc" id="L100">                    log.trace { &quot;Route for path '${bRequest.actionPath}' executed&quot; }</span>
 <span class="fc" id="L101">                    return true</span>
                 }
 <span class="fc" id="L103">                catch (e: PassException) {</span>
-<span class="pc" id="L104">                    log.trace { &quot;Handler for path '${bRequest.actionPath}' passed&quot; }</span>
+<span class="fc" id="L104">                    log.trace { &quot;Handler for path '${bRequest.actionPath}' passed&quot; }</span>
 <span class="fc" id="L105">                    continue</span>
                 }
             }
@@ -168,14 +168,14 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 <span class="fc" id="L168">                log.warn(e) { &quot;Error handling request: ${bRequest.actionPath}&quot; }</span>
             }
 
-<span class="pc bnc" id="L171" title="All 2 branches missed.">            log.trace { &quot;Status ${response.status} &lt;${if (handled) &quot;&quot; else &quot;NOT &quot;}HANDLED&gt;&quot; }</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            log.trace { &quot;Status ${response.status} &lt;${if (handled) &quot;&quot; else &quot;NOT &quot;}HANDLED&gt;&quot; }</span>
         }
 <span class="fc" id="L173">    }</span>
 
     private fun handleException(
 <span class="fc" id="L176">        exception: Exception, call: Call, type: Class&lt;*&gt; = exception.javaClass) {</span>
 
-<span class="pc" id="L178">        log.trace { &quot;Handling '${exception.javaClass.simpleName}' exception at request processing&quot; }</span>
+<span class="fc" id="L178">        log.trace { &quot;Handling '${exception.javaClass.simpleName}' exception at request processing&quot; }</span>
 
 <span class="fc" id="L180">        when (exception) {</span>
 <span class="fc bfc" id="L181" title="All 2 branches covered.">            is CodedException -&gt; {</span>
@@ -234,7 +234,7 @@ import javax.servlet.http.HttpServletResponse as HttpResponse
 <span class="pc bpc" id="L234" title="2 of 4 branches missed.">        if (response.contentType == null &amp;&amp; contentType != null)</span>
 <span class="fc" id="L235">            response.contentType = contentType</span>
 
-<span class="pc" id="L237">        log.trace { &quot;Resource for '$resourcePath' (${response.contentType}) returned&quot; }</span>
+<span class="fc" id="L237">        log.trace { &quot;Resource for '$resourcePath' (${response.contentType}) returned&quot; }</span>
 <span class="fc" id="L238">        val bytes = stream.readBytes()</span>
 <span class="fc" id="L239">        response.outputStream.write(bytes)</span>
 <span class="fc" id="L240">        response.outputStream.flush()</span>

@@ -2,8 +2,8 @@
 
 import java.lang.System.nanoTime
 import kotlin.reflect.KClass
-import com.hexagonkt.helpers.Ansi.BLINK_ON
-import com.hexagonkt.helpers.Ansi.BOLD_ON
+import com.hexagonkt.helpers.Ansi.BLINK
+import com.hexagonkt.helpers.Ansi.BOLD
 import com.hexagonkt.helpers.Ansi.RESET
 import com.hexagonkt.logging.LoggingLevel.*
 
@@ -62,7 +62,7 @@ import com.hexagonkt.logging.LoggingLevel.*
 <span class="fc" id="L62">    }</span>
 
 <span class="nc" id="L64">    fun flare(message: () -&gt; Any? = { &quot;&quot; }) {</span>
-<span class="fc" id="L65">        log.log(TRACE) { &quot;$BOLD_ON$BLINK_ON$FLARE_PREFIX$RESET ${message()}&quot; }</span>
+<span class="fc" id="L65">        log.log(TRACE) { &quot;$BOLD$BLINK$FLARE_PREFIX$RESET ${message()}&quot; }</span>
 <span class="fc" id="L66">    }</span>
 
 <span class="nc" id="L68">    fun time(startNanos: Long, message: () -&gt; Any? = { &quot;&quot; }) {</span>

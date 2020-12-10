@@ -31,7 +31,7 @@ sealed class Provider&lt;out T : Any&gt; {
 <span class="fc" id="L31">        logger.warn { &quot;$binding already bound (OVERRIDDEN). This should happen ONLY IN TEST&quot; }</span>
     }
     else {
-<span class="pc" id="L34">        logger.info { &quot;$binding bound to function (FORCED). This should happen ONLY IN TEST&quot; }</span>
+<span class="fc" id="L34">        logger.info { &quot;$binding bound to function (FORCED). This should happen ONLY IN TEST&quot; }</span>
     }
 
 <span class="fc" id="L37">    InjectionManager.bindings = InjectionManager.bindings + (key to provider)</span>

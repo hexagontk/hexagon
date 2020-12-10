@@ -18,13 +18,13 @@ import com.hexagonkt.injection.InjectionManager.injectOrNull
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
-import com.hexagonkt.helpers.Ansi.BLUE_FG
-import com.hexagonkt.helpers.Ansi.BOLD_ON
-import com.hexagonkt.helpers.Ansi.CYAN_FG
-import com.hexagonkt.helpers.Ansi.DEFAULT_FG
-import com.hexagonkt.helpers.Ansi.MAGENTA_FG
+import com.hexagonkt.helpers.Ansi.BLUE
+import com.hexagonkt.helpers.Ansi.BOLD
+import com.hexagonkt.helpers.Ansi.CYAN
+import com.hexagonkt.helpers.Ansi.DEFAULT
+import com.hexagonkt.helpers.Ansi.MAGENTA
 import com.hexagonkt.helpers.Ansi.RESET
-import com.hexagonkt.helpers.Ansi.UNDERLINE_ON
+import com.hexagonkt.helpers.Ansi.UNDERLINE
 
 /**
  * A server that listen to HTTP connections on a port and address and route requests using a
@@ -38,17 +38,17 @@ import com.hexagonkt.helpers.Ansi.UNDERLINE_ON
 
     companion object {
 <span class="fc" id="L40">        val banner: String = &quot;&quot;&quot;</span>
-        $CYAN_FG          _________
-        $CYAN_FG         /         \
-        $CYAN_FG        /   ____   /
-        $CYAN_FG       /   /   /  /
-        $CYAN_FG      /   /   /__/$BLUE_FG   /\$BOLD_ON    H E X A G O N$RESET
-        $CYAN_FG     /   /$BLUE_FG          /  \$DEFAULT_FG        ___
-        $CYAN_FG     \  /$BLUE_FG   ___    /   /
-        $CYAN_FG      \/$BLUE_FG   /  /   /   /$CYAN_FG    T O O L K I T$RESET
-        $BLUE_FG          /  /___/   /
-        $BLUE_FG         /          /
-        $BLUE_FG         \_________/       https://hexagonkt.com/port_http_server
+        $CYAN          _________
+        $CYAN         /         \
+        $CYAN        /   ____   /
+        $CYAN       /   /   /  /
+        $CYAN      /   /   /__/$BLUE   /\$BOLD    H E X A G O N$RESET
+        $CYAN     /   /$BLUE          /  \$DEFAULT        ___
+        $CYAN     \  /$BLUE   ___    /   /
+        $CYAN      \/$BLUE   /  /   /   /$CYAN    T O O L K I T$RESET
+        $BLUE          /  /___/   /
+        $BLUE         /          /
+        $BLUE         \_________/       https://hexagonkt.com/port_http_server
         $RESET
 <span class="fc" id="L53">        &quot;&quot;&quot;.trimIndent()</span>
     }
@@ -136,21 +136,21 @@ import com.hexagonkt.helpers.Ansi.UNDERLINE_ON
 <span class="fc bfc" id="L136" title="All 2 branches covered.">        val scheme = if (protocol == HTTP) &quot;http&quot; else &quot;https&quot;</span>
 <span class="fc" id="L137">        val binding = &quot;$scheme://$hostName:$runtimePort&quot;</span>
 
-<span class="fc" id="L139">        val serverAdapterValue = &quot;$BOLD_ON$CYAN_FG$portName$RESET&quot;</span>
+<span class="fc" id="L139">        val serverAdapterValue = &quot;$BOLD$CYAN$portName$RESET&quot;</span>
 
-<span class="fc" id="L141">        val hostnameValue = &quot;$BLUE_FG$hostname$RESET&quot;</span>
-<span class="fc" id="L142">        val cpuCountValue = &quot;$BLUE_FG$cpuCount$RESET&quot;</span>
-<span class="fc" id="L143">        val jvmMemoryValue = &quot;$BLUE_FG$jvmMemory$RESET&quot;</span>
+<span class="fc" id="L141">        val hostnameValue = &quot;$BLUE$hostname$RESET&quot;</span>
+<span class="fc" id="L142">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
+<span class="fc" id="L143">        val jvmMemoryValue = &quot;$BLUE$jvmMemory$RESET&quot;</span>
 
-<span class="fc" id="L145">        val javaVersionValue = &quot;$BOLD_ON${BLUE_FG}Java $version$RESET [$BLUE_FG$name$RESET]&quot;</span>
+<span class="fc" id="L145">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
 
-<span class="fc" id="L147">        val localeValue = &quot;$BLUE_FG$locale$RESET&quot;</span>
-<span class="fc" id="L148">        val timezoneValue = &quot;$BLUE_FG$timezone$RESET&quot;</span>
-<span class="fc" id="L149">        val charsetValue = &quot;$BLUE_FG$charset$RESET&quot;</span>
+<span class="fc" id="L147">        val localeValue = &quot;$BLUE$locale$RESET&quot;</span>
+<span class="fc" id="L148">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
+<span class="fc" id="L149">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
 
-<span class="fc" id="L151">        val bootTimeValue = &quot;$BOLD_ON$MAGENTA_FG$bootTime s$RESET&quot;</span>
-<span class="fc" id="L152">        val usedMemoryValue = &quot;$BOLD_ON$MAGENTA_FG$usedMemory KB$RESET&quot;</span>
-<span class="fc" id="L153">        val bindingValue = &quot;$BLUE_FG$UNDERLINE_ON$binding$RESET&quot;</span>
+<span class="fc" id="L151">        val bootTimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
+<span class="fc" id="L152">        val usedMemoryValue = &quot;$BOLD$MAGENTA$usedMemory KB$RESET&quot;</span>
+<span class="fc" id="L153">        val bindingValue = &quot;$BLUE$UNDERLINE$binding$RESET&quot;</span>
 
 <span class="fc" id="L155">        val information = &quot;&quot;&quot;</span>
 
