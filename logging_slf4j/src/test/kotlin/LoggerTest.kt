@@ -8,8 +8,9 @@ internal class LoggerTest {
      * As the logger is only a facade and it is hard to check outputs, the only check is that
      * no exceptions are thrown.
      */
-    @Test fun `Messages are logged without errors using JUL`() {
+    @Test fun `Messages are logged without errors using SLF4J`() {
 
+        LoggingManager.adapter = Slf4jLoggingAdapter
         val logger = Logger(this::class)
 
         logger.trace { 42 }
@@ -22,10 +23,5 @@ internal class LoggerTest {
         logger.flare { "message" }
         logger.time("message") {}
         logger.time {}
-    }
-
-    @Test fun `A logger for a custom name has the proper name`() {
-        assert(Logger("name").name == "name")
-        assert(Logger("name"::class).name == "kotlin.String")
     }
 }
