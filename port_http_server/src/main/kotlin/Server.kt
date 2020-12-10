@@ -18,13 +18,13 @@ import com.hexagonkt.injection.InjectionManager.injectOrNull
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
-import com.hexagonkt.helpers.Ansi.BLUE_FG
-import com.hexagonkt.helpers.Ansi.BOLD_ON
-import com.hexagonkt.helpers.Ansi.CYAN_FG
-import com.hexagonkt.helpers.Ansi.DEFAULT_FG
-import com.hexagonkt.helpers.Ansi.MAGENTA_FG
+import com.hexagonkt.helpers.Ansi.BLUE
+import com.hexagonkt.helpers.Ansi.BOLD
+import com.hexagonkt.helpers.Ansi.CYAN
+import com.hexagonkt.helpers.Ansi.DEFAULT
+import com.hexagonkt.helpers.Ansi.MAGENTA
 import com.hexagonkt.helpers.Ansi.RESET
-import com.hexagonkt.helpers.Ansi.UNDERLINE_ON
+import com.hexagonkt.helpers.Ansi.UNDERLINE
 
 /**
  * A server that listen to HTTP connections on a port and address and route requests using a
@@ -38,17 +38,17 @@ data class Server(
 
     companion object {
         val banner: String = """
-        $CYAN_FG          _________
-        $CYAN_FG         /         \
-        $CYAN_FG        /   ____   /
-        $CYAN_FG       /   /   /  /
-        $CYAN_FG      /   /   /__/$BLUE_FG   /\$BOLD_ON    H E X A G O N$RESET
-        $CYAN_FG     /   /$BLUE_FG          /  \$DEFAULT_FG        ___
-        $CYAN_FG     \  /$BLUE_FG   ___    /   /
-        $CYAN_FG      \/$BLUE_FG   /  /   /   /$CYAN_FG    T O O L K I T$RESET
-        $BLUE_FG          /  /___/   /
-        $BLUE_FG         /          /
-        $BLUE_FG         \_________/       https://hexagonkt.com/port_http_server
+        $CYAN          _________
+        $CYAN         /         \
+        $CYAN        /   ____   /
+        $CYAN       /   /   /  /
+        $CYAN      /   /   /__/$BLUE   /\$BOLD    H E X A G O N$RESET
+        $CYAN     /   /$BLUE          /  \$DEFAULT        ___
+        $CYAN     \  /$BLUE   ___    /   /
+        $CYAN      \/$BLUE   /  /   /   /$CYAN    T O O L K I T$RESET
+        $BLUE          /  /___/   /
+        $BLUE         /          /
+        $BLUE         \_________/       https://hexagonkt.com/port_http_server
         $RESET
         """.trimIndent()
     }
@@ -136,21 +136,21 @@ data class Server(
         val scheme = if (protocol == HTTP) "http" else "https"
         val binding = "$scheme://$hostName:$runtimePort"
 
-        val serverAdapterValue = "$BOLD_ON$CYAN_FG$portName$RESET"
+        val serverAdapterValue = "$BOLD$CYAN$portName$RESET"
 
-        val hostnameValue = "$BLUE_FG$hostname$RESET"
-        val cpuCountValue = "$BLUE_FG$cpuCount$RESET"
-        val jvmMemoryValue = "$BLUE_FG$jvmMemory$RESET"
+        val hostnameValue = "$BLUE$hostname$RESET"
+        val cpuCountValue = "$BLUE$cpuCount$RESET"
+        val jvmMemoryValue = "$BLUE$jvmMemory$RESET"
 
-        val javaVersionValue = "$BOLD_ON${BLUE_FG}Java $version$RESET [$BLUE_FG$name$RESET]"
+        val javaVersionValue = "$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]"
 
-        val localeValue = "$BLUE_FG$locale$RESET"
-        val timezoneValue = "$BLUE_FG$timezone$RESET"
-        val charsetValue = "$BLUE_FG$charset$RESET"
+        val localeValue = "$BLUE$locale$RESET"
+        val timezoneValue = "$BLUE$timezone$RESET"
+        val charsetValue = "$BLUE$charset$RESET"
 
-        val bootTimeValue = "$BOLD_ON$MAGENTA_FG$bootTime s$RESET"
-        val usedMemoryValue = "$BOLD_ON$MAGENTA_FG$usedMemory KB$RESET"
-        val bindingValue = "$BLUE_FG$UNDERLINE_ON$binding$RESET"
+        val bootTimeValue = "$BOLD$MAGENTA$bootTime s$RESET"
+        val usedMemoryValue = "$BOLD$MAGENTA$usedMemory KB$RESET"
+        val bindingValue = "$BLUE$UNDERLINE$binding$RESET"
 
         val information = """
 

@@ -76,9 +76,10 @@ To use it, apply `$gradleScripts/icons.gradle` to your `build.gradle`.
 
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
-* logoSmall (REQUIRED): SVG file used to render the small logo. Used for the favicon.
-* logoLarge (REQUIRED): SVG file used to render the large logo.
-* logoWide (REQUIRED): SVG file used to render the wide logo. Used for MS Windows tiles.
+* logo (REQUIRED): SVG file used to render the logos. Used for the favicon.
+* logoLarge: SVG file used to render the large logo. If not supplied 'logo' will be used.
+* logoWide: SVG file used to render the wide logo. Used for MS Windows tiles. If not provided
+  'logoLarge' will be used.
 
 [rsvg]: https://github.com/GNOME/librsvg
 [imagemagick]: https://www.imagemagick.org

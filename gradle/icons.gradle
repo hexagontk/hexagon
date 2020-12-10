@@ -7,59 +7,70 @@ task("icons").doLast {
     description =
         "Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (logos)."
 
-    try {
-        final String logoSmall = findProperty("logoSmall")
-        final String logoLarge = findProperty("logoLarge")
-        final String logoWide = findProperty("logoWide")
+    final String logoSmall = findProperty("logo")
+    final String logoLarge = findProperty("logoLarge") ?: logoSmall
+    final String logoWide = findProperty("logoWide") ?: logoLarge
 
-        createIco((String)logoSmall, "favicon.ico", 16, 32, 48, 64)
-        extendImage((String)logoSmall, "180x180", 180, "apple-touch-icon.png")
-        extendImage((String)logoSmall, "128x128", 128, "tile-small.png")
-        extendImage((String)logoLarge, "270x270", 270, "tile-medium.png")
-        extendImage((String)logoWide, "558x270", 558, "tile-wide.png")
-        extendImage((String)logoLarge, "558x558", 558, "tile-large.png")
+    buildDir.mkdirs()
 
-        // Sanity
-        [ 16, 32, 48, 64, 128, 180, 270, 558 ].each {
-            new File("$buildDir/_${it}.png".toString()).delete()
-        }
+    createIco(logoSmall, "favicon.ico", 16, 32, 48, 64)
+    createPng(logoSmall, "apple-touch-icon.png", 180, 180)
+    createPng(logoSmall, "tile-small.png", 128, 128)
+    createPng(logoLarge, "tile-medium.png", 270, 270)
+    createPng(logoWide, "tile-wide.png", 558, 270)
+    createPng(logoLarge, "tile-large.png", 558, 558)
+}
+
+private void createPng(
+    final String svg,
+    final String out,
+    final int width,
+    final int height
+) {
+
+    exec {
+        final List<Integer> dimensions = getSvgDimensions(svg)
+        if (dimensions[0] > dimensions[1])
+            commandLine("rsvg-convert", "-w", width, "-o", "$buildDir/$out", svg)
+        else
+            commandLine("rsvg-convert", "-h", height, "-o", "$buildDir/$out", svg)
     }
-    catch (Exception e) {
-        logger.error(e.message)
+
+    exec {
+        commandLine(
+            "convert",
+            "-gravity", "center",
+            "-background", "transparent",
+            "-extent", "${width}x${height}",
+            "$buildDir/$out",
+            "$buildDir/$out"
+        )
     }
 }
 
-private void rasterSvg(final String svg, final int... widths) {
-    final Project theProject = project // Done to fix warning
+private List<Integer> getSvgDimensions(final String svg) {
 
-    widths.each { w ->
-        theProject.exec { commandLine("rsvg-convert", "-w", w, "-o", "$buildDir/_${w}.png", svg) }
+    final ByteArrayOutputStream commandOutput = new ByteArrayOutputStream()
+    exec {
+        standardOutput = commandOutput
+        commandLine("magick", "identify", svg)
     }
+
+    return commandOutput
+        .toString()
+        .find(/\s+\d+x\d+\s+/)
+        .trim()
+        .split("x")
+        .collect {it.toInteger() }
 }
 
 private void createIco(final String svg, final String ico, final int... widths) {
-    widths.each { extendImage(svg, "${it}x${it}", it, "_${it}.png") }
+
+    widths.each { createPng(svg, "_${it}.png", it, it) }
 
     final List<String> images = widths.collect { "$buildDir/_${it}.png".toString() }
     final String icoPath = "$buildDir/$ico"
-    final List<String> cmd = [ "convert", images, icoPath ].flatten().collect { it.toString() }
+    exec { commandLine([ "convert", images, icoPath ].flatten().collect { it.toString() }) }
 
-    exec { commandLine(cmd.iterator()) }
-}
-
-private void extendImage(
-    final String bg = "transparent",
-    final String svg,
-    final String size,
-    final int width,
-    final String file) {
-
-    rasterSvg(svg, width)
-
-    final String src = "$buildDir/_${width}.png"
-    final String dest = "$buildDir/$file"
-
-    exec {
-        commandLine("convert", "-gravity", "center", "-background", bg, "-extent", size, src, dest)
-    }
+    widths.each { new File("$buildDir/_${it}.png".toString()).delete() }
 }
