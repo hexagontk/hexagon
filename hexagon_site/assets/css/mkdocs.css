@@ -96,6 +96,7 @@ div.md-hero + .md-tabs__item {
 }
 
 .md-hero {
+  color: white;
   font-size: .95rem;
 }
 
