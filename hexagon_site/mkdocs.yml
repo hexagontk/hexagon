@@ -140,7 +140,7 @@ extra:
   disqus: hexagonkt-com
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/hexagonkt/hexagon
+      link: https://github.com/hexagonkt
     - icon: fontawesome/brands/dev
       link: https://dev.to/hexagonkt
     - icon: fontawesome/brands/twitter

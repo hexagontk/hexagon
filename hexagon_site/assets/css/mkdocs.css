@@ -86,13 +86,9 @@ article p a, article li a {
   box-shadow: none;
 }
 
-div.md-hero + nav.md-tabs.md-tabs--active {
+div.md-hero + nav.md-tabs {
   background: #31415C;
   text-align: center;
-}
-
-div.md-hero + .md-tabs__item {
-  height: 2.4rem;
 }
 
 .md-hero {
