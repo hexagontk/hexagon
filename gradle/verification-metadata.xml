@@ -56,7 +56,9 @@
       <trusted-key id="97c08b18d326d56a124041153d1ccf9c16361512" group="com.typesafe.netty"/>
       <trusted-key id="13ac2213964abe1d1c147c0e1939a2520bab1d90" group="org.freemarker"/>
       <trusted-key id="afcc4c7594d09e2182c60e0f7a01b0f236e5430f" group="com.google.code.gson"/>
-      <trusted-key id="5f6c2148ad4911fe308110e5f0d0ae433308b042" group="io.gitlab.arturbosch.detekt"/>
+      <trusted-key id="5f6c2148ad4911fe308110e5f0d0ae433308b042" group="io.gitlab.arturbosch.detekt">
+        <trusting group="io.github.detekt.sarif4j"/>
+      </trusted-key>
       <trusted-key id="06a228aab83a18a8df7b84b08614d6ab265b4c63" group="org.apache.ant"/>
       <trusted-key id="0785b3eff60b1b1bea94e0bb7c25280eae63ebe5" group="org.apache.httpcomponents"/>
       <trusted-key id="08ba61cf501c09f70911b83b82216a03caa86c78" group="org.mongodb"/>
