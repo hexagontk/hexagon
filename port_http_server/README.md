@@ -355,6 +355,12 @@ specified in the spec file and returns an appropriate response from the [provide
 If any authentication requirements are specified, they are validated as well.
 #### How to Use
 
+First, add the required dependencies:
+```kotlin
+implementation("com.hexagonkt:port_http_server:$hexagonVersion:test")
+implementation("io.swagger.parser.v3:swagger-parser:$swaggerParserVersion")
+```
+
 To create the mock server object:
 ```kotlin
 val mockServer = MockServer("https://petstore3.swagger.io/api/v3/openapi.json")
