@@ -8,8 +8,12 @@ import java.net.spi.URLStreamHandlerProvider
 internal class ClasspathHandlerProvider : URLStreamHandlerProvider() {
 
     companion object {
+        private val provider = ClasspathHandlerProvider()
+
         fun registerHandler() {
-            URL.setURLStreamHandlerFactory { Handler() }
+            URL.setURLStreamHandlerFactory {
+                provider.createURLStreamHandler(it)
+            }
         }
     }
 
