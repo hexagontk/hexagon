@@ -49,29 +49,3 @@ if ('serviceWorker' in navigator)
 </script>
 -->
 {% endblock %}
-
-{% block content %}
-  {% if config.repo_url and page.meta.edit_url %}
-    <a href="{{ config.repo_url + page.meta.edit_url }}" title="{{ lang.t('edit.link.title') }}" class="md-content__button md-icon">
-      {% include ".icons/material/pencil.svg" %}
-    </a>
-  {% else %}
-    {% if page.edit_url %}
-      <a href="{{ page.edit_url }}" title="{{ lang.t('edit.link.title') }}" class="md-content__button md-icon">
-        {% include ".icons/material/pencil.svg" %}
-      </a>
-    {% endif %}
-  {% endif %}
-  {% if not "\x3ch1" in page.content %}
-    <h1>{{ page.title | default(config.site_name, true)}}</h1>
-  {% endif %}
-  {{ page.content }}
-  {% block source %}
-    {% if page and page.meta and page.meta.source %}
-      {% include "partials/source-link.html" %}
-    {% endif %}
-  {% endblock %}
-{% endblock %}
-{% block disqus %}
-  {% include "partials/integrations/disqus.html" %}
-{% endblock %}

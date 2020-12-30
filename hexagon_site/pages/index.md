@@ -1,29 +1,5 @@
 ---
-hero: |
-  <p align="center">
-    <img alt="Hexagon" src="tile-small.png" />
-    <br />
-    <a href="https://github.com/hexagonkt/hexagon/actions">
-      <img
-        alt="GitHub Actions"
-        src="https://github.com/hexagonkt/hexagon/workflows/Release/badge.svg" />
-    </a>
-    <a href="/jacoco">
-      <img src="/img/coverage.svg" alt="Coverage" />
-    </a>
-    <a href="https://search.maven.org/search?q=g:com.hexagonkt">
-      <img src="/img/download.svg" alt="Maven Central Repository" />
-    </a>
-  </p>
-
-  <h1 align="center">The atoms of your platform</h1>
-
-  <p align="center" id="description">
-    Hexagon is a microservices
-    <a href="https://stackoverflow.com/a/3057818/973418">toolkit</a> written in
-    <a href="http://kotlinlang.org">Kotlin</a>. Its purpose is to ease the building of server
-    applications (Web applications, APIs, or queue consumers) that run inside a cloud platform.
-  </p>
+template: index.html
 ---
 
 The Hexagon Toolkit provides several libraries to build server applications. These libraries provide

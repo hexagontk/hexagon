@@ -63,7 +63,9 @@ class PatternFormat(private val useColor: Boolean = true) : Formatter() {
         val parameters = record.parameters ?: emptyArray()
         val loggerName = record.loggerName
         val threadName = Thread.currentThread().name
-        val msg = String.format(message, *parameters) + trace
+        val msg =
+            if (parameters.isEmpty()) message
+            else String.format(message, *parameters) + trace
 
         return if (useColor)
             pattern.format(dateTime, levelColor, levelName, threadName, loggerName, msg)

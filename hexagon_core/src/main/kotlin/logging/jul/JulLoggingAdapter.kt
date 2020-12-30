@@ -1,5 +1,6 @@
 package com.hexagonkt.logging.jul
 
+import com.hexagonkt.ClasspathHandlerProvider
 import com.hexagonkt.ResourceNotFoundException
 import com.hexagonkt.logging.LoggerPort
 import com.hexagonkt.logging.LoggingLevel
@@ -15,6 +16,9 @@ object JulLoggingAdapter : LoggingPort {
     private const val defaultLoggingProperties = "classpath:logging.properties"
 
     init {
+        // Register classpath handler manually because of an SPI error in Kotlin scripts
+        ClasspathHandlerProvider.registerHandler()
+
         val root = JulLogger.getLogger("")
         for (hnd in root.handlers)
             root.removeHandler(hnd)

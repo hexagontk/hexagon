@@ -10,7 +10,7 @@ version: '3'
 services:
 
   site:
-    image: squidfunk/mkdocs-material:5.5.14
+    image: squidfunk/mkdocs-material:6.2.3
     volumes:
       - ./hexagon_site:/docs
     ports:
