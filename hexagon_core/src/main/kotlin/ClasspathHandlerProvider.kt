@@ -7,6 +7,16 @@ import java.net.spi.URLStreamHandlerProvider
 
 internal class ClasspathHandlerProvider : URLStreamHandlerProvider() {
 
+    companion object {
+        private val provider = ClasspathHandlerProvider()
+
+        fun registerHandler() {
+            URL.setURLStreamHandlerFactory {
+                provider.createURLStreamHandler(it)
+            }
+        }
+    }
+
     private class Handler(
         private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader
     ) : URLStreamHandler() {

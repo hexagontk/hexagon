@@ -1,3 +1,7 @@
+---
+template: index.html
+---
+
 The Hexagon Toolkit provides several libraries to build server applications. These libraries provide
 single standalone features[^1] and are referred to as ["Ports"][Ports and Adapters Architecture].
 
