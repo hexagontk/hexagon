@@ -26,12 +26,12 @@ sealed class Provider&lt;out T : Any&gt; {
 <span class="fc" id="L26">    val key = Target(type, tag)</span>
 
 <span class="fc" id="L28">    val binding = InjectionManager.binding(key)</span>
-<span class="fc bfc" id="L29" title="All 2 branches covered.">    if (InjectionManager.bindings.containsKey(key)) {</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">    if (InjectionManager.bindings.containsKey(key)) {</span>
 <span class="fc" id="L30">        InjectionManager.bindings = InjectionManager.bindings - key // Required to change order</span>
 <span class="fc" id="L31">        logger.warn { &quot;$binding already bound (OVERRIDDEN). This should happen ONLY IN TEST&quot; }</span>
     }
     else {
-<span class="fc" id="L34">        logger.info { &quot;$binding bound to function (FORCED). This should happen ONLY IN TEST&quot; }</span>
+<span class="nc" id="L34">        logger.info { &quot;$binding bound to function (FORCED). This should happen ONLY IN TEST&quot; }</span>
     }
 
 <span class="fc" id="L37">    InjectionManager.bindings = InjectionManager.bindings + (key to provider)</span>

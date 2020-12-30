@@ -63,12 +63,14 @@ import java.util.logging.LogRecord
 <span class="fc bfc" id="L63" title="All 2 branches covered.">        val parameters = record.parameters ?: emptyArray()</span>
 <span class="fc" id="L64">        val loggerName = record.loggerName</span>
 <span class="fc" id="L65">        val threadName = Thread.currentThread().name</span>
-<span class="fc" id="L66">        val msg = String.format(message, *parameters) + trace</span>
+<span class="fc" id="L66">        val msg =</span>
+<span class="fc bfc" id="L67" title="All 4 branches covered.">            if (parameters.isEmpty()) message</span>
+<span class="fc" id="L68">            else String.format(message, *parameters) + trace</span>
 
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        return if (useColor)</span>
-<span class="fc" id="L69">            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, msg)</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        return if (useColor)</span>
+<span class="fc" id="L71">            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, msg)</span>
         else
-<span class="nc" id="L71">            pattern.format(dateTime, levelName, threadName, loggerName, msg)</span>
+<span class="nc" id="L73">            pattern.format(dateTime, levelName, threadName, loggerName, msg)</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

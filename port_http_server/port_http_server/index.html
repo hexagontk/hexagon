@@ -1,7 +1,4 @@
 
-
-
-
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -12,13 +9,14 @@
         <meta name="description" content="The atoms of your platform">
       
       
-        <link rel="canonical" href="https://hexagonkt.com/port_http_server/port_http_server/">
-      
       
         <meta name="author" content="Hexagon Toolkit">
       
+      
+        <link rel="canonical" href="https://hexagonkt.com/port_http_server/port_http_server/">
+      
       <link rel="shortcut icon" href="../../favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.14">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.3">
     
     
       
@@ -26,20 +24,22 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.d3202873.min.css">
-      
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ff0a5ce4.min.css">
-      
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3b61ea93.min.css">
       
         
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.39b8e14a.min.css">
         
-        <meta name="theme-color" content="#4051b5">
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
       
     
     
     
       
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Titillium Web",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
       
@@ -113,7 +113,10 @@ if ('serviceWorker' in navigator)
     
     
     
+    
+    
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+      
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -131,7 +134,9 @@ if ('serviceWorker' in navigator)
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
     <a href="https://hexagonkt.com" title="Hexagon" class="md-header-nav__button md-logo" aria-label="Hexagon">
       
@@ -142,18 +147,20 @@ if ('serviceWorker' in navigator)
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
     </label>
     <div class="md-header-nav__title" data-md-component="header-title">
-      
-        <div class="md-header-nav__ellipsis">
-          <span class="md-header-nav__topic md-ellipsis">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             Hexagon
           </span>
-          <span class="md-header-nav__topic md-ellipsis">
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
             
               HTTP Server
             
           </span>
         </div>
-      
+      </div>
     </div>
     
       <label class="md-header-nav__button md-icon" for="__search">
@@ -164,7 +171,7 @@ if ('serviceWorker' in navigator)
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
@@ -205,44 +212,48 @@ if ('serviceWorker' in navigator)
     
     <div class="md-container" data-md-component="container">
       
-        
-      
       
         
           
-
-  
-
-<nav class="md-tabs md-tabs--active" aria-label="Tabs" data-md-component="tabs">
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-tabs__inner md-grid">
     <ul class="md-tabs__list">
       
         
   
   
+    
+  
+
+
+  
+  
+  
     <li class="md-tabs__item">
-      
-        <a href="../.." class="md-tabs__link md-tabs__link--active">
-          Getting Started
-        </a>
-      
+      <a href="../.." class="md-tabs__link md-tabs__link--active">
+        Getting Started
+      </a>
     </li>
   
 
       
         
+  
+  
+
+
+  
   
   
     
-    
+
+  
   
   
     <li class="md-tabs__item">
-      
-        <a href="../../hexagon_core/" class="md-tabs__link">
-          Documentation
-        </a>
-      
+      <a href="../../hexagon_core/" class="md-tabs__link">
+        Documentation
+      </a>
     </li>
   
 
@@ -252,12 +263,15 @@ if ('serviceWorker' in navigator)
         
   
   
+
+
+  
+  
+  
     <li class="md-tabs__item">
-      
-        <a href="../../examples/example_projects/" class="md-tabs__link">
-          Examples
-        </a>
-      
+      <a href="../../examples/example_projects/" class="md-tabs__link">
+        Examples
+      </a>
     </li>
   
 
@@ -265,12 +279,15 @@ if ('serviceWorker' in navigator)
         
   
   
+
+
+  
+  
+  
     <li class="md-tabs__item">
-      
-        <a href="../../help/" class="md-tabs__link">
-          Community
-        </a>
-      
+      <a href="../../help/" class="md-tabs__link">
+        Community
+      </a>
     </li>
   
 
@@ -284,10 +301,18 @@ if ('serviceWorker' in navigator)
         <div class="md-main__inner md-grid">
           
             
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+                    
+
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="https://hexagonkt.com" title="Hexagon" class="md-nav__button md-logo" aria-label="Hexagon">
       
@@ -316,10 +341,13 @@ if ('serviceWorker' in navigator)
       
       
 
+
   
 
 
+  
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
     
       <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
     
@@ -340,8 +368,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../.." title="Home" class="md-nav__link">
+    <a href="../.." class="md-nav__link">
       Home
     </a>
   </li>
@@ -352,8 +381,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../quick_start/" title="Quick Start" class="md-nav__link">
+    <a href="../../quick_start/" class="md-nav__link">
       Quick Start
     </a>
   </li>
@@ -364,8 +394,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../developer_guide/" title="Developer Guide" class="md-nav__link">
+    <a href="../../developer_guide/" class="md-nav__link">
       Developer Guide
     </a>
   </li>
@@ -376,8 +407,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../hexagon_core/hexagon_core/" title="Core" class="md-nav__link">
+    <a href="../../hexagon_core/hexagon_core/" class="md-nav__link">
       Core
     </a>
   </li>
@@ -386,6 +418,7 @@ if ('serviceWorker' in navigator)
           
           
           
+
 
   
 
@@ -400,7 +433,7 @@ if ('serviceWorker' in navigator)
         <span class="md-nav__icon md-icon"></span>
       </label>
     
-    <a href="./" title="HTTP Server" class="md-nav__link md-nav__link--active">
+    <a href="./" class="md-nav__link md-nav__link--active">
       HTTP Server
     </a>
     
@@ -727,8 +760,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../port_http_client/port_http_client/" title="HTTP Client" class="md-nav__link">
+    <a href="../../port_http_client/port_http_client/" class="md-nav__link">
       HTTP Client
     </a>
   </li>
@@ -739,8 +773,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../gradle/" title="Gradle Helpers" class="md-nav__link">
+    <a href="../../gradle/" class="md-nav__link">
       Gradle Helpers
     </a>
   </li>
@@ -751,8 +786,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../maven/" title="Maven Parent POM" class="md-nav__link">
+    <a href="../../maven/" class="md-nav__link">
       Maven Parent POM
     </a>
   </li>
@@ -768,9 +804,12 @@ if ('serviceWorker' in navigator)
       
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
     
     <label class="md-nav__link" for="nav-2">
       Documentation
@@ -789,9 +828,12 @@ if ('serviceWorker' in navigator)
           
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-1" type="checkbox" id="nav-2-1">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-1" type="checkbox" id="nav-2-1" >
     
     <label class="md-nav__link" for="nav-2-1">
       Modules
@@ -810,8 +852,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../hexagon_core/" title="Core" class="md-nav__link">
+    <a href="../../hexagon_core/" class="md-nav__link">
       Core
     </a>
   </li>
@@ -822,8 +865,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../hexagon_settings/" title="Settings" class="md-nav__link">
+    <a href="../../hexagon_settings/" class="md-nav__link">
       Settings
     </a>
   </li>
@@ -834,8 +878,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../hexagon_scheduler/" title="Scheduler" class="md-nav__link">
+    <a href="../../hexagon_scheduler/" class="md-nav__link">
       Scheduler
     </a>
   </li>
@@ -846,8 +891,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../hexagon_web/" title="Web" class="md-nav__link">
+    <a href="../../hexagon_web/" class="md-nav__link">
       Web
     </a>
   </li>
@@ -863,9 +909,12 @@ if ('serviceWorker' in navigator)
           
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-2" type="checkbox" id="nav-2-2" >
     
     <label class="md-nav__link" for="nav-2-2">
       Ports
@@ -884,8 +933,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../" title="HTTP Server" class="md-nav__link">
+    <a href="../" class="md-nav__link">
       HTTP Server
     </a>
   </li>
@@ -896,8 +946,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../port_http_client/" title="HTTP Client" class="md-nav__link">
+    <a href="../../port_http_client/" class="md-nav__link">
       HTTP Client
     </a>
   </li>
@@ -908,8 +959,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../port_templates/" title="Templates" class="md-nav__link">
+    <a href="../../port_templates/" class="md-nav__link">
       Templates
     </a>
   </li>
@@ -920,8 +972,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../port_store/" title="Store (beta)" class="md-nav__link">
+    <a href="../../port_store/" class="md-nav__link">
       Store (beta)
     </a>
   </li>
@@ -932,8 +985,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../port_messaging/" title="Messaging (beta)" class="md-nav__link">
+    <a href="../../port_messaging/" class="md-nav__link">
       Messaging (beta)
     </a>
   </li>
@@ -949,9 +1003,12 @@ if ('serviceWorker' in navigator)
           
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3" type="checkbox" id="nav-2-3">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3" type="checkbox" id="nav-2-3" >
     
     <label class="md-nav__link" for="nav-2-3">
       Adapters
@@ -970,9 +1027,12 @@ if ('serviceWorker' in navigator)
           
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-1" type="checkbox" id="nav-2-3-1">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-1" type="checkbox" id="nav-2-3-1" >
     
     <label class="md-nav__link" for="nav-2-3-1">
       HTTP Server
@@ -991,8 +1051,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../http_server_jetty/" title="Jetty" class="md-nav__link">
+    <a href="../../http_server_jetty/" class="md-nav__link">
       Jetty
     </a>
   </li>
@@ -1003,8 +1064,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../http_server_servlet/" title="Servlet" class="md-nav__link">
+    <a href="../../http_server_servlet/" class="md-nav__link">
       Servlet
     </a>
   </li>
@@ -1020,9 +1082,12 @@ if ('serviceWorker' in navigator)
           
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-2" type="checkbox" id="nav-2-3-2">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-2" type="checkbox" id="nav-2-3-2" >
     
     <label class="md-nav__link" for="nav-2-3-2">
       HTTP Client
@@ -1041,8 +1106,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../http_client_ahc/" title="Async HTTP Client" class="md-nav__link">
+    <a href="../../http_client_ahc/" class="md-nav__link">
       Async HTTP Client
     </a>
   </li>
@@ -1058,9 +1124,12 @@ if ('serviceWorker' in navigator)
           
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-3" type="checkbox" id="nav-2-3-3">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-3" type="checkbox" id="nav-2-3-3" >
     
     <label class="md-nav__link" for="nav-2-3-3">
       Templates
@@ -1079,8 +1148,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../templates_pebble/" title="Pebble" class="md-nav__link">
+    <a href="../../templates_pebble/" class="md-nav__link">
       Pebble
     </a>
   </li>
@@ -1091,8 +1161,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../templates_freemarker/" title="FreeMarker" class="md-nav__link">
+    <a href="../../templates_freemarker/" class="md-nav__link">
       FreeMarker
     </a>
   </li>
@@ -1108,9 +1179,12 @@ if ('serviceWorker' in navigator)
           
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-4" type="checkbox" id="nav-2-3-4">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-4" type="checkbox" id="nav-2-3-4" >
     
     <label class="md-nav__link" for="nav-2-3-4">
       Store (beta)
@@ -1129,8 +1203,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../store_mongodb/" title="MongoDB (beta)" class="md-nav__link">
+    <a href="../../store_mongodb/" class="md-nav__link">
       MongoDB (beta)
     </a>
   </li>
@@ -1146,9 +1221,12 @@ if ('serviceWorker' in navigator)
           
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-5" type="checkbox" id="nav-2-3-5">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2-3-5" type="checkbox" id="nav-2-3-5" >
     
     <label class="md-nav__link" for="nav-2-3-5">
       Messaging (beta)
@@ -1167,8 +1245,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../messaging_rabbitmq/" title="RabbitMQ (beta)" class="md-nav__link">
+    <a href="../../messaging_rabbitmq/" class="md-nav__link">
       RabbitMQ (beta)
     </a>
   </li>
@@ -1189,8 +1268,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../api/" title="API" class="md-nav__link">
+    <a href="../../api/" class="md-nav__link">
       API
     </a>
   </li>
@@ -1206,9 +1286,12 @@ if ('serviceWorker' in navigator)
       
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
     
     <label class="md-nav__link" for="nav-3">
       Examples
@@ -1227,8 +1310,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../examples/example_projects/" title="Example Projects" class="md-nav__link">
+    <a href="../../examples/example_projects/" class="md-nav__link">
       Example Projects
     </a>
   </li>
@@ -1239,9 +1323,12 @@ if ('serviceWorker' in navigator)
           
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2" >
     
     <label class="md-nav__link" for="nav-3-2">
       Code Examples
@@ -1260,8 +1347,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../examples/http_server_examples/" title="HTTP Server" class="md-nav__link">
+    <a href="../../examples/http_server_examples/" class="md-nav__link">
       HTTP Server
     </a>
   </li>
@@ -1272,8 +1360,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../examples/http_client_examples/" title="HTTP Client" class="md-nav__link">
+    <a href="../../examples/http_client_examples/" class="md-nav__link">
       HTTP Client
     </a>
   </li>
@@ -1294,9 +1383,12 @@ if ('serviceWorker' in navigator)
       
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
     
     <label class="md-nav__link" for="nav-4">
       Community
@@ -1315,8 +1407,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../help/" title="Help and Support" class="md-nav__link">
+    <a href="../../help/" class="md-nav__link">
       Help and Support
     </a>
   </li>
@@ -1327,8 +1420,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../planning/" title="Planning" class="md-nav__link">
+    <a href="../../planning/" class="md-nav__link">
       Planning
     </a>
   </li>
@@ -1339,8 +1433,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../contributing/" title="Contributing" class="md-nav__link">
+    <a href="../../contributing/" class="md-nav__link">
       Contributing
     </a>
   </li>
@@ -1351,8 +1446,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="https://github.com/hexagonkt" title="GitHub ↗" class="md-nav__link">
+    <a href="https://github.com/hexagonkt" class="md-nav__link">
       GitHub ↗
     </a>
   </li>
@@ -1363,8 +1459,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="https://dev.to/hexagonkt" title="Dev.to ↗" class="md-nav__link">
+    <a href="https://dev.to/hexagonkt" class="md-nav__link">
       Dev.to ↗
     </a>
   </li>
@@ -1375,8 +1472,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="https://kotlin.libhunt.com/hexagon-alternatives" title="LibHunt ↗" class="md-nav__link">
+    <a href="https://kotlin.libhunt.com/hexagon-alternatives" class="md-nav__link">
       LibHunt ↗
     </a>
   </li>
@@ -1387,8 +1485,9 @@ if ('serviceWorker' in navigator)
           
 
 
+
   <li class="md-nav__item">
-    <a href="https://stackshare.io/hexagon" title="StackShare ↗" class="md-nav__link">
+    <a href="https://stackshare.io/hexagon" class="md-nav__link">
       StackShare ↗
     </a>
   </li>
@@ -1406,7 +1505,8 @@ if ('serviceWorker' in navigator)
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1731,15 +1831,15 @@ if ('serviceWorker' in navigator)
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
-  
-    <a href="https://github.com/hexagonkt/hexagon/edit/develop/port_http_server/README.md" title="Edit this page" class="md-content__button md-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-    </a>
-  
-  
-    <h1>HTTP Server</h1>
-  
-  <h2 id="module-port_http_server">Module port_http_server<a class="headerlink" href="#module-port_http_server" title="Permanent link">&para;</a></h2>
+                
+                  <a href="https://github.com/hexagonkt/hexagon/edit/master/hexagon_site/pages/port_http_server/port_http_server.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>HTTP Server</h1>
+                
+                <h2 id="module-port_http_server">Module port_http_server<a class="headerlink" href="#module-port_http_server" title="Permanent link">&para;</a></h2>
 <p>This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL
 to declare HTTP request handlers.</p>
 <p>Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you
@@ -1845,7 +1945,6 @@ and after creating a server you can run it or stop it with <a href="../com.hexag
 <span class="n">defaultServer</span><span class="p">.</span><span class="n">stop</span><span class="p">()</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="servlet-web-server">Servlet Web server<a class="headerlink" href="#servlet-web-server" title="Permanent link">&para;</a></h5>
 <p>There is a special server adapter for running inside Servlet Containers. To use it you should import
 the <a href="/http_server_servlet">Servlet HTTP Server Adapter</a> into your project. Check the
@@ -1878,7 +1977,6 @@ invoked, and the following ones are ignored.</p>
 <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/&#39; if no route matched before&quot;</span><span class="p">)</span> <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <p>HTTP clients will be able to reuse the routes to create REST services clients.</p>
 <h5 id="route-groups">Route groups<a class="headerlink" href="#route-groups" title="Permanent link">&para;</a></h5>
 <p>Routes can be nested by calling the <code>path()</code> method, which takes a String prefix and gives you a
@@ -1902,7 +2000,6 @@ scope to declare routes and filters (or more nested paths). Ie:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="routers">Routers<a class="headerlink" href="#routers" title="Permanent link">&para;</a></h5>
 <p>If you have a lot of routes, it can be helpful to group them into routers. You can create routers
 to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:</p>
@@ -1927,7 +2024,6 @@ to mount a group of routes in different paths (allowing you to reuse them). Chec
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h4 id="callbacks">Callbacks<a class="headerlink" href="#callbacks" title="Permanent link">&para;</a></h4>
 <p>Callbacks are request's handling blocks that are bound to routes or filters. They make the request,
 response and session objects available to the handling code.</p>
@@ -1955,7 +2051,6 @@ check the <a href="/port_http_server/com.hexagonkt.http.server/-call/">API docum
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h5>
 <p>Request functionality is provided by the <code>request</code> field:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -2043,7 +2138,6 @@ check the <a href="/port_http_server/com.hexagonkt.http.server/-call/">API docum
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="path-parameters">Path Parameters<a class="headerlink" href="#path-parameters" title="Permanent link">&para;</a></h5>
 <p>Route patterns can include named parameters, accessible via the <code>pathParameters</code> map on the request
 object:</p>
@@ -2056,7 +2150,6 @@ object:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="query-parameters">Query Parameters<a class="headerlink" href="#query-parameters" title="Permanent link">&para;</a></h5>
 <p>It is possible to access the whole query string or only a specific query parameter using the
 <code>parameters</code> map on the <code>request</code> object:</p>
@@ -2075,7 +2168,6 @@ object:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="form-parameters">Form Parameters<a class="headerlink" href="#form-parameters" title="Permanent link">&para;</a></h5>
 <p>HTML Form processing. Don't parse body!</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
@@ -2091,7 +2183,6 @@ object:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="file-uploads">File Uploads<a class="headerlink" href="#file-uploads" title="Permanent link">&para;</a></h5>
 <p>Multipart Requests</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
@@ -2103,7 +2194,6 @@ object:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h5>
 <p>Response information is provided by the <code>response</code> field:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -2127,7 +2217,6 @@ object:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="redirects">Redirects<a class="headerlink" href="#redirects" title="Permanent link">&para;</a></h5>
 <p>You can redirect requests (returning 30x codes) by using <code>Call</code> utility methods:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
@@ -2137,7 +2226,6 @@ object:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="cookies">Cookies<a class="headerlink" href="#cookies" title="Permanent link">&para;</a></h5>
 <p>The request and response cookie functions provide a convenient way for sharing information between
 handlers, requests, or even servers.</p>
@@ -2175,7 +2263,6 @@ add new ones you have to use <code>response.addCookie()</code> and <code>respons
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="sessions">Sessions<a class="headerlink" href="#sessions" title="Permanent link">&para;</a></h5>
 <p>Every request has access to the session created on the server side, the <code>session</code> object provides
 the following methods:</p>
@@ -2198,7 +2285,6 @@ the following methods:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="halting">Halting<a class="headerlink" href="#halting" title="Permanent link">&para;</a></h5>
 <p>To immediately stop a request within a filter or route use <code>halt()</code>. <code>halt()</code> is not intended to be
 used inside exception-mappers. Check the following snippet for an example:</p>
@@ -2223,7 +2309,6 @@ used inside exception-mappers. Check the following snippet for an example:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h4 id="filters">Filters<a class="headerlink" href="#filters" title="Permanent link">&para;</a></h4>
 <p>You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
 code executed before or after one or more routes. They can read the request and read/modify the
@@ -2274,7 +2359,6 @@ after filters are executed anyway).</p>
 <span class="n">after</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="n">headersValues</span><span class="p">[</span><span class="s">&quot;a_all&quot;</span><span class="p">]</span> <span class="p">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h4 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h4>
 <p>You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
 callbacks, or handlers halted with an error code.</p>
@@ -2294,7 +2378,6 @@ halted, if the error code is returned with <code>send</code> it won't be handled
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/errors&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">512</span><span class="p">)</span> <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="exception-mapping">Exception Mapping<a class="headerlink" href="#exception-mapping" title="Permanent link">&para;</a></h5>
 <p>You can handle exceptions of a given type for all routes and filters. The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:</p>
@@ -2309,7 +2392,6 @@ refer to the thrown exception. Look at the following code for a detailed example
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/codedExceptions&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">509</span><span class="p">,</span> <span class="s">&quot;code&quot;</span><span class="p">)</span> <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h4 id="static-files">Static Files<a class="headerlink" href="#static-files" title="Permanent link">&para;</a></h4>
 <p>You can use a folder in the classpath for serving static files with the <code>get()</code> methods. Note that
 the public directory name is not included in the URL.</p>
@@ -2335,7 +2417,6 @@ Check the next example for details:</p>
 <span class="k">get</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">))</span>
 </code></pre></div>
 </td></tr></table>
-
 <h5 id="mime-types">MIME types<a class="headerlink" href="#mime-types" title="Permanent link">&para;</a></h5>
 <p>The MIME types of static files are computed from the file extension using the
 <a href="/hexagon_core/com.hexagonkt.serialization/-serialization-manager/content-type-of/">SerializationManager.contentTypeOf()</a> method.</p>
@@ -2393,7 +2474,6 @@ different routers. Check <a href="/port_http_server/com.hexagonkt.http.server/-c
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h4 id="https">HTTPS<a class="headerlink" href="#https" title="Permanent link">&para;</a></h4>
 <p>It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
 certificate and its key in the server's <a href="/hexagon_core/com.hexagonkt.http/-ssl-settings/">SslSettings</a>. Once you use a server certificate, it is also
@@ -2503,7 +2583,6 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h4 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h4>
 <h5 id="integration-tests">Integration tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h5>
 <p>To test HTTP servers from outside using a real Adapter, you can create a server setting <code>0</code> as port.
@@ -2531,7 +2610,6 @@ This will pick a random free port which you can check later:</p>
 <span class="n">server</span><span class="p">.</span><span class="n">stop</span><span class="p">()</span>
 </code></pre></div>
 </td></tr></table>
-
 <p>To do this kind of tests without creating a custom server (using the real production code).
 Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt">tests of the starter projects</a>.</p>
 <p>If you have an OpenAPI/Swagger spec defined for your server, you can also make use of the mock server (<a href="#openapi-mock-server">see below</a>).</p>
@@ -2550,7 +2628,6 @@ Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/t
 <span class="n">testImplementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:port_http_server:$hexagonVersion:test&quot;</span><span class="o">)</span>
 </code></pre></div>
 </td></tr></table>
-
 </div>
 <input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">pom.xml</label><div class="tabbed-content">
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
@@ -2566,7 +2643,6 @@ Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/t
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>
 </td></tr></table>
-
 </div>
 </div>
 <p>Check <a href="/port_http_server/com.hexagonkt.http.server.test/test-call/">testCall</a>, <a href="/port_http_server/com.hexagonkt.http.server.test/-test-session/">TestRequest</a>, [TestResponse] and [TestSession] for more details.</p>
@@ -2598,7 +2674,6 @@ Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/t
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h4 id="openapi-mock-server">OpenAPI Mock Server<a class="headerlink" href="#openapi-mock-server" title="Permanent link">&para;</a></h4>
 <p>The mock server is able to create and return a <code>Server</code> from the information of an OpenAPI/Swagger spec file.
 The path to the spec file can either be a URL or a local file. It can be either in JSON or YAML format.</p>
@@ -2608,6 +2683,12 @@ During handling of a request, the mock server validates the request parameters a
 specified in the spec file and returns an appropriate response from the <a href="#providing-examples">provided examples</a>.
 If any authentication requirements are specified, they are validated as well.</p>
 <h5 id="how-to-use">How to Use<a class="headerlink" href="#how-to-use" title="Permanent link">&para;</a></h5>
+<p>First, add the required dependencies:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.hexagonkt:port_http_server:$hexagonVersion:test&quot;</span><span class="p">)</span>
+<span class="n">implementation</span><span class="p">(</span><span class="s">&quot;io.swagger.parser.v3:swagger-parser:$swaggerParserVersion&quot;</span><span class="p">)</span>
+</code></pre></div>
+</td></tr></table></p>
 <p>To create the mock server object:
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">val</span> <span class="py">mockServer</span> <span class="p">=</span> <span class="n">MockServer</span><span class="p">(</span><span class="s">&quot;https://petstore3.swagger.io/api/v3/openapi.json&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -2665,7 +2746,7 @@ media type object.
 13
 14
 15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="s2">&quot;content&quot;</span><span class="err">:</span> <span class="p">{</span>
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="nt">&quot;application/json&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;example&quot;</span><span class="p">:</span> <span class="s2">&quot;This value is checked first&quot;</span>
@@ -2683,22 +2764,21 @@ media type object.
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-
 <h2 id="package-comhexagonkthttpserver">Package com.hexagonkt.http.server<a class="headerlink" href="#package-comhexagonkthttpserver" title="Permanent link">&para;</a></h2>
 <p>This package defines the classes used in the HTTP DSL.</p>
-  
-    
-  
-
+                
+                  
+                
               
-  
+              
+                
 
 
   <h2 id="__comments">Comments</h2>
   <div id="disqus_thread"></div>
   <script>var disqus_config=function(){this.page.url="https://hexagonkt.com/port_http_server/port_http_server/",this.page.identifier="/port_http_server/port_http_server/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//hexagonkt-com.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
 
-
+              
             </article>
           </div>
         </div>
@@ -2814,7 +2894,7 @@ media type object.
         
         
       
-      <a href="https://github.com/hexagonkt/hexagon" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+      <a href="https://github.com/hexagonkt" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
       </a>
     
@@ -2853,15 +2933,15 @@ media type object.
       
     </div>
     
-      <script src="../../assets/javascripts/vendor.2d1db4bd.min.js"></script>
-      <script src="../../assets/javascripts/bundle.6627ddf3.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="../../assets/javascripts/vendor.08c56446.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6ced434e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
           base: "../..",
-          features: ['tabs', 'instant'],
+          features: ['navigation.tabs', 'nagivation.instant'],
           search: Object.assign({
-            worker: "../../assets/javascripts/worker/search.5eca75d3.min.js"
+            worker: "../../assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
