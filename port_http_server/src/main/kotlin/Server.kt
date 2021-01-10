@@ -165,6 +165,6 @@ data class Server(
         """.trimIndent()
 
         val banner = (settings.banner?.let { "$it\n" } ?: banner ) + information
-        return banner.indent()
+        return banner.prependIndent()
     }
 }
