@@ -13,8 +13,8 @@
 
       <!-- TODO Review these (exclude the ones not needed) -->
       <!-- Build -->
-      <trust group="org.gradle.kotlin" name="plugins" version="1.3.6"/>
-      <trust group="org.jetbrains.kotlin" name="kotlin-gradle-plugin" version="1.4.21"/>
+      <trust group="org.gradle.kotlin" name="gradle-kotlin-dsl-plugins" version="1.4.9"/>
+      <trust group="org.jetbrains.kotlin" name="kotlin-gradle-plugin" version="1.4.20"/>
       <trust group="org.jetbrains.kotlinx" name="kotlinx-coroutines-.*" regex="true"/>
       <trust group="org.jetbrains.kotlinx" name="kotlinx-html-.*" regex="true"/>
       <trust group="org.jetbrains.intellij.deps" name="trove4j" version="1.0.20181211"/>
@@ -39,7 +39,6 @@
 
     <trusted-keys>
       <trusted-key id="cb43338e060cf9fa" group="org.jacoco"/>
-      <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin" name="kotlin-gradle-plugin"/>
       <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="org.codehaus.woodstox" name="stax2-api"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com.fasterxml.woodstox" name="woodstox-core"/>
