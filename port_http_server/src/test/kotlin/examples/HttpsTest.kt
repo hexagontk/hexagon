@@ -184,10 +184,21 @@ abstract class HttpsTest(adapter: ServerPort) {
 
         val insecureClient = Client(
             AhcAdapter(),
-            "https://127.0.0.1:${server.runtimePort}",
-            clientSettings.copy(insecure = true)
+            "https://localhost:${server.runtimePort}",
+            clientSettings.copy(insecure = true, sslSettings = SslSettings())
         )
-        insecureClient.get("/hello").apply { assert(body == "Hello World!") }
+        insecureClient.get("/hello").apply {
+            assert(body == "Hello World!")
+        }
+
+        Client(
+            AhcAdapter(),
+            "https://localhost:${server.runtimePort}",
+            clientSettings.copy(insecure = false, sslSettings = SslSettings())
+        ).apply {
+            val throwable = assertFails { get("/hello") }
+            assert(throwable.message?.contains("java.net.ConnectException") ?: false)
+        }
 
         server.stop()
     }
