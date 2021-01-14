@@ -63,6 +63,21 @@ fun <T> retry(times: Int, delay: Long, block: () -> T): T {
 val fail: Nothing
     get() = error("Invalid state")
 
+fun check(message: String = "Multiple exceptions", vararg blocks: () -> Unit) {
+    val exceptions: List<Exception> = blocks.mapNotNull {
+        try {
+            it()
+            null
+        }
+        catch(e: Exception) {
+            e
+        }
+    }
+
+    if (exceptions.isNotEmpty())
+        throw MultipleException(message, exceptions)
+}
+
 /**
  * Return the stack trace array of the frames that starts with the given prefix.
  *
