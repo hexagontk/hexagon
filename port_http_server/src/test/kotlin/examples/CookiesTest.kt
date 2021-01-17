@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.helpers.require
+import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
@@ -8,7 +9,6 @@ import com.hexagonkt.http.server.ServerPort
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import java.net.HttpCookie
 
 @TestInstance(PER_CLASS)
 @TestMethodOrder(OrderAnnotation::class)
@@ -22,9 +22,9 @@ abstract class CookiesTest(adapter: ServerPort) {
         }
 
         post("/addCookie") {
-            val name = queryParameters["cookieName"]
-            val value = queryParameters["cookieValue"]
-            response.addCookie(HttpCookie(name, value))
+            val name = queryParameters.require("cookieName")
+            val value = queryParameters.require("cookieValue")
+            response.addCookie(Cookie(name, value))
         }
 
         post("/assertHasCookie") {
@@ -110,7 +110,7 @@ abstract class CookiesTest(adapter: ServerPort) {
         val cookieValue = "sampleCookieValue"
 
         // Set the cookie in the client
-        client.cookies["sampleCookie"] = HttpCookie(cookieName, cookieValue)
+        client.cookies["sampleCookie"] = Cookie(cookieName, cookieValue)
 
         // Assert that it is received in the server and change its value afterwards
         client.post("/assertHasCookie?cookieName=$cookieName")
