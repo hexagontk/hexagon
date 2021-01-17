@@ -1,16 +1,16 @@
 package com.hexagonkt.http.server.servlet
 
+import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Part
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.parseQueryParameters
-import com.hexagonkt.http.server.Request
+import com.hexagonkt.http.server.RequestPort
 import java.io.InputStreamReader
-import java.net.HttpCookie
 import java.security.cert.X509Certificate
 import javax.servlet.http.HttpServletRequest
 
-internal class Request(private val req: HttpServletRequest) : Request() {
+internal class RequestAdapter(private val req: HttpServletRequest) : RequestPort {
 
     private val certificateAttribute = "javax.servlet.request.X509Certificate"
 
@@ -36,10 +36,10 @@ internal class Request(private val req: HttpServletRequest) : Request() {
         actionPath?.extractParameters(path()) ?: emptyMap()
 
     override fun queryParameters(): Map<String, List<String>> =
-        parseQueryParameters(queryString)
+        parseQueryParameters(queryString())
 
     override fun formParameters(): Map<String, List<String>> =
-        parameters.filter { it.key !in queryParametersValues.keys }
+        parameters.filter { it.key !in queryParameters().keys }
 
     @Suppress("UNCHECKED_CAST")
     override fun certificateChain(): List<X509Certificate> =
@@ -50,9 +50,9 @@ internal class Request(private val req: HttpServletRequest) : Request() {
     override fun headers(): Map<String, List<String>> =
         req.headerNames.toList().map { it to req.getHeaders(it).toList() }.toMap()
 
-    override fun cookies(): Map<String, HttpCookie> =
+    override fun cookies(): Map<String, Cookie> =
         try {
-            val map = req.cookies.map { HttpCookie(it.name, it.value) }.map { it.name to it }
+            val map = req.cookies.map { Cookie(it.name, it.value) }.map { it.name to it }
             map.toMap()
         }
         catch (e: Exception) {

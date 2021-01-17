@@ -1,16 +1,17 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.http.Method
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.logging.Logger
 import com.hexagonkt.http.ALL
+import com.hexagonkt.http.Method
+import com.hexagonkt.http.Path
+import com.hexagonkt.http.Route
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.FilterOrder.AFTER
 import com.hexagonkt.http.server.FilterOrder.BEFORE
 import com.hexagonkt.http.server.RequestHandler.*
-import com.hexagonkt.http.Path
-import com.hexagonkt.http.Route
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.SerializationManager.contentTypeOf
+
 import java.io.File
 import java.io.InputStream
 import java.net.URL
@@ -76,17 +77,21 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
     /**
      * TODO Take care of filters that throw exceptions
      */
-    private fun filter(req: Request, call: Call, filters: List<Pair<Route, RouteCallback>>) {
+    private fun filter(
+        requestAdapter: RequestAdapter,
+        call: Call,
+        filters: List<Pair<Route, RouteCallback>>
+    ) {
         filters
-            .filter { it.first.path.matches(req.path) }
+            .filter { it.first.path.matches(call.request.path) }
             .map {
-                req.actionPath = it.first.path
+                requestAdapter.actionPath = it.first.path
                 call.(it.second)()
                 log.trace { "Filter for path '${it.first.path}' executed" }
             }
     }
 
-    private fun route(call: Call, bRequest: Request): Boolean {
+    private fun route(call: Call, requestAdapter: RequestAdapter): Boolean {
         val routes = routesByMethod[call.request.method]
         val methodRoutes =
             routes?.filter { it.route.path.matches(call.request.path) } ?: emptyList()
@@ -94,14 +99,14 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         try {
             for ((first, second) in methodRoutes) {
                 try {
-                    bRequest.actionPath = first.path
+                    requestAdapter.actionPath = first.path
                     call.second()
 
-                    log.trace { "Route for path '${bRequest.actionPath}' executed" }
+                    log.trace { "Route for path '${requestAdapter.actionPath}' executed" }
                     return true
                 }
                 catch (e: PassException) {
-                    log.trace { "Handler for path '${bRequest.actionPath}' passed" }
+                    log.trace { "Handler for path '${requestAdapter.actionPath}' passed" }
                     continue
                 }
             }
@@ -126,24 +131,25 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         doFilter(request, response)
     }
 
-    private fun doFilter(request: ServletRequest, response: ServletResponse) {
+    private fun doFilter(servletRequest: ServletRequest, servletResponse: ServletResponse) {
 
-        if (request !is HttpRequest || response !is HttpResponse)
+        if (servletRequest !is HttpRequest || servletResponse !is HttpResponse)
             error("Invalid request/response parameters")
 
-        val bRequest = Request(request)
-        val bResponse = Response(request, response)
-        val bSession = Session(request)
-        val call = Call(bRequest, bResponse, bSession)
+        val requestAdapter = RequestAdapter(servletRequest)
+        val request = Request(requestAdapter)
+        val response = Response(ResponseAdapter(servletRequest, servletResponse))
+        val session = Session(SessionAdapter(servletRequest))
+        val call = Call(request, response, session)
         var handled = false
 
         try {
             try {
-                filter(bRequest, call, beforeFilters)
-                handled = route(call, bRequest)
+                filter(requestAdapter, call, beforeFilters)
+                handled = route(call, requestAdapter)
             }
             finally {
-                filter(bRequest, call, afterFilters)
+                filter(requestAdapter, call, afterFilters)
             }
 
             if (!handled)
@@ -157,18 +163,18 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
             try {
                 call.response.headersValues.forEach { header ->
                     header.value.forEach { value ->
-                        response.addHeader(header.key, value.toString())
+                        servletResponse.addHeader(header.key, value.toString())
                     }
                 }
-                response.status = call.response.status
-                response.outputStream.write(call.response.body.toString().toByteArray())
-                response.outputStream.flush()
+                servletResponse.status = call.response.status
+                servletResponse.outputStream.write(call.response.body.toString().toByteArray())
+                servletResponse.outputStream.flush()
             }
             catch (e: Exception) {
-                log.warn(e) { "Error handling request: ${bRequest.actionPath}" }
+                log.warn(e) { "Error handling request: ${requestAdapter.actionPath}" }
             }
 
-            log.trace { "Status ${response.status} <${if (handled) "" else "NOT "}HANDLED>" }
+            log.trace { "Status ${servletResponse.status} <${if (handled) "" else "NOT "}HANDLED>" }
         }
     }
 
