@@ -1,8 +1,8 @@
 package com.hexagonkt.http.server.test
 
+import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Part
-import java.net.HttpCookie
 import java.security.cert.X509Certificate
 
 data class TestRequest(
@@ -21,7 +21,7 @@ data class TestRequest(
     val certificateChain: List<X509Certificate> = emptyList(),
     val body: String = "",
     val headers: Map<String, List<String>> = emptyMap(),
-    val cookies: Map<String, HttpCookie> = emptyMap(),
+    val cookies: Map<String, Cookie> = emptyMap(),
     val contentType: String? = null,
     val contentLength: Long = body.length.toLong()
 )

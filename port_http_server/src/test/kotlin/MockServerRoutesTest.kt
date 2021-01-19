@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server
 
+import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.net.HttpCookie
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MockServerRoutesTest {
@@ -32,7 +32,7 @@ class MockServerRoutesTest {
         assert(response.body == "pong")
     }
 
-    @Test fun `Examples are fetched from mediatype schema correctly`() {
+    @Test fun `Examples are fetched from media-type schema correctly`() {
         val response = client.get("/get-example-from-schema")
         assert(response.status == 200)
         assert(response.body == "response")
@@ -138,13 +138,13 @@ class MockServerRoutesTest {
     }
 
     @Test fun `Required cookies are verified correctly`() {
-        client.cookies["cookieParam"] = HttpCookie("cookieParam", "aValidValue")
+        client.cookies["cookieParam"] = Cookie("cookieParam", "aValidValue")
         val response1 = client.get("/check-cookie-param")
         assert(response1.status == 200)
         assert(response1.body == "success")
         client.cookies.clear()
 
-        client.cookies["cookieParam"] = HttpCookie("cookieParam", "anInvalidValue")
+        client.cookies["cookieParam"] = Cookie("cookieParam", "anInvalidValue")
         val response2 = client.get("/check-cookie-param")
         assert(response2.status == 400)
         assert(response2.body == "invalid or missing cookie param")
@@ -156,13 +156,13 @@ class MockServerRoutesTest {
     }
 
     @Test fun `Optional cookies are verified correctly`() {
-        client.cookies["cookieParam"] = HttpCookie("cookieParam", "aValidValue")
+        client.cookies["cookieParam"] = Cookie("cookieParam", "aValidValue")
         val response1 = client.get("/check-optional-cookie-param")
         assert(response1.status == 200)
         assert(response1.body == "success")
         client.cookies.clear()
 
-        client.cookies["cookieParam"] = HttpCookie("cookieParam", "anInvalidValue")
+        client.cookies["cookieParam"] = Cookie("cookieParam", "anInvalidValue")
         val response2 = client.get("/check-optional-cookie-param")
         assert(response2.status == 400)
         assert(response2.body == "invalid or missing cookie param")
@@ -251,7 +251,7 @@ class MockServerRoutesTest {
         assert(response1.status == 401)
         assert(response1.body == "Invalid authorization credentials")
 
-        client.cookies["api_key"] = HttpCookie("api_key", "abcdefg")
+        client.cookies["api_key"] = Cookie("api_key", "abcdefg")
         val response2 = client.get("/check-cookie-api-auth")
         assert(response2.status == 200)
         assert(response2.body == "success")
@@ -272,7 +272,7 @@ class MockServerRoutesTest {
         assert(response1.status == 401)
         assert(response1.body == "Invalid authorization credentials")
 
-        client.cookies["api_key"] = HttpCookie("api_key", "abcdefg")
+        client.cookies["api_key"] = Cookie("api_key", "abcdefg")
         val response2 = client.get("/check-multiple-mechanisms")
         assert(response2.status == 200)
         assert(response2.body == "success")
@@ -289,7 +289,7 @@ class MockServerRoutesTest {
         assert(response1.status == 401)
         assert(response1.body == "Invalid authorization credentials")
 
-        client.cookies["api_key"] = HttpCookie("api_key", "abcdefg")
+        client.cookies["api_key"] = Cookie("api_key", "abcdefg")
         val response2 = client.get("/check-multiple-schemes")
         assert(response2.status == 401)
         assert(response2.body == "Invalid authorization credentials")
@@ -300,7 +300,7 @@ class MockServerRoutesTest {
         assert(response3.status == 401)
         assert(response3.body == "Invalid authorization credentials")
 
-        client.cookies["api_key"] = HttpCookie("api_key", "abcdefg")
+        client.cookies["api_key"] = Cookie("api_key", "abcdefg")
         val response4 = client.get("/check-multiple-schemes", headers = headers)
         assert(response4.status == 200)
         assert(response4.body == "success")

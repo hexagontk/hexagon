@@ -9,14 +9,11 @@ import java.nio.charset.Charset
 
 /**
  * HTTP request context. It holds client supplied data and methods to change the response.
- *
- * TODO Move Request, Response and Session abstract methods here and pass the call to them
  */
 class Call(val request: Request, val response: Response, val session: Session) {
 
     /** Call attributes (for the current request). Same as HttpServletRequest.setAttribute(). */
-    @Suppress("RemoveExplicitTypeArguments") // Without types fails inside IntelliJ
-    val attributes: MutableMap<String, Any> by lazy { LinkedHashMap<String, Any>() }
+    val attributes: MutableMap<String, Any> by lazy { LinkedHashMap() }
 
     val requestType: String get() =
         request.requestType()

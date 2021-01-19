@@ -1,8 +1,8 @@
 package com.hexagonkt.http.server.test
 
-import com.hexagonkt.http.server.Session
+import com.hexagonkt.http.server.SessionPort
 
-internal class MockSession(private val testSession: TestSession): Session() {
+internal class MockSession(private val testSession: TestSession): SessionPort {
     override fun attributes(): Map<String, Any?> = testSession.attributes
     override fun creationTime(): Long? = testSession.creationTime
     override fun getAttribute(name: String): Any? = testSession.attributes[name]
@@ -15,7 +15,7 @@ internal class MockSession(private val testSession: TestSession): Session() {
 
     override fun isNew(): Boolean = testSession.id == null
 
-    override fun lastAccessedTime(): Long? = lastAccessedTime
+    override fun lastAccessedTime(): Long? = testSession.lastAccessedTime
 
     override fun maxInactiveInterval(): Int? = testSession.maxInactiveInterval
 

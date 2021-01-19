@@ -1,16 +1,16 @@
 package com.hexagonkt.http.server.test
 
+import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Part
-import com.hexagonkt.http.server.Request
-import java.net.HttpCookie
+import com.hexagonkt.http.server.RequestPort
 import java.security.cert.X509Certificate
 
-internal class MockRequest(private val testRequest: TestRequest) : Request() {
+internal class MockRequest(private val testRequest: TestRequest) : RequestPort {
 
     override fun contentLength(): Long = testRequest.contentLength
     override fun contentType(): String? = testRequest.contentType
-    override fun cookies(): Map<String, HttpCookie> = testRequest.cookies
+    override fun cookies(): Map<String, Cookie> = testRequest.cookies
     override fun formParameters(): Map<String, List<String>> = testRequest.formParameters
     override fun certificateChain(): List<X509Certificate> = testRequest.certificateChain
 
