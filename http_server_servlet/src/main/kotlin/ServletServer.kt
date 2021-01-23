@@ -8,7 +8,8 @@ import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
 
 /**
- * Not a standard engine as it is not started/stopped.
+ * Adapter to run a router inside a Servlets container. It is not a standard engine as it is not
+ * started/stopped.
  */
 abstract class ServletServer(
     private val router: Router = Router(),
