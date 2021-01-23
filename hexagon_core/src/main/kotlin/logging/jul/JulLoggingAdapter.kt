@@ -24,7 +24,7 @@ object JulLoggingAdapter : LoggingPort {
             root.removeHandler(hnd)
 
         root.addHandler(SystemOutHandler())
-        root.level = Level.ALL
+        root.level = Level.INFO
 
         try {
             getLogManager().updateConfiguration(URL(defaultLoggingProperties).openStream(), null)
