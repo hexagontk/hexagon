@@ -8,11 +8,9 @@ lateinit var server: Server
  * Start a Hello World server, serving at path "/hello".
  */
 fun main() {
-    server = Server(JettyServletAdapter()) {
+    server = serve {
         get("/hello") {
             ok("Hello World!")
         }
     }
-
-    server.start()
 }
