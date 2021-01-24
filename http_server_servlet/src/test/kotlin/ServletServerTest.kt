@@ -3,6 +3,7 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Router
+import com.hexagonkt.http.server.ServerSettings
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -54,7 +55,7 @@ class ServletServerTest {
     }
 
     @Test fun `Invalid types in filter calls raise an exception`() {
-        val filter = ServletFilter(emptyList())
+        val filter = ServletFilter(emptyList(), ServerSettings())
         val request = mockk<ServletRequest>()
         val response = mockk<ServletResponse>()
         val chain = mockk<FilterChain>()

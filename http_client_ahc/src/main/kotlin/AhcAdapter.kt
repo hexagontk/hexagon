@@ -48,6 +48,7 @@ class AhcAdapter : ClientPort {
             Builder()
                 .setConnectTimeout(5000)
                 .setSslContext(sslContext(ssl))
+                .setKeepEncodingHeader(true)
                 .build()
         )
     }

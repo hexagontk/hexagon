@@ -28,12 +28,12 @@ task("hexagonInfo") {
     doLast {
         file("$buildDir/resources/main/META-INF").mkdirs()
         file("$buildDir/resources/main/META-INF/hexagon.properties").writeText("""
-        project=${rootProject.name}
-        module=${project.name}
-        version=${project.version}
-        group=${project.group}
-        description=${project.description}
-    """.trimIndent ())
+            project=${rootProject.name}
+            module=${project.name}
+            version=${project.version}
+            group=${project.group}
+            description=${project.description}
+        """.trimIndent ())
     }
 }
 

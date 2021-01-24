@@ -25,10 +25,10 @@ import com.hexagonkt.helpers.Ansi.DEFAULT
 import com.hexagonkt.helpers.Ansi.MAGENTA
 import com.hexagonkt.helpers.Ansi.RESET
 import com.hexagonkt.helpers.Ansi.UNDERLINE
+import java.lang.System.nanoTime
 
 /**
- * A server that listen to HTTP connections on a port and address and route requests using a
- * router.
+ * Server that listen to HTTP connections on a port and address and route requests using a router.
  */
 data class Server(
     private val adapter: ServerPort = inject(),
@@ -56,7 +56,7 @@ data class Server(
     private val log: Logger = Logger(this::class)
 
     /**
-     * Provides a [Router] instance configured with the context path in [ServerSettings].
+     * Provide a [Router] instance configured with the context path in [ServerSettings].
      */
     val contextRouter: Router by lazy {
         if (settings.contextPath.isEmpty())
@@ -66,7 +66,7 @@ data class Server(
     }
 
     /**
-     * Creates a server with a router. It is a combination of [Server] and [Router].
+     * Create a server with a router. It is a combination of [Server] and [Router].
      *
      * @param adapter The server engine.
      * @param settings Server settings. Port and address will be searched in this map.
@@ -76,12 +76,14 @@ data class Server(
     constructor(
         adapter: ServerPort = inject(),
         settings: ServerSettings = injectOrNull() ?: ServerSettings(),
-        block: Router.() -> Unit):
-            this(adapter, Router(block), settings)
+        block: Router.() -> Unit
+    ) :
+        this(adapter, Router(block), settings)
 
     /**
-     * The runtime port of the server.
-     * @exception IllegalStateException Throws exception if the server hasn't been started.
+     * Runtime port of the server.
+     *
+     * @exception IllegalStateException Throw an exception if the server hasn't been started.
      */
     val runtimePort
         get() = if (started()) adapter.runtimePort() else error("Server is not running")
@@ -92,44 +94,54 @@ data class Server(
     val portName: String = adapter.javaClass.simpleName
 
     /**
-     * Checks whether the server has been started.
+     * Check whether the server has been started.
      *
      * @return True if the server has started, else false.
      */
     fun started(): Boolean = adapter.started()
 
     /**
-     * Starts the server with the adapter instance and
-     * adds a shutdown hook for stopping the server.
+     * Start the server with the adapter instance and adds a shutdown hook for stopping the server.
      */
     fun start() {
+        val startTimestamp = nanoTime()
+
+        // TODO Check features and options
+        // TODO Update documentation, guides and samples.
+
         getRuntime().addShutdownHook(
-            Thread (
+            Thread(
                 {
-                    if (started ())
-                        adapter.shutdown ()
+                    if (started())
+                        adapter.shutdown()
                 },
                 "shutdown-${settings.bindAddress.hostName}-${settings.bindPort}"
             )
         )
 
-        adapter.startup (this)
-        log.info { "Server started\n${createBanner()}" }
+        adapter.startup(this)
+        log.info { "Server started\n${createBanner(nanoTime() - startTimestamp)}" }
     }
 
     /**
-     * Stops the server.
+     * Stop the server.
      */
     fun stop() {
-        adapter.shutdown ()
+        adapter.shutdown()
         log.info { "Server stopped" }
     }
 
-    private fun createBanner(): String {
+    private fun createBanner(startUpTimestamp: Long): String {
+
+        // TODO Print selected features with a tick
+        // TODO Print selected protocol with a tick
+        // TODO Print passed options values
+
         val heap = getMemoryMXBean().heapMemoryUsage
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
+        val startUpTime = "%3.0f".format(startUpTimestamp / 1e6)
         val bindAddress = settings.bindAddress
         val protocol = settings.protocol
         val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName
@@ -137,6 +149,9 @@ data class Server(
         val binding = "$scheme://$hostName:$runtimePort"
 
         val serverAdapterValue = "$BOLD$CYAN$portName$RESET"
+        val protocols = adapter.supportedProtocols().joinToString("$RESET, $CYAN", CYAN, RESET)
+        val features = adapter.supportedFeatures().joinToString("$RESET, $CYAN", CYAN, RESET)
+        val options = adapter.supportedOptions().joinToString("$RESET, $CYAN", CYAN, RESET)
 
         val hostnameValue = "$BLUE$hostname$RESET"
         val cpuCountValue = "$BLUE$cpuCount$RESET"
@@ -149,22 +164,25 @@ data class Server(
         val charsetValue = "$BLUE$charset$RESET"
 
         val bootTimeValue = "$BOLD$MAGENTA$bootTime s$RESET"
+        val startUpTimeValue = "$BOLD$MAGENTA$startUpTime ms$RESET"
         val usedMemoryValue = "$BOLD$MAGENTA$usedMemory KB$RESET"
         val bindingValue = "$BLUE$UNDERLINE$binding$RESET"
 
         val information = """
 
-            Server Adapter: $serverAdapterValue
+            Server Adapter: $serverAdapterValue ($protocols)
+            Supported Features: $features
+            Configuration Options: $options
 
             Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB
             Using $javaVersionValue
             Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue
 
-            Started in $bootTimeValue using $usedMemoryValue
+            Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue
             Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else ""}
         """.trimIndent()
 
-        val banner = (settings.banner?.let { "$it\n" } ?: banner ) + information
+        val banner = (settings.banner?.let { "$it\n" } ?: banner) + information
         return banner.prependIndent()
     }
 }
