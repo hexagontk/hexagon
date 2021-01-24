@@ -2,6 +2,7 @@ package com.hexagonkt.helpers
 
 import java.net.ServerSocket
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class HelpersTest {
@@ -15,6 +16,50 @@ internal class HelpersTest {
         ),
         0 to 1
     )
+
+    @Test fun `Check multiple errors`() {
+        val e = assertFailsWith<MultipleException> {
+            check(
+                "Test multiple exceptions",
+                { require(false) { "Sample error" } },
+                { println("Good block")},
+                { error("Bad state") },
+            )
+        }
+
+        assertEquals("Test multiple exceptions", e.message)
+        assertEquals(2, e.causes.size)
+        assertEquals("Sample error", e.causes[0].message)
+        assertEquals("Bad state", e.causes[1].message)
+
+        check(
+            "No exception thrown",
+            { println("Good block")},
+            { println("Shouldn't throw an exception")},
+        )
+    }
+
+    @Test fun `Print helper`() {
+        assertEquals("text\n", "echo text".exec().println("command output: "))
+        assertEquals("text\n", "echo text".exec().println())
+    }
+
+    @Test fun `Log helper`() {
+        assertEquals("foo", "foo".trace(">>> "))
+        assertEquals("foo", "foo".trace())
+    }
+
+    @Test fun `Process execution works as expected`() {
+        assertFailsWith<IllegalArgumentException> { " ".exec() }
+        assertFailsWith<IllegalArgumentException> { "echo test".exec(timeout = -1) }
+        assertFailsWith<IllegalArgumentException> { "echo test".exec(timeout = 0) }
+        assertFailsWith<IllegalStateException> { "sleep 2".exec(timeout = 1) }
+        assertFailsWith<CodedException> { "false".exec(fail = true) }
+
+        assert("false".exec().isEmpty())
+        assert("sleep 1".exec().isEmpty())
+        assertEquals("str\n", "echo str".exec())
+    }
 
     @Test fun `Network ports utilities work properly`() {
         assert(!isPortOpened(freePort()))
