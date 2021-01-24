@@ -9,6 +9,7 @@ import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.FilterOrder.AFTER
 import com.hexagonkt.http.server.FilterOrder.BEFORE
 import com.hexagonkt.http.server.RequestHandler.*
+import com.hexagonkt.http.server.ServerFeature.SESSIONS
 import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.SerializationManager.contentTypeOf
 
@@ -20,7 +21,7 @@ import javax.servlet.*
 import javax.servlet.http.HttpServletRequest as HttpRequest
 import javax.servlet.http.HttpServletResponse as HttpResponse
 
-class ServletFilter(router: List<RequestHandler>) : Filter {
+class ServletFilter(router: List<RequestHandler>, serverSettings: ServerSettings) : Filter {
 
     /**
      * Exception used for stopping the execution. It is used only for flow control.
@@ -29,6 +30,7 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
 
     private val log: Logger = Logger(this::class)
 
+    private val features: Set<ServerFeature> = serverSettings.features
     private val notFoundHandler: ErrorCodeCallback = { send(404, "${request.url} not found") }
     private val baseExceptionHandler: ExceptionCallback =
         { send(500, "${it.javaClass.simpleName} (${it.message ?: "no details"})") }
@@ -139,7 +141,11 @@ class ServletFilter(router: List<RequestHandler>) : Filter {
         val requestAdapter = RequestAdapter(servletRequest)
         val request = Request(requestAdapter)
         val response = Response(ResponseAdapter(servletRequest, servletResponse))
-        val session = Session(SessionAdapter(servletRequest))
+        val hasSessions = features.contains(SESSIONS)
+        val sessionAdapter =
+            if (hasSessions) SessionAdapter(servletRequest)
+            else UnsupportedSessionAdapter
+        val session = Session(sessionAdapter)
         val call = Call(request, response, session)
         var handled = false
 

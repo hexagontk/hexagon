@@ -1,6 +1,8 @@
 package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.server.Router
+import com.hexagonkt.http.server.ServerFeature.SESSIONS
+import com.hexagonkt.http.server.ServerSettings
 
 import java.util.*
 import javax.servlet.DispatcherType
@@ -21,7 +23,8 @@ abstract class ServletServer(
     open fun createRouter(): Router = router
 
     override fun contextInitialized(sce: ServletContextEvent) {
-        val servletFilter = ServletFilter(serverRouter.flatRequestHandlers())
+        val serverSettings = ServerSettings(features = setOf(SESSIONS))
+        val servletFilter = ServletFilter(serverRouter.flatRequestHandlers(), serverSettings)
         val filter = sce.servletContext.addFilter("filters", servletFilter)
         filter.setAsyncSupported(async)
         filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")

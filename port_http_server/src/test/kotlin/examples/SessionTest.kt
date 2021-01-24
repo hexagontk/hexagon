@@ -6,6 +6,8 @@ import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.http.client.Response
+import com.hexagonkt.http.server.ServerFeature.SESSIONS
+import com.hexagonkt.http.server.ServerSettings
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -16,7 +18,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 abstract class SessionTest(adapter: ServerPort) {
 
     // session
-    val server: Server = Server(adapter) {
+    val server: Server = Server(adapter, ServerSettings(features = setOf(SESSIONS))) {
         path("/session") {
             get("/id") { ok(session.id ?: "null") }
             get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
