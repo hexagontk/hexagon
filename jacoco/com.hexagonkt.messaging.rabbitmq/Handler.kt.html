@@ -47,9 +47,9 @@ import kotlin.reflect.KClass
 <span class="fc" id="L47">            val contentType = formatOf(messageContentType, defaultFormat)</span>
 
 <span class="fc" id="L49">            try {</span>
-<span class="fc" id="L50">                log.trace { &quot;Received message ($correlationId) in $charset&quot; }</span>
+<span class="pc" id="L50">                log.trace { &quot;Received message ($correlationId) in $charset&quot; }</span>
 <span class="fc" id="L51">                val request = String(body, Charset.forName(charset))</span>
-<span class="fc" id="L52">                log.trace { &quot;Message body:\n$request&quot; }</span>
+<span class="pc" id="L52">                log.trace { &quot;Message body:\n$request&quot; }</span>
 <span class="fc" id="L53">                val input = request.parse(type, contentType)</span>
 
 <span class="fc" id="L55">                val response = handler(input)</span>
@@ -84,17 +84,17 @@ import kotlin.reflect.KClass
     /** @see DefaultConsumer.handleShutdownSignal */
     override fun handleShutdownSignal(consumerTag: String, sig: ShutdownSignalException) {
 <span class="fc bfc" id="L86" title="All 2 branches covered.">        if (sig.isInitiatedByApplication) {</span>
-<span class="fc" id="L87">            log.debug { &quot;Consumer $consumerTag: shutdown is initiated by application. Ignoring it&quot; }</span>
+<span class="pc" id="L87">            log.debug { &quot;Consumer $consumerTag: shutdown is initiated by application. Ignoring it&quot; }</span>
         }
         else {
 <span class="pc bpc" id="L90" title="1 of 2 branches missed.">            val msg = sig.localizedMessage ?: &quot;&quot;</span>
-<span class="fc" id="L91">            log.debug { &quot;Consumer $consumerTag shutdown error $msg&quot; }</span>
+<span class="pc" id="L91">            log.debug { &quot;Consumer $consumerTag shutdown error $msg&quot; }</span>
         }
 <span class="fc" id="L93">    }</span>
 
     /** @see DefaultConsumer.handleConsumeOk */
     override fun handleConsumeOk(consumerTag: String) {
-<span class="fc" id="L97">        log.debug { &quot;Consumer $consumerTag has been registered&quot; }</span>
+<span class="pc" id="L97">        log.debug { &quot;Consumer $consumerTag has been registered&quot; }</span>
 <span class="fc" id="L98">    }</span>
 
     private fun handleResponse(response: R, replyTo: String, correlationId: String?) {
@@ -114,4 +114,4 @@ import kotlin.reflect.KClass
 <span class="fc" id="L114">        client.publish(replyTo, errorMessage, correlationId)</span>
 <span class="fc" id="L115">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

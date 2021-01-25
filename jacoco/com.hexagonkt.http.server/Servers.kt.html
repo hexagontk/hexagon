@@ -13,7 +13,7 @@ typealias ExceptionCallback = Call.(Exception) -&gt; Unit
 typealias ErrorCodeCallback = Call.(CodedException) -&gt; Unit
 
 /**
- * Creates a server and starts it.
+ * Create a server and start it.
  *
  * @param settings Server settings info .
  * @param router [Router] instance.
@@ -28,7 +28,7 @@ fun serve(
 <span class="fc" id="L28">        Server(adapter, router, settings).apply { start() }</span>
 
 /**
- * Creates a server and starts it.
+ * Create a server and start it.
  *
  * @param settings Server settings info.
  * @param adapter Adapter instance which implements [ServerPort].
@@ -41,4 +41,4 @@ fun serve(
 <span class="nc" id="L41">    adapter: ServerPort = InjectionManager.inject(),</span>
     block: Router.() -&gt; Unit): Server =
 <span class="fc" id="L43">        Server(adapter, Router(block), settings).apply { start() }</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

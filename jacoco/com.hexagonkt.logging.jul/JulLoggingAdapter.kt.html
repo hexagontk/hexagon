@@ -24,10 +24,10 @@ import java.util.logging.Logger as JulLogger
 <span class="fc" id="L24">            root.removeHandler(hnd)</span>
 
 <span class="fc" id="L26">        root.addHandler(SystemOutHandler())</span>
-<span class="fc" id="L27">        root.level = Level.ALL</span>
+<span class="fc" id="L27">        root.level = Level.INFO</span>
 
 <span class="fc" id="L29">        try {</span>
-<span class="fc" id="L30">            getLogManager().readConfiguration(URL(defaultLoggingProperties).openStream())</span>
+<span class="fc" id="L30">            getLogManager().updateConfiguration(URL(defaultLoggingProperties).openStream(), null)</span>
         }
 <span class="fc" id="L32">        catch (e: ResourceNotFoundException) {</span>
 <span class="fc" id="L33">            val logger = JulLogger.getLogger(this::class.java.name)</span>
@@ -41,7 +41,7 @@ import java.util.logging.Logger as JulLogger
 
             override fun log(level: LoggingLevel, message: () -&gt; Any?) {
 <span class="fc" id="L43">                val julLevel = mapLevel(level)</span>
-<span class="pc bpc" id="L44" title="1 of 2 branches missed.">                if (log.isLoggable(julLevel))</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
 <span class="fc" id="L45">                    log.log(julLevel, message().toString())</span>
 <span class="fc" id="L46">            }</span>
 
@@ -64,4 +64,4 @@ import java.util.logging.Logger as JulLogger
 <span class="fc" id="L64">            }</span>
 <span class="fc" id="L65">        }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

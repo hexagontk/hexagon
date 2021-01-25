@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UnsupportedSessionAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server</a> &gt; <span class="el_source">UnsupportedSessionAdapter.kt</span></div><h1>UnsupportedSessionAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server
+
+<span class="fc" id="L3">object UnsupportedSessionAdapter : SessionPort {</span>
+
+    override fun creationTime(): Long? {
+<span class="nc" id="L6">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun lastAccessedTime(): Long? {
+<span class="nc" id="L10">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun id(): String? {
+<span class="nc" id="L14">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun maxInactiveInterval(): Int? {
+<span class="nc" id="L18">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun maxInactiveInterval(value: Int?) {
+<span class="nc" id="L22">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun attributes(): Map&lt;String, Any?&gt; {
+<span class="fc" id="L26">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun getAttribute(name: String): Any? {
+<span class="nc" id="L30">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun setAttribute(name: String, value: Any) {
+<span class="nc" id="L34">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun removeAttribute(name: String) {
+<span class="nc" id="L38">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun invalidate() {
+<span class="nc" id="L42">        throw UnsupportedOperationException()</span>
+    }
+
+    override fun isNew(): Boolean {
+<span class="nc" id="L46">        throw UnsupportedOperationException()</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

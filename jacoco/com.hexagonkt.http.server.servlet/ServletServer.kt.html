@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletServer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletServer.kt</span></div><h1>ServletServer.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
 
 import com.hexagonkt.http.server.Router
+import com.hexagonkt.http.server.ServerFeature.SESSIONS
+import com.hexagonkt.http.server.ServerSettings
 
 import java.util.*
 import javax.servlet.DispatcherType
@@ -8,24 +10,26 @@ import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
 
 /**
- * Not a standard engine as it is not started/stopped.
+ * Adapter to run a router inside a Servlets container. It is not a standard engine as it is not
+ * started/stopped.
  */
-<span class="fc" id="L13">abstract class ServletServer(</span>
-<span class="fc" id="L14">    private val router: Router = Router(),</span>
-<span class="fc" id="L15">    private val async: Boolean = false</span>
+<span class="fc" id="L16">abstract class ServletServer(</span>
+<span class="fc" id="L17">    private val router: Router = Router(),</span>
+<span class="fc" id="L18">    private val async: Boolean = false</span>
 ) : ServletContextListener {
 
-<span class="fc" id="L18">    private val serverRouter by lazy { createRouter() }</span>
+<span class="fc" id="L21">    private val serverRouter by lazy { createRouter() }</span>
 
-<span class="nc" id="L20">    open fun createRouter(): Router = router</span>
+<span class="nc" id="L23">    open fun createRouter(): Router = router</span>
 
     override fun contextInitialized(sce: ServletContextEvent) {
-<span class="fc" id="L23">        val servletFilter = ServletFilter(serverRouter.flatRequestHandlers())</span>
-<span class="fc" id="L24">        val filter = sce.servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
-<span class="fc" id="L25">        filter.setAsyncSupported(async)</span>
-<span class="fc" id="L26">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L26">        val serverSettings = ServerSettings(features = setOf(SESSIONS))</span>
+<span class="fc" id="L27">        val servletFilter = ServletFilter(serverRouter.flatRequestHandlers(), serverSettings)</span>
+<span class="fc" id="L28">        val filter = sce.servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
+<span class="fc" id="L29">        filter.setAsyncSupported(async)</span>
+<span class="fc" id="L30">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
+<span class="fc" id="L31">    }</span>
 
-<span class="fc" id="L29">    override fun contextDestroyed(sce: ServletContextEvent?) { /* Empty */ }</span>
+<span class="fc" id="L33">    override fun contextDestroyed(sce: ServletContextEvent?) { /* Empty */ }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

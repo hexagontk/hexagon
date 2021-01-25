@@ -197,11 +197,11 @@ import kotlin.reflect.KClass
 <span class="pc bpc" id="L197" title="1 of 2 branches missed.">        channel.basicPublish(exchange, routingKey, props, message.toByteArray(charset))</span>
 
 <span class="fc" id="L199">        log.debug {</span>
-<span class="fc" id="L200">            &quot;&quot;&quot;</span>
-<span class="fc" id="L201">            EXCHANGE: $exchange ROUTING KEY: $routingKey</span>
-<span class="fc" id="L202">            REPLY TO: $replyQueueName CORRELATION ID: $correlationId</span>
+<span class="nc" id="L200">            &quot;&quot;&quot;</span>
+<span class="nc" id="L201">            EXCHANGE: $exchange ROUTING KEY: $routingKey</span>
+<span class="nc" id="L202">            REPLY TO: $replyQueueName CORRELATION ID: $correlationId</span>
             BODY:
-<span class="fc" id="L204">            $message&quot;&quot;&quot;.trimIndent()</span>
+<span class="nc" id="L204">            $message&quot;&quot;&quot;.trimIndent()</span>
         }
 <span class="fc" id="L206">    }</span>
 
@@ -226,7 +226,7 @@ import kotlin.reflect.KClass
 <span class="fc" id="L226">                }</span>
 
                 override fun handleCancelOk(consumerTag: String) {
-<span class="fc" id="L229">                    log.debug { &quot;Explicit cancel for the consumer $consumerTag&quot; }</span>
+<span class="pc" id="L229">                    log.debug { &quot;Explicit cancel for the consumer $consumerTag&quot; }</span>
 <span class="fc" id="L230">                }</span>
             }
 
@@ -237,4 +237,4 @@ import kotlin.reflect.KClass
 <span class="fc" id="L237">            result</span>
 <span class="fc" id="L238">        }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

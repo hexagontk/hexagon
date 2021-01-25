@@ -126,9 +126,9 @@ fun utf8(vararg bytes: Int): String =
 <span class="fc" id="L126">    .joinToString(&quot;&quot;, &quot;^&quot;, &quot;$&quot;)</span>
 <span class="fc" id="L127">)</span>
 
-<span class="fc" id="L129">fun String.indent(count: Int = 4, pad: String = &quot; &quot;) =</span>
-<span class="fc" id="L130">    this.lines().joinToString(eol) { pad.repeat(count) + it }</span>
+<span class="fc" id="L129">fun String.prependIndent(count: Int = 4, pad: String = &quot; &quot;) =</span>
+<span class="fc" id="L130">    this.prependIndent(pad.repeat(count))</span>
 
 internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
 <span class="fc bfc" id="L133" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

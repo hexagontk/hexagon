@@ -4,6 +4,8 @@ $dokka.location:com.hexagonkt.helpers$banner(kotlin.String, kotlin.String)com.h
 $dokka.location:com.hexagonkt.helpers$bytes(java.util.UUID)com.hexagonkt.helpers/java.util.-u-u-i-d/bytes.md
 $dokka.location:com.hexagonkt.helpers$camelToSnake(kotlin.String)com.hexagonkt.helpers/kotlin.-string/camel-to-snake.md
 $dokka.location:com.hexagonkt.helpers$ensureSize(kotlin.collections.Collection((com.hexagonkt.helpers.ensureSize.Z)), kotlin.ranges.IntRange)com.hexagonkt.helpers/kotlin.collections.-collection/ensure-size.md
+$dokka.location:com.hexagonkt.helpers$exec(kotlin.String, java.io.File, kotlin.Long, kotlin.Boolean)com.hexagonkt.helpers/kotlin.-string/exec.md
+$dokka.location:com.hexagonkt.helpers$exec(kotlin.collections.List((kotlin.String)), java.io.File, kotlin.Long, kotlin.Boolean)com.hexagonkt.helpers/kotlin.collections.-list/exec.md
 $dokka.location:com.hexagonkt.helpers$filter(kotlin.String, kotlin.String, kotlin.String, kotlin.Array((kotlin.Pair((kotlin.String, )))))com.hexagonkt.helpers/kotlin.-string/filter.md
 $dokka.location:com.hexagonkt.helpers$filterEmpty(kotlin.collections.List((com.hexagonkt.helpers.filterEmpty.V)))com.hexagonkt.helpers/kotlin.collections.-list/filter-empty.md
 $dokka.location:com.hexagonkt.helpers$filterEmpty(kotlin.collections.Map((com.hexagonkt.helpers.filterEmpty.K, com.hexagonkt.helpers.filterEmpty.V)))com.hexagonkt.helpers/kotlin.collections.-map/filter-empty.md
@@ -13,7 +15,7 @@ $dokka.location:com.hexagonkt.helpers$filterVars(kotlin.String, kotlin.collectio
 $dokka.location:com.hexagonkt.helpers$findGroups(kotlin.text.Regex, kotlin.String)com.hexagonkt.helpers/kotlin.text.-regex/find-groups.md
 $dokka.location:com.hexagonkt.helpers$get(kotlin.collections.Map((kotlin.Any, )), kotlin.Array((kotlin.Any)))com.hexagonkt.helpers/kotlin.collections.-map/get.md
 $dokka.location:com.hexagonkt.helpers$globToRegex(kotlin.String)com.hexagonkt.helpers/kotlin.-string/glob-to-regex.md
-$dokka.location:com.hexagonkt.helpers$indent(kotlin.String, kotlin.Int, kotlin.String)com.hexagonkt.helpers/kotlin.-string/indent.md
+$dokka.location:com.hexagonkt.helpers$prependIndent(kotlin.String, kotlin.Int, kotlin.String)com.hexagonkt.helpers/kotlin.-string/prepend-indent.md
 $dokka.location:com.hexagonkt.helpers$require(kotlin.collections.Map((com.hexagonkt.helpers.require.K, com.hexagonkt.helpers.require.V)), com.hexagonkt.helpers.require.K)com.hexagonkt.helpers/kotlin.collections.-map/require.md
 $dokka.location:com.hexagonkt.helpers$requireKeys(kotlin.collections.Map((kotlin.Any, )), kotlin.Array((kotlin.Any)))com.hexagonkt.helpers/kotlin.collections.-map/require-keys.md
 $dokka.location:com.hexagonkt.helpers$snakeToCamel(kotlin.String)com.hexagonkt.helpers/kotlin.-string/snake-to-camel.md

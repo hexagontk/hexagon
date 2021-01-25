@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Request.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server</a> &gt; <span class="el_source">Request.kt</span></div><h1>Request.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.logger
+import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Part
 import com.hexagonkt.serialization.SerializationFormat
@@ -9,7 +10,6 @@ import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseObjects
-import java.net.HttpCookie
 import java.security.cert.X509Certificate
 import kotlin.reflect.KClass
 
@@ -21,165 +21,166 @@ import kotlin.reflect.KClass
  *
  * HTTP request context. It holds client supplied data and methods to change the response.
  */
-<span class="fc" id="L24">abstract class Request {</span>
+<span class="fc" id="L24">class Request(adapter: RequestPort) {</span>
+
     /**
      * Provides the HTTP method of the request.
      */
-<span class="fc" id="L28">    val method: Method by lazy { method() }</span>
+<span class="fc" id="L29">    val method: Method by lazy { adapter.method() }</span>
 
     /**
      * Provides the name of the scheme used to make this request.
      */
-<span class="fc" id="L33">    val scheme: String by lazy { scheme() }</span>
+<span class="fc" id="L34">    val scheme: String by lazy { adapter.scheme() }</span>
 
     /**
      * Provides the fully qualified name of the client.
      */
-<span class="fc" id="L38">    val host: String by lazy { host() }</span>
+<span class="fc" id="L39">    val host: String by lazy { adapter.host() }</span>
 
     /**
      * Provides the client IP address.
      */
-<span class="fc" id="L43">    val ip: String by lazy { ip() }</span>
+<span class="fc" id="L44">    val ip: String by lazy { adapter.ip() }</span>
 
     /**
      * Provides the port number used to make the request.
      */
-<span class="fc" id="L48">    val port: Int by lazy { port() }</span>
+<span class="fc" id="L49">    val port: Int by lazy { adapter.port() }</span>
 
     /**
      * Provides the servlet path of the request.
      */
-<span class="fc" id="L53">    val path: String by lazy { path() }</span>
+<span class="fc" id="L54">    val path: String by lazy { adapter.path() }</span>
 
     /**
      * Provides the query string of the request.
      */
-<span class="fc" id="L58">    val queryString: String by lazy { queryString() }</span>
+<span class="fc" id="L59">    val queryString: String by lazy { adapter.queryString() }</span>
 
     /**
      * Provides the URL client used to make the request.
      */
-<span class="fc" id="L63">    val url: String by lazy { url() }</span>
+<span class="fc" id="L64">    val url: String by lazy { adapter.url() }</span>
 
     /**
      * Provides a [Map] of multipart parts in the request.
      */
-<span class="fc" id="L68">    val parts: Map&lt;String, Part&gt; by lazy { parts() }</span>
+<span class="fc" id="L69">    val parts: Map&lt;String, Part&gt; by lazy { adapter.parts() }</span>
 
     /**
      * Provides [Map] of parsed key-value pairs of query parameters in the request.
      */
-<span class="fc" id="L73">    val queryParametersValues: Map&lt;String, List&lt;String&gt;&gt; by lazy { queryParameters() }</span>
+<span class="fc" id="L74">    val queryParametersValues: Map&lt;String, List&lt;String&gt;&gt; by lazy { adapter.queryParameters() }</span>
 
     /**
      * Provides [Map] of request parameters contained in form fields.
      */
-<span class="fc" id="L78">    val formParametersValues: Map&lt;String, List&lt;String&gt;&gt; by lazy { formParameters() }</span>
+<span class="fc" id="L79">    val formParametersValues: Map&lt;String, List&lt;String&gt;&gt; by lazy { adapter.formParameters() }</span>
 
     /**
      * Provides a [Map] of first values of all query parameters in the request.
      */
-<span class="fc" id="L83">    val queryParameters: Map&lt;String, String&gt; by lazy { firsts(queryParametersValues) }</span>
+<span class="fc" id="L84">    val queryParameters: Map&lt;String, String&gt; by lazy { firsts(queryParametersValues) }</span>
 
     /**
      * Provides a [Map] of first values of all form fields.
      */
-<span class="fc" id="L88">    val formParameters: Map&lt;String, String&gt; by lazy { firsts(formParametersValues) }</span>
+<span class="fc" id="L89">    val formParameters: Map&lt;String, String&gt; by lazy { firsts(formParametersValues) }</span>
 
     /**
      * Provides a [Map] of all path parameters.
      */
-<span class="fc" id="L93">    val pathParameters: Map&lt;String, String&gt; by lazy { pathParameters() }</span>
+<span class="fc" id="L94">    val pathParameters: Map&lt;String, String&gt; by lazy { adapter.pathParameters() }</span>
 
     /**
      * Provides a [List] of certificate chain used for SSL.
      */
-<span class="fc" id="L98">    val certificateChain: List&lt;X509Certificate&gt; by lazy { certificateChain() }</span>
+<span class="fc" id="L99">    val certificateChain: List&lt;X509Certificate&gt; by lazy { adapter.certificateChain() }</span>
 
     /**
      * Check if the request is secure.
      */
-<span class="fc" id="L103">    val secure: Boolean by lazy { scheme == &quot;https&quot; }</span>
+<span class="fc" id="L104">    val secure: Boolean by lazy { scheme == &quot;https&quot; }</span>
 
     /**
      * [List] of parameters for &quot;Accept&quot; header key.
      */
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">    val acceptValues: List&lt;String&gt; by lazy { headersValues[&quot;Accept&quot;] ?: emptyList() }</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">    val acceptValues: List&lt;String&gt; by lazy { headersValues[&quot;Accept&quot;] ?: emptyList() }</span>
 
     /**
      * First value in &quot;Accept&quot; header key.
      */
-<span class="fc" id="L113">    val accept: String? by lazy { acceptValues.firstOrNull() }</span>
+<span class="fc" id="L114">    val accept: String? by lazy { acceptValues.firstOrNull() }</span>
 
     /**
      * Preferred content-type specified under &quot;Accept&quot; header key.
      */
-<span class="fc" id="L118">    val preferredType: String? by lazy { accept }</span>
+<span class="fc" id="L119">    val preferredType: String? by lazy { accept }</span>
 
     /**
      * First value of &quot;User-Agent&quot; header key.
      */
-<span class="pc bpc" id="L123" title="1 of 2 branches missed.">    val userAgent: String? by lazy { headersValues[&quot;User-Agent&quot;]?.firstOrNull() }</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">    val userAgent: String? by lazy { headersValues[&quot;User-Agent&quot;]?.firstOrNull() }</span>
 
     /**
      * First value of &quot;Referer&quot; header key.
      */
-<span class="fc bfc" id="L128" title="All 2 branches covered.">    val referer: String? by lazy { headersValues[&quot;Referer&quot;]?.firstOrNull() }</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">    val referer: String? by lazy { headersValues[&quot;Referer&quot;]?.firstOrNull() }</span>
 
     /**
      * First value of &quot;Origin&quot; header key.
      */
-<span class="fc bfc" id="L133" title="All 2 branches covered.">    val origin: String? by lazy { headersValues[&quot;Origin&quot;]?.firstOrNull() }</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">    val origin: String? by lazy { headersValues[&quot;Origin&quot;]?.firstOrNull() }</span>
 
     /**
      * First certificate in the [certificateChain].
      */
-<span class="fc" id="L138">    val certificate: X509Certificate? by lazy { certificateChain.firstOrNull() }</span>
+<span class="fc" id="L139">    val certificate: X509Certificate? by lazy { certificateChain.firstOrNull() }</span>
 
     /**
      * Request body sent by the client.
      */
-<span class="fc" id="L143">    val body: String by lazy { loadBody() }</span>
+<span class="fc" id="L144">    val body: String by lazy { adapter.loadBody() }</span>
 
     /**
      * [Map] of header values of the request.
      */
-<span class="fc" id="L148">    val headersValues: Map&lt;String, List&lt;String&gt;&gt; by lazy { headers() }</span>
+<span class="fc" id="L149">    val headersValues: Map&lt;String, List&lt;String&gt;&gt; by lazy { adapter.headers() }</span>
 
     /**
      * [Map] of first values of the headers of the request.
      */
-<span class="fc" id="L153">    val headers: Map&lt;String, String&gt; by lazy { firsts(headersValues) }</span>
+<span class="fc" id="L154">    val headers: Map&lt;String, String&gt; by lazy { firsts(headersValues) }</span>
 
     /**
      * [Map] of the cookies contained in the browser.
      */
-<span class="fc" id="L158">    val cookies: Map&lt;String, HttpCookie&gt; by lazy { cookies() }</span>
+<span class="fc" id="L159">    val cookies: Map&lt;String, Cookie&gt; by lazy { adapter.cookies() }</span>
 
     /**
      * Content type of the request body.
      */
-<span class="fc" id="L163">    val contentType: String? by lazy { contentType() }</span>
+<span class="fc" id="L164">    val contentType: String? by lazy { adapter.contentType() }</span>
 
     /**
      * Length of the request body.
      */
-<span class="fc" id="L168">    val contentLength: Long by lazy { contentLength() }</span>
+<span class="fc" id="L169">    val contentLength: Long by lazy { adapter.contentLength() }</span>
 
     /**
      * Parses request body according to given [type].
      *
      * @param type Class specifying the type to which the body is to be parsed
      */
-<span class="fc" id="L175">    fun &lt;T : Any&gt; body(type: KClass&lt;T&gt;): T = body.parse(type, requestFormat())</span>
+<span class="fc" id="L176">    fun &lt;T : Any&gt; body(type: KClass&lt;T&gt;): T = body.parse(type, requestFormat())</span>
 
     /**
      * Parses request body objects to given [type].
      *
      * @param type Class specifying the type to which the objects are to be parsed
      */
-<span class="fc" id="L182">    fun &lt;T : Any&gt; bodyObjects(type: KClass&lt;T&gt;): List&lt;T&gt; = body.parseObjects(type, requestFormat())</span>
+<span class="fc" id="L183">    fun &lt;T : Any&gt; bodyObjects(type: KClass&lt;T&gt;): List&lt;T&gt; = body.parseObjects(type, requestFormat())</span>
 
     /** Parses request body. */
     inline fun &lt;reified T : Any&gt; body(): T = body(T::class)
@@ -187,84 +188,65 @@ import kotlin.reflect.KClass
     /** Parses request body objects. */
     inline fun &lt;reified T : Any&gt; bodyObjects(): List&lt;T&gt; = bodyObjects(T::class)
 
-    protected abstract fun method(): Method                      // &quot;GET&quot;
-    protected abstract fun scheme(): String                      // &quot;http&quot;
-    protected abstract fun host(): String                        // &quot;example.com&quot;
-    protected abstract fun ip(): String                          // client IP address
-    protected abstract fun port(): Int                           // 80
-    protected abstract fun path(): String                        // &quot;/foo&quot; servlet path + path info
-    protected abstract fun pathParameters(): Map&lt;String, String&gt; // [&quot;p&quot;] &quot;p&quot; path parameter
-    protected abstract fun queryString(): String                 // &quot;&quot;
-    protected abstract fun url(): String                         // &quot;http://example.com/example/foo&quot;
-    protected abstract fun parts(): Map&lt;String, Part&gt;            // hash of multipart parts
-    protected abstract fun queryParameters(): Map&lt;String, List&lt;String&gt;&gt;
-    protected abstract fun formParameters(): Map&lt;String, List&lt;String&gt;&gt;
-    protected abstract fun certificateChain(): List&lt;X509Certificate&gt;
-
-    protected abstract fun loadBody(): String                    // request body sent by the client
-    protected abstract fun headers(): Map&lt;String, List&lt;String&gt;&gt;  // [&quot;H&quot;] // value of &quot;H&quot; header
-    protected abstract fun cookies(): Map&lt;String, HttpCookie&gt;    // hash of browser cookies
-    protected abstract fun contentType(): String?                // media type of request.body
-    protected abstract fun contentLength(): Long                 // length of request.body
-
     internal fun requestType(): String =
-<span class="fc bfc" id="L211" title="All 2 branches covered.">        contentType ?: defaultFormat.contentType</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">        contentType ?: defaultFormat.contentType</span>
 
     internal fun requestFormat(): SerializationFormat =
-<span class="fc" id="L214">        SerializationManager.formatOf(requestType())</span>
+<span class="fc" id="L195">        SerializationManager.formatOf(requestType())</span>
 
     private fun &lt;K, V&gt; firsts(map: Map&lt;K, List&lt;V&gt;&gt;): Map&lt;K, V&gt; =
-<span class="fc" id="L217">        map.mapValues { it.value.first() }</span>
-}
+<span class="fc" id="L198">        map.mapValues { it.value.first() }</span>
 
-/**
- * This function aggregates path parameters, form parameters and query parameters into a map and
- * convert it into given class using object mapper
- * Usage : request.parseAllParameters(MyCustomDataClass::class)
- *
- * @param type is the KotlinClass of type T (where T can be any class eg:MyCustomDataClass)
- * @return an object of type T  (eg: MyCustomDataClass())
- */
-fun &lt;T : Any&gt; Request.parseAllParameters(type: KClass&lt;T&gt;): T? {
-<span class="fc" id="L229">    val requestMap = generateRequestMap(this)</span>
-<span class="fc" id="L230">    return try {</span>
-<span class="fc" id="L231">        requestMap.convertToObject(type)</span>
-    }
-<span class="fc" id="L233">    catch (iae: IllegalArgumentException) {</span>
-<span class="fc" id="L234">        logger.warn { &quot;Unable to parse request data into ${type.simpleName} : ${iae.message}&quot; }</span>
-<span class="fc" id="L235">        null</span>
-    }
-}
-
-/**
- * Function used to aggregate all request parameters and create a map object out of it
- * @param request : an inherited instance of com.hexagonkt.http.server.Request
- * @return a map containing all request parameters
- */
-private fun generateRequestMap(request: Request): Map&lt;String, Any&gt; {
-<span class="fc" id="L245">    val requestMap: MutableMap&lt;String, Any&gt; = hashMapOf()</span>
-<span class="fc" id="L246">    requestMap.putAll(transformValues(request.formParametersValues))</span>
-<span class="fc" id="L247">    requestMap.putAll(transformValues(request.queryParametersValues))</span>
-<span class="fc" id="L248">    requestMap.putAll(request.pathParameters)</span>
-<span class="fc" id="L249">    return requestMap</span>
-}
-
-/**
- * Function will check the list of values against each key. Returns the value alone if the list size
- * is 1 else returns the entire list as is
- * @param stringToListMap : Map&lt;String,List&lt;String&gt;&gt; type
- * @return stringToAnyMap : Map&lt;String,Any&gt; type
- */
-private fun transformValues(stringToListMap: Map&lt;String, List&lt;String&gt;&gt;): MutableMap&lt;String, Any&gt; {
-<span class="fc" id="L259">    val stringToAnyMap = mutableMapOf&lt;String, Any&gt;()</span>
-<span class="fc bfc" id="L260" title="All 2 branches covered.">    for (queryParameter in stringToListMap.entries) {</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">        val value: Any = when (queryParameter.value.size) {</span>
-<span class="fc" id="L262">            1 -&gt; queryParameter.value.first()</span>
-<span class="fc" id="L263">            else -&gt; queryParameter.value</span>
+    /**
+     * This function aggregates path parameters, form parameters and query parameters into a map and
+     * convert it into given class using object mapper
+     * Usage : request.parseAllParameters(MyCustomDataClass::class)
+     *
+     * @param type is the KotlinClass of type T (where T can be any class eg:MyCustomDataClass)
+     * @return an object of type T  (eg: MyCustomDataClass())
+     */
+    fun &lt;T : Any&gt; parseAllParameters(type: KClass&lt;T&gt;): T? {
+<span class="fc" id="L209">        val requestMap = generateRequestMap(this)</span>
+<span class="fc" id="L210">        return try {</span>
+<span class="fc" id="L211">            requestMap.convertToObject(type)</span>
         }
-<span class="fc" id="L265">        stringToAnyMap[queryParameter.key] = value</span>
+<span class="fc" id="L213">        catch (iae: IllegalArgumentException) {</span>
+<span class="fc" id="L214">            logger.warn { &quot;Unable to parse request data into ${type.simpleName} : ${iae.message}&quot; }</span>
+<span class="fc" id="L215">            null</span>
+        }
     }
-<span class="fc" id="L267">    return stringToAnyMap</span>
-}
 
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+    /**
+     * Function used to aggregate all request parameters and create a map object out of it.
+     *
+     * @param request : an inherited instance of com.hexagonkt.http.server.Request
+     * @return a map containing all request parameters
+     */
+    private fun generateRequestMap(request: Request): Map&lt;String, Any&gt; {
+<span class="fc" id="L226">        val requestMap: MutableMap&lt;String, Any&gt; = hashMapOf()</span>
+<span class="fc" id="L227">        requestMap.putAll(transformValues(request.formParametersValues))</span>
+<span class="fc" id="L228">        requestMap.putAll(transformValues(request.queryParametersValues))</span>
+<span class="fc" id="L229">        requestMap.putAll(request.pathParameters)</span>
+<span class="fc" id="L230">        return requestMap</span>
+    }
+
+    /**
+     * Function will check the list of values against each key. Returns the value alone if the list
+     * size is 1 else returns the entire list as is.
+     *
+     * @param stringToListMap : Map&lt;String,List&lt;String&gt;&gt; type
+     * @return stringToAnyMap : Map&lt;String,Any&gt; type
+     */
+    private fun transformValues(stringToListMap: Map&lt;String, List&lt;String&gt;&gt;): Map&lt;String, Any&gt; {
+<span class="fc" id="L241">        val stringToAnyMap = mutableMapOf&lt;String, Any&gt;()</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">        for (queryParameter in stringToListMap.entries) {</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">            val value: Any = when (queryParameter.value.size) {</span>
+<span class="fc" id="L244">                1 -&gt; queryParameter.value.first()</span>
+<span class="fc" id="L245">                else -&gt; queryParameter.value</span>
+            }
+<span class="fc" id="L247">            stringToAnyMap[queryParameter.key] = value</span>
+        }
+<span class="fc" id="L249">        return stringToAnyMap</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
