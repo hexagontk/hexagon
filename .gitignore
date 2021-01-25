@@ -3,6 +3,9 @@
 private_*
 local_*
 
+# Maven
+target/
+
 # Gradle
 .gradle/
 build/
@@ -31,6 +34,7 @@ hs_err_pid*
 node_modules/
 .java-version
 package-lock.json
+.env
 
 # System Files
 .DS_Store

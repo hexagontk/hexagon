@@ -14,7 +14,8 @@ import java.net.InetAddress
  * @property protocol Server's protocol.
  * @property sslSettings SSL settings info for configuring the server.
  * @property banner Server banner message.
- *
+ * @property features List of features enabled for a server.
+ * @property options Server options. Supported options change among adapters.
  */
 data class ServerSettings(
     val bindAddress: InetAddress = InetAddress.getLoopbackAddress(),
@@ -22,5 +23,7 @@ data class ServerSettings(
     val contextPath: String = "",
     val protocol: Protocol = HTTP,
     val sslSettings: SslSettings? = null,
-    val banner: String? = null
+    val banner: String? = null,
+    val features: Set<ServerFeature> = emptySet(),
+    val options: Map<String, Any> = emptyMap(),
 )

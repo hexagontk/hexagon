@@ -3,9 +3,93 @@ package com.hexagonkt.helpers
 import java.net.ServerSocket
 import java.net.Socket
 import com.hexagonkt.logging.Logger
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStreamReader
+import java.util.concurrent.TimeUnit.SECONDS
 
 /** Default logger for when you feel too lazy to declare one. */
-val logger: Logger = Logger(Logger::class)
+val logger: Logger by lazy { Logger(Logger::class) }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ */
+fun <T> T?.println(prefix: String = ""): T? =
+    apply { kotlin.io.println("$prefix$this") }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * com.hexagonkt.logging.Logger must have TRACE level
+ *
+ * TODO Add use case and example in documentation.
+ *
+ * @receiver .
+ * @param prefix .
+ * @return .
+ */
+fun <T> T?.trace(prefix: String = ""): T? =
+    apply { logger.trace { "$prefix$this" } }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ */
+fun List<String>.exec(
+    workingDirectory: File = File(System.getProperty("user.dir")),
+    timeout: Long = Long.MAX_VALUE,
+    fail: Boolean = false,
+): String {
+
+    val command = filter { it.isNotBlank() }.toTypedArray()
+
+    require(command.isNotEmpty()) { "Command is empty" }
+    require(timeout > 0) { "Process timeout should be greater than zero: $timeout" }
+
+    val process = ProcessBuilder(*command).directory(workingDirectory).start()
+
+    if (!process.waitFor(timeout, SECONDS)) {
+        process.destroy()
+        error("Command timed out: $this")
+    }
+
+    val exitValue = process.exitValue()
+    val output = BufferedReader(InputStreamReader(process.inputStream)).readText()
+
+    if (fail && exitValue != 0)
+        throw CodedException(exitValue, output)
+
+    return output
+}
+
+/**
+ * TODO Add use case and example in documentation.
+ *
+ * Run the receiver's text as a process in the host operating system. The command can have multiple
+ * lines and may or may not contain the shell continuation string (` \\n`).
+ *
+ * @receiver String holding the command to be executed.
+ * @param workingDirectory Directory on which the process will be executed. Defaults to current
+ *  directory.
+ * @param timeout Maximum number of seconds allowed for process execution. Defaults to the maximum
+ *  long value. It must be greater than zero.
+ * @param fail If true Raise an exception if the result code is different than zero. The default
+ *  value is `false`.
+ * @throws CodedException Thrown if the process return an error code (the actual code is passed
+ *  inside [CodedException.code] and the command output is set at [CodedException.message].
+ * @throws IllegalStateException If the command doesn't end within the allowed time or the command
+ *  string is blank, an exception will be thrown.
+ * @return The output of the command.
+ */
+fun String.exec(
+    workingDirectory: File = File(System.getProperty("user.dir")),
+    timeout: Long = Long.MAX_VALUE,
+    fail: Boolean = false,
+): String =
+    replace("""(\s+\\\s*)?\n""".toRegex(), "")
+        .split(" ")
+        .map { it.trim() }
+        .toList()
+        .exec(workingDirectory, timeout, fail)
 
 // NETWORK /////////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -63,6 +147,9 @@ fun <T> retry(times: Int, delay: Long, block: () -> T): T {
 val fail: Nothing
     get() = error("Invalid state")
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ */
 fun check(message: String = "Multiple exceptions", vararg blocks: () -> Unit) {
     val exceptions: List<Exception> = blocks.mapNotNull {
         try {

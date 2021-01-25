@@ -8,6 +8,7 @@ import com.hexagonkt.http.Path
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.Request
 import com.hexagonkt.http.client.ahc.AhcAdapter
+import com.hexagonkt.http.server.ServerFeature.SESSIONS
 import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.Json
 import org.junit.jupiter.api.Test
@@ -141,7 +142,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
 
     @Suppress("UNREACHABLE_CODE")
     @Test fun callbacks() {
-        val server = Server(adapter) {
+        val server = Server(adapter, ServerSettings(features = setOf(SESSIONS))) {
             // callbackCall
             get("/call") {
                 attributes                   // the attributes list
