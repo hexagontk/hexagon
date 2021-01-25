@@ -24,7 +24,14 @@ fun Call.fullContext(): Map<String, *> {
         "lang" to obtainLocale().language
     )
 
-    return session.attributes + extraParameters
+    // TODO Fetch session only if its feature is enabled in server settings
+    val sessionAttributes = try {
+        session.attributes
+    } catch (e: UnsupportedOperationException) {
+        emptyMap<String, Any>()
+    }
+
+    return sessionAttributes + extraParameters
 }
 
 /**

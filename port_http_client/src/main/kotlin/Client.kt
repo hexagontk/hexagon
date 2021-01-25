@@ -1,10 +1,10 @@
 package com.hexagonkt.http.client
 
+import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.Path
 import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.SerializationFormat
-import java.net.HttpCookie
 
 /**
  * Client to use other REST services.
@@ -15,7 +15,7 @@ class Client(
     val settings: ClientSettings = ClientSettings()
 ) {
 
-    val cookies: MutableMap<String, HttpCookie> = mutableMapOf()
+    val cookies: MutableMap<String, Cookie> = mutableMapOf()
 
     constructor(settings: ClientSettings = ClientSettings()) :
         this(InjectionManager.inject<ClientPort>(), settings = settings)

@@ -1,15 +1,15 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.http.server.Response
+import com.hexagonkt.http.Cookie
+import com.hexagonkt.http.server.ResponsePort
 import java.io.OutputStream
-import java.net.HttpCookie
-import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import javax.servlet.http.Cookie as ServletCookie
 
-internal class Response(
+internal class ResponseAdapter(
     private val req: HttpServletRequest,
-    private val resp: HttpServletResponse) : Response() {
+    private val resp: HttpServletResponse) : ResponsePort {
 
     private var bodyValue: Any = ""
 
@@ -29,8 +29,8 @@ internal class Response(
 
     override fun contentType(value: String?) { resp.contentType = value }
 
-    override fun addCookie (cookie: HttpCookie) {
-        resp.addCookie(Cookie(cookie.name, cookie.value))
+    override fun addCookie (cookie: Cookie) {
+        resp.addCookie(ServletCookie(cookie.name, cookie.value))
     }
 
     override fun removeCookie (name: String) {

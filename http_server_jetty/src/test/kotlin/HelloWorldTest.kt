@@ -2,6 +2,8 @@ package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
+import com.hexagonkt.http.server.Router
+import com.hexagonkt.http.server.ServerSettings
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -27,5 +29,24 @@ class HelloWorldTest {
         val result = client.get("/hello")
         assert(result.body == "Hello World!")
         assert(200 == result.status)
+    }
+
+    @Test fun `A request returns 200 and the greeting test (using a router)`() {
+
+        val router = Router {
+            get("/hello") {
+                ok("Hello World!")
+            }
+        }
+
+        val routerServer = serve(ServerSettings(bindPort = 0), router)
+        val runtimePort = routerServer.runtimePort
+        val routerServerClient = Client(AhcAdapter(), "http://localhost:$runtimePort")
+
+        val result = routerServerClient.get("/hello")
+        assert(result.body == "Hello World!")
+        assert(200 == result.status)
+
+        routerServer.stop()
     }
 }

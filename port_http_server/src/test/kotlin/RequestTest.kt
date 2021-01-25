@@ -2,28 +2,27 @@ package com.hexagonkt.http.server
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.hexagonkt.http.server.test.MockRequest
 import com.hexagonkt.http.server.test.TestRequest
+import com.hexagonkt.http.server.test.testCall
 import org.junit.jupiter.api.Test
 import kotlin.test.assertNull
 
 class RequestTest {
 
     @Test fun `parse path field and query parameters to given type`() {
-        val request = MockRequest(
-            TestRequest(
-                formParameters = mapOf("formName" to listOf("members in the team")),
-                pathParameters = mapOf("teamId" to "team-hexagon"),
-                queryParameters = mapOf("userId" to listOf("user1", "user2", "user3"))
-            )
+        val request = TestRequest(
+            formParameters = mapOf("formName" to listOf("members in the team")),
+            pathParameters = mapOf("teamId" to "team-hexagon"),
+            queryParameters = mapOf("userId" to listOf("user1", "user2", "user3"))
         )
+
         val expectedData = MyCustomDto(
             teamId = "team-hexagon",
             users = listOf("user1", "user2", "user3"),
             formName = "members in the team"
         )
 
-        val mappedData = request.parseAllParameters(MyCustomDto::class)
+        val mappedData = testCall(request).request.parseAllParameters(MyCustomDto::class)
 
         assert(mappedData == expectedData)
     }
@@ -37,13 +36,12 @@ class RequestTest {
         queryParams["authKey"] = listOf("encryptedKey")
         queryParams["action"] = listOf("register")
 
-        val request = MockRequest(
-            TestRequest(
-                formParameters = formParameters,
-                pathParameters = mapOf("teamId" to "team-hexagon"),
-                queryParameters = queryParams
-            )
+        val request = TestRequest(
+            formParameters = formParameters,
+            pathParameters = mapOf("teamId" to "team-hexagon"),
+            queryParameters = queryParams
         )
+
         val expectedData1 = MyCustomDto(
             teamId = "team-hexagon",
             users = listOf("user1", "user2", "user3"),
@@ -59,18 +57,18 @@ class RequestTest {
             formType = "RegistrationForm"
         )
 
-        assert(request.parseAllParameters(MyCustomDto::class) == expectedData1)
-        assert(request.parseAllParameters(MyRequestDto::class) == expectedData2)
+        val mockRequest = testCall(request).request
+        assert(mockRequest.parseAllParameters(MyCustomDto::class) == expectedData1)
+        assert(mockRequest.parseAllParameters(MyRequestDto::class) == expectedData2)
     }
 
     @Test fun `should map the value as is if there is only value`() {
-        val request = MockRequest(
-            TestRequest(
-                formParameters = mapOf("formName" to listOf("members in the team")),
-                pathParameters = mapOf("teamId" to "team-hexagon"),
-                queryParameters = mapOf("userId" to listOf("user1"))
-            )
+        val request = TestRequest(
+            formParameters = mapOf("formName" to listOf("members in the team")),
+            pathParameters = mapOf("teamId" to "team-hexagon"),
+            queryParameters = mapOf("userId" to listOf("user1"))
         )
+
         val expectedData1 = MyCustomDto(
             teamId = "team-hexagon",
             users = listOf("user1"),
@@ -82,34 +80,37 @@ class RequestTest {
             formName = "members in the team"
         )
 
-        assert(request.parseAllParameters(MyCustomDto::class) == expectedData1)
-        assert(request.parseAllParameters(MyCustomDto2::class) == expectedData2)
+        val mockRequest = testCall(request).request
+        assert(mockRequest.parseAllParameters(MyCustomDto::class) == expectedData1)
+        assert(mockRequest.parseAllParameters(MyCustomDto2::class) == expectedData2)
     }
 
     @Test fun `should honor the validations and fail gracefully by returning null object`() {
-        val request = MockRequest(
+        val request = testCall(
             TestRequest(
                 formParameters = mapOf("formName" to listOf("members in the team")),
                 queryParameters = mapOf("userId" to listOf("user1"))
             )
-        )
+        ).request
 
-        assertNull(request.parseAllParameters(MyCustomDto::class))//mapping fails because path parameter is mandatory
+        // mapping fails because path parameter is mandatory
+        assertNull(request.parseAllParameters(MyCustomDto::class))
     }
 
     @Test fun `should fail gracefully by returning null object in case of deserialization failure`() {
-        val request = MockRequest(
+        val request = testCall(
             TestRequest(
                 formParameters = mapOf("formName" to listOf("members in the team")),
                 pathParameters = mapOf("teamId" to "team-hexagon"),
                 queryParameters = mapOf("userId" to listOf("user1"))
             )
-        )
+        ).request
 
-        assertNull(request.parseAllParameters(Int::class))//mapping fails because "Cannot deserialize instance of `java.lang.Integer`"
+        // mapping fails because "Cannot deserialize instance of `java.lang.Integer`"
+        assertNull(request.parseAllParameters(Int::class))
     }
 
-    //Test class to filter data
+    // Test class to filter data
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class MyCustomDto(
         @JsonProperty("teamId") val teamId: String,
@@ -121,7 +122,7 @@ class RequestTest {
         }
     }
 
-    //Test class to filter data
+    // Test class to filter data
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class MyCustomDto2(
         @JsonProperty("teamId") val teamId: String,

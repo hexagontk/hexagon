@@ -126,8 +126,8 @@ fun String.globToRegex(): Regex = Regex(
     .joinToString("", "^", "$")
 )
 
-fun String.indent(count: Int = 4, pad: String = " ") =
-    this.lines().joinToString(eol) { pad.repeat(count) + it }
+fun String.prependIndent(count: Int = 4, pad: String = " ") =
+    this.prependIndent(pad.repeat(count))
 
 internal fun Sequence<Int>.maxOrElse(fallback: Int): Int =
     this.maxOrNull() ?: fallback

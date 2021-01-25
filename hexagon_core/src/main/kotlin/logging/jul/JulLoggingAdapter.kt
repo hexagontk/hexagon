@@ -24,10 +24,10 @@ object JulLoggingAdapter : LoggingPort {
             root.removeHandler(hnd)
 
         root.addHandler(SystemOutHandler())
-        root.level = Level.ALL
+        root.level = Level.INFO
 
         try {
-            getLogManager().readConfiguration(URL(defaultLoggingProperties).openStream())
+            getLogManager().updateConfiguration(URL(defaultLoggingProperties).openStream(), null)
         }
         catch (e: ResourceNotFoundException) {
             val logger = JulLogger.getLogger(this::class.java.name)

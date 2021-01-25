@@ -13,13 +13,13 @@ class RequestTest {
         every { servletRequest.servletPath } returns ""
         every { servletRequest.pathInfo } returns "pathInfo"
 
-        val requestWithoutServletPath = Request(servletRequest)
-        assert(requestWithoutServletPath.path == "pathInfo")
+        val requestWithoutServletPath = RequestAdapter(servletRequest)
+        assert(requestWithoutServletPath.path() == "pathInfo")
 
         every { servletRequest.servletPath } returns "servletPath"
 
-        val requestWithServletPath = Request(servletRequest)
-        assert(requestWithServletPath.path == "servletPath")
+        val requestWithServletPath = RequestAdapter(servletRequest)
+        assert(requestWithServletPath.path() == "servletPath")
     }
 
     @Test fun `Request without action path returns empty path parameters`() {
@@ -27,8 +27,8 @@ class RequestTest {
         every { servletRequest.servletPath } returns ""
         every { servletRequest.pathInfo } returns "/1/2"
 
-        val request = Request(servletRequest)
-        val pathParameters = request.pathParameters
+        val request = RequestAdapter(servletRequest)
+        val pathParameters = request.pathParameters()
         assert(pathParameters.entries.isEmpty())
     }
 
@@ -37,10 +37,10 @@ class RequestTest {
         every { servletRequest.servletPath } returns ""
         every { servletRequest.pathInfo } returns "/1/2"
 
-        val request = Request(servletRequest)
+        val request = RequestAdapter(servletRequest)
         request.actionPath = Path("/{a}/{b}")
 
-        val pathParameters = request.pathParameters
+        val pathParameters = request.pathParameters()
         val requiredKeysMap = linkedMapOf("a" to "1", "b" to "2")
         assert(pathParameters.entries == requiredKeysMap.entries)
     }

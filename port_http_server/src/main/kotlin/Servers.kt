@@ -13,7 +13,7 @@ typealias ExceptionCallback = Call.(Exception) -> Unit
 typealias ErrorCodeCallback = Call.(CodedException) -> Unit
 
 /**
- * Creates a server and starts it.
+ * Create a server and start it.
  *
  * @param settings Server settings info .
  * @param router [Router] instance.
@@ -28,7 +28,7 @@ fun serve(
         Server(adapter, router, settings).apply { start() }
 
 /**
- * Creates a server and starts it.
+ * Create a server and start it.
  *
  * @param settings Server settings info.
  * @param adapter Adapter instance which implements [ServerPort].

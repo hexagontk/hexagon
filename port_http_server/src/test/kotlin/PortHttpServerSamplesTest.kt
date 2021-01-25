@@ -1,17 +1,18 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method.POST
 import com.hexagonkt.http.Part
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.Request
 import com.hexagonkt.http.client.ahc.AhcAdapter
+import com.hexagonkt.http.server.ServerFeature.SESSIONS
 import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.Json
 import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
-import java.net.HttpCookie
 import java.net.InetAddress
 import java.net.URL
 
@@ -141,7 +142,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
 
     @Suppress("UNREACHABLE_CODE")
     @Test fun callbacks() {
-        val server = Server(adapter) {
+        val server = Server(adapter, ServerSettings(features = setOf(SESSIONS))) {
             // callbackCall
             get("/call") {
                 attributes                   // the attributes list
@@ -255,16 +256,11 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
                 request.cookies                       // get map of all request cookies
                 request.cookies["foo"]                // access request cookie by name
 
-                val cookie = HttpCookie("new_foo", "bar")
-                response.addCookie(cookie)            // set cookie with a value
-
-                cookie.maxAge = 3600
-                response.addCookie(cookie)            // set cookie with a max-age
-
-                cookie.secure = true
-                response.addCookie(cookie)            // secure cookie
-
-                response.removeCookie("foo")          // remove cookie
+                val cookie = Cookie("new_foo", "bar")
+                response.addCookie(cookie)                     // set cookie with a value
+                response.addCookie(cookie.copy(maxAge = 3600)) // set cookie with a max-age
+                response.addCookie(cookie.copy(secure = true)) // secure cookie
+                response.removeCookie("foo")                   // remove cookie
             }
             // callbackCookie
 
@@ -296,7 +292,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
 
         server.start()
         val client = Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
-        client.cookies["foo"] = HttpCookie("foo", "bar")
+        client.cookies["foo"] = Cookie("foo", "bar")
 
         val callResponse = client.get("/call")
         assert(callResponse.status == 400)

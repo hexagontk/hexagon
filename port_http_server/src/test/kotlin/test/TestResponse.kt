@@ -1,11 +1,11 @@
 package com.hexagonkt.http.server.test
 
+import com.hexagonkt.http.Cookie
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
-import java.net.HttpCookie
 
 data class TestResponse(
-    var cookies: Map<String, HttpCookie> = emptyMap(),
+    var cookies: Map<String, Cookie> = emptyMap(),
     var body: Any = "",
     var contentType: String? = null,
     var status: Int = 200,

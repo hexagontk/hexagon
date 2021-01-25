@@ -1,10 +1,10 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.http.server.Session
+import com.hexagonkt.http.server.SessionPort
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
-internal class Session(private val req: HttpServletRequest) : Session() {
+internal class SessionAdapter(private val req: HttpServletRequest) : SessionPort {
 
     override fun getAttribute(name: String): Any? = req.session.getAttribute(name)
 

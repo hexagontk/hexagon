@@ -5,6 +5,7 @@ import com.hexagonkt.helpers.ensureSize
 import com.hexagonkt.helpers.fail
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
+import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.client.*
@@ -19,7 +20,6 @@ import org.asynchttpclient.request.body.multipart.InputStreamPart
 import org.asynchttpclient.request.body.multipart.StringPart
 import org.asynchttpclient.request.body.multipart.Part as AhcPart
 import java.io.File
-import java.net.HttpCookie
 import java.net.URL
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
@@ -48,6 +48,7 @@ class AhcAdapter : ClientPort {
             Builder()
                 .setConnectTimeout(5000)
                 .setSslContext(sslContext(ssl))
+                .setKeepEncodingHeader(true)
                 .build()
         )
     }
@@ -135,7 +136,7 @@ class AhcAdapter : ClientPort {
                 if (it.value() == "")
                     client.cookies.remove(it.name())
                 else
-                    client.cookies[it.name()] = HttpCookie(it.name(), it.value())
+                    client.cookies[it.name()] = Cookie(it.name(), it.value())
             }
         }
 
