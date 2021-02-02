@@ -14,7 +14,7 @@ val logger: Logger by lazy { Logger(Logger::class) }
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
-fun <T> T?.println(prefix: String = ""): T? =
+fun <T> T.println(prefix: String = ""): T =
     apply { kotlin.io.println("$prefix$this") }
 
 /**
@@ -28,7 +28,7 @@ fun <T> T?.println(prefix: String = ""): T? =
  * @param prefix .
  * @return .
  */
-fun <T> T?.trace(prefix: String = ""): T? =
+fun <T> T.trace(prefix: String = ""): T =
     apply { logger.trace { "$prefix$this" } }
 
 /**
