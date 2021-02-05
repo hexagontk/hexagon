@@ -14,7 +14,7 @@ val logger: Logger by lazy { Logger(Logger::class) }
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
-fun <T> T?.println(prefix: String = ""): T? =
+fun <T> T.println(prefix: String = ""): T =
     apply { kotlin.io.println("$prefix$this") }
 
 /**
@@ -28,8 +28,59 @@ fun <T> T?.println(prefix: String = ""): T? =
  * @param prefix .
  * @return .
  */
-fun <T> T?.trace(prefix: String = ""): T? =
+fun <T> T.trace(prefix: String = ""): T =
     apply { logger.trace { "$prefix$this" } }
+
+// NETWORK /////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Return a random free port (not used by any other local process).
+ *
+ * @return Random free port number.
+ */
+fun freePort(): Int =
+    ServerSocket(0).use { it.localPort }
+
+/**
+ * Check if a port is already opened.
+ *
+ * @param port Port number to check.
+ * @return True if the port is open, false otherwise.
+ */
+fun isPortOpened(port: Int): Boolean =
+    try {
+        Socket("localhost", port).use { it.isConnected }
+    }
+    catch (e: Exception) {
+        false
+    }
+
+// PROCESSES ///////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Execute a lambda until no exception is thrown or a number of times is reached.
+ *
+ * @param times Number of times to try to execute the callback. Must be greater than 0.
+ * @param delay Milliseconds to wait to next execution if there was an error. Must be 0 or greater.
+ * @param block Code to be executed.
+ * @return Callback's result if succeed.
+ * @throws [MultipleException] if the callback didn't succeed in the given times.
+ */
+fun <T> retry(times: Int, delay: Long, block: () -> T): T {
+    require(times > 0)
+    require(delay >= 0)
+
+    val exceptions = mutableListOf<Exception>()
+    for (ii in 1 .. times) {
+        try {
+            return block()
+        }
+        catch (e: Exception) {
+            exceptions.add(e)
+            Thread.sleep(delay)
+        }
+    }
+
+    throw MultipleException("Error retrying $times times ($delay ms)", exceptions)
+}
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -90,57 +141,6 @@ fun String.exec(
         .map { it.trim() }
         .toList()
         .exec(workingDirectory, timeout, fail)
-
-// NETWORK /////////////////////////////////////////////////////////////////////////////////////////
-/**
- * Return a random free port (not used by any other local process).
- *
- * @return Random free port number.
- */
-fun freePort(): Int =
-    ServerSocket(0).use { it.localPort }
-
-/**
- * Check if a port is already opened.
- *
- * @param port Port number to check.
- * @return True if the port is open, false otherwise.
- */
-fun isPortOpened(port: Int): Boolean =
-    try {
-        Socket("localhost", port).use { it.isConnected }
-    }
-    catch (e: Exception) {
-        false
-    }
-
-// THREADING ///////////////////////////////////////////////////////////////////////////////////////
-/**
- * Execute a lambda until no exception is thrown or a number of times is reached.
- *
- * @param times Number of times to try to execute the callback. Must be greater than 0.
- * @param delay Milliseconds to wait to next execution if there was an error. Must be 0 or greater.
- * @param block Code to be executed.
- * @return Callback's result if succeed.
- * @throws [MultipleException] if the callback didn't succeed in the given times.
- */
-fun <T> retry(times: Int, delay: Long, block: () -> T): T {
-    require(times > 0)
-    require(delay >= 0)
-
-    val exceptions = mutableListOf<Exception>()
-    for (ii in 1 .. times) {
-        try {
-            return block()
-        }
-        catch (e: Exception) {
-            exceptions.add(e)
-            Thread.sleep(delay)
-        }
-    }
-
-    throw MultipleException("Error retrying $times times ($delay ms)", exceptions)
-}
 
 // ERROR HANDLING //////////////////////////////////////////////////////////////////////////////////
 /** Syntax sugar to throw errors. */

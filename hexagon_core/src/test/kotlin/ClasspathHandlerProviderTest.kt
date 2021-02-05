@@ -1,11 +1,19 @@
 package com.hexagonkt
 
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.MalformedURLException
 import java.net.URL
 import kotlin.test.assertFailsWith
 
+@TestInstance(PER_CLASS)
 class ClasspathHandlerProviderTest {
+
+    @BeforeAll fun registerHandler() {
+        ClasspathHandler.registerHandler()
+    }
 
     @Test fun `Require classpath resource`() {
         val resource = URL("classpath:application_test.yml")

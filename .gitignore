@@ -5,6 +5,10 @@ local_*
 
 # Maven
 target/
+pom.xml.*
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
 
 # Gradle
 .gradle/
