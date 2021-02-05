@@ -10,14 +10,14 @@
  * them.
  */
 
-import java.io.OutputStream.nullOutputStream
+import java.io.OutputStream
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     id("idea")
     id("eclipse")
 
-    kotlin("jvm") version("1.4.21") apply(false)
+    kotlin("jvm") version("1.4.30") apply(false)
 
 //    id("org.jetbrains.dokka") version("1.4.20") apply(false)
     id("org.jetbrains.dokka") version("0.10.1") apply(false)
@@ -95,7 +95,7 @@ childProjects
 tasks.register<Exec>("infrastructure") {
     group = "build"
     description = "Start the project's infrastructure (with Docker Compose) required for the tests."
-    standardOutput = nullOutputStream()
+    standardOutput = object : OutputStream() { override fun write(b: Int) { /* discarded */ } }
     errorOutput = standardOutput
 
     commandLine("docker-compose --log-level warning up -d mongodb rabbitmq".split(" "))
