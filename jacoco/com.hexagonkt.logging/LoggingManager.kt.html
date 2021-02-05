@@ -3,7 +3,17 @@
 import com.hexagonkt.injection.InjectionManager.injectOrNull
 import com.hexagonkt.logging.jul.JulLoggingAdapter
 
-<span class="fc" id="L6">object LoggingManager {</span>
-<span class="fc" id="L7">    var adapter: LoggingPort = injectOrNull() ?: JulLoggingAdapter</span>
+/**
+ * TODO
+ *   - Rename `logging_slf4j` to `logging_logback`
+ *   - Create `logging_slf4j_simple` to `logging_slf4j_jul`
+ *   - Update documentation
+ */
+<span class="fc" id="L12">object LoggingManager {</span>
+<span class="fc" id="L13">    var adapter: LoggingPort = injectOrNull() ?: JulLoggingAdapter</span>
+
+    fun setLoggerLevel(name: String, level: LoggingLevel) {
+<span class="nc" id="L16">        adapter.setLoggerLevel(name, level)</span>
+<span class="nc" id="L17">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

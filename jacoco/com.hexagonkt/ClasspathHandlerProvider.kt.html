@@ -1,35 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClasspathHandlerProvider.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt</a> &gt; <span class="el_source">ClasspathHandlerProvider.kt</span></div><h1>ClasspathHandlerProvider.kt</h1><pre class="source lang-java linenums">package com.hexagonkt
 
-import java.net.URL
-import java.net.URLConnection
 import java.net.URLStreamHandler
 import java.net.spi.URLStreamHandlerProvider
 
-<span class="fc" id="L8">internal class ClasspathHandlerProvider : URLStreamHandlerProvider() {</span>
-
-    companion object {
-<span class="fc" id="L11">        private val provider = ClasspathHandlerProvider()</span>
-
-        fun registerHandler() {
-<span class="fc" id="L14">            URL.setURLStreamHandlerFactory {</span>
-<span class="fc" id="L15">                provider.createURLStreamHandler(it)</span>
-            }
-<span class="fc" id="L17">        }</span>
-    }
-
-<span class="fc" id="L20">    private class Handler(</span>
-<span class="fc" id="L21">        private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader</span>
-<span class="fc" id="L22">    ) : URLStreamHandler() {</span>
-
-        override fun openConnection(url: URL): URLConnection =
-<span class="pc bpc" id="L25" title="1 of 4 branches missed.">            classLoader.getResource(url.path)?.openConnection()</span>
-<span class="fc" id="L26">                ?: throw ResourceNotFoundException(&quot;$url cannot be open&quot;)</span>
-    }
-
-<span class="fc" id="L29">    private val protocolHandlers: Map&lt;String, URLStreamHandler&gt; = mapOf(&quot;classpath&quot; to Handler())</span>
+/**
+ * JDK 11 only
+ */
+<span class="fc" id="L9">internal class ClasspathHandlerProvider : URLStreamHandlerProvider() {</span>
 
     override fun createURLStreamHandler(protocol: String): URLStreamHandler? {
-<span class="fc" id="L32">        return protocolHandlers[protocol]</span>
+<span class="fc" id="L12">        return ClasspathHandler.createURLStreamHandler(protocol)</span>
     }
 }
+
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

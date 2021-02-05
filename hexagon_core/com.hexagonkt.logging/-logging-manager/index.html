@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://hexagonkt.com/hexagon_core/com.hexagonkt.logging/-logging-manager/">
       
       <link rel="shortcut icon" href="../../../favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.5">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
     
     
       
@@ -24,10 +24,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.15aa0b43.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.cb6bc1d0.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.75751829.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.39b8e14a.min.css">
         
           
           
@@ -339,7 +339,6 @@ if ('serviceWorker' in navigator)
       
       
 
-
   
   
   
@@ -466,7 +465,6 @@ if ('serviceWorker' in navigator)
       
       
       
-
 
   
   
@@ -927,7 +925,6 @@ if ('serviceWorker' in navigator)
       
       
 
-
   
   
   
@@ -1022,7 +1019,6 @@ if ('serviceWorker' in navigator)
       
       
       
-
 
   
   
@@ -1172,6 +1168,13 @@ if ('serviceWorker' in navigator)
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1199,6 +1202,12 @@ if ('serviceWorker' in navigator)
                 <p><a href="../../">hexagon_core</a> / <a href="../">com.hexagonkt.logging</a> / <a href="./">LoggingManager</a></p>
 <h2 id="loggingmanager">LoggingManager<a class="headerlink" href="#loggingmanager" title="Permanent link">&para;</a></h2>
 <p><code>object LoggingManager</code></p>
+<p>TODO</p>
+<ul>
+<li>Rename <code>logging_slf4j</code> to <code>logging_logback</code></li>
+<li>Create <code>logging_slf4j_simple</code> to <code>logging_slf4j_jul</code></li>
+<li>Update documentation</li>
+</ul>
 <h4 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -1211,6 +1220,21 @@ if ('serviceWorker' in navigator)
 <tr>
 <td><a href="adapter/">adapter</a></td>
 <td><code>var adapter:</code><a href="../-logging-port/"><code>LoggingPort</code></a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="set-logger-level/">setLoggerLevel</a></td>
+<td><code>fun setLoggerLevel(name:</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><code>String</code></a><code>, level:</code><a href="../-logging-level/"><code>LoggingLevel</code></a><code>):</code><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><code>Unit</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1343,15 +1367,15 @@ if ('serviceWorker' in navigator)
       
     </div>
     
-      <script src="../../../assets/javascripts/vendor.93c04032.min.js"></script>
-      <script src="../../../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      <script src="../../../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
           base: "../../..",
           features: ['navigation.tabs', 'nagivation.instant'],
           search: Object.assign({
-            worker: "../../../assets/javascripts/worker/search.8c7e0a7e.min.js"
+            worker: "../../../assets/javascripts/worker/search.9c0e82ba.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
