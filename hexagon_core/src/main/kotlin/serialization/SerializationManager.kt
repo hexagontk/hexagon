@@ -33,6 +33,10 @@ object SerializationManager {
                 mimeTypes = mimeTypes + format.extensions.map { ext -> ext to format.contentType }
             }
 
+            // TODO Check default update when changing formats list on a test
+            if (defaultFormat !in field)
+                defaultFormat = field.first()
+
             logger.info { serializationFormats() }
         }
 
