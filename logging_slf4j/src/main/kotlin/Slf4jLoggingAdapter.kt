@@ -43,4 +43,8 @@ object Slf4jLoggingAdapter : LoggingPort {
                 }
             }
         }
+
+    override fun setLoggerLevel(name: String, level: LoggingLevel) {
+        TODO("Implement for Logback")
+    }
 }

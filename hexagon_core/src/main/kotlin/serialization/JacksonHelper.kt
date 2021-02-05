@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.core.JsonToken.START_OBJECT
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.blackbird.BlackbirdModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.net.InetAddress
 import java.nio.ByteBuffer
@@ -37,6 +38,7 @@ object JacksonHelper {
         .registerModule(KotlinModule())
         .registerModule(JavaTimeModule())
         .registerModule(Jdk8Module())
+        .registerModule(BlackbirdModule())
         .registerModule(SimpleModule("SerializationModule", Version.unknownVersion())
             .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)
             .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)

@@ -42,11 +42,15 @@ internal class HelpersTest {
     @Test fun `Print helper`() {
         assertEquals("text\n", "echo text".exec().println("command output: "))
         assertEquals("text\n", "echo text".exec().println())
+        assertEquals(null, null.println())
+        assertEquals("text", "text".println())
     }
 
     @Test fun `Log helper`() {
         assertEquals("foo", "foo".trace(">>> "))
         assertEquals("foo", "foo".trace())
+        assertEquals(null, null.trace())
+        assertEquals("text", "text".trace())
     }
 
     @Test fun `Process execution works as expected`() {

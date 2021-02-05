@@ -4,5 +4,5 @@ interface LoggingPort {
 
     fun createLogger(name: String): LoggerPort
 
-//    fun setLoggerLevel(name: String, level: LoggingLevel) // TODO
+    fun setLoggerLevel(name: String, level: LoggingLevel)
 }

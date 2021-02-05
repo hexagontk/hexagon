@@ -14,6 +14,7 @@ dependencies {
     "api"("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     "api"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     "api"("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")
+    "api"("com.fasterxml.jackson.module:jackson-module-blackbird:$jacksonVersion")
     "api"("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
         exclude("org.jetbrains.kotlin")
     }

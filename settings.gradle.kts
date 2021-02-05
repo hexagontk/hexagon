@@ -31,6 +31,7 @@ include(
     "logging_slf4j",
     "serialization_csv",
     "serialization_yaml",
+    "serialization_xml",
     "messaging_rabbitmq",
     "http_client_ahc",
     "http_server_servlet",
