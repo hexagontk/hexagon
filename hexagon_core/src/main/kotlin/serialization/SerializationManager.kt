@@ -1,5 +1,6 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.ClasspathHandler
 import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.fail
 import java.io.File
@@ -16,7 +17,10 @@ object SerializationManager {
 
     private val logger: Logger = Logger(this::class)
 
-    private val mimeTypesResource = URL("classpath:serialization/mime.types")
+    private val mimeTypesResource by lazy {
+        ClasspathHandler.registerHandler() // Prevent error on runtimes not supporting SPI
+        URL("classpath:serialization/mime.types")
+    }
 
     internal val coreFormats: LinkedHashSet<SerializationFormat> =
         linkedSetOf(Json)
