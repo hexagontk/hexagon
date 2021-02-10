@@ -1,11 +1,13 @@
 package com.hexagonkt
 
+import com.hexagonkt.logging.Logger
 import java.net.URL
 import java.net.URLConnection
 import java.net.URLStreamHandler
 
 object ClasspathHandler : URLStreamHandler() {
 
+    private val logger: Logger = Logger(this::class)
     private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader
     private val protocolHandlers: Map<String, URLStreamHandler> = mapOf("classpath" to this)
 
@@ -14,8 +16,13 @@ object ClasspathHandler : URLStreamHandler() {
             ?: throw ResourceNotFoundException("$url cannot be open")
 
     fun registerHandler() {
-        URL.setURLStreamHandlerFactory {
-            createURLStreamHandler(it)
+        try {
+            URL.setURLStreamHandlerFactory {
+                createURLStreamHandler(it)
+            }
+        }
+        catch (e: Error) {
+            logger.debug { "Classpath URL handler already registered" }
         }
     }
 
