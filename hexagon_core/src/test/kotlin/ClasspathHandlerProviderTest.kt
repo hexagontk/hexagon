@@ -15,6 +15,10 @@ class ClasspathHandlerProviderTest {
         ClasspathHandler.registerHandler()
     }
 
+    @Test fun `Registering classpath handler twice does not fail`() {
+        ClasspathHandler.registerHandler()
+    }
+
     @Test fun `Require classpath resource`() {
         val resource = URL("classpath:application_test.yml")
         assert(resource.file == resource.file)
