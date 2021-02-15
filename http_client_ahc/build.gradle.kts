@@ -20,7 +20,9 @@ extra["basePackage"] = "com.hexagonkt.http.client.ahc"
 
 dependencies {
     "api"(project(":port_http_client"))
-    "api"("org.asynchttpclient:async-http-client:${properties["ahcVersion"]}")
+    "api"("org.asynchttpclient:async-http-client:${properties["ahcVersion"]}") {
+        exclude("org.slf4j")
+    }
 
     "testImplementation"(project(":serialization_yaml"))
     "testImplementation"(project(":http_server_jetty"))
