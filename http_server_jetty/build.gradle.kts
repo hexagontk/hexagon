@@ -24,9 +24,10 @@ dependencies {
     val logbackVersion = properties["logbackVersion"]
 
     "api"(project(":http_server_servlet"))
-    "api"("org.eclipse.jetty:jetty-webapp:$jettyVersion")
-    "api"("org.eclipse.jetty.http2:http2-server:$jettyVersion")
-    "api"("org.eclipse.jetty:jetty-alpn-java-server:$jettyVersion")
+    "api"(project(":logging_slf4j"))
+    "api"("org.eclipse.jetty:jetty-webapp:$jettyVersion") { exclude("org.slf4j") }
+    "api"("org.eclipse.jetty.http2:http2-server:$jettyVersion") { exclude("org.slf4j") }
+    "api"("org.eclipse.jetty:jetty-alpn-java-server:$jettyVersion") { exclude("org.slf4j") }
 
     "testImplementation"(project(":http_client_ahc"))
     "testImplementation"(entityTests)
