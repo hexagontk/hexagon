@@ -73,10 +73,10 @@
       <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="org.jetbrains" name="markdown"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-(annotations|core)" regex="true"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-databind" regex="true"/>
-      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-module-kotlin" regex="true"/>
-      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-module-jaxb-annotations" regex="true"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-dataformat-yaml" regex="true"/>
       <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-dataformat-xml" regex="true"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name="jackson-module-kotlin" regex="true"/>
+      <trusted-key id="6214760097dc5cfad0175ac2c9fbaa83a8753994" group="com\.fasterxml\.jackson\..*" name=".*-module-jaxb-annotations" regex="true"/>
       <trusted-key id="8a10792983023d5d14c93b488d7f1bec1e2ecae7" group="com\.fasterxml\.jackson\..*" regex="true"/>
       <trusted-key id="6fca825c6e85fcb4df9a96b27a3c11434ec6434e" group="com\.trueaccord\..*" regex="true"/>
       <trusted-key id="7e22d50a7ebd9d2cd269b2d4056aca74d46000bf" group="io.netty"/>
@@ -94,7 +94,7 @@
       <trusted-key id="6f40ecde384366da530495270717d4b27f36f5c7" group="com.cronutils" name="cron-utils"/>
       <trusted-key id="ff6e2c001948c5f2f38b0cc385911f425ec61b51" group="org.opentest4j" name="opentest4j" version="1.2.0"/>
       <trusted-key id="a33a0b49a4c1ab590b0a4ddc1364c5e2df3e99c5" group="org.reactivestreams" name="reactive-streams" version="1.0.3"/>
-      <trusted-key id="0a9af2115f4687bd29803a206b73a36e6026dfca" group="com.rabbitmq" name="amqp-client" version="5.10.0"/>
+      <trusted-key id="0a9af2115f4687bd29803a206b73a36e6026dfca" group="com.rabbitmq" name="amqp-client"/>
       <trusted-key id="6dd3b8c64ef75253beb2c53ad908a43fb7ec07ac" group="com.sun.activation" name="jakarta.activation" version="1.2.2"/>
       <trusted-key id="d196a5e3e70732eeb2e5007f1861c322c56014b2" group="commons-beanutils" name="commons-beanutils" version="1.8.0"/>
       <trusted-key id="636de9055c4c75c7bd9830771241bc872c5e4ec0" group="commons-cli" name="commons-cli" version="1.2"/>
