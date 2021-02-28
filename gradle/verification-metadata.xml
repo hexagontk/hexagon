@@ -115,7 +115,7 @@
       <trusted-key id="9ffed7a118d45a44e4a1e47130e6f80434a72a7f" group="org.apache.maven">
         <trusting group="org.apache.maven.wagon"/>
       </trusted-key>
-      <trusted-key id="8b096546b1a8f02656b15d3b1677d141bcf3584d" group="org.eclipse.jetty.toolchain" name="jetty-servlet-api"/>
+      <trusted-key id="1a2d608bf6d37aef12d53a4f37b0a85f5ce89b0c" group="org.eclipse.jetty.toolchain" name="jetty-servlet-api"/>
       <trusted-key id="5989baf76217b843d66be55b2d0e1fb8fe4b68b4" group="org.eclipse.jetty">
         <trusting group="org.eclipse.jetty.http2"/>
       </trusted-key>
