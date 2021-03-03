@@ -37,20 +37,16 @@ The following code block shows the most common use cases for the [Logger] class:
 
 @code hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:logger
 
-Hexagon uses the [SLF4J] logging library, you can use any of its implementations by just adding the
-library to your classpath. Below you can see some alternatives:
+By default, Hexagon uses the [Java Util Logging] logging library, you can use any of its
+implementations by just adding another logging adapter as a dependency. Below you can see some
+alternatives:
 
-[SLF4J]: http://www.slf4j.org
+[JUL]: https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
 === "build.gradle"
 
     ```groovy
-    /*
-     * Pick ONLY ONE of the options below
-     */
-    implementation("ch.qos.logback:logback-classic:1.2.3") // Full featured implementation
-    implementation("org.slf4j:slf4j-simple:1.7.30") // Lightweight logging implementation
-    implementation("org.slf4j:slf4j-jdk14:1.7.30") // Uses JDK logging API
+    implementation("com.hexagonkt:logging_logback:$hexagonVersion") // Full featured implementation
     ```
 
 === "pom.xml"
@@ -61,28 +57,16 @@ library to your classpath. Below you can see some alternatives:
      !-->
     <!-- Full featured implementation -->
     <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.2.3</version>
-    </dependency>
-    <!-- Lightweight logging implementation -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    <!-- Uses JDK logging API -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-jdk14</artifactId>
-      <version>1.7.30</version>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>logging_logback</artifactId>
+      <version>$hexagonVersion</version>
     </dependency>
     ```
 
 !!! Info
-    You can bridge other logging libraries (that may be used by other third party libraries you use
-    importing adaptor libraries (check [SLF4J bridge guide](http://www.slf4j.org/legacy.html) for
-    details). For example:
+    The above adapters bridge other logging libraries (that may be used by other third party
+    libraries you use (if you want to disable this behaviour, you need to explicitly exclude
+    bridging libraries).
 
 === "build.gradle"
 

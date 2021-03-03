@@ -10,10 +10,9 @@ extra["basePackage"] = "com.hexagonkt.logging"
 
 dependencies {
     val slf4jVersion = properties["slf4jVersion"]
-    val logbackVersion = properties["logbackVersion"]
 
     "api"(project(":hexagon_core"))
-    "api"("org.slf4j:slf4j-api:$slf4jVersion")
-
-    "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") { exclude("org.slf4j") }
+    "api"("org.slf4j:slf4j-jdk14:$slf4jVersion")
+    "api"("org.slf4j:jcl-over-slf4j:$slf4jVersion")
+    "api"("org.slf4j:log4j-over-slf4j:$slf4jVersion")
 }
