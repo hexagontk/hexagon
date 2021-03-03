@@ -4,7 +4,7 @@ import com.hexagonkt.logging.LoggerPort
 import com.hexagonkt.logging.LoggingLevel
 import com.hexagonkt.logging.LoggingLevel.*
 import com.hexagonkt.logging.LoggingPort
-import java.util.logging.*
+import java.util.logging.Level
 import java.util.logging.Logger as JulLogger
 
 <span class="fc" id="L10">object JulLoggingAdapter : LoggingPort {</span>
@@ -20,8 +20,8 @@ import java.util.logging.Logger as JulLogger
 <span class="fc" id="L20">    }</span>
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
-<span class="nc" id="L23">        JulLogger.getLogger(name).level = mapLevel(level)</span>
-<span class="nc" id="L24">    }</span>
+<span class="fc" id="L23">        JulLogger.getLogger(name).level = mapLevel(level)</span>
+<span class="fc" id="L24">    }</span>
 
     override fun createLogger(name: String): LoggerPort =
 <span class="fc" id="L27">        object : LoggerPort {</span>
@@ -44,7 +44,7 @@ import java.util.logging.Logger as JulLogger
 <span class="fc" id="L44">            }</span>
 <span class="fc" id="L45">        }</span>
 
-<span class="fc bfc" id="L47" title="All 5 branches covered.">    private fun mapLevel(level: LoggingLevel) = when (level) {</span>
+<span class="fc bfc" id="L47" title="All 5 branches covered.">    private fun mapLevel(level: LoggingLevel): Level = when (level) {</span>
 <span class="fc" id="L48">        TRACE -&gt; Level.FINER</span>
 <span class="fc" id="L49">        DEBUG -&gt; Level.FINE</span>
 <span class="fc" id="L50">        INFO -&gt; Level.INFO</span>

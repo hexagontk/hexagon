@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LogbackLoggingAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging</a> &gt; <span class="el_source">LogbackLoggingAdapter.kt</span></div><h1>LogbackLoggingAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging
+
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.Logger
+import com.hexagonkt.logging.LoggingLevel.*
+import org.slf4j.LoggerFactory
+
+<span class="fc" id="L8">object LogbackLoggingAdapter : LoggingPort {</span>
+
+    override fun createLogger(name: String): LoggerPort =
+<span class="fc" id="L11">        Slf4jJulLoggingAdapter.createLogger(name)</span>
+
+    override fun setLoggerLevel(name: String, level: LoggingLevel) {
+<span class="pc bpc" id="L14" title="1 of 2 branches missed.">        (LoggerFactory.getLogger(name) as Logger).level = mapLevel(level)</span>
+<span class="fc" id="L15">    }</span>
+
+<span class="fc bfc" id="L17" title="All 5 branches covered.">    private fun mapLevel(level: LoggingLevel): Level = when (level) {</span>
+<span class="fc" id="L18">        TRACE -&gt; Level.TRACE</span>
+<span class="fc" id="L19">        DEBUG -&gt; Level.DEBUG</span>
+<span class="fc" id="L20">        INFO -&gt; Level.INFO</span>
+<span class="fc" id="L21">        WARN -&gt; Level.WARN</span>
+<span class="fc" id="L22">        ERROR -&gt; Level.ERROR</span>
+<span class="fc" id="L23">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
