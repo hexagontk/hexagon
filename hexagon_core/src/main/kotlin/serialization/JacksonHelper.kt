@@ -1,19 +1,20 @@
 package com.hexagonkt.serialization
 
-import com.fasterxml.jackson.core.JsonParser.Feature.*
-import com.fasterxml.jackson.core.*
-import com.fasterxml.jackson.databind.DeserializationFeature.*
-import com.fasterxml.jackson.databind.SerializationFeature.*
-
 import com.fasterxml.jackson.core.JsonFactory
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.JsonParser.Feature.*
+import com.fasterxml.jackson.core.JsonToken.START_OBJECT
+import com.fasterxml.jackson.core.Version
 import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.DeserializationFeature.*
 import com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY
+import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.core.JsonToken.START_OBJECT
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.blackbird.BlackbirdModule
+import com.fasterxml.jackson.module.afterburner.AfterburnerModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.net.InetAddress
 import java.nio.ByteBuffer
@@ -38,7 +39,7 @@ object JacksonHelper {
         .registerModule(KotlinModule())
         .registerModule(JavaTimeModule())
         .registerModule(Jdk8Module())
-        .registerModule(BlackbirdModule())
+        .registerModule(AfterburnerModule())
         .registerModule(SimpleModule("SerializationModule", Version.unknownVersion())
             .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)
             .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)

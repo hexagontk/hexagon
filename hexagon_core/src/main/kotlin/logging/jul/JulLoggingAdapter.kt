@@ -4,7 +4,7 @@ import com.hexagonkt.logging.LoggerPort
 import com.hexagonkt.logging.LoggingLevel
 import com.hexagonkt.logging.LoggingLevel.*
 import com.hexagonkt.logging.LoggingPort
-import java.util.logging.*
+import java.util.logging.Level
 import java.util.logging.Logger as JulLogger
 
 object JulLoggingAdapter : LoggingPort {
@@ -44,7 +44,7 @@ object JulLoggingAdapter : LoggingPort {
             }
         }
 
-    private fun mapLevel(level: LoggingLevel) = when (level) {
+    private fun mapLevel(level: LoggingLevel): Level = when (level) {
         TRACE -> Level.FINER
         DEBUG -> Level.FINE
         INFO -> Level.INFO
