@@ -1,5 +1,7 @@
 package com.hexagonkt
 
+import com.hexagonkt.logging.LoggingLevel
+import com.hexagonkt.logging.LoggingManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -12,6 +14,7 @@ import kotlin.test.assertFailsWith
 class ClasspathHandlerProviderTest {
 
     @BeforeAll fun registerHandler() {
+        LoggingManager.setLoggerLevel("com.hexagonkt", LoggingLevel.TRACE)
         ClasspathHandler.registerHandler()
     }
 
