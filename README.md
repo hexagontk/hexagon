@@ -135,13 +135,13 @@ fun main() {
 // hello
 ```
 
-4. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
+4. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
-[Endpoint]: http://localhost:2010/hello/world
+[Endpoint]: http://localhost:2010/hello
 
 ## Examples
 
