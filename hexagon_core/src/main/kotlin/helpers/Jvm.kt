@@ -17,23 +17,26 @@ object Jvm {
     val charset: Charset by lazy { Charset.defaultCharset() }
 
     /** Default timezone. */
-    val timeZone: TimeZone = TimeZone.getDefault()
+    val timeZone: TimeZone by lazy { TimeZone.getDefault() }
 
     /** The hostname of the machine running this program. */
-    val hostname: String = InetAddress.getLocalHost().hostName
-    /** The IP address of the machine running this program. */
-    val ip: String = InetAddress.getLocalHost().hostAddress
+    val hostname: String by lazy { InetAddress.getLocalHost().hostName }
 
-    val id: String = safeJmx { ManagementFactory.getRuntimeMXBean().name }
-    val name: String = safeJmx { ManagementFactory.getRuntimeMXBean().vmName }
-    val version: String = safeJmx { ManagementFactory.getRuntimeMXBean().specVersion }
-    val cpuCount: Int = Runtime.getRuntime().availableProcessors()
-    val timezone: String = System.getProperty("user.timezone")
-    val locale: String = "%s_%s.%s".format(
-        System.getProperty("user.language"),
-        System.getProperty("user.country"),
-        System.getProperty("file.encoding")
-    )
+    /** The IP address of the machine running this program. */
+    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }
+
+    val id: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().name } }
+    val name: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().vmName } }
+    val version: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().specVersion } }
+    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }
+    val timezone: String by lazy { System.getProperty("user.timezone") }
+    val locale: String by lazy {
+        "%s_%s.%s".format(
+            System.getProperty("user.language"),
+            System.getProperty("user.country"),
+            System.getProperty("file.encoding")
+        )
+    }
 
     private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }
 
