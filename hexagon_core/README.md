@@ -41,64 +41,14 @@ By default, Hexagon uses the [Java Util Logging] logging library, you can use an
 implementations by just adding another logging adapter as a dependency. Below you can see some
 alternatives:
 
-[JUL]: https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
+* [Logback](/logging_logback)
+* [SLF4J JUL](/logging_slf4j_jul)
 
-=== "build.gradle"
-
-    ```groovy
-    implementation("com.hexagonkt:logging_logback:$hexagonVersion") // Full featured implementation
-    ```
-
-=== "pom.xml"
-
-    ```xml
-    <!--
-     ! Pick ONLY ONE of the options below
-     !-->
-    <!-- Full featured implementation -->
-    <dependency>
-      <groupId>com.hexagonkt</groupId>
-      <artifactId>logging_logback</artifactId>
-      <version>$hexagonVersion</version>
-    </dependency>
-    ```
-
-!!! Info
-    The above adapters bridge other logging libraries (that may be used by other third party
-    libraries you use (if you want to disable this behaviour, you need to explicitly exclude
-    bridging libraries).
-
-=== "build.gradle"
-
-    ```groovy
-    // Bridges
-    runtimeOnly("org.slf4j:jcl-over-slf4j:1.7.30")
-    runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.30")
-    runtimeOnly("org.slf4j:jul-to-slf4j:1.7.30") // Don't add it if you are using 'slf4j-jdk14'
-    ```
-
-=== "pom.xml"
-
-    ```xml
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>log4j-over-slf4j</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    <!-- Don't add the next one if you are using 'slf4j-jdk14' -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>jul-to-slf4j</artifactId>
-      <version>1.7.30</version>
-    </dependency>
-    ```
+TODO Add `LoggingManager` examples for changing logging level
 
 [Logger]: com.hexagonkt.logging/-logger/index.md
+[Java Util Logging]:
+  https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
 ### Dependency injection
 

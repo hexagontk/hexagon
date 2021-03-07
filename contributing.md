@@ -18,8 +18,8 @@ Contribution Steps
 ------------------
 1. You can check available tasks in the [Project Board] or the [Organization Board]. Issues with the
    [help wanted] tag in the `Ready` column are recommended for a first time contribution.
-2. Claim an issue you want to work in with a comment (after that I can assign it to you and move it
-   to the `Working` column. If you want to contribute to a non tagged (or a non existing) tasks:
+2. Claim an issue you want to work in with a comment, after that I can assign it to you and move it
+   to the `Working` column. If you want to contribute to a non tagged (or a not existing) tasks:
    write a comment, and we'll discuss the scope of the feature.
 3. New features should be discussed within an issue in the issue tracker before actual coding. You
    may do a PR directly, but you take the risk of it being not suitable and discarded.

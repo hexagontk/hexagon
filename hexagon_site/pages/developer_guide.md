@@ -3,8 +3,8 @@
 
 ### Port
 
-It is an interface for a task. The toolkit's ports are designed to work on their own. For example:
-you can use the `http_server` module without importing the `templates` one, and the other way around
+It is an interface for a task. The toolkit ports are designed to work on their own. For example: you
+can use the `http_server` module without importing the `templates` one, and the other way around
 (taking only the dependencies you need for your application).
 
 ### Adapter
@@ -58,20 +58,20 @@ The main features are the following:
 
 * [Helpers]: JVM information, a logger and other useful utilities.
 * [Dependency Injection]: bind classes to creation closures or instances and inject them.
-* [Instance Serialization]: parse/serialize data in different formats to class instances.
+* [Objects Serialization]: parse/serialize data in different formats to class instances.
 
 [Hexagon Core]: /hexagon_core
 
 [Helpers]: /hexagon_core/com.hexagonkt.helpers
 [Dependency Injection]: /hexagon_core/com.hexagonkt.injection
-[Instance Serialization]: /hexagon_core/com.hexagonkt.serialization
+[Objects Serialization]: /hexagon_core/com.hexagonkt.serialization
 
 # Other Modules
 
 The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.
 
-* [Settings]: load settings from different data sources and formats. This properties are made
+* [Settings]: load settings from different data sources and formats. These properties are made
   available to other components through the [SettingsManager].
 * [Scheduling]: this module allows services to execute tasks periodically using Cron expressions.
   However, you have to be careful to not run tasks twice if you have many instances.

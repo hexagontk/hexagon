@@ -1,6 +1,10 @@
 package com.hexagonkt.logging
 
-import com.hexagonkt.logging.LoggingLevel.*
+import com.hexagonkt.logging.LoggingLevel.DEBUG
+import com.hexagonkt.logging.LoggingLevel.ERROR
+import com.hexagonkt.logging.LoggingLevel.INFO
+import com.hexagonkt.logging.LoggingLevel.TRACE
+import com.hexagonkt.logging.LoggingLevel.WARN
 import org.junit.jupiter.api.Test
 
 internal class Slf4jJulLoggerTest {
@@ -12,6 +16,7 @@ internal class Slf4jJulLoggerTest {
     @Test fun `Messages are logged without errors using SLF4J JUL`() {
 
         LoggingManager.adapter = Slf4jJulLoggingAdapter
+        LoggingManager.setLoggerLevel(WARN)
         val logger = Logger(this::class)
 
         traceAll(logger, TRACE)
@@ -22,7 +27,7 @@ internal class Slf4jJulLoggerTest {
     }
 
     private fun traceAll(logger: Logger, level: LoggingLevel) {
-        LoggingManager.setLoggerLevel("com.hexagonkt.logging", level)
+        LoggingManager.setLoggerLevel(this, level)
         logger.trace { 42 }
         logger.debug { true }
         logger.info { 0.0 }
