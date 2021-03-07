@@ -104,15 +104,39 @@ fun String.banner(bannerDelimiter: String = "*"): String =
         )
         .let { "$it$eol$this$eol$it" }
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
 fun String.stripAccents(): String =
     normalize(this, NFD).replace("\\p{M}".toRegex(), "")
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
 fun String.toStream(): InputStream =
     ByteArrayInputStream(this.toByteArray())
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param bytes .
+ * @return .
+ */
 fun utf8(vararg bytes: Int): String =
     String(bytes.map(Int::toByte).toByteArray())
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
 fun String.globToRegex(): Regex = Regex(
     this.map {
         when (it) {
@@ -126,8 +150,23 @@ fun String.globToRegex(): Regex = Regex(
     .joinToString("", "^", "$")
 )
 
-fun String.prependIndent(count: Int = 4, pad: String = " ") =
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param count .
+ * @param pad .
+ * @return .
+ */
+fun String.prependIndent(count: Int = 4, pad: String = " "): String =
     this.prependIndent(pad.repeat(count))
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param fallback .
+ * @return .
+ */
 internal fun Sequence<Int>.maxOrElse(fallback: Int): Int =
     this.maxOrNull() ?: fallback
