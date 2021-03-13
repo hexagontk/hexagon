@@ -17,6 +17,7 @@
       <trust group="org.jetbrains.kotlin" name="kotlin-gradle-plugin" version="1.4.20"/>
       <trust group="org.unbescape" name="unbescape" version="1.1.6.RELEASE"/>
       <trust group="org.objenesis" name="objenesis" version="3.*" regex="true"/>
+      <trust group="com.beust" name="jcommander"/>
 
       <!-- Tests -->
       <trust group="jakarta.validation" name="jakarta.validation-api" version="2.0.2"/>
