@@ -2,6 +2,7 @@ package com.hexagonkt.http
 
 import com.hexagonkt.helpers.filter
 import com.hexagonkt.helpers.findGroups
+import com.hexagonkt.logging.Logger
 
 /**
  * A path definition. It parses path patterns and extract values for parameters.
@@ -12,6 +13,9 @@ import com.hexagonkt.helpers.findGroups
  *   * Delimiter is {var} to conform with [RFC 6570](https://tools.ietf.org/html/rfc6570)
  */
 data class Path(val pattern: String) {
+
+    private val logger: Logger = Logger(this::class)
+
     private companion object {
         internal const val PARAMETER_PREFIX = "{"
         internal const val PARAMETER_SUFFIX = "}"
@@ -78,6 +82,7 @@ data class Path(val pattern: String) {
         if (hasWildcards || parameters.size != parameterIndex.size) {
             val expectedParams = parameterIndex.size
             val paramCount = parameters.size
+            logger.error { "Path has wildcards or different parameters: $expectedParams/$paramCount" }
             error("Path has wildcards or different parameters: $expectedParams/$paramCount")
         }
         else {

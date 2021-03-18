@@ -51,6 +51,7 @@ fun isPortOpened(port: Int): Boolean =
         Socket("localhost", port).use { it.isConnected }
     }
     catch (e: Exception) {
+        logger.warn(e) { "Exception occurred when checking if the port is already open" }
         false
     }
 
@@ -74,6 +75,7 @@ fun <T> retry(times: Int, delay: Long, block: () -> T): T {
             return block()
         }
         catch (e: Exception) {
+            logger.warn(e) { "Exception occurred when executing a lambda until no exception is thrown or a number of times is reached" }
             exceptions.add(e)
             Thread.sleep(delay)
         }
@@ -100,15 +102,17 @@ fun List<String>.exec(
 
     if (!process.waitFor(timeout, SECONDS)) {
         process.destroy()
+        logger.error { "Command timed out: $this" }
         error("Command timed out: $this")
     }
 
     val exitValue = process.exitValue()
     val output = BufferedReader(InputStreamReader(process.inputStream)).readText()
 
-    if (fail && exitValue != 0)
+    if (fail && exitValue != 0) {
+        logger.trace { "Coded Exception occurred" }
         throw CodedException(exitValue, output)
-
+    }
     return output
 }
 

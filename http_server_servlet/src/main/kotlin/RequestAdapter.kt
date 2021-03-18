@@ -6,12 +6,14 @@ import com.hexagonkt.http.Part
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.parseQueryParameters
 import com.hexagonkt.http.server.RequestPort
+import com.hexagonkt.logging.Logger
 import java.io.InputStreamReader
 import java.security.cert.X509Certificate
 import javax.servlet.http.HttpServletRequest
 
 internal class RequestAdapter(private val req: HttpServletRequest) : RequestPort {
 
+    private val logger: Logger = Logger(this::class)
     private val certificateAttribute = "javax.servlet.request.X509Certificate"
 
     private val parameters: Map<String, List<String>> by lazy {
@@ -56,6 +58,7 @@ internal class RequestAdapter(private val req: HttpServletRequest) : RequestPort
             map.toMap()
         }
         catch (e: Exception) {
+            logger.warn(e) { "Exception has occurred when requesting cookies" }
             mapOf()
         }
 

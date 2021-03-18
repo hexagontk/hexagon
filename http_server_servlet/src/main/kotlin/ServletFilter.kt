@@ -135,9 +135,10 @@ class ServletFilter(router: List<RequestHandler>, serverSettings: ServerSettings
 
     private fun doFilter(servletRequest: ServletRequest, servletResponse: ServletResponse) {
 
-        if (servletRequest !is HttpRequest || servletResponse !is HttpResponse)
+        if (servletRequest !is HttpRequest || servletResponse !is HttpResponse) {
+            log.error { "Invalid request/response parameters" }
             error("Invalid request/response parameters")
-
+        }
         val requestAdapter = RequestAdapter(servletRequest)
         val request = Request(requestAdapter)
         val response = Response(ResponseAdapter(servletRequest, servletResponse))
@@ -159,9 +160,11 @@ class ServletFilter(router: List<RequestHandler>, serverSettings: ServerSettings
             }
 
             if (!handled)
+                log.trace { "Coded Exception has occurred" }
                 throw CodedException(404)
         }
         catch (e: Exception) {
+            log.warn(e) { "Exception has occurred when try to handle the filtering" }
             handleException(e, call)
         }
         finally {

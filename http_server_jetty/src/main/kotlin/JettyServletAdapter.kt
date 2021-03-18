@@ -12,6 +12,7 @@ import com.hexagonkt.http.server.ServerFeature.SESSIONS as SESSIONS_FEATURE
 import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.servlet.ServletFilter
+import com.hexagonkt.logging.Logger
 import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory
 import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory
 import org.eclipse.jetty.server.*
@@ -31,6 +32,8 @@ import org.eclipse.jetty.server.Server as JettyServer
  */
 class JettyServletAdapter : ServerPort {
     private var jettyServer: JettyServer? = null
+
+    private val logger: Logger = Logger(this::class)
 
     override fun runtimePort(): Int =
         ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort
@@ -63,10 +66,12 @@ class JettyServletAdapter : ServerPort {
         serverInstance.handler = context
         serverInstance.stopAtShutdown = true
         serverInstance.start()
+        logger.debug { "Jetty Server has started" }
     }
 
     override fun shutdown() {
         jettyServer?.stop()
+        logger.debug { "Jetty Server has shut down" }
     }
 
     override fun supportedProtocols(): Set<Protocol> =
@@ -87,7 +92,7 @@ class JettyServletAdapter : ServerPort {
 
         if (features.contains(ServerFeature.ZIP))
             context.insertHandler(GzipHandler())
-
+        logger.debug { "Server Context has successfully created" }
         return context
     }
 

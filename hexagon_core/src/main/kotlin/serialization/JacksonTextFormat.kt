@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.*
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.JacksonHelper.createObjectMapper
 
 import java.io.InputStream
@@ -16,6 +17,8 @@ open class JacksonTextFormat(
     factoryGenerator: (() -> JsonFactory)? = null
 ) :
     SerializationFormat {
+
+    private val logger: Logger = Logger(this::class)
 
     private val mapper =
         if (factoryGenerator == null) JacksonHelper.mapper
@@ -39,6 +42,7 @@ open class JacksonTextFormat(
             mapper.readValue(input, type.java)
         }
         catch (e: JsonProcessingException) {
+            logger.warn { "Exception occurred when parsing input stream" }
             throw ParseException(e)
         }
 
@@ -47,6 +51,7 @@ open class JacksonTextFormat(
             mapper.readValue(input, collectionType(List::class, type))
         }
         catch (e: JsonProcessingException) {
+            logger.warn { "Exception occurred when parsing input stream" }
             throw ParseException(e)
         }
 
