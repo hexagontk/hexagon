@@ -4,8 +4,10 @@ import com.hexagonkt.helpers.get
 import com.hexagonkt.helpers.println
 import com.hexagonkt.helpers.toStream
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -71,9 +73,67 @@ class XmlTest {
 
         assert(collection["name"] == "Kotlin POM")
         assert(collection["repositories", "repository", "id"] == "central")
+        assert(collection["dependencies", "dependency", 0, "artifactId"] == "junit-jupiter")
         assert(collection["dependencies", "dependency", 1, "artifactId"] == "kotlin-test")
         assert(collection["alien", "property"] == "val")
         assert(collection["alien", ""] == "text")
+    }
+
+    @Test
+    @Disabled // TODO Fix this case
+    fun `XML can be parsed to collections (bis)` () {
+        val xml =
+            """<?xml version="1.0" encoding="UTF-8"?>
+
+            <beans
+              xmlns="http://www.springframework.org/schema/beans"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:camel="http://camel.apache.org/schema/spring"
+              xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                http://camel.apache.org/schema/spring
+                http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+              <bean id="header" class="org.example.Processor"/>
+
+              <camelContext
+                xmlns="http://camel.apache.org/schema/spring"
+                id="service.v2.0.0">
+
+                <restConfiguration
+                  component="servlet"
+                  producerApiDoc="service-v2.0.0-swagger.json"
+                  bindingMode="auto"
+                  enableCORS="true"/>
+
+                <rest path="/v1/path" produces="application/json" id="service.restlet">
+                  <get uri="/uri" id="lS2">
+                    <to uri="direct-vm:p-l.lS2"/>
+                  </get>
+                  <get uri="/uri/{recordId}" id="gS2">
+                    <param name="recordId" type="path" required="true"/>
+                    <to uri="direct-vm:p-g.gS2"/>
+                  </get>
+                  <get uri="/uri/{recordId}/component" id="gSS2">
+                    <to uri="direct-vm:p-l.gSS2" />
+                  </get>
+                  <post uri="/uri" id="lS2">
+                    <to uri="direct-vm:p-l.lS2"/>
+                  </post>
+                  <post uri="uri/{recordId}/tag" id="cL2">
+                    <to uri="direct-vm:p-c.cL2"/>
+                  </post>
+                </rest>
+              </camelContext>
+            </beans>
+            """
+
+        val collection = xml.parse<Map<String, *>>().println()
+
+        assertEquals("header", collection["bean", "id"])
+        assertEquals(2, (collection["camelContext", "rest", "post"] as? List<*>)?.size)
+        assertEquals(3, (collection["camelContext", "rest", "get"] as? List<*>)?.size)
     }
 
     @Test fun `XML is serialized properly` () {
