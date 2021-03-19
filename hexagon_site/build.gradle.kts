@@ -74,13 +74,6 @@ task("mkdocs") {
             }
         }
 
-        // Copy contributing information
-        copy {
-            from(rootProject.projectDir)
-            include("contributing.md")
-            into(contentTarget)
-        }
-
         markdownFiles.forEach { markdownFile ->
             var content = markdownFile.readText()
             content = insertSamplesCode(rootProject.projectDir, content)
