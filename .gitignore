@@ -15,6 +15,7 @@ buildNumber.properties
 build/
 
 # Eclipse
+bin/
 .settings/
 .project
 .classpath

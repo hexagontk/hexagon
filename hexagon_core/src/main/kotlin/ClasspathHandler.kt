@@ -7,7 +7,8 @@ import java.net.URLStreamHandler
 
 object ClasspathHandler : URLStreamHandler() {
 
-    private val logger: Logger = Logger(this::class)
+    // Logger needs to be lazy due to GraalVM native image generation constraints
+    private val logger: Logger by lazy { Logger(this::class) }
     private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader
     private val protocolHandlers: Map<String, URLStreamHandler> = mapOf("classpath" to this)
 

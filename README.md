@@ -452,7 +452,7 @@ Thanks to all project's [contributors]!
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
 [issues]: https://github.com/hexagonkt/hexagon/issues
 [reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
-[contributing]: contributing.md
+[contributing]: https://github.com/hexagonkt/hexagon/contribute
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [Organization Board]: https://github.com/orgs/hexagonkt/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
