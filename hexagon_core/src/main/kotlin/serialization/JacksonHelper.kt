@@ -50,7 +50,7 @@ object JacksonHelper {
         .registerModule(KotlinModule())
         .registerModule(JavaTimeModule())
         .registerModule(Jdk8Module())
-//        .registerModule(AfterburnerModule())
+//        .registerModule(AfterburnerModule()) // TODO Enable extra modules to be loaded by clients
         .registerModule(SimpleModule("SerializationModule", Version.unknownVersion())
             .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)
             .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)
