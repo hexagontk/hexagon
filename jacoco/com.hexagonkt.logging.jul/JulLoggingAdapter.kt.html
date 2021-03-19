@@ -2,54 +2,58 @@
 
 import com.hexagonkt.logging.LoggerPort
 import com.hexagonkt.logging.LoggingLevel
-import com.hexagonkt.logging.LoggingLevel.*
+import com.hexagonkt.logging.LoggingLevel.DEBUG
+import com.hexagonkt.logging.LoggingLevel.ERROR
+import com.hexagonkt.logging.LoggingLevel.INFO
+import com.hexagonkt.logging.LoggingLevel.TRACE
+import com.hexagonkt.logging.LoggingLevel.WARN
 import com.hexagonkt.logging.LoggingPort
 import java.util.logging.Level
 import java.util.logging.Logger as JulLogger
 
-<span class="fc" id="L10">object JulLoggingAdapter : LoggingPort {</span>
+<span class="fc" id="L14">object JulLoggingAdapter : LoggingPort {</span>
 
-<span class="fc" id="L12">    private val root = JulLogger.getLogger(&quot;&quot;)</span>
+<span class="fc" id="L16">    init {</span>
+<span class="fc" id="L17">        val root = JulLogger.getLogger(&quot;&quot;)</span>
 
-<span class="fc" id="L14">    init {</span>
-<span class="fc bfc" id="L15" title="All 2 branches covered.">        for (hnd in root.handlers)</span>
-<span class="fc" id="L16">            root.removeHandler(hnd)</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        for (hnd in root.handlers)</span>
+<span class="fc" id="L20">            root.removeHandler(hnd)</span>
 
-<span class="fc" id="L18">        root.addHandler(SystemOutHandler())</span>
-<span class="fc" id="L19">        root.level = Level.INFO</span>
-<span class="fc" id="L20">    }</span>
-
-    override fun setLoggerLevel(name: String, level: LoggingLevel) {
-<span class="fc" id="L23">        JulLogger.getLogger(name).level = mapLevel(level)</span>
+<span class="fc" id="L22">        root.addHandler(SystemOutHandler())</span>
+<span class="fc" id="L23">        root.level = Level.INFO</span>
 <span class="fc" id="L24">    }</span>
 
+    override fun setLoggerLevel(name: String, level: LoggingLevel) {
+<span class="fc" id="L27">        JulLogger.getLogger(name).level = mapLevel(level)</span>
+<span class="fc" id="L28">    }</span>
+
     override fun createLogger(name: String): LoggerPort =
-<span class="fc" id="L27">        object : LoggerPort {</span>
-<span class="pc" id="L28">            val log: JulLogger = JulLogger.getLogger(name)</span>
+<span class="fc" id="L31">        object : LoggerPort {</span>
+<span class="pc" id="L32">            val log: JulLogger = JulLogger.getLogger(name)</span>
 
             override fun log(level: LoggingLevel, message: () -&gt; Any?) {
-<span class="fc" id="L31">                val julLevel = mapLevel(level)</span>
-<span class="fc bfc" id="L32" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
-<span class="fc" id="L33">                    log.log(julLevel, message().toString())</span>
-<span class="fc" id="L34">            }</span>
+<span class="fc" id="L35">                val julLevel = mapLevel(level)</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
+<span class="fc" id="L37">                    log.log(julLevel, message().toString())</span>
+<span class="fc" id="L38">            }</span>
 
             override fun &lt;E : Throwable&gt; log(
                 level: LoggingLevel,
                 exception: E,
                 message: (E) -&gt; Any?,
             ) {
-<span class="fc" id="L41">                val julLevel = mapLevel(level)</span>
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">                if (log.isLoggable(julLevel))</span>
-<span class="fc" id="L43">                    log.log(julLevel, message(exception).toString(), exception)</span>
-<span class="fc" id="L44">            }</span>
-<span class="fc" id="L45">        }</span>
+<span class="fc" id="L45">                val julLevel = mapLevel(level)</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">                if (log.isLoggable(julLevel))</span>
+<span class="fc" id="L47">                    log.log(julLevel, message(exception).toString(), exception)</span>
+<span class="fc" id="L48">            }</span>
+<span class="fc" id="L49">        }</span>
 
-<span class="fc bfc" id="L47" title="All 5 branches covered.">    private fun mapLevel(level: LoggingLevel): Level = when (level) {</span>
-<span class="fc" id="L48">        TRACE -&gt; Level.FINER</span>
-<span class="fc" id="L49">        DEBUG -&gt; Level.FINE</span>
-<span class="fc" id="L50">        INFO -&gt; Level.INFO</span>
-<span class="fc" id="L51">        WARN -&gt; Level.WARNING</span>
-<span class="fc" id="L52">        ERROR -&gt; Level.SEVERE</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc bfc" id="L51" title="All 5 branches covered.">    private fun mapLevel(level: LoggingLevel): Level = when (level) {</span>
+<span class="fc" id="L52">        TRACE -&gt; Level.FINER</span>
+<span class="fc" id="L53">        DEBUG -&gt; Level.FINE</span>
+<span class="fc" id="L54">        INFO -&gt; Level.INFO</span>
+<span class="fc" id="L55">        WARN -&gt; Level.WARNING</span>
+<span class="fc" id="L56">        ERROR -&gt; Level.SEVERE</span>
+<span class="fc" id="L57">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

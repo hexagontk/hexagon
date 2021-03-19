@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://hexagonkt.com/logging_logback/">
       
       <link rel="shortcut icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.3">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.4">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.1655a90d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.77f3fd56.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.7fa14f5b.min.css">
@@ -125,7 +125,7 @@ if ('serviceWorker' in navigator)
     <div data-md-component="skip">
       
         
-        <a href="#packages" class="md-skip">
+        <a href="#install-the-dependency" class="md-skip">
           Skip to content
         </a>
       
@@ -1144,6 +1144,13 @@ if ('serviceWorker' in navigator)
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#packages" class="md-nav__link">
     Packages
   </a>
@@ -1177,6 +1184,86 @@ if ('serviceWorker' in navigator)
                   <h1>Index</h1>
                 
                 <p><a href="./">logging_logback</a></p>
+<p>Contains the logger adapter for the <a href="http://logback.qos.ch">Logback</a> logging library.</p>
+<h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
+<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">build.gradle</label><div class="tabbed-content">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:logging_logback:$hexagonVersion&quot;</span><span class="o">)</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">pom.xml</label><div class="tabbed-content">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c">&lt;!--</span>
+<span class="c"> ! Pick ONLY ONE of the options below</span>
+<span class="c"> !--&gt;</span>
+<span class="c">&lt;!-- Full featured implementation --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>logging_logback<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The above adapter bridge other logging libraries that may be used by other third party
+libraries you use (if you want to disable this behaviour, you need to explicitly exclude
+bridging libraries).</p>
+</div>
+<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">build.gradle</label><div class="tabbed-content">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Bridges</span>
+<span class="n">runtimeOnly</span><span class="o">(</span><span class="s2">&quot;org.slf4j:jcl-over-slf4j:1.7.30&quot;</span><span class="o">)</span>
+<span class="n">runtimeOnly</span><span class="o">(</span><span class="s2">&quot;org.slf4j:log4j-over-slf4j:1.7.30&quot;</span><span class="o">)</span>
+<span class="n">runtimeOnly</span><span class="o">(</span><span class="s2">&quot;org.slf4j:jul-to-slf4j:1.7.30&quot;</span><span class="o">)</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">pom.xml</label><div class="tabbed-content">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>jcl-over-slf4j<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.7.30<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>log4j-over-slf4j<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.7.30<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.slf4j<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>jul-to-slf4j<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.7.30<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+</div>
 <h4 id="packages">Packages<a class="headerlink" href="#packages" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -1188,7 +1275,7 @@ if ('serviceWorker' in navigator)
 <tbody>
 <tr>
 <td><a href="com.hexagonkt.logging/">com.hexagonkt.logging</a></td>
-<td></td>
+<td>Provides a logging management capabilities abstracting the application from logging libraries.</td>
 </tr>
 </tbody>
 </table>
@@ -1328,7 +1415,7 @@ if ('serviceWorker' in navigator)
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.ca5457b8.min.js"></script>
+      <script src="../assets/javascripts/bundle.9b151c6a.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

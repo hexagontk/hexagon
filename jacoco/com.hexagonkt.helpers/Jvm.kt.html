@@ -17,42 +17,45 @@ import java.util.TimeZone
 <span class="fc" id="L17">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
 
     /** Default timezone. */
-<span class="fc" id="L20">    val timeZone: TimeZone = TimeZone.getDefault()</span>
+<span class="fc" id="L20">    val timeZone: TimeZone by lazy { TimeZone.getDefault() }</span>
 
     /** The hostname of the machine running this program. */
-<span class="fc" id="L23">    val hostname: String = InetAddress.getLocalHost().hostName</span>
+<span class="fc" id="L23">    val hostname: String by lazy { InetAddress.getLocalHost().hostName }</span>
+
     /** The IP address of the machine running this program. */
-<span class="fc" id="L25">    val ip: String = InetAddress.getLocalHost().hostAddress</span>
+<span class="fc" id="L26">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
 
-<span class="fc" id="L27">    val id: String = safeJmx { ManagementFactory.getRuntimeMXBean().name }</span>
-<span class="fc" id="L28">    val name: String = safeJmx { ManagementFactory.getRuntimeMXBean().vmName }</span>
-<span class="fc" id="L29">    val version: String = safeJmx { ManagementFactory.getRuntimeMXBean().specVersion }</span>
-<span class="fc" id="L30">    val cpuCount: Int = Runtime.getRuntime().availableProcessors()</span>
-<span class="fc" id="L31">    val timezone: String = System.getProperty(&quot;user.timezone&quot;)</span>
-<span class="fc" id="L32">    val locale: String = &quot;%s_%s.%s&quot;.format(</span>
-<span class="fc" id="L33">        System.getProperty(&quot;user.language&quot;),</span>
-<span class="fc" id="L34">        System.getProperty(&quot;user.country&quot;),</span>
-<span class="fc" id="L35">        System.getProperty(&quot;file.encoding&quot;)</span>
-    )
+<span class="fc" id="L28">    val id: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().name } }</span>
+<span class="fc" id="L29">    val name: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().vmName } }</span>
+<span class="fc" id="L30">    val version: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().specVersion } }</span>
+<span class="fc" id="L31">    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }</span>
+<span class="fc" id="L32">    val timezone: String by lazy { System.getProperty(&quot;user.timezone&quot;) }</span>
+<span class="fc" id="L33">    val locale: String by lazy {</span>
+<span class="fc" id="L34">        &quot;%s_%s.%s&quot;.format(</span>
+<span class="fc" id="L35">            System.getProperty(&quot;user.language&quot;),</span>
+<span class="fc" id="L36">            System.getProperty(&quot;user.country&quot;),</span>
+<span class="fc" id="L37">            System.getProperty(&quot;file.encoding&quot;)</span>
+        )
+    }
 
-<span class="fc" id="L38">    private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }</span>
+<span class="fc" id="L41">    private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }</span>
 
     fun initialMemory(): String =
-<span class="fc" id="L41">        safeJmx { &quot;%,d&quot;.format(heap.init / 1024) }</span>
+<span class="fc" id="L44">        safeJmx { &quot;%,d&quot;.format(heap.init / 1024) }</span>
 
     fun usedMemory(): String =
-<span class="fc" id="L44">        safeJmx { &quot;%,d&quot;.format(heap.used / 1024) }</span>
+<span class="fc" id="L47">        safeJmx { &quot;%,d&quot;.format(heap.used / 1024) }</span>
 
     fun uptime(): String =
-<span class="fc" id="L47">        safeJmx { &quot;%01.3f&quot;.format(ManagementFactory.getRuntimeMXBean().uptime / 1e3) }</span>
+<span class="fc" id="L50">        safeJmx { &quot;%01.3f&quot;.format(ManagementFactory.getRuntimeMXBean().uptime / 1e3) }</span>
 
     fun systemSetting(name: String): String? =
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        System.getProperty(name) ?: System.getenv(name)</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        System.getProperty(name) ?: System.getenv(name)</span>
 
     fun systemSetting(name: String, default: String): String =
-<span class="fc bfc" id="L53" title="All 2 branches covered.">        systemSetting(name) ?: default</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        systemSetting(name) ?: default</span>
 
     internal fun safeJmx(block: () -&gt; String): String =
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (System.getProperty(&quot;com.hexagonkt.noJmx&quot;) == null) block() else &quot;N/A&quot;</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (System.getProperty(&quot;com.hexagonkt.noJmx&quot;) == null) block() else &quot;N/A&quot;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://hexagonkt.com/developer_guide/">
       
       <link rel="shortcut icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.3">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.4">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.1655a90d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.77f3fd56.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.7fa14f5b.min.css">
@@ -1319,8 +1319,8 @@ if ('serviceWorker' in navigator)
                 
                 <h2 id="concepts">Concepts<a class="headerlink" href="#concepts" title="Permanent link">&para;</a></h2>
 <h4 id="port">Port<a class="headerlink" href="#port" title="Permanent link">&para;</a></h4>
-<p>It is an interface for a task. The toolkit's ports are designed to work on their own. For example:
-you can use the <code>http_server</code> module without importing the <code>templates</code> one, and the other way around
+<p>It is an interface for a task. The toolkit ports are designed to work on their own. For example: you
+can use the <code>http_server</code> module without importing the <code>templates</code> one, and the other way around
 (taking only the dependencies you need for your application).</p>
 <h4 id="adapter">Adapter<a class="headerlink" href="#adapter" title="Permanent link">&para;</a></h4>
 <p>They are implementations of a functionality (Port) for a given product/technology. Clients should
@@ -1355,13 +1355,13 @@ depends on Logback and Jackson.</p>
 <ul>
 <li><a href="/hexagon_core/com.hexagonkt.helpers">Helpers</a>: JVM information, a logger and other useful utilities.</li>
 <li><a href="/hexagon_core/com.hexagonkt.injection">Dependency Injection</a>: bind classes to creation closures or instances and inject them.</li>
-<li><a href="/hexagon_core/com.hexagonkt.serialization">Instance Serialization</a>: parse/serialize data in different formats to class instances.</li>
+<li><a href="/hexagon_core/com.hexagonkt.serialization">Objects Serialization</a>: parse/serialize data in different formats to class instances.</li>
 </ul>
 <h2 id="other-modules">Other Modules<a class="headerlink" href="#other-modules" title="Permanent link">&para;</a></h2>
 <p>The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.</p>
 <ul>
-<li><a href="/hexagon_settings">Settings</a>: load settings from different data sources and formats. This properties are made
+<li><a href="/hexagon_settings">Settings</a>: load settings from different data sources and formats. These properties are made
   available to other components through the <a href="/hexagon_settings/com.hexagonkt.settings/-settings-manager">SettingsManager</a>.</li>
 <li><a href="/hexagon_scheduler">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.
   However, you have to be careful to not run tasks twice if you have many instances.</li>
@@ -1552,7 +1552,7 @@ a particular use case.</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.ca5457b8.min.js"></script>
+      <script src="../assets/javascripts/bundle.9b151c6a.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

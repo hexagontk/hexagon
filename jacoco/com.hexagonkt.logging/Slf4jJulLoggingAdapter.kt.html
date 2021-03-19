@@ -1,48 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Slf4jJulLoggingAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging</a> &gt; <span class="el_source">Slf4jJulLoggingAdapter.kt</span></div><h1>Slf4jJulLoggingAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging
 
-import com.hexagonkt.logging.LoggingLevel.*
+import com.hexagonkt.logging.LoggingLevel.DEBUG
+import com.hexagonkt.logging.LoggingLevel.ERROR
+import com.hexagonkt.logging.LoggingLevel.INFO
+import com.hexagonkt.logging.LoggingLevel.TRACE
+import com.hexagonkt.logging.LoggingLevel.WARN
 import com.hexagonkt.logging.jul.JulLoggingAdapter
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger as Slf4jLogger
 
-<span class="fc" id="L8">object Slf4jJulLoggingAdapter : LoggingPort {</span>
+<span class="fc" id="L12">object Slf4jJulLoggingAdapter : LoggingPort {</span>
 
     override fun createLogger(name: String): LoggerPort =
-<span class="fc" id="L11">        object : LoggerPort {</span>
-<span class="pc" id="L12">            val log: Slf4jLogger = LoggerFactory.getLogger(name)</span>
+<span class="fc" id="L15">        object : LoggerPort {</span>
+<span class="pc" id="L16">            val log: Slf4jLogger = LoggerFactory.getLogger(name)</span>
 
             override fun log(level: LoggingLevel, message: () -&gt; Any?) {
-<span class="pc bpc" id="L15" title="1 of 6 branches missed.">                when (level) {</span>
-<span class="fc bfc" id="L16" title="All 2 branches covered.">                    TRACE -&gt; if (log.isTraceEnabled) log.trace(message().toString())</span>
-<span class="fc bfc" id="L17" title="All 2 branches covered.">                    DEBUG -&gt; if (log.isDebugEnabled) log.debug(message().toString())</span>
-<span class="fc bfc" id="L18" title="All 2 branches covered.">                    INFO -&gt; if (log.isInfoEnabled) log.info(message().toString())</span>
-<span class="fc bfc" id="L19" title="All 2 branches covered.">                    WARN -&gt; if (log.isWarnEnabled) log.warn(message().toString())</span>
-<span class="pc bpc" id="L20" title="1 of 2 branches missed.">                    ERROR -&gt; if (log.isErrorEnabled) log.error(message().toString())</span>
+<span class="pc bpc" id="L19" title="1 of 6 branches missed.">                when (level) {</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">                    TRACE -&gt; if (log.isTraceEnabled) log.trace(message().toString())</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">                    DEBUG -&gt; if (log.isDebugEnabled) log.debug(message().toString())</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">                    INFO -&gt; if (log.isInfoEnabled) log.info(message().toString())</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">                    WARN -&gt; if (log.isWarnEnabled) log.warn(message().toString())</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">                    ERROR -&gt; if (log.isErrorEnabled) log.error(message().toString())</span>
                 }
-<span class="fc" id="L22">            }</span>
+<span class="fc" id="L26">            }</span>
 
             override fun &lt;E : Throwable&gt; log(
                 level: LoggingLevel,
                 exception: E,
                 message: (E) -&gt; Any?,
             ) {
-<span class="pc bpc" id="L29" title="4 of 6 branches missed.">                when (level) {</span>
+<span class="pc bpc" id="L33" title="4 of 6 branches missed.">                when (level) {</span>
                     TRACE -&gt;
-<span class="nc bnc" id="L31" title="All 2 branches missed.">                        if (log.isTraceEnabled) log.trace(message(exception).toString(), exception)</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">                        if (log.isTraceEnabled) log.trace(message(exception).toString(), exception)</span>
                     DEBUG -&gt;
-<span class="nc bnc" id="L33" title="All 2 branches missed.">                        if (log.isDebugEnabled) log.debug(message(exception).toString(), exception)</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">                        if (log.isDebugEnabled) log.debug(message(exception).toString(), exception)</span>
                     INFO -&gt;
-<span class="nc bnc" id="L35" title="All 2 branches missed.">                        if (log.isInfoEnabled) log.info(message(exception).toString(), exception)</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                        if (log.isInfoEnabled) log.info(message(exception).toString(), exception)</span>
                     WARN -&gt;
-<span class="fc bfc" id="L37" title="All 2 branches covered.">                        if (log.isWarnEnabled) log.warn(message(exception).toString(), exception)</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">                        if (log.isWarnEnabled) log.warn(message(exception).toString(), exception)</span>
                     ERROR -&gt;
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">                        if (log.isErrorEnabled) log.error(message(exception).toString(), exception)</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">                        if (log.isErrorEnabled) log.error(message(exception).toString(), exception)</span>
                 }
-<span class="fc" id="L41">            }</span>
-<span class="fc" id="L42">        }</span>
+<span class="fc" id="L45">            }</span>
+<span class="fc" id="L46">        }</span>
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
-<span class="fc" id="L45">        JulLoggingAdapter.setLoggerLevel(name, level)</span>
-<span class="fc" id="L46">    }</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">        val loggerName = name.ifEmpty { Slf4jLogger.ROOT_LOGGER_NAME }</span>
+<span class="fc" id="L50">        JulLoggingAdapter.setLoggerLevel(loggerName, level)</span>
+<span class="fc" id="L51">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
