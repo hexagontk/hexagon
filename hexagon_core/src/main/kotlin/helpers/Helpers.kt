@@ -1,11 +1,11 @@
 package com.hexagonkt.helpers
 
-import java.net.ServerSocket
-import java.net.Socket
 import com.hexagonkt.logging.Logger
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import java.net.ServerSocket
+import java.net.Socket
 import java.util.concurrent.TimeUnit.SECONDS
 
 /** Default logger for when you feel too lazy to declare one. */
@@ -84,6 +84,8 @@ fun <T> retry(times: Int, delay: Long, block: () -> T): T {
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * TODO Assure JVM closes properly after process execution (dispose process resources, etc.)
  */
 fun List<String>.exec(
     workingDirectory: File = File(System.getProperty("user.dir")),
@@ -114,6 +116,7 @@ fun List<String>.exec(
 
 /**
  * TODO Add use case and example in documentation.
+ * TODO Support multiple words parameters by processing " and '
  *
  * Run the receiver's text as a process in the host operating system. The command can have multiple
  * lines and may or may not contain the shell continuation string (` \\n`).

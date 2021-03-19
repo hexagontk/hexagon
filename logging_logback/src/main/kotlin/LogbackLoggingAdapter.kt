@@ -2,7 +2,11 @@ package com.hexagonkt.logging
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
-import com.hexagonkt.logging.LoggingLevel.*
+import com.hexagonkt.logging.LoggingLevel.DEBUG
+import com.hexagonkt.logging.LoggingLevel.ERROR
+import com.hexagonkt.logging.LoggingLevel.INFO
+import com.hexagonkt.logging.LoggingLevel.TRACE
+import com.hexagonkt.logging.LoggingLevel.WARN
 import org.slf4j.LoggerFactory
 
 object LogbackLoggingAdapter : LoggingPort {
@@ -11,7 +15,8 @@ object LogbackLoggingAdapter : LoggingPort {
         Slf4jJulLoggingAdapter.createLogger(name)
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
-        (LoggerFactory.getLogger(name) as Logger).level = mapLevel(level)
+        val loggerName = name.ifEmpty { Logger.ROOT_LOGGER_NAME }
+        (LoggerFactory.getLogger(loggerName) as Logger).level = mapLevel(level)
     }
 
     private fun mapLevel(level: LoggingLevel): Level = when (level) {
