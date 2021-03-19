@@ -30,8 +30,8 @@
       <!--
       <exclusions>
         <exclusion>
-          <groupId>sample.ProjectB</groupId>
-          <artifactId>Project-B</artifactId>
+          <groupId>com.hexagonkt</groupId>
+          <artifactId>logging_slf4j_jul</artifactId>
         </exclusion>
       </exclusions>
       -->
