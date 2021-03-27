@@ -6,24 +6,13 @@ apply(plugin: "kotlin")
 apply(plugin: "maven-publish")
 apply(plugin: "org.jetbrains.dokka")
 
-dokka {
-    configuration {
-        reportUndocumented = false
-        includes = filesCollection(projectDir, "*.md")
-        samples = filesCollection(projectDir, "**/*SamplesTest.kt")
-        sourceRoot { path = "$projectDir/src/main/kotlin" }
-        sourceRoot { path = "$projectDir/src/test/kotlin" }
-    }
-}
-
-task("dokkaJar", type: Jar, dependsOn: "dokka") {
+task("dokkaJar", type: Jar, dependsOn: "dokkaHtml") {
     group = "distribution"
     description = "Create a jar file with the source code documentation in Javadoc format."
 
     archiveClassifier.set("javadoc")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    from(fileTree("$buildDir/dokka"))
-//    from(fileTree("$buildDir/dokka/html"))
+    from(fileTree("$buildDir/dokka/html"))
 }
 
 publishing {
@@ -34,28 +23,17 @@ publishing {
     }
 }
 
-private List<String> filesCollection(final Object dir, final String pattern) {
-    return fileTree(dir: dir, include: pattern).getFiles().toList().collect { it.absolutePath }
-}
+setUpDokka(dokkaHtml)
+setUpDokka(dokkaGfm)
+task("dokka", dependsOn: [ "dokkaHtml", "dokkaGfm" ])
 
-//dokkaHtml {
-//    dokkaSourceSets {
-//        configureEach {
-//            reportUndocumented.set(false)
-//            includes.from(fileTree(projectDir) { include("*.md") })
-//            samples.from(fileTree(projectDir) { include("**/*SamplesTest.kt") })
-//            sourceRoots.from(file("src/main/kotlin"), file("src/test/kotlin"))
-//        }
-//    }
-//}
-//
-//dokkaGfm {
-//    dokkaSourceSets {
-//        configureEach {
-//            reportUndocumented.set(false)
-//            includes.from(fileTree(projectDir) { include("*.md") })
-//            samples.from(fileTree(projectDir) { include("**/*SamplesTest.kt") })
-//            sourceRoots.from(file("src/main/kotlin"), file("src/test/kotlin"))
-//        }
-//    }
-//}
+private void setUpDokka(final Object dokkaTask) {
+    dokkaTask.dokkaSourceSets {
+        configureEach {
+            reportUndocumented.set(false)
+            includes.from(fileTree(projectDir) { include("*.md") })
+            samples.from(fileTree(projectDir) { include("**/*SamplesTest.kt") })
+            sourceRoots.from(file("src/main/kotlin"), file("src/test/kotlin"))
+        }
+    }
+}
