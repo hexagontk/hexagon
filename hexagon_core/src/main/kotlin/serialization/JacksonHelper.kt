@@ -3,22 +3,33 @@ package com.hexagonkt.serialization
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.core.JsonParser.Feature.*
+import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS
+import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_SINGLE_QUOTES
+import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES
 import com.fasterxml.jackson.core.JsonToken.START_OBJECT
 import com.fasterxml.jackson.core.Version
-import com.fasterxml.jackson.databind.*
-import com.fasterxml.jackson.databind.DeserializationFeature.*
+import com.fasterxml.jackson.databind.BeanProperty
+import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY
+import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES
+import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
+import com.fasterxml.jackson.databind.JavaType
+import com.fasterxml.jackson.databind.JsonDeserializer
+import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY
+import com.fasterxml.jackson.databind.MappingJsonFactory
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
+import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.afterburner.AfterburnerModule
+//import com.fasterxml.jackson.module.afterburner.AfterburnerModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.net.InetAddress
 import java.nio.ByteBuffer
-import java.util.*
+import java.util.Base64
 
 object JacksonHelper {
 
@@ -39,7 +50,7 @@ object JacksonHelper {
         .registerModule(KotlinModule())
         .registerModule(JavaTimeModule())
         .registerModule(Jdk8Module())
-        .registerModule(AfterburnerModule())
+//        .registerModule(AfterburnerModule()) // TODO Enable extra modules to be loaded by clients
         .registerModule(SimpleModule("SerializationModule", Version.unknownVersion())
             .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)
             .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)

@@ -33,7 +33,7 @@ a project from scratch following these steps:
 
 @code http_server_jetty/src/test/kotlin/HelloWorld.kt
 
-5. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
+5. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
 
 !!! Tip
     If you use Gradle, you can use the [Application Helper] and run the application watching for
@@ -81,7 +81,7 @@ To continue learning about this toolkit, you can:
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
 [Gradle]: https://gradle.org
 [Maven]: https://maven.apache.org
-[Endpoint]: http://localhost:2010/hello/world
+[Endpoint]: http://localhost:2010/hello
 [Developer Guide]: /developer_guide
 [Core]: /hexagon_core
 [HTTP Server]: /port_http_server

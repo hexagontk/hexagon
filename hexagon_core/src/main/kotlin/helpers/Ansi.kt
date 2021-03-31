@@ -1,5 +1,11 @@
 package com.hexagonkt.helpers
 
+/**
+ * Constants for console formatting with [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code)
+ * codes.
+ *
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ */
 object Ansi {
     const val RESET = "\u001B[0m"
 

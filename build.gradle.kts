@@ -11,7 +11,6 @@
  */
 
 import java.io.OutputStream
-import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     id("idea")
@@ -19,9 +18,8 @@ plugins {
 
     kotlin("jvm") version("1.4.31") apply(false)
 
-//    id("org.jetbrains.dokka") version("1.4.20") apply(false)
-    id("org.jetbrains.dokka") version("0.10.1") apply(false)
-    id("io.gitlab.arturbosch.detekt") version("1.15.0") apply(false)
+    id("org.jetbrains.dokka") version("1.4.30") apply(false)
+    id("io.gitlab.arturbosch.detekt") version("1.16.0") apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
@@ -71,26 +69,6 @@ task("release") {
         project.exec { commandLine = listOf("git", "push", "--tags") }
     }
 }
-
-// TODO Move `dokkaGfm` task to `gradle/dokka.gradle.kts`
-childProjects
-    .filter { (name, _) -> name !in listOf("hexagon_site", "hexagon_starters") }
-    .filter { (_, prj) -> prj.getTasksByName("dokkaGfm", false).isEmpty() }
-    .forEach { (_, prj) ->
-        prj.tasks.register<DokkaTask>("dokkaGfm") {
-            project("hexagon_site").tasks["mkdocs"].dependsOn(this)
-
-            outputFormat = "gfm"
-            outputDirectory = "${rootDir}/hexagon_site/content"
-
-            configuration {
-                reportUndocumented = false
-                includes = prj.pathsCollection(include = "*.md")
-                samples = prj.pathsCollection(include = "src/test/kotlin/**/*SamplesTest.kt")
-                sourceRoot { path = "${prj.projectDir}/src/main/kotlin" }
-            }
-        }
-    }
 
 tasks.register<Exec>("infrastructure") {
     group = "build"

@@ -135,13 +135,13 @@ fun main() {
 // hello
 ```
 
-4. Run the service and view the results at: [http://localhost:2010/hello/world][Endpoint]
+4. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
 
 [Gradle Starter]: https://github.com/hexagonkt/gradle_starter
 [Maven Starter]: https://github.com/hexagonkt/maven_starter
 [Setup Gradle]: https://kotlinlang.org/docs/reference/using-gradle.html
 [Setup Maven]: https://kotlinlang.org/docs/reference/using-maven.html
-[Endpoint]: http://localhost:2010/hello/world
+[Endpoint]: http://localhost:2010/hello
 
 ## Examples
 
@@ -452,7 +452,7 @@ Thanks to all project's [contributors]!
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
 [issues]: https://github.com/hexagonkt/hexagon/issues
 [reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
-[contributing]: contributing.md
+[contributing]: https://github.com/hexagonkt/hexagon/contribute
 [Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [Organization Board]: https://github.com/orgs/hexagonkt/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
