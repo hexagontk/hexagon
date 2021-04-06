@@ -7,12 +7,11 @@ on:
       - master
 
 jobs:
-  push:
-    name: Push
+  set-up:
+    name: Set up
     runs-on: ubuntu-latest
 
     steps:
-      # SET UP
       - name: Check Out
         uses: actions/checkout@v2
 
@@ -28,7 +27,12 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      # BUILD
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: set-up
+
+    steps:
       - name: Build Project
         run: ./gradlew --warn --console=plain build
 
