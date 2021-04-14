@@ -8,11 +8,8 @@ You can ask any question, make suggestions or complaints at the project's
 [Slack channel][Slack]. You can also be up to date of project's news following [@hexagon_kt] on
 Twitter.
 
-[Project Board]: https://github.com/hexagonkt/hexagon/projects/1
-[Organization Board]: https://github.com/orgs/hexagonkt/projects/1
 [Slack]: https://kotlinlang.slack.com/messages/hexagon
 [@hexagon_kt]: https://twitter.com/hexagon_kt
-[help wanted]: https://github.com/hexagonkt/hexagon/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 
 Contribution Steps
 ------------------
@@ -33,6 +30,9 @@ Contribution Steps
 7. Bug format: when filing bugs please comply with the [bug template] requirements.
 8. A feature requests should follow the [enhancement template] rules.
 
+[Project Board]: https://github.com/hexagonkt/hexagon/projects/1
+[Organization Board]: https://github.com/orgs/hexagonkt/projects/1
+[help wanted]: https://github.com/hexagonkt/hexagon/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
 [pull request template]: https://github.com/hexagonkt/hexagon/blob/master/.github/pull_request_template.md
 [IntelliJ]: https://www.jetbrains.com/idea
 [Editor Config]: https://editorconfig.org

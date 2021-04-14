@@ -1,6 +1,6 @@
 ---
 name: Question
-about: Question about the Hexagon Toolkit usage.
+about: Question about the project usage.
 labels: question
 ---
 
