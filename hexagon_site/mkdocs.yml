@@ -94,7 +94,7 @@ nav:
   - Community:
     - Help and Support: help.md
     - Planning: planning.md
-    - Contributing: contributing.md
+    - Contributing ↗: https://github.com/hexagonkt/hexagon/contribute
     - GitHub ↗: https://github.com/hexagonkt
     - Dev.to ↗: https://dev.to/hexagonkt
     - LibHunt ↗: https://kotlin.libhunt.com/hexagon-alternatives

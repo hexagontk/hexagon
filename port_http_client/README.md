@@ -1,6 +1,5 @@
 
-Module port_http_client
-=======================
+# Module port_http_client
 This port provides a common interface for using HTTP clients. Many adapters can be developed to use
 different technologies.
 
@@ -109,6 +108,5 @@ and client authenticated by the server). You can see a complete example below:
 
 @code port_http_server/src/test/kotlin/examples/HttpsTest.kt:https
 
-Package com.hexagonkt.http.client
-=================================
+# Package com.hexagonkt.http.client
 This package holds the classes that define the HTTP client and its configuration settings.

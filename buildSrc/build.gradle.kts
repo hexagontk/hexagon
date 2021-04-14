@@ -5,16 +5,12 @@ plugins {
     `kotlin-dsl`
 }
 
-extensions.configure<KotlinDslPluginOptions> {
-    experimentalWarning.set(false)
-}
-
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    val jacksonVersion = "2.12.1"
+    val jacksonVersion = "2.12.2"
     val junitVersion = "5.7.1"
 
     "implementation"("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")

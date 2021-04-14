@@ -12,7 +12,11 @@ import java.util.concurrent.TimeUnit.SECONDS
 val logger: Logger by lazy { Logger(Logger::class) }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Print receiver to stdout. Convenient utility to debug variables quickly.
+ *
+ * @receiver Reference to the object to print. Can be `null`.
+ * @param prefix String to print before the actual object information. Empty string by default.
+ * @return Receiver's reference. Returned to allow method call chaining.
  */
 fun <T> T.println(prefix: String = ""): T =
     apply { kotlin.io.println("$prefix$this") }

@@ -12,6 +12,16 @@
     </encoder>
   </appender>
 
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>log/%d{yyyy-MM-dd}.log</FileNamePattern>
+      <MaxHistory>5</MaxHistory>
+    </rollingPolicy>
+    <encoder>
+      <Pattern>${pattern}</Pattern>
+    </encoder>
+  </appender>
+
   <root level="off">
     <appender-ref ref="console" />
   </root>

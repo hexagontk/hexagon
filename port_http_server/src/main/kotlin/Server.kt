@@ -141,7 +141,7 @@ data class Server(
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
         val bootTime = "%01.3f".format(getRuntimeMXBean().uptime / 1e3)
-        val startUpTime = "%3.0f".format(startUpTimestamp / 1e6)
+        val startUpTime = "%,.0f".format(startUpTimestamp / 1e6)
         val bindAddress = settings.bindAddress
         val protocol = settings.protocol
         val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName

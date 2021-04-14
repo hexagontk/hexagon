@@ -52,11 +52,26 @@ task("checkDocs") {
 
 task("mkdocs") {
     dependsOn("jacocoRootReport")
-//    dependsOn(rootProject.getTasksByName("dokkaGfm", true))
+    dependsOn(rootProject.getTasksByName("dokkaGfm", true))
 
     doLast {
         val contentTarget = project.file("content").absolutePath
         val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
+
+        rootProject.subprojects
+            .filter { subproject -> subproject.file("build/dokka/gfm").exists() }
+            .forEach { subproject ->
+                val directory = subproject.file("build/dokka/gfm")
+                rootProject.copy {
+                    from(directory)
+                    include("index.md")
+                    into(contentTarget + "/" + subproject.name)
+                }
+                rootProject.copy {
+                    from(subproject.file("build/dokka/gfm/${subproject.name}"))
+                    into(contentTarget + "/" + subproject.name)
+                }
+            }
 
         copy {
             from(project.file("pages"))
@@ -72,13 +87,6 @@ task("mkdocs") {
                 into("$contentTarget/$it")
                 rename("(.*)", "${it}.md")
             }
-        }
-
-        // Copy contributing information
-        copy {
-            from(rootProject.projectDir)
-            include("contributing.md")
-            into(contentTarget)
         }
 
         markdownFiles.forEach { markdownFile ->
