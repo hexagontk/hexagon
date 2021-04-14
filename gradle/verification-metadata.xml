@@ -38,6 +38,7 @@
 
     <trusted-keys>
       <trusted-key id="cb43338e060cf9fa" group="org.jacoco"/>
+      <trusted-key id="1be2dd4b1fcf252fe4f0a1d103281aa0289ff53a" group="com.soywiz.korlibs.korte" name="korte-jvm" version="2.0.7"/>
       <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="org.jetbrains.dokka" name="dokka-gradle-plugin" version="1.4.30"/>
       <trusted-key id="8a10792983023d5d14c93b488d7f1bec1e2ecae7" group="com.fasterxml.woodstox" name="woodstox-core" version="6.2.4"/>
       <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>

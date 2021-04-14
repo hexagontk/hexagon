@@ -6,13 +6,13 @@ apply(plugin: "kotlin")
 apply(plugin: "maven-publish")
 apply(plugin: "org.jetbrains.dokka")
 
-task("dokkaJar", type: Jar, dependsOn: "dokkaHtml") {
+task("dokkaJar", type: Jar, dependsOn: "dokkaJavadoc") {
     group = "distribution"
     description = "Create a jar file with the source code documentation in Javadoc format."
 
     archiveClassifier.set("javadoc")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    from(fileTree("$buildDir/dokka/html"))
+    from(fileTree("$buildDir/dokka/javadoc"))
 }
 
 publishing {
@@ -23,9 +23,9 @@ publishing {
     }
 }
 
-setUpDokka(dokkaHtml)
+setUpDokka(dokkaJavadoc)
 setUpDokka(dokkaGfm)
-task("dokka", dependsOn: [ "dokkaHtml", "dokkaGfm" ])
+task("dokka", dependsOn: [ "dokkaJavadoc", "dokkaGfm" ])
 
 private void setUpDokka(final Object dokkaTask) {
     dokkaTask.dokkaSourceSets {
