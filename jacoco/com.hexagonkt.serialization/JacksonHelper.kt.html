@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.afterburner.AfterburnerModule
+//import com.fasterxml.jackson.module.afterburner.AfterburnerModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.net.InetAddress
 import java.nio.ByteBuffer
@@ -50,7 +50,7 @@ import java.util.Base64
 <span class="fc" id="L50">        .registerModule(KotlinModule())</span>
 <span class="fc" id="L51">        .registerModule(JavaTimeModule())</span>
 <span class="fc" id="L52">        .registerModule(Jdk8Module())</span>
-<span class="fc" id="L53">        .registerModule(AfterburnerModule())</span>
+//        .registerModule(AfterburnerModule()) // TODO Enable extra modules to be loaded by clients
 <span class="fc" id="L54">        .registerModule(SimpleModule(&quot;SerializationModule&quot;, Version.unknownVersion())</span>
 <span class="fc" id="L55">            .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)</span>
 <span class="fc" id="L56">            .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)</span>

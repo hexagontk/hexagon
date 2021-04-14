@@ -1,4 +1,29 @@
-$dokka.format:gfm
+$dokka.format:gfm-v1
 $dokka.linkExtension:md
-
+$dokka.location:com.hexagonkt.http.server.servlet////PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/index.md
+$dokka.location:com.hexagonkt.http.server.servlet/RequestTest///PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-request-test/index.md
+$dokka.location:com.hexagonkt.http.server.servlet/RequestTest/Request path is obtained based on servlet path/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-request-test/-request path is obtained based on servlet path.md
+$dokka.location:com.hexagonkt.http.server.servlet/RequestTest/Request path parameters are returned properly/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-request-test/-request path parameters are returned properly.md
+$dokka.location:com.hexagonkt.http.server.servlet/RequestTest/Request without action path returns empty path parameters/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-request-test/-request without action path returns empty path parameters.md
+$dokka.location:com.hexagonkt.http.server.servlet/RequestTest/RequestTest/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-request-test/-request-test.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter///PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/index.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter/ServletFilter/#kotlin.collections.List[com.hexagonkt.http.server.RequestHandler]#com.hexagonkt.http.server.ServerSettings/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/-servlet-filter.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter/destroy/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/destroy.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter/doFilter/#javax.servlet.ServletRequest#javax.servlet.ServletResponse#javax.servlet.FilterChain/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/do-filter.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter/init/#javax.servlet.FilterConfig/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/init.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer///PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/index.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer/ServletServer/#com.hexagonkt.http.server.Router#kotlin.Boolean/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/-servlet-server.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer/contextDestroyed/#javax.servlet.ServletContextEvent?/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/context-destroyed.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer/contextInitialized/#javax.servlet.ServletContextEvent/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/context-initialized.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer/createRouter/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/create-router.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServerTest.WebAppServer///PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server-test/-web-app-server/index.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServerTest.WebAppServer/WebAppServer/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server-test/-web-app-server/-web-app-server.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServerTest.WebAppServer/createRouter/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server-test/-web-app-server/create-router.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServerTest///PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server-test/index.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServerTest/Invalid types in filter calls raise an exception/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server-test/-invalid types in filter calls raise an exception.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServerTest/Run server/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server-test/-run server.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServerTest/Servlet server starts/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server-test/-servlet server starts.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServerTest/ServletServerTest/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server-test/-servlet-server-test.md
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServerTest/shutdown/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server-test/shutdown.md
 com.hexagonkt.http.server.servlet
+

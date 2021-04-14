@@ -1,4 +1,530 @@
-$dokka.format:gfm
+$dokka.format:gfm-v1
 $dokka.linkExtension:md
-
+$dokka.location:com.hexagonkt.http.server.examples////PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/index.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest.Book///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-book/index.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest.Book/Book/#kotlin.String#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-book/-book.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest.Book/author/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-book/author.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest.Book/title/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-book/title.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/Book not found returns a 404/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-book not found returns a 404.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/BooksTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-books-test.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/Create book returns 201 and new book ID/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-create book returns 201 and new book -i-d.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/Delete book returns the deleted record ID/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-delete book returns the deleted record -i-d.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/Get book returns all book's fields/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-get book returns all book's fields.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/Invalid method returns 405/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-invalid method returns 405.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/List books contains all books IDs/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-list books contains all books -i-ds.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/Update book overrides existing book data/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/-update book overrides existing book data.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/initialize.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/server/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/server.md
+$dokka.location:com.hexagonkt.http.server.examples/BooksTest/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-books-test/shutdown.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/CookiesTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/-cookies-test.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/Create cookie adds a new cookie to the request/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/-create cookie adds a new cookie to the request.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/Empty cookies assures there is no cookies/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/-empty cookies assures there is no cookies.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/Full cookie lifecycle/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/-full cookie lifecycle.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/Remove cookie deletes the given cookie/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/-remove cookie deletes the given cookie.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/Remove not available cookie does not fail/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/-remove not available cookie does not fail.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/clearCookies/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/clear-cookies.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/initialize.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/server/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/server.md
+$dokka.location:com.hexagonkt.http.server.examples/CookiesTest/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cookies-test/shutdown.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/Allowed origin is returned properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-allowed origin is returned properly.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/CORS full pre flight/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-c-o-r-s full pre flight.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/CORS pre flight with allowed headers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-c-o-r-s pre flight with allowed headers.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/CORS pre flight with empty request method/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-c-o-r-s pre flight with empty request method.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/CORS pre flight with not allowed headers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-c-o-r-s pre flight with not allowed headers.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/CORS pre flight with not allowed method/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-c-o-r-s pre flight with not allowed method.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/CORS pre flight without request method/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-c-o-r-s pre flight without request method.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/CORS pre flight/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-c-o-r-s pre flight.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/CorsTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-cors-test.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/Request with not allowed origin is forbidden/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-request with not allowed origin is forbidden.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/Request without origin continues as non CORS/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-request without origin continues as non -c-o-r-s.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/Simple CORS request with exposed headers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-simple -c-o-r-s request with exposed headers.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/Simple CORS request with not allowed method/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-simple -c-o-r-s request with not allowed method.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/Simple CORS request/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/-simple -c-o-r-s request.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/initialize.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/server/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/server.md
+$dokka.location:com.hexagonkt.http.server.examples/CorsTest/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-cors-test/shutdown.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest.CustomException///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/-custom-exception/index.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest.CustomException/CustomException/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/-custom-exception/-custom-exception.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest/A runtime exception returns a 500 code/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/-a runtime exception returns a 500 code.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest/Base error handler catch all exceptions that subclass a given one/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/-base error handler catch all exceptions that subclass a given one.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest/ErrorsTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/-errors-test.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest/Halt stops request with 500 status code/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/-halt stops request with 500 status code.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest/Handle exception allows to catch unhandled callback exceptions/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/-handle exception allows to catch unhandled callback exceptions.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest/Handling status code allows to change the returned code/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/-handling status code allows to change the returned code.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/initialize.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest/server/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/server.md
+$dokka.location:com.hexagonkt.http.server.examples/ErrorsTest/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-errors-test/shutdown.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/An static file from resources can be fetched/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/-an static file from resources can be fetched.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/Files content type is returned properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/-files content type is returned properly.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/Files mounted on a path are returned properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/-files mounted on a path are returned properly.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/FilesTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/-files-test.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/Not found resources return 404/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/-not found resources return 404.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/Parameters are separated from each other/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/-parameters are separated from each other.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/Requesting a folder with an existing file name returns 404/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/-requesting a folder with an existing file name returns 404.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/Sending files works properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/-sending files works properly.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/Sending multi part content works properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/-sending multi part content works properly.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/initialize.md
+$dokka.location:com.hexagonkt.http.server.examples/FilesTest/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-files-test/shutdown.md
+$dokka.location:com.hexagonkt.http.server.examples/FiltersTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-filters-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/FiltersTest/FiltersTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-filters-test/-filters-test.md
+$dokka.location:com.hexagonkt.http.server.examples/FiltersTest/HTTP request with valid credentials returns valid response/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-filters-test/-h-t-t-p request with valid credentials returns valid response.md
+$dokka.location:com.hexagonkt.http.server.examples/FiltersTest/Request with invalid password returns 403/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-filters-test/-request with invalid password returns 403.md
+$dokka.location:com.hexagonkt.http.server.examples/FiltersTest/Request with invalid user returns 403/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-filters-test/-request with invalid user returns 403.md
+$dokka.location:com.hexagonkt.http.server.examples/FiltersTest/Request without authorization returns 401/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-filters-test/-request without authorization returns 401.md
+$dokka.location:com.hexagonkt.http.server.examples/FiltersTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-filters-test/initialize.md
+$dokka.location:com.hexagonkt.http.server.examples/FiltersTest/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-filters-test/shutdown.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/Empty query string is handled properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/-empty query string is handled properly.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/GenericTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/-generic-test.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/HTTP methods are handled correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/-h-t-t-p methods are handled correctly.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/Query string with no value parameters is handled properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/-query string with no value parameters is handled properly.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/Request body is parsed properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/-request body is parsed properly.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/Request data is read properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/-request data is read properly.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/Response data is generated properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/-response data is generated properly.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/Root files content type is returned properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/-root files content type is returned properly.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/contentType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/content-type.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/echoParamWithMaj/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/echo-param-with-maj.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/echoParamWithUpperCaseInValue/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/echo-param-with-upper-case-in-value.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/getRoot/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/get-root.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/initialize.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/notFound/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/not-found.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/redirect/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/redirect.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/requestDataWithDifferentHeaders/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/request-data-with-different-headers.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/shutdown.md
+$dokka.location:com.hexagonkt.http.server.examples/GenericTest/twoRoutesWithDifferentCase/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-generic-test/two-routes-with-different-case.md
+$dokka.location:com.hexagonkt.http.server.examples/HttpsTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-https-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/HttpsTest/HttpsTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-https-test/-https-test.md
+$dokka.location:com.hexagonkt.http.server.examples/HttpsTest/Serve HTTP2 works properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-https-test/-serve -h-t-t-p2 works properly.md
+$dokka.location:com.hexagonkt.http.server.examples/HttpsTest/Serve HTTPS example/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-https-test/-serve -h-t-t-p-s example.md
+$dokka.location:com.hexagonkt.http.server.examples/HttpsTest/Serve HTTPS works properly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-https-test/-serve -h-t-t-p-s works properly.md
+$dokka.location:com.hexagonkt.http.server.examples/HttpsTest/Serve insecure HTTPS example/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-https-test/-serve insecure -h-t-t-p-s example.md
+$dokka.location:com.hexagonkt.http.server.examples/SessionTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-session-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/SessionTest/Attribute is added to session/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-session-test/-attribute is added to session.md
+$dokka.location:com.hexagonkt.http.server.examples/SessionTest/Session attribute lifecycle test/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-session-test/-session attribute lifecycle test.md
+$dokka.location:com.hexagonkt.http.server.examples/SessionTest/SessionTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-session-test/-session-test.md
+$dokka.location:com.hexagonkt.http.server.examples/SessionTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-session-test/initialize.md
+$dokka.location:com.hexagonkt.http.server.examples/SessionTest/server/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-session-test/server.md
+$dokka.location:com.hexagonkt.http.server.examples/SessionTest/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-session-test/shutdown.md
+$dokka.location:com.hexagonkt.http.server.examples/ZipTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-zip-test/index.md
+$dokka.location:com.hexagonkt.http.server.examples/ZipTest/Use ZIP encoding example/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-zip-test/-use -z-i-p encoding example.md
+$dokka.location:com.hexagonkt.http.server.examples/ZipTest/Use ZIP encoding without enabling the feature example/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-zip-test/-use -z-i-p encoding without enabling the feature example.md
+$dokka.location:com.hexagonkt.http.server.examples/ZipTest/ZipTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-zip-test/-zip-test.md
+$dokka.location:com.hexagonkt.http.server.test////PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/index.md
+$dokka.location:com.hexagonkt.http.server.test//testCall/#com.hexagonkt.http.server.test.TestRequest#com.hexagonkt.http.server.test.TestResponse#com.hexagonkt.http.server.test.TestSession/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/test-call.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/index.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/TestRequest/#com.hexagonkt.http.Method#kotlin.String#kotlin.String#kotlin.String#kotlin.Int#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.String]#kotlin.String#kotlin.String#kotlin.collections.Map[kotlin.String,com.hexagonkt.http.Part]#kotlin.collections.Map[kotlin.String,kotlin.collections.List[kotlin.String]]#kotlin.collections.Map[kotlin.String,kotlin.collections.List[kotlin.String]]#kotlin.collections.List[java.security.cert.X509Certificate]#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.collections.List[kotlin.String]]#kotlin.collections.Map[kotlin.String,com.hexagonkt.http.Cookie]#kotlin.String?#kotlin.Long/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/-test-request.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/body/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/body.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/certificateChain/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/certificate-chain.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/contentLength/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/content-length.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/contentType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/content-type.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/cookies/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/cookies.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/formParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/form-parameters.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/headers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/headers.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/host/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/host.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/ip/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/ip.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/loadBody/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/load-body.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/method/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/method.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/parts/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/parts.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/path/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/path.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/pathParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/path-parameters.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/port/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/port.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/queryParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/query-parameters.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/queryString/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/query-string.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/scheme/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/scheme.md
+$dokka.location:com.hexagonkt.http.server.test/TestRequest/url/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/url.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/index.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/TestResponse/#kotlin.collections.Map[kotlin.String,com.hexagonkt.http.Cookie]#kotlin.Any#kotlin.String?#kotlin.Int#java.io.OutputStream/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/-test-response.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/addCookie/#com.hexagonkt.http.Cookie/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/add-cookie.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/body/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/body.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/body/#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/body.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/contentType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/content-type.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/contentType/#kotlin.String?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/content-type.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/cookies/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/cookies.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/outputStream/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/output-stream.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/redirect/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/redirect.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/removeCookie/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/remove-cookie.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/status/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/status.md
+$dokka.location:com.hexagonkt.http.server.test/TestResponse/status/#kotlin.Int/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-response/status.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/index.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/TestSession/#kotlin.collections.Map[kotlin.String,kotlin.Any?]#kotlin.Long?#kotlin.String?#kotlin.Int?#kotlin.Long?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/-test-session.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/attributes/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/attributes.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/creationTime/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/creation-time.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/getAttribute/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/get-attribute.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/id/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/id.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/invalidate/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/invalidate.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/isNew/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/is-new.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/lastAccessedTime/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/last-accessed-time.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/maxInactiveInterval/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/max-inactive-interval.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/maxInactiveInterval/#kotlin.Int?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/max-inactive-interval.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/removeAttribute/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/remove-attribute.md
+$dokka.location:com.hexagonkt.http.server.test/TestSession/setAttribute/#kotlin.String#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-session/set-attribute.md
+$dokka.location:com.hexagonkt.http.server////PointingToDeclaration/port_http_server/com.hexagonkt.http.server/index.md
+$dokka.location:com.hexagonkt.http.server//serve/#com.hexagonkt.http.server.ServerSettings#com.hexagonkt.http.server.Router#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/serve.md
+$dokka.location:com.hexagonkt.http.server//serve/#com.hexagonkt.http.server.ServerSettings#com.hexagonkt.http.server.ServerPort#kotlin.Function1[com.hexagonkt.http.server.Router,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/serve.md
+$dokka.location:com.hexagonkt.http.server/Call///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/index.md
+$dokka.location:com.hexagonkt.http.server/Call/Call/#com.hexagonkt.http.server.Request#com.hexagonkt.http.server.Response#com.hexagonkt.http.server.Session/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/-call.md
+$dokka.location:com.hexagonkt.http.server/Call/attributes/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/attributes.md
+$dokka.location:com.hexagonkt.http.server/Call/formParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/form-parameters.md
+$dokka.location:com.hexagonkt.http.server/Call/formParametersValues/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/form-parameters-values.md
+$dokka.location:com.hexagonkt.http.server/Call/halt/#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/halt.md
+$dokka.location:com.hexagonkt.http.server/Call/halt/#kotlin.Int#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/halt.md
+$dokka.location:com.hexagonkt.http.server/Call/ok/#kotlin.Any#com.hexagonkt.serialization.SerializationFormat#java.nio.charset.Charset?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/ok.md
+$dokka.location:com.hexagonkt.http.server/Call/ok/#kotlin.Any#kotlin.String?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/ok.md
+$dokka.location:com.hexagonkt.http.server/Call/pathParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/path-parameters.md
+$dokka.location:com.hexagonkt.http.server/Call/queryParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/query-parameters.md
+$dokka.location:com.hexagonkt.http.server/Call/queryParametersValues/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/query-parameters-values.md
+$dokka.location:com.hexagonkt.http.server/Call/redirect/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/redirect.md
+$dokka.location:com.hexagonkt.http.server/Call/request/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/request.md
+$dokka.location:com.hexagonkt.http.server/Call/requestFormat/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/request-format.md
+$dokka.location:com.hexagonkt.http.server/Call/requestType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/request-type.md
+$dokka.location:com.hexagonkt.http.server/Call/response/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/response.md
+$dokka.location:com.hexagonkt.http.server/Call/responseFormat/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/response-format.md
+$dokka.location:com.hexagonkt.http.server/Call/responseType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/response-type.md
+$dokka.location:com.hexagonkt.http.server/Call/send/#kotlin.Int#kotlin.Any#com.hexagonkt.serialization.ContentType/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/send.md
+$dokka.location:com.hexagonkt.http.server/Call/send/#kotlin.Int#kotlin.Any#com.hexagonkt.serialization.SerializationFormat#java.nio.charset.Charset?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/send.md
+$dokka.location:com.hexagonkt.http.server/Call/send/#kotlin.Int#kotlin.Any#kotlin.String?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/send.md
+$dokka.location:com.hexagonkt.http.server/Call/session/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-call/session.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/index.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/CorsSettings/#kotlin.String#kotlin.collections.Set[com.hexagonkt.http.Method]#kotlin.collections.Set[kotlin.String]#kotlin.collections.Set[kotlin.String]#kotlin.Boolean#kotlin.Int#kotlin.Long/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/-cors-settings.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/CorsSettings/#kotlin.text.Regex#kotlin.collections.Set[com.hexagonkt.http.Method]#kotlin.collections.Set[kotlin.String]#kotlin.collections.Set[kotlin.String]#kotlin.Boolean#kotlin.Int#kotlin.Long/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/-cors-settings.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/accessControlAllowOrigin/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/access-control-allow-origin.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/allowOrigin/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/allow-origin.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/allowedHeaders/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/allowed-headers.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/allowedMethods/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/allowed-methods.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/allowedOrigin/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/allowed-origin.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/exposedHeaders/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/exposed-headers.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/preFlightMaxAge/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/pre-flight-max-age.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/preFlightStatus/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/pre-flight-status.md
+$dokka.location:com.hexagonkt.http.server/CorsSettings/supportCredentials/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-cors-settings/support-credentials.md
+$dokka.location:com.hexagonkt.http.server/FilterOrder.AFTER///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/-a-f-t-e-r/index.md
+$dokka.location:com.hexagonkt.http.server/FilterOrder.AFTER/name/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/-a-f-t-e-r/name.md
+$dokka.location:com.hexagonkt.http.server/FilterOrder.AFTER/ordinal/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/-a-f-t-e-r/ordinal.md
+$dokka.location:com.hexagonkt.http.server/FilterOrder.BEFORE///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/-b-e-f-o-r-e/index.md
+$dokka.location:com.hexagonkt.http.server/FilterOrder.BEFORE/name/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/-b-e-f-o-r-e/name.md
+$dokka.location:com.hexagonkt.http.server/FilterOrder.BEFORE/ordinal/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/-b-e-f-o-r-e/ordinal.md
+$dokka.location:com.hexagonkt.http.server/FilterOrder///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/index.md
+$dokka.location:com.hexagonkt.http.server/MockServer///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server/index.md
+$dokka.location:com.hexagonkt.http.server/MockServer/MockServer/#kotlin.String#kotlin.Int/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server/-mock-server.md
+$dokka.location:com.hexagonkt.http.server/MockServer/server/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server/server.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/index.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Basic HTTP Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-basic -h-t-t-p -authentication is verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Basic routes are created correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-basic routes are created correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Bearer HTTP Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-bearer -h-t-t-p -authentication is verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Body is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-body is verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Cookie API Key Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-cookie -a-p-i -key -authentication is verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Empty string is returned if no examples specified/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-empty string is returned if no examples specified.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Examples are fetched from media-type schema correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-examples are fetched from media-type schema correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Examples are fetched from mediatype correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-examples are fetched from mediatype correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Examples are fetched from multiple examples correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-examples are fetched from multiple examples correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/HTTP Authentication with unknown scheme throws error/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-h-t-t-p -authentication with unknown scheme throws error.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Header API Key Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-header -a-p-i -key -authentication is verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/If Authorization is optional, it is skipped/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-if -authorization is optional, it is skipped.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/MockServerRoutesTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-mock-server-routes-test.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Optional cookies are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-optional cookies are verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Optional header params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-optional header params are verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Optional query params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-optional query params are verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Path params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-path params are verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Paths not present in OpenAPI spec return 404/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-paths not present in -open-a-p-i spec return 404.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Query param API Key Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-query param -a-p-i -key -authentication is verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Required cookies are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-required cookies are verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Required header params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-required header params are verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Required query params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-required query params are verified correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Unknown location API Key Authentication throws error/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-unknown location -a-p-i -key -authentication throws error.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/When there are multiple security mechanisms, any one needs to be satisfied/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-when there are multiple security mechanisms, any one needs to be satisfied.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/When there are multiple security schemes, all of them need to be satisfied/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-when there are multiple security schemes, all of them need to be satisfied.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/X-Mock-Response-Example is fetched from multiple examples correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-x--mock--response--example is fetched from multiple examples correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/client/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/client.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/server/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/server.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/setUp/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/set-up.md
+$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/tearDown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/tear-down.md
+$dokka.location:com.hexagonkt.http.server/MockServerTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/index.md
+$dokka.location:com.hexagonkt.http.server/MockServerTest/Basic server is created correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/-basic server is created correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerTest/Incorrect OpenAPI spec causes error to be thrown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/-incorrect -open-a-p-i spec causes error to be thrown.md
+$dokka.location:com.hexagonkt.http.server/MockServerTest/MockServerTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/-mock-server-test.md
+$dokka.location:com.hexagonkt.http.server/MockServerTest/Server at specific port is created correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/-server at specific port is created correctly.md
+$dokka.location:com.hexagonkt.http.server/MockServerTest/setUp/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/set-up.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/index.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/PortHttpServerSamplesTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/-port-http-server-samples-test.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/adapter/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/adapter.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/callbacks/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/callbacks.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/errors/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/errors.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/files/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/files.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/filters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/filters.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/routeGroups/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/route-groups.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/routers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/routers.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/routesCreation/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/routes-creation.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/serverCreation/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/server-creation.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/test/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/test.md
+$dokka.location:com.hexagonkt.http.server/Request///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/index.md
+$dokka.location:com.hexagonkt.http.server/Request/Request/#com.hexagonkt.http.server.RequestPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/-request.md
+$dokka.location:com.hexagonkt.http.server/Request/accept/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/accept.md
+$dokka.location:com.hexagonkt.http.server/Request/acceptValues/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/accept-values.md
+$dokka.location:com.hexagonkt.http.server/Request/body/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/body.md
+$dokka.location:com.hexagonkt.http.server/Request/body/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/body.md
+$dokka.location:com.hexagonkt.http.server/Request/bodyObjects/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/body-objects.md
+$dokka.location:com.hexagonkt.http.server/Request/bodyObjects/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/body-objects.md
+$dokka.location:com.hexagonkt.http.server/Request/certificate/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/certificate.md
+$dokka.location:com.hexagonkt.http.server/Request/certificateChain/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/certificate-chain.md
+$dokka.location:com.hexagonkt.http.server/Request/contentLength/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/content-length.md
+$dokka.location:com.hexagonkt.http.server/Request/contentType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/content-type.md
+$dokka.location:com.hexagonkt.http.server/Request/cookies/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/cookies.md
+$dokka.location:com.hexagonkt.http.server/Request/formParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/form-parameters.md
+$dokka.location:com.hexagonkt.http.server/Request/formParametersValues/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/form-parameters-values.md
+$dokka.location:com.hexagonkt.http.server/Request/headers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/headers.md
+$dokka.location:com.hexagonkt.http.server/Request/headersValues/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/headers-values.md
+$dokka.location:com.hexagonkt.http.server/Request/host/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/host.md
+$dokka.location:com.hexagonkt.http.server/Request/ip/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/ip.md
+$dokka.location:com.hexagonkt.http.server/Request/method/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/method.md
+$dokka.location:com.hexagonkt.http.server/Request/origin/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/origin.md
+$dokka.location:com.hexagonkt.http.server/Request/parseAllParameters/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/parse-all-parameters.md
+$dokka.location:com.hexagonkt.http.server/Request/parts/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/parts.md
+$dokka.location:com.hexagonkt.http.server/Request/path/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/path.md
+$dokka.location:com.hexagonkt.http.server/Request/pathParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/path-parameters.md
+$dokka.location:com.hexagonkt.http.server/Request/port/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/port.md
+$dokka.location:com.hexagonkt.http.server/Request/preferredType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/preferred-type.md
+$dokka.location:com.hexagonkt.http.server/Request/queryParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/query-parameters.md
+$dokka.location:com.hexagonkt.http.server/Request/queryParametersValues/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/query-parameters-values.md
+$dokka.location:com.hexagonkt.http.server/Request/queryString/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/query-string.md
+$dokka.location:com.hexagonkt.http.server/Request/referer/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/referer.md
+$dokka.location:com.hexagonkt.http.server/Request/scheme/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/scheme.md
+$dokka.location:com.hexagonkt.http.server/Request/secure/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/secure.md
+$dokka.location:com.hexagonkt.http.server/Request/url/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/url.md
+$dokka.location:com.hexagonkt.http.server/Request/userAgent/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request/user-agent.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.CodeHandler///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-code-handler/index.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.CodeHandler/CodeHandler/#com.hexagonkt.http.Route#kotlin.Int#kotlin.Function2[com.hexagonkt.http.server.Call,com.hexagonkt.helpers.CodedException,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-code-handler/-code-handler.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.CodeHandler/callback/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-code-handler/callback.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.CodeHandler/code/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-code-handler/code.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.CodeHandler/route/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-code-handler/route.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.ExceptionHandler///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-exception-handler/index.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.ExceptionHandler/ExceptionHandler/#com.hexagonkt.http.Route#java.lang.Class[java.lang.Exception]#kotlin.Function2[com.hexagonkt.http.server.Call,java.lang.Exception,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-exception-handler/-exception-handler.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.ExceptionHandler/callback/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-exception-handler/callback.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.ExceptionHandler/exception/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-exception-handler/exception.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.ExceptionHandler/route/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-exception-handler/route.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.FileHandler///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-file-handler/index.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.FileHandler/FileHandler/#com.hexagonkt.http.Route#java.io.File/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-file-handler/-file-handler.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.FileHandler/file/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-file-handler/file.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.FileHandler/route/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-file-handler/route.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.FilterHandler///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-filter-handler/index.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.FilterHandler/FilterHandler/#com.hexagonkt.http.Route#com.hexagonkt.http.server.FilterOrder#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-filter-handler/-filter-handler.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.FilterHandler/callback/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-filter-handler/callback.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.FilterHandler/order/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-filter-handler/order.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.FilterHandler/route/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-filter-handler/route.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.PathHandler///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-path-handler/index.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.PathHandler/PathHandler/#com.hexagonkt.http.Route#com.hexagonkt.http.server.Router/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-path-handler/-path-handler.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.PathHandler/route/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-path-handler/route.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.PathHandler/router/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-path-handler/router.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.ResourceHandler///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-resource-handler/index.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.ResourceHandler/ResourceHandler/#com.hexagonkt.http.Route#java.net.URL/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-resource-handler/-resource-handler.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.ResourceHandler/resource/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-resource-handler/resource.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.ResourceHandler/route/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-resource-handler/route.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.RouteHandler///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-route-handler/index.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.RouteHandler/RouteHandler/#com.hexagonkt.http.Route#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-route-handler/-route-handler.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.RouteHandler/callback/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-route-handler/callback.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler.RouteHandler/route/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/-route-handler/route.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/index.md
+$dokka.location:com.hexagonkt.http.server/RequestHandler/route/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-handler/route.md
+$dokka.location:com.hexagonkt.http.server/RequestPort///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/index.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/certificateChain/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/certificate-chain.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/contentLength/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/content-length.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/contentType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/content-type.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/cookies/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/cookies.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/formParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/form-parameters.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/headers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/headers.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/host/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/host.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/ip/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/ip.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/loadBody/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/load-body.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/method/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/method.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/parts/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/parts.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/path/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/path.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/pathParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/path-parameters.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/port/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/port.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/queryParameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/query-parameters.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/queryString/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/query-string.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/scheme/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/scheme.md
+$dokka.location:com.hexagonkt.http.server/RequestPort/url/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/url.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/index.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto/MyCustomDto/#kotlin.String#kotlin.collections.List[kotlin.String]#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/-my-custom-dto.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto/formName/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/form-name.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto/teamId/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/team-id.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto/users/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/users.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/index.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2/MyCustomDto2/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/-my-custom-dto2.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2/formName/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/form-name.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2/teamId/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/team-id.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2/user/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/user.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/index.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/MyRequestDto/#kotlin.String#kotlin.String#kotlin.String#kotlin.collections.List[kotlin.String]#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/-my-request-dto.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/action/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/action.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/authKey/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/auth-key.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/formId/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/form-id.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/formName/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/form-name.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/formType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/form-type.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/teamId/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/team-id.md
+$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/users/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/users.md
+$dokka.location:com.hexagonkt.http.server/RequestTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/index.md
+$dokka.location:com.hexagonkt.http.server/RequestTest/RequestTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-request-test.md
+$dokka.location:com.hexagonkt.http.server/RequestTest/parse path field and query parameters to given type/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/parse path field and query parameters to given type.md
+$dokka.location:com.hexagonkt.http.server/RequestTest/should fail gracefully by returning null object in case of deserialization failure/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/should fail gracefully by returning null object in case of deserialization failure.md
+$dokka.location:com.hexagonkt.http.server/RequestTest/should honor the validations and fail gracefully by returning null object/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/should honor the validations and fail gracefully by returning null object.md
+$dokka.location:com.hexagonkt.http.server/RequestTest/should map the value as is if there is only value/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/should map the value as is if there is only value.md
+$dokka.location:com.hexagonkt.http.server/RequestTest/test parsing of multiple path params query params and form fields/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/test parsing of multiple path params query params and form fields.md
+$dokka.location:com.hexagonkt.http.server/Response.MapInterface///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/-map-interface/index.md
+$dokka.location:com.hexagonkt.http.server/Response.MapInterface/get/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/-map-interface/get.md
+$dokka.location:com.hexagonkt.http.server/Response.MapInterface/remove/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/-map-interface/remove.md
+$dokka.location:com.hexagonkt.http.server/Response.MapInterface/set/#TypeParam(bounds=[kotlin.Any?])#TypeParam(bounds=[kotlin.Any?])?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/-map-interface/set.md
+$dokka.location:com.hexagonkt.http.server/Response///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/index.md
+$dokka.location:com.hexagonkt.http.server/Response/Response/#com.hexagonkt.http.server.ResponsePort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/-response.md
+$dokka.location:com.hexagonkt.http.server/Response/adapter/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/adapter.md
+$dokka.location:com.hexagonkt.http.server/Response/addCookie/#com.hexagonkt.http.Cookie/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/add-cookie.md
+$dokka.location:com.hexagonkt.http.server/Response/body/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/body.md
+$dokka.location:com.hexagonkt.http.server/Response/contentType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/content-type.md
+$dokka.location:com.hexagonkt.http.server/Response/headers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/headers.md
+$dokka.location:com.hexagonkt.http.server/Response/headersValues/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/headers-values.md
+$dokka.location:com.hexagonkt.http.server/Response/outputStream/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/output-stream.md
+$dokka.location:com.hexagonkt.http.server/Response/redirect/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/redirect.md
+$dokka.location:com.hexagonkt.http.server/Response/removeCookie/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/remove-cookie.md
+$dokka.location:com.hexagonkt.http.server/Response/status/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/status.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/index.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/addCookie/#com.hexagonkt.http.Cookie/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/add-cookie.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/body/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/body.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/body/#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/body.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/contentType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/content-type.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/contentType/#kotlin.String?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/content-type.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/outputStream/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/output-stream.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/redirect/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/redirect.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/removeCookie/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/remove-cookie.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/status/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/status.md
+$dokka.location:com.hexagonkt.http.server/ResponsePort/status/#kotlin.Int/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response-port/status.md
+$dokka.location:com.hexagonkt.http.server/Router///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/index.md
+$dokka.location:com.hexagonkt.http.server/Router/Router/#kotlin.Function1[com.hexagonkt.http.server.Router,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/-router.md
+$dokka.location:com.hexagonkt.http.server/Router/after/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/after.md
+$dokka.location:com.hexagonkt.http.server/Router/any/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/any.md
+$dokka.location:com.hexagonkt.http.server/Router/before/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/before.md
+$dokka.location:com.hexagonkt.http.server/Router/cors/#com.hexagonkt.http.server.CorsSettings/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/cors.md
+$dokka.location:com.hexagonkt.http.server/Router/delete/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/delete.md
+$dokka.location:com.hexagonkt.http.server/Router/error/#java.lang.Class[java.lang.Exception]#kotlin.Function2[com.hexagonkt.http.server.Call,java.lang.Exception,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/error.md
+$dokka.location:com.hexagonkt.http.server/Router/error/#kotlin.Int#kotlin.Function2[com.hexagonkt.http.server.Call,com.hexagonkt.helpers.CodedException,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/error.md
+$dokka.location:com.hexagonkt.http.server/Router/error/#kotlin.reflect.KClass[java.lang.Exception]#kotlin.Function2[com.hexagonkt.http.server.Call,java.lang.Exception,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/error.md
+$dokka.location:com.hexagonkt.http.server/Router/flatRequestHandlers/#kotlin.collections.List[com.hexagonkt.http.server.RequestHandler]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/flat-request-handlers.md
+$dokka.location:com.hexagonkt.http.server/Router/get/#java.io.File/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/get.md
+$dokka.location:com.hexagonkt.http.server/Router/get/#java.net.URL/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/get.md
+$dokka.location:com.hexagonkt.http.server/Router/get/#kotlin.String#java.io.File/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/get.md
+$dokka.location:com.hexagonkt.http.server/Router/get/#kotlin.String#java.net.URL/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/get.md
+$dokka.location:com.hexagonkt.http.server/Router/get/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/get.md
+$dokka.location:com.hexagonkt.http.server/Router/head/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/head.md
+$dokka.location:com.hexagonkt.http.server/Router/options/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/options.md
+$dokka.location:com.hexagonkt.http.server/Router/patch/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/patch.md
+$dokka.location:com.hexagonkt.http.server/Router/path/#com.hexagonkt.http.Path#com.hexagonkt.http.server.Router/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/path.md
+$dokka.location:com.hexagonkt.http.server/Router/path/#com.hexagonkt.http.server.Router/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/path.md
+$dokka.location:com.hexagonkt.http.server/Router/path/#kotlin.Function1[com.hexagonkt.http.server.Router,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/path.md
+$dokka.location:com.hexagonkt.http.server/Router/path/#kotlin.String#com.hexagonkt.http.server.Router/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/path.md
+$dokka.location:com.hexagonkt.http.server/Router/path/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Router,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/path.md
+$dokka.location:com.hexagonkt.http.server/Router/post/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/post.md
+$dokka.location:com.hexagonkt.http.server/Router/put/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/put.md
+$dokka.location:com.hexagonkt.http.server/Router/requestHandlers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/request-handlers.md
+$dokka.location:com.hexagonkt.http.server/Router/trace/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/trace.md
+$dokka.location:com.hexagonkt.http.server/RouterTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router-test/index.md
+$dokka.location:com.hexagonkt.http.server/RouterTest/Nested routes are flattened properly inside by Router/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router-test/-nested routes are flattened properly inside by -router.md
+$dokka.location:com.hexagonkt.http.server/RouterTest/RouterTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router-test/-router-test.md
+$dokka.location:com.hexagonkt.http.server/RouterTest/Routes are stored in server's router/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router-test/-routes are stored in server's router.md
+$dokka.location:com.hexagonkt.http.server/Server.Companion///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/-companion/index.md
+$dokka.location:com.hexagonkt.http.server/Server.Companion/banner/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/-companion/banner.md
+$dokka.location:com.hexagonkt.http.server/Server///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/index.md
+$dokka.location:com.hexagonkt.http.server/Server/Server/#com.hexagonkt.http.server.ServerPort#com.hexagonkt.http.server.Router#com.hexagonkt.http.server.ServerSettings/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/-server.md
+$dokka.location:com.hexagonkt.http.server/Server/Server/#com.hexagonkt.http.server.ServerPort#com.hexagonkt.http.server.ServerSettings#kotlin.Function1[com.hexagonkt.http.server.Router,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/-server.md
+$dokka.location:com.hexagonkt.http.server/Server/contextRouter/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/context-router.md
+$dokka.location:com.hexagonkt.http.server/Server/portName/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/port-name.md
+$dokka.location:com.hexagonkt.http.server/Server/runtimePort/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/runtime-port.md
+$dokka.location:com.hexagonkt.http.server/Server/settings/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/settings.md
+$dokka.location:com.hexagonkt.http.server/Server/start/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/start.md
+$dokka.location:com.hexagonkt.http.server/Server/started/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/started.md
+$dokka.location:com.hexagonkt.http.server/Server/stop/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/stop.md
+$dokka.location:com.hexagonkt.http.server/ServerFeature.SESSIONS///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-feature/-s-e-s-s-i-o-n-s/index.md
+$dokka.location:com.hexagonkt.http.server/ServerFeature.SESSIONS/name/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-feature/-s-e-s-s-i-o-n-s/name.md
+$dokka.location:com.hexagonkt.http.server/ServerFeature.SESSIONS/ordinal/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-feature/-s-e-s-s-i-o-n-s/ordinal.md
+$dokka.location:com.hexagonkt.http.server/ServerFeature.ZIP///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-feature/-z-i-p/index.md
+$dokka.location:com.hexagonkt.http.server/ServerFeature.ZIP/name/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-feature/-z-i-p/name.md
+$dokka.location:com.hexagonkt.http.server/ServerFeature.ZIP/ordinal/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-feature/-z-i-p/ordinal.md
+$dokka.location:com.hexagonkt.http.server/ServerFeature///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-feature/index.md
+$dokka.location:com.hexagonkt.http.server/ServerPort///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-port/index.md
+$dokka.location:com.hexagonkt.http.server/ServerPort/runtimePort/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-port/runtime-port.md
+$dokka.location:com.hexagonkt.http.server/ServerPort/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-port/shutdown.md
+$dokka.location:com.hexagonkt.http.server/ServerPort/started/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-port/started.md
+$dokka.location:com.hexagonkt.http.server/ServerPort/startup/#com.hexagonkt.http.server.Server/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-port/startup.md
+$dokka.location:com.hexagonkt.http.server/ServerPort/supportedFeatures/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-port/supported-features.md
+$dokka.location:com.hexagonkt.http.server/ServerPort/supportedOptions/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-port/supported-options.md
+$dokka.location:com.hexagonkt.http.server/ServerPort/supportedProtocols/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-port/supported-protocols.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/index.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings/ServerSettings/#java.net.InetAddress#kotlin.Int#kotlin.String#com.hexagonkt.http.Protocol#com.hexagonkt.http.SslSettings?#kotlin.String?#kotlin.collections.Set[com.hexagonkt.http.server.ServerFeature]#kotlin.collections.Map[kotlin.String,kotlin.Any]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/-server-settings.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings/banner/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/banner.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings/bindAddress/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/bind-address.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings/bindPort/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/bind-port.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings/contextPath/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/context-path.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings/features/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/features.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings/options/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/options.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings/protocol/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/protocol.md
+$dokka.location:com.hexagonkt.http.server/ServerSettings/sslSettings/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/ssl-settings.md
+$dokka.location:com.hexagonkt.http.server/ServerSettingsTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/index.md
+$dokka.location:com.hexagonkt.http.server/ServerSettingsTest/Server settings loads the proper defaults/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/-server settings loads the proper defaults.md
+$dokka.location:com.hexagonkt.http.server/ServerSettingsTest/ServerSettingsTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/-server-settings-test.md
+$dokka.location:com.hexagonkt.http.server/ServerTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/index.md
+$dokka.location:com.hexagonkt.http.server/ServerTest/Default banner includes documentation URL/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-default banner includes documentation -u-r-l.md
+$dokka.location:com.hexagonkt.http.server/ServerTest/Default parameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-default parameters.md
+$dokka.location:com.hexagonkt.http.server/ServerTest/Injected parameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-injected parameters.md
+$dokka.location:com.hexagonkt.http.server/ServerTest/Runtime port/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-runtime port.md
+$dokka.location:com.hexagonkt.http.server/ServerTest/ServerTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-server-test.md
+$dokka.location:com.hexagonkt.http.server/Session///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/index.md
+$dokka.location:com.hexagonkt.http.server/Session/Session/#com.hexagonkt.http.server.SessionPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/-session.md
+$dokka.location:com.hexagonkt.http.server/Session/adapter/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/adapter.md
+$dokka.location:com.hexagonkt.http.server/Session/attributes/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/attributes.md
+$dokka.location:com.hexagonkt.http.server/Session/creationTime/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/creation-time.md
+$dokka.location:com.hexagonkt.http.server/Session/get/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/get.md
+$dokka.location:com.hexagonkt.http.server/Session/id/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/id.md
+$dokka.location:com.hexagonkt.http.server/Session/invalidate/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/invalidate.md
+$dokka.location:com.hexagonkt.http.server/Session/isNew/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/is-new.md
+$dokka.location:com.hexagonkt.http.server/Session/lastAccessedTime/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/last-accessed-time.md
+$dokka.location:com.hexagonkt.http.server/Session/maxInactiveInterval/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/max-inactive-interval.md
+$dokka.location:com.hexagonkt.http.server/Session/remove/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/remove.md
+$dokka.location:com.hexagonkt.http.server/Session/removeAttribute/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/remove-attribute.md
+$dokka.location:com.hexagonkt.http.server/Session/set/#kotlin.String#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/set.md
+$dokka.location:com.hexagonkt.http.server/SessionPort///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/index.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/attributes/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/attributes.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/creationTime/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/creation-time.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/getAttribute/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/get-attribute.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/id/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/id.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/invalidate/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/invalidate.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/isNew/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/is-new.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/lastAccessedTime/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/last-accessed-time.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/maxInactiveInterval/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/max-inactive-interval.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/maxInactiveInterval/#kotlin.Int?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/max-inactive-interval.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/removeAttribute/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/remove-attribute.md
+$dokka.location:com.hexagonkt.http.server/SessionPort/setAttribute/#kotlin.String#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session-port/set-attribute.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/index.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/attributes/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/attributes.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/creationTime/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/creation-time.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/getAttribute/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/get-attribute.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/id/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/id.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/invalidate/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/invalidate.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/isNew/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/is-new.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/lastAccessedTime/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/last-accessed-time.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/maxInactiveInterval/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/max-inactive-interval.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/maxInactiveInterval/#kotlin.Int?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/max-inactive-interval.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/removeAttribute/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/remove-attribute.md
+$dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/setAttribute/#kotlin.String#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/set-attribute.md
+$dokka.location:com.hexagonkt.http.server/VoidAdapter///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/index.md
+$dokka.location:com.hexagonkt.http.server/VoidAdapter/runtimePort/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/runtime-port.md
+$dokka.location:com.hexagonkt.http.server/VoidAdapter/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/shutdown.md
+$dokka.location:com.hexagonkt.http.server/VoidAdapter/started/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/started.md
+$dokka.location:com.hexagonkt.http.server/VoidAdapter/startup/#com.hexagonkt.http.server.Server/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/startup.md
+$dokka.location:com.hexagonkt.http.server/VoidAdapter/supportedFeatures/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/supported-features.md
+$dokka.location:com.hexagonkt.http.server/VoidAdapter/supportedOptions/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/supported-options.md
+$dokka.location:com.hexagonkt.http.server/VoidAdapter/supportedProtocols/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/supported-protocols.md
 com.hexagonkt.http.server
+com.hexagonkt.http.server.examples
+com.hexagonkt.http.server.test
+

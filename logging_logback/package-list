@@ -1,4 +1,8 @@
-$dokka.format:gfm
+$dokka.format:gfm-v1
 $dokka.linkExtension:md
-
+$dokka.location:com.hexagonkt.logging////PointingToDeclaration/logging_logback/com.hexagonkt.logging/index.md
+$dokka.location:com.hexagonkt.logging/LogbackLoggingAdapter///PointingToDeclaration/logging_logback/com.hexagonkt.logging/-logback-logging-adapter/index.md
+$dokka.location:com.hexagonkt.logging/LogbackLoggingAdapter/createLogger/#kotlin.String/PointingToDeclaration/logging_logback/com.hexagonkt.logging/-logback-logging-adapter/create-logger.md
+$dokka.location:com.hexagonkt.logging/LogbackLoggingAdapter/setLoggerLevel/#kotlin.String#com.hexagonkt.logging.LoggingLevel/PointingToDeclaration/logging_logback/com.hexagonkt.logging/-logback-logging-adapter/set-logger-level.md
 com.hexagonkt.logging
+

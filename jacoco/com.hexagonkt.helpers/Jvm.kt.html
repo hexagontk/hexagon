@@ -13,11 +13,11 @@ import java.util.TimeZone
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
 <span class="fc" id="L15">object Jvm {</span>
-    /** Default character set. */
-<span class="fc" id="L17">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
+    /** Default timezone. TODO Defining this lazily fails in macOS */
+<span class="fc" id="L17">    val timeZone: TimeZone = TimeZone.getDefault()</span>
 
-    /** Default timezone. */
-<span class="fc" id="L20">    val timeZone: TimeZone by lazy { TimeZone.getDefault() }</span>
+    /** Default character set. */
+<span class="fc" id="L20">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
 
     /** The hostname of the machine running this program. */
 <span class="fc" id="L23">    val hostname: String by lazy { InetAddress.getLocalHost().hostName }</span>

@@ -1,4 +1,38 @@
-$dokka.format:gfm
+$dokka.format:gfm-v1
 $dokka.linkExtension:md
-
+$dokka.location:com.hexagonkt.serialization////PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/index.md
+$dokka.location:com.hexagonkt.serialization/Yaml///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml/index.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Device///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/index.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Device/Device/#kotlin.String#kotlin.String#kotlin.String#com.hexagonkt.serialization.YamlTest.DeviceOs#kotlin.String#kotlin.String/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/-device.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Device/alias/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/alias.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Device/brand/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/brand.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Device/id/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/id.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Device/model/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/model.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Device/os/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/os.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Device/osVersion/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/os-version.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.DeviceOs.ANDROID///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device-os/-a-n-d-r-o-i-d/index.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.DeviceOs.ANDROID/name/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device-os/-a-n-d-r-o-i-d/name.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.DeviceOs.ANDROID/ordinal/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device-os/-a-n-d-r-o-i-d/ordinal.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.DeviceOs.IOS///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device-os/-i-o-s/index.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.DeviceOs.IOS/name/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device-os/-i-o-s/name.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.DeviceOs.IOS/ordinal/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device-os/-i-o-s/ordinal.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.DeviceOs///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device-os/index.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Player///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-player/index.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Player/Player/#kotlin.String#kotlin.Int#kotlin.ranges.ClosedRange[kotlin.Int]/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-player/-player.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Player/category/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-player/category.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Player/name/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-player/name.md
+$dokka.location:com.hexagonkt.serialization/YamlTest.Player/number/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-player/number.md
+$dokka.location:com.hexagonkt.serialization/YamlTest///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/index.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/Invalid format exceptions field is 'null'/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-invalid format exceptions field is 'null'.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/Parse an invalid class throws exception/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-parse an invalid class throws exception.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/Parse exceptions contains failed field/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-parse exceptions contains failed field.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/Parse invalid YAML range end/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-parse invalid -y-a-m-l range end.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/Parse invalid YAML range start/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-parse invalid -y-a-m-l range start.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/Parse invalid YAML range/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-parse invalid -y-a-m-l range.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/Parse valid YAML/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-parse valid -y-a-m-l.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/Serialize by content type/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-serialize by content type.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/YAML is serialized properly/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-y-a-m-l is serialized properly.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/YamlTest/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-yaml-test.md
+$dokka.location:com.hexagonkt.serialization/YamlTest/setUpSerializationManager/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/set-up-serialization-manager.md
 com.hexagonkt.serialization
+

@@ -7,21 +7,12 @@
     --md-primary-bg-color--light: hsla(0, 0%, 100%, 0.7);
 }
 
-[data-md-color-accent=indigo] {
-    --md-accent-fg-color: hsla(231, 99%, 66%, 1);
-    --md-accent-fg-color--transparent: hsla(231, 99%, 66%, 0.1);
-    --md-accent-bg-color: hsla(0, 0%, 100%, 1);
-    --md-accent-bg-color--light: hsla(0, 0%, 100%, 0.7);
-}
-
 article p a, article li a {
   text-decoration: underline;
 }
 
-.md-header-nav__topic {
-  font-weight: bold;
-  font-size: 1rem;
-  margin-left: -1rem;
+.md-header__title {
+  margin-left: 0;
 }
 
 [data-md-color-primary=indigo] .md-hero {

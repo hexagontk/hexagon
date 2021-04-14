@@ -7,27 +7,28 @@ import java.net.URLStreamHandler
 
 <span class="fc" id="L8">object ClasspathHandler : URLStreamHandler() {</span>
 
-<span class="fc" id="L10">    private val logger: Logger = Logger(this::class)</span>
-<span class="fc" id="L11">    private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader</span>
-<span class="fc" id="L12">    private val protocolHandlers: Map&lt;String, URLStreamHandler&gt; = mapOf(&quot;classpath&quot; to this)</span>
+    // Logger needs to be lazy due to GraalVM native image generation constraints
+<span class="fc" id="L11">    private val logger: Logger by lazy { Logger(this::class) }</span>
+<span class="fc" id="L12">    private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader</span>
+<span class="fc" id="L13">    private val protocolHandlers: Map&lt;String, URLStreamHandler&gt; = mapOf(&quot;classpath&quot; to this)</span>
 
     override fun openConnection(url: URL): URLConnection =
-<span class="pc bpc" id="L15" title="1 of 4 branches missed.">        classLoader.getResource(url.path)?.openConnection()</span>
-<span class="fc" id="L16">            ?: throw ResourceNotFoundException(&quot;$url cannot be open&quot;)</span>
+<span class="pc bpc" id="L16" title="1 of 4 branches missed.">        classLoader.getResource(url.path)?.openConnection()</span>
+<span class="fc" id="L17">            ?: throw ResourceNotFoundException(&quot;$url cannot be open&quot;)</span>
 
     fun registerHandler() {
-<span class="fc" id="L19">        try {</span>
-<span class="fc" id="L20">            URL.setURLStreamHandlerFactory {</span>
-<span class="fc" id="L21">                createURLStreamHandler(it)</span>
+<span class="fc" id="L20">        try {</span>
+<span class="fc" id="L21">            URL.setURLStreamHandlerFactory {</span>
+<span class="fc" id="L22">                createURLStreamHandler(it)</span>
             }
         }
-<span class="fc" id="L24">        catch (e: Error) {</span>
-<span class="fc" id="L25">            logger.debug { &quot;Classpath URL handler already registered&quot; }</span>
+<span class="fc" id="L25">        catch (e: Error) {</span>
+<span class="fc" id="L26">            logger.debug { &quot;Classpath URL handler already registered&quot; }</span>
         }
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L28">    }</span>
 
     fun createURLStreamHandler(protocol: String): URLStreamHandler? {
-<span class="fc" id="L30">        return protocolHandlers[protocol]</span>
+<span class="fc" id="L31">        return protocolHandlers[protocol]</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

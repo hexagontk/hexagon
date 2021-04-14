@@ -1,4 +1,18 @@
-$dokka.format:gfm
+$dokka.format:gfm-v1
 $dokka.linkExtension:md
-
+$dokka.location:com.hexagonkt.messaging////PointingToDeclaration/port_messaging/com.hexagonkt.messaging/index.md
+$dokka.location:com.hexagonkt.messaging/Message///PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-message/index.md
+$dokka.location:com.hexagonkt.messaging/Message/Message/#kotlin.Long#kotlin.Long#kotlin.String#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-message/-message.md
+$dokka.location:com.hexagonkt.messaging/Message/dateTime/#/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-message/date-time.md
+$dokka.location:com.hexagonkt.messaging/Message/hostname/#/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-message/hostname.md
+$dokka.location:com.hexagonkt.messaging/Message/ip/#/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-message/ip.md
+$dokka.location:com.hexagonkt.messaging/Message/jvmId/#/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-message/jvm-id.md
+$dokka.location:com.hexagonkt.messaging/Message/thread/#/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-message/thread.md
+$dokka.location:com.hexagonkt.messaging/Message/timestamp/#/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-message/timestamp.md
+$dokka.location:com.hexagonkt.messaging/MessagingPort///PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-messaging-port/index.md
+$dokka.location:com.hexagonkt.messaging/MessagingPort/consume/#kotlin.reflect.KClass[TypeParam(bounds=[com.hexagonkt.messaging.Message])]#kotlin.Function1[TypeParam(bounds=[com.hexagonkt.messaging.Message]),kotlin.Unit]/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-messaging-port/consume.md
+$dokka.location:com.hexagonkt.messaging/MessagingPort/consume/#kotlin.reflect.KClass[TypeParam(bounds=[com.hexagonkt.messaging.Message])]#kotlin.String#kotlin.Function1[TypeParam(bounds=[com.hexagonkt.messaging.Message]),kotlin.Unit]/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-messaging-port/consume.md
+$dokka.location:com.hexagonkt.messaging/MessagingPort/publish/#com.hexagonkt.messaging.Message#kotlin.String/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-messaging-port/publish.md
+$dokka.location:com.hexagonkt.messaging/MessagingPort/publish/#com.hexagonkt.messaging.Message/PointingToDeclaration/port_messaging/com.hexagonkt.messaging/-messaging-port/publish.md
 com.hexagonkt.messaging
+

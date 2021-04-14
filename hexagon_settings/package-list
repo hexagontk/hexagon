@@ -1,4 +1,47 @@
-$dokka.format:gfm
+$dokka.format:gfm-v1
 $dokka.linkExtension:md
-
+$dokka.location:com.hexagonkt.settings////PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/index.md
+$dokka.location:com.hexagonkt.settings/CommandLineArgumentsSource///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-command-line-arguments-source/index.md
+$dokka.location:com.hexagonkt.settings/CommandLineArgumentsSource/CommandLineArgumentsSource/#kotlin.Array[kotlin.String]/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-command-line-arguments-source/-command-line-arguments-source.md
+$dokka.location:com.hexagonkt.settings/CommandLineArgumentsSource/CommandLineArgumentsSource/#kotlin.collections.List[kotlin.String]/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-command-line-arguments-source/-command-line-arguments-source.md
+$dokka.location:com.hexagonkt.settings/CommandLineArgumentsSource/load/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-command-line-arguments-source/load.md
+$dokka.location:com.hexagonkt.settings/CommandLineArgumentsSource/toString/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-command-line-arguments-source/to-string.md
+$dokka.location:com.hexagonkt.settings/EnvironmentVariablesSource///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-environment-variables-source/index.md
+$dokka.location:com.hexagonkt.settings/EnvironmentVariablesSource/EnvironmentVariablesSource/#kotlin.String/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-environment-variables-source/-environment-variables-source.md
+$dokka.location:com.hexagonkt.settings/EnvironmentVariablesSource/load/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-environment-variables-source/load.md
+$dokka.location:com.hexagonkt.settings/EnvironmentVariablesSource/toString/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-environment-variables-source/to-string.md
+$dokka.location:com.hexagonkt.settings/HexagonSettingsSamplesTest///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-hexagon-settings-samples-test/index.md
+$dokka.location:com.hexagonkt.settings/HexagonSettingsSamplesTest/HexagonSettingsSamplesTest/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-hexagon-settings-samples-test/-hexagon-settings-samples-test.md
+$dokka.location:com.hexagonkt.settings/HexagonSettingsSamplesTest/settingsUsage/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-hexagon-settings-samples-test/settings-usage.md
+$dokka.location:com.hexagonkt.settings/ObjectSource///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/index.md
+$dokka.location:com.hexagonkt.settings/ObjectSource/ObjectSource/#kotlin.Any/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/-object-source.md
+$dokka.location:com.hexagonkt.settings/ObjectSource/ObjectSource/#kotlin.Array[kotlin.Pair[kotlin.String,*]]/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/-object-source.md
+$dokka.location:com.hexagonkt.settings/ObjectSource/ObjectSource/#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/-object-source.md
+$dokka.location:com.hexagonkt.settings/ObjectSource/load/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/load.md
+$dokka.location:com.hexagonkt.settings/ObjectSource/settings/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/settings.md
+$dokka.location:com.hexagonkt.settings/ObjectSource/toString/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/to-string.md
+$dokka.location:com.hexagonkt.settings/Settings///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings/index.md
+$dokka.location:com.hexagonkt.settings/Settings/Settings/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.Array[com.hexagonkt.settings.SettingsSource]/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings/-settings.md
+$dokka.location:com.hexagonkt.settings/Settings/Settings/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.collections.List[com.hexagonkt.settings.SettingsSource]/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings/-settings.md
+$dokka.location:com.hexagonkt.settings/Settings/instance/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings/instance.md
+$dokka.location:com.hexagonkt.settings/Settings/toString/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings/to-string.md
+$dokka.location:com.hexagonkt.settings/SettingsManager///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings-manager/index.md
+$dokka.location:com.hexagonkt.settings/SettingsManager/ENVIRONMENT_PREFIX/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings-manager/-e-n-v-i-r-o-n-m-e-n-t_-p-r-e-f-i-x.md
+$dokka.location:com.hexagonkt.settings/SettingsManager/SETTINGS_FILE/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings-manager/-s-e-t-t-i-n-g-s_-f-i-l-e.md
+$dokka.location:com.hexagonkt.settings/SettingsManager/defaultSources/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings-manager/default-sources.md
+$dokka.location:com.hexagonkt.settings/SettingsManager/instance/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings-manager/instance.md
+$dokka.location:com.hexagonkt.settings/SettingsManager/settings/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings-manager/settings.md
+$dokka.location:com.hexagonkt.settings/SettingsSource///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings-source/index.md
+$dokka.location:com.hexagonkt.settings/SettingsSource/load/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-settings-source/load.md
+$dokka.location:com.hexagonkt.settings/SystemPropertiesSource///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-system-properties-source/index.md
+$dokka.location:com.hexagonkt.settings/SystemPropertiesSource/SystemPropertiesSource/#kotlin.String/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-system-properties-source/-system-properties-source.md
+$dokka.location:com.hexagonkt.settings/SystemPropertiesSource/load/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-system-properties-source/load.md
+$dokka.location:com.hexagonkt.settings/SystemPropertiesSource/toString/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-system-properties-source/to-string.md
+$dokka.location:com.hexagonkt.settings/UrlSource///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-url-source/index.md
+$dokka.location:com.hexagonkt.settings/UrlSource/UrlSource/#java.net.URL/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-url-source/-url-source.md
+$dokka.location:com.hexagonkt.settings/UrlSource/UrlSource/#kotlin.String/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-url-source/-url-source.md
+$dokka.location:com.hexagonkt.settings/UrlSource/load/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-url-source/load.md
+$dokka.location:com.hexagonkt.settings/UrlSource/toString/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-url-source/to-string.md
+$dokka.location:com.hexagonkt.settings/UrlSource/url/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-url-source/url.md
 com.hexagonkt.settings
+

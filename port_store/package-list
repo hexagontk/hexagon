@@ -1,5 +1,139 @@
-$dokka.format:gfm
+$dokka.format:gfm-v1
 $dokka.linkExtension:md
-
+$dokka.location:com.hexagonkt.store.hashmap////PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/index.md
+$dokka.location:com.hexagonkt.store.hashmap/Company///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/index.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/Company/#kotlin.String#java.time.LocalDate#java.time.LocalTime#kotlin.ranges.ClosedRange[java.time.LocalTime]#java.net.URL?#kotlin.collections.List[java.net.URL]#java.nio.ByteBuffer?#kotlin.String?#kotlin.collections.Set[com.hexagonkt.store.hashmap.Person]#kotlin.collections.Set[com.hexagonkt.store.hashmap.Department]#java.time.LocalDateTime/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/-company.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/clients/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/clients.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/closeTime/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/close-time.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/creationDate/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/creation-date.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/departments/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/departments.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/foundation/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/foundation.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/id/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/id.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/logo/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/logo.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/notes/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/notes.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/openTime/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/open-time.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/people/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/people.md
+$dokka.location:com.hexagonkt.store.hashmap/Company/web/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-company/web.md
+$dokka.location:com.hexagonkt.store.hashmap/Department.DESIGN///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-department/-d-e-s-i-g-n/index.md
+$dokka.location:com.hexagonkt.store.hashmap/Department.DESIGN/name/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-department/-d-e-s-i-g-n/name.md
+$dokka.location:com.hexagonkt.store.hashmap/Department.DESIGN/ordinal/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-department/-d-e-s-i-g-n/ordinal.md
+$dokka.location:com.hexagonkt.store.hashmap/Department.DEVELOPMENT///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-department/-d-e-v-e-l-o-p-m-e-n-t/index.md
+$dokka.location:com.hexagonkt.store.hashmap/Department.DEVELOPMENT/name/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-department/-d-e-v-e-l-o-p-m-e-n-t/name.md
+$dokka.location:com.hexagonkt.store.hashmap/Department.DEVELOPMENT/ordinal/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-department/-d-e-v-e-l-o-p-m-e-n-t/ordinal.md
+$dokka.location:com.hexagonkt.store.hashmap/Department///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-department/index.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapper///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper/index.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapper/HashMapMapper/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper/-hash-map-mapper.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapper/fields/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper/fields.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapper/fromStore/#kotlin.String#kotlin.Any/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper/from-store.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapper/fromStore/#kotlin.collections.Map[kotlin.String,kotlin.Any]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper/from-store.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapper/toStore/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper/to-store.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/index.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/MappedClass/#kotlin.String#kotlin.Boolean#kotlin.Int#kotlin.Long#kotlin.Float#kotlin.Double#kotlin.collections.List[kotlin.String]#kotlin.collections.Map[kotlin.String,*]#kotlin.String?#kotlin.String#kotlin.Int#kotlin.Char#java.time.LocalDate#java.time.LocalDateTime/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/-mapped-class.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/anInt/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/an-int.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/atHome/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/at-home.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/localDate/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/local-date.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/localDateTime/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/local-date-time.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/oneBoolean/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/one-boolean.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/oneDouble/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/one-double.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/oneFloat/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/one-float.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/oneList/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/one-list.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/oneLong/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/one-long.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/oneMap/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/one-map.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/oneNullable/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/one-nullable.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/onePlus/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/one-plus.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/oneString/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/one-string.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/otherData/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-mapped-class/other-data.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/index.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest/A mapper transform a data class to a map and back/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-a mapper transform a data class to a map and back.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest/HashMapMapperTest/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-hash-map-mapper-test.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/index.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/HashMapStore/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),TypeParam(bounds=[kotlin.Any])]#kotlin.String#java.util.HashMap[TypeParam(bounds=[kotlin.Any]),kotlin.collections.Map[kotlin.String,kotlin.Any]]#com.hexagonkt.store.Mapper[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/-hash-map-store.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/count/#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/count.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/createIndex/#kotlin.Boolean#kotlin.collections.Map[kotlin.String,com.hexagonkt.store.IndexOrder]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/create-index.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/deleteMany/#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/delete-many.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/deleteOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/delete-one.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/drop/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/drop.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/findMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.Int?#kotlin.Int?#kotlin.collections.Map[kotlin.String,kotlin.Boolean]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/find-many.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/findMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.collections.List[kotlin.String]#kotlin.Int?#kotlin.Int?#kotlin.collections.Map[kotlin.String,kotlin.Boolean]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/find-many.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/findOne/#TypeParam(bounds=[kotlin.Any])#kotlin.collections.List[kotlin.String]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/find-one.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/findOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/find-one.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/insertMany/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/insert-many.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/insertOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/insert-one.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/key/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/key.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/mapper/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/mapper.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/name/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/name.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/replaceMany/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/replace-many.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/replaceOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/replace-one.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/saveMany/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/save-many.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/saveOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/save-one.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/type/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/type.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/updateMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/update-many.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStore/updateOne/#TypeParam(bounds=[kotlin.Any])#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/update-one.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/index.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/Create index throws UnsupportedOperationException/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-create index throws -unsupported-operation-exception.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/Entities are stored/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-entities are stored.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/HashMapStoreTest/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-hash-map-store-test.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/Insert one record returns the proper key/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-insert one record returns the proper key.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/Many records are stored/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-many records are stored.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/New records are stored/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-new records are stored.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/Records are replaced correctly/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-records are replaced correctly.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/Store type is correct/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-store type is correct.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/dropCollection/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/drop-collection.md
+$dokka.location:com.hexagonkt.store.hashmap/Person///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-person/index.md
+$dokka.location:com.hexagonkt.store.hashmap/Person/Person/#kotlin.String/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-person/-person.md
+$dokka.location:com.hexagonkt.store.hashmap/Person/name/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-person/name.md
+$dokka.location:com.hexagonkt.store////PointingToDeclaration/port_store/com.hexagonkt.store/index.md
+$dokka.location:com.hexagonkt.store/IndexOrder.ASCENDING///PointingToDeclaration/port_store/com.hexagonkt.store/-index-order/-a-s-c-e-n-d-i-n-g/index.md
+$dokka.location:com.hexagonkt.store/IndexOrder.ASCENDING/name/#/PointingToDeclaration/port_store/com.hexagonkt.store/-index-order/-a-s-c-e-n-d-i-n-g/name.md
+$dokka.location:com.hexagonkt.store/IndexOrder.ASCENDING/ordinal/#/PointingToDeclaration/port_store/com.hexagonkt.store/-index-order/-a-s-c-e-n-d-i-n-g/ordinal.md
+$dokka.location:com.hexagonkt.store/IndexOrder.DESCENDING///PointingToDeclaration/port_store/com.hexagonkt.store/-index-order/-d-e-s-c-e-n-d-i-n-g/index.md
+$dokka.location:com.hexagonkt.store/IndexOrder.DESCENDING/name/#/PointingToDeclaration/port_store/com.hexagonkt.store/-index-order/-d-e-s-c-e-n-d-i-n-g/name.md
+$dokka.location:com.hexagonkt.store/IndexOrder.DESCENDING/ordinal/#/PointingToDeclaration/port_store/com.hexagonkt.store/-index-order/-d-e-s-c-e-n-d-i-n-g/ordinal.md
+$dokka.location:com.hexagonkt.store/IndexOrder///PointingToDeclaration/port_store/com.hexagonkt.store/-index-order/index.md
+$dokka.location:com.hexagonkt.store/Mapper///PointingToDeclaration/port_store/com.hexagonkt.store/-mapper/index.md
+$dokka.location:com.hexagonkt.store/Mapper/fields/#/PointingToDeclaration/port_store/com.hexagonkt.store/-mapper/fields.md
+$dokka.location:com.hexagonkt.store/Mapper/fromStore/#kotlin.String#kotlin.Any/PointingToDeclaration/port_store/com.hexagonkt.store/-mapper/from-store.md
+$dokka.location:com.hexagonkt.store/Mapper/fromStore/#kotlin.collections.Map[kotlin.String,kotlin.Any]/PointingToDeclaration/port_store/com.hexagonkt.store/-mapper/from-store.md
+$dokka.location:com.hexagonkt.store/Mapper/toStore/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store/-mapper/to-store.md
+$dokka.location:com.hexagonkt.store/Mapper/toStore/#kotlin.String#kotlin.Any/PointingToDeclaration/port_store/com.hexagonkt.store/-mapper/to-store.md
+$dokka.location:com.hexagonkt.store/MapperTest///PointingToDeclaration/port_store/com.hexagonkt.store/-mapper-test/index.md
+$dokka.location:com.hexagonkt.store/MapperTest/Default mapper methods return its own parameters/#/PointingToDeclaration/port_store/com.hexagonkt.store/-mapper-test/-default mapper methods return its own parameters.md
+$dokka.location:com.hexagonkt.store/MapperTest/MapperTest/#/PointingToDeclaration/port_store/com.hexagonkt.store/-mapper-test/-mapper-test.md
+$dokka.location:com.hexagonkt.store/Store///PointingToDeclaration/port_store/com.hexagonkt.store/-store/index.md
+$dokka.location:com.hexagonkt.store/Store/count/#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/count.md
+$dokka.location:com.hexagonkt.store/Store/createIndex/#kotlin.Boolean#kotlin.Array[kotlin.Pair[kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),*],com.hexagonkt.store.IndexOrder]]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/create-index.md
+$dokka.location:com.hexagonkt.store/Store/createIndex/#kotlin.Boolean#kotlin.Array[kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),*]]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/create-index.md
+$dokka.location:com.hexagonkt.store/Store/createIndex/#kotlin.Boolean#kotlin.collections.Map[kotlin.String,com.hexagonkt.store.IndexOrder]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/create-index.md
+$dokka.location:com.hexagonkt.store/Store/deleteMany/#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/delete-many.md
+$dokka.location:com.hexagonkt.store/Store/deleteOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store/-store/delete-one.md
+$dokka.location:com.hexagonkt.store/Store/drop/#/PointingToDeclaration/port_store/com.hexagonkt.store/-store/drop.md
+$dokka.location:com.hexagonkt.store/Store/fields/#kotlin.Array[kotlin.Pair[kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),*],*]]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/fields.md
+$dokka.location:com.hexagonkt.store/Store/fields/#kotlin.collections.Map[kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),*],*]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/fields.md
+$dokka.location:com.hexagonkt.store/Store/findAll/#kotlin.Int?#kotlin.Int?#kotlin.collections.Map[kotlin.String,kotlin.Boolean]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/find-all.md
+$dokka.location:com.hexagonkt.store/Store/findAll/#kotlin.collections.List[kotlin.String]#kotlin.Int?#kotlin.Int?#kotlin.collections.Map[kotlin.String,kotlin.Boolean]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/find-all.md
+$dokka.location:com.hexagonkt.store/Store/findMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.Int?#kotlin.Int?#kotlin.collections.Map[kotlin.String,kotlin.Boolean]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/find-many.md
+$dokka.location:com.hexagonkt.store/Store/findMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.collections.List[kotlin.String]#kotlin.Int?#kotlin.Int?#kotlin.collections.Map[kotlin.String,kotlin.Boolean]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/find-many.md
+$dokka.location:com.hexagonkt.store/Store/findOne/#TypeParam(bounds=[kotlin.Any])#kotlin.collections.List[kotlin.String]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/find-one.md
+$dokka.location:com.hexagonkt.store/Store/findOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store/-store/find-one.md
+$dokka.location:com.hexagonkt.store/Store/findOne/#kotlin.collections.Map[kotlin.String,*]#kotlin.collections.List[kotlin.String]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/find-one.md
+$dokka.location:com.hexagonkt.store/Store/findOne/#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/find-one.md
+$dokka.location:com.hexagonkt.store/Store/import/#java.io.File/PointingToDeclaration/port_store/com.hexagonkt.store/-store/import.md
+$dokka.location:com.hexagonkt.store/Store/import/#java.net.URL/PointingToDeclaration/port_store/com.hexagonkt.store/-store/import.md
+$dokka.location:com.hexagonkt.store/Store/insertMany/#kotlin.Array[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/insert-many.md
+$dokka.location:com.hexagonkt.store/Store/insertMany/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/insert-many.md
+$dokka.location:com.hexagonkt.store/Store/insertOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store/-store/insert-one.md
+$dokka.location:com.hexagonkt.store/Store/key/#/PointingToDeclaration/port_store/com.hexagonkt.store/-store/key.md
+$dokka.location:com.hexagonkt.store/Store/mapper/#/PointingToDeclaration/port_store/com.hexagonkt.store/-store/mapper.md
+$dokka.location:com.hexagonkt.store/Store/name/#/PointingToDeclaration/port_store/com.hexagonkt.store/-store/name.md
+$dokka.location:com.hexagonkt.store/Store/replaceMany/#kotlin.Array[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/replace-many.md
+$dokka.location:com.hexagonkt.store/Store/replaceMany/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/replace-many.md
+$dokka.location:com.hexagonkt.store/Store/replaceOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store/-store/replace-one.md
+$dokka.location:com.hexagonkt.store/Store/saveMany/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/save-many.md
+$dokka.location:com.hexagonkt.store/Store/saveOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/port_store/com.hexagonkt.store/-store/save-one.md
+$dokka.location:com.hexagonkt.store/Store/type/#/PointingToDeclaration/port_store/com.hexagonkt.store/-store/type.md
+$dokka.location:com.hexagonkt.store/Store/updateMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/update-many.md
+$dokka.location:com.hexagonkt.store/Store/updateOne/#TypeParam(bounds=[kotlin.Any])#kotlin.Array[kotlin.Pair[kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),*],*]]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/update-one.md
+$dokka.location:com.hexagonkt.store/Store/updateOne/#TypeParam(bounds=[kotlin.Any])#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store/-store/update-one.md
 com.hexagonkt.store
 com.hexagonkt.store.hashmap
+

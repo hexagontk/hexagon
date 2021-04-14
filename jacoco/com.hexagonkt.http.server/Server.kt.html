@@ -141,7 +141,7 @@ import java.lang.System.nanoTime
 <span class="fc" id="L141">        val jvmMemory = &quot;%,d&quot;.format(heap.init / 1024)</span>
 <span class="fc" id="L142">        val usedMemory = &quot;%,d&quot;.format(heap.used / 1024)</span>
 <span class="fc" id="L143">        val bootTime = &quot;%01.3f&quot;.format(getRuntimeMXBean().uptime / 1e3)</span>
-<span class="fc" id="L144">        val startUpTime = &quot;%3.0f&quot;.format(startUpTimestamp / 1e6)</span>
+<span class="fc" id="L144">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
 <span class="fc" id="L145">        val bindAddress = settings.bindAddress</span>
 <span class="fc" id="L146">        val protocol = settings.protocol</span>
 <span class="fc bfc" id="L147" title="All 2 branches covered.">        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName</span>

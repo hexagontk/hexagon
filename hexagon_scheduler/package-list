@@ -1,4 +1,16 @@
-$dokka.format:gfm
+$dokka.format:gfm-v1
 $dokka.linkExtension:md
-
+$dokka.location:com.hexagonkt.scheduler////PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/index.md
+$dokka.location:com.hexagonkt.scheduler/CronScheduler///PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler/index.md
+$dokka.location:com.hexagonkt.scheduler/CronScheduler/CronScheduler/#kotlin.Int/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler/-cron-scheduler.md
+$dokka.location:com.hexagonkt.scheduler/CronScheduler/schedule/#kotlin.String#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler/schedule.md
+$dokka.location:com.hexagonkt.scheduler/CronScheduler/shutdown/#/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler/shutdown.md
+$dokka.location:com.hexagonkt.scheduler/CronSchedulerSamplesTest///PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler-samples-test/index.md
+$dokka.location:com.hexagonkt.scheduler/CronSchedulerSamplesTest/CronSchedulerSamplesTest/#/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler-samples-test/-cron-scheduler-samples-test.md
+$dokka.location:com.hexagonkt.scheduler/CronSchedulerSamplesTest/callbackExecutedProperly/#/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler-samples-test/callback-executed-properly.md
+$dokka.location:com.hexagonkt.scheduler/CronSchedulerTest///PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler-test/index.md
+$dokka.location:com.hexagonkt.scheduler/CronSchedulerTest/Callback is executed properly/#/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler-test/-callback is executed properly.md
+$dokka.location:com.hexagonkt.scheduler/CronSchedulerTest/CronSchedulerTest/#/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler-test/-cron-scheduler-test.md
+$dokka.location:com.hexagonkt.scheduler/CronSchedulerTest/Failing callback does not prevent future executions/#/PointingToDeclaration/hexagon_scheduler/com.hexagonkt.scheduler/-cron-scheduler-test/-failing callback does not prevent future executions.md
 com.hexagonkt.scheduler
+
