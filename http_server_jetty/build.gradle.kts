@@ -19,6 +19,10 @@ val entityTestsHexagonWeb: SourceSetOutput = project(":hexagon_web").sourceSet("
 
 extra["basePackage"] = "com.hexagonkt.http.server.jetty"
 
+repositories {
+    maven("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
+}
+
 dependencies {
     val jettyVersion = properties["jettyVersion"]
     val logbackVersion = properties["logbackVersion"]

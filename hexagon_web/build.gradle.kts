@@ -5,6 +5,10 @@ apply(from = "../gradle/dokka.gradle")
 
 extra["basePackage"] = "com.hexagonkt.web"
 
+repositories {
+    maven("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
+}
+
 dependencies {
     "api"(project(":port_http_server"))
     "api"(project(":port_templates"))
