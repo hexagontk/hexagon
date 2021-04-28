@@ -31,17 +31,16 @@ eclipse {
 
 repositories {
     mavenCentral()
-    jcenter()
+    jcenter() // TODO Delete After Detekt update
     mavenLocal()
 }
 
 dependencies {
     final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.4.32"
-    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.10.6"
+    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.11.0"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.1"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$scriptKotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$scriptKotlinVersion")
 
     testImplementation("org.junit.jupiter:junit-jupiter:$scriptJunitVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$scriptKotlinVersion")
@@ -129,31 +128,24 @@ jacocoTestReport {
             final String relativePackageDirectory = "build/jacoco/src/$basePackageDirectory"
             file(relativePackageDirectory).mkdirs()
             copy {
-                from(sourceSets.main.allSource)
+                from(project.sourceSets.main.allSource)
                 into(relativePackageDirectory)
             }
         }
     }
 
-    executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
-    sourceDirectories.from(
-        sourceSets.main.allSource,
-        rootProject.subprojects.collect { it.file("build/jacoco/src") }
-    )
     reports {
         xml.enabled = true
         html.enabled = true
     }
 }
 
-build.dependsOn("jacocoTestReport")
-
 task("sourcesJar", type: Jar) {
     group = "distribution"
     description = "Create a jar file with the source code files."
 
     archiveClassifier.set("sources")
-    from(sourceSets.main.allSource)
+    from(project.sourceSets.main.allSource)
 }
 
 task("testJar", type: Jar, dependsOn: testClasses) {
@@ -161,7 +153,7 @@ task("testJar", type: Jar, dependsOn: testClasses) {
     description = "Create a jar file with the test classes."
 
     archiveClassifier.set("test")
-    from(sourceSets.test.output.classesDirs)
+    from(project.sourceSets.test.output.classesDirs)
 }
 
 tasks.withType(Zip).each { zipTask ->
@@ -172,9 +164,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from(components.java)
-
             artifact(sourcesJar) // To publish in Maven Central, the package need to include sources
-            artifact(testJar)
         }
     }
 }

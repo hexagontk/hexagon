@@ -28,6 +28,9 @@
       <trust group="javax.validation" name="validation-api" version="1.1.0.Final"/>
       <trust group="io.mockk" name="mockk.*" version="1.11.*" regex="true"/>
       <trust group="io.dropwizard.metrics" version="4.1.18"/>
+
+      <!-- Dependencies -->
+      <trust group="org.jetbrains.kotlinx" name="kotlinx-html-.*" version="0.7.3" regex="true"/>
     </trusted-artifacts>
 
     <key-servers>
