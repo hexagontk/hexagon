@@ -10,3 +10,7 @@ dependencies {
 
     "testImplementation"(project(":serialization_yaml"))
 }
+
+extensions.configure<PublishingExtension> {
+    (publications["mavenJava"] as MavenPublication).artifact(tasks.named("testJar"))
+}
