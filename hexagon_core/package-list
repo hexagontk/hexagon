@@ -315,7 +315,6 @@ $dokka.location:com.hexagonkt.security//hash/#kotlin.String#kotlin.String/Pointi
 $dokka.location:com.hexagonkt.security//hmac/#kotlin.String#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/hexagon_core/com.hexagonkt.security/hmac.md
 $dokka.location:com.hexagonkt.security//sign/#kotlin.String#kotlin.String#kotlin.ByteArray/PointingToDeclaration/hexagon_core/com.hexagonkt.security/sign.md
 $dokka.location:com.hexagonkt.serialization////PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/index.md
-$dokka.location:com.hexagonkt.serialization//convertDataClassToMap/kotlin.Any#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/convert-data-class-to-map.md
 $dokka.location:com.hexagonkt.serialization//convertToMap/kotlin.Any#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/convert-to-map.md
 $dokka.location:com.hexagonkt.serialization//convertToObject/kotlin.collections.Map[*,*]#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/convert-to-object.md
 $dokka.location:com.hexagonkt.serialization//convertToObject/kotlin.collections.Map[*,*]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/convert-to-object.md
@@ -455,8 +454,6 @@ $dokka.location:com.hexagonkt.serialization/SerializationManagerTest/User can no
 $dokka.location:com.hexagonkt.serialization/SerializationManagerTest/resetSerializationFormats/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/reset-serialization-formats.md
 $dokka.location:com.hexagonkt.serialization/SerializationManagerTest/setUpSerializationManager/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/set-up-serialization-manager.md
 $dokka.location:com.hexagonkt.serialization/SerializationPackageTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/index.md
-$dokka.location:com.hexagonkt.serialization/SerializationPackageTest/A data class can be converted to a map of fields/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-a data class can be converted to a map of fields.md
-$dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Converting a non data class to a map of fields fails/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-converting a non data class to a map of fields fails.md
 $dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Inline convert list work correctly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-inline convert list work correctly.md
 $dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Inline convert object work correctly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-inline convert object work correctly.md
 $dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Parse stream objects works properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-parse stream objects works properly.md
