@@ -100,7 +100,7 @@ It sets up:
 - Tests run, handles properties, output, and mocks (test's output depends on Gradle logging level)
 - Set up coverage report
 - IDE settings for IntelliJ and Eclipse (download dependencies' sources and API documentation)
-- Published artifacts (binaries, sources, and test): sourcesJar and testJar tasks
+- Published artifacts (binaries and sources): sourcesJar task
 
 To use it, apply `$gradleScripts/kotlin.gradle` and add the
 `id 'org.jetbrains.kotlin.jvm' version 'VERSION'` plugin to the root `build.gradle`.
