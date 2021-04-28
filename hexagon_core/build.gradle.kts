@@ -40,3 +40,7 @@ task("hexagonInfo") {
 }
 
 tasks.getByName("classes").dependsOn("hexagonInfo")
+
+extensions.configure<PublishingExtension> {
+    (publications["mavenJava"] as MavenPublication).artifact(tasks.named("testJar"))
+}

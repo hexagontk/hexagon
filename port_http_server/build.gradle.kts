@@ -28,3 +28,7 @@ dependencies {
     "testImplementation"("io.swagger.parser.v3:swagger-parser:2.0.20")
     "testImplementation"(project(":hexagon_settings"))
 }
+
+extensions.configure<PublishingExtension> {
+    (publications["mavenJava"] as MavenPublication).artifact(tasks.named("testJar"))
+}
