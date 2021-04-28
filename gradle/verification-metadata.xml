@@ -30,7 +30,7 @@
       <trust group="io.dropwizard.metrics" version="4.1.18"/>
 
       <!-- Dependencies -->
-      <trust group="org.jetbrains.kotlinx" name="kotlinx-html-*" regex="true"/>
+      <trust group="org.jetbrains.kotlinx" name="kotlinx-html-.*" version="0.7.3" regex="true"/>
     </trusted-artifacts>
 
     <key-servers>
