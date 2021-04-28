@@ -28,6 +28,9 @@
       <trust group="javax.validation" name="validation-api" version="1.1.0.Final"/>
       <trust group="io.mockk" name="mockk.*" version="1.11.*" regex="true"/>
       <trust group="io.dropwizard.metrics" version="4.1.18"/>
+
+      <!-- Dependencies -->
+      <trust group="org.jetbrains.kotlinx" name="kotlinx-html-*" regex="true"/>
     </trusted-artifacts>
 
     <key-servers>
@@ -131,7 +134,6 @@
       <trusted-key id="36bb1c8a910cc6b5a6a7344626ed90a14377dcc4" group="com.github.java-json-tools"/>
       <trusted-key id="1a2d608bf6d37aef12d53a4f37b0a85f5ce89b0c" group="org.eclipse.jetty.toolchain" name="jetty-servlet-api"/>
       <trusted-key id="98465301a4939c0279f2e847d89d05374952262b" group="org.jetbrains.dokka"/>
-      <trusted-key id="8e3a02905a1ae67e7b0f9acd3967d4eda591b991" group="org.jetbrains.kotlinx" name="kotlinx-html-jvm"/>
       <trusted-key id="f254b35617dc255d9344bcfa873a8e86b4372146" group="org.eclipse.jetty">
         <trusting group="org.eclipse.jetty.http2"/>
       </trusted-key>
