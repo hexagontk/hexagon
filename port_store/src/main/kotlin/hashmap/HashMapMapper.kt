@@ -12,9 +12,7 @@ import kotlin.reflect.full.declaredMemberProperties
 class HashMapMapper<T: Any>(private val type: KClass<T>): Mapper<T> {
 
     override val fields: Map<String, KProperty1<T, *>> by lazy {
-        logger.time ("REFLECT") { type.declaredMemberProperties }
-            .map { it.name to it }
-            .toMap()
+        logger.time("REFLECT") { type.declaredMemberProperties }.associateBy { it.name }
     }
 
     override fun toStore(instance: T): Map<String, Any>  =

@@ -5,10 +5,6 @@ apply(from = "../gradle/dokka.gradle")
 
 extra["basePackage"] = "com.hexagonkt.web"
 
-repositories {
-    maven("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
-}
-
 dependencies {
     "api"(project(":port_http_server"))
     "api"(project(":port_templates"))
@@ -19,4 +15,8 @@ dependencies {
     "testImplementation"(project(":http_server_jetty"))
     "testImplementation"(project(":templates_pebble"))
     "testImplementation"(project(":serialization_yaml"))
+}
+
+extensions.configure<PublishingExtension> {
+    (publications["mavenJava"] as MavenPublication).artifact(tasks.named("testJar"))
 }

@@ -41,7 +41,6 @@ dependencies {
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.1"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$scriptKotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$scriptKotlinVersion")
 
     testImplementation("org.junit.jupiter:junit-jupiter:$scriptJunitVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$scriptKotlinVersion")
@@ -165,9 +164,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from(components.java)
-
             artifact(sourcesJar) // To publish in Maven Central, the package need to include sources
-            artifact(testJar)
         }
     }
 }
