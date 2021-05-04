@@ -10,4 +10,6 @@ dependencies {
 
     "api"(project(":hexagon_core"))
     "api"("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+
+    "testImplementation"(project(":serialization_json"))
 }

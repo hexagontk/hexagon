@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.JsonMappingException
+import com.fasterxml.jackson.databind.ObjectWriter
 import com.hexagonkt.serialization.JacksonHelper.createObjectMapper
-
 import java.io.InputStream
 import java.io.OutputStream
 import kotlin.reflect.KClass
@@ -14,8 +14,7 @@ import kotlin.reflect.KClass
 open class JacksonTextFormat(
     final override val extensions: LinkedHashSet<String>,
     factoryGenerator: (() -> JsonFactory)? = null
-) :
-    SerializationFormat {
+) : SerializationFormat {
 
     private val mapper =
         if (factoryGenerator == null) JacksonHelper.mapper
@@ -39,7 +38,8 @@ open class JacksonTextFormat(
             mapper.readValue(input, type.java)
         }
         catch (e: JsonProcessingException) {
-            throw ParseException(e)
+            val field: String = (e as? JsonMappingException)?.pathReference ?: ""
+            throw ParseException(field, e)
         }
 
     override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> =
@@ -47,7 +47,8 @@ open class JacksonTextFormat(
             mapper.readValue(input, collectionType(List::class, type))
         }
         catch (e: JsonProcessingException) {
-            throw ParseException(e)
+            val field: String = (e as? JsonMappingException)?.pathReference ?: ""
+            throw ParseException(field, e)
         }
 
     private fun <T : Collection<*>> collectionType(coll: KClass<T>, type: KClass<*>) =

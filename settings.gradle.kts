@@ -23,6 +23,7 @@ include(
     // Adapters
     "logging_logback",
     "logging_slf4j_jul",
+    "serialization_json",
     "serialization_csv",
     "serialization_yaml",
     "serialization_xml",

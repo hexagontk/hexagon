@@ -1,9 +1,15 @@
 package com.hexagonkt.store.mongodb
 
+import com.hexagonkt.serialization.JacksonMapper
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.Store
-import com.hexagonkt.store.mongodb.Department.*
+import com.hexagonkt.store.mongodb.Department.DESIGN
+import com.hexagonkt.store.mongodb.Department.DEVELOPMENT
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
 import java.net.URL
 import java.nio.ByteBuffer
@@ -11,6 +17,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
+@TestInstance(PER_CLASS)
 class CompanyTest : StoreTest<Company, String>() {
 
     override fun createTestEntities(): List<Company> = listOf (
@@ -46,14 +53,20 @@ class CompanyTest : StoreTest<Company, String>() {
         )
     )
 
-    private val mongodbUrl = SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
+    private val mongodbUrl by lazy {
+        SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
         ?: "mongodb://localhost:2080/test"
+    }
 
     override fun createStore(): Store<Company, String> =
         MongoDbStore(Company::class, Company::id, mongodbUrl, "companies")
 
     override fun changeObject(obj: Company) =
         obj.copy(web = URL("http://change.example.org"))
+
+    @BeforeAll fun setUpSerializationManager() {
+        SerializationManager.mapper = JacksonMapper
+    }
 
     @Test fun `New records are stored`() {
         new_records_are_stored()

@@ -26,6 +26,7 @@ dependencies {
     }
 
     val logbackVersion = properties["logbackVersion"]
+    "testImplementation"(project(":serialization_json"))
     "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") {
         exclude(group = "org.slf4j")
     }

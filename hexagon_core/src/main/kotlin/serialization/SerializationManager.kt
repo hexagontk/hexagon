@@ -2,7 +2,6 @@ package com.hexagonkt.serialization
 
 import com.hexagonkt.ClasspathHandler
 import com.hexagonkt.logging.Logger
-import com.hexagonkt.helpers.fail
 import java.io.File
 import java.net.URL
 
@@ -22,11 +21,8 @@ object SerializationManager {
         URL("classpath:serialization/mime.types")
     }
 
-    internal val coreFormats: LinkedHashSet<SerializationFormat> =
-        linkedSetOf(Json)
-
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
-    var formats: LinkedHashSet<SerializationFormat> = coreFormats
+    var formats: LinkedHashSet<SerializationFormat> = linkedSetOf()
         set(value) {
             require(value.isNotEmpty()) { "Formats list can not be empty" }
             field = value
@@ -44,7 +40,7 @@ object SerializationManager {
             logger.info { serializationFormats() }
         }
 
-    var defaultFormat: SerializationFormat = formats.first()
+    var defaultFormat: SerializationFormat? = formats.firstOrNull()
         set(value) {
             require(formats.contains(value)) {
                 val contentTypes = formats.joinToString(", ") { it.contentType }
@@ -52,8 +48,10 @@ object SerializationManager {
             }
             field = value
 
-            logger.info { "Default serialization format set to '${field.contentType}'" }
+            logger.info { "Default serialization format set to '${field?.contentType}'" }
         }
+
+    var mapper: Mapper? = null
 
     private var formatsMap: LinkedHashMap<String, SerializationFormat> = formatsMap()
 
@@ -66,11 +64,15 @@ object SerializationManager {
 
     init {
         logger.info { serializationFormats() }
-
-        logger.info { "Default serialization format set to '${defaultFormat.contentType}'" }
-
+        logger.info { "Default serialization format set to '${defaultFormat?.contentType}'" }
         logger.info { "${extensions.size} Content types loaded from: ${mimeTypesResource.path}" }
     }
+
+    fun requireMapper(): Mapper =
+        mapper ?: error("Mapper adapter required. Set it using `SerializationManager.mapper`")
+
+    fun requireDefaultFormat(): SerializationFormat =
+        defaultFormat ?: error("No default serialization format defined")
 
     fun formats(vararg formats: SerializationFormat) {
         this.formats = LinkedHashSet(formats.toList())
@@ -93,10 +95,10 @@ object SerializationManager {
         formatsMap[contentType] ?: defaultFormat
 
     fun formatOf(url: URL): SerializationFormat =
-        formatOf(contentTypeOf(url) ?: fail)
+        formatOf(contentTypeOf(url) ?: error("Content type for '$url' not found"))
 
     fun formatOf(file: File): SerializationFormat =
-        formatOf(contentTypeOf(file) ?: fail)
+        formatOf(contentTypeOf(file) ?: error("Content type for '${file.name}' not found"))
 
     private fun pathExtension(path: String): String = path.substringAfterLast('.')
 

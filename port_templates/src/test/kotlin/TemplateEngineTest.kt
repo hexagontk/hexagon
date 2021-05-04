@@ -1,13 +1,19 @@
 package com.hexagonkt.templates
 
 import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.Reader
 import java.io.StringReader
 import java.util.Locale
 
+@TestInstance(PER_CLASS)
 abstract class TemplateEngineTest(private val adapter: () -> TemplatePort) {
 
     private object VoidTemplateAdapter : TemplatePort {
@@ -23,6 +29,10 @@ abstract class TemplateEngineTest(private val adapter: () -> TemplatePort) {
 
     init {
         InjectionManager.bind(TemplatePort::class, adapter)
+    }
+
+    @BeforeAll fun initialize() {
+        SerializationManager.formats = linkedSetOf(Json)
     }
 
     @Test fun `Create TemplateEngine`() {

@@ -2,15 +2,16 @@ package com.hexagonkt
 
 import com.hexagonkt.helpers.Jvm
 import com.hexagonkt.helpers.logger
-import com.hexagonkt.logging.Logger
 import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.injection.forceBind
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
-import java.util.*
+import java.util.Date
 
 class HexagonCoreSamplesTest {
 
@@ -104,10 +105,11 @@ class HexagonCoreSamplesTest {
 
     @Test fun serializationUsage() {
         // serializationUsage
+        SerializationManager.formats = linkedSetOf(Json) // Loads JSON format (using it as default)
         val jason = Person("Jason", "Jackson", LocalDate.of(1989, 12, 31))
 
         val jasonJson = jason.serialize(Json) // Can also be Yaml or an string: "application/json"
-        val parsedJason = jasonJson.parse(Person::class)
+        val parsedJason = jasonJson.parse(Person::class) // Uses default format (JSON)
 
         assert(jason == parsedJason)
         assert(jason !== parsedJason)

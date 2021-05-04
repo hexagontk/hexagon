@@ -1,16 +1,25 @@
 package com.hexagonkt.store.hashmap
 
 import com.hexagonkt.helpers.fail
+import com.hexagonkt.serialization.JacksonMapper
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.store.Store
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import kotlin.test.assertFailsWith
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HashMapStoreTest {
+
+    @BeforeAll fun setUpSerializationManager() {
+        SerializationManager.mapper = JacksonMapper
+    }
 
     private val store: Store<Company, String> =
         HashMapStore(Company::class, Company::id, "companies")

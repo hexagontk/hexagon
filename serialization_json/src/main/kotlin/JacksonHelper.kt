@@ -25,7 +25,6 @@ import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-//import com.fasterxml.jackson.module.afterburner.AfterburnerModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.net.InetAddress
 import java.nio.ByteBuffer
@@ -50,7 +49,6 @@ object JacksonHelper {
         .registerModule(KotlinModule())
         .registerModule(JavaTimeModule())
         .registerModule(Jdk8Module())
-//        .registerModule(AfterburnerModule()) // TODO Enable extra modules to be loaded by clients
         .registerModule(SimpleModule("SerializationModule", Version.unknownVersion())
             .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)
             .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)

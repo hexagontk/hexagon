@@ -1,0 +1,33 @@
+
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+apply(from = "../gradle/kotlin.gradle")
+apply(from = "../gradle/publish.gradle")
+apply(from = "../gradle/dokka.gradle")
+apply(from = "../gradle/detekt.gradle")
+
+val compileTestKotlin: KotlinCompile by tasks
+
+description = "Hexagon CSV serialization format."
+
+// IMPORTANT: Required for compiling classes in test dependencies. It *MUST* be before dependencies
+compileTestKotlin.dependsOn(tasks.getByPath(":hexagon_core:compileTestKotlin"))
+
+val entityTests: SourceSetOutput = project(":hexagon_core").sourceSet("test").output
+
+extra["basePackage"] = "com.hexagonkt.serialization"
+
+dependencies {
+    val jacksonVersion = properties["jacksonVersion"]
+
+    "api"(project(":hexagon_core"))
+
+    "api"("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
+    "api"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+    "api"("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")
+    "api"("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
+        exclude("org.jetbrains.kotlin")
+    }
+
+    "testImplementation"(entityTests)
+}

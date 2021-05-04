@@ -1,13 +1,17 @@
 package com.hexagonkt.messaging.rabbitmq
 
-import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.retry
-import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.SerializationManager.formatOf
+import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
-import com.rabbitmq.client.*
 import com.rabbitmq.client.AMQP.BasicProperties
+import com.rabbitmq.client.Channel
+import com.rabbitmq.client.ConnectionFactory
+import com.rabbitmq.client.DefaultConsumer
+import com.rabbitmq.client.Envelope
+import com.rabbitmq.client.ShutdownSignalException
 import java.nio.charset.Charset
 import java.nio.charset.Charset.defaultCharset
 import java.util.concurrent.ExecutorService
@@ -43,8 +47,8 @@ internal class Handler<T : Any, R : Any> internal constructor (
             val charset = properties.contentEncoding ?: defaultCharset().name()
             val correlationId = properties.correlationId
             val replyTo = properties.replyTo
-            val messageContentType = properties.contentType ?: defaultFormat.contentType
-            val contentType = formatOf(messageContentType, defaultFormat)
+            val messageContentType = properties.contentType ?: requireDefaultFormat().contentType
+            val contentType = formatOf(messageContentType, requireDefaultFormat())
 
             try {
                 log.trace { "Received message ($correlationId) in $charset" }
