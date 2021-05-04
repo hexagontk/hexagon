@@ -1,8 +1,9 @@
-import org.gradle.api.publish.maven.MavenPom
-import javax.xml.parsers.DocumentBuilderFactory
+
 import org.w3c.dom.Document
 import org.w3c.dom.Element
+import javax.xml.parsers.DocumentBuilderFactory
 
+apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 
 plugins {
@@ -12,10 +13,15 @@ plugins {
 extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("kotlin_pom") { pomDom ->
+            val javaPlugin = extensions.getByType(JavaPluginExtension::class.java)
+            val source = javaPlugin.sourceCompatibility.toString()
+            val target = javaPlugin.targetCompatibility.toString()
+
             properties.set(mapOf(
                 "project.build.sourceEncoding" to Charsets.UTF_8.name(),
-                "maven.compiler.source" to "11",
-                "maven.compiler.target" to "11",
+                "maven.compiler.source" to source,
+                "maven.compiler.target" to target,
+                "kotlin.compiler.jvmTarget" to target,
                 "kotlin.version" to project.properties["kotlinVersion"].toString(),
                 "mockk.version" to project.properties["mockkVersion"].toString(),
                 "junit.version" to project.properties["junitVersion"].toString(),
@@ -23,7 +29,7 @@ extensions.configure<PublishingExtension> {
             ))
 
             withXml {
-                listOf("repositories", "dependencyManagement", "dependencies", "build").forEach {
+                listOf("dependencyManagement", "dependencies", "build").forEach {
                     asElement().importElement(pomDom.firstElement(it))
                 }
             }

@@ -3,17 +3,6 @@
   <name>Kotlin POM</name>
   <description>Kotlin's starter POM.</description>
 
-  <repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>central</id>
-      <name>jcenter</name>
-      <url>https://jcenter.bintray.com</url>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -49,6 +38,11 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
+        <artifactId>hexagon_settings</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
         <artifactId>hexagon_web</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
@@ -65,6 +59,16 @@
       <dependency>
         <groupId>com.hexagonkt</groupId>
         <artifactId>http_server_servlet</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>logging_logback</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>logging_slf4j_jul</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -99,7 +103,32 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
+        <artifactId>serialization_csv</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>serialization_json</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>serialization_xml</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>serialization_yaml</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
         <artifactId>store_mongodb</artifactId>
+        <version>${hexagon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hexagonkt</groupId>
+        <artifactId>templates_freemarker</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -121,7 +150,7 @@
         <version>${kotlin.version}</version>
 
         <configuration>
-          <jvmTarget>11</jvmTarget>
+          <jvmTarget>1.8</jvmTarget>
         </configuration>
 
         <executions>
@@ -185,7 +214,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.5</version>
+        <version>0.8.6</version>
         <executions>
           <execution>
             <goals>

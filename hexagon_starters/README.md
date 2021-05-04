@@ -15,7 +15,6 @@ This module holds the Maven parent POMs with Kotlin setup to ease the project cr
 
 Or:
 
-
 ```xml
 <parent>
 <groupId>com.hexagonkt</groupId>
