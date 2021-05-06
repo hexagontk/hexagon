@@ -77,16 +77,16 @@ fun String.snakeToCamel(): String =
     this.split("_")
         .asSequence()
         .filter(String::isNotEmpty)
-        .joinToString("", transform = String::capitalize)
-        .decapitalize()
+        .joinToString("", transform = { it.replaceFirstChar(Char::uppercase) })
+        .replaceFirstChar(Char::lowercase)
 
 /**
  * Transform the target string from camel case to snake case.
  */
 fun String.camelToSnake(): String =
     this.split("(?=\\p{Upper}\\p{Lower})".toRegex())
-        .joinToString("_", transform = String::toLowerCase)
-        .decapitalize()
+        .joinToString("_", transform = String::lowercase)
+        .replaceFirstChar(Char::lowercase)
 
 /**
  * Format the string as a banner with a delimiter above and below text. The character used to

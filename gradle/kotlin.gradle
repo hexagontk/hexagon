@@ -36,7 +36,7 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.4.32"
+    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.5.0"
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.11.0"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.1"
 
@@ -72,7 +72,7 @@ tasks.compileJava.doFirst {
 }
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
-tasks.compileKotlin.kotlinOptions.apiVersion = "1.4"
+tasks.compileKotlin.kotlinOptions.apiVersion = "1.5"
 
 tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
@@ -116,7 +116,7 @@ tasks.withType(Test).each { testTask ->
 }
 
 jacoco {
-    toolVersion = "0.8.6"
+    toolVersion = "0.8.7"
 }
 
 jacocoTestReport {

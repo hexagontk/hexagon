@@ -130,8 +130,8 @@ abstract class GenericTest(adapter: ServerPort) {
         get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
         get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
         get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
-        get("/tworoutes/${part.toUpperCase()}/{param}") {
-            ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
+        get("/tworoutes/${part.uppercase()}/{param}") {
+            ok("${part.uppercase()} route: ${pathParameters["param"]}")
         }
 
         get(File(directory))
@@ -280,9 +280,9 @@ abstract class GenericTest(adapter: ServerPort) {
         val response1 = client.get ("/tworoutes/$part/$expected")
         assertResponseEquals(response1, "$part route: $expected")
 
-        expected = expected.toUpperCase()
-        val response = client.get ("/tworoutes/${part.toUpperCase()}/$expected")
-        assertResponseEquals(response, "${part.toUpperCase()} route: $expected")
+        expected = expected.uppercase()
+        val response = client.get ("/tworoutes/${part.uppercase()}/$expected")
+        assertResponseEquals(response, "${part.uppercase()} route: $expected")
     }
 
     @Test fun echoParamWithMaj() {
