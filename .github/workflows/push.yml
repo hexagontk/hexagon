@@ -30,6 +30,7 @@ jobs:
 
       # BUILD
       - name: Build Project
+#        run: ./gradlew --warn --console=plain build
         run: ./gradlew --info --console=plain build
 
       - name: Upload Tests Reports (ON FAILURE)
