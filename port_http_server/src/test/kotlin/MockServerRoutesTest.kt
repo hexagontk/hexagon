@@ -10,12 +10,14 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
+@ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MockServerRoutesTest {
 
     val server by lazy {
         MockServer("openapi_test.json").server
     }
+
     val client by lazy {
         Client(AhcAdapter(), endpoint = "http://localhost:${server.runtimePort}")
     }

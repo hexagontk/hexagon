@@ -42,6 +42,7 @@ class MongoDbStore<T : Any, K : Any>(
     ) :
         this(type, key, database(url), name)
 
+    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     override fun createIndex(unique: Boolean, fields: Map<String, IndexOrder>): String {
         val indexes = fields.entries.map {
             if (it.value == ASCENDING) Indexes.ascending(it.key)

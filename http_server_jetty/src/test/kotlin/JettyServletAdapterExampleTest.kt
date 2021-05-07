@@ -21,6 +21,7 @@ class JettyServletAdapterSessionTest : SessionTest(adapter)
 class JettyServletAdapterErrorsTest : ErrorsTest(adapter)
 class JettyServletAdapterFiltersTest : FiltersTest(adapter)
 class JettyServletAdapterFilesTest : FilesTest(adapter)
+@ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
 class JettyServletAdapterGenericTest : GenericTest(adapter)
 class JettyServletAdapterTodoTest : TodoTest(adapter)
 class JettyServletAdapterCorsTest : CorsTest(adapter)

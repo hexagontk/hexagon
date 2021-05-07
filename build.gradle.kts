@@ -16,7 +16,8 @@ plugins {
     id("idea")
     id("eclipse")
 
-    kotlin("jvm") version("1.5.0") apply(false)
+//    kotlin("jvm") version("1.5.0") apply(false)
+    kotlin("jvm") version("1.4.32") apply(false)
 
     id("org.jetbrains.dokka") version("1.4.32") apply(false)
     id("io.gitlab.arturbosch.detekt") version("1.16.0") apply(false)
