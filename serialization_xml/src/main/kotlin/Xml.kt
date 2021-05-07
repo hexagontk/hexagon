@@ -1,7 +1,6 @@
 package com.hexagonkt.serialization
 
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.ObjectWriter
 import com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
@@ -34,8 +33,7 @@ object Xml : SerializationFormat {
             mapper.readValue(input, type.java)
         }
         catch (e: JsonProcessingException) {
-            val field: String = (e as? JsonMappingException)?.pathReference ?: ""
-            throw ParseException(field, e)
+            throw JacksonHelper.parseException(e)
         }
 
     override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> =
@@ -43,8 +41,7 @@ object Xml : SerializationFormat {
             mapper.readValue(input, collectionType(List::class, type))
         }
         catch (e: JsonProcessingException) {
-            val field: String = (e as? JsonMappingException)?.pathReference ?: ""
-            throw ParseException(field, e)
+            throw JacksonHelper.parseException(e)
         }
 
     private fun <T : Collection<*>> collectionType(coll: KClass<T>, type: KClass<*>) =

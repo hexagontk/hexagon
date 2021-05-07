@@ -1,7 +1,6 @@
 package com.hexagonkt.serialization
 
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.dataformat.csv.CsvGenerator
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
@@ -38,8 +37,7 @@ object Csv : SerializationFormat {
             objectReader(type).readValue(input)
         }
         catch (e: JsonProcessingException) {
-            val field: String = (e as? JsonMappingException)?.pathReference ?: ""
-            throw ParseException(field, e)
+            throw JacksonHelper.parseException(e)
         }
 
     override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> =
@@ -47,8 +45,7 @@ object Csv : SerializationFormat {
             objectReader(type).readValues<T>(input).readAll()
         }
         catch (e: JsonProcessingException) {
-            val field: String = (e as? JsonMappingException)?.pathReference ?: ""
-            throw ParseException(field, e)
+            throw JacksonHelper.parseException(e)
         }
 
     private fun <T : Any> objectReader(type: KClass<T>): ObjectReader =
