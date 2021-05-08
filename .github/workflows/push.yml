@@ -12,7 +12,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # SET UP
       - name: Check Out
         uses: actions/checkout@v2
+
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with: { java-version: 11 }
+
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches ~/.gradle/wrapper
+          key: ${{runner.os}}-gradle-${{hashFiles('**/*.gradle*', '**/gradle-wrapper.properties')}}
+          restore-keys: ${{runner.os}}-gradle-
+
       - name: Build Project
-        uses: ./.github/actions/gradle
+        run: ./gradlew --warn --console=plain build
+
+      - name: Log Build (ON FAILURE)
+        if: failure()
+        run: ./gradlew --info --stacktrace --console=plain build
+
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}

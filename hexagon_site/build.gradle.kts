@@ -14,7 +14,7 @@ tasks.register<Exec>("serveSite") {
 }
 
 tasks.register<Exec>("buildSite") {
-    dependsOn("mkdocs")
+    dependsOn("checkDocs")
     workingDir = rootDir
     commandLine("docker-compose --log-level warning run site build -csq".split(" "))
 }
@@ -99,7 +99,6 @@ task("mkdocs") {
         rootProject.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
-        generateCoverageBadge()
         generateDownloadBadge()
     }
 }
@@ -109,6 +108,10 @@ repositories {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
+
+    doLast {
+        generateCoverageBadge()
+    }
 
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(

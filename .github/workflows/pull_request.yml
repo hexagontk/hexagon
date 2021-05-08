@@ -14,16 +14,15 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
+        uses: actions/setup-java@v2
+        with: { java-version: 11 }
 
       - name: Restore Cache
         uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: ${{ runner.os }}-gradle-
+          path: ~/.gradle/caches ~/.gradle/wrapper
+          key: ${{runner.os}}-gradle-${{hashFiles('**/*.gradle*', '**/gradle-wrapper.properties')}}
+          restore-keys: ${{runner.os}}-gradle-
 
       # BUILD
       - name: Build Project
@@ -32,6 +31,9 @@ jobs:
       - name: Log Build (ON FAILURE)
         if: failure()
         run: ./gradlew --info --stacktrace --console=plain build
+
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   sample_keystores:
     name: Sample Keystores
@@ -75,7 +77,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Build Site
-        run: ./gradlew --no-daemon --warn --console=plain jacocoRootReport buildSite
+        run: ./gradlew --no-daemon --warn --console=plain buildSite
 
   test_publishing:
     name: Test Publishing
