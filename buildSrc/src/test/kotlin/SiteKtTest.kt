@@ -1,7 +1,8 @@
 
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
 import org.gradle.testfixtures.ProjectBuilder
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Test
 import java.io.File
 
 class SiteKtTest {
@@ -12,6 +13,7 @@ class SiteKtTest {
 
     @Test fun `Test 'checkSamplesCode'`() {
         checkSamplesCode(FilesRange(testFile, testFileOut, "t"))
+        checkSamplesCode(FileRange(testFile, "nothing"), FileRange(testFileOut, "hello"))
     }
 
     @Test fun `When file ranges don't match 'checkSamplesCode' throws exception`() {

@@ -99,6 +99,7 @@ task("mkdocs") {
         rootProject.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
+        generateCoverageBadge()
         generateDownloadBadge()
     }
 }
@@ -108,10 +109,6 @@ repositories {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
-
-    doLast {
-        generateCoverageBadge()
-    }
 
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(
@@ -150,9 +147,10 @@ fun generateCoverageBadge() {
     val total = missed + covered
     val percentage = floor((covered * 100.0) / total).toInt()
 
-    val badge = file("content/img/coverage.svg")
+    val badge = file("assets/img/coverage.svg")
     val svg = badge.readText().replace("\${coverage}", "$percentage%")
-    badge.writeText(svg)
+    mkdir("content/img")
+    file("content/img/coverage.svg").writeText(svg)
 }
 
 fun generateDownloadBadge() {
