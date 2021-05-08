@@ -21,16 +21,16 @@ jobs:
         with:
           java-version: 11
 
-#      - name: Restore Cache
-#        uses: actions/cache@v2
-#        with:
-#          path: ~/.gradle/caches
-#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-#          restore-keys: ${{ runner.os }}-gradle-
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle-
 
       # BUILD
       - name: Build Project
-        run: ./gradlew --info --no-daemon --console=plain build
+        run: ./gradlew --info --console=plain build
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2
