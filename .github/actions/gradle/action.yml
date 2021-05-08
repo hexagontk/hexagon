@@ -1,0 +1,35 @@
+
+name: Gradle
+description: Run a Gradle build executing the supplied tasks.
+
+inputs:
+  java:
+    description: Java version used to run Gradle.
+    required: true
+    default: "11"
+
+  tasks:
+    description: Gradle tasks to execute.
+    required: true
+    default: build
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-java@v2
+      with:
+        java-version: ${{inputs.java}}
+
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{runner.os}}-gradle-${{hashFiles('**/*.gradle*', '**/gradle-wrapper.properties')}}
+        restore-keys: |
+          ${{runner.os}}-gradle-
+
+    - run: ./gradlew --warn --console=plain ${{inputs.tasks}}
+
+    - if: failure()
+      run: ./gradlew --info --stacktrace --console=plain ${{inputs.tasks}}
