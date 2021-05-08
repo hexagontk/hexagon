@@ -38,6 +38,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ pull_request ]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
       - name: Create Sample Keystores
         run: ./gradlew --warn --console=plain createCa createIdentities
 
@@ -46,6 +61,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ pull_request ]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
       - name: Build Site
         run: ./gradlew --no-daemon --warn --console=plain buildSite
 
@@ -54,5 +84,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ pull_request ]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
       - name: Test Publishing
         run: ./gradlew --no-daemon --warn --console=plain publishToMavenLocal
