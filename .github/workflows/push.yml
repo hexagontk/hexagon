@@ -30,7 +30,7 @@ jobs:
 
       # BUILD
       - name: Build Project
-        run: ./gradlew --info --console=plain build
+        run: ./gradlew --warn --console=plain build
 
       - name: Upload Tests Reports (ON FAILURE)
         uses: actions/upload-artifact@v2
