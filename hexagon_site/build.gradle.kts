@@ -1,9 +1,9 @@
 import kotlin.math.floor
 
+apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
-apply(plugin = "jacoco")
 
-tasks.register<Delete>("clean") {
+tasks.named<Delete>("clean") {
     delete("build", "content")
 }
 
