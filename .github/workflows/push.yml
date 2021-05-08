@@ -21,12 +21,12 @@ jobs:
         with:
           java-version: 11
 
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: ${{ runner.os }}-gradle-
+#      - name: Restore Cache
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.gradle/caches
+#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+#          restore-keys: ${{ runner.os }}-gradle-
 
       # BUILD
       - name: Build Project
