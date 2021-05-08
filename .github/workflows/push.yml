@@ -7,31 +7,12 @@ on:
       - master
 
 jobs:
-  push:
-    name: Push
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
-      # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-
-      - name: Install Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: ${{ runner.os }}-gradle-
-
-      # BUILD
       - name: Build Project
-        run: ./gradlew --warn --console=plain build
-
-      - name: Log Build (ON FAILURE)
-        if: failure()
-        run: ./gradlew --info --stacktrace --console=plain build
+        uses: ./.github/actions/gradle
