@@ -24,7 +24,6 @@ import java.io.File
 import java.net.URL
 import kotlin.text.Charsets.UTF_8
 
-@ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
 @TestInstance(PER_CLASS)
 abstract class GenericTest(adapter: ServerPort) {
 

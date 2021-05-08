@@ -73,7 +73,6 @@ fun Regex.findGroups(text: String): List<MatchGroup> =
 /**
  * Transform the target string from snake case to camel case.
  */
-@ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
 fun String.snakeToCamel(): String =
     this.split("_")
         .asSequence()
@@ -84,7 +83,6 @@ fun String.snakeToCamel(): String =
 /**
  * Transform the target string from camel case to snake case.
  */
-@ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
 fun String.camelToSnake(): String =
     this.split("(?=\\p{Upper}\\p{Lower})".toRegex())
         .joinToString("_", transform = String::lowercase)

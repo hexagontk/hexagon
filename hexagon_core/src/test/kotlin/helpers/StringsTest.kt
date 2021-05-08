@@ -4,7 +4,6 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 
-@ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
 class StringsTest {
 
     @Test fun `Find groups takes care of 'nulls'` () {

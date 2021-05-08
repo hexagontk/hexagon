@@ -19,7 +19,6 @@ class MockServerTest {
         }
     }
 
-    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     @Test fun `Basic server is created correctly`() {
         val mockServer = MockServer("https://petstore3.swagger.io/api/v3/openapi.json")
         val server = mockServer.server
@@ -27,7 +26,6 @@ class MockServerTest {
         assert(server.settings.bindAddress.hostAddress == "127.0.0.1")
     }
 
-    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     @Test fun `Server at specific port is created correctly`() {
         val mockServer = MockServer("https://petstore3.swagger.io/api/v3/openapi.json", port = 9090)
         val server = mockServer.server

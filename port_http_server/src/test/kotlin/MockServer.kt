@@ -13,7 +13,6 @@ import io.swagger.v3.parser.OpenAPIV3Parser
 
 class MockServer(pathToSpec: String, port: Int = 0) {
 
-    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     val server: Server by lazy { createServer() }
 
     private val serverSettings = ServerSettings(bindPort = port)
@@ -29,7 +28,6 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * If an explicit port number was provided in the constructor, the
      * mock server listens at the specified port, else a dynamic port number is assigned.
      */
-    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     private fun createServer() = Server(settings = serverSettings) {
         openAPISpec.paths.forEach { path: String, pathItem: PathItem ->
             pathItem.get?.let { getOperation ->
@@ -79,7 +77,6 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * Handles a request by verifying the parameters and body against the OpenAPI spec file and
      * returning the appropriate response.
      */
-    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     private fun handleRequest(operation: Operation, call: Call) {
         verifyAuth(operation, call)
         verifyParams(operation, call)
@@ -145,7 +142,6 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * require authentication or it is optional, this step is skipped. If the authentication
      * fails, a 401 response is returned.
      */
-    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     private fun verifyAuth(operation: Operation, call: Call) {
         if (operation.security == null || operation.security.size == 0
             || containsEmptySecurityRequirement(operation)) return
@@ -169,7 +165,6 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * A security mechanism may contain more than one security schemes. All of them need to be
      * satisfied for the authorization to be successful.
      */
-    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     private fun verifySecurityRequirement(securityRequirement: SecurityRequirement, call: Call): Boolean {
         // All of the security schemes need to be satisfied
         return securityRequirement.keys.all { securitySchemeName ->
@@ -180,7 +175,6 @@ class MockServer(pathToSpec: String, port: Int = 0) {
     /**
      * Verifies whether call satisfies a single security scheme.
      */
-    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     private fun verifySecurityScheme(schemeName: String, call: Call): Boolean {
         val securityScheme = openAPISpec.components.securitySchemes[schemeName]
             ?: throw IllegalArgumentException("The OpenAPI Spec contains no security scheme component for $schemeName")
@@ -222,7 +216,6 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * Validates HTTP authentication, based on scheme. Currently only Basic and Bearer schemes
      * are supported.
      */
-    @ExperimentalStdlibApi // TODO Remove when using Kotlin 1.5
     private fun validateHttpAuth(securityScheme: SecurityScheme, call: Call): Boolean {
         return when (securityScheme.scheme.lowercase()) {
             "basic" -> {
