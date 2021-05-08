@@ -99,7 +99,6 @@ task("mkdocs") {
         rootProject.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
-        generateCoverageBadge()
         generateDownloadBadge()
     }
 }
@@ -109,6 +108,10 @@ repositories {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
+
+    doLast {
+        generateCoverageBadge()
+    }
 
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(
