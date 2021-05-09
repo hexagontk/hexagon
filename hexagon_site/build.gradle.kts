@@ -109,7 +109,6 @@ repositories {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
-
     doLast {
         generateCoverageBadge()
     }
