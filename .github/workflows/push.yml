@@ -15,11 +15,9 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
-
       - name: Restore Cache
         uses: actions/cache@v2
         with:
@@ -32,7 +30,6 @@ jobs:
       # PROCESS
       - name: Build Project
         run: ./gradlew --warn --console=plain build
-
       - name: Log Build (ON FAILURE)
         if: failure()
         run: ./gradlew --info --stacktrace --console=plain build
