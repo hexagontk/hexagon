@@ -1,10 +1,10 @@
 package com.hexagonkt.settings
 
-import kotlin.reflect.KClass
 import com.hexagonkt.logging.Logger
-import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.serialize
+import kotlin.reflect.KClass
 
 class Settings<T : Any>(
     private val type: KClass<T>,
@@ -27,7 +27,9 @@ class Settings<T : Any>(
                         log.info { "No settings found for $it" }
                     }
                     else {
-                        val serialize = s.serialize(Json).prependIndent(" ".repeat(4))
+                        val serialize =
+                            if (SerializationManager.defaultFormat == null) s.toString()
+                            else s.serialize().prependIndent(" ".repeat(4))
                         log.info { "Settings loaded from $it:\n\n$serialize" }
                     }
                 }

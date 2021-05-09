@@ -20,5 +20,7 @@ extra["basePackage"] = "com.hexagonkt.templates.freemarker"
 dependencies {
     "api"(project(":port_templates"))
     "api"("org.freemarker:freemarker:${properties["freemarkerVersion"]}")
+
     "testImplementation"(entityTests)
+    "testImplementation"(project(":serialization_json"))
 }

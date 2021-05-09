@@ -1,8 +1,14 @@
 package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.messaging.Message
+import com.hexagonkt.serialization.JacksonMapper
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.lang.System.currentTimeMillis
 import java.net.URI
@@ -24,6 +30,9 @@ class RabbitTest {
     private val client: RabbitMqClient = RabbitMqClient(URI(URI))
 
     @BeforeAll fun startConsumer() {
+        SerializationManager.formats = linkedSetOf(Json)
+        SerializationManager.mapper = JacksonMapper
+
         consumer.declareQueue(QUEUE)
         consumer.consume(QUEUE, String::class) { a ->
             Thread.sleep(DELAY)

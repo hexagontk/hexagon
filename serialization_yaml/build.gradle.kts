@@ -11,7 +11,7 @@ extra["basePackage"] = "com.hexagonkt.serialization"
 dependencies {
     val jacksonVersion = properties["jacksonVersion"]
 
-    "api"(project(":hexagon_core"))
+    "api"(project(":serialization_json"))
 
     "api"("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
 }

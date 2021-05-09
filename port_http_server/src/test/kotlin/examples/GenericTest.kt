@@ -5,14 +5,16 @@ import com.hexagonkt.http.Method.GET
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.Request
+import com.hexagonkt.http.client.Response
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
+import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parse
-import com.hexagonkt.http.client.Response
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -128,8 +130,8 @@ abstract class GenericTest(adapter: ServerPort) {
         get("/param/{param}") { ok("echo: ${pathParameters["param"]}") }
         get("/paramwithmaj/{paramWithMaj}") { ok("echo: ${pathParameters["paramWithMaj"]}") }
         get("/tworoutes/$part/{param}") { ok("$part route: ${pathParameters["param"]}") }
-        get("/tworoutes/${part.toUpperCase()}/{param}") {
-            ok("${part.toUpperCase()} route: ${pathParameters["param"]}")
+        get("/tworoutes/${part.uppercase()}/{param}") {
+            ok("${part.uppercase()} route: ${pathParameters["param"]}")
         }
 
         get(File(directory))
@@ -140,6 +142,8 @@ abstract class GenericTest(adapter: ServerPort) {
     }
 
     @BeforeAll fun initialize() {
+        SerializationManager.formats = linkedSetOf(Json)
+        SerializationManager.mapper = JacksonMapper
         server.start()
     }
 
@@ -276,9 +280,9 @@ abstract class GenericTest(adapter: ServerPort) {
         val response1 = client.get ("/tworoutes/$part/$expected")
         assertResponseEquals(response1, "$part route: $expected")
 
-        expected = expected.toUpperCase()
-        val response = client.get ("/tworoutes/${part.toUpperCase()}/$expected")
-        assertResponseEquals(response, "${part.toUpperCase()} route: $expected")
+        expected = expected.uppercase()
+        val response = client.get ("/tworoutes/${part.uppercase()}/$expected")
+        assertResponseEquals(response, "${part.uppercase()} route: $expected")
     }
 
     @Test fun echoParamWithMaj() {

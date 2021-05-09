@@ -1,8 +1,12 @@
 package com.hexagonkt.serialization
 
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import kotlin.test.assertFailsWith
 
+@TestInstance(PER_CLASS)
 class CsvTest {
     data class Player (val name: String, val number: Int, val category: Int)
 
@@ -17,6 +21,10 @@ class CsvTest {
 
         val alias: String = "$brand $model"
     )
+
+    @BeforeAll fun initialize() {
+        SerializationManager.formats = linkedSetOf(Json)
+    }
 
     @Test fun `CSV is serialized properly` () {
         val player = Player("Michael", 23, 18)

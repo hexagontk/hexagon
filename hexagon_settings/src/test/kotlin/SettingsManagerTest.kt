@@ -1,17 +1,19 @@
 package com.hexagonkt.settings
 
-import kotlin.test.assertEquals
+import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.Yaml
 import com.hexagonkt.settings.SettingsManager.ENVIRONMENT_PREFIX
 import com.hexagonkt.settings.SettingsManager.SETTINGS_FILE
+import com.hexagonkt.settings.SettingsManager.defaultSources
 import com.hexagonkt.settings.SettingsManager.settings
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import com.hexagonkt.serialization.SerializationManager.formats
-import com.hexagonkt.settings.SettingsManager.defaultSources
-import org.junit.jupiter.api.BeforeEach
 
 /**
  * Check `gradle.build` to see the related files creation.
@@ -35,6 +37,7 @@ internal class SettingsManagerTest {
     )
 
     @BeforeEach fun resetSettingSources() {
+        SerializationManager.mapper = JacksonMapper
         formats = linkedSetOf(Json, Yaml)
         settings = Settings(Map::class, defaultSources)
     }

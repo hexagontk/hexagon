@@ -1,16 +1,21 @@
 package com.hexagonkt.web.examples
 
-import com.hexagonkt.logging.Logger
 import com.hexagonkt.helpers.require
 import com.hexagonkt.http.client.Client
+import com.hexagonkt.http.client.Response
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import com.hexagonkt.serialization.Json
-import com.hexagonkt.serialization.parse
-import com.hexagonkt.http.client.Response
 import com.hexagonkt.http.server.ServerSettings
-import org.junit.jupiter.api.*
+import com.hexagonkt.logging.Logger
+import com.hexagonkt.serialization.JacksonMapper
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.parse
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 
 /**
@@ -101,6 +106,8 @@ abstract class TodoTest(adapter: ServerPort) {
     }
 
     @BeforeAll fun initialize() {
+        SerializationManager.mapper = JacksonMapper
+        SerializationManager.formats = linkedSetOf(Json)
         server.start()
     }
 

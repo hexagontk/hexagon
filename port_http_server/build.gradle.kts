@@ -27,6 +27,7 @@ dependencies {
     // For the Mock OpenAPI Server
     "testImplementation"("io.swagger.parser.v3:swagger-parser:2.0.20")
     "testImplementation"(project(":hexagon_settings"))
+    "testImplementation"(project(":serialization_json"))
 }
 
 extensions.configure<PublishingExtension> {

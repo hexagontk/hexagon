@@ -16,6 +16,7 @@ class MockServerRoutesTest {
     val server by lazy {
         MockServer("openapi_test.json").server
     }
+
     val client by lazy {
         Client(AhcAdapter(), endpoint = "http://localhost:${server.runtimePort}")
     }

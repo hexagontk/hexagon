@@ -6,7 +6,7 @@ import com.hexagonkt.http.Method
 import com.hexagonkt.http.Part
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseObjects
@@ -189,7 +189,7 @@ class Request(adapter: RequestPort) {
     inline fun <reified T : Any> bodyObjects(): List<T> = bodyObjects(T::class)
 
     internal fun requestType(): String =
-        contentType ?: defaultFormat.contentType
+        contentType ?: requireDefaultFormat().contentType
 
     internal fun requestFormat(): SerializationFormat =
         SerializationManager.formatOf(requestType())

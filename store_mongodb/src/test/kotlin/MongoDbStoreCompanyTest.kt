@@ -1,6 +1,9 @@
 package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.fail
+import com.hexagonkt.serialization.JacksonMapper
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.IndexOrder.DESCENDING
@@ -9,17 +12,22 @@ import org.bson.types.ObjectId
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
 import java.net.URL
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.*
+import java.util.TimeZone
 
+@TestInstance(PER_CLASS)
 class MongoDbStoreCompanyTest {
 
-    private val mongodbUrl = SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
-        ?: "mongodb://localhost:2080/test"
+    private val mongodbUrl by lazy {
+        SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
+            ?: "mongodb://localhost:2080/test"
+    }
 
     private val store: Store<Company, String> by lazy {
         createStore()
@@ -52,6 +60,11 @@ class MongoDbStoreCompanyTest {
         fun resetTimeZone() {
             TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
         }
+    }
+
+    @BeforeAll fun initialize() {
+        SerializationManager.formats = linkedSetOf(Json)
+        SerializationManager.mapper = JacksonMapper
     }
 
     @BeforeEach fun dropCollection() {

@@ -1,7 +1,6 @@
 
-import java.io.File
-
 import org.gradle.api.Project
+import java.io.File
 
 /**
  * Set of lines inside a text file.
@@ -85,7 +84,8 @@ data class FilesRange(val source: File, val target: File, val tag: String)
  * @param source File range for the source code that should be included in the documentation.
  */
 fun checkSamplesCode(documentation: FileRange, source: FileRange) {
-    if (documentation.strippedLines() != source.strippedLines())
+    val documentationLines = documentation.strippedLines()
+    if (documentationLines.isNotEmpty() && documentationLines != source.strippedLines())
         error("""
             Documentation $documentation does not match $source
 

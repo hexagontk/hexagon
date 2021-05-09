@@ -1,9 +1,9 @@
 import kotlin.math.floor
 
+apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
-apply(plugin = "jacoco")
 
-tasks.register<Delete>("clean") {
+tasks.named<Delete>("clean") {
     delete("build", "content")
 }
 
@@ -14,7 +14,7 @@ tasks.register<Exec>("serveSite") {
 }
 
 tasks.register<Exec>("buildSite") {
-    dependsOn("mkdocs")
+    dependsOn("checkDocs")
     workingDir = rootDir
     commandLine("docker-compose --log-level warning run site build -csq".split(" "))
 }
@@ -35,7 +35,8 @@ task("checkDocs") {
             FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
             FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files"),
             FilesRange(readme, rootProject.file("$examples/CorsTest.kt"), "cors"),
-            FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https")
+            FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https"),
+            FilesRange(readme, rootProject.file("$examples/ZipTest.kt"), "zip")
         )
 
         val contentTarget = project.file("content").absolutePath
@@ -51,8 +52,8 @@ task("checkDocs") {
 }
 
 task("mkdocs") {
-    dependsOn("jacocoRootReport")
     dependsOn(rootProject.getTasksByName("dokkaGfm", true))
+    dependsOn("jacocoRootReport")
 
     doLast {
         val contentTarget = project.file("content").absolutePath
@@ -109,7 +110,6 @@ repositories {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
-
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(
         rootProject.modulesPaths("src/main/kotlin") +
@@ -147,9 +147,10 @@ fun generateCoverageBadge() {
     val total = missed + covered
     val percentage = floor((covered * 100.0) / total).toInt()
 
-    val badge = file("content/img/coverage.svg")
+    val badge = file("assets/img/coverage.svg")
     val svg = badge.readText().replace("\${coverage}", "$percentage%")
-    badge.writeText(svg)
+    mkdir("content/img")
+    file("content/img/coverage.svg").writeText(svg)
 }
 
 fun generateDownloadBadge() {

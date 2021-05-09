@@ -7,8 +7,15 @@ import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.Mapper
 import com.hexagonkt.store.Store
 import com.mongodb.ConnectionString
-import com.mongodb.client.*
-import com.mongodb.client.model.*
+import com.mongodb.client.FindIterable
+import com.mongodb.client.MongoClients
+import com.mongodb.client.MongoCollection
+import com.mongodb.client.MongoDatabase
+import com.mongodb.client.model.Filters
+import com.mongodb.client.model.IndexOptions
+import com.mongodb.client.model.Indexes
+import com.mongodb.client.model.ReplaceOptions
+import com.mongodb.client.model.Updates
 import org.bson.Document
 import org.bson.conversions.Bson
 import kotlin.reflect.KClass
@@ -42,7 +49,7 @@ class MongoDbStore<T : Any, K : Any>(
         }
 
         val name = fields.entries.joinToString("_") {
-            it.key + "_" + it.value.toString().toLowerCase()
+            it.key + "_" + it.value.toString().lowercase()
         }
 
         val compoundIndex = Indexes.compoundIndex(indexes)

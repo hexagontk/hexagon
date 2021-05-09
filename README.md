@@ -123,14 +123,15 @@ import com.hexagonkt.http.server.Server
 
 lateinit var server: Server
 
+/**
+ * Start a Hello World server, serving at path "/hello".
+ */
 fun main() {
-    server = Server(JettyServletAdapter()) {
+    server = serve {
         get("/hello") {
             ok("Hello World!")
         }
     }
-
-    server.start()
 }
 // hello
 ```
@@ -166,7 +167,7 @@ val server: Server = Server(adapter) {
         // Require fails if parameter does not exists
         val author = queryParameters.require("author")
         val title = queryParameters.require("title")
-        val id = (books.keys.max() ?: 0) + 1
+        val id = (books.keys.maxOrNull() ?: 0) + 1
         books += id to Book(author, title)
         send(201, id)
     }
@@ -224,7 +225,7 @@ Example showing how to use sessions. Here you can check the
 
 ```kotlin
 // session
-val server: Server = Server(adapter) {
+val server: Server = Server(adapter, ServerSettings(features = setOf(SESSIONS))) {
     path("/session") {
         get("/id") { ok(session.id ?: "null") }
         get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
@@ -359,13 +360,13 @@ The following code shows how to serve resources and receive files. Here you can 
 // files
 private val server: Server = Server(adapter) {
     path("/static") {
-        get("/files/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+        get("/files/*", URL("classpath:assets")) // Serve `assets` resources on `/html/*`
         get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
     }
 
-    get("/html/*", Resource("assets")) // Serve `assets` resources on `/html/*`
+    get("/html/*", URL("classpath:assets")) // Serve `assets` resources on `/html/*`
     get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
-    get(Resource("public")) // Serve `public` resources folder on `/*`
+    get(URL("classpath:public")) // Serve `public` resources folder on `/*`
 
     post("/multipart") { ok(request.parts.keys.joinToString(":")) }
 

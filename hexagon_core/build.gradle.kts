@@ -9,17 +9,6 @@ description = "Hexagon core utilities. Includes DI, serialization, http and sett
 extra["basePackage"] = "com.hexagonkt"
 
 dependencies {
-    val jacksonVersion = properties["jacksonVersion"]
-
-    "api"("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
-    "api"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-    "api"("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")
-//    "api"("com.fasterxml.jackson.module:jackson-module-blackbird:$jacksonVersion")
-//    "api"("com.fasterxml.jackson.module:jackson-module-afterburner:$jacksonVersion")
-    "api"("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
-        exclude("org.jetbrains.kotlin")
-    }
-
     "testImplementation"(project(":serialization_yaml"))
 }
 

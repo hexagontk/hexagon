@@ -1,10 +1,11 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.serialization.SerializationManager.coreFormats
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
-import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.SerializationManager.formatOf
-import org.junit.jupiter.api.*
+import com.hexagonkt.serialization.SerializationManager.formats
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.URL
 import kotlin.test.assertFailsWith
@@ -15,7 +16,9 @@ class SerializationManagerTest {
         formats = linkedSetOf(Json, Yaml)
     }
 
-    @BeforeEach @AfterEach fun resetSerializationFormats () { formats = coreFormats }
+    @BeforeEach @AfterEach fun resetSerializationFormats () {
+        formats = linkedSetOf(Json)
+    }
 
     @Test fun `User can add and remove serialization formats` () {
         assert(formatOf(Json.contentType) == Json)
