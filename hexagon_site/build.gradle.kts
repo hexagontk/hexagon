@@ -52,8 +52,8 @@ task("checkDocs") {
 }
 
 task("mkdocs") {
-    dependsOn("jacocoRootReport")
     dependsOn(rootProject.getTasksByName("dokkaGfm", true))
+    dependsOn("jacocoRootReport")
 
     doLast {
         val contentTarget = project.file("content").absolutePath
@@ -100,6 +100,7 @@ task("mkdocs") {
         rootProject.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
+        generateCoverageBadge()
         generateDownloadBadge()
     }
 }
@@ -109,10 +110,6 @@ repositories {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
-    doLast {
-        generateCoverageBadge()
-    }
-
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(
         rootProject.modulesPaths("src/main/kotlin") +
