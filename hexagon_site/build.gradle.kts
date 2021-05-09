@@ -35,7 +35,8 @@ task("checkDocs") {
             FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
             FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files"),
             FilesRange(readme, rootProject.file("$examples/CorsTest.kt"), "cors"),
-            FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https")
+            FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https"),
+            FilesRange(readme, rootProject.file("$examples/ZipTest.kt"), "zip")
         )
 
         val contentTarget = project.file("content").absolutePath
