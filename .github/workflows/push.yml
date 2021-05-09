@@ -23,9 +23,11 @@ jobs:
       - name: Restore Cache
         uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
 
       # PROCESS
       - name: Build Project
