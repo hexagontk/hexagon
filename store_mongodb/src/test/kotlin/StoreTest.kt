@@ -1,11 +1,17 @@
 package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.helpers.fail
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.store.Store
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.URL
 import kotlin.reflect.KProperty1
 
+@TestInstance(PER_CLASS)
 abstract class StoreTest<T : Any, K : Any> {
 
     protected val store: Store<T, K> by lazy {
@@ -21,6 +27,10 @@ abstract class StoreTest<T : Any, K : Any> {
     protected abstract fun createTestEntities(): List<T>
 
     protected abstract fun changeObject(obj: T): T
+
+    @BeforeAll fun initialize() {
+        SerializationManager.formats = linkedSetOf(Json)
+    }
 
     @BeforeEach fun dropCollection() {
         store.drop()

@@ -217,7 +217,7 @@ class MockServer(pathToSpec: String, port: Int = 0) {
      * are supported.
      */
     private fun validateHttpAuth(securityScheme: SecurityScheme, call: Call): Boolean {
-        return when (securityScheme.scheme.toLowerCase()) {
+        return when (securityScheme.scheme.lowercase()) {
             "basic" -> {
                 call.request.headers["Authorization"]?.let { authString ->
                     authString.isNotBlank() && authString.startsWith("Basic")

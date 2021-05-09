@@ -1,12 +1,21 @@
 package com.hexagonkt.settings
 
+import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.Yaml
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
 
+@TestInstance(PER_CLASS)
 internal class SettingsTest {
+
+    @BeforeAll fun initialize() {
+        SerializationManager.mapper = JacksonMapper
+    }
 
     @Test fun `Load environment variables add settings with provided prefixes`() {
         assert(EnvironmentVariablesSource("PATH").load().size == 1)

@@ -1,14 +1,24 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.injection.forceBind
 import com.hexagonkt.injection.InjectionManager.bind
-import com.hexagonkt.settings.SettingsManager
-import org.junit.jupiter.api.Test
-import kotlin.test.assertFailsWith
+import com.hexagonkt.injection.forceBind
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.settings.SettingsManager
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import kotlin.test.assertFailsWith
 import java.net.InetAddress.getByName as address
 
+@TestInstance(PER_CLASS)
 class ServerTest {
+
+    @BeforeAll fun initialize() {
+        SerializationManager.formats = linkedSetOf(Json)
+    }
 
     @Test fun `Injected parameters`() {
         forceBind(ServerPort::class, VoidAdapter)

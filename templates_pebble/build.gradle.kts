@@ -23,4 +23,5 @@ dependencies {
     "api"("io.pebbletemplates:pebble:${properties["pebbleVersion"]}")
 
     "testImplementation"(entityTests)
+    "testImplementation"(project(":serialization_json"))
 }

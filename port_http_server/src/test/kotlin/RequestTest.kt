@@ -4,10 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.hexagonkt.http.server.test.TestRequest
 import com.hexagonkt.http.server.test.testCall
+import com.hexagonkt.serialization.JacksonMapper
+import com.hexagonkt.serialization.SerializationManager
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertNull
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RequestTest {
+
+    @BeforeAll fun setUpSerializationManager() {
+        SerializationManager.mapper = JacksonMapper
+    }
 
     @Test fun `parse path field and query parameters to given type`() {
         val request = TestRequest(

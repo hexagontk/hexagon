@@ -7,41 +7,33 @@ on:
       - master
 
 jobs:
-  push:
-    name: Push
+  build:
+    name: Build
     runs-on: ubuntu-latest
-
     steps:
+
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-
       - name: Install Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
+        uses: actions/setup-java@v2
+        with: { java-version: 11, distribution: adopt }
       - name: Restore Cache
         uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
 
-      # BUILD
+      # PROCESS
       - name: Build Project
         run: ./gradlew --warn --console=plain build
-
-      - name: Upload Tests Reports (ON FAILURE)
-        uses: actions/upload-artifact@v2
+      - name: Log Build (ON FAILURE)
         if: failure()
-        with:
-          name: test_reports
-          path: "*/build/**/TEST-*.xml"
+        run: ./gradlew --info --stacktrace --console=plain build
 
-      - name: Upload Verification Reports (ON FAILURE)
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: verification_reports
-          path: "build/reports/dependency-verification/at-*/**/*"
+      # CLEAN UP
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}

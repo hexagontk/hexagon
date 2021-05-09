@@ -1,7 +1,3 @@
 package com.hexagonkt.serialization
 
-import com.fasterxml.jackson.databind.JsonMappingException
-
-class ParseException(cause: Throwable? = null) : RuntimeException(cause) {
-    val field: String = (cause as? JsonMappingException)?.pathReference ?: ""
-}
+class ParseException(val field: String, cause: Throwable? = null) : RuntimeException(cause)

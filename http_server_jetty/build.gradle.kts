@@ -29,10 +29,10 @@ dependencies {
     "api"("org.eclipse.jetty.http2:http2-server:$jettyVersion") { exclude("org.slf4j") }
     "api"("org.eclipse.jetty:jetty-alpn-java-server:$jettyVersion") { exclude("org.slf4j") }
 
-    "testImplementation"(project(":http_client_ahc"))
     "testImplementation"(entityTests)
-    "testImplementation"(project(":hexagon_web"))
     "testImplementation"(entityTestsHexagonWeb)
-
+    "testImplementation"(project(":http_client_ahc"))
+    "testImplementation"(project(":hexagon_web"))
+    "testImplementation"(project(":serialization_json"))
     "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") { exclude("org.slf4j") }
 }

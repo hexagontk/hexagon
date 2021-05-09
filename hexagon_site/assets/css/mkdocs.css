@@ -15,6 +15,10 @@ article p a, article li a {
   margin-left: 0;
 }
 
+ul.md-source__facts {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
 [data-md-color-primary=indigo] .md-hero {
   background-image: linear-gradient(0deg, #31415C 7%, #546691 100%);
 }

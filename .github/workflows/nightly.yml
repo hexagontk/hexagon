@@ -6,52 +6,139 @@ on:
     - cron: "59 23 * * *"
 
 jobs:
-  nightly:
-    name: Nightly
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     steps:
+
       # SET UP
-      - name: Checkout
+      - name: Check Out
         uses: actions/checkout@v2
-        with:
-          ref: develop
-
+        with: { ref: develop }
       - name: Install Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
+        uses: actions/setup-java@v2
+        with: { java-version: 11, distribution: adopt }
       - name: Restore Cache
         uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
 
-      # BUILD
+      # PROCESS
       - name: Build Project
         run: ./gradlew --warn --console=plain build
+      - name: Log Build (ON FAILURE)
+        if: failure()
+        run: ./gradlew --info --stacktrace --console=plain build
 
+      # CLEAN UP
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+
+  sample_keystores:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+
+    name: Sample Keystores (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      # SET UP
+      - name: Check Out
+        uses: actions/checkout@v2
+        with: { ref: develop }
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with: { java-version: 11, distribution: adopt }
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+
+      # PROCESS
       - name: Create Sample Keystores
         run: ./gradlew --warn --console=plain createCa createIdentities
 
+      # CLEAN UP
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+
+  build_site:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+
+    name: Build Site (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      # SET UP
+      - name: Check Out
+        uses: actions/checkout@v2
+        with: { ref: develop }
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with: { java-version: 11, distribution: adopt }
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+
+      # PROCESS
       - name: Build Site
-        run: ./gradlew --no-daemon --warn --console=plain buildSite
+        run: |
+          ./gradlew --warn --console=plain --no-daemon build
+          ./gradlew --warn --console=plain --no-daemon -x test buildSite
 
+      # CLEAN UP
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+
+  test_publishing:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+
+    name: Test Publishing (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      # SET UP
+      - name: Check Out
+        uses: actions/checkout@v2
+        with: { ref: develop }
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with: { java-version: 11, distribution: adopt }
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+
+      # PROCESS
       - name: Test Publishing
-        run: ./gradlew --no-daemon --warn --console=plain publishToMavenLocal
+        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
 
-      - name: Upload Tests Reports (ON FAILURE)
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: test_reports
-          path: "*/build/**/TEST-*.xml"
-
-      - name: Upload Verification Reports (ON FAILURE)
-        uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: verification_reports
-          path: "build/reports/dependency-verification/at-*/**/*"
+      # CLEAN UP
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}

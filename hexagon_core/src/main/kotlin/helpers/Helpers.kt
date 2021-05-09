@@ -55,6 +55,7 @@ fun isPortOpened(port: Int): Boolean =
         Socket("localhost", port).use { it.isConnected }
     }
     catch (e: Exception) {
+        logger.debug { "Checked port: $port is already open" }
         false
     }
 

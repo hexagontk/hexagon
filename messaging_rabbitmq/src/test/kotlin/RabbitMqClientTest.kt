@@ -2,15 +2,25 @@ package com.hexagonkt.messaging.rabbitmq
 
 import com.hexagonkt.logging.Logger
 import com.hexagonkt.messaging.rabbitmq.RabbitMqClient.Companion.createConnectionFactory
+import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
+import org.junit.jupiter.api.BeforeAll
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.URI
 import kotlin.test.assertFailsWith
 
+@TestInstance(PER_CLASS)
 class RabbitMqClientTest {
 
     private val log: Logger = Logger(this::class)
+
+    @BeforeAll fun initialize() {
+        SerializationManager.formats = linkedSetOf(Json)
+    }
 
     @Test fun `Create a connection factory with empty URI fails` () {
         assertFailsWith(IllegalArgumentException::class) {

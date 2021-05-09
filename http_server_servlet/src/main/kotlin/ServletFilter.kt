@@ -5,19 +5,38 @@ import com.hexagonkt.http.ALL
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
-import com.hexagonkt.http.server.*
+import com.hexagonkt.http.server.Call
+import com.hexagonkt.http.server.ErrorCodeCallback
+import com.hexagonkt.http.server.ExceptionCallback
+import com.hexagonkt.http.server.FilterOrder
 import com.hexagonkt.http.server.FilterOrder.AFTER
 import com.hexagonkt.http.server.FilterOrder.BEFORE
-import com.hexagonkt.http.server.RequestHandler.*
+import com.hexagonkt.http.server.Request
+import com.hexagonkt.http.server.RequestHandler
+import com.hexagonkt.http.server.RequestHandler.CodeHandler
+import com.hexagonkt.http.server.RequestHandler.ExceptionHandler
+import com.hexagonkt.http.server.RequestHandler.FileHandler
+import com.hexagonkt.http.server.RequestHandler.FilterHandler
+import com.hexagonkt.http.server.RequestHandler.ResourceHandler
+import com.hexagonkt.http.server.RequestHandler.RouteHandler
+import com.hexagonkt.http.server.Response
+import com.hexagonkt.http.server.RouteCallback
+import com.hexagonkt.http.server.ServerFeature
 import com.hexagonkt.http.server.ServerFeature.SESSIONS
+import com.hexagonkt.http.server.ServerSettings
+import com.hexagonkt.http.server.Session
+import com.hexagonkt.http.server.UnsupportedSessionAdapter
 import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.SerializationManager.contentTypeOf
-
 import java.io.File
 import java.io.InputStream
 import java.net.URL
-
-import javax.servlet.*
+import javax.servlet.Filter
+import javax.servlet.FilterChain
+import javax.servlet.FilterConfig
+import javax.servlet.MultipartConfigElement
+import javax.servlet.ServletRequest
+import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest as HttpRequest
 import javax.servlet.http.HttpServletResponse as HttpResponse
 
@@ -187,7 +206,7 @@ class ServletFilter(router: List<RequestHandler>, serverSettings: ServerSettings
     private fun handleException(
         exception: Exception, call: Call, type: Class<*> = exception.javaClass) {
 
-        log.trace { "Handling '${exception.javaClass.simpleName}' exception at request processing" }
+        log.info { "Handling '${exception.javaClass.simpleName}' exception at request processing" }
 
         when (exception) {
             is CodedException -> {

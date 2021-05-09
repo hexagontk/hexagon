@@ -33,7 +33,7 @@ object Xml : SerializationFormat {
             mapper.readValue(input, type.java)
         }
         catch (e: JsonProcessingException) {
-            throw ParseException(e)
+            throw JacksonHelper.parseException(e)
         }
 
     override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> =
@@ -41,7 +41,7 @@ object Xml : SerializationFormat {
             mapper.readValue(input, collectionType(List::class, type))
         }
         catch (e: JsonProcessingException) {
-            throw ParseException(e)
+            throw JacksonHelper.parseException(e)
         }
 
     private fun <T : Collection<*>> collectionType(coll: KClass<T>, type: KClass<*>) =

@@ -10,17 +10,26 @@ import com.hexagonkt.http.client.Request
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.ServerFeature.SESSIONS
 import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import java.lang.IllegalStateException
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.InetAddress
 import java.net.URL
-
 import com.hexagonkt.http.client.Response as ClientResponse
 
+@TestInstance(PER_CLASS)
 abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
 
     private data class Type(val value: String = "value")
+
+    @BeforeAll fun initialize() {
+        SerializationManager.formats = linkedSetOf(Json)
+        SerializationManager.mapper = JacksonMapper
+    }
 
     @Test fun serverCreation() {
         // serverCreation

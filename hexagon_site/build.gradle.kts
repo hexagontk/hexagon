@@ -1,58 +1,36 @@
 import kotlin.math.floor
 
+apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
-apply(plugin = "jacoco")
 
-tasks.register<Delete>("clean") {
+repositories {
+    mavenCentral()
+}
+
+tasks.named<Delete>("clean") {
     delete("build", "content")
 }
 
-tasks.register<Exec>("serveSite") {
-    dependsOn("mkdocs")
-    workingDir = rootDir
-    commandLine("docker-compose --log-level warning up -d site".split(" "))
-}
+tasks.register<JacocoReport>("jacocoRootReport") {
+    executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
+    sourceDirectories.from(
+        rootProject.modulesPaths("src/main/kotlin") +
+            rootProject.modulesPaths("build/jacoco/src")
+    )
+    classDirectories.from(rootProject.modulesPaths("build/classes/kotlin/main"))
 
-tasks.register<Exec>("buildSite") {
-    dependsOn("mkdocs")
-    workingDir = rootDir
-    commandLine("docker-compose --log-level warning run site build -csq".split(" "))
-}
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = true
 
-task("checkDocs") {
-    dependsOn("mkdocs")
-    doLast {
-        val readme = rootProject.file("README.md")
-        val service = rootProject.file("http_server_jetty/src/test/kotlin/HelloWorld.kt")
-        val examples = "port_http_server/src/test/kotlin/examples"
-
-        checkSamplesCode(FileRange (readme, "hello"), FileRange(service))
-        checkSamplesCode(
-            FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
-            FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
-            FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
-            FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
-            FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
-            FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files"),
-            FilesRange(readme, rootProject.file("$examples/CorsTest.kt"), "cors"),
-            FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https")
-        )
-
-        val contentTarget = project.file("content").absolutePath
-        val markdownFiles = project.fileTree("dir" to contentTarget, "include" to "**/*.md")
-
-        markdownFiles.forEach { markdownFile ->
-            if (markdownFile.readText().contains("@code")) {
-                val message = "${markdownFile.absolutePath} Contains `@code` placeholder"
-                throw GradleException(message)
-            }
-        }
+        val reportsOutput = file("content/jacoco").also { it.mkdirs() }
+        html.outputLocation.set(reportsOutput)
+        xml.outputLocation.set(reportsOutput.resolve("jacoco.xml"))
     }
 }
 
 task("mkdocs") {
-    dependsOn("jacocoRootReport")
-    dependsOn(rootProject.getTasksByName("dokkaGfm", true))
+    dependsOn(tasks.named("jacocoRootReport"))
 
     doLast {
         val contentTarget = project.file("content").absolutePath
@@ -104,31 +82,51 @@ task("mkdocs") {
     }
 }
 
-repositories {
-    mavenCentral()
-}
+task("checkDocs") {
+    dependsOn("mkdocs")
+    doLast {
+        val readme = rootProject.file("README.md")
+        val service = rootProject.file("http_server_jetty/src/test/kotlin/HelloWorld.kt")
+        val examples = "port_http_server/src/test/kotlin/examples"
 
-tasks.register<JacocoReport>("jacocoRootReport") {
+        checkSamplesCode(FileRange (readme, "hello"), FileRange(service))
+        checkSamplesCode(
+            FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
+            FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
+            FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
+            FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
+            FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
+            FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files"),
+            FilesRange(readme, rootProject.file("$examples/CorsTest.kt"), "cors"),
+            FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https"),
+            FilesRange(readme, rootProject.file("$examples/ZipTest.kt"), "zip")
+        )
 
-    executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
-    sourceDirectories.from(
-        rootProject.modulesPaths("src/main/kotlin") +
-        rootProject.modulesPaths("build/jacoco/src")
-    )
-    classDirectories.from(rootProject.modulesPaths("build/classes/kotlin/main"))
+        val contentTarget = project.file("content").absolutePath
+        val markdownFiles = project.fileTree("dir" to contentTarget, "include" to "**/*.md")
 
-    reports {
-        html.isEnabled = true
-        xml.isEnabled = true
-
-        val reportsOutput = file("content/jacoco").also { it.mkdirs() }
-        html.outputLocation.set(reportsOutput)
-        xml.outputLocation.set(reportsOutput.resolve("jacoco.xml"))
+        markdownFiles.forEach { markdownFile ->
+            if (markdownFile.readText().contains("@code")) {
+                val message = "${markdownFile.absolutePath} Contains `@code` placeholder"
+                throw GradleException(message)
+            }
+        }
     }
 }
 
-fun generateCoverageBadge() {
+tasks.register<Exec>("serveSite") {
+    dependsOn("mkdocs")
+    workingDir = rootDir
+    commandLine("docker-compose --log-level warning up -d site".split(" "))
+}
 
+tasks.register<Exec>("buildSite") {
+    dependsOn("checkDocs")
+    workingDir = rootDir
+    commandLine("docker-compose --log-level warning run site build -csq".split(" "))
+}
+
+fun generateCoverageBadge() {
     val coverageReport = file("content/jacoco/jacoco.xml")
     val coverageReportLength = coverageReport.length()
     val groups = coverageReport.reader().use {

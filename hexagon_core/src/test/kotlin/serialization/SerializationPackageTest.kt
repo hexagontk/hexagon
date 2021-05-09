@@ -1,7 +1,10 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.toStream
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.InetAddress
 import java.net.URL
 import java.nio.ByteBuffer
@@ -9,6 +12,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
+@TestInstance(PER_CLASS)
 class SerializationPackageTest {
 
     private val company = Company(
@@ -31,6 +35,11 @@ class SerializationPackageTest {
         creationDate = LocalDateTime.of(2016, 1, 1, 0, 0, 0),
         host = InetAddress.getByName("127.0.0.1")
     )
+
+    @BeforeAll fun initialize() {
+        SerializationManager.formats = linkedSetOf(Json)
+        SerializationManager.mapper = JacksonMapper
+    }
 
     @Test fun `Inline convert object work correctly`() {
         val map = company.convertToMap()

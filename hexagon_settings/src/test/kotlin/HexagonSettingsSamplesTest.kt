@@ -1,5 +1,6 @@
 package com.hexagonkt.settings
 
+import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.Yaml
@@ -10,6 +11,7 @@ class HexagonSettingsSamplesTest {
     @Test fun settingsUsage() {
 
         SerializationManager.formats = linkedSetOf(Json, Yaml)
+        SerializationManager.mapper = JacksonMapper
 
         // settingsUsage
         data class Configuration(

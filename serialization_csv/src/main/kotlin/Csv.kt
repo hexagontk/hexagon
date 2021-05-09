@@ -3,12 +3,12 @@ package com.hexagonkt.serialization
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.dataformat.csv.CsvGenerator
-import java.io.InputStream
-import java.io.OutputStream
-import kotlin.reflect.KClass
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvParser
 import com.hexagonkt.serialization.JacksonHelper.setupObjectMapper
+import java.io.InputStream
+import java.io.OutputStream
+import kotlin.reflect.KClass
 
 object Csv : SerializationFormat {
 
@@ -37,7 +37,7 @@ object Csv : SerializationFormat {
             objectReader(type).readValue(input)
         }
         catch (e: JsonProcessingException) {
-            throw ParseException(e)
+            throw JacksonHelper.parseException(e)
         }
 
     override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> =
@@ -45,7 +45,7 @@ object Csv : SerializationFormat {
             objectReader(type).readValues<T>(input).readAll()
         }
         catch (e: JsonProcessingException) {
-            throw ParseException(e)
+            throw JacksonHelper.parseException(e)
         }
 
     private fun <T : Any> objectReader(type: KClass<T>): ObjectReader =
