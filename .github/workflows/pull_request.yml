@@ -86,7 +86,7 @@ jobs:
 
       # PROCESS
       - name: Build Site
-        run: ./gradlew --no-daemon --warn --console=plain buildSite
+        run: ./gradlew --warn --console=plain --no-daemon buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -114,7 +114,7 @@ jobs:
 
       # PROCESS
       - name: Test Publishing
-        run: ./gradlew --no-daemon --warn --console=plain publishToMavenLocal
+        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
 
       # CLEAN UP
       - name: Clean Gradle Cache

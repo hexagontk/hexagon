@@ -140,6 +140,8 @@ jacocoTestReport {
     }
 }
 
+build.dependsOn("jacocoTestReport")
+
 task("sourcesJar", type: Jar) {
     group = "distribution"
     description = "Create a jar file with the source code files."
