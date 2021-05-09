@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
  * Generators registry and utilities. This object keep tracks of supplier functions or specific
  * objects bound to classes. Different suppliers can be bound to the same type using 'tags'.
  */
-<span class="fc" id="L11">object InjectionManager {</span>
+object InjectionManager {
 
 <span class="fc" id="L13">    internal val logger: Logger by lazy { Logger(this::class) }</span>
 
@@ -96,13 +96,13 @@ import kotlin.reflect.KClass
     fun &lt;T : Any&gt; injectList(type: KClass&lt;T&gt;): List&lt;T&gt; =
 <span class="fc" id="L97">        bindings</span>
 <span class="fc bfc" id="L98" title="All 2 branches covered.">            .filter { it.key.type == type }</span>
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">            .map { it.value.provide() as T }</span>
+<span class="fc" id="L99">            .map { it.value.provide() as T }</span>
 
     @Suppress(&quot;UNCHECKED_CAST&quot;) // bind operation takes care of type matching
     fun &lt;T : Any&gt; injectMap(type: KClass&lt;T&gt;): Map&lt;Any, T&gt; =
 <span class="fc" id="L103">        bindings</span>
 <span class="fc bfc" id="L104" title="All 2 branches covered.">            .filter { it.key.type == type }</span>
-<span class="pc bpc" id="L105" title="1 of 2 branches missed.">            .map { it.key.tag to it.value.provide() as T }</span>
+<span class="fc" id="L105">            .map { it.key.tag to it.value.provide() as T }</span>
 <span class="fc" id="L106">            .map { it.first to it.second }</span>
 <span class="fc" id="L107">            .toMap()</span>
 
@@ -136,4 +136,4 @@ import kotlin.reflect.KClass
 <span class="fc" id="L136">                &quot;\t * ${it.first}${it.second}&quot;</span>
 <span class="fc" id="L137">            }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

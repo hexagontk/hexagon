@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Settings.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.settings</a> &gt; <span class="el_source">Settings.kt</span></div><h1>Settings.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.settings
 
-import kotlin.reflect.KClass
 import com.hexagonkt.logging.Logger
-import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.serialize
+import kotlin.reflect.KClass
 
 <span class="fc" id="L9">class Settings&lt;T : Any&gt;(</span>
-    private val type: KClass&lt;T&gt;,
+<span class="fc" id="L10">    private val type: KClass&lt;T&gt;,</span>
 <span class="fc" id="L11">    private val sources: List&lt;SettingsSource&gt; = emptyList()</span>
 ) {
 
-<span class="fc" id="L14">    constructor(type: KClass&lt;T&gt;, vararg sources: SettingsSource) :</span>
+    constructor(type: KClass&lt;T&gt;, vararg sources: SettingsSource) :
 <span class="fc" id="L15">        this(type, sources.toList())</span>
 
 <span class="fc" id="L17">    private val log: Logger = Logger(this::class)</span>
@@ -27,19 +27,21 @@ import com.hexagonkt.serialization.serialize
 <span class="fc" id="L27">                        log.info { &quot;No settings found for $it&quot; }</span>
                     }
                     else {
-<span class="fc" id="L30">                        val serialize = s.serialize(Json).prependIndent(&quot; &quot;.repeat(4))</span>
-<span class="fc" id="L31">                        log.info { &quot;Settings loaded from $it:\n\n$serialize&quot; }</span>
+<span class="fc" id="L30">                        val serialize =</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">                            if (SerializationManager.defaultFormat == null) s.toString()</span>
+<span class="fc" id="L32">                            else s.serialize().prependIndent(&quot; &quot;.repeat(4))</span>
+<span class="fc" id="L33">                        log.info { &quot;Settings loaded from $it:\n\n$serialize&quot; }</span>
                     }
-<span class="fc" id="L33">                }</span>
+<span class="fc" id="L35">                }</span>
             }
 
-<span class="fc bfc" id="L36" title="All 2 branches covered.">        return if (sourcesProperties.isEmpty())</span>
-<span class="fc" id="L37">            emptyMap&lt;Any, Any&gt;().convertToObject(type)</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        return if (sourcesProperties.isEmpty())</span>
+<span class="fc" id="L39">            emptyMap&lt;Any, Any&gt;().convertToObject(type)</span>
         else
-<span class="fc" id="L39">            sourcesProperties.reduce { a, b -&gt; a + b }.convertToObject(type)</span>
+<span class="fc" id="L41">            sourcesProperties.reduce { a, b -&gt; a + b }.convertToObject(type)</span>
     }
 
     override fun toString(): String =
-<span class="nc" id="L43">        &quot;Settings wrapped in $type class&quot;</span>
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+<span class="nc" id="L45">        &quot;Settings wrapped in $type class&quot;</span>
+<span class="fc" id="L46">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

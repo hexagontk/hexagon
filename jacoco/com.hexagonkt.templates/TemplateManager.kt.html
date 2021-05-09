@@ -5,7 +5,7 @@ import java.util.Locale
 /**
  * The TemplateManager handles multiple templates engines.
  */
-<span class="fc" id="L8">object TemplateManager {</span>
+object TemplateManager {
 
 <span class="fc" id="L10">    private val engines: MutableMap&lt;String, TemplateEngine&gt; = mutableMapOf()</span>
 
@@ -35,10 +35,10 @@ import java.util.Locale
 
     private fun engine(prefixedResource: String): Map.Entry&lt;String, TemplateEngine&gt;? =
 <span class="fc bfc" id="L37" title="All 2 branches covered.">        engines.filterKeys { prefix -&gt; prefixedResource.startsWith(prefix + PREFIX_DELIMITER) }</span>
-            .entries
+<span class="fc" id="L38">            .entries</span>
 <span class="fc" id="L39">            .firstOrNull()</span>
 
     private fun plainResource(prefixedResource: String, prefix: String): String =
 <span class="fc" id="L42">        prefixedResource.removePrefix(prefix + PREFIX_DELIMITER)</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

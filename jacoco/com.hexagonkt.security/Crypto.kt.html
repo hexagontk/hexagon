@@ -12,7 +12,7 @@ fun hmac(algorithm: String, data: ByteArray, key: ByteArray): ByteArray {
 
 fun chainHmac(algorithm: String, vararg fields: String): ByteArray =
 <span class="fc" id="L14">    fields</span>
-<span class="pc bpc" id="L15" title="1 of 2 branches missed.">        .map(String::toByteArray)</span>
+<span class="fc" id="L15">        .map(String::toByteArray)</span>
 <span class="fc" id="L16">        .reduce { data, field -&gt; hmac(algorithm, field, data) }</span>
 
 fun hash(algorithm: String, data: ByteArray): ByteArray {
@@ -29,4 +29,4 @@ fun sign(algorithm: String, data: String, key: ByteArray): ByteArray {
 <span class="nc" id="L29">    mac.init(SecretKeySpec(key, algorithm))</span>
 <span class="nc" id="L30">    return mac.doFinal(data.toByteArray())</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

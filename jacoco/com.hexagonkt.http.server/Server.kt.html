@@ -32,7 +32,7 @@ import java.lang.System.nanoTime
  */
 <span class="fc" id="L33">data class Server(</span>
 <span class="fc" id="L34">    private val adapter: ServerPort = inject(),</span>
-    private val router: Router,
+<span class="fc" id="L35">    private val router: Router,</span>
 <span class="fc" id="L36">    val settings: ServerSettings = ServerSettings()</span>
 ) {
 
@@ -75,7 +75,7 @@ import java.lang.System.nanoTime
      */
 <span class="fc" id="L76">    constructor(</span>
 <span class="fc" id="L77">        adapter: ServerPort = inject(),</span>
-<span class="fc" id="L78">        settings: ServerSettings = injectOrNull() ?: ServerSettings(),</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        settings: ServerSettings = injectOrNull() ?: ServerSettings(),</span>
         block: Router.() -&gt; Unit
     ) :
 <span class="fc" id="L81">        this(adapter, Router(block), settings)</span>
@@ -182,8 +182,8 @@ import java.lang.System.nanoTime
 <span class="fc bfc" id="L182" title="All 2 branches covered.">            Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot;}</span>
 <span class="fc" id="L183">        &quot;&quot;&quot;.trimIndent()</span>
 
-<span class="pc bpc" id="L185" title="1 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information</span>
+<span class="fc bfc" id="L185" title="All 4 branches covered.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information</span>
 <span class="fc" id="L186">        return banner.prependIndent()</span>
     }
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+<span class="fc" id="L188">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -16,8 +16,8 @@ import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.javaType
 
 <span class="fc" id="L18">open class MongoDbMapper&lt;T : Any, K : Any&gt;(</span>
-    private val type: KClass&lt;T&gt;,
-    private val key: KProperty1&lt;T, K&gt;
+<span class="fc" id="L19">    private val type: KClass&lt;T&gt;,</span>
+<span class="fc" id="L20">    private val key: KProperty1&lt;T, K&gt;</span>
 ) : Mapper&lt;T&gt; {
 
 <span class="fc" id="L23">    override val fields: Map&lt;String, KProperty1&lt;T, *&gt;&gt; by lazy {</span>
@@ -71,4 +71,4 @@ import kotlin.reflect.jvm.javaType
         }
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

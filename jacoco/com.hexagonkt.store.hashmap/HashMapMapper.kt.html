@@ -12,22 +12,20 @@ import kotlin.reflect.full.declaredMemberProperties
 <span class="fc" id="L12">class HashMapMapper&lt;T: Any&gt;(private val type: KClass&lt;T&gt;): Mapper&lt;T&gt; {</span>
 
 <span class="fc" id="L14">    override val fields: Map&lt;String, KProperty1&lt;T, *&gt;&gt; by lazy {</span>
-<span class="fc" id="L15">        logger.time (&quot;REFLECT&quot;) { type.declaredMemberProperties }</span>
-<span class="fc" id="L16">            .map { it.name to it }</span>
-<span class="fc" id="L17">            .toMap()</span>
+<span class="fc" id="L15">        logger.time(&quot;REFLECT&quot;) { type.declaredMemberProperties }.associateBy { it.name }</span>
     }
 
     override fun toStore(instance: T): Map&lt;String, Any&gt;  =
-<span class="fc" id="L21">        instance.convertToMap()</span>
-<span class="fc" id="L22">            .filterEmpty()</span>
-<span class="fc" id="L23">            .mapKeys { it.key.toString() }</span>
-<span class="fc" id="L24">            .mapValues { it.value }</span>
+<span class="fc" id="L19">        instance.convertToMap()</span>
+<span class="fc" id="L20">            .filterEmpty()</span>
+<span class="fc" id="L21">            .mapKeys { it.key.toString() }</span>
+<span class="fc" id="L22">            .mapValues { it.value }</span>
 
     @Suppress(&quot;UNCHECKED_CAST&quot;)
     override fun fromStore(map: Map&lt;String, Any&gt;): T =
-<span class="fc" id="L28">        map.filterEmpty().convertToObject(type)</span>
+<span class="fc" id="L26">        map.filterEmpty().convertToObject(type)</span>
 
     override fun fromStore(property: String, value: Any): Any =
-<span class="fc" id="L31">        value</span>
+<span class="fc" id="L29">        value</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

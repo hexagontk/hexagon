@@ -30,7 +30,7 @@ import com.hexagonkt.logging.LoggingLevel.*
      *
      * @param type Logger type. It is shown in the logs messages and used for log filtering.
      */
-<span class="fc" id="L33">    constructor(type: KClass&lt;*&gt;):</span>
+    constructor(type: KClass&lt;*&gt;):
 <span class="pc bpc" id="L34" title="1 of 2 branches missed.">        this(type.qualifiedName ?: error(&quot;Cannot get qualified name of $type&quot;))</span>
 
     fun trace(message: () -&gt; Any?) {
@@ -78,4 +78,4 @@ import com.hexagonkt.logging.LoggingLevel.*
 
 <span class="fc" id="L79">    private fun formatNanos (nanoseconds: Long): String = &quot;%1.3f ms&quot;.format (nanoseconds / 1e6)</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

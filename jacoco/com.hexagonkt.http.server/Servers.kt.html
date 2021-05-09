@@ -21,7 +21,7 @@ typealias ErrorCodeCallback = Call.(CodedException) -&gt; Unit
  *
  * @return The started [Server] instance.
  */
-fun serve(
+<span class="nc" id="L24">fun serve(</span>
 <span class="nc" id="L25">    settings: ServerSettings = ServerSettings(),</span>
     router: Router,
 <span class="nc" id="L27">    adapter: ServerPort = InjectionManager.inject()): Server =</span>
@@ -36,9 +36,9 @@ fun serve(
  *
  * @return The started [Server] instance.
  */
-fun serve(
+<span class="nc" id="L39">fun serve(</span>
 <span class="nc" id="L40">    settings: ServerSettings = ServerSettings(),</span>
 <span class="nc" id="L41">    adapter: ServerPort = InjectionManager.inject(),</span>
     block: Router.() -&gt; Unit): Server =
 <span class="fc" id="L43">        Server(adapter, Router(block), settings).apply { start() }</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

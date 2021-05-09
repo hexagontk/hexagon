@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_CRE
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
 import com.fasterxml.jackson.databind.JavaType
 import com.fasterxml.jackson.databind.JsonDeserializer
+import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY
 import com.fasterxml.jackson.databind.MappingJsonFactory
@@ -25,13 +26,12 @@ import com.fasterxml.jackson.databind.deser.ContextualDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-//import com.fasterxml.jackson.module.afterburner.AfterburnerModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.net.InetAddress
 import java.nio.ByteBuffer
 import java.util.Base64
 
-<span class="fc" id="L34">object JacksonHelper {</span>
+object JacksonHelper {
 
 <span class="fc" id="L36">    val mapper: ObjectMapper by lazy { createObjectMapper () }</span>
 
@@ -50,96 +50,98 @@ import java.util.Base64
 <span class="fc" id="L50">        .registerModule(KotlinModule())</span>
 <span class="fc" id="L51">        .registerModule(JavaTimeModule())</span>
 <span class="fc" id="L52">        .registerModule(Jdk8Module())</span>
-//        .registerModule(AfterburnerModule()) // TODO Enable extra modules to be loaded by clients
-<span class="fc" id="L54">        .registerModule(SimpleModule(&quot;SerializationModule&quot;, Version.unknownVersion())</span>
-<span class="fc" id="L55">            .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)</span>
-<span class="fc" id="L56">            .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)</span>
-<span class="fc" id="L57">            .addSerializer(ClosedRange::class.java, ClosedRangeSerializer)</span>
-<span class="fc" id="L58">            .addDeserializer(ClosedRange::class.java, ClosedRangeDeserializer())</span>
-<span class="fc" id="L59">            .addSerializer(Float::class.java, FloatSerializer)</span>
-<span class="fc" id="L60">            .addDeserializer(Float::class.java, FloatDeserializer)</span>
-<span class="fc" id="L61">            .addSerializer(InetAddress::class.java, InetAddressSerializer)</span>
-<span class="fc" id="L62">            .addDeserializer(InetAddress::class.java, InetAddressDeserializer)</span>
-<span class="fc" id="L63">        )</span>
+<span class="fc" id="L53">        .registerModule(SimpleModule(&quot;SerializationModule&quot;, Version.unknownVersion())</span>
+<span class="fc" id="L54">            .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)</span>
+<span class="fc" id="L55">            .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)</span>
+<span class="fc" id="L56">            .addSerializer(ClosedRange::class.java, ClosedRangeSerializer)</span>
+<span class="fc" id="L57">            .addDeserializer(ClosedRange::class.java, ClosedRangeDeserializer())</span>
+<span class="fc" id="L58">            .addSerializer(Float::class.java, FloatSerializer)</span>
+<span class="fc" id="L59">            .addDeserializer(Float::class.java, FloatDeserializer)</span>
+<span class="fc" id="L60">            .addSerializer(InetAddress::class.java, InetAddressSerializer)</span>
+<span class="fc" id="L61">            .addDeserializer(InetAddress::class.java, InetAddressDeserializer)</span>
+<span class="fc" id="L62">        )</span>
 
-<span class="fc" id="L65">    private object InetAddressSerializer : JsonSerializer&lt;InetAddress&gt;() {</span>
+    fun parseException(e: Exception?): ParseException =
+<span class="fc bfc" id="L65" title="All 6 branches covered.">        ParseException((e as? JsonMappingException)?.pathReference ?: &quot;&quot;, e)</span>
+
+    private object InetAddressSerializer : JsonSerializer&lt;InetAddress&gt;() {
         override fun serialize(
             value: InetAddress, gen: JsonGenerator, serializers: SerializerProvider) {
 
-<span class="fc" id="L69">            gen.writeString(value.hostAddress)</span>
-<span class="fc" id="L70">        }</span>
+<span class="fc" id="L71">            gen.writeString(value.hostAddress)</span>
+<span class="fc" id="L72">        }</span>
     }
 
-<span class="fc" id="L73">    private object InetAddressDeserializer : JsonDeserializer&lt;InetAddress&gt;() {</span>
+    private object InetAddressDeserializer : JsonDeserializer&lt;InetAddress&gt;() {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): InetAddress =
-<span class="fc" id="L75">            InetAddress.getByName(p.text)</span>
+<span class="fc" id="L77">            InetAddress.getByName(p.text)</span>
     }
 
-<span class="fc" id="L78">    private object FloatSerializer : JsonSerializer&lt;Float&gt;() {</span>
+    private object FloatSerializer : JsonSerializer&lt;Float&gt;() {
         override fun serialize(value: Float, gen: JsonGenerator, serializers: SerializerProvider) {
-<span class="fc" id="L80">            gen.writeNumber(value.toBigDecimal().toDouble()) // BigDecimal needed for good rounding</span>
-<span class="fc" id="L81">        }</span>
+<span class="fc" id="L82">            gen.writeNumber(value.toBigDecimal().toDouble()) // BigDecimal needed for good rounding</span>
+<span class="fc" id="L83">        }</span>
     }
 
-<span class="fc" id="L84">    private object FloatDeserializer : JsonDeserializer&lt;Float&gt;() {</span>
-<span class="fc" id="L85">        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Float = p.floatValue</span>
+    private object FloatDeserializer : JsonDeserializer&lt;Float&gt;() {
+<span class="fc" id="L87">        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Float = p.floatValue</span>
     }
 
-<span class="fc" id="L88">    private object ByteBufferSerializer: JsonSerializer&lt;ByteBuffer&gt;() {</span>
+    private object ByteBufferSerializer: JsonSerializer&lt;ByteBuffer&gt;() {
         override fun serialize(
             value: ByteBuffer, gen: JsonGenerator, serializers: SerializerProvider) {
 
-<span class="fc" id="L92">            gen.writeString(Base64.getEncoder ().encodeToString (value.array()))</span>
-<span class="fc" id="L93">        }</span>
+<span class="fc" id="L94">            gen.writeString(Base64.getEncoder ().encodeToString (value.array()))</span>
+<span class="fc" id="L95">        }</span>
     }
 
-<span class="fc" id="L96">    private object ByteBufferDeserializer: JsonDeserializer&lt;ByteBuffer&gt;() {</span>
+    private object ByteBufferDeserializer: JsonDeserializer&lt;ByteBuffer&gt;() {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ByteBuffer =
-<span class="fc" id="L98">            ByteBuffer.wrap (Base64.getDecoder ().decode (p.text))</span>
+<span class="fc" id="L100">            ByteBuffer.wrap (Base64.getDecoder ().decode (p.text))</span>
     }
 
-<span class="fc" id="L101">    private object ClosedRangeSerializer: JsonSerializer&lt;ClosedRange&lt;*&gt;&gt; () {</span>
+    private object ClosedRangeSerializer: JsonSerializer&lt;ClosedRange&lt;*&gt;&gt; () {
         override fun serialize(
             value: ClosedRange&lt;*&gt;, gen: JsonGenerator, serializers: SerializerProvider) {
 
-<span class="fc" id="L105">            val start = value.start</span>
-<span class="fc" id="L106">            val end = value.endInclusive</span>
-<span class="fc" id="L107">            val valueSerializer = serializers.findValueSerializer(start.javaClass)</span>
+<span class="fc" id="L107">            val start = value.start</span>
+<span class="fc" id="L108">            val end = value.endInclusive</span>
+<span class="fc" id="L109">            val valueSerializer = serializers.findValueSerializer(start.javaClass)</span>
 
-<span class="fc" id="L109">            gen.writeStartObject()</span>
+<span class="fc" id="L111">            gen.writeStartObject()</span>
 
-<span class="fc" id="L111">            gen.writeFieldName(&quot;start&quot;)</span>
-<span class="fc" id="L112">            valueSerializer.serialize(start, gen, serializers)</span>
+<span class="fc" id="L113">            gen.writeFieldName(&quot;start&quot;)</span>
+<span class="fc" id="L114">            valueSerializer.serialize(start, gen, serializers)</span>
 
-<span class="fc" id="L114">            gen.writeFieldName(&quot;endInclusive&quot;)</span>
-<span class="fc" id="L115">            valueSerializer.serialize(end, gen, serializers)</span>
+<span class="fc" id="L116">            gen.writeFieldName(&quot;endInclusive&quot;)</span>
+<span class="fc" id="L117">            valueSerializer.serialize(end, gen, serializers)</span>
 
-<span class="fc" id="L117">            gen.writeEndObject()</span>
-<span class="fc" id="L118">        }</span>
+<span class="fc" id="L119">            gen.writeEndObject()</span>
+<span class="fc" id="L120">        }</span>
     }
 
-<span class="fc" id="L121">    private class ClosedRangeDeserializer(private val type: JavaType? = null) :</span>
-<span class="fc" id="L122">        JsonDeserializer&lt;ClosedRange&lt;*&gt;&gt; (), ContextualDeserializer {</span>
+<span class="fc" id="L123">    private class ClosedRangeDeserializer(private val type: JavaType? = null) :</span>
+<span class="fc" id="L124">        JsonDeserializer&lt;ClosedRange&lt;*&gt;&gt; (), ContextualDeserializer {</span>
 
         override fun createContextual(
             ctxt: DeserializationContext, property: BeanProperty): JsonDeserializer&lt;*&gt; =
-<span class="fc" id="L126">                ClosedRangeDeserializer(property.type.containedType(0))</span>
+<span class="fc" id="L128">                ClosedRangeDeserializer(property.type.containedType(0))</span>
 
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ClosedRange&lt;*&gt; {
-<span class="fc" id="L129">            val token = p.currentToken</span>
-<span class="fc bfc" id="L130" title="All 4 branches covered.">            check (token == START_OBJECT) { &quot;${token.name} should be: ${START_OBJECT.name}&quot; }</span>
-<span class="fc bfc" id="L131" title="All 2 branches covered.">            check(p.nextFieldName() == &quot;start&quot;) { &quot;Ranges start with 'start' field&quot; }</span>
+<span class="fc" id="L131">            val token = p.currentToken</span>
+<span class="fc bfc" id="L132" title="All 4 branches covered.">            check (token == START_OBJECT) { &quot;${token.name} should be: ${START_OBJECT.name}&quot; }</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            check(p.nextFieldName() == &quot;start&quot;) { &quot;Ranges start with 'start' field&quot; }</span>
 
-<span class="fc" id="L133">            p.nextToken() // Start object</span>
-<span class="fc" id="L134">            val start = ctxt.readValue&lt;Comparable&lt;Any&gt;&gt;(p, type)</span>
-<span class="fc bfc" id="L135" title="All 2 branches covered.">            check(p.nextFieldName() == &quot;endInclusive&quot;) { &quot;Ranges end with 'endInclusive' field&quot; }</span>
+<span class="fc" id="L135">            p.nextToken() // Start object</span>
+<span class="fc" id="L136">            val start = ctxt.readValue&lt;Comparable&lt;Any&gt;&gt;(p, type)</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            check(p.nextFieldName() == &quot;endInclusive&quot;) { &quot;Ranges end with 'endInclusive' field&quot; }</span>
 
-<span class="fc" id="L137">            p.nextToken() // End array</span>
-<span class="fc" id="L138">            val end = ctxt.readValue&lt;Comparable&lt;Any&gt;&gt;(p, type)</span>
 <span class="fc" id="L139">            p.nextToken() // End array</span>
+<span class="fc" id="L140">            val end = ctxt.readValue&lt;Comparable&lt;Any&gt;&gt;(p, type)</span>
+<span class="fc" id="L141">            p.nextToken() // End array</span>
 
-<span class="fc" id="L141">            return start .. end</span>
+<span class="fc" id="L143">            return start .. end</span>
         }
-    }
+<span class="fc" id="L145">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

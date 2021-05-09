@@ -11,7 +11,7 @@ import java.util.Locale
  * A TemplateEngine can be used to render templates
  */
 <span class="fc" id="L13">class TemplateEngine(</span>
-<span class="nc" id="L14">    private val adapter: TemplatePort = InjectionManager.inject(),</span>
+<span class="pc" id="L14">    private val adapter: TemplatePort = InjectionManager.inject(),</span>
 <span class="fc" id="L15">    private val settings: TemplateEngineSettings = TemplateEngineSettings()</span>
 ) {
 
@@ -20,7 +20,7 @@ import java.util.Locale
 <span class="fc" id="L20">    constructor(settings: TemplateEngineSettings = TemplateEngineSettings()) : this(</span>
 <span class="fc" id="L21">        InjectionManager.inject(),</span>
 <span class="fc" id="L22">        settings</span>
-    )
+<span class="fc" id="L23">    )</span>
 
     fun render(resource: String, locale: Locale, context: Map&lt;String, *&gt;): String =
 <span class="fc" id="L26">        adapter.render(resourcePath(resource), locale, context(resource, locale, context), settings)</span>
@@ -41,8 +41,8 @@ import java.util.Locale
 
     @Suppress(&quot;UNCHECKED_CAST&quot;)
 <span class="fc" id="L43">    private fun loadBundle(path: String, locale: Locale): Map&lt;String, *&gt; = loadProps(path).let {</span>
-<span class="pc bpc" id="L44" title="4 of 8 branches missed.">        (it[locale.language] ?: if (it.isNotEmpty()) it.entries.first().value else it)</span>
-<span class="pc bpc" id="L45" title="2 of 4 branches missed.">            as Map&lt;String, *&gt; + (it[&quot;data&quot;] ?: mapOf&lt;String, Any&gt;()) as Map&lt;String, *&gt;</span>
+<span class="pc bpc" id="L44" title="3 of 6 branches missed.">        (it[locale.language] ?: if (it.isNotEmpty()) it.entries.first().value else it)</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">            as Map&lt;String, *&gt; + (it[&quot;data&quot;] ?: mapOf&lt;String, Any&gt;()) as Map&lt;String, *&gt;</span>
 <span class="fc" id="L46">    }</span>
 
     private fun context(resource: String, locale: Locale, context: Map&lt;String, *&gt;): Map&lt;String, *&gt; {
@@ -61,5 +61,5 @@ import java.util.Locale
 <span class="fc" id="L61">        val defaultProperties = mapOf(&quot;_template_&quot; to resource, &quot;_now_&quot; to now)</span>
 <span class="fc" id="L62">        return parameters + context + defaultProperties</span>
     }
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+<span class="fc" id="L64">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

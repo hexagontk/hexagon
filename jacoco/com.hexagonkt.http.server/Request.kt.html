@@ -6,7 +6,7 @@ import com.hexagonkt.http.Method
 import com.hexagonkt.http.Part
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
 import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseObjects
@@ -189,7 +189,7 @@ import kotlin.reflect.KClass
     inline fun &lt;reified T : Any&gt; bodyObjects(): List&lt;T&gt; = bodyObjects(T::class)
 
     internal fun requestType(): String =
-<span class="fc bfc" id="L192" title="All 2 branches covered.">        contentType ?: defaultFormat.contentType</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">        contentType ?: requireDefaultFormat().contentType</span>
 
     internal fun requestFormat(): SerializationFormat =
 <span class="fc" id="L195">        SerializationManager.formatOf(requestType())</span>
@@ -240,8 +240,8 @@ import kotlin.reflect.KClass
     private fun transformValues(stringToListMap: Map&lt;String, List&lt;String&gt;&gt;): Map&lt;String, Any&gt; {
 <span class="fc" id="L241">        val stringToAnyMap = mutableMapOf&lt;String, Any&gt;()</span>
 <span class="fc bfc" id="L242" title="All 2 branches covered.">        for (queryParameter in stringToListMap.entries) {</span>
-<span class="fc bfc" id="L243" title="All 2 branches covered.">            val value: Any = when (queryParameter.value.size) {</span>
-<span class="fc" id="L244">                1 -&gt; queryParameter.value.first()</span>
+<span class="fc" id="L243">            val value: Any = when (queryParameter.value.size) {</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">                1 -&gt; queryParameter.value.first()</span>
 <span class="fc" id="L245">                else -&gt; queryParameter.value</span>
             }
 <span class="fc" id="L247">            stringToAnyMap[queryParameter.key] = value</span>
@@ -249,4 +249,4 @@ import kotlin.reflect.KClass
 <span class="fc" id="L249">        return stringToAnyMap</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

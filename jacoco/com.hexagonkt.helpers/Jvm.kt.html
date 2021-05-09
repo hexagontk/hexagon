@@ -12,7 +12,7 @@ import java.util.TimeZone
  *
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
-<span class="fc" id="L15">object Jvm {</span>
+object Jvm {
     /** Default timezone. TODO Defining this lazily fails in macOS */
 <span class="fc" id="L17">    val timeZone: TimeZone = TimeZone.getDefault()</span>
 
@@ -58,4 +58,4 @@ import java.util.TimeZone
     internal fun safeJmx(block: () -&gt; String): String =
 <span class="fc bfc" id="L59" title="All 2 branches covered.">        if (System.getProperty(&quot;com.hexagonkt.noJmx&quot;) == null) block() else &quot;N/A&quot;</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

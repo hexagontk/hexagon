@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.Cookie as ServletCookie
 
 <span class="fc" id="L10">internal class ResponseAdapter(</span>
-    private val req: HttpServletRequest,
-    private val resp: HttpServletResponse) : ResponsePort {
+<span class="fc" id="L11">    private val req: HttpServletRequest,</span>
+<span class="fc" id="L12">    private val resp: HttpServletResponse) : ResponsePort {</span>
 
 <span class="fc" id="L14">    private var bodyValue: Any = &quot;&quot;</span>
 
@@ -47,4 +47,4 @@ import javax.servlet.http.Cookie as ServletCookie
 <span class="fc" id="L47">        resp.sendRedirect(url)</span>
 <span class="fc" id="L48">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

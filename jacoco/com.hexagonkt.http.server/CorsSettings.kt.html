@@ -7,7 +7,7 @@ import com.hexagonkt.http.Method
 /**
  * HTTP CORS setting. It holds info for CORS.
  */
-<span class="fc" id="L10">data class CorsSettings(</span>
+<span class="pc" id="L10">data class CorsSettings(</span>
 <span class="fc" id="L11">    val allowedOrigin: Regex,</span>
 <span class="pc" id="L12">    val allowedMethods: Set&lt;Method&gt; = ALL,</span>
 <span class="pc" id="L13">    val allowedHeaders: Set&lt;String&gt; = emptySet(),</span>
@@ -32,7 +32,7 @@ import com.hexagonkt.http.Method
 <span class="fc" id="L32">                supportCredentials,</span>
 <span class="fc" id="L33">                preFlightStatus,</span>
 <span class="fc" id="L34">                preFlightMaxAge</span>
-            )
+<span class="fc" id="L35">            )</span>
 
     /**
      * Checks whether given origin is allowed.
@@ -48,5 +48,5 @@ import com.hexagonkt.http.Method
     fun accessControlAllowOrigin(origin: String): String =
 <span class="fc bfc" id="L49" title="All 4 branches covered.">        if (allowedOrigin.pattern == &quot;^.*$&quot; &amp;&amp; !supportCredentials) &quot;*&quot;</span>
 <span class="fc" id="L50">        else origin</span>
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+<span class="nc" id="L51">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

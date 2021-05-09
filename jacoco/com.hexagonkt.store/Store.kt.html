@@ -65,26 +65,26 @@ interface Store&lt;T : Any, K : Any&gt; {
     fun findOne(filter: Map&lt;String, *&gt;, fields: List&lt;String&gt;): Map&lt;String, *&gt;? =
 <span class="fc" id="L66">        findMany(filter, fields).ensureSize(0..1).firstOrNull()</span>
 
-    fun findMany(
+<span class="fc" id="L68">    fun findMany(</span>
         filter: Map&lt;String, *&gt;,
 <span class="fc" id="L70">        limit: Int? = null,</span>
 <span class="fc" id="L71">        skip: Int? = null,</span>
 <span class="fc" id="L72">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;T&gt;</span>
 
-    fun findMany(
+<span class="fc" id="L74">    fun findMany(</span>
         filter: Map&lt;String, *&gt;,
         fields: List&lt;String&gt;,
 <span class="fc" id="L77">        limit: Int? = null,</span>
 <span class="fc" id="L78">        skip: Int? = null,</span>
 <span class="fc" id="L79">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;Map&lt;String, *&gt;&gt;</span>
 
-    fun findAll(
+<span class="fc" id="L81">    fun findAll(</span>
 <span class="fc" id="L82">        limit: Int? = null,</span>
 <span class="fc" id="L83">        skip: Int? = null,</span>
 <span class="fc" id="L84">        sort: Map&lt;String, Boolean&gt; = emptyMap()): List&lt;T&gt; =</span>
 <span class="fc" id="L85">            findMany(emptyMap&lt;String, Any&gt;(), limit, skip, sort)</span>
 
-    fun findAll(
+<span class="fc" id="L87">    fun findAll(</span>
         fields: List&lt;String&gt;,
 <span class="fc" id="L89">        limit: Int? = null,</span>
 <span class="fc" id="L90">        skip: Int? = null,</span>
@@ -109,4 +109,4 @@ interface Store&lt;T : Any, K : Any&gt; {
 <span class="fc" id="L109">        insertMany(input.parseObjects(type))</span>
 <span class="fc" id="L110">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

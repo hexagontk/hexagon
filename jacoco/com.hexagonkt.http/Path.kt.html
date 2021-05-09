@@ -59,7 +59,7 @@ import com.hexagonkt.helpers.findGroups
 
 <span class="fc" id="L60">    val segments by lazy { pattern.split(PLACEHOLDER_REGEX) }</span>
 
-<span class="fc bfc" id="L62" title="All 2 branches covered.">    fun matches(requestUrl: String) = regex?.matches(requestUrl) ?: (pattern == requestUrl)</span>
+<span class="fc bfc" id="L62" title="All 4 branches covered.">    fun matches(requestUrl: String) = regex?.matches(requestUrl) ?: (pattern == requestUrl)</span>
 
     fun extractParameters(requestUrl: String): Map&lt;String, String&gt; {
 <span class="fc bfc" id="L65" title="All 2 branches covered.">        require(matches(requestUrl)) { &quot;URL '$requestUrl' does not match path&quot; }</span>
@@ -67,7 +67,7 @@ import com.hexagonkt.helpers.findGroups
 <span class="fc" id="L67">        fun parameters(re: Regex) = re</span>
 <span class="fc" id="L68">            .findGroups(requestUrl)</span>
 <span class="fc" id="L69">            .mapIndexed { idx, (value) -&gt; parameterIndex[idx] to value }</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">            .filter { (first) -&gt; first != &quot;&quot; }</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">            .filter { (first) -&gt; first != &quot;&quot; }</span>
 <span class="fc" id="L71">            .toMap()</span>
 
 <span class="fc" id="L73">        val re = regex</span>
@@ -85,4 +85,4 @@ import com.hexagonkt.helpers.findGroups
 <span class="fc" id="L85">            pattern.filter(PARAMETER_PREFIX, PARAMETER_SUFFIX, *map.toTypedArray())</span>
 <span class="fc" id="L86">        }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

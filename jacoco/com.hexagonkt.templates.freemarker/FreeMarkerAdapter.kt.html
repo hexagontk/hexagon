@@ -44,10 +44,10 @@ import java.util.*
 <span class="fc" id="L44">    override fun getLastModified(templateSource: Any?): Long = -1</span>
 
     override fun getReader(templateSource: Any?, encoding: String?): Reader =
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        templateSource as Reader</span>
+<span class="fc" id="L47">        templateSource as Reader</span>
 
     override fun closeTemplateSource(templateSource: Any?) {
 <span class="pc bpc" id="L50" title="2 of 4 branches missed.">        (templateSource as? Reader)?.close()</span>
 <span class="fc" id="L51">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

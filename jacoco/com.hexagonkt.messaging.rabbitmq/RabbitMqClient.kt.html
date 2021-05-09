@@ -25,7 +25,7 @@ import kotlin.reflect.KClass
  * * TODO Ordered shutdown
  */
 <span class="fc" id="L27">class RabbitMqClient(</span>
-    private val connectionFactory: ConnectionFactory,
+<span class="fc" id="L28">    private val connectionFactory: ConnectionFactory,</span>
 <span class="fc" id="L29">    private val poolSize: Int = getRuntime().availableProcessors()) : Closeable {</span>
 
     internal companion object {
@@ -65,7 +65,7 @@ import kotlin.reflect.KClass
     @Volatile private var count: Int = 0
 <span class="fc" id="L66">    private val threadPool = newFixedThreadPool(poolSize) { Thread(it, &quot;rabbitmq-&quot; + count++) }</span>
 <span class="fc" id="L67">    private var connection: Connection? = connectionFactory.newConnection()</span>
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">    private val metrics: Metrics = Metrics(connectionFactory.metricsCollector as StandardMetricsCollector)</span>
+<span class="fc" id="L68">    private val metrics: Metrics = Metrics(connectionFactory.metricsCollector as StandardMetricsCollector)</span>
 <span class="fc" id="L69">    private val listener = ConnectionListener()</span>
 
     /** . */
@@ -135,13 +135,13 @@ import kotlin.reflect.KClass
 <span class="pc bpc" id="L135" title="1 of 4 branches missed.">            if (connection?.isOpen != true) {</span>
 <span class="fc" id="L136">                connection = connectionFactory.newConnection()</span>
 <span class="pc bpc" id="L137" title="1 of 2 branches missed.">                connection?.addShutdownListener(listener)</span>
-<span class="pc bpc" id="L138" title="1 of 2 branches missed.">                (connection as Recoverable).addRecoveryListener(listener)</span>
+<span class="fc" id="L138">                (connection as Recoverable).addRecoveryListener(listener)</span>
 <span class="fc" id="L139">                log.warn { &quot;Rabbit connection RESTORED&quot; }</span>
             }
 <span class="pc bpc" id="L141" title="2 of 4 branches missed.">            val channel = connection?.createChannel() ?: fail</span>
 <span class="fc" id="L142">            channel.basicQos(poolSize)</span>
 <span class="fc" id="L143">            channel.addShutdownListener(listener)</span>
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">            (channel as Recoverable).addRecoveryListener(listener)</span>
+<span class="fc" id="L144">            (channel as Recoverable).addRecoveryListener(listener)</span>
 <span class="fc" id="L145">            channel</span>
 <span class="fc" id="L146">        }</span>
 
@@ -160,7 +160,7 @@ import kotlin.reflect.KClass
 <span class="fc" id="L160">    fun publish(queue: String, message: String, correlationId: String? = null) =</span>
 <span class="fc" id="L161">        publish(&quot;&quot;, queue, message, correlationId)</span>
 
-    fun publish(
+<span class="fc" id="L163">    fun publish(</span>
         exchange: String,
         routingKey: String,
         message: String,
@@ -194,7 +194,7 @@ import kotlin.reflect.KClass
 <span class="fc" id="L194">        val props = builder.build()</span>
 
 <span class="fc bfc" id="L196" title="All 2 branches covered.">        val charset = if (encoding == null) defaultCharset() else charset(encoding)</span>
-<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        channel.basicPublish(exchange, routingKey, props, message.toByteArray(charset))</span>
+<span class="fc" id="L197">        channel.basicPublish(exchange, routingKey, props, message.toByteArray(charset))</span>
 
 <span class="fc" id="L199">        log.debug {</span>
 <span class="nc" id="L200">            &quot;&quot;&quot;</span>
@@ -236,5 +236,5 @@ import kotlin.reflect.KClass
 <span class="fc" id="L236">            it.basicCancel(ctag)</span>
 <span class="fc" id="L237">            result</span>
 <span class="fc" id="L238">        }</span>
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+<span class="fc" id="L239">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

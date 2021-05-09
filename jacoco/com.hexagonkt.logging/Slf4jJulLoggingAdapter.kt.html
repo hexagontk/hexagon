@@ -9,7 +9,7 @@ import com.hexagonkt.logging.jul.JulLoggingAdapter
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger as Slf4jLogger
 
-<span class="fc" id="L12">object Slf4jJulLoggingAdapter : LoggingPort {</span>
+object Slf4jJulLoggingAdapter : LoggingPort {
 
     override fun createLogger(name: String): LoggerPort =
 <span class="fc" id="L15">        object : LoggerPort {</span>
@@ -50,4 +50,4 @@ import org.slf4j.Logger as Slf4jLogger
 <span class="fc" id="L50">        JulLoggingAdapter.setLoggerLevel(loggerName, level)</span>
 <span class="fc" id="L51">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

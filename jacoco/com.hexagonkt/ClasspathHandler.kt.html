@@ -5,7 +5,7 @@ import java.net.URL
 import java.net.URLConnection
 import java.net.URLStreamHandler
 
-<span class="fc" id="L8">object ClasspathHandler : URLStreamHandler() {</span>
+object ClasspathHandler : URLStreamHandler() {
 
     // Logger needs to be lazy due to GraalVM native image generation constraints
 <span class="fc" id="L11">    private val logger: Logger by lazy { Logger(this::class) }</span>
@@ -13,7 +13,7 @@ import java.net.URLStreamHandler
 <span class="fc" id="L13">    private val protocolHandlers: Map&lt;String, URLStreamHandler&gt; = mapOf(&quot;classpath&quot; to this)</span>
 
     override fun openConnection(url: URL): URLConnection =
-<span class="pc bpc" id="L16" title="1 of 4 branches missed.">        classLoader.getResource(url.path)?.openConnection()</span>
+<span class="fc bfc" id="L16" title="All 4 branches covered.">        classLoader.getResource(url.path)?.openConnection()</span>
 <span class="fc" id="L17">            ?: throw ResourceNotFoundException(&quot;$url cannot be open&quot;)</span>
 
     fun registerHandler() {
@@ -31,4 +31,4 @@ import java.net.URLStreamHandler
 <span class="fc" id="L31">        return protocolHandlers[protocol]</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

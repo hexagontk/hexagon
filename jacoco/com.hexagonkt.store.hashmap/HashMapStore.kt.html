@@ -40,7 +40,7 @@ import kotlin.reflect.KProperty1
 
 <span class="fc" id="L41">        store[key.get(instance)] = map(instance)</span>
         @Suppress(&quot;UNCHECKED_CAST&quot;)
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        return mapper.fromStore(key.name, key.get(instance)) as K</span>
+<span class="fc" id="L43">        return mapper.fromStore(key.name, key.get(instance)) as K</span>
     }
 
     override fun saveMany(instances: List&lt;T&gt;): List&lt;K?&gt; {
@@ -108,7 +108,7 @@ import kotlin.reflect.KProperty1
 <span class="fc" id="L108">            .map { store[it]!! }</span>
 <span class="fc" id="L109">            .sort(sort)</span>
 <span class="fc bfc" id="L110" title="All 4 branches covered.">            .paginate(skip ?: 0, limit ?: filteredInstances.size)</span>
-<span class="pc bpc" id="L111" title="1 of 2 branches missed.">            .map { mapper.fromStore(it as Map&lt;String, Any&gt;) }</span>
+<span class="fc" id="L111">            .map { mapper.fromStore(it as Map&lt;String, Any&gt;) }</span>
     }
 
     override fun findMany(
@@ -168,5 +168,5 @@ import kotlin.reflect.KProperty1
                 else
                     error(&quot;Not comparable value&quot;)
 <span class="fc" id="L170">            }</span>
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+<span class="fc" id="L171">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

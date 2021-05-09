@@ -10,10 +10,10 @@ import java.io.InputStream
 <span class="fc" id="L10">    val size: Long = -1L,</span>
 <span class="fc" id="L11">    val submittedFileName: String? = null</span>
 ) {
-<span class="fc" id="L13">    constructor(name: String, value: String) :</span>
+    constructor(name: String, value: String) :
 <span class="fc" id="L14">        this(name = name, inputStream = value.byteInputStream(), size = value.length.toLong())</span>
 
-<span class="fc" id="L16">    constructor(name: String, inputStream: InputStream, submittedFileName: String) :</span>
+    constructor(name: String, inputStream: InputStream, submittedFileName: String) :
 <span class="fc" id="L17">        this(null, name = name, inputStream = inputStream, submittedFileName = submittedFileName)</span>
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+<span class="fc" id="L18">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

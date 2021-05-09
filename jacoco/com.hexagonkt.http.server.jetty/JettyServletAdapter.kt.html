@@ -33,7 +33,7 @@ import org.eclipse.jetty.server.Server as JettyServer
     private var jettyServer: JettyServer? = null
 
     override fun runtimePort(): Int =
-<span class="pc bpc" id="L36" title="3 of 8 branches missed.">        ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort</span>
+<span class="pc bpc" id="L36" title="2 of 6 branches missed.">        ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort</span>
 
 <span class="fc bfc" id="L38" title="All 2 branches covered.">    override fun started() = jettyServer?.isStarted ?: false</span>
 
@@ -106,7 +106,7 @@ import org.eclipse.jetty.server.Server as JettyServer
 <span class="fc" id="L106">            val keyStorePassword = sslSettings.keyStorePassword</span>
 <span class="fc" id="L107">            val keyStoreStream = keyStore.openStream()</span>
 <span class="fc" id="L108">            sslContextFactory.keyStore = KeyStore.getInstance(&quot;pkcs12&quot;)</span>
-<span class="pc bpc" id="L109" title="1 of 2 branches missed.">            sslContextFactory.keyStore.load(keyStoreStream, keyStorePassword.toCharArray())</span>
+<span class="fc" id="L109">            sslContextFactory.keyStore.load(keyStoreStream, keyStorePassword.toCharArray())</span>
 <span class="fc" id="L110">            sslContextFactory.setKeyStorePassword(keyStorePassword)</span>
         }
 
@@ -115,7 +115,7 @@ import org.eclipse.jetty.server.Server as JettyServer
 <span class="fc" id="L115">            val trustStorePassword = sslSettings.trustStorePassword</span>
 <span class="fc" id="L116">            val trustStoreStream = trustStore.openStream()</span>
 <span class="fc" id="L117">            sslContextFactory.trustStore = KeyStore.getInstance(&quot;pkcs12&quot;)</span>
-<span class="pc bpc" id="L118" title="1 of 2 branches missed.">            sslContextFactory.trustStore.load(trustStoreStream, trustStorePassword.toCharArray())</span>
+<span class="fc" id="L118">            sslContextFactory.trustStore.load(trustStoreStream, trustStorePassword.toCharArray())</span>
 <span class="fc" id="L119">            sslContextFactory.setTrustStorePassword(trustStorePassword)</span>
         }
 
@@ -137,4 +137,4 @@ import org.eclipse.jetty.server.Server as JettyServer
         }
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -66,7 +66,7 @@ fun String.filter(prefix: String, suffix: String, vararg parameters: Pair&lt;Str
  * @return .
  */
 fun Regex.findGroups(text: String): List&lt;MatchGroup&gt; =
-<span class="pc bpc" id="L69" title="1 of 4 branches missed.">    (this.find(text)?.groups ?: emptyList&lt;MatchGroup&gt;())</span>
+<span class="fc bfc" id="L69" title="All 4 branches covered.">    (this.find(text)?.groups ?: emptyList&lt;MatchGroup&gt;())</span>
 <span class="fc" id="L70">        .filterNotNull()</span>
 <span class="fc" id="L71">        .drop(1)</span>
 
@@ -77,16 +77,16 @@ fun String.snakeToCamel(): String =
 <span class="fc" id="L77">    this.split(&quot;_&quot;)</span>
 <span class="fc" id="L78">        .asSequence()</span>
 <span class="fc" id="L79">        .filter(String::isNotEmpty)</span>
-<span class="fc" id="L80">        .joinToString(&quot;&quot;, transform = String::capitalize)</span>
-<span class="fc" id="L81">        .decapitalize()</span>
+<span class="pc bpc" id="L80" title="2 of 4 branches missed.">        .joinToString(&quot;&quot;, transform = { it.replaceFirstChar(Char::uppercase) })</span>
+<span class="fc bfc" id="L81" title="All 4 branches covered.">        .replaceFirstChar(Char::lowercase)</span>
 
 /**
  * Transform the target string from camel case to snake case.
  */
 fun String.camelToSnake(): String =
 <span class="fc" id="L87">    this.split(&quot;(?=\\p{Upper}\\p{Lower})&quot;.toRegex())</span>
-<span class="fc" id="L88">        .joinToString(&quot;_&quot;, transform = String::toLowerCase)</span>
-<span class="fc" id="L89">        .decapitalize()</span>
+<span class="fc" id="L88">        .joinToString(&quot;_&quot;, transform = String::lowercase)</span>
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">        .replaceFirstChar(Char::lowercase)</span>
 
 /**
  * Format the string as a banner with a delimiter above and below text. The character used to
@@ -139,11 +139,11 @@ fun utf8(vararg bytes: Int): String =
  */
 <span class="fc" id="L140">fun String.globToRegex(): Regex = Regex(</span>
 <span class="fc" id="L141">    this.map {</span>
-<span class="fc bfc" id="L142" title="All 5 branches covered.">        when (it) {</span>
-<span class="fc" id="L143">            '*' -&gt; &quot;.*&quot;</span>
-<span class="fc" id="L144">            '?' -&gt; &quot;.&quot;</span>
-<span class="fc" id="L145">            '.' -&gt; &quot;\\.&quot;</span>
-<span class="fc" id="L146">            '\\' -&gt; &quot;\\\\&quot;</span>
+<span class="fc" id="L142">        when (it) {</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">            '*' -&gt; &quot;.*&quot;</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            '?' -&gt; &quot;.&quot;</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">            '.' -&gt; &quot;\\.&quot;</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">            '\\' -&gt; &quot;\\\\&quot;</span>
 <span class="fc" id="L147">            else -&gt; it.toString()</span>
         }
     }
@@ -170,4 +170,4 @@ fun utf8(vararg bytes: Int): String =
  */
 internal fun Sequence&lt;Int&gt;.maxOrElse(fallback: Int): Int =
 <span class="fc bfc" id="L172" title="All 2 branches covered.">    this.maxOrNull() ?: fallback</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

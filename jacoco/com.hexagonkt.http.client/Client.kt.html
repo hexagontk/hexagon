@@ -10,7 +10,7 @@ import com.hexagonkt.serialization.SerializationFormat
  * Client to use other REST services.
  */
 <span class="fc" id="L12">class Client(</span>
-<span class="nc" id="L13">    private val adapter: ClientPort = InjectionManager.inject(),</span>
+<span class="pc" id="L13">    private val adapter: ClientPort = InjectionManager.inject(),</span>
 <span class="fc" id="L14">    val endpoint: String = &quot;&quot;,</span>
 <span class="fc" id="L15">    val settings: ClientSettings = ClientSettings()</span>
 ) {
@@ -29,7 +29,7 @@ import com.hexagonkt.serialization.SerializationFormat
     fun send(request: Request): Response =
 <span class="fc" id="L30">        adapter.send(this, request)</span>
 
-    fun get(
+<span class="fc" id="L32">    fun get(</span>
         path: String,
 <span class="fc" id="L34">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap(),</span>
 <span class="fc" id="L35">        body: Any? = null,</span>
@@ -39,42 +39,42 @@ import com.hexagonkt.serialization.SerializationFormat
 <span class="fc" id="L39">    fun head(path: String, headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response =</span>
 <span class="fc" id="L40">            send(Request(HEAD, Path(path), null, headers = headers))</span>
 
-    fun post(
+<span class="fc" id="L42">    fun post(</span>
 <span class="fc" id="L43">        path: String, body: Any? = null, contentType: String? = settings.contentType): Response =</span>
 <span class="fc" id="L44">            send(Request(POST, Path(path), body, contentType = contentType))</span>
 
-    fun put(
+<span class="fc" id="L46">    fun put(</span>
         path: String,
 <span class="fc" id="L48">        body: Any? = null,</span>
 <span class="fc" id="L49">        contentType: String? = settings.contentType): Response =</span>
 <span class="fc" id="L50">            send(Request(PUT, Path(path), body, contentType = contentType))</span>
 
-    fun delete(
+<span class="fc" id="L52">    fun delete(</span>
         path: String,
 <span class="fc" id="L54">        body: Any? = null,</span>
 <span class="fc" id="L55">        contentType: String? = settings.contentType): Response =</span>
 <span class="fc" id="L56">            send(Request(DELETE, Path(path), body, contentType = contentType))</span>
 
-    fun trace(
+<span class="fc" id="L58">    fun trace(</span>
         path: String,
 <span class="fc" id="L60">        body: Any? = null,</span>
 <span class="fc" id="L61">        contentType: String? = settings.contentType): Response =</span>
 <span class="fc" id="L62">            send(Request(TRACE, Path(path), body, contentType = contentType))</span>
 
-    fun options(
+<span class="fc" id="L64">    fun options(</span>
         path: String,
 <span class="fc" id="L66">        body: Any? = null,</span>
 <span class="fc" id="L67">        contentType: String? = settings.contentType,</span>
 <span class="fc" id="L68">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response =</span>
 <span class="fc" id="L69">            send(Request(OPTIONS, Path(path), body, headers, contentType = contentType))</span>
 
-    fun patch(
+<span class="fc" id="L71">    fun patch(</span>
         path: String,
 <span class="fc" id="L73">        body: Any? = null,</span>
 <span class="fc" id="L74">        contentType: String? = settings.contentType): Response =</span>
 <span class="fc" id="L75">            send(Request(PATCH, Path(path), body, contentType = contentType))</span>
 
-    fun get(
+<span class="fc" id="L77">    fun get(</span>
         path: String,
 <span class="fc" id="L79">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap(),</span>
         body: Any,
@@ -102,7 +102,7 @@ import com.hexagonkt.serialization.SerializationFormat
         format: SerializationFormat): Response =
 <span class="fc" id="L103">            trace(path, body, format.contentType)</span>
 
-    fun options(
+<span class="fc" id="L105">    fun options(</span>
         path: String,
         body: Any,
         format: SerializationFormat,
@@ -114,5 +114,5 @@ import com.hexagonkt.serialization.SerializationFormat
         body: Any,
         format: SerializationFormat): Response =
 <span class="fc" id="L116">            patch(path, body, format.contentType)</span>
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+<span class="fc" id="L117">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

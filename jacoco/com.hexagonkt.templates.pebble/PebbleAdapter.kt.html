@@ -26,7 +26,7 @@ import java.util.*
     ): String {
 <span class="fc" id="L27">        val contextEntries = context.map {</span>
 <span class="fc" id="L28">            it.key to</span>
-<span class="pc bpc" id="L29" title="1 of 4 branches missed.">                if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">                if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()</span>
 <span class="fc" id="L30">                else it.value</span>
         }
 
@@ -56,4 +56,4 @@ import java.util.*
 
 <span class="fc" id="L57">    override fun createCacheKey(templateName: String): String = templateName</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

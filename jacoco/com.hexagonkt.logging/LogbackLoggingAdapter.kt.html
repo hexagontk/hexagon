@@ -9,14 +9,14 @@ import com.hexagonkt.logging.LoggingLevel.TRACE
 import com.hexagonkt.logging.LoggingLevel.WARN
 import org.slf4j.LoggerFactory
 
-<span class="fc" id="L12">object LogbackLoggingAdapter : LoggingPort {</span>
+object LogbackLoggingAdapter : LoggingPort {
 
     override fun createLogger(name: String): LoggerPort =
 <span class="fc" id="L15">        Slf4jJulLoggingAdapter.createLogger(name)</span>
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
 <span class="pc bpc" id="L18" title="2 of 4 branches missed.">        val loggerName = name.ifEmpty { Logger.ROOT_LOGGER_NAME }</span>
-<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        (LoggerFactory.getLogger(loggerName) as Logger).level = mapLevel(level)</span>
+<span class="fc" id="L19">        (LoggerFactory.getLogger(loggerName) as Logger).level = mapLevel(level)</span>
 <span class="fc" id="L20">    }</span>
 
 <span class="fc bfc" id="L22" title="All 5 branches covered.">    private fun mapLevel(level: LoggingLevel): Level = when (level) {</span>
@@ -27,4 +27,4 @@ import org.slf4j.LoggerFactory
 <span class="fc" id="L27">        ERROR -&gt; Level.ERROR</span>
 <span class="fc" id="L28">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

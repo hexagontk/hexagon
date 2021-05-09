@@ -345,7 +345,7 @@ import kotlin.reflect.KClass
 <span class="fc bfc" id="L345" title="All 2 branches covered.">        if (accessControlRequestHeaders != null) {</span>
 <span class="fc" id="L346">            val allowedHeaders = accessControlRequestHeaders</span>
 <span class="fc" id="L347">                .split(&quot;,&quot;)</span>
-<span class="pc bpc" id="L348" title="1 of 2 branches missed.">                .map { it.trim() }</span>
+<span class="fc" id="L348">                .map { it.trim() }</span>
 <span class="fc bfc" id="L349" title="All 2 branches covered.">                .all { it in settings.allowedHeaders }</span>
 
 <span class="fc bfc" id="L351" title="All 6 branches covered.">            if (!allowedHeaders &amp;&amp; settings.allowedHeaders.isNotEmpty())</span>
@@ -363,5 +363,5 @@ import kotlin.reflect.KClass
 
 <span class="fc" id="L364">        response.status = settings.preFlightStatus</span>
 <span class="fc" id="L365">    }</span>
-}
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+<span class="fc" id="L366">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

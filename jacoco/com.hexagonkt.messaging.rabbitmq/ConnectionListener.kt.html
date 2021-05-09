@@ -17,7 +17,7 @@ import com.rabbitmq.client.*
         }
         else { // channel error
 <span class="pc bpc" id="L19" title="1 of 2 branches missed.">            if (!cause.isInitiatedByApplication) {</span>
-<span class="nc bnc" id="L20" title="All 2 branches missed.">                val channel: Channel = cause.reference as Channel</span>
+<span class="nc" id="L20">                val channel: Channel = cause.reference as Channel</span>
 <span class="nc" id="L21">                log.warn { &quot;Channel shutdown was caused by broker &quot; + channel.closeReason }</span>
             }
             else
@@ -38,4 +38,4 @@ import com.rabbitmq.client.*
 <span class="nc" id="L38">        log.debug { &quot;Automatic connection recovery starts&quot; }</span>
 <span class="nc" id="L39">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
