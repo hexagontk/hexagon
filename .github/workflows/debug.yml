@@ -11,7 +11,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest ]
 
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -35,9 +35,16 @@ jobs:
 
       # PROCESS
       - name: Build Project
+        if: matrix.os == 'windows-latest'
+        run: gradlew.bat --warn --console=plain build
+      - name: Log Build (ON FAILURE)
+        if: matrix.os == 'windows-latest' && failure()
+        run: gradlew.bat --info --stacktrace --console=plain build
+      - name: Build Project
+        if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain build
       - name: Log Build (ON FAILURE)
-        if: failure()
+        if: matrix.os != 'windows-latest' && failure()
         run: ./gradlew --info --stacktrace --console=plain build
 
       # CLEAN UP
@@ -47,7 +54,7 @@ jobs:
   sample_keystores:
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Sample Keystores (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -71,6 +78,10 @@ jobs:
 
       # PROCESS
       - name: Create Sample Keystores
+        if: matrix.os == 'windows-latest'
+        run: gradlew.bat --warn --console=plain createCa createIdentities
+      - name: Create Sample Keystores
+        if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain createCa createIdentities
 
       # CLEAN UP
@@ -80,7 +91,7 @@ jobs:
   build_site:
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest ]
 
     name: Build Site (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -104,6 +115,12 @@ jobs:
 
       # PROCESS
       - name: Build Site
+        if: matrix.os == 'windows-latest'
+        run: |
+          gradlew.bat --warn --console=plain --no-daemon build
+          gradlew.bat --warn --console=plain --no-daemon -x test buildSite
+      - name: Build Site
+        if: matrix.os != 'windows-latest'
         run: |
           ./gradlew --warn --console=plain --no-daemon build
           ./gradlew --warn --console=plain --no-daemon -x test buildSite
@@ -115,7 +132,7 @@ jobs:
   test_publishing:
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Test Publishing (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -139,6 +156,10 @@ jobs:
 
       # PROCESS
       - name: Test Publishing
+        if: matrix.os == 'windows-latest'
+        run: gradlew.bat --warn --console=plain --no-daemon publishToMavenLocal
+      - name: Test Publishing
+        if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
 
       # CLEAN UP
