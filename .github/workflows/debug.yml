@@ -77,12 +77,13 @@ jobs:
             ~/.gradle/wrapper
 
       # PROCESS
+#      - name: Create Sample Keystores
+#        if: matrix.os == 'windows-latest'
+#        run: gradlew --warn --console=plain createCa createIdentities
       - name: Create Sample Keystores
-        if: matrix.os == 'windows-latest'
-        run: gradlew --warn --console=plain createCa createIdentities
-      - name: Create Sample Keystores
-        if: matrix.os != 'windows-latest'
+#        if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain createCa createIdentities
+        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
