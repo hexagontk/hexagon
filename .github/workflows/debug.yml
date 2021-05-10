@@ -36,10 +36,10 @@ jobs:
       # PROCESS
       - name: Build Project
         if: matrix.os == 'windows-latest'
-        run: gradlew.bat --warn --console=plain build
+        run: gradlew --warn --console=plain build
       - name: Log Build (ON FAILURE)
         if: matrix.os == 'windows-latest' && failure()
-        run: gradlew.bat --info --stacktrace --console=plain build
+        run: gradlew --info --stacktrace --console=plain build
       - name: Build Project
         if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain build
@@ -79,7 +79,7 @@ jobs:
       # PROCESS
       - name: Create Sample Keystores
         if: matrix.os == 'windows-latest'
-        run: gradlew.bat --warn --console=plain createCa createIdentities
+        run: gradlew --warn --console=plain createCa createIdentities
       - name: Create Sample Keystores
         if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain createCa createIdentities
@@ -117,8 +117,8 @@ jobs:
       - name: Build Site
         if: matrix.os == 'windows-latest'
         run: |
-          gradlew.bat --warn --console=plain --no-daemon build
-          gradlew.bat --warn --console=plain --no-daemon -x test buildSite
+          gradlew --warn --console=plain --no-daemon build
+          gradlew --warn --console=plain --no-daemon -x test buildSite
       - name: Build Site
         if: matrix.os != 'windows-latest'
         run: |
@@ -157,7 +157,7 @@ jobs:
       # PROCESS
       - name: Test Publishing
         if: matrix.os == 'windows-latest'
-        run: gradlew.bat --warn --console=plain --no-daemon publishToMavenLocal
+        run: gradlew --warn --console=plain --no-daemon publishToMavenLocal
       - name: Test Publishing
         if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
