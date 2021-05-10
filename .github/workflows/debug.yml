@@ -35,17 +35,11 @@ jobs:
 
       # PROCESS
       - name: Build Project
-        if: matrix.os == 'windows-latest'
-        run: gradlew --warn --console=plain build
-      - name: Log Build (ON FAILURE)
-        if: matrix.os == 'windows-latest' && failure()
-        run: gradlew --info --stacktrace --console=plain build
-      - name: Build Project
-        if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain build
+        shell: bash
       - name: Log Build (ON FAILURE)
-        if: matrix.os != 'windows-latest' && failure()
         run: ./gradlew --info --stacktrace --console=plain build
+        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -77,11 +71,7 @@ jobs:
             ~/.gradle/wrapper
 
       # PROCESS
-#      - name: Create Sample Keystores
-#        if: matrix.os == 'windows-latest'
-#        run: gradlew --warn --console=plain createCa createIdentities
       - name: Create Sample Keystores
-#        if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain createCa createIdentities
         shell: bash
 
@@ -116,12 +106,7 @@ jobs:
 
       # PROCESS
       - name: Build Site
-        if: matrix.os == 'windows-latest'
-        run: |
-          gradlew --warn --console=plain --no-daemon build
-          gradlew --warn --console=plain --no-daemon -x test buildSite
-      - name: Build Site
-        if: matrix.os != 'windows-latest'
+        shell: bash
         run: |
           ./gradlew --warn --console=plain --no-daemon build
           ./gradlew --warn --console=plain --no-daemon -x test buildSite
@@ -157,11 +142,8 @@ jobs:
 
       # PROCESS
       - name: Test Publishing
-        if: matrix.os == 'windows-latest'
-        run: gradlew --warn --console=plain --no-daemon publishToMavenLocal
-      - name: Test Publishing
-        if: matrix.os != 'windows-latest'
         run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
+        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
