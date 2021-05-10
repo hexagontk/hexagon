@@ -38,6 +38,7 @@ jobs:
         run: ./gradlew --warn --console=plain build
         shell: bash
       - name: Log Build (ON FAILURE)
+        if: failure()
         run: ./gradlew --info --stacktrace --console=plain build
         shell: bash
 
