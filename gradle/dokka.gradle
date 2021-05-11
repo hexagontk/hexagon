@@ -23,6 +23,7 @@ publishing {
     }
 }
 
+setUpDokka(dokkaHtmlPartial)
 setUpDokka(dokkaJavadoc)
 setUpDokka(dokkaGfm)
 task("dokka", dependsOn: [ "dokkaJavadoc", "dokkaGfm" ])
