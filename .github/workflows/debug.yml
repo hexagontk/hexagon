@@ -36,7 +36,7 @@ jobs:
       # PROCESS
       - name: Set Up Runner (${{ matrix.os }})
         if: matrix.os == 'windows-latest'
-        run: choco install docker-desktop
+        run: choco install docker-desktop docker-compose
       - name: Set Up Runner (${{ matrix.os }})
         if: matrix.os == 'macos-latest'
         run: brew install docker docker-compose
@@ -115,7 +115,7 @@ jobs:
 #      - name: Build Site
 #        shell: bash
 #        run: |
-#          ./gradlew --warn --console=plain --no-daemon build
+#          ./gradlew --warn --console=plain --no-daemon build dokkaGfm
 #          ./gradlew --warn --console=plain --no-daemon -x test buildSite
 #
 #      # CLEAN UP
