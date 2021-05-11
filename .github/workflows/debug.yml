@@ -20,7 +20,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
@@ -34,11 +34,11 @@ jobs:
             ~/.gradle/wrapper
 
       # PROCESS
-#      - name: Build Project
-#        run: ./gradlew --warn --console=plain build
-#        shell: bash
+      - name: Build Project
+        run: ./gradlew --warn --console=plain build
+        shell: bash
       - name: Log Build (ON FAILURE)
-#        if: failure()
+        if: failure()
         run: ./gradlew --info --stacktrace --console=plain build
         shell: bash
 
@@ -58,7 +58,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
@@ -92,7 +92,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
@@ -128,7 +128,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
