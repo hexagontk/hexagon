@@ -85,11 +85,14 @@ class SiteKtTest {
 
         fun editLine(path: String, file: String) {
             val firstLine = base.resolve(path).readLines().first()
+            println(">>>>>>>>>>>>>>>>>> Path: $path File: $file First Line: $firstLine")
             assert(firstLine.startsWith("edit_url: edit/develop/"))
             assert(firstLine.removePrefix("edit_url: edit/develop/") ==  file)
         }
 
+        println(">>>>>>>>>>>>>>>>>> Adding metadata...")
         project.addMetadata(base.absolutePath)
+        println(">>>>>>>>>>>>>>>>>> Metadata ADDED")
 
         editLine("test_out.md", "hexagon_site/pages/test_out.md")
         editLine("test.md", "hexagon_site/pages/test.md")
