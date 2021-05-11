@@ -38,6 +38,7 @@ $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Create a con
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Create a connection factory without parameters succeed/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-create a connection factory without parameters succeed.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Rabbit client disconnects properly/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-rabbit client disconnects properly.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/RabbitMqClientTest/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-rabbit-mq-client-test.md
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/initialize/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/initialize.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest.Sample///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-sample/index.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest.Sample/Sample/#kotlin.String#kotlin.Int/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-sample/-sample.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest.Sample/int/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-sample/int.md

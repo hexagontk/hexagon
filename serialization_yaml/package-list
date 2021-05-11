@@ -2,6 +2,11 @@ $dokka.format:gfm-v1
 $dokka.linkExtension:md
 $dokka.location:com.hexagonkt.serialization////PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/index.md
 $dokka.location:com.hexagonkt.serialization/Yaml///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml/index.md
+$dokka.location:com.hexagonkt.serialization/YamlSerializerTest///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-serializer-test/index.md
+$dokka.location:com.hexagonkt.serialization/YamlSerializerTest/Parse URL works ok/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-serializer-test/-parse -u-r-l works ok.md
+$dokka.location:com.hexagonkt.serialization/YamlSerializerTest/Parse resource works ok/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-serializer-test/-parse resource works ok.md
+$dokka.location:com.hexagonkt.serialization/YamlSerializerTest/YamlSerializerTest/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-serializer-test/-yaml-serializer-test.md
+$dokka.location:com.hexagonkt.serialization/YamlSerializerTest/setUpSerializationManager/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-serializer-test/set-up-serialization-manager.md
 $dokka.location:com.hexagonkt.serialization/YamlTest.Device///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/index.md
 $dokka.location:com.hexagonkt.serialization/YamlTest.Device/Device/#kotlin.String#kotlin.String#kotlin.String#com.hexagonkt.serialization.YamlTest.DeviceOs#kotlin.String#kotlin.String/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/-device.md
 $dokka.location:com.hexagonkt.serialization/YamlTest.Device/alias/#/PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml-test/-device/alias.md

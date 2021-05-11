@@ -46,6 +46,7 @@ $dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest.MappedClass/otherD
 $dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/index.md
 $dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest/A mapper transform a data class to a map and back/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-a mapper transform a data class to a map and back.md
 $dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest/HashMapMapperTest/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/-hash-map-mapper-test.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapMapperTest/setUpSerializationManager/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-mapper-test/set-up-serialization-manager.md
 $dokka.location:com.hexagonkt.store.hashmap/HashMapStore///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/index.md
 $dokka.location:com.hexagonkt.store.hashmap/HashMapStore/HashMapStore/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),TypeParam(bounds=[kotlin.Any])]#kotlin.String#java.util.HashMap[TypeParam(bounds=[kotlin.Any]),kotlin.collections.Map[kotlin.String,kotlin.Any]]#com.hexagonkt.store.Mapper[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/-hash-map-store.md
 $dokka.location:com.hexagonkt.store.hashmap/HashMapStore/count/#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store/count.md
@@ -79,6 +80,7 @@ $dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/New records are sto
 $dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/Records are replaced correctly/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-records are replaced correctly.md
 $dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/Store type is correct/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/-store type is correct.md
 $dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/dropCollection/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/drop-collection.md
+$dokka.location:com.hexagonkt.store.hashmap/HashMapStoreTest/setUpSerializationManager/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-hash-map-store-test/set-up-serialization-manager.md
 $dokka.location:com.hexagonkt.store.hashmap/Person///PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-person/index.md
 $dokka.location:com.hexagonkt.store.hashmap/Person/Person/#kotlin.String/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-person/-person.md
 $dokka.location:com.hexagonkt.store.hashmap/Person/name/#/PointingToDeclaration/port_store/com.hexagonkt.store.hashmap/-person/name.md

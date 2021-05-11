@@ -18,6 +18,7 @@ $dokka.location:com.hexagonkt.templates/TemplateEngineTest/Create TemplateEngine
 $dokka.location:com.hexagonkt.templates/TemplateEngineTest/Invalid resource path will return empty map/#/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine-test/-invalid resource path will return empty map.md
 $dokka.location:com.hexagonkt.templates/TemplateEngineTest/Template with unparseable properties is rendered/#/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine-test/-template with unparseable properties is rendered.md
 $dokka.location:com.hexagonkt.templates/TemplateEngineTest/TemplateEngineTest/#kotlin.Function0[com.hexagonkt.templates.TemplatePort]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine-test/-template-engine-test.md
+$dokka.location:com.hexagonkt.templates/TemplateEngineTest/initialize/#/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine-test/initialize.md
 $dokka.location:com.hexagonkt.templates/TemplateManager///PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/index.md
 $dokka.location:com.hexagonkt.templates/TemplateManager/register/#kotlin.String#com.hexagonkt.templates.TemplateEngine/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/register.md
 $dokka.location:com.hexagonkt.templates/TemplateManager/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/render.md

@@ -255,6 +255,7 @@ $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/callbacks/#/
 $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/errors/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/errors.md
 $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/files/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/files.md
 $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/filters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/filters.md
+$dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/initialize.md
 $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/routeGroups/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/route-groups.md
 $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/routers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/routers.md
 $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/routesCreation/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/routes-creation.md
@@ -369,6 +370,7 @@ $dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/users/#/Point
 $dokka.location:com.hexagonkt.http.server/RequestTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/index.md
 $dokka.location:com.hexagonkt.http.server/RequestTest/RequestTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-request-test.md
 $dokka.location:com.hexagonkt.http.server/RequestTest/parse path field and query parameters to given type/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/parse path field and query parameters to given type.md
+$dokka.location:com.hexagonkt.http.server/RequestTest/setUpSerializationManager/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/set-up-serialization-manager.md
 $dokka.location:com.hexagonkt.http.server/RequestTest/should fail gracefully by returning null object in case of deserialization failure/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/should fail gracefully by returning null object in case of deserialization failure.md
 $dokka.location:com.hexagonkt.http.server/RequestTest/should honor the validations and fail gracefully by returning null object/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/should honor the validations and fail gracefully by returning null object.md
 $dokka.location:com.hexagonkt.http.server/RequestTest/should map the value as is if there is only value/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/should map the value as is if there is only value.md
@@ -472,12 +474,14 @@ $dokka.location:com.hexagonkt.http.server/ServerSettings/sslSettings/#/PointingT
 $dokka.location:com.hexagonkt.http.server/ServerSettingsTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/index.md
 $dokka.location:com.hexagonkt.http.server/ServerSettingsTest/Server settings loads the proper defaults/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/-server settings loads the proper defaults.md
 $dokka.location:com.hexagonkt.http.server/ServerSettingsTest/ServerSettingsTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/-server-settings-test.md
+$dokka.location:com.hexagonkt.http.server/ServerSettingsTest/setUpSerializationManager/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/set-up-serialization-manager.md
 $dokka.location:com.hexagonkt.http.server/ServerTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/index.md
 $dokka.location:com.hexagonkt.http.server/ServerTest/Default banner includes documentation URL/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-default banner includes documentation -u-r-l.md
 $dokka.location:com.hexagonkt.http.server/ServerTest/Default parameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-default parameters.md
 $dokka.location:com.hexagonkt.http.server/ServerTest/Injected parameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-injected parameters.md
 $dokka.location:com.hexagonkt.http.server/ServerTest/Runtime port/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-runtime port.md
 $dokka.location:com.hexagonkt.http.server/ServerTest/ServerTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-server-test.md
+$dokka.location:com.hexagonkt.http.server/ServerTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/initialize.md
 $dokka.location:com.hexagonkt.http.server/Session///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/index.md
 $dokka.location:com.hexagonkt.http.server/Session/Session/#com.hexagonkt.http.server.SessionPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/-session.md
 $dokka.location:com.hexagonkt.http.server/Session/adapter/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/adapter.md

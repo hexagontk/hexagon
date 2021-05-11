@@ -368,31 +368,12 @@ $dokka.location:com.hexagonkt.serialization/Department.DEVELOPMENT///PointingToD
 $dokka.location:com.hexagonkt.serialization/Department.DEVELOPMENT/name/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/-d-e-v-e-l-o-p-m-e-n-t/name.md
 $dokka.location:com.hexagonkt.serialization/Department.DEVELOPMENT/ordinal/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/-d-e-v-e-l-o-p-m-e-n-t/ordinal.md
 $dokka.location:com.hexagonkt.serialization/Department///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/index.md
-$dokka.location:com.hexagonkt.serialization/JacksonHelper///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-helper/index.md
-$dokka.location:com.hexagonkt.serialization/JacksonHelper/createObjectMapper/#com.fasterxml.jackson.core.JsonFactory/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-helper/create-object-mapper.md
-$dokka.location:com.hexagonkt.serialization/JacksonHelper/mapper/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-helper/mapper.md
-$dokka.location:com.hexagonkt.serialization/JacksonHelper/setupObjectMapper/#com.fasterxml.jackson.databind.ObjectMapper/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-helper/setup-object-mapper.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-serializer-test/index.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest/JacksonSerializerTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-serializer-test/-jackson-serializer-test.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest/Parse URL works ok/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-serializer-test/-parse -u-r-l works ok.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest/Parse resource works ok/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-serializer-test/-parse resource works ok.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest/setUpSerializationManager/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-serializer-test/set-up-serialization-manager.md
-$dokka.location:com.hexagonkt.serialization/JacksonTextFormat///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-text-format/index.md
-$dokka.location:com.hexagonkt.serialization/JacksonTextFormat/JacksonTextFormat/#java.util.LinkedHashSet[kotlin.String]#kotlin.Function0[com.fasterxml.jackson.core.JsonFactory]?/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-text-format/-jackson-text-format.md
-$dokka.location:com.hexagonkt.serialization/JacksonTextFormat/contentType/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-text-format/content-type.md
-$dokka.location:com.hexagonkt.serialization/JacksonTextFormat/extensions/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-text-format/extensions.md
-$dokka.location:com.hexagonkt.serialization/JacksonTextFormat/isBinary/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-text-format/is-binary.md
-$dokka.location:com.hexagonkt.serialization/JacksonTextFormat/parse/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-text-format/parse.md
-$dokka.location:com.hexagonkt.serialization/JacksonTextFormat/parseObjects/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-text-format/parse-objects.md
-$dokka.location:com.hexagonkt.serialization/JacksonTextFormat/serialize/#kotlin.Any#java.io.OutputStream/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-text-format/serialize.md
-$dokka.location:com.hexagonkt.serialization/JacksonTextFormat/serialize/#kotlin.Any/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-jackson-text-format/serialize.md
-$dokka.location:com.hexagonkt.serialization/Json///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-json/index.md
+$dokka.location:com.hexagonkt.serialization/Mapper///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-mapper/index.md
+$dokka.location:com.hexagonkt.serialization/Mapper/convertToMap/#kotlin.Any/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-mapper/convert-to-map.md
+$dokka.location:com.hexagonkt.serialization/Mapper/convertToObject/#kotlin.collections.Map[*,*]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-mapper/convert-to-object.md
 $dokka.location:com.hexagonkt.serialization/ParseException///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception/index.md
-$dokka.location:com.hexagonkt.serialization/ParseException/ParseException/#kotlin.Throwable?/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception/-parse-exception.md
+$dokka.location:com.hexagonkt.serialization/ParseException/ParseException/#kotlin.String#kotlin.Throwable?/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception/-parse-exception.md
 $dokka.location:com.hexagonkt.serialization/ParseException/field/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception/field.md
-$dokka.location:com.hexagonkt.serialization/ParseExceptionTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception-test/index.md
-$dokka.location:com.hexagonkt.serialization/ParseExceptionTest/ParseException obtains field name properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception-test/-parse-exception obtains field name properly.md
-$dokka.location:com.hexagonkt.serialization/ParseExceptionTest/ParseExceptionTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception-test/-parse-exception-test.md
 $dokka.location:com.hexagonkt.serialization/Person///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-person/index.md
 $dokka.location:com.hexagonkt.serialization/Person/Person/#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-person/-person.md
 $dokka.location:com.hexagonkt.serialization/Person/name/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-person/name.md
@@ -437,6 +418,9 @@ $dokka.location:com.hexagonkt.serialization/SerializationManager/formatOf/#kotli
 $dokka.location:com.hexagonkt.serialization/SerializationManager/formatOf/#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/format-of.md
 $dokka.location:com.hexagonkt.serialization/SerializationManager/formats/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/formats.md
 $dokka.location:com.hexagonkt.serialization/SerializationManager/formats/#kotlin.Array[com.hexagonkt.serialization.SerializationFormat]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/formats.md
+$dokka.location:com.hexagonkt.serialization/SerializationManager/mapper/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/mapper.md
+$dokka.location:com.hexagonkt.serialization/SerializationManager/requireDefaultFormat/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/require-default-format.md
+$dokka.location:com.hexagonkt.serialization/SerializationManager/requireMapper/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/require-mapper.md
 $dokka.location:com.hexagonkt.serialization/SerializationManagerTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/index.md
 $dokka.location:com.hexagonkt.serialization/SerializationManagerTest/MIME types return correct content type for URLs/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-m-i-m-e types return correct content type for -u-r-ls.md
 $dokka.location:com.hexagonkt.serialization/SerializationManagerTest/MIME types return correct content type for extensions/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-m-i-m-e types return correct content type for extensions.md
@@ -459,8 +443,10 @@ $dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Inline conv
 $dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Parse stream objects works properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-parse stream objects works properly.md
 $dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Parse streams works properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-parse streams works properly.md
 $dokka.location:com.hexagonkt.serialization/SerializationPackageTest/SerializationPackageTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-serialization-package-test.md
+$dokka.location:com.hexagonkt.serialization/SerializationPackageTest/initialize/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/initialize.md
 $dokka.location:com.hexagonkt.serialization/SerializationTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-test/index.md
 $dokka.location:com.hexagonkt.serialization/SerializationTest/SerializationTest/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-test/-serialization-test.md
+$dokka.location:com.hexagonkt.serialization/SerializationTest/initialize/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-test/initialize.md
 $dokka.location:com.hexagonkt.serialization/SerializationTest/testObjects/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-test/test-objects.md
 $dokka.location:com.hexagonkt.serialization/SerializationTest/type/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-test/type.md
 $dokka.location:com.hexagonkt////PointingToDeclaration/hexagon_core/com.hexagonkt/index.md

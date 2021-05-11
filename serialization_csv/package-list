@@ -36,5 +36,6 @@ $dokka.location:com.hexagonkt.serialization/CsvTest/Parse an invalid class list 
 $dokka.location:com.hexagonkt.serialization/CsvTest/Parse exceptions contains failed field/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-parse exceptions contains failed field.md
 $dokka.location:com.hexagonkt.serialization/CsvTest/Parse invalid CSV type/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-parse invalid -c-s-v type.md
 $dokka.location:com.hexagonkt.serialization/CsvTest/Serialize an empty list works as expected/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-serialize an empty list works as expected.md
+$dokka.location:com.hexagonkt.serialization/CsvTest/initialize/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/initialize.md
 com.hexagonkt.serialization
 
