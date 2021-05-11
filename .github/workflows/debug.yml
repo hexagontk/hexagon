@@ -24,14 +24,14 @@ jobs:
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
+#      - name: Restore Cache
+#        uses: actions/cache@v2
+#        with:
+#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+#          restore-keys: ${{ runner.os }}-gradle-
+#          path: |
+#            ~/.gradle/caches
+#            ~/.gradle/wrapper
 
       # PROCESS
       - name: Build Project
