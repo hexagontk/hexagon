@@ -45,6 +45,7 @@ jobs:
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        shell: bash
 
   sample_keystores:
     strategy:
@@ -79,6 +80,7 @@ jobs:
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        shell: bash
 
 #  build_site:
 #    strategy:
@@ -149,3 +151,4 @@ jobs:
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        shell: bash
