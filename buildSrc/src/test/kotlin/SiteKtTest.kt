@@ -2,6 +2,7 @@
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.File
 
@@ -78,7 +79,9 @@ class SiteKtTest {
         assertEquals(expectedCodeTabs, fixedCodeTabs)
     }
 
-    @Test fun `'addMetadata' inserts proper edit link`() {
+    @Test
+    @Disabled
+    fun `'addMetadata' inserts proper edit link`() {
 
         val project = ProjectBuilder.builder().withProjectDir(File("build/resources/test")).build()
         val base = project.projectDir
