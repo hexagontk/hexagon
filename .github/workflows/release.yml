@@ -97,7 +97,7 @@ jobs:
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
-          ./gradlew --info --console=plain --no-daemon build
+          ./gradlew --info --console=plain --no-daemon build dokkaGfm
           ./gradlew --info --console=plain --no-daemon -x test buildSite
 
       - name: Publish Packages

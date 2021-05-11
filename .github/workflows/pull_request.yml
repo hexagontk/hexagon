@@ -87,7 +87,7 @@ jobs:
       # PROCESS
       - name: Build Site
         run: |
-          ./gradlew --warn --console=plain --no-daemon build
+          ./gradlew --warn --console=plain --no-daemon build dokkaGfm
           ./gradlew --warn --console=plain --no-daemon -x test buildSite
 
       # CLEAN UP
