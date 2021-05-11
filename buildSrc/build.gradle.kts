@@ -21,6 +21,13 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+
+    testLogging {
+        if (logger.isInfoEnabled)
+            events("skipped", "failed", "standardOut", "standardError")
+        else
+            events("skipped", "failed")
+    }
 }
 
 tasks.withType<KotlinCompile> {
