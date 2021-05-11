@@ -13,17 +13,20 @@
 import java.io.OutputStream
 
 plugins {
-    id("idea")
-    id("eclipse")
-
     kotlin("jvm") version("1.5.0") apply(false)
 
-    id("org.jetbrains.dokka") version("1.4.30") apply(false)
+    id("idea")
+    id("eclipse")
+    id("org.jetbrains.dokka") version("1.4.32")
     id("io.gitlab.arturbosch.detekt") version("1.16.0") apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
 apply(from = "gradle/docker.gradle")
+
+repositories {
+    mavenCentral()
+}
 
 tasks.register<Delete>("clean") {
     group = "build"

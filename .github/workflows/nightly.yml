@@ -9,7 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ ubuntu-latest ]
 
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -34,13 +34,16 @@ jobs:
       # PROCESS
       - name: Build Project
         run: ./gradlew --warn --console=plain build
+        shell: bash
       - name: Log Build (ON FAILURE)
         if: failure()
-        run: ./gradlew --info --stacktrace --console=plain build
+        run: ./gradlew --info --console=plain --stacktrace build
+        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        shell: bash
 
   sample_keystores:
     strategy:
@@ -69,16 +72,18 @@ jobs:
 
       # PROCESS
       - name: Create Sample Keystores
-        run: ./gradlew --warn --console=plain createCa createIdentities
+        run: ./gradlew --warn --console=plain --no-daemon createCa createIdentities
+        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        shell: bash
 
   build_site:
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ ubuntu-latest ]
 
     name: Build Site (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -102,13 +107,15 @@ jobs:
 
       # PROCESS
       - name: Build Site
+        shell: bash
         run: |
-          ./gradlew --warn --console=plain --no-daemon build
+          ./gradlew --warn --console=plain --no-daemon build dokkaGfm
           ./gradlew --warn --console=plain --no-daemon -x test buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        shell: bash
 
   test_publishing:
     strategy:
@@ -138,7 +145,9 @@ jobs:
       # PROCESS
       - name: Test Publishing
         run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
+        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        shell: bash

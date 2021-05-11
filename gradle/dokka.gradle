@@ -23,11 +23,13 @@ publishing {
     }
 }
 
+setUpDokka(dokkaHtmlPartial)
 setUpDokka(dokkaJavadoc)
 setUpDokka(dokkaGfm)
 task("dokka", dependsOn: [ "dokkaJavadoc", "dokkaGfm" ])
 
 private void setUpDokka(final Object dokkaTask) {
+    dokkaTask.moduleName.set(project.name)
     dokkaTask.dokkaSourceSets {
         configureEach {
             reportUndocumented.set(false)
