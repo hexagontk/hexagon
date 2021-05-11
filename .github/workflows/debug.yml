@@ -74,7 +74,7 @@ jobs:
 
       # PROCESS
       - name: Create Sample Keystores
-        run: ./gradlew --warn --console=plain createCa createIdentities
+        run: ./gradlew --warn --console=plain --no-daemon createCa createIdentities
         shell: bash
 
       # CLEAN UP
@@ -82,41 +82,42 @@ jobs:
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
         shell: bash
 
-#  build_site:
-#    strategy:
-#      matrix:
-#        os: [ ubuntu-latest, windows-latest ]
-#
-#    name: Build Site (${{ matrix.os }})
-#    runs-on: ${{ matrix.os }}
-#    steps:
-#
-#      # SET UP
-#      - name: Check Out
-#        uses: actions/checkout@v2
-##        with: { ref: develop }
-#      - name: Install Java
-#        uses: actions/setup-java@v2
-#        with: { java-version: 11, distribution: adopt }
-#      - name: Restore Cache
-#        uses: actions/cache@v2
-#        with:
-#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-#          restore-keys: ${{ runner.os }}-gradle-
-#          path: |
-#            ~/.gradle/caches
-#            ~/.gradle/wrapper
-#
-#      # PROCESS
-#      - name: Build Site
-#        shell: bash
-#        run: |
-#          ./gradlew --warn --console=plain --no-daemon build dokkaGfm
-#          ./gradlew --warn --console=plain --no-daemon -x test buildSite
-#
-#      # CLEAN UP
-#      - name: Clean Gradle Cache
-#        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+  build_site:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+
+    name: Build Site (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      # SET UP
+      - name: Check Out
+        uses: actions/checkout@v2
+#        with: { ref: develop }
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with: { java-version: 11, distribution: adopt }
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+
+      # PROCESS
+      - name: Build Site
+        shell: bash
+        run: |
+          ./gradlew --warn --console=plain --no-daemon build dokkaGfm
+          ./gradlew --warn --console=plain --no-daemon -x test buildSite
+
+      # CLEAN UP
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        shell: bash
 
   test_publishing:
     strategy:
