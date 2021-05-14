@@ -39,7 +39,6 @@ extensions.configure<PublishingExtension> {
 
 setUpDokka(tasks.getByName<DokkaTaskPartial>("dokkaHtmlPartial"))
 setUpDokka(tasks.getByName<DokkaTask>("dokkaJavadoc"))
-setUpDokka(tasks.getByName<DokkaTask>("dokkaGfm"))
 
 fun setUpDokka(dokkaTask: DokkaTaskPartial) {
     dokkaTask.dokkaSourceSets {

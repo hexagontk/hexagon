@@ -10,6 +10,8 @@
  * them.
  */
 
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+
 plugins {
     kotlin("jvm") version("1.5.0") apply(false)
 
@@ -68,4 +70,8 @@ task("release") {
         project.exec { commandLine = listOf("git", "tag", "-m", "Release $release", release) }
         project.exec { commandLine = listOf("git", "push", "--tags") }
     }
+}
+
+tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
+    outputDirectory.set(file("hexagon_site/content/api"))
 }

@@ -25,7 +25,6 @@ publishing {
 
 setUpDokka(dokkaHtmlPartial)
 setUpDokka(dokkaJavadoc)
-setUpDokka(dokkaGfm)
 
 private void setUpDokka(final Object dokkaTask) {
     dokkaTask.moduleName.set(project.name)

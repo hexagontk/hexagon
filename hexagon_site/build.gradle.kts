@@ -30,25 +30,15 @@ tasks.register<JacocoReport>("jacocoRootReport") {
 }
 
 task("mkdocs") {
-    dependsOn(tasks.named("jacocoRootReport"))
+    dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
 
     doLast {
         val contentTarget = project.file("content").absolutePath
-        val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
 
         rootProject.subprojects
-            .filter { subproject -> subproject.file("build/dokka/gfm").exists() }
+            .filter { subproject -> subproject.file("README.md").exists() }
             .forEach { subproject ->
-                val directory = subproject.file("build/dokka/gfm")
-                rootProject.copy {
-                    from(directory)
-                    include("index.md")
-                    into(contentTarget + "/" + subproject.name)
-                }
-                rootProject.copy {
-                    from(subproject.file("build/dokka/gfm/${subproject.name}"))
-                    into(contentTarget + "/" + subproject.name)
-                }
+                subproject.file("README.md").copyTo(file("$contentTarget/${subproject.name}.md"))
             }
 
         copy {
@@ -57,16 +47,7 @@ task("mkdocs") {
             into(contentTarget)
         }
 
-        // Hack to fix site tabs when two of them point to the same file
-        listOf("hexagon_core", "port_http_server", "port_http_client", "port_templates").forEach {
-            copy {
-                from(rootProject.file(it))
-                include("README.md")
-                into("$contentTarget/$it")
-                rename("(.*)", "${it}.md")
-            }
-        }
-
+        val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
         markdownFiles.forEach { markdownFile ->
             var content = markdownFile.readText()
             content = insertSamplesCode(rootProject.projectDir, content)
