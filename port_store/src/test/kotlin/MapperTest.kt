@@ -3,7 +3,7 @@ package com.hexagonkt.store
 import org.junit.jupiter.api.Test
 import kotlin.reflect.KProperty1
 
-class MapperTest {
+internal class MapperTest {
 
     @Test fun `Default mapper methods return its own parameters`() {
         val testMapper = object : Mapper<String> {

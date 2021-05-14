@@ -2,7 +2,7 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.http.Protocol
 
-object VoidAdapter : ServerPort {
+internal object VoidAdapter : ServerPort {
     private var started = false
 
     override fun runtimePort() = 12345

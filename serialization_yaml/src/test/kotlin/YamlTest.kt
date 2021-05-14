@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertFailsWith
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class YamlTest {
+internal class YamlTest {
 
     enum class DeviceOs { ANDROID, IOS }
 

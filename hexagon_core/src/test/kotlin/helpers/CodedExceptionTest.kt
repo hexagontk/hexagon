@@ -1,9 +1,8 @@
 package com.hexagonkt.helpers
 
 import org.junit.jupiter.api.Test
-import java.lang.RuntimeException
 
-class CodedExceptionTest {
+internal class CodedExceptionTest {
 
     @Test fun `Default 'CodedException' has empty message and 'null' cause`() {
         val exception = CodedException(10)

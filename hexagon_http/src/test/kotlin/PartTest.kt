@@ -3,7 +3,7 @@ package com.hexagonkt.http
 import com.hexagonkt.helpers.toStream
 import org.junit.jupiter.api.Test
 
-class PartTest {
+internal class PartTest {
 
     @Test fun `Full part contains expected values`() {
         val content = "content"

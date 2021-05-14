@@ -30,25 +30,16 @@ tasks.register<JacocoReport>("jacocoRootReport") {
 }
 
 task("mkdocs") {
-    dependsOn(tasks.named("jacocoRootReport"))
+    dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
 
     doLast {
         val contentTarget = project.file("content").absolutePath
-        val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
 
         rootProject.subprojects
-            .filter { subproject -> subproject.file("build/dokka/gfm").exists() }
+            .filter { subproject -> subproject.file("README.md").exists() }
             .forEach { subproject ->
-                val directory = subproject.file("build/dokka/gfm")
-                rootProject.copy {
-                    from(directory)
-                    include("index.md")
-                    into(contentTarget + "/" + subproject.name)
-                }
-                rootProject.copy {
-                    from(subproject.file("build/dokka/gfm/${subproject.name}"))
-                    into(contentTarget + "/" + subproject.name)
-                }
+                val readme = subproject.file("README.md")
+                readme.copyTo(file("$contentTarget/${subproject.name}.md"), true)
             }
 
         copy {
@@ -57,16 +48,7 @@ task("mkdocs") {
             into(contentTarget)
         }
 
-        // Hack to fix site tabs when two of them point to the same file
-        listOf("hexagon_core", "port_http_server", "port_http_client", "port_templates").forEach {
-            copy {
-                from(rootProject.file(it))
-                include("README.md")
-                into("$contentTarget/$it")
-                rename("(.*)", "${it}.md")
-            }
-        }
-
+        val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
         markdownFiles.forEach { markdownFile ->
             var content = markdownFile.readText()
             content = insertSamplesCode(rootProject.projectDir, content)
@@ -74,7 +56,6 @@ task("mkdocs") {
             markdownFile.writeText(content)
         }
 
-        rootProject.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
         generateCoverageBadge()
@@ -114,17 +95,21 @@ task("checkDocs") {
     }
 }
 
+val dockerCommand = "docker --log-level warning run --rm -v ${projectDir.absolutePath}:/docs"
+val mkdocsMaterialImage = "squidfunk/mkdocs-material:${properties["mkdocsMaterialVersion"]}"
+
 tasks.register<Exec>("serveSite") {
-    dependsOn("mkdocs")
-    workingDir = rootDir
-    commandLine("docker-compose --log-level warning up -d site".split(" "))
+    dependsOn("checkDocs")
+    commandLine("$dockerCommand -p 8000:8000 --name hexagon_site $mkdocsMaterialImage".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs")
-    workingDir = rootDir
-    commandLine("docker-compose --log-level warning run site build -csq".split(" "))
+    commandLine("$dockerCommand $mkdocsMaterialImage build -csq".split(" "))
 }
+
+tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
+tasks.withType<PublishToMavenRepository>().configureEach { enabled = false }
 
 fun generateCoverageBadge() {
     val coverageReport = file("content/jacoco/jacoco.xml")

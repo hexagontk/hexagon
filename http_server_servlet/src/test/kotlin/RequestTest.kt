@@ -6,7 +6,7 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import javax.servlet.http.HttpServletRequest
 
-class RequestTest {
+internal class RequestTest {
 
     @Test fun `Request path is obtained based on servlet path`() {
         val servletRequest = mockk<HttpServletRequest>()

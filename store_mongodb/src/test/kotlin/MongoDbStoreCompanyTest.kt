@@ -22,11 +22,11 @@ import java.time.LocalTime
 import java.util.TimeZone
 
 @TestInstance(PER_CLASS)
-class MongoDbStoreCompanyTest {
+internal class MongoDbStoreCompanyTest {
 
     private val mongodbUrl by lazy {
         SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
-            ?: "mongodb://localhost:2080/test"
+            ?: "mongodb://localhost:${mongoDb.getMappedPort(27017)}/test"
     }
 
     private val store: Store<Company, String> by lazy {

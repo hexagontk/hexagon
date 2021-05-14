@@ -8,7 +8,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class CompanySerializationTest : SerializationTest<Company>(Company::class) {
+internal class CompanySerializationTest : SerializationTest<Company>(Company::class) {
 
     private fun createObject() = Company(
         id = "id",

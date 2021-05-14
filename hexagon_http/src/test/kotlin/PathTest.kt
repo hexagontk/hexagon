@@ -7,7 +7,7 @@ import kotlin.test.assertFailsWith
  * TODO Check that URLs with blank parameters are not matched.
  *   Ie: /alpha/{param}/bravo is not matched by /alpha//bravo
  */
-class PathTest {
+internal class PathTest {
 
     @Test fun `A path without parameters do not have regex neither params table`() {
         val pathWithoutData = Path("/alpha/bravo/tango")

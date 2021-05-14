@@ -10,20 +10,28 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import org.testcontainers.containers.RabbitMQContainer
+import org.testcontainers.utility.DockerImageName.parse
 import java.lang.System.currentTimeMillis
 import java.net.URI
 
 @TestInstance(PER_CLASS)
-class RabbitTest {
+internal class RabbitTest {
 
     data class Sample(val str: String, val int: Int) : Message()
 
-    private companion object {
-        private const val URI = "amqp://guest:guest@localhost:2070"
-        private const val QUEUE = "test"
-        private const val QUEUE_ERROR = "error"
-        private const val SUFFIX = "DONE"
-        private const val DELAY = 10L
+    companion object {
+        private val rabbitMq: RabbitMQContainer = RabbitMQContainer(parse("rabbitmq:3.8-alpine"))
+            .withExposedPorts(5672)
+            .apply { start() }
+
+        val PORT: Int = rabbitMq.getMappedPort(5672)
+        val URI: String = "amqp://guest:guest@localhost:$PORT"
+
+        private const val QUEUE: String = "test"
+        private const val QUEUE_ERROR: String = "error"
+        private const val SUFFIX: String = "DONE"
+        private const val DELAY: Long = 10L
     }
 
     private val consumer: RabbitMqClient = RabbitMqClient(URI(URI))

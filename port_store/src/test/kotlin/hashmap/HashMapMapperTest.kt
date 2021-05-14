@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 import kotlin.reflect.full.declaredMemberProperties
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class HashMapMapperTest {
+internal class HashMapMapperTest {
 
     data class MappedClass (
         val oneString: String = "String",

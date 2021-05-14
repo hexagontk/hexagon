@@ -9,7 +9,7 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 
 @TestInstance(PER_CLASS)
-class ServiceTest {
+internal class ServiceTest {
     private val client: Client by lazy {
         Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
     }

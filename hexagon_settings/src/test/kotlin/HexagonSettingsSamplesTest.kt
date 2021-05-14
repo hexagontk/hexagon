@@ -6,7 +6,7 @@ import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.Yaml
 import org.junit.jupiter.api.Test
 
-class HexagonSettingsSamplesTest {
+internal class HexagonSettingsSamplesTest {
 
     @Test fun settingsUsage() {
 

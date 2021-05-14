@@ -6,7 +6,7 @@ import org.junit.jupiter.api.TestInstance
 import java.net.URL
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class YamlSerializerTest {
+internal class YamlSerializerTest {
 
     @BeforeAll fun setUpSerializationManager() {
         SerializationManager.formats = linkedSetOf(Yaml)

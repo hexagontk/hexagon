@@ -6,14 +6,21 @@ apply(from = "../gradle/dokka.gradle")
 extra["basePackage"] = "com.hexagonkt.messaging.rabbitmq"
 
 dependencies {
+    val rabbitVersion = properties["rabbitVersion"]
+    val testcontainersVersion = properties["testcontainersVersion"]
+    val metricsJmxVersion = properties["metricsJmxVersion"]
+
+    val qpidVersion = properties["qpidVersion"]
+    val logbackVersion = properties["logbackVersion"]
+
     "api"(project(":hexagon_http"))
     "api"(project(":port_messaging"))
-    "api"("com.rabbitmq:amqp-client:${properties["rabbitVersion"]}") {
+    "api"("com.rabbitmq:amqp-client:$rabbitVersion") {
         exclude(module = "slf4j-api")
     }
-    "api"("io.dropwizard.metrics:metrics-jmx:${properties["metricsJmxVersion"]}")
+    "api"("io.dropwizard.metrics:metrics-jmx:$metricsJmxVersion")
 
-    "testImplementation"("org.apache.qpid:qpid-broker:${properties["qpidVersion"]}") {
+    "testImplementation"("org.apache.qpid:qpid-broker:$qpidVersion") {
         exclude(module = "logback-classic")
         exclude(module = "jackson-databind")
         exclude(module = "jackson-core")
@@ -25,9 +32,9 @@ dependencies {
         exclude(module = "qpid-broker-plugins-websocket")
     }
 
-    val logbackVersion = properties["logbackVersion"]
     "testImplementation"(project(":serialization_json"))
     "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") {
         exclude(group = "org.slf4j")
     }
+    "testImplementation"("org.testcontainers:rabbitmq:$testcontainersVersion")
 }

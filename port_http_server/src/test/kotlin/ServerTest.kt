@@ -14,7 +14,7 @@ import kotlin.test.assertFailsWith
 import java.net.InetAddress.getByName as address
 
 @TestInstance(PER_CLASS)
-class ServerTest {
+internal class ServerTest {
 
     @BeforeAll fun initialize() {
         SerializationManager.formats = linkedSetOf(Json)

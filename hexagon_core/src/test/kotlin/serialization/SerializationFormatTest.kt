@@ -7,7 +7,7 @@ import java.io.OutputStream
 import kotlin.reflect.KClass
 import kotlin.test.assertFailsWith
 
-class SerializationFormatTest {
+internal class SerializationFormatTest {
 
     class TextTestFormat : SerializationFormat {
         override val contentType = "text/test"

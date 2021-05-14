@@ -6,12 +6,12 @@ import com.hexagonkt.serialization.serialize
 import java.net.URI
 import kotlin.reflect.KClass
 
-class RabbitMqAdapter : MessagingPort {
+class RabbitMqAdapter(url: String = "amqp://guest:guest@localhost") : MessagingPort {
     private companion object {
         private const val exchange = "messages"
     }
 
-    private val client by lazy { RabbitMqClient(URI("amqp://guest:guest@localhost:2070")) }
+    private val client by lazy { RabbitMqClient(URI(url)) }
 
     init {
         client.bindExchange(exchange, "topic", "*.*.*", "event_pool")

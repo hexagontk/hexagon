@@ -25,17 +25,15 @@ publishing {
 
 setUpDokka(dokkaHtmlPartial)
 setUpDokka(dokkaJavadoc)
-setUpDokka(dokkaGfm)
-task("dokka", dependsOn: [ "dokkaJavadoc", "dokkaGfm" ])
 
 private void setUpDokka(final Object dokkaTask) {
     dokkaTask.moduleName.set(project.name)
     dokkaTask.dokkaSourceSets {
         configureEach {
+            includeNonPublic.set(false)
             reportUndocumented.set(false)
             includes.from(fileTree(projectDir) { include("*.md") })
             samples.from(fileTree(projectDir) { include("**/*SamplesTest.kt") })
-            sourceRoots.from(file("src/main/kotlin"), file("src/test/kotlin"))
         }
     }
 }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @TestInstance(PER_CLASS)
-class SerializationPackageTest {
+internal class SerializationPackageTest {
 
     private val company = Company(
         id = "id",

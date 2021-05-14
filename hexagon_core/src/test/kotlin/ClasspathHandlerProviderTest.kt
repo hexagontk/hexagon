@@ -14,7 +14,7 @@ import java.net.URL
 import kotlin.test.assertFailsWith
 
 @TestInstance(PER_CLASS)
-class ClasspathHandlerProviderTest {
+internal class ClasspathHandlerProviderTest {
 
     @BeforeAll fun registerHandler() {
         SerializationManager.formats = linkedSetOf(Json)

@@ -18,7 +18,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @TestInstance(PER_CLASS)
-class CompanyTest : StoreTest<Company, String>() {
+internal class CompanyTest : StoreTest<Company, String>() {
 
     override fun createTestEntities(): List<Company> = listOf (
         Company(
@@ -55,7 +55,7 @@ class CompanyTest : StoreTest<Company, String>() {
 
     private val mongodbUrl by lazy {
         SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
-        ?: "mongodb://localhost:2080/test"
+        ?: "mongodb://localhost:${mongoDb.getMappedPort(27017)}/test"
     }
 
     override fun createStore(): Store<Company, String> =

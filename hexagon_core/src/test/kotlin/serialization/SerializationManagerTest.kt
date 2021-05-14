@@ -10,7 +10,7 @@ import java.io.File
 import java.net.URL
 import kotlin.test.assertFailsWith
 
-class SerializationManagerTest {
+internal class SerializationManagerTest {
 
     @BeforeEach fun setUpSerializationManager() {
         formats = linkedSetOf(Json, Yaml)

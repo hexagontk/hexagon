@@ -47,6 +47,8 @@ using this approach is that it differs of the standard one.
 </parent>
 ```
 
+[Maven]: https://maven.apache.org
+
 [standard layout POM]: https://search.maven.org/search?q=a:kotlin_pom
 [lean layout POM]: https://search.maven.org/search?q=a:kotlin_lean_pom
 
