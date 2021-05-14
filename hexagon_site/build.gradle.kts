@@ -127,6 +127,9 @@ tasks.register<Exec>("buildSite") {
     commandLine("$dockerCommand $mkdocsMaterialImage build -csq".split(" "))
 }
 
+tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
+tasks.withType<PublishToMavenRepository>().configureEach { enabled = false }
+
 fun generateCoverageBadge() {
     val coverageReport = file("content/jacoco/jacoco.xml")
     val coverageReportLength = coverageReport.length()

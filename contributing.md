@@ -56,7 +56,7 @@ project itself. These are internal modules not intended to be directly used by u
 
 Local Setup
 -----------
-Hexagon build process requires [Docker Compose installed](https://docs.docker.com/compose/install)
+Hexagon build process requires [Docker installed](https://docs.docker.com/engine/install)
 
 You can check the required software, build the project, generate the documentation and install it in
 your local repository typing:
@@ -64,7 +64,8 @@ your local repository typing:
 ```bash
 git clone https://github.com/hexagonkt/hexagon.git
 cd hexagon
-./gradlew setUp build buildSite publishToMavenLocal
+./gradlew setUp clean build
+./gradlew buildSite publishToMavenLocal
 ```
 
 The binaries are located in the `/build` directory of each module. The documentation site is in
@@ -74,7 +75,6 @@ To work more comfortable, you can define some useful aliases like:
 
 ```bash
 alias gw='./gradlew'
-alias dcup='docker-compose up -d'
 ```
 
 Other useful Gradle commands (assuming `alias gw='./gradlew'`) are:

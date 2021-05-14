@@ -54,7 +54,6 @@ task("setUp") {
         prePush.setExecutable(true)
 
         exec { commandLine("docker version".split(" ")) }
-        exec { commandLine("docker-compose version".split(" ")) }
         exec { commandLine("git config commit.template .github/commit_template.txt".split(" ")) }
     }
 }
@@ -70,12 +69,3 @@ task("release") {
         project.exec { commandLine = listOf("git", "push", "--tags") }
     }
 }
-
-//tasks.register<Exec>("infrastructure") {
-//    group = "build"
-//    description = "Start the project's infrastructure (with Docker Compose) required for the tests."
-//    standardOutput = object : OutputStream() { override fun write(b: Int) { /* discarded */ } }
-//    errorOutput = standardOutput
-//
-//    commandLine("docker-compose --log-level warning up -d mongodb rabbitmq".split(" "))
-//}
