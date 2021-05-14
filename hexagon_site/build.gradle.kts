@@ -38,7 +38,8 @@ task("mkdocs") {
         rootProject.subprojects
             .filter { subproject -> subproject.file("README.md").exists() }
             .forEach { subproject ->
-                subproject.file("README.md").copyTo(file("$contentTarget/${subproject.name}.md"))
+                val readme = subproject.file("README.md")
+                readme.copyTo(file("$contentTarget/${subproject.name}.md"), true)
             }
 
         copy {
@@ -55,7 +56,6 @@ task("mkdocs") {
             markdownFile.writeText(content)
         }
 
-        rootProject.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
         generateCoverageBadge()
