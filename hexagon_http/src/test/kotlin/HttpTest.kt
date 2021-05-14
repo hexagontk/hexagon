@@ -3,7 +3,7 @@ package com.hexagonkt.http
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 
-class HttpTest {
+internal class HttpTest {
 
     @Test fun `Parse strips spaces` () {
         assert(parseQueryParameters("a =1&b & c &d = e") == mapOf(

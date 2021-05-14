@@ -8,7 +8,6 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
-import org.eclipse.jetty.server.Server as JettyServer
 import org.eclipse.jetty.webapp.WebAppContext
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -21,9 +20,10 @@ import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.annotation.WebListener
 import kotlin.test.assertFailsWith
+import org.eclipse.jetty.server.Server as JettyServer
 
 @TestInstance(PER_CLASS)
-class ServletServerTest {
+internal class ServletServerTest {
 
     @WebListener
     class WebAppServer : ServletServer() {

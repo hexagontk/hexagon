@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.util.Date
 
-class HexagonCoreSamplesTest {
+internal class HexagonCoreSamplesTest {
 
     internal data class Person(
         val givenName: String,

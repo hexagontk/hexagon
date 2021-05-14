@@ -1,19 +1,18 @@
 package com.hexagonkt.injection
 
-import org.junit.jupiter.api.Test
-import com.hexagonkt.injection.InjectionManager.inject
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
-import org.junit.jupiter.api.Order
-import org.junit.jupiter.api.TestMethodOrder
-import java.lang.IllegalStateException
-import kotlin.test.assertFailsWith
 import com.hexagonkt.injection.InjectionManager.bindSet
+import com.hexagonkt.injection.InjectionManager.inject
 import com.hexagonkt.injection.InjectionManager.injectList
 import com.hexagonkt.injection.InjectionManager.injectMap
 import com.hexagonkt.injection.InjectionManager.injectOrNull
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
+import org.junit.jupiter.api.Order
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
+import kotlin.test.assertFailsWith
 
 @TestMethodOrder(OrderAnnotation::class)
-class InjectionManagerTest {
+internal class InjectionManagerTest {
 
     @Test fun `Inject not bound class throws exception`() {
 

@@ -2,7 +2,7 @@ package com.hexagonkt.helpers
 
 import org.junit.jupiter.api.Test
 
-class MultipleExceptionTest {
+internal class MultipleExceptionTest {
 
     @Test fun `'MultipleException' contains a list of causes`() {
         val causes = (0..9).map { RuntimeException (it.toString()) }

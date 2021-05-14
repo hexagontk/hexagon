@@ -3,7 +3,7 @@ package com.hexagonkt.http
 import com.hexagonkt.http.Method.GET
 import org.junit.jupiter.api.Test
 
-class RouteTest {
+internal class RouteTest {
 
     @Test fun `Route constructor works ok`() {
         val route = Route(Path("/"), linkedSetOf(GET))

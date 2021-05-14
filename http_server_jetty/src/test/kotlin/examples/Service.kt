@@ -11,14 +11,14 @@ import com.hexagonkt.injection.InjectionManager
  * [InjectionManager] instance to which an instance of [JettyServletAdapter]
  * is bound for dependency Injection.
  */
-val injector = InjectionManager.apply {
+internal val injector = InjectionManager.apply {
     bind<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
 }
 
 /**
  * Service server. Adapter is injected.
  */
-val server: Server = Server {
+internal val server: Server = Server {
     before {
         response.headers["Date"] = httpDate()
     }
@@ -31,7 +31,7 @@ val server: Server = Server {
 /**
  * Start the service from the command line.
  */
-fun main() {
+internal fun main() {
     logger.info { injector }
     server.start()
 }
