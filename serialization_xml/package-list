@@ -9,42 +9,5 @@ $dokka.location:com.hexagonkt.serialization/Xml/parse/#java.io.InputStream#kotli
 $dokka.location:com.hexagonkt.serialization/Xml/parseObjects/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/parse-objects.md
 $dokka.location:com.hexagonkt.serialization/Xml/serialize/#kotlin.Any#java.io.OutputStream/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/serialize.md
 $dokka.location:com.hexagonkt.serialization/Xml/serialize/#kotlin.Any/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/serialize.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Device///PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device/index.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Device/Device/#kotlin.String#kotlin.String#kotlin.String#com.hexagonkt.serialization.XmlTest.DeviceOs#kotlin.String#kotlin.String/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device/-device.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Device/alias/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device/alias.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Device/brand/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device/brand.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Device/id/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device/id.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Device/model/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device/model.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Device/os/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device/os.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Device/osVersion/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device/os-version.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.DeviceOs.ANDROID///PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device-os/-a-n-d-r-o-i-d/index.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.DeviceOs.ANDROID/name/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device-os/-a-n-d-r-o-i-d/name.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.DeviceOs.ANDROID/ordinal/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device-os/-a-n-d-r-o-i-d/ordinal.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.DeviceOs.IOS///PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device-os/-i-o-s/index.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.DeviceOs.IOS/name/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device-os/-i-o-s/name.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.DeviceOs.IOS/ordinal/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device-os/-i-o-s/ordinal.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.DeviceOs///PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-device-os/index.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Player///PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-player/index.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Player/Player/#kotlin.String#kotlin.Int#kotlin.ranges.ClosedRange[kotlin.Int]/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-player/-player.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Player/category/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-player/category.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Player/name/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-player/name.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Player/number/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-player/number.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Players///PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-players/index.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Players/Players/#kotlin.collections.List[com.hexagonkt.serialization.XmlTest.Player]/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-players/-players.md
-$dokka.location:com.hexagonkt.serialization/XmlTest.Players/players/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-players/players.md
-$dokka.location:com.hexagonkt.serialization/XmlTest///PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/index.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/Invalid format exceptions field is 'null'/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-invalid format exceptions field is 'null'.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/Parse an invalid class throws exception/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-parse an invalid class throws exception.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/Parse exceptions contains failed field/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-parse exceptions contains failed field.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/Parse invalid XML range end/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-parse invalid -x-m-l range end.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/Parse invalid XML range start/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-parse invalid -x-m-l range start.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/Parse invalid XML range/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-parse invalid -x-m-l range.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/Parse valid XML/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-parse valid -x-m-l.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/Serialize by content type/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-serialize by content type.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/XML can be parsed to collections (bis)/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-x-m-l can be parsed to collections (bis).md
-$dokka.location:com.hexagonkt.serialization/XmlTest/XML can be parsed to collections/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-x-m-l can be parsed to collections.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/XML is serialized properly/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-x-m-l is serialized properly.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/XmlTest/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/-xml-test.md
-$dokka.location:com.hexagonkt.serialization/XmlTest/setUpSerializationManager/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml-test/set-up-serialization-manager.md
 com.hexagonkt.serialization
 

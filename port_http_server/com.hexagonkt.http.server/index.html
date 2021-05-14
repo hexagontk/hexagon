@@ -1220,18 +1220,6 @@ if ('serviceWorker' in navigator)
 <td><a name="com.hexagonkt.http.server/FilterOrder///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>enum <a href="-filter-order/">FilterOrder</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a>&lt;<a href="-filter-order/">FilterOrder</a>&gt;   <br>More info  <br>Type of filter.  <br><br><br></td>
 </tr>
 <tr>
-<td><a name="com.hexagonkt.http.server/MockServer///PointingToDeclaration/"></a><a href="-mock-server/">MockServer</a></td>
-<td><a name="com.hexagonkt.http.server/MockServer///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class <a href="-mock-server/">MockServer</a>(<strong>pathToSpec</strong>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <strong>port</strong>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>)  <br><br><br></td>
-</tr>
-<tr>
-<td><a name="com.hexagonkt.http.server/MockServerRoutesTest///PointingToDeclaration/"></a><a href="-mock-server-routes-test/">MockServerRoutesTest</a></td>
-<td><a name="com.hexagonkt.http.server/MockServerRoutesTest///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class <a href="-mock-server-routes-test/">MockServerRoutesTest</a>  <br><br><br></td>
-</tr>
-<tr>
-<td><a name="com.hexagonkt.http.server/MockServerTest///PointingToDeclaration/"></a><a href="-mock-server-test/">MockServerTest</a></td>
-<td><a name="com.hexagonkt.http.server/MockServerTest///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class <a href="-mock-server-test/">MockServerTest</a>  <br><br><br></td>
-</tr>
-<tr>
 <td><a name="com.hexagonkt.http.server/PortHttpServerSamplesTest///PointingToDeclaration/"></a><a href="-port-http-server-samples-test/">PortHttpServerSamplesTest</a></td>
 <td><a name="com.hexagonkt.http.server/PortHttpServerSamplesTest///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>abstract class <a href="-port-http-server-samples-test/">PortHttpServerSamplesTest</a>(<strong>adapter</strong>: <a href="-server-port/">ServerPort</a>)  <br><br><br></td>
 </tr>
@@ -1246,10 +1234,6 @@ if ('serviceWorker' in navigator)
 <tr>
 <td><a name="com.hexagonkt.http.server/RequestPort///PointingToDeclaration/"></a><a href="-request-port/">RequestPort</a></td>
 <td><a name="com.hexagonkt.http.server/RequestPort///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>interface <a href="-request-port/">RequestPort</a>  <br><br><br></td>
-</tr>
-<tr>
-<td><a name="com.hexagonkt.http.server/RequestTest///PointingToDeclaration/"></a><a href="-request-test/">RequestTest</a></td>
-<td><a name="com.hexagonkt.http.server/RequestTest///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class <a href="-request-test/">RequestTest</a>  <br><br><br></td>
 </tr>
 <tr>
 <td><a name="com.hexagonkt.http.server/Response///PointingToDeclaration/"></a><a href="-response/">Response</a></td>
@@ -1268,10 +1252,6 @@ if ('serviceWorker' in navigator)
 <td><a name="com.hexagonkt.http.server/Router///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class <a href="-router/">Router</a>(<strong>block</strong>: <a href="-router/">Router</a>.() -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a>)  <br>More info  <br>Creates and initializes a <a href="-router/">Router</a> based on a code block.  <br><br><br></td>
 </tr>
 <tr>
-<td><a name="com.hexagonkt.http.server/RouterTest///PointingToDeclaration/"></a><a href="-router-test/">RouterTest</a></td>
-<td><a name="com.hexagonkt.http.server/RouterTest///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class <a href="-router-test/">RouterTest</a>  <br><br><br></td>
-</tr>
-<tr>
 <td><a name="com.hexagonkt.http.server/Server///PointingToDeclaration/"></a><a href="-server/">Server</a></td>
 <td><a name="com.hexagonkt.http.server/Server///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>data class <a href="-server/">Server</a>(<strong>adapter</strong>: <a href="-server-port/">ServerPort</a>, <strong>router</strong>: <a href="-router/">Router</a>, <strong>settings</strong>: <a href="-server-settings/">ServerSettings</a>)  <br>More info  <br>Server that listen to HTTP connections on a port and address and route requests using a router.  <br><br><br></td>
 </tr>
@@ -1288,14 +1268,6 @@ if ('serviceWorker' in navigator)
 <td><a name="com.hexagonkt.http.server/ServerSettings///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>data class <a href="-server-settings/">ServerSettings</a>(<strong>bindAddress</strong>: <a href="https://docs.oracle.com/javase/8/docs/api/java/net/InetAddress.html">InetAddress</a>, <strong>bindPort</strong>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>, <strong>contextPath</strong>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <strong>protocol</strong>: Protocol, <strong>sslSettings</strong>: SslSettings?, <strong>banner</strong>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>?, <strong>features</strong>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a>&lt;<a href="-server-feature/">ServerFeature</a>&gt;, <strong>options</strong>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>&gt;)  <br>More info  <br>Holds server settings info.  <br><br><br></td>
 </tr>
 <tr>
-<td><a name="com.hexagonkt.http.server/ServerSettingsTest///PointingToDeclaration/"></a><a href="-server-settings-test/">ServerSettingsTest</a></td>
-<td><a name="com.hexagonkt.http.server/ServerSettingsTest///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class <a href="-server-settings-test/">ServerSettingsTest</a>  <br><br><br></td>
-</tr>
-<tr>
-<td><a name="com.hexagonkt.http.server/ServerTest///PointingToDeclaration/"></a><a href="-server-test/">ServerTest</a></td>
-<td><a name="com.hexagonkt.http.server/ServerTest///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class <a href="-server-test/">ServerTest</a>  <br><br><br></td>
-</tr>
-<tr>
 <td><a name="com.hexagonkt.http.server/Session///PointingToDeclaration/"></a><a href="-session/">Session</a></td>
 <td><a name="com.hexagonkt.http.server/Session///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>class <a href="-session/">Session</a>(<strong>adapter</strong>: <a href="-session-port/">SessionPort</a>)  <br>More info  <br>Provides session information.  <br><br><br></td>
 </tr>
@@ -1306,10 +1278,6 @@ if ('serviceWorker' in navigator)
 <tr>
 <td><a name="com.hexagonkt.http.server/UnsupportedSessionAdapter///PointingToDeclaration/"></a><a href="-unsupported-session-adapter/">UnsupportedSessionAdapter</a></td>
 <td><a name="com.hexagonkt.http.server/UnsupportedSessionAdapter///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>object <a href="-unsupported-session-adapter/">UnsupportedSessionAdapter</a> : <a href="-session-port/">SessionPort</a>  <br><br><br></td>
-</tr>
-<tr>
-<td><a name="com.hexagonkt.http.server/VoidAdapter///PointingToDeclaration/"></a><a href="-void-adapter/">VoidAdapter</a></td>
-<td><a name="com.hexagonkt.http.server/VoidAdapter///PointingToDeclaration/"></a>[jvm]  <br>Content  <br>object <a href="-void-adapter/">VoidAdapter</a> : <a href="-server-port/">ServerPort</a>  <br><br><br></td>
 </tr>
 </tbody>
 </table>
@@ -1335,10 +1303,6 @@ if ('serviceWorker' in navigator)
               
                 
 
-
-  <h2 id="__comments">Comments</h2>
-  <div id="disqus_thread"></div>
-  <script>var disqus_config=function(){this.page.url="https://hexagonkt.com/port_http_server/com.hexagonkt.http.server/",this.page.identifier="/port_http_server/com.hexagonkt.http.server/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//hexagonkt-com.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
 
               
             </article>

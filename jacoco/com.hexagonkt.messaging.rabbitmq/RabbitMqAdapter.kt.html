@@ -6,12 +6,12 @@ import com.hexagonkt.serialization.serialize
 import java.net.URI
 import kotlin.reflect.KClass
 
-<span class="fc" id="L9">class RabbitMqAdapter : MessagingPort {</span>
+<span class="pc" id="L9">class RabbitMqAdapter(url: String = &quot;amqp://guest:guest@localhost&quot;) : MessagingPort {</span>
     private companion object {
         private const val exchange = &quot;messages&quot;
     }
 
-<span class="fc" id="L14">    private val client by lazy { RabbitMqClient(URI(&quot;amqp://guest:guest@localhost:2070&quot;)) }</span>
+<span class="fc" id="L14">    private val client by lazy { RabbitMqClient(URI(url)) }</span>
 
 <span class="fc" id="L16">    init {</span>
 <span class="fc" id="L17">        client.bindExchange(exchange, &quot;topic&quot;, &quot;*.*.*&quot;, &quot;event_pool&quot;)</span>
@@ -24,5 +24,5 @@ import kotlin.reflect.KClass
     override fun publish(message: Message, address: String) {
 <span class="fc" id="L25">        client.publish(exchange, address, message.serialize())</span>
 <span class="fc" id="L26">    }</span>
-}
+<span class="nc" id="L27">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

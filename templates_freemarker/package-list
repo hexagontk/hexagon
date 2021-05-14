@@ -3,14 +3,5 @@ $dokka.linkExtension:md
 $dokka.location:com.hexagonkt.templates.freemarker////PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/index.md
 $dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapter///PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter/index.md
 $dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapter/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]#com.hexagonkt.templates.TemplateEngineSettings/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter/render.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapterTest///PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter-test/index.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapterTest/Dates are converted properly/#/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter-test/-dates are converted properly.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapterTest/FreeMarkerAdapterTest/#/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter-test/-free-marker-adapter-test.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapterTest/Multiple templates can be defined/#/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter-test/-multiple templates can be defined.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapterTest/Templates are rendered properly/#/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter-test/-templates are rendered properly.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapterTest/Templates can be provided via settings/#/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter-test/-templates can be provided via settings.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapterTest/Templates with context are rendered properly/#/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter-test/-templates with context are rendered properly.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerTemplateEngineTest///PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-template-engine-test/index.md
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerTemplateEngineTest/FreeMarkerTemplateEngineTest/#/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-template-engine-test/-free-marker-template-engine-test.md
 com.hexagonkt.templates.freemarker
 

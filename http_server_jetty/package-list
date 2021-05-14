@@ -1,26 +1,8 @@
 $dokka.format:gfm-v1
 $dokka.linkExtension:md
-$dokka.location:com.hexagonkt.http.server.jetty.examples////PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty.examples/index.md
-$dokka.location:com.hexagonkt.http.server.jetty.examples//injector/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty.examples/injector.md
-$dokka.location:com.hexagonkt.http.server.jetty.examples//main/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty.examples/main.md
-$dokka.location:com.hexagonkt.http.server.jetty.examples//server/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty.examples/server.md
-$dokka.location:com.hexagonkt.http.server.jetty.examples/ServiceTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty.examples/-service-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty.examples/ServiceTest/HTTP request returns the correct body/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty.examples/-service-test/-h-t-t-p request returns the correct body.md
-$dokka.location:com.hexagonkt.http.server.jetty.examples/ServiceTest/ServiceTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty.examples/-service-test/-service-test.md
-$dokka.location:com.hexagonkt.http.server.jetty.examples/ServiceTest/shutdown/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty.examples/-service-test/shutdown.md
-$dokka.location:com.hexagonkt.http.server.jetty.examples/ServiceTest/startup/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty.examples/-service-test/startup.md
 $dokka.location:com.hexagonkt.http.server.jetty////PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/index.md
-$dokka.location:com.hexagonkt.http.server.jetty//adapter/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/adapter.md
-$dokka.location:com.hexagonkt.http.server.jetty//main/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/main.md
 $dokka.location:com.hexagonkt.http.server.jetty//serve/#com.hexagonkt.http.server.ServerSettings#com.hexagonkt.http.server.Router/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/serve.md
 $dokka.location:com.hexagonkt.http.server.jetty//serve/#com.hexagonkt.http.server.ServerSettings#kotlin.Function1[com.hexagonkt.http.server.Router,kotlin.Unit]/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/serve.md
-$dokka.location:com.hexagonkt.http.server.jetty//server/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/server.md
-$dokka.location:com.hexagonkt.http.server.jetty/HelloWorldTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-hello-world-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/HelloWorldTest/A request returns 200 and the greeting test (using a router)/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-hello-world-test/-a request returns 200 and the greeting test (using a router).md
-$dokka.location:com.hexagonkt.http.server.jetty/HelloWorldTest/A request returns 200 and the greeting test/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-hello-world-test/-a request returns 200 and the greeting test.md
-$dokka.location:com.hexagonkt.http.server.jetty/HelloWorldTest/HelloWorldTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-hello-world-test/-hello-world-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/HelloWorldTest/initialize/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-hello-world-test/initialize.md
-$dokka.location:com.hexagonkt.http.server.jetty/HelloWorldTest/shutdown/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-hello-world-test/shutdown.md
 $dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/index.md
 $dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/JettyServletAdapter/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/-jetty-servlet-adapter.md
 $dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/runtimePort/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/runtime-port.md
@@ -30,34 +12,5 @@ $dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/startup/#com
 $dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/supportedFeatures/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/supported-features.md
 $dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/supportedOptions/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/supported-options.md
 $dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/supportedProtocols/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/supported-protocols.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterBooksTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-books-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterBooksTest/JettyServletAdapterBooksTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-books-test/-jetty-servlet-adapter-books-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterCookiesTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-cookies-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterCookiesTest/JettyServletAdapterCookiesTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-cookies-test/-jetty-servlet-adapter-cookies-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterCorsTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-cors-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterCorsTest/JettyServletAdapterCorsTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-cors-test/-jetty-servlet-adapter-cors-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterErrorsTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-errors-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterErrorsTest/JettyServletAdapterErrorsTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-errors-test/-jetty-servlet-adapter-errors-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterFilesTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-files-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterFilesTest/JettyServletAdapterFilesTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-files-test/-jetty-servlet-adapter-files-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterFiltersTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-filters-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterFiltersTest/JettyServletAdapterFiltersTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-filters-test/-jetty-servlet-adapter-filters-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterGenericTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-generic-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterGenericTest/JettyServletAdapterGenericTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-generic-test/-jetty-servlet-adapter-generic-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterHttpsTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-https-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterHttpsTest/JettyServletAdapterHttpsTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-https-test/-jetty-servlet-adapter-https-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterSamplesTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-samples-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterSamplesTest/JettyServletAdapterSamplesTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-samples-test/-jetty-servlet-adapter-samples-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterSessionTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-session-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterSessionTest/JettyServletAdapterSessionTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-session-test/-jetty-servlet-adapter-session-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterTest/Getting the runtime port on stopped instance raises an exception/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-test/-getting the runtime port on stopped instance raises an exception.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterTest/JettyServletAdapterTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-test/-jetty-servlet-adapter-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterTest/Stop method works if called before running/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-test/-stop method works if called before running.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterTodoTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-todo-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterTodoTest/JettyServletAdapterTodoTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-todo-test/-jetty-servlet-adapter-todo-test.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterZipTest///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-zip-test/index.md
-$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapterZipTest/JettyServletAdapterZipTest/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter-zip-test/-jetty-servlet-adapter-zip-test.md
 com.hexagonkt.http.server.jetty
-com.hexagonkt.http.server.jetty.examples
 

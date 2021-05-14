@@ -1,21 +1,5 @@
 $dokka.format:gfm-v1
 $dokka.linkExtension:md
-$dokka.location:com.hexagonkt.web.examples////PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/index.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest.Task///PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-task/index.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest.Task/Task/#kotlin.Int#kotlin.String#kotlin.String/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-task/-task.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest.Task/description/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-task/description.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest.Task/number/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-task/number.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest.Task/title/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-task/title.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest///PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/index.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest/Create task/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-create task.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest/Delete task/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-delete task.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest/Get task/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-get task.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest/List tasks/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-list tasks.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest/Task not found/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-task not found.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest/TodoTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-todo-test.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest/Update task/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/-update task.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest/initialize/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/initialize.md
-$dokka.location:com.hexagonkt.web.examples/TodoTest/shutdown/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web.examples/-todo-test/shutdown.md
 $dokka.location:com.hexagonkt.web////PointingToDeclaration/hexagon_web/com.hexagonkt.web/index.md
 $dokka.location:com.hexagonkt.web//fullContext/com.hexagonkt.http.server.Call#/PointingToDeclaration/hexagon_web/com.hexagonkt.web/full-context.md
 $dokka.location:com.hexagonkt.web//html/com.hexagonkt.http.server.Call#kotlin.Function1[kotlinx.html.HTML,kotlin.Unit]/PointingToDeclaration/hexagon_web/com.hexagonkt.web/html.md
@@ -23,12 +7,5 @@ $dokka.location:com.hexagonkt.web//obtainLocale/com.hexagonkt.http.server.Call#/
 $dokka.location:com.hexagonkt.web//template/com.hexagonkt.http.server.Call#com.hexagonkt.templates.TemplateEngine#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/hexagon_web/com.hexagonkt.web/template.md
 $dokka.location:com.hexagonkt.web//template/com.hexagonkt.http.server.Call#com.hexagonkt.templates.TemplatePort#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/hexagon_web/com.hexagonkt.web/template.md
 $dokka.location:com.hexagonkt.web//templateType/com.hexagonkt.http.server.Call#kotlin.String/PointingToDeclaration/hexagon_web/com.hexagonkt.web/template-type.md
-$dokka.location:com.hexagonkt.web/WebTest///PointingToDeclaration/hexagon_web/com.hexagonkt.web/-web-test/index.md
-$dokka.location:com.hexagonkt.web/WebTest/WebTest/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web/-web-test/-web-test.md
-$dokka.location:com.hexagonkt.web/WebTest/html/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web/-web-test/html.md
-$dokka.location:com.hexagonkt.web/WebTest/start/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web/-web-test/start.md
-$dokka.location:com.hexagonkt.web/WebTest/stop/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web/-web-test/stop.md
-$dokka.location:com.hexagonkt.web/WebTest/template/#/PointingToDeclaration/hexagon_web/com.hexagonkt.web/-web-test/template.md
 com.hexagonkt.web
-com.hexagonkt.web.examples
 

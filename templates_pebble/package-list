@@ -3,12 +3,5 @@ $dokka.linkExtension:md
 $dokka.location:com.hexagonkt.templates.pebble////PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/index.md
 $dokka.location:com.hexagonkt.templates.pebble/PebbleAdapter///PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter/index.md
 $dokka.location:com.hexagonkt.templates.pebble/PebbleAdapter/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]#com.hexagonkt.templates.TemplateEngineSettings/PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter/render.md
-$dokka.location:com.hexagonkt.templates.pebble/PebbleAdapterTest///PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter-test/index.md
-$dokka.location:com.hexagonkt.templates.pebble/PebbleAdapterTest/Dates are converted properly/#/PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter-test/-dates are converted properly.md
-$dokka.location:com.hexagonkt.templates.pebble/PebbleAdapterTest/Multiple templates can be defined/#/PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter-test/-multiple templates can be defined.md
-$dokka.location:com.hexagonkt.templates.pebble/PebbleAdapterTest/PebbleAdapterTest/#/PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter-test/-pebble-adapter-test.md
-$dokka.location:com.hexagonkt.templates.pebble/PebbleAdapterTest/Templates can be provided via settings/#/PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter-test/-templates can be provided via settings.md
-$dokka.location:com.hexagonkt.templates.pebble/PebbleTemplateEngineTest///PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-template-engine-test/index.md
-$dokka.location:com.hexagonkt.templates.pebble/PebbleTemplateEngineTest/PebbleTemplateEngineTest/#/PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-template-engine-test/-pebble-template-engine-test.md
 com.hexagonkt.templates.pebble
 

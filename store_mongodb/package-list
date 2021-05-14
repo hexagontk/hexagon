@@ -1,34 +1,6 @@
 $dokka.format:gfm-v1
 $dokka.linkExtension:md
 $dokka.location:com.hexagonkt.store.mongodb////PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/index.md
-$dokka.location:com.hexagonkt.store.mongodb/Company///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/index.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/Company/#kotlin.String#java.time.LocalDate#java.time.LocalTime#kotlin.ranges.ClosedRange[java.time.LocalTime]#java.net.URL?#kotlin.collections.List[java.net.URL]#java.nio.ByteBuffer?#kotlin.String?#kotlin.collections.Set[com.hexagonkt.store.mongodb.Person]#kotlin.collections.Set[com.hexagonkt.store.mongodb.Department]#java.time.LocalDateTime/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/-company.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/clients/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/clients.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/closeTime/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/close-time.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/creationDate/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/creation-date.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/departments/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/departments.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/foundation/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/foundation.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/id/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/id.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/logo/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/logo.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/notes/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/notes.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/openTime/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/open-time.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/people/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/people.md
-$dokka.location:com.hexagonkt.store.mongodb/Company/web/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company/web.md
-$dokka.location:com.hexagonkt.store.mongodb/CompanyTest///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company-test/index.md
-$dokka.location:com.hexagonkt.store.mongodb/CompanyTest/CompanyTest/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company-test/-company-test.md
-$dokka.location:com.hexagonkt.store.mongodb/CompanyTest/Entities are stored/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company-test/-entities are stored.md
-$dokka.location:com.hexagonkt.store.mongodb/CompanyTest/Insert one record returns the proper key/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company-test/-insert one record returns the proper key.md
-$dokka.location:com.hexagonkt.store.mongodb/CompanyTest/Many records are stored/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company-test/-many records are stored.md
-$dokka.location:com.hexagonkt.store.mongodb/CompanyTest/New records are stored/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company-test/-new records are stored.md
-$dokka.location:com.hexagonkt.store.mongodb/CompanyTest/Resources are loaded/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company-test/-resources are loaded.md
-$dokka.location:com.hexagonkt.store.mongodb/CompanyTest/setUpSerializationManager/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-company-test/set-up-serialization-manager.md
-$dokka.location:com.hexagonkt.store.mongodb/Department.DESIGN///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-department/-d-e-s-i-g-n/index.md
-$dokka.location:com.hexagonkt.store.mongodb/Department.DESIGN/name/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-department/-d-e-s-i-g-n/name.md
-$dokka.location:com.hexagonkt.store.mongodb/Department.DESIGN/ordinal/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-department/-d-e-s-i-g-n/ordinal.md
-$dokka.location:com.hexagonkt.store.mongodb/Department.DEVELOPMENT///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-department/-d-e-v-e-l-o-p-m-e-n-t/index.md
-$dokka.location:com.hexagonkt.store.mongodb/Department.DEVELOPMENT/name/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-department/-d-e-v-e-l-o-p-m-e-n-t/name.md
-$dokka.location:com.hexagonkt.store.mongodb/Department.DEVELOPMENT/ordinal/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-department/-d-e-v-e-l-o-p-m-e-n-t/ordinal.md
-$dokka.location:com.hexagonkt.store.mongodb/Department///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-department/index.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/index.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/MongoDbMapper/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/-mongo-db-mapper.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/fields/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/fields.md
@@ -36,25 +8,6 @@ $dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/fromStore/#kotlin.Stri
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/fromStore/#kotlin.collections.Map[kotlin.String,kotlin.Any]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/from-store.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/toStore/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/to-store.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/toStore/#kotlin.String#kotlin.Any/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/to-store.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/index.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/MappedClass/#kotlin.String#kotlin.Boolean#kotlin.Int#kotlin.Long#kotlin.Float#kotlin.Double#kotlin.collections.List[kotlin.String]#kotlin.collections.Map[kotlin.String,*]#kotlin.String?#kotlin.String#kotlin.Int#kotlin.Char/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/-mapped-class.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/anInt/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/an-int.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/atHome/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/at-home.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/oneBoolean/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/one-boolean.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/oneDouble/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/one-double.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/oneFloat/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/one-float.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/oneList/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/one-list.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/oneLong/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/one-long.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/oneMap/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/one-map.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/oneNullable/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/one-nullable.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/onePlus/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/one-plus.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/oneString/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/one-string.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest.MappedClass/otherData/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapped-class/other-data.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/index.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest/A mapper transform a data class to a map and back/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-a mapper transform a data class to a map and back.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest/Mapping a date to an invalid field type results in error/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mapping a date to an invalid field type results in error.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest/MongoDbMapperTest/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/-mongo-db-mapper-test.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapperTest/setUpSerializationManager/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper-test/set-up-serialization-manager.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbStore.Companion///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/-companion/index.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbStore.Companion/database/#kotlin.String/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/-companion/database.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbStore///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/index.md
@@ -82,30 +35,5 @@ $dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/saveOne/#TypeParam(boun
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/type/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/type.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/updateMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/update-many.md
 $dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/updateOne/#TypeParam(bounds=[kotlin.Any])#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/update-one.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest.Companion///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-companion/index.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest.Companion/resetTimeZone/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-companion/reset-time-zone.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/index.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/Collection can be used for custom queries/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-collection can be used for custom queries.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/Entities are stored/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-entities are stored.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/Indexes creation works ok/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-indexes creation works ok.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/Insert one record returns the proper key/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-insert one record returns the proper key.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/Many records are stored/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-many records are stored.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/MongoDbStoreCompanyTest/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-mongo-db-store-company-test.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/New records are stored/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-new records are stored.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/Resources are loaded/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-resources are loaded.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/Store type is correct/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/-store type is correct.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/dropCollection/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/drop-collection.md
-$dokka.location:com.hexagonkt.store.mongodb/MongoDbStoreCompanyTest/initialize/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store-company-test/initialize.md
-$dokka.location:com.hexagonkt.store.mongodb/Person///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-person/index.md
-$dokka.location:com.hexagonkt.store.mongodb/Person/Person/#kotlin.String/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-person/-person.md
-$dokka.location:com.hexagonkt.store.mongodb/Person/name/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-person/name.md
-$dokka.location:com.hexagonkt.store.mongodb/StoreTest///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-store-test/index.md
-$dokka.location:com.hexagonkt.store.mongodb/StoreTest/StoreTest/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-store-test/-store-test.md
-$dokka.location:com.hexagonkt.store.mongodb/StoreTest/dropCollection/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-store-test/drop-collection.md
-$dokka.location:com.hexagonkt.store.mongodb/StoreTest/entities_are_stored/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-store-test/entities_are_stored.md
-$dokka.location:com.hexagonkt.store.mongodb/StoreTest/initialize/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-store-test/initialize.md
-$dokka.location:com.hexagonkt.store.mongodb/StoreTest/insert_one_record_returns_the_proper_key/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-store-test/insert_one_record_returns_the_proper_key.md
-$dokka.location:com.hexagonkt.store.mongodb/StoreTest/many_records_are_stored/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-store-test/many_records_are_stored.md
-$dokka.location:com.hexagonkt.store.mongodb/StoreTest/new_records_are_stored/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-store-test/new_records_are_stored.md
 com.hexagonkt.store.mongodb
 

@@ -8,34 +8,5 @@ $dokka.location:com.hexagonkt.serialization/Csv/isBinary/#/PointingToDeclaration
 $dokka.location:com.hexagonkt.serialization/Csv/parse/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/parse.md
 $dokka.location:com.hexagonkt.serialization/Csv/parseObjects/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/parse-objects.md
 $dokka.location:com.hexagonkt.serialization/Csv/serialize/#kotlin.Any#java.io.OutputStream/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/serialize.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Device///PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device/index.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Device/Device/#kotlin.String#kotlin.String#kotlin.String#com.hexagonkt.serialization.CsvTest.DeviceOs#kotlin.String#kotlin.String/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device/-device.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Device/alias/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device/alias.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Device/brand/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device/brand.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Device/id/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device/id.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Device/model/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device/model.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Device/os/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device/os.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Device/osVersion/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device/os-version.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.DeviceOs.ANDROID///PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device-os/-a-n-d-r-o-i-d/index.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.DeviceOs.ANDROID/name/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device-os/-a-n-d-r-o-i-d/name.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.DeviceOs.ANDROID/ordinal/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device-os/-a-n-d-r-o-i-d/ordinal.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.DeviceOs.IOS///PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device-os/-i-o-s/index.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.DeviceOs.IOS/name/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device-os/-i-o-s/name.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.DeviceOs.IOS/ordinal/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device-os/-i-o-s/ordinal.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.DeviceOs///PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-device-os/index.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Player///PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-player/index.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Player/Player/#kotlin.String#kotlin.Int#kotlin.Int/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-player/-player.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Player/category/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-player/category.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Player/name/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-player/name.md
-$dokka.location:com.hexagonkt.serialization/CsvTest.Player/number/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-player/number.md
-$dokka.location:com.hexagonkt.serialization/CsvTest///PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/index.md
-$dokka.location:com.hexagonkt.serialization/CsvTest/CSV is serialized properly/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-c-s-v is serialized properly.md
-$dokka.location:com.hexagonkt.serialization/CsvTest/CsvTest/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-csv-test.md
-$dokka.location:com.hexagonkt.serialization/CsvTest/Invalid format exceptions field is 'null'/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-invalid format exceptions field is 'null'.md
-$dokka.location:com.hexagonkt.serialization/CsvTest/Parse an invalid class list throws exception/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-parse an invalid class list throws exception.md
-$dokka.location:com.hexagonkt.serialization/CsvTest/Parse exceptions contains failed field/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-parse exceptions contains failed field.md
-$dokka.location:com.hexagonkt.serialization/CsvTest/Parse invalid CSV type/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-parse invalid -c-s-v type.md
-$dokka.location:com.hexagonkt.serialization/CsvTest/Serialize an empty list works as expected/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/-serialize an empty list works as expected.md
-$dokka.location:com.hexagonkt.serialization/CsvTest/initialize/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv-test/initialize.md
 com.hexagonkt.serialization
 

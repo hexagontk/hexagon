@@ -96,18 +96,6 @@ $dokka.location:com.hexagonkt.helpers/Ansi/YELLOW_BG/#/PointingToDeclaration/he
 $dokka.location:com.hexagonkt.helpers/CodedException///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-coded-exception/index.md
 $dokka.location:com.hexagonkt.helpers/CodedException/CodedException/#kotlin.Int#kotlin.String#kotlin.Throwable?/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-coded-exception/-coded-exception.md
 $dokka.location:com.hexagonkt.helpers/CodedException/code/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-coded-exception/code.md
-$dokka.location:com.hexagonkt.helpers/CodedExceptionTest/'CodedException' constructors initialize instances properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-coded-exception-test/'-coded-exception' constructors initialize instances properly.md
-$dokka.location:com.hexagonkt.helpers/CodedExceptionTest///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-coded-exception-test/index.md
-$dokka.location:com.hexagonkt.helpers/CodedExceptionTest/CodedExceptionTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-coded-exception-test/-coded-exception-test.md
-$dokka.location:com.hexagonkt.helpers/CodedExceptionTest/Default 'CodedException' has empty message and 'null' cause/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-coded-exception-test/-default '-coded-exception' has empty message and 'null' cause.md
-$dokka.location:com.hexagonkt.helpers/DatesTest///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-dates-test/index.md
-$dokka.location:com.hexagonkt.helpers/DatesTest/A local date time returns a valid int timestamp/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-dates-test/-a local date time returns a valid int timestamp.md
-$dokka.location:com.hexagonkt.helpers/DatesTest/Date conversion/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-dates-test/-date conversion.md
-$dokka.location:com.hexagonkt.helpers/DatesTest/Dates are parsed from ints/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-dates-test/-dates are parsed from ints.md
-$dokka.location:com.hexagonkt.helpers/DatesTest/DatesTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-dates-test/-dates-test.md
-$dokka.location:com.hexagonkt.helpers/DatesTest/LocalDateTime can be converted to Date/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-dates-test/-local-date-time can be converted to -date.md
-$dokka.location:com.hexagonkt.helpers/DatesTest/Negative numbers raise error when converted to dates/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-dates-test/-negative numbers raise error when converted to dates.md
-$dokka.location:com.hexagonkt.helpers/DatesTest/Zoned date/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-dates-test/-zoned date.md
 $dokka.location:com.hexagonkt.helpers/Jvm///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/index.md
 $dokka.location:com.hexagonkt.helpers/Jvm/charset/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/charset.md
 $dokka.location:com.hexagonkt.helpers/Jvm/cpuCount/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/cpu-count.md
@@ -124,44 +112,12 @@ $dokka.location:com.hexagonkt.helpers/Jvm/timezone/#/PointingToDeclaration/hexa
 $dokka.location:com.hexagonkt.helpers/Jvm/uptime/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/uptime.md
 $dokka.location:com.hexagonkt.helpers/Jvm/usedMemory/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/used-memory.md
 $dokka.location:com.hexagonkt.helpers/Jvm/version/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/version.md
-$dokka.location:com.hexagonkt.helpers/JvmTest/'hostname' and 'ip' contains valid values/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm-test/'hostname' and 'ip' contains valid values.md
-$dokka.location:com.hexagonkt.helpers/JvmTest/'safeJmx' returns constant when JMX is disabled/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm-test/'safe-jmx' returns constant when -j-m-x is disabled.md
-$dokka.location:com.hexagonkt.helpers/JvmTest///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm-test/index.md
-$dokka.location:com.hexagonkt.helpers/JvmTest/Default charset is fetched correctly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm-test/-default charset is fetched correctly.md
-$dokka.location:com.hexagonkt.helpers/JvmTest/JVM metrics have valid values/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm-test/-j-v-m metrics have valid values.md
-$dokka.location:com.hexagonkt.helpers/JvmTest/JvmTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm-test/-jvm-test.md
-$dokka.location:com.hexagonkt.helpers/JvmTest/System settings with default values are handled properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm-test/-system settings with default values are handled properly.md
 $dokka.location:com.hexagonkt.helpers/MultipleException///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-multiple-exception/index.md
 $dokka.location:com.hexagonkt.helpers/MultipleException/MultipleException/#kotlin.Array[kotlin.Throwable]/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-multiple-exception/-multiple-exception.md
 $dokka.location:com.hexagonkt.helpers/MultipleException/MultipleException/#kotlin.String#kotlin.Array[kotlin.Throwable]/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-multiple-exception/-multiple-exception.md
 $dokka.location:com.hexagonkt.helpers/MultipleException/MultipleException/#kotlin.String#kotlin.collections.List[kotlin.Throwable]/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-multiple-exception/-multiple-exception.md
 $dokka.location:com.hexagonkt.helpers/MultipleException/MultipleException/#kotlin.collections.List[kotlin.Throwable]#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-multiple-exception/-multiple-exception.md
 $dokka.location:com.hexagonkt.helpers/MultipleException/causes/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-multiple-exception/causes.md
-$dokka.location:com.hexagonkt.helpers/MultipleExceptionTest/'MultipleException' contains a list of causes/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-multiple-exception-test/'-multiple-exception' contains a list of causes.md
-$dokka.location:com.hexagonkt.helpers/MultipleExceptionTest///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-multiple-exception-test/index.md
-$dokka.location:com.hexagonkt.helpers/MultipleExceptionTest/MultipleExceptionTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-multiple-exception-test/-multiple-exception-test.md
-$dokka.location:com.hexagonkt.helpers/StringsSamplesTest///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-samples-test/index.md
-$dokka.location:com.hexagonkt.helpers/StringsSamplesTest/StringsSamplesTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-samples-test/-strings-samples-test.md
-$dokka.location:com.hexagonkt.helpers/StringsSamplesTest/filterVarsExample/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-samples-test/filter-vars-example.md
-$dokka.location:com.hexagonkt.helpers/StringsTest///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/index.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Banner logs the proper message/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-banner logs the proper message.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Converting empty text to camel case fails/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-converting empty text to camel case fails.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Converting valid camel case texts to snake case succeed/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-converting valid camel case texts to snake case succeed.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Converting valid snake case texts to camel case succeed/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-converting valid snake case texts to camel case succeed.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Filter ignores empty parameters/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-filter ignores empty parameters.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Filter replaces all occurrences of variables with their values/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-filter replaces all occurrences of variables with their values.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Filter returns the given string if no parameters are set/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-filter returns the given string if no parameters are set.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Filter returns the same string if no variables are defined in it/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-filter returns the same string if no variables are defined in it.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Filter returns the same string if variable values are not found/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-filter returns the same string if variable values are not found.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Find groups takes care of 'nulls'/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-find groups takes care of 'nulls'.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Glob is translated to proper regular expression/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-glob is translated to proper regular expression.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Indent works as expected/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-indent works as expected.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Normalize works as expected/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-normalize works as expected.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/StringsTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-strings-test.md
-$dokka.location:com.hexagonkt.helpers/StringsTest/Utf8 returns proper characters/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-strings-test/-utf8 returns proper characters.md
-$dokka.location:com.hexagonkt.helpers/UuidTest///PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-uuid-test/index.md
-$dokka.location:com.hexagonkt.helpers/UuidTest/UUID can be serialized and parsed to base 64/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-uuid-test/-u-u-i-d can be serialized and parsed to base 64.md
-$dokka.location:com.hexagonkt.helpers/UuidTest/UuidTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-uuid-test/-uuid-test.md
 $dokka.location:com.hexagonkt.injection////PointingToDeclaration/hexagon_core/com.hexagonkt.injection/index.md
 $dokka.location:com.hexagonkt.injection//forceBind/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#TypeParam(bounds=[TypeParam(bounds=[kotlin.Any])])/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/force-bind.md
 $dokka.location:com.hexagonkt.injection//forceBind/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#com.hexagonkt.injection.Provider[TypeParam(bounds=[TypeParam(bounds=[kotlin.Any])])]#kotlin.Any/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/force-bind.md
@@ -169,9 +125,6 @@ $dokka.location:com.hexagonkt.injection//forceBind/#kotlin.reflect.KClass[TypePa
 $dokka.location:com.hexagonkt.injection//forceBind/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.Any#kotlin.Function0[TypeParam(bounds=[TypeParam(bounds=[kotlin.Any])])]/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/force-bind.md
 $dokka.location:com.hexagonkt.injection//forceBindSet/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.collections.List[com.hexagonkt.injection.Provider[TypeParam(bounds=[TypeParam(bounds=[kotlin.Any])])]]/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/force-bind-set.md
 $dokka.location:com.hexagonkt.injection//forceBindSet/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.collections.Map[kotlin.Any,com.hexagonkt.injection.Provider[TypeParam(bounds=[TypeParam(bounds=[kotlin.Any])])]]/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/force-bind-set.md
-$dokka.location:com.hexagonkt.injection/Bar///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-bar/index.md
-$dokka.location:com.hexagonkt.injection/Bar/foo/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-bar/foo.md
-$dokka.location:com.hexagonkt.injection/Foo///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-foo/index.md
 $dokka.location:com.hexagonkt.injection/Generator///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-generator/index.md
 $dokka.location:com.hexagonkt.injection/Generator/Generator/#kotlin.Function0[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-generator/-generator.md
 $dokka.location:com.hexagonkt.injection/Generator/generator/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-generator/generator.md
@@ -204,52 +157,12 @@ $dokka.location:com.hexagonkt.injection/InjectionManager/injectOrNull/#kotlin.An
 $dokka.location:com.hexagonkt.injection/InjectionManager/injectOrNull/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.Any/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager/inject-or-null.md
 $dokka.location:com.hexagonkt.injection/InjectionManager/injectOrNull/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager/inject-or-null.md
 $dokka.location:com.hexagonkt.injection/InjectionManager/toString/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager/to-string.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest.Bike///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-bike/index.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest.Bike/Bike/#kotlin.Int/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-bike/-bike.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest.Bike/wheels/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-bike/wheels.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest.Car///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-car/index.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest.Car/Car/#kotlin.Int/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-car/-car.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest.Car/wheels/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-car/wheels.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest.Vehicle///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-vehicle/index.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest.Vehicle/wheels/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-vehicle/wheels.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/'injectOrNull' not bound class may return null/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/'inject-or-null' not bound class may return null.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/index.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/Bind lists functions works properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-bind lists functions works properly.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/Bind lists instances works properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-bind lists instances works properly.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/Bind maps functions works properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-bind maps functions works properly.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/Bind maps instances works properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-bind maps instances works properly.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/DI don't override bindings/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-d-i don't override bindings.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/DI just works/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-d-i just works.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/Inject not bound class throws exception/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-inject not bound class throws exception.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/InjectionManagerTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-injection-manager-test.md
-$dokka.location:com.hexagonkt.injection/InjectionManagerTest/Mocks are easy to build/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-injection-manager-test/-mocks are easy to build.md
 $dokka.location:com.hexagonkt.injection/Instance///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-instance/index.md
 $dokka.location:com.hexagonkt.injection/Instance/Instance/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-instance/-instance.md
 $dokka.location:com.hexagonkt.injection/Instance/instance/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-instance/instance.md
 $dokka.location:com.hexagonkt.injection/Instance/provide/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-instance/provide.md
 $dokka.location:com.hexagonkt.injection/Provider///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-provider/index.md
 $dokka.location:com.hexagonkt.injection/Provider/provide/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-provider/provide.md
-$dokka.location:com.hexagonkt.injection/Service///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-service/index.md
-$dokka.location:com.hexagonkt.injection/Service/a/#kotlin.Int/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-service/a.md
-$dokka.location:com.hexagonkt.injection/Service/b/#kotlin.Boolean/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-service/b.md
-$dokka.location:com.hexagonkt.injection/SubBar1///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar1/index.md
-$dokka.location:com.hexagonkt.injection/SubBar1/SubBar1/#com.hexagonkt.injection.Foo/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar1/-sub-bar1.md
-$dokka.location:com.hexagonkt.injection/SubBar1/foo/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar1/foo.md
-$dokka.location:com.hexagonkt.injection/SubBar2///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar2/index.md
-$dokka.location:com.hexagonkt.injection/SubBar2/SubBar2/#com.hexagonkt.injection.Foo/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar2/-sub-bar2.md
-$dokka.location:com.hexagonkt.injection/SubBar2/foo/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar2/foo.md
-$dokka.location:com.hexagonkt.injection/SubBar3///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar3/index.md
-$dokka.location:com.hexagonkt.injection/SubBar3/SubBar3/#com.hexagonkt.injection.Foo/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar3/-sub-bar3.md
-$dokka.location:com.hexagonkt.injection/SubBar3/foo/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar3/foo.md
-$dokka.location:com.hexagonkt.injection/SubBar3a///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar3a/index.md
-$dokka.location:com.hexagonkt.injection/SubBar3a/SubBar3a/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar3a/-sub-bar3a.md
-$dokka.location:com.hexagonkt.injection/SubBar3a/SubBar3a/#com.hexagonkt.injection.Foo/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar3a/-sub-bar3a.md
-$dokka.location:com.hexagonkt.injection/SubBar3a/foo/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-bar3a/foo.md
-$dokka.location:com.hexagonkt.injection/SubFoo1///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-foo1/index.md
-$dokka.location:com.hexagonkt.injection/SubFoo1/SubFoo1/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-foo1/-sub-foo1.md
-$dokka.location:com.hexagonkt.injection/SubFoo2///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-foo2/index.md
-$dokka.location:com.hexagonkt.injection/SubFoo2/SubFoo2/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-foo2/-sub-foo2.md
-$dokka.location:com.hexagonkt.injection/SubFoo3///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-sub-foo3/index.md
 $dokka.location:com.hexagonkt.injection/Target///PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-target/index.md
 $dokka.location:com.hexagonkt.injection/Target/Target/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.Any/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-target/-target.md
 $dokka.location:com.hexagonkt.injection/Target/tag/#/PointingToDeclaration/hexagon_core/com.hexagonkt.injection/-target/tag.md
@@ -338,45 +251,17 @@ $dokka.location:com.hexagonkt.serialization//parseObjects/kotlin.String#com.hexa
 $dokka.location:com.hexagonkt.serialization//parseObjects/kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#com.hexagonkt.serialization.SerializationFormat/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/parse-objects.md
 $dokka.location:com.hexagonkt.serialization//serialize/kotlin.Any#com.hexagonkt.serialization.SerializationFormat/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/serialize.md
 $dokka.location:com.hexagonkt.serialization//serialize/kotlin.Any#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/serialize.md
-$dokka.location:com.hexagonkt.serialization/Company///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/index.md
-$dokka.location:com.hexagonkt.serialization/Company/Company/#kotlin.String#java.time.LocalDate#java.time.LocalTime#kotlin.ranges.ClosedRange[java.time.LocalTime]#java.net.URL?#kotlin.collections.List[java.net.URL]#java.nio.ByteBuffer?#kotlin.String?#kotlin.collections.Set[com.hexagonkt.serialization.Person]#kotlin.collections.Set[com.hexagonkt.serialization.Department]#java.time.LocalDateTime#java.net.InetAddress/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/-company.md
-$dokka.location:com.hexagonkt.serialization/Company/clients/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/clients.md
-$dokka.location:com.hexagonkt.serialization/Company/closeTime/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/close-time.md
-$dokka.location:com.hexagonkt.serialization/Company/creationDate/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/creation-date.md
-$dokka.location:com.hexagonkt.serialization/Company/departments/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/departments.md
-$dokka.location:com.hexagonkt.serialization/Company/foundation/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/foundation.md
-$dokka.location:com.hexagonkt.serialization/Company/host/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/host.md
-$dokka.location:com.hexagonkt.serialization/Company/id/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/id.md
-$dokka.location:com.hexagonkt.serialization/Company/logo/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/logo.md
-$dokka.location:com.hexagonkt.serialization/Company/notes/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/notes.md
-$dokka.location:com.hexagonkt.serialization/Company/openTime/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/open-time.md
-$dokka.location:com.hexagonkt.serialization/Company/people/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/people.md
-$dokka.location:com.hexagonkt.serialization/Company/web/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company/web.md
-$dokka.location:com.hexagonkt.serialization/CompanySerializationTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company-serialization-test/index.md
-$dokka.location:com.hexagonkt.serialization/CompanySerializationTest/CompanySerializationTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company-serialization-test/-company-serialization-test.md
-$dokka.location:com.hexagonkt.serialization/CompanySerializationTest/Object is mapped and parsed back without error/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company-serialization-test/-object is mapped and parsed back without error.md
-$dokka.location:com.hexagonkt.serialization/CompanySerializationTest/testObjects/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-company-serialization-test/test-objects.md
 $dokka.location:com.hexagonkt.serialization/ContentType///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-content-type/index.md
 $dokka.location:com.hexagonkt.serialization/ContentType/ContentType/#com.hexagonkt.serialization.SerializationFormat#java.nio.charset.Charset?/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-content-type/-content-type.md
 $dokka.location:com.hexagonkt.serialization/ContentType/charset/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-content-type/charset.md
 $dokka.location:com.hexagonkt.serialization/ContentType/format/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-content-type/format.md
 $dokka.location:com.hexagonkt.serialization/ContentType/toString/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-content-type/to-string.md
-$dokka.location:com.hexagonkt.serialization/Department.DESIGN///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/-d-e-s-i-g-n/index.md
-$dokka.location:com.hexagonkt.serialization/Department.DESIGN/name/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/-d-e-s-i-g-n/name.md
-$dokka.location:com.hexagonkt.serialization/Department.DESIGN/ordinal/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/-d-e-s-i-g-n/ordinal.md
-$dokka.location:com.hexagonkt.serialization/Department.DEVELOPMENT///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/-d-e-v-e-l-o-p-m-e-n-t/index.md
-$dokka.location:com.hexagonkt.serialization/Department.DEVELOPMENT/name/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/-d-e-v-e-l-o-p-m-e-n-t/name.md
-$dokka.location:com.hexagonkt.serialization/Department.DEVELOPMENT/ordinal/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/-d-e-v-e-l-o-p-m-e-n-t/ordinal.md
-$dokka.location:com.hexagonkt.serialization/Department///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-department/index.md
 $dokka.location:com.hexagonkt.serialization/Mapper///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-mapper/index.md
 $dokka.location:com.hexagonkt.serialization/Mapper/convertToMap/#kotlin.Any/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-mapper/convert-to-map.md
 $dokka.location:com.hexagonkt.serialization/Mapper/convertToObject/#kotlin.collections.Map[*,*]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-mapper/convert-to-object.md
 $dokka.location:com.hexagonkt.serialization/ParseException///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception/index.md
 $dokka.location:com.hexagonkt.serialization/ParseException/ParseException/#kotlin.String#kotlin.Throwable?/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception/-parse-exception.md
 $dokka.location:com.hexagonkt.serialization/ParseException/field/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-parse-exception/field.md
-$dokka.location:com.hexagonkt.serialization/Person///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-person/index.md
-$dokka.location:com.hexagonkt.serialization/Person/Person/#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-person/-person.md
-$dokka.location:com.hexagonkt.serialization/Person/name/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-person/name.md
 $dokka.location:com.hexagonkt.serialization/SerializationFormat///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format/index.md
 $dokka.location:com.hexagonkt.serialization/SerializationFormat/contentType/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format/content-type.md
 $dokka.location:com.hexagonkt.serialization/SerializationFormat/extensions/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format/extensions.md
@@ -385,27 +270,6 @@ $dokka.location:com.hexagonkt.serialization/SerializationFormat/parse/#java.io.I
 $dokka.location:com.hexagonkt.serialization/SerializationFormat/parseObjects/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format/parse-objects.md
 $dokka.location:com.hexagonkt.serialization/SerializationFormat/serialize/#kotlin.Any#java.io.OutputStream/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format/serialize.md
 $dokka.location:com.hexagonkt.serialization/SerializationFormat/serialize/#kotlin.Any/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format/serialize.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.BinaryTestFormat///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-binary-test-format/index.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.BinaryTestFormat/BinaryTestFormat/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-binary-test-format/-binary-test-format.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.BinaryTestFormat/contentType/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-binary-test-format/content-type.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.BinaryTestFormat/extensions/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-binary-test-format/extensions.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.BinaryTestFormat/isBinary/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-binary-test-format/is-binary.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.BinaryTestFormat/parse/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-binary-test-format/parse.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.BinaryTestFormat/parseObjects/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-binary-test-format/parse-objects.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.BinaryTestFormat/serialize/#kotlin.Any#java.io.OutputStream/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-binary-test-format/serialize.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.TextTestFormat///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-text-test-format/index.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.TextTestFormat/TextTestFormat/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-text-test-format/-text-test-format.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.TextTestFormat/contentType/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-text-test-format/content-type.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.TextTestFormat/extensions/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-text-test-format/extensions.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.TextTestFormat/isBinary/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-text-test-format/is-binary.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.TextTestFormat/parse/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-text-test-format/parse.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.TextTestFormat/parseObjects/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-text-test-format/parse-objects.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest.TextTestFormat/serialize/#kotlin.Any#java.io.OutputStream/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-text-test-format/serialize.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/index.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest/A binary format fails to serialize to a string/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-a binary format fails to serialize to a string.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest/A text format can be serialized to a string/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-a text format can be serialized to a string.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest/SerializationFormatTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-serialization-format-test.md
-$dokka.location:com.hexagonkt.serialization/SerializationFormatTest/Test Jackson text format/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-format-test/-test -jackson text format.md
 $dokka.location:com.hexagonkt.serialization/SerializationManager///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/index.md
 $dokka.location:com.hexagonkt.serialization/SerializationManager/contentTypeOf/#java.io.File/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/content-type-of.md
 $dokka.location:com.hexagonkt.serialization/SerializationManager/contentTypeOf/#java.net.URL/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/content-type-of.md
@@ -421,29 +285,6 @@ $dokka.location:com.hexagonkt.serialization/SerializationManager/formats/#kotlin
 $dokka.location:com.hexagonkt.serialization/SerializationManager/mapper/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/mapper.md
 $dokka.location:com.hexagonkt.serialization/SerializationManager/requireDefaultFormat/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/require-default-format.md
 $dokka.location:com.hexagonkt.serialization/SerializationManager/requireMapper/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager/require-mapper.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/index.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/MIME types return correct content type for URLs/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-m-i-m-e types return correct content type for -u-r-ls.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/MIME types return correct content type for extensions/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-m-i-m-e types return correct content type for extensions.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/MIME types return correct content type for files/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-m-i-m-e types return correct content type for files.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/MIME types return correct content type for resources/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-m-i-m-e types return correct content type for resources.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/Not found Serialization format returns the default/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-not found -serialization format returns the default.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/Not found Serialization format throws an exception/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-not found -serialization format throws an exception.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/Searching a format not loaded raises an exception/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-searching a format not loaded raises an exception.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/Searching serialization format for content types, URLs, files and resources works/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-searching serialization format for content types, -u-r-ls, files and resources works.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/SerializationManagerTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-serialization-manager-test.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/User can add and remove serialization formats/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-user can add and remove serialization formats.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/User can change default format/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-user can change default format.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/User can not set a default format not loaded/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-user can not set a default format not loaded.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/User can not set an empty list of formats/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/-user can not set an empty list of formats.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/resetSerializationFormats/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/reset-serialization-formats.md
-$dokka.location:com.hexagonkt.serialization/SerializationManagerTest/setUpSerializationManager/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-manager-test/set-up-serialization-manager.md
-$dokka.location:com.hexagonkt.serialization/SerializationPackageTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/index.md
-$dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Inline convert list work correctly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-inline convert list work correctly.md
-$dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Inline convert object work correctly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-inline convert object work correctly.md
-$dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Parse stream objects works properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-parse stream objects works properly.md
-$dokka.location:com.hexagonkt.serialization/SerializationPackageTest/Parse streams works properly/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-parse streams works properly.md
-$dokka.location:com.hexagonkt.serialization/SerializationPackageTest/SerializationPackageTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/-serialization-package-test.md
-$dokka.location:com.hexagonkt.serialization/SerializationPackageTest/initialize/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-package-test/initialize.md
 $dokka.location:com.hexagonkt.serialization/SerializationTest///PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-test/index.md
 $dokka.location:com.hexagonkt.serialization/SerializationTest/SerializationTest/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-test/-serialization-test.md
 $dokka.location:com.hexagonkt.serialization/SerializationTest/initialize/#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/-serialization-test/initialize.md
@@ -453,20 +294,6 @@ $dokka.location:com.hexagonkt////PointingToDeclaration/hexagon_core/com.hexagon
 $dokka.location:com.hexagonkt/ClasspathHandler///PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler/index.md
 $dokka.location:com.hexagonkt/ClasspathHandler/createURLStreamHandler/#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler/create-u-r-l-stream-handler.md
 $dokka.location:com.hexagonkt/ClasspathHandler/registerHandler/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler/register-handler.md
-$dokka.location:com.hexagonkt/ClasspathHandlerProviderTest///PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler-provider-test/index.md
-$dokka.location:com.hexagonkt/ClasspathHandlerProviderTest/Classpath resource folder/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler-provider-test/-classpath resource folder.md
-$dokka.location:com.hexagonkt/ClasspathHandlerProviderTest/ClasspathHandlerProviderTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler-provider-test/-classpath-handler-provider-test.md
-$dokka.location:com.hexagonkt/ClasspathHandlerProviderTest/Read classpath resource returns resource's text/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler-provider-test/-read classpath resource returns resource's text.md
-$dokka.location:com.hexagonkt/ClasspathHandlerProviderTest/Registering classpath handler twice does not fail/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler-provider-test/-registering classpath handler twice does not fail.md
-$dokka.location:com.hexagonkt/ClasspathHandlerProviderTest/Require classpath resource/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler-provider-test/-require classpath resource.md
-$dokka.location:com.hexagonkt/ClasspathHandlerProviderTest/Resource loading using URL returns data/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler-provider-test/-resource loading using -u-r-l returns data.md
-$dokka.location:com.hexagonkt/ClasspathHandlerProviderTest/Unknown protocol throws exception/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler-provider-test/-unknown protocol throws exception.md
-$dokka.location:com.hexagonkt/ClasspathHandlerProviderTest/registerHandler/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-classpath-handler-provider-test/register-handler.md
-$dokka.location:com.hexagonkt/HexagonCoreSamplesTest///PointingToDeclaration/hexagon_core/com.hexagonkt/-hexagon-core-samples-test/index.md
-$dokka.location:com.hexagonkt/HexagonCoreSamplesTest/HexagonCoreSamplesTest/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-hexagon-core-samples-test/-hexagon-core-samples-test.md
-$dokka.location:com.hexagonkt/HexagonCoreSamplesTest/injectionUsage/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-hexagon-core-samples-test/injection-usage.md
-$dokka.location:com.hexagonkt/HexagonCoreSamplesTest/loggerUsage/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-hexagon-core-samples-test/logger-usage.md
-$dokka.location:com.hexagonkt/HexagonCoreSamplesTest/serializationUsage/#/PointingToDeclaration/hexagon_core/com.hexagonkt/-hexagon-core-samples-test/serialization-usage.md
 $dokka.location:com.hexagonkt/ResourceNotFoundException///PointingToDeclaration/hexagon_core/com.hexagonkt/-resource-not-found-exception/index.md
 $dokka.location:com.hexagonkt/ResourceNotFoundException/ResourceNotFoundException/#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt/-resource-not-found-exception/-resource-not-found-exception.md
 com.hexagonkt

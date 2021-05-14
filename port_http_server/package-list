@@ -208,46 +208,6 @@ $dokka.location:com.hexagonkt.http.server/FilterOrder.BEFORE///PointingToDeclara
 $dokka.location:com.hexagonkt.http.server/FilterOrder.BEFORE/name/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/-b-e-f-o-r-e/name.md
 $dokka.location:com.hexagonkt.http.server/FilterOrder.BEFORE/ordinal/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/-b-e-f-o-r-e/ordinal.md
 $dokka.location:com.hexagonkt.http.server/FilterOrder///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-filter-order/index.md
-$dokka.location:com.hexagonkt.http.server/MockServer///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server/index.md
-$dokka.location:com.hexagonkt.http.server/MockServer/MockServer/#kotlin.String#kotlin.Int/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server/-mock-server.md
-$dokka.location:com.hexagonkt.http.server/MockServer/server/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server/server.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/index.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Basic HTTP Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-basic -h-t-t-p -authentication is verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Basic routes are created correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-basic routes are created correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Bearer HTTP Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-bearer -h-t-t-p -authentication is verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Body is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-body is verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Cookie API Key Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-cookie -a-p-i -key -authentication is verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Empty string is returned if no examples specified/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-empty string is returned if no examples specified.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Examples are fetched from media-type schema correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-examples are fetched from media-type schema correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Examples are fetched from mediatype correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-examples are fetched from mediatype correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Examples are fetched from multiple examples correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-examples are fetched from multiple examples correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/HTTP Authentication with unknown scheme throws error/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-h-t-t-p -authentication with unknown scheme throws error.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Header API Key Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-header -a-p-i -key -authentication is verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/If Authorization is optional, it is skipped/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-if -authorization is optional, it is skipped.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/MockServerRoutesTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-mock-server-routes-test.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Optional cookies are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-optional cookies are verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Optional header params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-optional header params are verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Optional query params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-optional query params are verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Path params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-path params are verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Paths not present in OpenAPI spec return 404/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-paths not present in -open-a-p-i spec return 404.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Query param API Key Authentication is verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-query param -a-p-i -key -authentication is verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Required cookies are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-required cookies are verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Required header params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-required header params are verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Required query params are verified correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-required query params are verified correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/Unknown location API Key Authentication throws error/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-unknown location -a-p-i -key -authentication throws error.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/When there are multiple security mechanisms, any one needs to be satisfied/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-when there are multiple security mechanisms, any one needs to be satisfied.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/When there are multiple security schemes, all of them need to be satisfied/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-when there are multiple security schemes, all of them need to be satisfied.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/X-Mock-Response-Example is fetched from multiple examples correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/-x--mock--response--example is fetched from multiple examples correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/client/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/client.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/server/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/server.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/setUp/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/set-up.md
-$dokka.location:com.hexagonkt.http.server/MockServerRoutesTest/tearDown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-routes-test/tear-down.md
-$dokka.location:com.hexagonkt.http.server/MockServerTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/index.md
-$dokka.location:com.hexagonkt.http.server/MockServerTest/Basic server is created correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/-basic server is created correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerTest/Incorrect OpenAPI spec causes error to be thrown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/-incorrect -open-a-p-i spec causes error to be thrown.md
-$dokka.location:com.hexagonkt.http.server/MockServerTest/MockServerTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/-mock-server-test.md
-$dokka.location:com.hexagonkt.http.server/MockServerTest/Server at specific port is created correctly/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/-server at specific port is created correctly.md
-$dokka.location:com.hexagonkt.http.server/MockServerTest/setUp/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-mock-server-test/set-up.md
 $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/index.md
 $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/PortHttpServerSamplesTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/-port-http-server-samples-test.md
 $dokka.location:com.hexagonkt.http.server/PortHttpServerSamplesTest/adapter/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-port-http-server-samples-test/adapter.md
@@ -348,33 +308,6 @@ $dokka.location:com.hexagonkt.http.server/RequestPort/queryParameters/#/Pointing
 $dokka.location:com.hexagonkt.http.server/RequestPort/queryString/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/query-string.md
 $dokka.location:com.hexagonkt.http.server/RequestPort/scheme/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/scheme.md
 $dokka.location:com.hexagonkt.http.server/RequestPort/url/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-port/url.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/index.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto/MyCustomDto/#kotlin.String#kotlin.collections.List[kotlin.String]#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/-my-custom-dto.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto/formName/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/form-name.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto/teamId/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/team-id.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto/users/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto/users.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/index.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2/MyCustomDto2/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/-my-custom-dto2.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2/formName/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/form-name.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2/teamId/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/team-id.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyCustomDto2/user/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-custom-dto2/user.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/index.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/MyRequestDto/#kotlin.String#kotlin.String#kotlin.String#kotlin.collections.List[kotlin.String]#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/-my-request-dto.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/action/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/action.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/authKey/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/auth-key.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/formId/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/form-id.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/formName/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/form-name.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/formType/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/form-type.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/teamId/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/team-id.md
-$dokka.location:com.hexagonkt.http.server/RequestTest.MyRequestDto/users/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-my-request-dto/users.md
-$dokka.location:com.hexagonkt.http.server/RequestTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/index.md
-$dokka.location:com.hexagonkt.http.server/RequestTest/RequestTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/-request-test.md
-$dokka.location:com.hexagonkt.http.server/RequestTest/parse path field and query parameters to given type/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/parse path field and query parameters to given type.md
-$dokka.location:com.hexagonkt.http.server/RequestTest/setUpSerializationManager/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/set-up-serialization-manager.md
-$dokka.location:com.hexagonkt.http.server/RequestTest/should fail gracefully by returning null object in case of deserialization failure/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/should fail gracefully by returning null object in case of deserialization failure.md
-$dokka.location:com.hexagonkt.http.server/RequestTest/should honor the validations and fail gracefully by returning null object/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/should honor the validations and fail gracefully by returning null object.md
-$dokka.location:com.hexagonkt.http.server/RequestTest/should map the value as is if there is only value/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/should map the value as is if there is only value.md
-$dokka.location:com.hexagonkt.http.server/RequestTest/test parsing of multiple path params query params and form fields/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-request-test/test parsing of multiple path params query params and form fields.md
 $dokka.location:com.hexagonkt.http.server/Response.MapInterface///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/-map-interface/index.md
 $dokka.location:com.hexagonkt.http.server/Response.MapInterface/get/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/-map-interface/get.md
 $dokka.location:com.hexagonkt.http.server/Response.MapInterface/remove/#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-response/-map-interface/remove.md
@@ -430,10 +363,6 @@ $dokka.location:com.hexagonkt.http.server/Router/post/#kotlin.String#kotlin.Func
 $dokka.location:com.hexagonkt.http.server/Router/put/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/put.md
 $dokka.location:com.hexagonkt.http.server/Router/requestHandlers/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/request-handlers.md
 $dokka.location:com.hexagonkt.http.server/Router/trace/#kotlin.String#kotlin.Function1[com.hexagonkt.http.server.Call,kotlin.Unit]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router/trace.md
-$dokka.location:com.hexagonkt.http.server/RouterTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router-test/index.md
-$dokka.location:com.hexagonkt.http.server/RouterTest/Nested routes are flattened properly inside by Router/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router-test/-nested routes are flattened properly inside by -router.md
-$dokka.location:com.hexagonkt.http.server/RouterTest/RouterTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router-test/-router-test.md
-$dokka.location:com.hexagonkt.http.server/RouterTest/Routes are stored in server's router/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-router-test/-routes are stored in server's router.md
 $dokka.location:com.hexagonkt.http.server/Server.Companion///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/-companion/index.md
 $dokka.location:com.hexagonkt.http.server/Server.Companion/banner/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/-companion/banner.md
 $dokka.location:com.hexagonkt.http.server/Server///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server/index.md
@@ -471,17 +400,6 @@ $dokka.location:com.hexagonkt.http.server/ServerSettings/features/#/PointingToDe
 $dokka.location:com.hexagonkt.http.server/ServerSettings/options/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/options.md
 $dokka.location:com.hexagonkt.http.server/ServerSettings/protocol/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/protocol.md
 $dokka.location:com.hexagonkt.http.server/ServerSettings/sslSettings/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings/ssl-settings.md
-$dokka.location:com.hexagonkt.http.server/ServerSettingsTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/index.md
-$dokka.location:com.hexagonkt.http.server/ServerSettingsTest/Server settings loads the proper defaults/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/-server settings loads the proper defaults.md
-$dokka.location:com.hexagonkt.http.server/ServerSettingsTest/ServerSettingsTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/-server-settings-test.md
-$dokka.location:com.hexagonkt.http.server/ServerSettingsTest/setUpSerializationManager/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-settings-test/set-up-serialization-manager.md
-$dokka.location:com.hexagonkt.http.server/ServerTest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/index.md
-$dokka.location:com.hexagonkt.http.server/ServerTest/Default banner includes documentation URL/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-default banner includes documentation -u-r-l.md
-$dokka.location:com.hexagonkt.http.server/ServerTest/Default parameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-default parameters.md
-$dokka.location:com.hexagonkt.http.server/ServerTest/Injected parameters/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-injected parameters.md
-$dokka.location:com.hexagonkt.http.server/ServerTest/Runtime port/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-runtime port.md
-$dokka.location:com.hexagonkt.http.server/ServerTest/ServerTest/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/-server-test.md
-$dokka.location:com.hexagonkt.http.server/ServerTest/initialize/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-server-test/initialize.md
 $dokka.location:com.hexagonkt.http.server/Session///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/index.md
 $dokka.location:com.hexagonkt.http.server/Session/Session/#com.hexagonkt.http.server.SessionPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/-session.md
 $dokka.location:com.hexagonkt.http.server/Session/adapter/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-session/adapter.md
@@ -520,14 +438,6 @@ $dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/maxInactiveI
 $dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/maxInactiveInterval/#kotlin.Int?/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/max-inactive-interval.md
 $dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/removeAttribute/#kotlin.String/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/remove-attribute.md
 $dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/setAttribute/#kotlin.String#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/set-attribute.md
-$dokka.location:com.hexagonkt.http.server/VoidAdapter///PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/index.md
-$dokka.location:com.hexagonkt.http.server/VoidAdapter/runtimePort/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/runtime-port.md
-$dokka.location:com.hexagonkt.http.server/VoidAdapter/shutdown/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/shutdown.md
-$dokka.location:com.hexagonkt.http.server/VoidAdapter/started/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/started.md
-$dokka.location:com.hexagonkt.http.server/VoidAdapter/startup/#com.hexagonkt.http.server.Server/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/startup.md
-$dokka.location:com.hexagonkt.http.server/VoidAdapter/supportedFeatures/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/supported-features.md
-$dokka.location:com.hexagonkt.http.server/VoidAdapter/supportedOptions/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/supported-options.md
-$dokka.location:com.hexagonkt.http.server/VoidAdapter/supportedProtocols/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-void-adapter/supported-protocols.md
 com.hexagonkt.http.server
 com.hexagonkt.http.server.examples
 com.hexagonkt.http.server.test

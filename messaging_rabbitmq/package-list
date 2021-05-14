@@ -1,18 +1,10 @@
 $dokka.format:gfm-v1
 $dokka.linkExtension:md
 $dokka.location:com.hexagonkt.messaging.rabbitmq////PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/index.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitConnectionTest///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-connection-test/index.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitConnectionTest/RabbitConnectionTest/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-connection-test/-rabbit-connection-test.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitConnectionTest/call return expected results/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-connection-test/call return expected results.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitConnectionTest/deleteTestQueue/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-connection-test/delete-test-queue.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitConnectionTest/startConsumer/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-connection-test/start-consumer.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapter///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter/index.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapter/RabbitMqAdapter/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter/-rabbit-mq-adapter.md
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapter/RabbitMqAdapter/#kotlin.String/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter/-rabbit-mq-adapter.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapter/consume/#kotlin.reflect.KClass[TypeParam(bounds=[com.hexagonkt.messaging.Message])]#kotlin.String#kotlin.Function1[TypeParam(bounds=[com.hexagonkt.messaging.Message]),kotlin.Unit]/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter/consume.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapter/publish/#com.hexagonkt.messaging.Message#kotlin.String/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter/publish.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapterTest///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter-test/index.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapterTest/Event manager/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter-test/-event manager.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapterTest/RabbitMqAdapterTest/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter-test/-rabbit-mq-adapter-test.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/index.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/RabbitMqClient/#com.rabbitmq.client.ConnectionFactory#kotlin.Int/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/-rabbit-mq-client.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/RabbitMqClient/#java.net.URI/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/-rabbit-mq-client.md
@@ -26,28 +18,5 @@ $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/declareQueue/#ko
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/deleteQueue/#kotlin.String/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/delete-queue.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/publish/#kotlin.String#kotlin.String#kotlin.String#kotlin.String?/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/publish.md
 $dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/publish/#kotlin.String#kotlin.String#kotlin.String?/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/publish.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/index.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Consumers handle no reply messages/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-consumers handle no reply messages.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Consumers handle numbers properly/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-consumers handle numbers properly.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Create a connection factory with all parameters succeed/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-create a connection factory with all parameters succeed.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Create a connection factory with empty URI fails/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-create a connection factory with empty -u-r-i fails.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Create a connection factory with empty parameters succeed/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-create a connection factory with empty parameters succeed.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Create a connection factory with invalid URI fails/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-create a connection factory with invalid -u-r-i fails.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Create a connection factory with one parameter succeed/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-create a connection factory with one parameter succeed.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Create a connection factory with two parameter succeed/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-create a connection factory with two parameter succeed.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Create a connection factory without parameters succeed/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-create a connection factory without parameters succeed.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/Rabbit client disconnects properly/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-rabbit client disconnects properly.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/RabbitMqClientTest/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/-rabbit-mq-client-test.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClientTest/initialize/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client-test/initialize.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest.Sample///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-sample/index.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest.Sample/Sample/#kotlin.String#kotlin.Int/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-sample/-sample.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest.Sample/int/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-sample/int.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest.Sample/str/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-sample/str.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/index.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest/Call errors/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-call errors.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest/Call return expected results/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-call return expected results.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest/RabbitTest/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/-rabbit-test.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest/deleteTestQueue/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/delete-test-queue.md
-$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitTest/startConsumer/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-test/start-consumer.md
 com.hexagonkt.messaging.rabbitmq
 

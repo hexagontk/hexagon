@@ -4,7 +4,5 @@ $dokka.location:com.hexagonkt.http.client.ahc////PointingToDeclaration/http_cli
 $dokka.location:com.hexagonkt.http.client.ahc/AhcAdapter///PointingToDeclaration/http_client_ahc/com.hexagonkt.http.client.ahc/-ahc-adapter/index.md
 $dokka.location:com.hexagonkt.http.client.ahc/AhcAdapter/AhcAdapter/#/PointingToDeclaration/http_client_ahc/com.hexagonkt.http.client.ahc/-ahc-adapter/-ahc-adapter.md
 $dokka.location:com.hexagonkt.http.client.ahc/AhcAdapter/send/#com.hexagonkt.http.client.Client#com.hexagonkt.http.client.Request/PointingToDeclaration/http_client_ahc/com.hexagonkt.http.client.ahc/-ahc-adapter/send.md
-$dokka.location:com.hexagonkt.http.client.ahc/AhcAdapterExampleTest///PointingToDeclaration/http_client_ahc/com.hexagonkt.http.client.ahc/-ahc-adapter-example-test/index.md
-$dokka.location:com.hexagonkt.http.client.ahc/AhcAdapterExampleTest/AhcAdapterExampleTest/#/PointingToDeclaration/http_client_ahc/com.hexagonkt.http.client.ahc/-ahc-adapter-example-test/-ahc-adapter-example-test.md
 com.hexagonkt.http.client.ahc
 

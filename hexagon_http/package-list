@@ -21,17 +21,6 @@ $dokka.location:com.hexagonkt.http/Cookie/maxAge/#/PointingToDeclaration/hexago
 $dokka.location:com.hexagonkt.http/Cookie/name/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-cookie/name.md
 $dokka.location:com.hexagonkt.http/Cookie/secure/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-cookie/secure.md
 $dokka.location:com.hexagonkt.http/Cookie/value/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-cookie/value.md
-$dokka.location:com.hexagonkt.http/HttpTest///PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/index.md
-$dokka.location:com.hexagonkt.http/HttpTest/HTTP date has the correct format/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-h-t-t-p date has the correct format.md
-$dokka.location:com.hexagonkt.http/HttpTest/HttpTest/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-http-test.md
-$dokka.location:com.hexagonkt.http/HttpTest/Parse key only query parameters return correct data/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-parse key only query parameters return correct data.md
-$dokka.location:com.hexagonkt.http/HttpTest/Parse key only/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-parse key only.md
-$dokka.location:com.hexagonkt.http/HttpTest/Parse multiple empty values/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-parse multiple empty values.md
-$dokka.location:com.hexagonkt.http/HttpTest/Parse multiple keys return list of values/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-parse multiple keys return list of values.md
-$dokka.location:com.hexagonkt.http/HttpTest/Parse strips spaces/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-parse strips spaces.md
-$dokka.location:com.hexagonkt.http/HttpTest/Parse value only/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-parse value only.md
-$dokka.location:com.hexagonkt.http/HttpTest/Parse white space only/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-parse white space only.md
-$dokka.location:com.hexagonkt.http/HttpTest/URL encoding and decoding works properly/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-http-test/-u-r-l encoding and decoding works properly.md
 $dokka.location:com.hexagonkt.http/Method.DELETE///PointingToDeclaration/hexagon_http/com.hexagonkt.http/-method/-d-e-l-e-t-e/index.md
 $dokka.location:com.hexagonkt.http/Method.DELETE/name/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-method/-d-e-l-e-t-e/name.md
 $dokka.location:com.hexagonkt.http/Method.DELETE/ordinal/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-method/-d-e-l-e-t-e/ordinal.md
@@ -67,9 +56,6 @@ $dokka.location:com.hexagonkt.http/Part/inputStream/#/PointingToDeclaration/hex
 $dokka.location:com.hexagonkt.http/Part/name/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-part/name.md
 $dokka.location:com.hexagonkt.http/Part/size/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-part/size.md
 $dokka.location:com.hexagonkt.http/Part/submittedFileName/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-part/submitted-file-name.md
-$dokka.location:com.hexagonkt.http/PartTest///PointingToDeclaration/hexagon_http/com.hexagonkt.http/-part-test/index.md
-$dokka.location:com.hexagonkt.http/PartTest/Full part contains expected values/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-part-test/-full part contains expected values.md
-$dokka.location:com.hexagonkt.http/PartTest/PartTest/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-part-test/-part-test.md
 $dokka.location:com.hexagonkt.http/Path///PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path/index.md
 $dokka.location:com.hexagonkt.http/Path/Path/#kotlin.String/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path/-path.md
 $dokka.location:com.hexagonkt.http/Path/create/#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any]]/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path/create.md
@@ -81,17 +67,6 @@ $dokka.location:com.hexagonkt.http/Path/parameterIndex/#/PointingToDeclaration/
 $dokka.location:com.hexagonkt.http/Path/pattern/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path/pattern.md
 $dokka.location:com.hexagonkt.http/Path/regex/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path/regex.md
 $dokka.location:com.hexagonkt.http/Path/segments/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path/segments.md
-$dokka.location:com.hexagonkt.http/PathTest///PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/index.md
-$dokka.location:com.hexagonkt.http/PathTest/A path with parameters have regex and params table/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-a path with parameters have regex and params table.md
-$dokka.location:com.hexagonkt.http/PathTest/A path without parameters do not have regex neither params table/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-a path without parameters do not have regex neither params table.md
-$dokka.location:com.hexagonkt.http/PathTest/Create an url with path/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-create an url with path.md
-$dokka.location:com.hexagonkt.http/PathTest/Extract parameter from a non matching url fails/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-extract parameter from a non matching url fails.md
-$dokka.location:com.hexagonkt.http/PathTest/Invalid path parameters/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-invalid path parameters.md
-$dokka.location:com.hexagonkt.http/PathTest/Path with a wildcard resolve parameters properly/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-path with a wildcard resolve parameters properly.md
-$dokka.location:com.hexagonkt.http/PathTest/Path with many wildcards resolve parameters properly/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-path with many wildcards resolve parameters properly.md
-$dokka.location:com.hexagonkt.http/PathTest/Path with wildcards can not create url/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-path with wildcards can not create url.md
-$dokka.location:com.hexagonkt.http/PathTest/PathTest/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-path-test.md
-$dokka.location:com.hexagonkt.http/PathTest/Segments of a path are split correctly/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-path-test/-segments of a path are split correctly.md
 $dokka.location:com.hexagonkt.http/Protocol.HTTP///PointingToDeclaration/hexagon_http/com.hexagonkt.http/-protocol/-h-t-t-p/index.md
 $dokka.location:com.hexagonkt.http/Protocol.HTTP/name/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-protocol/-h-t-t-p/name.md
 $dokka.location:com.hexagonkt.http/Protocol.HTTP/ordinal/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-protocol/-h-t-t-p/ordinal.md
@@ -109,9 +84,6 @@ $dokka.location:com.hexagonkt.http/Route/Route/#kotlin.String#kotlin.Array[com.h
 $dokka.location:com.hexagonkt.http/Route/list/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-route/list.md
 $dokka.location:com.hexagonkt.http/Route/methods/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-route/methods.md
 $dokka.location:com.hexagonkt.http/Route/path/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-route/path.md
-$dokka.location:com.hexagonkt.http/RouteTest///PointingToDeclaration/hexagon_http/com.hexagonkt.http/-route-test/index.md
-$dokka.location:com.hexagonkt.http/RouteTest/Route constructor works ok/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-route-test/-route constructor works ok.md
-$dokka.location:com.hexagonkt.http/RouteTest/RouteTest/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-route-test/-route-test.md
 $dokka.location:com.hexagonkt.http/SslSettings///PointingToDeclaration/hexagon_http/com.hexagonkt.http/-ssl-settings/index.md
 $dokka.location:com.hexagonkt.http/SslSettings/SslSettings/#java.net.URL?#kotlin.String#java.net.URL?#kotlin.String#kotlin.Boolean/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-ssl-settings/-ssl-settings.md
 $dokka.location:com.hexagonkt.http/SslSettings/clientAuth/#/PointingToDeclaration/hexagon_http/com.hexagonkt.http/-ssl-settings/client-auth.md

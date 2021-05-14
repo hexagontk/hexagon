@@ -9,11 +9,6 @@ $dokka.location:com.hexagonkt.serialization/JacksonHelper/setupObjectMapper/#com
 $dokka.location:com.hexagonkt.serialization/JacksonMapper///PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-mapper/index.md
 $dokka.location:com.hexagonkt.serialization/JacksonMapper/convertToMap/#kotlin.Any/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-mapper/convert-to-map.md
 $dokka.location:com.hexagonkt.serialization/JacksonMapper/convertToObject/#kotlin.collections.Map[*,*]#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-mapper/convert-to-object.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest///PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-serializer-test/index.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest/JacksonSerializerTest/#/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-serializer-test/-jackson-serializer-test.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest/Parse URL works ok/#/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-serializer-test/-parse -u-r-l works ok.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest/Parse resource works ok/#/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-serializer-test/-parse resource works ok.md
-$dokka.location:com.hexagonkt.serialization/JacksonSerializerTest/setUpSerializationManager/#/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-serializer-test/set-up-serialization-manager.md
 $dokka.location:com.hexagonkt.serialization/JacksonTextFormat///PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-text-format/index.md
 $dokka.location:com.hexagonkt.serialization/JacksonTextFormat/JacksonTextFormat/#java.util.LinkedHashSet[kotlin.String]#kotlin.Function0[com.fasterxml.jackson.core.JsonFactory]?/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-text-format/-jackson-text-format.md
 $dokka.location:com.hexagonkt.serialization/JacksonTextFormat/contentType/#/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-text-format/content-type.md
@@ -24,8 +19,5 @@ $dokka.location:com.hexagonkt.serialization/JacksonTextFormat/parseObjects/#java
 $dokka.location:com.hexagonkt.serialization/JacksonTextFormat/serialize/#kotlin.Any#java.io.OutputStream/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-text-format/serialize.md
 $dokka.location:com.hexagonkt.serialization/JacksonTextFormat/serialize/#kotlin.Any/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-jackson-text-format/serialize.md
 $dokka.location:com.hexagonkt.serialization/Json///PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-json/index.md
-$dokka.location:com.hexagonkt.serialization/ParseExceptionTest///PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-parse-exception-test/index.md
-$dokka.location:com.hexagonkt.serialization/ParseExceptionTest/ParseExceptionTest/#/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-parse-exception-test/-parse-exception-test.md
-$dokka.location:com.hexagonkt.serialization/ParseExceptionTest/parseException obtains field name properly/#/PointingToDeclaration/serialization_json/com.hexagonkt.serialization/-parse-exception-test/parse-exception obtains field name properly.md
 com.hexagonkt.serialization
 

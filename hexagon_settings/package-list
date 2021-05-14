@@ -10,9 +10,6 @@ $dokka.location:com.hexagonkt.settings/EnvironmentVariablesSource///PointingToDe
 $dokka.location:com.hexagonkt.settings/EnvironmentVariablesSource/EnvironmentVariablesSource/#kotlin.String/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-environment-variables-source/-environment-variables-source.md
 $dokka.location:com.hexagonkt.settings/EnvironmentVariablesSource/load/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-environment-variables-source/load.md
 $dokka.location:com.hexagonkt.settings/EnvironmentVariablesSource/toString/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-environment-variables-source/to-string.md
-$dokka.location:com.hexagonkt.settings/HexagonSettingsSamplesTest///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-hexagon-settings-samples-test/index.md
-$dokka.location:com.hexagonkt.settings/HexagonSettingsSamplesTest/HexagonSettingsSamplesTest/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-hexagon-settings-samples-test/-hexagon-settings-samples-test.md
-$dokka.location:com.hexagonkt.settings/HexagonSettingsSamplesTest/settingsUsage/#/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-hexagon-settings-samples-test/settings-usage.md
 $dokka.location:com.hexagonkt.settings/ObjectSource///PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/index.md
 $dokka.location:com.hexagonkt.settings/ObjectSource/ObjectSource/#kotlin.Any/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/-object-source.md
 $dokka.location:com.hexagonkt.settings/ObjectSource/ObjectSource/#kotlin.Array[kotlin.Pair[kotlin.String,*]]/PointingToDeclaration/hexagon_settings/com.hexagonkt.settings/-object-source/-object-source.md
