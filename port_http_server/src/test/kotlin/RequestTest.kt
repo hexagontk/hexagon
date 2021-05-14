@@ -12,7 +12,7 @@ import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertNull
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class RequestTest {
+internal class RequestTest {
 
     @BeforeAll fun setUpSerializationManager() {
         SerializationManager.mapper = JacksonMapper
