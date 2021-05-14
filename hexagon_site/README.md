@@ -4,14 +4,15 @@
 The site is generated using [MkDocs] and uses [Google Analytics] for usage statistics. The MkDocs
 theme used is [MkDocs Material].
 
-To generate the site you *MUST BUILD THE PROJECT* previously (`gw build`), after that you can use:
-`./gradlew buildSite` which executes: `docker run <mkdocs_material_image> build -csq`. You can
+To generate the site you *MUST BUILD THE PROJECT* previously (`./gradlew build`), after that you can
+use: `./gradlew buildSite` which executes: `docker run <mkdocs_material_image> build -csq`. You can
 check more details [here][site build].
 
-To run the site inside a server for development, execute: `gw serveSite`. The site will be served
-at: [http://localhost:8000](http://localhost:8000). You can also build the site and serve the
+To run the site inside a server for development, execute: `./gradlew serveSite`. The site will be
+served at: [http://localhost:8000](http://localhost:8000). You can also build the site and serve the
 `build` directory using: `python -m SimpleHTTPServer`. Remember to stop the site server after using
-it with: `docker stop hexagon_site`
+it with: `docker stop hexagon_site`. You can do altogether with:
+`./gradlew serveSite || docker stop hexagon_site`.
 
 The site properties are loaded from `mkdocs.yml` file. The content from `pages` is copied to
 `content` in order to add the API Markdown to content.
