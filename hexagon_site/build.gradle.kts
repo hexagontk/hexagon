@@ -114,16 +114,17 @@ task("checkDocs") {
     }
 }
 
+val dockerCommand = "docker --log-level warning run --rm -v ${projectDir.absolutePath}:/docs"
+val mkdocsMaterialImage = "squidfunk/mkdocs-material:${properties["mkdocsMaterialVersion"]}"
+
 tasks.register<Exec>("serveSite") {
-    dependsOn("mkdocs")
-    workingDir = rootDir
-    commandLine("docker-compose --log-level warning up -d site".split(" "))
+    dependsOn("checkDocs")
+    commandLine("$dockerCommand -p 8000:8000 --name hexagon_site $mkdocsMaterialImage".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs")
-    workingDir = rootDir
-    commandLine("docker-compose --log-level warning run site build -csq".split(" "))
+    commandLine("$dockerCommand $mkdocsMaterialImage build -csq".split(" "))
 }
 
 fun generateCoverageBadge() {
