@@ -1,17 +1,16 @@
 package com.hexagonkt.helpers
 
 import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalDateTime.of as dateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.Calendar.MILLISECOND
 import kotlin.test.assertFailsWith
+import java.time.LocalDateTime.of as dateTime
 
-class DatesTest {
+internal class DatesTest {
 
     @Test fun `Date conversion`() {
         val cal = Calendar.getInstance()

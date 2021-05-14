@@ -3,7 +3,7 @@ package com.hexagonkt.http.server.jetty
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
-class JettyServletAdapterTest {
+internal class JettyServletAdapterTest {
 
     @Test fun `Stop method works if called before running`() {
         val adapter = JettyServletAdapter()

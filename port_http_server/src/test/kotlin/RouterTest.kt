@@ -1,16 +1,29 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.http.ALL
-import com.hexagonkt.http.Method.*
-import com.hexagonkt.http.server.FilterOrder.*
-import com.hexagonkt.http.server.RequestHandler.*
+import com.hexagonkt.http.Method
+import com.hexagonkt.http.Method.DELETE
+import com.hexagonkt.http.Method.GET
+import com.hexagonkt.http.Method.HEAD
+import com.hexagonkt.http.Method.OPTIONS
+import com.hexagonkt.http.Method.PATCH
+import com.hexagonkt.http.Method.POST
+import com.hexagonkt.http.Method.PUT
+import com.hexagonkt.http.Method.TRACE
 import com.hexagonkt.http.Path
 import com.hexagonkt.http.Route
-import com.hexagonkt.http.Method
+import com.hexagonkt.http.server.FilterOrder.AFTER
+import com.hexagonkt.http.server.FilterOrder.BEFORE
+import com.hexagonkt.http.server.RequestHandler.CodeHandler
+import com.hexagonkt.http.server.RequestHandler.ExceptionHandler
+import com.hexagonkt.http.server.RequestHandler.FilterHandler
+import com.hexagonkt.http.server.RequestHandler.PathHandler
+import com.hexagonkt.http.server.RequestHandler.ResourceHandler
+import com.hexagonkt.http.server.RequestHandler.RouteHandler
 import org.junit.jupiter.api.Test
 import java.net.URL
 
-class RouterTest {
+internal class RouterTest {
 
     @Test fun `Nested routes are flattened properly inside by Router`() {
         val router = Router {

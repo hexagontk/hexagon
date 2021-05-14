@@ -10,7 +10,7 @@ import java.util.Date
 import kotlin.test.assertFailsWith
 
 @TestInstance(PER_CLASS)
-class MongoDbMapperTest {
+internal class MongoDbMapperTest {
 
     data class MappedClass (
         val oneString: String = "String",

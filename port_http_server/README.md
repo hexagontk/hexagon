@@ -340,8 +340,8 @@ For a quick sample, check the snipped below:
 
 [testCall]: /port_http_server/com.hexagonkt.http.server.test/test-call/
 [TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-request/
-[TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-response/
-[TestRequest]: /port_http_server/com.hexagonkt.http.server.test/-test-session/
+[TestResponse]: /port_http_server/com.hexagonkt.http.server.test/-test-response/
+[TestSession]: /port_http_server/com.hexagonkt.http.server.test/-test-session/
 
 ### OpenAPI Mock Server
 

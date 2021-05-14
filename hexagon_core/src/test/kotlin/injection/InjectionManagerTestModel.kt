@@ -2,22 +2,22 @@ package com.hexagonkt.injection
 
 import com.hexagonkt.injection.InjectionManager.inject
 
-interface Foo
+internal interface Foo
 
-class SubFoo1 : Foo
-class SubFoo2 : Foo
-object SubFoo3 : Foo
+internal class SubFoo1 : Foo
+internal class SubFoo2 : Foo
+internal object SubFoo3 : Foo
 
-interface Bar { val foo: Foo }
+internal interface Bar { val foo: Foo }
 
-class SubBar1(override val foo: Foo) : Bar
-class SubBar2(override val foo: Foo = inject()) : Bar
-class SubBar3(override val foo: Foo = inject()) : Bar
-class SubBar3a(override val foo: Foo) : Bar {
+internal class SubBar1(override val foo: Foo) : Bar
+internal class SubBar2(override val foo: Foo = inject()) : Bar
+internal class SubBar3(override val foo: Foo = inject()) : Bar
+internal class SubBar3a(override val foo: Foo) : Bar {
     constructor() : this(inject())
 }
 
-interface Service {
+internal interface Service {
     fun a(p: Int)
     fun b(p: Boolean): Int
 }

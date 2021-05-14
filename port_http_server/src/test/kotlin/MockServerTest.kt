@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.assertThrows
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class MockServerTest {
+internal class MockServerTest {
 
     @BeforeAll fun setUp() {
         InjectionManager.bind<ServerPort>(VoidAdapter)

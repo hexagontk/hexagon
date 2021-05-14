@@ -6,7 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 
-class ParseExceptionTest {
+internal class ParseExceptionTest {
 
     @Test fun `parseException obtains field name properly`() {
         assert(parseException(null).field == "")

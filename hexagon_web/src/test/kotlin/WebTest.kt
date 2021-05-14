@@ -20,7 +20,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.time.LocalDateTime
 
 @TestInstance(PER_CLASS)
-class WebTest {
+internal class WebTest {
 
     private val templateEngine =
         TemplateEngine(PebbleAdapter, TemplateEngineSettings(basePath = "templates"))

@@ -2,7 +2,7 @@ package com.hexagonkt.helpers
 
 import org.junit.jupiter.api.Test
 
-class StringsSamplesTest {
+internal class StringsSamplesTest {
 
     @Test fun filterVarsExample () {
         val template = "User #{user}"

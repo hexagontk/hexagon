@@ -1,5 +1,7 @@
 package com.hexagonkt.store.mongodb
 
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.utility.DockerImageName
 import java.net.URL
 import java.nio.ByteBuffer
 import java.time.LocalDate
@@ -8,11 +10,11 @@ import java.time.LocalTime
 
 import java.time.temporal.ChronoUnit.MILLIS
 
-enum class Department { DESIGN, DEVELOPMENT }
+internal enum class Department { DESIGN, DEVELOPMENT }
 
-data class Person(val name: String)
+internal data class Person(val name: String)
 
-data class Company(
+internal data class Company(
     val id: String,
     val foundation: LocalDate,
     val closeTime: LocalTime,
@@ -25,3 +27,7 @@ data class Company(
     val departments: Set<Department> = setOf(),
     val creationDate: LocalDateTime = LocalDateTime.now().truncatedTo(MILLIS)
 )
+
+internal val mongoDb: MongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:4.4-bionic"))
+    .withExposedPorts(27017)
+    .apply { start() }

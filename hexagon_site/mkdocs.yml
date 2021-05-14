@@ -137,7 +137,6 @@ extra:
     services (Web applications, APIs or queue consumers) that run inside a cloud platform
 
   twitter_user: hexagon_kt
-  disqus: hexagonkt-com
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/hexagonkt

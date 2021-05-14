@@ -32,6 +32,7 @@ jobs:
             ~/.gradle/wrapper
 
       # PROCESS
+      # TODO Run also in Windows and macOS ignoring store_mongodb:test and messaging_rabbitmq:test
       - name: Build Project
         run: ./gradlew --warn --console=plain build
         shell: bash

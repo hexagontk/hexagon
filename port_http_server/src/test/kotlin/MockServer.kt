@@ -11,7 +11,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme
 import io.swagger.v3.oas.models.security.SecurityScheme.Type
 import io.swagger.v3.parser.OpenAPIV3Parser
 
-class MockServer(pathToSpec: String, port: Int = 0) {
+internal class MockServer(pathToSpec: String, port: Int = 0) {
 
     val server: Server by lazy { createServer() }
 

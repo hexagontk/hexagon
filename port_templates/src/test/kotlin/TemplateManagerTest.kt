@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.Locale
 
-class TemplateManagerTest {
+internal class TemplateManagerTest {
 
     private class ResourceTemplateAdapter(private val marker: String) : TemplatePort {
         override fun render(

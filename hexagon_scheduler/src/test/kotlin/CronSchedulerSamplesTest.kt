@@ -3,7 +3,7 @@ package com.hexagonkt.scheduler
 import org.junit.jupiter.api.Test
 import java.lang.Thread.sleep
 
-class CronSchedulerSamplesTest {
+internal class CronSchedulerSamplesTest {
 
     @Test fun callbackExecutedProperly() { // sample
         val cron = CronScheduler()

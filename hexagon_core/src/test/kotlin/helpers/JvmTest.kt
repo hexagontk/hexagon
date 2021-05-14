@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 import java.lang.management.ManagementFactory
 import java.net.Inet4Address
 
-class JvmTest {
+internal class JvmTest {
 
     @Test fun `'hostname' and 'ip' contains valid values` () {
         val ipv6Segment = "[0-9a-zA-Z]{0,4}"
