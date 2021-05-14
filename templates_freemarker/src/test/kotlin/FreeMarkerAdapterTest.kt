@@ -6,7 +6,7 @@ import java.io.StringReader
 import java.time.LocalDateTime
 import java.util.Locale
 
-class FreeMarkerAdapterTest {
+internal class FreeMarkerAdapterTest {
 
     private val locale = Locale.getDefault()
 

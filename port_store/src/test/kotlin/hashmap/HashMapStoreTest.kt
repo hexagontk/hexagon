@@ -15,7 +15,7 @@ import java.time.LocalTime
 import kotlin.test.assertFailsWith
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class HashMapStoreTest {
+internal class HashMapStoreTest {
 
     @BeforeAll fun setUpSerializationManager() {
         SerializationManager.mapper = JacksonMapper

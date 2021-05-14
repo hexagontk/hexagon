@@ -15,7 +15,7 @@ import java.net.URI
 import kotlin.test.assertFailsWith
 
 @TestInstance(PER_CLASS)
-class RabbitMqClientTest {
+internal class RabbitMqClientTest {
 
     private val log: Logger = Logger(this::class)
 

@@ -16,7 +16,7 @@ import java.lang.System.currentTimeMillis
 import java.net.URI
 
 @TestInstance(PER_CLASS)
-class RabbitTest {
+internal class RabbitTest {
 
     data class Sample(val str: String, val int: Int) : Message()
 

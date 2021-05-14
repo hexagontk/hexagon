@@ -11,7 +11,7 @@ import java.lang.System.currentTimeMillis
 import java.net.URI
 
 @TestInstance(PER_CLASS)
-class RabbitConnectionTest {
+internal class RabbitConnectionTest {
 
     private companion object {
         private const val port = 5673

@@ -6,11 +6,11 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-enum class Department { DESIGN, DEVELOPMENT }
+internal enum class Department { DESIGN, DEVELOPMENT }
 
-data class Person(val name: String)
+internal data class Person(val name: String)
 
-data class Company(
+internal data class Company(
     val id: String,
     val foundation: LocalDate,
     val closeTime: LocalTime,

@@ -10,11 +10,11 @@ import java.time.LocalTime
 
 import java.time.temporal.ChronoUnit.MILLIS
 
-enum class Department { DESIGN, DEVELOPMENT }
+internal enum class Department { DESIGN, DEVELOPMENT }
 
-data class Person(val name: String)
+internal data class Person(val name: String)
 
-data class Company(
+internal data class Company(
     val id: String,
     val foundation: LocalDate,
     val closeTime: LocalTime,
@@ -28,6 +28,6 @@ data class Company(
     val creationDate: LocalDateTime = LocalDateTime.now().truncatedTo(MILLIS)
 )
 
-val mongoDb: MongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:4.4-bionic"))
+internal val mongoDb: MongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:4.4-bionic"))
     .withExposedPorts(27017)
     .apply { start() }

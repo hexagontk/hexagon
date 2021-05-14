@@ -4,9 +4,9 @@ import com.hexagonkt.templates.TemplateEngineSettings
 import org.junit.jupiter.api.Test
 import java.io.StringReader
 import java.time.LocalDateTime
-import java.util.*
+import java.util.Locale
 
-class PebbleAdapterTest {
+internal class PebbleAdapterTest {
 
     private val locale = Locale.getDefault()
 

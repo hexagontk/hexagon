@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class XmlTest {
+internal class XmlTest {
 
     enum class DeviceOs { ANDROID, IOS }
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import kotlin.test.assertFailsWith
 
 @TestInstance(PER_CLASS)
-class CsvTest {
+internal class CsvTest {
     data class Player (val name: String, val number: Int, val category: Int)
 
     enum class DeviceOs { ANDROID, IOS }

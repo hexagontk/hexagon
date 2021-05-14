@@ -7,7 +7,7 @@ import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
 import org.junit.jupiter.api.Test
 
-class RabbitMqAdapterTest {
+internal class RabbitMqAdapterTest {
     /**
      * TODO Add asserts
      */
