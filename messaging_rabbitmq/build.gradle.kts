@@ -30,4 +30,5 @@ dependencies {
     "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") {
         exclude(group = "org.slf4j")
     }
+    "testImplementation"("org.testcontainers:rabbitmq:${properties["testcontainersVersion"]}")
 }

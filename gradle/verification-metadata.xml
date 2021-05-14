@@ -44,6 +44,12 @@
 
     <trusted-keys>
       <trusted-key id="cb43338e060cf9fa" group="org.jacoco"/>
+      <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="org.testcontainers"/>
+      <trusted-key id="91268e187cdc92936df90106ac01d965c791b637" group="org.rnorth.visible-assertions"/>
+      <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="org.rnorth.duct-tape"/>
+      <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="com.github.docker-java" version="3.2.8"/>
+      <trusted-key id="4db1a49729b053caf015cee9a6adfc93ef34893e" group="org.hamcrest" name="hamcrest-core" version="1.3"/>
+      <trusted-key id="ff6e2c001948c5f2f38b0cc385911f425ec61b51" group="junit" name="junit" version="4.13.1"/>
       <trusted-key id="1be2dd4b1fcf252fe4f0a1d103281aa0289ff53a" group="com.soywiz.korlibs.korte" name="korte-jvm" version="2.0.7"/>
       <trusted-key id="8a10792983023d5d14c93b488d7f1bec1e2ecae7" group="com.fasterxml.woodstox" name="woodstox-core" version="6.2.4"/>
       <trusted-key id="6f538074ccebf35f28af9b066a0975f8b1127b83" group="org.jetbrains.kotlin"/>
@@ -53,7 +59,6 @@
       <trusted-key id="55e770230e69cc6de143fb5b62c82e50836eb3ee" group="com.github.gundy" name="semver4j"/>
       <trusted-key id="d54a395b5cf3f86eb45f6e426b1b008864323b92" group="org.antlr" name="antlr4-runtime"/>
       <trusted-key id="7c669810892cbd3148fa92995b05ccde140c2876" group="org.eclipse.jgit" name="org.eclipse.jgit"/>
-      <trusted-key id="cd5464315f0b98c77e6e8ecd9daadc1c9fcc82d0" group="commons-io" name="commons-io"/>
       <trusted-key id="1abe38b92f812c1f7bf1d647d0d1b9a54efd603d" group="com.univocity" name="univocity-parsers"/>
       <trusted-key id="1f47744c9b6e14f2049c2857f1f111af65925306" group="io.github.classgraph" name="classgraph"/>
       <trusted-key id="5ff31904edb5fa70567e9c1425ecefd55fceb2f9" group="dk.brics.automaton" name="automaton"/>
@@ -95,11 +100,13 @@
       <trusted-key id="a33a0b49a4c1ab590b0a4ddc1364c5e2df3e99c5" group="org.reactivestreams" name="reactive-streams" version="1.0.3"/>
       <trusted-key id="0a9af2115f4687bd29803a206b73a36e6026dfca" group="com.rabbitmq" name="amqp-client"/>
       <trusted-key id="6dd3b8c64ef75253beb2c53ad908a43fb7ec07ac" group="com.sun.activation" name="jakarta.activation" version="1.2.2"/>
+      <trusted-key id="cd5464315f0b98c77e6e8ecd9daadc1c9fcc82d0" group="commons-io" name="commons-io"/>
       <trusted-key id="d196a5e3e70732eeb2e5007f1861c322c56014b2" group="commons-beanutils" name="commons-beanutils" version="1.8.0"/>
       <trusted-key id="636de9055c4c75c7bd9830771241bc872c5e4ec0" group="commons-cli" name="commons-cli" version="1.2"/>
       <trusted-key id="2db4f1ef0fa761ecc4ea935c86fdc7e2a11262cb" group="commons-codec" name="commons-codec" version="1.6"/>
       <trusted-key id="d196a5e3e70732eeb2e5007f1861c322c56014b2" group="commons-collections" name="commons-collections" version="3.2.1"/>
       <trusted-key id="636de9055c4c75c7bd9830771241bc872c5e4ec0" group="commons-lang" name="commons-lang"/>
+      <trusted-key id="ce8075a251547bee249bc151a2115ae15f6b8b72" group="org.apache.commons" name="commons-compress"/>
       <trusted-key id="b6e73d84ea4fcc47166087253faad2cd5ecbb314" group="org.apache.commons" name="commons-lang3"/>
       <trusted-key id="b920d295bf0e61cb4cf0896c33cd6733af5ec452" group="commons-logging" name="commons-logging" version="1.1.1"/>
       <trusted-key id="1fa37fbe4453c1073e7ef61d6449005f96bc97a3" group="de.undercouch" name="gradle-download-task" version="4.*" regex="true"/>

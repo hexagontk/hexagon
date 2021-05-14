@@ -1,5 +1,7 @@
 package com.hexagonkt.store.mongodb
 
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.utility.DockerImageName
 import java.net.URL
 import java.nio.ByteBuffer
 import java.time.LocalDate
@@ -25,3 +27,7 @@ data class Company(
     val departments: Set<Department> = setOf(),
     val creationDate: LocalDateTime = LocalDateTime.now().truncatedTo(MILLIS)
 )
+
+val mongoDb: MongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:4.4-bionic"))
+    .withExposedPorts(27017)
+    .apply { start() }
