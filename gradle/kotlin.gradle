@@ -31,14 +31,13 @@ eclipse {
 
 repositories {
     mavenCentral()
-    jcenter() // TODO Delete After Detekt update
     mavenLocal()
 }
 
 dependencies {
     final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.5.0"
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.11.0"
-    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.1"
+    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.2"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$scriptKotlinVersion")
 
