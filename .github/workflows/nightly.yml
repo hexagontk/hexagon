@@ -2,14 +2,15 @@
 name: Nightly
 
 on:
-  schedule:
-    - cron: "59 23 * * *"
+#  schedule:
+#    - cron: "59 23 * * *"
+  - push
 
 jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -18,7 +19,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
@@ -32,13 +33,23 @@ jobs:
             ~/.gradle/wrapper
 
       # PROCESS
-      # TODO Run also in Windows and macOS ignoring store_mongodb:test and messaging_rabbitmq:test
       - name: Build Project
+        if: matrix.os == 'ubuntu-latest'
         run: ./gradlew --warn --console=plain build
         shell: bash
       - name: Log Build (ON FAILURE)
-        if: failure()
+        if: matrix.os == 'ubuntu-latest' && failure()
         run: ./gradlew --info --console=plain --stacktrace build
+        shell: bash
+      - name: Build Project WITHOUT Docker
+        if: matrix.os != 'ubuntu-latest'
+        run: ./gradlew --warn --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
+        shell: bash
+      - name: Log Build WITHOUT Docker (ON FAILURE)
+        if: matrix.os != 'ubuntu-latest' && failure()
+        run: >
+          ./gradlew --info --console=plain --stacktrace build
+          -x store_mongodb:test -x messaging_rabbitmq:test
         shell: bash
 
       # CLEAN UP
@@ -58,7 +69,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
@@ -93,7 +104,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
@@ -130,7 +141,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
