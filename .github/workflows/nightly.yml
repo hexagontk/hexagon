@@ -55,7 +55,7 @@ jobs:
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   sample_keystores:
     defaults:
@@ -90,7 +90,7 @@ jobs:
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   build_site:
     name: Build Site
@@ -121,7 +121,7 @@ jobs:
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   test_publishing:
     defaults:
@@ -156,4 +156,4 @@ jobs:
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
