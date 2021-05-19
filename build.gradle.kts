@@ -10,8 +10,6 @@
  * them.
  */
 
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
-
 plugins {
     kotlin("jvm") version("1.5.0") apply(false)
 
@@ -22,7 +20,6 @@ plugins {
 }
 
 apply(from = "gradle/certificates.gradle")
-apply(from = "gradle/docker.gradle")
 
 repositories {
     mavenCentral()
@@ -31,7 +28,6 @@ repositories {
 tasks.register<Delete>("clean") {
     group = "build"
     description = "Delete root project's generated artifacts, logs and error dumps."
-    dependsOn("cleanDocker")
 
     delete("build", "log", "out", ".vertx", "file-uploads", "config")
     delete(
@@ -71,35 +67,3 @@ task("release") {
         project.exec { commandLine = listOf("git", "push", "--tags") }
     }
 }
-
-tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
-    outputDirectory.set(file("hexagon_site/content/api"))
-    pluginsMapConfiguration.set(
-        mapOf(
-            "org.jetbrains.dokka.base.DokkaBase" to """{
-                "footerMessage": "<div style=\"color: red\">custom message</div>"
-                }"""
-        )
-    )
-}
-
-dependencies {
-    dokkaHtmlPlugin("org.jetbrains.dokka:dokka-base:1.4.32")
-}
-
-project
-    .getTasksByName("dokkaHtmlPartial", true)
-    .filterIsInstance<org.jetbrains.dokka.gradle.DokkaTaskPartial>()
-    .forEach {
-//        it.pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-//            customAssets = listOf(file("<path to asset>"))
-//            customStyleSheets = listOf(file("<path to custom stylesheet>"))
-//        }
-        it.pluginsMapConfiguration.set(
-            mapOf(
-                "org.jetbrains.dokka.base.DokkaBase" to """{
-                "footerMessage": "<div style=\"color: red\">custom message</div>"
-                }"""
-            )
-        )
-    }

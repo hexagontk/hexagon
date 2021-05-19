@@ -1,4 +1,6 @@
+
 import kotlin.math.floor
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
@@ -12,6 +14,8 @@ tasks.named<Delete>("clean") {
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
+    dependsOn(rootProject.getTasksByName("jacocoTestReport", true))
+    outputs.file(file("content/jacoco/jacoco.xml"))
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(
         rootProject.modulesPaths("src/main/kotlin") +
@@ -28,6 +32,23 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         xml.outputLocation.set(reportsOutput.resolve("jacoco.xml"))
     }
 }
+
+val dokkaConfiguration = mapOf(
+    "org.jetbrains.dokka.base.DokkaBase" to """{
+        "customStyleSheets": [ "${rootProject.file("hexagon_site/assets/css/dokka.css")}" ],
+        "footerMessage": "<div style=\"color: red\">custom message</div>"
+    }"""
+)
+
+rootProject.tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
+    outputDirectory.set(rootProject.file("hexagon_site/content/api"))
+    pluginsMapConfiguration.set(dokkaConfiguration)
+}
+
+rootProject
+    .getTasksByName("dokkaHtmlPartial", true)
+    .filterIsInstance<org.jetbrains.dokka.gradle.DokkaTaskPartial>()
+    .forEach { it.pluginsMapConfiguration.set(dokkaConfiguration) }
 
 task("mkdocs") {
     dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
@@ -105,7 +126,7 @@ tasks.register<Exec>("serveSite") {
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs")
-    commandLine("$dockerCommand $mkdocsMaterialImage build -csq".split(" "))
+    commandLine("$dockerCommand -u 1000:1000 $mkdocsMaterialImage build -csq".split(" "))
 }
 
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
