@@ -51,8 +51,8 @@ jobs:
         if: matrix.os != 'ubuntu-latest' && failure()
         run: >
           ./gradlew --info --console=plain --stacktrace build
-          -x store_mongodb:test -x messaging_rabbitmq:test
-          || cat build/reports/dependency-verification/at-*/dependency-verification-report.html
+          -x store_mongodb:test -x messaging_rabbitmq:test ;
+          cat build/reports/dependency-verification/at-*/dependency-verification-report.html
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -117,7 +117,7 @@ jobs:
       # PROCESS
       - name: Build Site
         run: |
-          ./gradlew --warn --console=plain --no-daemon build dokkaGfm
+          ./gradlew --warn --console=plain --no-daemon build
           ./gradlew --warn --console=plain --no-daemon -x test buildSite
 
       # CLEAN UP
@@ -157,8 +157,8 @@ jobs:
       - name: Test Publishing (ON FAILURE)
         if: failure()
         run: >
-          ./gradlew --info --console=plain --stacktrace --no-daemon publishToMavenLocal
-          || cat build/reports/dependency-verification/at-*/dependency-verification-report.html
+          ./gradlew --info --console=plain --stacktrace --no-daemon publishToMavenLocal ;
+          cat build/reports/dependency-verification/at-*/dependency-verification-report.html
 
       # CLEAN UP
       - name: Clean Gradle Cache
