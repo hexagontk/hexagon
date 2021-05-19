@@ -155,6 +155,7 @@ jobs:
       - name: Test Publishing
         run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
       - name: Test Publishing (ON FAILURE)
+        if: failure()
         run: >
           ./gradlew --info --console=plain --stacktrace --no-daemon publishToMavenLocal
           || cat build/reports/dependency-verification/at-*/dependency-verification-report.html
