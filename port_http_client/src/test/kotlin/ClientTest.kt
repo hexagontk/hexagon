@@ -17,6 +17,7 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.io.File
 import java.net.URL
+import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
 abstract class ClientTest(private val adapter: () -> ClientPort) {
@@ -93,10 +94,10 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
         val body = client.post("/", requestBody, Json.contentType).body
-        assert(body.toString().trim() == expectedBody)
+        assertEquals(expectedBody, body.toString().trim())
 
         val body2 = client.post("/", body = requestBody).body
-        assert(body2.toString().trim() == expectedBody)
+        assertEquals(expectedBody, body2.toString().trim())
 
         client.get("/")
         client.get("/")

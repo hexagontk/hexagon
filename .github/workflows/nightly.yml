@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    continue-on-error: true
     defaults:
       run: { shell: bash }
     strategy:
