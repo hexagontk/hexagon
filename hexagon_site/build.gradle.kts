@@ -13,9 +13,9 @@ tasks.named<Delete>("clean") {
     delete("build", "content")
 }
 
+// TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
     dependsOn(rootProject.getTasksByName("jacocoTestReport", true))
-    outputs.file(file("content/jacoco/jacoco.xml"))
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(
         rootProject.modulesPaths("src/main/kotlin") +
@@ -126,7 +126,7 @@ tasks.register<Exec>("serveSite") {
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs")
-    commandLine("$dockerCommand -u 1000:1000 $mkdocsMaterialImage build -csq".split(" "))
+    commandLine("$dockerCommand $mkdocsMaterialImage build -csq".split(" "))
 }
 
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
