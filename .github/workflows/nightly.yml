@@ -10,6 +10,8 @@ on:
 
 jobs:
   build:
+    defaults:
+      run: { shell: bash }
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
@@ -38,28 +40,25 @@ jobs:
       - name: Build Project
         if: matrix.os == 'ubuntu-latest'
         run: ./gradlew --warn --console=plain build
-        shell: bash
       - name: Log Build (ON FAILURE)
         if: matrix.os == 'ubuntu-latest' && failure()
         run: ./gradlew --info --console=plain --stacktrace build
-        shell: bash
       - name: Build Project WITHOUT Docker
         if: matrix.os != 'ubuntu-latest'
         run: ./gradlew --warn --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
-        shell: bash
       - name: Log Build WITHOUT Docker (ON FAILURE)
         if: matrix.os != 'ubuntu-latest' && failure()
         run: >
           ./gradlew --info --console=plain --stacktrace build
           -x store_mongodb:test -x messaging_rabbitmq:test
-        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
-        shell: bash
 
   sample_keystores:
+    defaults:
+      run: { shell: bash }
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
@@ -87,20 +86,14 @@ jobs:
       # PROCESS
       - name: Create Sample Keystores
         run: ./gradlew --warn --console=plain --no-daemon createCa createIdentities
-        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
-        shell: bash
 
   build_site:
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-
-    name: Build Site (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
+    name: Build Site
+    runs-on: ubuntu-latest
     steps:
 
       # SET UP
@@ -121,7 +114,6 @@ jobs:
 
       # PROCESS
       - name: Build Site
-        shell: bash
         run: |
           ./gradlew --warn --console=plain --no-daemon build dokkaGfm
           ./gradlew --warn --console=plain --no-daemon -x test buildSite
@@ -129,9 +121,10 @@ jobs:
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
-        shell: bash
 
   test_publishing:
+    defaults:
+      run: { shell: bash }
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
@@ -159,9 +152,7 @@ jobs:
       # PROCESS
       - name: Test Publishing
         run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
-        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
         run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
-        shell: bash
