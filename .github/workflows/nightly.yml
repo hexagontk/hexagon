@@ -49,9 +49,8 @@ jobs:
         run: ./gradlew --warn --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
       - name: Log Build WITHOUT Docker (ON FAILURE)
         if: matrix.os != 'ubuntu-latest' && failure()
-        run: >
-          ./gradlew --info --console=plain --stacktrace build
-          -x store_mongodb:test -x messaging_rabbitmq:test ;
+        run: |
+          ./gradlew -is --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
           cat build/reports/dependency-verification/at-*/dependency-verification-report.html
 
       # CLEAN UP
@@ -115,6 +114,7 @@ jobs:
             ~/.gradle/wrapper
 
       # PROCESS
+      # TODO Build site in one Gradle command instead requiring two
       - name: Build Site
         run: |
           ./gradlew --warn --console=plain --no-daemon build
