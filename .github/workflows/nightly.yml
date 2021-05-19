@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-    continue-on-error: true
     defaults:
       run: { shell: bash }
     strategy:
@@ -153,7 +152,7 @@ jobs:
 
       # PROCESS
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
+        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal -x test
       - name: Test Publishing (ON FAILURE)
         if: failure()
         run: >
