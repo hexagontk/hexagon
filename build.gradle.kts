@@ -74,4 +74,32 @@ task("release") {
 
 tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
     outputDirectory.set(file("hexagon_site/content/api"))
+    pluginsMapConfiguration.set(
+        mapOf(
+            "org.jetbrains.dokka.base.DokkaBase" to """{
+                "footerMessage": "<div style=\"color: red\">custom message</div>"
+                }"""
+        )
+    )
 }
+
+dependencies {
+    dokkaHtmlPlugin("org.jetbrains.dokka:dokka-base:1.4.32")
+}
+
+project
+    .getTasksByName("dokkaHtmlPartial", true)
+    .filterIsInstance<org.jetbrains.dokka.gradle.DokkaTaskPartial>()
+    .forEach {
+//        it.pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
+//            customAssets = listOf(file("<path to asset>"))
+//            customStyleSheets = listOf(file("<path to custom stylesheet>"))
+//        }
+        it.pluginsMapConfiguration.set(
+            mapOf(
+                "org.jetbrains.dokka.base.DokkaBase" to """{
+                "footerMessage": "<div style=\"color: red\">custom message</div>"
+                }"""
+            )
+        )
+    }
