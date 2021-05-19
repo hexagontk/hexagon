@@ -18,7 +18,7 @@ internal class SettingsTest {
     }
 
     @Test fun `Load environment variables add settings with provided prefixes`() {
-        assert(EnvironmentVariablesSource("PATH").load().size > 1)
+        assert(EnvironmentVariablesSource("PATH").load().isNotEmpty())
     }
 
     @Test fun `Load system properties add variables with provided prefixes`() {
