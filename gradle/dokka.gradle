@@ -27,6 +27,7 @@ setUpDokka(dokkaHtmlPartial)
 setUpDokka(dokkaJavadoc)
 
 private void setUpDokka(final Object dokkaTask) {
+    dokkaTask.dependsOn(test)
     dokkaTask.moduleName.set(project.name)
     dokkaTask.dokkaSourceSets {
         configureEach {

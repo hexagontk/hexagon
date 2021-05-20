@@ -14,6 +14,8 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS
 import java.io.File
 import java.net.URL
 
@@ -86,12 +88,16 @@ abstract class FilesTest(adapter: ServerPort) {
         assertResponseContains(response, 404)
     }
 
-    @Test fun `An static file from resources can be fetched`() {
+    @Test
+    @DisabledOnOs(OS.WINDOWS) // TODO Fix this test for MS Windows
+    fun `An static file from resources can be fetched`() {
         val response = client.get("/file.txt")
         assertResponseEquals(response, "file content\n")
     }
 
-    @Test fun `Files content type is returned properly`() {
+    @Test
+    @DisabledOnOs(OS.WINDOWS) // TODO Fix this test for MS Windows
+    fun `Files content type is returned properly`() {
         val response = client.get("/file.css")
         assert(response.contentType?.contains("css") ?: false)
         assertResponseEquals(response, "/* css */\n")

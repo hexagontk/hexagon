@@ -2,6 +2,7 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.injection.InjectionManager.bind
 import com.hexagonkt.injection.forceBind
+import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.convertToObject
@@ -18,6 +19,7 @@ internal class ServerTest {
 
     @BeforeAll fun initialize() {
         SerializationManager.formats = linkedSetOf(Json)
+        SerializationManager.mapper = JacksonMapper
     }
 
     @Test fun `Injected parameters`() {

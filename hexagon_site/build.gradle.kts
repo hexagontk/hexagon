@@ -1,4 +1,7 @@
+
 import kotlin.math.floor
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
@@ -11,7 +14,9 @@ tasks.named<Delete>("clean") {
     delete("build", "content")
 }
 
+// TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
+    dependsOn(rootProject.getTasksByName("jacocoTestReport", true))
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(
         rootProject.modulesPaths("src/main/kotlin") +
@@ -28,6 +33,33 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         xml.outputLocation.set(reportsOutput.resolve("jacoco.xml"))
     }
 }
+
+val footer = """
+    Made with <svg class=\"fa-heart\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\">
+    <path d=\"M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9
+    49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3
+    0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z\"></path></svg> by
+    <a href=\"https://github.com/hexagonkt/hexagon/graphs/contributors\">OSS contributors</a>.
+    Licensed under <a href=\"https://github.com/hexagonkt/hexagon/blob/master/license.md\">
+    MIT License</a>
+""".lines().joinToString(" ") { it.trim() }
+
+val dokkaConfiguration = mapOf(
+    "org.jetbrains.dokka.base.DokkaBase" to """{
+        "footerMessage": "$footer"
+    }"""
+)
+
+// TODO Make this task depend on 'assets' directory to update it upon changes on those CSS files
+rootProject.tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
+    outputDirectory.set(rootProject.file("hexagon_site/content/api"))
+    pluginsMapConfiguration.set(dokkaConfiguration)
+}
+
+rootProject
+    .getTasksByName("dokkaHtmlPartial", true)
+    .filterIsInstance<DokkaTaskPartial>()
+    .forEach { it.pluginsMapConfiguration.set(dokkaConfiguration) }
 
 task("mkdocs") {
     dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
@@ -48,6 +80,11 @@ task("mkdocs") {
             into(contentTarget)
         }
 
+        overwrite("assets/img/logo.svg", "$contentTarget/api/images/logo-icon.svg")
+        overwrite("assets/img/logo_white_text.svg", "$contentTarget/api/images/docs_logo.svg")
+        project.file("content/api/styles/main.css")
+            .appendText(project.file("assets/css/dokka.css").readText())
+
         val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
         markdownFiles.forEach { markdownFile ->
             var content = markdownFile.readText()
@@ -61,6 +98,10 @@ task("mkdocs") {
         generateCoverageBadge()
         generateDownloadBadge()
     }
+}
+
+fun overwrite(source: String, target: String) {
+    project.file(source).copyTo(file(target), true)
 }
 
 task("checkDocs") {

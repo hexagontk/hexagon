@@ -10,19 +10,16 @@
  * them.
  */
 
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
-
 plugins {
     kotlin("jvm") version("1.5.0") apply(false)
 
     id("idea")
     id("eclipse")
     id("org.jetbrains.dokka") version("1.4.32")
-    id("io.gitlab.arturbosch.detekt") version("1.16.0") apply(false)
+    id("io.gitlab.arturbosch.detekt") version("1.17.0") apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
-apply(from = "gradle/docker.gradle")
 
 repositories {
     mavenCentral()
@@ -31,7 +28,6 @@ repositories {
 tasks.register<Delete>("clean") {
     group = "build"
     description = "Delete root project's generated artifacts, logs and error dumps."
-    dependsOn("cleanDocker")
 
     delete("build", "log", "out", ".vertx", "file-uploads", "config")
     delete(
@@ -70,8 +66,4 @@ task("release") {
         project.exec { commandLine = listOf("git", "tag", "-m", "Release $release", release) }
         project.exec { commandLine = listOf("git", "push", "--tags") }
     }
-}
-
-tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
-    outputDirectory.set(file("hexagon_site/content/api"))
 }

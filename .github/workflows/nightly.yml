@@ -7,9 +7,11 @@ on:
 
 jobs:
   build:
+    defaults:
+      run: { shell: bash }
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
 
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -32,21 +34,28 @@ jobs:
             ~/.gradle/wrapper
 
       # PROCESS
-      # TODO Run also in Windows and macOS ignoring store_mongodb:test and messaging_rabbitmq:test
       - name: Build Project
+        if: matrix.os == 'ubuntu-latest'
         run: ./gradlew --warn --console=plain build
-        shell: bash
       - name: Log Build (ON FAILURE)
-        if: failure()
+        if: matrix.os == 'ubuntu-latest' && failure()
         run: ./gradlew --info --console=plain --stacktrace build
-        shell: bash
+      - name: Build Project WITHOUT Docker
+        if: matrix.os != 'ubuntu-latest'
+        run: ./gradlew --warn --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
+      - name: Log Build WITHOUT Docker (ON FAILURE)
+        if: matrix.os != 'ubuntu-latest' && failure()
+        run: |
+          ./gradlew -is --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
+          cat build/reports/dependency-verification/at-*/dependency-verification-report.html
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
-        shell: bash
+        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   sample_keystores:
+    defaults:
+      run: { shell: bash }
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
@@ -74,20 +83,14 @@ jobs:
       # PROCESS
       - name: Create Sample Keystores
         run: ./gradlew --warn --console=plain --no-daemon createCa createIdentities
-        shell: bash
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
-        shell: bash
+        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   build_site:
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-
-    name: Build Site (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
+    name: Build Site
+    runs-on: ubuntu-latest
     steps:
 
       # SET UP
@@ -107,18 +110,19 @@ jobs:
             ~/.gradle/wrapper
 
       # PROCESS
+      # TODO Build site in one Gradle command instead requiring two
       - name: Build Site
-        shell: bash
         run: |
-          ./gradlew --warn --console=plain --no-daemon build dokkaGfm
+          ./gradlew --warn --console=plain --no-daemon build
           ./gradlew --warn --console=plain --no-daemon -x test buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
-        shell: bash
+        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   test_publishing:
+    defaults:
+      run: { shell: bash }
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
@@ -145,10 +149,13 @@ jobs:
 
       # PROCESS
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
-        shell: bash
+        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal -x test
+      - name: Test Publishing (ON FAILURE)
+        if: failure()
+        run: >
+          ./gradlew --info --console=plain --stacktrace --no-daemon publishToMavenLocal ;
+          cat build/reports/dependency-verification/at-*/dependency-verification-report.html
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
-        shell: bash
+        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}

@@ -29,7 +29,7 @@ internal class CronSchedulerTest {
             error("Error in cron job")
         }
 
-        sleep((times * 1_000) + 150L)
+        sleep((times * 1_000) + 200L)
         cron.shutdown()
         assert(count == times)
     }

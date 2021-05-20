@@ -212,14 +212,3 @@ To set up this script's parameters, check the [build variables section]. These h
   be used.
 
 [Detekt]: https://detekt.github.io/detekt
-
-Docker
-------
-This script adds helper tasks for dealing with [Docker] inside a project. To use it
-you must apply the `$gradleScripts/docker.gradle` script to your `build.gradle` file.
-
-This script provides the following tasks:
-
-* `cleanDocker`: deletes unused containers, images, and volumes.
-
-[Docker]: https://www.docker.com

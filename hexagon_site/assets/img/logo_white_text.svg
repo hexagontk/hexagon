@@ -1,20 +1,19 @@
 
 <svg
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   width="1600"
-   height="360"
-   viewBox="0 0 1600 360">
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="1600"
+  height="360"
+  viewBox="0 0 1600 360">
 
   <defs>
     <style type="text/css">
       #logoUp { fill: #F5F5F5; }
       #logoDown { fill: #E5E5E5; }
       #text {
-        fill: #E5E5E5;
-        font-weight:800;
-        font-size:270px;
-        font-family:'Input Mono';
+        fill: hsla(0, 0%, 100%, 1);
+        font-size: 250px;
+        font-family: Helvetica, Arial;
       }
     </style>
 
@@ -26,8 +25,8 @@
   <g>
     <use id="logoUp" xlink:href="#logoPart" />
     <use id="logoDown" xlink:href="#logoPart" transform="matrix(-1, 0, 0, -1, 410, 355)" />
-    <text x="490" y="320" id="text" transform="matrix(1.1,0,-0.5,0.9,0,0)">
-      <tspan x="490" y="320">EXAGON</tspan>
+    <text x="490" y="280" id="text">
+      <tspan x="490" y="280">Hexagon</tspan>
     </text>
   </g>
 </svg>
