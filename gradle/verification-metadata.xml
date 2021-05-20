@@ -33,6 +33,7 @@
 
       <!-- Dependencies -->
       <trust group="org.jetbrains.kotlinx" name="kotlinx-html-.*" version="0.7.3" regex="true"/>
+      <trust group="org.jetbrains.kotlinx" name=".*-serialization-.*" version="1.1.0" regex="true"/>
       <trust group="io.netty" version="4.1.60.Final"/>
     </trusted-artifacts>
 
@@ -47,6 +48,7 @@
       <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="org.testcontainers"/>
       <trusted-key id="91268e187cdc92936df90106ac01d965c791b637" group="org.rnorth.visible-assertions"/>
       <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="org.rnorth.duct-tape"/>
+      <trusted-key id="8569c95cadc508b09fe90f3002216ed811210daa" group="io.github.detekt.sarif4k" name="sarif4k" version="0.0.1"/>
       <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="com.github.docker-java" version="3.2.8"/>
       <trusted-key id="4db1a49729b053caf015cee9a6adfc93ef34893e" group="org.hamcrest" name="hamcrest-core" version="1.3"/>
       <trusted-key id="ff6e2c001948c5f2f38b0cc385911f425ec61b51" group="junit" name="junit" version="4.13.1"/>

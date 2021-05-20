@@ -1,4 +1,7 @@
+
 import kotlin.math.floor
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
@@ -11,7 +14,9 @@ tasks.named<Delete>("clean") {
     delete("build", "content")
 }
 
+// TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
+    dependsOn(rootProject.getTasksByName("jacocoTestReport", true))
     executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
     sourceDirectories.from(
         rootProject.modulesPaths("src/main/kotlin") +
@@ -29,26 +34,44 @@ tasks.register<JacocoReport>("jacocoRootReport") {
     }
 }
 
+val footer = """
+    Made with <svg class=\"fa-heart\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\">
+    <path d=\"M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9
+    49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3
+    0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z\"></path></svg> by
+    <a href=\"https://github.com/hexagonkt/hexagon/graphs/contributors\">OSS contributors</a>.
+    Licensed under <a href=\"https://github.com/hexagonkt/hexagon/blob/master/license.md\">
+    MIT License</a>
+""".lines().joinToString(" ") { it.trim() }
+
+val dokkaConfiguration = mapOf(
+    "org.jetbrains.dokka.base.DokkaBase" to """{
+        "footerMessage": "$footer"
+    }"""
+)
+
+// TODO Make this task depend on 'assets' directory to update it upon changes on those CSS files
+rootProject.tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
+    outputDirectory.set(rootProject.file("hexagon_site/content/api"))
+    pluginsMapConfiguration.set(dokkaConfiguration)
+}
+
+rootProject
+    .getTasksByName("dokkaHtmlPartial", true)
+    .filterIsInstance<DokkaTaskPartial>()
+    .forEach { it.pluginsMapConfiguration.set(dokkaConfiguration) }
+
 task("mkdocs") {
-    dependsOn(tasks.named("jacocoRootReport"))
+    dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
 
     doLast {
         val contentTarget = project.file("content").absolutePath
-        val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
 
         rootProject.subprojects
-            .filter { subproject -> subproject.file("build/dokka/gfm").exists() }
+            .filter { subproject -> subproject.file("README.md").exists() }
             .forEach { subproject ->
-                val directory = subproject.file("build/dokka/gfm")
-                rootProject.copy {
-                    from(directory)
-                    include("index.md")
-                    into(contentTarget + "/" + subproject.name)
-                }
-                rootProject.copy {
-                    from(subproject.file("build/dokka/gfm/${subproject.name}"))
-                    into(contentTarget + "/" + subproject.name)
-                }
+                val readme = subproject.file("README.md")
+                readme.copyTo(file("$contentTarget/${subproject.name}.md"), true)
             }
 
         copy {
@@ -57,16 +80,12 @@ task("mkdocs") {
             into(contentTarget)
         }
 
-        // Hack to fix site tabs when two of them point to the same file
-        listOf("hexagon_core", "port_http_server", "port_http_client", "port_templates").forEach {
-            copy {
-                from(rootProject.file(it))
-                include("README.md")
-                into("$contentTarget/$it")
-                rename("(.*)", "${it}.md")
-            }
-        }
+        overwrite("assets/img/logo.svg", "$contentTarget/api/images/logo-icon.svg")
+        overwrite("assets/img/logo_white_text.svg", "$contentTarget/api/images/docs_logo.svg")
+        project.file("content/api/styles/main.css")
+            .appendText(project.file("assets/css/dokka.css").readText())
 
+        val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
         markdownFiles.forEach { markdownFile ->
             var content = markdownFile.readText()
             content = insertSamplesCode(rootProject.projectDir, content)
@@ -74,12 +93,15 @@ task("mkdocs") {
             markdownFile.writeText(content)
         }
 
-        rootProject.addMetadata(contentTarget)
         project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
 
         generateCoverageBadge()
         generateDownloadBadge()
     }
+}
+
+fun overwrite(source: String, target: String) {
+    project.file(source).copyTo(file(target), true)
 }
 
 task("checkDocs") {

@@ -48,8 +48,6 @@ internal class XmlTest {
                     <enabled>false</enabled>
                   </snapshots>
                   <id>central</id>
-                  <name>jcenter</name>
-                  <url>https://jcenter.bintray.com</url>
                 </repository>
               </repositories>
 
