@@ -1,0 +1,6 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.hexagonkt.serialization////PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/index.html
+$dokka.location:com.hexagonkt.serialization/Yaml///PointingToDeclaration/serialization_yaml/com.hexagonkt.serialization/-yaml/index.html
+com.hexagonkt.serialization
+

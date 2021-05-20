@@ -1,0 +1,22 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.hexagonkt.messaging.rabbitmq////PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/index.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapter///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter/index.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapter/RabbitMqAdapter/#kotlin.String/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter/-rabbit-mq-adapter.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapter/consume/#kotlin.reflect.KClass[TypeParam(bounds=[com.hexagonkt.messaging.Message])]#kotlin.String#kotlin.Function1[TypeParam(bounds=[com.hexagonkt.messaging.Message]),kotlin.Unit]/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter/consume.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqAdapter/publish/#com.hexagonkt.messaging.Message#kotlin.String/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-adapter/publish.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient///PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/index.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/RabbitMqClient/#com.rabbitmq.client.ConnectionFactory#kotlin.Int/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/-rabbit-mq-client.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/RabbitMqClient/#java.net.URI/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/-rabbit-mq-client.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/bindExchange/#kotlin.String#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/bind-exchange.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/call/#kotlin.String#kotlin.String/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/call.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/close/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/close.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/connected/#/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/connected.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/consume/#kotlin.String#kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.Function1[TypeParam(bounds=[kotlin.Any]),kotlin.Unit]/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/consume.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/consume/#kotlin.String#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.Function1[TypeParam(bounds=[kotlin.Any]),TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/consume.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/declareQueue/#kotlin.String/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/declare-queue.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/deleteQueue/#kotlin.String/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/delete-queue.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/publish/#kotlin.String#kotlin.String#kotlin.String#kotlin.String?/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/publish.html
+$dokka.location:com.hexagonkt.messaging.rabbitmq/RabbitMqClient/publish/#kotlin.String#kotlin.String#kotlin.String?/PointingToDeclaration/messaging_rabbitmq/com.hexagonkt.messaging.rabbitmq/-rabbit-mq-client/publish.html
+com.hexagonkt.messaging.rabbitmq
+

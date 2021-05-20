@@ -1,0 +1,12 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.hexagonkt.serialization////PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/index.html
+$dokka.location:com.hexagonkt.serialization/Csv///PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/index.html
+$dokka.location:com.hexagonkt.serialization/Csv/contentType/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/content-type.html
+$dokka.location:com.hexagonkt.serialization/Csv/extensions/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/extensions.html
+$dokka.location:com.hexagonkt.serialization/Csv/isBinary/#/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/is-binary.html
+$dokka.location:com.hexagonkt.serialization/Csv/parse/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/parse.html
+$dokka.location:com.hexagonkt.serialization/Csv/parseObjects/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/parse-objects.html
+$dokka.location:com.hexagonkt.serialization/Csv/serialize/#kotlin.Any#java.io.OutputStream/PointingToDeclaration/serialization_csv/com.hexagonkt.serialization/-csv/serialize.html
+com.hexagonkt.serialization
+

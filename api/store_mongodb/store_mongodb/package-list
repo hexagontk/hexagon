@@ -1,0 +1,39 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.hexagonkt.store.mongodb////PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/index.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/index.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/MongoDbMapper/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/-mongo-db-mapper.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/fields/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/fields.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/fromStore/#kotlin.String#kotlin.Any/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/from-store.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/fromStore/#kotlin.collections.Map[kotlin.String,kotlin.Any]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/from-store.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/toStore/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/to-store.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbMapper/toStore/#kotlin.String#kotlin.Any/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-mapper/to-store.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore.Companion///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/-companion/index.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore.Companion/database/#kotlin.String/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/-companion/database.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore///PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/index.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/MongoDbStore/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),TypeParam(bounds=[kotlin.Any])]#com.mongodb.client.MongoDatabase#kotlin.String#com.hexagonkt.store.Mapper[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/-mongo-db-store.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/MongoDbStore/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.reflect.KProperty1[TypeParam(bounds=[kotlin.Any]),TypeParam(bounds=[kotlin.Any])]#kotlin.String#kotlin.String/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/-mongo-db-store.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/collection/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/collection.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/count/#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/count.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/createIndex/#kotlin.Boolean#kotlin.collections.Map[kotlin.String,com.hexagonkt.store.IndexOrder]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/create-index.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/deleteMany/#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/delete-many.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/deleteOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/delete-one.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/drop/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/drop.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/findMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.Int?#kotlin.Int?#kotlin.collections.Map[kotlin.String,kotlin.Boolean]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/find-many.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/findMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.collections.List[kotlin.String]#kotlin.Int?#kotlin.Int?#kotlin.collections.Map[kotlin.String,kotlin.Boolean]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/find-many.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/findOne/#TypeParam(bounds=[kotlin.Any])#kotlin.collections.List[kotlin.String]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/find-one.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/findOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/find-one.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/insertMany/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/insert-many.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/insertOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/insert-one.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/key/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/key.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/mapper/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/mapper.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/name/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/name.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/replaceMany/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/replace-many.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/replaceOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/replace-one.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/saveMany/#kotlin.collections.List[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/save-many.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/saveOne/#TypeParam(bounds=[kotlin.Any])/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/save-one.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/type/#/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/type.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/updateMany/#kotlin.collections.Map[kotlin.String,*]#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/update-many.html
+$dokka.location:com.hexagonkt.store.mongodb/MongoDbStore/updateOne/#TypeParam(bounds=[kotlin.Any])#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/store_mongodb/com.hexagonkt.store.mongodb/-mongo-db-store/update-one.html
+com.hexagonkt.store.mongodb
+

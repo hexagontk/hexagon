@@ -1,0 +1,8 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.hexagonkt.logging////PointingToDeclaration/logging_slf4j_jul/com.hexagonkt.logging/index.html
+$dokka.location:com.hexagonkt.logging/Slf4jJulLoggingAdapter///PointingToDeclaration/logging_slf4j_jul/com.hexagonkt.logging/-slf4j-jul-logging-adapter/index.html
+$dokka.location:com.hexagonkt.logging/Slf4jJulLoggingAdapter/createLogger/#kotlin.String/PointingToDeclaration/logging_slf4j_jul/com.hexagonkt.logging/-slf4j-jul-logging-adapter/create-logger.html
+$dokka.location:com.hexagonkt.logging/Slf4jJulLoggingAdapter/setLoggerLevel/#kotlin.String#com.hexagonkt.logging.LoggingLevel/PointingToDeclaration/logging_slf4j_jul/com.hexagonkt.logging/-slf4j-jul-logging-adapter/set-logger-level.html
+com.hexagonkt.logging
+

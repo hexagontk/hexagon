@@ -1,0 +1,15 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.hexagonkt.http.server.servlet////PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/index.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter///PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/index.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter/ServletFilter/#kotlin.collections.List[com.hexagonkt.http.server.RequestHandler]#com.hexagonkt.http.server.ServerSettings/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/-servlet-filter.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter/destroy/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/destroy.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter/doFilter/#javax.servlet.ServletRequest#javax.servlet.ServletResponse#javax.servlet.FilterChain/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/do-filter.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletFilter/init/#javax.servlet.FilterConfig/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-filter/init.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer///PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/index.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer/ServletServer/#com.hexagonkt.http.server.Router#kotlin.Boolean/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/-servlet-server.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer/contextDestroyed/#javax.servlet.ServletContextEvent?/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/context-destroyed.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer/contextInitialized/#javax.servlet.ServletContextEvent/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/context-initialized.html
+$dokka.location:com.hexagonkt.http.server.servlet/ServletServer/createRouter/#/PointingToDeclaration/http_server_servlet/com.hexagonkt.http.server.servlet/-servlet-server/create-router.html
+com.hexagonkt.http.server.servlet
+

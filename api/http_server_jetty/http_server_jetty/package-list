@@ -1,0 +1,16 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.hexagonkt.http.server.jetty////PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/index.html
+$dokka.location:com.hexagonkt.http.server.jetty//serve/#com.hexagonkt.http.server.ServerSettings#com.hexagonkt.http.server.Router/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/serve.html
+$dokka.location:com.hexagonkt.http.server.jetty//serve/#com.hexagonkt.http.server.ServerSettings#kotlin.Function1[com.hexagonkt.http.server.Router,kotlin.Unit]/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/serve.html
+$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter///PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/index.html
+$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/JettyServletAdapter/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/-jetty-servlet-adapter.html
+$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/runtimePort/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/runtime-port.html
+$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/shutdown/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/shutdown.html
+$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/started/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/started.html
+$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/startup/#com.hexagonkt.http.server.Server/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/startup.html
+$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/supportedFeatures/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/supported-features.html
+$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/supportedOptions/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/supported-options.html
+$dokka.location:com.hexagonkt.http.server.jetty/JettyServletAdapter/supportedProtocols/#/PointingToDeclaration/http_server_jetty/com.hexagonkt.http.server.jetty/-jetty-servlet-adapter/supported-protocols.html
+com.hexagonkt.http.server.jetty
+

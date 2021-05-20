@@ -1,0 +1,8 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.hexagonkt.http.client.ahc////PointingToDeclaration/http_client_ahc/com.hexagonkt.http.client.ahc/index.html
+$dokka.location:com.hexagonkt.http.client.ahc/AhcAdapter///PointingToDeclaration/http_client_ahc/com.hexagonkt.http.client.ahc/-ahc-adapter/index.html
+$dokka.location:com.hexagonkt.http.client.ahc/AhcAdapter/AhcAdapter/#/PointingToDeclaration/http_client_ahc/com.hexagonkt.http.client.ahc/-ahc-adapter/-ahc-adapter.html
+$dokka.location:com.hexagonkt.http.client.ahc/AhcAdapter/send/#com.hexagonkt.http.client.Client#com.hexagonkt.http.client.Request/PointingToDeclaration/http_client_ahc/com.hexagonkt.http.client.ahc/-ahc-adapter/send.html
+com.hexagonkt.http.client.ahc
+
