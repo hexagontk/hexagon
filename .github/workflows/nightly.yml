@@ -2,8 +2,10 @@
 name: Nightly
 
 on:
-  schedule:
-    - cron: "59 23 * * *"
+  push:
+    branches-ignore: [ master ]
+#  schedule:
+#    - cron: "59 23 * * *"
 
 jobs:
   build:
@@ -18,6 +20,7 @@ jobs:
     steps:
 
       # SET UP
+      # TODO Use composite GitHub action (in `github_action` tag) when `uses` and `if` are supported
       - name: Check Out
         uses: actions/checkout@v2
         with: { ref: develop }
@@ -45,9 +48,7 @@ jobs:
         run: ./gradlew --warn --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
       - name: Log Build WITHOUT Docker (ON FAILURE)
         if: matrix.os != 'ubuntu-latest' && failure()
-        run: |
-          ./gradlew -is --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
-          cat build/reports/dependency-verification/at-*/dependency-verification-report.html
+        run: ./gradlew -is --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -110,15 +111,12 @@ jobs:
             ~/.gradle/wrapper
 
       # PROCESS
-      # TODO Build site in one Gradle command instead requiring two
       - name: Build Site
-        run: |
-          ./gradlew --warn --console=plain --no-daemon build
-          ./gradlew --warn --console=plain --no-daemon -x test buildSite
+        run: ./gradlew --warn --console=plain --no-daemon clean build buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   test_publishing:
     defaults:
@@ -149,12 +147,10 @@ jobs:
 
       # PROCESS
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal -x test
+        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
       - name: Test Publishing (ON FAILURE)
         if: failure()
-        run: >
-          ./gradlew --info --console=plain --stacktrace --no-daemon publishToMavenLocal ;
-          cat build/reports/dependency-verification/at-*/dependency-verification-report.html
+        run: ./gradlew --info --console=plain --stacktrace --no-daemon publishToMavenLocal
 
       # CLEAN UP
       - name: Clean Gradle Cache
