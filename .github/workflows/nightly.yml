@@ -2,10 +2,8 @@
 name: Nightly
 
 on:
-  push:
-    branches-ignore: [ master ]
-#  schedule:
-#    - cron: "59 23 * * *"
+  schedule:
+    - cron: "59 23 * * *"
 
 jobs:
   build:
