@@ -112,7 +112,9 @@ jobs:
 
       # PROCESS
       - name: Build Site
-        run: ./gradlew --warn --console=plain --no-daemon clean build buildSite
+        run: |
+          ./gradlew --warn --console=plain --no-daemon build
+          ./gradlew --warn --console=plain --no-daemon -x build buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -147,10 +149,10 @@ jobs:
 
       # PROCESS
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
+        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal -x test
       - name: Test Publishing (ON FAILURE)
         if: failure()
-        run: ./gradlew --info --console=plain --stacktrace --no-daemon publishToMavenLocal
+        run: ./gradlew --info --console=plain --stacktrace --no-daemon publishToMavenLocal -x test
 
       # CLEAN UP
       - name: Clean Gradle Cache
