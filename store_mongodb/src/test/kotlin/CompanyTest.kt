@@ -16,42 +16,43 @@ import java.nio.ByteBuffer
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
 internal class CompanyTest : StoreTest<Company, String>() {
-
-    override fun createTestEntities(): List<Company> = listOf (
-        Company(
-            id = "id",
-            foundation = LocalDate.of(2014, 1, 25),
-            closeTime = LocalTime.of(11, 42),
-            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 51),
-            web = URL("http://example.org"),
-            clients = listOf(
-                URL("http://c1.example.org"),
-                URL("http://c2.example.org")
-            ),
-            logo = ByteBuffer.wrap(byteArrayOf(0, 1, 2)),
-            notes = "notes",
-            people = setOf(
-                Person(name = "John"),
-                Person(name = "Mike")
-            ),
-            departments = setOf(DESIGN, DEVELOPMENT),
-            creationDate = LocalDateTime.of(2016, 1, 1, 0, 0, 0)
+    private val company = Company(
+        id = "id",
+        foundation = LocalDate.of(2014, 1, 25),
+        closeTime = LocalTime.of(11, 42),
+        openTime = LocalTime.of(8, 30)..LocalTime.of(14, 51),
+        web = URL("http://example.org"),
+        clients = listOf(
+            URL("http://c1.example.org"),
+            URL("http://c2.example.org")
         ),
-        Company(
-            id = "id1",
-            foundation = LocalDate.of(2014, 1, 25),
-            closeTime = LocalTime.of(11, 42),
-            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
-            web = URL("http://example.org"),
-            people = setOf(
-                Person(name = "John"),
-                Person(name = "Mike")
-            )
+        logo = ByteBuffer.wrap(byteArrayOf(0, 1, 2)),
+        notes = "notes",
+        people = setOf(
+            Person(name = "John"),
+            Person(name = "Mike")
+        ),
+        departments = setOf(DESIGN, DEVELOPMENT),
+        creationDate = LocalDateTime.of(2016, 1, 1, 0, 0, 0)
+    )
+
+    private val company1 = Company(
+        id = "id1",
+        foundation = LocalDate.of(2014, 1, 25),
+        closeTime = LocalTime.of(11, 42),
+        openTime = LocalTime.of(8, 30)..LocalTime.of(14, 36),
+        web = URL("http://example.org"),
+        people = setOf(
+            Person(name = "John"),
+            Person(name = "Mike")
         )
     )
+
+    override fun createTestEntities(): List<Company> = listOf (company, company1)
 
     private val mongodbUrl by lazy {
         SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
@@ -84,18 +85,45 @@ internal class CompanyTest : StoreTest<Company, String>() {
         insert_one_record_returns_the_proper_key()
     }
 
-    // TODO Check inserted data
-    @Test fun `Resources are loaded`() {
-        store.import(URL("classpath:companies.json"))
-        store.drop()
 
+    @Test fun `Resources are loaded from the file`() {
         // File paths change from IDE to build tool
         val file = File("hexagon_core/src/test/resources/data/companies.json").let {
             if (it.exists()) it
             else File("src/test/resources/companies.json")
         }
-
+        val storedEntity = company.copy(
+            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 51, 3),
+            people = setOf(
+                Person(name = "Mike"),
+                Person(name = "John")
+            ),
+            creationDate = LocalDateTime.of(2016, 8, 25, 17, 17, 4, 210000000)
+        )
         store.import(file)
+        val entities = store.findAll()
+
+        assert(entities.size == 1)
+        assertEquals(entities.first(), storedEntity)
+
+        store.drop()
+    }
+
+    @Test fun `Resources are loaded from the URL`() {
+        val storedEntity = company.copy(
+            openTime = LocalTime.of(8, 30)..LocalTime.of(14, 51, 3),
+            people = setOf(
+                Person(name = "Mike"),
+                Person(name = "John")
+            ),
+            creationDate = LocalDateTime.of(2016, 8, 25, 17, 17, 4, 210000000)
+        )
+        store.import(URL("classpath:companies.json"))
+        val entities = store.findAll()
+
+        assert(entities.size == 1)
+        assertEquals(entities.first(), storedEntity)
+
         store.drop()
     }
 }
