@@ -1,6 +1,6 @@
 
 # Disabling strict mode because of https://github.com/squidfunk/mkdocs-material/issues/1691
-# may be fixed in future releases.
+# TODO Set to 'strict' if the issue above is fixed in future releases
 strict: false
 dev_addr: 127.0.0.1:8000
 
@@ -54,7 +54,7 @@ nav:
     - Core: hexagon_core.md
     - HTTP Server: port_http_server.md
     - HTTP Client: port_http_client.md
-#    - Templates: port_templates/port_templates.md
+    - Templates: port_templates/port_templates.md
     - Gradle Helpers: gradle.md
     - Maven Parent POM: maven.md
   - API: api
@@ -65,7 +65,7 @@ nav:
     - Code Examples:
       - HTTP Server: examples/http_server_examples.md
       - HTTP Client: examples/http_client_examples.md
-#      - Templates: examples/templates_examples.md
+      - Templates: examples/templates_examples.md
   - Community:
     - Help and Support: help.md
     - Planning: planning.md
