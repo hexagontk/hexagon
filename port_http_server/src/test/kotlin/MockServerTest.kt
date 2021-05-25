@@ -20,14 +20,14 @@ internal class MockServerTest {
     }
 
     @Test fun `Basic server is created correctly`() {
-        val mockServer = MockServer("https://petstore3.swagger.io/api/v3/openapi.json")
+        val mockServer = MockServer("petstore_openapi.json")
         val server = mockServer.server
 
         assert(server.settings.bindAddress.hostAddress == "127.0.0.1")
     }
 
     @Test fun `Server at specific port is created correctly`() {
-        val mockServer = MockServer("https://petstore3.swagger.io/api/v3/openapi.json", port = 9090)
+        val mockServer = MockServer("petstore_openapi.json", port = 9090)
         val server = mockServer.server
 
         assert(server.settings.bindAddress.hostAddress == "127.0.0.1")
