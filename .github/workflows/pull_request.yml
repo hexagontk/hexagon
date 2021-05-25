@@ -27,10 +27,10 @@ jobs:
 
       # PROCESS
       - name: Build Project
-        run: ./gradlew --warn --console=plain build
+        run: ./gradlew build
       - name: Log Build (ON FAILURE)
         if: failure()
-        run: ./gradlew --info --stacktrace --console=plain build
+        run: ./gradlew --info --stacktrace build
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -58,7 +58,7 @@ jobs:
 
       # PROCESS
       - name: Create Sample Keystores
-        run: ./gradlew --warn --console=plain createCa createIdentities
+        run: ./gradlew createCa createIdentities
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -87,8 +87,8 @@ jobs:
       # PROCESS
       - name: Build Site
         run: |
-          ./gradlew --warn --console=plain --no-daemon build
-          ./gradlew --warn --console=plain --no-daemon -x test buildSite
+          ./gradlew --no-daemon build
+          ./gradlew --no-daemon -x build buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -116,7 +116,7 @@ jobs:
 
       # PROCESS
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal
+        run: ./gradlew --no-daemon publishToMavenLocal
 
       # CLEAN UP
       - name: Clean Gradle Cache

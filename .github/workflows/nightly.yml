@@ -37,16 +37,16 @@ jobs:
       # PROCESS
       - name: Build Project
         if: matrix.os == 'ubuntu-latest'
-        run: ./gradlew --warn --console=plain build
+        run: ./gradlew build
       - name: Log Build (ON FAILURE)
         if: matrix.os == 'ubuntu-latest' && failure()
-        run: ./gradlew --info --console=plain --stacktrace build
+        run: ./gradlew --info --stacktrace build
       - name: Build Project WITHOUT Docker
         if: matrix.os != 'ubuntu-latest'
-        run: ./gradlew --warn --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
+        run: ./gradlew build -x store_mongodb:test -x messaging_rabbitmq:test
       - name: Log Build WITHOUT Docker (ON FAILURE)
         if: matrix.os != 'ubuntu-latest' && failure()
-        run: ./gradlew -is --console=plain build -x store_mongodb:test -x messaging_rabbitmq:test
+        run: ./gradlew -is build -x store_mongodb:test -x messaging_rabbitmq:test
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -81,7 +81,7 @@ jobs:
 
       # PROCESS
       - name: Create Sample Keystores
-        run: ./gradlew --warn --console=plain --no-daemon createCa createIdentities
+        run: ./gradlew --no-daemon createCa createIdentities
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -111,8 +111,8 @@ jobs:
       # PROCESS
       - name: Build Site
         run: |
-          ./gradlew --warn --console=plain --no-daemon build
-          ./gradlew --warn --console=plain --no-daemon -x build buildSite
+          ./gradlew --no-daemon build
+          ./gradlew --no-daemon -x build buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -147,10 +147,10 @@ jobs:
 
       # PROCESS
       - name: Test Publishing
-        run: ./gradlew --warn --console=plain --no-daemon publishToMavenLocal -x test
+        run: ./gradlew --no-daemon publishToMavenLocal -x test
       - name: Test Publishing (ON FAILURE)
         if: failure()
-        run: ./gradlew --info --console=plain --stacktrace --no-daemon publishToMavenLocal -x test
+        run: ./gradlew --info --stacktrace --no-daemon publishToMavenLocal -x test
 
       # CLEAN UP
       - name: Clean Gradle Cache

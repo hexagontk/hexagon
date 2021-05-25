@@ -3,8 +3,7 @@ name: Release
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   build:
@@ -29,10 +28,10 @@ jobs:
 
       # PROCESS
       - name: Build Project
-        run: ./gradlew --warn --console=plain build
+        run: ./gradlew build
       - name: Log Build (ON FAILURE)
         if: failure()
-        run: ./gradlew --info --stacktrace --console=plain build
+        run: ./gradlew --info --stacktrace build
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -60,7 +59,7 @@ jobs:
 
       # PROCESS
       - name: Create Sample Keystores
-        run: ./gradlew --warn --console=plain createCa createIdentities
+        run: ./gradlew createCa createIdentities
 
       # CLEAN UP
       - name: Clean Gradle Cache
@@ -97,8 +96,8 @@ jobs:
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
-          ./gradlew --info --console=plain --no-daemon build
-          ./gradlew --info --console=plain --no-daemon -x test buildSite
+          ./gradlew --info --no-daemon build
+          ./gradlew --info --no-daemon -x build buildSite
 
       - name: Publish Packages
         env:
@@ -106,7 +105,7 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew --info --console=plain --no-daemon -x test release
+        run: ./gradlew --info --no-daemon -x test release
 
       - name: Publish Site
         run: |
