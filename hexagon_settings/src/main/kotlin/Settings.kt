@@ -7,7 +7,7 @@ import com.hexagonkt.serialization.serialize
 import kotlin.reflect.KClass
 
 class Settings<T : Any>(
-    private val type: KClass<T>,
+    private val type: KClass<T>, // TODO Move to 'load' method and store only the map
     private val sources: List<SettingsSource> = emptyList()
 ) {
 
