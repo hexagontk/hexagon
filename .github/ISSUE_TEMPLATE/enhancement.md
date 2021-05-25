@@ -10,14 +10,12 @@ labels: enhancement
 
 Detailed description.
 
-Acceptance criteria. A list of requirements with the following format:
+Reason for the change or new development.
 
-```
-When *action* then *result*
-```
+Acceptance criteria to verify the development. A list of requirements with the following format:
+
+`When *action* then *result*`
 
 For example:
 
-```
-When this is done then that other thing should happen
-```
+`When this is done then that other thing should happen`

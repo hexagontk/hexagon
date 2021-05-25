@@ -1,19 +1,17 @@
 
 
-# Summary [#TaskId] [:Tag] [!!!]
+# Summary limited to 50 characters [#TaskId] [:Tag] [!!!]
 #
-# [Details]
+# [Details wrapped at 72 characters]
 #
-#  1. Capitalize the summary line
-#  2. Use the imperative mood in the summary line
-#  3. Do not end the summary line with a period
-#  4. Limit the summary line to 50 characters
-#  5. Any word starting with ':' is a tag, you can have any number of them
-#  6. 'TaskId', 'Tag', '!!!' and 'Details' are optional
-#  7. If the summary contains "!!!" the commit contains breaking changes
-#  8. Separate summary from details with a blank line
-#  9. Wrap the details at 72 characters
-# 10. Use the details to explain what and why vs. how
+# 1. Capitalize summary line
+# 2. Use imperative mood in summary line
+# 3. Do not end summary line with a period
+# 4. 'TaskId', 'Tag', '!!!' and 'Details' are optional
+# 5. You can set multiple tags. I.e.: :doc :test :chore
+# 6. Summary with '!!!' means breaking changes
+# 7. Separate summary from details with a blank line
+# 8. Use details to explain what and why vs. how
 #
-# These rules are inspired by https://chris.beams.io/posts/git-commit
+# Inspired by https://chris.beams.io/posts/git-commit
 # and https://www.conventionalcommits.org
