@@ -52,7 +52,7 @@ internal class CompanyTest : StoreTest<Company, String>() {
         )
     )
 
-    override fun createTestEntities(): List<Company> = listOf (company, company1)
+    override fun createTestEntities(): List<Company> = listOf(company, company1)
 
     private val mongodbUrl by lazy {
         SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
