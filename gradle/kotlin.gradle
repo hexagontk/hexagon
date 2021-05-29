@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.5.0"
+    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.5.10"
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.11.0"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.2"
 
