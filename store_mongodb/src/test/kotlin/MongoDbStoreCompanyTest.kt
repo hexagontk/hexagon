@@ -25,7 +25,7 @@ import java.util.TimeZone
 internal class MongoDbStoreCompanyTest {
 
     private val mongodbUrl by lazy {
-        SettingsManager.instance<Map<*, *>>()["mongodbUrl"] as? String?
+        SettingsManager.settings.parameters["mongodbUrl"] as? String?
             ?: "mongodb://localhost:${mongoDb.getMappedPort(27017)}/test"
     }
 
@@ -54,15 +54,8 @@ internal class MongoDbStoreCompanyTest {
     private fun changeObject(obj: Company) =
         obj.copy(web = URL("http://change.example.org"))
 
-    companion object {
-        @BeforeAll
-        @JvmStatic
-        fun resetTimeZone() {
-            TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
-        }
-    }
-
     @BeforeAll fun initialize() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
         SerializationManager.formats = linkedSetOf(Json)
         SerializationManager.mapper = JacksonMapper
     }

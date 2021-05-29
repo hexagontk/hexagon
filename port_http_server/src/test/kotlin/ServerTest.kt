@@ -24,7 +24,7 @@ internal class ServerTest {
 
     @Test fun `Injected parameters`() {
         forceBind(ServerPort::class, VoidAdapter)
-        bind(SettingsManager.instance<Map<*, *>>().convertToObject<ServerSettings>())
+        bind(SettingsManager.settings.parameters.convertToObject<ServerSettings>())
 
         val server = Server {}
 

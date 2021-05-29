@@ -4,6 +4,7 @@ import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.Yaml
+import com.hexagonkt.serialization.convertToObject
 import org.junit.jupiter.api.Test
 
 internal class HexagonSettingsSamplesTest {
@@ -21,7 +22,6 @@ internal class HexagonSettingsSamplesTest {
         )
 
         SettingsManager.settings = Settings(
-            Configuration::class,
             ObjectSource(
                 "stringProperty" to "str",
                 "integerProperty" to 101,
@@ -29,7 +29,7 @@ internal class HexagonSettingsSamplesTest {
             )
         )
 
-        val configuration = SettingsManager.instance<Configuration>()
+        val configuration = SettingsManager.settings.parameters.convertToObject<Configuration>()
         assert(configuration.stringProperty == "str")
         assert(configuration.integerProperty == 101)
         assert(configuration.booleanProperty)

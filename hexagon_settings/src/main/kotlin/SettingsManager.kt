@@ -21,9 +21,5 @@ object SettingsManager {
         )
     }
 
-    var settings: Settings<*> = Settings(Map::class, defaultSources)
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T : Any> instance(): T =
-        settings.instance as? T ?: error("")
+    var settings: Settings = Settings(defaultSources)
 }

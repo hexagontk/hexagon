@@ -2,25 +2,17 @@ package com.hexagonkt.settings
 
 import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.convertToObject
 import com.hexagonkt.serialization.serialize
-import kotlin.reflect.KClass
 
-class Settings<T : Any>(
-    private val type: KClass<T>, // TODO Move to 'load' method and store only the map
-    private val sources: List<SettingsSource> = emptyList()
-) {
+class Settings(private val sources: List<SettingsSource> = emptyList()) {
 
-    constructor(type: KClass<T>, vararg sources: SettingsSource) :
-        this(type, sources.toList())
+    constructor(vararg sources: SettingsSource) :
+        this(sources.toList())
 
-    private val log: Logger = Logger(this::class)
+    private val log: Logger by lazy { Logger(this::class) }
 
-    val instance: T = loadSettings()
-
-    private fun loadSettings(): T {
-
-        val sourcesProperties = sources
+    val parameters: Map<*, *> by lazy {
+        sources
             .map {
                 it.load().also { s ->
                     if (s.isEmpty()) {
@@ -34,13 +26,9 @@ class Settings<T : Any>(
                     }
                 }
             }
-
-        return if (sourcesProperties.isEmpty())
-            emptyMap<Any, Any>().convertToObject(type)
-        else
-            sourcesProperties.reduce { a, b -> a + b }.convertToObject(type)
+            .let {
+                if (it.isEmpty()) emptyMap<Any, Any>()
+                else it.reduce { a, b -> a + b }
+            }
     }
-
-    override fun toString(): String =
-        "Settings wrapped in $type class"
 }
