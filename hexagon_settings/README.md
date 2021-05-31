@@ -39,11 +39,14 @@ sources, the default ones are (bottom sources override top ones):
 7. Resource `/application_test.json`.
 8. Resource `/application_test.yml`.
 
-Default to map
+Configuration parameters are loaded from the defined sources into a map. Latter sources override
+previous parameters with the same name if they exist.
 
-Loaded into type
+!!! Tip
+    The map with configuration parameters can be converted to any type using the `convertToObject`
+    utility method in Core serialization helpers. TODO Add links to the methods/modules.
 
-Optional simple settings can be handled with data classes
+TODO Add example of defining simple settings using data classes instead this module.
 
 Below there is a code fragment showing how to add custom settings sources and load its properties:
 
