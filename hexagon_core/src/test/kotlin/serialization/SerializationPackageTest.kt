@@ -54,7 +54,7 @@ internal class SerializationPackageTest {
             company.copy(id = "id2")
         )
         val maps = objects.map { it.convertToMap() }
-        val objects2 = maps.convertToObjects<Company>()
+        val objects2 = maps.map { it.convertToObject<Company>() }
 
         assert(objects == objects2)
         assert(objects !== objects2)

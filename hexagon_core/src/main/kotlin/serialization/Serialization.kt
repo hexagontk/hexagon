@@ -10,20 +10,15 @@ import java.net.URL
 import kotlin.reflect.KClass
 
 // MAPPING /////////////////////////////////////////////////////////////////////////////////////////
+// TODO Use toFieldsMap and toObject
 fun Any.convertToMap(): Map<*, *> =
     requireMapper().convertToMap(this)
 
 fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T =
     requireMapper().convertToObject(this, type)
 
-fun <T : Any> List<Map<*, *>>.convertToObjects(type: KClass<T>): List<T> =
-    this.map { it.convertToObject(type) }
-
 inline fun <reified T : Any> Map<*, *>.convertToObject(): T =
     this.convertToObject(T::class)
-
-inline fun <reified T : Any> List<Map<*, *>>.convertToObjects(): List<T> =
-    this.convertToObjects(T::class)
 
 fun Any.serialize(format: SerializationFormat = requireDefaultFormat()): String =
     format.serialize(this)

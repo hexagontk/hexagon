@@ -52,7 +52,7 @@ abstract class SerializationTest<out T : Any>(private val type: KClass<T>) {
 
             assert(tempFile.parseObjects<Map<*, *>>() == testMaps)
             assert(testMaps == serializedObjects.parseObjects<Map<*, *>>(contentType))
-            assert(testObjects == testMaps.convertToObjects(type))
+            assert(testObjects == testMaps.map { it.convertToObject(type) })
         }
 
         val modelListString = testObjects.serialize()
