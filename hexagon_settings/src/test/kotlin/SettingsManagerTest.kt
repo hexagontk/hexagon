@@ -1,6 +1,6 @@
 package com.hexagonkt.settings
 
-import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.serialization.toObject
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
@@ -54,7 +54,7 @@ internal class SettingsManagerTest {
 
     @Test fun `Settings works as expected`() {
 
-        val settings = Settings(defaultSources).parameters.convertToObject<Configuration>()
+        val settings = Settings(defaultSources).parameters.toObject<Configuration>()
 
         assert(settings.property == "value")
         assert(settings.intProperty == 42)
@@ -63,13 +63,13 @@ internal class SettingsManagerTest {
 
     @Test fun `Get configuration properties with empty properties load properly`() {
 
-        val settings = Settings().parameters.convertToObject<Configuration>()
+        val settings = Settings().parameters.toObject<Configuration>()
         assert(settings.global == "default")
     }
 
     @Test fun `Get configuration properties with defaults`() {
 
-        val settings = Settings(defaultSources).parameters.convertToObject<Configuration>()
+        val settings = Settings(defaultSources).parameters.toObject<Configuration>()
 
         assert(settings.integer == 0)
         assert(settings.foo == "bar")
@@ -85,7 +85,7 @@ internal class SettingsManagerTest {
             UrlSource("file:$SETTINGS_FILE.yml"),
             UrlSource("classpath:${SETTINGS_FILE}_test.yml"),
             UrlSource("classpath:integration.json"),
-        ).parameters.convertToObject<Configuration>()
+        ).parameters.toObject<Configuration>()
 
         assert(settings.property == "final property")
         assert(settings.intProperty == 42)
@@ -104,7 +104,7 @@ internal class SettingsManagerTest {
             SystemPropertiesSource(SETTINGS_FILE),
             UrlSource("file:$SETTINGS_FILE.yml"),
             UrlSource("classpath:${SETTINGS_FILE}_test.yml"),
-        ).parameters.convertToObject<Configuration>()
+        ).parameters.toObject<Configuration>()
 
         assert(settings.property == "value")
         assert(settings.intProperty == 42)
@@ -121,7 +121,7 @@ internal class SettingsManagerTest {
             )
         )
 
-        val localSettings = settings.parameters.convertToObject<Configuration>()
+        val localSettings = settings.parameters.toObject<Configuration>()
 
         assert(localSettings.foo == "str")
         assert(localSettings.integer == 101)
@@ -137,7 +137,7 @@ internal class SettingsManagerTest {
             UrlSource("file:$SETTINGS_FILE.yml"),
             UrlSource("classpath:${SETTINGS_FILE}_test.yml"),
             CommandLineArgumentsSource(listOf("key=val", "param=data")),
-        ).parameters.convertToObject<Configuration>()
+        ).parameters.toObject<Configuration>()
 
         assert(settings.key == "val")
         assert(settings.param == "data")

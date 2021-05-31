@@ -11,14 +11,14 @@ import kotlin.reflect.KClass
 
 // MAPPING /////////////////////////////////////////////////////////////////////////////////////////
 // TODO Use toFieldsMap and toObject
-fun Any.convertToMap(): Map<*, *> =
-    requireMapper().convertToMap(this)
+fun Any.toFieldsMap(): Map<*, *> =
+    requireMapper().toFieldsMap(this)
 
-fun <T : Any> Map<*, *>.convertToObject(type: KClass<T>): T =
-    requireMapper().convertToObject(this, type)
+fun <T : Any> Map<*, *>.toObject(type: KClass<T>): T =
+    requireMapper().toObject(this, type)
 
-inline fun <reified T : Any> Map<*, *>.convertToObject(): T =
-    this.convertToObject(T::class)
+inline fun <reified T : Any> Map<*, *>.toObject(): T =
+    this.toObject(T::class)
 
 fun Any.serialize(format: SerializationFormat = requireDefaultFormat()): String =
     format.serialize(this)

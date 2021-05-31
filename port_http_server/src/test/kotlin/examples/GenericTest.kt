@@ -13,7 +13,7 @@ import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.serialization.toObject
 import com.hexagonkt.serialization.parse
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -49,7 +49,7 @@ abstract class GenericTest(adapter: ServerPort) {
             val tagsMaps = request.bodyObjects<Map<String, *>>()
 
             assert(tags.first() == tag)
-            assert(tagMap.convertToObject(Tag::class) == tag)
+            assert(tagMap.toObject(Tag::class) == tag)
             assert(tagsMaps.first() == tagMap)
             assert(requestType == requestFormat.contentType)
 
