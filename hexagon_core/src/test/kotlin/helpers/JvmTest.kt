@@ -1,8 +1,11 @@
 package com.hexagonkt.helpers
 
+import com.hexagonkt.helpers.Jvm.NO_JMX_ERROR
 import org.junit.jupiter.api.Test
 import java.lang.management.ManagementFactory
 import java.net.Inet4Address
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 internal class JvmTest {
 
@@ -40,5 +43,19 @@ internal class JvmTest {
         System.setProperty("com.hexagonkt.noJmx", "true")
         assert(Jvm.safeJmx { ManagementFactory.getRuntimeMXBean().name } == "N/A")
         System.clearProperty("com.hexagonkt.noJmx")
+    }
+
+    @Test fun `'safeJmx' gives proper information on exceptions`() {
+        System.clearProperty("com.hexagonkt.noJmx")
+
+        val exception = assertFailsWith<IllegalStateException> {
+            (Jvm.safeJmx { error("Internal error") } == "N/A")
+        }
+
+        val cause = exception.cause
+
+        assert(cause is IllegalStateException)
+        assertEquals("Internal error", cause?.message)
+        assertEquals(NO_JMX_ERROR, exception.message)
     }
 }

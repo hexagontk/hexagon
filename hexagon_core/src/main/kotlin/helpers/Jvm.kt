@@ -1,5 +1,6 @@
 package com.hexagonkt.helpers
 
+import java.lang.IllegalStateException
 import java.lang.management.ManagementFactory
 import java.lang.management.MemoryUsage
 import java.net.InetAddress
@@ -40,6 +41,10 @@ object Jvm {
 
     private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }
 
+    private const val NO_JMX_PROPERTY = "com.hexagonkt.noJmx"
+    internal const val NO_JMX_ERROR =
+        "JMX Error. If JMX is not available, set the '$NO_JMX_PROPERTY' system property"
+
     fun initialMemory(): String =
         safeJmx { "%,d".format(heap.init / 1024) }
 
@@ -56,5 +61,11 @@ object Jvm {
         systemSetting(name) ?: default
 
     internal fun safeJmx(block: () -> String): String =
-        if (System.getProperty("com.hexagonkt.noJmx") == null) block() else "N/A"
+        try {
+            if (System.getProperty(NO_JMX_PROPERTY) == null) block()
+            else "N/A"
+        }
+        catch (e: Exception) {
+            throw IllegalStateException(NO_JMX_ERROR, e)
+        }
 }
