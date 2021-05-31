@@ -31,6 +31,15 @@ a desktop application), you can import it with the following code:
     </dependency>
     ```
 
+### URLs
+
+TODO Note that GraalVM requires to install the Classpath handler manually with
+`ClasspathHandlerProvider.registerHandler`.
+
+### JVM Information
+
+TODO Add information about the system property that disables JMX.
+
 ### Logger
 
 The following code block shows the most common use cases for the [Logger] class:
