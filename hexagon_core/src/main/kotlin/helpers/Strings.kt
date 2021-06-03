@@ -6,7 +6,7 @@ import java.lang.System.getProperty
 import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
 
-/** Variable prefix for string filtering. */
+/** Variable prefix for string filtering. The format resembles Mustache's one: `{{variable}}`. */
 private const val VARIABLE_PREFIX = "{{"
 /** Variable suffix for string filtering. */
 private const val VARIABLE_SUFFIX = "}}"
