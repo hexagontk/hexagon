@@ -2,7 +2,7 @@ package com.hexagonkt.web
 
 import com.hexagonkt.http.server.Call
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.templates.TemplateEngine
+import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.TemplatePort
 import kotlinx.html.HTML
 import kotlinx.html.html
@@ -49,14 +49,7 @@ fun Call.obtainLocale(): Locale = when {
 }
 
 fun Call.template(
-    templateAdapter: TemplatePort,
-    templateName: String,
-    locale: Locale = obtainLocale(),
-    context: Map<String, *> = fullContext()
-) = template(TemplateEngine(templateAdapter), templateName, locale, context)
-
-fun Call.template(
-    templateEngine: TemplateEngine,
+    templateEngine: TemplatePort,
     templateName: String,
     locale: Locale = obtainLocale(),
     context: Map<String, *> = fullContext()
@@ -64,6 +57,16 @@ fun Call.template(
 
     templateType(templateName)
     ok(templateEngine.render(templateName, locale, context))
+}
+
+fun Call.template(
+    templateName: String,
+    locale: Locale = obtainLocale(),
+    context: Map<String, *> = fullContext()
+) {
+
+    templateType(templateName)
+    ok(TemplateManager.render(templateName, locale, context))
 }
 
 /**
