@@ -2,8 +2,10 @@
 name: Nightly
 
 on:
-  schedule:
-    - cron: "59 23 * * *"
+  push:
+    branches-ignore: [ master ]
+#  schedule:
+#    - cron: "59 23 * * *"
 
 jobs:
   build:
@@ -21,7 +23,7 @@ jobs:
       # TODO Use composite GitHub action (in `github_action` tag) when `uses` and `if` are supported
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
@@ -66,7 +68,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
@@ -95,7 +97,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
@@ -132,7 +134,7 @@ jobs:
       # SET UP
       - name: Check Out
         uses: actions/checkout@v2
-        with: { ref: develop }
+#        with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
         with: { java-version: 11, distribution: adopt }
