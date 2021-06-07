@@ -43,9 +43,9 @@ object InjectionManager {
         bind(type, Instance(instance), tag)
     }
 
-    fun <T : Any, R : T> bind(type: KClass<T>, instance: R) {
-        bind(type, instance, Unit)
-    }
+//    fun <T : Any, R : T> bind(type: KClass<T>, instance: R) {
+//        bind(type, instance, Unit)
+//    }
 
     inline fun <reified T : Any> bind(tag: Any, noinline provider: () -> T) =
         bind(T::class, Generator(provider), tag)
@@ -103,8 +103,7 @@ object InjectionManager {
         bindings
             .filter { it.key.type == type }
             .map { it.key.tag to it.value.provide() as T }
-            .map { it.first to it.second }
-            .toMap()
+            .associate { it.first to it.second }
 
     @Suppress("UNCHECKED_CAST") // bind operation takes care of type matching
     fun <T : Any> inject(type: KClass<T>, tag: Any): T =
