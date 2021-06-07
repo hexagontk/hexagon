@@ -18,7 +18,7 @@ import java.util.TimeZone
  */
 object Jvm {
     /** Default timezone. TODO Defining this lazily fails in macOS */
-    val timeZone: TimeZone = TimeZone.getDefault()
+    val timeZone: TimeZone by lazy { TimeZone.getDefault() }
 
     /** Default character set. */
     val charset: Charset by lazy { Charset.defaultCharset() }
