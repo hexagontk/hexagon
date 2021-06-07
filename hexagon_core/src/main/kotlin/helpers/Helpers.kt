@@ -6,7 +6,9 @@ import java.io.File
 import java.io.InputStreamReader
 import java.net.ServerSocket
 import java.net.Socket
+import java.util.*
 import java.util.concurrent.TimeUnit.SECONDS
+import kotlin.reflect.KClass
 
 /** Default logger for when you feel too lazy to declare one. */
 val logger: Logger by lazy { Logger(Logger::class) }
@@ -34,6 +36,27 @@ fun <T> T.println(prefix: String = ""): T =
  */
 fun <T> T.trace(prefix: String = ""): T =
     apply { logger.trace { "$prefix$this" } }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param locale .
+ * @return .
+ */
+inline fun <reified T : ResourceBundle> resourceBundle(
+    locale: Locale = Locale.getDefault()): ResourceBundle =
+        resourceBundle(T::class, locale)
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param type .
+ * @param locale .
+ * @return .
+ */
+fun <T : ResourceBundle> resourceBundle(
+    type: KClass<T>, locale: Locale = Locale.getDefault()): ResourceBundle =
+        ResourceBundle.getBundle(type.java.name, locale)
 
 // NETWORK /////////////////////////////////////////////////////////////////////////////////////////
 /**
