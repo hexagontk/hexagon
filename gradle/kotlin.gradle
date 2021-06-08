@@ -68,13 +68,16 @@ processResources {
 
 tasks.compileJava.doFirst {
     options.compilerArgs = [ "--module-path", classpath.asPath ]
+//    options.encoding = "UTF-8"
 }
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
 tasks.compileKotlin.kotlinOptions.apiVersion = "1.5"
+tasks.compileKotlin.kotlinOptions.encoding = "UTF-8"
 
 tasks.compileTestKotlin.kotlinOptions.jvmTarget = tasks.compileKotlin.kotlinOptions.jvmTarget
 tasks.compileTestKotlin.kotlinOptions.apiVersion = tasks.compileKotlin.kotlinOptions.apiVersion
+tasks.compileTestKotlin.kotlinOptions.encoding = tasks.compileKotlin.kotlinOptions.encoding
 
 clean {
     delete("build", "log", "out", ".vertx", "file-uploads")
