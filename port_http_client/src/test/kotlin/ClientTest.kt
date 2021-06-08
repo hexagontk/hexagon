@@ -15,6 +15,8 @@ import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import org.junit.jupiter.api.condition.DisabledOnOs
+import org.junit.jupiter.api.condition.OS
 import java.io.File
 import java.net.URL
 import kotlin.test.assertEquals
@@ -90,7 +92,7 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
     }
 
     @Test
-//    @DisabledOnOs(OS.WINDOWS) // TODO Fix this test for MS Windows
+    @DisabledOnOs(OS.WINDOWS) // TODO Fix this test for MS Windows
     fun `JSON requests works as expected`() {
         val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
