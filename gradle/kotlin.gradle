@@ -68,12 +68,10 @@ processResources {
 
 tasks.compileJava.doFirst {
     options.compilerArgs = [ "--module-path", classpath.asPath ]
-    options.encoding = "UTF-8"
 }
 
-tasks.compileTestJava.doFirst {
-    options.compilerArgs = [ "--module-path", classpath.asPath ]
-    options.encoding = "UTF-8"
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
@@ -108,9 +106,10 @@ task("verify", type: Test) {
 check.dependsOn("test", "verify")
 
 // Show useful testing information while running tests
-tasks.withType(Test).each { testTask ->
+tasks.withType(Test) { testTask ->
     testTask.useJUnitPlatform()
     testTask.systemProperties(project.getProperties().findAll { it.value instanceof String })
+    testTask.systemProperty("file.encoding", "utf-8")
 
     testTask.testLogging {
         if (logger.isInfoEnabled())
