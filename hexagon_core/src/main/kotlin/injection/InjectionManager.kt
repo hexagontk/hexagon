@@ -43,10 +43,6 @@ object InjectionManager {
         bind(type, Instance(instance), tag)
     }
 
-//    fun <T : Any, R : T> bind(type: KClass<T>, instance: R) {
-//        bind(type, instance, Unit)
-//    }
-
     inline fun <reified T : Any> bind(tag: Any, noinline provider: () -> T) =
         bind(T::class, Generator(provider), tag)
 
