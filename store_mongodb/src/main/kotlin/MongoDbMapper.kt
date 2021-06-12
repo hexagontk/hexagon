@@ -1,13 +1,19 @@
 package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.*
+import com.hexagonkt.helpers.fail
+import com.hexagonkt.helpers.filterEmpty
+import com.hexagonkt.helpers.toLocalDate
+import com.hexagonkt.helpers.toLocalDateTime
+import com.hexagonkt.logging.logger
 import com.hexagonkt.serialization.toFieldsMap
 import com.hexagonkt.serialization.toObject
 import com.hexagonkt.store.Mapper
 import org.bson.BsonBinary
 import org.bson.BsonString
 import java.net.URL
-import java.time.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset.UTC
 import java.util.*
 import kotlin.reflect.KClass
@@ -21,9 +27,7 @@ open class MongoDbMapper<T : Any, K : Any>(
 ) : Mapper<T> {
 
     override val fields: Map<String, KProperty1<T, *>> by lazy {
-        logger.time("REFLECT") { type.declaredMemberProperties }
-            .map { it.name to it }
-            .toMap()
+        logger.time("REFLECT") { type.declaredMemberProperties }.associateBy { it.name }
     }
 
     override fun toStore(instance: T): Map<String, Any> =
