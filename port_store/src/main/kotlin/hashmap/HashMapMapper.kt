@@ -1,7 +1,7 @@
 package com.hexagonkt.store.hashmap
 
 import com.hexagonkt.helpers.filterEmpty
-import com.hexagonkt.helpers.logger
+import com.hexagonkt.logging.logger
 import com.hexagonkt.serialization.toFieldsMap
 import com.hexagonkt.serialization.toObject
 import com.hexagonkt.store.Mapper

@@ -46,13 +46,6 @@ internal class HelpersTest {
         assertEquals("text", "text".println())
     }
 
-    @Test fun `Log helper`() {
-        assertEquals("foo", "foo".trace(">>> "))
-        assertEquals("foo", "foo".trace())
-        assertEquals(null, null.trace())
-        assertEquals("text", "text".trace())
-    }
-
     @Test fun `Process execution works as expected`() {
         assertFailsWith<IllegalArgumentException> { " ".exec() }
         assertFailsWith<IllegalArgumentException> { "echo test".exec(timeout = -1) }

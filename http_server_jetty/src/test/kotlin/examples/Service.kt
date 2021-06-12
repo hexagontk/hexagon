@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.jetty.examples
 
-import com.hexagonkt.helpers.logger
+import com.hexagonkt.logging.logger
 import com.hexagonkt.http.httpDate
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
@@ -11,7 +11,8 @@ import com.hexagonkt.injection.InjectionManager
  * [InjectionManager] instance to which an instance of [JettyServletAdapter]
  * is bound for dependency Injection.
  */
-internal val injector = InjectionManager.apply {
+internal val injector = InjectionManager.bindings.apply {
+    clear()
     bind<ServerPort>(JettyServletAdapter()) // Bind Jetty server to HTTP Server Port
 }
 

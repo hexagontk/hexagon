@@ -1,6 +1,6 @@
 package com.hexagonkt.helpers
 
-import com.hexagonkt.logging.Logger
+import com.hexagonkt.logging.logger
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -9,9 +9,6 @@ import java.net.Socket
 import java.util.*
 import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.reflect.KClass
-
-/** Default logger for when you feel too lazy to declare one. */
-val logger: Logger by lazy { Logger(Logger::class) }
 
 /**
  * Print receiver to stdout. Convenient utility to debug variables quickly.
@@ -22,20 +19,6 @@ val logger: Logger by lazy { Logger(Logger::class) }
  */
 fun <T> T.println(prefix: String = ""): T =
     apply { kotlin.io.println("$prefix$this") }
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * com.hexagonkt.logging.Logger must have TRACE level
- *
- * TODO Add use case and example in documentation.
- *
- * @receiver .
- * @param prefix .
- * @return .
- */
-fun <T> T.trace(prefix: String = ""): T =
-    apply { logger.trace { "$prefix$this" } }
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
