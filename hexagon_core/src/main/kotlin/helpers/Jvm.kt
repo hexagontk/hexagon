@@ -7,6 +7,7 @@ import java.net.InetAddress
 import java.nio.charset.Charset
 
 import java.util.TimeZone
+import kotlin.reflect.KClass
 
 /**
  * Object with utilities to gather information about the running JVM.
@@ -60,8 +61,22 @@ object Jvm {
     fun systemSetting(name: String): String? =
         System.getProperty(name) ?: System.getenv(name)
 
-    fun systemSetting(name: String, default: String): String =
-        systemSetting(name) ?: default
+    @Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
+    fun <T: Any> systemSetting(type: KClass<T>, name: String): T? =
+        systemSetting(name)?.let {
+            when (type) {
+                Boolean::class -> it.toBooleanStrictOrNull()
+                Int::class -> it.toIntOrNull()
+                Long::class -> it.toLongOrNull()
+                Float::class -> it.toFloatOrNull()
+                Double::class -> it.toDoubleOrNull()
+                String::class -> it
+                else -> error("Setting: '$name' has unsupported type: ${type.qualifiedName}")
+            }
+        } as? T
+
+    inline fun <reified T: Any> typedSystemSetting(name: String): T? =
+        systemSetting(T::class, name)
 
     internal fun safeJmx(block: () -> String): String =
         try {

@@ -6,6 +6,7 @@ import java.lang.management.ManagementFactory
 import java.net.Inet4Address
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 
 internal class JvmTest {
 
@@ -27,11 +28,38 @@ internal class JvmTest {
         assert(Jvm.uptime().matches(numberRegex))
     }
 
-    @Test fun `System settings with default values are handled properly`() {
-        assert(Jvm.systemSetting("this_do_not_exist", "default") == "default")
+    @Test fun `System settings handle parameter types correctly`() {
 
-        System.setProperty("existing_java_property", "value")
-        assert(Jvm.systemSetting("existing_java_property", "default") == "value")
+        System.setProperty("validBoolean", true.toString())
+        System.setProperty("validInt", 123.toString())
+        System.setProperty("validLong", 456L.toString())
+        System.setProperty("validFloat", 0.5F.toString())
+        System.setProperty("validDouble", 1.5.toString())
+        System.setProperty("invalidBoolean", "_")
+        System.setProperty("invalidInt", "_")
+        System.setProperty("invalidLong", "_")
+        System.setProperty("invalidFloat", "_")
+        System.setProperty("invalidDouble", "_")
+        System.setProperty("string", "text")
+        System.setProperty("error", "value")
+
+        assertEquals(true, Jvm.typedSystemSetting("validBoolean"))
+        assertEquals(123, Jvm.typedSystemSetting("validInt"))
+        assertEquals(456L, Jvm.typedSystemSetting("validLong"))
+        assertEquals(0.5F, Jvm.typedSystemSetting("validFloat"))
+        assertEquals(1.5, Jvm.typedSystemSetting("validDouble"))
+
+        assertNull(Jvm.typedSystemSetting<Boolean>("invalidBoolean"))
+        assertNull(Jvm.typedSystemSetting<Boolean>("invalidInt"))
+        assertNull(Jvm.typedSystemSetting<Boolean>("invalidLong"))
+        assertNull(Jvm.typedSystemSetting<Boolean>("invalidFloat"))
+        assertNull(Jvm.typedSystemSetting<Boolean>("invalidDouble"))
+
+        assertEquals("text", Jvm.typedSystemSetting("string"))
+
+        val type = System::class
+        val e = assertFailsWith<IllegalStateException> { Jvm.typedSystemSetting<System>("error") }
+        assertEquals("Setting: 'error' has unsupported type: ${type.qualifiedName}", e.message)
     }
 
     @Test fun `Default charset is fetched correctly`() {
