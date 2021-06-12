@@ -5,16 +5,10 @@ apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 
-val compileTestKotlin: KotlinCompile by tasks
-
-plugins {
-    java
-}
-
 // IMPORTANT: Required for compiling classes in test dependencies. It *MUST* be before dependencies
+val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.dependsOn(tasks.getByPath(":port_http_client:compileTestKotlin"))
-
-val entityTests: SourceSetOutput = project(":port_http_client").sourceSet("test").output
+val httpClientTest: SourceSetOutput = project(":port_http_client").sourceSet("test").output
 
 extra["basePackage"] = "com.hexagonkt.http.client.ahc"
 
@@ -26,5 +20,5 @@ dependencies {
 
     "testImplementation"(project(":serialization_yaml"))
     "testImplementation"(project(":http_server_jetty"))
-    "testImplementation"(entityTests)
+    "testImplementation"(httpClientTest)
 }

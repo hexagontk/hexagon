@@ -6,14 +6,12 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
 
-val compileTestKotlin: KotlinCompile by tasks
-
 description = "Hexagon CSV serialization format."
 
 // IMPORTANT: Required for compiling classes in test dependencies. It *MUST* be before dependencies
+val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.dependsOn(tasks.getByPath(":hexagon_core:compileTestKotlin"))
-
-val entityTests: SourceSetOutput = project(":hexagon_core").sourceSet("test").output
+val coreTest: SourceSetOutput = project(":hexagon_core").sourceSet("test").output
 
 extra["basePackage"] = "com.hexagonkt.serialization"
 
@@ -29,5 +27,5 @@ dependencies {
         exclude("org.jetbrains.kotlin")
     }
 
-    "testImplementation"(entityTests)
+    "testImplementation"(coreTest)
 }
