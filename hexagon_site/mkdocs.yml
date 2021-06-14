@@ -57,7 +57,7 @@ nav:
     - Templates: port_templates/port_templates.md
     - Gradle Helpers: gradle.md
     - Maven Parent POM: maven.md
-  - API: api
+  - API: api/index.html
 #  - Guides:
 #    - Mutual TLS: guides/mtls.md
   - Examples:
