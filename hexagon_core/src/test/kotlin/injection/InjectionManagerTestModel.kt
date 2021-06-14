@@ -1,6 +1,6 @@
 package com.hexagonkt.injection
 
-import com.hexagonkt.injection.InjectionManager.inject
+import com.hexagonkt.injection.InjectionManager.injector
 
 internal interface Foo
 
@@ -11,10 +11,10 @@ internal object SubFoo3 : Foo
 internal interface Bar { val foo: Foo }
 
 internal class SubBar1(override val foo: Foo) : Bar
-internal class SubBar2(override val foo: Foo = inject()) : Bar
-internal class SubBar3(override val foo: Foo = inject()) : Bar
+internal class SubBar2(override val foo: Foo = injector.inject()) : Bar
+internal class SubBar3(override val foo: Foo = injector.inject()) : Bar
 internal class SubBar3a(override val foo: Foo) : Bar {
-    constructor() : this(inject())
+    constructor() : this(injector.inject())
 }
 
 internal interface Service {

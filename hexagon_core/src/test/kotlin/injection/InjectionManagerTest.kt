@@ -1,54 +1,72 @@
 package com.hexagonkt.injection
 
-import com.hexagonkt.injection.InjectionManager.bindSet
-import com.hexagonkt.injection.InjectionManager.inject
-import com.hexagonkt.injection.InjectionManager.injectList
-import com.hexagonkt.injection.InjectionManager.injectMap
-import com.hexagonkt.injection.InjectionManager.injectOrNull
+import com.hexagonkt.injection.Provider.Generator
+import com.hexagonkt.injection.Provider.Instance
+import com.hexagonkt.injection.InjectionManager.module
+import com.hexagonkt.injection.InjectionManager.injector
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 @TestMethodOrder(OrderAnnotation::class)
 internal class InjectionManagerTest {
 
+    interface Vehicle {
+        val wheels: Int
+    }
+
+    data class Bike(override val wheels: Int = 2) : Vehicle
+    data class Car(override val wheels: Int = 4) : Vehicle
+
     @Test fun `Inject not bound class throws exception`() {
 
         data class Example(val text: String)
 
-        InjectionManager.bind(Example("An example"), "ex")
+        module.bind("ex", Example("An example"))
 
-        assertFailsWith<IllegalStateException> { inject<Test>() }
-        assertFailsWith<IllegalStateException> { inject<Example>() }
-        assertFailsWith<IllegalStateException> { inject<Example>("ej") }
-        assert(inject<Example>("ex") == Example("An example"))
+        assertFailsWith<IllegalStateException> { injector.inject<Test>() }
+        assertFailsWith<IllegalStateException> { injector.inject<Example>() }
+        assertFailsWith<IllegalStateException> { injector.inject<Example>("ej") }
+        assert(injector.inject<Example>("ex") == Example("An example"))
     }
 
     @Test fun `'injectOrNull' not bound class may return null`() {
 
         data class Example(val text: String)
 
-        InjectionManager.bind(Example("An example"), "ex")
+        module.bind("ex", Example("An example"))
 
-        assert(injectOrNull<Test>() == null)
-        assert(injectOrNull<Example>() == null)
-        assert(injectOrNull<Example>("ej") == null)
-        assert(injectOrNull<Example>("ex") == Example("An example"))
+        assert(injector.injectOrNull<Test>() == null)
+        assert(injector.injectOrNull<Example>() == null)
+        assert(injector.injectOrNull<Example>("ej") == null)
+        assert(injector.injectOrNull<Example>("ex") == Example("An example"))
     }
 
     @Test
     @Order(1)
     fun `DI don't override bindings`() {
-        val injector = InjectionManager.apply {
-            bind(Foo::class, ::SubFoo1)
-            bind<Foo>(::SubFoo1)
+        module.clear()
+
+        fun ignoreException(block: () -> Unit) {
+            try {
+                block()
+            }
+            catch (e: IllegalStateException){
+                InjectionManager.logger.error(e) { "Attempt to redefine binding not allowed" }
+            }
+        }
+
+        InjectionManager.apply {
+            module.bind<Foo>(::SubFoo1)
+//            ignoreException { bindings.bind<Foo>(::SubFoo1) }
         }
 
         injector.apply {
-            bind(Foo::class, 2, ::SubFoo2)
-            bind<Foo>(2, ::SubFoo2)
+            module.bind<Foo>(2, ::SubFoo2)
+            ignoreException { module.bind<Foo>(2, ::SubFoo2) }
 
             val foo1 = inject(Foo::class)
             assert(foo1.javaClass == SubFoo1::class.java)
@@ -68,33 +86,32 @@ internal class InjectionManagerTest {
             val foo12b: Foo = inject(2)
             assert(foo12b.javaClass == SubFoo2::class.java)
 
-            bind(Foo::class, ::SubFoo2)
-            bind<Foo>(::SubFoo2)
+            ignoreException { module.bind<Foo>(::SubFoo2) }
 
             val foo2 = inject(Foo::class)
-            assert(foo2.javaClass == SubFoo1::class.java)
+            assertEquals(SubFoo1::class, foo2::class)
 
-            bind(Foo::class, Instance(SubFoo3))
-            bind<Foo> { SubFoo3 }
+            ignoreException { module.bind<Foo>(SubFoo3) }
+            ignoreException { module.bind<Foo> { SubFoo3 } }
 
             val foo3 = inject(Foo::class)
             assert(foo3.javaClass == SubFoo1::class.java)
 
-            bind(Bar::class, Generator { SubBar1(inject(Foo::class)) })
-            bind<Bar> { SubBar1(inject()) }
+            module.bind<Bar> { SubBar1(inject(Foo::class)) }
+            ignoreException { module.bind<Bar> { SubBar1(inject()) } }
 
             val bar1 = inject(Bar::class)
             assert(bar1.javaClass == SubBar1::class.java)
             assert(bar1.foo.javaClass == SubFoo1::class.java)
 
-            bind(Bar::class, Generator { SubBar2() })
+            ignoreException { module.bind<Bar> { SubBar2() } }
 
             val bar2 = inject(Bar::class)
             assert(bar2.javaClass == SubBar1::class.java)
             assert(bar2.foo.javaClass == SubFoo1::class.java)
 
-            bind(Bar::class, Generator { SubBar3() })
-            bind(Bar::class, ::SubBar3a)
+            ignoreException { module.bind<Bar> { SubBar3() } }
+            ignoreException { module.bind<Bar>(::SubBar3a) }
 
             val bar3 = inject<Bar>()
             assert(bar3.javaClass == SubBar1::class.java)
@@ -105,67 +122,68 @@ internal class InjectionManagerTest {
     @Test
     @Order(2)
     fun `DI just works`() {
-        val injector = InjectionManager.apply {
-            bind(Foo::class, ::SubFoo1)
-            bind<Foo>(::SubFoo1)
+        module.clear()
+
+        InjectionManager.apply {
+            module.bind<Foo>(::SubFoo1)
         }
 
-        injector.bind(Foo::class, 2, ::SubFoo2)
-        injector.bind<Foo>(2, ::SubFoo2)
+        module.bind<Foo>(2, ::SubFoo2)
 
-        val foo1 = inject(Foo::class)
-        assert(foo1.javaClass == SubFoo1::class.java)
+        injector.apply {
+            val foo1 = inject(Foo::class)
+            assert(foo1.javaClass == SubFoo1::class.java)
 
-        val foo1a = inject<Foo>()
-        assert(foo1a.javaClass == SubFoo1::class.java)
+            val foo1a = inject<Foo>()
+            assert(foo1a.javaClass == SubFoo1::class.java)
 
-        val foo1b: Foo = inject()
-        assert(foo1b.javaClass == SubFoo1::class.java)
+            val foo1b: Foo = inject()
+            assert(foo1b.javaClass == SubFoo1::class.java)
 
-        val foo12 = inject(Foo::class, 2)
-        assert(foo12.javaClass == SubFoo2::class.java)
+            val foo12 = inject(Foo::class, 2)
+            assert(foo12.javaClass == SubFoo2::class.java)
 
-        val foo12a = inject<Foo>(2)
-        assert(foo12a.javaClass == SubFoo2::class.java)
+            val foo12a = inject<Foo>(2)
+            assert(foo12a.javaClass == SubFoo2::class.java)
 
-        val foo12b: Foo = inject(2)
-        assert(foo12b.javaClass == SubFoo2::class.java)
+            val foo12b: Foo = inject(2)
+            assert(foo12b.javaClass == SubFoo2::class.java)
 
-        forceBind(Foo::class, Generator(::SubFoo2))
+            module.forceBind(Foo::class, Generator(::SubFoo2))
 
-        val foo2 = inject(Foo::class)
-        assert(foo2.javaClass == SubFoo2::class.java)
+            val foo2 = inject(Foo::class)
+            assert(foo2.javaClass == SubFoo2::class.java)
 
-        forceBind(Foo::class, SubFoo3)
-        InjectionManager.bind<Foo>(SubFoo3, "tag")
-        forceBind(Foo::class, "tag", SubFoo2())
+            module.forceBind(Foo::class, SubFoo3)
+            module.bind<Foo>("tag", SubFoo3)
+            module.forceBind(Foo::class, "tag", SubFoo2())
 
-        val foo3 = inject(Foo::class)
-        assert(foo3.javaClass == SubFoo3::class.java)
-        val foo4 = inject(Foo::class, "tag")
-        assert(foo4.javaClass == SubFoo2::class.java)
+            val foo3 = inject(Foo::class)
+            assert(foo3.javaClass == SubFoo3::class.java)
+            val foo4 = inject(Foo::class, "tag")
+            assert(foo4.javaClass == SubFoo2::class.java)
 
-        InjectionManager.bind(Bar::class, Generator { SubBar1(inject(Foo::class)) })
-        InjectionManager.bind<Bar> { SubBar1(inject()) }
+            module.bind<Bar> { SubBar1(inject(Foo::class)) }
 
-        val bar1 = inject(Bar::class)
-        assert(bar1.javaClass == SubBar1::class.java)
-        assert(bar1.foo.javaClass == SubFoo3::class.java)
+            val bar1 = inject(Bar::class)
+            assert(bar1.javaClass == SubBar1::class.java)
+            assert(bar1.foo.javaClass == SubFoo3::class.java)
 
-        forceBind(Bar::class, Generator { SubBar2() })
+            module.forceBind(Bar::class, Generator { SubBar2() })
 
-        val bar2 = inject(Bar::class)
-        assert(bar2.javaClass == SubBar2::class.java)
-        assert(bar2.foo.javaClass == SubFoo3::class.java)
+            val bar2 = inject(Bar::class)
+            assert(bar2.javaClass == SubBar2::class.java)
+            assert(bar2.foo.javaClass == SubFoo3::class.java)
 
-        forceBind(Bar::class, Generator(::SubBar3a))
+            module.forceBind(Bar::class, Generator(::SubBar3a))
 
-        val bar3 = inject<Bar>()
-        assert(bar3.javaClass == SubBar3a::class.java)
-        assert(bar3.foo.javaClass == SubFoo3::class.java)
+            val bar3 = inject<Bar>()
+            assert(bar3.javaClass == SubBar3a::class.java)
+            assert(bar3.foo.javaClass == SubFoo3::class.java)
 
-        assert(injector.toString().contains("com.hexagonkt.injection.Foo"))
-        assert(injector.toString().contains("com.hexagonkt.injection.Bar"))
+            assert(module.toString().contains("com.hexagonkt.injection.Foo"))
+            assert(module.toString().contains("com.hexagonkt.injection.Bar"))
+        }
     }
 
     @Test
@@ -173,23 +191,23 @@ internal class InjectionManagerTest {
     fun `Mocks are easy to build`() {
         var aCalled = false
 
-        InjectionManager.bind<Service>(object : Service {
+        module.bind<Service>(object : Service {
             override fun a(p: Int) { aCalled = true }
             override fun b(p: Boolean) = 100
         })
 
-        InjectionManager.bind<Service>(object : Service {
+        module.bind<Service>(2, object : Service {
             override fun a(p: Int) { aCalled = true }
             override fun b(p: Boolean) = 200
-        }, 2)
+        })
 
-        val srv = inject<Service>()
+        val srv = injector.inject<Service>()
 
         assert(srv.b(true) == 100)
         srv.a(0)
         assert(aCalled)
 
-        val srv2 = inject<Service>(2)
+        val srv2 = injector.inject<Service>(2)
 
         assert(srv2.b(true) == 200)
     }
@@ -197,67 +215,60 @@ internal class InjectionManagerTest {
     @Test
     @Order(4)
     fun `Bind lists instances works properly`() {
-        InjectionManager.bindings = emptyMap()
-        InjectionManager.bind(true, "switch")
+        module.bindings = emptyMap()
+        module.bind("switch", true)
 
-        bindSet(listOf(Bike(), Car()))
-        assert(injectList(Vehicle::class) == listOf(Bike(), Car()))
-        assert(injectMap(Vehicle::class) == mapOf(0 to Bike(), 1 to Car()))
+        module.bindInstances<Vehicle>(Bike(), Car())
+        assert(injector.injectList(Vehicle::class) == listOf(Bike(), Car()))
+        assert(injector.injectMap(Vehicle::class) == mapOf(0 to Bike(), 1 to Car()))
 
-        forceBindSet(Vehicle::class, listOf(Instance(Car()), Instance(Bike())))
-        assert(injectList(Vehicle::class) == listOf(Car(), Bike()))
-        assert(injectMap(Vehicle::class) == mapOf(0 to Car(), 1 to Bike()))
+        module.forceBindSet(Vehicle::class, listOf(Instance(Car()), Instance(Bike())))
+        assert(injector.injectList(Vehicle::class) == listOf(Car(), Bike()))
+        assert(injector.injectMap(Vehicle::class) == mapOf(0 to Car(), 1 to Bike()))
     }
 
     @Test
     @Order(5)
     fun `Bind maps instances works properly`() {
-        InjectionManager.bindings = emptyMap()
-        InjectionManager.bind(true, "switch")
+        module.clear()
+        module.bind("switch", true)
 
-        bindSet(mapOf("bike" to Bike(), "car" to Car()))
-        assert(injectList(Vehicle::class) == listOf(Bike(), Car()))
-        assert(injectMap(Vehicle::class) == mapOf("bike" to Bike(), "car" to Car()))
+        module.bindInstances("bike" to Bike(), "car" to Car())
+        assert(injector.injectList(Vehicle::class) == listOf(Bike(), Car()))
+        assert(injector.injectMap(Vehicle::class) == mapOf("bike" to Bike(), "car" to Car()))
 
-        forceBindSet(Vehicle::class, mapOf("car" to Instance(Car()), "bike" to Instance(Bike())))
-        assert(injectList(Vehicle::class) == listOf(Car(), Bike()))
-        assert(injectMap(Vehicle::class) == mapOf("car" to Car(), "bike" to Bike()))
+        module.forceBindSet(Vehicle::class, mapOf("car" to Instance(Car()), "bike" to Instance(Bike())))
+        assert(injector.injectList(Vehicle::class) == listOf(Car(), Bike()))
+        assert(injector.injectMap(Vehicle::class) == mapOf("car" to Car(), "bike" to Bike()))
     }
 
     @Test
     @Order(6)
     fun `Bind lists functions works properly`() {
-        InjectionManager.bindings = emptyMap()
-        InjectionManager.bind(true, "switch")
+        module.clear()
+        module.bind("switch", true)
 
-        InjectionManager.bind(listOf({ Bike() }, { Car() }))
-        assert(injectList(Vehicle::class) == listOf(Bike(), Car()))
-        assert(injectMap(Vehicle::class) == mapOf(0 to Bike(), 1 to Car()))
+        module.bindGenerators({ Bike() }, { Car() })
+        assert(injector.injectList(Vehicle::class) == listOf(Bike(), Car()))
+        assert(injector.injectMap(Vehicle::class) == mapOf(0 to Bike(), 1 to Car()))
 
-        forceBindSet(Vehicle::class, listOf(Generator { Car() }, Generator { Bike() }))
-        assert(injectList(Vehicle::class) == listOf(Car(), Bike()))
-        assert(injectMap(Vehicle::class) == mapOf(0 to Car(), 1 to Bike()))
+        module.forceBindSet(Vehicle::class, listOf(Generator { Car() }, Generator { Bike() }))
+        assert(injector.injectList(Vehicle::class) == listOf(Car(), Bike()))
+        assert(injector.injectMap(Vehicle::class) == mapOf(0 to Car(), 1 to Bike()))
     }
 
     @Test
     @Order(7)
     fun `Bind maps functions works properly`() {
-        InjectionManager.bindings = emptyMap()
-        InjectionManager.bind(true, "switch")
+        module.clear()
+        module.bind("switch", true)
 
-        InjectionManager.bind(mapOf("bike" to { Bike() }, "car" to { Car() }))
-        assert(injectList(Vehicle::class) == listOf(Bike(), Car()))
-        assert(injectMap(Vehicle::class) == mapOf("bike" to Bike(), "car" to Car()))
+        module.bindGenerators("bike" to { Bike() }, "car" to { Car() })
+        assert(injector.injectList(Vehicle::class) == listOf(Bike(), Car()))
+        assert(injector.injectMap(Vehicle::class) == mapOf("bike" to Bike(), "car" to Car()))
 
-        forceBindSet(Vehicle::class, mapOf("car" to Generator { Car() }, "bike" to Generator { Bike() }))
-        assert(injectList(Vehicle::class) == listOf(Car(), Bike()))
-        assert(injectMap(Vehicle::class) == mapOf("car" to Car(), "bike" to Bike()))
+        module.forceBindSet(Vehicle::class, mapOf("car" to Generator { Car() }, "bike" to Generator { Bike() }))
+        assert(injector.injectList(Vehicle::class) == listOf(Car(), Bike()))
+        assert(injector.injectMap(Vehicle::class) == mapOf("car" to Car(), "bike" to Bike()))
     }
-
-    interface Vehicle {
-        val wheels: Int
-    }
-
-    data class Bike(override val wheels: Int = 2) : Vehicle
-    data class Car(override val wheels: Int = 4) : Vehicle
 }

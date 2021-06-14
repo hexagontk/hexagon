@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.injection.InjectionManager.bind
+import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.injection.forceBind
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
@@ -23,8 +23,8 @@ internal class ServerTest {
     }
 
     @Test fun `Injected parameters`() {
-        forceBind(ServerPort::class, VoidAdapter)
-        bind(SettingsManager.settings.parameters.toObject<ServerSettings>())
+        InjectionManager.module.forceBind(ServerPort::class, VoidAdapter)
+        InjectionManager.module.bind(SettingsManager.settings.parameters.toObject<ServerSettings>())
 
         val server = Server {}
 

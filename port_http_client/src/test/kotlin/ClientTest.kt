@@ -41,7 +41,7 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
 
     init {
         SerializationManager.formats = linkedSetOf(Json, Yaml)
-        InjectionManager.bindings.bind(adapter)
+        InjectionManager.module.bind(adapter)
     }
 
     private val client by lazy {

@@ -12,8 +12,7 @@ import com.hexagonkt.helpers.Jvm.locale
 import com.hexagonkt.helpers.Jvm.timezone
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.Protocol.HTTP
-import com.hexagonkt.injection.InjectionManager.inject
-import com.hexagonkt.injection.InjectionManager.injectOrNull
+import com.hexagonkt.injection.InjectionManager.injector
 
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
@@ -31,7 +30,7 @@ import java.lang.System.nanoTime
  * Server that listen to HTTP connections on a port and address and route requests using a router.
  */
 data class Server(
-    private val adapter: ServerPort = inject(),
+    private val adapter: ServerPort = injector.inject(),
     private val router: Router,
     val settings: ServerSettings = ServerSettings()
 ) {
@@ -74,8 +73,8 @@ data class Server(
      * @return A new server with the built router.
      */
     constructor(
-        adapter: ServerPort = inject(),
-        settings: ServerSettings = injectOrNull() ?: ServerSettings(),
+        adapter: ServerPort = injector.inject(),
+        settings: ServerSettings = injector.injectOrNull() ?: ServerSettings(),
         block: Router.() -> Unit
     ) :
         this(adapter, Router(block), settings)
