@@ -10,6 +10,7 @@ jobs:
     defaults:
       run: { shell: bash }
     strategy:
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
@@ -56,6 +57,7 @@ jobs:
     defaults:
       run: { shell: bash }
     strategy:
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
@@ -122,6 +124,7 @@ jobs:
     defaults:
       run: { shell: bash }
     strategy:
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
 
