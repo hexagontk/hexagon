@@ -31,6 +31,13 @@ a desktop application), you can import it with the following code:
     </dependency>
     ```
 
+### Defined Ports
+
+TODO Document module exposed ports (they may be initialized through dependency injection):
+* LoggingPort
+* Mapper
+* SerializationFormat
+
 ### URLs
 
 TODO Note that GraalVM requires to install the Classpath handler manually with
