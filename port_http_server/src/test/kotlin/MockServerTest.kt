@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.injection.InjectionManager.module
+import com.hexagonkt.injection.forceBind
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.assertThrows
 internal class MockServerTest {
 
     @BeforeAll fun setUp() {
-        module.bind<ServerPort>(VoidAdapter)
+        module.forceBind<ServerPort>(VoidAdapter)
     }
 
     @Test fun `Incorrect OpenAPI spec causes error to be thrown`() {

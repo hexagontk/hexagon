@@ -23,7 +23,7 @@ internal class MockServerRoutesTest {
     }
 
     @BeforeAll fun setUp() {
-        module.forceBind(ServerPort::class, JettyServletAdapter())
+        module.forceBind<ServerPort>(JettyServletAdapter())
         server.start()
         assert(server.started())
     }

@@ -25,11 +25,14 @@ class Injector(private val module: Module = Module()) {
     fun <T : Any> inject(type: KClass<T>, tag: Any): T =
         injectOrNull(type, tag) ?: error("${type.java.name} generator missing")
 
-    inline fun <reified T : Any> inject(tag: Any): T =
-        inject(T::class, tag)
-
     fun <T : Any> inject(type: KClass<T>): T =
         inject(type, Unit)
+
+    fun <T : Any> injectOrNull(type: KClass<T>): T? =
+        injectOrNull(type, Unit)
+
+    inline fun <reified T : Any> inject(tag: Any): T =
+        inject(T::class, tag)
 
     inline fun <reified T : Any> inject(): T =
         inject(T::class)
@@ -37,9 +40,12 @@ class Injector(private val module: Module = Module()) {
     inline fun <reified T : Any> injectOrNull(tag: Any): T? =
         injectOrNull(T::class, tag)
 
-    fun <T : Any> injectOrNull(type: KClass<T>): T? =
-        injectOrNull(type, Unit)
-
     inline fun <reified T : Any> injectOrNull(): T? =
         injectOrNull(T::class)
+
+    inline fun <reified T : Any> injectList(): List<T> =
+        injectList(T::class)
+
+    inline fun <reified T : Any> injectMap(): Map<Any, T> =
+        injectMap(T::class)
 }

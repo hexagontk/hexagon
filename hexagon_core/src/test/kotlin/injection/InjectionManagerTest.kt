@@ -149,14 +149,14 @@ internal class InjectionManagerTest {
             val foo12b: Foo = inject(2)
             assert(foo12b.javaClass == SubFoo2::class.java)
 
-            module.forceBind(Foo::class, Generator(::SubFoo2))
+            module.forceBind<Foo>(::SubFoo2)
 
             val foo2 = inject(Foo::class)
             assert(foo2.javaClass == SubFoo2::class.java)
 
-            module.forceBind(Foo::class, SubFoo3)
+            module.forceBind<Foo>(SubFoo3)
             module.bind<Foo>("tag", SubFoo3)
-            module.forceBind(Foo::class, "tag", SubFoo2())
+            module.forceBind<Foo>("tag", SubFoo2())
 
             val foo3 = inject(Foo::class)
             assert(foo3.javaClass == SubFoo3::class.java)
@@ -169,13 +169,13 @@ internal class InjectionManagerTest {
             assert(bar1.javaClass == SubBar1::class.java)
             assert(bar1.foo.javaClass == SubFoo3::class.java)
 
-            module.forceBind(Bar::class, Generator { SubBar2() })
+            module.forceBind<Bar> { SubBar2() }
 
             val bar2 = inject(Bar::class)
             assert(bar2.javaClass == SubBar2::class.java)
             assert(bar2.foo.javaClass == SubFoo3::class.java)
 
-            module.forceBind(Bar::class, Generator(::SubBar3a))
+            module.forceBind<Bar>(::SubBar3a)
 
             val bar3 = inject<Bar>()
             assert(bar3.javaClass == SubBar3a::class.java)
@@ -218,11 +218,11 @@ internal class InjectionManagerTest {
         module.bindings = emptyMap()
         module.bind("switch", true)
 
-        module.bindInstances<Vehicle>(Bike(), Car())
+        module.bindInstances(Bike(), Car())
         assert(injector.injectList(Vehicle::class) == listOf(Bike(), Car()))
         assert(injector.injectMap(Vehicle::class) == mapOf(0 to Bike(), 1 to Car()))
 
-        module.forceBindSet(Vehicle::class, listOf(Instance(Car()), Instance(Bike())))
+        module.forceBind(Vehicle::class, listOf(Instance(Car()), Instance(Bike())))
         assert(injector.injectList(Vehicle::class) == listOf(Car(), Bike()))
         assert(injector.injectMap(Vehicle::class) == mapOf(0 to Car(), 1 to Bike()))
     }
@@ -237,7 +237,8 @@ internal class InjectionManagerTest {
         assert(injector.injectList(Vehicle::class) == listOf(Bike(), Car()))
         assert(injector.injectMap(Vehicle::class) == mapOf("bike" to Bike(), "car" to Car()))
 
-        module.forceBindSet(Vehicle::class, mapOf("car" to Instance(Car()), "bike" to Instance(Bike())))
+        module.forceBind(
+            Vehicle::class, mapOf("car" to Instance(Car()), "bike" to Instance(Bike())))
         assert(injector.injectList(Vehicle::class) == listOf(Car(), Bike()))
         assert(injector.injectMap(Vehicle::class) == mapOf("car" to Car(), "bike" to Bike()))
     }
@@ -252,7 +253,7 @@ internal class InjectionManagerTest {
         assert(injector.injectList(Vehicle::class) == listOf(Bike(), Car()))
         assert(injector.injectMap(Vehicle::class) == mapOf(0 to Bike(), 1 to Car()))
 
-        module.forceBindSet(Vehicle::class, listOf(Generator { Car() }, Generator { Bike() }))
+        module.forceBind(Vehicle::class, listOf(Generator { Car() }, Generator { Bike() }))
         assert(injector.injectList(Vehicle::class) == listOf(Car(), Bike()))
         assert(injector.injectMap(Vehicle::class) == mapOf(0 to Car(), 1 to Bike()))
     }
@@ -267,7 +268,8 @@ internal class InjectionManagerTest {
         assert(injector.injectList(Vehicle::class) == listOf(Bike(), Car()))
         assert(injector.injectMap(Vehicle::class) == mapOf("bike" to Bike(), "car" to Car()))
 
-        module.forceBindSet(Vehicle::class, mapOf("car" to Generator { Car() }, "bike" to Generator { Bike() }))
+        module.forceBind(
+            Vehicle::class, mapOf("car" to Generator { Car() }, "bike" to Generator { Bike() }))
         assert(injector.injectList(Vehicle::class) == listOf(Car(), Bike()))
         assert(injector.injectMap(Vehicle::class) == mapOf("car" to Car(), "bike" to Bike()))
     }

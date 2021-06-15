@@ -23,7 +23,7 @@ internal class ServerTest {
     }
 
     @Test fun `Injected parameters`() {
-        InjectionManager.module.forceBind(ServerPort::class, VoidAdapter)
+        InjectionManager.module.forceBind<ServerPort>(VoidAdapter)
         InjectionManager.module.bind(SettingsManager.settings.parameters.toObject<ServerSettings>())
 
         val server = Server {}

@@ -50,36 +50,36 @@ class Module {
         bind(Target(T::class, tag), Generator(generator))
     }
 
-    inline fun <reified T : Any> bindInstances(providers: Map<Any, T>) {
-        bind(T::class, providers.mapValues { Instance(it.value) })
+    inline fun <reified T : Any> bindInstances(instances: Map<Any, T>) {
+        bind(T::class, instances.mapValues { Instance(it.value) })
     }
 
-    inline fun <reified T : Any> bindInstances(providers: List<T>) {
-        bind(T::class, providers.map { Instance(it) })
+    inline fun <reified T : Any> bindInstances(instances: List<T>) {
+        bind(T::class, instances.map { Instance(it) })
     }
 
-    inline fun <reified T : Any> bindInstances(vararg providers: Pair<Any, T>) {
-        bindInstances(providers.associate { (k, v) -> k to v })
+    inline fun <reified T : Any> bindInstances(vararg instances: Pair<Any, T>) {
+        bindInstances(instances.associate { (k, v) -> k to v })
     }
 
-    inline fun <reified T : Any> bindInstances(vararg providers: T) {
-        bindInstances(providers.map { it })
+    inline fun <reified T : Any> bindInstances(vararg instances: T) {
+        bindInstances(instances.map { it })
     }
 
-    inline fun <reified T : Any> bindGenerators(providers: Map<Any, () -> T>) {
-        bind(T::class, providers.mapValues { Generator(it.value) })
+    inline fun <reified T : Any> bindGenerators(generators: Map<Any, () -> T>) {
+        bind(T::class, generators.mapValues { Generator(it.value) })
     }
 
-    inline fun <reified T : Any> bindGenerators(providers: List<() -> T>) {
-        bind(T::class, providers.map { Generator(it) })
+    inline fun <reified T : Any> bindGenerators(generators: List<() -> T>) {
+        bind(T::class, generators.map { Generator(it) })
     }
 
-    inline fun <reified T : Any> bindGenerators(vararg providers: Pair<Any, () -> T>) {
-        bindGenerators(providers.toMap())
+    inline fun <reified T : Any> bindGenerators(vararg generators: Pair<Any, () -> T>) {
+        bindGenerators(generators.toMap())
     }
 
-    inline fun <reified T : Any> bindGenerators(vararg providers: () -> T) {
-        bindGenerators(providers.map { it })
+    inline fun <reified T : Any> bindGenerators(vararg generators: () -> T) {
+        bindGenerators(generators.map { it })
     }
 
     override fun toString(): String =

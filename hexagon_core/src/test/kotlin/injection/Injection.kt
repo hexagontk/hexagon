@@ -4,36 +4,36 @@ import com.hexagonkt.injection.Provider.Generator
 import com.hexagonkt.injection.Provider.Instance
 import kotlin.reflect.KClass
 
-fun <T : Any, R : T> Module.forceBind(type: KClass<T>, provider: Provider<R>, tag: Any = Unit) {
-    val key = Target(type, tag)
-    val binding = key.toString()
+fun <T : Any> Module.forceBind(type: KClass<T>, providers: Map<Any, Provider<T>>) {
+    providers.forEach { (k, v) -> forceBind(Target(type, k), v) }
+}
 
-    check(bindings.containsKey(key)) {
-        "$binding not bound. Override only allowed in tests (using `forceBind`)"
+fun <T : Any> Module.forceBind(type: KClass<T>, providers: List<Provider<T>>) {
+    providers.forEachIndexed { ii, it -> forceBind(Target(type, ii), it) }
+}
+
+fun <T : Any> Module.forceBind(target: Target<T>, provider: Provider<T>) {
+
+    if (bindings.containsKey(target)) {
+        logger.info { "$target already bound. Will be DELETED to allow OVERWRITING" }
+        bindings = bindings - target // Required to change order
     }
 
-    bindings = bindings - key // Required to change order
-    logger.info { "$binding bound to new generator (OVERRIDDEN)" }
-
-    bindings = bindings + (key to provider)
+    bind(target, provider)
 }
 
-fun <T : Any, R : T> Module.forceBind(type: KClass<T>, tag: Any = Unit, provider: () -> R) {
-    forceBind(type, Generator(provider), tag)
+inline fun <reified T : Any> Module.forceBind(instance: T) {
+    forceBind(Target(T::class), Instance(instance))
 }
 
-fun <T : Any, R : T> Module.forceBind(type: KClass<T>, tag: Any, instance: R) {
-    forceBind(type, Instance(instance), tag)
+inline fun <reified T : Any> Module.forceBind(noinline generator: () -> T) {
+    forceBind(Target(T::class), Generator(generator))
 }
 
-fun <T : Any, R : T> Module.forceBind(type: KClass<T>, instance: R) {
-    forceBind(type, Unit, instance)
+inline fun <reified T : Any> Module.forceBind(tag: Any, instance: T) {
+    forceBind(Target(T::class, tag), Instance(instance))
 }
 
-fun <T : Any, R : T> Module.forceBindSet(type: KClass<T>, instances: List<Provider<R>>) {
-    instances.forEachIndexed { ii, instance -> forceBind(type, instance, ii) }
-}
-
-fun <T : Any, R : T> Module.forceBindSet(type: KClass<T>, providers: Map<Any, Provider<R>>) {
-    providers.forEach { (k, v) -> forceBind(type, v, k) }
+inline fun <reified T : Any> Module.forceBind(tag: Any, noinline generator: () -> T) {
+    forceBind(Target(T::class, tag), Generator(generator))
 }
