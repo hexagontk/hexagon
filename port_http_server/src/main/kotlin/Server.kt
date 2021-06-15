@@ -105,8 +105,7 @@ data class Server(
     fun start() {
         val startTimestamp = nanoTime()
 
-        // TODO Check features and options
-        // TODO Update documentation, guides and samples.
+        // TODO Check features and options for the used backend
 
         getRuntime().addShutdownHook(
             Thread(
@@ -135,6 +134,7 @@ data class Server(
         // TODO Print selected features with a tick
         // TODO Print selected protocol with a tick
         // TODO Print passed options values
+        // TODO Use emojis (like rocket launch... just for fun)
 
         val heap = getMemoryMXBean().heapMemoryUsage
         val jvmMemory = "%,d".format(heap.init / 1024)
