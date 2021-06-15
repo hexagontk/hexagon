@@ -68,13 +68,13 @@ internal class HelpersTest {
     @Test fun `System setting works ok` () {
         System.setProperty("system_property", "value")
 
-        assert(Jvm.systemSetting("system_property") == "value")
+        assert(Jvm.systemSetting<String>("system_property") == "value")
 
-        assert(Jvm.systemSetting("PATH")?.isNotEmpty() ?: false)
-        assert(Jvm.systemSetting("_not_defined_") == null)
+        assert(Jvm.systemSetting<String>("PATH")?.isNotEmpty() ?: false)
+        assert(Jvm.systemSetting<String>("_not_defined_") == null)
 
         System.setProperty("PATH", "path override")
-        assert(Jvm.systemSetting("PATH") == "path override")
+        assert(Jvm.systemSetting<String>("PATH") == "path override")
     }
 
     @Test fun `Filtering an exception with an empty string do not change the stack` () {

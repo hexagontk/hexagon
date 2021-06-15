@@ -58,12 +58,9 @@ object Jvm {
     fun uptime(): String =
         safeJmx { "%01.3f".format(ManagementFactory.getRuntimeMXBean().uptime / 1e3) }
 
-    fun systemSetting(name: String): String? =
-        System.getProperty(name) ?: System.getenv(name)
-
     @Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
     fun <T: Any> systemSetting(type: KClass<T>, name: String): T? =
-        systemSetting(name)?.let {
+        systemSettingRaw(name)?.let {
             when (type) {
                 Boolean::class -> it.toBooleanStrictOrNull()
                 Int::class -> it.toIntOrNull()
@@ -75,8 +72,11 @@ object Jvm {
             }
         } as? T
 
-    inline fun <reified T: Any> typedSystemSetting(name: String): T? =
+    inline fun <reified T: Any> systemSetting(name: String): T? =
         systemSetting(T::class, name)
+
+    internal fun systemSettingRaw(name: String): String? =
+        System.getProperty(name) ?: System.getenv(name)
 
     internal fun safeJmx(block: () -> String): String =
         try {
@@ -86,4 +86,6 @@ object Jvm {
         catch (e: Exception) {
             throw IllegalStateException(NO_JMX_ERROR, e)
         }
+
+    // TODO Add command line parsing 'Options' and 'Commands' (maybe in its own package: `cli`)
 }

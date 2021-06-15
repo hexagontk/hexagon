@@ -43,22 +43,22 @@ internal class JvmTest {
         System.setProperty("string", "text")
         System.setProperty("error", "value")
 
-        assertEquals(true, Jvm.typedSystemSetting("validBoolean"))
-        assertEquals(123, Jvm.typedSystemSetting("validInt"))
-        assertEquals(456L, Jvm.typedSystemSetting("validLong"))
-        assertEquals(0.5F, Jvm.typedSystemSetting("validFloat"))
-        assertEquals(1.5, Jvm.typedSystemSetting("validDouble"))
+        assertEquals(true, Jvm.systemSetting("validBoolean"))
+        assertEquals(123, Jvm.systemSetting("validInt"))
+        assertEquals(456L, Jvm.systemSetting("validLong"))
+        assertEquals(0.5F, Jvm.systemSetting("validFloat"))
+        assertEquals(1.5, Jvm.systemSetting("validDouble"))
 
-        assertNull(Jvm.typedSystemSetting<Boolean>("invalidBoolean"))
-        assertNull(Jvm.typedSystemSetting<Boolean>("invalidInt"))
-        assertNull(Jvm.typedSystemSetting<Boolean>("invalidLong"))
-        assertNull(Jvm.typedSystemSetting<Boolean>("invalidFloat"))
-        assertNull(Jvm.typedSystemSetting<Boolean>("invalidDouble"))
+        assertNull(Jvm.systemSetting<Boolean>("invalidBoolean"))
+        assertNull(Jvm.systemSetting<Boolean>("invalidInt"))
+        assertNull(Jvm.systemSetting<Boolean>("invalidLong"))
+        assertNull(Jvm.systemSetting<Boolean>("invalidFloat"))
+        assertNull(Jvm.systemSetting<Boolean>("invalidDouble"))
 
-        assertEquals("text", Jvm.typedSystemSetting("string"))
+        assertEquals("text", Jvm.systemSetting("string"))
 
         val type = System::class
-        val e = assertFailsWith<IllegalStateException> { Jvm.typedSystemSetting<System>("error") }
+        val e = assertFailsWith<IllegalStateException> { Jvm.systemSetting<System>("error") }
         assertEquals("Setting: 'error' has unsupported type: ${type.qualifiedName}", e.message)
     }
 
