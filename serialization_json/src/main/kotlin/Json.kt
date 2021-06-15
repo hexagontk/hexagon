@@ -1,3 +1,3 @@
 package com.hexagonkt.serialization
 
-object Json : SerializationFormat by JacksonTextFormat(linkedSetOf("json"))
+object Json : JacksonTextFormat(linkedSetOf("json"))
