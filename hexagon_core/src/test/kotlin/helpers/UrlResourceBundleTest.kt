@@ -1,16 +1,10 @@
-@file:Suppress("ClassName", "unused")
-
 package com.hexagonkt.helpers
 
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.Yaml
 import org.junit.jupiter.api.Test
-import java.net.URL
 import java.util.*
 import kotlin.test.assertEquals
-
-internal class SampleBundle : UrlResourceBundle(URL("classpath:sample.yml"))
-internal class SampleBundle_es : UrlResourceBundle(URL("classpath:sample_es.yml"))
 
 internal class UrlResourceBundleTest {
 
