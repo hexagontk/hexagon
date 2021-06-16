@@ -1,7 +1,4 @@
 
-# Disabling strict mode because of https://github.com/squidfunk/mkdocs-material/issues/1691
-# TODO Set to 'strict' if the issue above is fixed in future releases
-strict: false
 dev_addr: 127.0.0.1:8000
 
 site_name: Hexagon
@@ -21,8 +18,6 @@ copyright: >
 repo_name: hexagonkt/hexagon
 repo_url: https://github.com/hexagonkt/hexagon
 edit_uri: ""
-
-google_analytics: [ UA-48216810-3, auto ]
 
 docs_dir: content
 
@@ -54,7 +49,7 @@ nav:
     - Core: hexagon_core.md
     - HTTP Server: port_http_server.md
     - HTTP Client: port_http_client.md
-    - Templates: port_templates/port_templates.md
+    - Templates: port_templates.md
     - Gradle Helpers: gradle.md
     - Maven Parent POM: maven.md
   - API: api/index.html
@@ -110,6 +105,10 @@ extra:
   site_long_description: >
     Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of
     services (Web applications, APIs or queue consumers) that run inside a cloud platform
+
+  analytics:
+    provider: google
+    property: UA-48216810-3
 
   twitter_user: hexagon_kt
   social:

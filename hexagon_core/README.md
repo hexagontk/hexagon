@@ -62,7 +62,7 @@ alternatives:
 
 TODO Add `LoggingManager` examples for changing logging level
 
-[Logger]: com.hexagonkt.logging/-logger/index.md
+[Logger]: api/hexagon_core/hexagon_core/com.hexagonkt.logging/-logger/index.html
 [Java Util Logging]:
   https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
@@ -86,7 +86,7 @@ Check this sample to bind constructor functions or objects to classes, and injec
     receiving all of their dependencies, so you can use them instead relying on injection (or use
     another DI library of your choice).
 
-[InjectionManager]: com.hexagonkt.injection/-injection-manager/index.md
+[InjectionManager]: api/hexagon_core/hexagon_core/com.hexagonkt.injection/-injection-manager/index.html
 
 ### Serialization
 
