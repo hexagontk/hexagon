@@ -46,13 +46,6 @@ internal class HelpersTest {
         assertEquals("text", "text".println())
     }
 
-    @Test fun `Log helper`() {
-        assertEquals("foo", "foo".trace(">>> "))
-        assertEquals("foo", "foo".trace())
-        assertEquals(null, null.trace())
-        assertEquals("text", "text".trace())
-    }
-
     @Test fun `Process execution works as expected`() {
         assertFailsWith<IllegalArgumentException> { " ".exec() }
         assertFailsWith<IllegalArgumentException> { "echo test".exec(timeout = -1) }
@@ -75,13 +68,13 @@ internal class HelpersTest {
     @Test fun `System setting works ok` () {
         System.setProperty("system_property", "value")
 
-        assert(Jvm.systemSetting("system_property") == "value")
+        assert(Jvm.systemSetting<String>("system_property") == "value")
 
-        assert(Jvm.systemSetting("PATH")?.isNotEmpty() ?: false)
-        assert(Jvm.systemSetting("_not_defined_") == null)
+        assert(Jvm.systemSetting<String>("PATH")?.isNotEmpty() ?: false)
+        assert(Jvm.systemSetting<String>("_not_defined_") == null)
 
         System.setProperty("PATH", "path override")
-        assert(Jvm.systemSetting("PATH") == "path override")
+        assert(Jvm.systemSetting<String>("PATH") == "path override")
     }
 
     @Test fun `Filtering an exception with an empty string do not change the stack` () {

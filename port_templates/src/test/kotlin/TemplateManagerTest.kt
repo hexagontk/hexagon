@@ -7,39 +7,34 @@ import java.util.Locale
 
 internal class TemplateManagerTest {
 
-    private class ResourceTemplateAdapter(private val marker: String) : TemplatePort {
-        override fun render(
-            resource: String,
-            locale: Locale,
-            context: Map<String, *>,
-            settings: TemplateEngineSettings
-        ): String =
-            "$marker:$resource"
+    private class TestTemplateAdapter(val prefix: String) : TemplatePort {
+        override fun render(resource: String, locale: Locale, context: Map<String, *>): String =
+            "$prefix:$resource"
     }
 
     @Test fun `Use TemplateManager to handle multiple template engines`() {
-        val htmlTemplateAdapter = ResourceTemplateAdapter("HTML")
-        val plainTextTemplateAdapter = ResourceTemplateAdapter("PLAIN")
 
         val locale = Locale.getDefault()
         val context = mapOf<String, Any>()
 
         // templateEngineRegistration
-        TemplateManager.register("html", TemplateEngine(htmlTemplateAdapter))
-        TemplateManager.register("plain", TemplateEngine(plainTextTemplateAdapter))
+        TemplateManager.adapters = mapOf(
+            Regex(".*\\.html") to TestTemplateAdapter("html"),
+            Regex(".*\\.txt") to TestTemplateAdapter("text")
+        )
 
-        val html = TemplateManager.render("html:template.html", locale, context)
-        val plain = TemplateManager.render("plain:template.txt", locale, context)
+        val html = TemplateManager.render("template.html", locale, context)
+        val plain = TemplateManager.render("template.txt", locale, context)
         // templateEngineRegistration
 
-        assertEquals("HTML:template.html", html)
-        assertEquals("PLAIN:template.txt", plain)
-
+        assertEquals("html:template.html", html)
+        assertEquals("text:template.txt", plain)
     }
 
     @Test fun `Throws IllegalArgumentException when no adapter is found for prefix`() {
+        TemplateManager.adapters = emptyMap()
         val locale = Locale.getDefault()
-        val prefixedResource = "unknown:test.pebble.html"
+        val prefixedResource = "test.pebble.html"
 
         assertThrows<IllegalArgumentException> {
             TemplateManager.render(prefixedResource, locale, mapOf<String, Any>())

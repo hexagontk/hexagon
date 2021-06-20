@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 
 object Xml : SerializationFormat {
 
-    private val mapper = JacksonHelper
+    val mapper = JacksonHelper
         .setupObjectMapper(XmlMapper(JacksonXmlModule()))
         .configure(INDENT_OUTPUT, true)
 

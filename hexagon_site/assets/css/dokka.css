@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:300,400,400i,700%7CRoboto+Mono&display=fallback');
+
 :root {
   --md-primary-fg-color: #546691;
   --md-primary-fg-color--light: hsla(231, 44%, 56%, 1);
@@ -6,7 +8,9 @@
   --md-primary-bg-color: hsla(0, 0%, 100%, 1);
   --md-primary-bg-color--light: hsla(0, 0%, 100%, 0.7);
 
-  --md-footer-bg-color--dark: rgba(0,0,0,0.32);
+  --md-footer-fg-color: rgba(255, 255, 255, 0.7);
+  --md-footer-fg-color--light: rgba(255, 255, 255);
+  --md-footer-bg-color--dark: #161616;
 
   --ring-font-family: "Titillium Web", system-ui, Arial, sans-serif;
   --ring-font-family-monospace: "Roboto Mono", Menlo, "Ubuntu Mono", Consolas, monospace;
@@ -30,4 +34,17 @@ body, table {
 .footer {
   color: hsla(0,0%,100%,.3);
   background-color: var(--md-footer-bg-color--dark);
+}
+
+.footer a {
+  color: var(--md-footer-fg-color)
+}
+
+.footer a:hover {
+  color: var(--md-footer-fg-color--light);
+  text-decoration: none;
+}
+
+.footer span.go-to-top-icon {
+  background-color: rgba(0, 0, 0, 0.5);
 }

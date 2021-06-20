@@ -1,13 +1,13 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.helpers.logger
+import com.hexagonkt.logging.logger
 import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Part
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
-import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.serialization.toObject
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseObjects
 import java.security.cert.X509Certificate
@@ -208,7 +208,7 @@ class Request(adapter: RequestPort) {
     fun <T : Any> parseAllParameters(type: KClass<T>): T? {
         val requestMap = generateRequestMap(this)
         return try {
-            requestMap.convertToObject(type)
+            requestMap.toObject(type)
         }
         catch (iae: IllegalArgumentException) {
             logger.warn { "Unable to parse request data into ${type.simpleName} : ${iae.message}" }

@@ -27,6 +27,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
     private data class Type(val value: String = "value")
 
     @BeforeAll fun initialize() {
+        InjectionManager.module.clear()
         SerializationManager.formats = linkedSetOf(Json)
         SerializationManager.mapper = JacksonMapper
     }
@@ -62,7 +63,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
          * You can skip the adapter is you previously bound one
          * You may also skip the settings an the defaults will be used
          */
-        InjectionManager.bind(adapter)
+        InjectionManager.module.bind(adapter)
         val defaultServer = Server(router = router)
 
         defaultServer.start()

@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.examples
 
-import com.hexagonkt.helpers.logger
+import com.hexagonkt.logging.logger
 import com.hexagonkt.helpers.require
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.Protocol.HTTPS

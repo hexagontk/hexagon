@@ -1,9 +1,9 @@
 package com.hexagonkt.store.hashmap
 
 import com.hexagonkt.helpers.filterEmpty
-import com.hexagonkt.helpers.logger
-import com.hexagonkt.serialization.convertToMap
-import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.logging.logger
+import com.hexagonkt.serialization.toFieldsMap
+import com.hexagonkt.serialization.toObject
 import com.hexagonkt.store.Mapper
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -16,14 +16,14 @@ class HashMapMapper<T: Any>(private val type: KClass<T>): Mapper<T> {
     }
 
     override fun toStore(instance: T): Map<String, Any>  =
-        instance.convertToMap()
+        instance.toFieldsMap()
             .filterEmpty()
             .mapKeys { it.key.toString() }
             .mapValues { it.value }
 
     @Suppress("UNCHECKED_CAST")
     override fun fromStore(map: Map<String, Any>): T =
-        map.filterEmpty().convertToObject(type)
+        map.filterEmpty().toObject(type)
 
     override fun fromStore(property: String, value: Any): Any =
         value

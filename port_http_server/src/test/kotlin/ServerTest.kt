@@ -1,11 +1,11 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.injection.InjectionManager.bind
+import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.injection.forceBind
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.serialization.toObject
 import com.hexagonkt.settings.SettingsManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -23,8 +23,8 @@ internal class ServerTest {
     }
 
     @Test fun `Injected parameters`() {
-        forceBind(ServerPort::class, VoidAdapter)
-        bind(SettingsManager.instance<Map<*, *>>().convertToObject<ServerSettings>())
+        InjectionManager.module.forceBind<ServerPort>(VoidAdapter)
+        InjectionManager.module.bind(SettingsManager.settings.parameters.toObject<ServerSettings>())
 
         val server = Server {}
 

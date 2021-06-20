@@ -26,11 +26,11 @@ import org.eclipse.jetty.server.Server as JettyServer
 internal class ServletServerTest {
 
     @WebListener
-    class WebAppServer : ServletServer() {
-        override fun createRouter() = Router {
+    class WebAppServer : ServletServer(
+        Router {
             get { ok("Hello Servlet!") }
         }
-    }
+    )
 
     private val jettyServer = JettyServer(InetSocketAddress("127.0.0.1", 9897))
 

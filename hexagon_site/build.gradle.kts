@@ -146,7 +146,7 @@ tasks.register<Exec>("serveSite") {
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs")
-    commandLine("$dockerCommand $mkdocsMaterialImage build -csq".split(" "))
+    commandLine("$dockerCommand $mkdocsMaterialImage build -cs".split(" "))
 }
 
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }

@@ -1,6 +1,5 @@
-package helpers
+package com.hexagonkt.helpers
 
-import com.hexagonkt.helpers.Ansi
 import com.hexagonkt.logging.Logger
 import org.junit.jupiter.api.Test
 

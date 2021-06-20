@@ -14,17 +14,13 @@ import javax.servlet.ServletContextListener
  * started/stopped.
  */
 abstract class ServletServer(
-    private val router: Router = Router(),
+    protected val router: Router = Router(),
     private val async: Boolean = false
 ) : ServletContextListener {
 
-    private val serverRouter by lazy { createRouter() }
-
-    open fun createRouter(): Router = router
-
     override fun contextInitialized(sce: ServletContextEvent) {
         val serverSettings = ServerSettings(features = setOf(SESSIONS))
-        val servletFilter = ServletFilter(serverRouter.flatRequestHandlers(), serverSettings)
+        val servletFilter = ServletFilter(router.flatRequestHandlers(), serverSettings)
         val filter = sce.servletContext.addFilter("filters", servletFilter)
         filter.setAsyncSupported(async)
         filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, "/*")

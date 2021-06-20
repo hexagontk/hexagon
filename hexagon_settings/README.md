@@ -39,15 +39,23 @@ sources, the default ones are (bottom sources override top ones):
 7. Resource `/application_test.json`.
 8. Resource `/application_test.yml`.
 
-Default to map
+Configuration parameters are loaded from the defined sources into a map. Latter sources override
+previous parameters with the same name if they exist.
 
-Loaded into type
-
-Optional simple settings can be handled with data classes
+!!! Tip
+    The map with configuration parameters can be converted to any type using the [toObject]
+    utility method in [Core serialization helpers].
 
 Below there is a code fragment showing how to add custom settings sources and load its properties:
 
 @code hexagon_settings/src/test/kotlin/HexagonSettingsSamplesTest.kt:settingsUsage
+
+For defining simple settings, data classes can be used instead this module:
+
+@code hexagon_settings/src/test/kotlin/HexagonSettingsSamplesTest.kt:settingsDataClasses
+
+[toObject]: /api/hexagon_core/hexagon_core/com.hexagonkt.serialization/to-object.html
+[Core serialization helpers]: /api/hexagon_core/hexagon_core/com.hexagonkt.serialization
 
 # Package com.hexagonkt.settings
 
