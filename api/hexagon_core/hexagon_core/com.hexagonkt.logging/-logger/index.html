@@ -23,15 +23,16 @@
           </div>
           <div class="cover ">
             <h1 class="cover"><span>Logger</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_core:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="index.html">Logger</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Logger class with Kotlin improvements like lazy evaluation. It is backed by a SLF4J compatible logger.</p><p class="paragraph">Usage example:</p></div></div>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_core:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="index.html">Logger</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Logger class with Kotlin improvements like lazy evaluation. It is backed by a logging port.</p><p class="paragraph">Usage example:</p></div></div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Parameters">Parameters</button><button class="section-tab" data-togglable="Samples">Samples</button></div>
             <div class="tabs-section-body">
               <h2 class="">Samples</h2>
               <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_core:dokkaHtmlPartial/main"><div class="sample-container"><code class="runnablesample monospace" theme="idea"><pre>import com.hexagonkt.helpers.Jvm
-import com.hexagonkt.helpers.logger
-import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.logging.logger
+import com.hexagonkt.injection.InjectionManager.module
+import com.hexagonkt.injection.InjectionManager.injector
 import com.hexagonkt.injection.forceBind
 import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.Json
@@ -41,6 +42,8 @@ import com.hexagonkt.serialization.serialize
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.util.Date
+import kotlin.test.assertEquals
+import kotlin.test.assertSame
 fun main() { 
    //sampleStart 
    // logger

@@ -32,7 +32,7 @@
 <p class="paragraph">Filter the target string substituting each key by its value. The keys format is: <code>#{key}</code> and all occurrences are replaced by the supplied value.</p><p class="paragraph">If a variable does not have a parameter, it is left as it is.</p><h4 class="">Return</h4><p class="paragraph">The filtered text or the same string if no values are passed or found in the text.</p><h2 class="">Samples</h2><div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_core:dokkaHtmlPartial/main"><div class="sample-container"><code class="runnablesample monospace" theme="idea"><pre>import org.junit.jupiter.api.Test
 fun main() { 
    //sampleStart 
-   val template = "User #{user}"
+   val template = "User {{user}}"
 val parameters = mapOf&lt;Any, Any&gt;("user" to "John")
 
 assert (template.filterVars(parameters) == "User John")

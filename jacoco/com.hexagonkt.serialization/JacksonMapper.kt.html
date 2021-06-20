@@ -4,10 +4,10 @@ import kotlin.reflect.KClass
 
 object JacksonMapper : Mapper {
 
-    override fun convertToMap(instance: Any): Map&lt;*, *&gt; =
+    override fun toFieldsMap(instance: Any): Map&lt;*, *&gt; =
 <span class="fc" id="L8">        JacksonHelper.mapper.convertValue(instance, Map::class.java)</span>
 
-    override fun &lt;T : Any&gt; convertToObject(map: Map&lt;*, *&gt;, type: KClass&lt;T&gt;): T =
+    override fun &lt;T : Any&gt; toObject(map: Map&lt;*, *&gt;, type: KClass&lt;T&gt;): T =
 <span class="fc" id="L11">        JacksonHelper.mapper.convertValue(map, type.java)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

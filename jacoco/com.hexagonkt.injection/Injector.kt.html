@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Injector.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.injection</a> &gt; <span class="el_source">Injector.kt</span></div><h1>Injector.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.injection
+
+import kotlin.reflect.KClass
+
+<span class="pc" id="L5">class Injector(private val module: Module = Module()) {</span>
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // bind operation takes care of type matching
+    fun &lt;T : Any&gt; injectOrNull(type: KClass&lt;T&gt;, tag: Any): T? =
+<span class="fc bfc" id="L9" title="All 4 branches covered.">        module.bindings[Target(type, tag)]?.provide() as? T</span>
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // bind operation takes care of type matching
+    fun &lt;T : Any&gt; injectList(type: KClass&lt;T&gt;): List&lt;T&gt; =
+<span class="fc" id="L13">        module.bindings</span>
+<span class="fc bfc" id="L14" title="All 2 branches covered.">            .filter { it.key.type == type }</span>
+<span class="fc" id="L15">            .map { it.value.provide() as T }</span>
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // bind operation takes care of type matching
+    fun &lt;T : Any&gt; injectMap(type: KClass&lt;T&gt;): Map&lt;Any, T&gt; =
+<span class="fc" id="L19">        module.bindings</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">            .filter { it.key.type == type }</span>
+<span class="fc" id="L21">            .map { it.key.tag to it.value.provide() as T }</span>
+<span class="fc" id="L22">            .associate { it.first to it.second }</span>
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // bind operation takes care of type matching
+    fun &lt;T : Any&gt; inject(type: KClass&lt;T&gt;, tag: Any): T =
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        injectOrNull(type, tag) ?: error(&quot;${type.java.name} generator missing&quot;)</span>
+
+    fun &lt;T : Any&gt; inject(type: KClass&lt;T&gt;): T =
+<span class="fc" id="L29">        inject(type, Unit)</span>
+
+    fun &lt;T : Any&gt; injectOrNull(type: KClass&lt;T&gt;): T? =
+<span class="fc" id="L32">        injectOrNull(type, Unit)</span>
+
+    inline fun &lt;reified T : Any&gt; inject(tag: Any): T =
+        inject(T::class, tag)
+
+    inline fun &lt;reified T : Any&gt; inject(): T =
+        inject(T::class)
+
+    inline fun &lt;reified T : Any&gt; injectOrNull(tag: Any): T? =
+        injectOrNull(T::class, tag)
+
+    inline fun &lt;reified T : Any&gt; injectOrNull(): T? =
+        injectOrNull(T::class)
+
+    inline fun &lt;reified T : Any&gt; injectList(): List&lt;T&gt; =
+        injectList(T::class)
+
+    inline fun &lt;reified T : Any&gt; injectMap(): Map&lt;Any, T&gt; =
+        injectMap(T::class)
+<span class="nc" id="L51">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

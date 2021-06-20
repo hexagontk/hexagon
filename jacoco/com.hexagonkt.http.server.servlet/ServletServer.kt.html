@@ -14,22 +14,18 @@ import javax.servlet.ServletContextListener
  * started/stopped.
  */
 <span class="fc" id="L16">abstract class ServletServer(</span>
-<span class="fc" id="L17">    private val router: Router = Router(),</span>
+<span class="pc" id="L17">    protected val router: Router = Router(),</span>
 <span class="fc" id="L18">    private val async: Boolean = false</span>
 ) : ServletContextListener {
 
-<span class="fc" id="L21">    private val serverRouter by lazy { createRouter() }</span>
-
-<span class="nc" id="L23">    open fun createRouter(): Router = router</span>
-
     override fun contextInitialized(sce: ServletContextEvent) {
-<span class="fc" id="L26">        val serverSettings = ServerSettings(features = setOf(SESSIONS))</span>
-<span class="fc" id="L27">        val servletFilter = ServletFilter(serverRouter.flatRequestHandlers(), serverSettings)</span>
-<span class="fc" id="L28">        val filter = sce.servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
-<span class="fc" id="L29">        filter.setAsyncSupported(async)</span>
-<span class="fc" id="L30">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
-<span class="fc" id="L31">    }</span>
+<span class="fc" id="L22">        val serverSettings = ServerSettings(features = setOf(SESSIONS))</span>
+<span class="fc" id="L23">        val servletFilter = ServletFilter(router.flatRequestHandlers(), serverSettings)</span>
+<span class="fc" id="L24">        val filter = sce.servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
+<span class="fc" id="L25">        filter.setAsyncSupported(async)</span>
+<span class="fc" id="L26">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
+<span class="fc" id="L27">    }</span>
 
-<span class="fc" id="L33">    override fun contextDestroyed(sce: ServletContextEvent?) { /* Empty */ }</span>
-<span class="fc" id="L34">}</span>
+<span class="fc" id="L29">    override fun contextDestroyed(sce: ServletContextEvent?) { /* Empty */ }</span>
+<span class="fc" id="L30">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

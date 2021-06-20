@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplateManager.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.templates</a> &gt; <span class="el_source">TemplateManager.kt</span></div><h1>TemplateManager.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.templates
 
+import com.hexagonkt.helpers.Glob
+import com.hexagonkt.helpers.toDate
+import com.hexagonkt.injection.InjectionManager.injector
+import java.time.LocalDateTime
 import java.util.Locale
 
 /**
@@ -7,38 +11,55 @@ import java.util.Locale
  */
 object TemplateManager {
 
-<span class="fc" id="L10">    private val engines: MutableMap&lt;String, TemplateEngine&gt; = mutableMapOf()</span>
-
-    private const val PREFIX_DELIMITER = &quot;:&quot;
-
-    /**
-     * Register a template engine under a prefix.
-     */
-    fun register(prefix: String, engine: TemplateEngine) {
-<span class="fc" id="L18">        engines[prefix] = engine</span>
-<span class="fc" id="L19">    }</span>
+<span class="pc" id="L14">    var adapters: Map&lt;Regex, TemplatePort&gt; = injector.injectMap&lt;TemplatePort&gt;()</span>
+<span class="fc" id="L15">        .mapKeys {</span>
+<span class="nc" id="L16">            when (val key = it.key) {</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">                is String -&gt; key.toRegex()</span>
+<span class="nc bnc" id="L18" title="All 2 branches missed.">                is Glob -&gt; key.regex</span>
+<span class="nc bnc" id="L19" title="All 2 branches missed.">                is Regex -&gt; key</span>
+<span class="nc" id="L20">                else -&gt; error(&quot;Template adapter bound to invalid tag: ${key::class.qualifiedName}&quot;)</span>
+            }
+<span class="fc" id="L22">        }</span>
 
     /**
      * Render a template with a registered template engine.
      *
-     * @param prefixedResource selects engine and template, i.e. &quot;html:template.html&quot; uses the
+     * @param resource selects engine and template, i.e. &quot;html:template.html&quot; uses the
      * engine registered under prefix &quot;html&quot; to render the template &quot;template.html&quot;
      *
      * @throws IllegalArgumentException if no engine for prefix was found
      */
-    fun render(prefixedResource: String, locale: Locale, context: Map&lt;String, *&gt;): String {
-<span class="fc bfc" id="L30" title="All 2 branches covered.">        val (prefix: String, engine: TemplateEngine) = engine(prefixedResource)</span>
-<span class="fc" id="L31">            ?: throw IllegalArgumentException(&quot;No adapter found for resource: $prefixedResource&quot;)</span>
-
-<span class="fc" id="L33">        return engine.render(plainResource(prefixedResource, prefix), locale, context)</span>
+    fun render(resource: String, locale: Locale, context: Map&lt;String, *&gt;): String {
+<span class="fc" id="L33">        return render(findAdapter(resource), resource, locale, context)</span>
     }
 
-    private fun engine(prefixedResource: String): Map.Entry&lt;String, TemplateEngine&gt;? =
-<span class="fc bfc" id="L37" title="All 2 branches covered.">        engines.filterKeys { prefix -&gt; prefixedResource.startsWith(prefix + PREFIX_DELIMITER) }</span>
-<span class="fc" id="L38">            .entries</span>
-<span class="fc" id="L39">            .firstOrNull()</span>
+    fun render(
+        adapter: TemplatePort, resource: String, locale: Locale, context: Map&lt;String, *&gt;): String {
 
-    private fun plainResource(prefixedResource: String, prefix: String): String =
-<span class="fc" id="L42">        prefixedResource.removePrefix(prefix + PREFIX_DELIMITER)</span>
+<span class="fc" id="L39">        val now = LocalDateTime.now().toDate()</span>
+<span class="fc" id="L40">        val defaultProperties = mapOf(&quot;_template_&quot; to resource, &quot;_now_&quot; to now)</span>
+<span class="fc" id="L41">        return adapter.render(resource, locale, context + defaultProperties)</span>
+    }
+
+<span class="nc" id="L44">    fun render(</span>
+        resource: String,
+<span class="nc" id="L46">        locale: Locale = Locale.getDefault(),</span>
+        vararg context: Pair&lt;String, *&gt;
+    ): String =
+<span class="nc" id="L49">        render(findAdapter(resource), resource, locale, *context)</span>
+
+<span class="nc" id="L51">    fun render(</span>
+        adapter: TemplatePort,
+        resource: String,
+<span class="nc" id="L54">        locale: Locale = Locale.getDefault(),</span>
+        vararg context: Pair&lt;String, *&gt;
+    ): String =
+<span class="nc" id="L57">        render(adapter, resource, locale, linkedMapOf(*context))</span>
+
+    private fun findAdapter(resource: String): TemplatePort =
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        adapters</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">            .filter { it.key.matches(resource) }</span>
+<span class="pc bpc" id="L62" title="1 of 4 branches missed.">            .firstNotNullOfOrNull { it.value  }</span>
+<span class="fc" id="L63">            ?: throw IllegalArgumentException(&quot;No adapter found for resource: $resource&quot;)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

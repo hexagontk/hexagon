@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://hexagonkt.com/port_http_server/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.8">
     
     
       
@@ -24,10 +24,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bde7dde4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ca7ac06f.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
         
           
           
@@ -50,10 +50,19 @@
     
     
       
-        
-<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-48216810-3","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
-<script async src="https://www.google-analytics.com/analytics.js"></script>
-      
+
+  
+
+
+  
+
+  
+
+
+  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-48216810-3","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+
+
     
     
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -80,19 +89,19 @@
 <meta name="twitter:title" content="Hexagon">
 <meta name="twitter:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
 ">
-<meta name="twitter:image" content="https://hexagonkt.comapple-touch-icon.png">
+<meta name="twitter:image" content="https://hexagonkt.com/apple-touch-icon.png">
 
 <meta property="og:title" content="Hexagon" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://hexagonkt.com" />
-<meta property="og:image" content="https://hexagonkt.comapple-touch-icon.png" />
+<meta property="og:url" content="https://hexagonkt.com/" />
+<meta property="og:image" content="https://hexagonkt.com/apple-touch-icon.png" />
 <meta property="og:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
 " />
 
 <meta itemprop="name" content="Hexagon">
 <meta itemprop="description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
  ">
-<meta itemprop="image" content="https://hexagonkt.comapple-touch-icon.png">
+<meta itemprop="image" content="https://hexagonkt.com/apple-touch-icon.png">
 
 <link rel="author" href="/humans.txt" />
 <link rel="manifest" href="/manifest.json">
@@ -244,7 +253,7 @@ if ('serviceWorker' in navigator)
 
 
   <li class="md-tabs__item">
-    <a href="../api" class="md-tabs__link">
+    <a href="../api/" class="md-tabs__link">
       API
     </a>
   </li>
@@ -757,6 +766,18 @@ if ('serviceWorker' in navigator)
   
   
     <li class="md-nav__item">
+      <a href="../port_templates/" class="md-nav__link">
+        Templates
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../gradle/" class="md-nav__link">
         Gradle Helpers
       </a>
@@ -790,7 +811,7 @@ if ('serviceWorker' in navigator)
   
   
     <li class="md-nav__item">
-      <a href="../api" class="md-nav__link">
+      <a href="../api/" class="md-nav__link">
         API
       </a>
     </li>
@@ -873,6 +894,18 @@ if ('serviceWorker' in navigator)
     <li class="md-nav__item">
       <a href="../examples/http_client_examples/" class="md-nav__link">
         HTTP Client
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/templates_examples/" class="md-nav__link">
+        Templates
       </a>
     </li>
   
@@ -1368,7 +1401,7 @@ parameters list:</p>
 <p>You can inject an adapter for the <code>Server</code> port using the <a href="/hexagon_core/#dependency-injection">InjectionManager</a> object:
 <code>InjectionManager.bindObject&lt;ServerPort&gt;(JettyServletAdapter())</code></p>
 <p>To create a server, you need to provide a router (check the <a href="/port_http_server/#routes">next section</a> for more information),
-and after creating a server you can run it or stop it with <a href="com.hexagonkt.http.server/-server/start.md">start()</a> and <a href="com.hexagonkt.http.server/-server/stop.md">stop()</a> methods.</p>
+and after creating a server you can run it or stop it with <a href="../api/port_http_server/port_http_server/com.hexagonkt.http.server/-server/start.html">start()</a> and <a href="../api/port_http_server/port_http_server/com.hexagonkt.http.server/-server/stop.html">stop()</a> methods.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -1436,7 +1469,7 @@ and after creating a server you can run it or stop it with <a href="com.hexagonk
 <span class="cm"> * You can skip the adapter is you previously bound one</span>
 <span class="cm"> * You may also skip the settings an the defaults will be used</span>
 <span class="cm"> */</span>
-<span class="n">InjectionManager</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span>
+<span class="n">InjectionManager</span><span class="p">.</span><span class="na">module</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span>
 <span class="kd">val</span> <span class="nv">defaultServer</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">router</span> <span class="o">=</span> <span class="n">router</span><span class="p">)</span>
 
 <span class="n">defaultServer</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
@@ -2418,10 +2451,10 @@ media type object.
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.a1609d9a.min.js"></script>
+      <script src="../assets/javascripts/bundle.76f349be.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

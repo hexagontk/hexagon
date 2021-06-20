@@ -1,22 +1,13 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:com.hexagonkt.templates////PointingToDeclaration/port_templates/com.hexagonkt.templates/index.html
-$dokka.location:com.hexagonkt.templates/TemplateEngine///PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine/index.html
-$dokka.location:com.hexagonkt.templates/TemplateEngine/TemplateEngine/#com.hexagonkt.templates.TemplateEngineSettings/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine/-template-engine.html
-$dokka.location:com.hexagonkt.templates/TemplateEngine/TemplateEngine/#com.hexagonkt.templates.TemplatePort#com.hexagonkt.templates.TemplateEngineSettings/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine/-template-engine.html
-$dokka.location:com.hexagonkt.templates/TemplateEngine/render/#kotlin.String#java.util.Locale#kotlin.Array[kotlin.Pair[kotlin.String,*]]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine/render.html
-$dokka.location:com.hexagonkt.templates/TemplateEngine/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine/render.html
-$dokka.location:com.hexagonkt.templates/TemplateEngineSettings///PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine-settings/index.html
-$dokka.location:com.hexagonkt.templates/TemplateEngineSettings/TemplateEngineSettings/#kotlin.Function1[kotlin.String,java.io.Reader?]?#kotlin.Boolean#kotlin.String?/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine-settings/-template-engine-settings.html
-$dokka.location:com.hexagonkt.templates/TemplateEngineSettings/basePath/#/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine-settings/base-path.html
-$dokka.location:com.hexagonkt.templates/TemplateEngineSettings/loadContext/#/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine-settings/load-context.html
-$dokka.location:com.hexagonkt.templates/TemplateEngineSettings/loader/#/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-engine-settings/loader.html
 $dokka.location:com.hexagonkt.templates/TemplateManager///PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/index.html
-$dokka.location:com.hexagonkt.templates/TemplateManager/register/#kotlin.String#com.hexagonkt.templates.TemplateEngine/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/register.html
+$dokka.location:com.hexagonkt.templates/TemplateManager/adapters/#/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/adapters.html
+$dokka.location:com.hexagonkt.templates/TemplateManager/render/#com.hexagonkt.templates.TemplatePort#kotlin.String#java.util.Locale#kotlin.Array[kotlin.Pair[kotlin.String,*]]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/render.html
+$dokka.location:com.hexagonkt.templates/TemplateManager/render/#com.hexagonkt.templates.TemplatePort#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/render.html
+$dokka.location:com.hexagonkt.templates/TemplateManager/render/#kotlin.String#java.util.Locale#kotlin.Array[kotlin.Pair[kotlin.String,*]]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/render.html
 $dokka.location:com.hexagonkt.templates/TemplateManager/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-manager/render.html
 $dokka.location:com.hexagonkt.templates/TemplatePort///PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-port/index.html
-$dokka.location:com.hexagonkt.templates/TemplatePort/render/#kotlin.String#java.util.Locale#kotlin.Array[kotlin.Pair[kotlin.String,*]]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-port/render.html
-$dokka.location:com.hexagonkt.templates/TemplatePort/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]#com.hexagonkt.templates.TemplateEngineSettings/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-port/render.html
 $dokka.location:com.hexagonkt.templates/TemplatePort/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/port_templates/com.hexagonkt.templates/-template-port/render.html
 com.hexagonkt.templates
 

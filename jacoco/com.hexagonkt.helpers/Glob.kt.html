@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Glob.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.helpers</a> &gt; <span class="el_source">Glob.kt</span></div><h1>Glob.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.helpers
+
+import java.lang.IllegalArgumentException
+import java.util.regex.PatternSyntaxException
+
+<span class="pc" id="L6">data class Glob(val pattern: String) {</span>
+
+<span class="fc" id="L8">    val regex: Regex =</span>
+<span class="fc" id="L9">        try {</span>
+<span class="fc" id="L10">            globToRegex(pattern).toRegex()</span>
+        }
+<span class="fc" id="L12">        catch (e: PatternSyntaxException) {</span>
+<span class="fc" id="L13">            throw IllegalArgumentException(&quot;Pattern: '$pattern' is not a valid Glob&quot;, e)</span>
+        }
+
+    fun matches(text: String): Boolean =
+<span class="fc" id="L17">        regex.matches(text)</span>
+
+    private fun globToRegex(pattern: String): String {
+<span class="fc" id="L20">        var escaping = false</span>
+<span class="fc" id="L21">        var bracesCount = 0</span>
+
+<span class="fc" id="L23">        return pattern.toCharArray().joinToString(&quot;&quot;) { currentChar -&gt;</span>
+<span class="fc" id="L24">            val globPart = when (currentChar) {</span>
+<span class="fc bfc" id="L25" title="All 34 branches covered.">                '.', '(', ')', '+', '|', '^', '$', '@', '%' -&gt; &quot;&quot;&quot;\$currentChar&quot;&quot;&quot;</span>
+<span class="fc bfc" id="L26" title="All 4 branches covered.">                '*' -&gt; if (escaping) &quot;&quot;&quot;\*&quot;&quot;&quot; else &quot;.*&quot;</span>
+<span class="fc bfc" id="L27" title="All 4 branches covered.">                '?' -&gt; if (escaping) &quot;&quot;&quot;\?&quot;&quot;&quot; else &quot;.&quot;</span>
+<span class="fc bfc" id="L28" title="All 4 branches covered.">                '\\' -&gt; if (escaping) &quot;&quot;&quot;\\&quot;&quot;&quot; else &quot;&quot;</span>
+<span class="fc bfc" id="L29" title="All 4 branches covered.">                '{' -&gt; if (escaping) &quot;&quot;&quot;\{&quot;&quot;&quot; else &quot;(&quot;</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">                '}' -&gt; when {</span>
+<span class="fc bfc" id="L31" title="All 4 branches covered.">                    bracesCount &gt; 0 &amp;&amp; !escaping -&gt; &quot;)&quot;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">                    escaping -&gt; &quot;&quot;&quot;\}&quot;&quot;&quot;</span>
+<span class="fc" id="L33">                    else -&gt; &quot;}&quot;</span>
+                }
+<span class="fc bfc" id="L35" title="All 2 branches covered.">                ',' -&gt; when {</span>
+<span class="fc bfc" id="L36" title="All 4 branches covered.">                    bracesCount &gt; 0 &amp;&amp; !escaping -&gt; &quot;|&quot;</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">                    escaping -&gt; &quot;\\,&quot;</span>
+<span class="fc" id="L38">                    else -&gt; &quot;,&quot;</span>
+                }
+<span class="fc" id="L40">                else -&gt; currentChar.toString()</span>
+            }
+
+<span class="fc bfc" id="L43" title="All 4 branches covered.">            if (currentChar == '{' &amp;&amp; !escaping)</span>
+<span class="fc" id="L44">                bracesCount++</span>
+
+<span class="fc bfc" id="L46" title="All 6 branches covered.">            if (currentChar == '}' &amp;&amp; !escaping &amp;&amp; bracesCount &gt; 0)</span>
+<span class="fc" id="L47">                bracesCount--</span>
+
+<span class="fc bfc" id="L49" title="All 4 branches covered.">            escaping = !escaping &amp;&amp; currentChar == '\\'</span>
+
+<span class="fc" id="L51">            globPart</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

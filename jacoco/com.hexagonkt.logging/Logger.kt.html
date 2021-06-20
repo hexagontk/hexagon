@@ -8,8 +8,7 @@ import com.hexagonkt.helpers.Ansi.RESET
 import com.hexagonkt.logging.LoggingLevel.*
 
 /**
- * Logger class with Kotlin improvements like lazy evaluation. It is backed by a SLF4J compatible
- * logger.
+ * Logger class with Kotlin improvements like lazy evaluation. It is backed by a logging port.
  *
  * Usage example:
  *
@@ -17,13 +16,13 @@ import com.hexagonkt.logging.LoggingLevel.*
  *
  * @param name Logger name. It is shown in the logs messages and used for log filtering.
  */
-<span class="fc" id="L20">class Logger(val name: String) {</span>
+<span class="fc" id="L19">class Logger(val name: String) {</span>
 
     private companion object {
         const val FLARE_PREFIX = &quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;
     }
 
-<span class="pc" id="L26">    internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)</span>
+<span class="pc" id="L25">    internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)</span>
 
     /**
      * Logger class with Kotlin improvements like lazy evaluation.
@@ -31,51 +30,51 @@ import com.hexagonkt.logging.LoggingLevel.*
      * @param type Logger type. It is shown in the logs messages and used for log filtering.
      */
     constructor(type: KClass&lt;*&gt;):
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        this(type.qualifiedName ?: error(&quot;Cannot get qualified name of $type&quot;))</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        this(type.qualifiedName ?: error(&quot;Cannot get qualified name of $type&quot;))</span>
 
     fun trace(message: () -&gt; Any?) {
-<span class="fc" id="L37">        log.log(TRACE, message)</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L36">        log.log(TRACE, message)</span>
+<span class="fc" id="L37">    }</span>
 
     fun debug(message: () -&gt; Any?) {
-<span class="fc" id="L41">        log.log(DEBUG, message)</span>
-<span class="fc" id="L42">    }</span>
+<span class="fc" id="L40">        log.log(DEBUG, message)</span>
+<span class="fc" id="L41">    }</span>
 
     fun info(message: () -&gt; Any?) {
-<span class="fc" id="L45">        log.log(INFO, message)</span>
-<span class="fc" id="L46">    }</span>
+<span class="fc" id="L44">        log.log(INFO, message)</span>
+<span class="fc" id="L45">    }</span>
 
     fun warn(message: () -&gt; Any?) {
-<span class="fc" id="L49">        log.log(WARN, message)</span>
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L48">        log.log(WARN, message)</span>
+<span class="fc" id="L49">    }</span>
 
     fun error(message: () -&gt; Any?) {
-<span class="fc" id="L53">        log.log(ERROR, message)</span>
-<span class="fc" id="L54">    }</span>
+<span class="fc" id="L52">        log.log(ERROR, message)</span>
+<span class="fc" id="L53">    }</span>
 
     fun &lt;E : Throwable&gt; warn(exception: E, message: (E) -&gt; Any?) {
-<span class="fc" id="L57">        log.log(WARN, exception, message)</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L56">        log.log(WARN, exception, message)</span>
+<span class="fc" id="L57">    }</span>
 
     fun &lt;E : Throwable&gt; error(exception: E, message: (E) -&gt; Any?) {
-<span class="fc" id="L61">        log.log(ERROR, exception, message)</span>
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L60">        log.log(ERROR, exception, message)</span>
+<span class="fc" id="L61">    }</span>
 
-<span class="nc" id="L64">    fun flare(message: () -&gt; Any? = { &quot;&quot; }) {</span>
-<span class="fc" id="L65">        log.log(TRACE) { &quot;$BOLD$BLINK$FLARE_PREFIX$RESET ${message()}&quot; }</span>
-<span class="fc" id="L66">    }</span>
+<span class="nc" id="L63">    fun flare(message: () -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc" id="L64">        log.log(TRACE) { &quot;$BOLD$BLINK$FLARE_PREFIX$RESET ${message()}&quot; }</span>
+<span class="fc" id="L65">    }</span>
 
-<span class="nc" id="L68">    fun time(startNanos: Long, message: () -&gt; Any? = { &quot;&quot; }) {</span>
-<span class="fc bfc" id="L69" title="All 2 branches covered.">        log.log(TRACE) { &quot;${message() ?: &quot;TIME&quot;} : ${formatNanos(nanoTime() - startNanos)}&quot; }</span>
-<span class="fc" id="L70">    }</span>
+<span class="nc" id="L67">    fun time(startNanos: Long, message: () -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        log.log(TRACE) { &quot;${message() ?: &quot;TIME&quot;} : ${formatNanos(nanoTime() - startNanos)}&quot; }</span>
+<span class="fc" id="L69">    }</span>
 
-<span class="fc" id="L72">    fun &lt;T&gt; time(message: () -&gt; Any? = { null }, block: () -&gt; T): T {</span>
-<span class="fc" id="L73">        val start = nanoTime()</span>
-<span class="fc" id="L74">        return block().also { time(start, message) }</span>
+<span class="fc" id="L71">    fun &lt;T&gt; time(message: () -&gt; Any? = { null }, block: () -&gt; T): T {</span>
+<span class="fc" id="L72">        val start = nanoTime()</span>
+<span class="fc" id="L73">        return block().also { time(start, message) }</span>
     }
 
-<span class="fc" id="L77">    fun &lt;T&gt; time(message: Any?, block: () -&gt; T): T = this.time({ message }, block)</span>
+<span class="fc" id="L76">    fun &lt;T&gt; time(message: Any?, block: () -&gt; T): T = this.time({ message }, block)</span>
 
-<span class="fc" id="L79">    private fun formatNanos (nanoseconds: Long): String = &quot;%1.3f ms&quot;.format (nanoseconds / 1e6)</span>
+<span class="fc" id="L78">    private fun formatNanos (nanoseconds: Long): String = &quot;%1.3f ms&quot;.format (nanoseconds / 1e6)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

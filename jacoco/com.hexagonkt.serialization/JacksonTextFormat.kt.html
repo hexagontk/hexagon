@@ -11,11 +11,11 @@ import java.io.OutputStream
 import kotlin.reflect.KClass
 
 <span class="fc" id="L13">open class JacksonTextFormat(</span>
-<span class="fc" id="L14">    final override val extensions: LinkedHashSet&lt;String&gt;,</span>
+<span class="pc" id="L14">    final override val extensions: LinkedHashSet&lt;String&gt;,</span>
 <span class="fc" id="L15">    factoryGenerator: (() -&gt; JsonFactory)? = null</span>
 ) : SerializationFormat {
 
-    private val mapper =
+<span class="nc" id="L18">    val mapper =</span>
 <span class="fc bfc" id="L19" title="All 2 branches covered.">        if (factoryGenerator == null) JacksonHelper.mapper</span>
 <span class="fc" id="L20">        else createObjectMapper(factoryGenerator())</span>
 

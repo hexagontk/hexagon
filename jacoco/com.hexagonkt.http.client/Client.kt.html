@@ -3,14 +3,14 @@
 import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.Path
-import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.injection.InjectionManager.injector
 import com.hexagonkt.serialization.SerializationFormat
 
 /**
  * Client to use other REST services.
  */
 <span class="fc" id="L12">class Client(</span>
-<span class="pc" id="L13">    private val adapter: ClientPort = InjectionManager.inject(),</span>
+<span class="pc" id="L13">    private val adapter: ClientPort = injector.inject(),</span>
 <span class="fc" id="L14">    val endpoint: String = &quot;&quot;,</span>
 <span class="fc" id="L15">    val settings: ClientSettings = ClientSettings()</span>
 ) {
@@ -18,10 +18,10 @@ import com.hexagonkt.serialization.SerializationFormat
 <span class="fc" id="L18">    val cookies: MutableMap&lt;String, Cookie&gt; = mutableMapOf()</span>
 
 <span class="fc" id="L20">    constructor(settings: ClientSettings = ClientSettings()) :</span>
-<span class="fc" id="L21">        this(InjectionManager.inject&lt;ClientPort&gt;(), settings = settings)</span>
+<span class="fc" id="L21">        this(injector.inject&lt;ClientPort&gt;(), settings = settings)</span>
 
 <span class="pc" id="L23">    constructor(endpoint: String = &quot;&quot;, settings: ClientSettings = ClientSettings()) :</span>
-<span class="fc" id="L24">        this(InjectionManager.inject(), endpoint, settings)</span>
+<span class="fc" id="L24">        this(injector.inject(), endpoint, settings)</span>
 
     /**
      * Synchronous execution.

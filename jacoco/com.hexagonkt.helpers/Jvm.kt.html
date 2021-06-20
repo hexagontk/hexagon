@@ -1,61 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Jvm.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.helpers</a> &gt; <span class="el_source">Jvm.kt</span></div><h1>Jvm.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.helpers
 
+import java.lang.IllegalStateException
 import java.lang.management.ManagementFactory
 import java.lang.management.MemoryUsage
 import java.net.InetAddress
 import java.nio.charset.Charset
 
 import java.util.TimeZone
+import kotlin.reflect.KClass
 
 /**
  * Object with utilities to gather information about the running JVM.
  *
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * TODO Add JVM exception handler to add information on known exceptions. I.e: Classpath handler not
+ *   registered with information on how to fix it (call `ClasspathHandler.registerHandler()`)
  */
 object Jvm {
     /** Default timezone. TODO Defining this lazily fails in macOS */
-<span class="fc" id="L17">    val timeZone: TimeZone = TimeZone.getDefault()</span>
+<span class="fc" id="L22">    val timeZone: TimeZone = TimeZone.getDefault()</span>
 
     /** Default character set. */
-<span class="fc" id="L20">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
+<span class="fc" id="L25">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
 
     /** The hostname of the machine running this program. */
-<span class="fc" id="L23">    val hostname: String by lazy { InetAddress.getLocalHost().hostName }</span>
+<span class="fc" id="L28">    val hostname: String by lazy { InetAddress.getLocalHost().hostName }</span>
 
     /** The IP address of the machine running this program. */
-<span class="fc" id="L26">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
+<span class="fc" id="L31">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
 
-<span class="fc" id="L28">    val id: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().name } }</span>
-<span class="fc" id="L29">    val name: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().vmName } }</span>
-<span class="fc" id="L30">    val version: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().specVersion } }</span>
-<span class="fc" id="L31">    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }</span>
-<span class="fc" id="L32">    val timezone: String by lazy { System.getProperty(&quot;user.timezone&quot;) }</span>
-<span class="fc" id="L33">    val locale: String by lazy {</span>
-<span class="fc" id="L34">        &quot;%s_%s.%s&quot;.format(</span>
-<span class="fc" id="L35">            System.getProperty(&quot;user.language&quot;),</span>
-<span class="fc" id="L36">            System.getProperty(&quot;user.country&quot;),</span>
-<span class="fc" id="L37">            System.getProperty(&quot;file.encoding&quot;)</span>
+<span class="fc" id="L33">    val id: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().name } }</span>
+<span class="fc" id="L34">    val name: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().vmName } }</span>
+<span class="fc" id="L35">    val version: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().specVersion } }</span>
+<span class="fc" id="L36">    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }</span>
+<span class="fc" id="L37">    val timezone: String by lazy { System.getProperty(&quot;user.timezone&quot;) }</span>
+<span class="fc" id="L38">    val locale: String by lazy {</span>
+<span class="fc" id="L39">        &quot;%s_%s.%s&quot;.format(</span>
+<span class="fc" id="L40">            System.getProperty(&quot;user.language&quot;),</span>
+<span class="fc" id="L41">            System.getProperty(&quot;user.country&quot;),</span>
+<span class="fc" id="L42">            System.getProperty(&quot;file.encoding&quot;)</span>
         )
     }
 
-<span class="fc" id="L41">    private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }</span>
+<span class="fc" id="L46">    private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }</span>
+
+    private const val NO_JMX_PROPERTY = &quot;com.hexagonkt.noJmx&quot;
+    internal const val NO_JMX_ERROR =
+        &quot;JMX Error. If JMX is not available, set the '$NO_JMX_PROPERTY' system property&quot;
 
     fun initialMemory(): String =
-<span class="fc" id="L44">        safeJmx { &quot;%,d&quot;.format(heap.init / 1024) }</span>
+<span class="fc" id="L53">        safeJmx { &quot;%,d&quot;.format(heap.init / 1024) }</span>
 
     fun usedMemory(): String =
-<span class="fc" id="L47">        safeJmx { &quot;%,d&quot;.format(heap.used / 1024) }</span>
+<span class="fc" id="L56">        safeJmx { &quot;%,d&quot;.format(heap.used / 1024) }</span>
 
     fun uptime(): String =
-<span class="fc" id="L50">        safeJmx { &quot;%01.3f&quot;.format(ManagementFactory.getRuntimeMXBean().uptime / 1e3) }</span>
+<span class="fc" id="L59">        safeJmx { &quot;%01.3f&quot;.format(ManagementFactory.getRuntimeMXBean().uptime / 1e3) }</span>
 
-    fun systemSetting(name: String): String? =
-<span class="fc bfc" id="L53" title="All 2 branches covered.">        System.getProperty(name) ?: System.getenv(name)</span>
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // All allowed types are checked at runtime
+    fun &lt;T: Any&gt; systemSetting(type: KClass&lt;T&gt;, name: String): T? =
+<span class="fc bfc" id="L63" title="All 4 branches covered.">        systemSettingRaw(name)?.let {</span>
+<span class="fc" id="L64">            when (type) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">                Boolean::class -&gt; it.toBooleanStrictOrNull()</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">                Int::class -&gt; it.toIntOrNull()</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                Long::class -&gt; it.toLongOrNull()</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">                Float::class -&gt; it.toFloatOrNull()</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                Double::class -&gt; it.toDoubleOrNull()</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">                String::class -&gt; it</span>
+<span class="fc" id="L71">                else -&gt; error(&quot;Setting: '$name' has unsupported type: ${type.qualifiedName}&quot;)</span>
+            }
+<span class="fc" id="L73">        } as? T</span>
 
-    fun systemSetting(name: String, default: String): String =
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        systemSetting(name) ?: default</span>
+    inline fun &lt;reified T: Any&gt; systemSetting(name: String): T? =
+        systemSetting(T::class, name)
+
+    internal fun systemSettingRaw(name: String): String? =
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        System.getProperty(name) ?: System.getenv(name)</span>
 
     internal fun safeJmx(block: () -&gt; String): String =
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (System.getProperty(&quot;com.hexagonkt.noJmx&quot;) == null) block() else &quot;N/A&quot;</span>
+<span class="fc" id="L82">        try {</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">            if (System.getProperty(NO_JMX_PROPERTY) == null) block()</span>
+<span class="fc" id="L84">            else &quot;N/A&quot;</span>
+        }
+<span class="fc" id="L86">        catch (e: Exception) {</span>
+<span class="fc" id="L87">            throw IllegalStateException(NO_JMX_ERROR, e)</span>
+<span class="fc" id="L88">        }</span>
+
+    // TODO Add command line parsing 'Options' and 'Commands' (maybe in its own package: `cli`)
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

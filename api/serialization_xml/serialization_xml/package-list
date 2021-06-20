@@ -5,6 +5,7 @@ $dokka.location:com.hexagonkt.serialization/Xml///PointingToDeclaration/seriali
 $dokka.location:com.hexagonkt.serialization/Xml/contentType/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/content-type.html
 $dokka.location:com.hexagonkt.serialization/Xml/extensions/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/extensions.html
 $dokka.location:com.hexagonkt.serialization/Xml/isBinary/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/is-binary.html
+$dokka.location:com.hexagonkt.serialization/Xml/mapper/#/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/mapper.html
 $dokka.location:com.hexagonkt.serialization/Xml/parse/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/parse.html
 $dokka.location:com.hexagonkt.serialization/Xml/parseObjects/#java.io.InputStream#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/parse-objects.html
 $dokka.location:com.hexagonkt.serialization/Xml/serialize/#kotlin.Any#java.io.OutputStream/PointingToDeclaration/serialization_xml/com.hexagonkt.serialization/-xml/serialize.html

@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MongoDbMapper.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.store.mongodb</a> &gt; <span class="el_source">MongoDbMapper.kt</span></div><h1>MongoDbMapper.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.store.mongodb
 
-import com.hexagonkt.helpers.*
-import com.hexagonkt.serialization.convertToMap
-import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.helpers.fail
+import com.hexagonkt.helpers.filterEmpty
+import com.hexagonkt.helpers.toLocalDate
+import com.hexagonkt.helpers.toLocalDateTime
+import com.hexagonkt.logging.logger
+import com.hexagonkt.serialization.toFieldsMap
+import com.hexagonkt.serialization.toObject
 import com.hexagonkt.store.Mapper
 import org.bson.BsonBinary
 import org.bson.BsonString
 import java.net.URL
-import java.time.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset.UTC
 import java.util.*
 import kotlin.reflect.KClass
@@ -15,59 +21,57 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.javaType
 
-<span class="fc" id="L18">open class MongoDbMapper&lt;T : Any, K : Any&gt;(</span>
-<span class="fc" id="L19">    private val type: KClass&lt;T&gt;,</span>
-<span class="fc" id="L20">    private val key: KProperty1&lt;T, K&gt;</span>
+<span class="fc" id="L24">open class MongoDbMapper&lt;T : Any, K : Any&gt;(</span>
+<span class="fc" id="L25">    private val type: KClass&lt;T&gt;,</span>
+<span class="fc" id="L26">    private val key: KProperty1&lt;T, K&gt;</span>
 ) : Mapper&lt;T&gt; {
 
-<span class="fc" id="L23">    override val fields: Map&lt;String, KProperty1&lt;T, *&gt;&gt; by lazy {</span>
-<span class="fc" id="L24">        logger.time(&quot;REFLECT&quot;) { type.declaredMemberProperties }</span>
-<span class="fc" id="L25">            .map { it.name to it }</span>
-<span class="fc" id="L26">            .toMap()</span>
+<span class="fc" id="L29">    override val fields: Map&lt;String, KProperty1&lt;T, *&gt;&gt; by lazy {</span>
+<span class="fc" id="L30">        logger.time(&quot;REFLECT&quot;) { type.declaredMemberProperties }.associateBy { it.name }</span>
     }
 
     override fun toStore(instance: T): Map&lt;String, Any&gt; =
-<span class="fc" id="L30">        (instance.convertToMap() + (&quot;_id&quot; to key.get(instance)) - key.name)</span>
-<span class="fc" id="L31">            .filterEmpty()</span>
-<span class="fc" id="L32">            .mapKeys { it.key.toString() }</span>
-<span class="fc" id="L33">            .mapValues { toStore(it.key, it.value) }</span>
+<span class="fc" id="L34">        (instance.toFieldsMap() + (&quot;_id&quot; to key.get(instance)) - key.name)</span>
+<span class="fc" id="L35">            .filterEmpty()</span>
+<span class="fc" id="L36">            .mapKeys { it.key.toString() }</span>
+<span class="fc" id="L37">            .mapValues { toStore(it.key, it.value) }</span>
 
     @Suppress(&quot;UNCHECKED_CAST&quot;)
     override fun fromStore(map: Map&lt;String, Any&gt;): T =
-<span class="fc" id="L37">        (map + (key.name to map[&quot;_id&quot;]))</span>
-<span class="fc" id="L38">            .filterEmpty()</span>
-<span class="fc" id="L39">            .mapValues { fromStore(it.key, it.value) }</span>
-<span class="fc" id="L40">            .convertToObject(type)</span>
+<span class="fc" id="L41">        (map + (key.name to map[&quot;_id&quot;]))</span>
+<span class="fc" id="L42">            .filterEmpty()</span>
+<span class="fc" id="L43">            .mapValues { fromStore(it.key, it.value) }</span>
+<span class="fc" id="L44">            .toObject(type)</span>
 
     override fun fromStore(property: String, value: Any): Any {
-<span class="pc bpc" id="L43" title="1 of 4 branches missed.">        val fieldType = fields[property]?.returnType?.javaType</span>
-<span class="fc" id="L44">        return when {</span>
-<span class="pc bpc" id="L45" title="3 of 4 branches missed.">            value is BsonBinary &amp;&amp; fieldType == UUID::class.java -&gt;</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">                if (value is UUID) value</span>
-<span class="nc" id="L47">                else UUID.nameUUIDFromBytes(value.data)</span>
-<span class="fc bfc" id="L48" title="All 2 branches covered.">            value is BsonString -&gt; value.value</span>
-<span class="pc bpc" id="L49" title="2 of 6 branches missed.">            value is Date -&gt; when (fields[property]?.returnType?.javaType) {</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">                LocalDate::class.java -&gt; value.toLocalDate()</span>
-<span class="pc bpc" id="L51" title="1 of 2 branches missed.">                LocalDateTime::class.java -&gt; value.toLocalDateTime()</span>
-<span class="nc" id="L52">                else -&gt; fail</span>
+<span class="pc bpc" id="L47" title="1 of 4 branches missed.">        val fieldType = fields[property]?.returnType?.javaType</span>
+<span class="fc" id="L48">        return when {</span>
+<span class="pc bpc" id="L49" title="3 of 4 branches missed.">            value is BsonBinary &amp;&amp; fieldType == UUID::class.java -&gt;</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                if (value is UUID) value</span>
+<span class="nc" id="L51">                else UUID.nameUUIDFromBytes(value.data)</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">            value is BsonString -&gt; value.value</span>
+<span class="pc bpc" id="L53" title="2 of 6 branches missed.">            value is Date -&gt; when (fields[property]?.returnType?.javaType) {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">                LocalDate::class.java -&gt; value.toLocalDate()</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">                LocalDateTime::class.java -&gt; value.toLocalDateTime()</span>
+<span class="nc" id="L56">                else -&gt; fail</span>
             }
-<span class="fc" id="L54">            else -&gt; value</span>
+<span class="fc" id="L58">            else -&gt; value</span>
         }
     }
 
     override fun toStore(property: String, value: Any): Any {
-<span class="pc bpc" id="L59" title="1 of 4 branches missed.">        val fieldType = fields[property]?.returnType?.javaType</span>
-<span class="fc" id="L60">        return when {</span>
-<span class="pc bpc" id="L61" title="1 of 4 branches missed.">            value is String &amp;&amp; fieldType == UUID::class.java -&gt; UUID.fromString(value)</span>
-<span class="fc bfc" id="L62" title="All 2 branches covered.">            value is URL -&gt; value.toString()</span>
-<span class="pc bpc" id="L63" title="1 of 4 branches missed.">            value is String &amp;&amp; fieldType == LocalDate::class.java -&gt; LocalDate.parse(value)</span>
-<span class="pc bpc" id="L64" title="1 of 4 branches missed.">            value is String &amp;&amp; fieldType == LocalDateTime::class.java -&gt;</span>
-<span class="nc" id="L65">                toStore(property, LocalDateTime.parse(value))</span>
-<span class="pc bpc" id="L66" title="1 of 4 branches missed.">            value is LocalDateTime &amp;&amp; fieldType == LocalDateTime::class.java -&gt; value</span>
-<span class="fc" id="L67">                .atZone(ZoneId.systemDefault())</span>
-<span class="fc" id="L68">                .withZoneSameInstant(UTC)</span>
-<span class="fc" id="L69">                .toLocalDateTime()</span>
-<span class="fc" id="L70">            else -&gt; value</span>
+<span class="pc bpc" id="L63" title="1 of 4 branches missed.">        val fieldType = fields[property]?.returnType?.javaType</span>
+<span class="fc" id="L64">        return when {</span>
+<span class="pc bpc" id="L65" title="1 of 4 branches missed.">            value is String &amp;&amp; fieldType == UUID::class.java -&gt; UUID.fromString(value)</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            value is URL -&gt; value.toString()</span>
+<span class="pc bpc" id="L67" title="1 of 4 branches missed.">            value is String &amp;&amp; fieldType == LocalDate::class.java -&gt; LocalDate.parse(value)</span>
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">            value is String &amp;&amp; fieldType == LocalDateTime::class.java -&gt;</span>
+<span class="nc" id="L69">                toStore(property, LocalDateTime.parse(value))</span>
+<span class="pc bpc" id="L70" title="1 of 4 branches missed.">            value is LocalDateTime &amp;&amp; fieldType == LocalDateTime::class.java -&gt; value</span>
+<span class="fc" id="L71">                .atZone(ZoneId.systemDefault())</span>
+<span class="fc" id="L72">                .withZoneSameInstant(UTC)</span>
+<span class="fc" id="L73">                .toLocalDateTime()</span>
+<span class="fc" id="L74">            else -&gt; value</span>
         }
     }
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
 
 <span class="fc" id="L6">@Suppress(&quot;MoveLambdaOutsideParentheses&quot;) // In this case that syntax cannot be used</span>
-<span class="fc" id="L7">object Yaml: SerializationFormat by JacksonTextFormat(</span>
+<span class="fc" id="L7">object Yaml : JacksonTextFormat(</span>
 <span class="fc" id="L8">    linkedSetOf(&quot;yaml&quot;, &quot;yml&quot;),</span>
 <span class="fc" id="L9">    { with(YAMLFactory()) { configure(WRITE_DOC_START_MARKER, false) } }</span>
 )

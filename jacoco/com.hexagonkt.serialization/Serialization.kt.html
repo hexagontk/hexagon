@@ -10,72 +10,67 @@ import java.net.URL
 import kotlin.reflect.KClass
 
 // MAPPING /////////////////////////////////////////////////////////////////////////////////////////
-fun Any.convertToMap(): Map&lt;*, *&gt; =
-<span class="fc" id="L14">    requireMapper().convertToMap(this)</span>
+// TODO Use toFieldsMap and toObject
+fun Any.toFieldsMap(): Map&lt;*, *&gt; =
+<span class="fc" id="L15">    requireMapper().toFieldsMap(this)</span>
 
-fun &lt;T : Any&gt; Map&lt;*, *&gt;.convertToObject(type: KClass&lt;T&gt;): T =
-<span class="fc" id="L17">    requireMapper().convertToObject(this, type)</span>
+fun &lt;T : Any&gt; Map&lt;*, *&gt;.toObject(type: KClass&lt;T&gt;): T =
+<span class="fc" id="L18">    requireMapper().toObject(this, type)</span>
 
-fun &lt;T : Any&gt; List&lt;Map&lt;*, *&gt;&gt;.convertToObjects(type: KClass&lt;T&gt;): List&lt;T&gt; =
-<span class="fc" id="L20">    this.map { it.convertToObject(type) }</span>
+inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.toObject(): T =
+    this.toObject(T::class)
 
-inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.convertToObject(): T =
-    this.convertToObject(T::class)
-
-inline fun &lt;reified T : Any&gt; List&lt;Map&lt;*, *&gt;&gt;.convertToObjects(): List&lt;T&gt; =
-    this.convertToObjects(T::class)
-
-<span class="fc" id="L28">fun Any.serialize(format: SerializationFormat = requireDefaultFormat()): String =</span>
-<span class="fc" id="L29">    format.serialize(this)</span>
+<span class="fc" id="L23">fun Any.serialize(format: SerializationFormat = requireDefaultFormat()): String =</span>
+<span class="fc" id="L24">    format.serialize(this)</span>
 
 fun Any.serialize(contentType: String): String =
-<span class="fc" id="L32">    this.serialize(formatOf(contentType))</span>
+<span class="fc" id="L27">    this.serialize(formatOf(contentType))</span>
 
 // INPUT STREAM ////////////////////////////////////////////////////////////////////////////////////
-<span class="fc" id="L35">fun &lt;T : Any&gt; InputStream.parse(</span>
-<span class="fc" id="L36">    type: KClass&lt;T&gt;, format: SerializationFormat = requireDefaultFormat()</span>
+<span class="fc" id="L30">fun &lt;T : Any&gt; InputStream.parse(</span>
+<span class="fc" id="L31">    type: KClass&lt;T&gt;, format: SerializationFormat = requireDefaultFormat()</span>
 ): T =
-<span class="fc" id="L38">    format.parse(this, type)</span>
+<span class="fc" id="L33">    format.parse(this, type)</span>
 
-<span class="fc" id="L40">fun &lt;T : Any&gt; InputStream.parseObjects(</span>
-<span class="fc" id="L41">    type: KClass&lt;T&gt;, format: SerializationFormat = requireDefaultFormat()) =</span>
-<span class="fc" id="L42">        format.parseObjects(this, type)</span>
+<span class="fc" id="L35">fun &lt;T : Any&gt; InputStream.parseObjects(</span>
+<span class="fc" id="L36">    type: KClass&lt;T&gt;, format: SerializationFormat = requireDefaultFormat()) =</span>
+<span class="fc" id="L37">        format.parseObjects(this, type)</span>
 
-<span class="nc" id="L44">inline fun &lt;reified T : Any&gt; InputStream.parse(</span>
+<span class="nc" id="L39">inline fun &lt;reified T : Any&gt; InputStream.parse(</span>
+<span class="nc" id="L40">    format: SerializationFormat = requireDefaultFormat()</span>
+): T =
+<span class="nc" id="L42">    this.parse(T::class, format)</span>
+
+<span class="nc" id="L44">inline fun &lt;reified T : Any&gt; InputStream.parseObjects(</span>
 <span class="nc" id="L45">    format: SerializationFormat = requireDefaultFormat()</span>
-): T =
-<span class="nc" id="L47">    this.parse(T::class, format)</span>
-
-<span class="nc" id="L49">inline fun &lt;reified T : Any&gt; InputStream.parseObjects(</span>
-<span class="nc" id="L50">    format: SerializationFormat = requireDefaultFormat()</span>
 ) =
-<span class="nc" id="L52">    this.parseObjects(T::class, format)</span>
+<span class="nc" id="L47">    this.parseObjects(T::class, format)</span>
 
 // STRING //////////////////////////////////////////////////////////////////////////////////////////
-<span class="fc" id="L55">fun &lt;T : Any&gt; String.parse(</span>
-<span class="fc" id="L56">    type: KClass&lt;T&gt;, format: SerializationFormat = requireDefaultFormat()</span>
+<span class="fc" id="L50">fun &lt;T : Any&gt; String.parse(</span>
+<span class="fc" id="L51">    type: KClass&lt;T&gt;, format: SerializationFormat = requireDefaultFormat()</span>
 ): T =
-<span class="fc" id="L58">    this.toStream().parse(type, format)</span>
+<span class="fc" id="L53">    this.toStream().parse(type, format)</span>
 
-<span class="fc" id="L60">fun &lt;T : Any&gt; String.parseObjects(</span>
-<span class="fc" id="L61">    type: KClass&lt;T&gt;, format: SerializationFormat = requireDefaultFormat()</span>
+<span class="fc" id="L55">fun &lt;T : Any&gt; String.parseObjects(</span>
+<span class="fc" id="L56">    type: KClass&lt;T&gt;, format: SerializationFormat = requireDefaultFormat()</span>
 ) =
-<span class="fc" id="L63">    this.toStream().parseObjects(type, format)</span>
+<span class="fc" id="L58">    this.toStream().parseObjects(type, format)</span>
 
-<span class="nc" id="L65">inline fun &lt;reified T : Any&gt; String.parse(format: SerializationFormat = requireDefaultFormat()): T =</span>
-<span class="nc" id="L66">    this.parse(T::class, format)</span>
+<span class="nc" id="L60">inline fun &lt;reified T : Any&gt; String.parse(format: SerializationFormat = requireDefaultFormat()): T =</span>
+<span class="nc" id="L61">    this.parse(T::class, format)</span>
 
-<span class="nc" id="L68">inline fun &lt;reified T : Any&gt; String.parseObjects(</span>
-<span class="nc" id="L69">    format: SerializationFormat = requireDefaultFormat()</span>
+<span class="nc" id="L63">inline fun &lt;reified T : Any&gt; String.parseObjects(</span>
+<span class="nc" id="L64">    format: SerializationFormat = requireDefaultFormat()</span>
 ) =
-<span class="nc" id="L71">    this.parseObjects(T::class, format)</span>
+<span class="nc" id="L66">    this.parseObjects(T::class, format)</span>
 
 // FILE ////////////////////////////////////////////////////////////////////////////////////////////
 fun &lt;T : Any&gt; File.parse(type: KClass&lt;T&gt;): T =
-<span class="fc" id="L75">    this.inputStream().parse(type, formatOf(this))</span>
+<span class="fc" id="L70">    this.inputStream().parse(type, formatOf(this))</span>
 
 fun &lt;T : Any&gt; File.parseObjects(type: KClass&lt;T&gt;): List&lt;T&gt; =
-<span class="fc" id="L78">    this.inputStream().parseObjects(type, formatOf(this))</span>
+<span class="fc" id="L73">    this.inputStream().parseObjects(type, formatOf(this))</span>
 
 inline fun &lt;reified T : Any&gt; File.parse(): T =
     this.parse(T::class)
@@ -85,10 +80,10 @@ inline fun &lt;reified T : Any&gt; File.parseObjects(): List&lt;T&gt; =
 
 // URL /////////////////////////////////////////////////////////////////////////////////////////////
 fun &lt;T : Any&gt; URL.parse(type: KClass&lt;T&gt;): T =
-<span class="fc" id="L88">    this.openStream().parse(type, formatOf(this))</span>
+<span class="fc" id="L83">    this.openStream().parse(type, formatOf(this))</span>
 
 fun &lt;T : Any&gt; URL.parseObjects(type: KClass&lt;T&gt;): List&lt;T&gt; =
-<span class="fc" id="L91">    this.openStream().parseObjects(type, formatOf(this))</span>
+<span class="fc" id="L86">    this.openStream().parseObjects(type, formatOf(this))</span>
 
 inline fun &lt;reified T : Any&gt; URL.parse(): T =
     this.parse(T::class)

@@ -21,10 +21,6 @@ object SettingsManager {
         )
     }
 
-<span class="pc" id="L24">    var settings: Settings&lt;*&gt; = Settings(Map::class, defaultSources)</span>
-
-    @Suppress(&quot;UNCHECKED_CAST&quot;)
-    fun &lt;T : Any&gt; instance(): T =
-<span class="pc bpc" id="L28" title="2 of 4 branches missed.">        settings.instance as? T ?: error(&quot;&quot;)</span>
+<span class="fc" id="L24">    var settings: Settings = Settings(defaultSources)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

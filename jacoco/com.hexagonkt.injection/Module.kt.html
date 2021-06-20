@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Module.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.injection</a> &gt; <span class="el_source">Module.kt</span></div><h1>Module.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.injection
+
+import com.hexagonkt.helpers.eol
+import com.hexagonkt.injection.Provider.Generator
+import com.hexagonkt.injection.Provider.Instance
+import com.hexagonkt.logging.Logger
+import kotlin.reflect.KClass
+
+<span class="fc" id="L9">class Module {</span>
+
+<span class="fc" id="L11">    internal val logger: Logger by lazy { Logger(this::class) }</span>
+<span class="fc" id="L12">    internal var bindings: Map&lt;Target&lt;out Any&gt;, Provider&lt;Any&gt;&gt; = emptyMap()</span>
+
+    fun clear() {
+<span class="fc" id="L15">        bindings = emptyMap()</span>
+<span class="fc" id="L16">    }</span>
+
+    fun &lt;T : Any&gt; bind(type: KClass&lt;T&gt;, providers: Map&lt;Any, Provider&lt;T&gt;&gt;) {
+<span class="fc" id="L19">        providers.forEach { (k, v) -&gt; bind(Target(type, k), v) }</span>
+<span class="fc" id="L20">    }</span>
+
+    fun &lt;T : Any&gt; bind(type: KClass&lt;T&gt;, providers: List&lt;Provider&lt;T&gt;&gt;) {
+<span class="fc" id="L23">        providers.forEachIndexed { ii, it -&gt; bind(Target(type, ii), it) }</span>
+<span class="fc" id="L24">    }</span>
+
+    fun &lt;T : Any&gt; bind(target: Target&lt;T&gt;, provider: Provider&lt;T&gt;) {
+<span class="fc" id="L27">        val binding = target.toString()</span>
+
+<span class="fc bfc" id="L29" title="All 4 branches covered.">        check(!bindings.containsKey(target)) {</span>
+<span class="fc" id="L30">            &quot;$binding already bound. Override only allowed in tests (using `forceBind`)&quot;</span>
+        }
+
+<span class="fc" id="L33">        bindings = bindings + (target to provider)</span>
+<span class="fc" id="L34">        logger.info { &quot;$binding bound to function&quot; }</span>
+<span class="fc" id="L35">    }</span>
+
+    inline fun &lt;reified T : Any&gt; bind(instance: T) {
+        bind(Target(T::class), Instance(instance))
+    }
+
+    inline fun &lt;reified T : Any&gt; bind(noinline generator: () -&gt; T) {
+        bind(Target(T::class), Generator(generator))
+    }
+
+    inline fun &lt;reified T : Any&gt; bind(tag: Any, instance: T) {
+        bind(Target(T::class, tag), Instance(instance))
+    }
+
+    inline fun &lt;reified T : Any&gt; bind(tag: Any, noinline generator: () -&gt; T) {
+        bind(Target(T::class, tag), Generator(generator))
+    }
+
+    inline fun &lt;reified T : Any&gt; bindInstances(instances: Map&lt;Any, T&gt;) {
+        bind(T::class, instances.mapValues { Instance(it.value) })
+    }
+
+    inline fun &lt;reified T : Any&gt; bindInstances(instances: List&lt;T&gt;) {
+        bind(T::class, instances.map { Instance(it) })
+    }
+
+    inline fun &lt;reified T : Any&gt; bindInstances(vararg instances: Pair&lt;Any, T&gt;) {
+        bindInstances(instances.associate { (k, v) -&gt; k to v })
+    }
+
+    inline fun &lt;reified T : Any&gt; bindInstances(vararg instances: T) {
+        bindInstances(instances.map { it })
+    }
+
+    inline fun &lt;reified T : Any&gt; bindGenerators(generators: Map&lt;Any, () -&gt; T&gt;) {
+        bind(T::class, generators.mapValues { Generator(it.value) })
+    }
+
+    inline fun &lt;reified T : Any&gt; bindGenerators(generators: List&lt;() -&gt; T&gt;) {
+        bind(T::class, generators.map { Generator(it) })
+    }
+
+    inline fun &lt;reified T : Any&gt; bindGenerators(vararg generators: Pair&lt;Any, () -&gt; T&gt;) {
+        bindGenerators(generators.toMap())
+    }
+
+    inline fun &lt;reified T : Any&gt; bindGenerators(vararg generators: () -&gt; T) {
+        bindGenerators(generators.map { it })
+    }
+
+    override fun toString(): String =
+<span class="fc" id="L86">        bindings</span>
+<span class="fc" id="L87">            .map { it.key }</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            .map { it.type.java.name to if (it.tag is Unit) &quot;&quot; else &quot; (${it.tag})&quot;}</span>
+<span class="fc" id="L89">            .joinToString(eol, &quot;Bound classes with parameters:\n&quot;) {</span>
+<span class="fc" id="L90">                &quot;\t * ${it.first}${it.second}&quot;</span>
+<span class="fc" id="L91">            }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
