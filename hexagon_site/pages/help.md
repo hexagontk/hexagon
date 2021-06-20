@@ -3,7 +3,7 @@
 
 * Please, check if your issue already exists at the [project board], the [organization board] or the
   [issues list] before creating a new one.
-* To notify bugs, create a [new bug issue] using GitHub.
+* To report a bug, create a [new bug issue] using GitHub.
 * You can also write an email at [support@hexagonkt.com](mailto:support@hexagonkt.com) to ask for
   support.
 
