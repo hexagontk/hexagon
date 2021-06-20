@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.5.0"
+    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.5.10"
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.11.0"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.2"
 
@@ -70,6 +70,10 @@ tasks.compileJava.doFirst {
     options.compilerArgs = [ "--module-path", classpath.asPath ]
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
 tasks.compileKotlin.kotlinOptions.apiVersion = "1.5"
 
@@ -102,9 +106,10 @@ task("verify", type: Test) {
 check.dependsOn("test", "verify")
 
 // Show useful testing information while running tests
-tasks.withType(Test).each { testTask ->
+tasks.withType(Test) { testTask ->
     testTask.useJUnitPlatform()
     testTask.systemProperties(project.getProperties().findAll { it.value instanceof String })
+    testTask.systemProperty("file.encoding", "utf-8")
 
     testTask.testLogging {
         if (logger.isInfoEnabled())
@@ -134,8 +139,8 @@ jacocoTestReport {
     }
 
     reports {
-        xml.enabled = true
-        html.enabled = true
+        xml.required.set(true)
+        html.required.set(true)
     }
 }
 

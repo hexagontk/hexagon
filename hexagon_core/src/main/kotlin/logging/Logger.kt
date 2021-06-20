@@ -8,8 +8,7 @@ import com.hexagonkt.helpers.Ansi.RESET
 import com.hexagonkt.logging.LoggingLevel.*
 
 /**
- * Logger class with Kotlin improvements like lazy evaluation. It is backed by a SLF4J compatible
- * logger.
+ * Logger class with Kotlin improvements like lazy evaluation. It is backed by a logging port.
  *
  * Usage example:
  *

@@ -1,6 +1,6 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.helpers.logger
+import com.hexagonkt.logging.logger
 import com.hexagonkt.helpers.require
 import com.hexagonkt.http.Method.GET
 import com.hexagonkt.http.Protocol.HTTPS
@@ -41,7 +41,7 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
 
     init {
         SerializationManager.formats = linkedSetOf(Json, Yaml)
-        InjectionManager.bind(ClientPort::class, adapter)
+        InjectionManager.module.bind(adapter)
     }
 
     private val client by lazy {

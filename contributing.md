@@ -18,8 +18,9 @@ Contribution Steps
 2. Claim an issue you want to work in with a comment, after that I can assign it to you and move it
    to the `Working` column. If you want to contribute to a non tagged (or a not existing) tasks:
    write a comment, and we'll discuss the scope of the feature.
-3. New features should be discussed within an issue in the issue tracker before actual coding. You
-   may do a PR directly, but you take the risk of it being not suitable and discarded.
+3. New features should be discussed within a post in the [GitHub ideas discussions][discussion]
+   before actual coding. You may do a PR directly, but you take the risk of it being not suitable
+   and discarded.
 4. For code, file names, tags and branches use either camel case or snake case only. I.e.: avoid `-`
    or `.` in file names if it is possible.
 5. For a Pull Request to be accepted, follow the [pull request template] recommendations. Check the
@@ -40,6 +41,7 @@ Contribution Steps
 [commit template]: https://github.com/hexagonkt/hexagon/blob/master/.github/commit_template.txt
 [bug template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/bug.md
 [enhancement template]: https://github.com/hexagonkt/hexagon/blob/master/.github/ISSUE_TEMPLATE/enhancement.md
+[discussion]: https://github.com/hexagonkt/hexagon/discussions/categories/ideas
 
 Project Structure
 -----------------
@@ -146,7 +148,6 @@ Major Release Checklist
 [Nexus Repository Manager]: https://oss.sonatype.org
 
 ### Changelog commands
-
 Commit messages can be filtered by types (check [commit_template.txt](/.github/commit_template.txt))
 for details.
 

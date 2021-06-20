@@ -45,16 +45,16 @@ internal class StringsTest {
     }
 
     @Test fun `Filter ignores empty parameters` () {
-        val result = "#{email}: User #{user} aka #{user} <#{email}>".filterVars (
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars (
             "" to "John",
             "email" to "john@example.co"
         )
 
-        assert (result == "john@example.co: User #{user} aka #{user} <john@example.co>")
+        assert (result == "john@example.co: User {{user}} aka {{user}} <john@example.co>")
     }
 
     @Test fun `Filter replaces all occurrences of variables with their values` () {
-        val result = "#{email}: User #{user} aka #{user} <#{email}>".filterVars (
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars (
             "user" to "John",
             "email" to "john@example.co"
         )

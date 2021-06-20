@@ -28,10 +28,11 @@ kinds of modules:
 * The ones that provide functionality that does not depend on different implementations, like
   [hexagon_scheduler] or [hexagon_core]. Their name always starts with the `hexagon_` prefix. These
   modules can depend on several Ports, but never on Adapters (see below).
-* Modules that define a "Port": these are interfaces to a feature that may have different
-  implementations (ie: [port_http_server] or [port_store]). They cannot be used by themselves and in
-  their place, an adapter implementing them should be added to the list of dependencies. These
-  modules' names start with the `port_` prefix. Ports are independent of each other.
+* Modules that define one or more related "Ports": these are interfaces to a feature that may have
+  different implementations (i.e., [port_http_server] or [port_store]). They cannot be used by
+  themselves and in their place, an adapter implementing them should be added to the list of
+  dependencies. These modules' names start with the `port_` prefix. Ports are independent of each
+  other.
 * Adapter modules, which are Port implementations for a given tool, [store_mongodb], and
   [messaging_rabbitmq] are examples of this type of module. Adapter names must start with their
   port name.

@@ -42,8 +42,8 @@ internal class SerializationPackageTest {
     }
 
     @Test fun `Inline convert object work correctly`() {
-        val map = company.convertToMap()
-        val obj = map.convertToObject<Company>()
+        val map = company.toFieldsMap()
+        val obj = map.toObject<Company>()
         assert(company == obj)
         assert(company !== obj)
     }
@@ -53,8 +53,8 @@ internal class SerializationPackageTest {
             company.copy(id = "id1"),
             company.copy(id = "id2")
         )
-        val maps = objects.map { it.convertToMap() }
-        val objects2 = maps.convertToObjects<Company>()
+        val maps = objects.map { it.toFieldsMap() }
+        val objects2 = maps.map { it.toObject<Company>() }
 
         assert(objects == objects2)
         assert(objects !== objects2)

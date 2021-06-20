@@ -6,10 +6,10 @@ import java.lang.System.getProperty
 import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
 
-/** Variable prefix for string filtering. It starts with '#' because of Kotlin's syntax. */
-private const val VARIABLE_PREFIX = "#{"
+/** Variable prefix for string filtering. The format resembles Mustache's one: `{{variable}}`. */
+private const val VARIABLE_PREFIX = "{{"
 /** Variable suffix for string filtering. */
-private const val VARIABLE_SUFFIX = "}"
+private const val VARIABLE_SUFFIX = "}}"
 
 /** Runtime specific end of line. */
 val eol: String by lazy { getProperty("line.separator") }

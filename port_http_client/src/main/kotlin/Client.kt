@@ -3,14 +3,14 @@ package com.hexagonkt.http.client
 import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.Path
-import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.injection.InjectionManager.injector
 import com.hexagonkt.serialization.SerializationFormat
 
 /**
  * Client to use other REST services.
  */
 class Client(
-    private val adapter: ClientPort = InjectionManager.inject(),
+    private val adapter: ClientPort = injector.inject(),
     val endpoint: String = "",
     val settings: ClientSettings = ClientSettings()
 ) {
@@ -18,10 +18,10 @@ class Client(
     val cookies: MutableMap<String, Cookie> = mutableMapOf()
 
     constructor(settings: ClientSettings = ClientSettings()) :
-        this(InjectionManager.inject<ClientPort>(), settings = settings)
+        this(injector.inject<ClientPort>(), settings = settings)
 
     constructor(endpoint: String = "", settings: ClientSettings = ClientSettings()) :
-        this(InjectionManager.inject(), endpoint, settings)
+        this(injector.inject(), endpoint, settings)
 
     /**
      * Synchronous execution.

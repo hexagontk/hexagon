@@ -45,8 +45,8 @@ and after creating a server you can run it or stop it with [start()] and [stop()
 
 [InjectionManager]: /hexagon_core/#dependency-injection
 [next section]: /port_http_server/#routes
-[start()]: com.hexagonkt.http.server/-server/start.md
-[stop()]: com.hexagonkt.http.server/-server/stop.md
+[start()]: api/port_http_server/port_http_server/com.hexagonkt.http.server/-server/start.html
+[stop()]: api/port_http_server/port_http_server/com.hexagonkt.http.server/-server/stop.html
 
 #### Servlet Web server
 

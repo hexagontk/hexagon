@@ -2,7 +2,7 @@ package com.hexagonkt.http.server
 
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.convertToObject
+import com.hexagonkt.serialization.toObject
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -15,9 +15,9 @@ internal class ServerSettingsTest {
     }
 
     @Test fun `Server settings loads the proper defaults`() {
-        assert(mapOf("foo" to "bar").convertToObject(ServerSettings::class) == ServerSettings())
+        assert(mapOf("foo" to "bar").toObject(ServerSettings::class) == ServerSettings())
 
         val serverSettings = ServerSettings(bindPort = 1234)
-        assert(mapOf("bindPort" to 1234).convertToObject(ServerSettings::class) == serverSettings)
+        assert(mapOf("bindPort" to 1234).toObject(ServerSettings::class) == serverSettings)
     }
 }

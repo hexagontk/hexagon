@@ -1,8 +1,12 @@
 package com.hexagonkt.helpers
 
+import com.hexagonkt.helpers.Jvm.NO_JMX_ERROR
 import org.junit.jupiter.api.Test
 import java.lang.management.ManagementFactory
 import java.net.Inet4Address
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 
 internal class JvmTest {
 
@@ -24,11 +28,38 @@ internal class JvmTest {
         assert(Jvm.uptime().matches(numberRegex))
     }
 
-    @Test fun `System settings with default values are handled properly`() {
-        assert(Jvm.systemSetting("this_do_not_exist", "default") == "default")
+    @Test fun `System settings handle parameter types correctly`() {
 
-        System.setProperty("existing_java_property", "value")
-        assert(Jvm.systemSetting("existing_java_property", "default") == "value")
+        System.setProperty("validBoolean", true.toString())
+        System.setProperty("validInt", 123.toString())
+        System.setProperty("validLong", 456L.toString())
+        System.setProperty("validFloat", 0.5F.toString())
+        System.setProperty("validDouble", 1.5.toString())
+        System.setProperty("invalidBoolean", "_")
+        System.setProperty("invalidInt", "_")
+        System.setProperty("invalidLong", "_")
+        System.setProperty("invalidFloat", "_")
+        System.setProperty("invalidDouble", "_")
+        System.setProperty("string", "text")
+        System.setProperty("error", "value")
+
+        assertEquals(true, Jvm.systemSetting("validBoolean"))
+        assertEquals(123, Jvm.systemSetting("validInt"))
+        assertEquals(456L, Jvm.systemSetting("validLong"))
+        assertEquals(0.5F, Jvm.systemSetting("validFloat"))
+        assertEquals(1.5, Jvm.systemSetting("validDouble"))
+
+        assertNull(Jvm.systemSetting<Boolean>("invalidBoolean"))
+        assertNull(Jvm.systemSetting<Boolean>("invalidInt"))
+        assertNull(Jvm.systemSetting<Boolean>("invalidLong"))
+        assertNull(Jvm.systemSetting<Boolean>("invalidFloat"))
+        assertNull(Jvm.systemSetting<Boolean>("invalidDouble"))
+
+        assertEquals("text", Jvm.systemSetting("string"))
+
+        val type = System::class
+        val e = assertFailsWith<IllegalStateException> { Jvm.systemSetting<System>("error") }
+        assertEquals("Setting: 'error' has unsupported type: ${type.qualifiedName}", e.message)
     }
 
     @Test fun `Default charset is fetched correctly`() {
@@ -40,5 +71,19 @@ internal class JvmTest {
         System.setProperty("com.hexagonkt.noJmx", "true")
         assert(Jvm.safeJmx { ManagementFactory.getRuntimeMXBean().name } == "N/A")
         System.clearProperty("com.hexagonkt.noJmx")
+    }
+
+    @Test fun `'safeJmx' gives proper information on exceptions`() {
+        System.clearProperty("com.hexagonkt.noJmx")
+
+        val exception = assertFailsWith<IllegalStateException> {
+            (Jvm.safeJmx { error("Internal error") } == "N/A")
+        }
+
+        val cause = exception.cause
+
+        assert(cause is IllegalStateException)
+        assertEquals("Internal error", cause?.message)
+        assertEquals(NO_JMX_ERROR, exception.message)
     }
 }

@@ -15,7 +15,7 @@ open class JacksonTextFormat(
     factoryGenerator: (() -> JsonFactory)? = null
 ) : SerializationFormat {
 
-    private val mapper =
+    val mapper =
         if (factoryGenerator == null) JacksonHelper.mapper
         else createObjectMapper(factoryGenerator())
 

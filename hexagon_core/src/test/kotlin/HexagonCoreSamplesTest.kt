@@ -1,8 +1,9 @@
 package com.hexagonkt
 
 import com.hexagonkt.helpers.Jvm
-import com.hexagonkt.helpers.logger
-import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.logging.logger
+import com.hexagonkt.injection.InjectionManager.module
+import com.hexagonkt.injection.InjectionManager.injector
 import com.hexagonkt.injection.forceBind
 import com.hexagonkt.logging.Logger
 import com.hexagonkt.serialization.Json
@@ -12,6 +13,8 @@ import com.hexagonkt.serialization.serialize
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.util.Date
+import kotlin.test.assertEquals
+import kotlin.test.assertSame
 
 internal class HexagonCoreSamplesTest {
 
@@ -55,37 +58,50 @@ internal class HexagonCoreSamplesTest {
 
     @Suppress("RemoveExplicitTypeArguments")
     @Test fun injectionUsage() {
+        module.clear()
+
         // injectionUsage
+        // This snippet assumes the following IMPORTS ARE DECLARED:
+        // import com.hexagonkt.injection.InjectionManager.module
+        // import com.hexagonkt.injection.InjectionManager.injector
+
         // Bind classes to functions (create a different instance with each `inject` call)
-        InjectionManager.bind<Date> { java.sql.Date(System.currentTimeMillis()) }
+        module.bind<Date> { java.sql.Date(System.currentTimeMillis()) }
 
         // Bind classes to objects (returns the same instance for all `inject` calls)
-        InjectionManager.bind<String>("STR")
+        module.bind<String>("STR")
 
         // You can use labels to inject different instances
-        InjectionManager.bind<String>("Hexagon", "toolkit")
-        InjectionManager.bind<Date>("+1h") {
-            java.sql.Date(System.currentTimeMillis() + 3_600_000)
-        }
+        module.bind<String>("toolkit", "Hexagon")
+        module.bind<Date>("+1h") { java.sql.Date(System.currentTimeMillis() + 3_600_000) }
 
-        val currentSqlDate = InjectionManager.inject<Date>()
-        val currentSqlDateInferredType: Date = InjectionManager.inject()
+        // Tags can be of *ANY* type
+        module.bind<String>(0, "Zero")
+
+        val currentSqlDate = injector.inject<Date>()
+        val currentSqlDateInferredType: Date = injector.inject()
 
         // Inject different values for a class using tags (can be any type, not only string)
-        val nextHourSqlDate: Date = InjectionManager.inject("+1h")
-        val nextHourSqlDateInferredType: Date = InjectionManager.inject("+1h")
+        val nextHourSqlDate: Date = injector.inject("+1h")
+        val nextHourSqlDateInferredType: Date = injector.inject("+1h")
 
         // Injecting classes bound to objects return always the same instance
-        val defaultString = InjectionManager.inject<String>()
-        val taggedString: String = InjectionManager.inject("toolkit")
+        val defaultString = injector.inject<String>()
+        val taggedString: String = injector.inject("toolkit")
+        val intTaggedString: String = injector.inject(0)
 
-        // Overriding previously bound classes is not allowed (ignored)
-        InjectionManager.bind<String>("STR Ignored")
-        val ignoredBinding = InjectionManager.inject<String>()
+        // Overriding previously bound classes is not allowed
+        try {
+            module.bind<String>("STR Ignored")
+        }
+        catch (e: IllegalStateException) {
+            logger.error { "String already has a generator bound. The program should abort." }
+        }
+        val ignoredBinding = injector.inject<String>()
 
         // You can overwrite previously bound classes using `forceBind*` methods
-        forceBind(String::class, "STR Overridden")
-        val overriddenBinding = InjectionManager.inject<String>()
+        module.forceBind<String>("STR Overridden")
+        val overriddenBinding = injector.inject<String>()
         // injectionUsage
 
         val millis = System.currentTimeMillis()
@@ -96,11 +112,76 @@ internal class HexagonCoreSamplesTest {
         assert(currentSqlDateInferredType.time <= millis)
         assert(nextHourSqlDate is java.sql.Date)
         assert(nextHourSqlDateInferredType.time <= millis + 3_600_000)
-        assert(defaultString == "STR")
-        assert(ignoredBinding == "STR")
-        assert(overriddenBinding == "STR Overridden")
-        assert(taggedString == "Hexagon")
-        assert(InjectionManager.inject<String>() === InjectionManager.inject<String>())
+        assertEquals("STR", defaultString)
+        assertEquals("STR", ignoredBinding)
+        assertEquals("STR Overridden", overriddenBinding)
+        assertEquals("Hexagon", taggedString)
+        assertEquals("Zero", intTaggedString)
+        assertSame(injector.inject<String>(), injector.inject<String>())
+    }
+
+    @Suppress("RemoveExplicitTypeArguments")
+    @Test fun multipleBindingsInjectionUsage() {
+        module.clear()
+
+        // multipleBindingsInjectionUsage
+        // This snippet assumes the following IMPORTS ARE DECLARED:
+        // import com.hexagonkt.injection.InjectionManager.module
+        // import com.hexagonkt.injection.InjectionManager.injector
+
+        // Bind classes to functions (create a different instance with each `inject` call)
+        module.bindGenerators<Date>({ java.sql.Date(System.currentTimeMillis()) })
+
+        // Bind classes to objects (returns the same instance for all `inject` calls)
+        module.bind<String>("STR")
+
+        // You can use labels to inject different instances
+        module.bind<String>("toolkit", "Hexagon")
+        module.bind<Date>("+1h") { java.sql.Date(System.currentTimeMillis() + 3_600_000) }
+
+        // Tags can be of *ANY* type
+        module.bind<String>(0, "Zero")
+
+//        val currentSqlDate = injector.inject<Date>()
+//        val currentSqlDateInferredType: Date = injector.inject()
+//
+//        // Inject different values for a class using tags (can be any type, not only string)
+//        val nextHourSqlDate: Date = injector.inject("+1h")
+//        val nextHourSqlDateInferredType: Date = injector.inject("+1h")
+//
+//        // Injecting classes bound to objects return always the same instance
+//        val defaultString = injector.inject<String>()
+//        val taggedString: String = injector.inject("toolkit")
+//        val intTaggedString: String = injector.inject(0)
+//
+//        // Overriding previously bound classes is not allowed
+//        try {
+//            module.bind<String>("STR Ignored")
+//        }
+//        catch (e: IllegalStateException) {
+//            logger.error { "String already has a generator bound. The program should abort." }
+//        }
+//        val ignoredBinding = injector.inject<String>()
+//
+//        // You can overwrite previously bound classes using `forceBind*` methods
+//        module.forceBind(String::class, "STR Overridden")
+//        val overriddenBinding = injector.inject<String>()
+//        // multipleBindingsInjectionUsage
+//
+//        val millis = System.currentTimeMillis()
+//
+//        assert(currentSqlDate is java.sql.Date)
+//        assert(currentSqlDate.time <= millis)
+//        assert(nextHourSqlDate.time <= millis + 3_600_000)
+//        assert(currentSqlDateInferredType.time <= millis)
+//        assert(nextHourSqlDate is java.sql.Date)
+//        assert(nextHourSqlDateInferredType.time <= millis + 3_600_000)
+//        assertEquals("STR", defaultString)
+//        assertEquals("STR", ignoredBinding)
+//        assertEquals("STR Overridden", overriddenBinding)
+//        assertEquals("Hexagon", taggedString)
+//        assertEquals("Zero", intTaggedString)
+//        assertSame(injector.inject<String>(), injector.inject<String>())
     }
 
     @Test fun serializationUsage() {
