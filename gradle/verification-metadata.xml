@@ -33,6 +33,7 @@
       <trust group="io.netty" version="4.1.60.Final"/>
 
       <!-- Failing only when publishing on macOS -->
+      <!--
       <trust group="com.github.java-json-tools" name="btf" version="1.3"/>
       <trust group="commons-io" name="commons-io" version="2.6"/>
       <trust group="com.github.java-json-tools" name="jackson-coreutils" version="2.0"/>
@@ -44,6 +45,7 @@
       <trust group="com.google.code.findbugs" name="jsr305" version="3.0.2"/>
       <trust group="com.github.java-json-tools" name="msg-simple" version="1.2"/>
       <trust group="com.github.java-json-tools" name="uri-template" version="0.10"/>
+      -->
     </trusted-artifacts>
 
     <key-servers>
