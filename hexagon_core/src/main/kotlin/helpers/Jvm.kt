@@ -5,8 +5,8 @@ import java.lang.management.ManagementFactory
 import java.lang.management.MemoryUsage
 import java.net.InetAddress
 import java.nio.charset.Charset
+import java.util.*
 
-import java.util.TimeZone
 import kotlin.reflect.KClass
 
 /**
@@ -24,6 +24,8 @@ object Jvm {
     /** Default character set. */
     val charset: Charset by lazy { Charset.defaultCharset() }
 
+    val locale: Locale by lazy { Locale.getDefault() }
+
     /** The hostname of the machine running this program. */
     val hostname: String by lazy { InetAddress.getLocalHost().hostName }
 
@@ -35,7 +37,7 @@ object Jvm {
     val version: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().specVersion } }
     val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }
     val timezone: String by lazy { System.getProperty("user.timezone") }
-    val locale: String by lazy {
+    val localeCode: String by lazy {
         "%s_%s.%s".format(
             System.getProperty("user.language"),
             System.getProperty("user.country"),

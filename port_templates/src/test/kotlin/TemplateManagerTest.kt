@@ -8,7 +8,7 @@ import java.util.Locale
 internal class TemplateManagerTest {
 
     private class TestTemplateAdapter(val prefix: String) : TemplatePort {
-        override fun render(resource: String, locale: Locale, context: Map<String, *>): String =
+        override fun render(resource: String, context: Map<String, *>, locale: Locale): String =
             "$prefix:$resource"
     }
 
@@ -23,8 +23,8 @@ internal class TemplateManagerTest {
             Regex(".*\\.txt") to TestTemplateAdapter("text")
         )
 
-        val html = TemplateManager.render("template.html", locale, context)
-        val plain = TemplateManager.render("template.txt", locale, context)
+        val html = TemplateManager.render("template.html", context, locale)
+        val plain = TemplateManager.render("template.txt", context, locale)
         // templateEngineRegistration
 
         assertEquals("html:template.html", html)
@@ -37,7 +37,7 @@ internal class TemplateManagerTest {
         val prefixedResource = "test.pebble.html"
 
         assertThrows<IllegalArgumentException> {
-            TemplateManager.render(prefixedResource, locale, mapOf<String, Any>())
+            TemplateManager.render(prefixedResource, mapOf<String, Any>(), locale)
         }
     }
 }

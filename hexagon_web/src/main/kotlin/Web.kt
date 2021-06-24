@@ -51,22 +51,22 @@ fun Call.obtainLocale(): Locale = when {
 fun Call.template(
     templateEngine: TemplatePort,
     templateName: String,
+    context: Map<String, *> = fullContext(),
     locale: Locale = obtainLocale(),
-    context: Map<String, *> = fullContext()
 ) {
 
     templateType(templateName)
-    ok(templateEngine.render(templateName, locale, context))
+    ok(templateEngine.render(templateName, context, locale))
 }
 
 fun Call.template(
     templateName: String,
+    context: Map<String, *> = fullContext(),
     locale: Locale = obtainLocale(),
-    context: Map<String, *> = fullContext()
 ) {
 
     templateType(templateName)
-    ok(TemplateManager.render(templateName, locale, context))
+    ok(TemplateManager.render(templateName, context, locale))
 }
 
 /**
