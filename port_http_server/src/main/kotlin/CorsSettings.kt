@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.helpers.globToRegex
+import com.hexagonkt.helpers.Glob
 import com.hexagonkt.http.ALL
 import com.hexagonkt.http.Method
 
@@ -25,7 +25,7 @@ data class CorsSettings(
         preFlightStatus: Int = 204,
         preFlightMaxAge: Long = 0) :
             this(
-                allowedOrigin.globToRegex(),
+                Glob(allowedOrigin).regex,
                 allowedMethods,
                 allowedHeaders,
                 exposedHeaders,
@@ -46,6 +46,6 @@ data class CorsSettings(
      * Provides the origin based on access control check for CORS.
      */
     fun accessControlAllowOrigin(origin: String): String =
-        if (allowedOrigin.pattern == "^.*$" && !supportCredentials) "*"
+        if (allowedOrigin.pattern == ".*" && !supportCredentials) "*"
         else origin
 }
