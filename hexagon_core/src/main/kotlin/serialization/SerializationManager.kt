@@ -18,8 +18,13 @@ object SerializationManager {
     private val logger: Logger = Logger(this::class)
 
     private val mimeTypesResource by lazy {
-        ClasspathHandler.registerHandler() // Prevent error on runtimes not supporting SPI
-        URL("classpath:serialization/mime.types")
+        try {
+            ClasspathHandler.registerHandler() // Prevent error on runtimes not supporting SPI
+            URL("classpath:serialization/mime.types")
+        }
+        catch (e: Exception) {
+            URL("classpath", "", 0, "serialization/mime.types", ClasspathHandler)
+        }
     }
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
