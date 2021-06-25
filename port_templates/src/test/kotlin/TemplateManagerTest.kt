@@ -1,9 +1,15 @@
 package com.hexagonkt.templates
 
+import com.hexagonkt.helpers.Glob
+import com.hexagonkt.templates.TemplateManager.injectTemplateAdapters
+import com.hexagonkt.injection.InjectionManager
+import com.hexagonkt.injection.forceBind
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import java.lang.IllegalStateException
 import java.util.Locale
+import kotlin.test.assertFailsWith
 
 internal class TemplateManagerTest {
 
@@ -39,5 +45,22 @@ internal class TemplateManagerTest {
         assertThrows<IllegalArgumentException> {
             TemplateManager.render(prefixedResource, mapOf<String, Any>(), locale)
         }
+    }
+    @Test fun `Adapters are injected correctly`() {
+        InjectionManager.module.forceBind<TemplatePort>(".*.html", VoidTemplateAdapter)
+        assert(injectTemplateAdapters().map { it.key.pattern }.contains(".*.html"))
+        InjectionManager.module.forceBind<TemplatePort>(Glob("*.md"), VoidTemplateAdapter)
+        assert(injectTemplateAdapters().map { it.key.pattern }.contains(Glob("*.md").regex.pattern))
+        InjectionManager.module.forceBind<TemplatePort>(Regex(".*.txt"), VoidTemplateAdapter)
+        assert(injectTemplateAdapters().map { it.key.pattern }.contains(Regex(".*.txt").pattern))
+        InjectionManager.module.forceBind<TemplatePort>(0, VoidTemplateAdapter)
+        assertFailsWith<IllegalStateException> { injectTemplateAdapters() }
+
+        InjectionManager.module.clear()
+    }
+
+    object VoidTemplateAdapter : TemplatePort {
+        override fun render(resource: String, context: Map<String, *>, locale: Locale): String =
+            "Not implemented"
     }
 }
