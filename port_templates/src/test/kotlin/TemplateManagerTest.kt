@@ -17,7 +17,7 @@ internal class TemplateManagerTest {
         val locale = Locale.getDefault()
         val context = mapOf<String, Any>()
 
-        // templateEngineRegistration
+        // templateAdapterRegistration
         TemplateManager.adapters = mapOf(
             Regex(".*\\.html") to TestTemplateAdapter("html"),
             Regex(".*\\.txt") to TestTemplateAdapter("text")
@@ -25,7 +25,7 @@ internal class TemplateManagerTest {
 
         val html = TemplateManager.render("template.html", context, locale)
         val plain = TemplateManager.render("template.txt", context, locale)
-        // templateEngineRegistration
+        // templateAdapterRegistration
 
         assertEquals("html:template.html", html)
         assertEquals("text:template.txt", plain)

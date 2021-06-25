@@ -12,11 +12,11 @@ abstract class TemplateAdapterTest(private val resource: String, val adapter: ()
     @Test fun `A static template is rendered properly`() {
         val engine = adapter()
 
-        // templateEngineUsage
+        // templateAdapterUsage
         val context = mapOf("key1" to "value1", "key2" to "value2")
         val locale = Locale.getDefault()
         val rendered = engine.render(resource, context, locale)
-        // templateEngineUsage
+        // templateAdapterUsage
 
         assert(rendered.contains("value1"))
         assert(rendered.contains("value2"))
