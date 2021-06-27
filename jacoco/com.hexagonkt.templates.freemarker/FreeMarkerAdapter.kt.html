@@ -8,7 +8,7 @@ import java.util.*
 
 object FreeMarkerAdapter : TemplatePort {
 
-    override fun render(resource: String, locale: Locale, context: Map&lt;String, *&gt;): String {
+    override fun render(resource: String, context: Map&lt;String, *&gt;, locale: Locale): String {
 <span class="fc" id="L12">        val configuration = Configuration(Version(&quot;2.3.31&quot;)).apply {</span>
 <span class="fc" id="L13">            setClassLoaderForTemplateLoading(Thread.currentThread().contextClassLoader, &quot;/&quot;)</span>
 <span class="fc" id="L14">            defaultEncoding = &quot;UTF-8&quot;</span>

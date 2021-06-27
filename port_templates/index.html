@@ -907,22 +907,15 @@ feature (as <a href="/templates_pebble">templates_pebble</a> and/or <a href="/te
 the same time.</p>
 <h2 id="package-comhexagonkttemplates">Package com.hexagonkt.templates<a class="headerlink" href="#package-comhexagonkttemplates" title="Permanent link">&para;</a></h2>
 <h4 id="create-a-template-engine">Create a Template Engine<a class="headerlink" href="#create-a-template-engine" title="Permanent link">&para;</a></h4>
-<p>You can create a template engine with default settings as follows:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>
-</code></pre></div>
-</td></tr></table>
 <h4 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h4>
 <p>Template engines can be configured:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>
-</code></pre></div>
-</td></tr></table>
 <h4 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h4>
-<p>To render a template,  do something like this:</p>
+<p>To render a template, do something like this:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">context</span> <span class="o">=</span> <span class="n">mapOf</span><span class="p">(</span><span class="s">&quot;key1&quot;</span> <span class="n">to</span> <span class="s">&quot;value1&quot;</span><span class="p">,</span> <span class="s">&quot;key2&quot;</span> <span class="n">to</span> <span class="s">&quot;value2&quot;</span><span class="p">)</span>
 <span class="kd">val</span> <span class="nv">locale</span> <span class="o">=</span> <span class="n">Locale</span><span class="p">.</span><span class="na">getDefault</span><span class="p">()</span>
-<span class="kd">val</span> <span class="nv">rendered</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">locale</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">rendered</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">locale</span><span class="p">)</span>
 </code></pre></div>
 </td></tr></table>
 <h4 id="using-multiple-template-engines">Using multiple template engines<a class="headerlink" href="#using-multiple-template-engines" title="Permanent link">&para;</a></h4>
@@ -940,8 +933,8 @@ prefix and use it like follows:</p>
     <span class="n">Regex</span><span class="p">(</span><span class="s">&quot;.*\\.txt&quot;</span><span class="p">)</span> <span class="n">to</span> <span class="n">TestTemplateAdapter</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 
-<span class="kd">val</span> <span class="nv">html</span> <span class="o">=</span> <span class="n">TemplateManager</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="s">&quot;template.html&quot;</span><span class="p">,</span> <span class="n">locale</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
-<span class="kd">val</span> <span class="nv">plain</span> <span class="o">=</span> <span class="n">TemplateManager</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="s">&quot;template.txt&quot;</span><span class="p">,</span> <span class="n">locale</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">html</span> <span class="o">=</span> <span class="n">TemplateManager</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="s">&quot;template.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">locale</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">plain</span> <span class="o">=</span> <span class="n">TemplateManager</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="s">&quot;template.txt&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">locale</span><span class="p">)</span>
 </code></pre></div>
 </td></tr></table>
                 

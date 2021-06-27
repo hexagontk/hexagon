@@ -2,6 +2,7 @@
 
 import com.hexagonkt.helpers.Glob
 import com.hexagonkt.helpers.toDate
+import com.hexagonkt.helpers.Jvm
 import com.hexagonkt.injection.InjectionManager.injector
 import java.time.LocalDateTime
 import java.util.Locale
@@ -11,15 +12,18 @@ import java.util.Locale
  */
 object TemplateManager {
 
-<span class="pc" id="L14">    var adapters: Map&lt;Regex, TemplatePort&gt; = injector.injectMap&lt;TemplatePort&gt;()</span>
-<span class="fc" id="L15">        .mapKeys {</span>
-<span class="nc" id="L16">            when (val key = it.key) {</span>
-<span class="nc bnc" id="L17" title="All 2 branches missed.">                is String -&gt; key.toRegex()</span>
-<span class="nc bnc" id="L18" title="All 2 branches missed.">                is Glob -&gt; key.regex</span>
-<span class="nc bnc" id="L19" title="All 2 branches missed.">                is Regex -&gt; key</span>
-<span class="nc" id="L20">                else -&gt; error(&quot;Template adapter bound to invalid tag: ${key::class.qualifiedName}&quot;)</span>
-            }
-<span class="fc" id="L22">        }</span>
+<span class="pc" id="L15">    var adapters: Map&lt;Regex, TemplatePort&gt; = injectTemplateAdapters()</span>
+
+    internal fun injectTemplateAdapters(): Map&lt;Regex, TemplatePort&gt; =
+<span class="fc" id="L18">        injector.injectMap&lt;TemplatePort&gt;()</span>
+<span class="fc" id="L19">            .mapKeys {</span>
+<span class="fc" id="L20">                when (val key = it.key) {</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">                    is String -&gt; key.toRegex()</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">                    is Glob -&gt; key.regex</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">                    is Regex -&gt; key</span>
+<span class="fc" id="L24">                    else -&gt; error(&quot;Adapter bound to invalid tag: ${key::class.qualifiedName}&quot;)</span>
+                }
+<span class="fc" id="L26">            }</span>
 
     /**
      * Render a template with a registered template engine.
@@ -29,37 +33,41 @@ object TemplateManager {
      *
      * @throws IllegalArgumentException if no engine for prefix was found
      */
-    fun render(resource: String, locale: Locale, context: Map&lt;String, *&gt;): String {
-<span class="fc" id="L33">        return render(findAdapter(resource), resource, locale, context)</span>
+<span class="nc" id="L36">    fun render(resource: String, context: Map&lt;String, *&gt;, locale: Locale = Jvm.locale): String {</span>
+<span class="fc" id="L37">        return render(findAdapter(resource), resource, context, locale)</span>
     }
 
-    fun render(
-        adapter: TemplatePort, resource: String, locale: Locale, context: Map&lt;String, *&gt;): String {
-
-<span class="fc" id="L39">        val now = LocalDateTime.now().toDate()</span>
-<span class="fc" id="L40">        val defaultProperties = mapOf(&quot;_template_&quot; to resource, &quot;_now_&quot; to now)</span>
-<span class="fc" id="L41">        return adapter.render(resource, locale, context + defaultProperties)</span>
-    }
-
-<span class="nc" id="L44">    fun render(</span>
-        resource: String,
-<span class="nc" id="L46">        locale: Locale = Locale.getDefault(),</span>
-        vararg context: Pair&lt;String, *&gt;
-    ): String =
-<span class="nc" id="L49">        render(findAdapter(resource), resource, locale, *context)</span>
-
-<span class="nc" id="L51">    fun render(</span>
+<span class="nc" id="L40">    fun render(</span>
         adapter: TemplatePort,
         resource: String,
-<span class="nc" id="L54">        locale: Locale = Locale.getDefault(),</span>
+        context: Map&lt;String, *&gt;,
+<span class="nc" id="L44">        locale: Locale = Jvm.locale</span>
+    ): String {
+
+<span class="fc" id="L47">        val now = LocalDateTime.now().toDate()</span>
+<span class="fc" id="L48">        val defaultProperties = mapOf(&quot;_template_&quot; to resource, &quot;_now_&quot; to now)</span>
+<span class="fc" id="L49">        return adapter.render(resource, context + defaultProperties, locale)</span>
+    }
+
+<span class="nc" id="L52">    fun render(</span>
+        resource: String,
+<span class="nc" id="L54">        locale: Locale = Jvm.locale,</span>
         vararg context: Pair&lt;String, *&gt;
     ): String =
-<span class="nc" id="L57">        render(adapter, resource, locale, linkedMapOf(*context))</span>
+<span class="nc" id="L57">        render(findAdapter(resource), resource, locale, *context)</span>
+
+<span class="nc" id="L59">    fun render(</span>
+        adapter: TemplatePort,
+        resource: String,
+<span class="nc" id="L62">        locale: Locale = Jvm.locale,</span>
+        vararg context: Pair&lt;String, *&gt;
+    ): String =
+<span class="nc" id="L65">        render(adapter, resource, linkedMapOf(*context), locale)</span>
 
     private fun findAdapter(resource: String): TemplatePort =
-<span class="fc bfc" id="L60" title="All 2 branches covered.">        adapters</span>
-<span class="fc bfc" id="L61" title="All 2 branches covered.">            .filter { it.key.matches(resource) }</span>
-<span class="pc bpc" id="L62" title="1 of 4 branches missed.">            .firstNotNullOfOrNull { it.value  }</span>
-<span class="fc" id="L63">            ?: throw IllegalArgumentException(&quot;No adapter found for resource: $resource&quot;)</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        adapters</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            .filter { it.key.matches(resource) }</span>
+<span class="pc bpc" id="L70" title="1 of 4 branches missed.">            .firstNotNullOfOrNull { it.value  }</span>
+<span class="fc" id="L71">            ?: throw IllegalArgumentException(&quot;No adapter found for resource: $resource&quot;)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

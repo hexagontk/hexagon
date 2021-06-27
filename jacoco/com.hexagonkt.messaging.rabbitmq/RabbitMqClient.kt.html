@@ -132,7 +132,7 @@ import kotlin.reflect.KClass
      */
     private fun createChannel(): Channel =
 <span class="fc" id="L134">        retry(times = 3, delay = 50) {</span>
-<span class="pc bpc" id="L135" title="1 of 4 branches missed.">            if (connection?.isOpen != true) {</span>
+<span class="pc bpc" id="L135" title="1 of 6 branches missed.">            if (connection?.isOpen != true) {</span>
 <span class="fc" id="L136">                connection = connectionFactory.newConnection()</span>
 <span class="pc bpc" id="L137" title="1 of 2 branches missed.">                connection?.addShutdownListener(listener)</span>
 <span class="fc" id="L138">                (connection as Recoverable).addRecoveryListener(listener)</span>

@@ -4,8 +4,8 @@ $dokka.location:com.hexagonkt.web////PointingToDeclaration/hexagon_web/com.hexa
 $dokka.location:com.hexagonkt.web//fullContext/com.hexagonkt.http.server.Call#/PointingToDeclaration/hexagon_web/com.hexagonkt.web/full-context.html
 $dokka.location:com.hexagonkt.web//html/com.hexagonkt.http.server.Call#kotlin.Function1[kotlinx.html.HTML,kotlin.Unit]/PointingToDeclaration/hexagon_web/com.hexagonkt.web/html.html
 $dokka.location:com.hexagonkt.web//obtainLocale/com.hexagonkt.http.server.Call#/PointingToDeclaration/hexagon_web/com.hexagonkt.web/obtain-locale.html
-$dokka.location:com.hexagonkt.web//template/com.hexagonkt.http.server.Call#com.hexagonkt.templates.TemplatePort#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/hexagon_web/com.hexagonkt.web/template.html
-$dokka.location:com.hexagonkt.web//template/com.hexagonkt.http.server.Call#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/hexagon_web/com.hexagonkt.web/template.html
+$dokka.location:com.hexagonkt.web//template/com.hexagonkt.http.server.Call#com.hexagonkt.templates.TemplatePort#kotlin.String#kotlin.collections.Map[kotlin.String,*]#java.util.Locale/PointingToDeclaration/hexagon_web/com.hexagonkt.web/template.html
+$dokka.location:com.hexagonkt.web//template/com.hexagonkt.http.server.Call#kotlin.String#kotlin.collections.Map[kotlin.String,*]#java.util.Locale/PointingToDeclaration/hexagon_web/com.hexagonkt.web/template.html
 $dokka.location:com.hexagonkt.web//templateType/com.hexagonkt.http.server.Call#kotlin.String/PointingToDeclaration/hexagon_web/com.hexagonkt.web/template-type.html
 com.hexagonkt.web
 

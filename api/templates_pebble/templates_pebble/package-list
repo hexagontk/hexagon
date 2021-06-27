@@ -2,6 +2,6 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:com.hexagonkt.templates.pebble////PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/index.html
 $dokka.location:com.hexagonkt.templates.pebble/PebbleAdapter///PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter/index.html
-$dokka.location:com.hexagonkt.templates.pebble/PebbleAdapter/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter/render.html
+$dokka.location:com.hexagonkt.templates.pebble/PebbleAdapter/render/#kotlin.String#kotlin.collections.Map[kotlin.String,*]#java.util.Locale/PointingToDeclaration/templates_pebble/com.hexagonkt.templates.pebble/-pebble-adapter/render.html
 com.hexagonkt.templates.pebble
 

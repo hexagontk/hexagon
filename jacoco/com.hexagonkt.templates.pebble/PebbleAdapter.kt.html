@@ -11,7 +11,7 @@ object PebbleAdapter : TemplatePort {
 
 <span class="fc" id="L12">    private val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()</span>
 
-    override fun render(resource: String, locale: Locale, context: Map&lt;String, *&gt;): String {
+    override fun render(resource: String, context: Map&lt;String, *&gt;, locale: Locale): String {
 <span class="fc" id="L15">        val contextEntries = context.map {</span>
 <span class="fc" id="L16">            it.key to</span>
 <span class="fc bfc" id="L17" title="All 2 branches covered.">                if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()</span>

@@ -2,6 +2,6 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:com.hexagonkt.templates.freemarker////PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/index.html
 $dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapter///PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter/index.html
-$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapter/render/#kotlin.String#java.util.Locale#kotlin.collections.Map[kotlin.String,*]/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter/render.html
+$dokka.location:com.hexagonkt.templates.freemarker/FreeMarkerAdapter/render/#kotlin.String#kotlin.collections.Map[kotlin.String,*]#java.util.Locale/PointingToDeclaration/templates_freemarker/com.hexagonkt.templates.freemarker/-free-marker-adapter/render.html
 com.hexagonkt.templates.freemarker
 

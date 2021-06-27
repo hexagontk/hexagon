@@ -51,22 +51,22 @@ fun Call.fullContext(): Map&lt;String, *&gt; {
 <span class="fc" id="L51">fun Call.template(</span>
     templateEngine: TemplatePort,
     templateName: String,
-<span class="fc" id="L54">    locale: Locale = obtainLocale(),</span>
-<span class="fc" id="L55">    context: Map&lt;String, *&gt; = fullContext()</span>
+<span class="fc" id="L54">    context: Map&lt;String, *&gt; = fullContext(),</span>
+<span class="fc" id="L55">    locale: Locale = obtainLocale(),</span>
 ) {
 
 <span class="fc" id="L58">    templateType(templateName)</span>
-<span class="fc" id="L59">    ok(templateEngine.render(templateName, locale, context))</span>
+<span class="fc" id="L59">    ok(templateEngine.render(templateName, context, locale))</span>
 <span class="fc" id="L60">}</span>
 
 <span class="fc" id="L62">fun Call.template(</span>
     templateName: String,
-<span class="fc" id="L64">    locale: Locale = obtainLocale(),</span>
-<span class="fc" id="L65">    context: Map&lt;String, *&gt; = fullContext()</span>
+<span class="fc" id="L64">    context: Map&lt;String, *&gt; = fullContext(),</span>
+<span class="fc" id="L65">    locale: Locale = obtainLocale(),</span>
 ) {
 
 <span class="fc" id="L68">    templateType(templateName)</span>
-<span class="fc" id="L69">    ok(TemplateManager.render(templateName, locale, context))</span>
+<span class="fc" id="L69">    ok(TemplateManager.render(templateName, context, locale))</span>
 <span class="fc" id="L70">}</span>
 
 /**

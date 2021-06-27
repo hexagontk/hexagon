@@ -8,7 +8,7 @@ import com.hexagonkt.helpers.Jvm.hostname
 import com.hexagonkt.helpers.Jvm.ip
 import com.hexagonkt.helpers.Jvm.name
 import com.hexagonkt.helpers.Jvm.version
-import com.hexagonkt.helpers.Jvm.locale
+import com.hexagonkt.helpers.Jvm.localeCode
 import com.hexagonkt.helpers.Jvm.timezone
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.Protocol.HTTP
@@ -158,7 +158,7 @@ import java.lang.System.nanoTime
 
 <span class="fc" id="L159">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
 
-<span class="fc" id="L161">        val localeValue = &quot;$BLUE$locale$RESET&quot;</span>
+<span class="fc" id="L161">        val localeValue = &quot;$BLUE$localeCode$RESET&quot;</span>
 <span class="fc" id="L162">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
 <span class="fc" id="L163">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
 

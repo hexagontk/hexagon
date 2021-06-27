@@ -2,9 +2,14 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:com.hexagonkt.helpers////PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/index.html
 $dokka.location:com.hexagonkt.helpers//banner/kotlin.String#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/banner.html
+$dokka.location:com.hexagonkt.helpers//base64Decoder/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/base64-decoder.html
+$dokka.location:com.hexagonkt.helpers//base64Encoder/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/base64-encoder.html
 $dokka.location:com.hexagonkt.helpers//bytes/java.util.UUID#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/bytes.html
 $dokka.location:com.hexagonkt.helpers//camelToSnake/kotlin.String#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/camel-to-snake.html
 $dokka.location:com.hexagonkt.helpers//check/#kotlin.String#kotlin.Array[kotlin.Function0[kotlin.Unit]]/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/check.html
+$dokka.location:com.hexagonkt.helpers//decodeBase64/kotlin.String#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/decode-base64.html
+$dokka.location:com.hexagonkt.helpers//encodeToBase64/kotlin.ByteArray#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/encode-to-base64.html
+$dokka.location:com.hexagonkt.helpers//encodeToBase64/kotlin.String#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/encode-to-base64.html
 $dokka.location:com.hexagonkt.helpers//ensureSize/kotlin.collections.Collection[TypeParam(bounds=[kotlin.Any?])]#kotlin.ranges.IntRange/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/ensure-size.html
 $dokka.location:com.hexagonkt.helpers//eol/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/eol.html
 $dokka.location:com.hexagonkt.helpers//exec/kotlin.String#java.io.File#kotlin.Long#kotlin.Boolean/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/exec.html
@@ -19,7 +24,6 @@ $dokka.location:com.hexagonkt.helpers//filterVars/kotlin.String#kotlin.collectio
 $dokka.location:com.hexagonkt.helpers//findGroups/kotlin.text.Regex#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/find-groups.html
 $dokka.location:com.hexagonkt.helpers//freePort/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/free-port.html
 $dokka.location:com.hexagonkt.helpers//get/kotlin.collections.Map[*,*]#kotlin.Array[kotlin.Any]/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/get.html
-$dokka.location:com.hexagonkt.helpers//globToRegex/kotlin.String#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/glob-to-regex.html
 $dokka.location:com.hexagonkt.helpers//isPortOpened/#kotlin.Int/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/is-port-opened.html
 $dokka.location:com.hexagonkt.helpers//notEmpty/#TypeParam(bounds=[kotlin.Any?])?/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/not-empty.html
 $dokka.location:com.hexagonkt.helpers//prependIndent/kotlin.String#kotlin.Int#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/prepend-indent.html
@@ -119,6 +123,7 @@ $dokka.location:com.hexagonkt.helpers/Jvm/id/#/PointingToDeclaration/hexagon_co
 $dokka.location:com.hexagonkt.helpers/Jvm/initialMemory/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/initial-memory.html
 $dokka.location:com.hexagonkt.helpers/Jvm/ip/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/ip.html
 $dokka.location:com.hexagonkt.helpers/Jvm/locale/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/locale.html
+$dokka.location:com.hexagonkt.helpers/Jvm/localeCode/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/locale-code.html
 $dokka.location:com.hexagonkt.helpers/Jvm/name/#/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/name.html
 $dokka.location:com.hexagonkt.helpers/Jvm/systemSetting/#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/system-setting.html
 $dokka.location:com.hexagonkt.helpers/Jvm/systemSetting/#kotlin.reflect.KClass[TypeParam(bounds=[kotlin.Any])]#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.helpers/-jvm/system-setting.html
@@ -261,9 +266,12 @@ $dokka.location:com.hexagonkt.logging/LoggingPort/createLogger/#kotlin.String/Po
 $dokka.location:com.hexagonkt.logging/LoggingPort/setLoggerLevel/#kotlin.String#com.hexagonkt.logging.LoggingLevel/PointingToDeclaration/hexagon_core/com.hexagonkt.logging/-logging-port/set-logger-level.html
 $dokka.location:com.hexagonkt.security////PointingToDeclaration/hexagon_core/com.hexagonkt.security/index.html
 $dokka.location:com.hexagonkt.security//chainHmac/#kotlin.String#kotlin.Array[kotlin.String]/PointingToDeclaration/hexagon_core/com.hexagonkt.security/chain-hmac.html
+$dokka.location:com.hexagonkt.security//getPrivateKey/java.security.KeyStore#kotlin.String#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.security/get-private-key.html
+$dokka.location:com.hexagonkt.security//getPublicKey/java.security.KeyStore#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.security/get-public-key.html
 $dokka.location:com.hexagonkt.security//hash/#kotlin.String#kotlin.ByteArray/PointingToDeclaration/hexagon_core/com.hexagonkt.security/hash.html
 $dokka.location:com.hexagonkt.security//hash/#kotlin.String#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.security/hash.html
 $dokka.location:com.hexagonkt.security//hmac/#kotlin.String#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/hexagon_core/com.hexagonkt.security/hmac.html
+$dokka.location:com.hexagonkt.security//loadKeyStore/#java.net.URL#kotlin.String/PointingToDeclaration/hexagon_core/com.hexagonkt.security/load-key-store.html
 $dokka.location:com.hexagonkt.security//sign/#kotlin.String#kotlin.String#kotlin.ByteArray/PointingToDeclaration/hexagon_core/com.hexagonkt.security/sign.html
 $dokka.location:com.hexagonkt.serialization////PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/index.html
 $dokka.location:com.hexagonkt.serialization//parse/java.io.File#/PointingToDeclaration/hexagon_core/com.hexagonkt.serialization/parse.html

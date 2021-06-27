@@ -114,6 +114,14 @@ $dokka.location:com.hexagonkt.http.server.examples/ZipTest///PointingToDeclarati
 $dokka.location:com.hexagonkt.http.server.examples/ZipTest/Use ZIP encoding example/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-zip-test/-use -z-i-p encoding example.html
 $dokka.location:com.hexagonkt.http.server.examples/ZipTest/Use ZIP encoding without enabling the feature example/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-zip-test/-use -z-i-p encoding without enabling the feature example.html
 $dokka.location:com.hexagonkt.http.server.examples/ZipTest/ZipTest/#com.hexagonkt.http.server.ServerPort/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.examples/-zip-test/-zip-test.html
+$dokka.location:com.hexagonkt.http.server.security////PointingToDeclaration/port_http_server/com.hexagonkt.http.server.security/index.html
+$dokka.location:com.hexagonkt.http.server.security/AuthenticatorPort///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.security/-authenticator-port/index.html
+$dokka.location:com.hexagonkt.http.server.security/AuthenticatorPort/authenticate/#com.hexagonkt.http.server.Call/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.security/-authenticator-port/authenticate.html
+$dokka.location:com.hexagonkt.http.server.security/BasicAuthenticator///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.security/-basic-authenticator/index.html
+$dokka.location:com.hexagonkt.http.server.security/BasicAuthenticator/BasicAuthenticator/#kotlin.Function2[com.hexagonkt.http.server.Call,kotlin.String,kotlin.String]/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.security/-basic-authenticator/-basic-authenticator.html
+$dokka.location:com.hexagonkt.http.server.security/BasicAuthenticator/authenticate/#com.hexagonkt.http.server.Call/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.security/-basic-authenticator/authenticate.html
+$dokka.location:com.hexagonkt.http.server.security/BasicAuthenticator/credentialSupplier/#/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.security/-basic-authenticator/credential-supplier.html
+$dokka.location:com.hexagonkt.http.server.security/Principal///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.security/-principal/index.html
 $dokka.location:com.hexagonkt.http.server.test////PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/index.html
 $dokka.location:com.hexagonkt.http.server.test//testCall/#com.hexagonkt.http.server.test.TestRequest#com.hexagonkt.http.server.test.TestResponse#com.hexagonkt.http.server.test.TestSession/PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/test-call.html
 $dokka.location:com.hexagonkt.http.server.test/TestRequest///PointingToDeclaration/port_http_server/com.hexagonkt.http.server.test/-test-request/index.html
@@ -440,5 +448,6 @@ $dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/removeAttrib
 $dokka.location:com.hexagonkt.http.server/UnsupportedSessionAdapter/setAttribute/#kotlin.String#kotlin.Any/PointingToDeclaration/port_http_server/com.hexagonkt.http.server/-unsupported-session-adapter/set-attribute.html
 com.hexagonkt.http.server
 com.hexagonkt.http.server.examples
+com.hexagonkt.http.server.security
 com.hexagonkt.http.server.test
 
