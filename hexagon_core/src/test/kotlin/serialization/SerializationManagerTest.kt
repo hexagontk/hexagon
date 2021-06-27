@@ -1,5 +1,6 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.ClasspathHandler
 import com.hexagonkt.serialization.SerializationManager.defaultFormat
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.SerializationManager.formats
@@ -18,6 +19,11 @@ internal class SerializationManagerTest {
 
     @BeforeEach @AfterEach fun resetSerializationFormats () {
         formats = linkedSetOf(Json)
+    }
+
+    @Test fun `Alternative classpath URL`() {
+        val url = URL("classpath", "", 0, "serialization/mime.types", ClasspathHandler)
+        assert(url.readText().contains("application/json json"))
     }
 
     @Test fun `User can add and remove serialization formats` () {

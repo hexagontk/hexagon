@@ -8,7 +8,7 @@ import com.hexagonkt.helpers.Jvm.hostname
 import com.hexagonkt.helpers.Jvm.ip
 import com.hexagonkt.helpers.Jvm.name
 import com.hexagonkt.helpers.Jvm.version
-import com.hexagonkt.helpers.Jvm.locale
+import com.hexagonkt.helpers.Jvm.localeCode
 import com.hexagonkt.helpers.Jvm.timezone
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.Protocol.HTTP
@@ -158,7 +158,7 @@ data class Server(
 
         val javaVersionValue = "$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]"
 
-        val localeValue = "$BLUE$locale$RESET"
+        val localeValue = "$BLUE$localeCode$RESET"
         val timezoneValue = "$BLUE$timezone$RESET"
         val charsetValue = "$BLUE$charset$RESET"
 

@@ -11,7 +11,7 @@ object PebbleAdapter : TemplatePort {
 
     private val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()
 
-    override fun render(resource: String, locale: Locale, context: Map<String, *>): String {
+    override fun render(resource: String, context: Map<String, *>, locale: Locale): String {
         val contextEntries = context.map {
             it.key to
                 if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()

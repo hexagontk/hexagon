@@ -5,6 +5,7 @@ import java.io.InputStream
 import java.lang.System.getProperty
 import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
+import java.util.*
 
 /** Variable prefix for string filtering. The format resembles Mustache's one: `{{variable}}`. */
 private const val VARIABLE_PREFIX = "{{"
@@ -13,6 +14,18 @@ private const val VARIABLE_SUFFIX = "}}"
 
 /** Runtime specific end of line. */
 val eol: String by lazy { getProperty("line.separator") }
+
+val base64Encoder: Base64.Encoder = Base64.getEncoder()
+val base64Decoder: Base64.Decoder = Base64.getDecoder()
+
+fun ByteArray.encodeToBase64(): String =
+    base64Encoder.encodeToString(this)
+
+fun String.encodeToBase64(): String =
+    toByteArray().encodeToBase64()
+
+fun String.decodeBase64(): ByteArray =
+    base64Decoder.decode(this)
 
 /**
  * Filter the target string substituting each key by its value. The keys format is:
@@ -130,25 +143,6 @@ fun String.toStream(): InputStream =
  */
 fun utf8(vararg bytes: Int): String =
     String(bytes.map(Int::toByte).toByteArray())
-
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @return .
- */
-fun String.globToRegex(): Regex = Regex(
-    this.map {
-        when (it) {
-            '*' -> ".*"
-            '?' -> "."
-            '.' -> "\\."
-            '\\' -> "\\\\"
-            else -> it.toString()
-        }
-    }
-    .joinToString("", "^", "$")
-)
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
