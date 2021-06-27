@@ -28,6 +28,11 @@ internal class JvmTest {
         assert(Jvm.uptime().matches(numberRegex))
     }
 
+    @Test fun `Locale code matches with default locale` () {
+        assert(Jvm.localeCode.contains(Jvm.locale.country))
+        assert(Jvm.localeCode.contains(Jvm.locale.language))
+    }
+
     @Test fun `System settings handle parameter types correctly`() {
 
         System.setProperty("validBoolean", true.toString())

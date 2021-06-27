@@ -3,6 +3,7 @@ package com.hexagonkt.helpers
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class StringsTest {
 
@@ -21,6 +22,14 @@ internal class StringsTest {
         every { reNullGroup.find(any()) } returns matchResult
 
         assert(reNullGroup.findGroups("").isEmpty())
+    }
+
+    @Test fun `Data can be encoded and decoded from to base64` () {
+        val data = "abcDEF"
+        val base64Data = data.encodeToBase64()
+        val decodedData = base64Data.decodeBase64()
+
+        assertEquals(data, String(decodedData))
     }
 
     @Test fun `Filter returns the given string if no parameters are set` () {
@@ -106,16 +115,6 @@ internal class StringsTest {
     @Test fun `Utf8 returns proper characters`() {
         assert(utf8(0xF0, 0x9F, 0x91, 0x8D) == "👍")
         assert(utf8(0xF0, 0x9F, 0x91, 0x8E) == "👎")
-    }
-
-    @Test fun `Glob is translated to proper regular expression`() {
-        assert("".globToRegex().pattern == "^$")
-        assert("*".globToRegex().pattern == "^.*$")
-        assert("?".globToRegex().pattern == "^.$")
-        assert(".".globToRegex().pattern == """^\.$""")
-        assert("""\""".globToRegex().pattern == """^\\$""")
-        assert("literal".globToRegex().pattern == "^literal$")
-        assert("""*\*.bin?""".globToRegex().pattern == """^.*\\.*\.bin.$""")
     }
 
     @Test fun `Indent works as expected`() {

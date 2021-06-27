@@ -10,7 +10,7 @@ internal class PebbleAdapterTest {
 
     @Test fun `Dates are converted properly`() {
         val context = mapOf("localDate" to LocalDateTime.of(2000, 12, 31, 23, 45))
-        val html = PebbleAdapter.render("templates/test.pebble.html", locale, context)
+        val html = PebbleAdapter.render("templates/test.pebble.html", context, locale)
         assert(html.contains("23:45"))
         assert(html.contains("2000"))
         assert(html.contains("31"))

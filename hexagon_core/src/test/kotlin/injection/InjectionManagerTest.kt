@@ -61,7 +61,7 @@ internal class InjectionManagerTest {
 
         InjectionManager.apply {
             module.bind<Foo>(::SubFoo1)
-//            ignoreException { bindings.bind<Foo>(::SubFoo1) }
+            ignoreException { module.bind<Foo>(::SubFoo1) }
         }
 
         injector.apply {
@@ -150,9 +150,13 @@ internal class InjectionManagerTest {
             assert(foo12b.javaClass == SubFoo2::class.java)
 
             module.forceBind<Foo>(::SubFoo2)
+            module.forceBind<Foo>("label", ::SubFoo2)
+            module.forceBind<Foo>("label") { SubFoo1() }
 
             val foo2 = inject(Foo::class)
+            val fooLabel = inject(Foo::class, "label")
             assert(foo2.javaClass == SubFoo2::class.java)
+            assert(fooLabel.javaClass == SubFoo1::class.java)
 
             module.forceBind<Foo>(SubFoo3)
             module.bind<Foo>("tag", SubFoo3)
