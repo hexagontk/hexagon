@@ -14,10 +14,9 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS
 import java.io.File
 import java.net.URL
+import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
 abstract class FilesTest(adapter: ServerPort) {
@@ -88,19 +87,15 @@ abstract class FilesTest(adapter: ServerPort) {
         assertResponseContains(response, 404)
     }
 
-    @Test
-    @DisabledOnOs(OS.WINDOWS) // TODO Fix this test for MS Windows
-    fun `An static file from resources can be fetched`() {
+    @Test fun `An static file from resources can be fetched`() {
         val response = client.get("/file.txt")
-        assertResponseEquals(response, "file content\n")
+        assertResponseEquals(response, "file content")
     }
 
-    @Test
-    @DisabledOnOs(OS.WINDOWS) // TODO Fix this test for MS Windows
-    fun `Files content type is returned properly`() {
+    @Test fun `Files content type is returned properly`() {
         val response = client.get("/file.css")
         assert(response.contentType?.contains("css") ?: false)
-        assertResponseEquals(response, "/* css */\n")
+        assertResponseEquals(response, "/* css */")
 
         val responseFile = client.get("/pub/css/mkdocs.css")
         assert(responseFile.contentType?.contains("css") ?: false)
@@ -145,8 +140,8 @@ abstract class FilesTest(adapter: ServerPort) {
     }
 
     private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
-        assert(response?.status == status)
-        assert(response?.body == content)
+        assertEquals(status, response?.status)
+        assertEquals(content, response?.body?.trim())
     }
 
     private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
