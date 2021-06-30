@@ -15,7 +15,7 @@
  * @return .
  */
 <span class="fc" id="L17">fun &lt;T&gt; T.trace(prefix: String = &quot;&quot;): T =</span>
-<span class="fc" id="L18">    apply { logger.trace { &quot;$prefix$this&quot; } }</span>
+<span class="pc" id="L18">    apply { logger.trace { &quot;$prefix$this&quot; } }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -29,7 +29,7 @@
  * @return .
  */
 <span class="fc" id="L31">fun &lt;T&gt; T.debug(prefix: String = &quot;&quot;): T =</span>
-<span class="fc" id="L32">    apply { logger.debug { &quot;$prefix$this&quot; } }</span>
+<span class="pc" id="L32">    apply { logger.debug { &quot;$prefix$this&quot; } }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).

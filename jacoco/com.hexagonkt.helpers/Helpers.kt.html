@@ -61,7 +61,7 @@ fun isPortOpened(port: Int): Boolean =
 <span class="pc" id="L61">        Socket(&quot;localhost&quot;, port).use { it.isConnected }</span>
     }
 <span class="fc" id="L63">    catch (e: Exception) {</span>
-<span class="fc" id="L64">        logger.debug { &quot;Checked port: $port is already open&quot; }</span>
+<span class="pc" id="L64">        logger.debug { &quot;Checked port: $port is already open&quot; }</span>
 <span class="fc" id="L65">        false</span>
 <span class="fc" id="L66">    }</span>
 
