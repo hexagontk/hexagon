@@ -15,8 +15,6 @@ import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import org.junit.jupiter.api.condition.DisabledOnOs
-import org.junit.jupiter.api.condition.OS
 import java.io.File
 import java.net.URL
 import kotlin.test.assertEquals
@@ -91,17 +89,15 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         // clientSettingsCreation
     }
 
-    @Test
-    @DisabledOnOs(OS.WINDOWS) // TODO Fix this test for MS Windows
-    fun `JSON requests works as expected`() {
-        val expectedBody = "{\n  \"foo\" : \"fighters\",\n  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"\n}"
+    @Test fun `JSON requests works as expected`() {
+        val expectedBody = "{  \"foo\" : \"fighters\",  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ")
 
         val body = client.post("/", requestBody, Json.contentType).body
-        assertEquals(expectedBody, body.toString().trim())
+        assertEquals(expectedBody, body.toString().trim().replace("[\r\n]".toRegex(), ""))
 
         val body2 = client.post("/", body = requestBody).body
-        assertEquals(expectedBody, body2.toString().trim())
+        assertEquals(expectedBody, body2.toString().trim().replace("[\r\n]".toRegex(), ""))
 
         client.get("/")
         client.get("/")
