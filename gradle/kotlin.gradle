@@ -43,7 +43,10 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:$scriptJunitVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test:$scriptKotlinVersion")
-    testImplementation("io.mockk:mockk:$scriptMockkVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-reflect:$scriptKotlinVersion")
+    testImplementation("io.mockk:mockk:$scriptMockkVersion") {
+        exclude(group: "org.jetbrains.kotlin")
+    }
 }
 
 // Replace build variables in resource files
