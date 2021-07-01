@@ -7,29 +7,45 @@ import java.text.Normalizer.Form.NFD
 import java.text.Normalizer.normalize
 import java.util.*
 
-/** Variable prefix for string filtering. The format resembles Mustache's one: `{{variable}}`. */
 private const val VARIABLE_PREFIX = "{{"
-/** Variable suffix for string filtering. */
 private const val VARIABLE_SUFFIX = "}}"
+
+private val base64Encoder: Base64.Encoder = Base64.getEncoder()
+private val base64Decoder: Base64.Decoder = Base64.getDecoder()
 
 /** Runtime specific end of line. */
 val eol: String by lazy { getProperty("line.separator") }
 
-val base64Encoder: Base64.Encoder = Base64.getEncoder()
-val base64Decoder: Base64.Decoder = Base64.getDecoder()
-
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
 fun ByteArray.encodeToBase64(): String =
     base64Encoder.encodeToString(this)
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
 fun String.encodeToBase64(): String =
     toByteArray().encodeToBase64()
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
 fun String.decodeBase64(): ByteArray =
     base64Decoder.decode(this)
 
 /**
- * Filter the target string substituting each key by its value. The keys format is:
- * `#{key}` and all occurrences are replaced by the supplied value.
+ * Filter the target string substituting each key by its value. The keys format resembles Mustache's
+ * one: `{{key}}` and all occurrences are replaced by the supplied value.
  *
  * If a variable does not have a parameter, it is left as it is.
  *
@@ -155,12 +171,5 @@ fun utf8(vararg bytes: Int): String =
 fun String.prependIndent(count: Int = 4, pad: String = " "): String =
     this.prependIndent(pad.repeat(count))
 
-/**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
- *
- * @receiver .
- * @param fallback .
- * @return .
- */
 internal fun Sequence<Int>.maxOrElse(fallback: Int): Int =
     this.maxOrNull() ?: fallback
