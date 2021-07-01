@@ -27,10 +27,22 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-reflect</artifactId>
+      <version>${mockk.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>io.mockk</groupId>
       <artifactId>mockk</artifactId>
       <version>${mockk.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-reflect</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
