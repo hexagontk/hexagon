@@ -15,9 +15,7 @@ class UrlSource(val url: URL) : SettingsSource {
 
     override fun load(): Map<String, *> =
         try {
-            url
-                .parse<Map<String, *>>()
-                .mapKeys { e -> e.key }
+            url.parse()
         }
         catch (e: IOException) {
             logger.warn(e) { "Error loading: $url" }
