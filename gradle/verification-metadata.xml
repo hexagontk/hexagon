@@ -20,6 +20,7 @@
       <trust group="com.beust" name="jcommander"/>
       <trust group="org.apache.maven" name="maven-artifact" version="3.6.3"/>
       <trust group="org.codehaus.plexus" name="plexus-utils" version="3.2.1"/>
+      <trust group="org.jetbrains.kotlinx" name="kotlinx-coroutines-core-jvm" version="1.5.0"/>
 
       <!-- Tests -->
       <trust group="jakarta.validation" name="jakarta.validation-api" version="2.0.2"/>
@@ -41,7 +42,7 @@
     <trusted-keys>
       <!-- Build -->
       <trusted-key id="cb43338e060cf9fa" group="org.jacoco"/>
-      <trusted-key id="98465301a4939c0279f2e847d89d05374952262b" group="org.jetbrains.dokka" version="1.4.32"/>
+      <trusted-key id="98465301a4939c0279f2e847d89d05374952262b" group="org.jetbrains.dokka" version="1.5.0"/>
 
       <!-- Tests -->
       <trusted-key id="8756c4f765c9ac3cb6b85d62379ce192d401ab61" group="org.testcontainers"/>
