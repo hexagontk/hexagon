@@ -3,9 +3,6 @@ package com.hexagonkt.helpers
 import java.nio.ByteBuffer
 import java.util.*
 
-private val encoder = Base64.getEncoder().withoutPadding()
-private val decoder = Base64.getDecoder()
-
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
@@ -26,7 +23,7 @@ fun UUID.bytes(): ByteArray =
  * @return .
  */
 fun UUID.toBase64(): String =
-    encoder.encodeToString(this.bytes())
+    bytes().encodeToBase64()
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -36,7 +33,7 @@ fun UUID.toBase64(): String =
  */
 fun uuid(text: String): UUID =
     if (text[8] == '-') UUID.fromString(text)
-    else uuid(decoder.decode(text))
+    else uuid(text.decodeBase64())
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).

@@ -10,7 +10,7 @@ import java.util.*
 private const val VARIABLE_PREFIX = "{{"
 private const val VARIABLE_SUFFIX = "}}"
 
-private val base64Encoder: Base64.Encoder = Base64.getEncoder()
+private val base64Encoder: Base64.Encoder = Base64.getEncoder().withoutPadding()
 private val base64Decoder: Base64.Decoder = Base64.getDecoder()
 
 /** Runtime specific end of line. */

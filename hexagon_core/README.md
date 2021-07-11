@@ -8,7 +8,7 @@ below.
 ### Install the Dependency
 
 This module is not meant to be imported directly. It will be included by using any other part of the
-toolkit. However, if you only want to use the utilities, logging or dependency injection (i.e.: for
+toolkit. However, if you only want to use the utilities, logging or dependency injection (i.e., for
 a desktop application), you can import it with the following code:
 
 === "build.gradle"
@@ -107,6 +107,14 @@ later.
 # Package com.hexagonkt.logging
 
 Provides a logging management capabilities abstracting the application from logging libraries.
+
+# Package com.hexagonkt.logging.jul
+
+TODO
+
+# Package com.hexagonkt.security
+
+TODO
 
 # Package com.hexagonkt.serialization
 
