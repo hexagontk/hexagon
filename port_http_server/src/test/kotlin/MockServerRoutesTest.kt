@@ -4,8 +4,6 @@ import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.injection.InjectionManager.module
-import com.hexagonkt.injection.forceBind
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -15,7 +13,7 @@ import org.junit.jupiter.api.TestInstance
 internal class MockServerRoutesTest {
 
     val server by lazy {
-        MockServer("openapi_test.json").server
+        MockServer(JettyServletAdapter(), "openapi_test.json").server
     }
 
     val client by lazy {
@@ -23,7 +21,6 @@ internal class MockServerRoutesTest {
     }
 
     @BeforeAll fun setUp() {
-        module.forceBind<ServerPort>(JettyServletAdapter())
         server.start()
         assert(server.started())
     }

@@ -65,7 +65,7 @@ The Hexagon's goals and design principles are:
   technologies. You can swap adapters without changing the application code.
 
 * **Batteries Included**: It contains all the required pieces to make production-grade applications:
-  settings management, serialization, dependency injection and build helpers.
+  logging utilities, serialization, resource handling and build helpers.
 
 * **Kotlin First**: Take full advantage of Kotlin instead of just calling Java code from Kotlin. The
   library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).

@@ -1,9 +1,7 @@
 package com.hexagonkt.templates
 
-import com.hexagonkt.helpers.Glob
 import com.hexagonkt.helpers.toDate
 import com.hexagonkt.helpers.Jvm
-import com.hexagonkt.injection.InjectionManager.injector
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale
@@ -13,18 +11,7 @@ import java.util.Locale
  */
 object TemplateManager {
 
-    var adapters: Map<Regex, TemplatePort> = injectTemplateAdapters()
-
-    internal fun injectTemplateAdapters(): Map<Regex, TemplatePort> =
-        injector.injectMap<TemplatePort>()
-            .mapKeys {
-                when (val key = it.key) {
-                    is String -> key.toRegex()
-                    is Glob -> key.regex
-                    is Regex -> key
-                    else -> error("Adapter bound to invalid tag: ${key::class.qualifiedName}")
-                }
-            }
+    var adapters: Map<Regex, TemplatePort> = emptyMap()
 
     /**
      * Render a template with a registered template engine.

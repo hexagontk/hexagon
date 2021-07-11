@@ -35,15 +35,11 @@ parameters list:
 * bindPort: the port which the process listens to. By default, it is `2010`.
 * contextPath: initial path used for the rest of the routes, by default it is empty.
 
-You can inject an adapter for the `Server` port using the [InjectionManager] object:
-`InjectionManager.bindObject<ServerPort>(JettyServletAdapter())`
-
 To create a server, you need to provide a router (check the [next section] for more information),
 and after creating a server you can run it or stop it with [start()] and [stop()] methods.
 
 @code port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:serverCreation
 
-[InjectionManager]: /hexagon_core/#dependency-injection
 [next section]: /port_http_server/#routes
 [start()]: api/port_http_server/port_http_server/com.hexagonkt.http.server/-server/start.html
 [stop()]: api/port_http_server/port_http_server/com.hexagonkt.http.server/-server/stop.html

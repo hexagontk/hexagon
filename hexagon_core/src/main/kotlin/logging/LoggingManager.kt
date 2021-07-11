@@ -1,7 +1,6 @@
 package com.hexagonkt.logging
 
 import com.hexagonkt.helpers.fail
-import com.hexagonkt.injection.InjectionManager.injector
 import com.hexagonkt.logging.jul.JulLoggingAdapter
 import kotlin.reflect.KClass
 
@@ -9,7 +8,7 @@ import kotlin.reflect.KClass
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
 object LoggingManager {
-    var adapter: LoggingPort = injector.injectOrNull() ?: JulLoggingAdapter
+    var adapter: LoggingPort = JulLoggingAdapter
 
     fun setLoggerLevel(name: String, level: LoggingLevel) {
         adapter.setLoggerLevel(name, level)
