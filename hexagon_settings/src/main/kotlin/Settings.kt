@@ -11,7 +11,7 @@ class Settings(private val sources: List<SettingsSource> = emptyList()) {
 
     private val log: Logger by lazy { Logger(this::class) }
 
-    val parameters: Map<*, *> by lazy {
+    val parameters: Map<String, *> by lazy {
         sources
             .map {
                 it.load().also { s ->
@@ -27,7 +27,7 @@ class Settings(private val sources: List<SettingsSource> = emptyList()) {
                 }
             }
             .let {
-                if (it.isEmpty()) emptyMap<Any, Any>()
+                if (it.isEmpty()) emptyMap<String, Any>()
                 else it.reduce { a, b -> a + b }
             }
     }
