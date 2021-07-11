@@ -5,12 +5,11 @@ import com.hexagonkt.injection.forceBind
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.toObject
-import com.hexagonkt.settings.SettingsManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.net.InetAddress
 import kotlin.test.assertFailsWith
 import java.net.InetAddress.getByName as address
 
@@ -24,7 +23,11 @@ internal class ServerTest {
 
     @Test fun `Injected parameters`() {
         InjectionManager.module.forceBind<ServerPort>(VoidAdapter)
-        InjectionManager.module.bind(SettingsManager.settings.parameters.toObject<ServerSettings>())
+        InjectionManager.module.bind(ServerSettings(
+            banner = "Hexagon Tests",
+            bindPort = 0,
+            bindAddress = InetAddress.getByName("0.0.0.0"),
+        ))
 
         val server = Server {}
 

@@ -4,7 +4,6 @@ import com.hexagonkt.helpers.fail
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.IndexOrder.ASCENDING
 import com.hexagonkt.store.IndexOrder.DESCENDING
 import com.hexagonkt.store.Store
@@ -24,10 +23,7 @@ import java.util.TimeZone
 @TestInstance(PER_CLASS)
 internal class MongoDbStoreCompanyTest {
 
-    private val mongodbUrl by lazy {
-        SettingsManager.settings.parameters["mongodbUrl"] as? String?
-            ?: "mongodb://localhost:${mongoDb.getMappedPort(27017)}/test"
-    }
+    private val mongodbUrl by lazy { "mongodb://localhost:${mongoDb.getMappedPort(27017)}/test" }
 
     private val store: Store<Company, String> by lazy {
         createStore()

@@ -2,7 +2,6 @@ package com.hexagonkt.store.mongodb
 
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.settings.SettingsManager
 import com.hexagonkt.store.Store
 import com.hexagonkt.store.mongodb.Department.DESIGN
 import com.hexagonkt.store.mongodb.Department.DEVELOPMENT
@@ -54,10 +53,7 @@ internal class CompanyTest : StoreTest<Company, String>() {
 
     override fun createTestEntities(): List<Company> = listOf(company, company1)
 
-    private val mongodbUrl by lazy {
-        SettingsManager.settings.parameters["mongodbUrl"] as? String?
-        ?: "mongodb://localhost:${mongoDb.getMappedPort(27017)}/test"
-    }
+    private val mongodbUrl by lazy { "mongodb://localhost:${mongoDb.getMappedPort(27017)}/test" }
 
     override fun createStore(): Store<Company, String> =
         MongoDbStore(Company::class, Company::id, mongodbUrl, "companies")

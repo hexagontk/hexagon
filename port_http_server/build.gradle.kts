@@ -33,7 +33,6 @@ dependencies {
 
     // For the Mock OpenAPI Server
     "testImplementation"("io.swagger.parser.v3:swagger-parser:$swaggerParserVersion")
-    "testImplementation"(project(":hexagon_settings"))
     "testImplementation"(project(":serialization_json"))
     "testImplementation"(coreTest)
 }

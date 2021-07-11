@@ -10,7 +10,6 @@ include(
     "hexagon_core",
     "hexagon_http",
     "hexagon_scheduler",
-    "hexagon_settings",
     "hexagon_web",
 
     // Ports
