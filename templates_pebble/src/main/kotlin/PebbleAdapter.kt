@@ -4,6 +4,7 @@ import com.hexagonkt.helpers.toDate
 import com.hexagonkt.templates.TemplatePort
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.io.StringWriter
+import java.net.URL
 import java.time.LocalDateTime
 import java.util.*
 
@@ -11,7 +12,7 @@ object PebbleAdapter : TemplatePort {
 
     private val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()
 
-    override fun render(resource: String, context: Map<String, *>, locale: Locale): String {
+    override fun render(url: URL, context: Map<String, *>, locale: Locale): String {
         val contextEntries = context.map {
             it.key to
                 if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()
@@ -19,6 +20,7 @@ object PebbleAdapter : TemplatePort {
         }
 
         val writer = StringWriter()
+        val resource = url.file
         engine.getTemplate(resource).evaluate(writer, contextEntries.toMap(), locale)
         return writer.toString()
     }

@@ -3,11 +3,12 @@ package com.hexagonkt.templates
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.net.URL
 import java.util.Locale
 import kotlin.test.assertFails
 
 @TestInstance(PER_CLASS)
-abstract class TemplateAdapterTest(private val resource: String, val adapter: () -> TemplatePort) {
+abstract class TemplateAdapterTest(private val url: URL, val adapter: () -> TemplatePort) {
 
     @Test fun `A static template is rendered properly`() {
         val engine = adapter()
@@ -15,7 +16,7 @@ abstract class TemplateAdapterTest(private val resource: String, val adapter: ()
         // templateAdapterUsage
         val context = mapOf("key1" to "value1", "key2" to "value2")
         val locale = Locale.getDefault()
-        val rendered = engine.render(resource, context, locale)
+        val rendered = engine.render(url, context, locale)
         // templateAdapterUsage
 
         assert(rendered.contains("value1"))
@@ -29,7 +30,7 @@ abstract class TemplateAdapterTest(private val resource: String, val adapter: ()
 
         val context = emptyMap<String, Any>()
         val locale = Locale.getDefault()
-        val rendered = engine.render(resource, context, locale)
+        val rendered = engine.render(url, context, locale)
 
         assert(rendered.contains("key1"))
         assert(rendered.contains("key2"))
@@ -43,7 +44,7 @@ abstract class TemplateAdapterTest(private val resource: String, val adapter: ()
         val locale = Locale.getDefault()
         val context = mapOf("a" to "b")
 
-        val rendered = engine.render(resource, context, locale)
+        val rendered = engine.render(url, context, locale)
 
         assert(rendered.contains("key1"))
         assert(rendered.contains("key2"))
@@ -57,7 +58,7 @@ abstract class TemplateAdapterTest(private val resource: String, val adapter: ()
         val context = emptyMap<String, Any>()
         // TODO Decide if return a Toolkit exception, or leave the template engine handle it
         assertFails {
-            engine.render("invalid.html", context, locale)
+            engine.render(URL("classpath:invalid.html"), context, locale)
         }
     }
 }

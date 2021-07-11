@@ -8,14 +8,15 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.lang.IllegalStateException
+import java.net.URL
 import java.util.Locale
 import kotlin.test.assertFailsWith
 
 internal class TemplateManagerTest {
 
     private class TestTemplateAdapter(val prefix: String) : TemplatePort {
-        override fun render(resource: String, context: Map<String, *>, locale: Locale): String =
-            "$prefix:$resource"
+        override fun render(url: URL, context: Map<String, *>, locale: Locale): String =
+            "$prefix:$url"
     }
 
     @Test fun `Use TemplateManager to handle multiple template engines`() {
@@ -29,21 +30,21 @@ internal class TemplateManagerTest {
             Regex(".*\\.txt") to TestTemplateAdapter("text")
         )
 
-        val html = TemplateManager.render("template.html", context, locale)
-        val plain = TemplateManager.render("template.txt", context, locale)
+        val html = TemplateManager.render(URL("classpath:template.html"), context, locale)
+        val plain = TemplateManager.render(URL("classpath:template.txt"), context, locale)
         // templateAdapterRegistration
 
-        assertEquals("html:template.html", html)
-        assertEquals("text:template.txt", plain)
+        assertEquals("html:classpath:template.html", html)
+        assertEquals("text:classpath:template.txt", plain)
     }
 
     @Test fun `Throws IllegalArgumentException when no adapter is found for prefix`() {
         TemplateManager.adapters = emptyMap()
         val locale = Locale.getDefault()
-        val prefixedResource = "test.pebble.html"
+        val resource = "classpath:test.pebble.html"
 
         assertThrows<IllegalArgumentException> {
-            TemplateManager.render(prefixedResource, mapOf<String, Any>(), locale)
+            TemplateManager.render(URL(resource), mapOf<String, Any>(), locale)
         }
     }
     @Test fun `Adapters are injected correctly`() {
@@ -60,7 +61,7 @@ internal class TemplateManagerTest {
     }
 
     object VoidTemplateAdapter : TemplatePort {
-        override fun render(resource: String, context: Map<String, *>, locale: Locale): String =
+        override fun render(url: URL, context: Map<String, *>, locale: Locale): String =
             "Not implemented"
     }
 }

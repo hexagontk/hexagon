@@ -1,6 +1,7 @@
 package com.hexagonkt.templates
 
 import com.hexagonkt.helpers.Jvm
+import java.net.URL
 import java.util.*
 
 /**
@@ -9,5 +10,5 @@ import java.util.*
  *  - Replace resource type from String to URL
  */
 interface TemplatePort {
-    fun render(resource: String, context: Map<String, *>, locale: Locale = Jvm.locale): String
+    fun render(url: URL, context: Map<String, *>, locale: Locale = Jvm.locale): String
 }
