@@ -14,6 +14,8 @@ dependencies {
     "api"(project(":hexagon_core"))
 
     "testImplementation"(project(":serialization_yaml"))
+    "testImplementation"(project(":templates_pebble"))
+    "testImplementation"(project(":templates_freemarker"))
     "testImplementation"(coreTest)
 }
 

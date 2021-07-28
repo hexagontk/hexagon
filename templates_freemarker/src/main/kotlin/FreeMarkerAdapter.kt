@@ -38,7 +38,9 @@ object FreeMarkerAdapter : TemplatePort {
         val writer = StringWriter()
 
         return writer.use {
-            val env = template.createProcessingEnvironment(context, it)
+            val templateUrl = context["_template_"]
+            val freemarkerContext = context + ("_template_" to templateUrl.toString())
+            val env = template.createProcessingEnvironment(freemarkerContext, it)
             env.locale = locale
             env.process()
             it.buffer.toString()

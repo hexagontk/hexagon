@@ -44,7 +44,10 @@ The main ports are:
 
 * [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
   processing, cookies, sessions, CORS and more.
-* [The HTTP client]: which supports mutual TLS, HTTP/2 and cookies among other things.
+* [The HTTP client]: which supports mutual TLS, HTTP/2, cookies, form fields and files among other
+  features.
+* [Template Processing]: allows template processing from URLs (local files, resources or HTTP
+  content) binding name patterns to different engines.
 
 Each of these features or ports may have different implementations called
 ["Adapters"][Ports and Adapters Architecture].

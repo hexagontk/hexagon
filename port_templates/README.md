@@ -11,24 +11,27 @@ feature (as [templates_pebble] and/or [templates_freemarker]) in order to proces
 You can use many adapters in the same application to be able to handle different template engines at
 the same time.
 
-[templates_pebble]: /templates_pebble
-[templates_freemarker]: /templates_freemarker
+[templates_pebble]: /templates_pebble/
+[templates_freemarker]: /templates_freemarker/
 
-# Package com.hexagonkt.templates
+### Register a Template Engine
+You can register multiple template engines with a regex:
 
-### Create a Template Engine
+@code port_templates/src/test/kotlin/TemplateManagerTest.kt:templateAdapterRegistration
 
-### Settings
-Template engines can be configured:
+Template is selected from top to bottom, picking the first matched one.
+
+Special case for `.*` pattern
 
 ### Usage
 To render a template, do something like this:
 
+#### Templates are referenced by URLs
+#### Special variables passed to templates
+#### Locale usage
+
 @code port_templates/src/test/kotlin/TemplateAdapterTest.kt:templateAdapterUsage
 
-### Using multiple template engines
-To make the use of multiple template engines more convenient, you can use the TemplateManager.
-Just register multiple template engines (or the same engine with different configurations) under a
-prefix and use it like follows:
+# Package com.hexagonkt.templates
 
-@code port_templates/src/test/kotlin/TemplateManagerTest.kt:templateAdapterRegistration
+Feature implementation code.

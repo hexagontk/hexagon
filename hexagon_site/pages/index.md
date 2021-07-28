@@ -9,7 +9,10 @@ The main ports are:
 
 * [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
   processing, cookies, sessions, CORS and more.
-* [The HTTP client]: which supports mutual TLS, HTTP/2 and cookies among other features.
+* [The HTTP client]: which supports mutual TLS, HTTP/2, cookies, form fields and files among other
+  features.
+* [Template Processing]: allows template processing from URLs (local files, resources or HTTP
+  content) binding name patterns to different engines.
 
 Each of these features or ports may have different implementations called
 ["Adapters"][Ports and Adapters Architecture].
@@ -21,9 +24,9 @@ architecture.
 [^1]: Except the Core module that contains a set of utilities like serialization and logging
 utilities. However, some of these capacities can be replaced by other third party libraries.
 
-[The HTTP server]: /port_http_server
-[The HTTP client]: /port_http_client
-[Core utilities]: /hexagon_core
+[The HTTP server]: /port_http_server/
+[The HTTP client]: /port_http_client/
+[Template Processing]: /port_templates/
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
@@ -36,8 +39,8 @@ Simple Hello World HTTP example.
 
 You can check the [code examples] and [demo projects] for more complex use cases.
 
-[code examples]: /examples/http_server_examples
-[demo projects]: /examples/example_projects
+[code examples]: /examples/http_server_examples/
+[demo projects]: /examples/example_projects/
 
 # Features
 

@@ -24,6 +24,4 @@ object PebbleAdapter : TemplatePort {
         engine.getTemplate(resource).evaluate(writer, contextEntries.toMap(), locale)
         return writer.toString()
     }
-
-    // TODO Add UrlLoader as Pebble's ClasspathLoader
 }

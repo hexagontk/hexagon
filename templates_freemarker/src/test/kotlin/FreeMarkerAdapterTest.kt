@@ -11,7 +11,7 @@ internal class FreeMarkerAdapterTest {
     private val locale = Locale.getDefault()
 
     @Test fun `Templates are rendered properly`() {
-        val context = emptyMap<String, Any>()
+        val context = mapOf<String, Any>("_now_" to LocalDateTime.now())
         val html = render(URL("classpath:templates/test.freemarker.html"), context, locale)
         assert(html.contains("This is a test template"))
     }
