@@ -15,4 +15,4 @@ feature (as [store_mongodb]) in order to create a data store.
 
 # Package com.hexagonkt.store
 
-TODO
+Hexagon's storage utilities for data classes.

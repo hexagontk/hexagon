@@ -35,6 +35,9 @@ parameters list:
 * bindPort: the port which the process listens to. By default, it is `2010`.
 * contextPath: initial path used for the rest of the routes, by default it is empty.
 
+<!-- TODO Link to ServerSettings properties to explain set up. -->
+<!-- TODO Document ServerSettings configuration options (options field)). -->
+
 To create a server, you need to provide a router (check the [next section] for more information),
 and after creating a server you can run it or stop it with [start()] and [stop()] methods.
 
@@ -50,7 +53,7 @@ There is a special server adapter for running inside Servlet Containers. To use 
 the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check the
 [http_server_servlet] module for more information.
 
-[http_server_servlet]: /http_server_servlet
+[http_server_servlet]: /http_server_servlet/
 
 ### Routes
 
@@ -170,6 +173,12 @@ Every request has access to the session created on the server side, the `session
 the following methods:
 
 @code port_http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackSession
+
+<!-- TODO Explain how to set up using server features -->
+
+#### Compression
+
+<!-- TODO Explain how to set up using server features -->
 
 #### Halting
 

@@ -37,19 +37,19 @@ kinds of modules:
   [messaging_rabbitmq] are examples of this type of module. Adapter names must start with their
   port name.
 
-[hexagon_scheduler]: /hexagon_scheduler
-[hexagon_core]: /hexagon_core
+[hexagon_scheduler]: /hexagon_scheduler/
+[hexagon_core]: /hexagon_core/
 
-[port_http_server]: /port_http_server
-[port_store]: /port_store
+[port_http_server]: /port_http_server/
+[port_store]: /port_store/
 
-[store_mongodb]: /store_mongodb
-[messaging_rabbitmq]: /messaging_rabbitmq
+[store_mongodb]: /store_mongodb/
+[messaging_rabbitmq]: /messaging_rabbitmq/
 
 # Hexagon Core
 
-The [Hexagon Core] module is used by all other libraries, so it would be added to your project
-anyway just by using any adapter.
+The [Hexagon Core][hexagon_core] module is used by all other libraries, so it would be added to your
+project anyway just by using any adapter.
 
 Core utilities like, logging and serialization. Toolkit's ports are designed to use core
 functionalities. You can use a third party DI library instead of using the Core one.
@@ -59,10 +59,8 @@ The main features are the following:
 * [Helpers]: JVM information, a logger and other useful utilities.
 * [Objects Serialization]: parse/serialize data in different formats to class instances.
 
-[Hexagon Core]: /hexagon_core
-
-[Helpers]: /hexagon_core/com.hexagonkt.helpers
-[Objects Serialization]: /hexagon_core/com.hexagonkt.serialization
+[Helpers]: /hexagon_core/com.hexagonkt.helpers/
+[Objects Serialization]: /hexagon_core/com.hexagonkt.serialization/
 
 # Other Modules
 
@@ -74,8 +72,8 @@ use dependencies outside the Hexagon toolkit.
 * [Web]: this module is meant to ease web application development. Provides helpers for
   generating HTML and depends on the [HTTP Server] and [Templates] ports.
 
-[Scheduling]: /hexagon_scheduler
-[Web]: /hexagon_web
+[Scheduling]: /hexagon_scheduler/
+[Web]: /hexagon_web/
 
 # Toolkit Ports
 
@@ -91,8 +89,8 @@ These are the implemented ports:
 * [Messaging]: how to support asynchronous communication with messages through message brokers.
 * [Templates]: describes how to render pages using template engines.
 
-[HTTP Server]: /port_http_server
-[HTTP Client]: /port_http_client
-[Storage]: /port_store
-[Messaging]: /port_messaging
-[Templates]: /port_templates
+[HTTP Server]: /port_http_server/
+[HTTP Client]: /port_http_client/
+[Storage]: /port_store/
+[Messaging]: /port_messaging/
+[Templates]: /port_templates/
