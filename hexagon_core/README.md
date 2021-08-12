@@ -62,7 +62,7 @@ alternatives:
 
 TODO Add `LoggingManager` examples for changing logging level
 
-[Logger]: api/hexagon_core/hexagon_core/com.hexagonkt.logging/-logger/index.html
+[Logger]: /api/hexagon_core/hexagon_core/com.hexagonkt.logging/-logger/index.html
 [Java Util Logging]:
   https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
