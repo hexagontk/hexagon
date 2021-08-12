@@ -5,21 +5,15 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.net.URL
-import java.util.Locale
 import kotlin.test.assertFailsWith
 
 internal class TemplateManagerTest {
-
-    private class TestTemplateAdapter(val prefix: String) : TemplatePort {
-        override fun render(url: URL, context: Map<String, *>, locale: Locale): String =
-            "$prefix:$url"
-    }
 
     @Test fun `Use a single default engine`() {
 
         val context = mapOf<String, Any>()
 
-        TemplateManager.adapters = mapOf(Regex(".*") to TestTemplateAdapter("default"))
+        TemplateManager.adapters = mapOf(Regex(".*") to SampleTemplateAdapter("default"))
 
         val html = TemplateManager.render(URL("classpath:template.html"), context)
         val plain = TemplateManager.render(URL("classpath:template.txt"), context)
@@ -32,7 +26,7 @@ internal class TemplateManagerTest {
 
         val context = mapOf<String, Any>()
 
-        TemplateManager.adapters = mapOf(Regex(".*\\.html") to TestTemplateAdapter("html"))
+        TemplateManager.adapters = mapOf(Regex(".*\\.html") to SampleTemplateAdapter("html"))
 
         val html = TemplateManager.render(URL("classpath:template.html"), context)
         assertEquals("html:classpath:template.html", html)
@@ -47,8 +41,8 @@ internal class TemplateManagerTest {
         val context = mapOf<String, Any>()
 
         TemplateManager.adapters = mapOf(
-            Regex(".*\\.html") to TestTemplateAdapter("html"),
-            Regex(".*\\.txt") to TestTemplateAdapter("text")
+            Regex(".*\\.html") to SampleTemplateAdapter("html"),
+            Regex(".*\\.txt") to SampleTemplateAdapter("text")
         )
 
         val html = TemplateManager.render(URL("classpath:template.html"), context)
@@ -67,8 +61,8 @@ internal class TemplateManagerTest {
         val context = mapOf<String, Any>()
 
         TemplateManager.adapters = mapOf(
-            Glob("*.txt").regex to TestTemplateAdapter("txt"),
-            Regex(".*") to TestTemplateAdapter("*"),
+            Glob("*.txt").regex to SampleTemplateAdapter("txt"),
+            Regex(".*") to SampleTemplateAdapter("*"),
         )
 
         val html = TemplateManager.render(URL("classpath:template.txt"), context)
@@ -78,8 +72,8 @@ internal class TemplateManagerTest {
         assertEquals("*:classpath:template.txz", plain)
 
         TemplateManager.adapters = mapOf(
-            Glob("*").regex to TestTemplateAdapter("*"),
-            Glob("*.txt").regex to TestTemplateAdapter("txt"),
+            Glob("*").regex to SampleTemplateAdapter("*"),
+            Glob("*.txt").regex to SampleTemplateAdapter("txt"),
         )
 
         val render = TemplateManager.render(URL("classpath:template.txt"), context)
