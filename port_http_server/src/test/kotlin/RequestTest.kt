@@ -6,10 +6,11 @@ import com.hexagonkt.http.server.test.TestRequest
 import com.hexagonkt.http.server.test.testCall
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.toObject
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import kotlin.test.assertNull
+import kotlin.test.assertFails
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class RequestTest {
@@ -31,7 +32,7 @@ internal class RequestTest {
             formName = "members in the team"
         )
 
-        val mappedData = testCall(request).request.parseAllParameters(MyCustomDto::class)
+        val mappedData = testCall(request).request.allParameters().toObject<MyCustomDto>()
 
         assert(mappedData == expectedData)
     }
@@ -67,8 +68,8 @@ internal class RequestTest {
         )
 
         val mockRequest = testCall(request).request
-        assert(mockRequest.parseAllParameters(MyCustomDto::class) == expectedData1)
-        assert(mockRequest.parseAllParameters(MyRequestDto::class) == expectedData2)
+        assert(mockRequest.allParameters().toObject<MyCustomDto>() == expectedData1)
+        assert(mockRequest.allParameters().toObject<MyRequestDto>() == expectedData2)
     }
 
     @Test fun `should map the value as is if there is only value`() {
@@ -90,8 +91,8 @@ internal class RequestTest {
         )
 
         val mockRequest = testCall(request).request
-        assert(mockRequest.parseAllParameters(MyCustomDto::class) == expectedData1)
-        assert(mockRequest.parseAllParameters(MyCustomDto2::class) == expectedData2)
+        assert(mockRequest.allParameters().toObject<MyCustomDto>() == expectedData1)
+        assert(mockRequest.allParameters().toObject<MyCustomDto2>() == expectedData2)
     }
 
     @Test fun `should honor the validations and fail gracefully by returning null object`() {
@@ -103,7 +104,7 @@ internal class RequestTest {
         ).request
 
         // mapping fails because path parameter is mandatory
-        assertNull(request.parseAllParameters(MyCustomDto::class))
+        assertFails { request.allParameters().toObject<MyCustomDto>() }
     }
 
     @Test fun `should fail gracefully by returning null object in case of deserialization failure`() {
@@ -116,7 +117,7 @@ internal class RequestTest {
         ).request
 
         // mapping fails because "Cannot deserialize instance of `java.lang.Integer`"
-        assertNull(request.parseAllParameters(Int::class))
+        assertFails { request.allParameters().toObject<Int>() }
     }
 
     // Test class to filter data

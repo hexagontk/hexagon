@@ -10,7 +10,6 @@ import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.http.server.serve
-import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.*
 
@@ -39,11 +38,10 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
 
     init {
         SerializationManager.formats = linkedSetOf(Json, Yaml)
-        InjectionManager.module.bind(adapter)
     }
 
     private val client by lazy {
-        Client("http://localhost:${server.runtimePort}", ClientSettings(Json))
+        Client(adapter(), "http://localhost:${server.runtimePort}", ClientSettings(Json))
     }
 
     @BeforeAll fun startup() {
@@ -66,18 +64,13 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         val adapter = adapter()
 
         // clientCreation
-        // Adapter injected
-        Client()                        // No base endpoint, whole URL must be passed each request
-        Client("http://host:1234/base") // Requests' paths will be appended to supplied base URL
-
-        // Adapter provided explicitly
         Client(adapter)
         Client(adapter, "http://host:1234/base")
         // clientCreation
 
         // clientSettingsCreation
         // All client settings parameters are optionals and provide default values
-        Client("http://host:1234/base", ClientSettings(
+        Client(adapter, "http://host:1234/base", ClientSettings(
             contentType = "application/json",
             useCookies = true,
             headers = mapOf("X-Api-Key" to listOf("cafebabe")), // Headers to use in all requests
@@ -193,7 +186,7 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         val endpoint = "http://localhost:${server.runtimePort}"
         val h = mapOf("header1" to listOf("val1", "val2"))
         val settings = ClientSettings(Json.contentType, false, h, "user", "password", true)
-        val c = Client(endpoint, settings)
+        val c = Client(adapter(), endpoint, settings)
 
         assert(c.settings.contentType == Json.contentType)
         assert(!c.settings.useCookies)
@@ -292,7 +285,7 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         val clientSettings = ClientSettings(sslSettings = sslSettings)
 
         // Create a HTTP client and make a HTTPS request
-        val client = Client("https://localhost:${server.runtimePort}", clientSettings)
+        val client = Client(adapter(), "https://localhost:${server.runtimePort}", clientSettings)
         client.get("/hello").apply {
             logger.debug { body }
             // Assure the certificate received (and returned) by the server is correct

@@ -55,7 +55,7 @@ task("watch", dependsOn: "classes") {
 
         // NOTE: these two statements are *REQUIRED* to load classpath and main class
         runTask.classpath.each { it.toString() }
-        runTask.main.toString()
+        runTask.mainClass.toString()
 
         ByteArrayOutputStream out = new ByteArrayOutputStream()
         exec {
@@ -63,7 +63,7 @@ task("watch", dependsOn: "classes") {
             standardOutput = out
         }
         out.toString().readLines()
-            .findAll { it.endsWith((String)runTask.main) }
+            .findAll { it.endsWith(runTask.mainClass.get()) }
             .collect { it.split(" ")[0] }
             .each { pid -> exec { commandLine("kill", pid) } }
 

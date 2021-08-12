@@ -1,7 +1,6 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.helpers.CodedException
-import com.hexagonkt.injection.InjectionManager.injector
 
 /** Alias for routes' and filters' callbacks. Functions executed when a route is matched. */
 typealias RouteCallback = Call.() -> Unit
@@ -24,7 +23,8 @@ typealias ErrorCodeCallback = Call.(CodedException) -> Unit
 fun serve(
     settings: ServerSettings = ServerSettings(),
     router: Router,
-    adapter: ServerPort = injector.inject()): Server =
+    adapter: ServerPort
+): Server =
         Server(adapter, router, settings).apply { start() }
 
 /**
@@ -38,6 +38,7 @@ fun serve(
  */
 fun serve(
     settings: ServerSettings = ServerSettings(),
-    adapter: ServerPort = injector.inject(),
-    block: Router.() -> Unit): Server =
+    adapter: ServerPort,
+    block: Router.() -> Unit
+): Server =
         Server(adapter, Router(block), settings).apply { start() }

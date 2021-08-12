@@ -42,6 +42,9 @@ ij_json_spaces_within_braces = true
 ij_json_spaces_within_brackets = true
 ij_json_wrap_long_lines = true
 
+[*.html]
+ij_html_do_not_indent_children_of_tags = html
+
 # 4 space indentation
 [*.{java,js,ts,kt,kts,gradle,groovy,py}]
 indent_size = 4

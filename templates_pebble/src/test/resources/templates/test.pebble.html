@@ -10,6 +10,7 @@
   <p>{{ key2|default('key2') }}</p>
   <p>{{ a|default('a') }}</p>
   <p>{{ localDate|default('localDate') }}</p>
-  <!-- TODO Add tests for _template_ and _now_ variables -->
+  <p>{{ _template_ }}</p>
+  <p>{{ _now_ | date("yyyy-MM-dd") }}</p>
 </body>
 </html>

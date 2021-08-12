@@ -1,66 +1,91 @@
 package com.hexagonkt.templates
 
 import com.hexagonkt.helpers.Glob
-import com.hexagonkt.templates.TemplateManager.injectTemplateAdapters
-import com.hexagonkt.injection.InjectionManager
-import com.hexagonkt.injection.forceBind
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.lang.IllegalStateException
-import java.util.Locale
+import java.net.URL
 import kotlin.test.assertFailsWith
 
 internal class TemplateManagerTest {
 
-    private class TestTemplateAdapter(val prefix: String) : TemplatePort {
-        override fun render(resource: String, context: Map<String, *>, locale: Locale): String =
-            "$prefix:$resource"
+    @Test fun `Use a single default engine`() {
+
+        val context = mapOf<String, Any>()
+
+        TemplateManager.adapters = mapOf(Regex(".*") to SampleTemplateAdapter("default"))
+
+        val html = TemplateManager.render(URL("classpath:template.html"), context)
+        val plain = TemplateManager.render(URL("classpath:template.txt"), context)
+
+        assertEquals("default:classpath:template.html", html)
+        assertEquals("default:classpath:template.txt", plain)
+    }
+
+    @Test fun `Use TemplateManager to handle a single template engine`() {
+
+        val context = mapOf<String, Any>()
+
+        TemplateManager.adapters = mapOf(Regex(".*\\.html") to SampleTemplateAdapter("html"))
+
+        val html = TemplateManager.render(URL("classpath:template.html"), context)
+        assertEquals("html:classpath:template.html", html)
+
+        assertFailsWith<IllegalStateException> {
+            TemplateManager.render(URL("classpath:template.txt"), context)
+        }
     }
 
     @Test fun `Use TemplateManager to handle multiple template engines`() {
 
-        val locale = Locale.getDefault()
         val context = mapOf<String, Any>()
 
-        // templateAdapterRegistration
         TemplateManager.adapters = mapOf(
-            Regex(".*\\.html") to TestTemplateAdapter("html"),
-            Regex(".*\\.txt") to TestTemplateAdapter("text")
+            Regex(".*\\.html") to SampleTemplateAdapter("html"),
+            Regex(".*\\.txt") to SampleTemplateAdapter("text")
         )
 
-        val html = TemplateManager.render("template.html", context, locale)
-        val plain = TemplateManager.render("template.txt", context, locale)
-        // templateAdapterRegistration
+        val html = TemplateManager.render(URL("classpath:template.html"), context)
+        val plain = TemplateManager.render(URL("classpath:template.txt"), context)
 
-        assertEquals("html:template.html", html)
-        assertEquals("text:template.txt", plain)
+        assertEquals("html:classpath:template.html", html)
+        assertEquals("text:classpath:template.txt", plain)
+
+        assertFailsWith<IllegalStateException> {
+            TemplateManager.render(URL("classpath:template.svg"), context)
+        }
+    }
+
+    @Test fun `Use overlapping patterns`() {
+
+        val context = mapOf<String, Any>()
+
+        TemplateManager.adapters = mapOf(
+            Glob("*.txt").regex to SampleTemplateAdapter("txt"),
+            Regex(".*") to SampleTemplateAdapter("*"),
+        )
+
+        val html = TemplateManager.render(URL("classpath:template.txt"), context)
+        val plain = TemplateManager.render(URL("classpath:template.txz"), context)
+
+        assertEquals("txt:classpath:template.txt", html)
+        assertEquals("*:classpath:template.txz", plain)
+
+        TemplateManager.adapters = mapOf(
+            Glob("*").regex to SampleTemplateAdapter("*"),
+            Glob("*.txt").regex to SampleTemplateAdapter("txt"),
+        )
+
+        val render = TemplateManager.render(URL("classpath:template.txt"), context)
+        assertEquals("*:classpath:template.txt", render)
     }
 
     @Test fun `Throws IllegalArgumentException when no adapter is found for prefix`() {
         TemplateManager.adapters = emptyMap()
-        val locale = Locale.getDefault()
-        val prefixedResource = "test.pebble.html"
+        val resource = "classpath:test.pebble.html"
 
-        assertThrows<IllegalArgumentException> {
-            TemplateManager.render(prefixedResource, mapOf<String, Any>(), locale)
+        assertThrows<IllegalStateException> {
+            TemplateManager.render(URL(resource), mapOf<String, Any>())
         }
-    }
-    @Test fun `Adapters are injected correctly`() {
-        InjectionManager.module.forceBind<TemplatePort>(".*.html", VoidTemplateAdapter)
-        assert(injectTemplateAdapters().map { it.key.pattern }.contains(".*.html"))
-        InjectionManager.module.forceBind<TemplatePort>(Glob("*.md"), VoidTemplateAdapter)
-        assert(injectTemplateAdapters().map { it.key.pattern }.contains(Glob("*.md").regex.pattern))
-        InjectionManager.module.forceBind<TemplatePort>(Regex(".*.txt"), VoidTemplateAdapter)
-        assert(injectTemplateAdapters().map { it.key.pattern }.contains(Regex(".*.txt").pattern))
-        InjectionManager.module.forceBind<TemplatePort>(0, VoidTemplateAdapter)
-        assertFailsWith<IllegalStateException> { injectTemplateAdapters() }
-
-        InjectionManager.module.clear()
-    }
-
-    object VoidTemplateAdapter : TemplatePort {
-        override fun render(resource: String, context: Map<String, *>, locale: Locale): String =
-            "Not implemented"
     }
 }

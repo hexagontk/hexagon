@@ -11,9 +11,9 @@ import io.swagger.v3.oas.models.security.SecurityScheme
 import io.swagger.v3.oas.models.security.SecurityScheme.Type
 import io.swagger.v3.parser.OpenAPIV3Parser
 
-internal class MockServer(pathToSpec: String, port: Int = 0) {
+internal class MockServer(adapter: ServerPort, pathToSpec: String, port: Int = 0) {
 
-    val server: Server by lazy { createServer() }
+    val server: Server by lazy { createServer(adapter) }
 
     private val serverSettings = ServerSettings(bindPort = port)
 
@@ -28,7 +28,7 @@ internal class MockServer(pathToSpec: String, port: Int = 0) {
      * If an explicit port number was provided in the constructor, the
      * mock server listens at the specified port, else a dynamic port number is assigned.
      */
-    private fun createServer() = Server(settings = serverSettings) {
+    private fun createServer(adapter: ServerPort) = Server(adapter, settings = serverSettings) {
         openAPISpec.paths.forEach { path: String, pathItem: PathItem ->
             pathItem.get?.let { getOperation ->
                 this.get(path = path) {

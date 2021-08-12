@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.net.URL
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
@@ -26,12 +27,12 @@ internal class WebTest {
     private val router: Router = Router {
         get("/template") {
             attributes += "date" to LocalDateTime.now()
-            template("templates/pebble_template.html")
+            template(URL("classpath:templates/pebble_template.html"))
         }
 
         get("/template/adapter") {
             attributes += "date" to LocalDateTime.now()
-            template(templateEngine, "templates/pebble_template.html")
+            template(templateEngine, URL("classpath:templates/pebble_template.html"))
         }
 
         get("/html") {

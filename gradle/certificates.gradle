@@ -136,9 +136,9 @@ private void keytool(
         "-alias", alias
     ]
 
-    final List<Object> fullCommand = commandList + others.toList()
-    logCommand(fullCommand)
-    project.exec { commandLine(fullCommand) }
+    commandList.addAll(others.collect { it.toString() })
+    logCommand(commandList)
+    project.exec { commandLine(commandList) }
 }
 
 private void logCommand(final List<Object> fullCommand) {

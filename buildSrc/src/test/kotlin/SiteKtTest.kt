@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class SiteKtTest {
+internal class SiteKtTest {
 
     private val resourceFile: File = File("src/test/resources")
     private val testFile: File = File("src/test/resources/test.md")

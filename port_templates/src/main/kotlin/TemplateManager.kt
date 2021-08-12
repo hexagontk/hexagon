@@ -1,72 +1,49 @@
 package com.hexagonkt.templates
 
-import com.hexagonkt.helpers.Glob
-import com.hexagonkt.helpers.toDate
 import com.hexagonkt.helpers.Jvm
-import com.hexagonkt.injection.InjectionManager.injector
+import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale
 
 /**
- * The TemplateManager handles multiple templates engines.
+ * The TemplateManager handles multiple templates adapters.
  */
 object TemplateManager {
 
-    var adapters: Map<Regex, TemplatePort> = injectTemplateAdapters()
-
-    internal fun injectTemplateAdapters(): Map<Regex, TemplatePort> =
-        injector.injectMap<TemplatePort>()
-            .mapKeys {
-                when (val key = it.key) {
-                    is String -> key.toRegex()
-                    is Glob -> key.regex
-                    is Regex -> key
-                    else -> error("Adapter bound to invalid tag: ${key::class.qualifiedName}")
+    var adapters: Map<Regex, TemplatePort> = emptyMap()
+        set(value) {
+            field = value
+            defaultAdapter =
+                if (value.size == 1) {
+                    val first = value.entries.first()
+                    if (first.key.pattern == ".*") first.value else null
                 }
-            }
+                else {
+                    null
+                }
+        }
+
+    private var defaultAdapter: TemplatePort? = null
 
     /**
      * Render a template with a registered template engine.
      *
-     * @param resource selects engine and template, i.e. "html:template.html" uses the
-     * engine registered under prefix "html" to render the template "template.html"
+     * @param url Location of the template.
+     * @param context Data to use when the template is processed.
+     * @param locale Locale used to process the template. If not passed, system's locale is used.
      *
-     * @throws IllegalArgumentException if no engine for prefix was found
+     * @throws IllegalStateException Thrown when no engine for URL was found.
      */
-    fun render(resource: String, context: Map<String, *>, locale: Locale = Jvm.locale): String {
-        return render(findAdapter(resource), resource, context, locale)
+    fun render(url: URL, context: Map<String, *>, locale: Locale = Jvm.locale): String {
+        val now = LocalDateTime.now()
+        val defaultProperties = mapOf("_template_" to url, "_now_" to now)
+        return findAdapter(url).render(url, context + defaultProperties, locale)
     }
 
-    fun render(
-        adapter: TemplatePort,
-        resource: String,
-        context: Map<String, *>,
-        locale: Locale = Jvm.locale
-    ): String {
-
-        val now = LocalDateTime.now().toDate()
-        val defaultProperties = mapOf("_template_" to resource, "_now_" to now)
-        return adapter.render(resource, context + defaultProperties, locale)
-    }
-
-    fun render(
-        resource: String,
-        locale: Locale = Jvm.locale,
-        vararg context: Pair<String, *>
-    ): String =
-        render(findAdapter(resource), resource, locale, *context)
-
-    fun render(
-        adapter: TemplatePort,
-        resource: String,
-        locale: Locale = Jvm.locale,
-        vararg context: Pair<String, *>
-    ): String =
-        render(adapter, resource, linkedMapOf(*context), locale)
-
-    private fun findAdapter(resource: String): TemplatePort =
-        adapters
-            .filter { it.key.matches(resource) }
-            .firstNotNullOfOrNull { it.value  }
-            ?: throw IllegalArgumentException("No adapter found for resource: $resource")
+    private fun findAdapter(url: URL): TemplatePort =
+        defaultAdapter
+            ?: adapters
+                .filter { it.key.matches(url.toString()) }
+                .firstNotNullOfOrNull { it.value  }
+                ?: error("No adapter found for resource: $url")
 }

@@ -74,7 +74,7 @@ internal class RabbitMqClientTest {
     @Test fun `Create a connection factory with empty parameters succeed` () {
         val opts = listOf(
             "channelCacheSize",
-            "heartbeat",
+            "heartbeat=10",
             "automaticRecovery",
             "recoveryInterval",
             "shutdownTimeout"
