@@ -4,25 +4,25 @@ import com.hexagonkt.helpers.toDate
 import com.hexagonkt.templates.TemplatePort
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.io.StringWriter
+import java.net.URL
 import java.time.LocalDateTime
 import java.util.*
 
 object PebbleAdapter : TemplatePort {
 
-<span class="fc" id="L12">    private val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()</span>
+<span class="fc" id="L13">    private val engine: PebbleEngine = PebbleEngine.Builder().cacheActive(true).build()</span>
 
-    override fun render(resource: String, context: Map&lt;String, *&gt;, locale: Locale): String {
-<span class="fc" id="L15">        val contextEntries = context.map {</span>
-<span class="fc" id="L16">            it.key to</span>
-<span class="fc bfc" id="L17" title="All 2 branches covered.">                if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()</span>
-<span class="fc" id="L18">                else it.value</span>
+    override fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale): String {
+<span class="fc" id="L16">        val contextEntries = context.map {</span>
+<span class="fc" id="L17">            it.key to</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">                if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()</span>
+<span class="fc" id="L19">                else it.value</span>
         }
 
-<span class="fc" id="L21">        val writer = StringWriter()</span>
-<span class="fc" id="L22">        engine.getTemplate(resource).evaluate(writer, contextEntries.toMap(), locale)</span>
-<span class="fc" id="L23">        return writer.toString()</span>
+<span class="fc" id="L22">        val writer = StringWriter()</span>
+<span class="fc" id="L23">        val resource = url.file</span>
+<span class="fc" id="L24">        engine.getTemplate(resource).evaluate(writer, contextEntries.toMap(), locale)</span>
+<span class="fc" id="L25">        return writer.toString()</span>
     }
-
-    // TODO Add UrlLoader as Pebble's ClasspathLoader
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

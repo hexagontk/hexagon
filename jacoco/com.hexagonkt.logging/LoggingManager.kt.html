@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoggingManager.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging</a> &gt; <span class="el_source">LoggingManager.kt</span></div><h1>LoggingManager.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging
 
 import com.hexagonkt.helpers.fail
-import com.hexagonkt.injection.InjectionManager.injector
 import com.hexagonkt.logging.jul.JulLoggingAdapter
 import kotlin.reflect.KClass
 
@@ -9,22 +8,22 @@ import kotlin.reflect.KClass
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  */
 object LoggingManager {
-<span class="pc bpc" id="L12" title="1 of 2 branches missed.">    var adapter: LoggingPort = injector.injectOrNull() ?: JulLoggingAdapter</span>
+<span class="fc" id="L11">    var adapter: LoggingPort = JulLoggingAdapter</span>
 
     fun setLoggerLevel(name: String, level: LoggingLevel) {
-<span class="fc" id="L15">        adapter.setLoggerLevel(name, level)</span>
-<span class="fc" id="L16">    }</span>
+<span class="fc" id="L14">        adapter.setLoggerLevel(name, level)</span>
+<span class="fc" id="L15">    }</span>
 
     fun setLoggerLevel(instance: Any, level: LoggingLevel) {
-<span class="fc" id="L19">        setLoggerLevel(instance::class, level)</span>
-<span class="fc" id="L20">    }</span>
+<span class="fc" id="L18">        setLoggerLevel(instance::class, level)</span>
+<span class="fc" id="L19">    }</span>
 
     fun setLoggerLevel(type: KClass&lt;*&gt;, level: LoggingLevel) {
-<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        setLoggerLevel(type.qualifiedName ?: fail, level)</span>
-<span class="fc" id="L24">    }</span>
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        setLoggerLevel(type.qualifiedName ?: fail, level)</span>
+<span class="fc" id="L23">    }</span>
 
     fun setLoggerLevel(level: LoggingLevel) {
-<span class="fc" id="L27">        setLoggerLevel(&quot;&quot;, level)</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L26">        setLoggerLevel(&quot;&quot;, level)</span>
+<span class="fc" id="L27">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

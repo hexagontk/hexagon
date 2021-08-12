@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://hexagonkt.com/developer_guide/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.9">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.4">
     
     
       
@@ -24,10 +24,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ca7ac06f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
         
           
           
@@ -181,14 +181,18 @@ if ('serviceWorker' in navigator)
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -911,45 +915,41 @@ adapters with minimum impact.</p>
 <p>Adapters are independent of each other, but you can use several adapters for the same port in a
 single application.</p>
 <h4 id="manager">Manager<a class="headerlink" href="#manager" title="Permanent link">&para;</a></h4>
-<p>Singleton object to manage a cross toolkit aspect. I.e.: Serialization, Injection or Settings.</p>
+<p>Singleton object to manage a cross toolkit aspect. I.e., Serialization, Logging or Templates.</p>
 <h2 id="toolkit-structure">Toolkit Structure<a class="headerlink" href="#toolkit-structure" title="Permanent link">&para;</a></h2>
 <p>The project is composed of modules, each module provides a single functionality. There are three
 kinds of modules:</p>
 <ul>
 <li>The ones that provide functionality that does not depend on different implementations, like
-  <a href="/hexagon_scheduler">hexagon_scheduler</a> or <a href="/hexagon_core">hexagon_core</a>. Their name always starts with the <code>hexagon_</code> prefix. These
+  <a href="/hexagon_scheduler/">hexagon_scheduler</a> or <a href="/hexagon_core/">hexagon_core</a>. Their name always starts with the <code>hexagon_</code> prefix. These
   modules can depend on several Ports, but never on Adapters (see below).</li>
 <li>Modules that define one or more related "Ports": these are interfaces to a feature that may have
-  different implementations (i.e., <a href="/port_http_server">port_http_server</a> or <a href="/port_store">port_store</a>). They cannot be used by
+  different implementations (i.e., <a href="/port_http_server/">port_http_server</a> or <a href="/port_store/">port_store</a>). They cannot be used by
   themselves and in their place, an adapter implementing them should be added to the list of
   dependencies. These modules' names start with the <code>port_</code> prefix. Ports are independent of each
   other.</li>
-<li>Adapter modules, which are Port implementations for a given tool, <a href="/store_mongodb">store_mongodb</a>, and
-  <a href="/messaging_rabbitmq">messaging_rabbitmq</a> are examples of this type of module. Adapter names must start with their
+<li>Adapter modules, which are Port implementations for a given tool, <a href="/store_mongodb/">store_mongodb</a>, and
+  <a href="/messaging_rabbitmq/">messaging_rabbitmq</a> are examples of this type of module. Adapter names must start with their
   port name.</li>
 </ul>
 <h2 id="hexagon-core">Hexagon Core<a class="headerlink" href="#hexagon-core" title="Permanent link">&para;</a></h2>
-<p>The <a href="/hexagon_core">Hexagon Core</a> module is used by all other libraries, so it would be added to your project
-anyway just by using any adapter.</p>
-<p>Core utilities like, logging, serialization, and dependency injection. Toolkit's ports are designed
-to use core functionalities. You can use a third party DI library instead of using the Core one. It
-depends on Logback and Jackson.</p>
+<p>The <a href="/hexagon_core/">Hexagon Core</a> module is used by all other libraries, so it would be added to your
+project anyway just by using any adapter.</p>
+<p>Core utilities like, logging and serialization. Toolkit's ports are designed to use core
+functionalities. You can use a third party DI library instead of using the Core one.</p>
 <p>The main features are the following:</p>
 <ul>
-<li><a href="/hexagon_core/com.hexagonkt.helpers">Helpers</a>: JVM information, a logger and other useful utilities.</li>
-<li><a href="/hexagon_core/com.hexagonkt.injection">Dependency Injection</a>: bind classes to creation closures or instances and inject them.</li>
-<li><a href="/hexagon_core/com.hexagonkt.serialization">Objects Serialization</a>: parse/serialize data in different formats to class instances.</li>
+<li><a href="/hexagon_core/com.hexagonkt.helpers/">Helpers</a>: JVM information, a logger and other useful utilities.</li>
+<li><a href="/hexagon_core/com.hexagonkt.serialization/">Objects Serialization</a>: parse/serialize data in different formats to class instances.</li>
 </ul>
 <h2 id="other-modules">Other Modules<a class="headerlink" href="#other-modules" title="Permanent link">&para;</a></h2>
 <p>The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.</p>
 <ul>
-<li><a href="/hexagon_settings">Settings</a>: load settings from different data sources and formats. These properties are made
-  available to other components through the <a href="/hexagon_settings/com.hexagonkt.settings/-settings-manager">SettingsManager</a>.</li>
-<li><a href="/hexagon_scheduler">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.
+<li><a href="/hexagon_scheduler/">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.
   However, you have to be careful to not run tasks twice if you have many instances.</li>
-<li><a href="/hexagon_web">Web</a>: this module is meant to ease web application development. Provides helpers for
-  generating HTML and depends on the <a href="/port_http_server">HTTP Server</a> and <a href="/port_templates">Templates</a> ports.</li>
+<li><a href="/hexagon_web/">Web</a>: this module is meant to ease web application development. Provides helpers for
+  generating HTML and depends on the <a href="/port_http_server/">HTTP Server</a> and <a href="/port_templates/">Templates</a> ports.</li>
 </ul>
 <h2 id="toolkit-ports">Toolkit Ports<a class="headerlink" href="#toolkit-ports" title="Permanent link">&para;</a></h2>
 <p>These modules define features that need a specific implementation. You can use many implementations
@@ -957,11 +957,11 @@ of each port at the same time. You can even provide a custom implementation if y
 a particular use case.</p>
 <p>These are the implemented ports:</p>
 <ul>
-<li><a href="/port_http_server">HTTP Server</a>: describes how to use HTTP routing and HTML templates for Web services.</li>
-<li><a href="/port_http_client">HTTP Client</a>: documentation to use the HTTP client module to connect to other services.</li>
-<li><a href="/port_store">Storage</a>: gives an overview of how to store data using different data stores.</li>
-<li><a href="/port_messaging">Messaging</a>: how to support asynchronous communication with messages through message brokers.</li>
-<li><a href="/port_templates">Templates</a>: describes how to render pages using template engines.</li>
+<li><a href="/port_http_server/">HTTP Server</a>: describes how to use HTTP routing and HTML templates for Web services.</li>
+<li><a href="/port_http_client/">HTTP Client</a>: documentation to use the HTTP client module to connect to other services.</li>
+<li><a href="/port_store/">Storage</a>: gives an overview of how to store data using different data stores.</li>
+<li><a href="/port_messaging/">Messaging</a>: how to support asynchronous communication with messages through message brokers.</li>
+<li><a href="/port_templates/">Templates</a>: describes how to render pages using template engines.</li>
 </ul>
                 
               
@@ -1046,8 +1046,14 @@ a particular use case.</p>
         <div class="md-footer-copyright__highlight">Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md">MIT License</a>
 </div>
         
+        <div>
         Powered by <a href="https://www.mkdocs.org">MkDocs</a>
         and <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a>
+        </div>
+        <div>
+          If you want to contribute,
+          <a href="https://github.com/hexagonkt/hexagon/contribute">come on!</a>
+        </div>
         <div class="social-buttons">
           <a
             class="github-button"
@@ -1122,10 +1128,10 @@ a particular use case.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.82b56eb2.min.js"></script>
+      <script src="../assets/javascripts/bundle.febc23d1.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

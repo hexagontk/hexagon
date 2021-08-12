@@ -2,13 +2,18 @@
 
 import java.util.*
 
-<span class="fc" id="L5">abstract class MapResourceBundle(val map: Map&lt;*, *&gt;) : ListResourceBundle() {</span>
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @property map .
+ */
+<span class="fc" id="L10">abstract class MapResourceBundle(val map: Map&lt;*, *&gt;) : ListResourceBundle() {</span>
 
-<span class="fc" id="L7">    val data: Array&lt;Array&lt;Any?&gt;&gt; by lazy {</span>
-<span class="fc" id="L8">        map.entries.map { arrayOf(it.key, it.value) }.toTypedArray()</span>
+<span class="fc" id="L12">    val data: Array&lt;Array&lt;Any?&gt;&gt; by lazy {</span>
+<span class="fc" id="L13">        map.entries.map { arrayOf(it.key, it.value) }.toTypedArray()</span>
     }
 
     override fun getContents(): Array&lt;Array&lt;Any?&gt;&gt; =
-<span class="nc" id="L12">        data</span>
+<span class="nc" id="L17">        data</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

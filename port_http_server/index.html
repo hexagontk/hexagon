@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://hexagonkt.com/port_http_server/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.9">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.4">
     
     
       
@@ -24,10 +24,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ca7ac06f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
         
           
           
@@ -181,14 +181,18 @@ if ('serviceWorker' in navigator)
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
       </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -577,6 +581,13 @@ if ('serviceWorker' in navigator)
           <li class="md-nav__item">
   <a href="#sessions" class="md-nav__link">
     Sessions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compression" class="md-nav__link">
+    Compression
   </a>
   
 </li>
@@ -1201,6 +1212,13 @@ if ('serviceWorker' in navigator)
 </li>
         
           <li class="md-nav__item">
+  <a href="#compression" class="md-nav__link">
+    Compression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#halting" class="md-nav__link">
     Halting
   </a>
@@ -1398,10 +1416,11 @@ parameters list:</p>
 <li>bindPort: the port which the process listens to. By default, it is <code>2010</code>.</li>
 <li>contextPath: initial path used for the rest of the routes, by default it is empty.</li>
 </ul>
-<p>You can inject an adapter for the <code>Server</code> port using the <a href="/hexagon_core/#dependency-injection">InjectionManager</a> object:
-<code>InjectionManager.bindObject&lt;ServerPort&gt;(JettyServletAdapter())</code></p>
+<!-- TODO Link to ServerSettings properties to explain set up. -->
+<!-- TODO Document ServerSettings configuration options (options field)). -->
+
 <p>To create a server, you need to provide a router (check the <a href="/port_http_server/#routes">next section</a> for more information),
-and after creating a server you can run it or stop it with <a href="../api/port_http_server/port_http_server/com.hexagonkt.http.server/-server/start.html">start()</a> and <a href="../api/port_http_server/port_http_server/com.hexagonkt.http.server/-server/stop.html">stop()</a> methods.</p>
+and after creating a server you can run it or stop it with <a href="/api/port_http_server/com.hexagonkt.http.server/-server/start.html">start()</a> and <a href="/api/port_http_server/com.hexagonkt.http.server/-server/stop.html">stop()</a> methods.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -1439,8 +1458,7 @@ and after creating a server you can run it or stop it with <a href="../api/port_
 <span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm"> * All settings are optional, you can supply any combination</span>
 <span class="cm"> * Parameters not set will fall back to the defaults</span>
 <span class="cm"> */</span>
@@ -1469,8 +1487,7 @@ and after creating a server you can run it or stop it with <a href="../api/port_
 <span class="cm"> * You can skip the adapter is you previously bound one</span>
 <span class="cm"> * You may also skip the settings an the defaults will be used</span>
 <span class="cm"> */</span>
-<span class="n">InjectionManager</span><span class="p">.</span><span class="na">module</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span>
-<span class="kd">val</span> <span class="nv">defaultServer</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">router</span> <span class="o">=</span> <span class="n">router</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">defaultServer</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">router</span> <span class="o">=</span> <span class="n">router</span><span class="p">)</span>
 
 <span class="n">defaultServer</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 
@@ -1483,8 +1500,8 @@ and after creating a server you can run it or stop it with <a href="../api/port_
 </td></tr></table>
 <h5 id="servlet-web-server">Servlet Web server<a class="headerlink" href="#servlet-web-server" title="Permanent link">&para;</a></h5>
 <p>There is a special server adapter for running inside Servlet Containers. To use it you should import
-the <a href="/http_server_servlet">Servlet HTTP Server Adapter</a> into your project. Check the
-<a href="/http_server_servlet">http_server_servlet</a> module for more information.</p>
+the <a href="/http_server_servlet/">Servlet HTTP Server Adapter</a> into your project. Check the
+<a href="/http_server_servlet/">http_server_servlet</a> module for more information.</p>
 <h4 id="routes">Routes<a class="headerlink" href="#routes" title="Permanent link">&para;</a></h4>
 <p>The main building block of a Hexagon HTTP service is a set of routes. A route is made up of three
 simple pieces:</p>
@@ -1811,6 +1828,11 @@ the following methods:</p>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
+<!-- TODO Explain how to set up using server features -->
+
+<h5 id="compression">Compression<a class="headerlink" href="#compression" title="Permanent link">&para;</a></h5>
+<!-- TODO Explain how to set up using server features -->
+
 <h5 id="halting">Halting<a class="headerlink" href="#halting" title="Permanent link">&para;</a></h5>
 <p>To immediately stop a request within a filter or route use <code>halt()</code>. <code>halt()</code> is not intended to be
 used inside exception-mappers. Check the following snippet for an example:</p>
@@ -2375,8 +2397,14 @@ media type object.
         <div class="md-footer-copyright__highlight">Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md">MIT License</a>
 </div>
         
+        <div>
         Powered by <a href="https://www.mkdocs.org">MkDocs</a>
         and <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a>
+        </div>
+        <div>
+          If you want to contribute,
+          <a href="https://github.com/hexagonkt/hexagon/contribute">come on!</a>
+        </div>
         <div class="social-buttons">
           <a
             class="github-button"
@@ -2451,10 +2479,10 @@ media type object.
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.82b56eb2.min.js"></script>
+      <script src="../assets/javascripts/bundle.febc23d1.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

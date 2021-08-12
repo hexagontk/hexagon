@@ -23,7 +23,7 @@
           </div>
           <div class="cover ">
             <h1 class="cover"><span>templates_freemarker</span></h1>
-            <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":templates_freemarker:dokkaHtmlPartial/main"><p class="paragraph">This module provides an adapter for the templates Port supporting the Apache <a href="https://freemarker.apache.org">FreeMarker</a> template engine.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```groovy
+            <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":templates_freemarker:dokkaHtmlPartial/main"><p class="paragraph">This module provides an adapter for the templates Port supporting the Apache <a href="https://freemarker.apache.org">FreeMarker</a> template engine.</p><p class="paragraph">For usage instructions, refer to the /port_templates/.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```groovy
     repositories {
         mavenCentral()
     }
@@ -35,19 +35,19 @@
       &lt;artifactId&gt;templates_freemarker&lt;/artifactId&gt;
       &lt;version&gt;$hexagonVersion&lt;/version&gt;
     &lt;/dependency&gt;
-    ```</pre></code></div><h3 class=""> How to Use</h3><div class="sample-container"><code class="" theme="idea"><pre>val contextVariables = hashMapOf(<br>    "contextVariableKey" to contextVariableValue<br>)<br>val renderedPage = FreeMarkerAdapter.render(<br>    "templates/page.html",<br>    Locale.getDefault(),<br>    contextVariables<br>)</pre></code></div><p class="paragraph">If you have no context variables, you can simply pass an empty map:</p><div class="sample-container"><code class="" theme="idea"><pre>val renderedPage = FreeMarkerAdapter.render(<br>    "templates/page.html",<br>    Locale.getDefault(),<br>    hashMapOf&lt;String, Any&gt;()<br>)</pre></code></div></div></div>
+    ```</pre></code></div></div></div>
           </div>
           <h2 class="">Packages</h2>
           <div class="table"><a data-name="-1086970513%2FPackages%2F-2031386596" anchor-label="com.hexagonkt.templates.freemarker" id="-1086970513%2FPackages%2F-2031386596" data-filterable-set=":templates_freemarker:dokkaHtmlPartial/main"></a>
             <div class="table-row" data-filterable-current=":templates_freemarker:dokkaHtmlPartial/main" data-filterable-set=":templates_freemarker:dokkaHtmlPartial/main">
               <div>
                 <div class="main-subrow ">
-                  <div class=""><span class="inline-flex"><a href="templates_freemarker/com.hexagonkt.templates.freemarker/index.html">com.hexagonkt.templates.freemarker</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1086970513%2FPackages%2F-2031386596"></span>
+                  <div class=""><span class="inline-flex"><a href="com.hexagonkt.templates.freemarker/index.html">com.hexagonkt.templates.freemarker</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1086970513%2FPackages%2F-2031386596"></span>
                         <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div><span class="brief-comment"><a data-name="-1086970513%2FPackages%2F-2031386596" anchor-label="com.hexagonkt.templates.freemarker" id="-1086970513%2FPackages%2F-2031386596" data-filterable-set=":templates_freemarker:dokkaHtmlPartial/main"></a>Classes defined in this package implement the Templates Port interface with the FreeMarker implementation.</span></div>
+                <div><span class="brief-comment"><a data-name="-1086970513%2FPackages%2F-2031386596" anchor-label="com.hexagonkt.templates.freemarker" id="-1086970513%2FPackages%2F-2031386596" data-filterable-set=":templates_freemarker:dokkaHtmlPartial/main"></a>Classes that implement the Templates Port interface with the FreeMarker engine.</span></div>
               </div>
             </div>
           </div>
