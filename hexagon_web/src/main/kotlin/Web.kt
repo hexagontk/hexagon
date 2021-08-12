@@ -7,13 +7,14 @@ import com.hexagonkt.templates.TemplatePort
 import kotlinx.html.HTML
 import kotlinx.html.html
 import kotlinx.html.stream.createHTML
+import java.net.URL
 import java.nio.charset.Charset.defaultCharset
 import java.util.Locale
 import java.util.Locale.forLanguageTag as localeFor
 
-fun Call.templateType(template: String) {
+fun Call.templateType(url: URL) {
     if (response.contentType == null) {
-        val mimeType = SerializationManager.contentTypeOf(template.substringAfterLast('.'))
+        val mimeType = SerializationManager.contentTypeOf(url.toString().substringAfterLast('.'))
         response.contentType = "$mimeType; charset=${defaultCharset().name()}"
     }
 }
@@ -50,23 +51,23 @@ fun Call.obtainLocale(): Locale = when {
 
 fun Call.template(
     templateEngine: TemplatePort,
-    templateName: String,
+    url: URL,
     context: Map<String, *> = fullContext(),
     locale: Locale = obtainLocale(),
 ) {
 
-    templateType(templateName)
-    ok(templateEngine.render(templateName, context, locale))
+    templateType(url)
+    ok(templateEngine.render(url, context, locale))
 }
 
 fun Call.template(
-    templateName: String,
+    url: URL,
     context: Map<String, *> = fullContext(),
     locale: Locale = obtainLocale(),
 ) {
 
-    templateType(templateName)
-    ok(TemplateManager.render(templateName, context, locale))
+    templateType(url)
+    ok(TemplateManager.render(url, context, locale))
 }
 
 /**

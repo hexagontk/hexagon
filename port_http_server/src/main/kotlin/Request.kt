@@ -1,13 +1,11 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.logging.logger
 import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Part
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
-import com.hexagonkt.serialization.toObject
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.parseObjects
 import java.security.cert.X509Certificate
@@ -198,37 +196,14 @@ class Request(adapter: RequestPort) {
         map.mapValues { it.value.first() }
 
     /**
-     * This function aggregates path parameters, form parameters and query parameters into a map and
-     * convert it into given class using object mapper
-     * Usage : request.parseAllParameters(MyCustomDataClass::class)
+     * Aggregates path parameters, form parameters and query parameters into a map.
      *
-     * @param type is the KotlinClass of type T (where T can be any class eg:MyCustomDataClass)
-     * @return an object of type T  (eg: MyCustomDataClass())
+     * @return an object of type T  (eg: MyCustomDataClass()).
      */
-    fun <T : Any> parseAllParameters(type: KClass<T>): T? {
-        val requestMap = generateRequestMap(this)
-        return try {
-            requestMap.toObject(type)
-        }
-        catch (iae: IllegalArgumentException) {
-            logger.warn { "Unable to parse request data into ${type.simpleName} : ${iae.message}" }
-            null
-        }
-    }
-
-    /**
-     * Function used to aggregate all request parameters and create a map object out of it.
-     *
-     * @param request : an inherited instance of com.hexagonkt.http.server.Request
-     * @return a map containing all request parameters
-     */
-    private fun generateRequestMap(request: Request): Map<String, Any> {
-        val requestMap: MutableMap<String, Any> = hashMapOf()
-        requestMap.putAll(transformValues(request.formParametersValues))
-        requestMap.putAll(transformValues(request.queryParametersValues))
-        requestMap.putAll(request.pathParameters)
-        return requestMap
-    }
+    fun allParameters(): Map<String, Any> =
+        transformValues(this.formParametersValues) +
+        transformValues(this.queryParametersValues) +
+        this.pathParameters
 
     /**
      * Function will check the list of values against each key. Returns the value alone if the list

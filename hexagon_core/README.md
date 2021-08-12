@@ -8,8 +8,8 @@ below.
 ### Install the Dependency
 
 This module is not meant to be imported directly. It will be included by using any other part of the
-toolkit. However, if you only want to use the utilities, logging or dependency injection (i.e.: for
-a desktop application), you can import it with the following code:
+toolkit. However, if you only want to use the utilities, logging or serialization (i.e., for a
+desktop application), you can import it with the following code:
 
 === "build.gradle"
 
@@ -33,7 +33,7 @@ a desktop application), you can import it with the following code:
 
 ### Defined Ports
 
-TODO Document module exposed ports (they may be initialized through dependency injection):
+TODO Document module exposed ports:
 * LoggingPort
 * Mapper
 * SerializationFormat
@@ -62,31 +62,9 @@ alternatives:
 
 TODO Add `LoggingManager` examples for changing logging level
 
-[Logger]: api/hexagon_core/hexagon_core/com.hexagonkt.logging/-logger/index.html
+[Logger]: /api/hexagon_core/com.hexagonkt.logging/-logger/index.html
 [Java Util Logging]:
   https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
-
-### Dependency injection
-
-You can take advantage of dependency injection using the [InjectionManager] object.
-
-The implementation is a map of classes (with an optional tag) to provider functions (in essence:
-`Map<KClass<*>, () -> Any>`). It is a very simple, yet complete, DI implementation.
-
-You can bind supplier functions or objects to classes. If a class is already bound, later calls to
-`bind*` methods are ignored. However, you can use the `forceBind*` methods if you need to override
-a binding (in tests for example).
-
-Check this sample to bind constructor functions or objects to classes, and inject them later:
-
-@code hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:injectionUsage
-
-!!! Info
-    Dependency Injection is not required by the toolkit. All classes and methods have versions
-    receiving all of their dependencies, so you can use them instead relying on injection (or use
-    another DI library of your choice).
-
-[InjectionManager]: api/hexagon_core/hexagon_core/com.hexagonkt.injection/-injection-manager/index.html
 
 ### Serialization
 
@@ -99,14 +77,17 @@ snippet for details:
 
 JVM information, a logger class and other useful utilities.
 
-# Package com.hexagonkt.injection
-
-Utilities to bind classes to creation closures or instances, and inject instances of those classes
-later.
-
 # Package com.hexagonkt.logging
 
 Provides a logging management capabilities abstracting the application from logging libraries.
+
+# Package com.hexagonkt.logging.jul
+
+TODO
+
+# Package com.hexagonkt.security
+
+TODO
 
 # Package com.hexagonkt.serialization
 

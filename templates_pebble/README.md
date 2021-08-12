@@ -3,6 +3,8 @@
 
 [Pebble] template engine adapter for Hexagon.
 
+For usage instructions, refer to the [Templates Port documentation](/port_templates/).
+
 [Pebble]: https://pebbletemplates.io
 
 ### Install the Dependency
@@ -29,4 +31,4 @@
 
 # Package com.hexagonkt.templates.pebble
 
-TODO
+Classes that implement the Templates Port interface with the [Pebble] engine.

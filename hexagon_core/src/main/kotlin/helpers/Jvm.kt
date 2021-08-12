@@ -24,6 +24,7 @@ object Jvm {
     /** Default character set. */
     val charset: Charset by lazy { Charset.defaultCharset() }
 
+    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
     val locale: Locale by lazy { Locale.getDefault() }
 
     /** The hostname of the machine running this program. */
@@ -32,11 +33,22 @@ object Jvm {
     /** The IP address of the machine running this program. */
     val ip: String by lazy { InetAddress.getLocalHost().hostAddress }
 
+    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
     val id: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().name } }
+
+    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
     val name: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().vmName } }
+
+    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
     val version: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().specVersion } }
+
+    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
     val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }
+
+    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
     val timezone: String by lazy { System.getProperty("user.timezone") }
+
+    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
     val localeCode: String by lazy {
         "%s_%s.%s".format(
             System.getProperty("user.language"),
@@ -74,12 +86,6 @@ object Jvm {
             }
         } as? T
 
-    inline fun <reified T: Any> systemSetting(name: String): T? =
-        systemSetting(T::class, name)
-
-    internal fun systemSettingRaw(name: String): String? =
-        System.getProperty(name) ?: System.getenv(name)
-
     internal fun safeJmx(block: () -> String): String =
         try {
             if (System.getProperty(NO_JMX_PROPERTY) == null) block()
@@ -88,6 +94,12 @@ object Jvm {
         catch (e: Exception) {
             throw IllegalStateException(NO_JMX_ERROR, e)
         }
+
+    inline fun <reified T: Any> systemSetting(name: String): T? =
+        systemSetting(T::class, name)
+
+    private fun systemSettingRaw(name: String): String? =
+        System.getProperty(name) ?: System.getenv(name)
 
     // TODO Add command line parsing 'Options' and 'Commands' (maybe in its own package: `cli`)
 }

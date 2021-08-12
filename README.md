@@ -44,7 +44,10 @@ The main ports are:
 
 * [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
   processing, cookies, sessions, CORS and more.
-* [The HTTP client]: which supports mutual TLS, HTTP/2 and cookies among other things.
+* [The HTTP client]: which supports mutual TLS, HTTP/2, cookies, form fields and files among other
+  features.
+* [Template Processing]: allows template processing from URLs (local files, resources or HTTP
+  content) binding name patterns to different engines.
 
 Each of these features or ports may have different implementations called
 ["Adapters"][Ports and Adapters Architecture].
@@ -65,7 +68,7 @@ The Hexagon's goals and design principles are:
   technologies. You can swap adapters without changing the application code.
 
 * **Batteries Included**: It contains all the required pieces to make production-grade applications:
-  settings management, serialization, dependency injection and build helpers.
+  logging utilities, serialization, resource handling and build helpers.
 
 * **Kotlin First**: Take full advantage of Kotlin instead of just calling Java code from Kotlin. The
   library is coded in Kotlin for coding with Kotlin. No strings attached to Java (as a Language).

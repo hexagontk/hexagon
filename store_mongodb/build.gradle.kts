@@ -12,7 +12,6 @@ dependencies {
     "api"(project(":port_store"))
     "api"("org.mongodb:mongodb-driver-sync:$mongodbVersion")
 
-    "testImplementation"(project(":hexagon_settings"))
     "testImplementation"(project(":serialization_json"))
     "testImplementation"("org.testcontainers:mongodb:$testcontainersVersion")
 }

@@ -3,7 +3,7 @@ package com.hexagonkt.helpers
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
-internal class UuidTest {
+internal class UuidsTest {
 
     @Test fun `UUID can be serialized and parsed to base 64`() {
         val uuid = UUID.randomUUID()

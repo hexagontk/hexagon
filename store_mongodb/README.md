@@ -30,4 +30,4 @@ Hexagon's storage utilities for data classes.
 
 # Package com.hexagonkt.store.mongodb
 
-TODO
+Adapter classes.

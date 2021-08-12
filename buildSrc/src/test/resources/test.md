@@ -4,9 +4,8 @@ import com.hexagonkt.http.httpDate
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import com.hexagonkt.injection.InjectionManager.bindObject
 /**
- * Service server. It is created lazily to allow ServerPort injection (set up in main).
+ * Service server.
  */
 val server: Server by lazy {
     Server {

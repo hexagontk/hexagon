@@ -9,7 +9,6 @@ import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.Request
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.ServerFeature.SESSIONS
-import com.hexagonkt.injection.InjectionManager
 import com.hexagonkt.serialization.JacksonMapper
 import com.hexagonkt.serialization.Json
 import com.hexagonkt.serialization.SerializationManager
@@ -27,7 +26,6 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
     private data class Type(val value: String = "value")
 
     @BeforeAll fun initialize() {
-        InjectionManager.module.clear()
         SerializationManager.formats = linkedSetOf(Json)
         SerializationManager.mapper = JacksonMapper
     }
@@ -63,8 +61,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
          * You can skip the adapter is you previously bound one
          * You may also skip the settings an the defaults will be used
          */
-        InjectionManager.module.bind(adapter)
-        val defaultServer = Server(router = router)
+        val defaultServer = Server(adapter, router = router)
 
         defaultServer.start()
 

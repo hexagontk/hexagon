@@ -7,7 +7,7 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
 
-description = "Hexagon core utilities. Includes DI, serialization, http and settings helpers."
+description = "Hexagon core utilities. Includes serialization and logging helpers."
 
 extra["basePackage"] = "com.hexagonkt"
 

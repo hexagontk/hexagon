@@ -3,8 +3,14 @@ package com.hexagonkt.helpers
 import java.lang.IllegalArgumentException
 import java.util.regex.PatternSyntaxException
 
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @property pattern .
+ */
 data class Glob(val pattern: String) {
 
+    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
     val regex: Regex =
         try {
             globToRegex(pattern).toRegex()
@@ -13,6 +19,12 @@ data class Glob(val pattern: String) {
             throw IllegalArgumentException("Pattern: '$pattern' is not a valid Glob", e)
         }
 
+    /**
+     * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+     *
+     * @param text .
+     * @return .
+     */
     fun matches(text: String): Boolean =
         regex.matches(text)
 

@@ -22,7 +22,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler.SESSIONS
 import org.eclipse.jetty.util.ssl.SslContextFactory
 import org.eclipse.jetty.util.thread.QueuedThreadPool
 import java.security.KeyStore
-import java.util.*
+import java.util.EnumSet
 import javax.servlet.DispatcherType
 import org.eclipse.jetty.server.Server as JettyServer
 

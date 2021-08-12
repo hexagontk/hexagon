@@ -1,7 +1,6 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.ClasspathHandler
-import com.hexagonkt.injection.InjectionManager.injector
 import com.hexagonkt.logging.Logger
 import java.io.File
 import java.net.URL
@@ -28,7 +27,7 @@ object SerializationManager {
     }
 
     /** List of formats. NOTE should be defined AFTER mapper definition to avoid runtime issues. */
-    var formats: LinkedHashSet<SerializationFormat> = LinkedHashSet(injector.injectList())
+    var formats: LinkedHashSet<SerializationFormat> = LinkedHashSet()
         set(value) {
             require(value.isNotEmpty()) { "Formats list can not be empty" }
             field = value
@@ -57,7 +56,7 @@ object SerializationManager {
             logger.info { "Default serialization format set to '${field?.contentType}'" }
         }
 
-    var mapper: Mapper? = injector.injectOrNull()
+    var mapper: Mapper? = null
 
     private var formatsMap: LinkedHashMap<String, SerializationFormat> = formatsMap()
 

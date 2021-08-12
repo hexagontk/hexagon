@@ -2,7 +2,7 @@
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class FileRangeTest {
+internal class FileRangeTest {
 
     private val testFile: File = File("src/test/resources/test.md")
 
