@@ -51,7 +51,10 @@ jobs:
 
       # CLEAN UP
       - name: Clean Gradle Cache
-        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        run: |
+          ./gradlew --stop
+          sleep 3
+          rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
 
   sample_keystores:
     defaults:
