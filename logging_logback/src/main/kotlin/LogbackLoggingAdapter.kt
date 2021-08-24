@@ -7,6 +7,7 @@ import com.hexagonkt.logging.LoggingLevel.ERROR
 import com.hexagonkt.logging.LoggingLevel.INFO
 import com.hexagonkt.logging.LoggingLevel.TRACE
 import com.hexagonkt.logging.LoggingLevel.WARN
+import com.hexagonkt.logging.LoggingLevel.OFF
 import org.slf4j.LoggerFactory
 
 object LogbackLoggingAdapter : LoggingPort {
@@ -25,5 +26,6 @@ object LogbackLoggingAdapter : LoggingPort {
         INFO -> Level.INFO
         WARN -> Level.WARN
         ERROR -> Level.ERROR
+        OFF -> Level.OFF
     }
 }
