@@ -168,12 +168,11 @@ class AhcAdapter : ClientPort {
                 else body.serialize(formatOf(contentType))
         }
 
-    private fun createRequest(
-        cl: Client, request: Request): BoundRequestBuilder {
+    private fun createRequest(client: Client, request: Request): BoundRequestBuilder {
 
         val method: Method = request.method
-        val path: String = cl.endpoint + request.path.pattern
-        val settings: ClientSettings = cl.settings
+        val path: String = client.endpoint + request.path.pattern
+        val settings: ClientSettings = client.settings
         val contentType: String? = request.contentType
         val parts: List<AhcPart> = request.parts.values.toList().map {
             if (it.submittedFileName == null)
@@ -182,7 +181,7 @@ class AhcAdapter : ClientPort {
                 InputStreamPart(it.name, it.inputStream, it.submittedFileName)
         }
 
-        ssl = cl.settings
+        ssl = client.settings
 
         val req = when (method) {
             GET -> ahcClient.prepareGet(path)
@@ -211,14 +210,7 @@ class AhcAdapter : ClientPort {
         if (authorization != null)
             req.addHeader("Authorization", "Basic $authorization")
 
-        val info = """
-            REQUEST METHOD:     $method
-            REQUEST PATH:       $path
-            CLIENT SETTINGS:    $settings
-            CONTENT TYPE:       $contentType
-            SSL:                $ssl
-        """.trimIndent()
-        log.info { "Request Created: $info" }
+        log.info { "$method $path ($contentType)" }
 
         return req
     }
