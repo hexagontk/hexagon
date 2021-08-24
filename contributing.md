@@ -106,26 +106,6 @@ If you want to generate the documentation site, check the [site module readme][h
 [Docker setup documentation]: https://www.rabbitmq.com/install-debian.html
 [GitHub Actions]: https://github.com/features/actions
 
-Dependency verification
------------------------
-If you get a dependency verification error building the project after adding or changing a
-dependency, you need to add the key fingerprint inside the `trusted-keys` element at the
-`gradle/verification-metadata.xml` file.
-
-Prior to trusting the key, you should verify it belongs to the person it claims to be on the
-http://keys.gnupg.net key search tool. I.e.: you can check the Hexagon fingerprint
-(`792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721`) issuing [this search] (don't forget to add
-`0x` before the fingerprint without spaces).
-
-For Continuous Integration runners, you need to import the keys inside the `gradle/verification
--keyring.gpg` file, you can do so with the following command:
-
-```bash
-gpg --no-default-keyring --keyring ./gradle/verification-keyring.gpg --recv-keys $fingerprint
-```
-
-[this search]: http://keys.gnupg.net/pks/lookup?search=0x792BD37FF59891C4AC6F8D923B26711D2AEE3721
-
 Major Release Checklist
 -----------------------
 1. Release site's dependent projects (`store`, `messaging`)

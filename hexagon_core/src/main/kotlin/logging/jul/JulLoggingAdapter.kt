@@ -7,6 +7,7 @@ import com.hexagonkt.logging.LoggingLevel.ERROR
 import com.hexagonkt.logging.LoggingLevel.INFO
 import com.hexagonkt.logging.LoggingLevel.TRACE
 import com.hexagonkt.logging.LoggingLevel.WARN
+import com.hexagonkt.logging.LoggingLevel.OFF
 import com.hexagonkt.logging.LoggingPort
 import java.util.logging.Level
 import java.util.logging.Logger as JulLogger
@@ -54,5 +55,6 @@ object JulLoggingAdapter : LoggingPort {
         INFO -> Level.INFO
         WARN -> Level.WARNING
         ERROR -> Level.SEVERE
+        OFF -> Level.OFF
     }
 }

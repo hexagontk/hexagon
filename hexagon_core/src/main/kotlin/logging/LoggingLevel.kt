@@ -5,5 +5,6 @@ enum class LoggingLevel {
     DEBUG,
     INFO,
     WARN,
-    ERROR
+    ERROR,
+    OFF,
 }

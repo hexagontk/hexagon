@@ -19,6 +19,7 @@ internal class LogbackLoggerTest {
         traceAll(logger, INFO)
         traceAll(logger, WARN)
         traceAll(logger, ERROR)
+        traceAll(logger, OFF)
     }
 
     private fun traceAll(logger: Logger, level: LoggingLevel) {

@@ -1,10 +1,6 @@
 package com.hexagonkt.logging
 
-import com.hexagonkt.logging.LoggingLevel.DEBUG
-import com.hexagonkt.logging.LoggingLevel.ERROR
-import com.hexagonkt.logging.LoggingLevel.INFO
-import com.hexagonkt.logging.LoggingLevel.TRACE
-import com.hexagonkt.logging.LoggingLevel.WARN
+import com.hexagonkt.logging.LoggingLevel.*
 import org.junit.jupiter.api.Test
 
 internal class Slf4jJulLoggerTest {
@@ -24,6 +20,7 @@ internal class Slf4jJulLoggerTest {
         traceAll(logger, INFO)
         traceAll(logger, WARN)
         traceAll(logger, ERROR)
+        traceAll(logger, OFF)
     }
 
     private fun traceAll(logger: Logger, level: LoggingLevel) {
