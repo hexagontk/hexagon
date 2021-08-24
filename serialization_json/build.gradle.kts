@@ -16,10 +16,12 @@ val coreTest: SourceSetOutput = project(":hexagon_core").sourceSet("test").outpu
 extra["basePackage"] = "com.hexagonkt.serialization"
 
 dependencies {
+    val kotlinVersion = properties["kotlinVersion"]
     val jacksonVersion = properties["jacksonVersion"]
 
     "api"(project(":hexagon_core"))
 
+    "api"("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     "api"("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
     "api"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     "api"("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")

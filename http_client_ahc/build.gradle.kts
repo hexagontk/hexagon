@@ -13,7 +13,10 @@ val httpClientTest: SourceSetOutput = project(":port_http_client").sourceSet("te
 extra["basePackage"] = "com.hexagonkt.http.client.ahc"
 
 dependencies {
+    val slf4jVersion = properties["slf4jVersion"]
+
     "api"(project(":port_http_client"))
+    "api"("org.slf4j:slf4j-api:$slf4jVersion")
     "api"("org.asynchttpclient:async-http-client:${properties["ahcVersion"]}") {
         exclude("org.slf4j")
     }
