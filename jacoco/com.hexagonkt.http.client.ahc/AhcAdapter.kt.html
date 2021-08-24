@@ -47,7 +47,7 @@ import java.util.Base64.Encoder
 <span class="fc" id="L47">        DefaultAsyncHttpClient(</span>
 <span class="fc" id="L48">            Builder()</span>
 <span class="fc" id="L49">                .setConnectTimeout(5000)</span>
-<span class="fc" id="L50">                .setSslContext(sslContext(ssl))</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">                .setSslContext(sslContext(ssl))</span>
 <span class="fc" id="L51">                .setKeepEncodingHeader(true)</span>
 <span class="fc" id="L52">                .build()</span>
         )
@@ -168,59 +168,51 @@ import java.util.Base64.Encoder
 <span class="fc" id="L168">                else body.serialize(formatOf(contentType))</span>
 <span class="fc" id="L169">        }</span>
 
-    private fun createRequest(
-        cl: Client, request: Request): BoundRequestBuilder {
+    private fun createRequest(client: Client, request: Request): BoundRequestBuilder {
 
-<span class="fc" id="L174">        val method: Method = request.method</span>
-<span class="fc" id="L175">        val path: String = cl.endpoint + request.path.pattern</span>
-<span class="fc" id="L176">        val settings: ClientSettings = cl.settings</span>
-<span class="fc" id="L177">        val contentType: String? = request.contentType</span>
-<span class="fc" id="L178">        val parts: List&lt;AhcPart&gt; = request.parts.values.toList().map {</span>
-<span class="fc bfc" id="L179" title="All 2 branches covered.">            if (it.submittedFileName == null)</span>
-<span class="fc" id="L180">                StringPart(it.name, it.inputStream.reader().readText())</span>
+<span class="fc" id="L173">        val method: Method = request.method</span>
+<span class="fc" id="L174">        val path: String = client.endpoint + request.path.pattern</span>
+<span class="fc" id="L175">        val settings: ClientSettings = client.settings</span>
+<span class="fc" id="L176">        val contentType: String? = request.contentType</span>
+<span class="fc" id="L177">        val parts: List&lt;AhcPart&gt; = request.parts.values.toList().map {</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">            if (it.submittedFileName == null)</span>
+<span class="fc" id="L179">                StringPart(it.name, it.inputStream.reader().readText())</span>
             else
-<span class="fc" id="L182">                InputStreamPart(it.name, it.inputStream, it.submittedFileName)</span>
+<span class="fc" id="L181">                InputStreamPart(it.name, it.inputStream, it.submittedFileName)</span>
         }
 
-<span class="fc" id="L185">        ssl = cl.settings</span>
+<span class="fc" id="L184">        ssl = client.settings</span>
 
-<span class="fc bfc" id="L187" title="All 8 branches covered.">        val req = when (method) {</span>
-<span class="fc" id="L188">            GET -&gt; ahcClient.prepareGet(path)</span>
-<span class="fc" id="L189">            HEAD -&gt; ahcClient.prepareHead(path)</span>
-<span class="fc" id="L190">            POST -&gt; ahcClient.preparePost(path)</span>
-<span class="fc" id="L191">            PUT -&gt; ahcClient.preparePut(path)</span>
-<span class="fc" id="L192">            DELETE -&gt; ahcClient.prepareDelete(path)</span>
-<span class="fc" id="L193">            TRACE -&gt; ahcClient.prepareTrace(path)</span>
-<span class="fc" id="L194">            OPTIONS -&gt; ahcClient.prepareOptions(path)</span>
-<span class="fc" id="L195">            PATCH -&gt; ahcClient.preparePatch(path)</span>
+<span class="fc bfc" id="L186" title="All 8 branches covered.">        val req = when (method) {</span>
+<span class="fc" id="L187">            GET -&gt; ahcClient.prepareGet(path)</span>
+<span class="fc" id="L188">            HEAD -&gt; ahcClient.prepareHead(path)</span>
+<span class="fc" id="L189">            POST -&gt; ahcClient.preparePost(path)</span>
+<span class="fc" id="L190">            PUT -&gt; ahcClient.preparePut(path)</span>
+<span class="fc" id="L191">            DELETE -&gt; ahcClient.prepareDelete(path)</span>
+<span class="fc" id="L192">            TRACE -&gt; ahcClient.prepareTrace(path)</span>
+<span class="fc" id="L193">            OPTIONS -&gt; ahcClient.prepareOptions(path)</span>
+<span class="fc" id="L194">            PATCH -&gt; ahcClient.preparePatch(path)</span>
         }
 
-<span class="fc" id="L198">        req.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?</span>
+<span class="fc" id="L197">        req.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?</span>
 
-<span class="fc" id="L200">        parts.forEach { part -&gt; req.addBodyPart(part) }</span>
+<span class="fc" id="L199">        parts.forEach { part -&gt; req.addBodyPart(part) }</span>
 
-<span class="fc bfc" id="L202" title="All 2 branches covered.">        if (contentType != null)</span>
-<span class="fc" id="L203">            req.addHeader(&quot;Content-Type&quot;, contentType)</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (contentType != null)</span>
+<span class="fc" id="L202">            req.addHeader(&quot;Content-Type&quot;, contentType)</span>
 
-<span class="fc" id="L205">        authorization =</span>
-<span class="fc bfc" id="L206" title="All 2 branches covered.">            if (settings.user != null)</span>
-<span class="fc" id="L207">                base64encoder.encodeToString(&quot;${settings.user}:${settings.password}&quot;</span>
-<span class="fc" id="L208">                    .toByteArray(UTF_8))</span>
+<span class="fc" id="L204">        authorization =</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">            if (settings.user != null)</span>
+<span class="fc" id="L206">                base64encoder.encodeToString(&quot;${settings.user}:${settings.password}&quot;</span>
+<span class="fc" id="L207">                    .toByteArray(UTF_8))</span>
             else
-<span class="fc" id="L210">                null</span>
-<span class="fc bfc" id="L211" title="All 2 branches covered.">        if (authorization != null)</span>
-<span class="fc" id="L212">            req.addHeader(&quot;Authorization&quot;, &quot;Basic $authorization&quot;)</span>
+<span class="fc" id="L209">                null</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        if (authorization != null)</span>
+<span class="fc" id="L211">            req.addHeader(&quot;Authorization&quot;, &quot;Basic $authorization&quot;)</span>
 
-<span class="fc" id="L214">        val info = &quot;&quot;&quot;</span>
-<span class="fc" id="L215">            REQUEST METHOD:     $method</span>
-<span class="fc" id="L216">            REQUEST PATH:       $path</span>
-<span class="fc" id="L217">            CLIENT SETTINGS:    $settings</span>
-<span class="fc" id="L218">            CONTENT TYPE:       $contentType</span>
-<span class="fc" id="L219">            SSL:                $ssl</span>
-<span class="fc" id="L220">        &quot;&quot;&quot;.trimIndent()</span>
-<span class="fc" id="L221">        log.info { &quot;Request Created: $info&quot; }</span>
+<span class="fc" id="L213">        log.info { &quot;$method $path ($contentType)&quot; }</span>
 
-<span class="fc" id="L223">        return req</span>
+<span class="fc" id="L215">        return req</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
