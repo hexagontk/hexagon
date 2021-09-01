@@ -1,6 +1,7 @@
 package com.hexagonkt.http
 
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 /**
@@ -8,6 +9,33 @@ import kotlin.test.assertFailsWith
  *   Ie: /alpha/{param}/bravo is not matched by /alpha//bravo
  */
 internal class PathTest {
+
+    @Test fun `Regex is matched properly`() {
+        val regexPath = Path("/alpha/?*")
+        assert(regexPath.matches("/alphabet/beta/p2"))
+        assert(regexPath.matches("/alphabet"))
+
+        Path("/alpha(/*)?").apply {
+            assert(matches("/alpha/beta/p2"))
+            assert(matches("/alpha"))
+        }
+
+        Path("/(this|that)/alpha/{param}/tango*").apply {
+            assert(matches("/this/alpha/v11/tango"))
+            assert(matches("/this/alpha/v12/tango1"))
+            assert(matches("/this/alpha/v13/tango12"))
+            assert(matches("/that/alpha/v21/tango"))
+            assert(matches("/that/alpha/v22/tango1"))
+            assert(matches("/that/alpha/v23/tango12"))
+
+            assertEquals("v11", extractParameters("/this/alpha/v11/tango")["param"])
+            assertEquals("v12", extractParameters("/this/alpha/v12/tango1")["param"])
+            assertEquals("v13", extractParameters("/this/alpha/v13/tango12")["param"])
+            assertEquals("v21", extractParameters("/that/alpha/v21/tango")["param"])
+            assertEquals("v22", extractParameters("/that/alpha/v22/tango1")["param"])
+            assertEquals("v23", extractParameters("/that/alpha/v23/tango12")["param"])
+        }
+    }
 
     @Test fun `A path without parameters do not have regex neither params table`() {
         val pathWithoutData = Path("/alpha/bravo/tango")
@@ -101,21 +129,6 @@ internal class PathTest {
         assert(pathWith2Parameters.hasParameters)
         assert(pathWith2Parameters.regex?.pattern == "/alpha/(.*?)/(.+?)/tango/(.+?)/(.*?)$")
         assert(pathWith2Parameters.parameterIndex == listOf("", "param", "arg", ""))
-    }
-
-    @Test fun `Create an url with path`() {
-        val pathWith1Parameter = Path("/alpha/{param}/tango")
-        assert(pathWith1Parameter.create("param" to "bravo") == "/alpha/bravo/tango")
-
-        val pathWith2Parameters = Path("/alpha/{param}/tango/{arg}")
-        val url = pathWith2Parameters.create("param" to "bravo", "arg" to "zulu")
-        assert(url == "/alpha/bravo/tango/zulu")
-    }
-
-    @Test fun `Path with wildcards can not create url`() {
-        assertFailsWith<IllegalStateException> {
-            Path("/alpha/*/{param}/tango").create("param" to "val")
-        }
     }
 
     @Test fun `Segments of a path are split correctly`() {
