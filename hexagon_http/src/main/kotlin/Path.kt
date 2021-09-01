@@ -1,6 +1,5 @@
 package com.hexagonkt.http
 
-import com.hexagonkt.helpers.filter
 import com.hexagonkt.helpers.findGroups
 
 /**
@@ -13,21 +12,21 @@ import com.hexagonkt.helpers.findGroups
  */
 data class Path(val pattern: String) {
     private companion object {
-        internal const val PARAMETER_PREFIX = "{"
-        internal const val PARAMETER_SUFFIX = "}"
+        const val PARAMETER_PREFIX = "{"
+        const val PARAMETER_SUFFIX = "}"
 
-        internal const val WILDCARD = "*"
+        const val WILDCARD = "*"
 
-        internal val WILDCARD_REGEX = Regex("\\$WILDCARD")
-        internal val PARAMETER_REGEX = Regex("\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX")
-        internal val PLACEHOLDER_REGEX =
-            Regex("\\$WILDCARD|\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX")
+        val WILDCARD_REGEX = Regex("\\$WILDCARD")
+        val PARAMETER_REGEX = Regex("\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX")
+        val PLACEHOLDER_REGEX = Regex("\\$WILDCARD|\\$PARAMETER_PREFIX\\w+$PARAMETER_SUFFIX")
     }
 
     init {
         val validPrefix = pattern.startsWith("/") || pattern.startsWith("*")
         require(validPrefix) { "'$pattern' must start with '/' or '*'" }
-        require(!pattern.contains(":")) { "Variables have {var} format. Path cannot have ':' $pattern" }
+        val validVariables = !pattern.contains(":")
+        require(validVariables) { "Variables have {var} format. Path cannot have ':' $pattern" }
     }
 
     val hasWildcards by lazy { WILDCARD_REGEX in pattern }
@@ -46,15 +45,20 @@ data class Path(val pattern: String) {
     }
 
     val regex: Regex? by lazy {
-        when (Pair(hasWildcards, hasParameters)) {
-            Pair(first = true, second = true) ->
-                Regex(pattern.replace(WILDCARD, "(.*?)").replace(PARAMETER_REGEX, "(.+?)") + "$")
-            Pair(first = true, second = false) ->
-                Regex(pattern.replace(WILDCARD, "(.*?)") + "$")
-            Pair(first = false, second = true) ->
-                Regex(pattern.replace(PARAMETER_REGEX, "(.+?)") + "$")
-            else -> null
-        }
+        pattern
+            .replace("(", "(?:")
+            .let {
+                when (Pair(hasWildcards, hasParameters)) {
+                    Pair(true, true) ->
+                        it.replace(WILDCARD, "(.*?)").replace(PARAMETER_REGEX, "(.+?)")
+                    Pair(true, false) ->
+                        it.replace(WILDCARD, "(.*?)")
+                    Pair(false, true) ->
+                        it.replace(PARAMETER_REGEX, "(.+?)")
+                    else -> null
+                }
+            }
+            ?.let { Regex("$it$") }
     }
 
     val segments by lazy { pattern.split(PLACEHOLDER_REGEX) }
@@ -73,15 +77,4 @@ data class Path(val pattern: String) {
         val re = regex
         return if (hasParameters && re != null) parameters(re) else emptyMap()
     }
-
-    fun create(vararg parameters: Pair<String, Any>) =
-        if (hasWildcards || parameters.size != parameterIndex.size) {
-            val expectedParams = parameterIndex.size
-            val paramCount = parameters.size
-            error("Path has wildcards or different parameters: $expectedParams/$paramCount")
-        }
-        else {
-            val map = parameters.map { it.first to it.second.toString() }
-            pattern.filter(PARAMETER_PREFIX, PARAMETER_SUFFIX, *map.toTypedArray())
-        }
 }

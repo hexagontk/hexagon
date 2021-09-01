@@ -178,6 +178,7 @@ data class Server(
 
             Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue
             Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else ""}
+
         """.trimIndent()
 
         val banner = (settings.banner?.let { "$it\n" } ?: banner) + information
