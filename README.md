@@ -82,6 +82,7 @@ For more information check the [Quick Start Guide] or the [Developer Guide].
 [Kotlin]: http://kotlinlang.org
 [The HTTP server]: http://hexagonkt.com/port_http_server
 [The HTTP client]: http://hexagonkt.com/port_http_client
+[Template Processing]: http://hexagonkt.com/port_templates
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
