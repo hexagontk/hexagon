@@ -9,7 +9,6 @@ apply(from = "../gradle/dokka.gradle")
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.dependsOn(tasks.getByPath(":port_http_server:compileTestKotlin"))
 val httpServerTest: SourceSetOutput = project(":port_http_server").sourceSet("test").output
-val webTest: SourceSetOutput = project(":hexagon_web").sourceSet("test").output
 
 extra["basePackage"] = "com.hexagonkt.http.server.jetty"
 
@@ -25,7 +24,6 @@ dependencies {
     "api"("org.eclipse.jetty:jetty-alpn-java-server:$jettyVersion") { exclude("org.slf4j") }
 
     "testImplementation"(httpServerTest)
-    "testImplementation"(webTest)
     "testImplementation"(project(":http_client_ahc"))
     "testImplementation"(project(":hexagon_web"))
     "testImplementation"(project(":serialization_json"))
