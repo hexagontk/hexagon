@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     val jacksonVersion = "2.12.4"
-    val junitVersion = "5.7.2"
+    val junitVersion = "5.8.0"
 
     "implementation"("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
 
