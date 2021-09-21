@@ -178,10 +178,11 @@ import java.lang.System.nanoTime
 
 <span class="fc" id="L179">            Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
 <span class="fc bfc" id="L180" title="All 2 branches covered.">            Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot;}</span>
-<span class="fc" id="L181">        &quot;&quot;&quot;.trimIndent()</span>
 
-<span class="fc bfc" id="L183" title="All 4 branches covered.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information</span>
-<span class="fc" id="L184">        return banner.prependIndent()</span>
+<span class="fc" id="L182">        &quot;&quot;&quot;.trimIndent()</span>
+
+<span class="fc bfc" id="L184" title="All 4 branches covered.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information</span>
+<span class="fc" id="L185">        return banner.prependIndent()</span>
     }
-<span class="fc" id="L186">}</span>
+<span class="fc" id="L187">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

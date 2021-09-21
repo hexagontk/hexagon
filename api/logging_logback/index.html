@@ -22,40 +22,38 @@
             </div>
           </div>
           <div class="cover ">
-            <h1 class="cover"><span>logging_logback</span></h1>
+            <h1 class="cover"><span><span>logging_logback</span></span></h1>
             <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":logging_logback:dokkaHtmlPartial/main"><p class="paragraph">Contains the logger adapter for the <a href="http://logback.qos.ch">Logback</a> logging library.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```groovy
     implementation("com.hexagonkt:logging_logback:$hexagonVersion")
     ```</pre></code></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```xml
-    &lt;!--
-     ! Pick ONLY ONE of the options below
-     !--&gt;
-    &lt;!-- Full featured implementation --&gt;
-    &lt;dependency&gt;
-      &lt;groupId&gt;com.hexagonkt&lt;/groupId&gt;
-      &lt;artifactId&gt;logging_logback&lt;/artifactId&gt;
-      &lt;version&gt;$hexagonVersion&lt;/version&gt;
-    &lt;/dependency&gt;
+    
+    
+    
+      com.hexagonkt
+      logging_logback
+      $hexagonVersion
+    
     ```</pre></code></div><p class="paragraph">!!! Info     The above adapter bridge other logging libraries that may be used by other third party     libraries you use (if you want to disable this behaviour, you need to explicitly exclude     bridging libraries).</p><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```groovy
     // Bridges
     runtimeOnly("org.slf4j:jcl-over-slf4j:1.7.30")
     runtimeOnly("org.slf4j:log4j-over-slf4j:1.7.30")
     runtimeOnly("org.slf4j:jul-to-slf4j:1.7.30")
     ```</pre></code></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```xml
-    &lt;dependency&gt;
-      &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
-      &lt;artifactId&gt;jcl-over-slf4j&lt;/artifactId&gt;
-      &lt;version&gt;1.7.30&lt;/version&gt;
-    &lt;/dependency&gt;
-    &lt;dependency&gt;
-      &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
-      &lt;artifactId&gt;log4j-over-slf4j&lt;/artifactId&gt;
-      &lt;version&gt;1.7.30&lt;/version&gt;
-    &lt;/dependency&gt;
-    &lt;dependency&gt;
-      &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
-      &lt;artifactId&gt;jul-to-slf4j&lt;/artifactId&gt;
-      &lt;version&gt;1.7.30&lt;/version&gt;
-    &lt;/dependency&gt;
+    
+      org.slf4j
+      jcl-over-slf4j
+      1.7.30
+    
+    
+      org.slf4j
+      log4j-over-slf4j
+      1.7.30
+    
+    
+      org.slf4j
+      jul-to-slf4j
+      1.7.30
+    
     ```</pre></code></div></div></div>
           </div>
           <h2 class="">Packages</h2>
@@ -68,7 +66,9 @@
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div><span class="brief-comment"><a data-name="951068015%2FPackages%2F1111968687" anchor-label="com.hexagonkt.logging" id="951068015%2FPackages%2F1111968687" data-filterable-set=":logging_logback:dokkaHtmlPartial/main"></a>Provides a logging management capabilities abstracting the application from logging libraries.</span></div>
+                <div><span class="brief-comment"><a data-name="951068015%2FPackages%2F1111968687" anchor-label="com.hexagonkt.logging" id="951068015%2FPackages%2F1111968687" data-filterable-set=":logging_logback:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">Provides a logging management capabilities abstracting the application from logging libraries.</p>
+                  </span></div>
               </div>
             </div>
           </div>

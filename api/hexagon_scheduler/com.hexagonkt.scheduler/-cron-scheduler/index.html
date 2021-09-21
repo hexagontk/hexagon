@@ -2,7 +2,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>CronScheduler</title>
-</head><body><link href="../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script src="https://unpkg.com/kotlin-playground@1" data-selector="code.runnablesample"></script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script><script type="text/javascript" src="../../../scripts/main.js" async></script>
+</head><body><link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script src="https://unpkg.com/kotlin-playground@1" data-selector="code.runnablesample"></script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script><script type="text/javascript" src="../../../scripts/main.js" async></script>
   
     <div id="container">
       <div id="leftColumn"><a href="../../../index.html">
@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="cover ">
-            <h1 class="cover"><span>Cron</span><wbr><span>Scheduler</span></h1>
+            <h1 class="cover"><span>Cron</span><wbr><span><span>Scheduler</span></span></h1>
             <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_scheduler:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="index.html">CronScheduler</a>(threads: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Scheduler to execute tasks repeatedly. After using it, you should call the <a href="shutdown.html">shutdown</a> method. If the JVM finishes without calling <a href="shutdown.html">shutdown</a>, it will be called upon JVM termination.</p></div></div>
           </div>
           <div class="tabbedcontent">
@@ -50,7 +50,7 @@ fun main() {
 }</pre></code></div></div></div>
               <h2 class="">Parameters</h2>
               <div data-togglable="Parameters">
-                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_scheduler:dokkaHtmlPartial/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":hexagon_scheduler:dokkaHtmlPartial/main" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">threads</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Number of threads used by the thread pool. By default it is equals to the number of processors.</p></div></div></div></div></div></div></div></div></div>
+                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_scheduler:dokkaHtmlPartial/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":hexagon_scheduler:dokkaHtmlPartial/main" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><span><span>threads</span></span></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Number of threads used by the thread pool. By default it is equals to the number of processors.</p></div></div></div></div></div></div></div></div></div>
               </div>
               <h2 class="tabbedcontent">Constructors</h2>
               <div class="table" data-togglable="Constructors"><a data-name="541929110%2FConstructors%2F-595857026" anchor-label="CronScheduler" id="541929110%2FConstructors%2F-595857026" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"></a>
@@ -61,7 +61,7 @@ fun main() {
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_scheduler:dokkaHtmlPartial/main"><div class="symbol monospace">fun <a href="-cron-scheduler.html">CronScheduler</a>(threads: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a> = getRuntime().availableProcessors())<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Number of threads used by the thread pool.</div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_scheduler:dokkaHtmlPartial/main"><div class="symbol monospace">fun <a href="-cron-scheduler.html">CronScheduler</a>(threads: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a> = getRuntime().availableProcessors())<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
                       </div>
                     </div>
                   </div>
@@ -71,7 +71,7 @@ fun main() {
               <div class="table" data-togglable="Functions"><a data-name="-1687644883%2FFunctions%2F-595857026" anchor-label="schedule" id="-1687644883%2FFunctions%2F-595857026" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":hexagon_scheduler:dokkaHtmlPartial/main" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="schedule.html">schedule</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1687644883%2FFunctions%2F-595857026"></span>
+                    <div class=""><span class="inline-flex"><a href="schedule.html"><span><span>schedule</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1687644883%2FFunctions%2F-595857026"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -80,7 +80,7 @@ fun main() {
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_scheduler:dokkaHtmlPartial/main"><div class="symbol monospace">fun <a href="schedule.html">schedule</a>(cronExpression: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, callback: () -&gt; <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<a data-name="-1687644883%2FFunctions%2F-595857026" anchor-label="schedule" id="-1687644883%2FFunctions%2F-595857026" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"></a><div class="brief "><a data-name="-1687644883%2FFunctions%2F-595857026" anchor-label="schedule" id="-1687644883%2FFunctions%2F-595857026" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"></a>Schedules a block of code to be executed repeatedly by a <a href="https://en.wikipedia.org/wiki/Cron">Cron</a> expresion.</div></div>
+<div class="brief "><p class="paragraph">Schedules a block of code to be executed repeatedly by a <a href="https://en.wikipedia.org/wiki/Cron">Cron</a> expresion.</p></div></div>
 </div>
                     </div>
                   </div>
@@ -88,7 +88,7 @@ fun main() {
 <a data-name="-1863004961%2FFunctions%2F-595857026" anchor-label="shutdown" id="-1863004961%2FFunctions%2F-595857026" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":hexagon_scheduler:dokkaHtmlPartial/main" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="shutdown.html">shutdown</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1863004961%2FFunctions%2F-595857026"></span>
+                    <div class=""><span class="inline-flex"><a href="shutdown.html"><span><span>shutdown</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1863004961%2FFunctions%2F-595857026"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -97,7 +97,7 @@ fun main() {
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_scheduler:dokkaHtmlPartial/main"><div class="symbol monospace">fun <a href="shutdown.html">shutdown</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<a data-name="-1863004961%2FFunctions%2F-595857026" anchor-label="shutdown" id="-1863004961%2FFunctions%2F-595857026" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"></a><div class="brief "><a data-name="-1863004961%2FFunctions%2F-595857026" anchor-label="shutdown" id="-1863004961%2FFunctions%2F-595857026" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"></a>Shuts down this scheduler's thread pool.</div></div>
+<div class="brief "><p class="paragraph">Shuts down this scheduler's thread pool. Calling over an already closed scheduler does not have any effect. It is called by the JVM when it is shut down.</p></div></div>
 </div>
                     </div>
                   </div>

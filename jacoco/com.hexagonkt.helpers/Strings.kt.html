@@ -83,9 +83,9 @@ fun String.filterVars(vararg parameters: Pair&lt;*, *&gt;) =
  * @return .
  */
 fun String.filter(prefix: String, suffix: String, vararg parameters: Pair&lt;String, String&gt;): String =
-<span class="fc" id="L86">    parameters.fold(this) { result, (first, second) -&gt;</span>
-<span class="fc" id="L87">        result.replace(prefix + first + suffix, second)</span>
-<span class="fc" id="L88">    }</span>
+<span class="nc" id="L86">    parameters.fold(this) { result, (first, second) -&gt;</span>
+<span class="nc" id="L87">        result.replace(prefix + first + suffix, second)</span>
+<span class="nc" id="L88">    }</span>
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).

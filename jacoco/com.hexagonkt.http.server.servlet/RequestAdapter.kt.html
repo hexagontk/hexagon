@@ -69,14 +69,13 @@ import javax.servlet.http.HttpServletRequest
 <span class="fc" id="L69">                    contentType = it.contentType,</span>
 <span class="fc" id="L70">                    headers = it.headerNames</span>
 <span class="fc" id="L71">                        .filterNotNull()</span>
-<span class="fc" id="L72">                        .map { hn -&gt; hn to it.getHeaders(hn).toList() }</span>
-<span class="fc" id="L73">                        .toMap(),</span>
-<span class="fc" id="L74">                    inputStream = it.inputStream,</span>
-<span class="fc" id="L75">                    name = it.name,</span>
-<span class="fc" id="L76">                    size = it.size,</span>
-<span class="fc" id="L77">                    submittedFileName = it.submittedFileName</span>
+<span class="fc" id="L72">                        .associateWith { hn -&gt; it.getHeaders(hn).toList() },</span>
+<span class="fc" id="L73">                    inputStream = it.inputStream,</span>
+<span class="fc" id="L74">                    name = it.name,</span>
+<span class="fc" id="L75">                    size = it.size,</span>
+<span class="fc" id="L76">                    submittedFileName = it.submittedFileName</span>
                 )
             }
-<span class="fc" id="L80">            .associateBy { it.name }</span>
+<span class="fc" id="L79">            .associateBy { it.name }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

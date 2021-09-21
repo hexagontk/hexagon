@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="cover ">
-            <h1 class="cover"><span>hexagon_core</span></h1>
+            <h1 class="cover"><span><span>hexagon_core</span></span></h1>
             <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_core:dokkaHtmlPartial/main"><p class="paragraph">This module holds utilities used in other libraries of the toolkit. Check the packages' documentation for more details. You can find a quick recap of the main features in the sections below.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">This module is not meant to be imported directly. It will be included by using any other part of the toolkit. However, if you only want to use the utilities, logging or serialization (i.e., for a desktop application), you can import it with the following code:</p><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```groovy
     repositories {
         mavenCentral()
@@ -30,11 +30,11 @@
 
     implementation("com.hexagonkt:hexagon_core:$hexagonVersion")
     ```</pre></code></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```xml
-    &lt;dependency&gt;
-      &lt;groupId&gt;com.hexagonkt&lt;/groupId&gt;
-      &lt;artifactId&gt;hexagon_core&lt;/artifactId&gt;
-      &lt;version&gt;$hexagonVersion&lt;/version&gt;
-    &lt;/dependency&gt;
+    
+      com.hexagonkt
+      hexagon_core
+      $hexagonVersion
+    
     ```</pre></code></div><h3 class=""> Defined Ports</h3><p class="paragraph">TODO Document module exposed ports:</p><ul><li><p class="paragraph">LoggingPort</p></li><li><p class="paragraph">Mapper</p></li><li><p class="paragraph">SerializationFormat</p></li></ul><h3 class=""> URLs</h3><p class="paragraph">TODO Note that GraalVM requires to install the Classpath handler manually with <code>ClasspathHandlerProvider.registerHandler</code>.</p><h3 class=""> JVM Information</h3><p class="paragraph">TODO Add information about the system property that disables JMX.</p><h3 class=""> Logger</h3><p class="paragraph">The following code block shows the most common use cases for the Logger class:</p></div></div>
           </div>
           <h2 class="">Packages</h2>
@@ -59,7 +59,9 @@
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div><span class="brief-comment"><a data-name="735968533%2FPackages%2F793348458" anchor-label="com.hexagonkt.helpers" id="735968533%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>JVM information, a logger class and other useful utilities.</span></div>
+                <div><span class="brief-comment"><a data-name="735968533%2FPackages%2F793348458" anchor-label="com.hexagonkt.helpers" id="735968533%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">JVM information, a logger class and other useful utilities.</p>
+                  </span></div>
               </div>
             </div>
 <a data-name="951068015%2FPackages%2F793348458" anchor-label="com.hexagonkt.logging" id="951068015%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>
@@ -71,7 +73,9 @@
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div><span class="brief-comment"><a data-name="951068015%2FPackages%2F793348458" anchor-label="com.hexagonkt.logging" id="951068015%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>Provides a logging management capabilities abstracting the application from logging libraries.</span></div>
+                <div><span class="brief-comment"><a data-name="951068015%2FPackages%2F793348458" anchor-label="com.hexagonkt.logging" id="951068015%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">Provides a logging management capabilities abstracting the application from logging libraries.</p>
+                  </span></div>
               </div>
             </div>
 <a data-name="1705245378%2FPackages%2F793348458" anchor-label="com.hexagonkt.logging.jul" id="1705245378%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>
@@ -83,7 +87,9 @@
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div><span class="brief-comment"><a data-name="1705245378%2FPackages%2F793348458" anchor-label="com.hexagonkt.logging.jul" id="1705245378%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>TODO</span></div>
+                <div><span class="brief-comment"><a data-name="1705245378%2FPackages%2F793348458" anchor-label="com.hexagonkt.logging.jul" id="1705245378%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">TODO</p>
+                  </span></div>
               </div>
             </div>
 <a data-name="599684084%2FPackages%2F793348458" anchor-label="com.hexagonkt.security" id="599684084%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>
@@ -95,7 +101,9 @@
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div><span class="brief-comment"><a data-name="599684084%2FPackages%2F793348458" anchor-label="com.hexagonkt.security" id="599684084%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>TODO</span></div>
+                <div><span class="brief-comment"><a data-name="599684084%2FPackages%2F793348458" anchor-label="com.hexagonkt.security" id="599684084%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">TODO</p>
+                  </span></div>
               </div>
             </div>
 <a data-name="2088572992%2FPackages%2F793348458" anchor-label="com.hexagonkt.serialization" id="2088572992%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>
@@ -107,7 +115,9 @@
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div><span class="brief-comment"><a data-name="2088572992%2FPackages%2F793348458" anchor-label="com.hexagonkt.serialization" id="2088572992%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>Parse/serialize data in different formats to class instances.</span></div>
+                <div><span class="brief-comment"><a data-name="2088572992%2FPackages%2F793348458" anchor-label="com.hexagonkt.serialization" id="2088572992%2FPackages%2F793348458" data-filterable-set=":hexagon_core:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">Parse/serialize data in different formats to class instances.</p>
+                  </span></div>
               </div>
             </div>
           </div>

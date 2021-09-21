@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="cover ">
-            <h1 class="cover"><span>http_server_jetty</span></h1>
+            <h1 class="cover"><span><span>http_server_jetty</span></span></h1>
             <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_jetty:dokkaHtmlPartial/main"><p class="paragraph"><a href="https://www.eclipse.org/jetty">Jetty</a> adapter for the /port_http_server port.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```groovy
     repositories {
         mavenCentral()
@@ -31,20 +31,13 @@
     // Add `{ exclude(module = "logging_slf4j_jul") }` if you use other logging adapter
     implementation("com.hexagonkt:http_server_jetty:$hexagonVersion")
     ```</pre></code></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```xml
-    &lt;dependency&gt;
-      &lt;groupId&gt;com.hexagonkt&lt;/groupId&gt;
-      &lt;artifactId&gt;http_server_jetty&lt;/artifactId&gt;
-      &lt;version&gt;$hexagonVersion&lt;/version&gt;
-      &lt;!-- Add the following block if you use other logging adapter --&gt;
-      &lt;!--
-      &lt;exclusions&gt;
-        &lt;exclusion&gt;
-          &lt;groupId&gt;com.hexagonkt&lt;/groupId&gt;
-          &lt;artifactId&gt;logging_slf4j_jul&lt;/artifactId&gt;
-        &lt;/exclusion&gt;
-      &lt;/exclusions&gt;
-      --&gt;
-    &lt;/dependency&gt;
+    
+      com.hexagonkt
+      http_server_jetty
+      $hexagonVersion
+      
+      
+    
     ```</pre></code></div><p class="paragraph">!!! Note     This Adapter includes the /logging_slf4j_jul logging dependency (for convenience), if you use a     different log adapter, you should exclude it to avoid <a href="http://www.slf4j.org">SLF4J</a> warnings.</p></div></div>
           </div>
           <h2 class="">Packages</h2>
@@ -57,7 +50,9 @@
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div><span class="brief-comment"><a data-name="418609193%2FPackages%2F-730510527" anchor-label="com.hexagonkt.http.server.jetty" id="418609193%2FPackages%2F-730510527" data-filterable-set=":http_server_jetty:dokkaHtmlPartial/main"></a>Code implementing the Jetty HTTP server adapter.</span></div>
+                <div><span class="brief-comment"><a data-name="418609193%2FPackages%2F-730510527" anchor-label="com.hexagonkt.http.server.jetty" id="418609193%2FPackages%2F-730510527" data-filterable-set=":http_server_jetty:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">Code implementing the Jetty HTTP server adapter.</p>
+                  </span></div>
               </div>
             </div>
           </div>

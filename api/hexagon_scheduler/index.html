@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="cover ">
-            <h1 class="cover"><span>hexagon_scheduler</span></h1>
+            <h1 class="cover"><span><span>hexagon_scheduler</span></span></h1>
             <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":hexagon_scheduler:dokkaHtmlPartial/main"><p class="paragraph">Provides repeated tasks execution based on Cron expressions for Hexagon framework. It uses the Cron-utils Java Library.</p><p class="paragraph">!!! Note     In some platforms (i.e.: Kubernetes) there is a way to execute repeated tasks, you could take     advantage of them, as using your own service will raise problems scaling those services'     instances (you will have to coordinate them).</p><p class="paragraph">This feature does not include any sort of synchronization if you have many instances of a scheduler service. If you want your scheduled jobs to be executed just once, you have to take care of synchronization yourself.</p><h3 class=""> Install Dependency</h3><p class="paragraph">=== "build.gradle"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```groovy
     repositories {
         mavenCentral()
@@ -30,11 +30,11 @@
 
     implementation("com.hexagonkt:hexagon_scheduler:$hexagonVersion")
     ```</pre></code></div><p class="paragraph">=== "pom.xml"</p><div class="sample-container"><code class="" theme="idea"><pre>    ```xml
-    &lt;dependency&gt;
-      &lt;groupId&gt;com.hexagonkt&lt;/groupId&gt;
-      &lt;artifactId&gt;hexagon_scheduler&lt;/artifactId&gt;
-      &lt;version&gt;$hexagonVersion&lt;/version&gt;
-    &lt;/dependency&gt;
+    
+      com.hexagonkt
+      hexagon_scheduler
+      $hexagonVersion
+    
     ```</pre></code></div><h3 class=""> Example</h3><p class="paragraph">You can check a usage example in the following code:</p></div></div>
           </div>
           <h2 class="">Packages</h2>
@@ -47,7 +47,9 @@
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div><span class="brief-comment"><a data-name="305405003%2FPackages%2F-595857026" anchor-label="com.hexagonkt.scheduler" id="305405003%2FPackages%2F-595857026" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"></a>Classes for scheduling blocks of code repeatedly based on a <a href="https://en.wikipedia.org/wiki/Cron">Cron</a> expression.</span></div>
+                <div><span class="brief-comment"><a data-name="305405003%2FPackages%2F-595857026" anchor-label="com.hexagonkt.scheduler" id="305405003%2FPackages%2F-595857026" data-filterable-set=":hexagon_scheduler:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">Classes for scheduling blocks of code repeatedly based on a <a href="https://en.wikipedia.org/wiki/Cron">Cron</a> expression.</p>
+                  </span></div>
               </div>
             </div>
           </div>
