@@ -18,6 +18,7 @@ extensions.configure<PublishingExtension> {
             val target = javaPlugin.targetCompatibility.toString()
 
             properties.set(mapOf(
+                "kotlin.code.style" to "official",
                 "project.build.sourceEncoding" to Charsets.UTF_8.name(),
                 "maven.compiler.source" to source,
                 "maven.compiler.target" to target,
@@ -29,7 +30,7 @@ extensions.configure<PublishingExtension> {
             ))
 
             withXml {
-                listOf("dependencyManagement", "dependencies", "build").forEach {
+                listOf("dependencyManagement", "build").forEach {
                     asElement().importElement(pomDom.firstElement(it))
                 }
             }
