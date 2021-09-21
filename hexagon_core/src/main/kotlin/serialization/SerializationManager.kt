@@ -123,7 +123,10 @@ object SerializationManager {
     private fun formatsMap () = linkedMapOf (*formats.map { it.contentType to it }.toTypedArray())
 
     private fun serializationFormats(): String =
-        formats.joinToString("\n", "Serialization formats loaded:\n") {
-            "* ${it.contentType} (${it.extensions.joinToString(", ")})"
-        }
+        if (formats.isEmpty())
+            "No serialization formats loaded"
+        else
+            formats.joinToString("\n", "Serialization formats loaded:\n") {
+                "* ${it.contentType} (${it.extensions.joinToString(", ")})"
+            }
 }

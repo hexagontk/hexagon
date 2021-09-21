@@ -11,7 +11,6 @@ import com.hexagonkt.http.server.examples.GenericTest
 import com.hexagonkt.http.server.examples.HttpsTest
 import com.hexagonkt.http.server.examples.SessionTest
 import com.hexagonkt.http.server.examples.ZipTest
-import com.hexagonkt.web.examples.TodoTest
 
 val adapter = JettyServletAdapter()
 
@@ -22,7 +21,6 @@ internal class JettyServletAdapterErrorsTest : ErrorsTest(adapter)
 internal class JettyServletAdapterFiltersTest : FiltersTest(adapter)
 internal class JettyServletAdapterFilesTest : FilesTest(adapter)
 internal class JettyServletAdapterGenericTest : GenericTest(adapter)
-internal class JettyServletAdapterTodoTest : TodoTest(adapter)
 internal class JettyServletAdapterCorsTest : CorsTest(adapter)
 internal class JettyServletAdapterSamplesTest : PortHttpServerSamplesTest(adapter)
 internal class JettyServletAdapterHttpsTest : HttpsTest(adapter)

@@ -64,6 +64,8 @@ simple pieces:
 * A **path** (/hello, /users/{name}). Paths must start with '/' and trailing slash is ignored.
 * A **callback** code block.
 
+<!-- TODO Explain path pattern format -->
+
 The callback has a void return type. You should use `Call.send()` to set the response which will
 be returned to the user.
 

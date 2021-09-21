@@ -69,8 +69,7 @@ internal class RequestAdapter(private val req: HttpServletRequest) : RequestPort
                     contentType = it.contentType,
                     headers = it.headerNames
                         .filterNotNull()
-                        .map { hn -> hn to it.getHeaders(hn).toList() }
-                        .toMap(),
+                        .associateWith { hn -> it.getHeaders(hn).toList() },
                     inputStream = it.inputStream,
                     name = it.name,
                     size = it.size,

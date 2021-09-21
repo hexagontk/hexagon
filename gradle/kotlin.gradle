@@ -35,9 +35,9 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.5.30"
+    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.5.31"
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.11.0"
-    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.7.2"
+    final String scriptJunitVersion = findProperty("junitVersion") ?: "5.8.0"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$scriptKotlinVersion")
 
