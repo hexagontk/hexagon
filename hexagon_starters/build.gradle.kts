@@ -19,6 +19,8 @@ extensions.configure<PublishingExtension> {
 
             properties.set(mapOf(
                 "kotlin.code.style" to "official",
+                "downloadSources" to true.toString(),
+                "downloadJavadocs" to true.toString(),
                 "project.build.sourceEncoding" to Charsets.UTF_8.name(),
                 "maven.compiler.source" to source,
                 "maven.compiler.target" to target,
