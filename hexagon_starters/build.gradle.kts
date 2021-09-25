@@ -26,6 +26,7 @@ extensions.configure<PublishingExtension> {
                 "maven.compiler.target" to target,
                 "kotlin.compiler.jvmTarget" to target,
                 "kotlin.version" to project.properties["kotlinVersion"].toString(),
+                "dokka.version" to project.properties["dokkaVersion"].toString(),
                 "mockk.version" to project.properties["mockkVersion"].toString(),
                 "junit.version" to project.properties["junitVersion"].toString(),
                 "hexagon.version" to rootProject.version.toString()

@@ -30,5 +30,15 @@
         </excludes>
       </testResource>
     </testResources>
+
+    <pluginManagement>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <siteDirectory>site</siteDirectory>
+        </configuration>
+      </plugin>
+    </pluginManagement>
   </build>
 </project>
