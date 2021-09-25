@@ -32,13 +32,15 @@
     </testResources>
 
     <pluginManagement>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <siteDirectory>site</siteDirectory>
-        </configuration>
-      </plugin>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <configuration>
+            <siteDirectory>site</siteDirectory>
+          </configuration>
+        </plugin>
+      </plugins>
     </pluginManagement>
   </build>
 </project>
