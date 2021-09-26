@@ -10,8 +10,6 @@ com.hexagonkt.security
 com.hexagonkt.serialization
 module:hexagon_http
 com.hexagonkt.http
-module:hexagon_scheduler
-com.hexagonkt.scheduler
 module:hexagon_web
 com.hexagonkt.web
 module:http_client_ahc
@@ -24,8 +22,6 @@ module:logging_logback
 com.hexagonkt.logging
 module:logging_slf4j_jul
 com.hexagonkt.logging
-module:messaging_rabbitmq
-com.hexagonkt.messaging.rabbitmq
 module:port_http_client
 com.hexagonkt.http.client
 module:port_http_server
@@ -33,11 +29,6 @@ com.hexagonkt.http.server
 com.hexagonkt.http.server.examples
 com.hexagonkt.http.server.security
 com.hexagonkt.http.server.test
-module:port_messaging
-com.hexagonkt.messaging
-module:port_store
-com.hexagonkt.store
-com.hexagonkt.store.hashmap
 module:port_templates
 com.hexagonkt.templates
 module:serialization_csv
@@ -48,8 +39,6 @@ module:serialization_xml
 com.hexagonkt.serialization
 module:serialization_yaml
 com.hexagonkt.serialization
-module:store_mongodb
-com.hexagonkt.store.mongodb
 module:templates_freemarker
 com.hexagonkt.templates.freemarker
 module:templates_pebble

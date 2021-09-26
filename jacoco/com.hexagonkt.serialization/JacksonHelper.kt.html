@@ -79,12 +79,12 @@ object JacksonHelper {
 
     private object FloatSerializer : JsonSerializer&lt;Float&gt;() {
         override fun serialize(value: Float, gen: JsonGenerator, serializers: SerializerProvider) {
-<span class="fc" id="L82">            gen.writeNumber(value.toBigDecimal().toDouble()) // BigDecimal needed for good rounding</span>
-<span class="fc" id="L83">        }</span>
+<span class="nc" id="L82">            gen.writeNumber(value.toBigDecimal().toDouble()) // BigDecimal needed for good rounding</span>
+<span class="nc" id="L83">        }</span>
     }
 
     private object FloatDeserializer : JsonDeserializer&lt;Float&gt;() {
-<span class="fc" id="L87">        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Float = p.floatValue</span>
+<span class="nc" id="L87">        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Float = p.floatValue</span>
     }
 
     private object ByteBufferSerializer: JsonSerializer&lt;ByteBuffer&gt;() {

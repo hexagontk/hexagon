@@ -97,7 +97,7 @@ object SerializationManager {
 <span class="fc bfc" id="L97" title="All 2 branches covered.">        formatsMap[contentType] ?: error(&quot;$contentType serialization format not found&quot;)</span>
 
     fun formatOf(contentType: String, defaultFormat: SerializationFormat): SerializationFormat =
-<span class="fc bfc" id="L100" title="All 2 branches covered.">        formatsMap[contentType] ?: defaultFormat</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        formatsMap[contentType] ?: defaultFormat</span>
 
     fun formatOf(url: URL): SerializationFormat =
 <span class="fc bfc" id="L103" title="All 2 branches covered.">        formatOf(contentTypeOf(url) ?: error(&quot;Content type for '$url' not found&quot;))</span>
