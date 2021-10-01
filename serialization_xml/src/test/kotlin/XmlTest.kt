@@ -78,7 +78,7 @@ internal class XmlTest {
     }
 
     @Test
-    @Disabled // TODO Fix this case
+     // TODO Fix this case
     fun `XML can be parsed to collections (bis)` () {
         val xml =
             """<?xml version="1.0" encoding="UTF-8"?>

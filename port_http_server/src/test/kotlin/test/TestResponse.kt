@@ -33,7 +33,7 @@ data class TestResponse(
 
     override fun redirect(url: String) {
         status = 301
-//        setHeader("location", url) // TODO Fix this
+     // TODO Fix this
     }
 
     private val headers: MutableMap<String, Any?> = LinkedHashMap()
