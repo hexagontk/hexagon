@@ -37,17 +37,10 @@ jobs:
 
       # PROCESS
       - name: Build Project
-        if: matrix.os == 'ubuntu-latest'
         run: ./gradlew build
       - name: Log Build (ON FAILURE)
-        if: matrix.os == 'ubuntu-latest' && failure()
+        if: failure()
         run: ./gradlew --info --stacktrace build
-      - name: Build Project WITHOUT Docker
-        if: matrix.os != 'ubuntu-latest'
-        run: ./gradlew build -x store_mongodb:test -x messaging_rabbitmq:test
-      - name: Log Build WITHOUT Docker (ON FAILURE)
-        if: matrix.os != 'ubuntu-latest' && failure()
-        run: ./gradlew -is build -x store_mongodb:test -x messaging_rabbitmq:test
 
       # CLEAN UP
       - name: Clean Gradle Cache

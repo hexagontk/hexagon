@@ -93,8 +93,6 @@ Ports with their provided implementations (Adapters).
 |-------------------------|---------
 | [HTTP Server]           | [Jetty], [Servlet]
 | [HTTP Client]           | [AHC]
-| [Messaging]             | [RabbitMQ]
-| [Store]                 | [MongoDB]
 | [Templates]             | [Pebble], [FreeMarker]
 | [Serialization Formats] | [JSON], [YAML]
 
@@ -103,10 +101,6 @@ Ports with their provided implementations (Adapters).
 [Servlet]: /http_server_servlet
 [HTTP Client]: /port_http_client
 [AHC]: /http_client_ahc
-[Messaging]: /port_messaging
-[RabbitMQ]: /messaging_rabbitmq
-[Store]: /port_store
-[MongoDB]: /store_mongodb
 [Templates]: /port_templates
 [Pebble]: /templates_pebble
 [FreeMarker]: /templates_freemarker
