@@ -130,8 +130,6 @@ data class Server(
 
     private fun createBanner(startUpTimestamp: Long): String {
 
-        // TODO Print selected features with a tick
-        // TODO Print selected protocol with a tick
         // TODO Print passed options values
         // TODO Use emojis (like rocket launch... just for fun)
 
@@ -147,8 +145,8 @@ data class Server(
         val binding = "$scheme://$hostName:$runtimePort"
 
         val serverAdapterValue = "$BOLD$CYAN$portName$RESET"
-        val protocols = adapter.supportedProtocols().joinToString("$RESET, $CYAN", CYAN, RESET)
-        val features = adapter.supportedFeatures().joinToString("$RESET, $CYAN", CYAN, RESET)
+        val protocols = adapter.supportedProtocols().joinToString("$RESET, $CYAN", CYAN, RESET) { p -> "✅ $p" }
+        val features = adapter.supportedFeatures().joinToString("$RESET, $CYAN", CYAN, RESET) { p -> "✅ $p" }
         val options = adapter.supportedOptions().joinToString("$RESET, $CYAN", CYAN, RESET)
 
         val hostnameValue = "$BLUE$hostname$RESET"
