@@ -108,7 +108,7 @@ If you want to generate the documentation site, check the [site module readme][h
 
 Major Release Checklist
 -----------------------
-1. Release site's dependent projects (`store`, `messaging`)
+1. Release site's dependent projects (`hexagon_extra`)
 2. Publish their packages using the [Nexus Repository Manager]
 3. Merge Hexagon main project to `master` in GitHub
 4. Check the site deployment is OK ([https://hexagonkt.com])
