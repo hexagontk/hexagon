@@ -24,7 +24,7 @@ object Jvm {
     /** Default character set. */
     val charset: Charset by lazy { Charset.defaultCharset() }
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** Default locale for this instance of the Java Virtual Machine. */
     val locale: Locale by lazy { Locale.getDefault() }
 
     /** The hostname of the machine running this program. */
@@ -33,22 +33,22 @@ object Jvm {
     /** The IP address of the machine running this program. */
     val ip: String by lazy { InetAddress.getLocalHost().hostAddress }
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** ID representing the running Java virtual machine */
     val id: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().name } }
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** Name of the JVM running this program. For example: OpenJDK 64-Bit Server VM. */
     val name: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().vmName } }
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** Java version aka language level. For example: 11 */
     val version: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().specVersion } }
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** Number of processors available to the Java virtual machine. */
     val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** User Time Zone property. Can be set with -Duser.timezone JVM argument. */
     val timezone: String by lazy { System.getProperty("user.timezone") }
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
     val localeCode: String by lazy {
         "%s_%s.%s".format(
             System.getProperty("user.language"),
