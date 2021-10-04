@@ -75,9 +75,11 @@ fun parseQueryParameters (query: String): Map<String, List<String>> =
             .groupBy { it.first }
             .mapValues { pair -> pair.value.map { it.second } }
 
-fun httpDate (date: LocalDateTime = LocalDateTime.now()): String =
+fun httpDate(date: LocalDateTime = LocalDateTime.now()): String =
     RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
 
-fun String.urlDecode(): String = URLDecoder.decode(this, charset.name())
+fun String.urlDecode(): String =
+    URLDecoder.decode(this, charset.name())
 
-fun String.urlEncode(): String = URLEncoder.encode(this, charset.name())
+fun String.urlEncode(): String =
+    URLEncoder.encode(this, charset.name())

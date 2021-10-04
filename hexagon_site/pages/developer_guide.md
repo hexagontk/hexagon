@@ -29,22 +29,22 @@ kinds of modules:
   [hexagon_scheduler] or [hexagon_core]. Their name always starts with the `hexagon_` prefix. These
   modules can depend on several Ports, but never on Adapters (see below).
 * Modules that define one or more related "Ports": these are interfaces to a feature that may have
-  different implementations (i.e., [port_http_server] or [port_store]). They cannot be used by
+  different implementations (i.e., [port_http_server] or [port_templates]). They cannot be used by
   themselves and in their place, an adapter implementing them should be added to the list of
   dependencies. These modules' names start with the `port_` prefix. Ports are independent of each
   other.
-* Adapter modules, which are Port implementations for a given tool, [store_mongodb], and
-  [messaging_rabbitmq] are examples of this type of module. Adapter names must start with their
+* Adapter modules, which are Port implementations for a given tool, [http_client_ahc], and
+  [http_server_jetty] are examples of this type of module. Adapter names must start with their
   port name.
 
 [hexagon_scheduler]: /hexagon_scheduler/
 [hexagon_core]: /hexagon_core/
 
 [port_http_server]: /port_http_server/
-[port_store]: /port_store/
+[port_templates]: /port_templates/
 
-[store_mongodb]: /store_mongodb/
-[messaging_rabbitmq]: /messaging_rabbitmq/
+[http_client_ahc]: /http_client_ahc/
+[http_server_jetty]: /http_server_jetty/
 
 # Hexagon Core
 
@@ -85,12 +85,8 @@ These are the implemented ports:
 
 * [HTTP Server]: describes how to use HTTP routing and HTML templates for Web services.
 * [HTTP Client]: documentation to use the HTTP client module to connect to other services.
-* [Storage]: gives an overview of how to store data using different data stores.
-* [Messaging]: how to support asynchronous communication with messages through message brokers.
 * [Templates]: describes how to render pages using template engines.
 
 [HTTP Server]: /port_http_server/
 [HTTP Client]: /port_http_client/
-[Storage]: /port_store/
-[Messaging]: /port_messaging/
 [Templates]: /port_templates/

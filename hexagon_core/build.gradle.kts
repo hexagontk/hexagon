@@ -12,6 +12,9 @@ description = "Hexagon core utilities. Includes serialization and logging helper
 extra["basePackage"] = "com.hexagonkt"
 
 dependencies {
+    val kotlinVersion = properties["kotlinVersion"]
+
+    "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     "testImplementation"(project(":serialization_yaml"))
 }
 

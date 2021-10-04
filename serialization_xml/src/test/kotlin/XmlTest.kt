@@ -4,7 +4,6 @@ import com.hexagonkt.helpers.get
 import com.hexagonkt.helpers.println
 import com.hexagonkt.helpers.toStream
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertEquals
@@ -78,7 +77,6 @@ internal class XmlTest {
     }
 
     @Test
-    @Disabled // TODO Fix this case
     fun `XML can be parsed to collections (bis)` () {
         val xml =
             """<?xml version="1.0" encoding="UTF-8"?>
