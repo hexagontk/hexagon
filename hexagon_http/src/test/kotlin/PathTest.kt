@@ -3,12 +3,15 @@ package com.hexagonkt.http
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
-/**
- * TODO Check that URLs with blank parameters are not matched.
- *   Ie: /alpha/{param}/bravo is not matched by /alpha//bravo
- */
 internal class PathTest {
+
+    @Test fun `URLs with blank parameters are matched`() {
+        val regexPath = Path("/alpha/{param}/bravo")
+        assert(regexPath.matches("/alpha//bravo"))
+        assertTrue(regexPath.extractParameters("/alpha//bravo")["param"]?.isEmpty() ?: false)
+    }
 
     @Test fun `Regex is matched properly`() {
         val regexPath = Path("/alpha/?*")
@@ -96,7 +99,7 @@ internal class PathTest {
         val pathWith2Parameters = Path("/alpha/{param}/tango/{arg}")
         assert(pathWith2Parameters.pattern == "/alpha/{param}/tango/{arg}")
         assert(pathWith2Parameters.hasParameters)
-        assert(pathWith2Parameters.regex?.pattern == "/alpha/(.+?)/tango/(.+?)$")
+        assert(pathWith2Parameters.regex?.pattern == "/alpha/(.*?)/tango/(.*?)$")
         assert(pathWith2Parameters.parameterIndex == listOf("param", "arg"))
 
         val params2 = pathWith2Parameters.extractParameters("/alpha/abc/tango/def")
