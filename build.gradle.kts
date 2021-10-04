@@ -15,7 +15,7 @@ plugins {
 
     id("idea")
     id("eclipse")
-    id("org.jetbrains.dokka") version("1.5.30")
+    id("org.jetbrains.dokka") version("1.5.31")
     id("io.gitlab.arturbosch.detekt") version("1.18.1") apply(false)
 }
 

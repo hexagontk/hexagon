@@ -54,7 +54,7 @@ class Router(block: Router.() -> Unit = {}) {
      * Registers [FilterHandler] with [AFTER] [FilterOrder] for given route [path].
      *
      * @param path Route path for which the handler is to be registered.
-     * @param block [RouteCallback] instance to be execited by the handler.
+     * @param block [RouteCallback] instance to be executed by the handler.
      */
     fun after(path: String = "*", block: RouteCallback) = any(path) after block
 
@@ -217,6 +217,7 @@ class Router(block: Router.() -> Unit = {}) {
      * @param resource The [URL] for which the handler is to be registered.
      */
     fun get(path: String, resource: URL) {
+        check(path.endsWith("/*")) { "Routes serving resources *must* end with '/*': $path" }
         requestHandlers = requestHandlers + ResourceHandler(Route(Path(path), GET), resource)
     }
 
@@ -236,6 +237,7 @@ class Router(block: Router.() -> Unit = {}) {
      * @param file The [File] for which the handler is to be registered.
      */
     fun get(path: String, file: File) {
+        check(path.endsWith("/*")) { "Routes serving files *must* end with '/*': $path" }
         requestHandlers = requestHandlers + FileHandler(Route(Path(path), GET), file)
     }
 
@@ -352,7 +354,7 @@ class Router(block: Router.() -> Unit = {}) {
                 halt(403, "Not allowed headers")
 
             val headers = settings.allowedHeaders
-            val requestHeaders = if (headers.isEmpty()) request.headersValues.keys.toSet() else headers
+            val requestHeaders = headers.ifEmpty { request.headersValues.keys.toSet() }
             response.headers[ALLOW_HEADERS] = requestHeaders.joinToString(",")
         }
 
