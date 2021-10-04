@@ -21,7 +21,10 @@ import com.hexagonkt.http.server.RequestHandler.PathHandler
 import com.hexagonkt.http.server.RequestHandler.ResourceHandler
 import com.hexagonkt.http.server.RequestHandler.RouteHandler
 import org.junit.jupiter.api.Test
+import java.io.File
 import java.net.URL
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 internal class RouterTest {
 
@@ -42,7 +45,7 @@ internal class RouterTest {
                 after("/bar") {}
                 error(404) {}
                 error(IllegalArgumentException::class) {}
-                get("/files", URL("classpath:/assets"))
+                get("/files/*", URL("classpath:assets"))
             }
         }
 
@@ -56,7 +59,7 @@ internal class RouterTest {
         assertHandler(handlers[6], "/foo/bar", *ALL.toTypedArray())
         assertHandler(handlers[7], "/foo", *ALL.toTypedArray())
         assertHandler(handlers[8], "/foo", *ALL.toTypedArray())
-        assertHandler(handlers[9], "/foo/files", GET)
+        assertHandler(handlers[9], "/foo/files/*", GET)
     }
 
     @Test fun `Routes are stored in server's router`() {
@@ -139,6 +142,26 @@ internal class RouterTest {
         val exceptionErrors = requestHandlers.filterIsInstance(ExceptionHandler::class.java)
         assert(exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
         assert(exceptionErrors.any { it.exception == IllegalArgumentException::class.java })
+    }
+
+    @Test fun `Routes serving resources must end with 'slash asterisk'`() {
+        val e = assertFailsWith<IllegalStateException> {
+            Router {
+                get("/path", File("."))
+            }
+        }
+
+        assertEquals("Routes serving files *must* end with '/*': /path", e.message)
+    }
+
+    @Test fun `Routes serving files must end with 'slash asterisk'`() {
+        val e = assertFailsWith<IllegalStateException> {
+            Router {
+                get("/path", URL("classpath:assets"))
+            }
+        }
+
+        assertEquals("Routes serving resources *must* end with '/*': /path", e.message)
     }
 
     private fun assertHandler(handler: RequestHandler, path: String, vararg methods: Method) {
