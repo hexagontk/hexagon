@@ -54,7 +54,7 @@ import kotlin.reflect.KClass
      * Registers [FilterHandler] with [AFTER] [FilterOrder] for given route [path].
      *
      * @param path Route path for which the handler is to be registered.
-     * @param block [RouteCallback] instance to be execited by the handler.
+     * @param block [RouteCallback] instance to be executed by the handler.
      */
 <span class="fc" id="L59">    fun after(path: String = &quot;*&quot;, block: RouteCallback) = any(path) after block</span>
 
@@ -217,8 +217,9 @@ import kotlin.reflect.KClass
      * @param resource The [URL] for which the handler is to be registered.
      */
     fun get(path: String, resource: URL) {
-<span class="fc" id="L220">        requestHandlers = requestHandlers + ResourceHandler(Route(Path(path), GET), resource)</span>
-<span class="fc" id="L221">    }</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        check(path.endsWith(&quot;/*&quot;)) { &quot;Routes serving resources *must* end with '/*': $path&quot; }</span>
+<span class="fc" id="L221">        requestHandlers = requestHandlers + ResourceHandler(Route(Path(path), GET), resource)</span>
+<span class="fc" id="L222">    }</span>
 
     /**
      * Registers [FileHandler] for given [file] URL for any route.
@@ -226,8 +227,8 @@ import kotlin.reflect.KClass
      * @param file The [File] for which handler is to be registered.
      */
     fun get(file: File) {
-<span class="fc" id="L229">        get(&quot;/*&quot;, file)</span>
-<span class="fc" id="L230">    }</span>
+<span class="fc" id="L230">        get(&quot;/*&quot;, file)</span>
+<span class="fc" id="L231">    }</span>
 
     /**
      * Registers [FileHandler] for given [file] at given route [path].
@@ -236,8 +237,9 @@ import kotlin.reflect.KClass
      * @param file The [File] for which the handler is to be registered.
      */
     fun get(path: String, file: File) {
-<span class="fc" id="L239">        requestHandlers = requestHandlers + FileHandler(Route(Path(path), GET), file)</span>
-<span class="fc" id="L240">    }</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">        check(path.endsWith(&quot;/*&quot;)) { &quot;Routes serving files *must* end with '/*': $path&quot; }</span>
+<span class="fc" id="L241">        requestHandlers = requestHandlers + FileHandler(Route(Path(path), GET), file)</span>
+<span class="fc" id="L242">    }</span>
 
     /**
      * Register CORS for the router.
@@ -245,48 +247,48 @@ import kotlin.reflect.KClass
      * @param settings Instance of [CorsSettings].
      */
     fun cors(settings: CorsSettings) {
-<span class="fc" id="L248">        before { simpleRequest(settings) }</span>
-<span class="fc" id="L249">        options(&quot;/&quot;) { preFlightRequest(settings) }</span>
-<span class="pc" id="L250">        options(&quot;/*&quot;) { preFlightRequest(settings) }</span>
-<span class="fc" id="L251">    }</span>
+<span class="fc" id="L250">        before { simpleRequest(settings) }</span>
+<span class="fc" id="L251">        options(&quot;/&quot;) { preFlightRequest(settings) }</span>
+<span class="pc" id="L252">        options(&quot;/*&quot;) { preFlightRequest(settings) }</span>
+<span class="fc" id="L253">    }</span>
 
     /**
      * Flattens the given [List] of [RequestHandler].
      * @param h [List] of [RequestHandler].
      * @return Flattened [List] of [RequestHandler].
      */
-<span class="fc" id="L258">    fun flatRequestHandlers(h: List&lt;RequestHandler&gt; = requestHandlers): List&lt;RequestHandler&gt; = h</span>
-<span class="fc" id="L259">        .flatMap { handler -&gt;</span>
-<span class="fc" id="L260">            when (handler) {</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">                is PathHandler -&gt; flatPathHandler(handler)</span>
-<span class="fc bfc" id="L262" title="All 2 branches covered.">                is RouteHandler -&gt; handler.route.list().map { handler.copy(route = it) }</span>
-<span class="fc" id="L263">                else -&gt; listOf(handler)</span>
+<span class="fc" id="L260">    fun flatRequestHandlers(h: List&lt;RequestHandler&gt; = requestHandlers): List&lt;RequestHandler&gt; = h</span>
+<span class="fc" id="L261">        .flatMap { handler -&gt;</span>
+<span class="fc" id="L262">            when (handler) {</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">                is PathHandler -&gt; flatPathHandler(handler)</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">                is RouteHandler -&gt; handler.route.list().map { handler.copy(route = it) }</span>
+<span class="fc" id="L265">                else -&gt; listOf(handler)</span>
             }
-<span class="fc" id="L265">        }</span>
+<span class="fc" id="L267">        }</span>
 
     private fun flatPathHandler(handler: PathHandler): List&lt;RequestHandler&gt; {
-<span class="fc" id="L268">        return handler.router.requestHandlers.flatMap {</span>
-<span class="fc" id="L269">            val route = it.route</span>
-<span class="fc" id="L270">            val path = route.path</span>
-<span class="fc" id="L271">            val handlerPath = handler.route.path.pattern</span>
+<span class="fc" id="L270">        return handler.router.requestHandlers.flatMap {</span>
+<span class="fc" id="L271">            val route = it.route</span>
+<span class="fc" id="L272">            val path = route.path</span>
+<span class="fc" id="L273">            val handlerPath = handler.route.path.pattern</span>
 
-<span class="fc" id="L273">            val finalPath =</span>
-<span class="fc bfc" id="L274" title="All 2 branches covered.">                if (handlerPath == &quot;/&quot;)</span>
-<span class="fc bfc" id="L275" title="All 2 branches covered.">                    if (path.pattern == &quot;/&quot;) &quot;/&quot; else path.pattern</span>
+<span class="fc" id="L275">            val finalPath =</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">                if (handlerPath == &quot;/&quot;)</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">                    if (path.pattern == &quot;/&quot;) &quot;/&quot; else path.pattern</span>
                 else
-<span class="fc bfc" id="L277" title="All 2 branches covered.">                    if (path.pattern == &quot;/&quot;) handlerPath else handlerPath + path.pattern</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">                    if (path.pattern == &quot;/&quot;) handlerPath else handlerPath + path.pattern</span>
 
-<span class="fc" id="L279">            val nestedPath = path.copy(pattern = finalPath)</span>
-<span class="fc" id="L280">            val nestedRoute = route.copy(path = nestedPath)</span>
+<span class="fc" id="L281">            val nestedPath = path.copy(pattern = finalPath)</span>
+<span class="fc" id="L282">            val nestedRoute = route.copy(path = nestedPath)</span>
 
-<span class="fc" id="L282">            when (it) {</span>
-<span class="fc bfc" id="L283" title="All 2 branches covered.">                is FilterHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
-<span class="fc bfc" id="L284" title="All 2 branches covered.">                is RouteHandler -&gt; nestedRoute.list().map { r -&gt; it.copy(route = r) }</span>
-<span class="fc bfc" id="L285" title="All 2 branches covered.">                is ExceptionHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
-<span class="fc bfc" id="L286" title="All 2 branches covered.">                is CodeHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
-<span class="fc bfc" id="L287" title="All 2 branches covered.">                is ResourceHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
-<span class="fc bfc" id="L288" title="All 2 branches covered.">                is FileHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
-<span class="fc" id="L289">                is PathHandler -&gt; flatRequestHandlers(listOf(it.copy(route = nestedRoute)))</span>
+<span class="fc" id="L284">            when (it) {</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">                is FilterHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">                is RouteHandler -&gt; nestedRoute.list().map { r -&gt; it.copy(route = r) }</span>
+<span class="fc bfc" id="L287" title="All 2 branches covered.">                is ExceptionHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">                is CodeHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc bfc" id="L289" title="All 2 branches covered.">                is ResourceHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc bfc" id="L290" title="All 2 branches covered.">                is FileHandler -&gt; listOf(it.copy(route = nestedRoute))</span>
+<span class="fc" id="L291">                is PathHandler -&gt; flatRequestHandlers(listOf(it.copy(route = nestedRoute)))</span>
             }
         }
     }
@@ -302,66 +304,66 @@ import kotlin.reflect.KClass
     }
 
     private fun Call.simpleRequest(settings: CorsSettings) {
-<span class="fc bfc" id="L305" title="All 2 branches covered.">        val origin = request.origin ?: return</span>
-<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (!settings.allowOrigin(origin))</span>
-<span class="nc" id="L307">            halt(403, &quot;Not allowed origin: $origin&quot;)</span>
+<span class="fc bfc" id="L307" title="All 2 branches covered.">        val origin = request.origin ?: return</span>
+<span class="fc bfc" id="L308" title="All 2 branches covered.">        if (!settings.allowOrigin(origin))</span>
+<span class="nc" id="L309">            halt(403, &quot;Not allowed origin: $origin&quot;)</span>
 
-<span class="fc" id="L309">        val accessControlAllowOrigin = settings.accessControlAllowOrigin(origin)</span>
-<span class="fc" id="L310">        response.headers[ALLOW_ORIGIN] = accessControlAllowOrigin</span>
-<span class="fc bfc" id="L311" title="All 2 branches covered.">        if (accessControlAllowOrigin != &quot;*&quot;)</span>
-<span class="fc" id="L312">            response.headers[&quot;Vary&quot;] = &quot;Origin&quot;</span>
+<span class="fc" id="L311">        val accessControlAllowOrigin = settings.accessControlAllowOrigin(origin)</span>
+<span class="fc" id="L312">        response.headers[ALLOW_ORIGIN] = accessControlAllowOrigin</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">        if (accessControlAllowOrigin != &quot;*&quot;)</span>
+<span class="fc" id="L314">            response.headers[&quot;Vary&quot;] = &quot;Origin&quot;</span>
 
-<span class="fc bfc" id="L314" title="All 2 branches covered.">        if (settings.supportCredentials)</span>
-<span class="fc" id="L315">            response.headers[ALLOW_CREDENTIALS] = true</span>
+<span class="fc bfc" id="L316" title="All 2 branches covered.">        if (settings.supportCredentials)</span>
+<span class="fc" id="L317">            response.headers[ALLOW_CREDENTIALS] = true</span>
 
-<span class="fc" id="L317">        val accessControlRequestMethod = request.headers[REQUEST_METHOD]</span>
-<span class="fc bfc" id="L318" title="All 4 branches covered.">        if (request.method == Method.OPTIONS &amp;&amp; accessControlRequestMethod != null)</span>
-<span class="fc" id="L319">            return</span>
+<span class="fc" id="L319">        val accessControlRequestMethod = request.headers[REQUEST_METHOD]</span>
+<span class="fc bfc" id="L320" title="All 4 branches covered.">        if (request.method == Method.OPTIONS &amp;&amp; accessControlRequestMethod != null)</span>
+<span class="fc" id="L321">            return</span>
 
-<span class="fc bfc" id="L321" title="All 2 branches covered.">        if (request.method !in settings.allowedMethods)</span>
-<span class="nc" id="L322">            halt(403, &quot;Not allowed method: ${request.method}&quot;)</span>
+<span class="fc bfc" id="L323" title="All 2 branches covered.">        if (request.method !in settings.allowedMethods)</span>
+<span class="nc" id="L324">            halt(403, &quot;Not allowed method: ${request.method}&quot;)</span>
 
-<span class="fc bfc" id="L324" title="All 4 branches covered.">        if (settings.exposedHeaders.isNotEmpty()) {</span>
-<span class="fc" id="L325">            val requestHeaderNames = request.headersValues.keys.toSet()</span>
-<span class="fc bfc" id="L326" title="All 2 branches covered.">            val requestHeaders = requestHeaderNames.filter { it in settings.exposedHeaders }</span>
+<span class="fc bfc" id="L326" title="All 4 branches covered.">        if (settings.exposedHeaders.isNotEmpty()) {</span>
+<span class="fc" id="L327">            val requestHeaderNames = request.headersValues.keys.toSet()</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">            val requestHeaders = requestHeaderNames.filter { it in settings.exposedHeaders }</span>
 
-<span class="fc" id="L328">            response.headers[EXPOSE_HEADERS] = requestHeaders.joinToString(&quot;,&quot;)</span>
+<span class="fc" id="L330">            response.headers[EXPOSE_HEADERS] = requestHeaders.joinToString(&quot;,&quot;)</span>
         }
-<span class="fc" id="L330">    }</span>
+<span class="fc" id="L332">    }</span>
 
     private fun Call.preFlightRequest(settings: CorsSettings) {
 
-<span class="fc" id="L334">        val methodHeader = request.headers[REQUEST_METHOD]</span>
-<span class="fc bfc" id="L335" title="All 2 branches covered.">        val requestMethod = methodHeader</span>
-<span class="nc" id="L336">            ?: halt(403, &quot;Access-Control-Request-Method required header not found&quot;)</span>
+<span class="fc" id="L336">        val methodHeader = request.headers[REQUEST_METHOD]</span>
+<span class="fc bfc" id="L337" title="All 2 branches covered.">        val requestMethod = methodHeader</span>
+<span class="nc" id="L338">            ?: halt(403, &quot;Access-Control-Request-Method required header not found&quot;)</span>
 
-<span class="fc" id="L338">        val method = Method.valueOf(requestMethod)</span>
-<span class="fc bfc" id="L339" title="All 2 branches covered.">        if (method !in settings.allowedMethods)</span>
-<span class="nc" id="L340">            halt(403, &quot;Not allowed method: $method&quot;)</span>
+<span class="fc" id="L340">        val method = Method.valueOf(requestMethod)</span>
+<span class="fc bfc" id="L341" title="All 2 branches covered.">        if (method !in settings.allowedMethods)</span>
+<span class="nc" id="L342">            halt(403, &quot;Not allowed method: $method&quot;)</span>
 
-<span class="fc bfc" id="L342" title="All 2 branches covered.">        val accessControlRequestHeaders = request.headersValues[REQUEST_HEADERS]</span>
-<span class="fc" id="L343">            ?.firstOrNull()</span>
+<span class="fc bfc" id="L344" title="All 2 branches covered.">        val accessControlRequestHeaders = request.headersValues[REQUEST_HEADERS]</span>
+<span class="fc" id="L345">            ?.firstOrNull()</span>
 
-<span class="fc bfc" id="L345" title="All 2 branches covered.">        if (accessControlRequestHeaders != null) {</span>
-<span class="fc" id="L346">            val allowedHeaders = accessControlRequestHeaders</span>
-<span class="fc" id="L347">                .split(&quot;,&quot;)</span>
-<span class="fc" id="L348">                .map { it.trim() }</span>
-<span class="fc bfc" id="L349" title="All 2 branches covered.">                .all { it in settings.allowedHeaders }</span>
+<span class="fc bfc" id="L347" title="All 2 branches covered.">        if (accessControlRequestHeaders != null) {</span>
+<span class="fc" id="L348">            val allowedHeaders = accessControlRequestHeaders</span>
+<span class="fc" id="L349">                .split(&quot;,&quot;)</span>
+<span class="fc" id="L350">                .map { it.trim() }</span>
+<span class="fc bfc" id="L351" title="All 2 branches covered.">                .all { it in settings.allowedHeaders }</span>
 
-<span class="fc bfc" id="L351" title="All 6 branches covered.">            if (!allowedHeaders &amp;&amp; settings.allowedHeaders.isNotEmpty())</span>
-<span class="nc" id="L352">                halt(403, &quot;Not allowed headers&quot;)</span>
+<span class="fc bfc" id="L353" title="All 6 branches covered.">            if (!allowedHeaders &amp;&amp; settings.allowedHeaders.isNotEmpty())</span>
+<span class="nc" id="L354">                halt(403, &quot;Not allowed headers&quot;)</span>
 
-<span class="fc" id="L354">            val headers = settings.allowedHeaders</span>
-<span class="fc bfc" id="L355" title="All 2 branches covered.">            val requestHeaders = if (headers.isEmpty()) request.headersValues.keys.toSet() else headers</span>
-<span class="fc" id="L356">            response.headers[ALLOW_HEADERS] = requestHeaders.joinToString(&quot;,&quot;)</span>
+<span class="fc" id="L356">            val headers = settings.allowedHeaders</span>
+<span class="fc bfc" id="L357" title="All 2 branches covered.">            val requestHeaders = headers.ifEmpty { request.headersValues.keys.toSet() }</span>
+<span class="fc" id="L358">            response.headers[ALLOW_HEADERS] = requestHeaders.joinToString(&quot;,&quot;)</span>
         }
 
-<span class="fc" id="L359">        response.headers[REQUEST_METHOD] = settings.allowedMethods.joinToString(&quot;,&quot;)</span>
+<span class="fc" id="L361">        response.headers[REQUEST_METHOD] = settings.allowedMethods.joinToString(&quot;,&quot;)</span>
 
-<span class="fc bfc" id="L361" title="All 2 branches covered.">        if (settings.preFlightMaxAge &gt; 0)</span>
-<span class="fc" id="L362">            response.headers[MAX_AGE] = settings.preFlightMaxAge</span>
+<span class="fc bfc" id="L363" title="All 2 branches covered.">        if (settings.preFlightMaxAge &gt; 0)</span>
+<span class="fc" id="L364">            response.headers[MAX_AGE] = settings.preFlightMaxAge</span>
 
-<span class="fc" id="L364">        response.status = settings.preFlightStatus</span>
-<span class="fc" id="L365">    }</span>
-<span class="fc" id="L366">}</span>
+<span class="fc" id="L366">        response.status = settings.preFlightStatus</span>
+<span class="fc" id="L367">    }</span>
+<span class="fc" id="L368">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

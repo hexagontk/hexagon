@@ -24,7 +24,7 @@ object Jvm {
     /** Default character set. */
 <span class="fc" id="L25">    val charset: Charset by lazy { Charset.defaultCharset() }</span>
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** Default locale for this instance of the Java Virtual Machine. */
 <span class="fc" id="L28">    val locale: Locale by lazy { Locale.getDefault() }</span>
 
     /** The hostname of the machine running this program. */
@@ -33,22 +33,22 @@ object Jvm {
     /** The IP address of the machine running this program. */
 <span class="fc" id="L34">    val ip: String by lazy { InetAddress.getLocalHost().hostAddress }</span>
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** ID representing the running Java virtual machine */
 <span class="fc" id="L37">    val id: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().name } }</span>
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** Name of the JVM running this program. For example: OpenJDK 64-Bit Server VM. */
 <span class="fc" id="L40">    val name: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().vmName } }</span>
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** Java version aka language level. For example: 11 */
 <span class="fc" id="L43">    val version: String by lazy { safeJmx { ManagementFactory.getRuntimeMXBean().specVersion } }</span>
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** Number of processors available to the Java virtual machine. */
 <span class="fc" id="L46">    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }</span>
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** User Time Zone property. Can be set with -Duser.timezone JVM argument. */
 <span class="fc" id="L49">    val timezone: String by lazy { System.getProperty(&quot;user.timezone&quot;) }</span>
 
-    /** [TODO](https://github.com/hexagonkt/hexagon/issues/271). */
+    /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
 <span class="fc" id="L52">    val localeCode: String by lazy {</span>
 <span class="fc" id="L53">        &quot;%s_%s.%s&quot;.format(</span>
 <span class="fc" id="L54">            System.getProperty(&quot;user.language&quot;),</span>

@@ -75,10 +75,12 @@ fun parseQueryParameters (query: String): Map&lt;String, List&lt;String&gt;&gt; 
 <span class="fc" id="L75">            .groupBy { it.first }</span>
 <span class="fc" id="L76">            .mapValues { pair -&gt; pair.value.map { it.second } }</span>
 
-<span class="fc" id="L78">fun httpDate (date: LocalDateTime = LocalDateTime.now()): String =</span>
+<span class="fc" id="L78">fun httpDate(date: LocalDateTime = LocalDateTime.now()): String =</span>
 <span class="fc" id="L79">    RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of(&quot;GMT&quot;)))</span>
 
-<span class="fc" id="L81">fun String.urlDecode(): String = URLDecoder.decode(this, charset.name())</span>
+fun String.urlDecode(): String =
+<span class="fc" id="L82">    URLDecoder.decode(this, charset.name())</span>
 
-<span class="fc" id="L83">fun String.urlEncode(): String = URLEncoder.encode(this, charset.name())</span>
+fun String.urlEncode(): String =
+<span class="fc" id="L85">    URLEncoder.encode(this, charset.name())</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

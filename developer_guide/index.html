@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://hexagonkt.com/developer_guide/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.0">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.1">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.8b42a75e.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.1c75ef36.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -987,12 +987,12 @@ kinds of modules:</p>
   <a href="/hexagon_scheduler/">hexagon_scheduler</a> or <a href="/hexagon_core/">hexagon_core</a>. Their name always starts with the <code>hexagon_</code> prefix. These
   modules can depend on several Ports, but never on Adapters (see below).</li>
 <li>Modules that define one or more related "Ports": these are interfaces to a feature that may have
-  different implementations (i.e., <a href="/port_http_server/">port_http_server</a> or <a href="/port_store/">port_store</a>). They cannot be used by
+  different implementations (i.e., <a href="/port_http_server/">port_http_server</a> or <a href="/port_templates/">port_templates</a>). They cannot be used by
   themselves and in their place, an adapter implementing them should be added to the list of
   dependencies. These modules' names start with the <code>port_</code> prefix. Ports are independent of each
   other.</li>
-<li>Adapter modules, which are Port implementations for a given tool, <a href="/store_mongodb/">store_mongodb</a>, and
-  <a href="/messaging_rabbitmq/">messaging_rabbitmq</a> are examples of this type of module. Adapter names must start with their
+<li>Adapter modules, which are Port implementations for a given tool, <a href="/http_client_ahc/">http_client_ahc</a>, and
+  <a href="/http_server_jetty/">http_server_jetty</a> are examples of this type of module. Adapter names must start with their
   port name.</li>
 </ul>
 <h2 id="hexagon-core">Hexagon Core<a class="headerlink" href="#hexagon-core" title="Permanent link">&para;</a></h2>
@@ -1022,8 +1022,6 @@ a particular use case.</p>
 <ul>
 <li><a href="/port_http_server/">HTTP Server</a>: describes how to use HTTP routing and HTML templates for Web services.</li>
 <li><a href="/port_http_client/">HTTP Client</a>: documentation to use the HTTP client module to connect to other services.</li>
-<li><a href="/port_store/">Storage</a>: gives an overview of how to store data using different data stores.</li>
-<li><a href="/port_messaging/">Messaging</a>: how to support asynchronous communication with messages through message brokers.</li>
 <li><a href="/port_templates/">Templates</a>: describes how to render pages using template engines.</li>
 </ul>
                 
@@ -1191,10 +1189,10 @@ a particular use case.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.f8263e09.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.e99e714c.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.4fc53ad4.min.js"></script>
+      <script src="../assets/javascripts/bundle.c7d1b464.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       
