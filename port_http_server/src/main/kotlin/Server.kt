@@ -130,11 +130,6 @@ data class Server(
 
     private fun createBanner(startUpTimestamp: Long): String {
 
-        // TODO Print selected features with a tick
-        // TODO Print selected protocol with a tick
-        // TODO Print passed options values
-        // TODO Use emojis (like rocket launch... just for fun)
-
         val heap = getMemoryMXBean().heapMemoryUsage
         val jvmMemory = "%,d".format(heap.init / 1024)
         val usedMemory = "%,d".format(heap.used / 1024)
@@ -177,7 +172,7 @@ data class Server(
             Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue
 
             Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue
-            Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else ""}
+            Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else "" } 🚀🚀
 
         """.trimIndent()
 
