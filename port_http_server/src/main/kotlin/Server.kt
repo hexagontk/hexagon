@@ -131,7 +131,6 @@ data class Server(
     internal fun createBanner(startUpTimestamp: Long): String {
 
         // TODO Print passed options values
-        // TODO Use emojis (like rocket launch... just for fun)
 
         val heap = getMemoryMXBean().heapMemoryUsage
         val jvmMemory = "%,d".format(heap.init / 1024)
@@ -145,14 +144,17 @@ data class Server(
         val binding = "$scheme://$hostName:$runtimePort"
 
         val serverAdapterValue = "$BOLD$CYAN$portName$RESET"
+
         val protocols = adapter.supportedProtocols()
-            .joinToString("$RESET, $CYAN", CYAN, RESET) { p ->
-                if (p == settings.protocol) "✅ $p" else "$p"
+            .joinToString("$RESET, $CYAN", CYAN, RESET) {
+                if (it == settings.protocol) "✅$it" else "$it"
             }
+
         val features = adapter.supportedFeatures()
-            .joinToString("$RESET, $CYAN", CYAN, RESET) { f ->
-                if (settings.features.contains(f)) "✅ $f" else "$f"
+            .joinToString("$RESET, $CYAN", CYAN, RESET) {
+                if (settings.features.contains(it)) "✅$it" else "$it"
             }
+
         val options = adapter.supportedOptions().joinToString("$RESET, $CYAN", CYAN, RESET)
 
         val hostnameValue = "$BLUE$hostname$RESET"
@@ -176,12 +178,12 @@ data class Server(
             Supported Features: $features
             Configuration Options: $options
 
-            Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB
-            Using $javaVersionValue
-            Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue
+            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB
+            🛠 Using $javaVersionValue
+            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue
 
-            Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue
-            Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else "" } 🚀🚀
+            ⏱ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue
+            🚀 Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else "" }
 
         """.trimIndent()
 

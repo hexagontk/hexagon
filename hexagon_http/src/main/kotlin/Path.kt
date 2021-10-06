@@ -54,7 +54,7 @@ data class Path(val pattern: String) {
                     Pair(true, false) ->
                         it.replace(WILDCARD, "(.*?)")
                     Pair(false, true) ->
-                        it.replace(PARAMETER_REGEX, "(.+?)")
+                        it.replace(PARAMETER_REGEX, "(.*?)")
                     else -> null
                 }
             }
