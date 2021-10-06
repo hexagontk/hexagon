@@ -181,7 +181,7 @@ data class Server(
             Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue
 
             Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue
-            Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else ""}
+            Served at $bindingValue${if (protocol == HTTP2) " (HTTP/2)" else "" } 🚀🚀
 
         """.trimIndent()
 

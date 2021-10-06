@@ -29,11 +29,6 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>hexagon_scheduler</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagonkt</groupId>
         <artifactId>hexagon_web</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
@@ -64,27 +59,12 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>messaging_rabbitmq</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagonkt</groupId>
         <artifactId>port_http_client</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
         <artifactId>port_http_server</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagonkt</groupId>
-        <artifactId>port_messaging</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagonkt</groupId>
-        <artifactId>port_store</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -110,11 +90,6 @@
       <dependency>
         <groupId>com.hexagonkt</groupId>
         <artifactId>serialization_yaml</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagonkt</groupId>
-        <artifactId>store_mongodb</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
