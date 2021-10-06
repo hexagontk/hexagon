@@ -57,14 +57,15 @@ internal class ServerTest {
             banner = bannerPrefix,
             features = setOf(SESSIONS)
         )
-        val server = serve(serverSettings, VoidAdapter) {}
 
-        val now = System.currentTimeMillis()
-        val createdBanner = server.createBanner(now)
+        val server = serve(serverSettings, VoidAdapter) {}
+        val createdBanner = server.createBanner(System.currentTimeMillis())
+        server.stop()
 
         assertEquals(bannerPrefix, createdBanner.lines()[0].trimIndent())
-        assertContains(createdBanner, "✅ HTTP" )
-        assertFalse(createdBanner.contains("✅ HTTPS"))
-        assertContains(createdBanner, "✅ SESSIONS" )
+        assertContains(createdBanner, "✅HTTP" )
+        assertFalse(createdBanner.contains("✅HTTPS"))
+        assertContains(createdBanner, "✅SESSIONS" )
+        assertFalse(createdBanner.contains("✅ZIP"))
     }
 }
