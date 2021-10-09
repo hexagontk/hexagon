@@ -1,10 +1,11 @@
 package com.hexagonkt.logging
 
+
 /** Default logger for when you feel too lazy to declare one. */
 val logger: Logger by lazy { Logger(Logger::class) }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Uses this [T] to log a message with a prefix using [TRACE][LoggingLevel.TRACE] level.
  *
  * com.hexagonkt.logging.Logger must have TRACE level
  *
@@ -18,7 +19,7 @@ fun <T> T.trace(prefix: String = ""): T =
     apply { logger.trace { "$prefix$this" } }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Uses this [T] to log a message with a prefix using [DEBUG][LoggingLevel.DEBUG] level.
  *
  * com.hexagonkt.logging.Logger must have DEBUG level
  *
@@ -32,7 +33,7 @@ fun <T> T.debug(prefix: String = ""): T =
     apply { logger.debug { "$prefix$this" } }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Uses this [T] to log a message with a prefix using [INFO][LoggingLevel.INFO] level.
  *
  * com.hexagonkt.logging.Logger must have INFO level
  *

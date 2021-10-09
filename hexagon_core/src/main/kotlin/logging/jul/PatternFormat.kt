@@ -17,6 +17,11 @@ import java.util.logging.Formatter
 import java.util.logging.Level
 import java.util.logging.LogRecord
 
+/**
+ * A Formatter implements [Formatter] provides support for formatting Logs.
+ *
+ * @property [useColor] use a color to log messages.
+ */
 class PatternFormat(private val useColor: Boolean = true) : Formatter() {
 
     private companion object {
