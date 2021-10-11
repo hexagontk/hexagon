@@ -1,13 +1,14 @@
 package com.hexagonkt.logging
 
 /**
- * Logger logging level values:
- * - [TRACE][LoggingLevel.TRACE].
- * - [DEBUG][LoggingLevel.DEBUG].
- * - [INFO][LoggingLevel.INFO].
- * - [WARN][LoggingLevel.WARN].
- * - [ERROR][LoggingLevel.ERROR].
- * - [OFF][LoggingLevel.OFF].
+ * Logger logging level values.
+ *
+ * @property TRACE .
+ * @property DEBUG .
+ * @property INFO .
+ * @property WARN .
+ * @property ERROR .
+ * @property OFF .
  */
 enum class LoggingLevel {
     TRACE,

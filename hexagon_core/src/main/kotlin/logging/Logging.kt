@@ -1,6 +1,5 @@
 package com.hexagonkt.logging
 
-
 /** Default logger for when you feel too lazy to declare one. */
 val logger: Logger by lazy { Logger(Logger::class) }
 

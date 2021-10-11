@@ -1,26 +1,22 @@
 package com.hexagonkt.logging
 
 /**
- * Logging Contract for:
- * - Creating logger [createLogger].
- * - Setting the logging level [setLoggerLevel].
+ * Logging Contract for integrating different logging libraries.
  */
 interface LoggingPort {
 
     /**
-     * Creates [LoggerPort] by name.
+     * Create [Logger][LoggerPort] with name.
      *
-     * @param [name] Logger name.
+     * @param name Logger name.
      */
     fun createLogger(name: String): LoggerPort
 
     /**
-     * Indicates logging level of a logger.
+     * Set logging level for a logger.
      *
-     * @param [name] Logger name.
-     * @param [level] One of the logging levels identifiers, e.g., TRACE
-     *
-     * @see [LoggingLevel]
+     * @param name Logger name.
+     * @param level One of the logging levels identifiers, e.g., TRACE
      */
     fun setLoggerLevel(name: String, level: LoggingLevel)
 }

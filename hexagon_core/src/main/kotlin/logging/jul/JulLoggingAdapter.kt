@@ -13,7 +13,7 @@ import java.util.logging.Level
 import java.util.logging.Logger as JulLogger
 
 /**
- * Implements  [LoggingPort] using [Logger][JulLogger].
+ * Implements [LoggingPort] using [Logger][JulLogger].
  */
 object JulLoggingAdapter : LoggingPort {
 
