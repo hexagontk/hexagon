@@ -20,7 +20,7 @@ import java.util.logging.LogRecord
 /**
  * A Formatter implements [Formatter] provides support for formatting Logs.
  *
- * @property [useColor] use a color to log messages.
+ * @property useColor use a color to log messages.
  */
 class PatternFormat(private val useColor: Boolean = true) : Formatter() {
 

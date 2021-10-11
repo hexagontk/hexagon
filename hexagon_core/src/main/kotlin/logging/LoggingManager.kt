@@ -13,9 +13,8 @@ object LoggingManager {
     /**
      * Set a logger logging level by name.
      *
-     * @param [name] Logger name.
-     * @param [level] One of the logging levels identifiers, e.g., TRACE
-     * @see [LoggingLevel]
+     * @param name Logger name.
+     * @param level One of the logging levels identifiers, e.g., TRACE
      */
     fun setLoggerLevel(name: String, level: LoggingLevel) {
         adapter.setLoggerLevel(name, level)
@@ -24,9 +23,8 @@ object LoggingManager {
     /**
      * Set a logging level for a logger with a class instance.
      *
-     * @param [instance] class instance.
-     * @param [level] One of the logging levels identifiers, e.g., TRACE
-     * @see [LoggingLevel]
+     * @param instance class instance.
+     * @param level One of the logging levels identifiers, e.g., TRACE
      */
     fun setLoggerLevel(instance: Any, level: LoggingLevel) {
         setLoggerLevel(instance::class, level)
@@ -35,9 +33,8 @@ object LoggingManager {
     /**
      * Set a logging level for a logger with a class name.
      *
-     * @param [type] Class type.
-     * @param [level] One of the logging levels identifiers, e.g., TRACE
-     * @see [LoggingLevel]
+     * @param type Class type.
+     * @param level One of the logging levels identifiers, e.g., TRACE
      */
     fun setLoggerLevel(type: KClass<*>, level: LoggingLevel) {
         setLoggerLevel(type.qualifiedName ?: fail, level)
@@ -46,8 +43,7 @@ object LoggingManager {
     /**
      * Set a logger logging level for a logger with a default name.
      *
-     * @param [level] One of the logging levels identifiers, e.g., TRACE
-     * @see [LoggingLevel]
+     * @param level One of the logging levels identifiers, e.g., TRACE
      */
     fun setLoggerLevel(level: LoggingLevel) {
         setLoggerLevel("", level)
