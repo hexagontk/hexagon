@@ -95,11 +95,12 @@ object Jvm {
             throw IllegalStateException(NO_JMX_ERROR, e)
         }
 
+    fun systemFlag(name: String): Boolean =
+        systemSetting(Boolean::class, name) ?: false
+
     inline fun <reified T: Any> systemSetting(name: String): T? =
         systemSetting(T::class, name)
 
     private fun systemSettingRaw(name: String): String? =
         System.getProperty(name) ?: System.getenv(name)
-
-    // TODO Add command line parsing 'Options' and 'Commands' (maybe in its own package: `cli`)
 }

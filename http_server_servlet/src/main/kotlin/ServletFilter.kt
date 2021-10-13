@@ -184,20 +184,14 @@ class ServletFilter(router: List<RequestHandler>, serverSettings: ServerSettings
             handleException(e, call)
         }
         finally {
-            // TODO Try needed because of a problem with Jetty's response redirect: fix and remove
-            try {
-                call.response.headersValues.forEach { header ->
-                    header.value.forEach { value ->
-                        servletResponse.addHeader(header.key, value.toString())
-                    }
+            call.response.headersValues.forEach { header ->
+                header.value.forEach { value ->
+                    servletResponse.addHeader(header.key, value.toString())
                 }
-                servletResponse.status = call.response.status
-                servletResponse.outputStream.write(call.response.body.toString().toByteArray())
-                servletResponse.outputStream.flush()
             }
-            catch (e: Exception) {
-                log.warn(e) { "Error handling request: ${requestAdapter.actionPath}" }
-            }
+            servletResponse.status = call.response.status
+            servletResponse.outputStream.write(call.response.body.toString().toByteArray())
+            servletResponse.outputStream.flush()
 
             log.trace { "Status ${servletResponse.status} <${if (handled) "" else "NOT "}HANDLED>" }
         }

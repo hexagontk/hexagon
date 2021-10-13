@@ -133,7 +133,7 @@
   </dependencyManagement>
 
   <build>
-    <defaultGoal>test</defaultGoal>
+    <defaultGoal>verify</defaultGoal>
     <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 
@@ -228,6 +228,13 @@
             <execution>
               <goals>
                 <goal>prepare-agent</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>report</id>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>report</goal>
               </goals>
             </execution>
           </executions>

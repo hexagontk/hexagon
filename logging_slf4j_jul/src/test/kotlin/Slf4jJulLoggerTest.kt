@@ -24,6 +24,7 @@ internal class Slf4jJulLoggerTest {
     }
 
     private fun traceAll(logger: Logger, level: LoggingLevel) {
+        LoggingManager.setLoggerLevel(this::class, level)
         LoggingManager.setLoggerLevel(this, level)
         logger.trace { 42 }
         logger.debug { true }
