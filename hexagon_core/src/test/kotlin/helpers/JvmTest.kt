@@ -4,11 +4,22 @@ import com.hexagonkt.helpers.Jvm.NO_JMX_ERROR
 import org.junit.jupiter.api.Test
 import java.lang.management.ManagementFactory
 import java.net.Inet4Address
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertNull
+import kotlin.test.*
 
 internal class JvmTest {
+
+    @Test fun `'systemFlag' returns true on defined boolean parameter`() {
+        assertFalse { Jvm.systemFlag("TEST_FLAG") }
+        System.setProperty("TEST_FLAG", "false")
+        assertFalse { Jvm.systemFlag("TEST_FLAG") }
+        System.setProperty("TEST_FLAG", "T")
+        assertFalse { Jvm.systemFlag("TEST_FLAG") }
+        System.setProperty("TEST_FLAG", "True")
+        assertFalse { Jvm.systemFlag("TEST_FLAG") }
+        System.setProperty("TEST_FLAG", "true")
+        assertTrue { Jvm.systemFlag("TEST_FLAG") }
+        System.clearProperty("TEST_FLAG")
+    }
 
     @Test fun `'hostname' and 'ip' contains valid values` () {
         val ipv6Segment = "[0-9a-zA-Z]{0,4}"
