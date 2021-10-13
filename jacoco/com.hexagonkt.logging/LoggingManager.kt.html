@@ -5,25 +5,48 @@ import com.hexagonkt.logging.jul.JulLoggingAdapter
 import kotlin.reflect.KClass
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Manages Logs using [JulLoggingAdapter]
  */
 object LoggingManager {
 <span class="fc" id="L11">    var adapter: LoggingPort = JulLoggingAdapter</span>
 
+    /**
+     * Set a logger logging level by name.
+     *
+     * @param name Logger name.
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     */
     fun setLoggerLevel(name: String, level: LoggingLevel) {
-<span class="fc" id="L14">        adapter.setLoggerLevel(name, level)</span>
-<span class="fc" id="L15">    }</span>
+<span class="fc" id="L20">        adapter.setLoggerLevel(name, level)</span>
+<span class="fc" id="L21">    }</span>
 
+    /**
+     * Set a logging level for a logger with a class instance.
+     *
+     * @param instance class instance.
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     */
     fun setLoggerLevel(instance: Any, level: LoggingLevel) {
-<span class="fc" id="L18">        setLoggerLevel(instance::class, level)</span>
-<span class="fc" id="L19">    }</span>
+<span class="fc" id="L30">        setLoggerLevel(instance::class, level)</span>
+<span class="fc" id="L31">    }</span>
 
+    /**
+     * Set a logging level for a logger with a class name.
+     *
+     * @param type Class type.
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     */
     fun setLoggerLevel(type: KClass&lt;*&gt;, level: LoggingLevel) {
-<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        setLoggerLevel(type.qualifiedName ?: fail, level)</span>
-<span class="fc" id="L23">    }</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        setLoggerLevel(type.qualifiedName ?: fail, level)</span>
+<span class="fc" id="L41">    }</span>
 
+    /**
+     * Set a logger logging level for a logger with a default name.
+     *
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     */
     fun setLoggerLevel(level: LoggingLevel) {
-<span class="fc" id="L26">        setLoggerLevel(&quot;&quot;, level)</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L49">        setLoggerLevel(&quot;&quot;, level)</span>
+<span class="fc" id="L50">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

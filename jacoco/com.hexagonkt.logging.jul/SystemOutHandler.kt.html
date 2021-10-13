@@ -5,17 +5,22 @@ import java.util.logging.Level
 import java.util.logging.LogRecord
 import java.util.logging.StreamHandler
 
-<span class="fc" id="L8">class SystemOutHandler(handlerFormatter: Formatter = PatternFormat()) : StreamHandler() {</span>
+/**
+ * Create a StreamHandler with a given [Formatter].
+ *
+ * @param handlerFormatter Formatter with a default value PatternFormatter object.
+ */
+<span class="fc" id="L13">class SystemOutHandler(handlerFormatter: Formatter = PatternFormat()) : StreamHandler() {</span>
 
     override fun publish(record: LogRecord) {
-<span class="fc" id="L11">        super.publish(record)</span>
-<span class="fc" id="L12">        flush()</span>
-<span class="fc" id="L13">    }</span>
+<span class="fc" id="L16">        super.publish(record)</span>
+<span class="fc" id="L17">        flush()</span>
+<span class="fc" id="L18">    }</span>
 
-<span class="fc" id="L15">    init {</span>
-<span class="fc" id="L16">        setOutputStream(System.out)</span>
-<span class="fc" id="L17">        formatter = handlerFormatter</span>
-<span class="fc" id="L18">        level = Level.ALL</span>
-<span class="fc" id="L19">    }</span>
-<span class="fc" id="L20">}</span>
+<span class="fc" id="L20">    init {</span>
+<span class="fc" id="L21">        setOutputStream(System.out)</span>
+<span class="fc" id="L22">        formatter = handlerFormatter</span>
+<span class="fc" id="L23">        level = Level.ALL</span>
+<span class="fc" id="L24">    }</span>
+<span class="fc" id="L25">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

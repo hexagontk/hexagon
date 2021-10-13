@@ -128,61 +128,67 @@ import java.lang.System.nanoTime
 <span class="fc" id="L128">        log.info { &quot;Server stopped&quot; }</span>
 <span class="fc" id="L129">    }</span>
 
-    private fun createBanner(startUpTimestamp: Long): String {
+    internal fun createBanner(startUpTimestamp: Long): String {
 
-        // TODO Print selected features with a tick
-        // TODO Print selected protocol with a tick
         // TODO Print passed options values
-        // TODO Use emojis (like rocket launch... just for fun)
 
-<span class="fc" id="L138">        val heap = getMemoryMXBean().heapMemoryUsage</span>
-<span class="fc" id="L139">        val jvmMemory = &quot;%,d&quot;.format(heap.init / 1024)</span>
-<span class="fc" id="L140">        val usedMemory = &quot;%,d&quot;.format(heap.used / 1024)</span>
-<span class="fc" id="L141">        val bootTime = &quot;%01.3f&quot;.format(getRuntimeMXBean().uptime / 1e3)</span>
-<span class="fc" id="L142">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
-<span class="fc" id="L143">        val bindAddress = settings.bindAddress</span>
-<span class="fc" id="L144">        val protocol = settings.protocol</span>
-<span class="fc bfc" id="L145" title="All 2 branches covered.">        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName</span>
-<span class="fc bfc" id="L146" title="All 2 branches covered.">        val scheme = if (protocol == HTTP) &quot;http&quot; else &quot;https&quot;</span>
-<span class="fc" id="L147">        val binding = &quot;$scheme://$hostName:$runtimePort&quot;</span>
+<span class="fc" id="L135">        val heap = getMemoryMXBean().heapMemoryUsage</span>
+<span class="fc" id="L136">        val jvmMemory = &quot;%,d&quot;.format(heap.init / 1024)</span>
+<span class="fc" id="L137">        val usedMemory = &quot;%,d&quot;.format(heap.used / 1024)</span>
+<span class="fc" id="L138">        val bootTime = &quot;%01.3f&quot;.format(getRuntimeMXBean().uptime / 1e3)</span>
+<span class="fc" id="L139">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
+<span class="fc" id="L140">        val bindAddress = settings.bindAddress</span>
+<span class="fc" id="L141">        val protocol = settings.protocol</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        val scheme = if (protocol == HTTP) &quot;http&quot; else &quot;https&quot;</span>
+<span class="fc" id="L144">        val binding = &quot;$scheme://$hostName:$runtimePort&quot;</span>
 
-<span class="fc" id="L149">        val serverAdapterValue = &quot;$BOLD$CYAN$portName$RESET&quot;</span>
-<span class="fc" id="L150">        val protocols = adapter.supportedProtocols().joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET)</span>
-<span class="fc" id="L151">        val features = adapter.supportedFeatures().joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET)</span>
-<span class="fc" id="L152">        val options = adapter.supportedOptions().joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET)</span>
+<span class="fc" id="L146">        val serverAdapterValue = &quot;$BOLD$CYAN$portName$RESET&quot;</span>
 
-<span class="fc" id="L154">        val hostnameValue = &quot;$BLUE$hostname$RESET&quot;</span>
-<span class="fc" id="L155">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
-<span class="fc" id="L156">        val jvmMemoryValue = &quot;$BLUE$jvmMemory$RESET&quot;</span>
+<span class="fc" id="L148">        val protocols = adapter.supportedProtocols()</span>
+<span class="fc" id="L149">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) {</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">                if (it == settings.protocol) &quot;✅$it&quot; else &quot;$it&quot;</span>
+            }
 
-<span class="fc" id="L158">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
+<span class="fc" id="L153">        val features = adapter.supportedFeatures()</span>
+<span class="fc" id="L154">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) {</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">                if (settings.features.contains(it)) &quot;✅$it&quot; else &quot;$it&quot;</span>
+            }
 
-<span class="fc" id="L160">        val localeValue = &quot;$BLUE$localeCode$RESET&quot;</span>
-<span class="fc" id="L161">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
-<span class="fc" id="L162">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
+<span class="fc" id="L158">        val options = adapter.supportedOptions().joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET)</span>
 
-<span class="fc" id="L164">        val bootTimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
-<span class="fc" id="L165">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
-<span class="fc" id="L166">        val usedMemoryValue = &quot;$BOLD$MAGENTA$usedMemory KB$RESET&quot;</span>
-<span class="fc" id="L167">        val bindingValue = &quot;$BLUE$UNDERLINE$binding$RESET&quot;</span>
+<span class="fc" id="L160">        val hostnameValue = &quot;$BLUE$hostname$RESET&quot;</span>
+<span class="fc" id="L161">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
+<span class="fc" id="L162">        val jvmMemoryValue = &quot;$BLUE$jvmMemory$RESET&quot;</span>
 
-<span class="fc" id="L169">        val information = &quot;&quot;&quot;</span>
+<span class="fc" id="L164">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
 
-<span class="fc" id="L171">            Server Adapter: $serverAdapterValue ($protocols)</span>
-<span class="fc" id="L172">            Supported Features: $features</span>
-<span class="fc" id="L173">            Configuration Options: $options</span>
+<span class="fc" id="L166">        val localeValue = &quot;$BLUE$localeCode$RESET&quot;</span>
+<span class="fc" id="L167">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
+<span class="fc" id="L168">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
 
-<span class="fc" id="L175">            Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
-<span class="fc" id="L176">            Using $javaVersionValue</span>
-<span class="fc" id="L177">            Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
+<span class="fc" id="L170">        val bootTimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
+<span class="fc" id="L171">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
+<span class="fc" id="L172">        val usedMemoryValue = &quot;$BOLD$MAGENTA$usedMemory KB$RESET&quot;</span>
+<span class="fc" id="L173">        val bindingValue = &quot;$BLUE$UNDERLINE$binding$RESET&quot;</span>
 
-<span class="fc" id="L179">            Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
-<span class="fc bfc" id="L180" title="All 2 branches covered.">            Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot;}</span>
+<span class="fc" id="L175">        val information = &quot;&quot;&quot;</span>
 
-<span class="fc" id="L182">        &quot;&quot;&quot;.trimIndent()</span>
+<span class="fc" id="L177">            Server Adapter: $serverAdapterValue ($protocols)</span>
+<span class="fc" id="L178">            Supported Features: $features</span>
+<span class="fc" id="L179">            Configuration Options: $options</span>
 
-<span class="fc bfc" id="L184" title="All 4 branches covered.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information</span>
-<span class="fc" id="L185">        return banner.prependIndent()</span>
+<span class="fc" id="L181">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
+<span class="fc" id="L182">            🛠 Using $javaVersionValue</span>
+<span class="fc" id="L183">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
+
+<span class="fc" id="L185">            ⏱ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
+
+<span class="fc" id="L188">        &quot;&quot;&quot;.trimIndent()</span>
+
+<span class="fc bfc" id="L190" title="All 4 branches covered.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information</span>
+<span class="fc" id="L191">        return banner.prependIndent()</span>
     }
-<span class="fc" id="L187">}</span>
+<span class="fc" id="L193">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

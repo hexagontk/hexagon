@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoggingLevel.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.logging</a> &gt; <span class="el_source">LoggingLevel.kt</span></div><h1>LoggingLevel.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.logging
 
+/**
+ * Logger logging level values.
+ *
+ * @property TRACE Used for low level details that are logged very often.
+ * @property DEBUG Useful information to diagnose problems or failures.
+ * @property INFO Only used for really useful information that is not written very often.
+ * @property WARN To notify that something failed and was ignored, but it could be an issue later.
+ * @property ERROR Error that stopped the correct processing of the process.
+ * @property OFF Disable all logging levels.
+ */
 enum class LoggingLevel {
-<span class="fc" id="L4">    TRACE,</span>
-<span class="fc" id="L5">    DEBUG,</span>
-<span class="fc" id="L6">    INFO,</span>
-<span class="fc" id="L7">    WARN,</span>
-<span class="fc" id="L8">    ERROR,</span>
-<span class="fc" id="L9">    OFF,</span>
+<span class="fc" id="L14">    TRACE,</span>
+<span class="fc" id="L15">    DEBUG,</span>
+<span class="fc" id="L16">    INFO,</span>
+<span class="fc" id="L17">    WARN,</span>
+<span class="fc" id="L18">    ERROR,</span>
+<span class="fc" id="L19">    OFF,</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

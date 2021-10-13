@@ -95,12 +95,13 @@ object Jvm {
 <span class="fc" id="L95">            throw IllegalStateException(NO_JMX_ERROR, e)</span>
 <span class="fc" id="L96">        }</span>
 
+    fun systemFlag(name: String): Boolean =
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        systemSetting(Boolean::class, name) ?: false</span>
+
     inline fun &lt;reified T: Any&gt; systemSetting(name: String): T? =
         systemSetting(T::class, name)
 
     private fun systemSettingRaw(name: String): String? =
-<span class="fc bfc" id="L102" title="All 2 branches covered.">        System.getProperty(name) ?: System.getenv(name)</span>
-
-    // TODO Add command line parsing 'Options' and 'Commands' (maybe in its own package: `cli`)
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        System.getProperty(name) ?: System.getenv(name)</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

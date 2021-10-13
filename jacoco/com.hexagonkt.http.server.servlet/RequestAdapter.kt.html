@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest
 <span class="fc" id="L20">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
     }
 
-<span class="fc" id="L23">    var actionPath: Path? = null</span>
+<span class="pc" id="L23">    var actionPath: Path? = null</span>
 
 <span class="fc bfc" id="L25" title="All 4 branches covered.">    override fun path(): String = if (req.servletPath.isEmpty()) req.pathInfo else req.servletPath</span>
 <span class="fc" id="L26">    override fun loadBody(): String = InputStreamReader(req.inputStream).readText()</span>
