@@ -17,28 +17,28 @@ private val base64Decoder: Base64.Decoder = Base64.getDecoder()
 val eol: String by lazy { getProperty("line.separator") }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Encodes the content of this byteArray to base64.
  *
- * @receiver .
- * @return .
+ * @receiver ByteArray to be encoded to base64.
+ * @return The base64 encoded string.
  */
 fun ByteArray.encodeToBase64(): String =
     base64Encoder.encodeToString(this)
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Encodes this string to base64.
  *
- * @receiver .
- * @return .
+ * @receiver String to be encoded to base64.
+ * @return The base64 encoded string.
  */
 fun String.encodeToBase64(): String =
     toByteArray().encodeToBase64()
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Decodes this base64 encoded string.
  *
- * @receiver .
- * @return .
+ * @receiver String encoded to base64.
+ * @return The ByteArray result of decoding the base64 string.
  */
 fun String.decodeBase64(): ByteArray =
     base64Decoder.decode(this)
@@ -64,11 +64,16 @@ fun String.filterVars(parameters: Map<*, *>): String =
         }
 
 /**
- * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ * Filter the target string substituting each key by its value. The keys format resembles Mustache's
+ * one: `{{key}}` and all occurrences are replaced by the supplied value.
  *
- * @receiver .
- * @param parameters .
- * @return .
+ * If a variable does not have a parameter, it is left as it is.
+ *
+ * @param parameters vararg of key/value pairs.
+ * @return The filtered text or the same string if no values are passed or found in the text.
+ * @sample com.hexagonkt.helpers.StringsSamplesTest.filterVarsVarargExample
+ *
+ * @see filterVars
  */
 fun String.filterVars(vararg parameters: Pair<*, *>) =
     this.filterVars(mapOf(*parameters))
