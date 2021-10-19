@@ -17,7 +17,7 @@ private val base64Decoder: Base64.Decoder = Base64.getDecoder()
 val eol: String by lazy { getProperty("line.separator") }
 
 /**
- * Encodes the content of this byteArray to base64.
+ * Encode the content of this byteArray to base64.
  *
  * @receiver ByteArray to be encoded to base64.
  * @return The base64 encoded string.
@@ -26,7 +26,7 @@ fun ByteArray.encodeToBase64(): String =
     base64Encoder.encodeToString(this)
 
 /**
- * Encodes this string to base64.
+ * Encode this string to base64.
  *
  * @receiver String to be encoded to base64.
  * @return The base64 encoded string.
@@ -35,7 +35,7 @@ fun String.encodeToBase64(): String =
     toByteArray().encodeToBase64()
 
 /**
- * Decodes this base64 encoded string.
+ * Decode this base64 encoded string.
  *
  * @receiver String encoded to base64.
  * @return The ByteArray result of decoding the base64 string.
