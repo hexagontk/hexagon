@@ -3,7 +3,7 @@
 
 [Pebble] template engine adapter for Hexagon.
 
-For usage instructions, refer to the [Templates Port documentation](/port_templates/).
+For usage instructions, refer to the [Templates Port documentation](/templates/).
 
 [Pebble]: https://pebbletemplates.io
 

@@ -24,9 +24,9 @@ architecture.
 [^1]: Except the Core module that contains a set of utilities like serialization and logging
 utilities. However, some of these capacities can be replaced by other third party libraries.
 
-[The HTTP server]: /port_http_server/
-[The HTTP client]: /port_http_client/
-[Template Processing]: /port_templates/
+[The HTTP server]: /http_server/
+[The HTTP client]: /http_client/
+[Template Processing]: /templates/
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
@@ -94,12 +94,12 @@ Ports with their provided implementations (Adapters).
 | [Templates]             | [Pebble], [FreeMarker]
 | [Serialization Formats] | [JSON], [YAML]
 
-[HTTP Server]: /port_http_server
+[HTTP Server]: /http_server
 [Jetty]: /http_server_jetty
 [Servlet]: /http_server_servlet
-[HTTP Client]: /port_http_client
+[HTTP Client]: /http_client
 [AHC]: /http_client_ahc
-[Templates]: /port_templates
+[Templates]: /templates
 [Pebble]: /templates_pebble
 [FreeMarker]: /templates_freemarker
 [Serialization Formats]: /core/#serialization

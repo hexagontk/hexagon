@@ -47,9 +47,9 @@ nav:
     - Quick Start: quick_start.md
     - Developer Guide: developer_guide.md
     - Core: core.md
-    - HTTP Server: port_http_server.md
-    - HTTP Client: port_http_client.md
-    - Templates: port_templates.md
+    - HTTP Server: http_server.md
+    - HTTP Client: http_client.md
+    - Templates: templates.md
     - Gradle Helpers: gradle.md
     - Maven Parent POM: maven.md
   - API: api/index.html

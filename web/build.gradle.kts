@@ -6,8 +6,8 @@ apply(from = "../gradle/dokka.gradle")
 extra["basePackage"] = "com.hexagonkt.web"
 
 dependencies {
-    "api"(project(":port_http_server"))
-    "api"(project(":port_templates"))
+    "api"(project(":http_server"))
+    "api"(project(":templates"))
 
     "api"("org.jetbrains.kotlinx:kotlinx-html-jvm:${properties["kotlinxHtmlVersion"]}")
 

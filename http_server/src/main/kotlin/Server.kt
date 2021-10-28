@@ -46,7 +46,7 @@ data class Server(
         $CYAN      \/$BLUE   /  /   /   /$CYAN    T O O L K I T$RESET
         $BLUE          /  /___/   /
         $BLUE         /          /
-        $BLUE         \_________/       https://hexagonkt.com/port_http_server
+        $BLUE         \_________/       https://hexagonkt.com/http_server
         $RESET
         """.trimIndent()
     }

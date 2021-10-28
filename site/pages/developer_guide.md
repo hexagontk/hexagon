@@ -29,7 +29,7 @@ kinds of modules:
   [hexagon_scheduler] or [core]. Their name always starts with the `hexagon_` prefix. These
   modules can depend on several Ports, but never on Adapters (see below).
 * Modules that define one or more related "Ports": these are interfaces to a feature that may have
-  different implementations (i.e., [port_http_server] or [port_templates]). They cannot be used by
+  different implementations (i.e., [http_server] or [templates]). They cannot be used by
   themselves and in their place, an adapter implementing them should be added to the list of
   dependencies. These modules' names start with the `port_` prefix. Ports are independent of each
   other.
@@ -40,8 +40,8 @@ kinds of modules:
 [hexagon_scheduler]: /hexagon_scheduler/
 [core]: /core/
 
-[port_http_server]: /port_http_server/
-[port_templates]: /port_templates/
+[http_server]: /http_server/
+[templates]: /templates/
 
 [http_client_ahc]: /http_client_ahc/
 [http_server_jetty]: /http_server_jetty/
@@ -87,6 +87,6 @@ These are the implemented ports:
 * [HTTP Client]: documentation to use the HTTP client module to connect to other services.
 * [Templates]: describes how to render pages using template engines.
 
-[HTTP Server]: /port_http_server/
-[HTTP Client]: /port_http_client/
-[Templates]: /port_templates/
+[HTTP Server]: /http_server/
+[HTTP Client]: /http_client/
+[Templates]: /templates/

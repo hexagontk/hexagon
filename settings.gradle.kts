@@ -12,9 +12,9 @@ include(
     "web",
 
     // Ports
-    "port_http_client",
-    "port_http_server",
-    "port_templates",
+    "http_client",
+    "http_server",
+    "templates",
 
     // Adapters
     "logging_logback",

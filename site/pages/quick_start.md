@@ -84,4 +84,4 @@ To continue learning about this toolkit, you can:
 [Endpoint]: http://localhost:2010/hello
 [Developer Guide]: /developer_guide/
 [Core]: /core
-[HTTP Server]: /port_http_server
+[HTTP Server]: /http_server

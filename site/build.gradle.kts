@@ -109,7 +109,7 @@ task("checkDocs") {
     doLast {
         val readme = rootProject.file("README.md")
         val service = rootProject.file("http_server_jetty/src/test/kotlin/HelloWorld.kt")
-        val examples = "port_http_server/src/test/kotlin/examples"
+        val examples = "http_server/src/test/kotlin/examples"
 
         checkSamplesCode(FileRange (readme, "hello"), FileRange(service))
         checkSamplesCode(

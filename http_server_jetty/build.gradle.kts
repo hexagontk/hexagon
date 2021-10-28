@@ -7,8 +7,8 @@ apply(from = "../gradle/dokka.gradle")
 
 // IMPORTANT: Required for compiling classes in test dependencies. It *MUST* be before dependencies
 val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.dependsOn(tasks.getByPath(":port_http_server:compileTestKotlin"))
-val httpServerTest: SourceSetOutput = project(":port_http_server").sourceSet("test").output
+compileTestKotlin.dependsOn(tasks.getByPath(":http_server:compileTestKotlin"))
+val httpServerTest: SourceSetOutput = project(":http_server").sourceSet("test").output
 
 extra["basePackage"] = "com.hexagonkt.http.server.jetty"
 

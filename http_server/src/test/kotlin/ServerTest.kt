@@ -23,7 +23,7 @@ internal class ServerTest {
     }
 
     @Test fun `Default banner includes documentation URL`() {
-        assert(Server.banner.contains("https://hexagonkt.com/port_http_server"))
+        assert(Server.banner.contains("https://hexagonkt.com/http_server"))
     }
 
     @Test fun `Default parameters`() {
