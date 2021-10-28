@@ -63,7 +63,7 @@ internal class CsvTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.CsvTest\$Device[\"os\"]")
+            assert(e.field == "com.hexagonkt.serialization.csv.CsvTest\$Device[\"os\"]")
         }
     }
 

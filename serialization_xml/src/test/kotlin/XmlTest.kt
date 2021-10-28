@@ -251,7 +251,7 @@ internal class XmlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.XmlTest\$Device[\"os\"]")
+            assert(e.field == "com.hexagonkt.serialization.xml.XmlTest\$Device[\"os\"]")
         }
     }
 
@@ -294,7 +294,7 @@ internal class XmlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            val fieldFullName = "com.hexagonkt.serialization.XmlTest\$Device[\"os\"]"
+            val fieldFullName = "com.hexagonkt.serialization.xml.XmlTest\$Device[\"os\"]"
             assert(e.field == "java.util.ArrayList[0]->$fieldFullName")
         }
     }

@@ -110,7 +110,7 @@ internal class YamlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.YamlTest\$Device[\"os\"]")
+            assert(e.field == "com.hexagonkt.serialization.yaml.YamlTest\$Device[\"os\"]")
         }
     }
 
@@ -151,7 +151,7 @@ internal class YamlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            val fieldFullName = "com.hexagonkt.serialization.YamlTest\$Device[\"os\"]"
+            val fieldFullName = "com.hexagonkt.serialization.yaml.YamlTest\$Device[\"os\"]"
             assert(e.field == "java.util.ArrayList[0]->$fieldFullName")
         }
     }
