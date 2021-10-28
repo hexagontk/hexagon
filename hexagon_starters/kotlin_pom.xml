@@ -266,7 +266,6 @@
             <samples>
               <dir>${project.build.testSourceDirectory}</dir>
             </samples>
-            <outputDir>${project.build.directory}/site/dokka</outputDir>
           </configuration>
           <executions>
             <execution>

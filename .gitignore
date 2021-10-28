@@ -37,7 +37,6 @@ hs_err_pid*
 
 # Other Tools
 node_modules/
-.java-version
 package-lock.json
 .env
 
