@@ -24,12 +24,12 @@
       <!-- Hexagon -->
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>hexagon_core</artifactId>
+        <artifactId>core</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>hexagon_web</artifactId>
+        <artifactId>web</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>

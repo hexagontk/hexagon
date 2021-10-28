@@ -1,5 +1,5 @@
 
-# Module hexagon_http
+# Module http
 
 This module holds HTTP classes and utilities independent of third party libraries.
 

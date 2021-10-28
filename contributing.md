@@ -50,11 +50,11 @@ use by other projects (check the [Hexagon Structure] section of the readme file 
 
 Aside of that kind of modules, you can also find infrastructure modules: components used by the
 project itself. These are internal modules not intended to be directly used by users (like the
-[hexagon_starters] or the [hexagon_site]).
+[starters] or the [site]).
 
 [Hexagon Structure]: https://github.com/hexagonkt/hexagon/blob/master/README.md#hexagon-structure
-[hexagon_starters]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_starters/README.md
-[hexagon_site]: https://github.com/hexagonkt/hexagon/blob/master/hexagon_site/README.md
+[starters]: https://github.com/hexagonkt/hexagon/blob/master/starters/README.md
+[site]: https://github.com/hexagonkt/hexagon/blob/master/site/README.md
 
 Local Setup
 -----------
@@ -71,7 +71,7 @@ cd hexagon
 ```
 
 The binaries are located in the `/build` directory of each module. The documentation site is in
-`/hexagon_site/build`.
+`/site/build`.
 
 To work more comfortable, you can define some useful aliases like:
 
@@ -101,7 +101,7 @@ This can be done executing the `setUp` task by running: `./gradlew setUp`
 IMPORTANT: For `rabbitmq` container to work properly, you should follow the
 [Docker setup documentation] (inside the "With Docker" section)
 
-If you want to generate the documentation site, check the [site module readme][hexagon_site]
+If you want to generate the documentation site, check the [site module readme][site]
 
 [Docker setup documentation]: https://www.rabbitmq.com/install-debian.html
 [GitHub Actions]: https://github.com/features/actions

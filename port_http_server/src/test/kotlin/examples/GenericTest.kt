@@ -32,9 +32,9 @@ abstract class GenericTest(adapter: ServerPort) {
         val name: String
     )
 
-    private val directory = File("hexagon_site/assets").let {
+    private val directory = File("site/assets").let {
         if (it.exists()) it.path
-        else "../hexagon_site/assets"
+        else "../site/assets"
     }
 
     private val part = "param"

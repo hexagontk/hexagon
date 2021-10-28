@@ -26,7 +26,7 @@ The project is composed of modules, each module provides a single functionality.
 kinds of modules:
 
 * The ones that provide functionality that does not depend on different implementations, like
-  [hexagon_scheduler] or [hexagon_core]. Their name always starts with the `hexagon_` prefix. These
+  [hexagon_scheduler] or [core]. Their name always starts with the `hexagon_` prefix. These
   modules can depend on several Ports, but never on Adapters (see below).
 * Modules that define one or more related "Ports": these are interfaces to a feature that may have
   different implementations (i.e., [port_http_server] or [port_templates]). They cannot be used by
@@ -38,7 +38,7 @@ kinds of modules:
   port name.
 
 [hexagon_scheduler]: /hexagon_scheduler/
-[hexagon_core]: /hexagon_core/
+[core]: /core/
 
 [port_http_server]: /port_http_server/
 [port_templates]: /port_templates/
@@ -48,7 +48,7 @@ kinds of modules:
 
 # Hexagon Core
 
-The [Hexagon Core][hexagon_core] module is used by all other libraries, so it would be added to your
+The [Hexagon Core][core] module is used by all other libraries, so it would be added to your
 project anyway just by using any adapter.
 
 Core utilities like, logging and serialization. Toolkit's ports are designed to use core
@@ -59,8 +59,8 @@ The main features are the following:
 * [Helpers]: JVM information, a logger and other useful utilities.
 * [Objects Serialization]: parse/serialize data in different formats to class instances.
 
-[Helpers]: /hexagon_core/com.hexagonkt.helpers/
-[Objects Serialization]: /hexagon_core/com.hexagonkt.serialization/
+[Helpers]: /core/com.hexagonkt.helpers/
+[Objects Serialization]: /core/com.hexagonkt.serialization/
 
 # Other Modules
 
@@ -73,7 +73,7 @@ use dependencies outside the Hexagon toolkit.
   generating HTML and depends on the [HTTP Server] and [Templates] ports.
 
 [Scheduling]: /hexagon_scheduler/
-[Web]: /hexagon_web/
+[Web]: /web/
 
 # Toolkit Ports
 

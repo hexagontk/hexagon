@@ -36,7 +36,7 @@ internal class SiteKtTest {
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:hexagon_core:#hexagonVersion")
+    implementation("com.hexagonkt:core:#hexagonVersion")
     ```
 ```
 
@@ -46,7 +46,7 @@ internal class SiteKtTest {
     ```xml
     <dependency>
       <groupId>com.hexagonkt</groupId>
-      <artifactId>hexagon_core</artifactId>
+      <artifactId>core</artifactId>
       <version>#hexagonVersion</version>
     </dependency>
     ```
@@ -60,7 +60,7 @@ internal class SiteKtTest {
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:hexagon_core:#hexagonVersion")
+    implementation("com.hexagonkt:core:#hexagonVersion")
     ```
 
 === "pom.xml"
@@ -68,7 +68,7 @@ internal class SiteKtTest {
     ```xml
     <dependency>
       <groupId>com.hexagonkt</groupId>
-      <artifactId>hexagon_core</artifactId>
+      <artifactId>core</artifactId>
       <version>#hexagonVersion</version>
     </dependency>
     ```"""

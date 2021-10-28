@@ -46,7 +46,7 @@ nav:
     - Home: index.md
     - Quick Start: quick_start.md
     - Developer Guide: developer_guide.md
-    - Core: hexagon_core.md
+    - Core: core.md
     - HTTP Server: port_http_server.md
     - HTTP Client: port_http_client.md
     - Templates: port_templates.md

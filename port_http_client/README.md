@@ -85,7 +85,7 @@ format.
 To set up client/server certificates, you need to include [SslSettings] in your [ClientSettings]. In
 the sections below you can see how to configure these parameters.
 
-[SslSettings]: /hexagon_http/com.hexagonkt.http/-ssl-settings
+[SslSettings]: /http/com.hexagonkt.http/-ssl-settings
 [ClientSettings]: /port_http_client/com.hexagonkt.http.client/-client-settings
 
 #### Key Store

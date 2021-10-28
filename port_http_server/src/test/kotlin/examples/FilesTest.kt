@@ -21,9 +21,9 @@ import kotlin.test.assertEquals
 @TestInstance(PER_CLASS)
 abstract class FilesTest(adapter: ServerPort) {
 
-    private val directory = File("hexagon_site/assets").let {
+    private val directory = File("site/assets").let {
         if (it.exists()) it.path
-        else "../hexagon_site/assets"
+        else "../site/assets"
     }
 
     // files

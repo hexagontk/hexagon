@@ -52,7 +52,7 @@ val dokkaConfiguration = mapOf(
 
 // TODO Make this task depend on 'assets' directory to update it upon changes on those CSS files
 rootProject.tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
-    outputDirectory.set(rootProject.file("hexagon_site/content/api"))
+    outputDirectory.set(rootProject.file("site/content/api"))
     pluginsMapConfiguration.set(dokkaConfiguration)
 }
 
@@ -141,7 +141,7 @@ val mkdocsMaterialImage = "squidfunk/mkdocs-material:${properties["mkdocsMateria
 
 tasks.register<Exec>("serveSite") {
     dependsOn("checkDocs")
-    commandLine("$dockerCommand -p 8000:8000 --name hexagon_site $mkdocsMaterialImage".split(" "))
+    commandLine("$dockerCommand -p 8000:8000 --name site $mkdocsMaterialImage".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {

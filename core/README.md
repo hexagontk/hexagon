@@ -1,5 +1,5 @@
 
-# Module hexagon_core
+# Module core
 
 This module holds utilities used in other libraries of the toolkit. Check the packages'
 documentation for more details. You can find a quick recap of the main features in the sections
@@ -18,7 +18,7 @@ desktop application), you can import it with the following code:
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:hexagon_core:$hexagonVersion")
+    implementation("com.hexagonkt:core:$hexagonVersion")
     ```
 
 === "pom.xml"
@@ -26,7 +26,7 @@ desktop application), you can import it with the following code:
     ```xml
     <dependency>
       <groupId>com.hexagonkt</groupId>
-      <artifactId>hexagon_core</artifactId>
+      <artifactId>core</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```
@@ -51,7 +51,7 @@ TODO Add information about the system property that disables JMX.
 
 The following code block shows the most common use cases for the [Logger] class:
 
-@code hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:logger
+@code core/src/test/kotlin/HexagonCoreSamplesTest.kt:logger
 
 By default, Hexagon uses the [Java Util Logging] logging library, you can use any of its
 implementations by just adding another logging adapter as a dependency. Below you can see some
@@ -62,7 +62,7 @@ alternatives:
 
 TODO Add `LoggingManager` examples for changing logging level
 
-[Logger]: /api/hexagon_core/com.hexagonkt.logging/-logger/index.html
+[Logger]: /api/core/com.hexagonkt.logging/-logger/index.html
 [Java Util Logging]:
   https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
@@ -71,7 +71,7 @@ TODO Add `LoggingManager` examples for changing logging level
 The core module has utilities to serialize/parse data classes to JSON and YAML. Read the following
 snippet for details:
 
-@code hexagon_core/src/test/kotlin/HexagonCoreSamplesTest.kt:serializationUsage
+@code core/src/test/kotlin/HexagonCoreSamplesTest.kt:serializationUsage
 
 # Package com.hexagonkt.helpers
 

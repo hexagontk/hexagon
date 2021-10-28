@@ -25,7 +25,7 @@ dependencies {
 
     "testImplementation"(httpServerTest)
     "testImplementation"(project(":http_client_ahc"))
-    "testImplementation"(project(":hexagon_web"))
+    "testImplementation"(project(":web"))
     "testImplementation"(project(":serialization_json"))
     "testImplementation"("ch.qos.logback:logback-classic:$logbackVersion") { exclude("org.slf4j") }
 }

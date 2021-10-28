@@ -83,5 +83,5 @@ To continue learning about this toolkit, you can:
 [Maven]: https://maven.apache.org
 [Endpoint]: http://localhost:2010/hello
 [Developer Guide]: /developer_guide/
-[Core]: /hexagon_core
+[Core]: /core
 [HTTP Server]: /port_http_server

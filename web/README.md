@@ -1,5 +1,5 @@
 
-# Module hexagon_web
+# Module web
 
 Adds utilities for serving HTML pages over HTTP servers. Includes [kotlinx.html] support.
 
@@ -14,7 +14,7 @@ Adds utilities for serving HTML pages over HTTP servers. Includes [kotlinx.html]
         mavenCentral()
     }
 
-    implementation("com.hexagonkt:hexagon_web:$hexagonVersion")
+    implementation("com.hexagonkt:web:$hexagonVersion")
     ```
 
 === "pom.xml"
@@ -22,7 +22,7 @@ Adds utilities for serving HTML pages over HTTP servers. Includes [kotlinx.html]
     ```xml
     <dependency>
       <groupId>com.hexagonkt</groupId>
-      <artifactId>hexagon_web</artifactId>
+      <artifactId>web</artifactId>
       <version>$hexagonVersion</version>
     </dependency>
     ```

@@ -7,10 +7,10 @@ to declare HTTP request handlers.
 Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you
 to switch implementations without changing the service.
 
-The [hexagon_web] module provides utilities on top of this port for Web application development
+The [web] module provides utilities on top of this port for Web application development
 (like templates helpers).
 
-[hexagon_web]: /hexagon_web
+[web]: /web
 
 ### Install the Dependency
 
@@ -252,7 +252,7 @@ Check the next example for details:
 The MIME types of static files are computed from the file extension using the
 [SerializationManager.contentTypeOf()] method.
 
-[SerializationManager.contentTypeOf()]: /hexagon_core/com.hexagonkt.serialization/-serialization-manager/content-type-of/
+[SerializationManager.contentTypeOf()]: /core/com.hexagonkt.serialization/-serialization-manager/content-type-of/
 
 ### CORS
 
@@ -287,13 +287,13 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 
 @code port_http_server/src/test/kotlin/examples/HttpsTest.kt:https
 
-[SslSettings]: /hexagon_core/com.hexagonkt.http/-ssl-settings/
+[SslSettings]: /core/com.hexagonkt.http/-ssl-settings/
 [HTTP/2]: https://en.wikipedia.org/wiki/HTTP/2
 [ALPN]: https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation
 [Gradle]: https://gradle.org
 [create sample certificates]: /gradle/#certificates
 [mutual TLS]: https://en.wikipedia.org/wiki/Mutual_authentication
-[SslSettings.clientAuth]: /hexagon_core/com.hexagonkt.http/-ssl-settings/client-auth
+[SslSettings.clientAuth]: /core/com.hexagonkt.http/-ssl-settings/client-auth
 [Request.certificateChain]: /port_http_server/com.hexagonkt.http.server/-request/certificate-chain
 
 ### Testing

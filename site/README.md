@@ -11,8 +11,8 @@ check more details [here][site build].
 To run the site inside a server for development, execute: `./gradlew serveSite`. The site will be
 served at: [http://localhost:8000](http://localhost:8000). You can also build the site and serve the
 `build` directory using: `python -m SimpleHTTPServer`. Remember to stop the site server after using
-it with: `docker stop hexagon_site`. You can do altogether with:
-`./gradlew serveSite ; docker stop hexagon_site`.
+it with: `docker stop site`. You can do altogether with:
+`./gradlew serveSite ; docker stop site`.
 
 The site properties are loaded from `mkdocs.yml` file. The content from `pages` is copied to
 `content` in order to add the API Markdown to content.

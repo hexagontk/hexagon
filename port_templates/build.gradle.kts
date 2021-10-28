@@ -5,13 +5,13 @@ apply(from = "../gradle/dokka.gradle")
 
 // IMPORTANT: Required for compiling classes in test dependencies. It *MUST* be before dependencies
 val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-compileTestKotlin.dependsOn(tasks.getByPath(":hexagon_core:compileTestKotlin"))
-val coreTest: SourceSetOutput = project(":hexagon_core").sourceSet("test").output
+compileTestKotlin.dependsOn(tasks.getByPath(":core:compileTestKotlin"))
+val coreTest: SourceSetOutput = project(":core").sourceSet("test").output
 
 extra["basePackage"] = "com.hexagonkt.templates"
 
 dependencies {
-    "api"(project(":hexagon_core"))
+    "api"(project(":core"))
 
     "testImplementation"(project(":serialization_yaml"))
     "testImplementation"(coreTest)

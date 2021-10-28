@@ -9,8 +9,8 @@ apply(from = "../gradle/dokka.gradle")
 
 // IMPORTANT: Required for compiling classes in test dependencies. It *MUST* be before dependencies
 val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.dependsOn(tasks.getByPath(":hexagon_core:compileTestKotlin"))
-val coreTest: SourceSetOutput = project(":hexagon_core").sourceSet("test").output
+compileTestKotlin.dependsOn(tasks.getByPath(":core:compileTestKotlin"))
+val coreTest: SourceSetOutput = project(":core").sourceSet("test").output
 
 // Overridden because this test bundle requires the templates
 tasks.named<Jar>("testJar") {
@@ -27,7 +27,7 @@ extra["basePackage"] = "com.hexagonkt.http.server"
 dependencies {
     val swaggerParserVersion = properties["swaggerParserVersion"]
 
-    "api"(project(":hexagon_http"))
+    "api"(project(":http"))
     "testImplementation"(project(":http_client_ahc"))
     "testImplementation"(project(":http_server_jetty"))
 

@@ -45,7 +45,7 @@ package-lock.json
 Thumbs.db
 
 # Added because of custom project settings
-hexagon_site/content/
+site/content/
 
 # Added because IntelliJ Gradle creates it from Detekt plugin
 /config/

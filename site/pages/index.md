@@ -102,6 +102,6 @@ Ports with their provided implementations (Adapters).
 [Templates]: /port_templates
 [Pebble]: /templates_pebble
 [FreeMarker]: /templates_freemarker
-[Serialization Formats]: /hexagon_core/#serialization
-[JSON]: /hexagon_core/com.hexagonkt.serialization/-json
+[Serialization Formats]: /core/#serialization
+[JSON]: /core/com.hexagonkt.serialization/-json
 [YAML]: /serialization_yaml/com.hexagonkt.serialization/-yaml

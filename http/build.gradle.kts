@@ -9,5 +9,5 @@ description = "HTTP classes. These classes are shared among the HTTP client and 
 extra["basePackage"] = "com.hexagonkt.http"
 
 dependencies {
-    "api"(project(":hexagon_core"))
+    "api"(project(":core"))
 }
