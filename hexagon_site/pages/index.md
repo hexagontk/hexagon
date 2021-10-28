@@ -72,8 +72,6 @@ Hexagon's goals and design principles:
 
 * **Kotlin Native**: because of the added complexity of Kotlin Native, focus will be set on the JVM
   platform, native binaries' generation will rely on GraalVM.
-* **Asynchronous by Coroutines**: the goal is to be a Toolkit suited for fast development. On the
-  performance/simplicity trade-off, we'll stick to the first. Async support may come in 3.0 though.
 
 # Architecture
 
