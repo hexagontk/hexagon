@@ -1,6 +1,8 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.serialization.SerializationManager.formats
+import com.hexagonkt.serialization.json.JacksonMapper
+import com.hexagonkt.serialization.json.Json
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS

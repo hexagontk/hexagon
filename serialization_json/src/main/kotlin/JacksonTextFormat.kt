@@ -1,11 +1,12 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.serialization.json
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.ObjectWriter
-import com.hexagonkt.serialization.JacksonHelper.createObjectMapper
+import com.hexagonkt.serialization.SerializationFormat
+import com.hexagonkt.serialization.json.JacksonHelper.createObjectMapper
 import java.io.InputStream
 import java.io.OutputStream
 import kotlin.reflect.KClass

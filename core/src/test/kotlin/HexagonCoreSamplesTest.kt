@@ -3,7 +3,7 @@ package com.hexagonkt
 import com.hexagonkt.helpers.Jvm
 import com.hexagonkt.logging.logger
 import com.hexagonkt.logging.Logger
-import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.json.Json
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize

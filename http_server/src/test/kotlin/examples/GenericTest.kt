@@ -10,8 +10,8 @@ import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Call
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
-import com.hexagonkt.serialization.JacksonMapper
-import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.json.JacksonMapper
+import com.hexagonkt.serialization.json.Json
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.toObject
 import com.hexagonkt.serialization.parse
@@ -316,7 +316,7 @@ abstract class GenericTest(adapter: ServerPort) {
     @Test fun contentType () {
         fun contentType(vararg params: Pair<String, String>) = client.get(
             "/content/type",
-            params.map { it.first to listOf(it.second) }.toMap()
+            params.associate { it.first to listOf(it.second) }
         )
         .body
 

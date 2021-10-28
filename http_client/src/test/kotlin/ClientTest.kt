@@ -11,6 +11,8 @@ import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.http.server.serve
 import com.hexagonkt.serialization.*
+import com.hexagonkt.serialization.json.Json
+import com.hexagonkt.serialization.yaml.Yaml
 import org.junit.jupiter.api.*
 
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS

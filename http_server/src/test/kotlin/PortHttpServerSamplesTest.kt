@@ -9,8 +9,8 @@ import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.Request
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.ServerFeature.SESSIONS
-import com.hexagonkt.serialization.JacksonMapper
-import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.json.JacksonMapper
+import com.hexagonkt.serialization.json.Json
 import com.hexagonkt.serialization.SerializationManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -59,7 +59,7 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
 
         /*
          * You can skip the adapter is you previously bound one
-         * You may also skip the settings an the defaults will be used
+         * You may also skip the settings and the defaults will be used
          */
         val defaultServer = Server(adapter, router = router)
 

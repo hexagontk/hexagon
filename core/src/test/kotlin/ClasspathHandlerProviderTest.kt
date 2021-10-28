@@ -2,8 +2,8 @@ package com.hexagonkt
 
 import com.hexagonkt.logging.LoggingLevel
 import com.hexagonkt.logging.LoggingManager
-import com.hexagonkt.serialization.JacksonMapper
-import com.hexagonkt.serialization.Json
+import com.hexagonkt.serialization.json.JacksonMapper
+import com.hexagonkt.serialization.json.Json
 import com.hexagonkt.serialization.SerializationManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

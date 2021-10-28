@@ -1,6 +1,8 @@
 package com.hexagonkt.serialization
 
 import com.hexagonkt.helpers.toStream
+import com.hexagonkt.serialization.json.JacksonMapper
+import com.hexagonkt.serialization.json.Json
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

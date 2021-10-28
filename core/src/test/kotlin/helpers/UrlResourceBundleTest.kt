@@ -1,7 +1,7 @@
 package com.hexagonkt.helpers
 
 import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.Yaml
+import com.hexagonkt.serialization.yaml.Yaml
 import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.test.assertEquals

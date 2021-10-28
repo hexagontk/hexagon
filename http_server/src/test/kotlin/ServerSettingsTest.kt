@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.serialization.JacksonMapper
+import com.hexagonkt.serialization.json.JacksonMapper
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.toObject
 import org.junit.jupiter.api.BeforeAll

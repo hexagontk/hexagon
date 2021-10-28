@@ -1,6 +1,9 @@
-package com.hexagonkt.logging
+package com.hexagonkt.logging.logback
 
+import com.hexagonkt.logging.Logger
+import com.hexagonkt.logging.LoggingLevel
 import com.hexagonkt.logging.LoggingLevel.*
+import com.hexagonkt.logging.LoggingManager
 import org.junit.jupiter.api.Test
 
 internal class LogbackLoggerTest {

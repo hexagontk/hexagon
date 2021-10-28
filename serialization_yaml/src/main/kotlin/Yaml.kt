@@ -1,7 +1,8 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.serialization.yaml
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.WRITE_DOC_START_MARKER
+import com.hexagonkt.serialization.json.JacksonTextFormat
 
 @Suppress("MoveLambdaOutsideParentheses") // In this case that syntax cannot be used
 object Yaml : JacksonTextFormat(

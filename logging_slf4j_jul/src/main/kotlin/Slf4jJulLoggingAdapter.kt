@@ -1,6 +1,9 @@
-package com.hexagonkt.logging
+package com.hexagonkt.logging.slf4j.jul
 
+import com.hexagonkt.logging.LoggerPort
+import com.hexagonkt.logging.LoggingLevel
 import com.hexagonkt.logging.LoggingLevel.*
+import com.hexagonkt.logging.LoggingPort
 import com.hexagonkt.logging.jul.JulLoggingAdapter
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger as Slf4jLogger

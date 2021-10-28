@@ -1,6 +1,9 @@
-package com.hexagonkt.logging
+package com.hexagonkt.logging.slf4j.jul
 
+import com.hexagonkt.logging.Logger
+import com.hexagonkt.logging.LoggingLevel
 import com.hexagonkt.logging.LoggingLevel.*
+import com.hexagonkt.logging.LoggingManager
 import org.junit.jupiter.api.Test
 
 internal class Slf4jJulLoggerTest {
