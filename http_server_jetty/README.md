@@ -1,10 +1,10 @@
 
 # Module http_server_jetty
 
-[Jetty] adapter for the [port_http_server] port.
+[Jetty] adapter for the [http_server] port.
 
 [Jetty]: https://www.eclipse.org/jetty
-[port_http_server]: /port_http_server
+[http_server]: /http_server
 
 ### Install the Dependency
 

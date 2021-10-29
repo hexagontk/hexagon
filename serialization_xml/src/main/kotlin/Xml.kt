@@ -1,18 +1,21 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.serialization.xml
 
 import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.ObjectWriter
 import com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter
+import com.hexagonkt.core.serialization.SerializationFormat
+import com.hexagonkt.serialization.json.JacksonHelper
 import java.io.InputStream
 import java.io.OutputStream
 import kotlin.reflect.KClass
 
 object Xml : SerializationFormat {
 
-    val mapper = JacksonHelper
+    val mapper: ObjectMapper = JacksonHelper
         .setupObjectMapper(XmlMapper(JacksonXmlModule()))
         .configure(INDENT_OUTPUT, true)
 

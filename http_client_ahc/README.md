@@ -1,9 +1,9 @@
 
 # Module http_client_ahc
 
-[port_http_client] implementation using the [Async HTTP Client] library.
+[http_client] implementation using the [Async HTTP Client] library.
 
-[port_http_client]: /port_http_client
+[http_client]: /http_client
 [Async HTTP Client]: https://github.com/AsyncHttpClient/async-http-client
 
 ### Install the Dependency

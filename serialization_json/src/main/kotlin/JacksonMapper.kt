@@ -1,5 +1,6 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.serialization.json
 
+import com.hexagonkt.core.serialization.Mapper
 import kotlin.reflect.KClass
 
 object JacksonMapper : Mapper {

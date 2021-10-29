@@ -80,9 +80,9 @@ For more information check the [Quick Start Guide] or the [Developer Guide].
 
 [framework]: https://stackoverflow.com/a/3057818/973418
 [Kotlin]: http://kotlinlang.org
-[The HTTP server]: http://hexagonkt.com/port_http_server
-[The HTTP client]: http://hexagonkt.com/port_http_client
-[Template Processing]: http://hexagonkt.com/port_templates
+[The HTTP server]: http://hexagonkt.com/http_server
+[The HTTP client]: http://hexagonkt.com/http_client
+[Template Processing]: http://hexagonkt.com/templates
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
@@ -154,7 +154,7 @@ fun main() {
 <summary>Books Example</summary>
 
 A simple CRUD example showing how to manage book resources. Here you can check the
-[full test](port_http_server/src/test/kotlin/examples/BooksTest.kt).
+[full test](http_server/src/test/kotlin/examples/BooksTest.kt).
 
 ```kotlin
 // books
@@ -225,7 +225,7 @@ val server: Server = Server(adapter) {
 <summary>Session Example</summary>
 
 Example showing how to use sessions. Here you can check the
-[full test](port_http_server/src/test/kotlin/examples/SessionTest.kt).
+[full test](http_server/src/test/kotlin/examples/SessionTest.kt).
 
 ```kotlin
 // session
@@ -279,7 +279,7 @@ val server: Server = Server(adapter, ServerSettings(features = setOf(SESSIONS)))
 <summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
-[full test](port_http_server/src/test/kotlin/examples/ErrorsTest.kt).
+[full test](http_server/src/test/kotlin/examples/ErrorsTest.kt).
 
 ```kotlin
 // errors
@@ -317,7 +317,7 @@ val server: Server = Server(adapter) {
 <summary>Filters Example</summary>
 
 This example shows how to add filters before and after route execution. Here you can check the
-[full test](port_http_server/src/test/kotlin/examples/FiltersTest.kt).
+[full test](http_server/src/test/kotlin/examples/FiltersTest.kt).
 
 ```kotlin
 // filters
@@ -358,7 +358,7 @@ private val server: Server = Server(adapter) {
 <summary>Files Example</summary>
 
 The following code shows how to serve resources and receive files. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/port_http_server/src/test/kotlin/examples/FilesTest.kt).
+[full test](https://github.com/hexagonkt/hexagon/blob/master/http_server/src/test/kotlin/examples/FilesTest.kt).
 
 ```kotlin
 // files

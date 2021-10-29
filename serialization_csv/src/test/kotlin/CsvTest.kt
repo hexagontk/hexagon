@@ -1,5 +1,7 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.serialization.csv
 
+import com.hexagonkt.core.serialization.*
+import com.hexagonkt.serialization.json.Json
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -61,7 +63,7 @@ internal class CsvTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.CsvTest\$Device[\"os\"]")
+            assert(e.field == "com.hexagonkt.serialization.csv.CsvTest\$Device[\"os\"]")
         }
     }
 

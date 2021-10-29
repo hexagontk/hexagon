@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.core.helpers.CodedException
 import com.hexagonkt.http.ALL
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Path
@@ -26,8 +26,8 @@ import com.hexagonkt.http.server.ServerFeature.SESSIONS
 import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.Session
 import com.hexagonkt.http.server.UnsupportedSessionAdapter
-import com.hexagonkt.logging.Logger
-import com.hexagonkt.serialization.SerializationManager.contentTypeOf
+import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.serialization.SerializationManager.contentTypeOf
 import java.io.File
 import java.io.InputStream
 import java.net.URL
