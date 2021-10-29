@@ -1,8 +1,9 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.serialization.xml
 
-import com.hexagonkt.helpers.get
-import com.hexagonkt.helpers.println
-import com.hexagonkt.helpers.toStream
+import com.hexagonkt.core.helpers.get
+import com.hexagonkt.core.helpers.println
+import com.hexagonkt.core.helpers.toStream
+import com.hexagonkt.core.serialization.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -250,7 +251,7 @@ internal class XmlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.XmlTest\$Device[\"os\"]")
+            assert(e.field == "com.hexagonkt.serialization.xml.XmlTest\$Device[\"os\"]")
         }
     }
 
@@ -293,7 +294,7 @@ internal class XmlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            val fieldFullName = "com.hexagonkt.serialization.XmlTest\$Device[\"os\"]"
+            val fieldFullName = "com.hexagonkt.serialization.xml.XmlTest\$Device[\"os\"]"
             assert(e.field == "java.util.ArrayList[0]->$fieldFullName")
         }
     }

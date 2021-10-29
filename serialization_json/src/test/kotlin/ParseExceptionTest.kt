@@ -1,7 +1,7 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.serialization.json
 
 import com.fasterxml.jackson.databind.JsonMappingException
-import com.hexagonkt.serialization.JacksonHelper.parseException
+import com.hexagonkt.serialization.json.JacksonHelper.parseException
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test

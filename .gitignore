@@ -37,7 +37,6 @@ hs_err_pid*
 
 # Other Tools
 node_modules/
-.java-version
 package-lock.json
 .env
 
@@ -46,7 +45,7 @@ package-lock.json
 Thumbs.db
 
 # Added because of custom project settings
-hexagon_site/content/
+site/content/
 
 # Added because IntelliJ Gradle creates it from Detekt plugin
 /config/

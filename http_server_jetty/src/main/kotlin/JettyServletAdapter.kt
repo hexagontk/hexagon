@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.jetty
 
-import com.hexagonkt.helpers.fail
+import com.hexagonkt.core.helpers.fail
 import com.hexagonkt.http.Protocol
 import com.hexagonkt.http.Protocol.HTTP
 import com.hexagonkt.http.Protocol.HTTP2

@@ -1,6 +1,8 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.serialization.yaml
 
-import com.hexagonkt.helpers.toStream
+import com.hexagonkt.core.helpers.toStream
+import com.hexagonkt.core.serialization.*
+import com.hexagonkt.serialization.json.Json
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -108,7 +110,7 @@ internal class YamlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.YamlTest\$Device[\"os\"]")
+            assert(e.field == "com.hexagonkt.serialization.yaml.YamlTest\$Device[\"os\"]")
         }
     }
 
@@ -149,7 +151,7 @@ internal class YamlTest {
             assert(false) { "Exception expected" }
         }
         catch (e: ParseException) {
-            val fieldFullName = "com.hexagonkt.serialization.YamlTest\$Device[\"os\"]"
+            val fieldFullName = "com.hexagonkt.serialization.yaml.YamlTest\$Device[\"os\"]"
             assert(e.field == "java.util.ArrayList[0]->$fieldFullName")
         }
     }

@@ -3,18 +3,18 @@ rootProject.name = "hexagon"
 
 include(
     // Infrastructure
-    "hexagon_site",
-    "hexagon_starters",
+    "site",
+    "starters",
 
     // Internal modules
-    "hexagon_core",
-    "hexagon_http",
-    "hexagon_web",
+    "core",
+    "http",
+    "web",
 
     // Ports
-    "port_http_client",
-    "port_http_server",
-    "port_templates",
+    "http_client",
+    "http_server",
+    "templates",
 
     // Adapters
     "logging_logback",

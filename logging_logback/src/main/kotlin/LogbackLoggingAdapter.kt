@@ -1,13 +1,17 @@
-package com.hexagonkt.logging
+package com.hexagonkt.logging.logback
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
-import com.hexagonkt.logging.LoggingLevel.DEBUG
-import com.hexagonkt.logging.LoggingLevel.ERROR
-import com.hexagonkt.logging.LoggingLevel.INFO
-import com.hexagonkt.logging.LoggingLevel.TRACE
-import com.hexagonkt.logging.LoggingLevel.WARN
-import com.hexagonkt.logging.LoggingLevel.OFF
+import com.hexagonkt.core.logging.LoggerPort
+import com.hexagonkt.core.logging.LoggingLevel
+import com.hexagonkt.core.logging.LoggingLevel.DEBUG
+import com.hexagonkt.core.logging.LoggingLevel.ERROR
+import com.hexagonkt.core.logging.LoggingLevel.INFO
+import com.hexagonkt.core.logging.LoggingLevel.TRACE
+import com.hexagonkt.core.logging.LoggingLevel.WARN
+import com.hexagonkt.core.logging.LoggingLevel.OFF
+import com.hexagonkt.core.logging.LoggingPort
+import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
 import org.slf4j.LoggerFactory
 
 object LogbackLoggingAdapter : LoggingPort {
