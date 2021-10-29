@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.helpers.Glob
+import com.hexagonkt.core.helpers.Glob
 import com.hexagonkt.http.ALL
 import com.hexagonkt.http.Method
 

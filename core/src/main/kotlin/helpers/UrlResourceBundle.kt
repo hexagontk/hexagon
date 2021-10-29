@@ -1,6 +1,6 @@
-package com.hexagonkt.helpers
+package com.hexagonkt.core.helpers
 
-import com.hexagonkt.serialization.parse
+import com.hexagonkt.core.serialization.parse
 import java.net.URL
 
 /**

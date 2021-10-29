@@ -1,6 +1,6 @@
-package com.hexagonkt.helpers
+package com.hexagonkt.core.helpers
 
-import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.core.serialization.SerializationManager
 import com.hexagonkt.serialization.yaml.Yaml
 import org.junit.jupiter.api.Test
 import java.util.*

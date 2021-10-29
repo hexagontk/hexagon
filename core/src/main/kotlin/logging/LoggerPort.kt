@@ -1,4 +1,4 @@
-package com.hexagonkt.logging
+package com.hexagonkt.core.logging
 
 /**
  * A Logger is used to log messages for a specific system or application component.

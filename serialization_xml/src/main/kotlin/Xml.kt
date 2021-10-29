@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.util.DefaultXmlPrettyPrinter
-import com.hexagonkt.serialization.SerializationFormat
+import com.hexagonkt.core.serialization.SerializationFormat
 import com.hexagonkt.serialization.json.JacksonHelper
 import java.io.InputStream
 import java.io.OutputStream

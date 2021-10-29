@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.core.helpers.CodedException
 
 /** Alias for routes' and filters' callbacks. Functions executed when a route is matched. */
 typealias RouteCallback = Call.() -> Unit

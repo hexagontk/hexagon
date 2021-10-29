@@ -3,7 +3,7 @@ package com.hexagonkt.http.server
 import com.hexagonkt.http.server.ServerFeature.SESSIONS
 import com.hexagonkt.serialization.json.JacksonMapper
 import com.hexagonkt.serialization.json.Json
-import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.core.serialization.SerializationManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

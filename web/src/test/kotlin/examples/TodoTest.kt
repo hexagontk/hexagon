@@ -1,17 +1,17 @@
 package com.hexagonkt.web.examples
 
-import com.hexagonkt.helpers.require
+import com.hexagonkt.core.helpers.require
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.Response
 import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerPort
 import com.hexagonkt.http.server.ServerSettings
-import com.hexagonkt.logging.Logger
+import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.serialization.json.JacksonMapper
 import com.hexagonkt.serialization.json.Json
-import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.parse
+import com.hexagonkt.core.serialization.SerializationManager
+import com.hexagonkt.core.serialization.parse
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -36,7 +36,7 @@ abstract class TodoTest(adapter: ServerPort) {
     )
 
     private val tasks: MutableMap<Int, Task> =
-        LinkedHashMap(taskList.map { it.number to it }.toMap())
+        LinkedHashMap(taskList.associateBy { it.number })
 
     private val server: Server by lazy {
         Server(adapter, ServerSettings(bindPort = 0)) {

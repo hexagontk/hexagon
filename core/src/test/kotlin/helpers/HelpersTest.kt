@@ -1,4 +1,4 @@
-package com.hexagonkt.helpers
+package com.hexagonkt.core.helpers
 
 import java.net.ServerSocket
 import org.junit.jupiter.api.Test
@@ -84,8 +84,8 @@ internal class HelpersTest {
 
     @Test fun `Filtering an exception with a package only returns frames of that package` () {
         val t = RuntimeException ()
-        t.filterStackTrace ("com.hexagonkt").forEach {
-            assert (it.className.startsWith ("com.hexagonkt"))
+        t.filterStackTrace ("com.hexagonkt.core").forEach {
+            assert (it.className.startsWith ("com.hexagonkt.core"))
         }
     }
 

@@ -1,4 +1,4 @@
-package com.hexagonkt.security
+package com.hexagonkt.core.security
 
 import java.net.URL
 import java.security.KeyStore

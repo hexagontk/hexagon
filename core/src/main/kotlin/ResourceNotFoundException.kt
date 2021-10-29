@@ -1,4 +1,4 @@
-package com.hexagonkt
+package com.hexagonkt.core
 
 import java.io.IOException
 

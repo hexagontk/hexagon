@@ -1,6 +1,6 @@
 package logging.jul
 
-import com.hexagonkt.logging.jul.PatternFormat
+import com.hexagonkt.core.logging.jul.PatternFormat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.util.logging.Level.INFO

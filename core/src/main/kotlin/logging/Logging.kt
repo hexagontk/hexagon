@@ -1,4 +1,4 @@
-package com.hexagonkt.logging
+package com.hexagonkt.core.logging
 
 /** Default logger for when you feel too lazy to declare one. */
 val logger: Logger by lazy { Logger(Logger::class) }
@@ -6,7 +6,7 @@ val logger: Logger by lazy { Logger(Logger::class) }
 /**
  * Uses this [T] to log a message with a prefix using [TRACE][LoggingLevel.TRACE] level.
  *
- * com.hexagonkt.logging.Logger must have TRACE level
+ * com.hexagonkt.core.logging.Logger must have TRACE level
  *
  * TODO Add use case and example in documentation.
  *
@@ -20,7 +20,7 @@ fun <T> T.trace(prefix: String = ""): T =
 /**
  * Uses this [T] to log a message with a prefix using [DEBUG][LoggingLevel.DEBUG] level.
  *
- * com.hexagonkt.logging.Logger must have DEBUG level
+ * com.hexagonkt.core.logging.Logger must have DEBUG level
  *
  * TODO Add use case and example in documentation.
  *
@@ -34,7 +34,7 @@ fun <T> T.debug(prefix: String = ""): T =
 /**
  * Uses this [T] to log a message with a prefix using [INFO][LoggingLevel.INFO] level.
  *
- * com.hexagonkt.logging.Logger must have INFO level
+ * com.hexagonkt.core.logging.Logger must have INFO level
  *
  * TODO Add use case and example in documentation.
  *

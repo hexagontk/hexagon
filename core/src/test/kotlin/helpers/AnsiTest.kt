@@ -1,6 +1,6 @@
-package com.hexagonkt.helpers
+package com.hexagonkt.core.helpers
 
-import com.hexagonkt.logging.Logger
+import com.hexagonkt.core.logging.Logger
 import org.junit.jupiter.api.Test
 
 internal class AnsiTest {

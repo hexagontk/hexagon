@@ -1,7 +1,7 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.core.serialization
 
-import com.hexagonkt.ClasspathHandler
-import com.hexagonkt.logging.Logger
+import com.hexagonkt.core.ClasspathHandler
+import com.hexagonkt.core.logging.Logger
 import java.io.File
 import java.net.URL
 

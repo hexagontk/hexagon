@@ -1,4 +1,4 @@
-package com.hexagonkt.helpers
+package com.hexagonkt.core.helpers
 
 import org.junit.jupiter.api.Test
 import java.time.LocalDate

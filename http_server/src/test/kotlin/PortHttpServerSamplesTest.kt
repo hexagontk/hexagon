@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.helpers.CodedException
+import com.hexagonkt.core.helpers.CodedException
 import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method.POST
 import com.hexagonkt.http.Part
@@ -11,7 +11,7 @@ import com.hexagonkt.http.client.ahc.AhcAdapter
 import com.hexagonkt.http.server.ServerFeature.SESSIONS
 import com.hexagonkt.serialization.json.JacksonMapper
 import com.hexagonkt.serialization.json.Json
-import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.core.serialization.SerializationManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

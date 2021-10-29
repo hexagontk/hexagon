@@ -1,7 +1,7 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.logging.logger
-import com.hexagonkt.helpers.require
+import com.hexagonkt.core.logging.logger
+import com.hexagonkt.core.helpers.require
 import com.hexagonkt.http.Method.GET
 import com.hexagonkt.http.Protocol.HTTPS
 import com.hexagonkt.http.SslSettings
@@ -10,7 +10,7 @@ import com.hexagonkt.http.server.Server
 import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.http.server.serve
-import com.hexagonkt.serialization.*
+import com.hexagonkt.core.serialization.*
 import com.hexagonkt.serialization.json.Json
 import com.hexagonkt.serialization.yaml.Yaml
 import org.junit.jupiter.api.*

@@ -1,4 +1,4 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.core.serialization
 
 import com.hexagonkt.serialization.yaml.Yaml
 import org.junit.jupiter.api.Test

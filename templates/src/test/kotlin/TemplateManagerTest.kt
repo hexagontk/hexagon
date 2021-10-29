@@ -1,6 +1,6 @@
 package com.hexagonkt.templates
 
-import com.hexagonkt.helpers.Glob
+import com.hexagonkt.core.helpers.Glob
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

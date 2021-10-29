@@ -1,10 +1,10 @@
-package com.hexagonkt
+package com.hexagonkt.core
 
-import com.hexagonkt.logging.LoggingLevel
-import com.hexagonkt.logging.LoggingManager
+import com.hexagonkt.core.logging.LoggingLevel
+import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.serialization.json.JacksonMapper
 import com.hexagonkt.serialization.json.Json
-import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.core.serialization.SerializationManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -42,7 +42,7 @@ internal class ClasspathHandlerProviderTest {
 
     @Test fun `Read classpath resource returns resource's text` () {
         val resourceText = URL("classpath:logging.properties").readText()
-        assert(resourceText.contains("handlers=com.hexagonkt.logging.jul.SystemOutHandler"))
+        assert(resourceText.contains("handlers=com.hexagonkt.core.logging.jul.SystemOutHandler"))
     }
 
     @Test fun `Unknown protocol throws exception`() {

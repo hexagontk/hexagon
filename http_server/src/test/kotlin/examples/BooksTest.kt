@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.examples
 
-import com.hexagonkt.helpers.require
+import com.hexagonkt.core.helpers.require
 import com.hexagonkt.http.client.Client
 import com.hexagonkt.http.client.Response
 import com.hexagonkt.http.client.ahc.AhcAdapter

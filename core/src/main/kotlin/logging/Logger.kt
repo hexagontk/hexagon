@@ -1,17 +1,17 @@
-package com.hexagonkt.logging
+package com.hexagonkt.core.logging
 
 import java.lang.System.nanoTime
 import kotlin.reflect.KClass
-import com.hexagonkt.helpers.Ansi.BLINK
-import com.hexagonkt.helpers.Ansi.BOLD
-import com.hexagonkt.helpers.Ansi.RESET
-import com.hexagonkt.logging.LoggingLevel.*
+import com.hexagonkt.core.helpers.Ansi.BLINK
+import com.hexagonkt.core.helpers.Ansi.BOLD
+import com.hexagonkt.core.helpers.Ansi.RESET
+import com.hexagonkt.core.logging.LoggingLevel.*
 
 /**
  * Logger class with Kotlin improvements like lazy evaluation. It is backed by a logging port.
  *
  * @param name Logger name. It is shown in the logs messages and used for log filtering.
- * @sample com.hexagonkt.HexagonCoreSamplesTest.loggerUsage
+ * @sample com.hexagonkt.core.HexagonCoreSamplesTest.loggerUsage
  */
 class Logger(val name: String) {
 

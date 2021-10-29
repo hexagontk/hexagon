@@ -1,8 +1,8 @@
 package com.hexagonkt.serialization.json
 
-import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.parse
-import com.hexagonkt.serialization.parseObjects
+import com.hexagonkt.core.serialization.SerializationManager
+import com.hexagonkt.core.serialization.parse
+import com.hexagonkt.core.serialization.parseObjects
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

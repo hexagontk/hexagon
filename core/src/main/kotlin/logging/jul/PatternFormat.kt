@@ -1,15 +1,15 @@
-package com.hexagonkt.logging.jul
+package com.hexagonkt.core.logging.jul
 
-import com.hexagonkt.helpers.Ansi
-import com.hexagonkt.helpers.Ansi.BLUE
-import com.hexagonkt.helpers.Ansi.BRIGHT_BLACK
-import com.hexagonkt.helpers.Ansi.CYAN
-import com.hexagonkt.helpers.Ansi.MAGENTA
-import com.hexagonkt.helpers.Ansi.RED
-import com.hexagonkt.helpers.Ansi.RESET
-import com.hexagonkt.helpers.eol
-import com.hexagonkt.helpers.fail
-import com.hexagonkt.helpers.toText
+import com.hexagonkt.core.helpers.Ansi
+import com.hexagonkt.core.helpers.Ansi.BLUE
+import com.hexagonkt.core.helpers.Ansi.BRIGHT_BLACK
+import com.hexagonkt.core.helpers.Ansi.CYAN
+import com.hexagonkt.core.helpers.Ansi.MAGENTA
+import com.hexagonkt.core.helpers.Ansi.RED
+import com.hexagonkt.core.helpers.Ansi.RESET
+import com.hexagonkt.core.helpers.eol
+import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.helpers.toText
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId

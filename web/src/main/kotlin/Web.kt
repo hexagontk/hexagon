@@ -1,7 +1,7 @@
 package com.hexagonkt.web
 
 import com.hexagonkt.http.server.Call
-import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.core.serialization.SerializationManager
 import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.TemplatePort
 import kotlinx.html.HTML

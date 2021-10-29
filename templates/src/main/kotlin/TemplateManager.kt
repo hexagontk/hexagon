@@ -1,6 +1,6 @@
 package com.hexagonkt.templates
 
-import com.hexagonkt.helpers.Jvm
+import com.hexagonkt.core.helpers.Jvm
 import java.net.URL
 import java.time.LocalDateTime
 import java.util.Locale

@@ -1,4 +1,4 @@
-package com.hexagonkt.helpers
+package com.hexagonkt.core.helpers
 
 import java.lang.IllegalStateException
 import java.lang.management.ManagementFactory

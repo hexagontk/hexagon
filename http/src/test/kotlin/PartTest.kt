@@ -1,6 +1,6 @@
 package com.hexagonkt.http
 
-import com.hexagonkt.helpers.toStream
+import com.hexagonkt.core.helpers.toStream
 import org.junit.jupiter.api.Test
 
 internal class PartTest {

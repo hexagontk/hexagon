@@ -1,5 +1,5 @@
 @file:Suppress("ClassName", "unused")
-package com.hexagonkt.helpers
+package com.hexagonkt.core.helpers
 
 import java.net.URL
 

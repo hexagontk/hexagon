@@ -1,4 +1,4 @@
-package com.hexagonkt.logging
+package com.hexagonkt.core.logging
 
 import org.junit.jupiter.api.Test
 

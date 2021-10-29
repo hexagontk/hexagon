@@ -1,6 +1,6 @@
 package com.hexagonkt.http
 
-import com.hexagonkt.helpers.findGroups
+import com.hexagonkt.core.helpers.findGroups
 
 /**
  * A path definition. It parses path patterns and extract values for parameters.

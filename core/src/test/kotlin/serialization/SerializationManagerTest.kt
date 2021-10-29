@@ -1,9 +1,9 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.core.serialization
 
-import com.hexagonkt.ClasspathHandler
-import com.hexagonkt.serialization.SerializationManager.defaultFormat
-import com.hexagonkt.serialization.SerializationManager.formatOf
-import com.hexagonkt.serialization.SerializationManager.formats
+import com.hexagonkt.core.ClasspathHandler
+import com.hexagonkt.core.serialization.SerializationManager.defaultFormat
+import com.hexagonkt.core.serialization.SerializationManager.formatOf
+import com.hexagonkt.core.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.json.Json
 import com.hexagonkt.serialization.yaml.Yaml
 import org.junit.jupiter.api.AfterEach

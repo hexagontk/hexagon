@@ -1,12 +1,12 @@
-package com.hexagonkt
+package com.hexagonkt.core
 
-import com.hexagonkt.helpers.Jvm
-import com.hexagonkt.logging.logger
-import com.hexagonkt.logging.Logger
+import com.hexagonkt.core.helpers.Jvm
+import com.hexagonkt.core.logging.logger
+import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.serialization.json.Json
-import com.hexagonkt.serialization.SerializationManager
-import com.hexagonkt.serialization.parse
-import com.hexagonkt.serialization.serialize
+import com.hexagonkt.core.serialization.SerializationManager
+import com.hexagonkt.core.serialization.parse
+import com.hexagonkt.core.serialization.serialize
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 

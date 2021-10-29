@@ -1,6 +1,6 @@
-package com.hexagonkt.helpers
+package com.hexagonkt.core.helpers
 
-import com.hexagonkt.logging.logger
+import com.hexagonkt.core.logging.logger
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader

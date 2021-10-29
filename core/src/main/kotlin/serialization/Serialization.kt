@@ -1,9 +1,9 @@
-package com.hexagonkt.serialization
+package com.hexagonkt.core.serialization
 
-import com.hexagonkt.helpers.toStream
-import com.hexagonkt.serialization.SerializationManager.formatOf
-import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
-import com.hexagonkt.serialization.SerializationManager.requireMapper
+import com.hexagonkt.core.helpers.toStream
+import com.hexagonkt.core.serialization.SerializationManager.formatOf
+import com.hexagonkt.core.serialization.SerializationManager.requireDefaultFormat
+import com.hexagonkt.core.serialization.SerializationManager.requireMapper
 import java.io.File
 import java.io.InputStream
 import java.net.URL

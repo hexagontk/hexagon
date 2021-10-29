@@ -1,4 +1,4 @@
-package com.hexagonkt.logging.jul
+package com.hexagonkt.core.logging.jul
 
 import java.util.logging.Formatter
 import java.util.logging.Level

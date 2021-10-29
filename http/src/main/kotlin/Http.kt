@@ -1,6 +1,6 @@
 package com.hexagonkt.http
 
-import com.hexagonkt.helpers.Jvm.charset
+import com.hexagonkt.core.helpers.Jvm.charset
 import com.hexagonkt.http.Method.GET
 import com.hexagonkt.http.Method.HEAD
 import com.hexagonkt.http.Method.POST

@@ -1,4 +1,4 @@
-package com.hexagonkt.logging
+package com.hexagonkt.core.logging
 
 /**
  * Logging Contract for integrating different logging libraries.
