@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://hexagonkt.com/developer_guide/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.3">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.5">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.5143246d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.cdeb8541.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -424,6 +424,8 @@ if ('serviceWorker' in navigator)
       </a>
       
         
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -512,7 +514,7 @@ if ('serviceWorker' in navigator)
   
   
     <li class="md-nav__item">
-      <a href="../hexagon_core/" class="md-nav__link">
+      <a href="../core/" class="md-nav__link">
         Core
       </a>
     </li>
@@ -526,7 +528,7 @@ if ('serviceWorker' in navigator)
   
   
     <li class="md-nav__item">
-      <a href="../port_http_server/" class="md-nav__link">
+      <a href="../http_server/" class="md-nav__link">
         HTTP Server
       </a>
     </li>
@@ -540,7 +542,7 @@ if ('serviceWorker' in navigator)
   
   
     <li class="md-nav__item">
-      <a href="../port_http_client/" class="md-nav__link">
+      <a href="../http_client/" class="md-nav__link">
         HTTP Client
       </a>
     </li>
@@ -554,7 +556,7 @@ if ('serviceWorker' in navigator)
   
   
     <li class="md-nav__item">
-      <a href="../port_templates/" class="md-nav__link">
+      <a href="../templates/" class="md-nav__link">
         Templates
       </a>
     </li>
@@ -878,6 +880,8 @@ if ('serviceWorker' in navigator)
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -984,10 +988,10 @@ single application.</p>
 kinds of modules:</p>
 <ul>
 <li>The ones that provide functionality that does not depend on different implementations, like
-  <a href="/hexagon_scheduler/">hexagon_scheduler</a> or <a href="/hexagon_core/">hexagon_core</a>. Their name always starts with the <code>hexagon_</code> prefix. These
+  <a href="/hexagon_scheduler/">hexagon_scheduler</a> or <a href="/core/">core</a>. Their name always starts with the <code>hexagon_</code> prefix. These
   modules can depend on several Ports, but never on Adapters (see below).</li>
 <li>Modules that define one or more related "Ports": these are interfaces to a feature that may have
-  different implementations (i.e., <a href="/port_http_server/">port_http_server</a> or <a href="/port_templates/">port_templates</a>). They cannot be used by
+  different implementations (i.e., <a href="/http_server/">http_server</a> or <a href="/templates/">templates</a>). They cannot be used by
   themselves and in their place, an adapter implementing them should be added to the list of
   dependencies. These modules' names start with the <code>port_</code> prefix. Ports are independent of each
   other.</li>
@@ -996,14 +1000,14 @@ kinds of modules:</p>
   port name.</li>
 </ul>
 <h2 id="hexagon-core">Hexagon Core<a class="headerlink" href="#hexagon-core" title="Permanent link">&para;</a></h2>
-<p>The <a href="/hexagon_core/">Hexagon Core</a> module is used by all other libraries, so it would be added to your
+<p>The <a href="/core/">Hexagon Core</a> module is used by all other libraries, so it would be added to your
 project anyway just by using any adapter.</p>
 <p>Core utilities like, logging and serialization. Toolkit's ports are designed to use core
 functionalities. You can use a third party DI library instead of using the Core one.</p>
 <p>The main features are the following:</p>
 <ul>
-<li><a href="/hexagon_core/com.hexagonkt.helpers/">Helpers</a>: JVM information, a logger and other useful utilities.</li>
-<li><a href="/hexagon_core/com.hexagonkt.serialization/">Objects Serialization</a>: parse/serialize data in different formats to class instances.</li>
+<li><a href="/core/com.hexagonkt.helpers/">Helpers</a>: JVM information, a logger and other useful utilities.</li>
+<li><a href="/core/com.hexagonkt.serialization/">Objects Serialization</a>: parse/serialize data in different formats to class instances.</li>
 </ul>
 <h2 id="other-modules">Other Modules<a class="headerlink" href="#other-modules" title="Permanent link">&para;</a></h2>
 <p>The following libraries provide extra features not bound to different implementations. They will not
@@ -1011,8 +1015,8 @@ use dependencies outside the Hexagon toolkit.</p>
 <ul>
 <li><a href="/hexagon_scheduler/">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.
   However, you have to be careful to not run tasks twice if you have many instances.</li>
-<li><a href="/hexagon_web/">Web</a>: this module is meant to ease web application development. Provides helpers for
-  generating HTML and depends on the <a href="/port_http_server/">HTTP Server</a> and <a href="/port_templates/">Templates</a> ports.</li>
+<li><a href="/web/">Web</a>: this module is meant to ease web application development. Provides helpers for
+  generating HTML and depends on the <a href="/http_server/">HTTP Server</a> and <a href="/templates/">Templates</a> ports.</li>
 </ul>
 <h2 id="toolkit-ports">Toolkit Ports<a class="headerlink" href="#toolkit-ports" title="Permanent link">&para;</a></h2>
 <p>These modules define features that need a specific implementation. You can use many implementations
@@ -1020,9 +1024,9 @@ of each port at the same time. You can even provide a custom implementation if y
 a particular use case.</p>
 <p>These are the implemented ports:</p>
 <ul>
-<li><a href="/port_http_server/">HTTP Server</a>: describes how to use HTTP routing and HTML templates for Web services.</li>
-<li><a href="/port_http_client/">HTTP Client</a>: documentation to use the HTTP client module to connect to other services.</li>
-<li><a href="/port_templates/">Templates</a>: describes how to render pages using template engines.</li>
+<li><a href="/http_server/">HTTP Server</a>: describes how to use HTTP routing and HTML templates for Web services.</li>
+<li><a href="/http_client/">HTTP Client</a>: documentation to use the HTTP client module to connect to other services.</li>
+<li><a href="/templates/">Templates</a>: describes how to render pages using template engines.</li>
 </ul>
                 
               
@@ -1060,7 +1064,7 @@ a particular use case.</p>
 
     
     <a
-      href="../hexagon_core/"
+      href="../core/"
       class="md-footer__link md-footer__link--next"
       rel="next">
 
@@ -1192,7 +1196,7 @@ a particular use case.</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.f89c2efe.min.js"></script>
+      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

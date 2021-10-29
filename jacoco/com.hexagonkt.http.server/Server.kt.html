@@ -1,28 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Server.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hexagon_site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server</a> &gt; <span class="el_source">Server.kt</span></div><h1>Server.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Server.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server</a> &gt; <span class="el_source">Server.kt</span></div><h1>Server.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server
 
-import com.hexagonkt.logging.Logger
-import com.hexagonkt.helpers.*
-import com.hexagonkt.helpers.Jvm.charset
-import com.hexagonkt.helpers.Jvm.cpuCount
-import com.hexagonkt.helpers.Jvm.hostname
-import com.hexagonkt.helpers.Jvm.ip
-import com.hexagonkt.helpers.Jvm.name
-import com.hexagonkt.helpers.Jvm.version
-import com.hexagonkt.helpers.Jvm.localeCode
-import com.hexagonkt.helpers.Jvm.timezone
+import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.helpers.*
+import com.hexagonkt.core.helpers.Jvm.charset
+import com.hexagonkt.core.helpers.Jvm.cpuCount
+import com.hexagonkt.core.helpers.Jvm.hostname
+import com.hexagonkt.core.helpers.Jvm.ip
+import com.hexagonkt.core.helpers.Jvm.name
+import com.hexagonkt.core.helpers.Jvm.version
+import com.hexagonkt.core.helpers.Jvm.localeCode
+import com.hexagonkt.core.helpers.Jvm.timezone
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.Protocol.HTTP
 
 import java.lang.Runtime.getRuntime
 import java.lang.management.ManagementFactory.getMemoryMXBean
 import java.lang.management.ManagementFactory.getRuntimeMXBean
-import com.hexagonkt.helpers.Ansi.BLUE
-import com.hexagonkt.helpers.Ansi.BOLD
-import com.hexagonkt.helpers.Ansi.CYAN
-import com.hexagonkt.helpers.Ansi.DEFAULT
-import com.hexagonkt.helpers.Ansi.MAGENTA
-import com.hexagonkt.helpers.Ansi.RESET
-import com.hexagonkt.helpers.Ansi.UNDERLINE
+import com.hexagonkt.core.helpers.Ansi.BLUE
+import com.hexagonkt.core.helpers.Ansi.BOLD
+import com.hexagonkt.core.helpers.Ansi.CYAN
+import com.hexagonkt.core.helpers.Ansi.DEFAULT
+import com.hexagonkt.core.helpers.Ansi.MAGENTA
+import com.hexagonkt.core.helpers.Ansi.RESET
+import com.hexagonkt.core.helpers.Ansi.UNDERLINE
 import java.lang.System.nanoTime
 
 /**
@@ -46,7 +46,7 @@ import java.lang.System.nanoTime
         $CYAN      \/$BLUE   /  /   /   /$CYAN    T O O L K I T$RESET
         $BLUE          /  /___/   /
         $BLUE         /          /
-        $BLUE         \_________/       https://hexagonkt.com/port_http_server
+        $BLUE         \_________/       https://hexagonkt.com/http_server
         $RESET
 <span class="fc" id="L51">        &quot;&quot;&quot;.trimIndent()</span>
     }

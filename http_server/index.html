@@ -1,0 +1,2562 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The atoms of your platform">
+      
+      
+      
+        <meta name="author" content="Hexagon Toolkit">
+      
+      
+        <link rel="canonical" href="https://hexagonkt.com/http_server/">
+      
+      <link rel="icon" href="../favicon.ico">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.5">
+    
+    
+      
+        <title>HTTP Server - Hexagon</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.cdeb8541.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Titillium Web";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../css/mkdocs.css">
+    
+    
+      
+
+  
+
+
+  
+
+  
+
+
+  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-48216810-3","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+
+
+    
+    
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<meta name="keywords" content="Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework" />
+<meta name="application-name" content="Hexagon" />
+<meta name="theme-color" content="#135AA1" />
+
+<meta name="msapplication-navbutton-color" content="#135AA1" />
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#135AA1">
+<meta name="msapplication-TileImage" content="/apple-touch-icon.png">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="#135AA1" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@hexagon_kt">
+<meta name="twitter:creator" content="@hexagon_kt">
+<meta name="twitter:title" content="Hexagon">
+<meta name="twitter:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
+">
+<meta name="twitter:image" content="https://hexagonkt.com/apple-touch-icon.png">
+
+<meta property="og:title" content="Hexagon" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hexagonkt.com/" />
+<meta property="og:image" content="https://hexagonkt.com/apple-touch-icon.png" />
+<meta property="og:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
+" />
+
+<meta itemprop="name" content="Hexagon">
+<meta itemprop="description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
+ ">
+<meta itemprop="image" content="https://hexagonkt.com/apple-touch-icon.png">
+
+<link rel="author" href="/humans.txt" />
+<link rel="manifest" href="/manifest.json">
+
+<!-- Web worker -->
+<!--
+<script>
+if ('serviceWorker' in navigator)
+  navigator.serviceWorker
+    .register('/service_worker.js')
+    .then(function() { console.log('Worker Registered'); });
+</script>
+-->
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-http_server" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Hexagon" class="md-header__button md-logo" aria-label="Hexagon" data-md-component="logo">
+      
+  <img src="../img/logo_white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hexagon
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HTTP Server
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/hexagonkt/hexagon" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hexagonkt/hexagon
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link md-tabs__link--active">
+        Documentation
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../api/" class="md-tabs__link">
+      API
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../examples/example_projects/" class="md-tabs__link">
+        Examples
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../help/" class="md-tabs__link">
+        Community
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Hexagon" class="md-nav__button md-logo" aria-label="Hexagon" data-md-component="logo">
+      
+  <img src="../img/logo_white.svg" alt="logo">
+
+    </a>
+    Hexagon
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/hexagonkt/hexagon" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hexagonkt/hexagon
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Documentation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Documentation" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Documentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick_start/" class="md-nav__link">
+        Quick Start
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer_guide/" class="md-nav__link">
+        Developer Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core/" class="md-nav__link">
+        Core
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          HTTP Server
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        HTTP Server
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#module-http_server" class="md-nav__link">
+    Module http_server
+  </a>
+  
+    <nav class="md-nav" aria-label="Module http_server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server" class="md-nav__link">
+    Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#servlet-web-server" class="md-nav__link">
+    Servlet Web server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routes" class="md-nav__link">
+    Routes
+  </a>
+  
+    <nav class="md-nav" aria-label="Routes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#route-groups" class="md-nav__link">
+    Route groups
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routers" class="md-nav__link">
+    Routers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callbacks" class="md-nav__link">
+    Callbacks
+  </a>
+  
+    <nav class="md-nav" aria-label="Callbacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#call" class="md-nav__link">
+    Call
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    Request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-parameters" class="md-nav__link">
+    Path Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-parameters" class="md-nav__link">
+    Query Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form-parameters" class="md-nav__link">
+    Form Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-uploads" class="md-nav__link">
+    File Uploads
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    Response
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redirects" class="md-nav__link">
+    Redirects
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cookies" class="md-nav__link">
+    Cookies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sessions" class="md-nav__link">
+    Sessions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compression" class="md-nav__link">
+    Compression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#halting" class="md-nav__link">
+    Halting
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filters" class="md-nav__link">
+    Filters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error Handling
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http-errors-handlers" class="md-nav__link">
+    HTTP Errors Handlers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exception-mapping" class="md-nav__link">
+    Exception Mapping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-files" class="md-nav__link">
+    Static Files
+  </a>
+  
+    <nav class="md-nav" aria-label="Static Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mime-types" class="md-nav__link">
+    MIME types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cors" class="md-nav__link">
+    CORS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#https" class="md-nav__link">
+    HTTPS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    Testing
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    Integration tests
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mocking-calls" class="md-nav__link">
+    Mocking calls
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openapi-mock-server" class="md-nav__link">
+    OpenAPI Mock Server
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenAPI Mock Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use" class="md-nav__link">
+    How to Use
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openapi-spec-file-requirements" class="md-nav__link">
+    OpenAPI Spec File Requirements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-authentication-methods" class="md-nav__link">
+    Supported Authentication Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#providing-examples" class="md-nav__link">
+    Providing Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpserver" class="md-nav__link">
+    Package com.hexagonkt.http.server
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http_client/" class="md-nav__link">
+        HTTP Client
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../templates/" class="md-nav__link">
+        Templates
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gradle/" class="md-nav__link">
+        Gradle Helpers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maven/" class="md-nav__link">
+        Maven Parent POM
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/example_projects/" class="md-nav__link">
+        Example Projects
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_2">
+          Code Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Examples" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          Code Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/http_server_examples/" class="md-nav__link">
+        HTTP Server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/http_client_examples/" class="md-nav__link">
+        HTTP Client
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/templates_examples/" class="md-nav__link">
+        Templates
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Community
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Community" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Community
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../help/" class="md-nav__link">
+        Help and Support
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../planning/" class="md-nav__link">
+        Planning
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/hexagonkt/hexagon/contribute" class="md-nav__link">
+        Contributing ↗
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/hexagonkt" class="md-nav__link">
+        GitHub ↗
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://dev.to/hexagonkt" class="md-nav__link">
+        Dev.to ↗
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://kotlin.libhunt.com/hexagon-alternatives" class="md-nav__link">
+        LibHunt ↗
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://stackshare.io/hexagon" class="md-nav__link">
+        StackShare ↗
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#module-http_server" class="md-nav__link">
+    Module http_server
+  </a>
+  
+    <nav class="md-nav" aria-label="Module http_server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-the-dependency" class="md-nav__link">
+    Install the Dependency
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server" class="md-nav__link">
+    Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#servlet-web-server" class="md-nav__link">
+    Servlet Web server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routes" class="md-nav__link">
+    Routes
+  </a>
+  
+    <nav class="md-nav" aria-label="Routes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#route-groups" class="md-nav__link">
+    Route groups
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#routers" class="md-nav__link">
+    Routers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callbacks" class="md-nav__link">
+    Callbacks
+  </a>
+  
+    <nav class="md-nav" aria-label="Callbacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#call" class="md-nav__link">
+    Call
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    Request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-parameters" class="md-nav__link">
+    Path Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-parameters" class="md-nav__link">
+    Query Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form-parameters" class="md-nav__link">
+    Form Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-uploads" class="md-nav__link">
+    File Uploads
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response" class="md-nav__link">
+    Response
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redirects" class="md-nav__link">
+    Redirects
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cookies" class="md-nav__link">
+    Cookies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sessions" class="md-nav__link">
+    Sessions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compression" class="md-nav__link">
+    Compression
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#halting" class="md-nav__link">
+    Halting
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filters" class="md-nav__link">
+    Filters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error Handling
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http-errors-handlers" class="md-nav__link">
+    HTTP Errors Handlers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exception-mapping" class="md-nav__link">
+    Exception Mapping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-files" class="md-nav__link">
+    Static Files
+  </a>
+  
+    <nav class="md-nav" aria-label="Static Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mime-types" class="md-nav__link">
+    MIME types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cors" class="md-nav__link">
+    CORS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#https" class="md-nav__link">
+    HTTPS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    Testing
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    Integration tests
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mocking-calls" class="md-nav__link">
+    Mocking calls
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openapi-mock-server" class="md-nav__link">
+    OpenAPI Mock Server
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenAPI Mock Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use" class="md-nav__link">
+    How to Use
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openapi-spec-file-requirements" class="md-nav__link">
+    OpenAPI Spec File Requirements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-authentication-methods" class="md-nav__link">
+    Supported Authentication Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#providing-examples" class="md-nav__link">
+    Providing Examples
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpserver" class="md-nav__link">
+    Package com.hexagonkt.http.server
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>HTTP Server</h1>
+                
+                <h2 id="module-http_server">Module http_server<a class="headerlink" href="#module-http_server" title="Permanent link">&para;</a></h2>
+<p>This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL
+to declare HTTP request handlers.</p>
+<p>Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you
+to switch implementations without changing the service.</p>
+<p>The <a href="/web">web</a> module provides utilities on top of this port for Web application development
+(like templates helpers).</p>
+<h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
+<p>This module is not meant to be used directly. You should include and Adapter implementing this
+feature (as <a href="/http_server_jetty">http_server_jetty</a>) in order to create an HTTP server.</p>
+<h4 id="server">Server<a class="headerlink" href="#server" title="Permanent link">&para;</a></h4>
+<p>A server is a process listening to HTTP requests on a TCP port.</p>
+<p>You can run multiple ones on different ports at the same time (this can be useful to test many
+microservices at the same time).</p>
+<p>The server can be configured with different properties. If you do not provide a value for them, they
+are searched inside the application settings and lastly, a default value is picked. This is the
+parameters list:</p>
+<ul>
+<li>banner: informative text shown at start up logs. If not set only runtime information is displayed.</li>
+<li>bindAddress: address to which this process is bound. If none is provided, <code>127.0.0.1</code> is taken.</li>
+<li>bindPort: the port which the process listens to. By default, it is <code>2010</code>.</li>
+<li>contextPath: initial path used for the rest of the routes, by default it is empty.</li>
+</ul>
+<!-- TODO Link to ServerSettings properties to explain set up. -->
+<!-- TODO Document ServerSettings configuration options (options field)). -->
+
+<p>To create a server, you need to provide a router (check the <a href="/http_server/#routes">next section</a> for more information),
+and after creating a server you can run it or stop it with <a href="/api/http_server/com.hexagonkt.http.server/-server/start.html">start()</a> and <a href="/api/http_server/com.hexagonkt.http.server/-server/stop.html">stop()</a> methods.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm"> * All settings are optional, you can supply any combination</span>
+<span class="cm"> * Parameters not set will fall back to the defaults</span>
+<span class="cm"> */</span>
+<span class="kd">val</span> <span class="nv">settings</span> <span class="o">=</span> <span class="n">ServerSettings</span><span class="p">(</span>
+    <span class="n">bindAddress</span> <span class="o">=</span> <span class="n">InetAddress</span><span class="p">.</span><span class="na">getByName</span><span class="p">(</span><span class="s">&quot;0.0.0&quot;</span><span class="p">),</span>
+    <span class="n">bindPort</span> <span class="o">=</span> <span class="m">2020</span><span class="p">,</span>
+    <span class="n">contextPath</span> <span class="o">=</span> <span class="s">&quot;/context&quot;</span><span class="p">,</span>
+    <span class="n">banner</span> <span class="o">=</span> <span class="s">&quot;name&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">val</span> <span class="nv">router</span> <span class="o">=</span> <span class="n">Router</span> <span class="p">{</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">val</span> <span class="nv">customServer</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">router</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+
+<span class="n">customServer</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
+
+<span class="kd">val</span> <span class="nv">customClient</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">customServer</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">customServer</span><span class="p">.</span><span class="na">started</span><span class="p">())</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">customClient</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/context/hello&quot;</span><span class="p">).</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+
+<span class="n">customServer</span><span class="p">.</span><span class="na">stop</span><span class="p">()</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * You can skip the adapter is you previously bound one</span>
+<span class="cm"> * You may also skip the settings and the defaults will be used</span>
+<span class="cm"> */</span>
+<span class="kd">val</span> <span class="nv">defaultServer</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">router</span> <span class="o">=</span> <span class="n">router</span><span class="p">)</span>
+
+<span class="n">defaultServer</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
+
+<span class="kd">val</span> <span class="nv">defaultClient</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">defaultServer</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">defaultServer</span><span class="p">.</span><span class="na">started</span><span class="p">())</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">defaultClient</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+
+<span class="n">defaultServer</span><span class="p">.</span><span class="na">stop</span><span class="p">()</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="servlet-web-server">Servlet Web server<a class="headerlink" href="#servlet-web-server" title="Permanent link">&para;</a></h5>
+<p>There is a special server adapter for running inside Servlet Containers. To use it you should import
+the <a href="/http_server_servlet/">Servlet HTTP Server Adapter</a> into your project. Check the
+<a href="/http_server_servlet/">http_server_servlet</a> module for more information.</p>
+<h4 id="routes">Routes<a class="headerlink" href="#routes" title="Permanent link">&para;</a></h4>
+<p>The main building block of a Hexagon HTTP service is a set of routes. A route is made up of three
+simple pieces:</p>
+<ul>
+<li>A <strong>verb</strong> (get, post, put, delete, head, trace, connect, options). It can also be <code>any</code>.</li>
+<li>A <strong>path</strong> (/hello, /users/{name}). Paths must start with '/' and trailing slash is ignored.</li>
+<li>A <strong>callback</strong> code block.</li>
+</ul>
+<!-- TODO Explain path pattern format -->
+
+<p>The callback has a void return type. You should use <code>Call.send()</code> to set the response which will
+be returned to the user.</p>
+<p>Routes are matched in the order they are defined. The first route that matches the request is
+invoked, and the following ones are ignored.</p>
+<p>Check the next snippet for usage examples:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get greeting&quot;</span><span class="p">)}</span>
+<span class="n">put</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Put greeting&quot;</span><span class="p">)}</span>
+<span class="n">post</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Post greeting&quot;</span><span class="p">)}</span>
+
+<span class="n">any</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Fallback if HTTP verb was not used before&quot;</span><span class="p">)}</span>
+
+<span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/&#39; if no route matched before&quot;</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>HTTP clients will be able to reuse the routes to create REST services clients.</p>
+<h5 id="route-groups">Route groups<a class="headerlink" href="#route-groups" title="Permanent link">&para;</a></h5>
+<p>Routes can be nested by calling the <code>path()</code> method, which takes a String prefix and gives you a
+scope to declare routes and filters (or more nested paths). Ie:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">path</span><span class="p">(</span><span class="s">&quot;/nested&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Greeting&quot;</span><span class="p">)}</span>
+
+    <span class="n">path</span><span class="p">(</span><span class="s">&quot;/secondLevel&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Second level greeting&quot;</span><span class="p">)}</span>
+    <span class="p">}</span>
+
+    <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/nested&#39;&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="routers">Routers<a class="headerlink" href="#routers" title="Permanent link">&para;</a></h5>
+<p>If you have a lot of routes, it can be helpful to group them into routers. You can create routers
+to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">fun</span> <span class="nf">personRouter</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">=</span> <span class="n">Router</span> <span class="p">{</span>
+    <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get </span><span class="si">$</span><span class="n">kind</span><span class="s">&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">put</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Put </span><span class="si">$</span><span class="n">kind</span><span class="s">&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">post</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Post </span><span class="si">$</span><span class="n">kind</span><span class="s">&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">path</span><span class="p">(</span><span class="s">&quot;/clients&quot;</span><span class="p">,</span> <span class="n">personRouter</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">))</span>
+    <span class="n">path</span><span class="p">(</span><span class="s">&quot;/customers&quot;</span><span class="p">,</span> <span class="n">personRouter</span><span class="p">(</span><span class="s">&quot;customer&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h4 id="callbacks">Callbacks<a class="headerlink" href="#callbacks" title="Permanent link">&para;</a></h4>
+<p>Callbacks are request's handling blocks that are bound to routes or filters. They make the request,
+response and session objects available to the handling code.</p>
+<h5 id="call">Call<a class="headerlink" href="#call" title="Permanent link">&para;</a></h5>
+<p>The Call object provides you with everything you need to handle a http-request.</p>
+<p>It contains the underlying request and response, and a bunch of utility methods to return results,
+read parameters or pass attributes among filters/routes.</p>
+<p>The methods are available directly from the callback (<code>Call</code> is the callback receiver). You can
+check the <a href="/http_server/com.hexagonkt.http.server/-call/">API documentation</a> for the full list of methods.</p>
+<p>This sample code illustrates the usage:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/call&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">attributes</span>                   <span class="c1">// the attributes list</span>
+    <span class="n">attributes</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span>            <span class="c1">// value of foo attribute</span>
+    <span class="n">attributes</span><span class="o">[</span><span class="s">&quot;A&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s">&quot;V&quot;</span>        <span class="c1">// sets value of attribute A to V</span>
+
+    <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Response body&quot;</span><span class="p">)</span>          <span class="c1">// returns a 200 status</span>
+    <span class="n">send</span><span class="p">(</span><span class="m">400</span><span class="p">,</span> <span class="s">&quot;Invalid request&quot;</span><span class="p">)</span> <span class="c1">// returns any status</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="request">Request<a class="headerlink" href="#request" title="Permanent link">&para;</a></h5>
+<p>Request functionality is provided by the <code>request</code> field:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/request&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// URL Information</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">method</span>                   <span class="c1">// the HTTP method (GET, ..etc)</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">scheme</span>                   <span class="c1">// http or https</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">secure</span>                   <span class="c1">// true if scheme is https</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">host</span>                     <span class="c1">// the host, e.g. &quot;example.com&quot;</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">ip</span>                       <span class="c1">// client IP address</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">port</span>                     <span class="c1">// the server port</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">path</span>                     <span class="c1">// the request path, e.g. /result.jsp</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">body</span>                     <span class="c1">// request body sent by the client</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">url</span>                      <span class="c1">// the url. e.g. &quot;http://example.com/foo&quot;</span>
+
+    <span class="c1">// Headers</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">headers</span>                  <span class="c1">// the HTTP header list with first values only</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]</span>           <span class="c1">// first value of BAR header</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">headersValues</span>            <span class="c1">// the HTTP header list with their full values list</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]</span>     <span class="c1">// list of values of BAR header</span>
+
+    <span class="c1">// Common headers shortcuts</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">contentType</span>              <span class="c1">// content type of request.body</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">acceptValues</span>             <span class="c1">// Client accepted content types</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">userAgent</span>                <span class="c1">// user agent (browser requests)</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">origin</span>                   <span class="c1">// origin (browser requests)</span>
+
+    <span class="c1">// Parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">pathParameters</span>           <span class="c1">// map with all path parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span>           <span class="c1">// map with first values of all form fields</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParametersValues</span>     <span class="c1">// map with all form fields values</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span>          <span class="c1">// map with first values of all query parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParametersValues</span>    <span class="c1">// map with all query parameters values</span>
+
+    <span class="c1">// Body processing</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">contentLength</span>            <span class="c1">// length of request body</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="p">(</span><span class="n">Type</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>        <span class="c1">// Object passed in the body as a typed object</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="o">&lt;</span><span class="n">Type</span><span class="o">&gt;</span><span class="p">()</span>             <span class="c1">// Syntactic sugar for the previous statement</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">bodyObjects</span><span class="p">(</span><span class="n">Type</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="c1">// Object(s) passed in the body as a typed list</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">bodyObjects</span><span class="o">&lt;</span><span class="n">Type</span><span class="o">&gt;</span><span class="p">()</span>      <span class="c1">// Syntactic sugar for the previous statement</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="p">(</span><span class="n">Map</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>         <span class="c1">// Object passed in the body as a field map</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;*</span><span class="p">,</span> <span class="o">*&gt;&gt;</span><span class="p">()</span>        <span class="c1">// Syntactic sugar for the previous statement</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">bodyObjects</span><span class="p">(</span><span class="n">Map</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>  <span class="c1">// Object(s) passed in the body as a list of maps</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">bodyObjects</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;*</span><span class="p">,</span> <span class="o">*&gt;&gt;</span><span class="p">()</span> <span class="c1">// Syntactic sugar for the previous statement</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="path-parameters">Path Parameters<a class="headerlink" href="#path-parameters" title="Permanent link">&para;</a></h5>
+<p>Route patterns can include named parameters, accessible via the <code>pathParameters</code> map on the request
+object:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/pathParam/{foo}&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">pathParameters</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span> <span class="c1">// value of foo path parameter</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">pathParameters</span>        <span class="c1">// map with all parameters</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="query-parameters">Query Parameters<a class="headerlink" href="#query-parameters" title="Permanent link">&para;</a></h5>
+<p>It is possible to access the whole query string or only a specific query parameter using the
+<code>parameters</code> map on the <code>request</code> object:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/queryParam&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryString</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span>                       <span class="c1">// the query param list</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>                <span class="c1">// value of FOO query param</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParametersValues</span>                 <span class="c1">// the query param list</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParametersValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>          <span class="c1">// all values of FOO query param</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="form-parameters">Form Parameters<a class="headerlink" href="#form-parameters" title="Permanent link">&para;</a></h5>
+<p>HTML Form processing. Don't parse body!</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/formParam&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span>                       <span class="c1">// the query param list</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>                <span class="c1">// value of FOO query param</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParametersValues</span>                 <span class="c1">// the query param list</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParametersValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>          <span class="c1">// all values of FOO query param</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="file-uploads">File Uploads<a class="headerlink" href="#file-uploads" title="Permanent link">&para;</a></h5>
+<p>Multipart Requests</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">post</span><span class="p">(</span><span class="s">&quot;/file&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">filePart</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">parts</span><span class="o">[</span><span class="s">&quot;file&quot;</span><span class="o">]</span> <span class="o">?:</span> <span class="n">error</span><span class="p">(</span><span class="s">&quot;File not available&quot;</span><span class="p">)</span>
+    <span class="n">ok</span><span class="p">(</span><span class="n">filePart</span><span class="p">.</span><span class="na">inputStream</span><span class="p">.</span><span class="na">reader</span><span class="p">().</span><span class="na">readText</span><span class="p">())</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="response">Response<a class="headerlink" href="#response" title="Permanent link">&para;</a></h5>
+<p>Response information is provided by the <code>response</code> field:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">body</span>                             <span class="c1">// get response content</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">body</span> <span class="o">=</span> <span class="s">&quot;Hello&quot;</span>                   <span class="c1">// sets content to Hello</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s">&quot;bar&quot;</span>           <span class="c1">// sets header FOO with single value bar</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">)</span> <span class="c1">// sets header FOO values with [ bar ]</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">status</span>                           <span class="c1">// get the response status</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">status</span> <span class="o">=</span> <span class="m">401</span>                     <span class="c1">// set status code to 401</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">contentType</span>                      <span class="c1">// get the content type</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">contentType</span> <span class="o">=</span> <span class="s">&quot;text/xml&quot;</span>         <span class="c1">// set content type to text/xml</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="redirects">Redirects<a class="headerlink" href="#redirects" title="Permanent link">&para;</a></h5>
+<p>You can redirect requests (returning 30x codes) by using <code>Call</code> utility methods:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/redirect&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">redirect</span><span class="p">(</span><span class="s">&quot;/call&quot;</span><span class="p">)</span> <span class="c1">// browser redirect to /call</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="cookies">Cookies<a class="headerlink" href="#cookies" title="Permanent link">&para;</a></h5>
+<p>The request and response cookie functions provide a convenient way for sharing information between
+handlers, requests, or even servers.</p>
+<p>You can read client sent cookies from the request's <code>cookies</code> read only map. To change cookies or
+add new ones you have to use <code>response.addCookie()</code> and <code>response.removeCookie()</code> methods.</p>
+<p>Check the following sample code for details:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/cookie&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">cookies</span>                       <span class="c1">// get map of all request cookies</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">cookies</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span>                <span class="c1">// access request cookie by name</span>
+
+    <span class="kd">val</span> <span class="nv">cookie</span> <span class="o">=</span> <span class="n">Cookie</span><span class="p">(</span><span class="s">&quot;new_foo&quot;</span><span class="p">,</span> <span class="s">&quot;bar&quot;</span><span class="p">)</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">addCookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>                     <span class="c1">// set cookie with a value</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">addCookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="m">3600</span><span class="p">))</span> <span class="c1">// set cookie with a max-age</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">addCookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">secure</span> <span class="o">=</span> <span class="kc">true</span><span class="p">))</span> <span class="c1">// secure cookie</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">removeCookie</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span>                   <span class="c1">// remove cookie</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="sessions">Sessions<a class="headerlink" href="#sessions" title="Permanent link">&para;</a></h5>
+<p>Every request has access to the session created on the server side, the <code>session</code> object provides
+the following methods:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/session&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">session</span>                         <span class="c1">// create and return session</span>
+    <span class="n">session</span><span class="p">.</span><span class="na">attributes</span><span class="o">[</span><span class="s">&quot;user&quot;</span><span class="o">]</span>      <span class="c1">// Get session attribute &#39;user&#39;</span>
+    <span class="n">session</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">,</span> <span class="s">&quot;foo&quot;</span><span class="p">)</span>      <span class="c1">// Set session attribute &#39;user&#39;</span>
+    <span class="n">session</span><span class="p">.</span><span class="na">removeAttribute</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">)</span> <span class="c1">// Remove session attribute &#39;user&#39;</span>
+    <span class="n">session</span><span class="p">.</span><span class="na">attributes</span>              <span class="c1">// Get all session attributes</span>
+    <span class="n">session</span><span class="p">.</span><span class="na">id</span>                      <span class="c1">// Get session id</span>
+    <span class="n">session</span><span class="p">.</span><span class="na">isNew</span><span class="p">()</span>                 <span class="c1">// Check if session is new</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<!-- TODO Explain how to set up using server features -->
+
+<h5 id="compression">Compression<a class="headerlink" href="#compression" title="Permanent link">&para;</a></h5>
+<!-- TODO Explain how to set up using server features -->
+
+<h5 id="halting">Halting<a class="headerlink" href="#halting" title="Permanent link">&para;</a></h5>
+<p>To immediately stop a request within a filter or route use <code>halt()</code>. <code>halt()</code> is not intended to be
+used inside exception-mappers. Check the following snippet for an example:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halt&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">halt</span><span class="p">()</span>                <span class="c1">// halt with status 500 and stop route processing</span>
+
+    <span class="cm">/*</span>
+<span class="cm">     * These are just examples the following code will never be reached</span>
+<span class="cm">     */</span>
+    <span class="n">halt</span><span class="p">(</span><span class="m">401</span><span class="p">)</span>             <span class="c1">// halt with status</span>
+    <span class="n">halt</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span>  <span class="c1">// halt with message (status 500)</span>
+    <span class="n">halt</span><span class="p">(</span><span class="m">401</span><span class="p">,</span> <span class="s">&quot;Go away!&quot;</span><span class="p">)</span> <span class="c1">// halt with status and message</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h4 id="filters">Filters<a class="headerlink" href="#filters" title="Permanent link">&para;</a></h4>
+<p>You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
+code executed before or after one or more routes. They can read the request and read/modify the
+response.</p>
+<p>All filters that match a route are executed in the order they are declared.</p>
+<p>Filters optionally take a pattern, causing them to be executed only if the request path matches
+that pattern.</p>
+<p>Before and after filters are always executed (if the route is matched). However, any of them may
+stop the execution chain if halted.</p>
+<p>If <code>halt()</code> is called in one filter, filter processing is stopped for that kind of filter (<em>before</em>
+or <em>after</em>). In the case of before filters, this also prevent the route from being executed (but
+after filters are executed anyway).</p>
+<p>The following code details filters usage:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">before</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;b_all&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="n">before</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;b_filters&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters/route&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters route&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">after</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;a_filters&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="n">path</span><span class="p">(</span><span class="s">&quot;/nested&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">before</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;b_nested&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">before</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;b_nested_2&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested filters&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/halted&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">499</span><span class="p">,</span> <span class="s">&quot;halted&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested also&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">after</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;a_nested&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">after</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;a_all&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h4 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h4>
+<p>You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
+callbacks, or handlers halted with an error code.</p>
+<p>Error handlers for a given code or exception are unique, and the first one defined is the one which
+will be used.</p>
+<h5 id="http-errors-handlers">HTTP Errors Handlers<a class="headerlink" href="#http-errors-handlers" title="Permanent link">&para;</a></h5>
+<p>Allows handling routes halted with a given code. These handlers are only applied if the route is
+halted, if the error code is returned with <code>send</code> it won't be handled as an error. Example:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Register handler for routes halted with 512 code</span>
+<span class="n">error</span><span class="p">(</span><span class="m">512</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">500</span><span class="p">,</span> <span class="s">&quot;Ouch&quot;</span><span class="p">)}</span>
+
+<span class="c1">// If status code (512) is returned with `send` error won&#39;t be triggered</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/errors&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">512</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="exception-mapping">Exception Mapping<a class="headerlink" href="#exception-mapping" title="Permanent link">&para;</a></h5>
+<p>You can handle exceptions of a given type for all routes and filters. The handler allows you to
+refer to the thrown exception. Look at the following code for a detailed example:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Register handler for routes which callbacks throw exceptions</span>
+<span class="n">error</span><span class="p">(</span><span class="n">CodedException</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">599</span><span class="p">,</span> <span class="nb">it</span><span class="p">.</span><span class="na">message</span> <span class="o">?:</span> <span class="s">&quot;empty&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">error</span><span class="p">(</span><span class="n">IllegalStateException</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">505</span><span class="p">,</span> <span class="nb">it</span><span class="p">.</span><span class="na">message</span> <span class="o">?:</span> <span class="s">&quot;empty&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/exceptions&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">error</span><span class="p">(</span><span class="s">&quot;Message&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/codedExceptions&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">509</span><span class="p">,</span> <span class="s">&quot;code&quot;</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h4 id="static-files">Static Files<a class="headerlink" href="#static-files" title="Permanent link">&para;</a></h4>
+<p>You can use a folder in the classpath for serving static files with the <code>get()</code> methods. Note that
+the public directory name is not included in the URL.</p>
+<p>Asset mapping is handled like any other route, so if an asset mapping is matched, no other route
+will be checked (assets or other routes). Also, if a previous route is matched, the asset mapping
+will never be checked.</p>
+<p>Being <code>get(resource)</code> a shortcut of <code>get("/*", resource)</code> it should be placed as the last route.
+Check the next example for details:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/file.txt&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;It matches this route and won&#39;t search for the file&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="c1">// Expose resources on the &#39;/public&#39; resource folder over the &#39;/web&#39; HTTP path</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/*&quot;</span><span class="p">,</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:public&quot;</span><span class="p">))</span>
+
+<span class="c1">// Maps resources on &#39;assets&#39; on the server root (assets/f.css -&gt; /f.css)</span>
+<span class="c1">// &#39;/public/css/style.css&#39; resource would be: &#39;http://{host}:{port}/css/style.css&#39;</span>
+<span class="k">get</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">))</span>
+</code></pre></div>
+</td></tr></table>
+<h5 id="mime-types">MIME types<a class="headerlink" href="#mime-types" title="Permanent link">&para;</a></h5>
+<p>The MIME types of static files are computed from the file extension using the
+<a href="/core/com.hexagonkt.serialization/-serialization-manager/content-type-of/">SerializationManager.contentTypeOf()</a> method.</p>
+<h4 id="cors">CORS<a class="headerlink" href="#cors" title="Permanent link">&para;</a></h4>
+<p>CORS behaviour can be different depending on the path. You can attach different <a href="/http_server/com.hexagonkt.http.server/-cors-settings/">CorsSettings</a> to
+different routers. Check <a href="/http_server/com.hexagonkt.http.server/-cors-settings/">CorsSettings</a> class for more details.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">server</span><span class="p">:</span> <span class="n">Server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/default&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">())</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/example/org&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="s">&quot;example.org&quot;</span><span class="p">))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/no/credentials&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">supportCredentials</span> <span class="o">=</span> <span class="kc">false</span><span class="p">))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/only/post&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">allowedMethods</span> <span class="o">=</span> <span class="n">setOf</span><span class="p">(</span><span class="n">POST</span><span class="p">)))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/cache&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">preFlightMaxAge</span> <span class="o">=</span> <span class="m">10</span><span class="p">))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/exposed/headers&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">exposedHeaders</span> <span class="o">=</span> <span class="n">setOf</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/allowed/headers&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">allowedHeaders</span> <span class="o">=</span> <span class="n">setOf</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)))</span>
+<span class="p">}</span>
+
+<span class="kd">private</span> <span class="kd">fun</span> <span class="n">Router</span><span class="p">.</span><span class="nf">corsPath</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">CorsSettings</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// CORS settings can change for different routes</span>
+        <span class="n">cors</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+
+        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">post</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">put</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">delete</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">post</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">put</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="n">delete</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h4 id="https">HTTPS<a class="headerlink" href="#https" title="Permanent link">&para;</a></h4>
+<p>It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
+certificate and its key in the server's <a href="/core/com.hexagonkt.http/-ssl-settings/">SslSettings</a>. Once you use a server certificate, it is also
+possible to serve content using <a href="https://en.wikipedia.org/wiki/HTTP/2">HTTP/2</a>, for this to work, <a href="https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation">ALPN</a> is required (however, this is
+already handled if you use Java 11).</p>
+<p>The certificate common name should match the host that will serve the content in order to be
+accepted by an HTTP client without a security error. There is a <a href="https://gradle.org">Gradle</a> helper to
+<a href="/gradle/#certificates">create sample certificates</a> for development purposes.</p>
+<p>HTTP clients can also be configured to use a certificate. This is required to implement a double
+ended authorization (<a href="https://en.wikipedia.org/wiki/Mutual_authentication">mutual TLS</a>). This is also done by passing a <a href="/core/com.hexagonkt.http/-ssl-settings/">SslSettings</a> object the HTTP
+client.</p>
+<p>If you want to implement mutual trust, you must enforce client certificate in the server
+configuration (check <a href="/core/com.hexagonkt.http/-ssl-settings/client-auth">SslSettings.clientAuth</a>). If this is done, you can access the certificate the
+client used to connect (assuming it is valid, if not the connection will end with an error) with the
+<a href="/http_server/com.hexagonkt.http.server/-request/certificate-chain">Request.certificateChain</a> property.</p>
+<p>Below you can find a simple example to set up an HTTPS server and client with mutual TLS:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Key store files</span>
+<span class="kd">val</span> <span class="nv">identity</span> <span class="o">=</span> <span class="s">&quot;hexagonkt.p12&quot;</span>
+<span class="kd">val</span> <span class="nv">trust</span> <span class="o">=</span> <span class="s">&quot;trust.p12&quot;</span>
+
+<span class="c1">// Default passwords are file name reversed</span>
+<span class="kd">val</span> <span class="nv">keyStorePassword</span> <span class="o">=</span> <span class="n">identity</span><span class="p">.</span><span class="na">reversed</span><span class="p">()</span>
+<span class="kd">val</span> <span class="nv">trustStorePassword</span> <span class="o">=</span> <span class="n">trust</span><span class="p">.</span><span class="na">reversed</span><span class="p">()</span>
+
+<span class="c1">// Key stores can be set as URIs to classpath resources (the triple slash is needed)</span>
+<span class="kd">val</span> <span class="nv">keyStore</span> <span class="o">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/</span><span class="si">$</span><span class="n">identity</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">trustStore</span> <span class="o">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:ssl/</span><span class="si">$</span><span class="n">trust</span><span class="s">&quot;</span><span class="p">)</span>
+
+<span class="kd">val</span> <span class="nv">sslSettings</span> <span class="o">=</span> <span class="n">SslSettings</span><span class="p">(</span>
+    <span class="n">keyStore</span> <span class="o">=</span> <span class="n">keyStore</span><span class="p">,</span>
+    <span class="n">keyStorePassword</span> <span class="o">=</span> <span class="n">keyStorePassword</span><span class="p">,</span>
+    <span class="n">trustStore</span> <span class="o">=</span> <span class="n">trustStore</span><span class="p">,</span>
+    <span class="n">trustStorePassword</span> <span class="o">=</span> <span class="n">trustStorePassword</span><span class="p">,</span>
+    <span class="n">clientAuth</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">// Requires a valid certificate from the client (mutual TLS)</span>
+<span class="p">)</span>
+
+<span class="kd">val</span> <span class="nv">serverSettings</span> <span class="o">=</span> <span class="n">ServerSettings</span><span class="p">(</span>
+    <span class="n">bindPort</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span>
+    <span class="n">protocol</span> <span class="o">=</span> <span class="n">HTTPS</span><span class="p">,</span> <span class="c1">// You can also use HTTP2</span>
+    <span class="n">sslSettings</span> <span class="o">=</span> <span class="n">sslSettings</span>
+<span class="p">)</span>
+
+<span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">serve</span><span class="p">(</span><span class="n">serverSettings</span><span class="p">,</span> <span class="n">serverAdapter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// We can access the certificate used by the client from the request</span>
+        <span class="kd">val</span> <span class="nv">subjectDn</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">certificate</span><span class="o">?.</span><span class="na">subjectDN</span><span class="o">?.</span><span class="na">name</span>
+        <span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;cert&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">subjectDn</span>
+        <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// We&#39;ll use the same certificate for the client (in a real scenario it would be different)</span>
+<span class="kd">val</span> <span class="nv">clientSettings</span> <span class="o">=</span> <span class="n">ClientSettings</span><span class="p">(</span><span class="n">sslSettings</span> <span class="o">=</span> <span class="n">sslSettings</span><span class="p">)</span>
+
+<span class="c1">// Create a HTTP client and make a HTTPS request</span>
+<span class="kd">val</span> <span class="nv">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;https://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">clientSettings</span><span class="p">)</span>
+<span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">apply</span> <span class="p">{</span>
+    <span class="n">logger</span><span class="p">.</span><span class="na">debug</span> <span class="p">{</span> <span class="n">body</span> <span class="p">}</span>
+    <span class="c1">// Assure the certificate received (and returned) by the server is correct</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">headers</span><span class="p">.</span><span class="na">require</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">).</span><span class="na">first</span><span class="p">().</span><span class="na">startsWith</span><span class="p">(</span><span class="s">&quot;CN=hexagonkt.com&quot;</span><span class="p">))</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">body</span> <span class="o">==</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h4 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h4>
+<h5 id="integration-tests">Integration tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h5>
+<p>To test HTTP servers from outside using a real Adapter, you can create a server setting <code>0</code> as port.
+This will pick a random free port which you can check later:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">router</span> <span class="o">=</span> <span class="n">Router</span> <span class="p">{</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hi!&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">val</span> <span class="nv">serverSettings</span> <span class="o">=</span> <span class="n">ServerSettings</span><span class="p">(</span><span class="n">InetAddress</span><span class="p">.</span><span class="na">getLoopbackAddress</span><span class="p">(),</span> <span class="m">0</span><span class="p">,</span> <span class="n">banner</span> <span class="o">=</span> <span class="s">&quot;name&quot;</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">router</span><span class="p">,</span> <span class="n">serverSettings</span><span class="p">)</span>
+
+<span class="n">server</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
+<span class="kd">val</span> <span class="nv">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">assert</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;Hi!&quot;</span><span class="p">)</span>
+<span class="n">server</span><span class="p">.</span><span class="na">stop</span><span class="p">()</span>
+</code></pre></div>
+</td></tr></table>
+<p>To do this kind of tests without creating a custom server (using the real production code).
+Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/test/kotlin/GradleStarterTest.kt">tests of the starter projects</a>.</p>
+<p>If you have an OpenAPI/Swagger spec defined for your server, you can also make use of the mock server (<a href="#openapi-mock-server">see below</a>).</p>
+<h5 id="mocking-calls">Mocking calls<a class="headerlink" href="#mocking-calls" title="Permanent link">&para;</a></h5>
+<p>To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.</p>
+<p>To use it in your project you'll have to include a dependency (with test scope):</p>
+<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">build.gradle</label><div class="tabbed-content">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">repositories</span> <span class="o">{</span>
+    <span class="n">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">testImplementation</span><span class="o">(</span><span class="s2">&quot;com.hexagonkt:http_server:$hexagonVersion:test&quot;</span><span class="o">)</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">pom.xml</label><div class="tabbed-content">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.hexagonkt<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>http_server<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>$hexagonVersion<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+</div>
+<p>Check <a href="/http_server/com.hexagonkt.http.server.test/test-call/">testCall</a>, <a href="/http_server/com.hexagonkt.http.server.test/-test-request/">TestRequest</a>, <a href="/http_server/com.hexagonkt.http.server.test/-test-response/">TestResponse</a> and <a href="/http_server/com.hexagonkt.http.server.test/-test-session/">TestSession</a> for more details.</p>
+<p>For a quick sample, check the snipped below:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">private</span> <span class="kd">fun</span> <span class="n">Call</span><span class="p">.</span><span class="nf">testedCallback</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;weird&quot;</span><span class="p">)</span>
+        <span class="n">send</span><span class="p">(</span><span class="m">999</span><span class="p">,</span> <span class="s">&quot;Weird error&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nd">@Test</span> <span class="kd">fun</span> <span class="nf">`Test call behaves as expected`</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="nv">testCall</span> <span class="o">=</span> <span class="n">testCall</span><span class="p">(</span><span class="n">TestRequest</span><span class="p">(</span><span class="n">body</span> <span class="o">=</span> <span class="s">&quot;weird&quot;</span><span class="p">))</span>
+
+    <span class="n">testCall</span><span class="p">.</span><span class="na">testedCallback</span><span class="p">()</span>
+
+    <span class="n">assert</span><span class="p">(</span><span class="n">testCall</span><span class="p">.</span><span class="na">response</span><span class="p">.</span><span class="na">status</span> <span class="o">==</span> <span class="m">999</span><span class="p">)</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">testCall</span><span class="p">.</span><span class="na">response</span><span class="p">.</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;Weird error&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h4 id="openapi-mock-server">OpenAPI Mock Server<a class="headerlink" href="#openapi-mock-server" title="Permanent link">&para;</a></h4>
+<p>The mock server is able to create and return a <code>Server</code> from the information of an OpenAPI/Swagger spec file.
+The path to the spec file can either be a URL or a local file. It can be either in JSON or YAML format.</p>
+<p>The mock server takes all its data from the spec and the request and response of the routes is
+determined by the routes' examples and schemas.
+During handling of a request, the mock server validates the request parameters against those
+specified in the spec file and returns an appropriate response from the <a href="#providing-examples">provided examples</a>.
+If any authentication requirements are specified, they are validated as well.</p>
+<h5 id="how-to-use">How to Use<a class="headerlink" href="#how-to-use" title="Permanent link">&para;</a></h5>
+<p>First, add the required dependencies:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.hexagonkt:http_server:</span><span class="si">$</span><span class="n">hexagonVersion</span><span class="s">:test&quot;</span><span class="p">)</span>
+<span class="n">implementation</span><span class="p">(</span><span class="s">&quot;io.swagger.parser.v3:swagger-parser:</span><span class="si">$</span><span class="n">swaggerParserVersion</span><span class="s">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</td></tr></table></p>
+<p>To create the mock server object:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">mockServer</span> <span class="o">=</span> <span class="n">MockServer</span><span class="p">(</span><span class="s">&quot;https://petstore3.swagger.io/api/v3/openapi.json&quot;</span><span class="p">)</span>
+</code></pre></div>
+</td></tr></table></p>
+<p>Optionally, you can also explicitly specify a port number:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">mockServer</span> <span class="o">=</span> <span class="n">MockServer</span><span class="p">(</span><span class="s">&quot;https://petstore3.swagger.io/api/v3/openapi.json&quot;</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="m">9090</span><span class="p">)</span>
+</code></pre></div>
+</td></tr></table></p>
+<p>To get the actual server object:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">mockServer</span><span class="p">.</span><span class="na">server</span>
+</code></pre></div>
+</td></tr></table></p>
+<p>Finally, to run the server:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">server</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
+</code></pre></div>
+</td></tr></table></p>
+<h5 id="openapi-spec-file-requirements">OpenAPI Spec File Requirements<a class="headerlink" href="#openapi-spec-file-requirements" title="Permanent link">&para;</a></h5>
+<p>The file provided should be a syntactically valid OpenAPI spec file. If it is not, an error will be
+raised at initialization time.</p>
+<p>For each path in the spec file, descriptions for 200 and 400 (in case parameter verification fails)
+status codes must be provided. If the path contains authentication requirements, a 401 status code
+description must also be provided. In addition, for each status code, at least one example must be
+provided. Note that, at present, only the <code>application/json</code> media type is supported.</p>
+<h5 id="supported-authentication-methods">Supported Authentication Methods<a class="headerlink" href="#supported-authentication-methods" title="Permanent link">&para;</a></h5>
+<p>Currently, the following Authentication methods/mechanisms are supported:</p>
+<ul>
+<li>API Key authentication (key may be present in the headers, query parameters or cookies)</li>
+<li>HTTP Authentication (Basic or Bearer authentication)</li>
+</ul>
+<h5 id="providing-examples">Providing Examples<a class="headerlink" href="#providing-examples" title="Permanent link">&para;</a></h5>
+<p>There are several ways to define response examples in an OpenAPI spec file.
+If there are multiple examples defined for a particular path status code, you can specify a
+particular response by using the <code>X-Mock-Response-Example</code> header with the name of the desired example.</p>
+<p>The mock server follows the following priority order when parsing the spec file for examples:
+1. If the X-Mock-Response-Example header is present, then the example corresponding to the value of
+that header is immediately fetched and returned.
+2. If no X-Mock-Response-Example header is present, it first tries to fetch an example from the
+schema key within the media type object.
+3. If no example is found here, it then attempts to fetch the example from the example key in the
+media type object.
+4. Next, it attempts to fetch the first value found in the examples key of the media type object.
+5. If still no example is found, it simply raises an exception.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">&quot;content&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nt">&quot;application/json&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;schema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;example&quot;</span><span class="p">:</span> <span class="s2">&quot;This value is checked first&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;example&quot;</span><span class="p">:</span> <span class="s2">&quot;This value is checked second&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;examples&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;example1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;This value is checked third&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;example2&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;This value would be returned if the X-Mock-Response-Example header is passed with value &#39;example2&#39;&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h2 id="package-comhexagonkthttpserver">Package com.hexagonkt.http.server<a class="headerlink" href="#package-comhexagonkthttpserver" title="Permanent link">&para;</a></h2>
+<p>This package defines the classes used in the HTTP DSL.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+<footer class="md-footer">
+
+  
+  <nav class="md-footer__inner md-grid" aria-label="Footer">
+
+    
+    <a
+      href="../core/"
+      class="md-footer__link md-footer__link--prev"
+      rel="prev">
+
+      <div class="md-footer__button md-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg></div>
+      <div class="md-footer__title">
+        <div class="md-ellipsis">
+          <span class="md-footer__direction">Previous</span>
+          Core
+        </div>
+      </div>
+    </a>
+    
+
+    
+    <a
+      href="../http_client/"
+      class="md-footer__link md-footer__link--next"
+      rel="next">
+
+      <div class="md-footer__title">
+        <div class="md-ellipsis">
+          <span class="md-footer__direction">Next</span>
+          HTTP Client
+        </div>
+      </div>
+      <div class="md-footer__button md-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg></div>
+    </a>
+    
+  </nav>
+  
+
+  <!-- Sponsors -->
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        <p style="margin: 0">This project is supported by:</p>
+        <p id="sponsors">
+          <a
+            href="https://www.digitalocean.com/?utm_medium=opensource&utm_source=Hexagon-Toolkit"
+            style="width: 100%;">
+            <img
+              style="height: 128px"
+              src=
+                "https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_vertical_white.svg">
+          </a>
+          <a href="https://www.jetbrains.com/?from=Hexagon-Toolkit" style="width: 100%;">
+            <img
+              style="height: 96px"
+              src="/img/sponsors/jetbrains-variant-4-bw.svg">
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        <div class="md-footer-copyright__highlight">Made with <svg class="fa-heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> by <a href="https://github.com/hexagonkt/hexagon/graphs/contributors">OSS contributors</a>. Licensed under <a href="https://github.com/hexagonkt/hexagon/blob/master/license.md">MIT License</a>
+</div>
+        
+        <div>
+        Powered by <a href="https://www.mkdocs.org">MkDocs</a>
+        and <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a>
+        </div>
+        <div>
+          If you want to contribute,
+          <a href="https://github.com/hexagonkt/hexagon/contribute">come on!</a>
+        </div>
+        <div class="social-buttons">
+          <a
+            class="github-button"
+            href="https://github.com/hexagonkt/hexagon"
+            data-icon="octicon-star"
+            data-show-count="true"
+            aria-label="Star hexagonkt/hexagon on GitHub">Star</a>
+          <a
+            class="github-button"
+            href="https://github.com/hexagonkt/hexagonsubscription"
+            data-icon="octicon-eye"
+            data-show-count="true"
+            aria-label="Watch hexagonkt/hexagon on GitHub">Watch</a>
+          <a
+            class="github-button"
+            href="https://github.com/hexagonkt/hexagonfork"
+            data-icon="octicon-git-branch"
+            data-show-count="true"
+            aria-label="Fork hexagonkt/hexagon on GitHub">Fork</a>
+          <a
+            class="twitter-share-button"
+            href="https://twitter.com/share?text=Hexagon Kotlin toolkit">Tweet</a>
+        </div>
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/hexagonkt" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://dev.to/hexagonkt" target="_blank" rel="noopener" title="dev.to" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M120.12 208.29c-3.88-2.9-7.77-4.35-11.65-4.35H91.03v104.47h17.45c3.88 0 7.77-1.45 11.65-4.35 3.88-2.9 5.82-7.25 5.82-13.06v-69.65c-.01-5.8-1.96-10.16-5.83-13.06zM404.1 32H43.9C19.7 32 .06 51.59 0 75.8v360.4C.06 460.41 19.7 480 43.9 480h360.2c24.21 0 43.84-19.59 43.9-43.8V75.8c-.06-24.21-19.7-43.8-43.9-43.8zM154.2 291.19c0 18.81-11.61 47.31-48.36 47.25h-46.4V172.98h47.38c35.44 0 47.36 28.46 47.37 47.28l.01 70.93zm100.68-88.66H201.6v38.42h32.57v29.57H201.6v38.41h53.29v29.57h-62.18c-11.16.29-20.44-8.53-20.72-19.69V193.7c-.27-11.15 8.56-20.41 19.71-20.69h63.19l-.01 29.52zm103.64 115.29c-13.2 30.75-36.85 24.63-47.44 0l-38.53-144.8h32.57l29.71 113.72 29.57-113.72h32.58l-38.46 144.8z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/hexagon_kt" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://kotlinlang.slack.com/messages/hexagon" target="_blank" rel="noopener" title="kotlinlang.slack.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M94.12 315.1c0 25.9-21.16 47.06-47.06 47.06S0 341 0 315.1c0-25.9 21.16-47.06 47.06-47.06h47.06v47.06zm23.72 0c0-25.9 21.16-47.06 47.06-47.06s47.06 21.16 47.06 47.06v117.84c0 25.9-21.16 47.06-47.06 47.06s-47.06-21.16-47.06-47.06V315.1zm47.06-188.98c-25.9 0-47.06-21.16-47.06-47.06S139 32 164.9 32s47.06 21.16 47.06 47.06v47.06H164.9zm0 23.72c25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06H47.06C21.16 243.96 0 222.8 0 196.9s21.16-47.06 47.06-47.06H164.9zm188.98 47.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06h-47.06V196.9zm-23.72 0c0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06V79.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06V196.9zM283.1 385.88c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06v-47.06h47.06zm0-23.72c-25.9 0-47.06-21.16-47.06-47.06 0-25.9 21.16-47.06 47.06-47.06h117.84c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06H283.1z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+        <script src="https://buttons.github.io/buttons.js"></script>
+      
+        <script src="https://platform.twitter.com/widgets.js"></script>
+      
+    
+  </body>
+</html>
