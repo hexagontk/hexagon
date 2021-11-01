@@ -26,8 +26,8 @@ The project is composed of modules, each module provides a single functionality.
 kinds of modules:
 
 * The ones that provide functionality that does not depend on different implementations, like
-  [hexagon_scheduler] or [core]. Their name always starts with the `hexagon_` prefix. These
-  modules can depend on several Ports, but never on Adapters (see below).
+  [core]. Their name always starts with the `hexagon_` prefix. These modules can depend on several
+  Ports, but never on Adapters (see below).
 * Modules that define one or more related "Ports": these are interfaces to a feature that may have
   different implementations (i.e., [http_server] or [templates]). They cannot be used by
   themselves and in their place, an adapter implementing them should be added to the list of
@@ -37,7 +37,6 @@ kinds of modules:
   [http_server_jetty] are examples of this type of module. Adapter names must start with their
   port name.
 
-[hexagon_scheduler]: /hexagon_scheduler/
 [core]: /core/
 
 [http_server]: /http_server/
@@ -67,12 +66,9 @@ The main features are the following:
 The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.
 
-* [Scheduling]: this module allows services to execute tasks periodically using Cron expressions.
-  However, you have to be careful to not run tasks twice if you have many instances.
 * [Web]: this module is meant to ease web application development. Provides helpers for
   generating HTML and depends on the [HTTP Server] and [Templates] ports.
 
-[Scheduling]: /hexagon_scheduler/
 [Web]: /web/
 
 # Toolkit Ports
