@@ -51,7 +51,7 @@ fun String.decodeBase64(): ByteArray =
  *
  * @param parameters The map with the list of key/value tuples.
  * @return The filtered text or the same string if no values are passed or found in the text.
- * @sample com.hexagonkt.helpers.StringsSamplesTest.filterVarsExample
+ * @sample com.hexagonkt.core.helpers.StringsSamplesTest.filterVarsExample
  */
 fun String.filterVars(parameters: Map<*, *>): String =
     parameters.entries
@@ -71,7 +71,7 @@ fun String.filterVars(parameters: Map<*, *>): String =
  *
  * @param parameters vararg of key/value pairs.
  * @return The filtered text or the same string if no values are passed or found in the text.
- * @sample com.hexagonkt.helpers.StringsSamplesTest.filterVarsVarargExample
+ * @sample com.hexagonkt.core.helpers.StringsSamplesTest.filterVarsVarargExample
  *
  * @see filterVars
  */

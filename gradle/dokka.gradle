@@ -34,7 +34,7 @@ private void setUpDokka(final Object dokkaTask) {
             includeNonPublic.set(false)
             reportUndocumented.set(false)
             includes.from(fileTree(projectDir) { include("*.md") })
-            samples.from(fileTree(projectDir) { include("**/*SamplesTest.kt") })
+            samples.from(fileTree(projectDir) { include("**/*Test.kt") })
         }
     }
 }
