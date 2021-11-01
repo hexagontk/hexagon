@@ -16,7 +16,7 @@
         <link rel="canonical" href="https://hexagonkt.com/developer_guide/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.5">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.cdeb8541.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.a57b2b03.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -106,15 +106,6 @@
 <link rel="author" href="/humans.txt" />
 <link rel="manifest" href="/manifest.json">
 
-<!-- Web worker -->
-<!--
-<script>
-if ('serviceWorker' in navigator)
-  navigator.serviceWorker
-    .register('/service_worker.js')
-    .then(function() { console.log('Worker Registered'); });
-</script>
--->
 
   </head>
   
@@ -988,8 +979,8 @@ single application.</p>
 kinds of modules:</p>
 <ul>
 <li>The ones that provide functionality that does not depend on different implementations, like
-  <a href="/hexagon_scheduler/">hexagon_scheduler</a> or <a href="/core/">core</a>. Their name always starts with the <code>hexagon_</code> prefix. These
-  modules can depend on several Ports, but never on Adapters (see below).</li>
+  <a href="/core/">core</a>. Their name always starts with the <code>hexagon_</code> prefix. These modules can depend on several
+  Ports, but never on Adapters (see below).</li>
 <li>Modules that define one or more related "Ports": these are interfaces to a feature that may have
   different implementations (i.e., <a href="/http_server/">http_server</a> or <a href="/templates/">templates</a>). They cannot be used by
   themselves and in their place, an adapter implementing them should be added to the list of
@@ -1013,8 +1004,6 @@ functionalities. You can use a third party DI library instead of using the Core 
 <p>The following libraries provide extra features not bound to different implementations. They will not
 use dependencies outside the Hexagon toolkit.</p>
 <ul>
-<li><a href="/hexagon_scheduler/">Scheduling</a>: this module allows services to execute tasks periodically using Cron expressions.
-  However, you have to be careful to not run tasks twice if you have many instances.</li>
 <li><a href="/web/">Web</a>: this module is meant to ease web application development. Provides helpers for
   generating HTML and depends on the <a href="/http_server/">HTTP Server</a> and <a href="/templates/">Templates</a> ports.</li>
 </ul>
@@ -1193,10 +1182,10 @@ a particular use case.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="../assets/javascripts/bundle.b1047164.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

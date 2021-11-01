@@ -3,6 +3,7 @@ $dokka.linkExtension:html
 
 module:core
 com.hexagonkt.core
+com.hexagonkt.core.converters
 com.hexagonkt.core.helpers
 com.hexagonkt.core.logging
 com.hexagonkt.core.logging.jul
