@@ -139,12 +139,12 @@ abstract class FilesTest(adapter: ServerPort) {
         }
     }
 
-    private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
+    private fun assertResponseEquals(response: Response<String>?, content: String, status: Int = 200) {
         assertEquals(status, response?.status)
         assertEquals(content, response?.body?.trim())
     }
 
-    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
+    private fun assertResponseContains(response: Response<String>?, status: Int, vararg content: String) {
         assert(response?.status == status)
         content.forEach {
             assert (response?.body?.contains (it) ?: false)
