@@ -338,13 +338,13 @@ abstract class GenericTest(adapter: ServerPort) {
         assert(200 == response.status)
     }
 
-    private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
+    private fun assertResponseEquals(response: Response<String>?, content: String, status: Int = 200) {
         assert(response?.headers?.get("before")?.first() == "filter")
         assert(response?.status == status)
         assert(response?.body == content)
     }
 
-    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
+    private fun assertResponseContains(response: Response<String>?, status: Int, vararg content: String) {
         assert(response?.headers?.get("before")?.first() == "filter")
         assert(response?.status == status)
         content.forEach {
@@ -352,7 +352,7 @@ abstract class GenericTest(adapter: ServerPort) {
         }
     }
 
-    private fun assertResponseContains(response: Response?, vararg content: String) {
+    private fun assertResponseContains(response: Response<String>?, vararg content: String) {
         assertResponseContains(response, 200, *content)
     }
 }

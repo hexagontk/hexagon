@@ -152,14 +152,14 @@ abstract class TodoTest(adapter: ServerPort) {
         assertResponseContains(result, 404, "not found")
     }
 
-    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
+    private fun assertResponseContains(response: Response<String>?, status: Int, vararg content: String) {
         assert(response?.status == status)
         content.forEach {
             assert(response?.body?.contains(it) ?: false)
         }
     }
 
-    private fun assertResponseContains(response: Response?, vararg content: String) {
+    private fun assertResponseContains(response: Response<String>?, vararg content: String) {
         assertResponseContains(response, 200, *content)
     }
 }

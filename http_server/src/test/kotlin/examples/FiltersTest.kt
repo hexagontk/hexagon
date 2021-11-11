@@ -97,7 +97,7 @@ abstract class FiltersTest(adapter: ServerPort) {
         assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
     }
 
-    private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
+    private fun assertResponseEquals(response: Response<String>?, content: String, status: Int = 200) {
         assert (response?.status == status)
         assert (response?.body == content)
     }
