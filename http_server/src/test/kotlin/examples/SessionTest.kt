@@ -113,7 +113,7 @@ abstract class SessionTest(adapter: ServerPort) {
         assert(client.get("/session/access").body == "null")
     }
 
-    private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
+    private fun assertResponseEquals(response: Response<String>?, content: String, status: Int = 200) {
         assert (response?.status == status)
         assert (response?.body == content)
     }

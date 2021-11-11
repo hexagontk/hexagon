@@ -323,13 +323,13 @@ abstract class PortHttpServerSamplesTest(val adapter: ServerPort) {
     }
 
     @Test fun filters() {
-        fun assertResponse(response: ClientResponse, body: String, vararg headers: String) {
+        fun assertResponse(response: ClientResponse<String>, body: String, vararg headers: String) {
             assert(response.status == 200)
             (headers.toList() + "b_all" + "a_all").forEach { assert(response.headers.contains(it)) }
             assert(response.body == body)
         }
 
-        fun assertFail(code: Int, response: ClientResponse, body: String, vararg headers: String) {
+        fun assertFail(code: Int, response: ClientResponse<String>, body: String, vararg headers: String) {
             assert(response.status == code)
             (headers.toList() + "b_all" + "a_all").forEach { assert(response.headers.contains(it)) }
             assert(response.body == body)

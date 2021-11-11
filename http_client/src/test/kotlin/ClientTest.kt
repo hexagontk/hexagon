@@ -299,7 +299,7 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
     }
 
     private fun checkResponse(
-        response: Response, parameter: Map<String, String>?, format: SerializationFormat = Json) {
+        response: Response<String>, parameter: Map<String, String>?, format: SerializationFormat = Json) {
 
         assert(response.status == 200)
         assert(response.body?.trim() == parameter?.serialize(format)?.trim() ?: "")

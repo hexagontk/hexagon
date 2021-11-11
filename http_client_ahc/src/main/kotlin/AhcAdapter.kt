@@ -113,7 +113,7 @@ class AhcAdapter : ClientPort {
         return keyStore
     }
 
-    override fun send(client: Client, request: Request): Response {
+    override fun send(client: Client, request: Request): Response<String> {
 
         val settings: ClientSettings = client.settings
         val ahcRequest = createRequest(client, request)
