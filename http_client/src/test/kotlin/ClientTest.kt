@@ -286,7 +286,7 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         // We'll use the same certificate for the client (in a real scenario it would be different)
         val clientSettings = ClientSettings(sslSettings = sslSettings)
 
-        // Create a HTTP client and make a HTTPS request
+        // Create an HTTP client and make an HTTPS request
         val client = Client(adapter(), "https://localhost:${server.runtimePort}", clientSettings)
         client.get("/hello").apply {
             logger.debug { body }
@@ -302,6 +302,6 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
         response: Response<String>, parameter: Map<String, String>?, format: SerializationFormat = Json) {
 
         assert(response.status == 200)
-        assert(response.body?.trim() == parameter?.serialize(format)?.trim() ?: "")
+        assertEquals(response.body?.trim(), parameter?.serialize(format)?.trim() ?: "")
     }
 }

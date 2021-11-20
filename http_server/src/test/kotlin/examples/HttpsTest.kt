@@ -88,7 +88,7 @@ abstract class HttpsTest(adapter: ServerPort) {
         // We'll use the same certificate for the client (in a real scenario it would be different)
         val clientSettings = ClientSettings(sslSettings = sslSettings)
 
-        // Create a HTTP client and make a HTTPS request
+        // Create an HTTP client and make an HTTPS request
         val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
         client.get("/hello").apply {
             logger.debug { body }
@@ -165,7 +165,7 @@ abstract class HttpsTest(adapter: ServerPort) {
             sslSettings = trustStoreSettings
         )
 
-        // Create a HTTP client and make a HTTPS request
+        // Create an HTTP client and make an HTTPS request
         val client = Client(AhcAdapter(), "https://localhost:${server.runtimePort}", clientSettings)
         client.get("/hello").apply {
             assert(body == "Hello World!")

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
+import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -34,6 +35,7 @@ import java.util.Base64
 
 object JacksonHelper {
 
+    // TODO Replace ObjectMapper by JsonMapper (Jackson 2.13)
     val mapper: ObjectMapper by lazy { createObjectMapper () }
 
     fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
@@ -48,7 +50,7 @@ object JacksonHelper {
         .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
         .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
         .configure(SORT_PROPERTIES_ALPHABETICALLY, false)
-        .registerModule(KotlinModule())
+        .registerModule(KotlinModule.Builder().build())
         .registerModule(JavaTimeModule())
         .registerModule(Jdk8Module())
         .registerModule(SimpleModule("SerializationModule", Version.unknownVersion())
