@@ -1,17 +1,12 @@
 
 
-# Summary limited to 50 characters [#TaskId] [:Tag] [!!!]
+# Summary in imperative mood [#TaskId] [:Tag] [!!!]
 #
-# [Details wrapped at 72 characters]
+# [Details. Used to explain what and why vs. hows]
 #
 # 1. Capitalize summary line
-# 2. Use imperative mood in summary line
-# 3. Do not end summary line with a period
-# 4. 'TaskId', 'Tag', '!!!' and 'Details' are optional
-# 5. You can set multiple tags. I.e.: :doc :test :chore
+# 2. Do not end summary line with a period
+# 3. Elements among square brackets are optional
+# 4. You can set multiple tags. I.e.: :doc :test
+# 5. Tags are case-insensitive
 # 6. Summary with '!!!' means breaking changes
-# 7. Separate summary from details with a blank line
-# 8. Use details to explain what and why vs. how
-#
-# Inspired by https://chris.beams.io/posts/git-commit
-# and https://www.conventionalcommits.org
