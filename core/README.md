@@ -73,22 +73,22 @@ snippet for details:
 
 @code core/src/test/kotlin/HexagonCoreSamplesTest.kt:serializationUsage
 
-# Package com.hexagonkt.helpers
+# Package com.hexagonkt.core.helpers
 
 JVM information, a logger class and other useful utilities.
 
-# Package com.hexagonkt.logging
+# Package com.hexagonkt.core.logging
 
 Provides a logging management capabilities abstracting the application from logging libraries.
 
-# Package com.hexagonkt.logging.jul
+# Package com.hexagonkt.core.logging.jul
 
 TODO
 
-# Package com.hexagonkt.security
+# Package com.hexagonkt.core.security
 
 TODO
 
-# Package com.hexagonkt.serialization
+# Package com.hexagonkt.core.serialization
 
 Parse/serialize data in different formats to class instances.

@@ -18,8 +18,8 @@ Each of these features or ports may have different implementations called
 ["Adapters"][Ports and Adapters Architecture].
 
 Hexagon is designed to fit in applications that conform to the [Hexagonal Architecture] (also called
-[Clean Architecture] or [Ports and Adapters Architecture]). Its design principles also fit into this
-architecture.
+[Clean Architecture], [Onion Architecture] or [Ports and Adapters Architecture]). Its design
+principles also fit into this architecture.
 
 [^1]: Except the Core module that contains a set of utilities like serialization and logging
 utilities. However, some of these capacities can be replaced by other third party libraries.
@@ -29,6 +29,7 @@ utilities. However, some of these capacities can be replaced by other third part
 [Template Processing]: /templates/
 [Hexagonal Architecture]: http://fideloper.com/hexagonal-architecture
 [Clean Architecture]: https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
+[Onion Architecture]: https://dzone.com/articles/onion-architecture-is-interesting
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 
 # Hello World
