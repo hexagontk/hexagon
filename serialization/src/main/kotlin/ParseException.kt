@@ -1,3 +1,3 @@
-package com.hexagonkt.core.serialization
+package com.hexagonkt.serialization
 
 class ParseException(val field: String, cause: Throwable? = null) : RuntimeException(cause)

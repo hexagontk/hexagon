@@ -35,8 +35,6 @@ desktop application), you can import it with the following code:
 
 TODO Document module exposed ports:
 * LoggingPort
-* Mapper
-* SerializationFormat
 
 ### URLs
 
@@ -66,13 +64,6 @@ TODO Add `LoggingManager` examples for changing logging level
 [Java Util Logging]:
   https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
-### Serialization
-
-The core module has utilities to serialize/parse data classes to JSON and YAML. Read the following
-snippet for details:
-
-@code core/src/test/kotlin/HexagonCoreSamplesTest.kt:serializationUsage
-
 # Package com.hexagonkt.core.helpers
 
 JVM information, a logger class and other useful utilities.
@@ -88,7 +79,3 @@ TODO
 # Package com.hexagonkt.core.security
 
 TODO
-
-# Package com.hexagonkt.core.serialization
-
-Parse/serialize data in different formats to class instances.

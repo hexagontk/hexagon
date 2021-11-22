@@ -1,4 +1,4 @@
-package com.hexagonkt.core.serialization
+package com.hexagonkt.serialization
 
 import com.hexagonkt.core.ClasspathHandler
 import com.hexagonkt.core.logging.Logger

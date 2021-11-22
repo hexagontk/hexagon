@@ -1,7 +1,7 @@
 package com.hexagonkt.http.client
 
 import com.hexagonkt.http.SslSettings
-import com.hexagonkt.core.serialization.SerializationFormat
+import com.hexagonkt.serialization.SerializationFormat
 
 data class ClientSettings(
     val contentType: String? = null,

@@ -1,10 +1,10 @@
 package com.hexagonkt.http.server
 
 import com.hexagonkt.core.helpers.CodedException
-import com.hexagonkt.core.serialization.ContentType
-import com.hexagonkt.core.serialization.SerializationFormat
-import com.hexagonkt.core.serialization.SerializationManager
-import com.hexagonkt.core.serialization.serialize
+import com.hexagonkt.serialization.ContentType
+import com.hexagonkt.serialization.SerializationFormat
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.serialize
 import java.nio.charset.Charset
 
 /**

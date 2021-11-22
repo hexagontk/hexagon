@@ -19,7 +19,7 @@ dependencies {
     val kotlinVersion = properties["kotlinVersion"]
     val jacksonVersion = properties["jacksonVersion"]
 
-    "api"(project(":core"))
+    "api"(project(":serialization"))
 
     "api"("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     "api"("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")

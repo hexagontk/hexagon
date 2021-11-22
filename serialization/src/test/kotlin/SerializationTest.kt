@@ -1,6 +1,6 @@
-package com.hexagonkt.core.serialization
+package com.hexagonkt.serialization
 
-import com.hexagonkt.core.serialization.SerializationManager.formats
+import com.hexagonkt.serialization.SerializationManager.formats
 import com.hexagonkt.serialization.json.JacksonMapper
 import com.hexagonkt.serialization.json.Json
 import org.junit.jupiter.api.BeforeAll

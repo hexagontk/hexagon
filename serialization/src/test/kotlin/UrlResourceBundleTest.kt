@@ -1,4 +1,4 @@
-package com.hexagonkt.core.serialization
+package com.hexagonkt.serialization
 
 import com.hexagonkt.core.helpers.resourceBundle
 import com.hexagonkt.serialization.yaml.Yaml

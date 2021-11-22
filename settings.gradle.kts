@@ -14,6 +14,7 @@ include(
     // Ports
     "http_client",
     "http_server",
+    "serialization",
     "templates",
 
     // Adapters

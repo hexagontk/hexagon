@@ -3,20 +3,9 @@ package com.hexagonkt.core
 import com.hexagonkt.core.helpers.Jvm
 import com.hexagonkt.core.logging.logger
 import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.serialization.json.Json
-import com.hexagonkt.core.serialization.SerializationManager
-import com.hexagonkt.core.serialization.parse
-import com.hexagonkt.core.serialization.serialize
 import org.junit.jupiter.api.Test
-import java.time.LocalDate
 
 internal class HexagonCoreSamplesTest {
-
-    internal data class Person(
-        val givenName: String,
-        val familyName: String,
-        val birthDate: LocalDate
-    )
 
     @Suppress("RedundantExplicitType") // Type declared for examples generation
     @Test fun loggerUsage() {
@@ -48,18 +37,5 @@ internal class HexagonCoreSamplesTest {
 
         instanceLogger.flare { "Prints a log that stands out for ease searching" }
         // logger
-    }
-
-    @Test fun serializationUsage() {
-        // serializationUsage
-        SerializationManager.formats = linkedSetOf(Json) // Loads JSON format (using it as default)
-        val jason = Person("Jason", "Jackson", LocalDate.of(1989, 12, 31))
-
-        val jasonJson = jason.serialize(Json) // Can also be Yaml or an string: "application/json"
-        val parsedJason = jasonJson.parse(Person::class) // Uses default format (JSON)
-
-        assert(jason == parsedJason)
-        assert(jason !== parsedJason)
-        // serializationUsage
     }
 }
