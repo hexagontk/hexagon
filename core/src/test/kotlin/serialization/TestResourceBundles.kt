@@ -1,5 +1,5 @@
 @file:Suppress("ClassName", "unused")
-package com.hexagonkt.core.helpers
+package com.hexagonkt.core.serialization
 
 import java.net.URL
 
