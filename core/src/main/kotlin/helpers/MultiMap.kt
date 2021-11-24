@@ -40,6 +40,12 @@ class MultiMap<K, V>(mapData: Map<K, List<V>>) : Map<K, V> {
         else
             allValues == other
 
+    operator fun plus(element: Pair<K, List<V>>): MultiMap<K, V> =
+        MultiMap(allValues + element)
+
+    operator fun plus(element: MultiMap<K, V>): MultiMap<K, V> =
+        MultiMap(allValues + element.allValues)
+
     override fun hashCode(): Int =
         allValues.hashCode()
 }

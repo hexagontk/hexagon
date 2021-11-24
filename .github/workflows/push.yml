@@ -3,7 +3,7 @@ name: Push
 
 on:
   push:
-    branches-ignore: [ master ]
+    branches-ignore: [ master, release/** ]
 
 jobs:
   build:

@@ -1,6 +1,6 @@
 package com.hexagonkt.serialization.csv
 
-import com.hexagonkt.core.serialization.*
+import com.hexagonkt.serialization.*
 import com.hexagonkt.serialization.json.Json
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

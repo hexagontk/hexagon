@@ -28,6 +28,7 @@ dependencies {
     val swaggerParserVersion = properties["swaggerParserVersion"]
 
     "api"(project(":http"))
+    "api"(project(":serialization"))
     "testImplementation"(project(":http_client_ahc"))
     "testImplementation"(project(":http_server_jetty"))
 

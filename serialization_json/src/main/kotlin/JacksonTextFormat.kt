@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.ObjectWriter
-import com.hexagonkt.core.serialization.SerializationFormat
+import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.json.JacksonHelper.createObjectMapper
 import java.io.InputStream
 import java.io.OutputStream

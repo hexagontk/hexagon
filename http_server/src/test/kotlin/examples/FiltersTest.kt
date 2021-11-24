@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.lang.System.nanoTime
 import java.util.*
+import kotlin.test.assertEquals
 
 @TestInstance(PER_CLASS)
 abstract class FiltersTest(adapter: ServerPort) {
@@ -44,7 +45,7 @@ abstract class FiltersTest(adapter: ServerPort) {
 
         get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
 
-        // After filters are ran even if request was halted before
+        // After filters are run even if request was halted before
         after { response.headers["time"] = nanoTime() - attributes["start"] as Long }
     }
     // filters
@@ -64,7 +65,8 @@ abstract class FiltersTest(adapter: ServerPort) {
     @Test fun `Request without authorization returns 401`() {
         val response = client.get ("/protected/hi")
         assertResponseEquals(response, "Unauthorized", 401)
-        assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
+        val time = response.headers["time"]?.first()?.toLong() ?: 0
+        assert(time > 0)
     }
 
     @Test fun `HTTP request with valid credentials returns valid response`() {
@@ -73,8 +75,9 @@ abstract class FiltersTest(adapter: ServerPort) {
         val settings = ClientSettings(user = "Turing", password = "London")
         val httpClient = Client(adapter, endpoint, settings)
         val response = httpClient.get ("/protected/hi")
+        val time = response.headers["time"]?.first()?.toLong() ?: 0
         assertResponseEquals(response, "Hello Turing!", 200)
-        assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
+        assert(time > 0)
     }
 
     @Test fun `Request with invalid password returns 403`() {
@@ -83,8 +86,9 @@ abstract class FiltersTest(adapter: ServerPort) {
         val settings = ClientSettings(user = "Turing", password = "Millis")
         val httpClient = Client(adapter, endpoint, settings)
         val response = httpClient.get ("/protected/hi")
+        val time = response.headers["time"]?.first()?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", 403)
-        assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
+        assert(time > 0)
     }
 
     @Test fun `Request with invalid user returns 403`() {
@@ -93,12 +97,13 @@ abstract class FiltersTest(adapter: ServerPort) {
         val settings = ClientSettings(user = "Curry", password = "Millis")
         val httpClient = Client(adapter, endpoint, settings)
         val response = httpClient.get ("/protected/hi")
+        val time = response.headers["time"]?.first()?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", 403)
-        assert(response.headers["time"]?.first()?.toLong() ?: 0 > 0)
+        assert(time > 0)
     }
 
     private fun assertResponseEquals(response: Response<String>?, content: String, status: Int = 200) {
-        assert (response?.status == status)
-        assert (response?.body == content)
+        assertEquals(status, response?.status)
+        assertEquals(content, response?.body)
     }
 }

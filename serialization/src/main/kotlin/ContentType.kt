@@ -1,4 +1,4 @@
-package com.hexagonkt.core.serialization
+package com.hexagonkt.serialization
 
 import java.nio.charset.Charset
 

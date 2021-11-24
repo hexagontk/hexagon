@@ -10,8 +10,8 @@ import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.serialization.json.JacksonMapper
 import com.hexagonkt.serialization.json.Json
-import com.hexagonkt.core.serialization.SerializationManager
-import com.hexagonkt.core.serialization.parse
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.parse
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

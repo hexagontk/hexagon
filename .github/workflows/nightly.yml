@@ -1,4 +1,5 @@
 
+# TODO Run also on other release branches (not only `master`)
 name: Nightly
 
 on:

@@ -15,7 +15,6 @@ dependencies {
     val kotlinVersion = properties["kotlinVersion"]
 
     "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-    "testImplementation"(project(":serialization_yaml"))
 }
 
 task("hexagonInfo") {

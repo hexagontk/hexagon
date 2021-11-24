@@ -84,8 +84,20 @@ theme:
     - nagivation.instant
 
   palette:
-    primary: indigo
-    accent: indigo
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
 
   font:
     text: Titillium Web
@@ -104,7 +116,7 @@ extra:
   site_keywords: Hexagon, microservices, Kotlin, RabbitMQ, MongoDB, JVM, Web, Toolkit, Framework
   site_long_description: >
     Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of
-    services (Web applications, APIs or queue consumers) that run inside a cloud platform
+    services (Web applications or APIs) that run inside a cloud platform
 
   analytics:
     provider: google

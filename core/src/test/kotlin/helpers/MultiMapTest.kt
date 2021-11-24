@@ -79,4 +79,15 @@ internal class MultiMapTest {
         assertFalse(multiMap.containsValue(null))
         assertTrue(multiMap.isEmpty())
     }
+
+    @Test fun `Map operators work as expected`() {
+        assertEquals(
+            MultiMap(mapOf("a" to listOf("b"), "b" to listOf("c"))),
+            multiMapOf("a" to listOf("b")) + ("b" to listOf("c"))
+        )
+        assertEquals(
+            MultiMap(mapOf("a" to listOf("b"), "b" to listOf("c"))),
+            multiMapOf("a" to listOf("b")) + multiMapOf("b" to listOf("c"))
+        )
+    }
 }
