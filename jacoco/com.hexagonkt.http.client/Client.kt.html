@@ -3,7 +3,7 @@
 import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method.*
 import com.hexagonkt.http.Path
-import com.hexagonkt.core.serialization.SerializationFormat
+import com.hexagonkt.serialization.SerializationFormat
 
 /**
  * Client to use other REST services.
@@ -19,93 +19,95 @@ import com.hexagonkt.core.serialization.SerializationFormat
     /**
      * Synchronous execution.
      */
-    fun send(request: Request): Response =
+    fun send(request: Request): Response&lt;String&gt; =
 <span class="fc" id="L23">        adapter.send(this, request)</span>
 
 <span class="fc" id="L25">    fun get(</span>
         path: String,
 <span class="fc" id="L27">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap(),</span>
 <span class="fc" id="L28">        body: Any? = null,</span>
-<span class="fc" id="L29">        contentType: String? = settings.contentType): Response =</span>
+<span class="fc" id="L29">        contentType: String? = settings.contentType): Response&lt;String&gt; =</span>
 <span class="fc" id="L30">            send(Request(GET, Path(path), body, headers = headers, contentType = contentType))</span>
 
-<span class="fc" id="L32">    fun head(path: String, headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response =</span>
+<span class="fc" id="L32">    fun head(path: String, headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response&lt;String&gt; =</span>
 <span class="fc" id="L33">            send(Request(HEAD, Path(path), null, headers = headers))</span>
 
 <span class="fc" id="L35">    fun post(</span>
-<span class="fc" id="L36">        path: String, body: Any? = null, contentType: String? = settings.contentType): Response =</span>
-<span class="fc" id="L37">            send(Request(POST, Path(path), body, contentType = contentType))</span>
-
-<span class="fc" id="L39">    fun put(</span>
         path: String,
-<span class="fc" id="L41">        body: Any? = null,</span>
-<span class="fc" id="L42">        contentType: String? = settings.contentType): Response =</span>
-<span class="fc" id="L43">            send(Request(PUT, Path(path), body, contentType = contentType))</span>
+<span class="fc" id="L37">        body: Any? = null,</span>
+<span class="fc" id="L38">        contentType: String? = settings.contentType): Response&lt;String&gt; =</span>
+<span class="fc" id="L39">            send(Request(POST, Path(path), body, contentType = contentType))</span>
 
-<span class="fc" id="L45">    fun delete(</span>
+<span class="fc" id="L41">    fun put(</span>
         path: String,
-<span class="fc" id="L47">        body: Any? = null,</span>
-<span class="fc" id="L48">        contentType: String? = settings.contentType): Response =</span>
-<span class="fc" id="L49">            send(Request(DELETE, Path(path), body, contentType = contentType))</span>
+<span class="fc" id="L43">        body: Any? = null,</span>
+<span class="fc" id="L44">        contentType: String? = settings.contentType): Response&lt;String&gt; =</span>
+<span class="fc" id="L45">            send(Request(PUT, Path(path), body, contentType = contentType))</span>
 
-<span class="fc" id="L51">    fun trace(</span>
+<span class="fc" id="L47">    fun delete(</span>
         path: String,
-<span class="fc" id="L53">        body: Any? = null,</span>
-<span class="fc" id="L54">        contentType: String? = settings.contentType): Response =</span>
-<span class="fc" id="L55">            send(Request(TRACE, Path(path), body, contentType = contentType))</span>
+<span class="fc" id="L49">        body: Any? = null,</span>
+<span class="fc" id="L50">        contentType: String? = settings.contentType): Response&lt;String&gt; =</span>
+<span class="fc" id="L51">            send(Request(DELETE, Path(path), body, contentType = contentType))</span>
 
-<span class="fc" id="L57">    fun options(</span>
+<span class="fc" id="L53">    fun trace(</span>
         path: String,
-<span class="fc" id="L59">        body: Any? = null,</span>
-<span class="fc" id="L60">        contentType: String? = settings.contentType,</span>
-<span class="fc" id="L61">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response =</span>
-<span class="fc" id="L62">            send(Request(OPTIONS, Path(path), body, headers, contentType = contentType))</span>
+<span class="fc" id="L55">        body: Any? = null,</span>
+<span class="fc" id="L56">        contentType: String? = settings.contentType): Response&lt;String&gt; =</span>
+<span class="fc" id="L57">            send(Request(TRACE, Path(path), body, contentType = contentType))</span>
 
-<span class="fc" id="L64">    fun patch(</span>
+<span class="fc" id="L59">    fun options(</span>
         path: String,
-<span class="fc" id="L66">        body: Any? = null,</span>
-<span class="fc" id="L67">        contentType: String? = settings.contentType): Response =</span>
-<span class="fc" id="L68">            send(Request(PATCH, Path(path), body, contentType = contentType))</span>
+<span class="fc" id="L61">        body: Any? = null,</span>
+<span class="fc" id="L62">        contentType: String? = settings.contentType,</span>
+<span class="fc" id="L63">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response&lt;String&gt; =</span>
+<span class="fc" id="L64">            send(Request(OPTIONS, Path(path), body, headers, contentType = contentType))</span>
 
-<span class="fc" id="L70">    fun get(</span>
+<span class="fc" id="L66">    fun patch(</span>
         path: String,
-<span class="fc" id="L72">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap(),</span>
+<span class="fc" id="L68">        body: Any? = null,</span>
+<span class="fc" id="L69">        contentType: String? = settings.contentType): Response&lt;String&gt; =</span>
+<span class="fc" id="L70">            send(Request(PATCH, Path(path), body, contentType = contentType))</span>
+
+<span class="fc" id="L72">    fun get(</span>
+        path: String,
+<span class="fc" id="L74">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap(),</span>
         body: Any,
-        format: SerializationFormat): Response =
-<span class="fc" id="L75">            get(path, headers, body, format.contentType)</span>
+        format: SerializationFormat): Response&lt;String&gt; =
+<span class="fc" id="L77">            get(path, headers, body, format.contentType)</span>
 
-    fun post(path: String, body: Any, format: SerializationFormat): Response =
-<span class="fc" id="L78">        post(path, body, format.contentType)</span>
+    fun post(path: String, body: Any, format: SerializationFormat): Response&lt;String&gt; =
+<span class="fc" id="L80">        post(path, body, format.contentType)</span>
 
     fun put(
         path: String,
         body: Any,
-        format: SerializationFormat): Response =
-<span class="fc" id="L84">            put(path, body, format.contentType)</span>
+        format: SerializationFormat): Response&lt;String&gt; =
+<span class="fc" id="L86">            put(path, body, format.contentType)</span>
 
     fun delete(
         path: String,
         body: Any,
-        format: SerializationFormat): Response =
-<span class="fc" id="L90">            delete(path, body, format.contentType)</span>
+        format: SerializationFormat): Response&lt;String&gt; =
+<span class="fc" id="L92">            delete(path, body, format.contentType)</span>
 
     fun trace(
         path: String,
         body: Any,
-        format: SerializationFormat): Response =
-<span class="fc" id="L96">            trace(path, body, format.contentType)</span>
+        format: SerializationFormat): Response&lt;String&gt; =
+<span class="fc" id="L98">            trace(path, body, format.contentType)</span>
 
-<span class="fc" id="L98">    fun options(</span>
+<span class="fc" id="L100">    fun options(</span>
         path: String,
         body: Any,
         format: SerializationFormat,
-<span class="fc" id="L102">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response =</span>
-<span class="fc" id="L103">            options(path, body, format.contentType, headers)</span>
+<span class="fc" id="L104">        headers: Map&lt;String, List&lt;String&gt;&gt; = emptyMap()): Response&lt;String&gt; =</span>
+<span class="fc" id="L105">            options(path, body, format.contentType, headers)</span>
 
     fun patch(
         path: String,
         body: Any,
-        format: SerializationFormat): Response =
-<span class="fc" id="L109">            patch(path, body, format.contentType)</span>
-<span class="fc" id="L110">}</span>
+        format: SerializationFormat): Response&lt;String&gt; =
+<span class="fc" id="L111">            patch(path, body, format.contentType)</span>
+<span class="fc" id="L112">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

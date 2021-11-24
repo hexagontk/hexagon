@@ -8,7 +8,6 @@ com.hexagonkt.core.helpers
 com.hexagonkt.core.logging
 com.hexagonkt.core.logging.jul
 com.hexagonkt.core.security
-com.hexagonkt.core.serialization
 module:http
 com.hexagonkt.http
 module:http_client
@@ -27,6 +26,8 @@ module:logging_logback
 com.hexagonkt.logging.logback
 module:logging_slf4j_jul
 com.hexagonkt.logging.slf4j.jul
+module:serialization
+com.hexagonkt.serialization
 module:serialization_csv
 com.hexagonkt.serialization.csv
 module:serialization_json

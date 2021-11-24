@@ -15,7 +15,7 @@ object PebbleAdapter : TemplatePort {
     override fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale): String {
 <span class="fc" id="L16">        val contextEntries = context.map {</span>
 <span class="fc" id="L17">            it.key to</span>
-<span class="fc bfc" id="L18" title="All 2 branches covered.">                if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()</span>
+<span class="pc bpc" id="L18" title="1 of 4 branches missed.">                if (it.value is LocalDateTime) (it.value as LocalDateTime).toDate()</span>
 <span class="fc" id="L19">                else it.value</span>
         }
 

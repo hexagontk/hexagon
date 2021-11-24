@@ -5,9 +5,9 @@ import java.io.InputStream
 /**
  * HTTP response fetched from a server request.
  */
-<span class="fc" id="L8">data class Response(</span>
+<span class="fc" id="L8">data class Response &lt;T&gt; (</span>
 <span class="pc" id="L9">    var status: Int,</span>
-<span class="pc" id="L10">    var body: String?, // TODO Change by generic T</span>
+<span class="pc" id="L10">    var body: T?,</span>
 <span class="fc" id="L11">    val headers: MutableMap&lt;String, List&lt;String&gt;&gt;,</span>
 <span class="pc" id="L12">    var contentType: String?,</span>
 <span class="pc" id="L13">    val inputStream: InputStream</span>

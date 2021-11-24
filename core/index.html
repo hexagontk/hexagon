@@ -29,10 +29,6 @@
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
         
-          
-          
-          <meta name="theme-color" content="#4051b5">
-        
       
     
     
@@ -87,7 +83,7 @@
 <meta name="twitter:site" content="@hexagon_kt">
 <meta name="twitter:creator" content="@hexagon_kt">
 <meta name="twitter:title" content="Hexagon">
-<meta name="twitter:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
+<meta name="twitter:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications or APIs) that run inside a cloud platform
 ">
 <meta name="twitter:image" content="https://hexagonkt.com/apple-touch-icon.png">
 
@@ -95,11 +91,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hexagonkt.com/" />
 <meta property="og:image" content="https://hexagonkt.com/apple-touch-icon.png" />
-<meta property="og:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
+<meta property="og:description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications or APIs) that run inside a cloud platform
 " />
 
 <meta itemprop="name" content="Hexagon">
-<meta itemprop="description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications, APIs or queue consumers) that run inside a cloud platform
+<meta itemprop="description" content="Hexagon is a microservices toolkit written in Kotlin. Its purpose is to ease the building of services (Web applications or APIs) that run inside a cloud platform
  ">
 <meta itemprop="image" content="https://hexagonkt.com/apple-touch-icon.png">
 
@@ -112,13 +108,17 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -163,6 +163,28 @@
         </div>
       </div>
     </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22z"/></svg>
+            </label>
+          
+        
+      </form>
     
     
     
@@ -485,49 +507,35 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#serialization" class="md-nav__link">
-    Serialization
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonkthelpers" class="md-nav__link">
-    Package com.hexagonkt.helpers
+  <a href="#package-comhexagonktcorehelpers" class="md-nav__link">
+    Package com.hexagonkt.core.helpers
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktlogging" class="md-nav__link">
-    Package com.hexagonkt.logging
+  <a href="#package-comhexagonktcorelogging" class="md-nav__link">
+    Package com.hexagonkt.core.logging
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktloggingjul" class="md-nav__link">
-    Package com.hexagonkt.logging.jul
+  <a href="#package-comhexagonktcoreloggingjul" class="md-nav__link">
+    Package com.hexagonkt.core.logging.jul
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktsecurity" class="md-nav__link">
-    Package com.hexagonkt.security
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#package-comhexagonktserialization" class="md-nav__link">
-    Package com.hexagonkt.serialization
+  <a href="#package-comhexagonktcoresecurity" class="md-nav__link">
+    Package com.hexagonkt.core.security
   </a>
   
 </li>
@@ -955,49 +963,35 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#serialization" class="md-nav__link">
-    Serialization
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonkthelpers" class="md-nav__link">
-    Package com.hexagonkt.helpers
+  <a href="#package-comhexagonktcorehelpers" class="md-nav__link">
+    Package com.hexagonkt.core.helpers
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktlogging" class="md-nav__link">
-    Package com.hexagonkt.logging
+  <a href="#package-comhexagonktcorelogging" class="md-nav__link">
+    Package com.hexagonkt.core.logging
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktloggingjul" class="md-nav__link">
-    Package com.hexagonkt.logging.jul
+  <a href="#package-comhexagonktcoreloggingjul" class="md-nav__link">
+    Package com.hexagonkt.core.logging.jul
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#package-comhexagonktsecurity" class="md-nav__link">
-    Package com.hexagonkt.security
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#package-comhexagonktserialization" class="md-nav__link">
-    Package com.hexagonkt.serialization
+  <a href="#package-comhexagonktcoresecurity" class="md-nav__link">
+    Package com.hexagonkt.core.security
   </a>
   
 </li>
@@ -1054,9 +1048,7 @@ desktop application), you can import it with the following code:</p>
 </div>
 <h4 id="defined-ports">Defined Ports<a class="headerlink" href="#defined-ports" title="Permanent link">&para;</a></h4>
 <p>TODO Document module exposed ports:
-* LoggingPort
-* Mapper
-* SerializationFormat</p>
+* LoggingPort</p>
 <h4 id="urls">URLs<a class="headerlink" href="#urls" title="Permanent link">&para;</a></h4>
 <p>TODO Note that GraalVM requires to install the Classpath handler manually with
 <code>ClasspathHandlerProvider.registerHandler</code>.</p>
@@ -1125,36 +1117,14 @@ alternatives:</p>
 <li><a href="/logging_slf4j_jul">SLF4J JUL</a></li>
 </ul>
 <p>TODO Add <code>LoggingManager</code> examples for changing logging level</p>
-<h4 id="serialization">Serialization<a class="headerlink" href="#serialization" title="Permanent link">&para;</a></h4>
-<p>The core module has utilities to serialize/parse data classes to JSON and YAML. Read the following
-snippet for details:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">SerializationManager</span><span class="p">.</span><span class="na">formats</span> <span class="o">=</span> <span class="n">linkedSetOf</span><span class="p">(</span><span class="n">Json</span><span class="p">)</span> <span class="c1">// Loads JSON format (using it as default)</span>
-<span class="kd">val</span> <span class="nv">jason</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">&quot;Jason&quot;</span><span class="p">,</span> <span class="s">&quot;Jackson&quot;</span><span class="p">,</span> <span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="m">1989</span><span class="p">,</span> <span class="m">12</span><span class="p">,</span> <span class="m">31</span><span class="p">))</span>
-
-<span class="kd">val</span> <span class="nv">jasonJson</span> <span class="o">=</span> <span class="n">jason</span><span class="p">.</span><span class="na">serialize</span><span class="p">(</span><span class="n">Json</span><span class="p">)</span> <span class="c1">// Can also be Yaml or an string: &quot;application/json&quot;</span>
-<span class="kd">val</span> <span class="nv">parsedJason</span> <span class="o">=</span> <span class="n">jasonJson</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="n">Person</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="c1">// Uses default format (JSON)</span>
-
-<span class="n">assert</span><span class="p">(</span><span class="n">jason</span> <span class="o">==</span> <span class="n">parsedJason</span><span class="p">)</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">jason</span> <span class="o">!==</span> <span class="n">parsedJason</span><span class="p">)</span>
-</code></pre></div>
-</td></tr></table>
-<h2 id="package-comhexagonkthelpers">Package com.hexagonkt.helpers<a class="headerlink" href="#package-comhexagonkthelpers" title="Permanent link">&para;</a></h2>
+<h2 id="package-comhexagonktcorehelpers">Package com.hexagonkt.core.helpers<a class="headerlink" href="#package-comhexagonktcorehelpers" title="Permanent link">&para;</a></h2>
 <p>JVM information, a logger class and other useful utilities.</p>
-<h2 id="package-comhexagonktlogging">Package com.hexagonkt.logging<a class="headerlink" href="#package-comhexagonktlogging" title="Permanent link">&para;</a></h2>
+<h2 id="package-comhexagonktcorelogging">Package com.hexagonkt.core.logging<a class="headerlink" href="#package-comhexagonktcorelogging" title="Permanent link">&para;</a></h2>
 <p>Provides a logging management capabilities abstracting the application from logging libraries.</p>
-<h2 id="package-comhexagonktloggingjul">Package com.hexagonkt.logging.jul<a class="headerlink" href="#package-comhexagonktloggingjul" title="Permanent link">&para;</a></h2>
+<h2 id="package-comhexagonktcoreloggingjul">Package com.hexagonkt.core.logging.jul<a class="headerlink" href="#package-comhexagonktcoreloggingjul" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
-<h2 id="package-comhexagonktsecurity">Package com.hexagonkt.security<a class="headerlink" href="#package-comhexagonktsecurity" title="Permanent link">&para;</a></h2>
+<h2 id="package-comhexagonktcoresecurity">Package com.hexagonkt.core.security<a class="headerlink" href="#package-comhexagonktcoresecurity" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
-<h2 id="package-comhexagonktserialization">Package com.hexagonkt.serialization<a class="headerlink" href="#package-comhexagonktserialization" title="Permanent link">&para;</a></h2>
-<p>Parse/serialize data in different formats to class instances.</p>
                 
               
               

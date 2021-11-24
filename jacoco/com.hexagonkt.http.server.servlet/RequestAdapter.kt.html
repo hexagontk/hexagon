@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest
 <span class="fc" id="L17">    private val certificateAttribute = &quot;javax.servlet.request.X509Certificate&quot;</span>
 
 <span class="fc" id="L19">    private val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
-<span class="fc" id="L20">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
     }
 
 <span class="pc" id="L23">    var actionPath: Path? = null</span>
