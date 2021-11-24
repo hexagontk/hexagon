@@ -347,7 +347,7 @@ private val server: Server = Server(adapter) {
 
     get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
 
-    // After filters are ran even if request was halted before
+    // After filters are run even if request was halted before
     after { response.headers["time"] = nanoTime() - attributes["start"] as Long }
 }
 // filters
