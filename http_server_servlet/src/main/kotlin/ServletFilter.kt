@@ -27,7 +27,7 @@ import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.http.server.Session
 import com.hexagonkt.http.server.UnsupportedSessionAdapter
 import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.core.serialization.SerializationManager.contentTypeOf
+import com.hexagonkt.serialization.SerializationManager.contentTypeOf
 import java.io.File
 import java.io.InputStream
 import java.net.URL

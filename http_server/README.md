@@ -411,12 +411,13 @@ If there are multiple examples defined for a particular path status code, you ca
 particular response by using the `X-Mock-Response-Example` header with the name of the desired example.
 
 The mock server follows the following priority order when parsing the spec file for examples:
+
 1. If the X-Mock-Response-Example header is present, then the example corresponding to the value of
-that header is immediately fetched and returned.
+   that header is immediately fetched and returned.
 2. If no X-Mock-Response-Example header is present, it first tries to fetch an example from the
-schema key within the media type object.
+   schema key within the media type object.
 3. If no example is found here, it then attempts to fetch the example from the example key in the
-media type object.
+   media type object.
 4. Next, it attempts to fetch the first value found in the examples key of the media type object.
 5. If still no example is found, it simply raises an exception.
 

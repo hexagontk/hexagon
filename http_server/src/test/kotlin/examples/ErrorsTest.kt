@@ -83,12 +83,12 @@ abstract class ErrorsTest(adapter: ServerPort) {
         assertResponseContains(response, 500, "Root handler")
     }
 
-    private fun assertResponseEquals(response: Response?, content: String, status: Int = 200) {
+    private fun assertResponseEquals(response: Response<String>?, content: String, status: Int = 200) {
         assert (response?.status == status)
         assert (response?.body == content)
     }
 
-    private fun assertResponseContains(response: Response?, status: Int, vararg content: String) {
+    private fun assertResponseContains(response: Response<String>?, status: Int, vararg content: String) {
         assert (response?.status == status)
         content.forEach {
             assert (response?.body?.contains (it) ?: false)

@@ -7,6 +7,7 @@ extra["basePackage"] = "com.hexagonkt.http.client"
 
 dependencies {
     "api"(project(":http"))
+    "api"(project(":serialization"))
 
     "testImplementation"(project(":serialization_yaml"))
     "testImplementation"(project(":http_server_jetty"))

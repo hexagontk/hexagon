@@ -2,9 +2,6 @@ package com.hexagonkt.core
 
 import com.hexagonkt.core.logging.LoggingLevel
 import com.hexagonkt.core.logging.LoggingManager
-import com.hexagonkt.serialization.json.JacksonMapper
-import com.hexagonkt.serialization.json.Json
-import com.hexagonkt.core.serialization.SerializationManager
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -17,8 +14,6 @@ import kotlin.test.assertFailsWith
 internal class ClasspathHandlerProviderTest {
 
     @BeforeAll fun registerHandler() {
-        SerializationManager.formats = linkedSetOf(Json)
-        SerializationManager.mapper = JacksonMapper
         LoggingManager.setLoggerLevel("com.hexagonkt", LoggingLevel.TRACE)
         ClasspathHandler.registerHandler()
     }

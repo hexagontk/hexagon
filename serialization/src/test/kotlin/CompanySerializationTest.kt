@@ -1,4 +1,4 @@
-package com.hexagonkt.core.serialization
+package com.hexagonkt.serialization
 
 import org.junit.jupiter.api.Test
 import java.net.InetAddress

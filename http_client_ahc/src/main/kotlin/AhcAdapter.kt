@@ -3,8 +3,8 @@ package com.hexagonkt.http.client.ahc
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.helpers.ensureSize
 import com.hexagonkt.core.helpers.fail
-import com.hexagonkt.core.serialization.SerializationManager.formatOf
-import com.hexagonkt.core.serialization.serialize
+import com.hexagonkt.serialization.SerializationManager.formatOf
+import com.hexagonkt.serialization.serialize
 import com.hexagonkt.http.Cookie
 import com.hexagonkt.http.Method
 import com.hexagonkt.http.Method.*
@@ -113,7 +113,7 @@ class AhcAdapter : ClientPort {
         return keyStore
     }
 
-    override fun send(client: Client, request: Request): Response {
+    override fun send(client: Client, request: Request): Response<String> {
 
         val settings: ClientSettings = client.settings
         val ahcRequest = createRequest(client, request)

@@ -1,0 +1,122 @@
+
+name: Release
+
+on:
+  push:
+    branches: [ release/** ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+      # SET UP
+      - name: Check Out
+        uses: actions/checkout@v2
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with: { java-version: 11, distribution: adopt }
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+
+      # PROCESS
+      - name: Build Project
+        run: ./gradlew build
+      - name: Log Build (ON FAILURE)
+        if: failure()
+        run: ./gradlew --info --stacktrace build
+
+      # CLEAN UP
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+
+  sample_keystores:
+    name: Sample Keystores
+    runs-on: ubuntu-latest
+    steps:
+
+      # SET UP
+      - name: Check Out
+        uses: actions/checkout@v2
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with: { java-version: 11, distribution: adopt }
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+
+      # PROCESS
+      - name: Create Sample Keystores
+        run: ./gradlew createCa createIdentities
+
+      # CLEAN UP
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: [ build, sample_keystores ]
+    steps:
+
+      # SET UP
+      - name: Check Out
+        uses: actions/checkout@v2
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with: { java-version: 11, distribution: adopt }
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+
+      # PROCESS
+      - name: Update Site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          export REMOTE="https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          git remote set-url origin "$REMOTE"
+          git config --global user.email "juanjoaguililla@gmail.com"
+          git config --global user.name "jaguililla"
+          git clone "$REMOTE" --branch gh-pages build/gh-pages
+          ./gradlew --info --no-daemon build
+          ./gradlew --info --no-daemon -x build buildSite
+
+      - name: Publish Packages
+        env:
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: ./gradlew --info --no-daemon -x test release
+
+      # TODO 2-BETA is hardcoded, take it from release/x.x.x-txt branch
+      - name: Publish Site
+        run: |
+          mkdir build/gh-pages/2-BETA
+          cp -rf site/build/* build/gh-pages/2-BETA
+          cd build/gh-pages
+          git add --all
+          git commit -m "Publishing to gh-pages"
+          git push origin gh-pages
+
+      # CLEAN UP
+      - name: Clean Gradle Cache
+        run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
