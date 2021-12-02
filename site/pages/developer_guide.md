@@ -58,8 +58,8 @@ The main features are the following:
 * [Helpers]: JVM information, a logger and other useful utilities.
 * [Objects Serialization]: parse/serialize data in different formats to class instances.
 
-[Helpers]: /core/com.hexagonkt.helpers/
-[Objects Serialization]: /core/com.hexagonkt.serialization/
+[Helpers]: /api/core/com.hexagonkt.helpers/
+[Objects Serialization]: /api/serialization/com.hexagonkt.serialization/
 
 # Other Modules
 
