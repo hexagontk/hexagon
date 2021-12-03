@@ -93,7 +93,7 @@ Ports with their provided implementations (Adapters).
 | [HTTP Server]           | [Jetty], [Servlet]
 | [HTTP Client]           | [AHC]
 | [Templates]             | [Pebble], [FreeMarker]
-| [Serialization Formats] | [JSON], [YAML]
+| [Serialization Formats] | [JSON], [YAML], [CSV], [XML]
 
 [HTTP Server]: /http_server
 [Jetty]: /http_server_jetty
@@ -104,5 +104,7 @@ Ports with their provided implementations (Adapters).
 [Pebble]: /templates_pebble
 [FreeMarker]: /templates_freemarker
 [Serialization Formats]: /core/#serialization
-[JSON]: /core/com.hexagonkt.serialization/-json
-[YAML]: /serialization_yaml/com.hexagonkt.serialization/-yaml
+[JSON]: /api/serialization_json/com.hexagonkt.serialization.json/-json
+[YAML]: /api/serialization_yaml/com.hexagonkt.serialization.yaml/-yaml
+[CSV]: /api/serialization_csv/com.hexagonkt.serialization.csv/-Csv
+[XML]: /api/serialization_xml/com.hexagonkt.serialization.xml/-Xml

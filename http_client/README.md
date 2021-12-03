@@ -40,8 +40,8 @@ Check this code snippet to get a glimpse on how to send the most general request
 
 @code http_client/src/test/kotlin/ClientTest.kt:genericRequest
 
-[Request]: /http_client/com.hexagonkt.http.client/-request
-[Response]: /http_client/com.hexagonkt.http.client/-response
+[Request]: /api/http_client/com.hexagonkt.http.client/-request
+[Response]: /api/http_client/com.hexagonkt.http.client/-response
 
 ### Simple requests shortcuts
 There are utility methods to make the most common request in an easy way.
@@ -85,8 +85,8 @@ format.
 To set up client/server certificates, you need to include [SslSettings] in your [ClientSettings]. In
 the sections below you can see how to configure these parameters.
 
-[SslSettings]: /http/com.hexagonkt.http/-ssl-settings
-[ClientSettings]: /http_client/com.hexagonkt.http.client/-client-settings
+[SslSettings]: /api/http/com.hexagonkt.http/-ssl-settings
+[ClientSettings]: /api/http_client/com.hexagonkt.http.client/-client-settings
 
 #### Key Store
 This store holds the identity certificate, this certificate is presented to the server by the client

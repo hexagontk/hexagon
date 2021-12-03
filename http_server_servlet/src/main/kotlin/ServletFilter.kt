@@ -145,7 +145,6 @@ class ServletFilter(router: List<RequestHandler>, serverSettings: ServerSettings
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
 
-        // TODO Temporary hack only valid for Jetty
         val multipartConfig = MultipartConfigElement("/tmp")
         request.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
 
