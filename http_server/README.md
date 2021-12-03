@@ -111,7 +111,7 @@ This sample code illustrates the usage:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackCall
 
-[API documentation]: /http_server/com.hexagonkt.http.server/-call/
+[API documentation]: /api/http_server/com.hexagonkt.http.server/-call/
 
 #### Request
 
@@ -252,7 +252,7 @@ Check the next example for details:
 The MIME types of static files are computed from the file extension using the
 [SerializationManager.contentTypeOf()] method.
 
-[SerializationManager.contentTypeOf()]: /core/com.hexagonkt.serialization/-serialization-manager/content-type-of/
+[SerializationManager.contentTypeOf()]: /api/serialization/com.hexagonkt.serialization/-serialization-manager/content-type-of/
 
 ### CORS
 
@@ -261,7 +261,7 @@ different routers. Check [CorsSettings] class for more details.
 
 @code http_server/src/test/kotlin/examples/CorsTest.kt:cors
 
-[CorsSettings]: /http_server/com.hexagonkt.http.server/-cors-settings/
+[CorsSettings]: /api/http_server/com.hexagonkt.http.server/-cors-settings/
 
 ### HTTPS
 
@@ -287,14 +287,14 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 
 @code http_server/src/test/kotlin/examples/HttpsTest.kt:https
 
-[SslSettings]: /core/com.hexagonkt.http/-ssl-settings/
+[SslSettings]: /api/http/com.hexagonkt.http/-ssl-settings/
 [HTTP/2]: https://en.wikipedia.org/wiki/HTTP/2
 [ALPN]: https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation
 [Gradle]: https://gradle.org
 [create sample certificates]: /gradle/#certificates
 [mutual TLS]: https://en.wikipedia.org/wiki/Mutual_authentication
-[SslSettings.clientAuth]: /core/com.hexagonkt.http/-ssl-settings/client-auth
-[Request.certificateChain]: /http_server/com.hexagonkt.http.server/-request/certificate-chain
+[SslSettings.clientAuth]: /api/http/com.hexagonkt.http/-ssl-settings/client-auth
+[Request.certificateChain]: /api/http_server/com.hexagonkt.http.server/-request/certificate-chain
 
 ### Testing
 
@@ -345,10 +345,10 @@ For a quick sample, check the snipped below:
 
 @code http_server/src/test/kotlin/TestsTest.kt:test
 
-[testCall]: /http_server/com.hexagonkt.http.server.test/test-call/
-[TestRequest]: /http_server/com.hexagonkt.http.server.test/-test-request/
-[TestResponse]: /http_server/com.hexagonkt.http.server.test/-test-response/
-[TestSession]: /http_server/com.hexagonkt.http.server.test/-test-session/
+[testCall]: /api/http_server/com.hexagonkt.http.server.test/test-call/
+[TestRequest]: /api/http_server/com.hexagonkt.http.server.test/-test-request/
+[TestResponse]: /api/http_server/com.hexagonkt.http.server.test/-test-response/
+[TestSession]: /api/http_server/com.hexagonkt.http.server.test/-test-session/
 
 ### OpenAPI Mock Server
 

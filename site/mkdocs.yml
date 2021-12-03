@@ -31,8 +31,9 @@ markdown_extensions:
   - pymdownx.smartsymbols
   - pymdownx.inlinehilite
   - pymdownx.emoji
-  - pymdownx.tabbed
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.highlight:
       linenums: true
   - pymdownx.tasklist:
