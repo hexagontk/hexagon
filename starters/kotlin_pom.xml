@@ -181,8 +181,10 @@
                 <includes>
                   <include>**/*.log</include>
                   <include>**/*.hprof</include>
+                  <include>**/*.build_artifacts.txt</include>
                   <include>**/.attach_pid*</include>
                   <include>**/hs_err_pid*</include>
+                  <include>**/dependency-reduced-pom.xml</include>
                 </includes>
               </fileset>
             </filesets>
@@ -216,6 +218,33 @@
               <goals>
                 <goal>single</goal>
               </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.2.4</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                <transformers>
+                  <transformer
+                    implementation=
+                      "org.apache.maven.plugins.shade.resource.ServicesResourceTransformer">
+                  </transformer>
+                  <transformer
+                    implementation=
+                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                    <mainClass>${exec.mainClass}</mainClass>
+                  </transformer>
+                </transformers>
+              </configuration>
             </execution>
           </executions>
         </plugin>

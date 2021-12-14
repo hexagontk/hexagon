@@ -5,6 +5,7 @@ import java.security.KeyStore
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 
+// TODO Create CAs and PKs like `certificates.gradle` Check: https://www.baeldung.com/java-keystore
 fun loadKeyStore(resource: URL, password: String): KeyStore =
     KeyStore.getInstance("PKCS12").apply {
         load(resource.openStream(), password.toCharArray())
