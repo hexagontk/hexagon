@@ -24,6 +24,11 @@ object LogbackLoggingAdapter : LoggingPort {
         (LoggerFactory.getLogger(loggerName) as Logger).level = mapLevel(level)
     }
 
+    override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean {
+        val loggerName = name.ifEmpty { Logger.ROOT_LOGGER_NAME }
+        return (LoggerFactory.getLogger(loggerName) as Logger).isEnabledFor(mapLevel(level))
+    }
+
     private fun mapLevel(level: LoggingLevel): Level = when (level) {
         TRACE -> Level.TRACE
         DEBUG -> Level.DEBUG

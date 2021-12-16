@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.test.assertContentEquals
 
 internal class CryptoTest {
 
@@ -25,6 +26,13 @@ internal class CryptoTest {
             chainHmac("HmacSHA256", "AWS4$key", formattedDate, region, service, "aws4_request")
 
         assert(hmac.contentEquals(signatureKey))
+    }
+
+    @Test fun `'sign' work as a helper function for 'hmac'`() {
+        val algorithm = "HmacSHA256"
+        val data = "the data"
+        val key = "a key".toByteArray()
+        assertContentEquals(sign(algorithm, data, key), hmac(algorithm, data.toByteArray(), key))
     }
 
     @Suppress("SameParameterValue")

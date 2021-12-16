@@ -52,7 +52,10 @@ object JulLoggingAdapter : LoggingPort {
             }
         }
 
-    private fun mapLevel(level: LoggingLevel): Level = when (level) {
+    override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
+        JulLogger.getLogger(name).isLoggable(mapLevel(level))
+
+    internal fun mapLevel(level: LoggingLevel): Level = when (level) {
         TRACE -> Level.FINER
         DEBUG -> Level.FINE
         INFO -> Level.INFO

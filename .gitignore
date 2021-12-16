@@ -32,6 +32,7 @@ out/
 log/
 *.log
 *.hprof
+*.build_artifacts.txt
 .attach_pid*
 hs_err_pid*
 
