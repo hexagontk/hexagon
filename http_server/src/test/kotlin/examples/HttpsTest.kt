@@ -2,6 +2,9 @@ package com.hexagonkt.http.server.examples
 
 import com.hexagonkt.core.logging.logger
 import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.security.getPrivateKey
+import com.hexagonkt.core.security.getPublicKey
+import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.http.Protocol.HTTP2
 import com.hexagonkt.http.Protocol.HTTPS
 import com.hexagonkt.http.SslSettings
@@ -12,6 +15,7 @@ import com.hexagonkt.http.server.*
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertFails
+import kotlin.test.assertNotNull
 
 abstract class HttpsTest(adapter: ServerPort) {
 
@@ -201,5 +205,17 @@ abstract class HttpsTest(adapter: ServerPort) {
         }
 
         server.stop()
+    }
+
+    @Test fun `Key stores contains the proper aliases`() {
+
+        loadKeyStore(keyStore, keyStorePassword).apply {
+            assertNotNull(getPrivateKey("hexagonkt", keyStorePassword))
+            assertNotNull(getPublicKey("hexagonkt"))
+        }
+
+        loadKeyStore(trustStore, trustStorePassword).apply {
+            assertNotNull(getPublicKey("ca"))
+        }
     }
 }

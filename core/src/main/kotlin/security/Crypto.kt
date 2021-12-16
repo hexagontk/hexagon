@@ -24,8 +24,5 @@ fun hash(algorithm: String, data: ByteArray): ByteArray {
 fun hash(algorithm: String, data: String): ByteArray =
     hash(algorithm, data.toByteArray())
 
-fun sign(algorithm: String, data: String, key: ByteArray): ByteArray {
-    val mac = Mac.getInstance(algorithm)
-    mac.init(SecretKeySpec(key, algorithm))
-    return mac.doFinal(data.toByteArray())
-}
+fun sign(algorithm: String, data: String, key: ByteArray): ByteArray =
+    hmac(algorithm, data.toByteArray(), key)
