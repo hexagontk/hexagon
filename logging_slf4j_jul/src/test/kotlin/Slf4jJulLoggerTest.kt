@@ -5,17 +5,18 @@ import com.hexagonkt.core.logging.LoggingLevel
 import com.hexagonkt.core.logging.LoggingLevel.*
 import com.hexagonkt.core.logging.LoggingManager
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 internal class Slf4jJulLoggerTest {
 
     /**
-     * As the logger is only a facade and it is hard to check outputs, the only check is that
+     * As the logger is only a facade, and it is hard to check outputs, the only check is that
      * no exceptions are thrown.
      */
     @Test fun `Messages are logged without errors using SLF4J JUL`() {
 
         LoggingManager.adapter = Slf4jJulLoggingAdapter
-        LoggingManager.setLoggerLevel(WARN)
         val logger = Logger(this::class)
 
         traceAll(logger, TRACE)
@@ -27,8 +28,8 @@ internal class Slf4jJulLoggerTest {
     }
 
     private fun traceAll(logger: Logger, level: LoggingLevel) {
-        LoggingManager.setLoggerLevel(this::class, level)
-        LoggingManager.setLoggerLevel(this, level)
+        logger.setLoggerLevel(level)
+        checkLoggerLevel(logger, level)
         logger.trace { 42 }
         logger.debug { true }
         logger.info { 0.0 }
@@ -39,5 +40,59 @@ internal class Slf4jJulLoggerTest {
         logger.flare { "message" }
         logger.time("message") {}
         logger.time {}
+    }
+
+    private fun checkLoggerLevel(logger: Logger, level: LoggingLevel) {
+        assertTrue(level == OFF || logger.isLoggerLevelEnabled(level))
+
+        when (level) {
+            TRACE -> {
+                assertTrue(logger.isTraceEnabled())
+                assertTrue(logger.isDebugEnabled())
+                assertTrue(logger.isInfoEnabled())
+                assertTrue(logger.isWarnEnabled())
+                assertTrue(logger.isErrorEnabled())
+            }
+
+            DEBUG -> {
+                assertFalse(logger.isTraceEnabled())
+                assertTrue(logger.isDebugEnabled())
+                assertTrue(logger.isInfoEnabled())
+                assertTrue(logger.isWarnEnabled())
+                assertTrue(logger.isErrorEnabled())
+            }
+
+            INFO -> {
+                assertFalse(logger.isTraceEnabled())
+                assertFalse(logger.isDebugEnabled())
+                assertTrue(logger.isInfoEnabled())
+                assertTrue(logger.isWarnEnabled())
+                assertTrue(logger.isErrorEnabled())
+            }
+
+            WARN -> {
+                assertFalse(logger.isTraceEnabled())
+                assertFalse(logger.isDebugEnabled())
+                assertFalse(logger.isInfoEnabled())
+                assertTrue(logger.isWarnEnabled())
+                assertTrue(logger.isErrorEnabled())
+            }
+
+            ERROR -> {
+                assertFalse(logger.isTraceEnabled())
+                assertFalse(logger.isDebugEnabled())
+                assertFalse(logger.isInfoEnabled())
+                assertFalse(logger.isWarnEnabled())
+                assertTrue(logger.isErrorEnabled())
+            }
+
+            OFF -> {
+                assertFalse(logger.isTraceEnabled())
+                assertFalse(logger.isDebugEnabled())
+                assertFalse(logger.isInfoEnabled())
+                assertFalse(logger.isWarnEnabled())
+                assertFalse(logger.isErrorEnabled())
+            }
+        }
     }
 }
