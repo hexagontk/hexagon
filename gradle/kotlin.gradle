@@ -11,8 +11,7 @@ apply(plugin: "maven-publish")
 defaultTasks("build")
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = sourceCompatibility
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 idea {
@@ -35,8 +34,8 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.6.0"
-    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.11.0"
+    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.6.10"
+    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.12.1"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.8.2"
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$scriptKotlinVersion")
@@ -89,6 +88,7 @@ clean {
     delete(
         fileTree(rootDir) { include "**/*.log" },
         fileTree(rootDir) { include "**/*.hprof" },
+        fileTree(rootDir) { include "**/*.build_artifacts.txt" },
         fileTree(rootDir) { include "**/.attach_pid*" },
         fileTree(rootDir) { include "**/hs_err_pid*" }
     )

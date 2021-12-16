@@ -3,6 +3,7 @@ package com.hexagonkt.http.client.ahc
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.helpers.ensureSize
 import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.http.Cookie
@@ -20,10 +21,8 @@ import org.asynchttpclient.request.body.multipart.InputStreamPart
 import org.asynchttpclient.request.body.multipart.StringPart
 import org.asynchttpclient.request.body.multipart.Part as AhcPart
 import java.io.File
-import java.net.URL
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
-import java.security.KeyStore
 import java.security.KeyStore.PasswordProtection
 import java.security.KeyStore.PrivateKeyEntry
 import java.security.cert.X509Certificate
@@ -67,7 +66,7 @@ class AhcAdapter : ClientPort {
 
                 if (keyStore != null) {
                     val password = sslSettings.keyStorePassword
-                    val store = keyStore(keyStore, password)
+                    val store = loadKeyStore(keyStore, password)
                     val passwordProtection = PasswordProtection(password.toCharArray())
                     val key = store
                         .aliases()
@@ -89,7 +88,7 @@ class AhcAdapter : ClientPort {
                 }
 
                 if (trustStore != null) {
-                    val store = keyStore(trustStore, sslSettings.trustStorePassword)
+                    val store = loadKeyStore(trustStore, sslSettings.trustStorePassword)
                     val certs = store
                         .aliases()
                         .toList()
@@ -105,12 +104,6 @@ class AhcAdapter : ClientPort {
             else ->
                 it.build()
         }
-    }
-
-    private fun keyStore(url: URL, password: String): KeyStore {
-        val keyStore = KeyStore.getInstance("pkcs12")
-        keyStore.load(url.openStream(), password.toCharArray())
-        return keyStore
     }
 
     override fun send(client: Client, request: Request): Response<String> {

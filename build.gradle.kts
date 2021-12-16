@@ -11,7 +11,7 @@
  */
 
 plugins {
-    kotlin("jvm") version("1.6.0") apply(false)
+    kotlin("jvm") version("1.6.10") apply(false)
 
     id("idea")
     id("eclipse")

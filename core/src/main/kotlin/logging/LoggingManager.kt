@@ -48,4 +48,43 @@ object LoggingManager {
     fun setLoggerLevel(level: LoggingLevel) {
         setLoggerLevel("", level)
     }
+
+    /**
+     * Check if a logging level is enabled for a logger.
+     *
+     * @param name Logger name.
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     * @return True if the supplied level is enabled for the passed logger name.
+     */
+    fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
+        adapter.isLoggerLevelEnabled(name, level)
+
+    /**
+     * Check if a logging level is enabled for a logger with an instance.
+     *
+     * @param instance class instance.
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     * @return True if the supplied level is enabled for the passed logger name.
+     */
+    fun isLoggerLevelEnabled(instance: Any, level: LoggingLevel): Boolean =
+        isLoggerLevelEnabled(instance::class, level)
+
+    /**
+     * Check if a logging level is enabled for a logger with a class name.
+     *
+     * @param type Class type.
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     * @return True if the supplied level is enabled for the passed logger name.
+     */
+    fun isLoggerLevelEnabled(type: KClass<*>, level: LoggingLevel): Boolean =
+        isLoggerLevelEnabled(type.qualifiedName ?: fail, level)
+
+    /**
+     * Check if a logging level is enabled for the root logger.
+     *
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     * @return True if the supplied level is enabled for the passed logger name.
+     */
+    fun isLoggerLevelEnabled(level: LoggingLevel): Boolean =
+        isLoggerLevelEnabled("", level)
 }

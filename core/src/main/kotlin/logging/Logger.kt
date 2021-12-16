@@ -132,5 +132,63 @@ class Logger(val name: String) {
      */
     fun <T> time(message: Any?, block: () -> T): T = this.time({ message }, block)
 
+    /**
+     * Set a logging level for this logger.
+     *
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     */
+    fun setLoggerLevel(level: LoggingLevel) {
+        LoggingManager.setLoggerLevel(name, level)
+    }
+
+    /**
+     * Check if a logging level is enabled for this logger.
+     *
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     * @return True if the supplied level is enabled for this logger.
+     */
+    fun isLoggerLevelEnabled(level: LoggingLevel): Boolean =
+        LoggingManager.isLoggerLevelEnabled(name, level)
+
+    /**
+     * Check if the [TRACE] logging level is enabled for this logger.
+     *
+     * @return True if the [TRACE] level is enabled for this logger.
+     */
+    fun isTraceEnabled(): Boolean =
+        isLoggerLevelEnabled(TRACE)
+
+    /**
+     * Check if the [DEBUG] logging level is enabled for this logger.
+     *
+     * @return True if the [DEBUG] level is enabled for this logger.
+     */
+    fun isDebugEnabled(): Boolean =
+        isLoggerLevelEnabled(DEBUG)
+
+    /**
+     * Check if the [INFO] logging level is enabled for this logger.
+     *
+     * @return True if the [INFO] level is enabled for this logger.
+     */
+    fun isInfoEnabled(): Boolean =
+        isLoggerLevelEnabled(INFO)
+
+    /**
+     * Check if the [WARN] logging level is enabled for this logger.
+     *
+     * @return True if the [WARN] level is enabled for this logger.
+     */
+    fun isWarnEnabled(): Boolean =
+        isLoggerLevelEnabled(WARN)
+
+    /**
+     * Check if the [ERROR] logging level is enabled for this logger.
+     *
+     * @return True if the [ERROR] level is enabled for this logger.
+     */
+    fun isErrorEnabled(): Boolean =
+        isLoggerLevelEnabled(ERROR)
+
     private fun formatNanos (nanoseconds: Long): String = "%1.3f ms".format (nanoseconds / 1e6)
 }
