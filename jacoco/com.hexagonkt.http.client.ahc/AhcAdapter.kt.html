@@ -3,6 +3,7 @@
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.helpers.ensureSize
 import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.serialize
 import com.hexagonkt.http.Cookie
@@ -20,10 +21,8 @@ import org.asynchttpclient.request.body.multipart.InputStreamPart
 import org.asynchttpclient.request.body.multipart.StringPart
 import org.asynchttpclient.request.body.multipart.Part as AhcPart
 import java.io.File
-import java.net.URL
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets.UTF_8
-import java.security.KeyStore
 import java.security.KeyStore.PasswordProtection
 import java.security.KeyStore.PrivateKeyEntry
 import java.security.cert.X509Certificate
@@ -33,186 +32,180 @@ import java.util.Base64.Encoder
 /**
  * Client to use other REST services.
  */
-<span class="fc" id="L36">class AhcAdapter : ClientPort {</span>
+<span class="fc" id="L35">class AhcAdapter : ClientPort {</span>
 
-<span class="fc" id="L38">    private val base64encoder: Encoder by lazy { Base64.getEncoder() }</span>
+<span class="fc" id="L37">    private val base64encoder: Encoder by lazy { Base64.getEncoder() }</span>
 
     private var authorization: String? = null
 
     private lateinit var ssl: ClientSettings
 
-<span class="fc" id="L44">    private val log: Logger = Logger(this::class)</span>
+<span class="fc" id="L43">    private val log: Logger = Logger(this::class)</span>
 
-<span class="fc" id="L46">    private val ahcClient: DefaultAsyncHttpClient by lazy {</span>
-<span class="fc" id="L47">        DefaultAsyncHttpClient(</span>
-<span class="fc" id="L48">            Builder()</span>
-<span class="fc" id="L49">                .setConnectTimeout(5000)</span>
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">                .setSslContext(sslContext(ssl))</span>
-<span class="fc" id="L51">                .setKeepEncodingHeader(true)</span>
-<span class="fc" id="L52">                .build()</span>
+<span class="fc" id="L45">    private val ahcClient: DefaultAsyncHttpClient by lazy {</span>
+<span class="fc" id="L46">        DefaultAsyncHttpClient(</span>
+<span class="fc" id="L47">            Builder()</span>
+<span class="fc" id="L48">                .setConnectTimeout(5000)</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">                .setSslContext(sslContext(ssl))</span>
+<span class="fc" id="L50">                .setKeepEncodingHeader(true)</span>
+<span class="fc" id="L51">                .build()</span>
         )
     }
 
-<span class="fc" id="L56">    private fun sslContext(settings: ClientSettings): SslContext = sslContextBuilderClient().let {</span>
-<span class="fc" id="L57">        when {</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">            settings.insecure -&gt;</span>
-<span class="fc" id="L59">                it.trustManager(InsecureTrustManager).build()</span>
+<span class="fc" id="L55">    private fun sslContext(settings: ClientSettings): SslContext = sslContextBuilderClient().let {</span>
+<span class="fc" id="L56">        when {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">            settings.insecure -&gt;</span>
+<span class="fc" id="L58">                it.trustManager(InsecureTrustManager).build()</span>
 
-<span class="fc bfc" id="L61" title="All 2 branches covered.">            settings.sslSettings != null -&gt; {</span>
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">                val sslSettings = settings.sslSettings ?: fail</span>
-<span class="fc" id="L63">                val keyStore = sslSettings.keyStore</span>
-<span class="fc" id="L64">                val trustStore = sslSettings.trustStore</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            settings.sslSettings != null -&gt; {</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">                val sslSettings = settings.sslSettings ?: fail</span>
+<span class="fc" id="L62">                val keyStore = sslSettings.keyStore</span>
+<span class="fc" id="L63">                val trustStore = sslSettings.trustStore</span>
 
-<span class="fc" id="L66">                var sslContextBuilder = it</span>
+<span class="fc" id="L65">                var sslContextBuilder = it</span>
 
-<span class="fc bfc" id="L68" title="All 2 branches covered.">                if (keyStore != null) {</span>
-<span class="fc" id="L69">                    val password = sslSettings.keyStorePassword</span>
-<span class="fc" id="L70">                    val store = keyStore(keyStore, password)</span>
-<span class="fc" id="L71">                    val passwordProtection = PasswordProtection(password.toCharArray())</span>
-<span class="fc" id="L72">                    val key = store</span>
-<span class="fc" id="L73">                        .aliases()</span>
-<span class="fc" id="L74">                        .toList()</span>
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">                        .filter { alias -&gt; store.isKeyEntry(alias) }</span>
-<span class="fc" id="L76">                        .mapNotNull { alias -&gt;</span>
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">                            store.getEntry(alias, passwordProtection) as PrivateKeyEntry</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                if (keyStore != null) {</span>
+<span class="fc" id="L68">                    val password = sslSettings.keyStorePassword</span>
+<span class="fc" id="L69">                    val store = loadKeyStore(keyStore, password)</span>
+<span class="fc" id="L70">                    val passwordProtection = PasswordProtection(password.toCharArray())</span>
+<span class="fc" id="L71">                    val key = store</span>
+<span class="fc" id="L72">                        .aliases()</span>
+<span class="fc" id="L73">                        .toList()</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">                        .filter { alias -&gt; store.isKeyEntry(alias) }</span>
+<span class="fc" id="L75">                        .mapNotNull { alias -&gt;</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">                            store.getEntry(alias, passwordProtection) as PrivateKeyEntry</span>
                         }
-<span class="fc" id="L79">                        .ensureSize(1..1)</span>
-<span class="fc" id="L80">                        .first()</span>
+<span class="fc" id="L78">                        .ensureSize(1..1)</span>
+<span class="fc" id="L79">                        .first()</span>
 
-<span class="fc" id="L82">                    val certificateChain = key.certificateChain</span>
-<span class="fc" id="L83">                        .toList()</span>
-<span class="pc bpc" id="L84" title="1 of 2 branches missed.">                        .mapNotNull { certificate -&gt; certificate as X509Certificate }</span>
-<span class="fc" id="L85">                        .toTypedArray()</span>
+<span class="fc" id="L81">                    val certificateChain = key.certificateChain</span>
+<span class="fc" id="L82">                        .toList()</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">                        .mapNotNull { certificate -&gt; certificate as X509Certificate }</span>
+<span class="fc" id="L84">                        .toTypedArray()</span>
 
-<span class="fc" id="L87">                    sslContextBuilder = sslContextBuilder</span>
-<span class="fc" id="L88">                        .keyManager(key.privateKey, *certificateChain)</span>
+<span class="fc" id="L86">                    sslContextBuilder = sslContextBuilder</span>
+<span class="fc" id="L87">                        .keyManager(key.privateKey, *certificateChain)</span>
                 }
 
-<span class="fc bfc" id="L91" title="All 2 branches covered.">                if (trustStore != null) {</span>
-<span class="fc" id="L92">                    val store = keyStore(trustStore, sslSettings.trustStorePassword)</span>
-<span class="fc" id="L93">                    val certs = store</span>
-<span class="fc" id="L94">                        .aliases()</span>
-<span class="fc" id="L95">                        .toList()</span>
-<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                        .mapNotNull { alias -&gt; store.getCertificate(alias) as X509Certificate }</span>
-<span class="fc" id="L97">                        .toTypedArray()</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">                if (trustStore != null) {</span>
+<span class="fc" id="L91">                    val store = loadKeyStore(trustStore, sslSettings.trustStorePassword)</span>
+<span class="fc" id="L92">                    val certs = store</span>
+<span class="fc" id="L93">                        .aliases()</span>
+<span class="fc" id="L94">                        .toList()</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">                        .mapNotNull { alias -&gt; store.getCertificate(alias) as X509Certificate }</span>
+<span class="fc" id="L96">                        .toTypedArray()</span>
 
-<span class="fc" id="L99">                    sslContextBuilder = sslContextBuilder.trustManager(*certs)</span>
+<span class="fc" id="L98">                    sslContextBuilder = sslContextBuilder.trustManager(*certs)</span>
                 }
 
-<span class="fc" id="L102">                sslContextBuilder.build()</span>
+<span class="fc" id="L101">                sslContextBuilder.build()</span>
             }
 
             else -&gt;
-<span class="fc" id="L106">                it.build()</span>
+<span class="fc" id="L105">                it.build()</span>
         }
-<span class="fc" id="L108">    }</span>
-
-    private fun keyStore(url: URL, password: String): KeyStore {
-<span class="fc" id="L111">        val keyStore = KeyStore.getInstance(&quot;pkcs12&quot;)</span>
-<span class="fc" id="L112">        keyStore.load(url.openStream(), password.toCharArray())</span>
-<span class="fc" id="L113">        return keyStore</span>
-    }
+<span class="fc" id="L107">    }</span>
 
     override fun send(client: Client, request: Request): Response&lt;String&gt; {
 
-<span class="fc" id="L118">        val settings: ClientSettings = client.settings</span>
-<span class="fc" id="L119">        val ahcRequest = createRequest(client, request)</span>
-<span class="fc" id="L120">        val bodyValue = createBodyValue(request.body, request.contentType)</span>
+<span class="fc" id="L111">        val settings: ClientSettings = client.settings</span>
+<span class="fc" id="L112">        val ahcRequest = createRequest(client, request)</span>
+<span class="fc" id="L113">        val bodyValue = createBodyValue(request.body, request.contentType)</span>
 
-<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (bodyValue != null)</span>
-<span class="fc" id="L123">            ahcRequest.setBody(bodyValue)</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (bodyValue != null)</span>
+<span class="fc" id="L116">            ahcRequest.setBody(bodyValue)</span>
 
-<span class="fc" id="L125">        (settings.headers + request.headers).forEach { ahcRequest.addHeader(it.key, it.value) }</span>
+<span class="fc" id="L118">        (settings.headers + request.headers).forEach { ahcRequest.addHeader(it.key, it.value) }</span>
 
-<span class="fc bfc" id="L127" title="All 2 branches covered.">        if (settings.useCookies)</span>
-<span class="fc" id="L128">            client.cookies.forEach {</span>
-<span class="fc" id="L129">                ahcRequest.addCookie(DefaultCookie(it.value.name, it.value.value))</span>
-<span class="fc" id="L130">            }</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        if (settings.useCookies)</span>
+<span class="fc" id="L121">            client.cookies.forEach {</span>
+<span class="fc" id="L122">                ahcRequest.addCookie(DefaultCookie(it.value.name, it.value.value))</span>
+<span class="fc" id="L123">            }</span>
 
-<span class="fc" id="L132">        val response = ahcRequest.execute().get()</span>
+<span class="fc" id="L125">        val response = ahcRequest.execute().get()</span>
 
-<span class="fc bfc" id="L134" title="All 2 branches covered.">        if (settings.useCookies) {</span>
-<span class="fc" id="L135">            response.cookies.forEach {</span>
-<span class="fc bfc" id="L136" title="All 2 branches covered.">                if (it.value() == &quot;&quot;)</span>
-<span class="fc" id="L137">                    client.cookies.remove(it.name())</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        if (settings.useCookies) {</span>
+<span class="fc" id="L128">            response.cookies.forEach {</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">                if (it.value() == &quot;&quot;)</span>
+<span class="fc" id="L130">                    client.cookies.remove(it.name())</span>
                 else
-<span class="fc" id="L139">                    client.cookies[it.name()] = Cookie(it.name(), it.value())</span>
-<span class="fc" id="L140">            }</span>
+<span class="fc" id="L132">                    client.cookies[it.name()] = Cookie(it.name(), it.value())</span>
+<span class="fc" id="L133">            }</span>
         }
 
         // TODO Make header lookup case insensitive (and add tests)
-<span class="fc" id="L144">        val returnHeaders: MutableMap&lt;String, List&lt;String&gt;&gt; = HashMap(</span>
-<span class="fc" id="L145">            response.headers.names()</span>
-<span class="fc" id="L146">                .map { it to response.headers.getAll(it) }</span>
-<span class="fc" id="L147">                .toMap()</span>
+<span class="fc" id="L137">        val returnHeaders: MutableMap&lt;String, List&lt;String&gt;&gt; = HashMap(</span>
+<span class="fc" id="L138">            response.headers.names()</span>
+<span class="fc" id="L139">                .map { it to response.headers.getAll(it) }</span>
+<span class="fc" id="L140">                .toMap()</span>
         )
 
-<span class="fc" id="L150">        return response.let {</span>
-<span class="fc" id="L151">            Response(</span>
-<span class="fc" id="L152">                status = it.statusCode,</span>
-<span class="fc" id="L153">                body = it.responseBody,</span>
-<span class="fc" id="L154">                headers = returnHeaders,</span>
-<span class="fc" id="L155">                contentType = it.contentType,</span>
-<span class="fc" id="L156">                inputStream = it.responseBodyAsStream</span>
+<span class="fc" id="L143">        return response.let {</span>
+<span class="fc" id="L144">            Response(</span>
+<span class="fc" id="L145">                status = it.statusCode,</span>
+<span class="fc" id="L146">                body = it.responseBody,</span>
+<span class="fc" id="L147">                headers = returnHeaders,</span>
+<span class="fc" id="L148">                contentType = it.contentType,</span>
+<span class="fc" id="L149">                inputStream = it.responseBodyAsStream</span>
             )
         }
     }
 
     private fun createBodyValue(body: Any?, contentType: String?): String? =
-<span class="fc" id="L162">        when (body) {</span>
-<span class="fc bfc" id="L163" title="All 2 branches covered.">            null -&gt; null</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">            is File -&gt; Base64.getEncoder().encodeToString(body.readBytes())</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">            is String -&gt; body.toString()</span>
+<span class="fc" id="L155">        when (body) {</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">            null -&gt; null</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">            is File -&gt; Base64.getEncoder().encodeToString(body.readBytes())</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">            is String -&gt; body.toString()</span>
             else -&gt;
-<span class="pc bpc" id="L167" title="1 of 2 branches missed.">                if (contentType == null) body.toString()</span>
-<span class="fc" id="L168">                else body.serialize(formatOf(contentType))</span>
-<span class="fc" id="L169">        }</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">                if (contentType == null) body.toString()</span>
+<span class="fc" id="L161">                else body.serialize(formatOf(contentType))</span>
+<span class="fc" id="L162">        }</span>
 
     private fun createRequest(client: Client, request: Request): BoundRequestBuilder {
 
-<span class="fc" id="L173">        val method: Method = request.method</span>
-<span class="fc" id="L174">        val path: String = client.endpoint + request.path.pattern</span>
-<span class="fc" id="L175">        val settings: ClientSettings = client.settings</span>
-<span class="fc" id="L176">        val contentType: String? = request.contentType</span>
-<span class="fc" id="L177">        val parts: List&lt;AhcPart&gt; = request.parts.values.toList().map {</span>
-<span class="fc bfc" id="L178" title="All 2 branches covered.">            if (it.submittedFileName == null)</span>
-<span class="fc" id="L179">                StringPart(it.name, it.inputStream.reader().readText())</span>
+<span class="fc" id="L166">        val method: Method = request.method</span>
+<span class="fc" id="L167">        val path: String = client.endpoint + request.path.pattern</span>
+<span class="fc" id="L168">        val settings: ClientSettings = client.settings</span>
+<span class="fc" id="L169">        val contentType: String? = request.contentType</span>
+<span class="fc" id="L170">        val parts: List&lt;AhcPart&gt; = request.parts.values.toList().map {</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            if (it.submittedFileName == null)</span>
+<span class="fc" id="L172">                StringPart(it.name, it.inputStream.reader().readText())</span>
             else
-<span class="fc" id="L181">                InputStreamPart(it.name, it.inputStream, it.submittedFileName)</span>
+<span class="fc" id="L174">                InputStreamPart(it.name, it.inputStream, it.submittedFileName)</span>
         }
 
-<span class="fc" id="L184">        ssl = client.settings</span>
+<span class="fc" id="L177">        ssl = client.settings</span>
 
-<span class="fc bfc" id="L186" title="All 8 branches covered.">        val req = when (method) {</span>
-<span class="fc" id="L187">            GET -&gt; ahcClient.prepareGet(path)</span>
-<span class="fc" id="L188">            HEAD -&gt; ahcClient.prepareHead(path)</span>
-<span class="fc" id="L189">            POST -&gt; ahcClient.preparePost(path)</span>
-<span class="fc" id="L190">            PUT -&gt; ahcClient.preparePut(path)</span>
-<span class="fc" id="L191">            DELETE -&gt; ahcClient.prepareDelete(path)</span>
-<span class="fc" id="L192">            TRACE -&gt; ahcClient.prepareTrace(path)</span>
-<span class="fc" id="L193">            OPTIONS -&gt; ahcClient.prepareOptions(path)</span>
-<span class="fc" id="L194">            PATCH -&gt; ahcClient.preparePatch(path)</span>
+<span class="fc bfc" id="L179" title="All 8 branches covered.">        val req = when (method) {</span>
+<span class="fc" id="L180">            GET -&gt; ahcClient.prepareGet(path)</span>
+<span class="fc" id="L181">            HEAD -&gt; ahcClient.prepareHead(path)</span>
+<span class="fc" id="L182">            POST -&gt; ahcClient.preparePost(path)</span>
+<span class="fc" id="L183">            PUT -&gt; ahcClient.preparePut(path)</span>
+<span class="fc" id="L184">            DELETE -&gt; ahcClient.prepareDelete(path)</span>
+<span class="fc" id="L185">            TRACE -&gt; ahcClient.prepareTrace(path)</span>
+<span class="fc" id="L186">            OPTIONS -&gt; ahcClient.prepareOptions(path)</span>
+<span class="fc" id="L187">            PATCH -&gt; ahcClient.preparePatch(path)</span>
         }
 
-<span class="fc" id="L197">        req.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?</span>
+<span class="fc" id="L190">        req.setCharset(Charset.defaultCharset()) // TODO Problem if encoding is set?</span>
 
-<span class="fc" id="L199">        parts.forEach { part -&gt; req.addBodyPart(part) }</span>
+<span class="fc" id="L192">        parts.forEach { part -&gt; req.addBodyPart(part) }</span>
 
-<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (contentType != null)</span>
-<span class="fc" id="L202">            req.addHeader(&quot;Content-Type&quot;, contentType)</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        if (contentType != null)</span>
+<span class="fc" id="L195">            req.addHeader(&quot;Content-Type&quot;, contentType)</span>
 
-<span class="fc" id="L204">        authorization =</span>
-<span class="fc bfc" id="L205" title="All 2 branches covered.">            if (settings.user != null)</span>
-<span class="fc" id="L206">                base64encoder.encodeToString(&quot;${settings.user}:${settings.password}&quot;</span>
-<span class="fc" id="L207">                    .toByteArray(UTF_8))</span>
+<span class="fc" id="L197">        authorization =</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            if (settings.user != null)</span>
+<span class="fc" id="L199">                base64encoder.encodeToString(&quot;${settings.user}:${settings.password}&quot;</span>
+<span class="fc" id="L200">                    .toByteArray(UTF_8))</span>
             else
-<span class="fc" id="L209">                null</span>
-<span class="fc bfc" id="L210" title="All 2 branches covered.">        if (authorization != null)</span>
-<span class="fc" id="L211">            req.addHeader(&quot;Authorization&quot;, &quot;Basic $authorization&quot;)</span>
+<span class="fc" id="L202">                null</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">        if (authorization != null)</span>
+<span class="fc" id="L204">            req.addHeader(&quot;Authorization&quot;, &quot;Basic $authorization&quot;)</span>
 
-<span class="fc" id="L213">        log.info { &quot;$method $path ($contentType)&quot; }</span>
+<span class="fc" id="L206">        log.info { &quot;$method $path ($contentType)&quot; }</span>
 
-<span class="fc" id="L215">        return req</span>
+<span class="fc" id="L208">        return req</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
