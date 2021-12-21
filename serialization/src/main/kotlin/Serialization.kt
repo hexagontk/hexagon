@@ -10,7 +10,6 @@ import java.net.URL
 import kotlin.reflect.KClass
 
 // MAPPING /////////////////////////////////////////////////////////////////////////////////////////
-// TODO Use toFieldsMap and toObject
 fun Any.toFieldsMap(): Map<*, *> =
     requireMapper().toFieldsMap(this)
 

@@ -93,9 +93,6 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
 
         val body2 = client.post("/", body = requestBody).body
         assertEquals(expectedBody, body2.toString().trim().replace("[\r\n]".toRegex(), ""))
-
-        client.get("/")
-        client.get("/")
     }
 
     @Test fun `HTTP generic requests work ok`() {
