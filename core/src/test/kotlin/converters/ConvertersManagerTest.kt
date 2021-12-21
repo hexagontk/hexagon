@@ -1,7 +1,9 @@
 package com.hexagonkt.core.converters
 
+import com.hexagonkt.core.converters.ConvertersManager.convertObjects
 import com.hexagonkt.core.helpers.get
 import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.helpers.requireKeys
 import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
 import java.net.URL
@@ -12,6 +14,7 @@ import java.time.LocalTime
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertSame
 
 internal class ConvertersManagerTest {
 
@@ -29,6 +32,56 @@ internal class ConvertersManagerTest {
         val people: Set<Person> = emptySet(),
         val creationDate: LocalDateTime = LocalDateTime.now(),
     )
+
+    @Test fun `Converters are searched by parent classes if no found in first place`() {
+
+        ConvertersManager.register(Map::class to Person::class) {
+            Person(
+                it.requireKeys(Person::givenName::name),
+                it.requireKeys(Person::familyName::name),
+            )
+        }
+
+        val personData = mapOf(
+            Person::givenName::name to "Johny",
+            Person::familyName::name to "Cage",
+        )
+
+        val person = personData.convert<Person>()
+        assertEquals(Person("Johny", "Cage"), person)
+    }
+
+    @Test fun `Convert instances to its own type returns the same instance`() {
+        val source = Date()
+        assertSame(source, ConvertersManager.convert(source, source::class))
+    }
+
+    @Test fun `Type conversion works properly for collections of instances`() {
+
+        val millis = System.currentTimeMillis()
+        val dates = listOf(Date(millis), Date(millis + 100))
+
+        ConvertersManager.register(Date::class to String::class) { it.toString() }
+        val convertedResults = listOf(
+
+            convertObjects(dates, String::class),
+            dates.convertObjects(String::class),
+            dates.convertObjects(),
+
+            convertObjects(dates.toSet(), String::class),
+            dates.toSet().convertObjects(String::class),
+            dates.toSet().convertObjects(),
+        )
+
+        convertedResults.forEach { assertEquals(convertedResults.first(), it) }
+
+        ConvertersManager.remove(Date::class to String::class)
+        val e = assertFailsWith<IllegalStateException> { dates.convertObjects<String>() }
+
+        val source = Date::class.simpleName
+        val target = String::class.simpleName
+        assertEquals("No converter for $source -> $target", e.message)
+    }
 
     @Test fun `Type conversion works properly`() {
         ConvertersManager.register(Date::class to String::class) { it.toString() }
