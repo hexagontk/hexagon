@@ -11,13 +11,15 @@ import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingLevel.WARN
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingPort
-import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
+import com.hexagonkt.core.logging.jul.JulLoggingAdapter
 import org.slf4j.LoggerFactory
 
-object LogbackLoggingAdapter : LoggingPort {
+class LogbackLoggingAdapter(useColor: Boolean = true) : LoggingPort {
+
+    private val julLoggingAdapter = JulLoggingAdapter(useColor)
 
     override fun createLogger(name: String): LoggerPort =
-        Slf4jJulLoggingAdapter.createLogger(name)
+        julLoggingAdapter.createLogger(name)
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
         val loggerName = name.ifEmpty { Logger.ROOT_LOGGER_NAME }

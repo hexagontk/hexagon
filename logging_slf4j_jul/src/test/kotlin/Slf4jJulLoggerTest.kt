@@ -16,7 +16,7 @@ internal class Slf4jJulLoggerTest {
      */
     @Test fun `Messages are logged without errors using SLF4J JUL`() {
 
-        LoggingManager.adapter = Slf4jJulLoggingAdapter
+        LoggingManager.adapter = Slf4jJulLoggingAdapter()
         val logger = Logger(this::class)
 
         traceAll(logger, TRACE)
