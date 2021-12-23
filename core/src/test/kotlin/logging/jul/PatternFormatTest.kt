@@ -1,16 +1,49 @@
 package logging.jul
 
+import com.hexagonkt.core.helpers.Ansi
+import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.helpers.println
 import com.hexagonkt.core.logging.jul.PatternFormat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.lang.RuntimeException
 import java.util.logging.Level.INFO
+import java.util.logging.Level.SEVERE
 import java.util.logging.LogRecord
 
 internal class PatternFormatTest {
 
     @Test fun `Formatting messages with 'printf' special characters works correctly`() {
-        val format = PatternFormat()
         val message = "Message with '%'"
-        Assertions.assertTrue(format.format(LogRecord(INFO, message)).contains(message))
+
+        val colorFormat = PatternFormat(true)
+        val colorMessage = colorFormat.format(LogRecord(INFO, message))
+        Assertions.assertTrue(colorMessage.contains(message))
+        Assertions.assertTrue(colorMessage.contains(Ansi.BLUE))
+
+        val plainFormat = PatternFormat(false)
+        val plainMessage = plainFormat.format(LogRecord(INFO, message))
+        Assertions.assertTrue(plainMessage.contains(message))
+        Assertions.assertFalse(plainMessage.contains(Ansi.BLUE))
+    }
+
+    @Test fun `Formatting error messages render stack traces`() {
+        val message = "Message with '%'"
+        val record = LogRecord(SEVERE, message)
+        record.thrown = RuntimeException("Tested failure")
+
+        val colorMessage = PatternFormat(true).format(record).println()
+        Assertions.assertTrue(colorMessage.contains(message))
+        Assertions.assertTrue(colorMessage.contains(Ansi.RED))
+        Assertions.assertTrue(colorMessage.contains("Tested failure"))
+        Assertions.assertTrue(colorMessage.contains(RuntimeException::class.qualifiedName ?: fail))
+        Assertions.assertTrue(colorMessage.contains(this::class.qualifiedName ?: fail))
+
+        val plainMessage = PatternFormat(false).format(record).println()
+        Assertions.assertTrue(plainMessage.contains(message))
+        Assertions.assertFalse(plainMessage.contains(Ansi.RED))
+        Assertions.assertTrue(plainMessage.contains("Tested failure"))
+        Assertions.assertTrue(plainMessage.contains(RuntimeException::class.qualifiedName ?: fail))
+        Assertions.assertTrue(plainMessage.contains(this::class.qualifiedName ?: fail))
     }
 }

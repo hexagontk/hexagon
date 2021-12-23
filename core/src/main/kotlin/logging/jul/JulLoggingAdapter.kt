@@ -15,7 +15,7 @@ import java.util.logging.Logger as JulLogger
 /**
  * Implements [LoggingPort] using [Logger][JulLogger].
  */
-object JulLoggingAdapter : LoggingPort {
+class JulLoggingAdapter(useColor: Boolean = true) : LoggingPort {
 
     init {
         val root = JulLogger.getLogger("")
@@ -23,7 +23,7 @@ object JulLoggingAdapter : LoggingPort {
         for (hnd in root.handlers)
             root.removeHandler(hnd)
 
-        root.addHandler(SystemOutHandler())
+        root.addHandler(SystemOutHandler(PatternFormat(useColor)))
         root.level = Level.INFO
     }
 

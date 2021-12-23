@@ -9,7 +9,9 @@ import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger as Slf4jLogger
 
-object Slf4jJulLoggingAdapter : LoggingPort {
+class Slf4jJulLoggingAdapter(useColor: Boolean = true) : LoggingPort {
+
+    private val julLoggingAdapter = JulLoggingAdapter(useColor)
 
     override fun createLogger(name: String): LoggerPort =
         object : LoggerPort {
@@ -49,9 +51,9 @@ object Slf4jJulLoggingAdapter : LoggingPort {
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
         val loggerName = name.ifEmpty { ROOT_LOGGER_NAME }
-        JulLoggingAdapter.setLoggerLevel(loggerName, level)
+        julLoggingAdapter.setLoggerLevel(loggerName, level)
     }
 
     override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
-        JulLoggingAdapter.isLoggerLevelEnabled(name.ifEmpty { ROOT_LOGGER_NAME }, level)
+        julLoggingAdapter.isLoggerLevelEnabled(name.ifEmpty { ROOT_LOGGER_NAME }, level)
 }

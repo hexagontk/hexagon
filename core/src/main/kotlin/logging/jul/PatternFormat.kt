@@ -20,9 +20,9 @@ import java.util.logging.LogRecord
 /**
  * A Formatter implements [Formatter] provides support for formatting Logs.
  *
- * @property useColor use a color to log messages.
+ * @property useColor Use colors in log messages.
  */
-class PatternFormat(private val useColor: Boolean = true) : Formatter() {
+class PatternFormat(private val useColor: Boolean) : Formatter() {
 
     private companion object {
         const val TIMESTAMP = "%tH:%<tM:%<tS,%<tL"
@@ -65,16 +65,12 @@ class PatternFormat(private val useColor: Boolean = true) : Formatter() {
         val levelName = levelNames[level] ?: fail
         val levelColor = levelColors[level] ?: BLUE
         val message = record.message
-        val parameters = record.parameters ?: emptyArray()
         val loggerName = record.loggerName
         val threadName = Thread.currentThread().name
-        val msg =
-            if (parameters.isEmpty()) message
-            else String.format(message, *parameters) + trace
 
         return if (useColor)
-            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, msg)
+            pattern.format(dateTime, levelColor, levelName, threadName, loggerName, message + trace)
         else
-            pattern.format(dateTime, levelName, threadName, loggerName, msg)
+            pattern.format(dateTime, levelName, threadName, loggerName, message + trace)
     }
 }
