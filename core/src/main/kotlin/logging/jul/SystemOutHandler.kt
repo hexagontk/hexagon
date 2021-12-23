@@ -8,9 +8,9 @@ import java.util.logging.StreamHandler
 /**
  * Create a StreamHandler with a given [Formatter].
  *
- * @param handlerFormatter Formatter with a default value PatternFormatter object.
+ * @param handlerFormatter Formatter used by the log handler.
  */
-class SystemOutHandler(handlerFormatter: Formatter = PatternFormat()) : StreamHandler() {
+class SystemOutHandler(handlerFormatter: Formatter) : StreamHandler() {
 
     override fun publish(record: LogRecord) {
         super.publish(record)

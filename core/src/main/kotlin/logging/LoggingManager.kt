@@ -8,7 +8,7 @@ import kotlin.reflect.KClass
  * Manages Logs using [JulLoggingAdapter]
  */
 object LoggingManager {
-    var adapter: LoggingPort = JulLoggingAdapter
+    var adapter: LoggingPort = JulLoggingAdapter()
 
     /**
      * Set a logger logging level by name.
