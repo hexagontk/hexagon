@@ -135,9 +135,7 @@ class AhcAdapter : ClientPort {
 
         // TODO Make header lookup case insensitive (and add tests)
         val returnHeaders: MutableMap<String, List<String>> = HashMap(
-            response.headers.names()
-                .map { it to response.headers.getAll(it) }
-                .toMap()
+            response.headers.names().associateWith { response.headers.getAll(it) }
         )
 
         return response.let {
