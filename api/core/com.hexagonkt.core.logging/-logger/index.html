@@ -7,13 +7,13 @@
 const savedDarkMode = storage ? JSON.parse(storage) : false
 if(savedDarkMode === true){
     document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script><script type="text/javascript" src="../../../scripts/main.js" async></script><script type="text/javascript" src="../../../scripts/prism.js" async></script>
+}</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script><script type="text/javascript" src="../../../scripts/main.js" defer></script><script type="text/javascript" src="../../../scripts/prism.js" async></script>
 <script src="https://unpkg.com/kotlin-playground@1"></script>
   
     <div class="navigation-wrapper" id="navigation-wrapper">
       <div id="leftToggler"><span class="icon-toggler"></span></div>
       <div class="library-name"><a href="../../../index.html"><span>hexagon</span></a></div>
-      <div>1.5.2</div>
+      <div>1.5.3</div>
       <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
         <div id="searchBar"></div>
       </div>
@@ -22,7 +22,7 @@ if(savedDarkMode === true){
       <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
-      <div id="main"><script type="text/javascript" src="../../../scripts/main.js"></script>
+      <div id="main">
         <div class="main-content" id="content" pageids="core::com.hexagonkt.core.logging/Logger///PointingToDeclaration//537371977">
           <div class="breadcrumbs"><a href="../../index.html">core</a>/<a href="../index.html">com.hexagonkt.core.logging</a>/<a href="index.html">Logger</a></div>
           <div class="cover ">
@@ -71,13 +71,15 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 }</code></pre></div></div></div>
               <h2 class="">Parameters</h2>
               <div data-togglable="Parameters">
-                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><span><span>name</span></span></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Logger name. It is shown in the logs messages and used for log filtering.</p></div></div></div></div></div></div></div></div></div>
+                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>name</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Logger name. It is shown in the logs messages and used for log filtering.</p></div></div></div></div></div></div></div></div></div>
               </div>
               <h2 class="tabbedcontent">Constructors</h2>
               <div class="table" data-togglable="Constructors"><a data-name="2117280056%2FConstructors%2F537371977" anchor-label="Logger" id="2117280056%2FConstructors%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-logger.html">Logger</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2117280056%2FConstructors%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-logger.html"><span><span>Logger</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2117280056%2FConstructors%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -90,7 +92,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="-338101271%2FConstructors%2F537371977" anchor-label="Logger" id="-338101271%2FConstructors%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-logger.html">Logger</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-338101271%2FConstructors%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-logger.html"><span><span>Logger</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-338101271%2FConstructors%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -105,7 +109,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
               <div class="table" data-togglable="Functions"><a data-name="1422016633%2FFunctions%2F537371977" anchor-label="debug" id="1422016633%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="debug.html"><span><span>debug</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1422016633%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="debug.html"><span><span>debug</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1422016633%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -118,7 +124,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="-1200872402%2FFunctions%2F537371977" anchor-label="error" id="-1200872402%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="error.html"><span><span>error</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1200872402%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="error.html"><span><span>error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1200872402%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -131,7 +139,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="-724971596%2FFunctions%2F537371977" anchor-label="flare" id="-724971596%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="flare.html"><span><span>flare</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-724971596%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="flare.html"><span><span>flare</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-724971596%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -144,7 +154,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="1363889912%2FFunctions%2F537371977" anchor-label="info" id="1363889912%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="info.html"><span><span>info</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1363889912%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="info.html"><span><span>info</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1363889912%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -157,7 +169,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="253289971%2FFunctions%2F537371977" anchor-label="isDebugEnabled" id="253289971%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="is-debug-enabled.html"><span>is</span><wbr><span>Debug</span><wbr><span><span>Enabled</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="253289971%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="is-debug-enabled.html"><span>is</span><wbr><span>Debug</span><wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="253289971%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -170,7 +184,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="1896418728%2FFunctions%2F537371977" anchor-label="isErrorEnabled" id="1896418728%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="is-error-enabled.html"><span>is</span><wbr><span>Error</span><wbr><span><span>Enabled</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1896418728%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="is-error-enabled.html"><span>is</span><wbr><span>Error</span><wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1896418728%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -183,7 +199,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="-790891514%2FFunctions%2F537371977" anchor-label="isInfoEnabled" id="-790891514%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="is-info-enabled.html"><span>is</span><wbr><span>Info</span><wbr><span><span>Enabled</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-790891514%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="is-info-enabled.html"><span>is</span><wbr><span>Info</span><wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-790891514%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -196,7 +214,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="437283485%2FFunctions%2F537371977" anchor-label="isLoggerLevelEnabled" id="437283485%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="is-logger-level-enabled.html"><span>is</span><wbr><span>Logger</span><wbr><span>Level</span><wbr><span><span>Enabled</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="437283485%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="is-logger-level-enabled.html"><span>is</span><wbr><span>Logger</span><wbr><span>Level</span><wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="437283485%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -209,7 +229,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="-2113406747%2FFunctions%2F537371977" anchor-label="isTraceEnabled" id="-2113406747%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="is-trace-enabled.html"><span>is</span><wbr><span>Trace</span><wbr><span><span>Enabled</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2113406747%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="is-trace-enabled.html"><span>is</span><wbr><span>Trace</span><wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2113406747%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -222,7 +244,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="1391772126%2FFunctions%2F537371977" anchor-label="isWarnEnabled" id="1391772126%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="is-warn-enabled.html"><span>is</span><wbr><span>Warn</span><wbr><span><span>Enabled</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1391772126%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="is-warn-enabled.html"><span>is</span><wbr><span>Warn</span><wbr><span><span>Enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1391772126%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -235,7 +259,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="934736536%2FFunctions%2F537371977" anchor-label="setLoggerLevel" id="934736536%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="set-logger-level.html"><span>set</span><wbr><span>Logger</span><wbr><span><span>Level</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="934736536%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="set-logger-level.html"><span>set</span><wbr><span>Logger</span><wbr><span><span>Level</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="934736536%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -248,7 +274,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="1843698856%2FFunctions%2F537371977" anchor-label="time" id="1843698856%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="time.html"><span><span>time</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1843698856%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="time.html"><span><span>time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1843698856%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -261,7 +289,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="-98913813%2FFunctions%2F537371977" anchor-label="trace" id="-98913813%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="trace.html"><span><span>trace</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-98913813%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="trace.html"><span><span>trace</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-98913813%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -274,7 +304,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
 <a data-name="-1637593230%2FFunctions%2F537371977" anchor-label="warn" id="-1637593230%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="warn.html"><span><span>warn</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1637593230%2FFunctions%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="warn.html"><span><span>warn</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1637593230%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -289,7 +321,9 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
               <div class="table" data-togglable="Properties"><a data-name="1908091904%2FProperties%2F537371977" anchor-label="name" id="1908091904%2FProperties%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="name.html">name</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1908091904%2FProperties%2F537371977"></span>
+                    <div class=""><span class="inline-flex">
+                        <div><a href="name.html">name</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1908091904%2FProperties%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
