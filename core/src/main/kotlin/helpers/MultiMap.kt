@@ -8,7 +8,10 @@ import kotlin.collections.Map.Entry
  */
 class MultiMap<K, V>(mapData: Map<K, List<V>>) : Map<K, V> {
 
+    constructor(mapData: List<Pair<K, V>>) : this(mapData.groupBy({ it.first }) { it.second } )
+
     val allValues: Map<K, List<V>> = mapData.filterValues { it.isNotEmpty() }
+    val allPairs: List<Pair<K, V>> by lazy { allValues.flatMap { (k, v) -> v.map { k to it } } }
 
     override val entries: Set<Entry<K, V>>
         get() = allValues.mapValues { it.value.first() }.entries
@@ -40,12 +43,18 @@ class MultiMap<K, V>(mapData: Map<K, List<V>>) : Map<K, V> {
         else
             allValues == other
 
-    operator fun plus(element: Pair<K, List<V>>): MultiMap<K, V> =
-        MultiMap(allValues + element)
+    operator fun plus(element: Pair<K, V>): MultiMap<K, V> =
+        MultiMap(allPairs + element)
+
+    operator fun plus(element: Map<K, V>): MultiMap<K, V> =
+        MultiMap(allPairs + element.map { (k, v) -> k to v })
 
     operator fun plus(element: MultiMap<K, V>): MultiMap<K, V> =
         MultiMap(allValues + element.allValues)
 
     override fun hashCode(): Int =
         allValues.hashCode()
+
+    override fun toString(): String =
+        allValues.toString()
 }

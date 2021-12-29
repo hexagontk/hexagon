@@ -9,7 +9,7 @@ import kotlin.test.assertTrue
 internal class MultiMapTest {
 
     @Test fun `MultiMap of nullable types`() {
-        val multiMap: MultiMap<String, String?> = multiMapOf("a" to listOf("b", "c", null))
+        val multiMap: MultiMap<String, String?> = multiMapOfLists("a" to listOf("b", "c", null))
 
         assertEquals("b", multiMap["a"])
         assertEquals(listOf("b", "c", null), multiMap.allValues["a"])
@@ -27,7 +27,7 @@ internal class MultiMapTest {
     }
 
     @Test fun `MultiMaps are comparable`() {
-        val multiMap1 = multiMapOf("a" to listOf("b", "c"))
+        val multiMap1 = multiMapOfLists("a" to listOf("b", "c"))
         val mapData = mapOf("a" to listOf("b", "c"))
         val multiMap2 = MultiMap(mapData)
         assertEquals(multiMap1, multiMap2)
@@ -37,7 +37,7 @@ internal class MultiMapTest {
     }
 
     @Test fun `All MultiMap values can be accessed`() {
-        val multiMap: MultiMap<String, String> = multiMapOf(
+        val multiMap: MultiMap<String, String> = multiMapOfLists(
             "a" to listOf("b", "c"),
             "b" to listOf("d", "e"),
             "c" to emptyList()
@@ -47,6 +47,7 @@ internal class MultiMapTest {
         assertEquals("d", multiMap["b"])
         assertEquals(listOf("b", "c"), multiMap.allValues["a"])
         assertEquals(listOf("d", "e"), multiMap.allValues["b"])
+        assertEquals(listOf("a" to "b", "a" to "c", "b" to "d", "b" to "e"), multiMap.allPairs)
         assertNull(multiMap["c"])
 
         assertEquals(mapOf("a" to "b", "b" to "d").entries, multiMap.entries)
@@ -83,11 +84,37 @@ internal class MultiMapTest {
     @Test fun `Map operators work as expected`() {
         assertEquals(
             MultiMap(mapOf("a" to listOf("b"), "b" to listOf("c"))),
-            multiMapOf("a" to listOf("b")) + ("b" to listOf("c"))
+            multiMapOfLists("a" to listOf("b")) + ("b" to "c")
+        )
+        assertEquals(
+            MultiMap(mapOf("a" to listOf("b"), "b" to listOf("c", "d"))),
+            multiMapOfLists("a" to listOf("b")) + ("b" to "c") + ("b" to "d")
+        )
+        assertEquals(
+            MultiMap(mapOf("a" to listOf("b"), "b" to listOf("c", "d"))),
+            multiMapOf("a" to "b", "b" to "c") + mapOf("b" to "d")
         )
         assertEquals(
             MultiMap(mapOf("a" to listOf("b"), "b" to listOf("c"))),
-            multiMapOf("a" to listOf("b")) + multiMapOf("b" to listOf("c"))
+            multiMapOfLists("a" to listOf("b")) + multiMapOfLists("b" to listOf("c"))
+        )
+    }
+
+    @Test fun `MultiMap toString works as regular Map`() {
+        assertEquals(
+            multiMapOf("a" to "b", "b" to "c").toString(),
+            multiMapOfLists("a" to listOf("b"), "b" to listOf("c")).toString()
+        )
+    }
+
+    @Test fun `MultiMap construction functions work as expected`() {
+        assertEquals(
+            multiMapOf("a" to "b", "b" to "c"),
+            multiMapOfLists("a" to listOf("b"), "b" to listOf("c"))
+        )
+        assertEquals(
+            multiMapOf("a" to "b", "b" to "c", "b" to "d"),
+            multiMapOfLists("a" to listOf("b"), "b" to listOf("c", "d"))
         )
     }
 }
