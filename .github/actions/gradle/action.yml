@@ -41,8 +41,11 @@ runs:
 
     # PROCESS
     - run: ./gradlew ${{ inputs.tasks }}
+      shell: bash
     - if: failure()
       run: ./gradlew --info --stacktrace ${{ inputs.tasks }}
+      shell: bash
 
     # CLEAN UP
     - run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+      shell: bash
