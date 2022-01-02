@@ -28,7 +28,9 @@ runs:
 
     # SET UP
     - uses: actions/setup-java@v2
-      with: { java-version: ${{inputs.java}}, distribution: ${{inputs.java_distribution}} }
+      with:
+        java-version: ${{ inputs.java }}
+        distribution: ${{ inputs.java_distribution }}
     - uses: actions/cache@v2
       with:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
@@ -38,9 +40,9 @@ runs:
           ~/.gradle/wrapper
 
     # PROCESS
-    - run: ./gradlew ${{inputs.tasks}}
+    - run: ./gradlew ${{ inputs.tasks }}
     - if: failure()
-      run: ./gradlew --info --stacktrace ${{inputs.tasks}}
+      run: ./gradlew --info --stacktrace ${{ inputs.tasks }}
 
     # CLEAN UP
     - run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
