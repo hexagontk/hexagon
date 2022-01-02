@@ -207,9 +207,9 @@ abstract class ClientTest(private val adapter: () -> ClientPort) {
     @Test fun `Files are sent in base64` () {
         handler = { response.headersValues["file64"] = listOf(request.body) }
 
-        val file = File("../core/src/test/resources/logging.properties").let {
+        val file = File("../core/src/test/resources/sample.properties").let {
             if (it.exists()) it
-            else File("core/src/test/resources/logging.properties")
+            else File("core/src/test/resources/sample.properties")
         }
 
         val r = client.post("/file", file)
