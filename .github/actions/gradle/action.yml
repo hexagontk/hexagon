@@ -1,0 +1,46 @@
+
+#
+# TODO When GitHub Actions support `if` and `uses` this action could be used on the workflows.
+# This action *WILL REQUIRE* to do the checkout before (as it is used from the same repository).
+#
+name: Gradle
+description: Run a Gradle build executing the supplied tasks.
+
+inputs:
+  java:
+    description: Java version used to run Gradle.
+    required: true
+    default: "17"
+
+  java_distribution:
+    description: Java distrubution used to run Gradle.
+    required: true
+    default: temurin
+
+  tasks:
+    description: Gradle tasks to execute.
+    required: true
+    default: build
+
+runs:
+  using: composite
+  steps:
+
+    # SET UP
+    - uses: actions/setup-java@v2
+      with: { java-version: ${{inputs.java}}, distribution: ${{inputs.java_distribution}} }
+    - uses: actions/cache@v2
+      with:
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
+        restore-keys: ${{ runner.os }}-gradle-
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+
+    # PROCESS
+    - run: ./gradlew ${{inputs.tasks}}
+    - if: failure()
+      run: ./gradlew --info --stacktrace ${{inputs.tasks}}
+
+    # CLEAN UP
+    - run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
