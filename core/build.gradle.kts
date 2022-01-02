@@ -13,8 +13,10 @@ extra["basePackage"] = "com.hexagonkt"
 
 dependencies {
     val kotlinVersion = properties["kotlinVersion"]
+    val kotlinxCoroutinesVersion = properties["kotlinxCoroutinesVersion"]
 
     "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    "api"("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
 }
 
 task("hexagonInfo") {
