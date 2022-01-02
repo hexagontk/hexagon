@@ -1,6 +1,5 @@
 
 #
-# TODO When GitHub Actions support `if` and `uses` this action could be used on the workflows.
 # This action *WILL REQUIRE* to do the checkout before (as it is used from the same repository).
 #
 name: Gradle
@@ -47,5 +46,8 @@ runs:
       shell: bash
 
     # CLEAN UP
-    - run: rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
-      shell: bash
+    - shell: bash
+      run: |
+        ./gradlew --stop
+        sleep 3
+        rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
