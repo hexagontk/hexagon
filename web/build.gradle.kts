@@ -14,7 +14,7 @@ dependencies {
     "testImplementation"(project(":http_client_ahc"))
     "testImplementation"(project(":http_server_jetty"))
     "testImplementation"(project(":templates_pebble"))
-    "testImplementation"(project(":serialization_yaml"))
+    "testImplementation"(project(":serialization_jackson_yaml"))
 }
 
 extensions.configure<PublishingExtension> {

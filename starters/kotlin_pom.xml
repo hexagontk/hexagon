@@ -79,22 +79,22 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>serialization_csv</artifactId>
+        <artifactId>serialization_jackson_csv</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>serialization_json</artifactId>
+        <artifactId>serialization_jackson_json</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>serialization_xml</artifactId>
+        <artifactId>serialization_jackson_xml</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>serialization_yaml</artifactId>
+        <artifactId>serialization_jackson_yaml</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
