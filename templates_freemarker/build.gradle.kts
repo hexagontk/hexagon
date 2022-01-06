@@ -17,5 +17,5 @@ dependencies {
     "api"("org.freemarker:freemarker:${properties["freemarkerVersion"]}")
 
     "testImplementation"(templatesTest)
-    "testImplementation"(project(":serialization_json"))
+    "testImplementation"(project(":serialization_jackson_json"))
 }

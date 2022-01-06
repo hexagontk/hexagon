@@ -21,7 +21,7 @@ dependencies {
         exclude("org.slf4j")
     }
 
-    "testImplementation"(project(":serialization_yaml"))
+    "testImplementation"(project(":serialization_jackson_yaml"))
     "testImplementation"(project(":http_server_jetty"))
     "testImplementation"(httpClientTest)
 }

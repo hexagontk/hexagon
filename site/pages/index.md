@@ -104,7 +104,7 @@ Ports with their provided implementations (Adapters).
 [Pebble]: /templates_pebble
 [FreeMarker]: /templates_freemarker
 [Serialization Formats]: /core/#serialization
-[JSON]: /api/serialization_json/com.hexagonkt.serialization.json/-json
-[YAML]: /api/serialization_yaml/com.hexagonkt.serialization.yaml/-yaml
-[CSV]: /api/serialization_csv/com.hexagonkt.serialization.csv/-Csv
-[XML]: /api/serialization_xml/com.hexagonkt.serialization.xml/-Xml
+[JSON]: /api/serialization_jackson_json/com.hexagonkt.serialization.json/-json
+[YAML]: /api/serialization_jackson_yaml/com.hexagonkt.serialization.yaml/-yaml
+[CSV]: /api/serialization_jackson_csv/com.hexagonkt.serialization.csv/-Csv
+[XML]: /api/serialization_jackson_xml/com.hexagonkt.serialization.xml/-Xml
