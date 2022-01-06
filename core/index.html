@@ -506,6 +506,40 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#package-comhexagonktcore" class="md-nav__link">
+    Package com.hexagonkt.core
+  </a>
+  
+    <nav class="md-nav" aria-label="Package com.hexagonkt.core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flags-system-properties" class="md-nav__link">
+    Flags (System Properties)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonktcoreconverters" class="md-nav__link">
+    Package com.hexagonkt.core.converters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonktcorehandlers" class="md-nav__link">
+    Package com.hexagonkt.core.handlers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#package-comhexagonktcorehelpers" class="md-nav__link">
     Package com.hexagonkt.core.helpers
   </a>
@@ -522,6 +556,13 @@
         <li class="md-nav__item">
   <a href="#package-comhexagonktcoreloggingjul" class="md-nav__link">
     Package com.hexagonkt.core.logging.jul
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonktcoremedia" class="md-nav__link">
+    Package com.hexagonkt.core.media
   </a>
   
 </li>
@@ -961,6 +1002,40 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#package-comhexagonktcore" class="md-nav__link">
+    Package com.hexagonkt.core
+  </a>
+  
+    <nav class="md-nav" aria-label="Package com.hexagonkt.core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flags-system-properties" class="md-nav__link">
+    Flags (System Properties)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonktcoreconverters" class="md-nav__link">
+    Package com.hexagonkt.core.converters
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonktcorehandlers" class="md-nav__link">
+    Package com.hexagonkt.core.handlers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#package-comhexagonktcorehelpers" class="md-nav__link">
     Package com.hexagonkt.core.helpers
   </a>
@@ -977,6 +1052,13 @@
         <li class="md-nav__item">
   <a href="#package-comhexagonktcoreloggingjul" class="md-nav__link">
     Package com.hexagonkt.core.logging.jul
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonktcoremedia" class="md-nav__link">
+    Package com.hexagonkt.core.media
   </a>
   
 </li>
@@ -1112,11 +1194,46 @@ alternatives:</p>
 <li><a href="/logging_slf4j_jul">SLF4J JUL</a></li>
 </ul>
 <p>TODO Add <code>LoggingManager</code> examples for changing logging level</p>
+<h2 id="package-comhexagonktcore">Package com.hexagonkt.core<a class="headerlink" href="#package-comhexagonktcore" title="Permanent link">&para;</a></h2>
+<p>TODO</p>
+<h3 id="flags-system-properties">Flags (System Properties)<a class="headerlink" href="#flags-system-properties" title="Permanent link">&para;</a></h3>
+<ul>
+<li>DISABLE_CHECKS: set to true to disable checks (to shave a few ms. in production when app is
+  extensively tested).</li>
+</ul>
+<h2 id="package-comhexagonktcoreconverters">Package com.hexagonkt.core.converters<a class="headerlink" href="#package-comhexagonktcoreconverters" title="Permanent link">&para;</a></h2>
+<p>TODO</p>
+<h2 id="package-comhexagonktcorehandlers">Package com.hexagonkt.core.handlers<a class="headerlink" href="#package-comhexagonktcorehandlers" title="Permanent link">&para;</a></h2>
+<p>TODO</p>
+<p>KEY TAKEAWAY: the order is NOT the order, it is the depth. Handlers are not linked, they are NESTED.
+The <code>next()</code> method passes control to the next level.</p>
+<p>So this:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>H1
+H2
+H3
+</code></pre></div>
+</td></tr></table>
+<p>Is really:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>H1
+  H2
+    H3
+  H2
+H1
+</code></pre></div>
+</td></tr></table>
 <h2 id="package-comhexagonktcorehelpers">Package com.hexagonkt.core.helpers<a class="headerlink" href="#package-comhexagonktcorehelpers" title="Permanent link">&para;</a></h2>
 <p>JVM information, a logger class and other useful utilities.</p>
 <h2 id="package-comhexagonktcorelogging">Package com.hexagonkt.core.logging<a class="headerlink" href="#package-comhexagonktcorelogging" title="Permanent link">&para;</a></h2>
 <p>Provides a logging management capabilities abstracting the application from logging libraries.</p>
 <h2 id="package-comhexagonktcoreloggingjul">Package com.hexagonkt.core.logging.jul<a class="headerlink" href="#package-comhexagonktcoreloggingjul" title="Permanent link">&para;</a></h2>
+<p>TODO</p>
+<h2 id="package-comhexagonktcoremedia">Package com.hexagonkt.core.media<a class="headerlink" href="#package-comhexagonktcoremedia" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
 <h2 id="package-comhexagonktcoresecurity">Package com.hexagonkt.core.security<a class="headerlink" href="#package-comhexagonktcoresecurity" title="Permanent link">&para;</a></h2>
 <p>TODO</p>

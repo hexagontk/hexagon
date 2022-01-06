@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Logger.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.logging</a> &gt; <span class="el_source">Logger.kt</span></div><h1>Logger.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.logging
+
+import java.lang.System.nanoTime
+import kotlin.reflect.KClass
+import com.hexagonkt.core.helpers.Ansi.BLINK
+import com.hexagonkt.core.helpers.Ansi.BOLD
+import com.hexagonkt.core.helpers.Ansi.RESET
+import com.hexagonkt.core.logging.LoggingLevel.*
+
+/**
+ * Logger class with Kotlin improvements like lazy evaluation. It is backed by a logging port.
+ *
+ * @param name Logger name. It is shown in the logs messages and used for log filtering.
+ * @sample com.hexagonkt.core.HexagonCoreSamplesTest.loggerUsage
+ */
+<span class="fc" id="L16">class Logger(val name: String) {</span>
+
+    private companion object {
+        const val FLARE_PREFIX = &quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;
+    }
+
+<span class="pc" id="L22">    internal val log: LoggerPort = LoggingManager.adapter.createLogger(name)</span>
+
+    /**
+     * Logger class with Kotlin improvements like lazy evaluation.
+     *
+     * @param type Logger type. It is shown in the logs messages and used for log filtering.
+     */
+    constructor(type: KClass&lt;*&gt;):
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        this(type.qualifiedName ?: error(&quot;Cannot get qualified name of $type&quot;))</span>
+
+    /**
+     * Log a message using [TRACE] level.
+     *
+     * @param message The required message to log.
+     */
+    fun trace(message: () -&gt; Any?) {
+<span class="fc" id="L38">        log.log(TRACE, message)</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * Log a message using [DEBUG] level.
+     *
+     * @param message The required message to log.
+     */
+    fun debug(message: () -&gt; Any?) {
+<span class="fc" id="L47">        log.log(DEBUG, message)</span>
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * Log a message using [INFO] level.
+     *
+     * @param message The required message to log.
+     */
+    fun info(message: () -&gt; Any?) {
+<span class="fc" id="L56">        log.log(INFO, message)</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Log a message using [WARN] level.
+     *
+     * @param message The required message to log.
+     */
+    fun warn(message: () -&gt; Any?) {
+<span class="fc" id="L65">        log.log(WARN, message)</span>
+<span class="fc" id="L66">    }</span>
+
+    /**
+     * Log a message using [ERROR] level.
+     *
+     * @param message The required message to log.
+     */
+    fun error(message: () -&gt; Any?) {
+<span class="fc" id="L74">        log.log(ERROR, message)</span>
+<span class="fc" id="L75">    }</span>
+
+    /**
+     * Log a message using [WARN] level with associated exception information.
+     *
+     * @param exception The exception associated with log message.
+     * @param message The required message to log.
+     */
+    fun &lt;E : Throwable&gt; warn(exception: E, message: (E) -&gt; Any?) {
+<span class="fc" id="L84">        log.log(WARN, exception, message)</span>
+<span class="fc" id="L85">    }</span>
+
+    /**
+     * Log a message using [ERROR] level with associated exception information.
+     *
+     * @param exception The exception associated with log message.
+     * @param message The required message to log.
+     */
+    fun &lt;E : Throwable&gt; error(exception: E, message: (E) -&gt; Any?) {
+<span class="fc" id="L94">        log.log(ERROR, exception, message)</span>
+<span class="fc" id="L95">    }</span>
+
+    /**
+     * Log a message using [TRACE] level.
+     *
+     * @param message The required message to log.
+     */
+<span class="nc" id="L102">    fun flare(message: () -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc" id="L103">        log.log(TRACE) { &quot;$BOLD$BLINK$FLARE_PREFIX$RESET ${message()}&quot; }</span>
+<span class="fc" id="L104">    }</span>
+
+    /**
+     * Log a message using [TRACE] level with the logging time.
+     *
+     * @param startNanos The start logging time in nanoseconds.
+     * @param message The required message to log.
+     */
+<span class="nc" id="L112">    fun time(startNanos: Long, message: () -&gt; Any? = { &quot;&quot; }) {</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        log.log(TRACE) { &quot;${message() ?: &quot;TIME&quot;} : ${formatNanos(nanoTime() - startNanos)}&quot; }</span>
+<span class="fc" id="L114">    }</span>
+
+    /**
+     * Execute a lambda block and log a message using [TRACE] level with the logging time.
+     *
+     * @param message The required message to log.
+     * @param block The lambda block to execute.
+     */
+<span class="fc" id="L122">    fun &lt;T&gt; time(message: () -&gt; Any? = { null }, block: () -&gt; T): T {</span>
+<span class="fc" id="L123">        val start = nanoTime()</span>
+<span class="fc" id="L124">        return block().also { time(start, message) }</span>
+    }
+
+    /**
+     * Execute a lambda block and log a message using [TRACE] level with the logging time.
+     *
+     * @param message The required message to log.
+     * @param block The lambda block to execute.
+     */
+<span class="fc" id="L133">    fun &lt;T&gt; time(message: Any?, block: () -&gt; T): T = this.time({ message }, block)</span>
+
+    /**
+     * Set a logging level for this logger.
+     *
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     */
+    fun setLoggerLevel(level: LoggingLevel) {
+<span class="fc" id="L141">        LoggingManager.setLoggerLevel(name, level)</span>
+<span class="fc" id="L142">    }</span>
+
+    /**
+     * Check if a logging level is enabled for this logger.
+     *
+     * @param level One of the logging levels identifiers, e.g., TRACE
+     * @return True if the supplied level is enabled for this logger.
+     */
+    fun isLoggerLevelEnabled(level: LoggingLevel): Boolean =
+<span class="fc" id="L151">        LoggingManager.isLoggerLevelEnabled(name, level)</span>
+
+    /**
+     * Check if the [TRACE] logging level is enabled for this logger.
+     *
+     * @return True if the [TRACE] level is enabled for this logger.
+     */
+    fun isTraceEnabled(): Boolean =
+<span class="fc" id="L159">        isLoggerLevelEnabled(TRACE)</span>
+
+    /**
+     * Check if the [DEBUG] logging level is enabled for this logger.
+     *
+     * @return True if the [DEBUG] level is enabled for this logger.
+     */
+    fun isDebugEnabled(): Boolean =
+<span class="fc" id="L167">        isLoggerLevelEnabled(DEBUG)</span>
+
+    /**
+     * Check if the [INFO] logging level is enabled for this logger.
+     *
+     * @return True if the [INFO] level is enabled for this logger.
+     */
+    fun isInfoEnabled(): Boolean =
+<span class="fc" id="L175">        isLoggerLevelEnabled(INFO)</span>
+
+    /**
+     * Check if the [WARN] logging level is enabled for this logger.
+     *
+     * @return True if the [WARN] level is enabled for this logger.
+     */
+    fun isWarnEnabled(): Boolean =
+<span class="fc" id="L183">        isLoggerLevelEnabled(WARN)</span>
+
+    /**
+     * Check if the [ERROR] logging level is enabled for this logger.
+     *
+     * @return True if the [ERROR] level is enabled for this logger.
+     */
+    fun isErrorEnabled(): Boolean =
+<span class="fc" id="L191">        isLoggerLevelEnabled(ERROR)</span>
+
+<span class="fc" id="L193">    private fun formatNanos (nanoseconds: Long): String = &quot;%1.3f ms&quot;.format (nanoseconds / 1e6)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

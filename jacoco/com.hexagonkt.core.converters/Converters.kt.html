@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Converters.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.converters</a> &gt; <span class="el_source">Converters.kt</span></div><h1>Converters.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.converters
+
+import kotlin.reflect.KClass
+
+/**
+ * Utility method to convert one type to another.
+ *
+ * @param target Target type for the source instance.
+ * @receiver Value to convert to another type.
+ *
+ * @see ConvertersManager.convert
+ */
+fun &lt;T : Any&gt; Any.convert(target: KClass&lt;T&gt;): T =
+<span class="fc" id="L14">    ConvertersManager.convert(this, target)</span>
+
+/**
+ * Convert a group of instances of one type to another type.
+ *
+ * @param target Target type for the source instances in the group.
+ * @receiver Value to convert to another type.
+ * @return List of converted instances.
+ *
+ * @see ConvertersManager.convertObjects
+ */
+fun &lt;T : Any&gt; Iterable&lt;Any&gt;.convertObjects(target: KClass&lt;T&gt;): List&lt;T&gt; =
+<span class="fc" id="L26">    ConvertersManager.convertObjects(this, target)</span>
+
+/**
+ * Utility method to convert one type to another.
+ *
+ * @param T Target type for the source instance.
+ * @receiver Value to convert to another type.
+ *
+ * @see ConvertersManager.convert
+ */
+inline fun &lt;reified T : Any&gt; Any.convert(): T =
+    convert(T::class)
+
+/**
+ * Convert a group of instances of one type to another type.
+ *
+ * @param T Target type for the source instances in the group.
+ * @receiver Value to convert to another type.
+ * @return List of converted instances.
+ *
+ * @see ConvertersManager.convertObjects
+ */
+inline fun &lt;reified T : Any&gt; Iterable&lt;Any&gt;.convertObjects(): List&lt;T&gt; =
+    convertObjects(T::class)
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

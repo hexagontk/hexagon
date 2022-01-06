@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultiMap.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.helpers</a> &gt; <span class="el_source">MultiMap.kt</span></div><h1>MultiMap.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.helpers
+
+import kotlin.collections.Map.Entry
+
+/**
+ * Simplify access to multivalued maps. It looks for first elements, but all values can be accessed
+ * through the `allValues` field.
+ */
+<span class="fc" id="L9">class MultiMap&lt;K, V&gt;(mapData: Map&lt;K, List&lt;V&gt;&gt;) : Map&lt;K, V&gt; {</span>
+
+<span class="fc" id="L11">    constructor(mapData: List&lt;Pair&lt;K, V&gt;&gt;) : this(mapData.groupBy({ it.first }) { it.second } )</span>
+
+<span class="fc bfc" id="L13" title="All 4 branches covered.">    val allValues: Map&lt;K, List&lt;V&gt;&gt; = mapData.filterValues { it.isNotEmpty() }</span>
+<span class="fc" id="L14">    val allPairs: List&lt;Pair&lt;K, V&gt;&gt; by lazy { allValues.flatMap { (k, v) -&gt; v.map { k to it } } }</span>
+
+    override val entries: Set&lt;Entry&lt;K, V&gt;&gt;
+<span class="fc" id="L17">        get() = allValues.mapValues { it.value.first() }.entries</span>
+
+    override val keys: Set&lt;K&gt;
+<span class="fc" id="L20">        get() = allValues.keys</span>
+
+    override val size: Int
+<span class="fc" id="L23">        get() = allValues.size</span>
+
+    override val values: Collection&lt;V&gt;
+<span class="fc" id="L26">        get() = allValues.values.map { it.first() }</span>
+
+    override fun containsKey(key: K): Boolean =
+<span class="fc" id="L29">        allValues.containsKey(key)</span>
+
+    override fun containsValue(value: V): Boolean =
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        allValues.any { it.value.contains(value) }</span>
+
+    override fun get(key: K): V? =
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        allValues[key]?.first()</span>
+
+    override fun isEmpty(): Boolean =
+<span class="fc" id="L38">        allValues.isEmpty()</span>
+
+    override fun equals(other: Any?): Boolean =
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (other is MultiMap&lt;*, *&gt;)</span>
+<span class="fc" id="L42">            allValues == other.allValues</span>
+        else
+<span class="fc" id="L44">            allValues == other</span>
+
+    operator fun plus(element: Pair&lt;K, V&gt;): MultiMap&lt;K, V&gt; =
+<span class="fc" id="L47">        MultiMap(allPairs + element)</span>
+
+    operator fun plus(element: Map&lt;K, V&gt;): MultiMap&lt;K, V&gt; =
+<span class="fc" id="L50">        MultiMap(allPairs + element.map { (k, v) -&gt; k to v })</span>
+
+    operator fun plus(element: MultiMap&lt;K, V&gt;): MultiMap&lt;K, V&gt; =
+<span class="fc" id="L53">        MultiMap(allValues + element.allValues)</span>
+
+    override fun hashCode(): Int =
+<span class="fc" id="L56">        allValues.hashCode()</span>
+
+    override fun toString(): String =
+<span class="fc" id="L59">        allValues.toString()</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

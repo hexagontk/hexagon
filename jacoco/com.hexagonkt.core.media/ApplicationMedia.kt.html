@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApplicationMedia.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.media</a> &gt; <span class="el_source">ApplicationMedia.kt</span></div><h1>ApplicationMedia.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.media
+
+/**
+ * Prebuilt application media types. Only validated once at start time (not constructed each time).
+ */
+<span class="fc" id="L6">enum class ApplicationMedia(</span>
+<span class="fc" id="L7">    override val group: MediaTypeGroup,</span>
+<span class="fc" id="L8">    override val type: String,</span>
+<span class="fc" id="L9">    override val fullType: String = &quot;${group.text}/$type&quot;</span>
+) : MediaType {
+
+<span class="fc" id="L12">    AVRO(MediaTypeGroup.APPLICATION, &quot;avro&quot;),</span>
+<span class="fc" id="L13">    CBOR(MediaTypeGroup.APPLICATION, &quot;cbor&quot;),</span>
+<span class="fc" id="L14">    JSON(MediaTypeGroup.APPLICATION, &quot;json&quot;),</span>
+<span class="fc" id="L15">    YAML(MediaTypeGroup.APPLICATION, &quot;yaml&quot;),</span>
+<span class="fc" id="L16">    XML(MediaTypeGroup.APPLICATION, &quot;xml&quot;),</span>
+<span class="fc" id="L17">    GZIP(MediaTypeGroup.APPLICATION, &quot;gzip&quot;),</span>
+<span class="fc" id="L18">    COMPRESS(MediaTypeGroup.APPLICATION, &quot;compress&quot;),</span>
+<span class="fc" id="L19">    OCTET_STREAM(MediaTypeGroup.APPLICATION, &quot;octet-stream&quot;),</span>
+<span class="fc" id="L20">    PDF(MediaTypeGroup.APPLICATION, &quot;pdf&quot;),</span>
+<span class="fc" id="L21">    POSTSCRIPT(MediaTypeGroup.APPLICATION, &quot;postscript&quot;),</span>
+<span class="fc" id="L22">    RTF(MediaTypeGroup.APPLICATION, &quot;rtf&quot;),</span>
+<span class="fc" id="L23">    X_CSH(MediaTypeGroup.APPLICATION, &quot;x-csh&quot;),</span>
+<span class="fc" id="L24">    X_GTAR(MediaTypeGroup.APPLICATION, &quot;x-gtar&quot;),</span>
+<span class="fc" id="L25">    X_LATEX(MediaTypeGroup.APPLICATION, &quot;x-latex&quot;),</span>
+<span class="fc" id="L26">    X_SH(MediaTypeGroup.APPLICATION, &quot;x-sh&quot;),</span>
+<span class="fc" id="L27">    X_TAR(MediaTypeGroup.APPLICATION, &quot;x-tar&quot;),</span>
+<span class="fc" id="L28">    X_TCL(MediaTypeGroup.APPLICATION, &quot;x-tcl&quot;),</span>
+<span class="fc" id="L29">    X_TEX(MediaTypeGroup.APPLICATION, &quot;x-tex&quot;),</span>
+<span class="fc" id="L30">    X_TEXINFO(MediaTypeGroup.APPLICATION, &quot;x-texinfo&quot;),</span>
+<span class="fc" id="L31">    ZIP(MediaTypeGroup.APPLICATION, &quot;zip&quot;),</span>
+<span class="fc" id="L32">    EPUB_ZIP(MediaTypeGroup.APPLICATION, &quot;epub+zip&quot;),</span>
+<span class="fc" id="L33">    JAVA_ARCHIVE(MediaTypeGroup.APPLICATION, &quot;java-archive&quot;),</span>
+<span class="fc" id="L34">    OGG(MediaTypeGroup.APPLICATION, &quot;ogg&quot;),</span>
+<span class="fc" id="L35">    RAR(MediaTypeGroup.APPLICATION, &quot;vnd.rar&quot;),</span>
+<span class="fc" id="L36">    XHTML(MediaTypeGroup.APPLICATION, &quot;xhtml+xml&quot;),</span>
+<span class="fc" id="L37">    WEB_MANIFEST(MediaTypeGroup.APPLICATION, &quot;manifest+json&quot;),</span>
+<span class="fc" id="L38">    TOML(MediaTypeGroup.APPLICATION, &quot;toml&quot;),</span>
+
+<span class="fc" id="L40">    A7Z(MediaTypeGroup.APPLICATION, &quot;x-7z-compressed&quot;),</span>
+<span class="fc" id="L41">    BZIP(MediaTypeGroup.APPLICATION, &quot;x-bzip&quot;),</span>
+<span class="fc" id="L42">    BZIP2(MediaTypeGroup.APPLICATION, &quot;x-bzip2&quot;),</span>
+<span class="fc" id="L43">    CDF(MediaTypeGroup.APPLICATION, &quot;x-cdf&quot;),</span>
+<span class="fc" id="L44">    PHP(MediaTypeGroup.APPLICATION, &quot;x-httpd-php&quot;),</span>
+<span class="fc" id="L45">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
