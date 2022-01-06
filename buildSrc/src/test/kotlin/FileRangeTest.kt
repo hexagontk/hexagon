@@ -31,7 +31,7 @@ internal class FileRangeTest {
 
     @Test fun `Test text with empty tag only comment block present in file`() {
         val text = fileRangeWithEmptyTagOnlyCommentPresentInFile.text()
-        assert(text.contains("/**")) { "Should contains only comment block" }
+        assert(text.contains("/**")) { "Should contain only comment block" }
     }
 
     @Test fun `Test text with tag present in file`() {
@@ -52,7 +52,7 @@ internal class FileRangeTest {
 
     @Test fun `Test 'strippedLines' with empty tag only comment block present in file`() {
         val strippedLines = fileRangeWithEmptyTagOnlyCommentPresentInFile.strippedLines()
-        assert(strippedLines.any { it.contains("/**") }) { "Should contains only comment block" }
+        assert(strippedLines.any { it.contains("/**") }) { "Should contain only comment block" }
     }
 
     @Test fun `Test 'strippedLines' with tag present in file`() {

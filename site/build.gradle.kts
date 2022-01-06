@@ -25,8 +25,8 @@ tasks.register<JacocoReport>("jacocoRootReport") {
     classDirectories.from(rootProject.modulesPaths("build/classes/kotlin/main"))
 
     reports {
-        html.isEnabled = true
-        xml.isEnabled = true
+        html.required.set(true)
+        xml.required.set(true)
 
         val reportsOutput = file("content/jacoco").also { it.mkdirs() }
         html.outputLocation.set(reportsOutput)
