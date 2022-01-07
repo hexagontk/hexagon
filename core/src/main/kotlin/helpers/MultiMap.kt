@@ -52,6 +52,9 @@ class MultiMap<K, V>(mapData: Map<K, List<V>>) : Map<K, V> {
     operator fun plus(element: MultiMap<K, V>): MultiMap<K, V> =
         MultiMap(allValues + element.allValues)
 
+    operator fun minus(element: K): MultiMap<K, V> =
+        MultiMap(allValues - element)
+
     override fun hashCode(): Int =
         allValues.hashCode()
 

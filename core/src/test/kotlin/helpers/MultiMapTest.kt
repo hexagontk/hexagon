@@ -98,6 +98,15 @@ internal class MultiMapTest {
             MultiMap(mapOf("a" to listOf("b"), "b" to listOf("c"))),
             multiMapOfLists("a" to listOf("b")) + multiMapOfLists("b" to listOf("c"))
         )
+
+        assertEquals(
+            MultiMap(mapOf("b" to listOf("c", "d"))),
+            multiMapOf("a" to "b", "b" to "c", "b" to "d") - "a"
+        )
+        assertEquals(
+            MultiMap(mapOf("a" to listOf("b"))),
+            multiMapOfLists("a" to listOf("b"), "b" to listOf("c")) - "b"
+        )
     }
 
     @Test fun `MultiMap toString works as regular Map`() {
