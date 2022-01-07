@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Web.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.web</a> &gt; <span class="el_source">Web.kt</span></div><h1>Web.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.web
+
+import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.core.media.mediaTypeOfOrNull
+import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.server.handlers.HttpServerContext
+import com.hexagonkt.templates.TemplateManager
+import com.hexagonkt.templates.TemplatePort
+import kotlinx.html.HTML
+import kotlinx.html.html
+import kotlinx.html.stream.createHTML
+import java.net.URL
+import java.nio.charset.Charset.defaultCharset
+import java.util.Locale
+import java.util.Locale.forLanguageTag as localeFor
+
+fun HttpServerContext.templateType(url: URL): ContentType? =
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">    response.contentType ?: run {</span>
+<span class="fc" id="L19">        val mimeType = mediaTypeOfOrNull(url)</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        mimeType?.let { ContentType(it, charset = defaultCharset()) }</span>
+<span class="fc" id="L21">    }</span>
+
+fun HttpServerContext.fullContext(): Map&lt;String, *&gt; =
+<span class="fc" id="L24">    mapOf(</span>
+<span class="fc" id="L25">        &quot;path&quot; to request.path.removeSuffix(&quot;/&quot;), // Do not allow trailing slash</span>
+<span class="fc" id="L26">        &quot;lang&quot; to obtainLocale().language</span>
+<span class="fc" id="L27">    )</span>
+
+/**
+ * TODO Review order precedence and complete code (now only taking request attribute)
+ *
+ * 1. Request
+ * 2. Session
+ * 3. Cookie
+ * 4. Accept-language
+ * 5. Server default locale
+ */
+<span class="fc" id="L38">fun HttpServerContext.obtainLocale(): Locale = when {</span>
+<span class="pc bpc" id="L39" title="4 of 6 branches missed.">    attributes[&quot;lang&quot;] as? String != null -&gt; localeFor(attributes[&quot;lang&quot;] as String)</span>
+<span class="fc" id="L40">    else -&gt; Locale.getDefault()</span>
+<span class="fc" id="L41">}</span>
+
+<span class="pc" id="L43">fun HttpServerContext.template(</span>
+    templateEngine: TemplatePort,
+    url: URL,
+<span class="nc" id="L46">    context: Map&lt;String, *&gt; = fullContext(),</span>
+<span class="fc" id="L47">    locale: Locale = obtainLocale(),</span>
+): HttpServerContext =
+<span class="fc" id="L49">    ok(templateEngine.render(url, context, locale), contentType = templateType(url))</span>
+
+<span class="pc" id="L51">fun HttpServerContext.template(</span>
+    url: URL,
+<span class="nc" id="L53">    context: Map&lt;String, *&gt; = fullContext(),</span>
+<span class="fc" id="L54">    locale: Locale = obtainLocale(),</span>
+): HttpServerContext =
+<span class="fc" id="L56">    ok(TemplateManager.render(url, context, locale), contentType = templateType(url))</span>
+
+/**
+ * Return HTML setting the proper content type.
+ */
+fun HttpServerContext.html(block: HTML.() -&gt; Unit): HttpServerContext =
+<span class="fc" id="L62">    ok(createHTML().html { block() }, contentType = ContentType(TextMedia.HTML))</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

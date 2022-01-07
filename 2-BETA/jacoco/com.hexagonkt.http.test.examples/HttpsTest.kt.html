@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpsTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.examples</a> &gt; <span class="el_source">HttpsTest.kt</span></div><h1>HttpsTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.examples
+
+import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.logging.logger
+import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.security.getPrivateKey
+import com.hexagonkt.core.security.getPublicKey
+import com.hexagonkt.core.security.loadKeyStore
+import com.hexagonkt.http.SslSettings
+import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.HttpClientSettings
+import com.hexagonkt.http.model.HttpProtocol.HTTP2
+import com.hexagonkt.http.model.HttpProtocol.HTTPS
+import com.hexagonkt.http.server.*
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.test.BaseTest
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Test
+import java.net.URL
+import kotlin.test.assertEquals
+import kotlin.test.assertFails
+import kotlin.test.assertNotNull
+
+@Suppress(&quot;FunctionName&quot;) // This class's functions are intended to be used only in tests
+<span class="fc" id="L27">abstract class HttpsTest(</span>
+<span class="fc" id="L28">    override val clientAdapter: () -&gt; HttpClientPort,</span>
+<span class="fc" id="L29">    override val serverAdapter: () -&gt; HttpServerPort</span>
+<span class="fc" id="L30">) : BaseTest() {</span>
+
+<span class="fc" id="L32">    private val identity = &quot;hexagonkt.p12&quot;</span>
+<span class="fc" id="L33">    private val trust = &quot;trust.p12&quot;</span>
+<span class="fc" id="L34">    private val keyStore = URL(&quot;classpath:ssl/$identity&quot;)</span>
+<span class="fc" id="L35">    private val trustStore = URL(&quot;classpath:ssl/$trust&quot;)</span>
+<span class="fc" id="L36">    private val keyStorePassword = identity.reversed()</span>
+<span class="fc" id="L37">    private val trustStorePassword = trust.reversed()</span>
+
+<span class="fc" id="L39">    private val sslSettings = SslSettings(</span>
+<span class="fc" id="L40">        keyStore = keyStore,</span>
+<span class="fc" id="L41">        keyStorePassword = keyStorePassword,</span>
+<span class="fc" id="L42">        trustStore = trustStore,</span>
+<span class="fc" id="L43">        trustStorePassword = trustStorePassword,</span>
+<span class="fc" id="L44">        clientAuth = true</span>
+    )
+
+<span class="fc" id="L47">    private val serverSettings = HttpServerSettings(</span>
+<span class="fc" id="L48">        bindPort = 0,</span>
+<span class="fc" id="L49">        protocol = HTTP2,</span>
+<span class="fc" id="L50">        sslSettings = sslSettings</span>
+    )
+
+<span class="fc" id="L53">    private val clientSettings = HttpClientSettings(sslSettings = sslSettings)</span>
+
+<span class="fc" id="L55">    private val router = path {</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        get(&quot;/hello&quot;) {</span>
+<span class="pc bpc" id="L57" title="3 of 6 branches missed.">            val certificateSubject = request.certificate()?.subjectDN?.name ?: fail</span>
+<span class="fc" id="L58">            val headers = response.headers + (&quot;cert&quot; to certificateSubject)</span>
+<span class="pc" id="L59">            ok(&quot;Hello World!&quot;, headers = headers)</span>
+        }
+<span class="fc" id="L61">    }</span>
+
+<span class="fc" id="L63">    override val handlers: List&lt;ServerHandler&gt; = listOf(router)</span>
+
+<span class="fc" id="L65">    @Test fun `Serve HTTPS example`() = runBlocking {</span>
+
+        // https
+        // Key store files
+<span class="fc" id="L69">        val identity = &quot;hexagonkt.p12&quot;</span>
+<span class="fc" id="L70">        val trust = &quot;trust.p12&quot;</span>
+
+        // Default passwords are file name reversed
+<span class="fc" id="L73">        val keyStorePassword = identity.reversed()</span>
+<span class="fc" id="L74">        val trustStorePassword = trust.reversed()</span>
+
+        // Key stores can be set as URIs to classpath resources (the triple slash is needed)
+<span class="fc" id="L77">        val keyStore = URL(&quot;classpath:ssl/$identity&quot;)</span>
+<span class="fc" id="L78">        val trustStore = URL(&quot;classpath:ssl/$trust&quot;)</span>
+
+<span class="fc" id="L80">        val sslSettings = SslSettings(</span>
+<span class="fc" id="L81">            keyStore = keyStore,</span>
+<span class="fc" id="L82">            keyStorePassword = keyStorePassword,</span>
+<span class="fc" id="L83">            trustStore = trustStore,</span>
+<span class="fc" id="L84">            trustStorePassword = trustStorePassword,</span>
+<span class="fc" id="L85">            clientAuth = true // Requires a valid certificate from the client (mutual TLS)</span>
+        )
+
+<span class="fc" id="L88">        val serverSettings = HttpServerSettings(</span>
+<span class="fc" id="L89">            bindPort = 0,</span>
+<span class="fc" id="L90">            protocol = HTTPS, // You can also use HTTP2</span>
+<span class="fc" id="L91">            sslSettings = sslSettings</span>
+        )
+
+<span class="fc" id="L94">        val server = HttpServer(serverAdapter(), serverSettings) {</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            get(&quot;/hello&quot;) {</span>
+                // We can access the certificate used by the client from the request
+<span class="pc bpc" id="L97" title="3 of 6 branches missed.">                val subjectDn = request.certificate()?.subjectDN?.name ?: &quot;&quot;</span>
+<span class="fc" id="L98">                val h = response.headers + (&quot;cert&quot; to subjectDn)</span>
+<span class="pc" id="L99">                ok(&quot;Hello World!&quot;, headers = h)</span>
+            }
+<span class="fc" id="L101">        }</span>
+<span class="fc" id="L102">        server.start()</span>
+
+        // We'll use the same certificate for the client (in a real scenario it would be different)
+<span class="fc" id="L105">        val clientSettings = HttpClientSettings(sslSettings = sslSettings)</span>
+
+        // Create an HTTP client and make an HTTPS request
+<span class="fc" id="L108">        val contextPath = URL(&quot;https://localhost:${server.runtimePort}&quot;)</span>
+<span class="fc" id="L109">        val client = HttpClient(clientAdapter(), contextPath, clientSettings)</span>
+<span class="fc" id="L110">        client.start()</span>
+<span class="fc" id="L111">        client.get(&quot;/hello&quot;).apply {</span>
+<span class="pc" id="L112">            logger.debug { body }</span>
+            // Assure the certificate received (and returned) by the server is correct
+<span class="pc bpc" id="L114" title="2 of 4 branches missed.">            assert(headers.require(&quot;cert&quot;).startsWith(&quot;CN=hexagonkt.com&quot;))</span>
+<span class="fc" id="L115">            assertEquals(&quot;Hello World!&quot;, body)</span>
+<span class="fc" id="L116">        }</span>
+        // https
+
+<span class="fc" id="L119">        client.stop()</span>
+<span class="fc" id="L120">        server.stop()</span>
+<span class="fc" id="L121">    }</span>
+
+<span class="fc" id="L123">    @Test fun `Serve HTTPS works properly`() = runBlocking {</span>
+
+<span class="fc" id="L125">        val server = HttpServer(serverAdapter(), handlers, serverSettings.copy(protocol = HTTPS))</span>
+<span class="fc" id="L126">        server.start()</span>
+
+<span class="fc" id="L128">        val contextPath = URL(&quot;https://localhost:${server.runtimePort}&quot;)</span>
+<span class="fc" id="L129">        val client = HttpClient(clientAdapter(), contextPath, clientSettings)</span>
+<span class="fc" id="L130">        client.start()</span>
+<span class="fc" id="L131">        client.get(&quot;/hello&quot;).apply {</span>
+<span class="pc" id="L132">            logger.debug { body }</span>
+<span class="pc bpc" id="L133" title="2 of 4 branches missed.">            assert(headers.require(&quot;cert&quot;).startsWith(&quot;CN=hexagonkt.com&quot;))</span>
+<span class="fc" id="L134">            assertEquals(&quot;Hello World!&quot;, body)</span>
+<span class="fc" id="L135">        }</span>
+
+<span class="fc" id="L137">        client.stop()</span>
+<span class="fc" id="L138">        server.stop()</span>
+<span class="fc" id="L139">    }</span>
+
+<span class="fc" id="L141">    @Test fun `Serve HTTP2 works properly`() = runBlocking {</span>
+
+<span class="fc" id="L143">        val server = HttpServer(serverAdapter(), handlers, serverSettings)</span>
+<span class="fc" id="L144">        server.start()</span>
+
+<span class="fc" id="L146">        val contextPath = URL(&quot;https://localhost:${server.runtimePort}&quot;)</span>
+<span class="fc" id="L147">        val client = HttpClient(clientAdapter(), contextPath, clientSettings)</span>
+<span class="fc" id="L148">        client.start()</span>
+<span class="fc" id="L149">        client.get(&quot;/hello&quot;).apply {</span>
+<span class="pc" id="L150">            logger.debug { body }</span>
+<span class="pc bpc" id="L151" title="2 of 4 branches missed.">            assert(headers.require(&quot;cert&quot;).startsWith(&quot;CN=hexagonkt.com&quot;))</span>
+<span class="fc" id="L152">            assertEquals(&quot;Hello World!&quot;, body)</span>
+<span class="fc" id="L153">        }</span>
+
+<span class="fc" id="L155">        client.stop()</span>
+<span class="fc" id="L156">        server.stop()</span>
+<span class="fc" id="L157">    }</span>
+
+<span class="fc" id="L159">    @Test fun `Serve insecure HTTPS example`() = runBlocking {</span>
+
+<span class="fc" id="L161">        val identity = &quot;hexagonkt.p12&quot;</span>
+<span class="fc" id="L162">        val trust = &quot;trust.p12&quot;</span>
+
+        // keyStoreSettings
+<span class="fc" id="L165">        val keyStoreSettings = SslSettings(</span>
+<span class="fc" id="L166">            keyStore = URL(&quot;classpath:ssl/$identity&quot;),</span>
+<span class="fc" id="L167">            keyStorePassword = identity.reversed()</span>
+        )
+        // keyStoreSettings
+
+<span class="fc" id="L171">        val serverSettings = HttpServerSettings(</span>
+<span class="fc" id="L172">            bindPort = 0,</span>
+<span class="fc" id="L173">            protocol = HTTPS,</span>
+<span class="fc" id="L174">            sslSettings = keyStoreSettings</span>
+        )
+
+<span class="fc" id="L177">        val server = HttpServer(serverAdapter(), serverSettings) {</span>
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">            get(&quot;/hello&quot;) {</span>
+<span class="pc" id="L179">                ok(&quot;Hello World!&quot;)</span>
+            }
+<span class="fc" id="L181">        }</span>
+<span class="fc" id="L182">        server.start()</span>
+
+        // trustStoreSettings
+<span class="fc" id="L185">        val trustStoreSettings = SslSettings(</span>
+<span class="fc" id="L186">            trustStore = URL(&quot;classpath:ssl/$trust&quot;),</span>
+<span class="fc" id="L187">            trustStorePassword = trust.reversed()</span>
+        )
+        // trustStoreSettings
+
+<span class="fc" id="L191">        val clientSettings = HttpClientSettings(</span>
+<span class="fc" id="L192">            sslSettings = trustStoreSettings</span>
+        )
+
+        // Create an HTTP client and make an HTTPS request
+<span class="fc" id="L196">        val contextPath = URL(&quot;https://localhost:${server.runtimePort}&quot;)</span>
+<span class="fc" id="L197">        val client = HttpClient(clientAdapter(), contextPath, clientSettings)</span>
+<span class="fc" id="L198">        client.start()</span>
+<span class="fc" id="L199">        client.get(&quot;/hello&quot;).apply {</span>
+<span class="fc" id="L200">            assertEquals(&quot;Hello World!&quot;, body)</span>
+<span class="fc" id="L201">        }</span>
+
+<span class="pc" id="L203">        assertFails {</span>
+<span class="fc" id="L204">            val adapter = clientAdapter()</span>
+<span class="fc" id="L205">            val noTrustStore = HttpClientSettings()</span>
+<span class="pc" id="L206">            HttpClient(adapter, contextPath, noTrustStore).use {</span>
+<span class="fc" id="L207">                it.start()</span>
+<span class="nc" id="L208">                it.get(&quot;/hello&quot;)</span>
+<span class="nc" id="L209">            }</span>
+<span class="nc" id="L210">        }</span>
+
+<span class="pc" id="L212">        assertFails {</span>
+<span class="fc" id="L213">            val adapter = clientAdapter()</span>
+<span class="fc" id="L214">            val contextPath1 = URL(&quot;https://127.0.0.1:${server.runtimePort}&quot;)</span>
+<span class="pc" id="L215">            HttpClient(adapter, contextPath1, clientSettings).use {</span>
+<span class="fc" id="L216">                it.start()</span>
+<span class="nc" id="L217">                it.get(&quot;/hello&quot;)</span>
+<span class="nc" id="L218">            }</span>
+<span class="nc" id="L219">        }</span>
+
+<span class="fc" id="L221">        val insecureClient = HttpClient(</span>
+<span class="fc" id="L222">            clientAdapter(),</span>
+<span class="fc" id="L223">            contextPath,</span>
+<span class="fc" id="L224">            clientSettings.copy(insecure = true, sslSettings = SslSettings())</span>
+        )
+
+<span class="pc" id="L227">        insecureClient.use {</span>
+<span class="fc" id="L228">            it.start()</span>
+<span class="fc" id="L229">            it.get(&quot;/hello&quot;).apply {</span>
+<span class="fc" id="L230">                assertEquals(&quot;Hello World!&quot;, body)</span>
+<span class="fc" id="L231">            }</span>
+        }
+
+<span class="fc" id="L234">        HttpClient(</span>
+<span class="fc" id="L235">            clientAdapter(),</span>
+<span class="fc" id="L236">            contextPath,</span>
+<span class="fc" id="L237">            clientSettings.copy(insecure = false, sslSettings = SslSettings())</span>
+<span class="pc" id="L238">        ).use {</span>
+<span class="fc" id="L239">            it.start()</span>
+<span class="pc" id="L240">            val throwable = assertFails { it.get(&quot;/hello&quot;) }</span>
+<span class="fc" id="L241">            throwable.printStackTrace()</span>
+<span class="fc" id="L242">        }</span>
+
+<span class="fc" id="L244">        client.stop()</span>
+<span class="fc" id="L245">        server.stop()</span>
+<span class="fc" id="L246">    }</span>
+
+    @Test fun `Key stores contains the proper aliases`() {
+
+<span class="fc" id="L250">        loadKeyStore(keyStore, keyStorePassword).apply {</span>
+<span class="fc" id="L251">            assertNotNull(getPrivateKey(&quot;hexagonkt&quot;, keyStorePassword))</span>
+<span class="fc" id="L252">            assertNotNull(getPublicKey(&quot;hexagonkt&quot;))</span>
+<span class="fc" id="L253">        }</span>
+
+<span class="fc" id="L255">        loadKeyStore(trustStore, trustStorePassword).apply {</span>
+<span class="fc" id="L256">            assertNotNull(getPublicKey(&quot;ca&quot;))</span>
+<span class="fc" id="L257">        }</span>
+<span class="fc" id="L258">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

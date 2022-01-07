@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConvertersManager.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.converters</a> &gt; <span class="el_source">ConvertersManager.kt</span></div><h1>ConvertersManager.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.converters
+
+import kotlin.reflect.KClass
+
+/**
+ * Registry that holds functions to convert from one type to another.
+ *
+ * @sample com.hexagonkt.core.converters.ConvertersManagerTest.usageExample
+ */
+object ConvertersManager {
+
+<span class="fc" id="L12">    private var converters: Map&lt;Pair&lt;*, *&gt;, (Any) -&gt; Any&gt; = emptyMap()</span>
+
+    /**
+     * Register a mapping function from one type to another.
+     *
+     * @param key Pair which key is the source type and the value is the target type.
+     * @param block Block that converts an instance of the source type to the target one.
+     */
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // Type consistency is checked at runtime
+    fun &lt;S : Any, T : Any&gt; register(key: Pair&lt;KClass&lt;S&gt;, KClass&lt;T&gt;&gt;, block: (S) -&gt; T) {
+<span class="fc" id="L22">        converters = converters + (key as Pair&lt;*, *&gt; to block as (Any) -&gt; Any)</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * Delete an existing mapping by its key.
+     *
+     * @param key Key of the mapping to be removed. No error is triggered if key doesn't exist.
+     */
+    fun remove(key: Pair&lt;KClass&lt;*&gt;, KClass&lt;*&gt;&gt;) {
+<span class="fc" id="L31">        converters = converters - key</span>
+<span class="fc" id="L32">    }</span>
+
+    /**
+     * Convert one type to another using the registered mapper function among both types. On sources
+     * of the same type as [target], the source object is returned without conversion.
+     *
+     * Converter search *DOES NOT CONSIDER SOURCE'S INTERFACES OR PARENT CLASSES*. If no exact type
+     * is registered for the converter, it won't be found. There is an exception with maps: if no
+     * converter is found and source implements Map, `Map::class to KClass&lt;Target&gt;` will be
+     * searched in the converters' registry.
+     *
+     * If no mapper function is defined for the specified types, an exception is thrown.
+     *
+     * @param source Value to convert to another type.
+     * @param target Target type for the source instance.
+     * @return Source converted to the target type, or source itself if its type is the same as
+     *   target.
+     */
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // Type consistency is checked at runtime
+    fun &lt;S : Any, T : Any&gt; convert(source: S, target: KClass&lt;T&gt;): T =
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (source::class == target)</span>
+<span class="fc" id="L53">            source as T</span>
+        else
+<span class="fc bfc" id="L55" title="All 4 branches covered.">            searchConverter(source, target)</span>
+<span class="fc" id="L56">                ?.invoke(source)</span>
+<span class="fc" id="L57">                ?: error(&quot;No converter for ${source::class.simpleName} -&gt; ${target.simpleName}&quot;)</span>
+
+    /**
+     * Convert a group of instances of one type to another type using the registered mapper function
+     * among both types. If no mapper function is defined for the specified types, an exception is
+     * thrown.
+     *
+     * @param source Values to convert to another type.
+     * @param target Target type for the source instances in the group.
+     * @return List of converted instances.
+     *
+     * @see ConvertersManager.convert
+     */
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // Type consistency is checked at runtime
+    fun &lt;S : Any, T : Any&gt; convertObjects(source: Iterable&lt;S&gt;, target: KClass&lt;T&gt;): List&lt;T&gt; =
+<span class="fc" id="L72">        source.map { convert(it, target) }</span>
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;) // Type consistency is checked at runtime
+    private fun &lt;S : Any, T : Any&gt; searchConverter(source: S, target: KClass&lt;T&gt;): ((S) -&gt; T)? {
+<span class="fc" id="L76">        val sourceType = source::class</span>
+
+<span class="fc" id="L78">        val converter = converters[sourceType to target]</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        if (converter != null)</span>
+<span class="fc" id="L80">            return converter as? (S) -&gt; T</span>
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (source is Map&lt;*, *&gt;) {</span>
+<span class="fc" id="L83">            val superTypeConverter = converters[Map::class to target]</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            if (superTypeConverter != null)</span>
+<span class="fc" id="L85">                return superTypeConverter as? (S) -&gt; T</span>
+        }
+
+<span class="fc" id="L88">        return null</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

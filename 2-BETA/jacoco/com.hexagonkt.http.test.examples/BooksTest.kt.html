@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BooksTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.examples</a> &gt; <span class="el_source">BooksTest.kt</span></div><h1>BooksTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.examples
+
+import com.hexagonkt.core.helpers.require
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.model.ClientErrorStatus.*
+import com.hexagonkt.http.model.HttpMethod.*
+import com.hexagonkt.http.model.HttpMethod.Companion.ALL
+import com.hexagonkt.http.model.SuccessStatus.CREATED
+import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.test.BaseTest
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+
+@Suppress(&quot;FunctionName&quot;) // This class's functions are intended to be used only in tests
+<span class="fc" id="L19">abstract class BooksTest(</span>
+<span class="fc" id="L20">    override val clientAdapter: () -&gt; HttpClientPort,</span>
+<span class="fc" id="L21">    override val serverAdapter: () -&gt; HttpServerPort</span>
+<span class="fc" id="L22">) : BaseTest() {</span>
+
+    // books
+<span class="fc" id="L25">    data class Book(val author: String, val title: String)</span>
+
+<span class="fc" id="L27">    private val books: MutableMap&lt;Int, Book&gt; = linkedMapOf(</span>
+<span class="fc" id="L28">        100 to Book(&quot;Miguel de Cervantes&quot;, &quot;Don Quixote&quot;),</span>
+<span class="fc" id="L29">        101 to Book(&quot;William Shakespeare&quot;, &quot;Hamlet&quot;),</span>
+<span class="fc" id="L30">        102 to Book(&quot;Homer&quot;, &quot;The Odyssey&quot;)</span>
+    )
+
+<span class="fc" id="L33">    private val path: PathHandler = path {</span>
+
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        post(&quot;/books&quot;) {</span>
+<span class="fc" id="L36">            val queryParameters = request.queryParameters</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            val author = queryParameters[&quot;author&quot;] ?: return@post badRequest(&quot;Missing author&quot;)</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            val title = queryParameters[&quot;title&quot;] ?: return@post badRequest(&quot;Missing title&quot;)</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">            val id = (books.keys.maxOrNull() ?: 0) + 1</span>
+<span class="fc" id="L40">            books += id to Book(author, title)</span>
+<span class="pc" id="L41">            created(id.toString())</span>
+        }
+
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        get(&quot;/books/{id}&quot;) {</span>
+<span class="fc" id="L45">            val bookId = pathParameters.require(&quot;id&quot;).toInt()</span>
+<span class="fc" id="L46">            val book = books[bookId]</span>
+<span class="pc bfc" id="L47" title="All 2 branches covered.">            if (book != null)</span>
+<span class="fc" id="L48">                ok(&quot;Title: ${book.title}, Author: ${book.author}&quot;)</span>
+            else
+<span class="fc" id="L50">                notFound(&quot;Book not found&quot;)</span>
+        }
+
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        put(&quot;/books/{id}&quot;) {</span>
+<span class="fc" id="L54">            val bookId = pathParameters.require(&quot;id&quot;).toInt()</span>
+<span class="fc" id="L55">            val book = books[bookId]</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">            if (book != null) {</span>
+<span class="fc" id="L57">                books += bookId to book.copy(</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">                    author = request.queryParameters[&quot;author&quot;] ?: book.author,</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                    title = request.queryParameters[&quot;title&quot;] ?: book.title</span>
+                )
+
+<span class="fc" id="L62">                ok(&quot;Book with id '$bookId' updated&quot;)</span>
+            }
+            else {
+<span class="nc" id="L65">                notFound(&quot;Book not found&quot;)</span>
+            }
+        }
+
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        delete(&quot;/books/{id}&quot;) {</span>
+<span class="fc" id="L70">            val bookId = pathParameters.require(&quot;id&quot;).toInt()</span>
+<span class="fc" id="L71">            val book = books[bookId]</span>
+<span class="fc" id="L72">            books -= bookId</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">            if (book != null)</span>
+<span class="fc" id="L74">                ok(&quot;Book with id '$bookId' deleted&quot;)</span>
+            else
+<span class="nc" id="L76">                notFound(&quot;Book not found&quot;)</span>
+        }
+
+        // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        after(ALL - DELETE - PUT - GET, &quot;/books/{id}&quot;, status = NOT_FOUND) {</span>
+<span class="pc" id="L81">            send(METHOD_NOT_ALLOWED)</span>
+        }
+
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        get(&quot;/books&quot;) {</span>
+<span class="pc" id="L85">            ok(books.keys.joinToString(&quot; &quot;, transform = Int::toString))</span>
+        }
+<span class="fc" id="L87">    }</span>
+    // books
+
+<span class="fc" id="L90">    private val pathAlternative: PathHandler = path(&quot;/books&quot;) {</span>
+
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        post {</span>
+<span class="fc" id="L93">            val queryParameters = request.queryParameters</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            val author = queryParameters[&quot;author&quot;] ?: return@post badRequest(&quot;Missing author&quot;)</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            val title = queryParameters[&quot;title&quot;] ?: return@post badRequest(&quot;Missing title&quot;)</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            val id = (books.keys.maxOrNull() ?: 0) + 1</span>
+<span class="fc" id="L97">            books += id to Book(author, title)</span>
+<span class="pc" id="L98">            created(id.toString())</span>
+        }
+
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        get(&quot;/{id}&quot;) {</span>
+<span class="fc" id="L102">            val bookId = pathParameters.require(&quot;id&quot;).toInt()</span>
+<span class="fc" id="L103">            val book = books[bookId]</span>
+<span class="pc bfc" id="L104" title="All 2 branches covered.">            if (book != null)</span>
+<span class="fc" id="L105">                ok(&quot;Title: ${book.title}, Author: ${book.author}&quot;)</span>
+            else
+<span class="fc" id="L107">                notFound(&quot;Book not found&quot;)</span>
+        }
+
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        put(&quot;/{id}&quot;) {</span>
+<span class="fc" id="L111">            val bookId = pathParameters.require(&quot;id&quot;).toInt()</span>
+<span class="fc" id="L112">            val book = books[bookId]</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">            if (book != null) {</span>
+<span class="fc" id="L114">                books += bookId to book.copy(</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">                    author = request.queryParameters[&quot;author&quot;] ?: book.author,</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">                    title = request.queryParameters[&quot;title&quot;] ?: book.title</span>
+                )
+
+<span class="fc" id="L119">                ok(&quot;Book with id '$bookId' updated&quot;)</span>
+            }
+            else {
+<span class="nc" id="L122">                notFound(&quot;Book not found&quot;)</span>
+            }
+        }
+
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        delete(&quot;/{id}&quot;) {</span>
+<span class="fc" id="L127">            val bookId = pathParameters.require(&quot;id&quot;).toInt()</span>
+<span class="fc" id="L128">            val book = books[bookId]</span>
+<span class="fc" id="L129">            books -= bookId</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">            if (book != null)</span>
+<span class="fc" id="L131">                ok(&quot;Book with id '$bookId' deleted&quot;)</span>
+            else
+<span class="nc" id="L133">                notFound(&quot;Book not found&quot;)</span>
+        }
+
+        // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        after(ALL - DELETE - PUT - GET, &quot;/{id}&quot;, status = NOT_FOUND) {</span>
+<span class="pc" id="L138">            send(METHOD_NOT_ALLOWED)</span>
+        }
+
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        get {</span>
+<span class="pc" id="L142">            ok(books.keys.joinToString(&quot; &quot;, transform = Int::toString))</span>
+        }
+<span class="fc" id="L144">    }</span>
+
+<span class="fc" id="L146">    private val pathAlternative2: PathHandler = path(&quot;/books&quot;) {</span>
+
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        post {</span>
+<span class="fc" id="L149">            val queryParameters = request.queryParameters</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">            val author = queryParameters[&quot;author&quot;] ?: return@post badRequest(&quot;Missing author&quot;)</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">            val title = queryParameters[&quot;title&quot;] ?: return@post badRequest(&quot;Missing title&quot;)</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">            val id = (books.keys.maxOrNull() ?: 0) + 1</span>
+<span class="fc" id="L153">            books += id to Book(author, title)</span>
+<span class="pc" id="L154">            created(id.toString())</span>
+        }
+
+<span class="fc" id="L157">        path(&quot;/{id}&quot;) {</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">            get {</span>
+<span class="fc" id="L159">                val bookId = pathParameters.require(&quot;id&quot;).toInt()</span>
+<span class="fc" id="L160">                val book = books[bookId]</span>
+<span class="pc bfc" id="L161" title="All 2 branches covered.">                if (book != null)</span>
+<span class="fc" id="L162">                    ok(&quot;Title: ${book.title}, Author: ${book.author}&quot;)</span>
+                else
+<span class="fc" id="L164">                    notFound(&quot;Book not found&quot;)</span>
+            }
+
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">            put {</span>
+<span class="fc" id="L168">                val bookId = pathParameters.require(&quot;id&quot;).toInt()</span>
+<span class="fc" id="L169">                val book = books[bookId]</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">                if (book != null) {</span>
+<span class="fc" id="L171">                    books += bookId to book.copy(</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">                        author = request.queryParameters[&quot;author&quot;] ?: book.author,</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">                        title = request.queryParameters[&quot;title&quot;] ?: book.title</span>
+                    )
+
+<span class="fc" id="L176">                    ok(&quot;Book with id '$bookId' updated&quot;)</span>
+                }
+                else {
+<span class="nc" id="L179">                    notFound(&quot;Book not found&quot;)</span>
+                }
+            }
+
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">            delete {</span>
+<span class="fc" id="L184">                val bookId = pathParameters.require(&quot;id&quot;).toInt()</span>
+<span class="fc" id="L185">                val book = books[bookId]</span>
+<span class="fc" id="L186">                books -= bookId</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">                if (book != null)</span>
+<span class="fc" id="L188">                    ok(&quot;Book with id '$bookId' deleted&quot;)</span>
+                else
+<span class="nc" id="L190">                    notFound(&quot;Book not found&quot;)</span>
+            }
+
+            // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">            after(ALL - DELETE - PUT - GET, status = NOT_FOUND) {</span>
+<span class="pc" id="L195">                send(METHOD_NOT_ALLOWED)</span>
+            }
+<span class="fc" id="L197">        }</span>
+
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        get {</span>
+<span class="pc" id="L200">            ok(books.keys.joinToString(&quot; &quot;, transform = Int::toString))</span>
+        }
+<span class="fc" id="L202">    }</span>
+
+<span class="fc" id="L204">    override val handlers: List&lt;ServerHandler&gt; =</span>
+<span class="fc" id="L205">        listOf(</span>
+<span class="fc" id="L206">            path {</span>
+<span class="fc" id="L207">                path(&quot;/a&quot;, path)</span>
+<span class="fc" id="L208">                path(&quot;/b&quot;, pathAlternative)</span>
+<span class="fc" id="L209">                path(&quot;/c&quot;, pathAlternative2)</span>
+<span class="fc" id="L210">            }</span>
+        )
+
+<span class="fc" id="L213">    @Test fun `Create book returns 201 and new book ID`() = runBlocking {</span>
+<span class="fc" id="L214">        listOf(&quot;/a&quot;, &quot;/b&quot;, &quot;/c&quot;).forEach {</span>
+<span class="fc" id="L215">            val result = client.post(&quot;$it/books?author=Vladimir%20Nabokov&amp;title=Lolita&quot;)</span>
+<span class="pc bpc" id="L216" title="3 of 6 branches missed.">            assert(Integer.valueOf(result.body as String) &gt; 0)</span>
+<span class="fc" id="L217">            assertEquals(CREATED, result.status)</span>
+<span class="fc" id="L218">        }</span>
+<span class="fc" id="L219">    }</span>
+
+<span class="fc" id="L221">    @Test fun `Create book returns 400 if a parameter is missing`() = runBlocking {</span>
+<span class="fc" id="L222">        listOf(&quot;/a&quot;, &quot;/b&quot;, &quot;/c&quot;).forEach { p -&gt;</span>
+<span class="fc" id="L223">            client.post(&quot;$p/books?title=Lolita&quot;).let {</span>
+<span class="fc" id="L224">                assertEquals(&quot;Missing author&quot;, it.body)</span>
+<span class="fc" id="L225">                assertEquals(BAD_REQUEST, it.status)</span>
+<span class="fc" id="L226">            }</span>
+
+<span class="fc" id="L228">            client.post(&quot;$p/books?author=Vladimir%20Nabokov&quot;).let {</span>
+<span class="fc" id="L229">                assertEquals(&quot;Missing title&quot;, it.body)</span>
+<span class="fc" id="L230">                assertEquals(BAD_REQUEST, it.status)</span>
+<span class="fc" id="L231">            }</span>
+<span class="fc" id="L232">        }</span>
+<span class="fc" id="L233">    }</span>
+
+<span class="fc" id="L235">    @Test fun `List books contains all books IDs`() = runBlocking {</span>
+<span class="fc" id="L236">        listOf(&quot;/a&quot;, &quot;/b&quot;, &quot;/c&quot;).forEach {</span>
+<span class="fc" id="L237">            val result = client.get(&quot;$it/books&quot;)</span>
+<span class="fc" id="L238">            assertResponseContains(result, &quot;100&quot;, &quot;101&quot;)</span>
+<span class="fc" id="L239">        }</span>
+<span class="fc" id="L240">    }</span>
+
+<span class="fc" id="L242">    @Test fun `Get book returns all book's fields`() = runBlocking {</span>
+<span class="fc" id="L243">        listOf(&quot;/a&quot;, &quot;/b&quot;, &quot;/c&quot;).forEach {</span>
+<span class="fc" id="L244">            val result = client.get(&quot;$it/books/101&quot;)</span>
+<span class="fc" id="L245">            assertResponseContains(result, &quot;William Shakespeare&quot;, &quot;Hamlet&quot;)</span>
+<span class="fc" id="L246">        }</span>
+<span class="fc" id="L247">    }</span>
+
+<span class="fc" id="L249">    @Test fun `Update book overrides existing book data`() = runBlocking {</span>
+<span class="fc" id="L250">        listOf(&quot;/a&quot;, &quot;/b&quot;, &quot;/c&quot;).forEach {</span>
+<span class="fc" id="L251">            val resultPut = client.put(&quot;$it/books/100?title=Don%20Quixote&quot;)</span>
+<span class="fc" id="L252">            assertResponseContains(resultPut, &quot;100&quot;, &quot;updated&quot;)</span>
+
+<span class="fc" id="L254">            val resultGet = client.get(&quot;$it/books/100&quot;)</span>
+<span class="fc" id="L255">            assertResponseContains(resultGet, &quot;Miguel de Cervantes&quot;, &quot;Don Quixote&quot;)</span>
+<span class="fc" id="L256">        }</span>
+<span class="fc" id="L257">    }</span>
+
+<span class="fc" id="L259">    @Test fun `Delete book returns the deleted record ID`() = runBlocking {</span>
+<span class="fc" id="L260">        listOf(&quot;/a&quot;, &quot;/b&quot;, &quot;/c&quot;).forEach {</span>
+<span class="fc" id="L261">            val createResult =</span>
+<span class="fc" id="L262">                client.post(&quot;$it/books?author=Ken%20Follett&amp;title=The%20Pillars%20of%20the%20Earth&quot;)</span>
+<span class="fc" id="L263">            val id = Integer.valueOf(createResult.body as String)</span>
+<span class="pc bpc" id="L264" title="3 of 6 branches missed.">            assert(id &gt; 0)</span>
+<span class="fc" id="L265">            assertEquals(CREATED, createResult.status)</span>
+<span class="fc" id="L266">            val result = client.delete(&quot;$it/books/$id&quot;)</span>
+<span class="fc" id="L267">            assertResponseContains(result, id.toString(), &quot;deleted&quot;)</span>
+<span class="fc" id="L268">        }</span>
+<span class="fc" id="L269">    }</span>
+
+<span class="fc" id="L271">    @Test fun `Book not found returns a 404`() = runBlocking {</span>
+<span class="fc" id="L272">        listOf(&quot;/a&quot;, &quot;/b&quot;, &quot;/c&quot;).forEach {</span>
+<span class="fc" id="L273">            val result = client.get(&quot;$it/books/9999&quot;)</span>
+<span class="fc" id="L274">            assertResponseContains(result, NOT_FOUND, &quot;not found&quot;)</span>
+<span class="fc" id="L275">        }</span>
+<span class="fc" id="L276">    }</span>
+
+<span class="fc" id="L278">    @Test fun `Invalid method returns 405`() = runBlocking {</span>
+<span class="fc" id="L279">        listOf(&quot;/a&quot;, &quot;/b&quot;, &quot;/c&quot;).forEach {</span>
+<span class="fc" id="L280">            val result = client.options(&quot;$it/books/9999&quot;)</span>
+<span class="fc" id="L281">            assertEquals(METHOD_NOT_ALLOWED, result.status)</span>
+<span class="fc" id="L282">        }</span>
+<span class="fc" id="L283">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

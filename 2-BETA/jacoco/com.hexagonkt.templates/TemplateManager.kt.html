@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplateManager.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.templates</a> &gt; <span class="el_source">TemplateManager.kt</span></div><h1>TemplateManager.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.templates
+
+import com.hexagonkt.core.helpers.Jvm
+import java.net.URL
+import java.time.LocalDateTime
+import java.util.Locale
+
+/**
+ * The TemplateManager handles multiple templates adapters.
+ */
+object TemplateManager {
+
+<span class="pc" id="L13">    var adapters: Map&lt;Regex, TemplatePort&gt; = emptyMap()</span>
+        set(value) {
+<span class="fc" id="L15">            field = value</span>
+<span class="fc" id="L16">            defaultAdapter =</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">                if (value.size == 1) {</span>
+<span class="fc" id="L18">                    val first = value.entries.first()</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">                    if (first.key.pattern == &quot;.*&quot;) first.value else null</span>
+                }
+                else {
+<span class="fc" id="L22">                    null</span>
+                }
+<span class="fc" id="L24">        }</span>
+
+    private var defaultAdapter: TemplatePort? = null
+
+    /**
+     * Render a template with a registered template engine.
+     *
+     * @param url Location of the template.
+     * @param context Data to use when the template is processed.
+     * @param locale Locale used to process the template. If not passed, system's locale is used.
+     *
+     * @throws IllegalStateException Thrown when no engine for URL was found.
+     */
+<span class="fc" id="L37">    fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale = Jvm.locale): String {</span>
+<span class="fc" id="L38">        val now = LocalDateTime.now()</span>
+<span class="fc" id="L39">        val defaultProperties = mapOf(&quot;_template_&quot; to url, &quot;_now_&quot; to now)</span>
+<span class="fc" id="L40">        return findAdapter(url).render(url, context + defaultProperties, locale)</span>
+    }
+
+    private fun findAdapter(url: URL): TemplatePort =
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        defaultAdapter</span>
+<span class="fc" id="L45">            ?: adapters</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">                .filter { it.key.matches(url.toString()) }</span>
+<span class="pc bpc" id="L47" title="1 of 6 branches missed.">                .firstNotNullOfOrNull { it.value  }</span>
+<span class="fc" id="L48">                ?: error(&quot;No adapter found for resource: $url&quot;)</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

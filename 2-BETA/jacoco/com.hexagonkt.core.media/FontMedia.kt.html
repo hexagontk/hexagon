@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FontMedia.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.media</a> &gt; <span class="el_source">FontMedia.kt</span></div><h1>FontMedia.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.media
+
+/**
+ * Prebuilt font media types. Only validated once at start time (not constructed each time).
+ */
+<span class="fc" id="L6">enum class FontMedia(</span>
+<span class="pc" id="L7">    override val group: MediaTypeGroup,</span>
+<span class="pc" id="L8">    override val type: String,</span>
+<span class="fc" id="L9">    override val fullType: String = &quot;${group.text}/$type&quot;</span>
+) : MediaType {
+
+<span class="fc" id="L12">    OTF(MediaTypeGroup.FONT, &quot;otf&quot;),</span>
+<span class="fc" id="L13">    TTF(MediaTypeGroup.FONT, &quot;ttf&quot;),</span>
+<span class="fc" id="L14">    WOFF(MediaTypeGroup.FONT, &quot;woff&quot;),</span>
+<span class="fc" id="L15">    WOFF2(MediaTypeGroup.FONT, &quot;woff2&quot;),</span>
+<span class="fc" id="L16">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

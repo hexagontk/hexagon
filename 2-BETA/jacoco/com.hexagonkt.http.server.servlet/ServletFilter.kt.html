@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletFilter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletFilter.kt</span></div><h1>ServletFilter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
+
+import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.http.bodyToBytes
+import com.hexagonkt.http.server.HttpServerSettings
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.model.HttpServerResponse
+import jakarta.servlet.*
+import jakarta.servlet.http.Cookie
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import kotlinx.coroutines.runBlocking
+
+<span class="fc" id="L14">class ServletFilter(</span>
+    pathHandler: PathHandler,
+<span class="fc" id="L16">    private val serverSettings: HttpServerSettings</span>
+) : Filter {
+
+<span class="fc" id="L19">    private val logger: Logger = Logger(ServletFilter::class)</span>
+
+    private val handlers: Map&lt;String, PathHandler&gt; =
+<span class="fc" id="L22">        pathHandler.byMethod().mapKeys { it.key.toString() }</span>
+
+    override fun init(filterConfig: FilterConfig) {
+<span class="fc" id="L25">        val filterName = filterConfig.filterName</span>
+<span class="fc" id="L26">        val parameterNames = filterConfig.initParameterNames.toList().joinToString(&quot;, &quot;) {</span>
+<span class="fc" id="L27">            &quot;$it = ${filterConfig.getInitParameter(it)}&quot;</span>
+        }
+<span class="fc" id="L29">        logger.info {</span>
+<span class="fc" id="L30">            &quot;&quot;&quot;'$filterName' Servlet filter initialized.</span>
+<span class="fc" id="L31">              |  * Context path: ${filterConfig.servletContext.contextPath}</span>
+<span class="fc" id="L32">              |  * Parameters: $parameterNames</span>
+<span class="fc" id="L33">              |  * Server settings: $serverSettings</span>
+<span class="fc" id="L34">            &quot;&quot;&quot;.trimMargin()</span>
+        }
+<span class="fc" id="L36">    }</span>
+
+    override fun destroy() {
+<span class="fc" id="L39">        logger.info { &quot;Servlet filter destroyed&quot; }</span>
+<span class="fc" id="L40">    }</span>
+
+    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
+<span class="fc" id="L43">        val multipartConfig = MultipartConfigElement(&quot;/tmp&quot;)</span>
+<span class="fc" id="L44">        request.setAttribute(&quot;org.eclipse.jetty.multipartConfig&quot;, multipartConfig)</span>
+<span class="fc" id="L45">        doFilter(request, response)</span>
+<span class="fc" id="L46">    }</span>
+
+    // TODO Don't use 'runBlocking'
+    private fun doFilter(
+<span class="fc" id="L50">        servletRequest: ServletRequest, servletResponse: ServletResponse) = runBlocking {</span>
+
+<span class="pc bpc" id="L52" title="2 of 4 branches missed.">        if (servletRequest !is HttpServletRequest || servletResponse !is HttpServletResponse)</span>
+<span class="nc" id="L53">            error(&quot;Invalid request/response parameters&quot;)</span>
+
+<span class="fc bfc" id="L55" title="All 4 branches covered.">        val response = handlers[servletRequest.method]</span>
+<span class="fc" id="L56">            ?.process(ServletRequestAdapter(servletRequest))</span>
+<span class="fc" id="L57">            ?: HttpServerResponse()</span>
+
+<span class="fc" id="L59">        responseToServlet(response, servletResponse)</span>
+<span class="fc" id="L60">    }</span>
+
+    private fun responseToServlet(
+        response: HttpServerResponse, servletResponse: HttpServletResponse) {
+
+<span class="fc" id="L65">        response.headers.allValues.forEach { (k, v) -&gt;</span>
+<span class="fc" id="L66">            v.forEach { servletResponse.addHeader(k, it) }</span>
+<span class="fc" id="L67">        }</span>
+
+        // TODO Add switch in config so this is only done if cookies are enabled
+<span class="fc" id="L70">        response.cookies.forEach {</span>
+<span class="fc" id="L71">            val cookie = Cookie(it.name, it.value).apply {</span>
+<span class="fc" id="L72">                maxAge = it.maxAge.toInt()</span>
+<span class="fc" id="L73">                secure = it.secure</span>
+<span class="fc" id="L74">            }</span>
+<span class="fc" id="L75">            servletResponse.addCookie(cookie)</span>
+<span class="fc" id="L76">        }</span>
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        response.contentType?.let { servletResponse.addHeader(&quot;content-type&quot;, it.text) }</span>
+<span class="fc" id="L79">        servletResponse.status = response.status.code</span>
+        // TODO Handle different types: deferred values, strings, ints... flows
+<span class="fc" id="L81">        servletResponse.outputStream.write(bodyToBytes(response.body))</span>
+<span class="fc" id="L82">        servletResponse.outputStream.flush()</span>
+        // TODO Catch errors!
+<span class="fc" id="L84">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

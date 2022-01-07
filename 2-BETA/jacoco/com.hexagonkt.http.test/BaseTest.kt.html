@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BaseTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test</a> &gt; <span class="el_source">BaseTest.kt</span></div><h1>BaseTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test
+
+import com.hexagonkt.core.helpers.encodeToBase64
+import com.hexagonkt.core.logging.LoggingLevel.DEBUG
+import com.hexagonkt.core.logging.LoggingLevel.OFF
+import com.hexagonkt.core.logging.LoggingManager
+import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.server.HttpServer
+import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.net.URL
+import kotlin.test.assertEquals
+
+<span class="fc" id="L23">@TestInstance(PER_CLASS)</span>
+<span class="fc" id="L24">abstract class BaseTest {</span>
+
+    protected abstract val clientAdapter: () -&gt; HttpClientPort
+    protected abstract val serverAdapter: () -&gt; HttpServerPort
+    protected abstract val handlers: List&lt;ServerHandler&gt;
+
+<span class="fc" id="L30">    protected val server: HttpServer by lazy {</span>
+<span class="fc" id="L31">        HttpServer(serverAdapter(), handlers)</span>
+    }
+
+<span class="fc" id="L34">    protected val client: HttpClient by lazy {</span>
+<span class="fc" id="L35">        HttpClient(clientAdapter(), URL(&quot;http://localhost:${server.runtimePort}&quot;))</span>
+    }
+
+    @BeforeAll fun startUp() {
+<span class="fc" id="L39">        LoggingManager.adapter = Slf4jJulLoggingAdapter()</span>
+<span class="fc" id="L40">        LoggingManager.setLoggerLevel(&quot;com.hexagonkt&quot;, DEBUG)</span>
+<span class="fc" id="L41">        server.start()</span>
+<span class="fc" id="L42">        client.start()</span>
+<span class="fc" id="L43">    }</span>
+
+    @AfterAll fun shutDown() {
+<span class="fc" id="L46">        client.stop()</span>
+<span class="fc" id="L47">        server.stop()</span>
+<span class="fc" id="L48">        LoggingManager.setLoggerLevel(&quot;com.hexagonkt&quot;, OFF)</span>
+<span class="fc" id="L49">    }</span>
+
+    protected fun assertResponseContains(
+        response: HttpClientResponse?, status: HttpStatus, vararg content: String) {
+
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        assertEquals(status, response?.status)</span>
+<span class="pc bpc" id="L55" title="2 of 4 branches missed.">        val payload = response?.body?.let { b -&gt; b as String }</span>
+<span class="pc bpc" id="L56" title="3 of 6 branches missed.">        content.forEach { assert(payload?.contains(it) ?: false) }</span>
+<span class="fc" id="L57">    }</span>
+
+    protected fun assertResponseContains(response: HttpClientResponse?, vararg content: String) {
+<span class="fc" id="L60">        assertResponseContains(response, OK, *content)</span>
+<span class="fc" id="L61">    }</span>
+
+    // TODO Move to `http` module to share basic and digest auth among client and server
+<span class="nc" id="L64">    protected fun basicAuth(user: String, password: String? = null): String =</span>
+<span class="fc" id="L65">        &quot;Basic &quot; + &quot;$user:$password&quot;.encodeToBase64()</span>
+
+<span class="fc" id="L67">    protected fun assertResponseEquals(</span>
+<span class="fc" id="L68">        response: HttpClientResponse?, status: HttpStatus = OK, content: String) {</span>
+
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        assertEquals(status, response?.status)</span>
+<span class="pc bpc" id="L71" title="2 of 4 branches missed.">        assertEquals(content, response?.body?.let { it as String }?.trim())</span>
+<span class="fc" id="L72">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

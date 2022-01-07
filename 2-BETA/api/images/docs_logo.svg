@@ -1,0 +1,32 @@
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="1600"
+  height="360"
+  viewBox="0 0 1600 360">
+
+  <defs>
+    <style type="text/css">
+      #logoUp { fill: #F5F5F5; }
+      #logoDown { fill: #E5E5E5; }
+      #text {
+        fill: hsla(0, 0%, 100%, 1);
+        font-size: 250px;
+        font-family: Helvetica, Arial;
+      }
+    </style>
+
+    <symbol id="logoPart">
+      <path d="M 0,177 102,0 l 205,0 L 329,35 265,142 l -81,0 42,-71 -81,0 L 40,248 Z" />
+    </symbol>
+  </defs>
+
+  <g>
+    <use id="logoUp" xlink:href="#logoPart" />
+    <use id="logoDown" xlink:href="#logoPart" transform="matrix(-1, 0, 0, -1, 410, 355)" />
+    <text x="490" y="280" id="text">
+      <tspan x="490" y="280">Hexagon</tspan>
+    </text>
+  </g>
+</svg>

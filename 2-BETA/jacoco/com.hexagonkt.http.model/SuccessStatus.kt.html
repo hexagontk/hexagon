@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SuccessStatus.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model</a> &gt; <span class="el_source">SuccessStatus.kt</span></div><h1>SuccessStatus.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model
+
+import com.hexagonkt.http.model.HttpStatusType.*
+
+/**
+ * Supported HTTP responses status.
+ */
+<span class="fc" id="L8">enum class SuccessStatus(</span>
+<span class="fc" id="L9">    override val code: Int,</span>
+<span class="fc" id="L10">    override val type: HttpStatusType</span>
+) : HttpStatus {
+
+<span class="fc" id="L13">    OK(200, SUCCESS),</span>
+<span class="fc" id="L14">    CREATED(201, SUCCESS),</span>
+<span class="fc" id="L15">    ACCEPTED(202, SUCCESS),</span>
+<span class="fc" id="L16">    NON_AUTHORITATIVE_INFORMATION(203, SUCCESS),</span>
+<span class="fc" id="L17">    NO_CONTENT(204, SUCCESS),</span>
+<span class="fc" id="L18">    RESET_CONTENT(205, SUCCESS),</span>
+<span class="fc" id="L19">    PARTIAL_CONTENT(206, SUCCESS),</span>
+<span class="fc" id="L20">    MULTI_STATUS(207, SUCCESS),</span>
+<span class="fc" id="L21">    ALREADY_REPORTED(208, SUCCESS),</span>
+<span class="fc" id="L22">    IM_USED(226, SUCCESS),</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

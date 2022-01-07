@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilesTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.examples</a> &gt; <span class="el_source">FilesTest.kt</span></div><h1>FilesTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.examples
+
+import com.hexagonkt.core.helpers.MultiMap
+import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.media.TextMedia.CSS
+import com.hexagonkt.core.media.TextMedia.HTML
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.model.HttpClientRequest
+import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.HttpMethod.GET
+import com.hexagonkt.http.model.HttpMethod.POST
+import com.hexagonkt.http.model.HttpPart
+import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.callbacks.FileCallback
+import com.hexagonkt.http.server.callbacks.UrlCallback
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.test.BaseTest
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.io.File
+import java.net.URL
+import kotlin.test.assertEquals
+
+@TestInstance(PER_CLASS)
+@Suppress(&quot;FunctionName&quot;) // This class's functions are intended to be used only in tests
+<span class="fc" id="L33">abstract class FilesTest(</span>
+<span class="fc" id="L34">    override val clientAdapter: () -&gt; HttpClientPort,</span>
+<span class="fc" id="L35">    override val serverAdapter: () -&gt; HttpServerPort</span>
+<span class="fc" id="L36">) : BaseTest() {</span>
+
+<span class="fc" id="L38">    private val directory = File(&quot;http_test/src/main/resources/assets&quot;).let {</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (it.exists()) it.path</span>
+<span class="fc" id="L40">        else &quot;src/main/resources/assets&quot;</span>
+    }
+
+    // files
+<span class="fc" id="L44">    private val path: PathHandler = path {</span>
+
+        // Serve `public` resources folder on `/*`
+<span class="fc" id="L47">        after(</span>
+<span class="fc" id="L48">            methods = setOf(GET),</span>
+<span class="fc" id="L49">            pattern = &quot;/*&quot;,</span>
+<span class="fc" id="L50">            status = NOT_FOUND,</span>
+<span class="fc" id="L51">            callback = UrlCallback(URL(&quot;classpath:public&quot;))</span>
+        )
+
+<span class="fc" id="L54">        path(&quot;/static&quot;) {</span>
+<span class="fc" id="L55">            get(&quot;/files/*&quot;, UrlCallback(URL(&quot;classpath:assets&quot;)))</span>
+<span class="fc" id="L56">            get(&quot;/resources/*&quot;, FileCallback(File(directory)))</span>
+<span class="fc" id="L57">        }</span>
+
+<span class="fc" id="L59">        get(&quot;/html/*&quot;, UrlCallback(URL(&quot;classpath:assets&quot;))) // Serve `assets` files on `/html/*`</span>
+<span class="fc" id="L60">        get(&quot;/pub/*&quot;, FileCallback(File(directory))) // Serve `test` folder on `/pub/*`</span>
+
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        post(&quot;/multipart&quot;) {</span>
+<span class="fc" id="L63">            val headers: MultiMap&lt;String, String&gt; = request.parts.first().let { p -&gt;</span>
+<span class="fc" id="L64">                val name = p.name</span>
+<span class="fc" id="L65">                val bodyString = p.bodyString()</span>
+<span class="fc" id="L66">                val size = p.size.toString()</span>
+<span class="pc bpc" id="L67" title="3 of 6 branches missed.">                val fullType = p.contentType?.mediaType?.fullType ?: &quot;&quot;</span>
+<span class="fc" id="L68">                val contentDisposition = p.headers.require(&quot;content-disposition&quot;)</span>
+<span class="fc" id="L69">                multiMapOf(</span>
+<span class="fc" id="L70">                    &quot;name&quot; to name,</span>
+<span class="fc" id="L71">                    &quot;body&quot; to bodyString,</span>
+<span class="fc" id="L72">                    &quot;size&quot; to size,</span>
+<span class="fc" id="L73">                    &quot;type&quot; to fullType,</span>
+<span class="fc" id="L74">                    &quot;content-disposition&quot; to contentDisposition</span>
+                )
+            }
+
+<span class="pc" id="L78">            ok(headers = headers)</span>
+        }
+
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        post(&quot;/file&quot;) {</span>
+<span class="fc" id="L82">            val part = request.parts.first()</span>
+<span class="fc" id="L83">            val content = part.bodyString()</span>
+<span class="pc" id="L84">            ok(content)</span>
+        }
+
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        post(&quot;/form&quot;) {</span>
+<span class="fc" id="L88">            fun serializeMap(map: Map&lt;String, List&lt;String&gt;&gt;): List&lt;String&gt; = listOf(</span>
+<span class="fc" id="L89">                map.map { &quot;${it.key}:${it.value.joinToString(&quot;,&quot;)}}&quot; }.joinToString(&quot;\n&quot;)</span>
+<span class="fc" id="L90">            )</span>
+
+<span class="fc" id="L92">            val queryParams = serializeMap(request.queryParameters.allValues)</span>
+<span class="fc" id="L93">            val formParams = serializeMap(request.formParameters.allValues)</span>
+<span class="fc" id="L94">            val headers =</span>
+<span class="fc" id="L95">                multiMapOfLists(&quot;query-params&quot; to queryParams, &quot;form-params&quot; to formParams)</span>
+
+<span class="pc" id="L97">            ok(headers = response.headers + headers)</span>
+        }
+<span class="fc" id="L99">    }</span>
+    // files
+
+<span class="fc" id="L102">    override val handlers: List&lt;ServerHandler&gt; = listOf(path)</span>
+
+<span class="fc" id="L104">    @Test fun `Parameters are separated from each other`() = runBlocking {</span>
+<span class="fc" id="L105">        val parts = listOf(HttpPart(&quot;name&quot;, &quot;value&quot;))</span>
+<span class="fc" id="L106">        val response = client.send(</span>
+<span class="fc" id="L107">            HttpClientRequest(POST, path = &quot;/form?queryName=queryValue&quot;, parts = parts)</span>
+        )
+<span class="pc bpc" id="L109" title="3 of 6 branches missed.">        assert(response.headers[&quot;query-params&quot;]?.contains(&quot;queryName:queryValue&quot;) ?: false)</span>
+<span class="pc bpc" id="L110" title="4 of 8 branches missed.">        assert(!(response.headers[&quot;query-params&quot;]?.contains(&quot;name:value&quot;) ?: true))</span>
+<span class="pc bpc" id="L111" title="3 of 6 branches missed.">        assert(response.headers[&quot;form-params&quot;]?.contains(&quot;name:value&quot;) ?: false)</span>
+<span class="pc bpc" id="L112" title="4 of 8 branches missed.">        assert(!(response.headers[&quot;form-params&quot;]?.contains(&quot;queryName:queryValue&quot;) ?: true))</span>
+<span class="fc" id="L113">    }</span>
+
+<span class="fc" id="L115">    @Test fun `Requesting a folder with an existing file name returns 404`() = runBlocking {</span>
+<span class="fc" id="L116">        val response = client.get (&quot;/file.txt/&quot;)</span>
+<span class="fc" id="L117">        assertResponseContains(response, NOT_FOUND)</span>
+<span class="fc" id="L118">    }</span>
+
+<span class="fc" id="L120">    @Test fun `An static file from resources can be fetched`() = runBlocking {</span>
+<span class="fc" id="L121">        val response = client.get(&quot;/file.txt&quot;)</span>
+<span class="fc" id="L122">        assertResponseEquals(response, content = &quot;file content&quot;)</span>
+<span class="fc" id="L123">    }</span>
+
+<span class="fc" id="L125">    @Test fun `Files content type is returned properly`() = runBlocking&lt;Unit&gt; {</span>
+<span class="fc" id="L126">        val response = client.get(&quot;/file.css&quot;)</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        assertEquals(CSS, response.contentType?.mediaType)</span>
+<span class="fc" id="L128">        assertResponseEquals(response, content = &quot;/* css */&quot;)</span>
+
+<span class="fc" id="L130">        val responseFile = client.get(&quot;/pub/css/mkdocs.css&quot;)</span>
+<span class="fc" id="L131">        assertResponseContains(responseFile, OK, &quot;article&quot;)</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">        assertEquals(CSS, responseFile.contentType?.mediaType)</span>
+
+<span class="fc" id="L134">        client.get(&quot;/static/resources/css/mkdocs.css&quot;).apply {</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">            assertEquals(CSS, contentType?.mediaType)</span>
+<span class="fc" id="L136">            assertResponseContains(this, OK, &quot;article&quot;)</span>
+<span class="fc" id="L137">        }</span>
+<span class="fc" id="L138">    }</span>
+
+<span class="fc" id="L140">    @Test fun `Not found resources return 404`() = runBlocking {</span>
+<span class="fc" id="L141">        assertEquals(NOT_FOUND, client.get(&quot;/not_found.css&quot;).status)</span>
+<span class="fc" id="L142">        assertEquals(NOT_FOUND, client.get(&quot;/pub/not_found.css&quot;).status)</span>
+<span class="fc" id="L143">        assertEquals(NOT_FOUND, client.get(&quot;/html/not_found.css&quot;).status)</span>
+<span class="fc" id="L144">    }</span>
+
+<span class="fc" id="L146">    @Test fun `Sending multi part content works properly`() = runBlocking {</span>
+        // clientForm
+<span class="fc" id="L148">        val parts = listOf(HttpPart(&quot;name&quot;, &quot;value&quot;))</span>
+<span class="fc" id="L149">        val response = client.send(HttpClientRequest(POST, path = &quot;/multipart&quot;, parts = parts))</span>
+        // clientForm
+<span class="fc" id="L151">        val expectedHeaders = multiMapOf(</span>
+<span class="fc" id="L152">            &quot;transfer-encoding&quot; to &quot;chunked&quot;,</span>
+<span class="fc" id="L153">            &quot;name&quot; to &quot;name&quot;,</span>
+<span class="fc" id="L154">            &quot;body&quot; to &quot;value&quot;,</span>
+<span class="fc" id="L155">            &quot;size&quot; to &quot;5&quot;,</span>
+<span class="fc" id="L156">            &quot;type&quot; to &quot;text/plain&quot;,</span>
+<span class="fc" id="L157">            &quot;content-disposition&quot; to &quot;form-data; name=\&quot;name\&quot;&quot;,</span>
+        )
+<span class="fc" id="L159">        assertEquals(expectedHeaders, response.headers)</span>
+<span class="fc" id="L160">    }</span>
+
+<span class="fc" id="L162">    @Test fun `Sending files works properly`() = runBlocking {</span>
+        // clientFile
+<span class="fc" id="L164">        val stream = URL(&quot;classpath:assets/index.html&quot;).readBytes()</span>
+<span class="fc" id="L165">        val parts = listOf(HttpPart(&quot;file&quot;, stream, &quot;index.html&quot;))</span>
+<span class="fc" id="L166">        val response = client.send(HttpClientRequest(POST, path = &quot;/file&quot;, parts = parts))</span>
+        // clientFile
+<span class="fc" id="L168">        assertResponseContains(response, OK, &quot;&lt;title&gt;Hexagon&lt;/title&gt;&quot;)</span>
+<span class="fc" id="L169">    }</span>
+
+<span class="fc" id="L171">    @Test fun `Files mounted on a path are returned properly`() = runBlocking&lt;Unit&gt; {</span>
+<span class="fc" id="L172">        val response = client.get(&quot;/html/index.html&quot;)</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">        assertEquals(HTML, response.contentType?.mediaType)</span>
+<span class="fc" id="L174">        assertResponseContains(response, OK, &quot;&lt;title&gt;Hexagon&lt;/title&gt;&quot;)</span>
+
+<span class="fc" id="L176">        client.get(&quot;/static/files/index.html&quot;).apply {</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">            assertEquals(HTML, contentType?.mediaType)</span>
+<span class="fc" id="L178">            assertResponseContains(this, OK, &quot;&lt;title&gt;Hexagon&lt;/title&gt;&quot;)</span>
+<span class="fc" id="L179">        }</span>
+<span class="fc" id="L180">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

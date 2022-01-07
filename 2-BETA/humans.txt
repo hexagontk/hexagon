@@ -1,0 +1,26 @@
+
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Juanjo Aguililla - @jaguililla - Developer
+
+# THANKS
+
+    To all open source coders that make the Internet possible.
+
+    For the Web design, thanks to the contributors of https://squidfunk.github.io/mkdocs-material
+    for their fabulous documentation theme.
+
+# LICENSES
+
+    This page contains components and code licensed under the following licenses:
+
+        * https://opensource.org/licenses/MIT
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    jQuery, Modernizr, Bootstrap, MkDocs, MkDocs Material Theme
+    Kotlin, MongoDB, RabbitMQ

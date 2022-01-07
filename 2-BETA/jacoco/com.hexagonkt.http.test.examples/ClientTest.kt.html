@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.examples</a> &gt; <span class="el_source">ClientTest.kt</span></div><h1>ClientTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.examples
+
+import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.media.ApplicationMedia.JSON
+import com.hexagonkt.core.media.ApplicationMedia.YAML
+import com.hexagonkt.http.SslSettings
+import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.HttpClientSettings
+import com.hexagonkt.http.client.model.HttpClientRequest
+import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.HttpCookie
+import com.hexagonkt.http.model.HttpMethod.GET
+import com.hexagonkt.http.model.HttpProtocol.HTTPS
+import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
+import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.server.*
+import com.hexagonkt.http.server.handlers.HttpCallback
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.test.BaseTest
+import com.hexagonkt.serialization.SerializationFormat
+import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.serialize
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.*
+
+import java.lang.Exception
+import java.math.BigInteger
+import java.net.URL
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
+
+@Suppress(&quot;FunctionName&quot;) // This class's functions are intended to be used only in tests
+<span class="fc" id="L41">abstract class ClientTest(</span>
+<span class="fc" id="L42">    override val clientAdapter: () -&gt; HttpClientPort,</span>
+<span class="fc" id="L43">    override val serverAdapter: () -&gt; HttpServerPort,</span>
+<span class="fc" id="L44">    private val serializationFormats: List&lt;SerializationFormat&gt;,</span>
+<span class="fc" id="L45">) : BaseTest() {</span>
+
+<span class="fc" id="L47">    private val logger: Logger = Logger(ClientTest::class)</span>
+
+<span class="pc bnc" id="L49" title="All 2 branches missed.">    private var handler: HttpCallback = { this }</span>
+
+<span class="fc" id="L51">    override val handlers: List&lt;ServerHandler&gt; =</span>
+<span class="fc" id="L52">        listOf(</span>
+<span class="fc" id="L53">            path {</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">                after(exception = Exception::class) {</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">                    val e = context.exception ?: fail</span>
+<span class="pc" id="L56">                    logger.error(e) { e.message }</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                    serverError(INTERNAL_SERVER_ERROR, e.message ?: &quot;&quot;)</span>
+                }
+
+<span class="fc" id="L60">                post(&quot;/*&quot;) { handler() }</span>
+<span class="fc" id="L61">                get(&quot;/*&quot;) { handler() }</span>
+<span class="fc" id="L62">                head(&quot;/*&quot;) { handler() }</span>
+<span class="fc" id="L63">                put(&quot;/*&quot;) { handler() }</span>
+<span class="fc" id="L64">                delete(&quot;/*&quot;) { handler() }</span>
+<span class="fc" id="L65">                trace(&quot;/*&quot;) { handler() }</span>
+<span class="fc" id="L66">                options(&quot;/*&quot;) { handler() }</span>
+<span class="fc" id="L67">                patch(&quot;/*&quot;) { handler() }</span>
+<span class="fc" id="L68">            }</span>
+        )
+
+    @BeforeAll fun setUpSerializationFormats() {
+<span class="fc" id="L72">        SerializationManager.formats = serializationFormats.toSet()</span>
+<span class="fc" id="L73">        SerializationManager.defaultFormat = serializationFormats.firstOrNull()</span>
+<span class="fc" id="L74">    }</span>
+
+    @BeforeEach fun resetHandler() {
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        handler = {</span>
+<span class="fc" id="L78">            val contentType = ContentType(JSON, charset = Charsets.UTF_8)</span>
+<span class="fc" id="L79">            val bodyString = request.bodyString()</span>
+<span class="pc" id="L80">            ok(</span>
+<span class="fc" id="L81">                body = bodyString,</span>
+<span class="fc" id="L82">                headers = response.headers</span>
+<span class="fc" id="L83">                    + (&quot;body&quot; to bodyString)</span>
+<span class="pc bpc" id="L84" title="2 of 4 branches missed.">                    + (&quot;ct&quot; to (request.contentType?.text ?: &quot;&quot;)),</span>
+<span class="fc" id="L85">                contentType = contentType</span>
+            )
+        }
+<span class="fc" id="L88">    }</span>
+
+<span class="fc" id="L90">    @Test fun `Exceptions are returned as internal server errors`() = runBlocking {</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        handler = { error(&quot;failure&quot;) }</span>
+
+<span class="fc" id="L93">        val response = client.send(HttpClientRequest())</span>
+
+<span class="fc" id="L95">        assertEquals(INTERNAL_SERVER_ERROR, response.status)</span>
+<span class="fc" id="L96">        assertTrue(response.bodyString().contains(&quot;failure&quot;))</span>
+<span class="fc" id="L97">    }</span>
+
+<span class="fc" id="L99">    @Test fun `Form parameters are sent correctly`() = runBlocking {</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        handler = { ok(headers = request.formParameters) }</span>
+
+<span class="fc" id="L102">        val response = client.send(</span>
+<span class="fc" id="L103">            HttpClientRequest(</span>
+<span class="fc" id="L104">                formParameters = multiMapOf(</span>
+<span class="fc" id="L105">                    &quot;p1&quot; to &quot;v11&quot;,</span>
+<span class="fc" id="L106">                    &quot;p2&quot; to &quot;v21&quot;,</span>
+<span class="fc" id="L107">                    &quot;p2&quot; to &quot;v22&quot;,</span>
+                )
+            )
+        )
+
+<span class="fc" id="L112">        val expectedHeaders = multiMapOfLists(&quot;p1&quot; to listOf(&quot;v11&quot;), &quot;p2&quot; to listOf(&quot;v21&quot;, &quot;v22&quot;))</span>
+<span class="fc" id="L113">        assertEquals(expectedHeaders, response.headers - &quot;transfer-encoding&quot;)</span>
+<span class="fc" id="L114">    }</span>
+
+<span class="fc" id="L116">    @Test fun `Cookies are sent correctly`() = runBlocking {</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        handler = {</span>
+<span class="fc" id="L118">            val cookiesMap = request.cookiesMap()</span>
+<span class="fc" id="L119">            assertEquals(HttpCookie(&quot;c1&quot;, &quot;v1&quot;), cookiesMap[&quot;c1&quot;])</span>
+<span class="fc" id="L120">            assertEquals(HttpCookie(&quot;c2&quot;, &quot;v2&quot;, -1), cookiesMap[&quot;c2&quot;])</span>
+<span class="fc" id="L121">            assertNull(cookiesMap[&quot;c3&quot;]) // Secure headers only sent through HTTPS</span>
+<span class="pc" id="L122">            ok(cookies = listOf(</span>
+<span class="fc" id="L123">                HttpCookie(&quot;c4&quot;, &quot;v4&quot;, 60),</span>
+<span class="fc" id="L124">                HttpCookie(&quot;c5&quot;, &quot;v5&quot;, secure = true),</span>
+            ))
+        }
+
+<span class="fc" id="L128">        client.cookies = emptyList()</span>
+<span class="fc" id="L129">        val response = client.send(</span>
+<span class="fc" id="L130">            HttpClientRequest(</span>
+<span class="fc" id="L131">                cookies = listOf(</span>
+<span class="fc" id="L132">                    HttpCookie(&quot;c1&quot;, &quot;v1&quot;),</span>
+<span class="fc" id="L133">                    HttpCookie(&quot;c2&quot;, &quot;v2&quot;, 1),</span>
+<span class="fc" id="L134">                    HttpCookie(&quot;c3&quot;, &quot;v3&quot;, secure = true),</span>
+                )
+            )
+        )
+
+<span class="fc" id="L139">        assertEquals(HttpCookie(&quot;c4&quot;, &quot;v4&quot;, 59), response.cookiesMap()[&quot;c4&quot;])</span>
+<span class="fc" id="L140">        assertEquals(HttpCookie(&quot;c5&quot;, &quot;v5&quot;, secure = true), response.cookiesMap()[&quot;c5&quot;])</span>
+<span class="fc" id="L141">        assertEquals(HttpCookie(&quot;c4&quot;, &quot;v4&quot;, 59), client.cookiesMap()[&quot;c4&quot;])</span>
+<span class="fc" id="L142">        assertEquals(HttpCookie(&quot;c5&quot;, &quot;v5&quot;, secure = true), client.cookiesMap()[&quot;c5&quot;])</span>
+<span class="fc" id="L143">    }</span>
+
+    @Test fun `Create HTTP clients`() {
+<span class="fc" id="L146">        val adapter = clientAdapter()</span>
+
+        // clientCreation
+<span class="fc" id="L149">        HttpClient(adapter)</span>
+<span class="fc" id="L150">        HttpClient(adapter, URL(&quot;http://host:1234/base&quot;))</span>
+        // clientCreation
+
+        // clientSettingsCreation
+        // All client settings parameters are optionals and provide default values
+<span class="fc" id="L155">        HttpClient(adapter, HttpClientSettings(</span>
+<span class="fc" id="L156">            baseUrl = URL(&quot;http://host:1234/base&quot;),</span>
+<span class="fc" id="L157">            contentType = ContentType(JSON),</span>
+<span class="fc" id="L158">            useCookies = true,</span>
+<span class="fc" id="L159">            headers = multiMapOf(&quot;x-api-Key&quot; to &quot;cafebabe&quot;), // Headers used in all requests</span>
+<span class="fc" id="L160">            insecure = false,               // If true, the client doesn't check server certificates</span>
+<span class="fc" id="L161">            sslSettings = SslSettings()     // Key stores settings (check TLS section for details)</span>
+        ))
+        // clientSettingsCreation
+<span class="fc" id="L164">    }</span>
+
+<span class="fc" id="L166">    @Test fun `JSON requests works as expected`() = runBlocking {</span>
+<span class="fc" id="L167">        val expectedBody = &quot;{  \&quot;foo\&quot; : \&quot;fighters\&quot;,  \&quot;es\&quot; : \&quot;áéíóúÁÉÍÓÚñÑ\&quot;}&quot;</span>
+<span class="fc" id="L168">        val requestBody = mapOf(&quot;foo&quot; to &quot;fighters&quot;, &quot;es&quot; to &quot;áéíóúÁÉÍÓÚñÑ&quot;).serialize(JSON)</span>
+
+<span class="fc" id="L170">        val response = client.post(&quot;/&quot;, requestBody, contentType = ContentType(JSON))</span>
+<span class="fc" id="L171">        assertEquals(expectedBody, response.body.toString().trim().replace(&quot;[\r\n]&quot;.toRegex(), &quot;&quot;))</span>
+<span class="fc" id="L172">        assertEquals(ContentType(JSON).text, response.headers[&quot;ct&quot;])</span>
+
+<span class="fc" id="L174">        val body2 = client.post(&quot;/&quot;, requestBody).body</span>
+<span class="fc" id="L175">        assertEquals(expectedBody, body2.toString().trim().replace(&quot;[\r\n]&quot;.toRegex(), &quot;&quot;))</span>
+<span class="fc" id="L176">    }</span>
+
+<span class="fc" id="L178">    @Test fun `HTTP generic requests work ok`() = runBlocking {</span>
+
+        // genericRequest
+<span class="fc" id="L181">        val request = HttpClientRequest(</span>
+<span class="fc" id="L182">            method = GET,</span>
+<span class="fc" id="L183">            path = &quot;/&quot;,</span>
+<span class="fc" id="L184">            body = mapOf(&quot;body&quot; to &quot;payload&quot;).serialize(),</span>
+<span class="fc" id="L185">            headers = multiMapOf(&quot;x-header&quot; to &quot;value&quot;),</span>
+<span class="fc" id="L186">            contentType = ContentType(JSON)</span>
+        )
+
+<span class="fc" id="L189">        val response = client.send(request)</span>
+        // genericRequest
+
+<span class="fc" id="L192">        checkResponse(response, mapOf(&quot;body&quot; to &quot;payload&quot;))</span>
+<span class="fc" id="L193">    }</span>
+
+<span class="fc" id="L195">    @Test fun `HTTP methods without body work ok`() = runBlocking {</span>
+
+        // withoutBodyRequests
+<span class="fc" id="L198">        val responseGet = client.get(&quot;/&quot;)</span>
+<span class="fc" id="L199">        val responseHead = client.head(&quot;/&quot;)</span>
+<span class="fc" id="L200">        val responsePost = client.post(&quot;/&quot;)</span>
+<span class="fc" id="L201">        val responsePut = client.put(&quot;/&quot;)</span>
+<span class="fc" id="L202">        val responseDelete = client.delete(&quot;/&quot;)</span>
+<span class="fc" id="L203">        val responseTrace = client.trace(&quot;/&quot;)</span>
+<span class="fc" id="L204">        val responseOptions = client.options(&quot;/&quot;)</span>
+<span class="fc" id="L205">        val responsePatch = client.patch(&quot;/&quot;)</span>
+        // withoutBodyRequests
+
+<span class="fc" id="L208">        checkResponse(responseGet, null)</span>
+<span class="fc" id="L209">        checkResponse(responseHead, null)</span>
+<span class="fc" id="L210">        checkResponse(responsePost, null)</span>
+<span class="fc" id="L211">        checkResponse(responsePut, null)</span>
+<span class="fc" id="L212">        checkResponse(responseDelete, null)</span>
+<span class="fc" id="L213">        checkResponse(responseTrace, null)</span>
+<span class="fc" id="L214">        checkResponse(responseOptions, null)</span>
+<span class="fc" id="L215">        checkResponse(responsePatch, null)</span>
+<span class="fc" id="L216">    }</span>
+
+<span class="fc" id="L218">    @Test fun `HTTP methods with body work ok`() = runBlocking {</span>
+
+        // bodyRequests
+<span class="fc" id="L221">        val body = mapOf(&quot;key&quot; to &quot;value&quot;)</span>
+<span class="fc" id="L222">        val serializedBody = body.serialize()</span>
+
+<span class="fc" id="L224">        val responseGet = client.get(&quot;/&quot;, body = serializedBody)</span>
+<span class="fc" id="L225">        val responsePost = client.post(&quot;/&quot;, serializedBody)</span>
+<span class="fc" id="L226">        val responsePut = client.put(&quot;/&quot;, serializedBody)</span>
+<span class="fc" id="L227">        val responseDelete = client.delete(&quot;/&quot;, serializedBody)</span>
+<span class="fc" id="L228">        val responseTrace = client.trace(&quot;/&quot;, serializedBody)</span>
+<span class="fc" id="L229">        val responseOptions = client.options(&quot;/&quot;, serializedBody)</span>
+<span class="fc" id="L230">        val responsePatch = client.patch(&quot;/&quot;, serializedBody)</span>
+        // bodyRequests
+
+<span class="fc" id="L233">        checkResponse(responseGet, body)</span>
+<span class="fc" id="L234">        checkResponse(responsePost, body)</span>
+<span class="fc" id="L235">        checkResponse(responsePut, body)</span>
+<span class="fc" id="L236">        checkResponse(responseDelete, body)</span>
+<span class="fc" id="L237">        checkResponse(responseTrace, body)</span>
+<span class="fc" id="L238">        checkResponse(responseOptions, body)</span>
+<span class="fc" id="L239">        checkResponse(responsePatch, body)</span>
+<span class="fc" id="L240">    }</span>
+
+<span class="fc" id="L242">    @Test fun `HTTP methods with body and content type work ok`() = runBlocking {</span>
+
+        // bodyAndContentTypeRequests
+<span class="fc" id="L245">        val body = mapOf(&quot;key&quot; to &quot;value&quot;)</span>
+<span class="fc" id="L246">        val serializedBody = body.serialize(YAML)</span>
+
+<span class="fc" id="L248">        val responseGet = client.get(&quot;/&quot;, body = serializedBody, contentType = ContentType(YAML))</span>
+<span class="fc" id="L249">        val responsePost = client.post(&quot;/&quot;, serializedBody, contentType = ContentType(YAML))</span>
+<span class="fc" id="L250">        val responsePut = client.put(&quot;/&quot;, serializedBody, contentType = ContentType(YAML))</span>
+<span class="fc" id="L251">        val responseDelete = client.delete(&quot;/&quot;, serializedBody, contentType = ContentType(YAML))</span>
+<span class="fc" id="L252">        val responseTrace = client.trace(&quot;/&quot;, serializedBody, contentType = ContentType(YAML))</span>
+<span class="fc" id="L253">        val responseOptions = client.options(&quot;/&quot;, serializedBody, contentType = ContentType(YAML))</span>
+<span class="fc" id="L254">        val responsePatch = client.patch(&quot;/&quot;, serializedBody, contentType = ContentType(YAML))</span>
+        // bodyAndContentTypeRequests
+
+<span class="fc" id="L257">        checkResponse(responseGet, body, ContentType(YAML))</span>
+<span class="fc" id="L258">        checkResponse(responsePost, body, ContentType(YAML))</span>
+<span class="fc" id="L259">        checkResponse(responsePut, body, ContentType(YAML))</span>
+<span class="fc" id="L260">        checkResponse(responseDelete, body, ContentType(YAML))</span>
+<span class="fc" id="L261">        checkResponse(responseTrace, body, ContentType(YAML))</span>
+<span class="fc" id="L262">        checkResponse(responseOptions, body, ContentType(YAML))</span>
+<span class="fc" id="L263">        checkResponse(responsePatch, body, ContentType(YAML))</span>
+<span class="fc" id="L264">    }</span>
+
+<span class="fc" id="L266">    @Test fun `Parameters are set properly` () = runBlocking&lt;Unit&gt; {</span>
+<span class="fc" id="L267">        val endpoint = URL(&quot;http://localhost:${server.runtimePort}&quot;)</span>
+<span class="fc" id="L268">        val h = multiMapOfLists(&quot;header1&quot; to listOf(&quot;val1&quot;, &quot;val2&quot;))</span>
+<span class="fc" id="L269">        val settings = HttpClientSettings(</span>
+<span class="fc" id="L270">            contentType = ContentType(JSON),</span>
+<span class="fc" id="L271">            useCookies = false,</span>
+<span class="fc" id="L272">            headers = h,</span>
+<span class="fc" id="L273">            insecure = true</span>
+        )
+<span class="fc" id="L275">        val c = HttpClient(clientAdapter(), endpoint, settings)</span>
+
+<span class="fc" id="L277">        assertEquals(c.settings.contentType, ContentType(JSON))</span>
+<span class="pc bpc" id="L278" title="3 of 6 branches missed.">        assert(!c.settings.useCookies)</span>
+<span class="fc" id="L279">        assertEquals(c.settings.headers, h)</span>
+
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">        handler = {</span>
+<span class="fc" id="L282">            val headers = multiMapOfLists(&quot;head1&quot; to request.headers.allValues.require(&quot;header1&quot;))</span>
+<span class="pc" id="L283">            ok(headers = response.headers + headers)</span>
+        }
+
+<span class="pc" id="L286">        c.use {</span>
+<span class="fc" id="L287">            it.start()</span>
+<span class="fc" id="L288">            it.get(&quot;/auth&quot;).apply {</span>
+<span class="fc" id="L289">                assertEquals(listOf(&quot;val1&quot;, &quot;val2&quot;), headers.allValues[&quot;head1&quot;])</span>
+<span class="fc" id="L290">                assertEquals(status, OK)</span>
+<span class="fc" id="L291">            }</span>
+<span class="fc" id="L292">        }</span>
+<span class="fc" id="L293">    }</span>
+
+<span class="fc" id="L295">    @Test fun `Integers are sent properly` () = runBlocking {</span>
+<span class="fc" id="L296">        var run: Boolean</span>
+
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">        handler = {</span>
+<span class="fc" id="L299">            val contentType = ContentType(JSON, charset = Charsets.UTF_8)</span>
+<span class="fc" id="L300">            val number = BigInteger(request.body as ByteArray).toLong()</span>
+<span class="pc" id="L301">            ok(</span>
+<span class="fc" id="L302">                body = number,</span>
+<span class="fc" id="L303">                headers = response.headers + (&quot;body&quot; to number.toString()),</span>
+<span class="fc" id="L304">                contentType = contentType</span>
+            )
+        }
+
+<span class="fc" id="L308">        client.post(&quot;/string&quot;, 42).apply {</span>
+<span class="fc" id="L309">            assertEquals(&quot;42&quot;, headers.require(&quot;body&quot;))</span>
+<span class="fc" id="L310">            assertEquals(status, OK)</span>
+<span class="fc" id="L311">            run = true</span>
+<span class="fc" id="L312">        }</span>
+
+<span class="pc bpc" id="L314" title="2 of 4 branches missed.">        assert(run)</span>
+<span class="fc" id="L315">    }</span>
+
+<span class="fc" id="L317">    @Test fun `Strings are sent properly` () = runBlocking {</span>
+<span class="fc" id="L318">        var run: Boolean</span>
+
+<span class="fc" id="L320">        client.post(&quot;/string&quot;, &quot;text&quot;).apply {</span>
+<span class="pc bpc" id="L321" title="4 of 8 branches missed.">            assert(headers[&quot;body&quot;]?.isNotEmpty() ?: false)</span>
+<span class="fc" id="L322">            assertEquals(status, OK)</span>
+<span class="fc" id="L323">            run = true</span>
+<span class="fc" id="L324">        }</span>
+
+<span class="pc bpc" id="L326" title="2 of 4 branches missed.">        assert(run)</span>
+<span class="fc" id="L327">    }</span>
+
+<span class="fc" id="L329">    @Test fun `Request HTTPS example`() = runBlocking {</span>
+
+<span class="fc" id="L331">        val serverAdapter = serverAdapter()</span>
+
+        // Key store files
+<span class="fc" id="L334">        val identity = &quot;hexagonkt.p12&quot;</span>
+<span class="fc" id="L335">        val trust = &quot;trust.p12&quot;</span>
+
+        // Default passwords are file name reversed
+<span class="fc" id="L338">        val keyStorePassword = identity.reversed()</span>
+<span class="fc" id="L339">        val trustStorePassword = trust.reversed()</span>
+
+        // Key stores can be set as URIs to classpath resources (the triple slash is needed)
+<span class="fc" id="L342">        val keyStore = URL(&quot;classpath:ssl/$identity&quot;)</span>
+<span class="fc" id="L343">        val trustStore = URL(&quot;classpath:ssl/$trust&quot;)</span>
+
+<span class="fc" id="L345">        val sslSettings = SslSettings(</span>
+<span class="fc" id="L346">            keyStore = keyStore,</span>
+<span class="fc" id="L347">            keyStorePassword = keyStorePassword,</span>
+<span class="fc" id="L348">            trustStore = trustStore,</span>
+<span class="fc" id="L349">            trustStorePassword = trustStorePassword,</span>
+<span class="fc" id="L350">            clientAuth = true // Requires a valid certificate from the client (mutual TLS)</span>
+        )
+
+<span class="fc" id="L353">        val serverSettings = HttpServerSettings(</span>
+<span class="fc" id="L354">            bindPort = 0,</span>
+<span class="fc" id="L355">            protocol = HTTPS, // You can also use HTTP2</span>
+<span class="fc" id="L356">            sslSettings = sslSettings</span>
+        )
+
+<span class="fc" id="L359">        val server = serve(serverAdapter, serverSettings) {</span>
+<span class="pc bpc" id="L360" title="1 of 2 branches missed.">            get(&quot;/hello&quot;) {</span>
+                // We can access the certificate used by the client from the request
+<span class="pc bpc" id="L362" title="3 of 6 branches missed.">                val subjectDn = request.certificate()?.subjectDN?.name ?: &quot;&quot;</span>
+<span class="pc" id="L363">                ok(&quot;Hello World!&quot;, headers = response.headers + (&quot;cert&quot; to subjectDn) )</span>
+            }
+<span class="fc" id="L365">        }</span>
+
+        // We'll use the same certificate for the client (in a real scenario it would be different)
+<span class="fc" id="L368">        val clientSettings = HttpClientSettings(</span>
+<span class="fc" id="L369">            baseUrl = URL(&quot;https://localhost:${server.runtimePort}&quot;),</span>
+<span class="fc" id="L370">            sslSettings = sslSettings</span>
+        )
+
+        // Create an HTTP client and make an HTTPS request
+<span class="fc" id="L374">        val client = HttpClient(clientAdapter(), clientSettings)</span>
+<span class="fc" id="L375">        client.start()</span>
+<span class="fc" id="L376">        client.get(&quot;/hello&quot;).apply {</span>
+            // Assure the certificate received (and returned) by the server is correct
+<span class="pc bpc" id="L378" title="2 of 4 branches missed.">            assert(headers.require(&quot;cert&quot;).startsWith(&quot;CN=hexagonkt.com&quot;))</span>
+<span class="fc" id="L379">            assertEquals(body, &quot;Hello World!&quot;)</span>
+<span class="fc" id="L380">        }</span>
+
+<span class="fc" id="L382">        client.stop()</span>
+<span class="fc" id="L383">        server.stop()</span>
+<span class="fc" id="L384">    }</span>
+
+<span class="fc" id="L386">    private fun checkResponse(</span>
+        response: HttpClientResponse,
+        parameter: Map&lt;String, String&gt;?,
+<span class="fc" id="L389">        format: ContentType = ContentType(JSON),</span>
+    ) {
+
+<span class="fc" id="L392">        assertEquals(OK, response.status)</span>
+<span class="fc" id="L393">        assertEquals(</span>
+<span class="fc" id="L394">            response.bodyString().trim(),</span>
+<span class="pc bpc" id="L395" title="2 of 6 branches missed.">            parameter?.serialize(format.mediaType)?.trim() ?: &quot;&quot;</span>
+        )
+<span class="fc" id="L397">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

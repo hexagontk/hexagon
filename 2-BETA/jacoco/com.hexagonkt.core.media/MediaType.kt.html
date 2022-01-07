@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MediaType.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core.media</a> &gt; <span class="el_source">MediaType.kt</span></div><h1>MediaType.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core.media
+
+/**
+ * Also known as MIME type.
+ */
+interface MediaType {
+    val group: MediaTypeGroup
+    val type: String
+    val fullType: String
+
+    companion object {
+<span class="fc" id="L12">        val fullTypes: Map&lt;String, MediaType&gt; =</span>
+<span class="fc" id="L13">            listOf(</span>
+<span class="fc" id="L14">                ApplicationMedia.values(),</span>
+<span class="fc" id="L15">                AudioMedia.values(),</span>
+<span class="fc" id="L16">                FontMedia.values(),</span>
+<span class="fc" id="L17">                ImageMedia.values(),</span>
+<span class="fc" id="L18">                MultipartMedia.values(),</span>
+<span class="fc" id="L19">                TextMedia.values(),</span>
+<span class="fc" id="L20">                VideoMedia.values(),</span>
+            )
+<span class="fc" id="L22">            .flatMap { it.toList() }</span>
+<span class="fc" id="L23">            .associateBy { it.fullType }</span>
+
+        operator fun get(extension: String): MediaType =
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            extensions[extension] ?: defaultMediaType</span>
+
+        operator fun invoke(fullType: String): MediaType =
+<span class="fc bfc" id="L29" title="All 2 branches covered.">            fullTypes[fullType] ?: parseMediaType(fullType)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

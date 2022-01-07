@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SseTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.examples</a> &gt; <span class="el_source">SseTest.kt</span></div><h1>SseTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.examples
+
+import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.model.HttpServerEvent
+import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.test.BaseTest
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+
+@Suppress(&quot;FunctionName&quot;) // This class's functions are intended to be used only in tests
+<span class="nc" id="L21">abstract class SseTest(</span>
+<span class="nc" id="L22">    override val clientAdapter: () -&gt; HttpClientPort,</span>
+<span class="nc" id="L23">    override val serverAdapter: () -&gt; HttpServerPort,</span>
+<span class="nc" id="L24">) : BaseTest() {</span>
+
+    // sse
+<span class="nc" id="L27">    private val path: PathHandler = path {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        get(&quot;/sse&quot;) {</span>
+<span class="nc" id="L29">            sse(flow {</span>
+<span class="nc" id="L30">                emit(HttpServerEvent())</span>
+<span class="nc" id="L31">                emit(HttpServerEvent())</span>
+<span class="nc" id="L32">            })</span>
+        }
+<span class="nc" id="L34">    }</span>
+    // sse
+
+<span class="nc" id="L37">    override val handlers: List&lt;ServerHandler&gt; = listOf(path)</span>
+
+<span class="nc" id="L39">    @Test fun `Request with invalid user returns 403`() = runBlocking&lt;Unit&gt; {</span>
+<span class="nc" id="L40">        val response = client.get(&quot;/sse&quot;)</span>
+<span class="nc" id="L41">        assertEquals(OK, response.status)</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        assertEquals(TextMedia.EVENT_STREAM, response.contentType?.mediaType)</span>
+<span class="nc" id="L43">        assertEquals(&quot;no-cache&quot;, response.headers[&quot;cache-control&quot;])</span>
+<span class="nc bnc" id="L44" title="All 4 branches missed.">        val flow = response.body as? Flow&lt;*&gt; ?: fail</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        flow.onEach {</span>
+<span class="nc" id="L46">            assertEquals(HttpServerEvent(), it)</span>
+<span class="nc" id="L47">        }</span>
+<span class="nc" id="L48">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

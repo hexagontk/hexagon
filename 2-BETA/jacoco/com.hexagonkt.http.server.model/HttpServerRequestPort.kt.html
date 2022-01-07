@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpServerRequestPort.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.model</a> &gt; <span class="el_source">HttpServerRequestPort.kt</span></div><h1>HttpServerRequestPort.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.model
+
+import com.hexagonkt.core.helpers.MultiMap
+import com.hexagonkt.http.model.HttpRequest
+import java.security.cert.X509Certificate
+
+<span class="pc" id="L7">interface HttpServerRequestPort : HttpRequest {</span>
+    val certificateChain: List&lt;X509Certificate&gt;
+    val contentLength: Long                        // length of request.body (or 0)
+    val queryParameters: MultiMap&lt;String, String&gt;
+
+    fun certificate(): X509Certificate? =
+<span class="fc" id="L13">        certificateChain.firstOrNull()</span>
+
+    fun userAgent(): String? =
+<span class="fc" id="L16">        headers[&quot;user-agent&quot;]</span>
+
+    fun referer(): String? =
+<span class="fc" id="L19">        headers[&quot;referer&quot;]</span>
+
+    fun origin(): String? =
+<span class="fc" id="L22">        headers[&quot;origin&quot;]</span>
+<span class="pc" id="L23">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

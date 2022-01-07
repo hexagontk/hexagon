@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OpenApiHandler.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.openapi</a> &gt; <span class="el_source">OpenApiHandler.kt</span></div><h1>OpenApiHandler.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.openapi
+
+import com.hexagonkt.http.model.ClientErrorStatus.BAD_REQUEST
+import com.hexagonkt.http.model.ClientErrorStatus.UNAUTHORIZED
+import com.hexagonkt.http.model.HttpMethod
+import com.hexagonkt.http.model.HttpMethod.*
+import com.hexagonkt.http.server.handlers.HttpCallback
+import com.hexagonkt.http.server.handlers.HttpHandler
+import com.hexagonkt.http.server.handlers.HttpServerContext
+import com.hexagonkt.http.server.handlers.OnHandler
+
+import io.swagger.v3.oas.models.OpenAPI
+import io.swagger.v3.oas.models.Operation
+import io.swagger.v3.oas.models.PathItem
+import io.swagger.v3.oas.models.media.MediaType
+import io.swagger.v3.oas.models.parameters.Parameter
+import io.swagger.v3.oas.models.responses.ApiResponse
+import io.swagger.v3.oas.models.security.SecurityRequirement
+import io.swagger.v3.oas.models.security.SecurityScheme
+import io.swagger.v3.oas.models.security.SecurityScheme.Type
+import io.swagger.v3.parser.OpenAPIV3Parser
+
+<span class="nc" id="L23">internal class OpenApiHandler(pathToSpec: String) {</span>
+
+<span class="nc" id="L25">    private val openAPIParser = OpenAPIV3Parser()</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">    private val openAPISpec: OpenAPI = openAPIParser.read(pathToSpec)</span>
+<span class="nc" id="L27">        ?: error(&quot;OpenAPI Spec could not be read. Please check the file's path and its format&quot;)</span>
+
+    fun createServer(): List&lt;HttpHandler&gt; =
+<span class="nc" id="L30">        openAPISpec.paths.map { (path: String, pathItem: PathItem) -&gt;</span>
+<span class="nc" id="L31">            when {</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                pathItem.get != null -&gt; createHandler(GET, path, pathItem.get)</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">                pathItem.head != null -&gt; createHandler(HEAD, path, pathItem.head)</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">                pathItem.post != null -&gt; createHandler(POST, path, pathItem.post)</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">                pathItem.put != null -&gt; createHandler(PUT, path, pathItem.put)</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                pathItem.delete != null -&gt; createHandler(DELETE, path, pathItem.delete)</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">                pathItem.trace != null -&gt; createHandler(TRACE, path, pathItem.trace)</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">                pathItem.options != null -&gt; createHandler(OPTIONS, path, pathItem.options)</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                pathItem.patch != null -&gt; createHandler(PATCH, path, pathItem.patch)</span>
+<span class="nc" id="L40">                else -&gt; error(&quot;Unsupported method&quot;)</span>
+            }
+<span class="nc" id="L42">        }</span>
+
+    private fun createHandler(method: HttpMethod, path: String, operation: Operation): HttpHandler =
+<span class="nc" id="L45">        OnHandler(method, path, handleRequest(operation))</span>
+
+    private fun handleRequest(operation: Operation): HttpCallback =
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        {</span>
+<span class="nc" id="L49">            verifyAuth(operation, this)</span>
+<span class="nc" id="L50">            verifyParams(operation, this)</span>
+<span class="nc" id="L51">            verifyBody(operation, this)</span>
+<span class="nc" id="L52">            ok(</span>
+<span class="nc" id="L53">                getResponseContentForStatus(</span>
+<span class="nc" id="L54">                    operation,</span>
+<span class="nc" id="L55">                    status = 200,</span>
+<span class="nc" id="L56">                    exampleName = request.headers[&quot;x-mock-response-example&quot;]</span>
+                )
+            )
+<span class="nc" id="L59">        }</span>
+
+<span class="nc" id="L61">    private fun getResponseContentForStatus(</span>
+<span class="nc" id="L62">        operation: Operation, status: Int, exampleName: String? = null</span>
+    ): String {
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        val responsesForStatus: ApiResponse = operation.responses[status.toString()]</span>
+<span class="nc" id="L66">            ?: error(&quot;The OpenAPI Spec contains no responses for this operation&quot;)</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        val jsonResponses: MediaType = responsesForStatus.content[&quot;application/json&quot;]</span>
+<span class="nc" id="L68">            ?: error(&quot;The OpenAPI Spec contains no JSON responses for this operation&quot;)</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        return if (exampleName != null)</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            jsonResponses.examples[exampleName]?.value.toString()</span>
+        else
+<span class="nc bnc" id="L73" title="All 6 branches missed.">            (getExampleFromSchema(jsonResponses) ?: getExampleFromMediaType(jsonResponses))</span>
+<span class="nc" id="L74">                ?.toString()</span>
+<span class="nc" id="L75">                ?: error(&quot;The OpenAPI Spec contains no response examples for this operation&quot;)</span>
+    }
+
+    private fun getExampleFromSchema(mediaType: MediaType) =
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        mediaType.schema?.example</span>
+
+    private fun getExampleFromMediaType(mediaType: MediaType): Any? =
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (mediaType.example != null) mediaType.example</span>
+<span class="nc bnc" id="L83" title="All 8 branches missed.">        else mediaType.examples?.toList()?.get(0)?.second?.value</span>
+
+    private fun verifyAuth(operation: Operation, call: HttpServerContext) {
+<span class="nc bnc" id="L86" title="All 4 branches missed.">        if (operation.security == null || operation.security.size == 0</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            || containsEmptySecurityRequirement(operation)) return</span>
+
+        // Any one of the security mechanisms need to be satisfied
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (!operation.security.any { securityRequirement -&gt;</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            verifySecurityRequirement(securityRequirement, call)</span>
+        }) {
+<span class="nc" id="L93">            call.send(status = UNAUTHORIZED, body = getResponseContentForStatus(operation, 401))</span>
+        }
+<span class="nc" id="L95">    }</span>
+
+    private fun containsEmptySecurityRequirement(operation: Operation): Boolean =
+<span class="nc bnc" id="L98" title="All 4 branches missed.">        operation.security.any { it.size == 0 }</span>
+
+    private fun verifySecurityRequirement(
+        securityRequirement: SecurityRequirement, call: HttpServerContext): Boolean =
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            securityRequirement.keys.all { verifySecurityScheme(it, call) }</span>
+
+    private fun verifySecurityScheme(schemeName: String, call: HttpServerContext): Boolean {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        val securityScheme = openAPISpec.components.securitySchemes[schemeName]</span>
+<span class="nc" id="L106">            ?: error(&quot;The OpenAPI Spec contains no security scheme component for $schemeName&quot;)</span>
+
+<span class="nc bnc" id="L108" title="All 5 branches missed.">        return when (securityScheme.type) {</span>
+<span class="nc" id="L109">            Type.APIKEY -&gt; validateApiKey(securityScheme, call)</span>
+<span class="nc" id="L110">            Type.HTTP -&gt; validateHttpAuth(securityScheme, call)</span>
+<span class="nc" id="L111">            else -&gt; error(&quot;Mock Server only supports HTTP and API Key authentication&quot;)</span>
+        }
+    }
+
+    private fun validateApiKey(securityScheme: SecurityScheme, call: HttpServerContext): Boolean =
+<span class="nc bnc" id="L116" title="All 6 branches missed.">        when (securityScheme.`in`) {</span>
+            SecurityScheme.In.QUERY -&gt;
+<span class="nc bnc" id="L118" title="All 6 branches missed.">                !call.request.queryParameters[securityScheme.name].isNullOrBlank()</span>
+            SecurityScheme.In.HEADER -&gt;
+<span class="nc bnc" id="L120" title="All 6 branches missed.">                !call.request.headers[securityScheme.name].isNullOrBlank()</span>
+            SecurityScheme.In.COOKIE -&gt;
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                call.request.cookiesMap()[securityScheme.name] != null</span>
+            else -&gt;
+<span class="nc" id="L124">                error(&quot;Unknown `in` value found in OpenAPI Spec for security scheme&quot;)</span>
+<span class="nc" id="L125">        }</span>
+
+    private fun validateHttpAuth(securityScheme: SecurityScheme, call: HttpServerContext): Boolean =
+<span class="nc" id="L128">        when (securityScheme.scheme.lowercase()) {</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">            &quot;basic&quot; -&gt; {</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                call.request.headers[&quot;authorization&quot;]?.let { authString -&gt;</span>
+<span class="nc bnc" id="L131" title="All 6 branches missed.">                    authString.isNotBlank() &amp;&amp; authString.startsWith(&quot;Basic&quot;)</span>
+<span class="nc" id="L132">                } ?: false</span>
+            }
+<span class="nc bnc" id="L134" title="All 2 branches missed.">            &quot;bearer&quot; -&gt; {</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">                call.request.headers[&quot;authorization&quot;]?.let { authString -&gt;</span>
+<span class="nc bnc" id="L136" title="All 6 branches missed.">                    authString.isNotBlank() &amp;&amp; authString.startsWith(&quot;Bearer&quot;)</span>
+<span class="nc" id="L137">                } ?: false</span>
+            }
+            else -&gt;
+<span class="nc" id="L140">                error(&quot;Mock Server only supports Basic and Bearer HTTP Authentication&quot;)</span>
+<span class="nc" id="L141">        }</span>
+
+    private fun verifyParams(operation: Operation, call: HttpServerContext) {
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        operation.parameters?.forEach { parameter -&gt;</span>
+<span class="nc bnc" id="L145" title="All 7 branches missed.">            when (parameter.`in`) {</span>
+                &quot;path&quot; -&gt; {
+<span class="nc bnc" id="L147" title="All 2 branches missed.">                    if (!verifyPathParam(parameter, call)) {</span>
+<span class="nc" id="L148">                        call.send(</span>
+<span class="nc" id="L149">                            status = BAD_REQUEST,</span>
+<span class="nc" id="L150">                            body = getResponseContentForStatus(</span>
+<span class="nc" id="L151">                                operation,</span>
+<span class="nc" id="L152">                                status = 400,</span>
+<span class="nc" id="L153">                                exampleName = call.request.headers[&quot;x-mock-response-example&quot;]</span>
+                            )
+                        )
+                    }
+                }
+                &quot;query&quot; -&gt; {
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                    if (!verifyQueryParam(parameter, call)) {</span>
+<span class="nc" id="L160">                        call.send(</span>
+<span class="nc" id="L161">                            status = BAD_REQUEST,</span>
+<span class="nc" id="L162">                            body = getResponseContentForStatus(</span>
+<span class="nc" id="L163">                                operation,</span>
+<span class="nc" id="L164">                                status = 400,</span>
+<span class="nc" id="L165">                                exampleName = call.request.headers[&quot;x-mock-response-example&quot;]</span>
+                            )
+                        )
+                    }
+                }
+                &quot;header&quot; -&gt; {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">                    if (!verifyHeaderParam(parameter, call)) {</span>
+<span class="nc" id="L172">                        call.send(</span>
+<span class="nc" id="L173">                            status = BAD_REQUEST,</span>
+<span class="nc" id="L174">                            body = getResponseContentForStatus(</span>
+<span class="nc" id="L175">                                operation,</span>
+<span class="nc" id="L176">                                status = 400,</span>
+<span class="nc" id="L177">                                exampleName = call.request.headers[&quot;x-mock-response-example&quot;]</span>
+                            )
+                        )
+                    }
+                }
+                &quot;cookie&quot; -&gt; {
+<span class="nc bnc" id="L183" title="All 2 branches missed.">                    if (!verifyCookieParam(parameter, call)) {</span>
+<span class="nc" id="L184">                        call.send(</span>
+<span class="nc" id="L185">                            status = BAD_REQUEST,</span>
+<span class="nc" id="L186">                            body = getResponseContentForStatus(</span>
+<span class="nc" id="L187">                                operation,</span>
+<span class="nc" id="L188">                                status = 400,</span>
+<span class="nc" id="L189">                                exampleName = call.request.headers[&quot;x-mock-response-example&quot;]</span>
+                            )
+                        )
+                    }
+                }
+            }
+<span class="nc" id="L195">        }</span>
+<span class="nc" id="L196">    }</span>
+
+    private fun verifyPathParam(parameter: Parameter, call: HttpServerContext): Boolean {
+<span class="nc bnc" id="L199" title="All 6 branches missed.">        if (call.pathParameters[parameter.name].isNullOrBlank()) return false</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        parameter.schema.enum?.let {</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            if (call.pathParameters[parameter.name] !in it) return false</span>
+<span class="nc" id="L202">        }</span>
+<span class="nc" id="L203">        return true</span>
+    }
+
+    private fun verifyQueryParam(parameter: Parameter, call: HttpServerContext): Boolean {
+<span class="nc bnc" id="L207" title="All 6 branches missed.">        if (call.request.queryParameters[parameter.name].isNullOrBlank()) {</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">            return !parameter.required</span>
+        }
+<span class="nc bnc" id="L210" title="All 2 branches missed.">        parameter.schema.enum?.let {</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">            if (call.request.queryParameters[parameter.name] !in it) return false</span>
+<span class="nc" id="L212">        }</span>
+<span class="nc" id="L213">        return true</span>
+    }
+
+    private fun verifyHeaderParam(parameter: Parameter, call: HttpServerContext): Boolean {
+<span class="nc bnc" id="L217" title="All 6 branches missed.">        if (call.request.headers[parameter.name].isNullOrBlank()) {</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">            return !parameter.required</span>
+        }
+<span class="nc bnc" id="L220" title="All 2 branches missed.">        parameter.schema.enum?.let {</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">            if (call.request.headers[parameter.name] !in it) return false</span>
+<span class="nc" id="L222">        }</span>
+<span class="nc" id="L223">        return true</span>
+    }
+
+    private fun verifyCookieParam(parameter: Parameter, call: HttpServerContext): Boolean {
+<span class="nc bnc" id="L227" title="All 2 branches missed.">        if (call.request.cookiesMap()[parameter.name] == null) {</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">            return !parameter.required</span>
+        }
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        parameter.schema.enum?.let {</span>
+<span class="nc bnc" id="L231" title="All 4 branches missed.">            if (call.request.cookiesMap()[parameter.name]?.value !in it) return false</span>
+<span class="nc" id="L232">        }</span>
+<span class="nc" id="L233">        return true</span>
+    }
+
+    private fun verifyBody(operation: Operation, call: HttpServerContext) {
+<span class="nc bnc" id="L237" title="All 2 branches missed.">        operation.requestBody?.let { requestBody -&gt;</span>
+<span class="nc bnc" id="L238" title="All 4 branches missed.">            if (requestBody.required &amp;&amp; call.request.bodyString().isBlank()) {</span>
+<span class="nc" id="L239">                call.send(</span>
+<span class="nc" id="L240">                    status = BAD_REQUEST,</span>
+<span class="nc" id="L241">                    body = getResponseContentForStatus(operation, 400)</span>
+                )
+            }
+<span class="nc" id="L244">        }</span>
+<span class="nc" id="L245">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

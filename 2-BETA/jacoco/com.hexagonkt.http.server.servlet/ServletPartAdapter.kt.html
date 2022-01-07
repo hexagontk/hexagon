@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletPartAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletPartAdapter.kt</span></div><h1>ServletPartAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
+
+import com.hexagonkt.core.helpers.MultiMap
+import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.HttpPartPort
+import com.hexagonkt.http.parseContentType
+import jakarta.servlet.http.Part
+
+<span class="fc" id="L9">class ServletPartAdapter(private val part: Part) : HttpPartPort {</span>
+
+<span class="fc" id="L11">    override val body: Any by lazy {</span>
+<span class="fc" id="L12">        part.inputStream.readAllBytes()</span>
+    }
+
+<span class="fc" id="L15">    override val headers: MultiMap&lt;String, String&gt; by lazy {</span>
+<span class="fc" id="L16">        MultiMap(part.headerNames.filterNotNull().associateWith { part.getHeaders(it).toList() })</span>
+    }
+
+<span class="fc" id="L19">    override val contentType: ContentType? by lazy {</span>
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        part.contentType?.let { parseContentType(it) }</span>
+    }
+
+<span class="fc" id="L23">    override val name: String by lazy { part.name }</span>
+
+<span class="fc" id="L25">    override val size: Long by lazy { part.size }</span>
+
+<span class="pc" id="L27">    override val submittedFileName: String? by lazy { part.submittedFileName }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

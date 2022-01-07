@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ErrorsTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.examples</a> &gt; <span class="el_source">ErrorsTest.kt</span></div><h1>ErrorsTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.examples
+
+import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
+import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.test.BaseTest
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+
+@Suppress(&quot;FunctionName&quot;) // This class's functions are intended to be used only in tests
+<span class="fc" id="L18">abstract class ErrorsTest(</span>
+<span class="fc" id="L19">    override val clientAdapter: () -&gt; HttpClientPort,</span>
+<span class="fc" id="L20">    override val serverAdapter: () -&gt; HttpServerPort,</span>
+<span class="fc" id="L21">) : BaseTest() {</span>
+
+    // errors
+<span class="fc" id="L24">    class CustomException : IllegalArgumentException()</span>
+
+<span class="fc" id="L26">    private val path: PathHandler = path {</span>
+
+        // Catching `Exception` handles any unhandled exception before (it has to be the last)
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        after(exception = Exception::class, status = NOT_FOUND) {</span>
+<span class="pc" id="L30">            internalServerError(&quot;Root handler&quot;)</span>
+        }
+
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        get(&quot;/exception&quot;) { throw UnsupportedOperationException(&quot;error message&quot;) }</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        get(&quot;/baseException&quot;) { throw CustomException() }</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        get(&quot;/unhandledException&quot;) { error(&quot;error message&quot;) }</span>
+
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        get(&quot;/halt&quot;) { internalServerError(&quot;halted&quot;) }</span>
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        get(&quot;/588&quot;) { send(HttpStatus(588)) }</span>
+
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        on(exception = UnsupportedOperationException::class) {</span>
+<span class="pc bpc" id="L41" title="8 of 10 branches missed.">            val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail</span>
+<span class="fc" id="L42">            val newHeaders = response.headers + (&quot;error&quot; to error)</span>
+<span class="pc" id="L43">            send(HttpStatus(599), &quot;Unsupported&quot;, headers = newHeaders)</span>
+        }
+
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        on(exception = IllegalArgumentException::class) {</span>
+<span class="pc bpc" id="L47" title="5 of 10 branches missed.">            val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail</span>
+<span class="fc" id="L48">            val newHeaders = response.headers + (&quot;runtime-error&quot; to error)</span>
+<span class="pc" id="L49">            send(HttpStatus(598), &quot;Runtime&quot;, headers = newHeaders)</span>
+        }
+
+        // It is possible to execute a handler upon a given status code before returning
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        on(status = HttpStatus(588)) {</span>
+<span class="pc" id="L54">            send(HttpStatus(578), &quot;588 -&gt; 578&quot;)</span>
+        }
+<span class="fc" id="L56">    }</span>
+    // errors
+
+<span class="fc" id="L59">    override val handlers: List&lt;ServerHandler&gt; = listOf(path)</span>
+
+<span class="fc" id="L61">    @Test fun `Halt stops request with 500 status code`() = runBlocking {</span>
+<span class="fc" id="L62">        val response = client.get(&quot;/halt&quot;)</span>
+<span class="fc" id="L63">        assertResponseEquals(response, INTERNAL_SERVER_ERROR, &quot;halted&quot;)</span>
+<span class="fc" id="L64">    }</span>
+
+<span class="fc" id="L66">    @Test fun `Handling status code allows to change the returned code`() = runBlocking {</span>
+<span class="fc" id="L67">        val response = client.get(&quot;/588&quot;)</span>
+<span class="fc" id="L68">        assertResponseEquals(response, HttpStatus(578), &quot;588 -&gt; 578&quot;)</span>
+<span class="fc" id="L69">    }</span>
+
+<span class="fc" id="L71">    @Test fun `Handle exception allows to catch unhandled callback exceptions`() = runBlocking {</span>
+<span class="fc" id="L72">        val response = client.get(&quot;/exception&quot;)</span>
+<span class="fc" id="L73">        assertEquals(&quot;error message&quot;, response.headers[&quot;error&quot;])</span>
+<span class="fc" id="L74">        assertResponseContains(response, HttpStatus(599), &quot;Unsupported&quot;)</span>
+<span class="fc" id="L75">    }</span>
+
+<span class="fc" id="L77">    @Test fun `Base error handler catch all exceptions that subclass a given one`() = runBlocking {</span>
+<span class="fc" id="L78">        val response = client.get(&quot;/baseException&quot;)</span>
+<span class="fc" id="L79">        val runtimeError = response.headers[&quot;runtime-error&quot;]</span>
+<span class="fc" id="L80">        assertEquals(CustomException::class.java.name, runtimeError)</span>
+<span class="fc" id="L81">        assertResponseContains(response, HttpStatus(598), &quot;Runtime&quot;)</span>
+<span class="fc" id="L82">    }</span>
+
+<span class="fc" id="L84">    @Test fun `A runtime exception returns a 500 code`() = runBlocking {</span>
+<span class="fc" id="L85">        val response = client.get(&quot;/unhandledException&quot;)</span>
+<span class="fc" id="L86">        assertResponseContains(response, INTERNAL_SERVER_ERROR, &quot;Root handler&quot;)</span>
+<span class="fc" id="L87">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

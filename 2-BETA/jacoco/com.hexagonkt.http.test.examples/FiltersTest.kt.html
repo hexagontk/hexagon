@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FiltersTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.examples</a> &gt; <span class="el_source">FiltersTest.kt</span></div><h1>FiltersTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.examples
+
+import com.hexagonkt.core.helpers.decodeBase64
+import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.HttpClientSettings
+import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
+import com.hexagonkt.http.model.ClientErrorStatus.UNAUTHORIZED
+import com.hexagonkt.http.model.HttpMethod.PUT
+import com.hexagonkt.http.model.SuccessStatus.*
+import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.test.BaseTest
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Test
+import java.net.URL
+import kotlin.test.assertEquals
+
+@Suppress(&quot;FunctionName&quot;) // This class's functions are intended to be used only in tests
+<span class="fc" id="L23">abstract class FiltersTest(</span>
+<span class="fc" id="L24">    override val clientAdapter: () -&gt; HttpClientPort,</span>
+<span class="fc" id="L25">    override val serverAdapter: () -&gt; HttpServerPort,</span>
+<span class="fc" id="L26">) : BaseTest() {</span>
+
+    // filters
+<span class="fc" id="L29">    private val users: Map&lt;String, String&gt; = mapOf(</span>
+<span class="fc" id="L30">        &quot;Turing&quot; to &quot;London&quot;,</span>
+<span class="fc" id="L31">        &quot;Dijkstra&quot; to &quot;Rotterdam&quot;</span>
+    )
+
+<span class="fc" id="L34">    private val path: PathHandler = path {</span>
+<span class="fc" id="L35">        filter {</span>
+<span class="fc" id="L36">            val start = System.nanoTime()</span>
+            // Call next and store result to chain it
+<span class="fc" id="L38">            val next = next()</span>
+<span class="fc" id="L39">            val time = (System.nanoTime() - start).toString()</span>
+            // Copies result from chain with the extra data
+<span class="fc" id="L41">            next.send(headers = response.headers + (&quot;time&quot; to time))</span>
+        }
+
+<span class="fc" id="L44">        filter(&quot;/protected/*&quot;) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            val authorization = request.headers[&quot;authorization&quot;]</span>
+<span class="fc" id="L46">                ?: return@filter send(UNAUTHORIZED, &quot;Unauthorized&quot;)</span>
+<span class="fc" id="L47">            val credentials = authorization.removePrefix(&quot;Basic &quot;)</span>
+<span class="fc" id="L48">            val userPassword = String(credentials.decodeBase64()).split(&quot;:&quot;)</span>
+
+            // Parameters set in call attributes are accessible in other filters and routes
+<span class="fc" id="L51">            send(attributes = attributes</span>
+<span class="fc" id="L52">                + (&quot;username&quot; to userPassword[0])</span>
+<span class="fc" id="L53">                + (&quot;password&quot; to userPassword[1])</span>
+<span class="fc" id="L54">            ).next()</span>
+        }
+
+        // All matching filters are run in order unless call is halted
+<span class="fc" id="L58">        filter(&quot;/protected/*&quot;) {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            if(users[attributes[&quot;username&quot;]] != attributes[&quot;password&quot;])</span>
+<span class="fc" id="L60">                send(FORBIDDEN, &quot;Forbidden&quot;)</span>
+            else
+<span class="fc" id="L62">                next()</span>
+        }
+
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        get(&quot;/protected/hi&quot;) {</span>
+<span class="pc" id="L66">            ok(&quot;Hello ${attributes[&quot;username&quot;]}!&quot;)</span>
+        }
+
+<span class="fc" id="L69">        path(&quot;/after&quot;) {</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            after(PUT) {</span>
+<span class="pc" id="L71">                success(ALREADY_REPORTED)</span>
+            }
+
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">            after(PUT, &quot;/second&quot;) {</span>
+<span class="pc" id="L75">                success(NO_CONTENT)</span>
+            }
+
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">            after(&quot;/second&quot;) {</span>
+<span class="pc" id="L79">                success(CREATED)</span>
+            }
+
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">            after {</span>
+<span class="pc" id="L83">                success(ACCEPTED)</span>
+            }
+<span class="fc" id="L85">        }</span>
+<span class="fc" id="L86">    }</span>
+    // filters
+
+<span class="fc" id="L89">    override val handlers: List&lt;ServerHandler&gt; = listOf(path)</span>
+
+<span class="fc" id="L91">    @Test fun `After handlers can be chained`() = runBlocking {</span>
+<span class="fc" id="L92">        assertEquals(ACCEPTED, client.get(&quot;/after&quot;).status)</span>
+<span class="fc" id="L93">        assertEquals(CREATED, client.get(&quot;/after/second&quot;).status)</span>
+<span class="fc" id="L94">        assertEquals(NO_CONTENT, client.put(&quot;/after/second&quot;).status)</span>
+<span class="fc" id="L95">        assertEquals(ALREADY_REPORTED, client.put(&quot;/after&quot;).status)</span>
+<span class="fc" id="L96">    }</span>
+
+<span class="fc" id="L98">    @Test fun `Request without authorization returns 401`() = runBlocking {</span>
+<span class="fc" id="L99">        val response = client.get(&quot;/protected/hi&quot;)</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        val time = response.headers[&quot;time&quot;]?.toLong() ?: 0</span>
+<span class="fc" id="L101">        assertResponseEquals(response, UNAUTHORIZED, &quot;Unauthorized&quot;)</span>
+<span class="pc bpc" id="L102" title="3 of 6 branches missed.">        assert(time &gt; 0)</span>
+<span class="fc" id="L103">    }</span>
+
+<span class="fc" id="L105">    @Test fun `HTTP request with valid credentials returns valid response`() = runBlocking {</span>
+<span class="pc" id="L106">        authorizedClient(&quot;Turing&quot;, &quot;London&quot;).use {</span>
+<span class="fc" id="L107">            val response = it.get(&quot;/protected/hi&quot;)</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">            val time = response.headers[&quot;time&quot;]?.toLong() ?: 0</span>
+<span class="fc" id="L109">            assertResponseEquals(response, OK, &quot;Hello Turing!&quot;)</span>
+<span class="pc bpc" id="L110" title="3 of 6 branches missed.">            assert(time &gt; 0)</span>
+<span class="fc" id="L111">        }</span>
+<span class="fc" id="L112">    }</span>
+
+<span class="fc" id="L114">    @Test fun `Request with invalid password returns 403`() = runBlocking {</span>
+<span class="pc" id="L115">        authorizedClient(&quot;Turing&quot;, &quot;Millis&quot;).use {</span>
+<span class="fc" id="L116">            val response = it.get(&quot;/protected/hi&quot;)</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">            val time = response.headers[&quot;time&quot;]?.toLong() ?: 0</span>
+<span class="fc" id="L118">            assertResponseEquals(response, FORBIDDEN, &quot;Forbidden&quot;)</span>
+<span class="pc bpc" id="L119" title="3 of 6 branches missed.">            assert(time &gt; 0)</span>
+<span class="fc" id="L120">        }</span>
+<span class="fc" id="L121">    }</span>
+
+<span class="fc" id="L123">    @Test fun `Request with invalid user returns 403`() = runBlocking {</span>
+<span class="pc" id="L124">        authorizedClient(&quot;Curry&quot;, &quot;Millis&quot;).use {</span>
+<span class="fc" id="L125">            val response = it.get(&quot;/protected/hi&quot;)</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">            val time = response.headers[&quot;time&quot;]?.toLong() ?: 0</span>
+<span class="fc" id="L127">            assertResponseEquals(response, FORBIDDEN, &quot;Forbidden&quot;)</span>
+<span class="pc bpc" id="L128" title="3 of 6 branches missed.">            assert(time &gt; 0)</span>
+<span class="fc" id="L129">        }</span>
+<span class="fc" id="L130">    }</span>
+
+    private fun authorizedClient(user: String, password: String): HttpClient =
+<span class="fc" id="L133">        HttpClient(</span>
+<span class="fc" id="L134">            clientAdapter(),</span>
+<span class="fc" id="L135">            URL(&quot;http://localhost:${server.runtimePort}&quot;),</span>
+<span class="fc" id="L136">            HttpClientSettings(headers = multiMapOf(&quot;authorization&quot; to basicAuth(user, password)))</span>
+        )
+<span class="fc" id="L138">        .apply { start() }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

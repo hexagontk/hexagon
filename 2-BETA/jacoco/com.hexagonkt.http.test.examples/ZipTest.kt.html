@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ZipTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.examples</a> &gt; <span class="el_source">ZipTest.kt</span></div><h1>ZipTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.examples
+
+import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.server.*
+import com.hexagonkt.http.server.HttpServerFeature.ZIP
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.test.BaseTest
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Test
+import java.net.URL
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
+
+@Suppress(&quot;FunctionName&quot;) // This class's functions are intended to be used only in tests
+<span class="fc" id="L17">abstract class ZipTest(</span>
+<span class="fc" id="L18">    override val clientAdapter: () -&gt; HttpClientPort,</span>
+<span class="fc" id="L19">    override val serverAdapter: () -&gt; HttpServerPort</span>
+<span class="fc" id="L20">) : BaseTest() {</span>
+
+<span class="fc" id="L22">    override val handlers: List&lt;ServerHandler&gt; = emptyList()</span>
+
+<span class="fc" id="L24">    @Test fun `Use ZIP encoding example`() = runBlocking {</span>
+
+        // zip
+<span class="fc" id="L27">        val serverSettings = HttpServerSettings(</span>
+<span class="fc" id="L28">            bindPort = 0,</span>
+<span class="fc" id="L29">            features = setOf(ZIP)</span>
+        )
+
+<span class="fc" id="L32">        val server = HttpServer(serverAdapter(), serverSettings) {</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">            get(&quot;/hello&quot;) {</span>
+<span class="pc" id="L34">                ok(&quot;Hello World!&quot;)</span>
+            }
+<span class="fc" id="L36">        }</span>
+<span class="fc" id="L37">        server.start()</span>
+
+<span class="fc" id="L39">        val client = HttpClient(clientAdapter(), URL(&quot;http://localhost:${server.runtimePort}&quot;))</span>
+<span class="fc" id="L40">        client.start()</span>
+
+<span class="fc" id="L42">        client.get(&quot;/hello&quot;, multiMapOf(&quot;accept-encoding&quot; to &quot;gzip&quot;)).apply {</span>
+<span class="fc" id="L43">            assertEquals(body, &quot;Hello World!&quot;)</span>
+<span class="pc bpc" id="L44" title="3 of 6 branches missed.">            assert(headers[&quot;content-encoding&quot;]?.contains(&quot;gzip&quot;) ?: false)</span>
+<span class="fc" id="L45">        }</span>
+
+<span class="fc" id="L47">        client.get(&quot;/hello&quot;).apply {</span>
+<span class="fc" id="L48">            assertEquals(body, &quot;Hello World!&quot;)</span>
+<span class="fc" id="L49">            assertNull(headers[&quot;content-encoding&quot;])</span>
+<span class="fc" id="L50">            assertNull(headers[&quot;Content-Encoding&quot;])</span>
+<span class="fc" id="L51">        }</span>
+        // zip
+
+<span class="fc" id="L54">        client.stop()</span>
+<span class="fc" id="L55">        server.stop()</span>
+<span class="fc" id="L56">    }</span>
+
+<span class="fc" id="L58">    @Test fun `Use ZIP encoding without enabling the feature example`() = runBlocking {</span>
+
+<span class="fc" id="L60">        val server = HttpServer(serverAdapter(), HttpServerSettings(bindPort = 0)) {</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            get(&quot;/hello&quot;) {</span>
+<span class="pc" id="L62">                ok(&quot;Hello World!&quot;)</span>
+            }
+<span class="fc" id="L64">        }</span>
+<span class="fc" id="L65">        server.start()</span>
+
+<span class="fc" id="L67">        val client = HttpClient(clientAdapter(), URL(&quot;http://localhost:${server.runtimePort}&quot;))</span>
+<span class="fc" id="L68">        client.start()</span>
+
+<span class="fc" id="L70">        client.get(&quot;/hello&quot;, multiMapOf(&quot;accept-encoding&quot; to &quot;gzip&quot;)).apply {</span>
+<span class="fc" id="L71">            assertEquals(body, &quot;Hello World!&quot;)</span>
+<span class="fc" id="L72">            assertNull(headers[&quot;content-encoding&quot;])</span>
+<span class="fc" id="L73">            assertNull(headers[&quot;Content-Encoding&quot;])</span>
+<span class="fc" id="L74">        }</span>
+
+<span class="fc" id="L76">        client.get(&quot;/hello&quot;).apply {</span>
+<span class="fc" id="L77">            assertEquals(body, &quot;Hello World!&quot;)</span>
+<span class="fc" id="L78">            assertNull(headers[&quot;content-encoding&quot;])</span>
+<span class="fc" id="L79">            assertNull(headers[&quot;Content-Encoding&quot;])</span>
+<span class="fc" id="L80">        }</span>
+
+<span class="fc" id="L82">        client.stop()</span>
+<span class="fc" id="L83">        server.stop()</span>
+<span class="fc" id="L84">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

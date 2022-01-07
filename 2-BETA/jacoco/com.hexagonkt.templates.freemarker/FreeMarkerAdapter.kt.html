@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FreeMarkerAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.templates.freemarker</a> &gt; <span class="el_source">FreeMarkerAdapter.kt</span></div><h1>FreeMarkerAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.templates.freemarker
+
+import com.hexagonkt.core.ResourceNotFoundException
+import com.hexagonkt.templates.TemplatePort
+import freemarker.cache.TemplateLookupContext
+import freemarker.cache.TemplateLookupResult
+import freemarker.cache.TemplateLookupStrategy
+import freemarker.cache.URLTemplateLoader
+import freemarker.template.Configuration
+import freemarker.template.Version
+import java.io.StringWriter
+import java.net.URL
+import java.util.*
+
+object FreeMarkerAdapter : TemplatePort {
+
+    override fun render(url: URL, context: Map&lt;String, *&gt;, locale: Locale): String {
+<span class="fc" id="L18">        val configuration = Configuration(Version(&quot;2.3.31&quot;)).apply {</span>
+<span class="fc" id="L19">            defaultEncoding = &quot;UTF-8&quot;</span>
+<span class="fc" id="L20">            templateLookupStrategy = object : TemplateLookupStrategy() {</span>
+                override fun lookup(ctx: TemplateLookupContext): TemplateLookupResult =
+<span class="fc" id="L22">                    try {</span>
+<span class="fc" id="L23">                        val templateName = ctx.templateName</span>
+<span class="fc" id="L24">                        URL(templateName)</span>
+<span class="fc" id="L25">                        ctx.lookupWithAcquisitionStrategy(templateName)</span>
+                    }
+<span class="fc" id="L27">                    catch (e: ResourceNotFoundException) {</span>
+<span class="fc" id="L28">                        ctx.createNegativeLookupResult()</span>
+<span class="fc" id="L29">                    }</span>
+            }
+<span class="fc" id="L31">            templateLoader = object : URLTemplateLoader() {</span>
+                override fun getURL(name: String): URL =
+<span class="fc" id="L33">                    URL(name)</span>
+            }
+<span class="fc" id="L35">        }</span>
+
+<span class="fc" id="L37">        val template = configuration.getTemplate(url.toString())</span>
+<span class="fc" id="L38">        val writer = StringWriter()</span>
+
+<span class="pc" id="L40">        return writer.use {</span>
+<span class="fc" id="L41">            val templateUrl = context[&quot;_template_&quot;]</span>
+<span class="fc" id="L42">            val freemarkerContext = context + (&quot;_template_&quot; to templateUrl.toString())</span>
+<span class="fc" id="L43">            val env = template.createProcessingEnvironment(freemarkerContext, it)</span>
+<span class="fc" id="L44">            env.locale = locale</span>
+<span class="fc" id="L45">            env.process()</span>
+<span class="fc" id="L46">            it.buffer.toString()</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpServerPredicate.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.handlers</a> &gt; <span class="el_source">HttpServerPredicate.kt</span></div><h1>HttpServerPredicate.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.handlers
+
+import com.hexagonkt.core.handlers.Context
+import com.hexagonkt.core.handlers.Predicate
+import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.http.patterns.LiteralPathPattern
+import com.hexagonkt.http.model.HttpMethod
+import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.patterns.PathPattern
+import com.hexagonkt.http.server.model.HttpServerCall
+import kotlin.reflect.KClass
+
+<span class="fc" id="L13">data class HttpServerPredicate(</span>
+<span class="fc" id="L14">    val methods: Set&lt;HttpMethod&gt; = emptySet(),</span>
+<span class="fc" id="L15">    val pathPattern: PathPattern = LiteralPathPattern(),</span>
+<span class="pc" id="L16">    val exception: KClass&lt;out Exception&gt;? = null,</span>
+<span class="pc" id="L17">    val status: HttpStatus? = null,</span>
+) : Predicate&lt;HttpServerCall&gt; {
+
+<span class="fc" id="L20">    private val logger: Logger = Logger(HttpServerPredicate::class)</span>
+
+    private fun PathPattern.isEmpty(): Boolean =
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        pattern.isEmpty()</span>
+
+<span class="fc" id="L25">    val predicate: Predicate&lt;HttpServerCall&gt; =</span>
+<span class="fc" id="L26">        when {</span>
+<span class="fc bfc" id="L27" title="All 8 branches covered.">            methods.isEmpty() &amp;&amp; pathPattern.isEmpty() &amp;&amp; exception == null &amp;&amp; status == null -&gt;</span>
+<span class="fc" id="L28">                log(::noFilter)</span>
+<span class="pc bpc" id="L29" title="1 of 8 branches missed.">            methods.isEmpty() &amp;&amp; pathPattern.isEmpty() &amp;&amp; exception == null &amp;&amp; status == null -&gt;</span>
+<span class="nc" id="L30">                log(::noFilter)</span>
+
+<span class="fc bfc" id="L32" title="All 6 branches covered.">            pathPattern.isEmpty() &amp;&amp; exception == null &amp;&amp; status == null -&gt; log(::filterMethod)</span>
+<span class="fc bfc" id="L33" title="All 6 branches covered.">            methods.isEmpty() &amp;&amp; exception == null &amp;&amp; status == null -&gt; log(::filterPattern)</span>
+<span class="fc bfc" id="L34" title="All 6 branches covered.">            methods.isEmpty() &amp;&amp; pathPattern.isEmpty() &amp;&amp; status == null -&gt; log(::filterException)</span>
+<span class="fc bfc" id="L35" title="All 6 branches covered.">            methods.isEmpty() &amp;&amp; pathPattern.isEmpty() &amp;&amp; exception == null -&gt;log(::filterStatus)</span>
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            methods.isEmpty() -&gt; ::filterNoMethod</span>
+
+<span class="fc" id="L39">            else -&gt; ::filter</span>
+        }
+
+    override suspend fun invoke(context: Context&lt;HttpServerCall&gt;): Boolean =
+<span class="fc" id="L43">        predicate(context)</span>
+
+    fun clearMethods(): HttpServerPredicate =
+<span class="fc" id="L46">        copy(methods = emptySet())</span>
+
+    private fun log(predicate: Predicate&lt;HttpServerCall&gt;): Predicate&lt;HttpServerCall&gt; {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        return if (logger.isDebugEnabled()) {</span>
+<span class="fc" id="L50">            {</span>
+<span class="fc" id="L51">                val allowed = predicate(it)</span>
+<span class="fc bfc" id="L52" title="All 4 branches covered.">                logger.debug { &quot;${describe()} -&gt; ${if (allowed) &quot;ALLOWED&quot; else &quot;DENIED&quot;}&quot; }</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                allowed</span>
+            }
+        }
+        else
+<span class="fc" id="L57">            predicate</span>
+    }
+
+    @Suppress(&quot;UNUSED_PARAMETER&quot;) // Context not used to filter (all contexts accepted)
+    private fun noFilter(context: Context&lt;HttpServerCall&gt;): Boolean =
+<span class="fc" id="L62">        true</span>
+
+    private fun filterMethod(context: Context&lt;HttpServerCall&gt;): Boolean =
+<span class="fc" id="L65">        context.event.request.method in methods</span>
+
+    private fun filterPattern(context: Context&lt;HttpServerCall&gt;): Boolean =
+<span class="fc" id="L68">        pathPattern.matches(context.event.request.path)</span>
+
+    private fun filterException(context: Context&lt;HttpServerCall&gt;): Boolean {
+<span class="fc bfc" id="L71" title="All 4 branches covered.">        val exceptionClass = context.exception?.javaClass ?: return false</span>
+<span class="pc bpc" id="L72" title="2 of 4 branches missed.">        return exception?.java?.isAssignableFrom(exceptionClass) ?: false</span>
+    }
+
+    private fun filterStatus(context: Context&lt;HttpServerCall&gt;): Boolean =
+<span class="fc" id="L76">        status == context.event.response.status</span>
+
+    private fun filterNoMethod(context: Context&lt;HttpServerCall&gt;): Boolean =
+<span class="pc bpc" id="L79" title="2 of 8 branches missed.">        (pathPattern.isEmpty() || pathPattern.pattern.isEmpty() || filterPattern(context))</span>
+<span class="fc bfc" id="L80" title="All 4 branches covered.">            &amp;&amp; (exception == null || filterException(context))</span>
+<span class="fc bfc" id="L81" title="All 4 branches covered.">            &amp;&amp; (status == null || filterStatus(context))</span>
+
+    private fun filter(context: Context&lt;HttpServerCall&gt;): Boolean =
+<span class="fc bfc" id="L84" title="All 4 branches covered.">        filterMethod(context) &amp;&amp; filterNoMethod(context)</span>
+
+    fun addPrefix(prefix: String): HttpServerPredicate =
+<span class="fc" id="L87">        copy(pathPattern = pathPattern.addPrefix(prefix))</span>
+
+    fun describe(): String =
+<span class="fc" id="L90">        methods</span>
+<span class="fc" id="L91">            .map { it.name }</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">            .ifEmpty { listOf(&quot;ANY&quot;) }</span>
+<span class="fc" id="L93">            .joinToString(</span>
+<span class="fc" id="L94">                separator = &quot;, &quot;,</span>
+                postfix =
+<span class="fc bfc" id="L96" title="All 2 branches covered.">                    if(pathPattern.isEmpty()) &quot; &lt;all paths&gt;&quot;</span>
+<span class="fc" id="L97">                    else pathPattern.describe().prependIndent(&quot; &quot;),</span>
+<span class="fc" id="L98">                transform = { it }</span>
+<span class="fc" id="L99">            )</span>
+<span class="fc" id="L100">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

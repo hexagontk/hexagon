@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SamplesTest.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.test.examples</a> &gt; <span class="el_source">SamplesTest.kt</span></div><h1>SamplesTest.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.test.examples
+
+import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.logging.LoggingLevel.DEBUG
+import com.hexagonkt.core.logging.LoggingLevel.OFF
+import com.hexagonkt.core.logging.LoggingManager
+import com.hexagonkt.core.media.ApplicationMedia.JSON
+import com.hexagonkt.core.media.ApplicationMedia.XML
+import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.HttpClientPort
+import com.hexagonkt.http.client.model.HttpClientRequest
+import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.model.*
+import com.hexagonkt.http.model.ClientErrorStatus.*
+import com.hexagonkt.http.model.HttpMethod.*
+import com.hexagonkt.http.model.HttpMethod.Companion.ALL
+import com.hexagonkt.http.model.RedirectionStatus.FOUND
+import com.hexagonkt.http.model.ServerErrorStatus.HTTP_VERSION_NOT_SUPPORTED
+import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
+import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.server.HttpServer
+import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.HttpServerSettings
+import com.hexagonkt.http.server.callbacks.UrlCallback
+import com.hexagonkt.http.server.handlers.path
+import com.hexagonkt.http.server.serve
+import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.lang.RuntimeException
+import java.net.InetAddress
+import java.net.URL
+import kotlin.test.assertEquals
+
+<span class="fc" id="L43">@TestInstance(PER_CLASS)</span>
+@Suppress(&quot;FunctionName&quot;) // This class's functions are intended to be used only in tests
+<span class="fc" id="L45">abstract class SamplesTest(</span>
+<span class="fc" id="L46">    val clientAdapter: () -&gt; HttpClientPort,</span>
+<span class="fc" id="L47">    val serverAdapter: () -&gt; HttpServerPort</span>
+) {
+
+<span class="fc" id="L50">    private val logger: Logger = Logger(SamplesTest::class)</span>
+
+    @BeforeAll fun startUp() {
+<span class="fc" id="L53">        LoggingManager.adapter = Slf4jJulLoggingAdapter()</span>
+<span class="fc" id="L54">        LoggingManager.setLoggerLevel(&quot;com.hexagonkt&quot;, DEBUG)</span>
+<span class="fc" id="L55">    }</span>
+
+    @AfterAll fun shutDown() {
+<span class="fc" id="L58">        LoggingManager.setLoggerLevel(&quot;com.hexagonkt&quot;, OFF)</span>
+<span class="fc" id="L59">    }</span>
+
+<span class="fc" id="L61">    @Test fun serverCreation() = runBlocking {</span>
+        // serverCreation
+        /*
+         * All settings are optional, you can supply any combination
+         * Parameters not set will fall back to the defaults
+         */
+<span class="fc" id="L67">        val settings = HttpServerSettings(</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">            bindAddress = withContext(Dispatchers.IO) { InetAddress.getByName(&quot;0.0.0&quot;) },</span>
+<span class="fc" id="L69">            bindPort = 2020,</span>
+<span class="fc" id="L70">            contextPath = &quot;/context&quot;,</span>
+<span class="fc" id="L71">            banner = &quot;name&quot;</span>
+        )
+
+<span class="fc" id="L74">        val path = path {</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">            get(&quot;/hello&quot;) { ok(&quot;Hello World!&quot;) }</span>
+<span class="fc" id="L76">        }</span>
+
+<span class="pc" id="L78">        serve(serverAdapter(), listOf(path), settings).use { server -&gt;</span>
+<span class="pc" id="L79">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${server.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L80">                it.start()</span>
+<span class="pc bpc" id="L81" title="2 of 4 branches missed.">                assert(server.started())</span>
+<span class="fc" id="L82">                assertEquals(&quot;Hello World!&quot;, it.get(&quot;/context/hello&quot;).body)</span>
+<span class="fc" id="L83">            }</span>
+<span class="fc" id="L84">        }</span>
+
+        /*
+         * You can skip the adapter is you previously bound one
+         * You may also skip the settings and the defaults will be used
+         */
+<span class="pc" id="L90">        serve(serverAdapter(), listOf(path)).use { server -&gt;</span>
+<span class="pc" id="L91">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${server.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L92">                it.start()</span>
+<span class="pc bpc" id="L93" title="2 of 4 branches missed.">                assert(server.started())</span>
+<span class="fc" id="L94">                assertEquals(&quot;Hello World!&quot;, it.get(&quot;/hello&quot;).body)</span>
+<span class="fc" id="L95">            }</span>
+<span class="fc" id="L96">        }</span>
+        // serverCreation
+<span class="fc" id="L98">    }</span>
+
+<span class="fc" id="L100">    @Test fun routesCreation() = runBlocking {</span>
+<span class="fc" id="L101">        val server = serve(serverAdapter()) {</span>
+            // routesCreation
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">            get(&quot;/hello&quot;) { ok(&quot;Get greeting&quot;) }</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">            put(&quot;/hello&quot;) { ok(&quot;Put greeting&quot;) }</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">            post(&quot;/hello&quot;) { ok(&quot;Post greeting&quot;) }</span>
+
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">            on(ALL - GET - PUT - POST, &quot;/hello&quot;) { ok(&quot;Fallback if HTTP verb was not used before&quot;) }</span>
+
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">            on(status = NOT_FOUND) { ok(&quot;Get at '/' if no route matched before&quot;) }</span>
+            // routesCreation
+<span class="fc" id="L111">        }</span>
+
+<span class="pc" id="L113">        server.use { s -&gt;</span>
+<span class="pc" id="L114">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${s.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L115">                it.start()</span>
+<span class="fc" id="L116">                assertEquals(&quot;Get greeting&quot;, it.get(&quot;/hello&quot;).body)</span>
+<span class="fc" id="L117">                assertEquals(&quot;Put greeting&quot;, it.put(&quot;/hello&quot;).body)</span>
+<span class="fc" id="L118">                assertEquals(&quot;Post greeting&quot;, it.post(&quot;/hello&quot;).body)</span>
+<span class="fc" id="L119">                assertEquals(&quot;Fallback if HTTP verb was not used before&quot;, it.options(&quot;/hello&quot;).body)</span>
+<span class="fc" id="L120">                assertEquals(&quot;Get at '/' if no route matched before&quot;, it.get(&quot;/&quot;).body)</span>
+<span class="fc" id="L121">            }</span>
+<span class="fc" id="L122">        }</span>
+<span class="fc" id="L123">    }</span>
+
+<span class="fc" id="L125">    @Test fun routeGroups() = runBlocking {</span>
+<span class="fc" id="L126">        val server = serve(serverAdapter()) {</span>
+            // routeGroups
+<span class="fc" id="L128">            path(&quot;/nested&quot;) {</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">                get(&quot;/hello&quot;) { ok(&quot;Greeting&quot;) }</span>
+
+<span class="fc" id="L131">                path(&quot;/secondLevel&quot;) {</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">                    get(&quot;/hello&quot;) { ok(&quot;Second level greeting&quot;) }</span>
+<span class="fc" id="L133">                }</span>
+
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">                get { ok(&quot;Get at '/nested'&quot;) }</span>
+<span class="fc" id="L136">            }</span>
+            // routeGroups
+<span class="fc" id="L138">        }</span>
+
+<span class="pc" id="L140">        server.use { s -&gt;</span>
+<span class="pc" id="L141">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${s.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L142">                it.start()</span>
+<span class="fc" id="L143">                assertEquals(&quot;Greeting&quot;, it.get(&quot;/nested/hello&quot;).body)</span>
+<span class="fc" id="L144">                assertEquals(&quot;Second level greeting&quot;, it.get(&quot;/nested/secondLevel/hello&quot;).body)</span>
+<span class="fc" id="L145">                assertEquals(&quot;Get at '/nested'&quot;, it.get(&quot;/nested&quot;).body)</span>
+<span class="fc" id="L146">            }</span>
+<span class="fc" id="L147">        }</span>
+<span class="fc" id="L148">    }</span>
+
+<span class="fc" id="L150">    @Test fun routers() = runBlocking {</span>
+        // routers
+<span class="fc" id="L152">        fun personRouter(kind: String) = path {</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">            get { ok(&quot;Get $kind&quot;) }</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">            put { ok(&quot;Put $kind&quot;) }</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">            post { ok(&quot;Post $kind&quot;) }</span>
+<span class="fc" id="L156">        }</span>
+
+<span class="fc" id="L158">        val server = HttpServer(serverAdapter()) {</span>
+<span class="fc" id="L159">            path(&quot;/clients&quot;, personRouter(&quot;client&quot;))</span>
+<span class="fc" id="L160">            path(&quot;/customers&quot;, personRouter(&quot;customer&quot;))</span>
+<span class="fc" id="L161">        }</span>
+        // routers
+
+<span class="pc" id="L164">        server.use { s -&gt;</span>
+<span class="fc" id="L165">            s.start()</span>
+<span class="pc" id="L166">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${server.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L167">                it.start()</span>
+
+<span class="fc" id="L169">                assertEquals(&quot;Get client&quot;, it.get(&quot;/clients&quot;).body)</span>
+<span class="fc" id="L170">                assertEquals(&quot;Put client&quot;, it.put(&quot;/clients&quot;).body)</span>
+<span class="fc" id="L171">                assertEquals(&quot;Post client&quot;, it.post(&quot;/clients&quot;).body)</span>
+
+<span class="fc" id="L173">                assertEquals(&quot;Get customer&quot;, it.get(&quot;/customers&quot;).body)</span>
+<span class="fc" id="L174">                assertEquals(&quot;Put customer&quot;, it.put(&quot;/customers&quot;).body)</span>
+<span class="fc" id="L175">                assertEquals(&quot;Post customer&quot;, it.post(&quot;/customers&quot;).body)</span>
+<span class="fc" id="L176">            }</span>
+<span class="fc" id="L177">        }</span>
+<span class="fc" id="L178">    }</span>
+
+    @Suppress(&quot;UNREACHABLE_CODE&quot;)
+<span class="fc" id="L181">    @Test fun callbacks() = runBlocking {</span>
+<span class="fc" id="L182">        val server = HttpServer(serverAdapter()) {</span>
+            // callbackCall
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">            get(&quot;/call&quot;) {</span>
+<span class="fc" id="L185">                attributes                   // the attributes list</span>
+<span class="fc" id="L186">                attributes[&quot;foo&quot;]            // value of foo attribute</span>
+
+<span class="fc" id="L188">                ok(&quot;Response body&quot;)          // returns a 200 status</span>
+                // return any status
+<span class="pc" id="L190">                send(</span>
+<span class="fc" id="L191">                    BAD_REQUEST,</span>
+<span class="fc" id="L192">                    &quot;Invalid request&quot;,</span>
+<span class="fc" id="L193">                    attributes = attributes + (&quot;A&quot; to &quot;V&quot;) // sets value of attribute A to V</span>
+                )
+            }
+            // callbackCall
+
+            // callbackRequest
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">            get(&quot;/request&quot;) {</span>
+                // URL Information
+<span class="fc" id="L201">                request.method                   // the HTTP method (GET, ..etc)</span>
+<span class="fc" id="L202">                request.protocol                 // http or https TODO</span>
+<span class="fc" id="L203">                request.host                     // the host, e.g. &quot;example.com&quot;</span>
+<span class="fc" id="L204">                request.port                     // the server port</span>
+<span class="fc" id="L205">                request.path                     // the request path, e.g. /result.jsp</span>
+<span class="fc" id="L206">                request.body                     // request body sent by the client</span>
+
+                // Headers
+<span class="fc" id="L209">                request.headers                  // the HTTP header list with first values only</span>
+<span class="fc" id="L210">                request.headers[&quot;BAR&quot;]           // first value of BAR header</span>
+<span class="fc" id="L211">                request.headers.allValues        // the HTTP header list with their full values list</span>
+<span class="fc" id="L212">                request.headers.allValues[&quot;BAR&quot;] // list of values of BAR header</span>
+
+                // Common headers shortcuts
+<span class="fc" id="L215">                request.contentType              // content type of request.body</span>
+<span class="fc" id="L216">                request.accept                   // Client accepted content types</span>
+<span class="fc" id="L217">                request.userAgent()              // user agent (browser requests)</span>
+<span class="fc" id="L218">                request.origin()                 // origin (browser requests)</span>
+<span class="fc" id="L219">                request.referer()                // TODO</span>
+
+                // Parameters
+<span class="fc" id="L222">                pathParameters                    // map with all path parameters</span>
+<span class="fc" id="L223">                request.formParameters            // map with first values of all form fields</span>
+<span class="fc" id="L224">                request.formParameters.allValues  // map with all form fields values</span>
+<span class="fc" id="L225">                request.queryParameters           // map with first values of all query parameters</span>
+<span class="fc" id="L226">                request.queryParameters.allValues // map with all query parameters values</span>
+
+                // Body processing
+<span class="fc" id="L229">                request.contentLength             // length of request body</span>
+
+<span class="pc" id="L231">                ok()</span>
+            }
+            // callbackRequest
+
+            // callbackResponse
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">            get(&quot;/response&quot;) {</span>
+<span class="fc" id="L237">                response.body                        // get response content</span>
+<span class="fc" id="L238">                response.status                      // get the response status</span>
+<span class="fc" id="L239">                response.contentType                 // get the content type</span>
+<span class="pc" id="L240">                send(</span>
+<span class="fc" id="L241">                    status = UNAUTHORIZED,           // set status code to 401</span>
+<span class="fc" id="L242">                    body = &quot;Hello&quot;,                  // sets content to Hello</span>
+<span class="fc" id="L243">                    contentType = ContentType(XML),  // set content type to application/xml</span>
+<span class="fc" id="L244">                    headers = response.headers</span>
+<span class="fc" id="L245">                        + (&quot;foo&quot; to &quot;bar&quot;)           // sets header FOO with single value bar</span>
+<span class="fc" id="L246">                        + multiMapOfLists(&quot;baz&quot; to listOf(&quot;1&quot;, &quot;2&quot;)) // sets header FOO values with [ bar ]</span>
+                )
+            }
+            // callbackResponse
+
+            // callbackPathParam
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">            get(&quot;/pathParam/{foo}&quot;) {</span>
+<span class="fc" id="L253">                pathParameters[&quot;foo&quot;] // value of foo path parameter</span>
+<span class="fc" id="L254">                pathParameters        // map with all parameters</span>
+<span class="pc" id="L255">                ok()</span>
+            }
+            // callbackPathParam
+
+            // callbackQueryParam
+<span class="pc bpc" id="L260" title="1 of 2 branches missed.">            get(&quot;/queryParam&quot;) {</span>
+<span class="fc" id="L261">                request.queryString</span>
+<span class="fc" id="L262">                request.queryParameters                       // the query param list</span>
+<span class="fc" id="L263">                request.queryParameters[&quot;FOO&quot;]                // value of FOO query param</span>
+<span class="fc" id="L264">                request.queryParameters.allValues             // the query param list</span>
+<span class="fc" id="L265">                request.queryParameters.allValues[&quot;FOO&quot;]      // all values of FOO query param</span>
+<span class="pc" id="L266">                ok()</span>
+            }
+            // callbackQueryParam
+
+            // callbackFormParam
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">            get(&quot;/formParam&quot;) {</span>
+<span class="fc" id="L272">                request.formParameters                       // the query param list</span>
+<span class="fc" id="L273">                request.formParameters[&quot;FOO&quot;]                // value of FOO query param</span>
+<span class="fc" id="L274">                request.formParameters.allValues             // the query param list</span>
+<span class="fc" id="L275">                request.formParameters.allValues[&quot;FOO&quot;]      // all values of FOO query param</span>
+<span class="pc" id="L276">                ok()</span>
+            }
+            // callbackFormParam
+
+            // callbackFile
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">            post(&quot;/file&quot;) {</span>
+<span class="pc bpc" id="L282" title="1 of 2 branches missed.">                val filePart = request.partsMap()[&quot;file&quot;] ?: error(&quot;File not available&quot;)</span>
+<span class="pc" id="L283">                ok(filePart.body)</span>
+            }
+            // callbackFile
+
+            // callbackRedirect
+<span class="pc bpc" id="L288" title="1 of 2 branches missed.">            get(&quot;/redirect&quot;) {</span>
+<span class="pc" id="L289">                redirect(FOUND, &quot;/call&quot;) // browser redirect to /call</span>
+            }
+            // callbackRedirect
+
+            // callbackCookie
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">            get(&quot;/cookie&quot;) {</span>
+<span class="fc" id="L295">                request.cookies                       // get map of all request cookies</span>
+<span class="fc" id="L296">                request.cookiesMap()[&quot;foo&quot;]           // access request cookie by name</span>
+
+<span class="fc" id="L298">                val cookie = HttpCookie(&quot;new_foo&quot;, &quot;bar&quot;)</span>
+<span class="pc" id="L299">                ok(</span>
+<span class="fc" id="L300">                    cookies = listOf(</span>
+<span class="fc" id="L301">                        cookie,                     // set cookie with a value</span>
+<span class="fc" id="L302">                        cookie.copy(maxAge = 3600), // set cookie with a max-age</span>
+<span class="fc" id="L303">                        cookie.copy(secure = true), // secure cookie</span>
+<span class="fc" id="L304">                        cookie.delete(),            // remove cookie</span>
+                    )
+                )
+            }
+            // callbackCookie
+
+            // callbackHalt
+<span class="pc bpc" id="L311" title="1 of 2 branches missed.">            get(&quot;/halt&quot;) {</span>
+<span class="fc" id="L312">                clientError(UNAUTHORIZED)             // halt with status</span>
+<span class="fc" id="L313">                clientError(UNAUTHORIZED, &quot;Go away!&quot;) // halt with status and message</span>
+<span class="fc" id="L314">                internalServerError(&quot;Body Message&quot;)   // halt with message (status 500)</span>
+<span class="pc" id="L315">                internalServerError()                 // halt with status 500</span>
+            }
+            // callbackHalt
+
+<span class="pc bnc" id="L319" title="All 2 branches missed.">            after(exception = Exception::class) {</span>
+<span class="nc bnc" id="L320" title="All 2 branches missed.">                logger.error(this.context.exception ?: RuntimeException()) { &quot;&quot; }</span>
+<span class="nc bnc" id="L321" title="All 4 branches missed.">                internalServerError(this.context.exception?.message ?: &quot;Error&quot;)</span>
+            }
+<span class="fc" id="L323">        }</span>
+
+<span class="pc" id="L325">        server.use { s -&gt;</span>
+<span class="fc" id="L326">            s.start()</span>
+<span class="pc" id="L327">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${s.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L328">                it.cookies += HttpCookie(&quot;foo&quot;, &quot;bar&quot;)</span>
+<span class="fc" id="L329">                it.start()</span>
+
+<span class="fc" id="L331">                val callResponse = it.get(&quot;/call&quot;)</span>
+<span class="fc" id="L332">                assertEquals(BAD_REQUEST, callResponse.status)</span>
+<span class="fc" id="L333">                assertEquals(&quot;Invalid request&quot;, callResponse.body)</span>
+<span class="fc" id="L334">                assertEquals(</span>
+<span class="fc" id="L335">                    OK,</span>
+<span class="fc" id="L336">                    it.get(&quot;/request&quot;, body = &quot;body&quot;, contentType = ContentType(JSON)).status</span>
+                )
+
+<span class="fc" id="L339">                assertEquals(UNAUTHORIZED, it.get(&quot;/response&quot;).status)</span>
+<span class="fc" id="L340">                assertEquals(OK, it.get(&quot;/pathParam/param&quot;).status)</span>
+<span class="fc" id="L341">                assertEquals(OK, it.get(&quot;/queryParam&quot;).status)</span>
+<span class="fc" id="L342">                assertEquals(OK, it.get(&quot;/formParam&quot;).status)</span>
+<span class="fc" id="L343">                assertEquals(FOUND, it.get(&quot;/redirect&quot;).status)</span>
+<span class="fc" id="L344">                assertEquals(OK, it.get(&quot;/cookie&quot;).status)</span>
+<span class="fc" id="L345">                assertEquals(INTERNAL_SERVER_ERROR, it.get(&quot;/halt&quot;).status)</span>
+
+<span class="fc" id="L347">                val stream = URL(&quot;classpath:assets/index.html&quot;).readBytes()</span>
+<span class="fc" id="L348">                val parts = listOf(HttpPart(&quot;file&quot;, stream, &quot;index.html&quot;))</span>
+<span class="fc" id="L349">                val response = it.send(HttpClientRequest(POST, path = &quot;/file&quot;, parts = parts))</span>
+<span class="pc bpc" id="L350" title="2 of 4 branches missed.">                assert(response.bodyString().contains(&quot;&lt;title&gt;Hexagon&lt;/title&gt;&quot;))</span>
+
+<span class="fc" id="L352">                it.stop()</span>
+<span class="fc" id="L353">            }</span>
+<span class="fc" id="L354">        }</span>
+<span class="fc" id="L355">    }</span>
+
+<span class="fc" id="L357">    @Test fun filters() = runBlocking {</span>
+        fun assertResponse(response: HttpClientResponse, body: String, vararg headers: String) {
+<span class="fc" id="L359">            assertEquals(OK, response.status)</span>
+<span class="fc" id="L360">            assertEquals(body, response.body)</span>
+<span class="fc" id="L361">            (headers.toList() + &quot;b-all&quot; + &quot;a-all&quot;).forEach {</span>
+<span class="pc bpc" id="L362" title="2 of 4 branches missed.">                assert(response.headers.containsKey(it))</span>
+<span class="fc" id="L363">            }</span>
+<span class="fc" id="L364">        }</span>
+
+        fun assertFail(
+            code: HttpStatus, response: HttpClientResponse, body: String, vararg headers: String) {
+
+<span class="fc" id="L369">            assertEquals(code, response.status)</span>
+<span class="pc bpc" id="L370" title="2 of 4 branches missed.">            (headers.toList() + &quot;b-all&quot; + &quot;a-all&quot;).forEach { assert(response.headers.contains(it)) }</span>
+<span class="fc" id="L371">            assertEquals(body, response.body)</span>
+<span class="fc" id="L372">        }</span>
+
+<span class="fc" id="L374">        val server = HttpServer(serverAdapter()) {</span>
+            // filters
+<span class="pc bpc" id="L376" title="1 of 2 branches missed.">            on(&quot;/*&quot;) { send(headers = response.headers + (&quot;b-all&quot; to &quot;true&quot;)) }</span>
+
+<span class="pc bpc" id="L378" title="1 of 2 branches missed.">            on(&quot;/filters/*&quot;) { send(headers = response.headers + (&quot;b-filters&quot; to &quot;true&quot;)) }</span>
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">            get(&quot;/filters/route&quot;) { ok(&quot;filters route&quot;) }</span>
+<span class="pc bpc" id="L380" title="1 of 2 branches missed.">            after(&quot;/filters/*&quot;) { send(headers = response.headers + (&quot;a-filters&quot; to &quot;true&quot;)) }</span>
+
+<span class="pc bpc" id="L382" title="1 of 2 branches missed.">            get(&quot;/filters&quot;) { ok(&quot;filters&quot;) }</span>
+
+<span class="fc" id="L384">            path(&quot;/nested&quot;) {</span>
+<span class="pc bpc" id="L385" title="1 of 2 branches missed.">                on(&quot;/?*&quot;) { send(headers = response.headers + (&quot;b-nested&quot; to &quot;true&quot;)) }</span>
+<span class="pc bpc" id="L386" title="1 of 2 branches missed.">                on { send(headers = response.headers + (&quot;b-nested-2&quot; to &quot;true&quot;)) }</span>
+<span class="pc bpc" id="L387" title="1 of 2 branches missed.">                get(&quot;/filters&quot;) { ok(&quot;nested filters&quot;) }</span>
+<span class="pc bpc" id="L388" title="1 of 2 branches missed.">                get(&quot;/halted&quot;) { send(HttpStatus(499), &quot;halted&quot;) }</span>
+<span class="pc bpc" id="L389" title="1 of 2 branches missed.">                get { ok(&quot;nested also&quot;) }</span>
+<span class="pc bpc" id="L390" title="1 of 2 branches missed.">                after(&quot;/?*&quot;) { send(headers = response.headers + (&quot;a-nested&quot; to &quot;true&quot;)) }</span>
+<span class="fc" id="L391">            }</span>
+
+<span class="pc bpc" id="L393" title="1 of 2 branches missed.">            after(&quot;/*&quot;) { send(headers = response.headers + (&quot;a-all&quot; to &quot;true&quot;)) }</span>
+            // filters
+<span class="fc" id="L395">        }</span>
+
+<span class="pc" id="L397">        server.use { s -&gt;</span>
+<span class="fc" id="L398">            s.start()</span>
+
+<span class="pc" id="L400">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${server.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L401">                it.start()</span>
+<span class="fc" id="L402">                assertResponse(it.get(&quot;/filters/route&quot;), &quot;filters route&quot;, &quot;b-filters&quot;, &quot;a-filters&quot;)</span>
+<span class="fc" id="L403">                assertResponse(it.get(&quot;/filters&quot;), &quot;filters&quot;)</span>
+<span class="fc" id="L404">                assertResponse(it.get(&quot;/nested/filters&quot;), &quot;nested filters&quot;, &quot;b-nested&quot;, &quot;a-nested&quot;)</span>
+<span class="fc" id="L405">                val responseNested = it.get(&quot;/nested&quot;)</span>
+<span class="fc" id="L406">                assertResponse(responseNested, &quot;nested also&quot;, &quot;b-nested&quot;, &quot;b-nested-2&quot;, &quot;a-nested&quot;)</span>
+<span class="fc" id="L407">                val responseHalted = it.get(&quot;/nested/halted&quot;)</span>
+<span class="fc" id="L408">                assertFail(HttpStatus(499), responseHalted, &quot;halted&quot;, &quot;b-nested&quot;, &quot;a-nested&quot;)</span>
+<span class="pc bpc" id="L409" title="3 of 6 branches missed.">                assert(!it.get(&quot;/filters/route&quot;).headers.contains(&quot;b-nested&quot;))</span>
+<span class="pc bpc" id="L410" title="3 of 6 branches missed.">                assert(!it.get(&quot;/filters/route&quot;).headers.contains(&quot;a-nested&quot;))</span>
+<span class="fc" id="L411">            }</span>
+<span class="fc" id="L412">        }</span>
+<span class="fc" id="L413">    }</span>
+
+<span class="fc" id="L415">    @Test fun errors() = runBlocking {</span>
+<span class="fc" id="L416">        val server = serve(serverAdapter()) {</span>
+            // errors
+            // Register handler for routes halted with 512 code
+<span class="pc bpc" id="L419" title="1 of 2 branches missed.">            get(&quot;/errors&quot;) { send(HttpStatus(512)) }</span>
+
+<span class="pc bpc" id="L421" title="1 of 2 branches missed.">            on(status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR, &quot;Ouch&quot;) }</span>
+            // errors
+
+            // exceptions
+            // Register handler for routes which callbacks throw exceptions
+<span class="pc bpc" id="L426" title="1 of 2 branches missed.">            get(&quot;/exceptions&quot;) { error(&quot;Message&quot;) }</span>
+<span class="pc bpc" id="L427" title="1 of 2 branches missed.">            get(&quot;/codedExceptions&quot;) { send(HttpStatus(509), &quot;code&quot;) }</span>
+
+<span class="pc bpc" id="L429" title="1 of 2 branches missed.">            on(status = HttpStatus(509)) {</span>
+<span class="pc" id="L430">                send(HttpStatus(599))</span>
+            }
+<span class="pc bpc" id="L432" title="1 of 2 branches missed.">            on(exception = IllegalStateException::class) {</span>
+<span class="pc bpc" id="L433" title="2 of 4 branches missed.">                send(HTTP_VERSION_NOT_SUPPORTED, context.exception?.message ?: &quot;empty&quot;)</span>
+            }
+            // exceptions
+<span class="fc" id="L436">        }</span>
+
+<span class="pc" id="L438">        server.use { s -&gt;</span>
+<span class="pc" id="L439">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${s.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L440">                it.start()</span>
+
+<span class="fc" id="L442">                val errors = it.get(&quot;/errors&quot;)</span>
+<span class="fc" id="L443">                assertEquals(INTERNAL_SERVER_ERROR, errors.status)</span>
+<span class="fc" id="L444">                assertEquals(&quot;Ouch&quot;, errors.body)</span>
+
+<span class="fc" id="L446">                val exceptions = it.get(&quot;/exceptions&quot;)</span>
+<span class="fc" id="L447">                assertEquals(HTTP_VERSION_NOT_SUPPORTED, exceptions.status)</span>
+<span class="fc" id="L448">                assertEquals(&quot;Message&quot;, exceptions.body)</span>
+
+<span class="fc" id="L450">                val codedExceptions = it.get(&quot;/codedExceptions&quot;)</span>
+<span class="fc" id="L451">                assertEquals(HttpStatus(599), codedExceptions.status)</span>
+<span class="fc" id="L452">                assertEquals(&quot;code&quot;, codedExceptions.body)</span>
+<span class="fc" id="L453">            }</span>
+<span class="fc" id="L454">        }</span>
+<span class="fc" id="L455">    }</span>
+
+<span class="fc" id="L457">    @Test fun files() = runBlocking {</span>
+<span class="fc" id="L458">        val server = serve(serverAdapter()) {</span>
+            // files
+<span class="pc bpc" id="L460" title="1 of 2 branches missed.">            get(&quot;/web/file.txt&quot;) { ok(&quot;It matches this route and won't search for the file&quot;) }</span>
+
+            // Expose resources on the '/public' resource folder over the '/web' HTTP path
+<span class="fc" id="L463">            on(</span>
+<span class="fc" id="L464">                status = NOT_FOUND,</span>
+<span class="fc" id="L465">                pattern = &quot;/web/*&quot;,</span>
+<span class="fc" id="L466">                callback = UrlCallback(URL(&quot;classpath:public&quot;))</span>
+            )
+
+            // Maps resources on 'assets' on the server root (assets/f.css -&gt; /f.css)
+            // '/public/css/style.css' resource would be: 'http://{host}:{port}/css/style.css'
+<span class="fc" id="L471">            on(status = NOT_FOUND, pattern = &quot;/*&quot;, callback = UrlCallback(URL(&quot;classpath:assets&quot;)))</span>
+            // files
+<span class="fc" id="L473">        }</span>
+
+<span class="pc" id="L475">        server.use { s -&gt;</span>
+<span class="pc" id="L476">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${s.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L477">                it.start()</span>
+
+<span class="pc bpc" id="L479" title="2 of 4 branches missed.">                assert(it.get(&quot;/web/file.txt&quot;).bodyString().startsWith(&quot;It matches this route&quot;))</span>
+
+<span class="fc" id="L481">                val index = it.get(&quot;/index.html&quot;)</span>
+<span class="fc" id="L482">                assertEquals(OK, index.status)</span>
+<span class="fc" id="L483">                assertEquals(ContentType(TextMedia.HTML), index.contentType)</span>
+<span class="fc" id="L484">                val file = it.get(&quot;/web/file.css&quot;)</span>
+<span class="fc" id="L485">                assertEquals(OK, file.status)</span>
+<span class="fc" id="L486">                assertEquals(ContentType(TextMedia.CSS), file.contentType)</span>
+
+<span class="fc" id="L488">                val unavailable = it.get(&quot;/web/unavailable.css&quot;)</span>
+<span class="fc" id="L489">                assertEquals(NOT_FOUND, unavailable.status)</span>
+<span class="fc" id="L490">            }</span>
+<span class="fc" id="L491">        }</span>
+<span class="fc" id="L492">    }</span>
+
+<span class="fc" id="L494">    @Test fun test() = runBlocking {</span>
+        // test
+<span class="fc" id="L496">        val router = path {</span>
+<span class="pc bpc" id="L497" title="1 of 2 branches missed.">            get(&quot;/hello&quot;) { ok(&quot;Hi!&quot;) }</span>
+<span class="fc" id="L498">        }</span>
+
+<span class="fc" id="L500">        val bindAddress = InetAddress.getLoopbackAddress()</span>
+<span class="fc" id="L501">        val serverSettings = HttpServerSettings(bindAddress, 0, banner = &quot;name&quot;)</span>
+<span class="fc" id="L502">        val server = serve(serverAdapter(), listOf(router), serverSettings)</span>
+
+<span class="pc" id="L504">        server.use { s -&gt;</span>
+<span class="pc" id="L505">            HttpClient(clientAdapter(), URL(&quot;http://localhost:${s.runtimePort}&quot;)).use {</span>
+<span class="fc" id="L506">                it.start()</span>
+<span class="fc" id="L507">                assertEquals(&quot;Hi!&quot;, it.get(&quot;/hello&quot;).body)</span>
+<span class="fc" id="L508">            }</span>
+<span class="fc" id="L509">        }</span>
+        // test
+<span class="fc" id="L511">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
