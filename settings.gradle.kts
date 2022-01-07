@@ -24,7 +24,7 @@ include(
     "serialization_jackson_csv",
     "serialization_jackson_yaml",
     "serialization_jackson_xml",
-    "http_client_ahc",
+    "http_client_jetty",
     "http_server_servlet",
     "http_server_jetty",
     "templates_pebble",
