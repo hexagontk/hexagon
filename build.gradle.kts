@@ -15,7 +15,7 @@ plugins {
 
     id("idea")
     id("eclipse")
-    id("org.jetbrains.dokka") version("1.6.0")
+    id("org.jetbrains.dokka") version("1.6.10")
     id("io.gitlab.arturbosch.detekt") version("1.19.0") apply(false)
 }
 
@@ -52,7 +52,7 @@ task("setUp") {
         prePush.setExecutable(true)
 
         exec { commandLine("docker version".split(" ")) }
-        exec { commandLine("git config commit.template .github/commit_template.txt".split(" ")) }
+        exec { commandLine("git config commit.template ../.github/commit_template.txt".split(" ")) }
     }
 }
 

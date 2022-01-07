@@ -26,6 +26,11 @@ internal class SiteKtTest {
         assert(insertSamplesCode(resourceFile, testTag).contains("kotlin"))
     }
 
+    @Test fun `Insert samples code does not fail on not found files`() {
+        val testTag = "@code test_not_found.md:TestMd"
+        assertEquals(testTag, insertSamplesCode(resourceFile, testTag))
+    }
+
     @Test fun `'fixCodeTabs' reformat code blocks`() {
         val badCodeTabs =
 """=== "build.gradle"

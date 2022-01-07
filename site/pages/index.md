@@ -36,7 +36,7 @@ utilities. However, some of these capacities can be replaced by other third part
 
 Simple Hello World HTTP example.
 
-@code http_server_jetty/src/test/kotlin/HelloWorld.kt
+@code http_test/src/test/kotlin/HelloWorldTest.kt:hello_world
 
 You can check the [code examples] and [demo projects] for more complex use cases.
 
@@ -91,7 +91,7 @@ Ports with their provided implementations (Adapters).
 | PORT                    | ADAPTERS
 |-------------------------|---------
 | [HTTP Server]           | [Jetty], [Servlet]
-| [HTTP Client]           | [AHC]
+| [HTTP Client]           | [Jetty][Jetty Client]
 | [Templates]             | [Pebble], [FreeMarker]
 | [Serialization Formats] | [JSON], [YAML], [CSV], [XML]
 
@@ -99,12 +99,12 @@ Ports with their provided implementations (Adapters).
 [Jetty]: /http_server_jetty
 [Servlet]: /http_server_servlet
 [HTTP Client]: /http_client
-[AHC]: /http_client_ahc
+[Jetty Client]: /http_client_jetty
 [Templates]: /templates
 [Pebble]: /templates_pebble
 [FreeMarker]: /templates_freemarker
 [Serialization Formats]: /core/#serialization
-[JSON]: /api/serialization_json/com.hexagonkt.serialization.json/-json
-[YAML]: /api/serialization_yaml/com.hexagonkt.serialization.yaml/-yaml
-[CSV]: /api/serialization_csv/com.hexagonkt.serialization.csv/-Csv
-[XML]: /api/serialization_xml/com.hexagonkt.serialization.xml/-Xml
+[JSON]: /api/serialization_jackson_json/com.hexagonkt.serialization.json/-json
+[YAML]: /api/serialization_jackson_yaml/com.hexagonkt.serialization.yaml/-yaml
+[CSV]: /api/serialization_jackson_csv/com.hexagonkt.serialization.csv/-Csv
+[XML]: /api/serialization_jackson_xml/com.hexagonkt.serialization.xml/-Xml

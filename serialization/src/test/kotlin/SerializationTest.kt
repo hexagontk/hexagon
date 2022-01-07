@@ -1,63 +1,49 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.serialization.SerializationManager.formats
-import com.hexagonkt.serialization.json.JacksonMapper
-import com.hexagonkt.serialization.json.Json
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import com.hexagonkt.core.media.ApplicationMedia.PHP
+import com.hexagonkt.core.media.ApplicationMedia.AVRO
+import org.junit.jupiter.api.Test
 import java.io.File
-import java.nio.file.Files
-import kotlin.reflect.KClass
+import java.lang.IllegalStateException
+import java.net.URL
+import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
-@TestInstance(PER_CLASS)
-abstract class SerializationTest<out T : Any>(private val type: KClass<T>) {
-    abstract val testObjects: List<T>
+internal class SerializationTest {
 
-    private fun tempFile(suffix: String): File =
-        Files.createTempFile("", suffix).toFile()
+    @Test fun `Data serialization helpers work properly`() {
+        SerializationManager.formats = setOf(BinaryTestFormat)
+        SerializationManager.defaultFormat = TextTestFormat
 
-    @BeforeAll fun initialize() {
-        formats = linkedSetOf(Json)
-        SerializationManager.mapper = JacksonMapper
-    }
+        assertContentEquals("text".toByteArray(), "text".serializeBytes(PHP))
+        assertContentEquals("text".serializeBytes(PHP), "text".serializeBytes())
+        assertContentEquals("text".toByteArray(), "text".serializeBytes(AVRO))
+        assertEquals("text", "text".serialize(PHP))
+        assertEquals("text".serialize(PHP), "text".serialize())
+        assertFailsWith<IllegalStateException> { "text".serialize(AVRO) }
 
-    protected fun checkMapParse() {
-        formats.forEach { contentType ->
-            testObjects.forEach {
-                val map = it.toFieldsMap()
+        assertEquals(listOf("text"), "string".parse(PHP))
+        assertEquals("string".parse(PHP), "string".parse())
+        assertEquals("string".parse(PHP), "string".parse(TextTestFormat))
+        assertEquals(listOf("bytes"), "string".parse(AVRO))
 
-                val object2 = map.toObject(type)
-                assert(it == object2)
-                assert(it !== object2)
+        assertEquals("string".parse(TextTestFormat), "string".parse(PHP))
+        assertEquals("string".parse(BinaryTestFormat), "string".parse(AVRO))
 
-                val modelString = it.serialize(contentType)
-                assert(modelString == it.serialize(contentType.contentType))
-                val object3 = modelString.parse(type, contentType)
-                assert(it == object3)
-                assert(it !== object3)
+        assertEquals(listOf("text"), URL("classpath:data/company.php").parse())
+        assertEquals(listOf("bytes"), URL("classpath:data/company.avro").parse())
 
-                assert(modelString.parse<Map<*, *>>(contentType) == map)
-
-                val tempFile = tempFile(contentType.contentType.replace('/', '.'))
-                tempFile.deleteOnExit()
-                tempFile.writeText(modelString)
-
-                assert(tempFile.parse<Map<*, *>>() == map)
-            }
-
-            val serializedObjects = testObjects.serialize(contentType)
-            val tempFile = tempFile(contentType.contentType.replace('/', '.'))
-            tempFile.deleteOnExit()
-            tempFile.writeText(serializedObjects)
-            val testMaps = testObjects.map { it.toFieldsMap() }
-
-            assert(tempFile.parseObjects<Map<*, *>>() == testMaps)
-            assert(testMaps == serializedObjects.parseObjects<Map<*, *>>(contentType))
-            assert(testObjects == testMaps.map { it.toObject(type) })
+        val resources = "src/test/resources"
+        val phpFile = File("$resources/data/company.php").let {
+            if (it.exists()) it
+            else File("serialization/$resources/data/company.php")
         }
-
-        val modelListString = testObjects.serialize()
-        assert (modelListString.parseObjects(type).size == testObjects.size)
+        val avroFile = File("$resources/data/company.avro").let {
+            if (it.exists()) it
+            else File("serialization/$resources/data/company.avro")
+        }
+        assertEquals(listOf("text"), phpFile.parse())
+        assertEquals(listOf("bytes"), avroFile.parse())
     }
 }

@@ -1,24 +1,38 @@
 package com.hexagonkt.serialization
 
+import com.hexagonkt.core.helpers.toStream
+import com.hexagonkt.core.media.MediaType
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
-import kotlin.reflect.KClass
 
 interface SerializationFormat {
-    val contentType: String
-    val extensions: Set<String>
-    val isBinary: Boolean
 
-    fun serialize(obj: Any, output: OutputStream)
+    private companion object {
+        const val PARSING_ERROR = "String parsing only possible for text serialization formats"
+        const val SERIALIZATION_ERROR =
+            "String serialization only possible for text serialization formats"
+    }
 
-    fun <T: Any> parse(input: InputStream, type: KClass<T>): T
-    fun <T: Any> parseObjects(input: InputStream, type: KClass<T>): List<T>
+    val textFormat: Boolean
+    val mediaType: MediaType
 
-    fun serialize(obj: Any): String =
-        if (isBinary) error("$contentType is a binary format")
-        else ByteArrayOutputStream().let {
-            serialize(obj, it)
-            it.toString()
+    fun serialize(instance: Any, output: OutputStream)
+    fun parse(input: InputStream): Any
+
+    fun serializeBytes(instance: Any): ByteArray =
+        ByteArrayOutputStream().let {
+            serialize(instance, it)
+            it.toByteArray()
         }
+
+    fun serialize(instance: Any): String {
+        check(textFormat) { SERIALIZATION_ERROR }
+        return String(serializeBytes(instance))
+    }
+
+    fun parse(input: String): Any {
+        check(textFormat) { PARSING_ERROR }
+        return parse(input.toStream())
+    }
 }

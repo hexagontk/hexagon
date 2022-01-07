@@ -17,5 +17,5 @@ dependencies {
     "api"("io.pebbletemplates:pebble:${properties["pebbleVersion"]}")
 
     "testImplementation"(templatesTest)
-    "testImplementation"(project(":serialization_json"))
+    "testImplementation"(project(":serialization_jackson_json"))
 }

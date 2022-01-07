@@ -20,13 +20,18 @@ include(
     // Adapters
     "logging_logback",
     "logging_slf4j_jul",
-    "serialization_json",
-    "serialization_csv",
-    "serialization_yaml",
-    "serialization_xml",
-    "http_client_ahc",
+    "serialization_jackson",
+    "serialization_jackson_json",
+    "serialization_jackson_csv",
+    "serialization_jackson_yaml",
+    "serialization_jackson_xml",
+    "http_client_jetty",
     "http_server_servlet",
     "http_server_jetty",
     "templates_pebble",
-    "templates_freemarker"
+    "templates_freemarker",
+
+    // Testing
+    "http_test",
+    "serialization_test",
 )

@@ -13,7 +13,7 @@ extra["basePackage"] = "com.hexagonkt.templates"
 dependencies {
     "api"(project(":core"))
 
-    "testImplementation"(project(":serialization_yaml"))
+    "testImplementation"(project(":serialization_jackson_yaml"))
     "testImplementation"(coreTest)
 }
 

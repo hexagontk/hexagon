@@ -120,24 +120,23 @@ from scratch following these steps:
 3. Write the code in the `src/main/kotlin/Hello.kt` file:
 
 ```kotlin
-// hello
-package com.hexagonkt.http.server.jetty
+// hello_world
+import com.hexagonkt.http.server.jetty.serve
 
-import com.hexagonkt.http.server.Server
-
-lateinit var server: Server
+lateinit var server: HttpServer
 
 /**
  * Start a Hello World server, serving at path "/hello".
  */
 fun main() {
     server = serve {
-        get("/hello") {
-            ok("Hello World!")
+        get("/hello/{name}") {
+            val name = pathParameters["name"]
+            ok("Hello $name!", contentType = ContentType(PLAIN))
         }
     }
 }
-// hello
+// hello_world
 ```
 
 4. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
@@ -166,24 +165,24 @@ private val books: MutableMap<Int, Book> = linkedMapOf(
     102 to Book("Homer", "The Odyssey")
 )
 
-val server: Server = Server(adapter) {
+private val path: PathHandler = path {
+
     post("/books") {
-        // Require fails if parameter does not exists
-        val author = queryParameters.require("author")
-        val title = queryParameters.require("title")
+        val queryParameters = request.queryParameters
+        val author = queryParameters["author"] ?: return@post badRequest("Missing author")
+        val title = queryParameters["title"] ?: return@post badRequest("Missing title")
         val id = (books.keys.maxOrNull() ?: 0) + 1
         books += id to Book(author, title)
-        send(201, id)
+        created(id.toString())
     }
 
     get("/books/{id}") {
         val bookId = pathParameters.require("id").toInt()
         val book = books[bookId]
         if (book != null)
-            // ok() is a shortcut to send(200)
             ok("Title: ${book.title}, Author: ${book.author}")
         else
-            send(404, "Book not found")
+            notFound("Book not found")
     }
 
     put("/books/{id}") {
@@ -191,14 +190,14 @@ val server: Server = Server(adapter) {
         val book = books[bookId]
         if (book != null) {
             books += bookId to book.copy(
-                author = queryParameters["author"] ?: book.author,
-                title = queryParameters["title"] ?: book.title
+                author = request.queryParameters["author"] ?: book.author,
+                title = request.queryParameters["title"] ?: book.title
             )
 
             ok("Book with id '$bookId' updated")
         }
         else {
-            send(404, "Book not found")
+            notFound("Book not found")
         }
     }
 
@@ -209,13 +208,17 @@ val server: Server = Server(adapter) {
         if (book != null)
             ok("Book with id '$bookId' deleted")
         else
-            send(404, "Book not found")
+            notFound("Book not found")
     }
 
     // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-    any("/books/{id}") { send(405) }
+    after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND) {
+        send(METHOD_NOT_ALLOWED)
+    }
 
-    get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
+    get("/books") {
+        ok(books.keys.joinToString(" ", transform = Int::toString))
+    }
 }
 // books
 ```
@@ -229,48 +232,7 @@ Example showing how to use sessions. Here you can check the
 
 ```kotlin
 // session
-val server: Server = Server(adapter, ServerSettings(features = setOf(SESSIONS))) {
-    path("/session") {
-        get("/id") { ok(session.id ?: "null") }
-        get("/access") { ok(session.lastAccessedTime?.toString() ?: "null") }
-        get("/new") { ok(session.isNew()) }
-
-        path("/inactive") {
-            get { ok(session.maxInactiveInterval ?: "null") }
-
-            put("/{time}") {
-                session.maxInactiveInterval = pathParameters.require("time").toInt()
-            }
-        }
-
-        get("/creation") { ok(session.creationTime ?: "null") }
-        post("/invalidate") { session.invalidate() }
-
-        path("/{key}") {
-            put("/{value}") {
-                session.set(pathParameters.require("key"), pathParameters.require("value"))
-            }
-
-            get { ok(session.get(pathParameters.require("key")).toString()) }
-            delete { session.remove(pathParameters.require("key")) }
-        }
-
-        get {
-            val attributes = session.attributes
-            val attributeTexts = attributes.entries.map { it.key + " : " + it.value }
-
-            response.headers["attributes"] = attributeTexts.joinToString(", ")
-            response.headers["attribute values"] = attributes.values.joinToString(", ")
-            response.headers["attribute names"] = attributes.keys.joinToString(", ")
-
-            response.headers["creation"] = session.creationTime.toString()
-            response.headers["id"] = session.id ?: ""
-            response.headers["last access"] = session.lastAccessedTime.toString()
-
-            response.status = 200
-        }
-    }
-}
+// TODO
 // session
 ```
 </details>
@@ -285,29 +247,36 @@ Code to show how to handle callback exceptions and HTTP error codes. Here you ca
 // errors
 class CustomException : IllegalArgumentException()
 
-val server: Server = Server(adapter) {
-    error(UnsupportedOperationException::class) {
-        response.headers["error"] = it.message ?: it.javaClass.name
-        send(599, "Unsupported")
-    }
-
-    error(IllegalArgumentException::class) {
-        response.headers["runtimeError"] = it.message ?: it.javaClass.name
-        send(598, "Runtime")
-    }
+private val path: PathHandler = path {
 
     // Catching `Exception` handles any unhandled exception before (it has to be the last)
-    error(Exception::class) { send(500, "Root handler") }
-
-    // It is possible to execute a handler upon a given status code before returning
-    error(588) { send(578, "588 -> 578") }
+    after(exception = Exception::class, status = NOT_FOUND) {
+        internalServerError("Root handler")
+    }
 
     get("/exception") { throw UnsupportedOperationException("error message") }
     get("/baseException") { throw CustomException() }
     get("/unhandledException") { error("error message") }
 
-    get("/halt") { halt("halted") }
-    get("/588") { halt(588) }
+    get("/halt") { internalServerError("halted") }
+    get("/588") { send(HttpStatus(588)) }
+
+    on(exception = UnsupportedOperationException::class) {
+        val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
+        val newHeaders = response.headers + ("error" to error)
+        send(HttpStatus(599), "Unsupported", headers = newHeaders)
+    }
+
+    on(exception = IllegalArgumentException::class) {
+        val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
+        val newHeaders = response.headers + ("runtime-error" to error)
+        send(HttpStatus(598), "Runtime", headers = newHeaders)
+    }
+
+    // It is possible to execute a handler upon a given status code before returning
+    on(status = HttpStatus(588)) {
+        send(HttpStatus(578), "588 -> 578")
+    }
 }
 // errors
 ```
@@ -326,29 +295,58 @@ private val users: Map<String, String> = mapOf(
     "Dijkstra" to "Rotterdam"
 )
 
-private val server: Server = Server(adapter) {
-    before { attributes["start"] = nanoTime() }
+private val path: PathHandler = path {
+    filter {
+        val start = System.nanoTime()
+        // Call next and store result to chain it
+        val next = next()
+        val time = (System.nanoTime() - start).toString()
+        // Copies result from chain with the extra data
+        next.send(headers = response.headers + ("time" to time))
+    }
 
-    before("/protected/*") {
-        val authorization = request.headers["Authorization"] ?: halt(401, "Unauthorized")
+    filter("/protected/*") {
+        val authorization = request.headers["authorization"]
+            ?: return@filter send(UNAUTHORIZED, "Unauthorized")
         val credentials = authorization.removePrefix("Basic ")
-        val userPassword = String(Base64.getDecoder().decode(credentials)).split(":")
+        val userPassword = String(credentials.decodeBase64()).split(":")
 
         // Parameters set in call attributes are accessible in other filters and routes
-        attributes["username"] = userPassword[0]
-        attributes["password"] = userPassword[1]
+        send(attributes = attributes
+          + ("username" to userPassword[0])
+          + ("password" to userPassword[1])
+        ).next()
     }
 
     // All matching filters are run in order unless call is halted
-    before("/protected/*") {
+    filter("/protected/*") {
         if(users[attributes["username"]] != attributes["password"])
-            halt(403, "Forbidden")
+            send(FORBIDDEN, "Forbidden")
+        else
+            next()
     }
 
-    get("/protected/hi") { ok("Hello ${attributes["username"]}!") }
+    get("/protected/hi") {
+        ok("Hello ${attributes["username"]}!")
+    }
 
-    // After filters are run even if request was halted before
-    after { response.headers["time"] = nanoTime() - attributes["start"] as Long }
+    path("/after") {
+        after(PUT) {
+            success(ALREADY_REPORTED)
+        }
+
+        after(PUT, "/second") {
+            success(NO_CONTENT)
+        }
+
+        after("/second") {
+            success(CREATED)
+        }
+
+        after {
+            success(ACCEPTED)
+        }
+    }
 }
 // filters
 ```
@@ -362,34 +360,60 @@ The following code shows how to serve resources and receive files. Here you can 
 
 ```kotlin
 // files
-private val server: Server = Server(adapter) {
+private val path: PathHandler = path {
+
+    // Serve `public` resources folder on `/*`
+    after(
+        methods = setOf(GET),
+        pattern = "/*",
+        status = NOT_FOUND,
+        callback = UrlCallback(URL("classpath:public"))
+    )
+
     path("/static") {
-        get("/files/*", URL("classpath:assets")) // Serve `assets` resources on `/html/*`
-        get("/resources/*", File(directory)) // Serve `test` folder on `/pub/*`
+        get("/files/*", UrlCallback(URL("classpath:assets")))
+        get("/resources/*", FileCallback(File(directory)))
     }
 
-    get("/html/*", URL("classpath:assets")) // Serve `assets` resources on `/html/*`
-    get("/pub/*", File(directory)) // Serve `test` folder on `/pub/*`
-    get(URL("classpath:public")) // Serve `public` resources folder on `/*`
+    get("/html/*", UrlCallback(URL("classpath:assets"))) // Serve `assets` files on `/html/*`
+    get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
 
-    post("/multipart") { ok(request.parts.keys.joinToString(":")) }
+    post("/multipart") {
+        val headers: MultiMap<String, String> = request.parts.first().let { p ->
+            val name = p.name
+            val bodyString = p.bodyString()
+            val size = p.size.toString()
+            val fullType = p.contentType?.mediaType?.fullType ?: ""
+            val contentDisposition = p.headers.require("content-disposition")
+            multiMapOf(
+                "name" to name,
+                "body" to bodyString,
+                "size" to size,
+                "type" to fullType,
+                "content-disposition" to contentDisposition
+            )
+        }
+
+        ok(headers = headers)
+    }
 
     post("/file") {
-        val part = request.parts.values.first()
-        val content = part.inputStream.reader().readText()
+        val part = request.parts.first()
+        val content = part.bodyString()
         ok(content)
     }
 
     post("/form") {
-        fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
-            map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
-        )
+      fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
+          map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+      )
 
-        val queryParams = serializeMap(queryParametersValues)
-        val formParams = serializeMap(formParametersValues)
+      val queryParams = serializeMap(request.queryParameters.allValues)
+      val formParams = serializeMap(request.formParameters.allValues)
+      val headers =
+          multiMapOfLists("query-params" to queryParams, "form-params" to formParams)
 
-        response.headersValues["queryParams"] = queryParams
-        response.headersValues["formParams"] = formParams
+      ok(headers = response.headers + headers)
     }
 }
 // files

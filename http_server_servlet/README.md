@@ -1,6 +1,5 @@
 
 # Module http_server_servlet
-
 TODO
 
 ### Install the Dependency
@@ -26,5 +25,4 @@ TODO
     ```
 
 # Package com.hexagonkt.http.server.servlet
-
 TODO

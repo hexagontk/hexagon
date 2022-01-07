@@ -18,37 +18,11 @@ jobs:
     name: Build (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
-
-      # SET UP
-      # TODO Use composite GitHub action (in `github_action` tag) when `uses` and `if` are supported
       - name: Check Out
         uses: actions/checkout@v2
         with: { ref: develop }
-      - name: Install Java
-        uses: actions/setup-java@v2
-        with: { java-version: 11, distribution: adopt }
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-
-      # PROCESS
       - name: Build Project
-        run: ./gradlew build
-      - name: Log Build (ON FAILURE)
-        if: failure()
-        run: ./gradlew --info --stacktrace build
-
-      # CLEAN UP
-      - name: Clean Gradle Cache
-        run: |
-          ./gradlew --stop
-          sleep 3
-          rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        uses: ./.github/actions/gradle
 
   sample_keystores:
     defaults:
@@ -61,30 +35,13 @@ jobs:
     name: Sample Keystores (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
-
-      # SET UP
       - name: Check Out
         uses: actions/checkout@v2
         with: { ref: develop }
-      - name: Install Java
-        uses: actions/setup-java@v2
-        with: { java-version: 11, distribution: adopt }
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-
-      # PROCESS
       - name: Create Sample Keystores
-        run: ./gradlew --no-daemon createCa createIdentities
-
-      # CLEAN UP
-      - name: Clean Gradle Cache
-        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        uses: ./.github/actions/gradle
+        with:
+          tasks: createCa createIdentities
 
   build_site:
     name: Build Site
@@ -97,7 +54,7 @@ jobs:
         with: { ref: develop }
       - name: Install Java
         uses: actions/setup-java@v2
-        with: { java-version: 11, distribution: adopt }
+        with: { java-version: 17, distribution: temurin }
       - name: Restore Cache
         uses: actions/cache@v2
         with:
@@ -128,30 +85,10 @@ jobs:
     name: Test Publishing (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
-
-      # SET UP
       - name: Check Out
         uses: actions/checkout@v2
         with: { ref: develop }
-      - name: Install Java
-        uses: actions/setup-java@v2
-        with: { java-version: 11, distribution: adopt }
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle*.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-
-      # PROCESS
       - name: Test Publishing
-        run: ./gradlew --no-daemon publishToMavenLocal -x test
-      - name: Test Publishing (ON FAILURE)
-        if: failure()
-        run: ./gradlew --info --stacktrace --no-daemon publishToMavenLocal -x test
-
-      # CLEAN UP
-      - name: Clean Gradle Cache
-        run: ./gradlew --stop && rm -f ~/.gradle/caches/modules-2/{modules-2.lock,gc.properties}
+        uses: ./.github/actions/gradle
+        with:
+          tasks: --no-daemon publishToMavenLocal -x test

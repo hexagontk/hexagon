@@ -33,7 +33,7 @@ kinds of modules:
   themselves and in their place, an adapter implementing them should be added to the list of
   dependencies. These modules' names start with the `port_` prefix. Ports are independent of each
   other.
-* Adapter modules, which are Port implementations for a given tool, [http_client_ahc], and
+* Adapter modules, which are Port implementations for a given tool, [http_client_jetty], and
   [http_server_jetty] are examples of this type of module. Adapter names must start with their
   port name.
 
@@ -42,7 +42,7 @@ kinds of modules:
 [http_server]: /http_server/
 [templates]: /templates/
 
-[http_client_ahc]: /http_client_ahc/
+[http_client_jetty]: /http_client_jetty/
 [http_server_jetty]: /http_server_jetty/
 
 # Hexagon Core

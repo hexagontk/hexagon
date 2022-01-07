@@ -35,10 +35,9 @@ class FileRange(private val file: File, private val range: IntRange) {
         }
     }
 
-    @JvmOverloads
     constructor(file: File, begin: Int? = null, end: Int? = null) : this(
         file,
-        (begin ?: 0) .. (end ?: file.readLines().size - 1)
+        (begin ?: 0)..(end ?: (file.readLines().size - 1))
     )
 
     constructor(file: File, tag: String) : this(
@@ -119,10 +118,16 @@ fun insertSamplesCode(parent: File, content: String): String {
     var result = content
 
     samples.forEach { sample ->
-        val sampleLocation = sample.groups[1]?.value?.trim() ?: error("Location expected")
-        val fileRange = FileRange.parse(parent, sampleLocation)
-        val replacement = "```kotlin\n" + fileRange.text().trim() + "\n```"
-        result = result.replace("@code $sampleLocation", replacement)
+        try {
+            val sampleLocation = sample.groups[1]?.value?.trim() ?: error("Location expected")
+            val fileRange = FileRange.parse(parent, sampleLocation)
+            val replacement = "```kotlin\n" + fileRange.text().trim() + "\n```"
+            result = result.replace("@code $sampleLocation", replacement)
+        }
+        catch(e: Exception) {
+            val code = sample.value
+            println("ERROR: Unable to process '$code' in folder: '${parent.absolutePath}'")
+        }
     }
 
     return result

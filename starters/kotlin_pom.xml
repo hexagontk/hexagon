@@ -20,6 +20,11 @@
         <artifactId>kotlin-reflect</artifactId>
         <version>${kotlin.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.jetbrains.kotlinx</groupId>
+        <artifactId>kotlinx-coroutines-core</artifactId>
+        <version>${coroutines.version}</version>
+      </dependency>
 
       <!-- Hexagon -->
       <dependency>
@@ -34,7 +39,7 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>http_client_ahc</artifactId>
+        <artifactId>http_client_jetty</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -74,22 +79,22 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>serialization_csv</artifactId>
+        <artifactId>serialization_jackson_csv</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>serialization_json</artifactId>
+        <artifactId>serialization_jackson_json</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>serialization_xml</artifactId>
+        <artifactId>serialization_jackson_xml</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>serialization_yaml</artifactId>
+        <artifactId>serialization_jackson_yaml</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
       <dependency>
@@ -113,6 +118,11 @@
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-test</artifactId>
         <version>${kotlin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jetbrains.kotlinx</groupId>
+        <artifactId>kotlinx-coroutines-test</artifactId>
+        <version>${coroutines.version}</version>
       </dependency>
       <dependency>
         <groupId>io.mockk</groupId>
