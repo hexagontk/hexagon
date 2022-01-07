@@ -4,7 +4,7 @@ apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
 
-description = "Hexagon SLF4J logging adapter."
+description = "Hexagon SLF4J logging adapter (using JUL as SLF4J engine)."
 
 extra["basePackage"] = "com.hexagonkt.logging.slf4j.jul"
 
