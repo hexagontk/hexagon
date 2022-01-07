@@ -80,8 +80,9 @@ class Logger(val name: String) {
      * @param exception The exception associated with log message.
      * @param message The required message to log.
      */
-    fun <E : Throwable> warn(exception: E, message: (E) -> Any?) {
-        log.log(WARN, exception, message)
+    fun <E : Throwable> warn(exception: E?, message: (E?) -> Any?) {
+        if (exception == null) log.log(WARN) { message(null) }
+        else log.log(WARN, exception, message)
     }
 
     /**
@@ -90,8 +91,9 @@ class Logger(val name: String) {
      * @param exception The exception associated with log message.
      * @param message The required message to log.
      */
-    fun <E : Throwable> error(exception: E, message: (E) -> Any?) {
-        log.log(ERROR, exception, message)
+    fun <E : Throwable> error(exception: E?, message: (E?) -> Any?) {
+        if (exception == null) log.log(ERROR) { message(null) }
+        else log.log(ERROR, exception, message)
     }
 
     /**

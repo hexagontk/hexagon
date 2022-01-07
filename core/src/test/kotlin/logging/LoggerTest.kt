@@ -1,6 +1,7 @@
 package com.hexagonkt.core.logging
 
 import org.junit.jupiter.api.Test
+import kotlin.test.assertNull
 
 internal class LoggerTest {
 
@@ -19,6 +20,8 @@ internal class LoggerTest {
         logger.error { mapOf(0 to 1, 2 to 3) }
         logger.warn(RuntimeException()) { 'c' }
         logger.error(RuntimeException()) { 0..100 }
+        logger.warn(null) { assertNull(it) }
+        logger.error(null) { assertNull(it) }
         logger.flare { "message" }
         logger.time("message") {}
         logger.time {}
