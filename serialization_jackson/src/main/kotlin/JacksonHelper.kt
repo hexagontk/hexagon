@@ -1,4 +1,4 @@
-package com.hexagonkt.serialization.json
+package com.hexagonkt.serialization.jackson
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonGenerator
@@ -7,66 +7,79 @@ import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS
 import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_SINGLE_QUOTES
 import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES
 import com.fasterxml.jackson.core.JsonToken.START_OBJECT
-import com.fasterxml.jackson.core.Version
-import com.fasterxml.jackson.databind.BeanProperty
-import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.core.json.JsonReadFeature.ALLOW_TRAILING_COMMA
+import com.fasterxml.jackson.databind.*
 import com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES
 import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-import com.fasterxml.jackson.databind.JavaType
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonMappingException
-import com.fasterxml.jackson.databind.JsonSerializer
 import com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY
-import com.fasterxml.jackson.databind.MappingJsonFactory
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
-import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.deser.ContextualDeserializer
+import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
+import com.fasterxml.jackson.databind.node.*
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.hexagonkt.serialization.ParseException
 import java.net.InetAddress
 import java.nio.ByteBuffer
 import java.util.Base64
 
 object JacksonHelper {
 
-    // TODO Replace ObjectMapper by JsonMapper (Jackson 2.13)
-    val mapper: ObjectMapper by lazy { createObjectMapper () }
+    fun createObjectMapper(mapperFactory: JsonFactory): JsonMapper =
+        JsonMapper
+            .builder(mapperFactory)
+            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(FAIL_ON_EMPTY_BEANS, false)
+            .configure(ALLOW_UNQUOTED_FIELD_NAMES, true)
+            .configure(ALLOW_COMMENTS, true)
+            .configure(ALLOW_SINGLE_QUOTES, true)
+            .configure(ALLOW_TRAILING_COMMA, true)
+            .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
+            .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
+            .configure(SORT_PROPERTIES_ALPHABETICALLY, false)
+            .addModule(JavaTimeModule())
+            .addModule(SimpleModule()
+                .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)
+                .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)
+                .addSerializer(ClosedRange::class.java, ClosedRangeSerializer)
+                .addDeserializer(ClosedRange::class.java, ClosedRangeDeserializer())
+                .addSerializer(Float::class.java, FloatSerializer)
+                .addDeserializer(Float::class.java, FloatDeserializer)
+                .addSerializer(InetAddress::class.java, InetAddressSerializer)
+                .addDeserializer(InetAddress::class.java, InetAddressDeserializer)
+            )
+            .build()
 
-    fun createObjectMapper(mapperFactory: JsonFactory = MappingJsonFactory()): ObjectMapper =
-        setupObjectMapper(ObjectMapper(mapperFactory))
+    fun nodeToCollection(node: JsonNode): Any? =
+        when (node) {
 
-    fun setupObjectMapper(objectMapper: ObjectMapper): ObjectMapper = objectMapper
-        .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
-        .configure(FAIL_ON_EMPTY_BEANS, false)
-        .configure(ALLOW_UNQUOTED_FIELD_NAMES, true)
-        .configure(ALLOW_COMMENTS, true)
-        .configure(ALLOW_SINGLE_QUOTES, true)
-        .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
-        .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
-        .configure(SORT_PROPERTIES_ALPHABETICALLY, false)
-        .registerModule(KotlinModule.Builder().build())
-        .registerModule(JavaTimeModule())
-        .registerModule(Jdk8Module())
-        .registerModule(SimpleModule("SerializationModule", Version.unknownVersion())
-            .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)
-            .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)
-            .addSerializer(ClosedRange::class.java, ClosedRangeSerializer)
-            .addDeserializer(ClosedRange::class.java, ClosedRangeDeserializer())
-            .addSerializer(Float::class.java, FloatSerializer)
-            .addDeserializer(Float::class.java, FloatDeserializer)
-            .addSerializer(InetAddress::class.java, InetAddressSerializer)
-            .addDeserializer(InetAddress::class.java, InetAddressDeserializer)
-        )
+            is ArrayNode -> node.toList().map { nodeToCollection(it) }
+            is ObjectNode -> {
+                var map = emptyMap<String, Any?>()
 
-    fun parseException(e: Exception?): ParseException =
-        ParseException((e as? JsonMappingException)?.pathReference ?: "", e)
+                for (f in node.fields())
+                    map = map + (f.key to nodeToCollection(f.value))
 
-    private object InetAddressSerializer : JsonSerializer<InetAddress>() {
+                map
+            }
+
+            is TextNode -> node.textValue()
+            is BigIntegerNode -> node.bigIntegerValue()
+            is BooleanNode -> node.booleanValue()
+            is DoubleNode -> node.doubleValue()
+            is FloatNode -> node.floatValue()
+            is IntNode -> node.intValue()
+            is LongNode -> node.longValue()
+            is NullNode -> null
+            is BinaryNode -> node.binaryValue()
+
+            else -> error("Unknown node type: ${node::class.qualifiedName}")
+        }
+
+    fun mapNode(node: JsonNode): Any =
+        nodeToCollection(node) ?: error("Parsed content is 'null'")
+
+    object InetAddressSerializer : JsonSerializer<InetAddress>() {
         override fun serialize(
             value: InetAddress, gen: JsonGenerator, serializers: SerializerProvider) {
 
@@ -74,22 +87,22 @@ object JacksonHelper {
         }
     }
 
-    private object InetAddressDeserializer : JsonDeserializer<InetAddress>() {
+    object InetAddressDeserializer : JsonDeserializer<InetAddress>() {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): InetAddress =
             InetAddress.getByName(p.text)
     }
 
-    private object FloatSerializer : JsonSerializer<Float>() {
+    object FloatSerializer : JsonSerializer<Float>() {
         override fun serialize(value: Float, gen: JsonGenerator, serializers: SerializerProvider) {
             gen.writeNumber(value.toBigDecimal().toDouble()) // BigDecimal needed for good rounding
         }
     }
 
-    private object FloatDeserializer : JsonDeserializer<Float>() {
+    object FloatDeserializer : JsonDeserializer<Float>() {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Float = p.floatValue
     }
 
-    private object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
+    object ByteBufferSerializer: JsonSerializer<ByteBuffer>() {
         override fun serialize(
             value: ByteBuffer, gen: JsonGenerator, serializers: SerializerProvider) {
 
@@ -97,12 +110,12 @@ object JacksonHelper {
         }
     }
 
-    private object ByteBufferDeserializer: JsonDeserializer<ByteBuffer>() {
+    object ByteBufferDeserializer: JsonDeserializer<ByteBuffer>() {
         override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ByteBuffer =
             ByteBuffer.wrap (Base64.getDecoder ().decode (p.text))
     }
 
-    private object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
+    object ClosedRangeSerializer: JsonSerializer<ClosedRange<*>> () {
         override fun serialize(
             value: ClosedRange<*>, gen: JsonGenerator, serializers: SerializerProvider) {
 
@@ -122,7 +135,7 @@ object JacksonHelper {
         }
     }
 
-    private class ClosedRangeDeserializer(private val type: JavaType? = null) :
+    class ClosedRangeDeserializer(private val type: JavaType? = null) :
         JsonDeserializer<ClosedRange<*>> (), ContextualDeserializer {
 
         override fun createContextual(

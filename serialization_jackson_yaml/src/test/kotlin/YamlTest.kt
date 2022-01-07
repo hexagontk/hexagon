@@ -1,158 +1,62 @@
-package com.hexagonkt.serialization.yaml
+package com.hexagonkt.serialization.jackson.yaml
 
-import com.hexagonkt.core.helpers.toStream
+import com.hexagonkt.core.converters.ConvertersManager
+import com.hexagonkt.core.converters.convert
+import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.helpers.requireKeys
 import com.hexagonkt.serialization.*
-import com.hexagonkt.serialization.json.Json
+import com.hexagonkt.serialization.test.SerializationTest
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import kotlin.test.assertFailsWith
+import java.net.URL
+import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class YamlTest {
+internal class YamlTest : SerializationTest() {
 
-    enum class DeviceOs { ANDROID, IOS }
-
-    data class Device(
-        val id: String,
-        val brand: String,
-        val model: String,
-        val os: DeviceOs,
-        val osVersion: String,
-
-        val alias: String = "$brand $model"
+    override val format: SerializationFormat = Yaml
+    override val urls: List<URL> = listOf(
+        URL("classpath:data/companies.yml"),
+        URL("classpath:data/company.yml"),
     )
 
     data class Player (val name: String, val number: Int, val category: ClosedRange<Int>)
 
     @BeforeAll fun setUpSerializationManager() {
-        SerializationManager.formats = linkedSetOf(Json, Yaml)
+        SerializationManager.formats = linkedSetOf(Yaml)
+
+        ConvertersManager.register(Map::class to Player::class) {
+            Player(
+                name = it.requireKeys(Player::name.name),
+                number = it.requireKeys(Player::number.name),
+                category = it.requireKeys<Map<String, Int>>(Player::category.name).let { map ->
+                    val start = map.require(ClosedRange<*>::start.name)
+                    val endInclusive = map.require(ClosedRange<*>::endInclusive.name)
+                    start..endInclusive
+                }
+            )
+        }
     }
 
     @Test fun `YAML is serialized properly` () {
         val player = Player("Michael", 23, 18..65)
         val serializedPlayer = player.serialize(Yaml)
-        val deserializedPlayer = serializedPlayer.parse(Player::class, Yaml)
+        val deserializedPlayer = serializedPlayer.parse(Yaml).convert<Player>()
 
-        assert (player.name == deserializedPlayer.name)
-        assert (player.number == deserializedPlayer.number)
-        assert (player.category.start == deserializedPlayer.category.start)
-        assert (player.category.endInclusive == deserializedPlayer.category.endInclusive)
+        assertEquals(deserializedPlayer.name, player.name)
+        assertEquals(deserializedPlayer.number, player.number)
+        assertEquals(deserializedPlayer.category.start, player.category.start)
+        assertEquals(deserializedPlayer.category.endInclusive, player.category.endInclusive)
     }
 
-    @Test fun `Parse invalid YAML range` () {
-        assertFailsWith<ParseException> {
-            """
-            name: Michael
-            number: 23
-            category: error
-            """
-            .trimIndent()
-            .parse(Player::class, Yaml)
-        }
-    }
-
-    @Test fun `Parse invalid YAML range start` () {
-        assertFailsWith<ParseException> {
-            """
-            name: Michael
-            number: 23
-            category:
-                error: 18
-                endInclusive: 65
-            """
-            .trimIndent()
-            .parse(Player::class, Yaml)
-        }
-    }
-
-    @Test fun `Parse invalid YAML range end` () {
-        assertFailsWith<ParseException> {
-            """
-            name: Michael
-            number: 23
-            category:
-                start: 18
-                error: 65
-            """
-            .trimIndent()
-            .parse(Player::class, Yaml)
-        }
-    }
-
+    @Suppress("UNCHECKED_CAST") // Required by test
     @Test fun `Parse valid YAML` () {
         val parse = """
             - a: b
             - b: c
             - c: d
-        """.trimIndent().toStream().parseObjects<Map<String, *>>(Yaml)
-        assert(parse[0]["a"] == "b")
-    }
-
-    @Test fun `Serialize by content type` () {
-        val result = mapOf("aKey" to 1, "bKey" to 2).serialize(Yaml.contentType)
-        assert(result.contains("aKey") && result.contains("bKey"))
-    }
-
-    @Test fun `Parse exceptions contains failed field`() {
-        try {
-            """
-            {
-              "id" : "f",
-              "brand" : "br",
-              "model" : "mo",
-              "os" : "ANDROI",
-              "osVersion" : "v",
-              "alias" : "al"
-            }
-            """.parse(Device::class)
-
-            assert(false) { "Exception expected" }
-        }
-        catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.yaml.YamlTest\$Device[\"os\"]")
-        }
-    }
-
-    @Test fun `Invalid format exceptions field is 'null'`() {
-        try {
-            """
-              "id" "f",
-              "brand" : "br",
-              "model" : "mo",
-              "os" : "ANDROI",
-              "osVersion" : "v",
-              "alias" : "al"
-            }
-            """.parse(Device::class)
-
-            assert(false) { "Exception expected" }
-        }
-        catch (e: ParseException) {
-            assert(e.field == "")
-        }
-    }
-
-    @Test fun `Parse an invalid class throws exception`() {
-        try {
-            """
-            [
-                {
-                  "id" : "f",
-                  "brand" : "br",
-                  "model" : "mo",
-                  "os" : "ANDROI",
-                  "osVersion" : "v",
-                  "alias" : "al"
-                }
-            ]
-            """.parseObjects<Device>()
-
-            assert(false) { "Exception expected" }
-        }
-        catch (e: ParseException) {
-            val fieldFullName = "com.hexagonkt.serialization.yaml.YamlTest\$Device[\"os\"]"
-            assert(e.field == "java.util.ArrayList[0]->$fieldFullName")
-        }
+        """.parse(Yaml) as List<Map<Any, *>>
+        assertEquals("b", parse.first()["a"])
     }
 }

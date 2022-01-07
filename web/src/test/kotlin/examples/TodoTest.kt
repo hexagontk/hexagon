@@ -1,6 +1,9 @@
 package com.hexagonkt.web.examples
 
+import com.hexagonkt.core.converters.ConvertersManager
+import com.hexagonkt.core.converters.convert
 import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.helpers.requireKeys
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingManager
@@ -18,9 +21,8 @@ import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.serialization.json.JacksonMapper
-import com.hexagonkt.serialization.json.Json
 import com.hexagonkt.serialization.SerializationManager
+import com.hexagonkt.serialization.jackson.json.Json
 import com.hexagonkt.serialization.parse
 import com.hexagonkt.serialization.serialize
 import kotlinx.coroutines.runBlocking
@@ -69,13 +71,13 @@ abstract class TodoTest(adapter: HttpServerPort) {
 
             path("/tasks") {
                 post {
-                    val task = request.bodyString().parse(Task::class, Json)
+                    val task = request.bodyString().parse(Json).convert<Task>()
                     tasks += task.number to task
                     send(CREATED, task.number.toString())
                 }
 
                 put {
-                    val task = request.bodyString().parse(Task::class, Json)
+                    val task = request.bodyString().parse(Json).convert<Task>()
                     tasks += task.number to task
                     ok("Task with id '${task.number}' updated")
                 }
@@ -84,7 +86,7 @@ abstract class TodoTest(adapter: HttpServerPort) {
                     patch {
                         val taskId = pathParameters.require("id").toInt()
                         val task = tasks[taskId]
-                        val fields = request.bodyString().parse<Map<*, *>>(Json)
+                        val fields = request.bodyString().parse(Json) as Map<*, *>
                         if (task != null) {
                             tasks += taskId to task.copy(
                                 number = fields["number"] as? Int ?: task.number,
@@ -103,7 +105,10 @@ abstract class TodoTest(adapter: HttpServerPort) {
                         val taskId = pathParameters.require("id").toInt()
                         val task = tasks[taskId]
                         if (task != null)
-                            ok(task.serialize(Json), contentType = ContentType(JSON))
+                            ok(
+                                body = task.convert(Map::class).serialize(Json),
+                                contentType = ContentType(JSON)
+                            )
                         else
                             send(NOT_FOUND, "Task: $taskId not found")
                     }
@@ -120,7 +125,7 @@ abstract class TodoTest(adapter: HttpServerPort) {
                 }
 
                 get {
-                    val body = tasks.values.serialize(Json)
+                    val body = tasks.values.map { it.convert(Map::class) }.serialize(Json)
                     ok(body, contentType = ContentType(JSON))
                 }
             }
@@ -139,10 +144,23 @@ abstract class TodoTest(adapter: HttpServerPort) {
     }
 
     @BeforeAll fun initialize() {
-        SerializationManager.mapper = JacksonMapper
         SerializationManager.formats = linkedSetOf(Json)
         LoggingManager.adapter = JulLoggingAdapter()
         LoggingManager.setLoggerLevel("com.hexagonkt", DEBUG)
+        ConvertersManager.register(Task::class to Map::class) {
+            mapOf(
+                Task::description.name to it.description,
+                Task::number.name to it.number,
+                Task::title.name to it.title,
+            )
+        }
+        ConvertersManager.register(Map::class to Task::class) {
+            Task(
+                description = it.requireKeys(Task::description.name),
+                number = it.requireKeys(Task::number.name),
+                title = it.requireKeys(Task::title.name),
+            )
+        }
         server.start()
         client.start()
     }

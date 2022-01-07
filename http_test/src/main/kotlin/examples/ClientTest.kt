@@ -24,10 +24,9 @@ import com.hexagonkt.http.server.handlers.HttpCallback
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
+import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
-import com.hexagonkt.serialization.jackson.json.Json
-import com.hexagonkt.serialization.jackson.yaml.Yaml
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.*
 
@@ -41,7 +40,8 @@ import kotlin.test.assertTrue
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class ClientTest(
     override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort
+    override val serverAdapter: () -> HttpServerPort,
+    private val serializationFormats: List<SerializationFormat>,
 ) : BaseTest() {
 
     private val logger: Logger = Logger(ClientTest::class)
@@ -69,8 +69,8 @@ abstract class ClientTest(
         )
 
     @BeforeAll fun setUpSerializationFormats() {
-        SerializationManager.formats = setOf(Json, Yaml)
-        SerializationManager.defaultFormat = Json
+        SerializationManager.formats = serializationFormats.toSet()
+        SerializationManager.defaultFormat = serializationFormats.firstOrNull()
     }
 
     @BeforeEach fun resetHandler() {

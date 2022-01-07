@@ -35,9 +35,9 @@ abstract class FilesTest(
     override val serverAdapter: () -> HttpServerPort
 ) : BaseTest() {
 
-    private val directory = File("http_test/main/assets").let {
+    private val directory = File("http_test/src/main/resources/assets").let {
         if (it.exists()) it.path
-        else "main/assets"
+        else "src/main/resources/assets"
     }
 
     // files
@@ -128,8 +128,8 @@ abstract class FilesTest(
         assertResponseEquals(response, content = "/* css */")
 
         val responseFile = client.get("/pub/css/mkdocs.css")
-        assertEquals(CSS, responseFile.contentType?.mediaType)
         assertResponseContains(responseFile, OK, "article")
+        assertEquals(CSS, responseFile.contentType?.mediaType)
 
         client.get("/static/resources/css/mkdocs.css").apply {
             assertEquals(CSS, contentType?.mediaType)

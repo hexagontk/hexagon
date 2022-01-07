@@ -3,17 +3,20 @@ package com.hexagonkt.http.test
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
 import com.hexagonkt.http.test.examples.*
+import com.hexagonkt.serialization.jackson.json.Json
+import com.hexagonkt.serialization.jackson.yaml.Yaml
 import org.junit.jupiter.api.Disabled
 
 // TODO Fix disabled test
 
 val clientAdapter = ::JettyClientAdapter
 val serverAdapter = ::JettyServletAdapter
+val serializationFormats = listOf(Json, Yaml)
 
 internal class AdapterBooksTest : BooksTest(clientAdapter, serverAdapter)
 internal class AdapterErrorsTest : ErrorsTest(clientAdapter, serverAdapter)
 internal class AdapterFiltersTest : FiltersTest(clientAdapter, serverAdapter)
-internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter)
+internal class AdapterClientTest : ClientTest(clientAdapter, serverAdapter, serializationFormats)
 internal class AdapterHttpsTest : HttpsTest(clientAdapter, serverAdapter)
 internal class AdapterZipTest : ZipTest(clientAdapter, serverAdapter)
 internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)

@@ -1,10 +1,9 @@
 package com.hexagonkt.web
 
-import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.core.media.mediaTypeOfOrNull
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.server.handlers.HttpServerContext
-import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.TemplatePort
 import kotlinx.html.HTML
@@ -17,11 +16,8 @@ import java.util.Locale.forLanguageTag as localeFor
 
 fun HttpServerContext.templateType(url: URL): ContentType? =
     response.contentType ?: run {
-        val mimeType = SerializationManager.contentTypeOf(url.toString().substringAfterLast('.'))
-        val urlContentType = mimeType?.let {
-            ContentType(MediaType(it), charset = defaultCharset())
-        }
-        urlContentType
+        val mimeType = mediaTypeOfOrNull(url)
+        mimeType?.let { ContentType(it, charset = defaultCharset()) }
     }
 
 fun HttpServerContext.fullContext(): Map<String, *> =

@@ -1,38 +1,53 @@
-package com.hexagonkt.serialization.xml
+package com.hexagonkt.serialization.jackson.xml
 
+import com.hexagonkt.core.helpers.requireKeys
+import com.hexagonkt.core.converters.ConvertersManager
+import com.hexagonkt.core.converters.convert
+import com.hexagonkt.core.converters.convertObjects
 import com.hexagonkt.core.helpers.get
-import com.hexagonkt.core.helpers.println
+import com.hexagonkt.core.helpers.require
 import com.hexagonkt.core.helpers.toStream
 import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class XmlTest {
 
-    enum class DeviceOs { ANDROID, IOS }
-
-    data class Device(
-        val id: String,
-        val brand: String,
-        val model: String,
-        val os: DeviceOs,
-        val osVersion: String,
-
-        val alias: String = "$brand $model"
+    data class Player(
+        val name: String,
+        val number: Int,
+        val category: ClosedRange<Int>
     )
-
-    data class Players(
-        val players: List<Player>
-    )
-
-    data class Player(val name: String, val number: Int, val category: ClosedRange<Int>)
 
     @BeforeAll fun setUpSerializationManager() {
         SerializationManager.formats = linkedSetOf(Xml)
+
+        ConvertersManager.register(Player::class to Map::class) {
+            mapOf(
+                Player::name.name to it.name,
+                Player::number.name to it.number,
+                Player::category.name to mapOf(
+                    ClosedRange<*>::start.name to it.category.start,
+                    ClosedRange<*>::endInclusive.name to it.category.endInclusive,
+                )
+            )
+        }
+
+        ConvertersManager.register(Map::class to Player::class) {
+            Player(
+                name = it.requireKeys(Player::name.name),
+                number = it.requireKeys<String>(Player::number.name).toInt(),
+                category = it.requireKeys<Map<String, String>>(Player::category.name).let { map ->
+                    val start = map.require(ClosedRange<*>::start.name).toInt()
+                    val endInclusive = map.require(ClosedRange<*>::endInclusive.name).toInt()
+                    start..endInclusive
+                }
+            )
+        }
     }
 
     @Test fun `XML can be parsed to collections` () {
@@ -67,14 +82,15 @@ internal class XmlTest {
               <alien property="val">text</alien>
             </project>
             """
-        val collection = xml.parse<Map<String, *>>().println()
+        val parse = xml.parse(Xml)
+        val collection = parse as Map<*, *>
 
-        assert(collection["name"] == "Kotlin POM")
-        assert(collection["repositories", "repository", "id"] == "central")
-        assert(collection["dependencies", "dependency", 0, "artifactId"] == "junit-jupiter")
-        assert(collection["dependencies", "dependency", 1, "artifactId"] == "kotlin-test")
-        assert(collection["alien", "property"] == "val")
-        assert(collection["alien", ""] == "text")
+        assertEquals("Kotlin POM", collection["name"])
+        assertEquals("central", collection["repositories", "repository", "id"])
+        assertEquals("junit-jupiter", collection["dependencies", "dependency", 0, "artifactId"])
+        assertEquals("kotlin-test", collection["dependencies", "dependency", 1, "artifactId"])
+        assertEquals("val", collection["alien", "property"])
+        assertEquals("text", collection["alien", ""])
     }
 
     @Test
@@ -126,91 +142,49 @@ internal class XmlTest {
             </beans>
             """
 
-        val collection = xml.parse<Map<String, *>>().println()
+        val collection = xml.parse(Xml) as Map<*, *>
 
         assertEquals("header", collection["bean", "id"])
         assertEquals(2, (collection["camelContext", "rest", "post"] as? List<*>)?.size)
         assertEquals(3, (collection["camelContext", "rest", "get"] as? List<*>)?.size)
     }
 
+    @Suppress("UNCHECKED_CAST") // Required by test
     @Test fun `XML is serialized properly` () {
         val player = Player("Michael", 23, 18..65)
-        val serializedPlayer = player.serialize()
-        val deserializedPlayer = serializedPlayer.parse(Player::class)
+        val serializedPlayer = player.serialize(Xml)
+        val deserializedPlayer = serializedPlayer.parse(Xml).convert<Player>()
 
-        assert(player.name == deserializedPlayer.name)
-        assert(player.number == deserializedPlayer.number)
-        assert(player.category.start == deserializedPlayer.category.start)
-        assert(player.category.endInclusive == deserializedPlayer.category.endInclusive)
+        assertEquals(deserializedPlayer.name, player.name)
+        assertEquals(deserializedPlayer.number, player.number)
+        assertEquals(deserializedPlayer.category.start, player.category.start)
+        assertEquals(deserializedPlayer.category.endInclusive, player.category.endInclusive)
 
-        val players = Players(
-            listOf(
+        val players = mapOf(
+            "players" to listOf(
                 Player("Michael", 23, 18..65),
                 Player("Magic", 32, 18..65),
             )
         )
-        val serializedPlayers = players.serialize()
-        val deserializedPlayers = serializedPlayers.parse(Players::class)
+        val serializedPlayers = players.serialize(Xml)
+        val parse = serializedPlayers.parse(Xml) as Map<*, List<Any>>
+        val deserializedPlayers = parse.entries.first().value.convertObjects<Player>()
 
-        val first = deserializedPlayers.players.first()
-        val last = deserializedPlayers.players.last()
-        assert(players.players.first().name == first.name)
-        assert(players.players.first().number == first.number)
-        assert(players.players.first().category.start == first.category.start)
-        assert(players.players.first().category.endInclusive == first.category.endInclusive)
+        val first = deserializedPlayers.first()
+        val last = deserializedPlayers.last()
+        assertEquals(first.name, players.require("players").first().name)
+        assertEquals(first.number, players.require("players").first().number)
+        assertEquals(first.category.start, players.require("players").first().category.start)
+        assert(
+            players.require("players").first().category.endInclusive == first.category.endInclusive
+        )
 
-        assert(players.players.last().name == last.name)
-        assert(players.players.last().number == last.number)
-        assert(players.players.last().category.start == last.category.start)
-        assert(players.players.last().category.endInclusive == last.category.endInclusive)
-    }
-
-    @Test fun `Parse invalid XML range` () {
-        assertFailsWith<ParseException> {
-            """
-            <Player>
-                <name>Michael</name>
-                <number>23</number>
-                <category>error</category>
-            </Player>
-            """
-            .trimIndent()
-            .parse(Player::class)
-        }
-    }
-
-    @Test fun `Parse invalid XML range start` () {
-        assertFailsWith<ParseException> {
-            """
-            <Player>
-                <name>Michael</name>
-                <number>23</number>
-                <category>
-                    <error>18</error>
-                    <endInclusive>65</endInclusive>
-                </category>
-            </Player>
-            """
-            .trimIndent()
-            .parse(Player::class)
-        }
-    }
-
-    @Test fun `Parse invalid XML range end` () {
-        assertFailsWith<ParseException> {
-            """
-            <Player>
-                <name>Michael</name>
-                <number>23</number>
-                <category>
-                    <start>18</start>
-                    <error>65</error>
-                </category>
-            </Player>
-            """
-            .trimIndent()
-            .parse(Player::class)
-        }
+        assertEquals(last.name, players.require("players").last().name)
+        assertEquals(last.number, players.require("players").last().number)
+        assertEquals(last.category.start, players.require("players").last().category.start)
+        assert(
+            players.require("players").last().category.endInclusive == last.category.endInclusive
+        )
     }
 
     @Test fun `Parse valid XML` () {
@@ -226,76 +200,12 @@ internal class XmlTest {
                     <c>d</c>
                 </item>
             </ArrayList>
-        """.trimIndent().toStream().parseObjects<Map<String, *>>()
-        assert(parse[0]["a"] == "b")
+        """.trimIndent().toStream().parse(Xml) as Map<*, *>
+        assertEquals("b", parse["item", 0, "a"])
     }
 
-    @Test fun `Serialize by content type` () {
-        val result = mapOf("aKey" to 1, "bKey" to 2).serialize(Xml.contentType)
-        assert(result.contains("aKey") && result.contains("bKey"))
-    }
-
-    @Test fun `Parse exceptions contains failed field`() {
-        try {
-            """
-            <Device>
-              <id>f</id>
-              <brand>br</brand>
-              <model>mo</model>
-              <os>ANDROI</os>
-              <osVersion>v</osVersion>
-              <alias>al</alias>
-            </Device>
-            """.parse(Device::class)
-
-            assert(false) { "Exception expected" }
-        }
-        catch (e: ParseException) {
-            assert(e.field == "com.hexagonkt.serialization.xml.XmlTest\$Device[\"os\"]")
-        }
-    }
-
-    @Test fun `Invalid format exceptions field is 'null'`() {
-        try {
-            """
-            <ArrayList>
-                <item>
-                  <id>f</id>
-                  <brand>br</brand>
-                  <model>mo</model>
-                  <os>ANDROI</os>
-                  <osVersion>v</osVersion>
-                  <alias>al</alias>
-                </item>
-            """.parse(Device::class)
-
-            assert(false) { "Exception expected" }
-        }
-        catch (e: ParseException) {
-            assert(e.field == "")
-        }
-    }
-
-    @Test fun `Parse an invalid class throws exception`() {
-        try {
-            """
-            <ArrayList>
-                <item>
-                  <id>f</id>
-                  <brand>br</brand>
-                  <model>mo</model>
-                  <os>ANDROI</os>
-                  <osVersion>v</osVersion>
-                  <alias>al</alias>
-                </item>
-            </ArrayList>
-            """.parseObjects<Device>()
-
-            assert(false) { "Exception expected" }
-        }
-        catch (e: ParseException) {
-            val fieldFullName = "com.hexagonkt.serialization.xml.XmlTest\$Device[\"os\"]"
-            assert(e.field == "java.util.ArrayList[0]->$fieldFullName")
-        }
+    @Test fun `Object can be serialized to stream`() {
+        val xml = String(Xml.serializeBytes(mapOf("a" to listOf(1,2,3))))
+        assertTrue(xml.contains("<a>1</a>"))
     }
 }

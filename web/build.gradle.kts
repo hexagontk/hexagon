@@ -15,5 +15,5 @@ dependencies {
     "testImplementation"(project(":http_client_jetty"))
     "testImplementation"(project(":http_server_jetty"))
     "testImplementation"(project(":templates_pebble"))
-    "testImplementation"(project(":serialization_jackson_yaml"))
+    "testImplementation"(project(":serialization_jackson_json"))
 }
