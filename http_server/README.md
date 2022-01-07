@@ -1,6 +1,5 @@
 
 # Module http_server
-
 This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL
 to declare HTTP request handlers.
 
@@ -13,14 +12,12 @@ The [web] module provides utilities on top of this port for Web application deve
 [web]: /web
 
 ### Install the Dependency
-
 This module is not meant to be used directly. You should include and Adapter implementing this
 feature (as [http_server_jetty]) in order to create an HTTP server.
 
 [http_server_jetty]: /http_server_jetty
 
 ### Server
-
 A server is a process listening to HTTP requests on a TCP port.
 
 You can run multiple ones on different ports at the same time (this can be useful to test many
@@ -48,7 +45,6 @@ and after creating a server you can run it or stop it with [start()] and [stop()
 [stop()]: /api/http_server/com.hexagonkt.http.server/-server/stop.html
 
 #### Servlet Web server
-
 There is a special server adapter for running inside Servlet Containers. To use it you should import
 the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check the
 [http_server_servlet] module for more information.
@@ -56,7 +52,6 @@ the [Servlet HTTP Server Adapter][http_server_servlet] into your project. Check 
 [http_server_servlet]: /http_server_servlet/
 
 ### Routes
-
 The main building block of a Hexagon HTTP service is a set of routes. A route is made up of three
 simple pieces:
 
@@ -79,26 +74,22 @@ Check the next snippet for usage examples:
 HTTP clients will be able to reuse the routes to create REST services clients.
 
 #### Route groups
-
 Routes can be nested by calling the `path()` method, which takes a String prefix and gives you a
 scope to declare routes and filters (or more nested paths). Ie:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:routeGroups
 
 #### Routers
-
 If you have a lot of routes, it can be helpful to group them into routers. You can create routers
 to mount a group of routes in different paths (allowing you to reuse them). Check this snippet:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:routers
 
 ### Callbacks
-
 Callbacks are request's handling blocks that are bound to routes or filters. They make the request,
 response and session objects available to the handling code.
 
 #### Call
-
 The Call object provides you with everything you need to handle a http-request.
 
 It contains the underlying request and response, and a bunch of utility methods to return results,
@@ -114,51 +105,43 @@ This sample code illustrates the usage:
 [API documentation]: /api/http_server/com.hexagonkt.http.server/-call/
 
 #### Request
-
 Request functionality is provided by the `request` field:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackRequest
 
 #### Path Parameters
-
 Route patterns can include named parameters, accessible via the `pathParameters` map on the request
 object:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackPathParam
 
 #### Query Parameters
-
 It is possible to access the whole query string or only a specific query parameter using the
 `parameters` map on the `request` object:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackQueryParam
 
 #### Form Parameters
-
 HTML Form processing. Don't parse body!
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackFormParam
 
 #### File Uploads
-
 Multipart Requests
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackFile
 
 #### Response
-
 Response information is provided by the `response` field:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackResponse
 
 #### Redirects
-
 You can redirect requests (returning 30x codes) by using `Call` utility methods:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackRedirect
 
 #### Cookies
-
 The request and response cookie functions provide a convenient way for sharing information between
 handlers, requests, or even servers.
 
@@ -170,7 +153,6 @@ Check the following sample code for details:
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackCookie
 
 #### Sessions
-
 Every request has access to the session created on the server side, the `session` object provides
 the following methods:
 
@@ -179,18 +161,15 @@ the following methods:
 <!-- TODO Explain how to set up using server features -->
 
 #### Compression
-
 <!-- TODO Explain how to set up using server features -->
 
 #### Halting
-
 To immediately stop a request within a filter or route use `halt()`. `halt()` is not intended to be
 used inside exception-mappers. Check the following snippet for an example:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:callbackHalt
 
 ### Filters
-
 You might know filters as interceptors, or middleware from other libraries. Filters are blocks of
 code executed before or after one or more routes. They can read the request and read/modify the
 response.
@@ -212,7 +191,6 @@ The following code details filters usage:
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:filters
 
 ### Error Handling
-
 You can provide handlers for runtime errors. Errors are unhandled thrown exceptions in the
 callbacks, or handlers halted with an error code.
 
@@ -220,21 +198,18 @@ Error handlers for a given code or exception are unique, and the first one defin
 will be used.
 
 #### HTTP Errors Handlers
-
 Allows handling routes halted with a given code. These handlers are only applied if the route is
 halted, if the error code is returned with `send` it won't be handled as an error. Example:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:errors
 
 #### Exception Mapping
-
 You can handle exceptions of a given type for all routes and filters. The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:
 
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:exceptions
 
 ### Static Files
-
 You can use a folder in the classpath for serving static files with the `get()` methods. Note that
 the public directory name is not included in the URL.
 
@@ -248,14 +223,12 @@ Check the next example for details:
 @code http_server/src/test/kotlin/PortHttpServerSamplesTest.kt:files
 
 #### MIME types
-
 The MIME types of static files are computed from the file extension using the
 [SerializationManager.contentTypeOf()] method.
 
 [SerializationManager.contentTypeOf()]: /api/serialization/com.hexagonkt.serialization/-serialization-manager/content-type-of/
 
 ### CORS
-
 CORS behaviour can be different depending on the path. You can attach different [CorsSettings] to
 different routers. Check [CorsSettings] class for more details.
 
@@ -264,7 +237,6 @@ different routers. Check [CorsSettings] class for more details.
 [CorsSettings]: /api/http_server/com.hexagonkt.http.server/-cors-settings/
 
 ### HTTPS
-
 It is possible to start a secure server enabling HTTPS. For this, you have to provide a server
 certificate and its key in the server's [SslSettings]. Once you use a server certificate, it is also
 possible to serve content using [HTTP/2], for this to work, [ALPN] is required (however, this is
@@ -299,7 +271,6 @@ Below you can find a simple example to set up an HTTPS server and client with mu
 ### Testing
 
 #### Integration tests
-
 To test HTTP servers from outside using a real Adapter, you can create a server setting `0` as port.
 This will pick a random free port which you can check later:
 
@@ -313,7 +284,6 @@ Check the [tests of the starter projects].
 If you have an OpenAPI/Swagger spec defined for your server, you can also make use of the mock server ([see below](#openapi-mock-server)).
 
 #### Mocking calls
-
 To unit test callbacks you can create test calls with hardcoded requests, responses and sessions.
 
 To use it in your project you'll have to include a dependency (with test scope):
@@ -351,7 +321,6 @@ For a quick sample, check the snipped below:
 [TestSession]: /api/http_server/com.hexagonkt.http.server.test/-test-session/
 
 ### OpenAPI Mock Server
-
 The mock server is able to create and return a `Server` from the information of an OpenAPI/Swagger spec file.
 The path to the spec file can either be a URL or a local file. It can be either in JSON or YAML format.
 
@@ -360,8 +329,8 @@ determined by the routes' examples and schemas.
 During handling of a request, the mock server validates the request parameters against those
 specified in the spec file and returns an appropriate response from the [provided examples](#providing-examples).
 If any authentication requirements are specified, they are validated as well.
-#### How to Use
 
+#### How to Use
 First, add the required dependencies:
 ```kotlin
 implementation("com.hexagonkt:http_server:$hexagonVersion:test")
@@ -387,8 +356,8 @@ Finally, to run the server:
 ```kotlin
 server.start()
 ```
-#### OpenAPI Spec File Requirements
 
+#### OpenAPI Spec File Requirements
 The file provided should be a syntactically valid OpenAPI spec file. If it is not, an error will be
 raised at initialization time.
 
@@ -398,14 +367,12 @@ description must also be provided. In addition, for each status code, at least o
 provided. Note that, at present, only the `application/json` media type is supported.
 
 #### Supported Authentication Methods
-
 Currently, the following Authentication methods/mechanisms are supported:
 
 * API Key authentication (key may be present in the headers, query parameters or cookies)
 * HTTP Authentication (Basic or Bearer authentication)
 
 #### Providing Examples
-
 There are several ways to define response examples in an OpenAPI spec file.
 If there are multiple examples defined for a particular path status code, you can specify a
 particular response by using the `X-Mock-Response-Example` header with the name of the desired example.
@@ -441,5 +408,13 @@ The mock server follows the following priority order when parsing the spec file 
 ```
 
 # Package com.hexagonkt.http.server
-
 This package defines the classes used in the HTTP DSL.
+
+# Package com.hexagonkt.http.server.callbacks
+TODO
+
+# Package com.hexagonkt.http.server.handlers
+TODO
+
+# Package com.hexagonkt.http.server.model
+TODO

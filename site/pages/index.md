@@ -91,7 +91,7 @@ Ports with their provided implementations (Adapters).
 | PORT                    | ADAPTERS
 |-------------------------|---------
 | [HTTP Server]           | [Jetty], [Servlet]
-| [HTTP Client]           | [AHC]
+| [HTTP Client]           | [Jetty][Jetty Client]
 | [Templates]             | [Pebble], [FreeMarker]
 | [Serialization Formats] | [JSON], [YAML], [CSV], [XML]
 
@@ -99,7 +99,7 @@ Ports with their provided implementations (Adapters).
 [Jetty]: /http_server_jetty
 [Servlet]: /http_server_servlet
 [HTTP Client]: /http_client
-[AHC]: /http_client_ahc
+[Jetty Client]: /http_client_jetty
 [Templates]: /templates
 [Pebble]: /templates_pebble
 [FreeMarker]: /templates_freemarker

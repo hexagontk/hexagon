@@ -18,9 +18,9 @@ Its main functionalities are:
 
 ### Install the Dependency
 This module is not meant to be used directly. You should include an Adapter implementing this
-feature (as [http_client_ahc]) in order to create HTTP clients.
+feature (as [http_client_jetty]) in order to create HTTP clients.
 
-[http_client_ahc]: /http_client_ahc
+[http_client_jetty]: /http_client_jetty
 
 ### Create an HTTP client
 You create an HTTP Client instance with default options as follows:
@@ -56,7 +56,6 @@ There are utility methods to make the most common request in an easy way.
 @code http_client/src/test/kotlin/ClientTest.kt:bodyAndContentTypeRequest
 
 ### Cookies
-
 The HTTP client support setting cookies from client side and updates them after any server request.
 Check the details in the following code fragment:
 
@@ -67,7 +66,6 @@ You can also check the [full test] for more details.
 [full test]: https://github.com/hexagonkt/hexagon/blob/master/http_server/src/test/kotlin/examples/CookiesTest.kt
 
 ### Multipart (forms and files)
-
 Using the HTTP client you can send MIME multipart parts to the server. You can use it to post forms
 or files.
 
@@ -110,3 +108,6 @@ and client authenticated by the server). You can see a complete example below:
 
 # Package com.hexagonkt.http.client
 This package holds the classes that define the HTTP client and its configuration settings.
+
+# Package com.hexagonkt.http.client.model
+TODO

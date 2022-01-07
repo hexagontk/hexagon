@@ -1,27 +1,32 @@
 package com.hexagonkt.http.server.jetty
 
-import com.hexagonkt.http.server.Router
-import com.hexagonkt.http.server.Server
-import com.hexagonkt.http.server.ServerSettings
+import com.hexagonkt.http.server.*
+import com.hexagonkt.http.server.handlers.PathBuilder
+import com.hexagonkt.http.server.handlers.ServerHandler
 
 /**
  * Create a Jetty server and start it. It is a shortcut to avoid passing the adapter.
  *
  * @param settings Server settings info .
- * @param router [Router] instance.
+ * @param handlers List of [ServerHandler] handlers used in this server instance.
  *
- * @return The started [Server] instance.
+ * @return The started [HttpServer] instance.
  */
-fun serve(settings: ServerSettings = ServerSettings(), router: Router): Server =
-    Server(JettyServletAdapter(), router, settings).apply { start() }
+fun serve(
+    settings: HttpServerSettings = HttpServerSettings(), handlers: List<ServerHandler>
+): HttpServer =
+    HttpServer(JettyServletAdapter(), handlers, settings).apply { start() }
 
 /**
  * Create a Jetty server and start it. It is a shortcut to avoid passing the adapter.
  *
  * @param settings Server settings info.
- * @param block Lambda to be used to create a [Router] instance.
+ * @param block Lambda to be used to create the list of [ServerHandler] handlers used in the server.
  *
- * @return The started [Server] instance.
+ * @return The started [HttpServer] instance.
  */
-fun serve(settings: ServerSettings = ServerSettings(), block: Router.() -> Unit): Server =
-    Server(JettyServletAdapter(), Router(block), settings).apply { start() }
+fun serve(
+    settings: HttpServerSettings = HttpServerSettings(), block: PathBuilder.() -> Unit
+): HttpServer =
+    HttpServer(JettyServletAdapter(), PathBuilder().apply {block()}.handlers, settings)
+        .apply { start() }

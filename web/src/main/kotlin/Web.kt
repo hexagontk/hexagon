@@ -1,6 +1,9 @@
 package com.hexagonkt.web
 
-import com.hexagonkt.http.server.Call
+import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.media.TextMedia
+import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.server.handlers.HttpServerContext
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.TemplatePort
@@ -12,28 +15,20 @@ import java.nio.charset.Charset.defaultCharset
 import java.util.Locale
 import java.util.Locale.forLanguageTag as localeFor
 
-fun Call.templateType(url: URL) {
-    if (response.contentType == null) {
+fun HttpServerContext.templateType(url: URL): ContentType? =
+    response.contentType ?: run {
         val mimeType = SerializationManager.contentTypeOf(url.toString().substringAfterLast('.'))
-        response.contentType = "$mimeType; charset=${defaultCharset().name()}"
+        val urlContentType = mimeType?.let {
+            ContentType(MediaType(it), charset = defaultCharset())
+        }
+        urlContentType
     }
-}
 
-fun Call.fullContext(): Map<String, *> {
-    val extraParameters = mapOf(
+fun HttpServerContext.fullContext(): Map<String, *> =
+    mapOf(
         "path" to request.path.removeSuffix("/"), // Do not allow trailing slash
         "lang" to obtainLocale().language
     )
-
-    // TODO Fetch session only if its feature is enabled in server settings
-    val sessionAttributes = try {
-        session.attributes
-    } catch (e: UnsupportedOperationException) {
-        emptyMap<String, Any>()
-    }
-
-    return sessionAttributes + extraParameters
-}
 
 /**
  * TODO Review order precedence and complete code (now only taking request attribute)
@@ -44,35 +39,28 @@ fun Call.fullContext(): Map<String, *> {
  * 4. Accept-language
  * 5. Server default locale
  */
-fun Call.obtainLocale(): Locale = when {
+fun HttpServerContext.obtainLocale(): Locale = when {
     attributes["lang"] as? String != null -> localeFor(attributes["lang"] as String)
     else -> Locale.getDefault()
 }
 
-fun Call.template(
+fun HttpServerContext.template(
     templateEngine: TemplatePort,
     url: URL,
     context: Map<String, *> = fullContext(),
     locale: Locale = obtainLocale(),
-) {
+): HttpServerContext =
+    ok(templateEngine.render(url, context, locale), contentType = templateType(url))
 
-    templateType(url)
-    ok(templateEngine.render(url, context, locale))
-}
-
-fun Call.template(
+fun HttpServerContext.template(
     url: URL,
     context: Map<String, *> = fullContext(),
     locale: Locale = obtainLocale(),
-) {
-
-    templateType(url)
-    ok(TemplateManager.render(url, context, locale))
-}
+): HttpServerContext =
+    ok(TemplateManager.render(url, context, locale), contentType = templateType(url))
 
 /**
  * Return HTML setting the proper content type.
  */
-fun Call.html(block: HTML.() -> Unit) {
-    ok(createHTML().html { block() }, "text/html")
-}
+fun HttpServerContext.html(block: HTML.() -> Unit): HttpServerContext =
+    ok(createHTML().html { block() }, contentType = ContentType(TextMedia.HTML))

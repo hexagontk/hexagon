@@ -1,28 +1,42 @@
 package com.hexagonkt.web.examples
 
 import com.hexagonkt.core.helpers.require
-import com.hexagonkt.http.client.Client
-import com.hexagonkt.http.client.Response
-import com.hexagonkt.http.client.ahc.AhcAdapter
-import com.hexagonkt.http.server.Server
-import com.hexagonkt.http.server.ServerPort
-import com.hexagonkt.http.server.ServerSettings
 import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.logging.LoggingLevel.DEBUG
+import com.hexagonkt.core.logging.LoggingManager
+import com.hexagonkt.core.logging.jul.JulLoggingAdapter
+import com.hexagonkt.core.media.ApplicationMedia.JSON
+import com.hexagonkt.http.client.HttpClient
+import com.hexagonkt.http.client.HttpClientSettings
+import com.hexagonkt.http.client.jetty.JettyClientAdapter
+import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
+import com.hexagonkt.http.model.ContentType
+import com.hexagonkt.http.model.HttpStatus
+import com.hexagonkt.http.model.SuccessStatus.CREATED
+import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.server.HttpServer
+import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.serialization.json.JacksonMapper
 import com.hexagonkt.serialization.json.Json
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.parse
+import com.hexagonkt.serialization.serialize
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import java.net.URL
+import kotlin.test.assertEquals
 
 /**
  * TODO Use templates
  */
 @TestInstance(PER_CLASS)
-abstract class TodoTest(adapter: ServerPort) {
+abstract class TodoTest(adapter: HttpServerPort) {
 
     // sample
     private val log: Logger = Logger(TodoTest::class)
@@ -38,20 +52,30 @@ abstract class TodoTest(adapter: ServerPort) {
     private val tasks: MutableMap<Int, Task> =
         LinkedHashMap(taskList.associateBy { it.number })
 
-    private val server: Server by lazy {
-        Server(adapter, ServerSettings(bindPort = 0)) {
-            before { log.debug { "Start" } }
-            after { log.debug { "End" } }
+    private val server: HttpServer by lazy {
+        HttpServer(adapter, HttpServerSettings(bindPort = 0)) {
+            filter("/*") {
+                log.debug { "Start" }
+                val next = next()
+                log.debug { "End" }
+                next
+            }
+
+            after(pattern = "/*", exception = Exception::class) {
+                val e = context.exception
+                log.error(e) { "Internal error" }
+                internalServerError(e?.message ?: "Internal error")
+            }
 
             path("/tasks") {
                 post {
-                    val task = request.body.parse(Task::class, requestFormat)
+                    val task = request.bodyString().parse(Task::class, Json)
                     tasks += task.number to task
-                    send(201, task.number)
+                    send(CREATED, task.number.toString())
                 }
 
                 put {
-                    val task = request.body.parse(Task::class, requestFormat)
+                    val task = request.bodyString().parse(Task::class, Json)
                     tasks += task.number to task
                     ok("Task with id '${task.number}' updated")
                 }
@@ -60,7 +84,7 @@ abstract class TodoTest(adapter: ServerPort) {
                     patch {
                         val taskId = pathParameters.require("id").toInt()
                         val task = tasks[taskId]
-                        val fields = request.body.parse<Map<*, *>>(requestFormat)
+                        val fields = request.bodyString().parse<Map<*, *>>(Json)
                         if (task != null) {
                             tasks += taskId to task.copy(
                                 number = fields["number"] as? Int ?: task.number,
@@ -71,7 +95,7 @@ abstract class TodoTest(adapter: ServerPort) {
                             ok("Task with id '$taskId' updated")
                         }
                         else {
-                            send(404, "Task not found")
+                            send(NOT_FOUND, "Task not found")
                         }
                     }
 
@@ -79,9 +103,9 @@ abstract class TodoTest(adapter: ServerPort) {
                         val taskId = pathParameters.require("id").toInt()
                         val task = tasks[taskId]
                         if (task != null)
-                            ok(task, responseFormat)
+                            ok(task.serialize(Json), contentType = ContentType(JSON))
                         else
-                            send(404, "Task: $taskId not found")
+                            send(NOT_FOUND, "Task: $taskId not found")
                     }
 
                     delete {
@@ -91,75 +115,91 @@ abstract class TodoTest(adapter: ServerPort) {
                         if (task != null)
                             ok("Task with id '$taskId' deleted")
                         else
-                            send(404, "Task not found")
+                            send(NOT_FOUND, "Task not found")
                     }
                 }
 
-                get { ok(tasks.values, responseFormat) }
+                get {
+                    val body = tasks.values.serialize(Json)
+                    ok(body, contentType = ContentType(JSON))
+                }
             }
         }
     }
     // sample
 
-    private val client: Client by lazy {
-        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
+    private val client: HttpClient by lazy {
+        HttpClient(
+            JettyClientAdapter(),
+            HttpClientSettings(
+                baseUrl = URL("http://localhost:${server.runtimePort}"),
+                contentType = ContentType(JSON)
+            )
+        )
     }
 
     @BeforeAll fun initialize() {
         SerializationManager.mapper = JacksonMapper
         SerializationManager.formats = linkedSetOf(Json)
+        LoggingManager.adapter = JulLoggingAdapter()
+        LoggingManager.setLoggerLevel("com.hexagonkt", DEBUG)
         server.start()
+        client.start()
     }
 
     @AfterAll fun shutdown() {
         server.stop()
+        client.stop()
     }
 
-    @Test fun `Create task`() {
-        val body = Task(101, "Tidy Things", "Tidy everything")
-        val result = client.post("/tasks", body, Json.contentType)
-        assert(Integer.valueOf(result.body) == 101)
-        assert(201 == result.status)
+    @Test fun `Create task`() = runBlocking {
+        val body = Task(101, "Tidy Things", "Tidy everything").serialize(Json)
+        val result = client.post("/tasks", body)
+        assert(Integer.valueOf(result.bodyString()) == 101)
+        assert(CREATED == result.status)
     }
 
-    @Test fun `List tasks`() {
-        client.post("/tasks", Task(101, "Tidy Things", "Tidy everything"), Json.contentType)
+    @Test fun `List tasks`() = runBlocking {
+        val body = Task(101, "Tidy Things", "Tidy everything").serialize(Json)
+        assertResponseContains(client.post("/tasks", body), CREATED)
         val result = client.get("/tasks")
         assertResponseContains(result, "1", "101")
     }
 
-    @Test fun `Get task`() {
+    @Test fun `Get task`() = runBlocking {
         val result = client.get("/tasks/101")
         assertResponseContains(result, "Tidy Things", "Tidy everything")
     }
 
-    @Test fun `Update task`() {
-        val body = Task(103, "Changed Task", "Change of plans")
-        val resultPut = client.put("/tasks", body, Json.contentType)
+    @Test fun `Update task`() = runBlocking {
+        val body = Task(103, "Changed Task", "Change of plans").serialize(Json)
+        val resultPut = client.put("/tasks", body)
         assertResponseContains(resultPut, "103", "updated")
 
         val resultGet = client.get("/tasks/103")
         assertResponseContains(resultGet, "Changed Task", "Change of plans")
     }
 
-    @Test fun `Delete task`() {
+    @Test fun `Delete task`() = runBlocking {
         val result = client.delete("/tasks/102")
         assertResponseContains(result, "102", "deleted")
     }
 
-    @Test fun `Task not found`() {
+    @Test fun `Task not found`() = runBlocking {
         val result = client.get("/tasks/9999")
-        assertResponseContains(result, 404, "not found")
+        assertResponseContains(result, NOT_FOUND, "not found")
     }
 
-    private fun assertResponseContains(response: Response<String>?, status: Int, vararg content: String) {
-        assert(response?.status == status)
+    private fun assertResponseContains(
+        response: HttpClientResponse?, status: HttpStatus, vararg content: String) {
+
+        assertEquals(status, response?.status)
         content.forEach {
-            assert(response?.body?.contains(it) ?: false)
+            assert(response?.bodyString()?.contains(it) ?: false)
         }
     }
 
-    private fun assertResponseContains(response: Response<String>?, vararg content: String) {
-        assertResponseContains(response, 200, *content)
+    private fun assertResponseContains(response: HttpClientResponse?, vararg content: String) {
+        assertResponseContains(response, OK, *content)
     }
 }

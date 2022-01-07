@@ -1,0 +1,87 @@
+
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation=
+    "http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.hexagonkt.blacksheep</groupId>
+    <artifactId>blacksheep</artifactId>
+    <version>2.0.0-B1</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>http_test</artifactId>
+  <description>Test cases for HTTP client and server adapters</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.hexagonkt</groupId>
+      <artifactId>logging_slf4j_jul</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.hexagonkt.blacksheep</groupId>
+      <artifactId>http_client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hexagonkt.blacksheep</groupId>
+      <artifactId>http_server</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hexagonkt.blacksheep</groupId>
+      <artifactId>serialization_jackson_json</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hexagonkt.blacksheep</groupId>
+      <artifactId>serialization_jackson_yaml</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger.parser.v3</groupId>
+      <artifactId>swagger-parser</artifactId>
+      <version>${swaggerParserVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-test</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.hexagonkt.blacksheep</groupId>
+      <artifactId>http_client_jetty</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.hexagonkt.blacksheep</groupId>
+      <artifactId>http_server_jetty</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>
