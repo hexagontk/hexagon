@@ -31,7 +31,7 @@ a project from scratch following these steps:
 
 4. Write the code in the `src/main/kotlin/Hello.kt` file:
 
-@code http_server_jetty/src/test/kotlin/HelloWorld.kt
+@code http_test/src/test/kotlin/HelloWorldTest.kt:hello_world
 
 5. Run the service and view the results at: [http://localhost:2010/hello][Endpoint]
 

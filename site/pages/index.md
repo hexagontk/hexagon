@@ -36,7 +36,7 @@ utilities. However, some of these capacities can be replaced by other third part
 
 Simple Hello World HTTP example.
 
-@code http_server_jetty/src/test/kotlin/HelloWorld.kt
+@code http_test/src/test/kotlin/HelloWorldTest.kt:hello_world
 
 You can check the [code examples] and [demo projects] for more complex use cases.
 

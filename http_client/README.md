@@ -25,12 +25,12 @@ feature (as [http_client_jetty]) in order to create HTTP clients.
 ### Create an HTTP client
 You create an HTTP Client instance with default options as follows:
 
-@code http_client/src/test/kotlin/ClientTest.kt:clientCreation
+@code http_test/src/main/kotlin/examples/ClientTest.kt:clientCreation
 
 ### Settings
 If you want to configure options for the client, you can create it with the following code:
 
-@code http_client/src/test/kotlin/ClientTest.kt:clientSettingsCreation
+@code http_test/src/main/kotlin/examples/ClientTest.kt:clientSettingsCreation
 
 ### Send generic requests
 The most common use case is to send a request and get a response. For details about how to
@@ -38,7 +38,7 @@ use requests and responses, refer to the [Request] and the [Response] API.
 
 Check this code snippet to get a glimpse on how to send the most general requests:
 
-@code http_client/src/test/kotlin/ClientTest.kt:genericRequest
+@code http_test/src/main/kotlin/examples/ClientTest.kt:genericRequest
 
 [Request]: /api/http_client/com.hexagonkt.http.client/-request
 [Response]: /api/http_client/com.hexagonkt.http.client/-response
@@ -47,19 +47,19 @@ Check this code snippet to get a glimpse on how to send the most general request
 There are utility methods to make the most common request in an easy way.
 
 #### Without body
-@code http_client/src/test/kotlin/ClientTest.kt:withoutBodyRequest
+@code http_test/src/main/kotlin/examples/ClientTest.kt:withoutBodyRequest
 
 #### With body
-@code http_client/src/test/kotlin/ClientTest.kt:bodyRequest
+@code http_test/src/main/kotlin/examples/ClientTest.kt:bodyRequest
 
 #### With body and content type
-@code http_client/src/test/kotlin/ClientTest.kt:bodyAndContentTypeRequest
+@code http_test/src/main/kotlin/examples/ClientTest.kt:bodyAndContentTypeRequest
 
 ### Cookies
 The HTTP client support setting cookies from client side and updates them after any server request.
 Check the details in the following code fragment:
 
-@code http_server/src/test/kotlin/examples/CookiesTest.kt:clientCookies
+@code http_test/src/main/kotlin/examples/CookiesTest.kt:clientCookies
 
 You can also check the [full test] for more details.
 
@@ -70,10 +70,10 @@ Using the HTTP client you can send MIME multipart parts to the server. You can u
 or files.
 
 #### Forms
-@code http_server/src/test/kotlin/examples/FilesTest.kt:clientForm
+@code http_test/src/main/kotlin/examples/FilesTest.kt:clientForm
 
 #### Files
-@code http_server/src/test/kotlin/examples/FilesTest.kt:clientFile
+@code http_test/src/main/kotlin/examples/FilesTest.kt:clientFile
 
 ### TLS
 The HTTP client supports server certificates (to use HTTPS and HTTP/2) and also client certificates
@@ -90,21 +90,21 @@ the sections below you can see how to configure these parameters.
 This store holds the identity certificate, this certificate is presented to the server by the client
 in the handshake for the server to authorize or deny the connection. The following code:
 
-@code http_server/src/test/kotlin/examples/HttpsTest.kt:keyStoreSettings
+@code http_test/src/main/kotlin/examples/HttpsTest.kt:keyStoreSettings
 
 #### Trust Store
 This key store should include all the trusted certificates. Any certificate added as CA (certificate
 authority) makes the client trust any other certificate signed by them. However, you can also add
 standalone server certificates.
 
-@code http_server/src/test/kotlin/examples/HttpsTest.kt:trustStoreSettings
+@code http_test/src/main/kotlin/examples/HttpsTest.kt:trustStoreSettings
 
 ### Mutual TLS
 If you set up the identity (service's own certificate) and the trust store (CAs and servers trusted
 by the client), you will achieve double ended authentication (server authenticated by the client,
 and client authenticated by the server). You can see a complete example below:
 
-@code http_server/src/test/kotlin/examples/HttpsTest.kt:https
+@code http_test/src/main/kotlin/examples/HttpsTest.kt:https
 
 # Package com.hexagonkt.http.client
 This package holds the classes that define the HTTP client and its configuration settings.

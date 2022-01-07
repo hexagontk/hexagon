@@ -6,7 +6,6 @@ import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServer
-import com.hexagonkt.http.server.jetty.serve
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -15,6 +14,24 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.URL
 import kotlin.test.assertEquals
+
+// hello_world
+import com.hexagonkt.http.server.jetty.serve
+
+lateinit var server: HttpServer
+
+/**
+ * Start a Hello World server, serving at path "/hello".
+ */
+fun main() {
+    server = serve {
+        get("/hello/{name}") {
+            val name = pathParameters["name"]
+            ok("Hello $name!", contentType = ContentType(PLAIN))
+        }
+    }
+}
+// hello_world
 
 @TestInstance(PER_CLASS)
 internal class HelloWorldTest {
@@ -40,19 +57,3 @@ internal class HelloWorldTest {
         assertEquals(ContentType(PLAIN), result.contentType)
     }
 }
-
-// hello_world
-lateinit var server: HttpServer
-
-/**
- * Start a Hello World server, serving at path "/hello".
- */
-fun main() {
-    server = serve {
-        get("/hello/{name}") {
-            val name = pathParameters["name"]
-            ok("Hello $name!", contentType = ContentType(PLAIN))
-        }
-    }
-}
-// hello_world

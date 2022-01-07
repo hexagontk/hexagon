@@ -108,13 +108,14 @@ task("checkDocs") {
     dependsOn("mkdocs")
     doLast {
         val readme = rootProject.file("README.md")
-        val service = rootProject.file("http_server_jetty/src/test/kotlin/HelloWorld.kt")
-        val examples = "http_server/src/test/kotlin/examples"
+        val service = rootProject.file("http_test/src/test/kotlin/HelloWorldTest.kt")
+        val examples = "http_test/src/main/kotlin/examples"
 
-        checkSamplesCode(FileRange (readme, "hello"), FileRange(service))
+        checkSamplesCode()
         checkSamplesCode(
+            FilesRange(readme, rootProject.file(service), "hello_world"),
             FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
-            FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
+//            FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
             FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
             FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
             FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
