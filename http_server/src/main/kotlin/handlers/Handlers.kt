@@ -14,6 +14,7 @@ fun path(pattern: String = "", block: PathBuilder.() -> Unit): PathHandler {
     return PathHandler(pattern, builder.handlers)
 }
 
+// TODO Add first filter with error handling and 'bodyToBytes' checks
 fun path(contextPath: String = "", handlers: List<ServerHandler>): PathHandler =
     handlers
         .filterIsInstance<HttpHandler>()

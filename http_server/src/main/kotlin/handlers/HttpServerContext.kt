@@ -80,6 +80,7 @@ data class HttpServerContext(
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
 
+    // TODO Allow to pass an exception
     fun internalServerError(
         body: Any = response.body,
         headers: MultiMap<String, String> = response.headers,

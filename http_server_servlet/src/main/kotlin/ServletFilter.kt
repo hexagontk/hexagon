@@ -45,6 +45,7 @@ class ServletFilter(
         doFilter(request, response)
     }
 
+    // TODO Don't use 'runBlocking'
     private fun doFilter(
         servletRequest: ServletRequest, servletResponse: ServletResponse) = runBlocking {
 
@@ -79,5 +80,6 @@ class ServletFilter(
         // TODO Handle different types: deferred values, strings, ints... flows
         servletResponse.outputStream.write(bodyToBytes(response.body))
         servletResponse.outputStream.flush()
+        // TODO Catch errors!
     }
 }
