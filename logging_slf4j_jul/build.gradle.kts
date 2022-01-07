@@ -6,7 +6,7 @@ apply(from = "../gradle/detekt.gradle")
 
 description = "Hexagon SLF4J logging adapter."
 
-extra["basePackage"] = "com.hexagonkt.logging"
+extra["basePackage"] = "com.hexagonkt.logging.slf4j.jul"
 
 dependencies {
     val slf4jVersion = properties["slf4jVersion"]

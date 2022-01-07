@@ -1,6 +1,5 @@
 
 # Module logging_logback
-
 Contains the logger adapter for the [Logback] logging library.
 
 [Logback]: http://logback.qos.ch
@@ -61,6 +60,5 @@ Contains the logger adapter for the [Logback] logging library.
     </dependency>
     ```
 
-# Package com.hexagonkt.logging
-
+# Package com.hexagonkt.logging.logback
 Provides a logging management capabilities abstracting the application from logging libraries.
