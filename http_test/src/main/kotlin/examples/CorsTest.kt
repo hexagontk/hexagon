@@ -52,7 +52,7 @@ abstract class CorsTest(
     }
     // cors
 
-    override val handlers: List<ServerHandler> = listOf(path)
+    override val handler: ServerHandler = path
 
     @Test fun `Request without origin continues as non CORS`() = runBlocking {
         listOf(

@@ -72,6 +72,19 @@ data class HttpServer(
     ) :
         this(adapter, listOf(path(block = block)), settings)
 
+    /**
+     * Utility constructor for the common case of having a single root handler.
+     *
+     * @param adapter The server engine.
+     * @param handler The only handler used for this server.
+     * @param settings Server settings. Port and address will be searched in this map.
+     */
+    constructor(
+        adapter: HttpServerPort,
+        handler: ServerHandler,
+        settings: HttpServerSettings = HttpServerSettings(),
+    ) : this(adapter, listOf(handler), settings)
+
     override fun close() {
         stop()
     }

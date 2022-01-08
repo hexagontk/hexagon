@@ -60,7 +60,7 @@ abstract class HttpsTest(
         }
     }
 
-    override val handlers: List<ServerHandler> = listOf(router)
+    override val handler: ServerHandler = router
 
     @Test fun `Serve HTTPS example`() = runBlocking {
 
@@ -122,7 +122,7 @@ abstract class HttpsTest(
 
     @Test fun `Serve HTTPS works properly`() = runBlocking {
 
-        val server = HttpServer(serverAdapter(), handlers, serverSettings.copy(protocol = HTTPS))
+        val server = HttpServer(serverAdapter(), handler, serverSettings.copy(protocol = HTTPS))
         server.start()
 
         val contextPath = URL("https://localhost:${server.runtimePort}")
@@ -140,7 +140,7 @@ abstract class HttpsTest(
 
     @Test fun `Serve HTTP2 works properly`() = runBlocking {
 
-        val server = HttpServer(serverAdapter(), handlers, serverSettings)
+        val server = HttpServer(serverAdapter(), handler, serverSettings)
         server.start()
 
         val contextPath = URL("https://localhost:${server.runtimePort}")

@@ -201,14 +201,11 @@ abstract class BooksTest(
         }
     }
 
-    override val handlers: List<ServerHandler> =
-        listOf(
-            path {
-                path("/a", path)
-                path("/b", pathAlternative)
-                path("/c", pathAlternative2)
-            }
-        )
+    override val handler: ServerHandler = path {
+        path("/a", path)
+        path("/b", pathAlternative)
+        path("/c", pathAlternative2)
+    }
 
     @Test fun `Create book returns 201 and new book ID`() = runBlocking {
         listOf("/a", "/b", "/c").forEach {

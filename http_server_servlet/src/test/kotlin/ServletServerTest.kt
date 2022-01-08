@@ -27,15 +27,13 @@ internal class ServletServerTest {
 
     @WebListener
     class WebAppServer : ServletServer(
-        listOf(
-            path {
-                get {
-                    assertEquals(emptyList(), request.certificateChain)
-                    assertNull(request.certificate())
-                    ok("Hello Servlet!")
-                }
+        path {
+            get {
+                assertEquals(emptyList(), request.certificateChain)
+                assertNull(request.certificate())
+                ok("Hello Servlet!")
             }
-        )
+        }
     )
 
     private val jettyServer = JettyServer(InetSocketAddress("127.0.0.1", 9897))

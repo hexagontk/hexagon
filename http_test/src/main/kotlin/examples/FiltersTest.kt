@@ -86,7 +86,7 @@ abstract class FiltersTest(
     }
     // filters
 
-    override val handlers: List<ServerHandler> = listOf(path)
+    override val handler: ServerHandler = path
 
     @Test fun `After handlers can be chained`() = runBlocking {
         assertEquals(ACCEPTED, client.get("/after").status)

@@ -99,7 +99,7 @@ abstract class FilesTest(
     }
     // files
 
-    override val handlers: List<ServerHandler> = listOf(path)
+    override val handler: ServerHandler = path
 
     @Test fun `Parameters are separated from each other`() = runBlocking {
         val parts = listOf(HttpPart("name", "value"))
