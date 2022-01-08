@@ -1,5 +1,5 @@
 
-name: Release
+name: Release Branch
 
 on:
   push:
@@ -56,7 +56,6 @@ jobs:
           git remote set-url origin "$REMOTE"
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
-          git clone "$REMOTE" --branch gh-pages build/gh-pages
           ./gradlew --info --no-daemon build
           ./gradlew --info --no-daemon -x build buildSite
 
@@ -67,16 +66,6 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
         run: ./gradlew --info --no-daemon -x test release
-
-      # TODO 2-BETA is hardcoded, take it from release/x.x.x-txt branch
-      - name: Publish Site
-        run: |
-          mkdir build/gh-pages/2-BETA
-          cp -rf site/build/* build/gh-pages/2-BETA
-          cd build/gh-pages
-          git add --all
-          git commit -m "Publishing to gh-pages"
-          git push origin gh-pages
 
       # CLEAN UP
       - name: Clean Gradle Cache
