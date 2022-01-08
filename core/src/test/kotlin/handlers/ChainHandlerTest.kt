@@ -151,7 +151,7 @@ internal class ChainHandlerTest {
             assertEquals("/abc", testChain.process("/abc"))
         }
 
-        assert(t in 60.0..70.0)
+        assert(t in 60.0..200.0) // Range is high because of CI
     }
 
     @Test fun `Before and after handlers are called in order`() = runTest {
