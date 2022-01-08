@@ -46,27 +46,24 @@ abstract class ClientTest(
 
     private val logger: Logger = Logger(ClientTest::class)
 
-    private var handler: HttpCallback = { this }
+    private var callback: HttpCallback = { this }
 
-    override val handlers: List<ServerHandler> =
-        listOf(
-            path {
-                after(exception = Exception::class) {
-                    val e = context.exception ?: fail
-                    logger.error(e) { e.message }
-                    serverError(INTERNAL_SERVER_ERROR, e.message ?: "")
-                }
+    override val handler: ServerHandler = path {
+        after(exception = Exception::class) {
+            val e = context.exception ?: fail
+            logger.error(e) { e.message }
+            serverError(INTERNAL_SERVER_ERROR, e.message ?: "")
+        }
 
-                post("/*") { handler() }
-                get("/*") { handler() }
-                head("/*") { handler() }
-                put("/*") { handler() }
-                delete("/*") { handler() }
-                trace("/*") { handler() }
-                options("/*") { handler() }
-                patch("/*") { handler() }
-            }
-        )
+        post("/*") { callback() }
+        get("/*") { callback() }
+        head("/*") { callback() }
+        put("/*") { callback() }
+        delete("/*") { callback() }
+        trace("/*") { callback() }
+        options("/*") { callback() }
+        patch("/*") { callback() }
+    }
 
     @BeforeAll fun setUpSerializationFormats() {
         SerializationManager.formats = serializationFormats.toSet()
@@ -74,7 +71,7 @@ abstract class ClientTest(
     }
 
     @BeforeEach fun resetHandler() {
-        handler = {
+        callback = {
             val contentType = ContentType(JSON, charset = Charsets.UTF_8)
             val bodyString = request.bodyString()
             ok(
@@ -88,7 +85,7 @@ abstract class ClientTest(
     }
 
     @Test fun `Exceptions are returned as internal server errors`() = runBlocking {
-        handler = { error("failure") }
+        callback = { error("failure") }
 
         val response = client.send(HttpClientRequest())
 
@@ -97,7 +94,7 @@ abstract class ClientTest(
     }
 
     @Test fun `Form parameters are sent correctly`() = runBlocking {
-        handler = { ok(headers = request.formParameters) }
+        callback = { ok(headers = request.formParameters) }
 
         val response = client.send(
             HttpClientRequest(
@@ -114,7 +111,7 @@ abstract class ClientTest(
     }
 
     @Test fun `Cookies are sent correctly`() = runBlocking {
-        handler = {
+        callback = {
             val cookiesMap = request.cookiesMap()
             assertEquals(HttpCookie("c1", "v1"), cookiesMap["c1"])
             assertEquals(HttpCookie("c2", "v2", -1), cookiesMap["c2"])
@@ -278,7 +275,7 @@ abstract class ClientTest(
         assert(!c.settings.useCookies)
         assertEquals(c.settings.headers, h)
 
-        handler = {
+        callback = {
             val headers = multiMapOfLists("head1" to request.headers.allValues.require("header1"))
             ok(headers = response.headers + headers)
         }
@@ -295,7 +292,7 @@ abstract class ClientTest(
     @Test fun `Integers are sent properly` () = runBlocking {
         var run: Boolean
 
-        handler = {
+        callback = {
             val contentType = ContentType(JSON, charset = Charsets.UTF_8)
             val number = BigInteger(request.body as ByteArray).toLong()
             ok(

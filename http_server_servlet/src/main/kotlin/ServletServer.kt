@@ -32,6 +32,17 @@ abstract class ServletServer(
 
     private val pathHandler: PathHandler = path(settings.contextPath, handlers)
 
+    /**
+     * Utility constructor for the common case of having a single root handler.
+     *
+     * @param handler The only handler used for this server.
+     * @param settings Settings used by this server.
+     */
+    constructor(
+        handler: ServerHandler,
+        settings: HttpServerSettings = HttpServerSettings(),
+    ) : this(listOf(handler), settings)
+
     override fun contextInitialized(sce: ServletContextEvent) {
         val startTimestamp = System.nanoTime()
 

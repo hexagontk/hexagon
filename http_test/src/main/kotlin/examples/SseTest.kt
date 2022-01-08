@@ -34,7 +34,7 @@ abstract class SseTest(
     }
     // sse
 
-    override val handlers: List<ServerHandler> = listOf(path)
+    override val handler: ServerHandler = path
 
     @Test fun `Request with invalid user returns 403`() = runBlocking<Unit> {
         val response = client.get("/sse")

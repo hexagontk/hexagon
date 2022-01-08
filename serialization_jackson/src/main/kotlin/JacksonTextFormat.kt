@@ -10,7 +10,8 @@ import java.io.InputStream
 import java.io.OutputStream
 
 abstract class JacksonTextFormat(
-    factoryGenerator: () -> JsonFactory = { JsonFactory() }
+    factoryGenerator: () -> JsonFactory = { JsonFactory() },
+    prettyPrint: Boolean = true,
 ) : SerializationFormat {
 
     private val mapper by lazy {
@@ -20,8 +21,10 @@ abstract class JacksonTextFormat(
     override val textFormat = true
 
     private val writer by lazy {
-        val printer = DefaultPrettyPrinter().withArrayIndenter(SYSTEM_LINEFEED_INSTANCE)
-        mapper.writer(printer)
+        if (prettyPrint)
+            mapper.writer(DefaultPrettyPrinter().withArrayIndenter(SYSTEM_LINEFEED_INSTANCE))
+        else
+            mapper.writer()
     }
 
     override fun serialize(instance: Any, output: OutputStream) =

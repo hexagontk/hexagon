@@ -22,7 +22,7 @@ abstract class CookiesTest(
 ) : BaseTest() {
 
     // cookies
-    private val handler: PathHandler = path {
+    private val path: PathHandler = path {
         post("/assertNoCookies") {
             if (request.cookies.isNotEmpty()) internalServerError()
             else ok()
@@ -48,7 +48,7 @@ abstract class CookiesTest(
     }
     // cookies
 
-    override val handlers: List<ServerHandler> = listOf(handler)
+    override val handler: ServerHandler = path
 
     @BeforeEach fun clearCookies() {
         client.cookies = emptyList()

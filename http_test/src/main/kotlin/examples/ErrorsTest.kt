@@ -56,7 +56,7 @@ abstract class ErrorsTest(
     }
     // errors
 
-    override val handlers: List<ServerHandler> = listOf(path)
+    override val handler: ServerHandler = path
 
     @Test fun `Halt stops request with 500 status code`() = runBlocking {
         val response = client.get("/halt")

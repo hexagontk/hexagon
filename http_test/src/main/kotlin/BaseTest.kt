@@ -25,10 +25,10 @@ abstract class BaseTest {
 
     protected abstract val clientAdapter: () -> HttpClientPort
     protected abstract val serverAdapter: () -> HttpServerPort
-    protected abstract val handlers: List<ServerHandler>
+    protected abstract val handler: ServerHandler
 
     protected val server: HttpServer by lazy {
-        HttpServer(serverAdapter(), handlers)
+        HttpServer(serverAdapter(), handler)
     }
 
     protected val client: HttpClient by lazy {
