@@ -26,8 +26,6 @@ data class HttpServerPredicate(
         when {
             methods.isEmpty() && pathPattern.isEmpty() && exception == null && status == null ->
                 log(::noFilter)
-            methods.isEmpty() && pathPattern.isEmpty() && exception == null && status == null ->
-                log(::noFilter)
 
             pathPattern.isEmpty() && exception == null && status == null -> log(::filterMethod)
             methods.isEmpty() && exception == null && status == null -> log(::filterPattern)
@@ -76,7 +74,7 @@ data class HttpServerPredicate(
         status == context.event.response.status
 
     private fun filterNoMethod(context: Context<HttpServerCall>): Boolean =
-        (pathPattern.isEmpty() || pathPattern.pattern.isEmpty() || filterPattern(context))
+        (pathPattern.isEmpty() || filterPattern(context))
             && (exception == null || filterException(context))
             && (status == null || filterStatus(context))
 
