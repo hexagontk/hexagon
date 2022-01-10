@@ -45,7 +45,7 @@ class ServletFilter(
         doFilter(request, response)
     }
 
-    // TODO Don't use 'runBlocking'
+    // TODO Don't use 'runBlocking' (in servlet async mode)
     private fun doFilter(
         servletRequest: ServletRequest, servletResponse: ServletResponse) = runBlocking {
 
