@@ -382,12 +382,12 @@ abstract class SamplesTest(
             get("/filters") { ok("filters") }
 
             path("/nested") {
-                on("/?*") { send(headers = response.headers + ("b-nested" to "true")) }
+                on("*") { send(headers = response.headers + ("b-nested" to "true")) }
                 on { send(headers = response.headers + ("b-nested-2" to "true")) }
                 get("/filters") { ok("nested filters") }
                 get("/halted") { send(HttpStatus(499), "halted") }
                 get { ok("nested also") }
-                after("/?*") { send(headers = response.headers + ("a-nested" to "true")) }
+                after("*") { send(headers = response.headers + ("a-nested" to "true")) }
             }
 
             after("/*") { send(headers = response.headers + ("a-all" to "true")) }

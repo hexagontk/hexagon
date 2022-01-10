@@ -10,7 +10,7 @@ data class RegexPathPattern(val regex: Regex) : PathPattern {
     }
 
     init {
-        checkPathPatternPrefix(pattern, listOf("", "$"))
+        checkPathPatternPrefix(pattern, listOf("(.*?)", "$"))
     }
 
     val parameters: List<String> =

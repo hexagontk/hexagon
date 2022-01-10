@@ -50,6 +50,6 @@ data class TemplatePathPattern(
     }
 
     init {
-        checkPathPatternPrefix(pattern)
+        checkPathPatternPrefix(pattern, listOf("*"))
     }
 }

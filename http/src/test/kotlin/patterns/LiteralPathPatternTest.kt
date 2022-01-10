@@ -49,6 +49,9 @@ internal class LiteralPathPatternTest {
         assertFailsWith<IllegalArgumentException> {
             LiteralPathPattern("alpha/bravo")
         }
+        assertFailsWith<IllegalArgumentException> {
+            LiteralPathPattern("*/bravo")
+        }
     }
 
     @Test fun `Extract parameter from a pattern without parameters returns empty map`() {
