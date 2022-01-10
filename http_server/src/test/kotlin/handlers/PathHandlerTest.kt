@@ -27,17 +27,17 @@ internal class PathHandlerTest {
         )
 
         val expectedDescription = """
-            |GET, POST, PUT, OPTIONS, DELETE, HEAD, PATCH, TRACE <all paths>
-            |    GET LiteralPathPattern /get
-            |    POST LiteralPathPattern /post
-            |    PUT LiteralPathPattern /put
-            |    OPTIONS, DELETE, HEAD, PATCH, TRACE LiteralPathPattern (PREFIX) /a
-            |        OPTIONS LiteralPathPattern /options
-            |        DELETE LiteralPathPattern /delete
-            |        HEAD LiteralPathPattern /head
-            |        PATCH, TRACE LiteralPathPattern (PREFIX) /b
-            |            PATCH LiteralPathPattern /patch
-            |            TRACE LiteralPathPattern /trace
+            |GET, POST, PUT, OPTIONS, DELETE, HEAD, PATCH, TRACE Literal ''
+            |    GET Literal '/get'
+            |    POST Literal '/post'
+            |    PUT Literal '/put'
+            |    OPTIONS, DELETE, HEAD, PATCH, TRACE Literal (PREFIX) '/a'
+            |        OPTIONS Literal '/options'
+            |        DELETE Literal '/delete'
+            |        HEAD Literal '/head'
+            |        PATCH, TRACE Literal (PREFIX) '/b'
+            |            PATCH Literal '/patch'
+            |            TRACE Literal '/trace'
         """.trimMargin()
         val pathDescription = path.describe()
         assertEquals(expectedDescription, pathDescription)

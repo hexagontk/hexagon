@@ -35,10 +35,10 @@ abstract class CorsTest(
         corsPath("/allowed/headers", CorsCallback(allowedHeaders = setOf("head")))
     }
 
-    private fun PathBuilder.corsPath(path: String, settings: CorsCallback) {
+    private fun PathBuilder.corsPath(path: String, cors: CorsCallback) {
         path(path) {
             // CORS settings can change for different routes
-            filter(pattern = "/?*", callback = settings)
+            filter(pattern = "*", callback = cors)
 
             get("/path") { ok(request.method.toString()) }
             post("/path") { ok(request.method.toString()) }

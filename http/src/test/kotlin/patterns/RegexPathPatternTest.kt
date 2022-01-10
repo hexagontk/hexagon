@@ -60,8 +60,10 @@ internal class RegexPathPatternTest {
         disableChecks = false
     }
 
-    @Test fun `Empty path patterns are allowed`() {
+    @Test fun `Empty and wildcard path patterns are allowed`() {
         assertEquals("", RegexPathPattern(Regex("")).pattern)
+        assertEquals("(.*?)", RegexPathPattern(Regex("(.*?)")).pattern)
+        assertEquals("(.*?)/whatever", RegexPathPattern(Regex("(.*?)/whatever")).pattern)
     }
 
     @Test fun `Invalid path parameters`() {

@@ -12,5 +12,12 @@ interface PathPattern {
     fun extractParameters(requestUrl: String): Map<String, String>
 
     fun describe(): String =
-        "${javaClass.simpleName}${if (prefix) " (PREFIX)" else ""} $pattern"
+        "${type()}${if (prefix) " (PREFIX)" else ""} '$pattern'"
+
+    private fun type(): String =
+        javaClass.simpleName.removeSuffix(typeSuffix)
+
+    private companion object {
+        val typeSuffix: String = PathPattern::class.java.simpleName
+    }
 }

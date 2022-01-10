@@ -12,14 +12,18 @@ fun createPathPattern(pattern: String, prefix: Boolean): PathPattern =
         else -> LiteralPathPattern(pattern, prefix)
     }
 
-fun checkPathPatternPrefix(pattern: String, allowedPatterns: List<String> = listOf("")) {
+internal fun checkPathPatternPrefix(pattern: String, allowedPrefixes: List<String> = emptyList()) {
     if (!disableChecks)
-        require(pattern in allowedPatterns || pattern.startsWith('/')) {
+        require(
+            pattern.isEmpty()
+            || pattern.startsWith('/')
+            || allowedPrefixes.any { pattern.startsWith(it) }) {
+
             "'$pattern' must be empty or start with '/'"
         }
 }
 
-fun checkPathPatternVariables(pattern: String) {
+internal fun checkPathPatternVariables(pattern: String) {
     if (!disableChecks) {
         require(!pattern.contains(":")) {
             "Variables have {var} format. Path cannot have ':' $pattern"

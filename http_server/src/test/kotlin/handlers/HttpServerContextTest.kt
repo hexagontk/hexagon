@@ -138,7 +138,7 @@ internal class HttpServerContextTest {
                 HttpServerCall(httpServerRequest(), HttpServerResponse()),
                 HttpServerPredicate(),
                 listOf(
-                    OnHandler { ok() },
+                    OnHandler("*") { ok() },
                 )
             )
         )

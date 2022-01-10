@@ -32,7 +32,7 @@ abstract class FiltersTest(
     )
 
     private val path: PathHandler = path {
-        filter {
+        filter("*") {
             val start = System.nanoTime()
             // Call next and store result to chain it
             val next = next()

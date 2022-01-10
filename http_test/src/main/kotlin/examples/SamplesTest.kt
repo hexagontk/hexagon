@@ -382,12 +382,12 @@ abstract class SamplesTest(
             get("/filters") { ok("filters") }
 
             path("/nested") {
-                on("/?*") { send(headers = response.headers + ("b-nested" to "true")) }
+                on("*") { send(headers = response.headers + ("b-nested" to "true")) }
                 on { send(headers = response.headers + ("b-nested-2" to "true")) }
                 get("/filters") { ok("nested filters") }
                 get("/halted") { send(HttpStatus(499), "halted") }
                 get { ok("nested also") }
-                after("/?*") { send(headers = response.headers + ("a-nested" to "true")) }
+                after("*") { send(headers = response.headers + ("a-nested" to "true")) }
             }
 
             after("/*") { send(headers = response.headers + ("a-all" to "true")) }
@@ -418,7 +418,7 @@ abstract class SamplesTest(
             // Register handler for routes halted with 512 code
             get("/errors") { send(HttpStatus(512)) }
 
-            on(status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR, "Ouch") }
+            on(pattern = "*", status = HttpStatus(512)) { send(INTERNAL_SERVER_ERROR, "Ouch") }
             // errors
 
             // exceptions
@@ -426,10 +426,10 @@ abstract class SamplesTest(
             get("/exceptions") { error("Message") }
             get("/codedExceptions") { send(HttpStatus(509), "code") }
 
-            on(status = HttpStatus(509)) {
+            on(pattern = "*", status = HttpStatus(509)) {
                 send(HttpStatus(599))
             }
-            on(exception = IllegalStateException::class) {
+            on(pattern = "*", exception = IllegalStateException::class) {
                 send(HTTP_VERSION_NOT_SUPPORTED, context.exception?.message ?: "empty")
             }
             // exceptions

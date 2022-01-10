@@ -188,7 +188,7 @@ style:
     active: true
     ignoreOverridableFunction: true
     excludedFunctions: 'describeContents'
-    excludeAnnotatedFunction: ['dagger.Provides']
+    ignoreAnnotated: ['dagger.Provides']
   MagicNumber:
     active: true
     ignoreHashCodeFunction: true

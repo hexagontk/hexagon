@@ -36,9 +36,15 @@ internal class TemplatePathPatternTest {
     }
 
     @Test fun `Regex is matched properly`() {
-        val regexPath = TemplatePathPattern("/alpha/?*")
-        assert(regexPath.matches("/alphabet/beta/p2"))
-        assert(regexPath.matches("/alphabet"))
+        TemplatePathPattern("/alpha/?*").apply {
+            assert(matches("/alphabet/beta/p2"))
+            assert(matches("/alphabet"))
+        }
+
+        TemplatePathPattern("/alpha*").apply {
+            assert(matches("/alphabet/beta/p2"))
+            assert(matches("/alphabet"))
+        }
 
         TemplatePathPattern("/alpha(/*)?").apply {
             assert(matches("/alpha/beta/p2"))
@@ -121,8 +127,10 @@ internal class TemplatePathPatternTest {
         disableChecks = false
     }
 
-    @Test fun `Empty path patterns are allowed`() {
+    @Test fun `Empty and wildcard path patterns are allowed`() {
         assertEquals("", TemplatePathPattern("").pattern)
+        assertEquals("*", TemplatePathPattern("*").pattern)
+        assertEquals("*/whatever", TemplatePathPattern("*/whatever").pattern)
     }
 
     @Test fun `Invalid path parameters`() {

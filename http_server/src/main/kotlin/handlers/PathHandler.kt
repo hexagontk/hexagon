@@ -37,7 +37,8 @@ data class PathHandler(
         this(
             HttpServerPredicate(
                 methods = nestedMethods(handlers.toList()),
-                pathPattern = createPathPattern(pattern, prefix = true),
+                pattern = pattern,
+                prefix = true,
             ),
             handlers
         )
