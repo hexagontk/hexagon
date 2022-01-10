@@ -20,19 +20,32 @@ import kotlin.test.assertTrue
 
 internal class HttpServerPredicateTest {
 
+    @Test fun `Predicates with empty pattern matches exact path or root`() = runBlocking {
+        val predicate = HttpServerPredicate()
+        val call = HttpServerCall(HttpServerRequest(), HttpServerResponse())
+        val context = Context(call, predicate)
+        assertTrue(predicate(context))
+        val call1 = HttpServerCall(HttpServerRequest(path = "/"), HttpServerResponse())
+        val context1 = Context(call1, predicate)
+        assertTrue(predicate(context1))
+        val call2 = HttpServerCall(HttpServerRequest(path = "/a"), HttpServerResponse())
+        val context2 = Context(call2, predicate)
+        assertFalse(predicate(context2))
+    }
+
     @Test fun `HTTP predicates are described correctly`() {
         val predicate1 = HttpServerPredicate(setOf(PUT, OPTIONS), LiteralPathPattern("/a"))
-        assertEquals("PUT, OPTIONS LiteralPathPattern /a", predicate1.describe())
+        assertEquals("PUT, OPTIONS Literal '/a'", predicate1.describe())
         val predicate2 = HttpServerPredicate(setOf(GET), LiteralPathPattern("/b/c"))
-        assertEquals("GET LiteralPathPattern /b/c", predicate2.describe())
+        assertEquals("GET Literal '/b/c'", predicate2.describe())
         val predicate3 = HttpServerPredicate(pathPattern = LiteralPathPattern("/b/c"))
-        assertEquals("ANY LiteralPathPattern /b/c", predicate3.describe())
+        assertEquals("ANY Literal '/b/c'", predicate3.describe())
         val predicate4 = HttpServerPredicate(setOf(POST, PATCH))
-        assertEquals("POST, PATCH <all paths>", predicate4.describe())
+        assertEquals("POST, PATCH Literal ''", predicate4.describe())
     }
 
     @Test fun `Predicate without filter works properly`() = runBlocking {
-        setOf(HttpServerPredicate(), HttpServerPredicate(methods = ALL)).forEach {
+        setOf(HttpServerPredicate(pattern = "*"), HttpServerPredicate(ALL, "*")).forEach {
             HttpMethod.values().forEach { method ->
                 HttpStatus.codes.values.forEach { status ->
                     listOf("/", "/a").forEach { pattern ->
@@ -45,7 +58,7 @@ internal class HttpServerPredicateTest {
     }
 
     @Test fun `Predicate with method filter works properly`() = runBlocking {
-        HttpServerPredicate(setOf(PUT, OPTIONS)).let {
+        HttpServerPredicate(setOf(PUT, OPTIONS), "*").let {
             assertTrue(it.predicate(serverContext(PUT, "/a", OK)))
             assertTrue(it.predicate(serverContext(OPTIONS, "/a", OK)))
             assertFalse(it.predicate(serverContext(POST, "/", OK)))
@@ -63,7 +76,7 @@ internal class HttpServerPredicateTest {
     }
 
     @Test fun `Predicate with exception filter works properly`() = runBlocking {
-        HttpServerPredicate(exception = RuntimeException::class).let {
+        HttpServerPredicate(pattern = "*", exception = RuntimeException::class).let {
             HttpMethod.values().forEach { method ->
                 HttpStatus.codes.values.forEach { status ->
                     listOf("/", "/a").forEach { pattern ->
@@ -82,7 +95,7 @@ internal class HttpServerPredicateTest {
     }
 
     @Test fun `Predicate with status filter works properly`() = runBlocking {
-        HttpServerPredicate(status = OK).let {
+        HttpServerPredicate(pattern = "*", status = OK).let {
             HttpMethod.values().forEach { method ->
                 listOf("/", "/a").forEach { pattern ->
                     assertTrue(it.predicate(serverContext(method, pattern, OK)))

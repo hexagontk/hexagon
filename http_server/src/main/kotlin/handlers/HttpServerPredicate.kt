@@ -7,6 +7,7 @@ import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.patterns.PathPattern
+import com.hexagonkt.http.patterns.createPathPattern
 import com.hexagonkt.http.server.model.HttpServerCall
 import kotlin.reflect.KClass
 
@@ -23,19 +24,17 @@ data class HttpServerPredicate(
         pattern.isEmpty()
 
     val predicate: Predicate<HttpServerCall> =
-        when {
-            methods.isEmpty() && pathPattern.isEmpty() && exception == null && status == null ->
-                log(::noFilter)
+        if (methods.isEmpty()) log(::filterWithoutMethod)
+        else log(::filterWithMethod)
 
-            pathPattern.isEmpty() && exception == null && status == null -> log(::filterMethod)
-            methods.isEmpty() && exception == null && status == null -> log(::filterPattern)
-            methods.isEmpty() && pathPattern.isEmpty() && status == null -> log(::filterException)
-            methods.isEmpty() && pathPattern.isEmpty() && exception == null ->log(::filterStatus)
-
-            methods.isEmpty() -> ::filterWithoutMethod
-
-            else -> ::filterWithMethod
-        }
+    constructor(
+        methods: Set<HttpMethod> = emptySet(),
+        pattern: String = "",
+        exception: KClass<out Exception>? = null,
+        status: HttpStatus? = null,
+        prefix: Boolean = false,
+    ) :
+        this(methods, createPathPattern(pattern, prefix), exception, status)
 
     override suspend fun invoke(context: Context<HttpServerCall>): Boolean =
         predicate(context)
@@ -55,15 +54,12 @@ data class HttpServerPredicate(
             predicate
     }
 
-    @Suppress("UNUSED_PARAMETER") // Context not used to filter (all contexts accepted)
-    private fun noFilter(context: Context<HttpServerCall>): Boolean =
-        true
-
     private fun filterMethod(context: Context<HttpServerCall>): Boolean =
         context.event.request.method in methods
 
     private fun filterPattern(context: Context<HttpServerCall>): Boolean =
-        pathPattern.matches(context.event.request.path)
+        if (pathPattern.isEmpty() && context.event.request.path == "/") true
+        else pathPattern.matches(context.event.request.path)
 
     private fun filterException(context: Context<HttpServerCall>): Boolean {
         val exceptionClass = context.exception?.javaClass ?: return false
@@ -74,7 +70,7 @@ data class HttpServerPredicate(
         status == context.event.response.status
 
     private fun filterWithoutMethod(context: Context<HttpServerCall>): Boolean =
-        (pathPattern.isEmpty() || filterPattern(context))
+        filterPattern(context)
             && (exception == null || filterException(context))
             && (status == null || filterStatus(context))
 
@@ -90,9 +86,7 @@ data class HttpServerPredicate(
             .ifEmpty { listOf("ANY") }
             .joinToString(
                 separator = ", ",
-                postfix =
-                    if(pathPattern.isEmpty()) " <all paths>"
-                    else pathPattern.describe().prependIndent(" "),
+                postfix = pathPattern.describe().prependIndent(" "),
                 transform = { it }
             )
 }
