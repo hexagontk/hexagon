@@ -32,9 +32,9 @@ data class HttpServerPredicate(
             methods.isEmpty() && pathPattern.isEmpty() && status == null -> log(::filterException)
             methods.isEmpty() && pathPattern.isEmpty() && exception == null ->log(::filterStatus)
 
-            methods.isEmpty() -> ::filterNoMethod
+            methods.isEmpty() -> ::filterWithoutMethod
 
-            else -> ::filter
+            else -> ::filterWithMethod
         }
 
     override suspend fun invoke(context: Context<HttpServerCall>): Boolean =
@@ -73,13 +73,13 @@ data class HttpServerPredicate(
     private fun filterStatus(context: Context<HttpServerCall>): Boolean =
         status == context.event.response.status
 
-    private fun filterNoMethod(context: Context<HttpServerCall>): Boolean =
+    private fun filterWithoutMethod(context: Context<HttpServerCall>): Boolean =
         (pathPattern.isEmpty() || filterPattern(context))
             && (exception == null || filterException(context))
             && (status == null || filterStatus(context))
 
-    private fun filter(context: Context<HttpServerCall>): Boolean =
-        filterMethod(context) && filterNoMethod(context)
+    private fun filterWithMethod(context: Context<HttpServerCall>): Boolean =
+        filterMethod(context) && filterWithoutMethod(context)
 
     fun addPrefix(prefix: String): HttpServerPredicate =
         copy(pathPattern = pathPattern.addPrefix(prefix))
