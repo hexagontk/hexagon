@@ -253,6 +253,13 @@ abstract class BooksTest(
         }
     }
 
+    @Test fun `Update not found book returns a 404`() = runBlocking {
+        listOf("/a", "/b", "/c").forEach {
+            val result = client.put("$it/books/9999?title=Don%20Quixote")
+            assertResponseContains(result, NOT_FOUND, "not found")
+        }
+    }
+
     @Test fun `Delete book returns the deleted record ID`() = runBlocking {
         listOf("/a", "/b", "/c").forEach {
             val createResult =
@@ -262,6 +269,13 @@ abstract class BooksTest(
             assertEquals(CREATED, createResult.status)
             val result = client.delete("$it/books/$id")
             assertResponseContains(result, id.toString(), "deleted")
+        }
+    }
+
+    @Test fun `Delete not found book returns a 404`() = runBlocking {
+        listOf("/a", "/b", "/c").forEach {
+            val result = client.delete("$it/books/9999")
+            assertResponseContains(result, NOT_FOUND, "not found")
         }
     }
 

@@ -12,6 +12,7 @@ import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
+import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
@@ -33,6 +34,7 @@ abstract class ErrorsTest(
         get("/exception") { throw UnsupportedOperationException("error message") }
         get("/baseException") { throw CustomException() }
         get("/unhandledException") { error("error message") }
+        get("/invalidBody") { ok(LocalDateTime.now()) }
 
         get("/halt") { internalServerError("halted") }
         get("/588") { send(HttpStatus(588)) }
@@ -57,6 +59,12 @@ abstract class ErrorsTest(
     // errors
 
     override val handler: ServerHandler = path
+
+    @Test fun `Invalid body returns 500 status code`() = runBlocking {
+        val response = client.get("/invalidBody")
+        val message = "Unsupported body type: LocalDateTime"
+        assertResponseContains(response, INTERNAL_SERVER_ERROR, message)
+    }
 
     @Test fun `Halt stops request with 500 status code`() = runBlocking {
         val response = client.get("/halt")

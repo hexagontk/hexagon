@@ -257,6 +257,7 @@ private val path: PathHandler = path {
     get("/exception") { throw UnsupportedOperationException("error message") }
     get("/baseException") { throw CustomException() }
     get("/unhandledException") { error("error message") }
+    get("/invalidBody") { ok(LocalDateTime.now()) }
 
     get("/halt") { internalServerError("halted") }
     get("/588") { send(HttpStatus(588)) }

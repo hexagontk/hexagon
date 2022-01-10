@@ -1,7 +1,6 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.helpers.multiMapOfLists
-import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
@@ -35,7 +34,6 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import java.lang.RuntimeException
 import java.net.InetAddress
 import java.net.URL
 import kotlin.test.assertEquals
@@ -46,8 +44,6 @@ abstract class SamplesTest(
     val clientAdapter: () -> HttpClientPort,
     val serverAdapter: () -> HttpServerPort
 ) {
-
-    private val logger: Logger = Logger(SamplesTest::class)
 
     @BeforeAll fun startUp() {
         LoggingManager.adapter = Slf4jJulLoggingAdapter()
@@ -315,11 +311,6 @@ abstract class SamplesTest(
                 internalServerError()                 // halt with status 500
             }
             // callbackHalt
-
-            after(exception = Exception::class) {
-                logger.error(this.context.exception ?: RuntimeException()) { "" }
-                internalServerError(this.context.exception?.message ?: "Error")
-            }
         }
 
         server.use { s ->
