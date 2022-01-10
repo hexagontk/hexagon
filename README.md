@@ -250,7 +250,7 @@ class CustomException : IllegalArgumentException()
 private val path: PathHandler = path {
 
     // Catching `Exception` handles any unhandled exception before (it has to be the last)
-    after(exception = Exception::class, status = NOT_FOUND) {
+    after(pattern = "*", exception = Exception::class, status = NOT_FOUND) {
         internalServerError("Root handler")
     }
 
@@ -261,20 +261,20 @@ private val path: PathHandler = path {
     get("/halt") { internalServerError("halted") }
     get("/588") { send(HttpStatus(588)) }
 
-    on(exception = UnsupportedOperationException::class) {
+    on(pattern = "*", exception = UnsupportedOperationException::class) {
         val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
         val newHeaders = response.headers + ("error" to error)
         send(HttpStatus(599), "Unsupported", headers = newHeaders)
     }
 
-    on(exception = IllegalArgumentException::class) {
+    on(pattern = "*", exception = IllegalArgumentException::class) {
         val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
         val newHeaders = response.headers + ("runtime-error" to error)
         send(HttpStatus(598), "Runtime", headers = newHeaders)
     }
 
     // It is possible to execute a handler upon a given status code before returning
-    on(status = HttpStatus(588)) {
+    on(pattern = "*", status = HttpStatus(588)) {
         send(HttpStatus(578), "588 -> 578")
     }
 }
@@ -296,7 +296,7 @@ private val users: Map<String, String> = mapOf(
 )
 
 private val path: PathHandler = path {
-    filter {
+    filter("*") {
         val start = System.nanoTime()
         // Call next and store result to chain it
         val next = next()
