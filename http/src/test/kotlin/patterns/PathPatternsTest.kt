@@ -17,7 +17,7 @@ internal class PathPatternsTest {
     }
 
     @Test fun `Path patterns are described correctly`() {
-        assertEquals("LiteralPathPattern (PREFIX) /a", LiteralPathPattern("/a", true).describe())
-        assertEquals("RegexPathPattern /(a|b)$", TemplatePathPattern("/(a|b)", false).describe())
+        assertEquals("Literal (PREFIX) '/a'", LiteralPathPattern("/a", true).describe())
+        assertEquals("Regex '/(a|b)$'", TemplatePathPattern("/(a|b)", false).describe())
     }
 }
