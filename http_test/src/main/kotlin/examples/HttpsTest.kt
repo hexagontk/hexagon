@@ -54,7 +54,7 @@ abstract class HttpsTest(
 
     private val router = path {
         get("/hello") {
-            val certificateSubject = request.certificate()?.subjectDN?.name ?: fail
+            val certificateSubject = request.certificate()?.subjectX500Principal?.name ?: fail
             val headers = response.headers + ("cert" to certificateSubject)
             ok("Hello World!", headers = headers)
         }
@@ -94,7 +94,7 @@ abstract class HttpsTest(
         val server = HttpServer(serverAdapter(), serverSettings) {
             get("/hello") {
                 // We can access the certificate used by the client from the request
-                val subjectDn = request.certificate()?.subjectDN?.name ?: ""
+                val subjectDn = request.certificate()?.subjectX500Principal?.name ?: ""
                 val h = response.headers + ("cert" to subjectDn)
                 ok("Hello World!", headers = h)
             }

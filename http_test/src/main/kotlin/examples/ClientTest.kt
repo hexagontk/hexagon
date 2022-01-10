@@ -356,7 +356,7 @@ abstract class ClientTest(
         val server = serve(serverAdapter, serverSettings) {
             get("/hello") {
                 // We can access the certificate used by the client from the request
-                val subjectDn = request.certificate()?.subjectDN?.name ?: ""
+                val subjectDn = request.certificate()?.subjectX500Principal?.name ?: ""
                 ok("Hello World!", headers = response.headers + ("cert" to subjectDn) )
             }
         }
