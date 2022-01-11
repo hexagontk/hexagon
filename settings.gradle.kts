@@ -9,7 +9,6 @@ include(
     // Internal modules
     "core",
     "http",
-    "web",
 
     // Ports
     "http_client",
