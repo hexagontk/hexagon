@@ -1,9 +1,9 @@
 package com.hexagonkt.http
 
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.helpers.Jvm
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.Jvm
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.http.model.ContentType
 import java.math.BigInteger

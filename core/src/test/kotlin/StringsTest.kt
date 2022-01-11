@@ -1,9 +1,10 @@
-package com.hexagonkt.core.helpers
+package com.hexagonkt.core
 
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.text.prependIndent
 
 internal class StringsTest {
 

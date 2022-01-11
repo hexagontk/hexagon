@@ -1,9 +1,9 @@
 package com.hexagonkt.core.converters
 
 import com.hexagonkt.core.converters.ConvertersManager.convertObjects
-import com.hexagonkt.core.helpers.get
-import com.hexagonkt.core.helpers.fail
-import com.hexagonkt.core.helpers.requireKeys
+import com.hexagonkt.core.get
+import com.hexagonkt.core.fail
+import com.hexagonkt.core.requireKeys
 import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
 import java.net.URL

@@ -1,6 +1,6 @@
-package com.hexagonkt.core.helpers
+package com.hexagonkt.core
 
-import com.hexagonkt.core.helpers.Jvm.NO_JMX_ERROR
+import com.hexagonkt.core.Jvm.NO_JMX_ERROR
 import org.junit.jupiter.api.Test
 import java.lang.management.ManagementFactory
 import java.net.Inet4Address

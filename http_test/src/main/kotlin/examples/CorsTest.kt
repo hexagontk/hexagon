@@ -1,7 +1,7 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.multiMapOf
-import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
 import com.hexagonkt.http.model.HttpMethod.POST

@@ -1,4 +1,4 @@
-package com.hexagonkt.core.helpers
+package com.hexagonkt.core
 
 /**
  * Exception with a list of causes. Cause is `null` as it can't be tell which one of the list is the

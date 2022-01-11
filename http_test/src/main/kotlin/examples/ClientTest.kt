@@ -1,9 +1,9 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.multiMapOf
-import com.hexagonkt.core.helpers.fail
-import com.hexagonkt.core.helpers.multiMapOfLists
-import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.core.fail
+import com.hexagonkt.core.multiMapOfLists
+import com.hexagonkt.core.require
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.ApplicationMedia.JSON
 import com.hexagonkt.core.media.ApplicationMedia.YAML

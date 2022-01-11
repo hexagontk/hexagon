@@ -1,7 +1,7 @@
 package com.hexagonkt.http.client.jetty
 
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.fail
 import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.checkedHeaders

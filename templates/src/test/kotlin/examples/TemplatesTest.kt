@@ -1,6 +1,6 @@
 package com.hexagonkt.templates.examples
 
-import com.hexagonkt.core.helpers.Glob
+import com.hexagonkt.core.Glob
 import com.hexagonkt.templates.SampleTemplateAdapter
 import com.hexagonkt.templates.TemplateManager
 import com.hexagonkt.templates.TemplatePort

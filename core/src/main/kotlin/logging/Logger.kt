@@ -2,9 +2,9 @@ package com.hexagonkt.core.logging
 
 import java.lang.System.nanoTime
 import kotlin.reflect.KClass
-import com.hexagonkt.core.helpers.Ansi.BLINK
-import com.hexagonkt.core.helpers.Ansi.BOLD
-import com.hexagonkt.core.helpers.Ansi.RESET
+import com.hexagonkt.core.Ansi.BLINK
+import com.hexagonkt.core.Ansi.BOLD
+import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.logging.LoggingLevel.*
 
 /**

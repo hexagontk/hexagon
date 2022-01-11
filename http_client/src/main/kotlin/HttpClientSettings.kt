@@ -1,7 +1,7 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.SslSettings
 import com.hexagonkt.http.model.ContentType
 import java.net.URL

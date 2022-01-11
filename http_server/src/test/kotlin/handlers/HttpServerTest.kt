@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.handlers
 
-import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.require
 import com.hexagonkt.http.model.ClientErrorStatus.METHOD_NOT_ALLOWED
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 import com.hexagonkt.http.model.HttpMethod.GET

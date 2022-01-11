@@ -1,6 +1,6 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager

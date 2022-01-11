@@ -1,6 +1,6 @@
 package com.hexagonkt.http.test
 
-import com.hexagonkt.core.helpers.encodeToBase64
+import com.hexagonkt.core.encodeToBase64
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager

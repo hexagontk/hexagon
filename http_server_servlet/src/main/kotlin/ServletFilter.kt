@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.core.helpers.toText
+import com.hexagonkt.core.toText
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.http.bodyToBytes

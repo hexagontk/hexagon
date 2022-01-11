@@ -1,4 +1,4 @@
-package com.hexagonkt.core.helpers
+package com.hexagonkt.core
 
 import java.lang.IllegalArgumentException
 import java.util.regex.PatternSyntaxException

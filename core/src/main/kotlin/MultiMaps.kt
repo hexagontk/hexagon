@@ -1,4 +1,4 @@
-package com.hexagonkt.core.helpers
+package com.hexagonkt.core
 
 fun <K, V> multiMapOfLists(vararg pairs: Pair<K, List<V>>): MultiMap<K, V> =
     MultiMap(pairs.toMap())

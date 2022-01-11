@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.examples
 
-import com.hexagonkt.core.helpers.encodeToBase64
+import com.hexagonkt.core.encodeToBase64
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.SuccessStatus.OK

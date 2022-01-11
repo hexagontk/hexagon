@@ -1,9 +1,9 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.multiMapOf
-import com.hexagonkt.core.helpers.multiMapOfLists
-import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.core.multiMapOfLists
+import com.hexagonkt.core.require
 import com.hexagonkt.core.media.TextMedia.CSS
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.http.client.HttpClientPort

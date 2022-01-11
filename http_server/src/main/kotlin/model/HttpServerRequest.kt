@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.model
 
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.*
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET

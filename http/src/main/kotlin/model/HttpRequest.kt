@@ -1,6 +1,6 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.helpers.MultiMap
+import com.hexagonkt.core.MultiMap
 import java.net.URL
 
 // TODO 'formParameters' are a kind of 'part' and both are handled as part of the 'body'

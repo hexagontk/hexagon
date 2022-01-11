@@ -2,8 +2,8 @@ package com.hexagonkt.web.examples
 
 import com.hexagonkt.core.converters.ConvertersManager
 import com.hexagonkt.core.converters.convert
-import com.hexagonkt.core.helpers.require
-import com.hexagonkt.core.helpers.requireKeys
+import com.hexagonkt.core.require
+import com.hexagonkt.core.requireKeys
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingManager

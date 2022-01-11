@@ -1,8 +1,8 @@
 package com.hexagonkt.http
 
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.helpers.multiMapOf
-import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.core.multiMapOfLists
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
 import java.time.*
@@ -25,7 +25,7 @@ internal class HttpTest {
         val invalidHeaderError =
             "Header names must be lower-case and contain only letters, digits or '-':"
         val forbiddenHeaders = listOf("Content-Type", "accept_all")
-            .map { multiMapOf(it to "value")}
+            .map { multiMapOf(it to "value") }
 
         forbiddenHeaders.forEach {
             val e = assertFailsWith<IllegalStateException> { checkHeaders(it) }
@@ -41,7 +41,7 @@ internal class HttpTest {
 
     @Test fun `Check headers fails when using reserved headers when not in production mode` () {
         val forbiddenHeaders = listOf("content-type", "accept", "set-cookie")
-            .map { multiMapOf(it to "value")}
+            .map { multiMapOf(it to "value") }
 
         forbiddenHeaders.forEach {
             val e = assertFailsWith<IllegalStateException> { checkHeaders(it) }

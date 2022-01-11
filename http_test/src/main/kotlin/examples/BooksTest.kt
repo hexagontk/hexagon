@@ -1,6 +1,6 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.require
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpMethod.*

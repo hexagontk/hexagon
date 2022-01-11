@@ -4,7 +4,7 @@ import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpCookie

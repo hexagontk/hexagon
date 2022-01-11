@@ -2,8 +2,8 @@ package com.hexagonkt.serialization.jackson.yaml
 
 import com.hexagonkt.core.converters.ConvertersManager
 import com.hexagonkt.core.converters.convert
-import com.hexagonkt.core.helpers.require
-import com.hexagonkt.core.helpers.requireKeys
+import com.hexagonkt.core.require
+import com.hexagonkt.core.requireKeys
 import com.hexagonkt.serialization.*
 import com.hexagonkt.serialization.test.SerializationTest
 import org.junit.jupiter.api.BeforeAll

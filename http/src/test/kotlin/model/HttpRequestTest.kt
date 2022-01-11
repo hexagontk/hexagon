@@ -1,7 +1,7 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.fail
 import com.hexagonkt.http.model.HttpProtocol.HTTP
 import org.junit.jupiter.api.Test
 import java.net.URL

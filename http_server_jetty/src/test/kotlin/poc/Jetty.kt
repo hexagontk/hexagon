@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.jetty.poc
 
-import com.hexagonkt.core.helpers.Jvm
+import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.logging.logger
 import jakarta.servlet.*
 import org.eclipse.jetty.server.Server

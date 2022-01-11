@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.examples
 
-import com.hexagonkt.core.helpers.fail
-import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.fail
+import com.hexagonkt.core.require
 import com.hexagonkt.core.logging.LoggingLevel.INFO
 import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingManager

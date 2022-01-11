@@ -1,6 +1,6 @@
 package com.hexagonkt.core.logging
 
-import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.fail
 import com.hexagonkt.core.logging.jul.JulLoggingAdapter
 import kotlin.reflect.KClass
 

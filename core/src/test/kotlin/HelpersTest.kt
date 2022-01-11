@@ -1,9 +1,10 @@
-package com.hexagonkt.core.helpers
+package com.hexagonkt.core
 
 import java.net.ServerSocket
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 
 internal class HelpersTest {
 
@@ -16,6 +17,10 @@ internal class HelpersTest {
         ),
         0 to 1
     )
+
+    @Test fun `Production mode is disabled by default`() {
+        assertFalse(disableChecks)
+    }
 
     @Test fun `Check multiple errors`() {
         val e = assertFailsWith<MultipleException> {

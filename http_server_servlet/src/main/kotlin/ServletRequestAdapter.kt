@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.core.helpers.MultiMap
+import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
 import com.hexagonkt.http.parseQueryParameters

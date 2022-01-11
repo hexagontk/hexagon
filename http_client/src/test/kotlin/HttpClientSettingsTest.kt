@@ -1,6 +1,6 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.multiMapOf
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertEquals

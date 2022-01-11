@@ -1,8 +1,8 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.fail
 import com.hexagonkt.core.logging.logger
-import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.require
 import com.hexagonkt.core.security.getPrivateKey
 import com.hexagonkt.core.security.getPublicKey
 import com.hexagonkt.core.security.loadKeyStore
