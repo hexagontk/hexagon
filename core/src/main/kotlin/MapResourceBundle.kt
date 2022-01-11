@@ -9,6 +9,8 @@ import java.util.*
  */
 abstract class MapResourceBundle(val map: Map<*, *>) : ListResourceBundle() {
 
+    constructor(vararg pairs: Pair<*, *>) : this(pairs.toMap())
+
     val data: Array<Array<Any?>> by lazy {
         map.entries.map { arrayOf(it.key, it.value) }.toTypedArray()
     }
