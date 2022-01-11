@@ -26,7 +26,7 @@ data class HttpServerRequest(
     override val contentLength: Long = -1L
 ) : HttpServerRequestPort {
 
-    override val queryParameters: MultiMap<String, String> = parseQueryParameters(queryString)
+    override val queryParameters: MultiMap<String, String> = parseQueryString(queryString)
 
     init {
         checkHeaders(headers)

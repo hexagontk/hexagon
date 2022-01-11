@@ -51,7 +51,7 @@ fun checkHeaders(headers: MultiMap<String, String>) {
  * @return Map with query parameter keys bound to a list with their values.
  *
  */
-fun parseQueryParameters(query: String): MultiMap<String, String> =
+fun parseQueryString(query: String): MultiMap<String, String> =
     if (query.isBlank())
         multiMapOf()
     else

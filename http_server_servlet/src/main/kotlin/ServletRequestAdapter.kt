@@ -3,7 +3,7 @@ package com.hexagonkt.http.server.servlet
 import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
-import com.hexagonkt.http.parseQueryParameters
+import com.hexagonkt.http.parseQueryString
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import java.security.cert.X509Certificate
 import jakarta.servlet.http.HttpServletRequest
@@ -32,7 +32,7 @@ internal class ServletRequestAdapter(private val req: HttpServletRequest) : Http
     override val contentLength: Long by lazy { req.contentLength.toLong() }
 
     override val queryParameters: MultiMap<String, String> by lazy {
-        parseQueryParameters(queryString)
+        parseQueryString(queryString)
     }
 
     override val method: HttpMethod by lazy {
