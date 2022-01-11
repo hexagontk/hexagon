@@ -168,7 +168,6 @@ private val books: MutableMap<Int, Book> = linkedMapOf(
 private val path: PathHandler = path {
 
     post("/books") {
-        val queryParameters = request.queryParameters
         val author = queryParameters["author"] ?: return@post badRequest("Missing author")
         val title = queryParameters["title"] ?: return@post badRequest("Missing title")
         val id = (books.keys.maxOrNull() ?: 0) + 1
@@ -190,8 +189,8 @@ private val path: PathHandler = path {
         val book = books[bookId]
         if (book != null) {
             books += bookId to book.copy(
-                author = request.queryParameters["author"] ?: book.author,
-                title = request.queryParameters["title"] ?: book.title
+                author = queryParameters["author"] ?: book.author,
+                title = queryParameters["title"] ?: book.title
             )
 
             ok("Book with id '$bookId' updated")
@@ -228,7 +227,7 @@ private val path: PathHandler = path {
 <summary>Session Example</summary>
 
 Example showing how to use sessions. Here you can check the
-[full test](http_server/src/test/kotlin/examples/SessionTest.kt).
+full test.
 
 ```kotlin
 // session
@@ -380,7 +379,7 @@ private val path: PathHandler = path {
     get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
 
     post("/multipart") {
-        val headers: MultiMap<String, String> = request.parts.first().let { p ->
+        val headers: MultiMap<String, String> = parts.first().let { p ->
             val name = p.name
             val bodyString = p.bodyString()
             val size = p.size.toString()
@@ -399,22 +398,22 @@ private val path: PathHandler = path {
     }
 
     post("/file") {
-        val part = request.parts.first()
+        val part = parts.first()
         val content = part.bodyString()
         ok(content)
     }
 
     post("/form") {
-      fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
-          map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
-      )
+        fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
+            map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
+        )
 
-      val queryParams = serializeMap(request.queryParameters.allValues)
-      val formParams = serializeMap(request.formParameters.allValues)
-      val headers =
-          multiMapOfLists("query-params" to queryParams, "form-params" to formParams)
+        val queryParams = serializeMap(queryParameters.allValues)
+        val formParams = serializeMap(formParameters.allValues)
+        val headers =
+            multiMapOfLists("query-params" to queryParams, "form-params" to formParams)
 
-      ok(headers = response.headers + headers)
+        ok(headers = response.headers + headers)
     }
 }
 // files
@@ -468,10 +467,10 @@ If you feel like you can do more. You can contribute to the project in different
 * And... Drum roll... Submitting [code or documentation][contributing].
 
 To know what issues are currently open and be aware of the next features you can check the
-[Project Board] and the [Organization Board] at GitHub.
+[Organization Board] at GitHub.
 
 You can ask any question, suggestion or complaint at the project's [Slack channel][Slack]. You can
-be up to date of project's news following [@hexagon_kt] on Twitter.
+be up-to-date of project's news following [@hexagon_kt] on Twitter.
 
 Thanks to all project's [contributors]!
 
@@ -483,7 +482,6 @@ Thanks to all project's [contributors]!
 [issues]: https://github.com/hexagonkt/hexagon/issues
 [reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
 [contributing]: https://github.com/hexagonkt/hexagon/contribute
-[Project Board]: https://github.com/hexagonkt/hexagon/projects/1
 [Organization Board]: https://github.com/orgs/hexagonkt/projects/1
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
 [CodeTriage]: https://www.codetriage.com/hexagonkt/hexagon

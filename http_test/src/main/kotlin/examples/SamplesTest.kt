@@ -201,6 +201,12 @@ abstract class SamplesTest(
                 request.path                     // the request path, e.g. /result.jsp
                 request.body                     // request body sent by the client
 
+                method                           // Shortcut of `request.method`
+                protocol                         // Shortcut of `request.protocol`
+                host                             // Shortcut of `request.host`
+                port                             // Shortcut of `request.port`
+                path                             // Shortcut of `request.path`
+
                 // Headers
                 request.headers                  // the HTTP header list with first values only
                 request.headers["BAR"]           // first value of BAR header
@@ -214,12 +220,19 @@ abstract class SamplesTest(
                 request.origin()                 // origin (browser requests)
                 request.referer()                // TODO
 
+                accept                             // Shortcut of `request.accept`
+
                 // Parameters
                 pathParameters                    // map with all path parameters
                 request.formParameters            // map with first values of all form fields
                 request.formParameters.allValues  // map with all form fields values
                 request.queryParameters           // map with first values of all query parameters
                 request.queryParameters.allValues // map with all query parameters values
+
+                queryParameters                   // Shortcut of `request.queryParameters`
+                queryParameters.allValues         // Shortcut of `request.queryParameters.allValues`
+                formParameters                    // Shortcut of `request.formParameters`
+                formParameters.allValues          // Shortcut of `request.formParameters.allValues`
 
                 // Body processing
                 request.contentLength             // length of request body
@@ -233,6 +246,9 @@ abstract class SamplesTest(
                 response.body                        // get response content
                 response.status                      // get the response status
                 response.contentType                 // get the content type
+
+                status                               // Shortcut of `response.status`
+
                 send(
                     status = UNAUTHORIZED,           // set status code to 401
                     body = "Hello",                  // sets content to Hello
@@ -259,6 +275,9 @@ abstract class SamplesTest(
                 request.queryParameters["FOO"]                // value of FOO query param
                 request.queryParameters.allValues             // the query param list
                 request.queryParameters.allValues["FOO"]      // all values of FOO query param
+
+                queryString                                   // Shortcut of `request.queryString`
+
                 ok()
             }
             // callbackQueryParam

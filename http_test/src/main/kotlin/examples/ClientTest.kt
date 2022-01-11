@@ -94,7 +94,7 @@ abstract class ClientTest(
     }
 
     @Test fun `Form parameters are sent correctly`() = runBlocking {
-        callback = { ok(headers = request.formParameters) }
+        callback = { ok(headers = formParameters) }
 
         val response = client.send(
             HttpClientRequest(

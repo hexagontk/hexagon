@@ -40,14 +40,14 @@ abstract class CorsTest(
             // CORS settings can change for different routes
             filter(pattern = "*", callback = cors)
 
-            get("/path") { ok(request.method.toString()) }
-            post("/path") { ok(request.method.toString()) }
-            put("/path") { ok(request.method.toString()) }
-            delete("/path") { ok(request.method.toString()) }
-            get { ok(request.method.toString()) }
-            post { ok(request.method.toString()) }
-            put { ok(request.method.toString()) }
-            delete { ok(request.method.toString()) }
+            get("/path") { ok(method.toString()) }
+            post("/path") { ok(method.toString()) }
+            put("/path") { ok(method.toString()) }
+            delete("/path") { ok(method.toString()) }
+            get { ok(method.toString()) }
+            post { ok(method.toString()) }
+            put { ok(method.toString()) }
+            delete { ok(method.toString()) }
         }
     }
     // cors

@@ -60,7 +60,7 @@ abstract class FilesTest(
         get("/pub/*", FileCallback(File(directory))) // Serve `test` folder on `/pub/*`
 
         post("/multipart") {
-            val headers: MultiMap<String, String> = request.parts.first().let { p ->
+            val headers: MultiMap<String, String> = parts.first().let { p ->
                 val name = p.name
                 val bodyString = p.bodyString()
                 val size = p.size.toString()
@@ -79,7 +79,7 @@ abstract class FilesTest(
         }
 
         post("/file") {
-            val part = request.parts.first()
+            val part = parts.first()
             val content = part.bodyString()
             ok(content)
         }
@@ -89,8 +89,8 @@ abstract class FilesTest(
                 map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
             )
 
-            val queryParams = serializeMap(request.queryParameters.allValues)
-            val formParams = serializeMap(request.formParameters.allValues)
+            val queryParams = serializeMap(queryParameters.allValues)
+            val formParams = serializeMap(formParameters.allValues)
             val headers =
                 multiMapOfLists("query-params" to queryParams, "form-params" to formParams)
 

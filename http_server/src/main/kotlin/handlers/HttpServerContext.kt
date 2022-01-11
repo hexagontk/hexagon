@@ -4,6 +4,8 @@ import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.MultiMap
 import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.media.TextMedia.PLAIN
+import com.hexagonkt.core.toText
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.ClientErrorStatus.BAD_REQUEST
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
@@ -15,6 +17,8 @@ import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
 import kotlinx.coroutines.flow.Flow
+import java.net.URL
+import java.security.cert.X509Certificate
 
 data class HttpServerContext(
     val context: Context<HttpServerCall>,
@@ -22,6 +26,27 @@ data class HttpServerContext(
     val response: HttpServerResponse = context.event.response,
     val attributes: Map<Any, Any> = context.attributes
 ) {
+
+    val method: HttpMethod by lazy { request.method }
+    val protocol: HttpProtocol by lazy { request.protocol }
+    val host: String by lazy { request.host }
+    val port: Int by lazy { request.port }
+    val path: String by lazy { request.path }
+    val queryString: String by lazy { request.queryString }
+    val queryParameters: MultiMap<String, String> by lazy { request.queryParameters }
+    val parts: List<HttpPartPort> by lazy { request.parts }
+    val formParameters: MultiMap<String, String> by lazy { request.formParameters }
+    val accept: List<ContentType> by lazy { request.accept }
+    val certificateChain: List<X509Certificate> by lazy { request.certificateChain }
+
+    val partsMap: Map<String, HttpPartPort> by lazy { request.partsMap() }
+    val url: URL by lazy { request.url() }
+    val userAgent: String? by lazy { request.userAgent() }
+    val referer: String? by lazy { request.referer() }
+    val origin: String? by lazy { request.origin() }
+    val certificate: X509Certificate? by lazy { request.certificate() }
+
+    val status: HttpStatus = response.status
 
     val pathParameters: Map<String, String> by lazy {
         val httpHandler = context.currentFilter as HttpServerPredicate
@@ -80,7 +105,6 @@ data class HttpServerContext(
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
 
-    // TODO Allow to pass an exception
     fun internalServerError(
         body: Any = response.body,
         headers: MultiMap<String, String> = response.headers,
@@ -89,6 +113,18 @@ data class HttpServerContext(
         attributes: Map<Any, Any> = context.attributes,
     ): HttpServerContext =
         send(INTERNAL_SERVER_ERROR, body, headers, contentType, cookies, attributes)
+
+    fun internalServerError(
+        exception: Exception,
+        headers: MultiMap<String, String> = response.headers,
+        attributes: Map<Any, Any> = context.attributes,
+    ): HttpServerContext =
+        internalServerError(
+            body = exception.toText(),
+            headers = headers,
+            contentType = ContentType(PLAIN),
+            attributes = attributes,
+        )
 
     fun ok(
         body: Any = response.body,
