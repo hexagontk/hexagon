@@ -2,6 +2,7 @@ package com.hexagonkt.http.model
 
 import com.hexagonkt.core.MultiMap
 import com.hexagonkt.core.fail
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.model.HttpProtocol.HTTP
 import org.junit.jupiter.api.Test
 import java.net.URL
@@ -16,6 +17,11 @@ internal class HttpRequestTest {
         var testPort: Int = 80
         var testPath: String = "path"
         var testQueryString: String = "qp1=value1&qp1=value2"
+        var testHeaders: MultiMap<String, String> = multiMapOf(
+            "user-agent" to "User Agent",
+            "referer" to "Referer",
+            "origin" to "Origin",
+        )
     }
 
     private object TestRequest : HttpRequest {
@@ -25,9 +31,10 @@ internal class HttpRequestTest {
         override val port: Int get() = testPort
         override val path: String get() = testPath
         override val queryString: String get() = testQueryString
+        override val queryParameters: MultiMap<String, String> get() = fail
         override val formParameters: MultiMap<String, String> get() = fail
         override val body: Any get() = fail
-        override val headers: MultiMap<String, String> get() = fail
+        override val headers: MultiMap<String, String> get() = testHeaders
         override val contentType: ContentType get() = fail
         override val accept: List<ContentType> get() = fail
 
@@ -36,6 +43,12 @@ internal class HttpRequestTest {
 
         override val parts: List<HttpPart> =
             listOf(HttpPart("name1", "value1"), HttpPart("name2", "value2"))
+    }
+
+    @Test fun `Header convenience methods works properly`() {
+        assertEquals("User Agent", TestRequest.userAgent())
+        assertEquals("Referer", TestRequest.referer())
+        assertEquals("Origin", TestRequest.origin())
     }
 
     @Test fun `Cookies map works properly`() {

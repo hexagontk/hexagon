@@ -12,6 +12,7 @@ interface HttpRequest : HttpMessage {
     val port: Int                                 // 80
     val path: String                              // "/foo" servlet path + path info
     val queryString: String                       // ""
+    val queryParameters: MultiMap<String, String>
     val parts: List<HttpPartPort>                 // hash of multipart parts
     val formParameters: MultiMap<String, String>
     val accept: List<ContentType>
@@ -24,4 +25,13 @@ interface HttpRequest : HttpMessage {
             URL("${protocol.schema}://$host:$port/$path")
         else
             URL("${protocol.schema}://$host:$port/$path?$queryString")
+
+    fun userAgent(): String? =
+        headers["user-agent"]
+
+    fun referer(): String? =
+        headers["referer"]
+
+    fun origin(): String? =
+        headers["origin"]
 }

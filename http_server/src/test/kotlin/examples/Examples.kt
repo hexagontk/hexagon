@@ -28,10 +28,10 @@ internal suspend fun PathHandler.send(
     user: String? = null,
     password: String? = null,
 ): HttpServerResponse =
-        process(
-            HttpServerRequest(method = method, path = requestPath, queryString = query)
-                .auth(user, password)
-        )
+    process(
+        HttpServerRequest(method = method, path = requestPath, queryString = query)
+            .auth(user, password)
+    )
 
 internal fun HttpServerRequest.auth(
     user: String? = null, password: String? = null): HttpServerRequest {
