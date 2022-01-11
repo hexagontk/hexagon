@@ -69,6 +69,14 @@ fun parseQueryParameters(query: String): MultiMap<String, String> =
                 .mapValues { pair -> pair.value.map { it.second } }
         )
 
+fun formatQueryString(parameters: MultiMap<String, String>): String =
+    parameters.allPairs
+        .filter { it.first.isNotBlank() }
+        .joinToString("&") { (k, v) ->
+            if (v.isBlank()) k.urlEncode()
+            else "${k.urlEncode()}=${v.urlEncode()}"
+        }
+
 fun String.urlDecode(): String =
     URLDecoder.decode(this, Jvm.charset.name())
 

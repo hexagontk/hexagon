@@ -13,6 +13,25 @@ import kotlin.test.assertTrue
 
 internal class HttpTest {
 
+    @Test fun `Format query string`() {
+        fun testParseFormat(expected: String, queryString: String) {
+            assertEquals(expected, formatQueryString(parseQueryParameters(queryString)))
+        }
+
+        testParseFormat("a=1&b&c&d=e", "a =1&b & c &d = e")
+        testParseFormat("a=1&b&c&d=e", "a=1&b&c&d=e")
+        testParseFormat("a=1&a=2&b&b=c&c&d=e", "a=1&b&c&d=e&a=2&b=c")
+        testParseFormat("a", "a=")
+        testParseFormat("a&b", "a=&b=")
+        testParseFormat("c&c", "c=&c")
+        testParseFormat("a&b&c", "a=&b=&c")
+        testParseFormat("ab", "ab")
+        testParseFormat("", " =ab")
+        testParseFormat("", "    ")
+        testParseFormat("a+=+b+", "a+=+b+")
+        testParseFormat("a+=+b+", "a%20=%20b%20")
+    }
+
     @Test fun `Basic types can be converted to byte arrays to be sent as bodies`() {
         assertContentEquals("text".toByteArray(), bodyToBytes("text"))
         assertContentEquals("text".toByteArray(), bodyToBytes("text".toByteArray()))
@@ -71,6 +90,18 @@ internal class HttpTest {
         listOf("referrer", "origin")
             .map { multiMapOf(it to "value") }
             .forEach { checkHeaders(it) }
+    }
+
+    @Test fun `Parse handles encoded characters` () {
+        val expected = multiMapOf(
+            "a " to "1",
+            "b " to "",
+            " c " to "",
+            "d " to " e"
+        )
+
+        assertEquals(expected, parseQueryParameters("a%20=1&b%20&%20c%20&d%20=%20e"))
+        assertEquals(expected, parseQueryParameters("a+=1&b+&+c+&d+=+e"))
     }
 
     @Test fun `Parse strips spaces` () {
