@@ -5,6 +5,10 @@ import com.hexagonkt.http.server.model.HttpServerCall
 
 typealias HttpCallback = suspend HttpServerContext.() -> HttpServerContext
 
+val exceptionHandler = AfterHandler(pattern = "*", exception = Exception::class) {
+    internalServerError(exception ?: RuntimeException("Unhandled Exception"))
+}
+
 internal fun toCallback(handler: HttpCallback): Callback<HttpServerCall> =
     { context -> HttpServerContext(context).handler().context }
 

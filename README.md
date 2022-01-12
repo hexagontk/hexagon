@@ -257,13 +257,13 @@ private val path: PathHandler = path {
     }
 
     exception<IllegalArgumentException> {
-        val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
+        val error = exception?.message ?: exception?.javaClass?.name ?: fail
         val newHeaders = response.headers + ("runtime-error" to error)
         send(HttpStatus(598), "Runtime", headers = newHeaders)
     }
 
     exception<UnsupportedOperationException> {
-        val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
+        val error = exception?.message ?: exception?.javaClass?.name ?: fail
         val newHeaders = response.headers + ("error" to error)
         send(HttpStatus(599), "Unsupported", headers = newHeaders)
     }

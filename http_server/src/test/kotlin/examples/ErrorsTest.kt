@@ -26,13 +26,13 @@ internal class ErrorsTest {
         get("/588") { send(HttpStatus(588)) }
 
         on(pattern = "*", exception = UnsupportedOperationException::class) {
-            val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
+            val error = exception?.message ?: exception?.javaClass?.name ?: fail
             val newHeaders = response.headers + ("error" to error)
             send(HttpStatus(599), "Unsupported", headers = newHeaders)
         }
 
         on(pattern = "*", exception = IllegalArgumentException::class) {
-            val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
+            val error = exception?.message ?: exception?.javaClass?.name ?: fail
             val newHeaders = response.headers + ("runtime-error" to error)
             send(HttpStatus(598), "Runtime", headers = newHeaders)
         }

@@ -7,19 +7,23 @@ import kotlin.reflect.KClass
 
 class PathBuilder(var handlers: List<HttpHandler> = emptyList()) {
 
+    fun use(handler: HttpHandler) {
+        this.handlers += handler
+    }
+
     fun path(pattern: String, block: PathBuilder.() -> Unit) {
-        this.handlers += com.hexagonkt.http.server.handlers.path(pattern, block)
+        use(com.hexagonkt.http.server.handlers.path(pattern, block))
     }
 
     fun path(pattern: String, vararg pathHandlers: HttpHandler) {
-        this.handlers += PathHandler(pattern, pathHandlers.toList())
+        use(PathHandler(pattern, pathHandlers.toList()))
     }
 
     fun on(
         predicate: HttpServerPredicate = HttpServerPredicate(),
         callback: HttpCallback
     ) {
-        this.handlers += OnHandler(predicate, callback)
+        use(OnHandler(predicate, callback))
     }
 
     fun on(
@@ -29,22 +33,22 @@ class PathBuilder(var handlers: List<HttpHandler> = emptyList()) {
         status: HttpStatus? = null,
         callback: HttpCallback,
     ) {
-        this.handlers += OnHandler(methods, pattern, exception, status, callback)
+        use(OnHandler(methods, pattern, exception, status, callback))
     }
 
     fun on(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
-        this.handlers += OnHandler(method, pattern, callback)
+        use(OnHandler(method, pattern, callback))
     }
 
     fun on(pattern: String, callback: HttpCallback) {
-        this.handlers += OnHandler(pattern, callback)
+        use(OnHandler(pattern, callback))
     }
 
     fun filter(
         predicate: HttpServerPredicate = HttpServerPredicate(),
         callback: HttpCallback
     ) {
-        this.handlers += FilterHandler(predicate, callback)
+        use(FilterHandler(predicate, callback))
     }
 
     fun filter(
@@ -54,22 +58,22 @@ class PathBuilder(var handlers: List<HttpHandler> = emptyList()) {
         status: HttpStatus? = null,
         callback: HttpCallback,
     ) {
-        this.handlers += FilterHandler(methods, pattern, exception, status, callback)
+        use(FilterHandler(methods, pattern, exception, status, callback))
     }
 
     fun filter(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
-        this.handlers += FilterHandler(method, pattern, callback)
+        use(FilterHandler(method, pattern, callback))
     }
 
     fun filter(pattern: String, callback: HttpCallback) {
-        this.handlers += FilterHandler(pattern, callback)
+        use(FilterHandler(pattern, callback))
     }
 
     fun after(
         predicate: HttpServerPredicate = HttpServerPredicate(),
         callback: HttpCallback
     ) {
-        this.handlers += AfterHandler(predicate, callback)
+        use(AfterHandler(predicate, callback))
     }
 
     fun after(
@@ -79,15 +83,15 @@ class PathBuilder(var handlers: List<HttpHandler> = emptyList()) {
         status: HttpStatus? = null,
         callback: HttpCallback,
     ) {
-        this.handlers += AfterHandler(methods, pattern, exception, status, callback)
+        use(AfterHandler(methods, pattern, exception, status, callback))
     }
 
     fun after(method: HttpMethod, pattern: String = "", callback: HttpCallback) {
-        this.handlers += AfterHandler(method, pattern, callback)
+        use(AfterHandler(method, pattern, callback))
     }
 
     fun after(pattern: String, callback: HttpCallback) {
-        this.handlers += AfterHandler(pattern, callback)
+        use(AfterHandler(pattern, callback))
     }
 
     fun exception(
