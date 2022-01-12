@@ -20,19 +20,20 @@ import kotlinx.coroutines.flow.Flow
 import java.net.URL
 import java.security.cert.X509Certificate
 
+// TODO Add exception parameter to 'send*' methods
 data class HttpServerContext(
     val context: Context<HttpServerCall>,
-    val request: HttpServerRequestPort = context.event.request,
-    val response: HttpServerResponse = context.event.response,
     val attributes: Map<Any, Any> = context.attributes
 ) {
+    val request: HttpServerRequestPort = context.event.request
+    val response: HttpServerResponse = context.event.response
+    val exception: Exception? = context.exception
 
     val method: HttpMethod by lazy { request.method }
     val protocol: HttpProtocol by lazy { request.protocol }
     val host: String by lazy { request.host }
     val port: Int by lazy { request.port }
     val path: String by lazy { request.path }
-    val queryString: String by lazy { request.queryString }
     val queryParameters: MultiMap<String, String> by lazy { request.queryParameters }
     val parts: List<HttpPartPort> by lazy { request.parts }
     val formParameters: MultiMap<String, String> by lazy { request.formParameters }

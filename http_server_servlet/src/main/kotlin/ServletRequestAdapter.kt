@@ -8,7 +8,7 @@ import com.hexagonkt.http.server.model.HttpServerRequestPort
 import java.security.cert.X509Certificate
 import jakarta.servlet.http.HttpServletRequest
 
-internal class ServletRequestAdapter(private val req: HttpServletRequest) : HttpServerRequestPort {
+internal class ServletRequestAdapter(req: HttpServletRequest) : HttpServerRequestPort {
 
     private companion object {
         const val CERTIFICATE_ATTRIBUTE = "jakarta.servlet.request.X509Certificate"
@@ -32,7 +32,7 @@ internal class ServletRequestAdapter(private val req: HttpServletRequest) : Http
     override val contentLength: Long by lazy { req.contentLength.toLong() }
 
     override val queryParameters: MultiMap<String, String> by lazy {
-        parseQueryString(queryString)
+        parseQueryString(req.queryString ?: "")
     }
 
     override val method: HttpMethod by lazy {
@@ -43,10 +43,6 @@ internal class ServletRequestAdapter(private val req: HttpServletRequest) : Http
     override val host: String by lazy { req.remoteHost }
     override val port: Int by lazy { req.serverPort }
     override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }
-
-    override val queryString: String by lazy {
-        req.queryString ?: ""
-    }
 
     override val parts: List<HttpPartPort> by lazy {
         req.parts.map { ServletPartAdapter(it) }

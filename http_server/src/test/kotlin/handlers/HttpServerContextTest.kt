@@ -4,6 +4,7 @@ import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.ClientErrorStatus.*
@@ -36,7 +37,7 @@ internal class HttpServerContextTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path/v1",
-            queryString = "k=v",
+            queryParameters = multiMapOf("k" to "v"),
             headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
@@ -60,7 +61,6 @@ internal class HttpServerContextTest {
         assertSame(context.host, context.context.event.request.host)
         assertEquals(context.port, context.context.event.request.port)
         assertSame(context.path, context.context.event.request.path)
-        assertSame(context.queryString, context.context.event.request.queryString)
         assertSame(context.queryParameters, context.context.event.request.queryParameters)
         assertSame(context.parts, context.context.event.request.parts)
         assertSame(context.formParameters, context.context.event.request.formParameters)

@@ -39,7 +39,6 @@ internal class HttpClientCallTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            queryString = "k=v",
             headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),

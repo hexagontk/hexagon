@@ -1,10 +1,8 @@
 package com.hexagonkt.http.test.examples
 
 import com.hexagonkt.core.multiMapOf
-import com.hexagonkt.core.fail
 import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.core.require
-import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.ApplicationMedia.JSON
 import com.hexagonkt.core.media.ApplicationMedia.YAML
 import com.hexagonkt.http.SslSettings
@@ -13,6 +11,7 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.client.HttpClientSettings
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
+import com.hexagonkt.http.formatQueryString
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpCookie
 import com.hexagonkt.http.model.HttpMethod.GET
@@ -22,6 +21,7 @@ import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.handlers.HttpCallback
 import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.exceptionHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import com.hexagonkt.serialization.SerializationFormat
@@ -30,7 +30,6 @@ import com.hexagonkt.serialization.serialize
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.*
 
-import java.lang.Exception
 import java.math.BigInteger
 import java.net.URL
 import kotlin.test.assertEquals
@@ -44,16 +43,10 @@ abstract class ClientTest(
     private val serializationFormats: List<SerializationFormat>,
 ) : BaseTest() {
 
-    private val logger: Logger = Logger(ClientTest::class)
-
     private var callback: HttpCallback = { this }
 
     override val handler: ServerHandler = path {
-        after(exception = Exception::class) {
-            val e = context.exception ?: fail
-            logger.error(e) { e.message }
-            serverError(INTERNAL_SERVER_ERROR, e.message ?: "")
-        }
+        use(exceptionHandler)
 
         post("/*") { callback() }
         get("/*") { callback() }
@@ -78,8 +71,9 @@ abstract class ClientTest(
                 body = bodyString,
                 headers = response.headers
                     + ("body" to bodyString)
-                    + ("ct" to (request.contentType?.text ?: "")),
-                contentType = contentType
+                    + ("ct" to (request.contentType?.text ?: ""))
+                    + ("query-parameters" to formatQueryString(queryParameters)),
+                contentType = contentType,
             )
         }
     }
@@ -180,12 +174,16 @@ abstract class ClientTest(
             path = "/",
             body = mapOf("body" to "payload").serialize(),
             headers = multiMapOf("x-header" to "value"),
+            queryParameters = multiMapOf("qp" to "qpValue"),
             contentType = ContentType(JSON)
         )
 
         val response = client.send(request)
         // genericRequest
 
+        val getResponse = client.get("/queryParameters?qp=qpValue")
+        assertEquals("qp=qpValue", getResponse.headers["query-parameters"])
+        assertEquals("qp=qpValue", response.headers["query-parameters"])
         checkResponse(response, mapOf("body" to "payload"))
     }
 

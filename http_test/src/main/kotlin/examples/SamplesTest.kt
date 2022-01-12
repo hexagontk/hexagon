@@ -270,13 +270,10 @@ abstract class SamplesTest(
 
             // callbackQueryParam
             get("/queryParam") {
-                request.queryString
                 request.queryParameters                       // the query param list
                 request.queryParameters["FOO"]                // value of FOO query param
                 request.queryParameters.allValues             // the query param list
                 request.queryParameters.allValues["FOO"]      // all values of FOO query param
-
-                queryString                                   // Shortcut of `request.queryString`
 
                 ok()
             }
@@ -425,6 +422,10 @@ abstract class SamplesTest(
     @Test fun errors() = runBlocking {
         val server = serve(serverAdapter()) {
             // errors
+            exception<Exception>(NOT_FOUND) {
+                internalServerError("Root handler")
+            }
+
             // Register handler for routes halted with 512 code
             get("/errors") { send(HttpStatus(512)) }
 
@@ -440,7 +441,7 @@ abstract class SamplesTest(
                 send(HttpStatus(599))
             }
             on(pattern = "*", exception = IllegalStateException::class) {
-                send(HTTP_VERSION_NOT_SUPPORTED, context.exception?.message ?: "empty")
+                send(HTTP_VERSION_NOT_SUPPORTED, exception?.message ?: "empty")
             }
             // exceptions
         }

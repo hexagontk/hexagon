@@ -26,7 +26,7 @@ internal class HttpClientRequestTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            queryString = "k=v",
+            queryParameters = multiMapOf("k" to "v"),
             headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
@@ -55,7 +55,6 @@ internal class HttpClientRequestTest {
         assertNotEquals(httpClientRequest, httpClientRequest.copy(host = "host"))
         assertNotEquals(httpClientRequest, httpClientRequest.copy(port = 1234))
         assertNotEquals(httpClientRequest, httpClientRequest.copy(path = "/aPath"))
-        assertNotEquals(httpClientRequest, httpClientRequest.copy(queryString = "k=v&k2=v2"))
         assertNotEquals(httpClientRequest, httpClientRequest.copy(headers = headers))
         assertNotEquals(httpClientRequest, httpClientRequest.copy(body = "body"))
         assertNotEquals(httpClientRequest, httpClientRequest.copy(parts = parts))
@@ -63,6 +62,10 @@ internal class HttpClientRequestTest {
         assertNotEquals(httpClientRequest, httpClientRequest.copy(cookies = cookies))
         assertNotEquals(httpClientRequest, httpClientRequest.copy(contentType = contentType))
         assertNotEquals(httpClientRequest, httpClientRequest.copy(accept = accept))
+        assertNotEquals(
+            httpClientRequest,
+            httpClientRequest.copy(queryParameters = multiMapOf("k" to "v", "k" to "v2"))
+        )
 
         assertEquals(httpClientRequest.hashCode(), httpClientRequestData().hashCode())
         assertEquals(

@@ -13,7 +13,6 @@ data class HttpClientRequest(
     override val host: String = "localhost",
     override val port: Int = 80,
     override val path: String = "",
-    override val queryString: String = "",
     override val queryParameters: MultiMap<String, String> = multiMapOf(),
     override val headers: MultiMap<String, String> = multiMapOf(),
     override val body: Any = "",

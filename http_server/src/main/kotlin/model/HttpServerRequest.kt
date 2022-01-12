@@ -14,7 +14,7 @@ data class HttpServerRequest(
     override val host: String = "localhost",
     override val port: Int = 80,
     override val path: String = "",
-    override val queryString: String = "",
+    override val queryParameters: MultiMap<String, String> = multiMapOf(),
     override val headers: MultiMap<String, String> = multiMapOf(),
     override val body: Any = "",
     override val parts: List<HttpPart> = emptyList(),
@@ -25,8 +25,6 @@ data class HttpServerRequest(
     override val accept: List<ContentType> = emptyList(),
     override val contentLength: Long = -1L
 ) : HttpServerRequestPort {
-
-    override val queryParameters: MultiMap<String, String> = parseQueryString(queryString)
 
     init {
         checkHeaders(headers)
