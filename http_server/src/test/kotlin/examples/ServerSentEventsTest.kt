@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.examples
 
-import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.fail
 import com.hexagonkt.core.logging.info
 import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.http.model.HttpMethod.GET

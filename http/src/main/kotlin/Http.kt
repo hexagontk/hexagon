@@ -1,9 +1,9 @@
 package com.hexagonkt.http
 
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.helpers.Jvm
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.Jvm
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.http.model.ContentType
 import java.math.BigInteger
@@ -51,7 +51,7 @@ fun checkHeaders(headers: MultiMap<String, String>) {
  * @return Map with query parameter keys bound to a list with their values.
  *
  */
-fun parseQueryParameters(query: String): MultiMap<String, String> =
+fun parseQueryString(query: String): MultiMap<String, String> =
     if (query.isBlank())
         multiMapOf()
     else
@@ -68,6 +68,14 @@ fun parseQueryParameters(query: String): MultiMap<String, String> =
                 .groupBy { it.first }
                 .mapValues { pair -> pair.value.map { it.second } }
         )
+
+fun formatQueryString(parameters: MultiMap<String, String>): String =
+    parameters.allPairs
+        .filter { it.first.isNotBlank() }
+        .joinToString("&") { (k, v) ->
+            if (v.isBlank()) k.urlEncode()
+            else "${k.urlEncode()}=${v.urlEncode()}"
+        }
 
 fun String.urlDecode(): String =
     URLDecoder.decode(this, Jvm.charset.name())

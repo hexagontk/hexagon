@@ -4,7 +4,8 @@ import com.hexagonkt.core.handlers.Context
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpCookie
@@ -21,8 +22,11 @@ import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
+import java.lang.RuntimeException
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertSame
+import kotlin.test.assertTrue
 
 internal class HttpServerContextTest {
 
@@ -33,7 +37,7 @@ internal class HttpServerContextTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path/v1",
-            queryString = "k=v",
+            queryParameters = multiMapOf("k" to "v"),
             headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
@@ -43,6 +47,33 @@ internal class HttpServerContextTest {
             certificateChain = emptyList(),
             accept = listOf(ContentType(HTML)),
         )
+
+    @Test fun `Context helper methods work properly`() {
+        val context = HttpServerContext(
+            Context(
+                HttpServerCall(httpServerRequest(), HttpServerResponse()),
+                HttpServerPredicate(pathPattern = TemplatePathPattern("/path/{p1}"))
+            )
+        )
+
+        assertSame(context.method, context.context.event.request.method)
+        assertSame(context.protocol, context.context.event.request.protocol)
+        assertSame(context.host, context.context.event.request.host)
+        assertEquals(context.port, context.context.event.request.port)
+        assertSame(context.path, context.context.event.request.path)
+        assertSame(context.queryParameters, context.context.event.request.queryParameters)
+        assertSame(context.parts, context.context.event.request.parts)
+        assertSame(context.formParameters, context.context.event.request.formParameters)
+        assertSame(context.accept, context.context.event.request.accept)
+        assertSame(context.certificateChain, context.context.event.request.certificateChain)
+        assertEquals(context.partsMap, context.context.event.request.partsMap())
+        assertEquals(context.url, context.context.event.request.url())
+        assertSame(context.userAgent, context.context.event.request.userAgent())
+        assertSame(context.referer, context.context.event.request.referer())
+        assertSame(context.origin, context.context.event.request.origin())
+        assertSame(context.certificate, context.context.event.request.certificate())
+        assertSame(context.status, context.context.event.response.status)
+    }
 
     @Test fun `'allParameters' return a map with all request parameters`() {
         val requestData = HttpServerContext(
@@ -114,6 +145,8 @@ internal class HttpServerContextTest {
             OnHandler("/serverError") { serverError(BAD_GATEWAY) },
             OnHandler("/redirect") { redirect(FOUND) },
             OnHandler("/internalServerError") { internalServerError() },
+            OnHandler("/internalServerErrorException") { internalServerError(RuntimeException()) },
+            OnHandler("/serverErrorException") { serverError(BAD_GATEWAY, RuntimeException()) },
         )
 
         assertEquals(OK, path.process(HttpServerRequest(path = "/ok")).status)
@@ -130,6 +163,18 @@ internal class HttpServerContextTest {
             INTERNAL_SERVER_ERROR,
             path.process(HttpServerRequest(path = "/internalServerError")).status
         )
+
+        path.process(HttpServerRequest(path = "/internalServerErrorException")).let {
+            assertEquals(INTERNAL_SERVER_ERROR, it.status)
+            assertTrue(it.bodyString().contains(RuntimeException::class.java.name))
+            assertEquals(ContentType(PLAIN), it.contentType)
+        }
+
+        path.process(HttpServerRequest(path = "/serverErrorException")).let {
+            assertEquals(BAD_GATEWAY, it.status)
+            assertTrue(it.bodyString().contains(RuntimeException::class.java.name))
+            assertEquals(ContentType(PLAIN), it.contentType)
+        }
     }
 
     @Test fun `'next' executes the next handler in the chain`() = runBlocking {

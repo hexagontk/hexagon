@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.callbacks
 
-import com.hexagonkt.core.helpers.Glob
+import com.hexagonkt.core.Glob
 import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL

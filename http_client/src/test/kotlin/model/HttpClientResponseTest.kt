@@ -2,8 +2,8 @@ package com.hexagonkt.http.client.model
 
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.RICHTEXT
-import com.hexagonkt.core.helpers.multiMapOf
-import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpCookie
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND

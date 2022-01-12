@@ -4,8 +4,8 @@ import com.hexagonkt.core.media.TextMedia.CSS
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
 import com.hexagonkt.core.media.TextMedia.RICHTEXT
-import com.hexagonkt.core.helpers.multiMapOf
-import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpCookie
 import com.hexagonkt.http.model.HttpMethod.*
@@ -36,7 +36,7 @@ internal class HttpServerRequestTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            queryString = "k=v",
+            queryParameters = multiMapOf("k" to "v"),
             headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),
@@ -66,7 +66,6 @@ internal class HttpServerRequestTest {
         assertNotEquals(httpServerRequest, httpServerRequest.copy(host = "host"))
         assertNotEquals(httpServerRequest, httpServerRequest.copy(port = 1234))
         assertNotEquals(httpServerRequest, httpServerRequest.copy(path = "/aPath"))
-        assertNotEquals(httpServerRequest, httpServerRequest.copy(queryString = "k=v&k2=v2"))
         assertNotEquals(httpServerRequest, httpServerRequest.copy(headers = headers))
         assertNotEquals(httpServerRequest, httpServerRequest.copy(body = "body"))
         assertNotEquals(httpServerRequest, httpServerRequest.copy(parts = parts))
@@ -75,6 +74,10 @@ internal class HttpServerRequestTest {
         assertNotEquals(httpServerRequest, httpServerRequest.copy(contentType = contentType))
         assertNotEquals(httpServerRequest, httpServerRequest.copy(certificateChain = certificates))
         assertNotEquals(httpServerRequest, httpServerRequest.copy(accept = accept))
+        assertNotEquals(
+            httpServerRequest,
+            httpServerRequest.copy(queryParameters = multiMapOf("k" to "v", "k" to "v2"))
+        )
 
         assertEquals(httpServerRequest.hashCode(), httpServerRequestData().hashCode())
         assertEquals(

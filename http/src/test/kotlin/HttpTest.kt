@@ -1,8 +1,8 @@
 package com.hexagonkt.http
 
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.core.helpers.multiMapOf
-import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.core.multiMapOfLists
 import org.junit.jupiter.api.Test
 import java.math.BigInteger
 import java.time.*
@@ -12,6 +12,25 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 internal class HttpTest {
+
+    @Test fun `Format query string`() {
+        fun testParseFormat(expected: String, queryString: String) {
+            assertEquals(expected, formatQueryString(parseQueryString(queryString)))
+        }
+
+        testParseFormat("a=1&b&c&d=e", "a =1&b & c &d = e")
+        testParseFormat("a=1&b&c&d=e", "a=1&b&c&d=e")
+        testParseFormat("a=1&a=2&b&b=c&c&d=e", "a=1&b&c&d=e&a=2&b=c")
+        testParseFormat("a", "a=")
+        testParseFormat("a&b", "a=&b=")
+        testParseFormat("c&c", "c=&c")
+        testParseFormat("a&b&c", "a=&b=&c")
+        testParseFormat("ab", "ab")
+        testParseFormat("", " =ab")
+        testParseFormat("", "    ")
+        testParseFormat("a+=+b+", "a+=+b+")
+        testParseFormat("a+=+b+", "a%20=%20b%20")
+    }
 
     @Test fun `Basic types can be converted to byte arrays to be sent as bodies`() {
         assertContentEquals("text".toByteArray(), bodyToBytes("text"))
@@ -25,7 +44,7 @@ internal class HttpTest {
         val invalidHeaderError =
             "Header names must be lower-case and contain only letters, digits or '-':"
         val forbiddenHeaders = listOf("Content-Type", "accept_all")
-            .map { multiMapOf(it to "value")}
+            .map { multiMapOf(it to "value") }
 
         forbiddenHeaders.forEach {
             val e = assertFailsWith<IllegalStateException> { checkHeaders(it) }
@@ -41,7 +60,7 @@ internal class HttpTest {
 
     @Test fun `Check headers fails when using reserved headers when not in production mode` () {
         val forbiddenHeaders = listOf("content-type", "accept", "set-cookie")
-            .map { multiMapOf(it to "value")}
+            .map { multiMapOf(it to "value") }
 
         forbiddenHeaders.forEach {
             val e = assertFailsWith<IllegalStateException> { checkHeaders(it) }
@@ -73,13 +92,25 @@ internal class HttpTest {
             .forEach { checkHeaders(it) }
     }
 
+    @Test fun `Parse handles encoded characters` () {
+        val expected = multiMapOf(
+            "a " to "1",
+            "b " to "",
+            " c " to "",
+            "d " to " e"
+        )
+
+        assertEquals(expected, parseQueryString("a%20=1&b%20&%20c%20&d%20=%20e"))
+        assertEquals(expected, parseQueryString("a+=1&b+&+c+&d+=+e"))
+    }
+
     @Test fun `Parse strips spaces` () {
         assertEquals(multiMapOf(
             "a" to "1",
             "b" to "",
             "c" to "",
             "d" to "e"
-        ), parseQueryParameters("a =1&b & c &d = e"))
+        ), parseQueryString("a =1&b & c &d = e"))
     }
 
     @Test fun `Parse key only query parameters return correct data` () {
@@ -88,7 +119,7 @@ internal class HttpTest {
             "b" to "",
             "c" to "",
             "d" to "e"
-        ), parseQueryParameters("a=1&b&c&d=e"))
+        ), parseQueryString("a=1&b&c&d=e"))
     }
 
     @Test fun `Parse multiple keys return list of values` () {
@@ -97,30 +128,30 @@ internal class HttpTest {
             "b" to listOf("", "c"),
             "c" to listOf(""),
             "d" to listOf("e")
-        ), parseQueryParameters("a=1&b&c&d=e&a=2&b=c"))
+        ), parseQueryString("a=1&b&c&d=e&a=2&b=c"))
     }
 
     @Test fun `Parse multiple empty values` () {
-        assertEquals(multiMapOf("a" to ""), parseQueryParameters("a="))
-        assertEquals(multiMapOf("a" to "", "b" to ""), parseQueryParameters("a=&b="))
-        assertEquals(multiMapOfLists("c" to listOf("", "")), parseQueryParameters("c=&c"))
+        assertEquals(multiMapOf("a" to ""), parseQueryString("a="))
+        assertEquals(multiMapOf("a" to "", "b" to ""), parseQueryString("a=&b="))
+        assertEquals(multiMapOfLists("c" to listOf("", "")), parseQueryString("c=&c"))
         assertEquals(multiMapOf(
             "a" to "",
             "b" to "",
             "c" to ""
-        ), parseQueryParameters("a=&b=&c"))
+        ), parseQueryString("a=&b=&c"))
     }
 
     @Test fun `Parse key only` () {
-        assertEquals(multiMapOf("ab" to ""), parseQueryParameters("ab"))
+        assertEquals(multiMapOf("ab" to ""), parseQueryString("ab"))
     }
 
     @Test fun `Parse value only` () {
-        assert(parseQueryParameters(" =ab").none())
+        assert(parseQueryString(" =ab").none())
     }
 
     @Test fun `Parse white space only`() {
-        assert(parseQueryParameters("    ").none())
+        assert(parseQueryString("    ").none())
     }
 
     @Test fun `HTTP date has the correct format`() {

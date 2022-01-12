@@ -1,7 +1,7 @@
 package com.hexagonkt.http.client.jetty
 
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.fail
 import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.checkedHeaders
@@ -114,17 +114,13 @@ class JettyClientAdapter : HttpClientPort {
     ): Request {
 
         val settings = adapterHttpClient.settings
-        val baseUrl = settings.baseUrl
-        // TODO Use only query parameters map (add constructor that parses queryString)
-        //  use the Jetty Request `param` method to pass query parameters to the request
-        val query = if (request.queryString.isEmpty()) "" else "&${request.queryString}"
         val contentType = request.contentType ?: settings.contentType
 
         if (settings.useCookies)
             addCookies(adapterHttpClient, adapterJettyClient.cookieStore, request.cookies)
 
-        return adapterJettyClient
-            .newRequest(URI(baseUrl.toString() + request.path + query))
+        val jettyRequest = adapterJettyClient
+            .newRequest(URI(settings.baseUrl.toString() + request.path))
             .method(HttpMethod.valueOf(request.method.toString()))
             .headers {
                 it.remove("accept-encoding") // Don't send encoding by default
@@ -134,6 +130,10 @@ class JettyClientAdapter : HttpClientPort {
             }
             .body(createBody(request))
             .accept(*request.accept.map { it.text }.toTypedArray())
+
+        request.queryParameters.allPairs.forEach { (k, v) -> jettyRequest.param(k, v) }
+
+        return jettyRequest
     }
 
     private fun createBody(request: HttpClientRequest): Request.Content {

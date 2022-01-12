@@ -1,6 +1,6 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.require
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.ClientErrorStatus.*
 import com.hexagonkt.http.model.HttpMethod.*
@@ -33,7 +33,6 @@ abstract class BooksTest(
     private val path: PathHandler = path {
 
         post("/books") {
-            val queryParameters = request.queryParameters
             val author = queryParameters["author"] ?: return@post badRequest("Missing author")
             val title = queryParameters["title"] ?: return@post badRequest("Missing title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
@@ -55,8 +54,8 @@ abstract class BooksTest(
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = request.queryParameters["author"] ?: book.author,
-                    title = request.queryParameters["title"] ?: book.title
+                    author = queryParameters["author"] ?: book.author,
+                    title = queryParameters["title"] ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
@@ -90,7 +89,6 @@ abstract class BooksTest(
     private val pathAlternative: PathHandler = path("/books") {
 
         post {
-            val queryParameters = request.queryParameters
             val author = queryParameters["author"] ?: return@post badRequest("Missing author")
             val title = queryParameters["title"] ?: return@post badRequest("Missing title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
@@ -112,8 +110,8 @@ abstract class BooksTest(
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = request.queryParameters["author"] ?: book.author,
-                    title = request.queryParameters["title"] ?: book.title
+                    author = queryParameters["author"] ?: book.author,
+                    title = queryParameters["title"] ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
@@ -146,7 +144,6 @@ abstract class BooksTest(
     private val pathAlternative2: PathHandler = path("/books") {
 
         post {
-            val queryParameters = request.queryParameters
             val author = queryParameters["author"] ?: return@post badRequest("Missing author")
             val title = queryParameters["title"] ?: return@post badRequest("Missing title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
@@ -169,8 +166,8 @@ abstract class BooksTest(
                 val book = books[bookId]
                 if (book != null) {
                     books += bookId to book.copy(
-                        author = request.queryParameters["author"] ?: book.author,
-                        title = request.queryParameters["title"] ?: book.title
+                        author = queryParameters["author"] ?: book.author,
+                        title = queryParameters["title"] ?: book.title
                     )
 
                     ok("Book with id '$bookId' updated")
@@ -253,6 +250,13 @@ abstract class BooksTest(
         }
     }
 
+    @Test fun `Update not found book returns a 404`() = runBlocking {
+        listOf("/a", "/b", "/c").forEach {
+            val result = client.put("$it/books/9999?title=Don%20Quixote")
+            assertResponseContains(result, NOT_FOUND, "not found")
+        }
+    }
+
     @Test fun `Delete book returns the deleted record ID`() = runBlocking {
         listOf("/a", "/b", "/c").forEach {
             val createResult =
@@ -262,6 +266,13 @@ abstract class BooksTest(
             assertEquals(CREATED, createResult.status)
             val result = client.delete("$it/books/$id")
             assertResponseContains(result, id.toString(), "deleted")
+        }
+    }
+
+    @Test fun `Delete not found book returns a 404`() = runBlocking {
+        listOf("/a", "/b", "/c").forEach {
+            val result = client.delete("$it/books/9999")
+            assertResponseContains(result, NOT_FOUND, "not found")
         }
     }
 

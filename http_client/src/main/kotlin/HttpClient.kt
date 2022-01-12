@@ -1,7 +1,7 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.client.model.HttpClientRequest
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.ContentType
@@ -65,8 +65,9 @@ class HttpClient(
             )
 
     suspend fun head(
-        path: String, headers: MultiMap<String, String> = multiMapOf()): HttpClientResponse =
-            send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))
+        path: String, headers: MultiMap<String, String> = multiMapOf()
+    ): HttpClientResponse =
+        send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))
 
     suspend fun post(
         path: String,

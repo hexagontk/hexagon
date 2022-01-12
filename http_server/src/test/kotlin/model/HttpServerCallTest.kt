@@ -2,7 +2,7 @@ package com.hexagonkt.http.server.model
 
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.core.media.TextMedia.PLAIN
-import com.hexagonkt.core.helpers.multiMapOfLists
+import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 import com.hexagonkt.http.model.HttpCookie
@@ -39,7 +39,6 @@ internal class HttpServerCallTest {
             host = "127.0.0.1",
             port = 9999,
             path = "/path",
-            queryString = "k=v",
             headers = multiMapOfLists("h1" to listOf("h1v1", "h1v2")),
             body = "request",
             parts = listOf(HttpPart("n", "b")),

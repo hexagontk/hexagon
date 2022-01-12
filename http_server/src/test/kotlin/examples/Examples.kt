@@ -1,9 +1,10 @@
 package com.hexagonkt.http.server.examples
 
-import com.hexagonkt.core.helpers.encodeToBase64
+import com.hexagonkt.core.encodeToBase64
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.SuccessStatus.OK
+import com.hexagonkt.http.parseQueryString
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
@@ -28,10 +29,14 @@ internal suspend fun PathHandler.send(
     user: String? = null,
     password: String? = null,
 ): HttpServerResponse =
-        process(
-            HttpServerRequest(method = method, path = requestPath, queryString = query)
-                .auth(user, password)
+    process(
+        HttpServerRequest(
+            method = method,
+            path = requestPath,
+            queryParameters = parseQueryString(query)
         )
+        .auth(user, password)
+    )
 
 internal fun HttpServerRequest.auth(
     user: String? = null, password: String? = null): HttpServerRequest {

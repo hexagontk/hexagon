@@ -1,6 +1,6 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.core.helpers.toStream
+import com.hexagonkt.core.toStream
 import com.hexagonkt.core.media.MediaType
 import com.hexagonkt.core.media.mediaTypeOf
 import com.hexagonkt.serialization.SerializationManager.formatOf

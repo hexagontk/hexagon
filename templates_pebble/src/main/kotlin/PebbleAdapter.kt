@@ -1,6 +1,6 @@
 package com.hexagonkt.templates.pebble
 
-import com.hexagonkt.core.helpers.toDate
+import com.hexagonkt.core.toDate
 import com.hexagonkt.templates.TemplatePort
 import com.mitchellbosecke.pebble.PebbleEngine
 import java.io.StringWriter

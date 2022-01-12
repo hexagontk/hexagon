@@ -1,6 +1,6 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.fail
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 import com.hexagonkt.http.model.HttpStatus
@@ -12,6 +12,7 @@ import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
+import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
@@ -25,29 +26,33 @@ abstract class ErrorsTest(
 
     private val path: PathHandler = path {
 
-        // Catching `Exception` handles any unhandled exception before (it has to be the last)
-        after(pattern = "*", exception = Exception::class, status = NOT_FOUND) {
+        /*
+         * Catching `Exception` handles any unhandled exception, has to be the last executed (first
+         * declared)
+         */
+        exception<Exception>(NOT_FOUND) {
             internalServerError("Root handler")
+        }
+
+        exception<IllegalArgumentException> {
+            val error = exception?.message ?: exception?.javaClass?.name ?: fail
+            val newHeaders = response.headers + ("runtime-error" to error)
+            send(HttpStatus(598), "Runtime", headers = newHeaders)
+        }
+
+        exception<UnsupportedOperationException> {
+            val error = exception?.message ?: exception?.javaClass?.name ?: fail
+            val newHeaders = response.headers + ("error" to error)
+            send(HttpStatus(599), "Unsupported", headers = newHeaders)
         }
 
         get("/exception") { throw UnsupportedOperationException("error message") }
         get("/baseException") { throw CustomException() }
         get("/unhandledException") { error("error message") }
+        get("/invalidBody") { ok(LocalDateTime.now()) }
 
         get("/halt") { internalServerError("halted") }
         get("/588") { send(HttpStatus(588)) }
-
-        on(pattern = "*", exception = UnsupportedOperationException::class) {
-            val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
-            val newHeaders = response.headers + ("error" to error)
-            send(HttpStatus(599), "Unsupported", headers = newHeaders)
-        }
-
-        on(pattern = "*", exception = IllegalArgumentException::class) {
-            val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
-            val newHeaders = response.headers + ("runtime-error" to error)
-            send(HttpStatus(598), "Runtime", headers = newHeaders)
-        }
 
         // It is possible to execute a handler upon a given status code before returning
         on(pattern = "*", status = HttpStatus(588)) {
@@ -57,6 +62,12 @@ abstract class ErrorsTest(
     // errors
 
     override val handler: ServerHandler = path
+
+    @Test fun `Invalid body returns 500 status code`() = runBlocking {
+        val response = client.get("/invalidBody")
+        val message = "Unsupported body type: LocalDateTime"
+        assertResponseContains(response, INTERNAL_SERVER_ERROR, message)
+    }
 
     @Test fun `Halt stops request with 500 status code`() = runBlocking {
         val response = client.get("/halt")

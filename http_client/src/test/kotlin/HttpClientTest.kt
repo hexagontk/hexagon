@@ -1,7 +1,7 @@
 package com.hexagonkt.http.client
 
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.core.media.TextMedia.CSV
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.ContentType

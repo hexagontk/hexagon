@@ -1,6 +1,6 @@
 package com.hexagonkt.http.test.openapi
 
-import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ClientErrorStatus.*

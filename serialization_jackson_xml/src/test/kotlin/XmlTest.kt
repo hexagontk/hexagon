@@ -1,12 +1,12 @@
 package com.hexagonkt.serialization.jackson.xml
 
-import com.hexagonkt.core.helpers.requireKeys
+import com.hexagonkt.core.requireKeys
 import com.hexagonkt.core.converters.ConvertersManager
 import com.hexagonkt.core.converters.convert
 import com.hexagonkt.core.converters.convertObjects
-import com.hexagonkt.core.helpers.get
-import com.hexagonkt.core.helpers.require
-import com.hexagonkt.core.helpers.toStream
+import com.hexagonkt.core.get
+import com.hexagonkt.core.require
+import com.hexagonkt.core.toStream
 import com.hexagonkt.serialization.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

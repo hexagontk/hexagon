@@ -2,7 +2,7 @@ package com.hexagonkt.serialization.test
 
 import com.hexagonkt.core.converters.ConvertersManager
 import com.hexagonkt.core.converters.convert
-import com.hexagonkt.core.helpers.requireKeys
+import com.hexagonkt.core.requireKeys
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.parse

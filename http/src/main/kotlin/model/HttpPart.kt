@@ -1,6 +1,6 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.helpers.MultiMap
+import com.hexagonkt.core.MultiMap
 
 data class HttpPart (
     override val name: String,

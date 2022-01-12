@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.model
 
-import com.hexagonkt.core.helpers.MultiMap
-import com.hexagonkt.core.helpers.multiMapOf
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.http.*
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.model.HttpMethod.GET
@@ -14,7 +14,7 @@ data class HttpServerRequest(
     override val host: String = "localhost",
     override val port: Int = 80,
     override val path: String = "",
-    override val queryString: String = "",
+    override val queryParameters: MultiMap<String, String> = multiMapOf(),
     override val headers: MultiMap<String, String> = multiMapOf(),
     override val body: Any = "",
     override val parts: List<HttpPart> = emptyList(),
@@ -25,8 +25,6 @@ data class HttpServerRequest(
     override val accept: List<ContentType> = emptyList(),
     override val contentLength: Long = -1L
 ) : HttpServerRequestPort {
-
-    override val queryParameters: MultiMap<String, String> = parseQueryParameters(queryString)
 
     init {
         checkHeaders(headers)

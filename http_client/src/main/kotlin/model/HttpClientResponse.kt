@@ -1,6 +1,6 @@
 package com.hexagonkt.http.client.model
 
-import com.hexagonkt.core.helpers.MultiMap
+import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpCookie
 import com.hexagonkt.http.model.HttpStatus

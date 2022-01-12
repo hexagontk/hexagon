@@ -1,6 +1,7 @@
 package com.hexagonkt.http.model
 
-import com.hexagonkt.core.helpers.MultiMap
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.http.formatQueryString
 import java.net.URL
 
 // TODO 'formParameters' are a kind of 'part' and both are handled as part of the 'body'
@@ -11,7 +12,7 @@ interface HttpRequest : HttpMessage {
     val host: String                              // "example.com"
     val port: Int                                 // 80
     val path: String                              // "/foo" servlet path + path info
-    val queryString: String                       // ""
+    val queryParameters: MultiMap<String, String>
     val parts: List<HttpPartPort>                 // hash of multipart parts
     val formParameters: MultiMap<String, String>
     val accept: List<ContentType>
@@ -20,8 +21,17 @@ interface HttpRequest : HttpMessage {
         parts.associateBy { it.name }
 
     fun url(): URL =
-        if (queryString.isBlank())
+        if (queryParameters.none())
             URL("${protocol.schema}://$host:$port/$path")
         else
-            URL("${protocol.schema}://$host:$port/$path?$queryString")
+            URL("${protocol.schema}://$host:$port/$path?${formatQueryString(queryParameters)}")
+
+    fun userAgent(): String? =
+        headers["user-agent"]
+
+    fun referer(): String? =
+        headers["referer"]
+
+    fun origin(): String? =
+        headers["origin"]
 }

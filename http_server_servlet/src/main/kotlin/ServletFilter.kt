@@ -1,6 +1,8 @@
 package com.hexagonkt.http.server.servlet
 
+import com.hexagonkt.core.toText
 import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.http.bodyToBytes
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
@@ -62,24 +64,31 @@ class ServletFilter(
     private fun responseToServlet(
         response: HttpServerResponse, servletResponse: HttpServletResponse) {
 
-        response.headers.allValues.forEach { (k, v) ->
-            v.forEach { servletResponse.addHeader(k, it) }
-        }
-
-        // TODO Add switch in config so this is only done if cookies are enabled
-        response.cookies.forEach {
-            val cookie = Cookie(it.name, it.value).apply {
-                maxAge = it.maxAge.toInt()
-                secure = it.secure
+        try {
+            response.headers.allValues.forEach { (k, v) ->
+                v.forEach { servletResponse.addHeader(k, it) }
             }
-            servletResponse.addCookie(cookie)
-        }
 
-        response.contentType?.let { servletResponse.addHeader("content-type", it.text) }
-        servletResponse.status = response.status.code
-        // TODO Handle different types: deferred values, strings, ints... flows
-        servletResponse.outputStream.write(bodyToBytes(response.body))
-        servletResponse.outputStream.flush()
-        // TODO Catch errors!
+            response.cookies.forEach {
+                val cookie = Cookie(it.name, it.value).apply {
+                    maxAge = it.maxAge.toInt()
+                    secure = it.secure
+                }
+                servletResponse.addCookie(cookie)
+            }
+
+            response.contentType?.let { servletResponse.addHeader("content-type", it.text) }
+            servletResponse.status = response.status.code
+            // TODO Handle different types: deferred values, strings, ints... flows
+            servletResponse.outputStream.write(bodyToBytes(response.body))
+        }
+        catch (e: Exception) {
+            servletResponse.addHeader("content-type", TextMedia.PLAIN.fullType)
+            servletResponse.status = 500
+            servletResponse.outputStream.write(e.toText().toByteArray())
+        }
+        finally {
+            servletResponse.outputStream.flush()
+        }
     }
 }

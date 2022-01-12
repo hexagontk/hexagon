@@ -59,7 +59,7 @@ TODO Add `LoggingManager` examples for changing logging level
   https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
 # Package com.hexagonkt.core
-TODO
+JVM information and other useful utilities.
 
 ## Flags (System Properties)
 * DISABLE_CHECKS: set to true to disable checks (to shave a few ms. in production when app is
@@ -91,9 +91,6 @@ H1
   H2
 H1
 ```
-
-# Package com.hexagonkt.core.helpers
-JVM information, a logger class and other useful utilities.
 
 # Package com.hexagonkt.core.logging
 Provides a logging management capabilities abstracting the application from logging libraries.

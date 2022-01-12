@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.examples
 
-import com.hexagonkt.core.helpers.decodeBase64
+import com.hexagonkt.core.decodeBase64
 import com.hexagonkt.http.model.ClientErrorStatus.FORBIDDEN
 import com.hexagonkt.http.model.ClientErrorStatus.UNAUTHORIZED
 import com.hexagonkt.http.model.HttpMethod.GET

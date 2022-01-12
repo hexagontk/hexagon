@@ -1,6 +1,5 @@
 package com.hexagonkt.core
 
-import com.hexagonkt.core.helpers.Jvm
 import com.hexagonkt.core.logging.logger
 import com.hexagonkt.core.logging.Logger
 import org.junit.jupiter.api.Test

@@ -1,6 +1,6 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.require
+import com.hexagonkt.core.require
 import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.HttpCookie
 import com.hexagonkt.http.model.SuccessStatus.OK
@@ -29,20 +29,20 @@ abstract class CookiesTest(
         }
 
         post("/addCookie") {
-            val name = request.queryParameters.require("cookieName")
-            val value = request.queryParameters.require("cookieValue")
+            val name = queryParameters.require("cookieName")
+            val value = queryParameters.require("cookieValue")
             ok(cookies = response.cookies + HttpCookie(name, value))
         }
 
         post("/assertHasCookie") {
-            val cookieName = request.queryParameters.require("cookieName")
+            val cookieName = queryParameters.require("cookieName")
             val cookieValue = request.cookiesMap()[cookieName]?.value
-            if (request.queryParameters["cookieValue"] != cookieValue) internalServerError()
+            if (queryParameters["cookieValue"] != cookieValue) internalServerError()
             else ok()
         }
 
         post("/removeCookie") {
-            val cookie = request.cookiesMap().require(request.queryParameters.require("cookieName"))
+            val cookie = request.cookiesMap().require(queryParameters.require("cookieName"))
             ok(cookies = response.cookies + cookie.delete())
         }
     }

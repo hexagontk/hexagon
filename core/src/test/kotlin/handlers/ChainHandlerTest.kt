@@ -1,6 +1,6 @@
 package com.hexagonkt.core.handlers
 
-import com.hexagonkt.core.helpers.fail
+import com.hexagonkt.core.fail
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingManager

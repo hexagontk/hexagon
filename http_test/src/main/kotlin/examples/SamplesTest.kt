@@ -1,7 +1,6 @@
 package com.hexagonkt.http.test.examples
 
-import com.hexagonkt.core.helpers.multiMapOfLists
-import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.multiMapOfLists
 import com.hexagonkt.core.logging.LoggingLevel.DEBUG
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingManager
@@ -35,7 +34,6 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
-import java.lang.RuntimeException
 import java.net.InetAddress
 import java.net.URL
 import kotlin.test.assertEquals
@@ -46,8 +44,6 @@ abstract class SamplesTest(
     val clientAdapter: () -> HttpClientPort,
     val serverAdapter: () -> HttpServerPort
 ) {
-
-    private val logger: Logger = Logger(SamplesTest::class)
 
     @BeforeAll fun startUp() {
         LoggingManager.adapter = Slf4jJulLoggingAdapter()
@@ -205,6 +201,12 @@ abstract class SamplesTest(
                 request.path                     // the request path, e.g. /result.jsp
                 request.body                     // request body sent by the client
 
+                method                           // Shortcut of `request.method`
+                protocol                         // Shortcut of `request.protocol`
+                host                             // Shortcut of `request.host`
+                port                             // Shortcut of `request.port`
+                path                             // Shortcut of `request.path`
+
                 // Headers
                 request.headers                  // the HTTP header list with first values only
                 request.headers["BAR"]           // first value of BAR header
@@ -218,12 +220,19 @@ abstract class SamplesTest(
                 request.origin()                 // origin (browser requests)
                 request.referer()                // TODO
 
+                accept                             // Shortcut of `request.accept`
+
                 // Parameters
                 pathParameters                    // map with all path parameters
                 request.formParameters            // map with first values of all form fields
                 request.formParameters.allValues  // map with all form fields values
                 request.queryParameters           // map with first values of all query parameters
                 request.queryParameters.allValues // map with all query parameters values
+
+                queryParameters                   // Shortcut of `request.queryParameters`
+                queryParameters.allValues         // Shortcut of `request.queryParameters.allValues`
+                formParameters                    // Shortcut of `request.formParameters`
+                formParameters.allValues          // Shortcut of `request.formParameters.allValues`
 
                 // Body processing
                 request.contentLength             // length of request body
@@ -237,6 +246,9 @@ abstract class SamplesTest(
                 response.body                        // get response content
                 response.status                      // get the response status
                 response.contentType                 // get the content type
+
+                status                               // Shortcut of `response.status`
+
                 send(
                     status = UNAUTHORIZED,           // set status code to 401
                     body = "Hello",                  // sets content to Hello
@@ -258,11 +270,11 @@ abstract class SamplesTest(
 
             // callbackQueryParam
             get("/queryParam") {
-                request.queryString
                 request.queryParameters                       // the query param list
                 request.queryParameters["FOO"]                // value of FOO query param
                 request.queryParameters.allValues             // the query param list
                 request.queryParameters.allValues["FOO"]      // all values of FOO query param
+
                 ok()
             }
             // callbackQueryParam
@@ -315,11 +327,6 @@ abstract class SamplesTest(
                 internalServerError()                 // halt with status 500
             }
             // callbackHalt
-
-            after(exception = Exception::class) {
-                logger.error(this.context.exception ?: RuntimeException()) { "" }
-                internalServerError(this.context.exception?.message ?: "Error")
-            }
         }
 
         server.use { s ->
@@ -415,6 +422,10 @@ abstract class SamplesTest(
     @Test fun errors() = runBlocking {
         val server = serve(serverAdapter()) {
             // errors
+            exception<Exception>(NOT_FOUND) {
+                internalServerError("Root handler")
+            }
+
             // Register handler for routes halted with 512 code
             get("/errors") { send(HttpStatus(512)) }
 
@@ -430,7 +441,7 @@ abstract class SamplesTest(
                 send(HttpStatus(599))
             }
             on(pattern = "*", exception = IllegalStateException::class) {
-                send(HTTP_VERSION_NOT_SUPPORTED, context.exception?.message ?: "empty")
+                send(HTTP_VERSION_NOT_SUPPORTED, exception?.message ?: "empty")
             }
             // exceptions
         }
