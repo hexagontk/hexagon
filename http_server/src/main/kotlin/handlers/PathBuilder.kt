@@ -90,6 +90,21 @@ class PathBuilder(var handlers: List<HttpHandler> = emptyList()) {
         this.handlers += AfterHandler(pattern, callback)
     }
 
+    fun exception(
+        exception: KClass<out Exception>? = null,
+        status: HttpStatus? = null,
+        callback: HttpCallback,
+    ) {
+        after(emptySet(), "*", exception, status, callback)
+    }
+
+    inline fun <reified T : Exception> exception(
+        status: HttpStatus? = null,
+        noinline callback: HttpCallback,
+    ) {
+        exception(T::class, status, callback)
+    }
+
     fun get(pattern: String = "", callback: HttpCallback) {
         on(GET, pattern, callback)
     }

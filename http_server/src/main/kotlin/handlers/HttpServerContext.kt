@@ -114,17 +114,26 @@ data class HttpServerContext(
     ): HttpServerContext =
         send(INTERNAL_SERVER_ERROR, body, headers, contentType, cookies, attributes)
 
-    fun internalServerError(
+    fun serverError(
+        status: ServerErrorStatus,
         exception: Exception,
         headers: MultiMap<String, String> = response.headers,
         attributes: Map<Any, Any> = context.attributes,
     ): HttpServerContext =
-        internalServerError(
+        serverError(
+            status = status,
             body = exception.toText(),
             headers = headers,
             contentType = ContentType(PLAIN),
             attributes = attributes,
         )
+
+    fun internalServerError(
+        exception: Exception,
+        headers: MultiMap<String, String> = response.headers,
+        attributes: Map<Any, Any> = context.attributes,
+    ): HttpServerContext =
+        serverError(INTERNAL_SERVER_ERROR, exception, headers, attributes)
 
     fun ok(
         body: Any = response.body,

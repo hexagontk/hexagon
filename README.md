@@ -248,9 +248,24 @@ class CustomException : IllegalArgumentException()
 
 private val path: PathHandler = path {
 
-    // Catching `Exception` handles any unhandled exception before (it has to be the last)
-    after(pattern = "*", exception = Exception::class, status = NOT_FOUND) {
+    /*
+     * Catching `Exception` handles any unhandled exception, has to be the last executed (first
+     * declared)
+     */
+    exception<Exception>(NOT_FOUND) {
         internalServerError("Root handler")
+    }
+
+    exception<IllegalArgumentException> {
+        val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
+        val newHeaders = response.headers + ("runtime-error" to error)
+        send(HttpStatus(598), "Runtime", headers = newHeaders)
+    }
+
+    exception<UnsupportedOperationException> {
+        val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
+        val newHeaders = response.headers + ("error" to error)
+        send(HttpStatus(599), "Unsupported", headers = newHeaders)
     }
 
     get("/exception") { throw UnsupportedOperationException("error message") }
@@ -260,18 +275,6 @@ private val path: PathHandler = path {
 
     get("/halt") { internalServerError("halted") }
     get("/588") { send(HttpStatus(588)) }
-
-    on(pattern = "*", exception = UnsupportedOperationException::class) {
-        val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
-        val newHeaders = response.headers + ("error" to error)
-        send(HttpStatus(599), "Unsupported", headers = newHeaders)
-    }
-
-    on(pattern = "*", exception = IllegalArgumentException::class) {
-        val error = context.exception?.message ?: context.exception?.javaClass?.name ?: fail
-        val newHeaders = response.headers + ("runtime-error" to error)
-        send(HttpStatus(598), "Runtime", headers = newHeaders)
-    }
 
     // It is possible to execute a handler upon a given status code before returning
     on(pattern = "*", status = HttpStatus(588)) {

@@ -146,6 +146,7 @@ internal class HttpServerContextTest {
             OnHandler("/redirect") { redirect(FOUND) },
             OnHandler("/internalServerError") { internalServerError() },
             OnHandler("/internalServerErrorException") { internalServerError(RuntimeException()) },
+            OnHandler("/serverErrorException") { serverError(BAD_GATEWAY, RuntimeException()) },
         )
 
         assertEquals(OK, path.process(HttpServerRequest(path = "/ok")).status)
@@ -163,10 +164,17 @@ internal class HttpServerContextTest {
             path.process(HttpServerRequest(path = "/internalServerError")).status
         )
 
-        val response = path.process(HttpServerRequest(path = "/internalServerErrorException"))
-        assertEquals(INTERNAL_SERVER_ERROR, response.status)
-        assertTrue(response.bodyString().contains(RuntimeException::class.java.name))
-        assertEquals(ContentType(PLAIN), response.contentType)
+        path.process(HttpServerRequest(path = "/internalServerErrorException")).let {
+            assertEquals(INTERNAL_SERVER_ERROR, it.status)
+            assertTrue(it.bodyString().contains(RuntimeException::class.java.name))
+            assertEquals(ContentType(PLAIN), it.contentType)
+        }
+
+        path.process(HttpServerRequest(path = "/serverErrorException")).let {
+            assertEquals(BAD_GATEWAY, it.status)
+            assertTrue(it.bodyString().contains(RuntimeException::class.java.name))
+            assertEquals(ContentType(PLAIN), it.contentType)
+        }
     }
 
     @Test fun `'next' executes the next handler in the chain`() = runBlocking {
