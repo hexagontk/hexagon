@@ -9,6 +9,7 @@ import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerResponse
 import jakarta.servlet.*
 import jakarta.servlet.http.Cookie
+import jakarta.servlet.http.HttpFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kotlinx.coroutines.runBlocking
@@ -16,7 +17,7 @@ import kotlinx.coroutines.runBlocking
 class ServletFilter(
     pathHandler: PathHandler,
     private val serverSettings: HttpServerSettings
-) : Filter {
+) : HttpFilter() {
 
     private val logger: Logger = Logger(ServletFilter::class)
 
@@ -41,18 +42,18 @@ class ServletFilter(
         logger.info { "Servlet filter destroyed" }
     }
 
-    override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
+    override fun doFilter(
+        request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
+
         val multipartConfig = MultipartConfigElement("/tmp")
         request.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
+
         doFilter(request, response)
     }
 
     // TODO Don't use 'runBlocking' (in servlet async mode)
     private fun doFilter(
-        servletRequest: ServletRequest, servletResponse: ServletResponse) = runBlocking {
-
-        if (servletRequest !is HttpServletRequest || servletResponse !is HttpServletResponse)
-            error("Invalid request/response parameters")
+        servletRequest: HttpServletRequest, servletResponse: HttpServletResponse) = runBlocking {
 
         val response = handlers[servletRequest.method]
             ?.process(ServletRequestAdapter(servletRequest))
