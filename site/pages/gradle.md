@@ -1,6 +1,5 @@
 
-Build Variables
-===============
+# Build Variables
 The build process and imported build scripts (like the ones documented here) use variables to
 customize their behavior. It is possible to add/change variables of a build from the following
 places:
@@ -15,8 +14,7 @@ For examples and reference, check [build.gradle] and [gradle.properties].
 [build.gradle]: https://github.com/hexagonkt/hexagon/blob/master/build.gradle
 [gradle.properties]: https://github.com/hexagonkt/hexagon/blob/master/gradle.properties
 
-Helper scripts
-==============
+# Helper scripts
 These scripts can be added to your build to include a whole new capability to your building logic.
 
 To use them, you can import the online versions, or copy them to your `gradle` directory before
@@ -26,8 +24,7 @@ You can import these scripts by adding add `apply from: $gradleScripts/$script.g
 `build.gradle` file some of them may require additional plugins inside the `plugins` section in the
 root `build.gradle`. Check toolkit `build.gradle` files for examples.
 
-Publish
--------
+## Publish
 This script set up the project/module for publishing in [Maven Central].
 
 It publishes all artifacts attached to the `mavenJava` publication (check [kotlin.gradle] publishing
@@ -47,8 +44,7 @@ To set up this script's parameters, check the [build variables section]. These h
 [kotlin.gradle]: https://github.com/hexagonkt/hexagon/blob/master/gradle/kotlin.gradle
 [build variables section]: /gradle/#build-variables
 
-Dokka
------
+## Dokka
 This script set up [Dokka] tool and add a JAR with the project's code documentation to the published
 JARs. It adds the following extra task:
 
@@ -65,8 +61,7 @@ IDEs.
 
 [Dokka]: https://github.com/Kotlin/dokka
 
-Icons
------
+## Icons
 Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (logos).
 
 For image rendering you will need [rsvg] (librsvg2-bin) and [imagemagick] installed in the
@@ -84,8 +79,7 @@ To set up this script's parameters, check the [build variables section]. These h
 [rsvg]: https://github.com/GNOME/librsvg
 [imagemagick]: https://www.imagemagick.org
 
-Kotlin
-------
+## Kotlin
 Adds Kotlin's Gradle plugin.
 
 Uses [JUnit 5] as the test framework. It also includes [MockK] in the test classpath.
@@ -115,8 +109,7 @@ To set up this script's parameters, check the [build variables section]. These h
 [JUnit 5]: https://junit.org
 [MockK]: https://mockk.io
 
-Application
------------
+## Application
 Gradle's script for a service or application. It adds these extra tasks:
 
 * buildInfo: add configuration file (`META-INF/build.properties`) with build variables to the
@@ -138,8 +131,7 @@ application {
 }
 ```
 
-Certificates
-------------
+## Certificates
 Creates the required key stores for development purposes. **IMPORTANT** these key stores must not be
 used for production environments.
 
@@ -182,8 +174,7 @@ To set up this script's parameters, check the [build variables section]. These h
 
 [TLD for local environments]: https://tools.ietf.org/html/rfc2606
 
-Lean
-----
+## Lean
 This script changes the default Gradle source layout to be less bulky. To use it you must apply the
 `$gradleScripts/lean.gradle` script to your `build.gradle` file. It must be applied after the
 Kotlin plugin.
@@ -191,8 +182,7 @@ Kotlin plugin.
 After applying this script, the source folders will be `${projectDir}/main` and
 `${projectDir}/test`, and the resources will be stored also in these folders.
 
-Detekt
-------
+## Detekt
 This script sets up the build to analyze the code with the [Detekt] static code analyzer. To use it
 you must apply the `$gradleScripts/detekt.gradle` script to your `build.gradle` file. It must be
 applied after the Kotlin plugin.

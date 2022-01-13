@@ -1,7 +1,4 @@
 
-import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
-
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
@@ -38,26 +35,3 @@ task("hexagonInfo") {
 }
 
 tasks.getByName("classes").dependsOn("hexagonInfo")
-
-extensions.configure<PublishingExtension> {
-    (publications["mavenJava"] as MavenPublication).artifact(tasks.named("testJar"))
-}
-
-setUpDokka(tasks.getByName<DokkaTaskPartial>("dokkaHtmlPartial"))
-setUpDokka(tasks.getByName<DokkaTask>("dokkaJavadoc"))
-
-fun setUpDokka(dokkaTask: DokkaTaskPartial) {
-    dokkaTask.dokkaSourceSets {
-        configureEach {
-            sourceRoots.from(file("src/test/kotlin"))
-        }
-    }
-}
-
-fun setUpDokka(dokkaTask: DokkaTask) {
-    dokkaTask.dokkaSourceSets {
-        configureEach {
-            sourceRoots.from(file("src/test/kotlin"))
-        }
-    }
-}

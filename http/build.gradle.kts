@@ -1,4 +1,6 @@
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
@@ -10,4 +12,8 @@ extra["basePackage"] = "com.hexagonkt.http"
 
 dependencies {
     "api"(project(":core"))
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn")
 }

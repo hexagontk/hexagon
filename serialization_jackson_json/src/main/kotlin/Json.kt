@@ -1,3 +1,5 @@
-package com.hexagonkt.serialization.json
+package com.hexagonkt.serialization.jackson.json
 
-object Json : JacksonTextFormat(linkedSetOf("json"))
+object Json : JsonFormat() {
+    val raw = JsonFormat(false)
+}

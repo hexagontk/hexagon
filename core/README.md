@@ -6,8 +6,8 @@ below.
 
 ### Install the Dependency
 This module is not meant to be imported directly. It will be included by using any other part of the
-toolkit. However, if you only want to use the utilities, logging or serialization (i.e., for a
-desktop application), you can import it with the following code:
+toolkit. However, if you only want to use the utilities, logging, etc. (i.e., for a desktop
+application), you can import it with the following code:
 
 === "build.gradle"
 
@@ -29,43 +29,21 @@ desktop application), you can import it with the following code:
     </dependency>
     ```
 
-### Defined Ports
-TODO Document module exposed ports:
-* LoggingPort
-
-### URLs
-TODO Note that GraalVM requires to install the Classpath handler manually with
-`ClasspathHandlerProvider.registerHandler`.
-
-### JVM Information
-TODO Add information about the system property that disables JMX.
-
-### Logger
-The following code block shows the most common use cases for the [Logger] class:
-
-@code core/src/test/kotlin/HexagonCoreSamplesTest.kt:logger
-
-By default, Hexagon uses the [Java Util Logging] logging library, you can use any of its
-implementations by just adding another logging adapter as a dependency. Below you can see some
-alternatives:
-
-* [Logback](/logging_logback)
-* [SLF4J JUL](/logging_slf4j_jul)
-
-TODO Add `LoggingManager` examples for changing logging level
-
-[Logger]: /api/core/com.hexagonkt.core.logging/-logger
-[Java Util Logging]:
-  https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
-
 # Package com.hexagonkt.core
-TODO
+JVM information and other useful utilities.
+
+## Classpath URLs in native images
+To use the 'classpath' URL scheme on GraalVM native images, the `native-image` command requires to
+add the Classpath handler manually with the `--enable-url-protocols=classpath` parameter.
 
 ## Flags (System Properties)
-* DISABLE_CHECKS: set to true to disable checks (to shave a few ms. in production when app is
-  extensively tested).
+* DISABLE_CHECKS: set to true to disable some checks in order to shave a few ms. in production.
+  Do not enable it in application development and turn it on only when the application is
+  extensively tested.
 
 # Package com.hexagonkt.core.converters
+Registry of functions to convert from one type to another.
+
 TODO
 
 # Package com.hexagonkt.core.handlers
@@ -92,11 +70,23 @@ H1
 H1
 ```
 
-# Package com.hexagonkt.core.helpers
-JVM information, a logger class and other useful utilities.
-
 # Package com.hexagonkt.core.logging
 Provides a logging management capabilities abstracting the application from logging libraries.
+
+The following code block shows the most common use cases for the [Logger] class:
+
+@code core/src/test/kotlin/HexagonCoreSamplesTest.kt:logger
+
+By default, Hexagon uses the [Java Util Logging] logging library, you can use any of its
+implementations by just adding another logging adapter as a dependency. Below you can see some
+alternatives:
+
+* [Logback](/logging_logback)
+* [SLF4J JUL](/logging_slf4j_jul)
+
+[Logger]: /api/core/com.hexagonkt.core.logging/-logger
+[Java Util Logging]:
+https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
 # Package com.hexagonkt.core.logging.jul
 TODO
