@@ -1,6 +1,5 @@
 
 # Support
-
 * Please, check if your issue already exists at the [organization board] or the [issues list] before
   creating a new one.
 * To report a bug, create a [new bug issue] using GitHub.
@@ -12,7 +11,6 @@
 [new bug issue]: https://github.com/hexagonkt/hexagon/issues/new?template=bug.md
 
 # Help
-
 * You can use [Slack] for questions, comments, etc.
 * you can also create a [GitHub discussion][discussion] on the Q&A section.
 

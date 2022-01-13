@@ -21,8 +21,8 @@ Hexagon is designed to fit in applications that conform to the [Hexagonal Archit
 [Clean Architecture], [Onion Architecture] or [Ports and Adapters Architecture]). Its design
 principles also fit into this architecture.
 
-[^1]: Except the Core module that contains a set of utilities like serialization and logging
-utilities. However, some of these capacities can be replaced by other third party libraries.
+[^1]: Except the Core module that contains a set of utilities like logging. However, some of these
+capacities can be replaced by other third party libraries.
 
 [The HTTP server]: /http_server/
 [The HTTP client]: /http_client/
@@ -33,7 +33,6 @@ utilities. However, some of these capacities can be replaced by other third part
 [Ports and Adapters Architecture]: https://herbertograca.com/2017/09/14/ports-adapters-architecture
 
 # Hello World
-
 Simple Hello World HTTP example.
 
 @code http_test/src/test/kotlin/HelloWorldTest.kt:hello_world
@@ -44,7 +43,6 @@ You can check the [code examples] and [demo projects] for more complex use cases
 [demo projects]: /examples/example_projects/
 
 # Features
-
 Hexagon's goals and design principles:
 
 * **Put you in Charge**: There is no code generation, no runtime annotation processing, no classpath
@@ -65,17 +63,13 @@ Hexagon's goals and design principles:
 * **Properly Tested**: The project's coverage is checked in every Pull Request. It is also
   stress-tested at [TechEmpower Frameworks Benchmark][benchmark].
 
-[^2]: However, you can replace the core DI implementation with any other library.
-
 [benchmark]: https://www.techempower.com/benchmarks
 
 # Not in Scope
-
 * **Kotlin Native**: because of the added complexity of Kotlin Native, focus will be set on the JVM
   platform, native binaries' generation will rely on GraalVM.
 
 # Architecture
-
 How Hexagon fits in your architecture in a picture.
 
 !!! Note
@@ -85,15 +79,14 @@ How Hexagon fits in your architecture in a picture.
 ![architecture](/img/architecture.svg)
 
 # Ports
-
 Ports with their provided implementations (Adapters).
 
-| PORT                    | ADAPTERS
-|-------------------------|---------
-| [HTTP Server]           | [Jetty], [Servlet]
-| [HTTP Client]           | [Jetty][Jetty Client]
-| [Templates]             | [Pebble], [FreeMarker]
-| [Serialization Formats] | [JSON], [YAML], [CSV], [XML]
+| PORT                    | ADAPTERS                     |
+|-------------------------|------------------------------|
+| [HTTP Server]           | [Jetty], [Servlet]           |
+| [HTTP Client]           | [Jetty][Jetty Client]        |
+| [Templates]             | [Pebble], [FreeMarker]       |
+| [Serialization Formats] | [JSON], [YAML], [CSV], [XML] |
 
 [HTTP Server]: /http_server
 [Jetty]: /http_server_jetty

@@ -42,7 +42,6 @@ a project from scratch following these steps:
 [Application Helper]: /gradle/#application
 
 # Dependencies Verification
-
 Hexagon's dependencies are signed, you can get the public key at the
 [OpenPGP Public Key Server][pgp key] or [here][site pgp key].
 
@@ -53,20 +52,10 @@ pub  4096R/2AEE3721 2020-05-30 Hexagon Toolkit (Key used to sign published binar
      Fingerprint=792B D37F F598 91C4 AC6F  8D92 3B26 711D 2AEE 3721
 ```
 
-!!! Warning
-    You may find a deprecated public key in public GPG key servers (check the details
-    below). Please, ignore it and use the above one. The information about the obsolete is:
-
-```
-pub  2048R/657676D1 2020-05-30 Hexagon Toolkit <project@hexagonkt.com>
-     Fingerprint=F263 9BBC 4A6A FE50 D098  9F08 5352 7033 6576 76D1
-```
-
 [pgp key]: https://keys.openpgp.org/search?q=project%40hexagonkt.com
 [site pgp key]: /project_hexagonkt_com_public.key
 
 # Next Steps
-
 To continue learning about this toolkit, you can:
 
 * Check the [Developer Guide] for more details.

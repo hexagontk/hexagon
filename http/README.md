@@ -1,6 +1,7 @@
 
 # Module http
-This module holds HTTP classes and utilities independent of third party libraries.
+This module holds HTTP classes and utilities independent of third party libraries and shared among
+HTTP clients and HTTP servers.
 
 # Package com.hexagonkt.http
 HTTP code shared between clients and servers.

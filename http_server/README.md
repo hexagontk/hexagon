@@ -6,11 +6,6 @@ to declare HTTP request handlers.
 Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you
 to switch implementations without changing the service.
 
-The [web] module provides utilities on top of this port for Web application development
-(like templates helpers).
-
-[web]: /web
-
 ### Install the Dependency
 This module is not meant to be used directly. You should include and Adapter implementing this
 feature (as [http_server_jetty]) in order to create an HTTP server.

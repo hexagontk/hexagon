@@ -1,6 +1,5 @@
 
 # Project Site
-
 The site is generated using [MkDocs] and uses [Google Analytics] for usage statistics. The MkDocs
 theme used is [MkDocs Material].
 
