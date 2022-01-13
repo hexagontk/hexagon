@@ -1,8 +1,9 @@
 package com.hexagonkt.core
 
-import com.hexagonkt.core.helpers.Jvm
 import com.hexagonkt.core.logging.logger
 import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.logging.LoggingLevel.*
+import com.hexagonkt.core.logging.LoggingManager
 import org.junit.jupiter.api.Test
 
 internal class HexagonCoreSamplesTest {
@@ -28,6 +29,8 @@ internal class HexagonCoreSamplesTest {
         val exception = IllegalStateException("Exception")
         classLogger.warn(exception) { "Warning with exception" }
         classLogger.error(exception) { "Error message with exception" }
+        classLogger.warn(exception)
+        classLogger.error(exception)
         classLogger.error { "Error without an exception" }
 
         classLogger.time("Logs the time used to run the following block of code") {
@@ -36,6 +39,11 @@ internal class HexagonCoreSamplesTest {
         }
 
         instanceLogger.flare { "Prints a log that stands out for ease searching" }
+
+        // Logging level can be changed programmatically
+        LoggingManager.setLoggerLevel(ERROR)
+        LoggingManager.setLoggerLevel(classLogger, DEBUG)
+        LoggingManager.setLoggerLevel("com.hexagonkt", INFO)
         // logger
     }
 }

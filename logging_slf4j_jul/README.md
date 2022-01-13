@@ -1,6 +1,5 @@
 
 # Module logging_slf4j_jul
-
 Contains the logger adapter for the [SLF4J JUL] logging library.
 
 [SLF4J JUL]: http://www.slf4j.org
@@ -55,6 +54,5 @@ Contains the logger adapter for the [SLF4J JUL] logging library.
     </dependency>
     ```
 
-# Package com.hexagonkt.logging
-
+# Package com.hexagonkt.logging.slf4j.jul
 Provides a logging management capabilities abstracting the application from logging libraries.

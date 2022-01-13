@@ -16,17 +16,21 @@ tasks.named<Delete>("clean") {
 
 // TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
-    dependsOn(rootProject.getTasksByName("jacocoTestReport", true))
-    executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
-    sourceDirectories.from(
-        rootProject.modulesPaths("src/main/kotlin") +
-            rootProject.modulesPaths("build/jacoco/src")
-    )
-    classDirectories.from(rootProject.modulesPaths("build/classes/kotlin/main"))
+    val jacocoTasks = rootProject.getTasksByName("jacocoTestReport", true)
+    val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
+    val modulesSources = rootProject.modulesPaths("src/main/kotlin")
+    val modulesJacocoSources = rootProject.modulesPaths("build/jacoco/src")
+    val modulesClasses = rootProject.modulesPaths("build/classes/kotlin/main")
+        .filterNot { it.absolutePath.contains("http_test") }
+
+    dependsOn(jacocoTasks)
+    executionData.from(projectExecutionData)
+    sourceDirectories.from(modulesSources + modulesJacocoSources)
+    classDirectories.from(modulesClasses)
 
     reports {
-        html.isEnabled = true
-        xml.isEnabled = true
+        html.required.set(true)
+        xml.required.set(true)
 
         val reportsOutput = file("content/jacoco").also { it.mkdirs() }
         html.outputLocation.set(reportsOutput)
@@ -108,13 +112,14 @@ task("checkDocs") {
     dependsOn("mkdocs")
     doLast {
         val readme = rootProject.file("README.md")
-        val service = rootProject.file("http_server_jetty/src/test/kotlin/HelloWorld.kt")
-        val examples = "http_server/src/test/kotlin/examples"
+        val service = rootProject.file("http_test/src/test/kotlin/HelloWorldTest.kt")
+        val examples = "http_test/src/main/kotlin/examples"
 
-        checkSamplesCode(FileRange (readme, "hello"), FileRange(service))
+        checkSamplesCode()
         checkSamplesCode(
+            FilesRange(readme, rootProject.file(service), "hello_world"),
             FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
-            FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
+//            FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
             FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
             FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
             FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),

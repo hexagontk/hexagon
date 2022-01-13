@@ -20,6 +20,6 @@
     ],
     "departments" : [ "DESIGN", "DEVELOPMENT" ],
     "creationDate" : "2016-01-01T00:00",
-    "host" : "127.0.0.1"
-  }
+    "host" : "127.0.0.1",
+  },
 ]

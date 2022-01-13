@@ -1,27 +1,29 @@
 package com.hexagonkt.serialization
 
-import java.net.InetAddress
-import java.net.URL
-import java.nio.ByteBuffer
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
+import com.hexagonkt.core.media.ApplicationMedia
+import java.io.InputStream
+import java.io.OutputStream
 
-internal enum class Department { DESIGN, DEVELOPMENT }
+object TextTestFormat : SerializationFormat {
+    override val mediaType = ApplicationMedia.PHP
+    override val textFormat = true
 
-internal data class Person(val name: String)
+    override fun serialize(instance: Any, output: OutputStream) {
+        output.write(instance.toString().toByteArray())
+    }
 
-internal data class Company(
-    val id: String,
-    val foundation: LocalDate,
-    val closeTime: LocalTime,
-    val openTime: ClosedRange<LocalTime>,
-    val web: URL?,
-    val clients: List<URL> = listOf(),
-    val logo: ByteBuffer? = null,
-    val notes: String? = null,
-    val people: Set<Person>,
-    val departments: Set<Department> = setOf(),
-    val creationDate: LocalDateTime = LocalDateTime.now(),
-    val host: InetAddress
-)
+    override fun parse(input: InputStream): Any =
+        listOf("text")
+}
+
+object BinaryTestFormat : SerializationFormat {
+    override val mediaType = ApplicationMedia.AVRO
+    override val textFormat = false
+
+    override fun serialize(instance: Any, output: OutputStream) {
+        output.write(instance.toString().toByteArray())
+    }
+
+    override fun parse(input: InputStream): Any =
+        listOf("bytes")
+}

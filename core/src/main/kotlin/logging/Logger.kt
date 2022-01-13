@@ -2,9 +2,9 @@ package com.hexagonkt.core.logging
 
 import java.lang.System.nanoTime
 import kotlin.reflect.KClass
-import com.hexagonkt.core.helpers.Ansi.BLINK
-import com.hexagonkt.core.helpers.Ansi.BOLD
-import com.hexagonkt.core.helpers.Ansi.RESET
+import com.hexagonkt.core.Ansi.BLINK
+import com.hexagonkt.core.Ansi.BOLD
+import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.logging.LoggingLevel.*
 
 /**
@@ -78,20 +78,22 @@ class Logger(val name: String) {
      * Log a message using [WARN] level with associated exception information.
      *
      * @param exception The exception associated with log message.
-     * @param message The required message to log.
+     * @param message The message to log (optional). If not supplied it will be empty.
      */
-    fun <E : Throwable> warn(exception: E, message: (E) -> Any?) {
-        log.log(WARN, exception, message)
+    fun <E : Throwable> warn(exception: E?, message: (E?) -> Any? = { "" }) {
+        if (exception == null) log.log(WARN) { message(null) }
+        else log.log(WARN, exception, message)
     }
 
     /**
      * Log a message using [ERROR] level with associated exception information.
      *
      * @param exception The exception associated with log message.
-     * @param message The required message to log.
+     * @param message The message to log (optional). If not supplied it will be empty.
      */
-    fun <E : Throwable> error(exception: E, message: (E) -> Any?) {
-        log.log(ERROR, exception, message)
+    fun <E : Throwable> error(exception: E?, message: (E?) -> Any? = { "" }) {
+        if (exception == null) log.log(ERROR) { message(null) }
+        else log.log(ERROR, exception, message)
     }
 
     /**

@@ -1,55 +1,32 @@
-package com.hexagonkt.serialization.csv
+package com.hexagonkt.serialization.jackson.csv
 
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.ObjectReader
 import com.fasterxml.jackson.dataformat.csv.CsvGenerator
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvParser
-import com.hexagonkt.serialization.json.JacksonHelper
-import com.hexagonkt.serialization.json.JacksonHelper.setupObjectMapper
+import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.serialization.SerializationFormat
 import java.io.InputStream
 import java.io.OutputStream
-import kotlin.reflect.KClass
 
 object Csv : SerializationFormat {
 
-    override val contentType: String = "text/csv"
-    override val extensions: Set<String> = setOf("csv")
-    override val isBinary: Boolean = false
+    override val mediaType: MediaType = TextMedia.CSV
+    override val textFormat: Boolean = true
 
-    private val mapper: CsvMapper = setupObjectMapper(
+    private val mapper: CsvMapper =
         CsvMapper()
             .configure(CsvGenerator.Feature.ALWAYS_QUOTE_EMPTY_STRINGS, false)
             .configure(CsvParser.Feature.ALLOW_TRAILING_COMMA, false)
             .configure(CsvParser.Feature.SKIP_EMPTY_LINES, true)
-    ) as CsvMapper
+            .configure(CsvParser.Feature.WRAP_AS_ARRAY, true)
 
-    override fun serialize(obj: Any, output: OutputStream) {
-        val schema = when (obj) {
-            is Collection<*> -> mapper.schemaFor(obj.firstOrNull()?.javaClass ?: Any::class.java)
-            else -> mapper.schemaFor(obj.javaClass)
-        }
+    private val reader = mapper.readerForListOf(Any::class.java)
 
-        mapper.writer(schema).writeValue(output, obj)
+    override fun serialize(instance: Any, output: OutputStream) {
+        mapper.writeValue(output, instance)
     }
 
-    override fun <T : Any> parse(input: InputStream, type: KClass<T>): T =
-        try {
-            objectReader(type).readValue(input)
-        }
-        catch (e: JsonProcessingException) {
-            throw JacksonHelper.parseException(e)
-        }
-
-    override fun <T : Any> parseObjects(input: InputStream, type: KClass<T>): List<T> =
-        try {
-            objectReader(type).readValues<T>(input).readAll()
-        }
-        catch (e: JsonProcessingException) {
-            throw JacksonHelper.parseException(e)
-        }
-
-    private fun <T : Any> objectReader(type: KClass<T>): ObjectReader =
-        mapper.readerFor(type.java).with(mapper.schemaFor(type.java))
+    override fun parse(input: InputStream): Any =
+        reader.readValue(input)
 }

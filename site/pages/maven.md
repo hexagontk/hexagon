@@ -1,7 +1,5 @@
 
-Parent POMs
-===========
-
+# Parent POMs
 If you want to use [Maven] to build your Kotlin applications, you can set up your POM to inherit
 from the Hexagon's parent POM.
 
@@ -11,9 +9,7 @@ on the directory schema you want to use):
 * The [standard layout POM]
 * The [lean layout POM]
 
-Standard Parent POM
--------------------
-
+## Standard Parent POM
 This layout is the well-known standard one, it has more directories but its widely used.
 
 * Set up the Kotlin plugin
@@ -29,9 +25,7 @@ This layout is the well-known standard one, it has more directories but its wide
 </parent>
 ```
 
-Lean Parent POM
----------------
-
+## Lean Parent POM
 This directory layout has less nested directories, and it is more compact. The main downside of
 using this approach is that it differs of the standard one.
 

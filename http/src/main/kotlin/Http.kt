@@ -1,51 +1,43 @@
 package com.hexagonkt.http
 
-import com.hexagonkt.core.helpers.Jvm.charset
-import com.hexagonkt.http.Method.GET
-import com.hexagonkt.http.Method.HEAD
-import com.hexagonkt.http.Method.POST
-import com.hexagonkt.http.Method.PUT
-import com.hexagonkt.http.Method.DELETE
-import com.hexagonkt.http.Method.TRACE
-import com.hexagonkt.http.Method.OPTIONS
-import com.hexagonkt.http.Method.PATCH
+import com.hexagonkt.core.disableChecks
+import com.hexagonkt.core.Jvm
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.http.model.ContentType
+import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
-
+import java.nio.charset.Charset
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
+import java.time.format.DateTimeFormatter
 
-/** Set containing all HTTP methods. */
-val ALL: LinkedHashSet<Method> by lazy { linkedSetOf(*Method.values()) }
+val checkedHeaders: List<String> = listOf("content-type", "accept", "set-cookie")
 
-/** Shortcut to create a route for a filter (with all methods). */
-fun any(path: String = "/"): Route = Route(Path(path), ALL)
+fun checkHeaders(headers: MultiMap<String, String>) {
+    if (disableChecks)
+        return
 
-/** Shortcut to create a GET route. */
-fun get(path: String = "/"): Route = Route(path, GET)
+    val headersKeys = headers.keys
+    check(headersKeys.all { key -> key.all { it.isLowerCase() || it.isDigit() || it == '-' } }) {
+        val invalidHeaders = headersKeys.joinToString(",") { "'$it'" }
+        "Header names must be lower-case and contain only letters, digits or '-': $invalidHeaders"
+    }
 
-/** Shortcut to create a HEAD route. */
-fun head(path: String = "/"): Route = Route(path, HEAD)
+    val invalidHeaders = checkedHeaders.filter { headers.containsKey(it) }
 
-/** Shortcut to create a POST route. */
-fun post(path: String = "/"): Route = Route(path, POST)
+    check(invalidHeaders.isEmpty()) {
+        val invalidHeadersText = invalidHeaders.joinToString(",") { "'$it'" }
 
-/** Shortcut to create a PUT route. */
-fun put(path: String = "/"): Route = Route(path, PUT)
-
-/** Shortcut to create a DELETE route. */
-fun delete(path: String = "/"): Route = Route(path, DELETE)
-
-/** Shortcut to create a TRACE route. */
-fun trace(path: String = "/"): Route = Route(path, TRACE)
-
-/** Shortcut to create a OPTIONS route. */
-fun options(path: String = "/"): Route = Route(path, OPTIONS)
-
-/** Shortcut to create a PATCH route. */
-fun patch(path: String = "/"): Route = Route(path, PATCH)
+        """
+        Special headers should be handled with their respective properties (i.e.: contentType)
+        instead setting them in the headers map. Ignored headers: $invalidHeadersText
+        """.trimIndent()
+    }
+}
 
 /**
  * Parse query string such as `paramA=valueA&paramB=valueB` into a map of several key-value pairs
@@ -59,27 +51,73 @@ fun patch(path: String = "/"): Route = Route(path, PATCH)
  * @return Map with query parameter keys bound to a list with their values.
  *
  */
-fun parseQueryParameters (query: String): Map<String, List<String>> =
+fun parseQueryString(query: String): MultiMap<String, String> =
     if (query.isBlank())
-        mapOf()
+        multiMapOf()
     else
-        query
-            .split("&".toRegex())
-            .map {
-                val keyValue = it.split("=").map(String::trim)
-                val key = keyValue[0]
-                val value = if (keyValue.size == 2) keyValue[1] else ""
-                key.urlDecode() to value.urlDecode()
-            }
-            .filter { it.first.isNotBlank() }
-            .groupBy { it.first }
-            .mapValues { pair -> pair.value.map { it.second } }
+        MultiMap(
+            query
+                .split("&".toRegex())
+                .map {
+                    val keyValue = it.split("=").map(String::trim)
+                    val key = keyValue[0]
+                    val value = if (keyValue.size == 2) keyValue[1] else ""
+                    key.urlDecode() to value.urlDecode()
+                }
+                .filter { it.first.isNotBlank() }
+                .groupBy { it.first }
+                .mapValues { pair -> pair.value.map { it.second } }
+        )
 
-fun httpDate(date: LocalDateTime = LocalDateTime.now()): String =
-    RFC_1123_DATE_TIME.format(ZonedDateTime.of(date, ZoneId.of("GMT")))
+fun formatQueryString(parameters: MultiMap<String, String>): String =
+    parameters.allPairs
+        .filter { it.first.isNotBlank() }
+        .joinToString("&") { (k, v) ->
+            if (v.isBlank()) k.urlEncode()
+            else "${k.urlEncode()}=${v.urlEncode()}"
+        }
 
 fun String.urlDecode(): String =
-    URLDecoder.decode(this, charset.name())
+    URLDecoder.decode(this, Jvm.charset.name())
 
 fun String.urlEncode(): String =
-    URLEncoder.encode(this, charset.name())
+    URLEncoder.encode(this, Jvm.charset.name())
+
+fun LocalDateTime.toHttpFormat(): String =
+    DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.of(this, ZoneId.of("GMT")))
+
+fun parseContentType(contentType: String): ContentType {
+    val typeParameter = contentType.split(";")
+    val fullType = typeParameter.first().trim()
+    val mimeType = MediaType(fullType)
+
+    return when (typeParameter.size) {
+        1 -> ContentType(mimeType)
+        2 -> {
+            val parameter = typeParameter.last()
+            val nameValue = parameter.split("=")
+            if (nameValue.size != 2)
+                error("Invalid content type format: $contentType")
+
+            val name = nameValue.first().trim()
+            val value = nameValue.last().trim()
+
+            when (name.trim().lowercase()) {
+                "boundary" -> ContentType(mimeType, boundary = value)
+                "charset" -> ContentType(mimeType, charset = Charset.forName(value))
+                "q" -> ContentType(mimeType, q = value.toDouble())
+                else -> error("Invalid content type format: $contentType")
+            }
+        }
+        else -> error("Invalid content type format: $contentType")
+    }
+}
+
+fun bodyToBytes(body: Any): ByteArray =
+    when (body) {
+        is String -> body.toByteArray()
+        is ByteArray -> body
+        is Int -> BigInteger.valueOf(body.toLong()).toByteArray()
+        is Long -> BigInteger.valueOf(body).toByteArray()
+        else -> error("Unsupported body type: ${body.javaClass.simpleName}")
+    }

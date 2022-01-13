@@ -24,7 +24,6 @@ fun main() {
 }
 // hello
 // emptyTagWithNoContent
-// emptyTagWithNoContent
 // emptyTagWithOnlyCommentBlock
 /**
 *

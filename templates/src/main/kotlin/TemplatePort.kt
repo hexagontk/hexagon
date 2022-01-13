@@ -1,6 +1,6 @@
 package com.hexagonkt.templates
 
-import com.hexagonkt.core.helpers.Jvm
+import com.hexagonkt.core.Jvm
 import java.net.URL
 import java.util.*
 

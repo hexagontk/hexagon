@@ -1,91 +1,40 @@
 package com.hexagonkt.serialization
 
-import com.hexagonkt.core.helpers.toStream
+import com.hexagonkt.core.toStream
+import com.hexagonkt.core.media.MediaType
+import com.hexagonkt.core.media.mediaTypeOf
 import com.hexagonkt.serialization.SerializationManager.formatOf
 import com.hexagonkt.serialization.SerializationManager.requireDefaultFormat
-import com.hexagonkt.serialization.SerializationManager.requireMapper
 import java.io.File
 import java.io.InputStream
 import java.net.URL
-import kotlin.reflect.KClass
 
-// MAPPING /////////////////////////////////////////////////////////////////////////////////////////
-fun Any.toFieldsMap(): Map<*, *> =
-    requireMapper().toFieldsMap(this)
+fun Any.serializeBytes(format: SerializationFormat = requireDefaultFormat()): ByteArray =
+    format.serializeBytes(this)
 
-fun <T : Any> Map<*, *>.toObject(type: KClass<T>): T =
-    requireMapper().toObject(this, type)
-
-inline fun <reified T : Any> Map<*, *>.toObject(): T =
-    this.toObject(T::class)
+fun Any.serializeBytes(mediaType: MediaType): ByteArray =
+    this.serializeBytes(formatOf(mediaType))
 
 fun Any.serialize(format: SerializationFormat = requireDefaultFormat()): String =
     format.serialize(this)
 
-fun Any.serialize(contentType: String): String =
-    this.serialize(formatOf(contentType))
+fun Any.serialize(mediaType: MediaType): String =
+    this.serialize(formatOf(mediaType))
 
-// INPUT STREAM ////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> InputStream.parse(
-    type: KClass<T>, format: SerializationFormat = requireDefaultFormat()
-): T =
-    format.parse(this, type)
+fun InputStream.parse(format: SerializationFormat = requireDefaultFormat()): Any =
+    format.parse(this)
 
-fun <T : Any> InputStream.parseObjects(
-    type: KClass<T>, format: SerializationFormat = requireDefaultFormat()) =
-        format.parseObjects(this, type)
+fun InputStream.parse(mediaType: MediaType): Any =
+    parse(formatOf(mediaType))
 
-inline fun <reified T : Any> InputStream.parse(
-    format: SerializationFormat = requireDefaultFormat()
-): T =
-    this.parse(T::class, format)
+fun String.parse(format: SerializationFormat = requireDefaultFormat()): Any =
+    this.toStream().parse(format)
 
-inline fun <reified T : Any> InputStream.parseObjects(
-    format: SerializationFormat = requireDefaultFormat()
-) =
-    this.parseObjects(T::class, format)
+fun String.parse(mediaType: MediaType): Any =
+    this.toStream().parse(mediaType)
 
-// STRING //////////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> String.parse(
-    type: KClass<T>, format: SerializationFormat = requireDefaultFormat()
-): T =
-    this.toStream().parse(type, format)
+fun File.parse(): Any =
+    this.inputStream().parse(mediaTypeOf(this))
 
-fun <T : Any> String.parseObjects(
-    type: KClass<T>, format: SerializationFormat = requireDefaultFormat()
-) =
-    this.toStream().parseObjects(type, format)
-
-inline fun <reified T : Any> String.parse(format: SerializationFormat = requireDefaultFormat()): T =
-    this.parse(T::class, format)
-
-inline fun <reified T : Any> String.parseObjects(
-    format: SerializationFormat = requireDefaultFormat()
-) =
-    this.parseObjects(T::class, format)
-
-// FILE ////////////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> File.parse(type: KClass<T>): T =
-    this.inputStream().parse(type, formatOf(this))
-
-fun <T : Any> File.parseObjects(type: KClass<T>): List<T> =
-    this.inputStream().parseObjects(type, formatOf(this))
-
-inline fun <reified T : Any> File.parse(): T =
-    this.parse(T::class)
-
-inline fun <reified T : Any> File.parseObjects(): List<T> =
-    this.parseObjects(T::class)
-
-// URL /////////////////////////////////////////////////////////////////////////////////////////////
-fun <T : Any> URL.parse(type: KClass<T>): T =
-    this.openStream().parse(type, formatOf(this))
-
-fun <T : Any> URL.parseObjects(type: KClass<T>): List<T> =
-    this.openStream().parseObjects(type, formatOf(this))
-
-inline fun <reified T : Any> URL.parse(): T =
-    this.parse(T::class)
-
-inline fun <reified T : Any> URL.parseObjects(): List<T> =
-    this.parseObjects(T::class)
+fun URL.parse(): Any =
+    this.openStream().parse(mediaTypeOf(this))

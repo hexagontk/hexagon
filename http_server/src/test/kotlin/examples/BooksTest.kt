@@ -1,19 +1,22 @@
 package com.hexagonkt.http.server.examples
 
-import com.hexagonkt.core.helpers.require
-import com.hexagonkt.http.client.Client
-import com.hexagonkt.http.client.Response
-import com.hexagonkt.http.client.ahc.AhcAdapter
-import com.hexagonkt.http.server.Server
-import com.hexagonkt.http.server.ServerPort
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
+import com.hexagonkt.core.fail
+import com.hexagonkt.core.require
+import com.hexagonkt.core.logging.LoggingLevel.INFO
+import com.hexagonkt.core.logging.LoggingLevel.TRACE
+import com.hexagonkt.core.logging.LoggingManager
+import com.hexagonkt.core.logging.logger
+import com.hexagonkt.http.model.ClientErrorStatus.*
+import com.hexagonkt.http.model.HttpMethod.*
+import com.hexagonkt.http.model.HttpMethod.Companion.ALL
+import com.hexagonkt.http.model.SuccessStatus.CREATED
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.path
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
+import kotlin.test.assertEquals
 
-@TestInstance(PER_CLASS)
-abstract class BooksTest(adapter: ServerPort) {
+internal class BooksTest {
 
     // books
     data class Book(val author: String, val title: String)
@@ -24,24 +27,24 @@ abstract class BooksTest(adapter: ServerPort) {
         102 to Book("Homer", "The Odyssey")
     )
 
-    val server: Server = Server(adapter) {
+    val path: PathHandler = path {
+
         post("/books") {
-            // Require fails if parameter does not exists
-            val author = queryParameters.require("author")
-            val title = queryParameters.require("title")
+            val queryParameters = request.queryParameters
+            val author = queryParameters["author"] ?: return@post badRequest("Missing author")
+            val title = queryParameters["title"] ?: return@post badRequest("Missing title")
             val id = (books.keys.maxOrNull() ?: 0) + 1
             books += id to Book(author, title)
-            send(201, id)
+            created(id.toString())
         }
 
         get("/books/{id}") {
             val bookId = pathParameters.require("id").toInt()
             val book = books[bookId]
             if (book != null)
-                // ok() is a shortcut to send(200)
                 ok("Title: ${book.title}, Author: ${book.author}")
             else
-                send(404, "Book not found")
+                notFound("Book not found")
         }
 
         put("/books/{id}") {
@@ -49,14 +52,14 @@ abstract class BooksTest(adapter: ServerPort) {
             val book = books[bookId]
             if (book != null) {
                 books += bookId to book.copy(
-                    author = queryParameters["author"] ?: book.author,
-                    title = queryParameters["title"] ?: book.title
+                    author = request.queryParameters["author"] ?: book.author,
+                    title = request.queryParameters["title"] ?: book.title
                 )
 
                 ok("Book with id '$bookId' updated")
             }
             else {
-                send(404, "Book not found")
+                notFound("Book not found")
             }
         }
 
@@ -67,75 +70,215 @@ abstract class BooksTest(adapter: ServerPort) {
             if (book != null)
                 ok("Book with id '$bookId' deleted")
             else
-                send(404, "Book not found")
+                notFound("Book not found")
         }
 
         // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
-        any("/books/{id}") { send(405) }
+        after(ALL - DELETE - PUT - GET, "/books/{id}", status = NOT_FOUND) {
+            send(METHOD_NOT_ALLOWED)
+        }
 
-        get("/books") { ok(books.keys.joinToString(" ", transform = Int::toString)) }
+        get("/books") {
+            ok(books.keys.joinToString(" ", transform = Int::toString))
+        }
     }
     // books
 
-    private val client: Client by lazy {
-        Client(AhcAdapter(), "http://localhost:${server.runtimePort}")
-    }
+    private val pathAlternative: PathHandler = path("/books") {
 
-    @BeforeAll fun initialize() {
-        server.start()
-    }
+        post {
+            val queryParameters = request.queryParameters
+            val author = queryParameters["author"] ?: return@post badRequest("Missing author")
+            val title = queryParameters["title"] ?: return@post badRequest("Missing title")
+            val id = (books.keys.maxOrNull() ?: 0) + 1
+            books += id to Book(author, title)
+            created(id.toString())
+        }
 
-    @AfterAll fun shutdown() {
-        server.stop()
-    }
+        get("/{id}") {
+            val bookId = pathParameters.require("id").toInt()
+            val book = books[bookId]
+            if (book != null)
+                ok("Title: ${book.title}, Author: ${book.author}")
+            else
+                notFound("Book not found")
+        }
 
-    @Test fun `Create book returns 201 and new book ID`() {
-        val result = client.post("/books?author=Vladimir%20Nabokov&title=Lolita")
-        assert(Integer.valueOf(result.body) > 0)
-        assert(201 == result.status)
-    }
+        put("/{id}") {
+            val bookId = pathParameters.require("id").toInt()
+            val book = books[bookId]
+            if (book != null) {
+                books += bookId to book.copy(
+                    author = request.queryParameters["author"] ?: book.author,
+                    title = request.queryParameters["title"] ?: book.title
+                )
 
-    @Test fun `List books contains all books IDs`() {
-        val result = client.get("/books")
-        assertResponseContains(result, "100", "101")
-    }
+                ok("Book with id '$bookId' updated")
+            }
+            else {
+                notFound("Book not found")
+            }
+        }
 
-    @Test fun `Get book returns all book's fields`() {
-        val result = client.get("/books/101")
-        assertResponseContains(result, "William Shakespeare", "Hamlet")
-    }
+        delete("/{id}") {
+            val bookId = pathParameters.require("id").toInt()
+            val book = books[bookId]
+            books -= bookId
+            if (book != null)
+                ok("Book with id '$bookId' deleted")
+            else
+                notFound("Book not found")
+        }
 
-    @Test fun `Update book overrides existing book data`() {
-        val resultPut = client.put("/books/100?title=Don%20Quixote")
-        assertResponseContains(resultPut, "100", "updated")
+        // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+        after(ALL - DELETE - PUT - GET, "/{id}", status = NOT_FOUND) {
+            send(METHOD_NOT_ALLOWED)
+        }
 
-        val resultGet = client.get("/books/100")
-        assertResponseContains(resultGet, "Miguel de Cervantes", "Don Quixote")
-    }
-
-    @Test fun `Delete book returns the deleted record ID`() {
-        val result = client.delete("/books/102")
-        assertResponseContains(result, "102", "deleted")
-    }
-
-    @Test fun `Book not found returns a 404`() {
-        val result = client.get("/books/9999")
-        assertResponseContains(result, 404, "not found")
-    }
-
-    @Test fun `Invalid method returns 405`() {
-        val result = client.options("/books/9999")
-        assert(405 == result.status)
-    }
-
-    private fun assertResponseContains(response: Response<String>?, status: Int, vararg content: String) {
-        assert(response?.status == status)
-        content.forEach {
-            assert(response?.body?.contains(it) ?: false)
+        get {
+            ok(books.keys.joinToString(" ", transform = Int::toString))
         }
     }
 
-    private fun assertResponseContains(response: Response<String>?, vararg content: String) {
-        assertResponseContains(response, 200, *content)
+    private val pathAlternative2: PathHandler = path("/books") {
+
+        post {
+            val queryParameters = request.queryParameters
+            val author = queryParameters["author"] ?: return@post badRequest("Missing author")
+            val title = queryParameters["title"] ?: return@post badRequest("Missing title")
+            val id = (books.keys.maxOrNull() ?: 0) + 1
+            books += id to Book(author, title)
+            created(id.toString())
+        }
+
+        path("/{id}") {
+            get {
+                val bookId = pathParameters.require("id").toInt()
+                val book = books[bookId]
+                if (book != null)
+                    ok("Title: ${book.title}, Author: ${book.author}")
+                else
+                    notFound("Book not found")
+            }
+
+            put {
+                val bookId = pathParameters.require("id").toInt()
+                val book = books[bookId]
+                if (book != null) {
+                    books += bookId to book.copy(
+                        author = request.queryParameters["author"] ?: book.author,
+                        title = request.queryParameters["title"] ?: book.title
+                    )
+
+                    ok("Book with id '$bookId' updated")
+                }
+                else {
+                    notFound("Book not found")
+                }
+            }
+
+            delete {
+                val bookId = pathParameters.require("id").toInt()
+                val book = books[bookId]
+                books -= bookId
+                if (book != null)
+                    ok("Book with id '$bookId' deleted")
+                else
+                    notFound("Book not found")
+            }
+
+            // Matches path's requests with *any* HTTP method as a fallback (return 404 instead 405)
+            after(ALL - DELETE - PUT - GET, status = NOT_FOUND) {
+                send(METHOD_NOT_ALLOWED)
+            }
+        }
+
+        get {
+            ok(books.keys.joinToString(" ", transform = Int::toString))
+        }
+    }
+
+    @Test fun `Create book returns 201 and new book ID`() = runBlocking {
+        LoggingManager.setLoggerLevel(logger, TRACE)
+        listOf(
+            path,
+            pathAlternative,
+            pathAlternative2,
+            path.byMethod()[POST] ?: fail,
+            pathAlternative.byMethod()[POST] ?: fail,
+            pathAlternative2.byMethod()[POST] ?: fail,
+        ).forEach {
+            val start = System.nanoTime()
+            val result = it.send(POST, "/books", "author=Vladimir%20Nabokov&title=Lolita")
+            logger.time(start)
+            assert(Integer.valueOf(result.body as String) > 0)
+            assertEquals(CREATED, result.status)
+        }
+        LoggingManager.setLoggerLevel(logger, INFO)
+    }
+
+    @Test fun `Create book returns 400 if a parameter is missing`() = runBlocking {
+        listOf(path, pathAlternative).forEach { p ->
+            p.send(POST, "/books", "title=Lolita").let {
+                assertEquals("Missing author", it.body)
+                assertEquals(BAD_REQUEST, it.status)
+            }
+
+            p.send(POST, "/books", "author=Vladimir%20Nabokov").let {
+                assertEquals("Missing title", it.body)
+                assertEquals(BAD_REQUEST, it.status)
+            }
+        }
+    }
+
+    @Test fun `List books contains all books IDs`() = runBlocking {
+        listOf(path, pathAlternative).forEach {
+            val result = it.send(GET, "/books")
+            assertResponseContains(result, "100", "101")
+        }
+    }
+
+    @Test fun `Get book returns all book's fields`() = runBlocking {
+        listOf(path, pathAlternative).forEach {
+            val result = it.send(GET, "/books/101")
+            assertResponseContains(result, "William Shakespeare", "Hamlet")
+        }
+    }
+
+    @Test fun `Update book overrides existing book data`() = runBlocking {
+        listOf(path, pathAlternative).forEach {
+            val resultPut = it.send(PUT, "/books/100", "title=Don%20Quixote")
+            assertResponseContains(resultPut, "100", "updated")
+
+            val resultGet = it.send(GET, "/books/100")
+            assertResponseContains(resultGet, "Miguel de Cervantes", "Don Quixote")
+        }
+    }
+
+    @Test fun `Delete book returns the deleted record ID`() = runBlocking {
+        listOf(path, pathAlternative).forEach {
+            val createResult = it.send(
+                POST, "/books", "author=Ken%20Follett&title=The%20Pillars%20of%20the%20Earth"
+            )
+            val id = Integer.valueOf(createResult.body as String)
+            assert(id > 0)
+            assertEquals(CREATED, createResult.status)
+            val result = it.send(DELETE, "/books/$id")
+            assertResponseContains(result, id.toString(), "deleted")
+        }
+    }
+
+    @Test fun `Book not found returns a 404`() = runBlocking {
+        listOf(path, pathAlternative).forEach {
+            val result = it.send(GET, "/books/9999")
+            assertResponseContains(result, NOT_FOUND, "not found")
+        }
+    }
+
+    @Test fun `Invalid method returns 405`() = runBlocking {
+        listOf(path, pathAlternative).forEach {
+            val result = it.send(OPTIONS, "/books/9999")
+            assertEquals(METHOD_NOT_ALLOWED, result.status)
+        }
     }
 }
