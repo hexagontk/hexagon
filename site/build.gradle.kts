@@ -16,13 +16,17 @@ tasks.named<Delete>("clean") {
 
 // TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
-    dependsOn(rootProject.getTasksByName("jacocoTestReport", true))
-    executionData.from(fileTree(rootDir) { include("**/build/jacoco/*.exec") })
-    sourceDirectories.from(
-        rootProject.modulesPaths("src/main/kotlin") +
-            rootProject.modulesPaths("build/jacoco/src")
-    )
-    classDirectories.from(rootProject.modulesPaths("build/classes/kotlin/main"))
+    val jacocoTasks = rootProject.getTasksByName("jacocoTestReport", true)
+    val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
+    val modulesSources = rootProject.modulesPaths("src/main/kotlin")
+    val modulesJacocoSources = rootProject.modulesPaths("build/jacoco/src")
+    val modulesClasses = rootProject.modulesPaths("build/classes/kotlin/main")
+        .filterNot { it.absolutePath.contains("http_test") }
+
+    dependsOn(jacocoTasks)
+    executionData.from(projectExecutionData)
+    sourceDirectories.from(modulesSources + modulesJacocoSources)
+    classDirectories.from(modulesClasses)
 
     reports {
         html.required.set(true)
