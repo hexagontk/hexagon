@@ -1,12 +1,18 @@
 package com.hexagonkt.core
 
-import com.hexagonkt.core.Jvm.NO_JMX_ERROR
 import org.junit.jupiter.api.Test
-import java.lang.management.ManagementFactory
+import java.lang.IllegalArgumentException
 import java.net.Inet4Address
 import kotlin.test.*
 
 internal class JvmTest {
+
+    @Test fun `'systemFlag' fails with a blank setting name`() {
+        assertFailsWith<IllegalArgumentException> { Jvm.systemFlag("") }
+        assertFailsWith<IllegalArgumentException> { Jvm.systemFlag(" ") }
+        assertFailsWith<IllegalArgumentException> { Jvm.systemSetting<String>("") }
+        assertFailsWith<IllegalArgumentException> { Jvm.systemSetting<String>(" ") }
+    }
 
     @Test fun `'systemFlag' returns true on defined boolean parameter`() {
         assertFalse { Jvm.systemFlag("TEST_FLAG") }
@@ -81,25 +87,5 @@ internal class JvmTest {
     @Test fun `Default charset is fetched correctly`() {
         assert(Jvm.charset.isRegistered)
         assert(Jvm.charset.canEncode())
-    }
-
-    @Test fun `'safeJmx' returns constant when JMX is disabled`() {
-        System.setProperty("com.hexagonkt.noJmx", "true")
-        assert(Jvm.safeJmx { ManagementFactory.getRuntimeMXBean().name } == "N/A")
-        System.clearProperty("com.hexagonkt.noJmx")
-    }
-
-    @Test fun `'safeJmx' gives proper information on exceptions`() {
-        System.clearProperty("com.hexagonkt.noJmx")
-
-        val exception = assertFailsWith<IllegalStateException> {
-            (Jvm.safeJmx { error("Internal error") } == "N/A")
-        }
-
-        val cause = exception.cause
-
-        assert(cause is IllegalStateException)
-        assertEquals("Internal error", cause?.message)
-        assertEquals(NO_JMX_ERROR, exception.message)
     }
 }
