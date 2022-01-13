@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Dates.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core</a> &gt; <span class="el_source">Dates.kt</span></div><h1>Dates.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core
+
+import java.time.*
+import java.util.Date
+
+private const val DATE_OFFSET: Long = 1_000_000_000L
+private const val YEAR_OFFSET: Int = 10_000
+private const val MONTH_OFFSET: Int = 100
+private const val HOUR_OFFSET: Int = 10_000_000
+private const val MINUTE_OFFSET: Int = 100_000
+private const val SECOND_OFFSET: Int = 1_000
+private const val NANO_OFFSET: Int = 1_000_000
+
+/**
+ * Convert a date time to a number with the following format: `YYYYMMDDHHmmss`.
+ *
+ * @receiver Date to be converted to a number.
+ * @return Numeric representation of the given date.
+ */
+fun LocalDateTime.toNumber(): Long =
+<span class="fc" id="L21">    (this.toLocalDate().toNumber() * DATE_OFFSET) + this.toLocalTime().toNumber()</span>
+
+/**
+ * Convert a date to an integer with the following format: `YYYYMMDD`.
+ *
+ * @receiver Date to be converted to a number.
+ * @return Numeric representation of the given date.
+ */
+fun LocalDate.toNumber(): Int =
+<span class="fc" id="L30">    (this.year * YEAR_OFFSET) +</span>
+<span class="fc" id="L31">    (this.monthValue * MONTH_OFFSET) +</span>
+<span class="fc" id="L32">    this.dayOfMonth</span>
+
+/**
+ * Convert a time to an integer with the following format: `HHmmssSSS`.
+ *
+ * @receiver Time to be converted to a number.
+ * @return Numeric representation of the given time.
+ */
+fun LocalTime.toNumber(): Int =
+<span class="fc" id="L41">    (this.hour * HOUR_OFFSET) +</span>
+<span class="fc" id="L42">    (this.minute * MINUTE_OFFSET) +</span>
+<span class="fc" id="L43">    (this.second * SECOND_OFFSET) +</span>
+<span class="fc" id="L44">    (this.nano / NANO_OFFSET) // Nanos to millis</span>
+
+/**
+ * Return the date time in a given time zone for a local date time.
+ *
+ * @receiver Local date time to be moved to another time zone.
+ * @param zoneId Id of the target zone of the passed local date time.
+ * @return Received date time at the given [zoneId].
+ */
+<span class="fc" id="L53">fun LocalDateTime.withZone(zoneId: ZoneId = Jvm.timeZone.toZoneId()): ZonedDateTime =</span>
+<span class="fc" id="L54">    ZonedDateTime.of(this, zoneId)</span>
+
+/**
+ * Parse a date time from a formatted number with this format: `YYYYMMDDHHmmss`.
+ *
+ * @receiver Number to be converted to a date time.
+ * @return Local date time representation of the given number.
+ */
+fun Long.toLocalDateTime(): LocalDateTime {
+<span class="fc bfc" id="L63" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing timestamp must be positive (format: YYYYMMDDHHmmss)&quot; }</span>
+<span class="fc" id="L64">    return (this / DATE_OFFSET)</span>
+<span class="fc" id="L65">        .toInt()</span>
+<span class="fc" id="L66">        .toLocalDate()</span>
+<span class="fc" id="L67">        .atTime((this % DATE_OFFSET).toInt().toLocalTime())</span>
+}
+
+/**
+ * Parse a date from a formatted integer with this format: `YYYYMMDD`.
+ *
+ * @receiver Number to be converted to a date.
+ * @return Local date representation of the given number.
+ */
+fun Int.toLocalDate(): LocalDate {
+<span class="fc bfc" id="L77" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing date must be positive (format: YYYYMMDD)&quot; }</span>
+<span class="fc" id="L78">    return LocalDate.of(</span>
+<span class="fc" id="L79">        this / YEAR_OFFSET,</span>
+<span class="fc" id="L80">        (this % YEAR_OFFSET) / MONTH_OFFSET,</span>
+<span class="fc" id="L81">        this % MONTH_OFFSET</span>
+    )
+}
+
+/**
+ * Parse a time from a formatted integer with this format: `HHmmssSSS`.
+ *
+ * @receiver Number to be converted to a time.
+ * @return Local time representation of the given number.
+ */
+fun Int.toLocalTime(): LocalTime {
+<span class="fc bfc" id="L92" title="All 4 branches covered.">    require(this &gt;= 0) { &quot;Number representing time must be positive (format: HHmmssSSS)&quot; }</span>
+<span class="fc" id="L93">    return LocalTime.of(</span>
+<span class="fc" id="L94">        (this / HOUR_OFFSET),</span>
+<span class="fc" id="L95">        ((this % HOUR_OFFSET) / MINUTE_OFFSET),</span>
+<span class="fc" id="L96">        ((this % MINUTE_OFFSET) / SECOND_OFFSET),</span>
+<span class="fc" id="L97">        ((this % SECOND_OFFSET) * NANO_OFFSET) // Millis to nanos</span>
+    )
+}
+
+/**
+ * Convert a zoned date time to a date.
+ *
+ * @receiver Zoned date time to be converted to a date.
+ * @return Date representation of the given zoned date time.
+ */
+fun ZonedDateTime.toDate(): Date =
+<span class="fc" id="L108">    Date.from(this.toInstant())</span>
+
+/**
+ * Convert a local date time to a date.
+ *
+ * @receiver Local date time to be converted to a date.
+ * @return Date representation of the given local date time.
+ */
+fun LocalDateTime.toDate(): Date =
+<span class="fc" id="L117">    this.atZone(Jvm.timeZone.toZoneId()).toDate()</span>
+
+/**
+ * Convert a local date to a date.
+ *
+ * @receiver Local date to be converted to a date.
+ * @return Date representation of the given local date.
+ */
+fun LocalDate.toDate(): Date =
+<span class="fc" id="L126">    this.atStartOfDay(Jvm.timeZone.toZoneId()).toDate()</span>
+
+/**
+ * Convert a date to a local date time.
+ *
+ * @receiver Date to be converted to a local date time.
+ * @return Local date time representation of the given date.
+ */
+fun Date.toLocalDateTime(): LocalDateTime =
+<span class="fc" id="L135">    LocalDateTime.ofInstant(Instant.ofEpochMilli(this.time), ZoneId.systemDefault())</span>
+
+/**
+ * Convert a date to a local date.
+ *
+ * @receiver Date to be converted to a local date.
+ * @return Local date representation of the given date.
+ */
+fun Date.toLocalDate(): LocalDate =
+<span class="fc" id="L144">    this.toLocalDateTime().toLocalDate()</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -13,7 +13,7 @@ if(savedDarkMode === true){
     <div class="navigation-wrapper" id="navigation-wrapper">
       <div id="leftToggler"><span class="icon-toggler"></span></div>
       <div class="library-name"><a href="../../../index.html"><span>hexagon</span></a></div>
-      <div>1.6.0</div>
+      <div>2.0.0</div>
       <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
         <div id="searchBar"></div>
       </div>
@@ -27,55 +27,70 @@ if(savedDarkMode === true){
           <div class="breadcrumbs"><a href="../../index.html">http_server_servlet</a>/<a href="../index.html">com.hexagonkt.http.server.servlet</a>/<a href="index.html">ServletServer</a></div>
           <div class="cover ">
             <h1 class="cover"><span>Servlet</span><wbr><span><span>Server</span></span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_servlet:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">ServletServer</a><span class="token punctuation">(</span>router<span class="token operator">: </span><a href="../../../http_server/com.hexagonkt.http.server/-router/index.html">Router</a><span class="token punctuation">, </span>async<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">)</span> : <span data-unresolved-link="javax.servlet/ServletContextListener///PointingToDeclaration/">ServletContextListener</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Adapter to run a router inside a Servlets container. It is not a standard engine as it is not started/stopped.</p></div></div>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_servlet:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">ServletServer</a><span class="token punctuation">(</span>handlers<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../http_server/com.hexagonkt.http.server.handlers/-server-handler/index.html">ServerHandler</a><span class="token operator">&gt;</span><span class="token punctuation">, </span>settings<span class="token operator">: </span><a href="../../../http_server/com.hexagonkt.http.server/-http-server-settings/index.html">HttpServerSettings</a><span class="token punctuation">)</span> : <span data-unresolved-link="jakarta.servlet/ServletContextListener///PointingToDeclaration/">ServletContextListener</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Adapter to run a router inside a Servlets container. It is not a standard engine as it is not started/stopped (not passed to an <a href="../../../http_server/com.hexagonkt.http.server/-http-server/index.html">HttpServer</a>).</p></div></div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button></div>
             <div class="tabs-section-body">
               <h2 class="tabbedcontent">Constructors</h2>
-              <div class="table" data-togglable="Constructors"><a data-name="-1235249689%2FConstructors%2F1672107834" anchor-label="ServletServer" id="-1235249689%2FConstructors%2F1672107834" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main"></a>
+              <div class="table" data-togglable="Constructors"><a data-name="1974309366%2FConstructors%2F1672107834" anchor-label="ServletServer" id="1974309366%2FConstructors%2F1672107834" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":http_server_servlet:dokkaHtmlPartial/main" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue TabbedContent">
                     <div class=""><span class="inline-flex">
                         <div><a href="-servlet-server.html"><span>Servlet</span><wbr><span><span>Server</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1235249689%2FConstructors%2F1672107834"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1974309366%2FConstructors%2F1672107834"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_servlet:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-servlet-server.html"><span class="token function">ServletServer</span></a><span class="token punctuation">(</span>router<span class="token operator">: </span><a href="../../../http_server/com.hexagonkt.http.server/-router/index.html">Router</a><span class="token operator"> = </span>Router()<span class="token punctuation">, </span>async<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_servlet:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-servlet-server.html"><span class="token function">ServletServer</span></a><span class="token punctuation">(</span>handler<span class="token operator">: </span><a href="../../../http_server/com.hexagonkt.http.server.handlers/-server-handler/index.html">ServerHandler</a><span class="token punctuation">, </span>settings<span class="token operator">: </span><a href="../../../http_server/com.hexagonkt.http.server/-http-server-settings/index.html">HttpServerSettings</a><span class="token operator"> = </span>HttpServerSettings()<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Utility constructor for the common case of having a single root handler.</p></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1860540706%2FConstructors%2F1672107834" anchor-label="ServletServer" id="1860540706%2FConstructors%2F1672107834" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":http_server_servlet:dokkaHtmlPartial/main" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue TabbedContent">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-servlet-server.html"><span>Servlet</span><wbr><span><span>Server</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1860540706%2FConstructors%2F1672107834"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_servlet:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-servlet-server.html"><span class="token function">ServletServer</span></a><span class="token punctuation">(</span>handlers<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../http_server/com.hexagonkt.http.server.handlers/-server-handler/index.html">ServerHandler</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span>settings<span class="token operator">: </span><a href="../../../http_server/com.hexagonkt.http.server/-http-server-settings/index.html">HttpServerSettings</a><span class="token operator"> = </span>HttpServerSettings()<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="268569659%2FFunctions%2F1672107834" anchor-label="contextDestroyed" id="268569659%2FFunctions%2F1672107834" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main"></a>
+              <div class="table" data-togglable="Functions"><a data-name="976498583%2FFunctions%2F1672107834" anchor-label="contextDestroyed" id="976498583%2FFunctions%2F1672107834" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":http_server_servlet:dokkaHtmlPartial/main" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
                     <div class=""><span class="inline-flex">
                         <div><a href="context-destroyed.html"><span>context</span><wbr><span><span>Destroyed</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="268569659%2FFunctions%2F1672107834"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="976498583%2FFunctions%2F1672107834"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_servlet:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="context-destroyed.html"><span class="token function">contextDestroyed</span></a><span class="token punctuation">(</span>sce<span class="token operator">: </span><span data-unresolved-link="javax.servlet/ServletContextEvent///PointingToDeclaration/">ServletContextEvent</span><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_servlet:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="context-destroyed.html"><span class="token function">contextDestroyed</span></a><span class="token punctuation">(</span>sce<span class="token operator">: </span><span data-unresolved-link="jakarta.servlet/ServletContextEvent///PointingToDeclaration/">ServletContextEvent</span><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
                       </div>
                     </div>
                   </div>
                 </div>
-<a data-name="795342435%2FFunctions%2F1672107834" anchor-label="contextInitialized" id="795342435%2FFunctions%2F1672107834" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main"></a>
+<a data-name="-1164757817%2FFunctions%2F1672107834" anchor-label="contextInitialized" id="-1164757817%2FFunctions%2F1672107834" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":http_server_servlet:dokkaHtmlPartial/main" data-filterable-set=":http_server_servlet:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
                     <div class=""><span class="inline-flex">
                         <div><a href="context-initialized.html"><span>context</span><wbr><span><span>Initialized</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="795342435%2FFunctions%2F1672107834"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1164757817%2FFunctions%2F1672107834"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_servlet:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="context-initialized.html"><span class="token function">contextInitialized</span></a><span class="token punctuation">(</span>sce<span class="token operator">: </span><span data-unresolved-link="javax.servlet/ServletContextEvent///PointingToDeclaration/">ServletContextEvent</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server_servlet:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="context-initialized.html"><span class="token function">contextInitialized</span></a><span class="token punctuation">(</span>sce<span class="token operator">: </span><span data-unresolved-link="jakarta.servlet/ServletContextEvent///PointingToDeclaration/">ServletContextEvent</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
                       </div>
                     </div>
                   </div>

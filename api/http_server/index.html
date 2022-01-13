@@ -13,7 +13,7 @@ if(savedDarkMode === true){
     <div class="navigation-wrapper" id="navigation-wrapper">
       <div id="leftToggler"><span class="icon-toggler"></span></div>
       <div class="library-name"><a href="../index.html"><span>hexagon</span></a></div>
-      <div>1.6.0</div>
+      <div>2.0.0</div>
       <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
         <div id="searchBar"></div>
       </div>
@@ -27,7 +27,7 @@ if(savedDarkMode === true){
           <div class="breadcrumbs"></div>
           <div class="cover ">
             <h1 class="cover"><span><span>http_server</span></span></h1>
-            <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><p class="paragraph">This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL to declare HTTP request handlers.</p><p class="paragraph">Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you to switch implementations without changing the service.</p><p class="paragraph">The /web module provides utilities on top of this port for Web application development (like templates helpers).</p><h3 class=""> Install the Dependency</h3><p class="paragraph">This module is not meant to be used directly. You should include and Adapter implementing this feature (as /http_server_jetty) in order to create an HTTP server.</p><h3 class=""> Server</h3><p class="paragraph">A server is a process listening to HTTP requests on a TCP port.</p><p class="paragraph">You can run multiple ones on different ports at the same time (this can be useful to test many microservices at the same time).</p><p class="paragraph">The server can be configured with different properties. If you do not provide a value for them, they are searched inside the application settings and lastly, a default value is picked. This is the parameters list:</p><ul><li><p class="paragraph">banner: informative text shown at start up logs. If not set only runtime information is displayed.</p></li><li><p class="paragraph">bindAddress: address to which this process is bound. If none is provided, <code class="lang-kotlin">127.0.0.1</code> is taken.</p></li><li><p class="paragraph">bindPort: the port which the process listens to. By default, it is <code class="lang-kotlin">2010</code>.</p></li><li><p class="paragraph">contextPath: initial path used for the rest of the routes, by default it is empty.</p></li></ul><!-- TODO Link to ServerSettings properties to explain set up. --><!-- TODO Document ServerSettings configuration options (options field)). --><p class="paragraph">To create a server, you need to provide a router (check the next section for more information), and after creating a server you can run it or stop it with start() and stop() methods.</p></div></div>
+            <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":http_server:dokkaHtmlPartial/main"><p class="paragraph">This port's purpose is to develop HTTP servers (REST services or Web applications). It defines a DSL to declare HTTP request handlers.</p><p class="paragraph">Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you to switch implementations without changing the service.</p><h3 class=""> Install the Dependency</h3><p class="paragraph">This module is not meant to be used directly. You should include and Adapter implementing this feature (as /http_server_jetty) in order to create an HTTP server.</p><h3 class=""> Server</h3><p class="paragraph">A server is a process listening to HTTP requests on a TCP port.</p><p class="paragraph">You can run multiple ones on different ports at the same time (this can be useful to test many microservices at the same time).</p><p class="paragraph">The server can be configured with different properties. If you do not provide a value for them, they are searched inside the application settings and lastly, a default value is picked. This is the parameters list:</p><ul><li><p class="paragraph">banner: informative text shown at start up logs. If not set only runtime information is displayed.</p></li><li><p class="paragraph">bindAddress: address to which this process is bound. If none is provided, <code class="lang-kotlin">127.0.0.1</code> is taken.</p></li><li><p class="paragraph">bindPort: the port which the process listens to. By default, it is <code class="lang-kotlin">2010</code>.</p></li><li><p class="paragraph">contextPath: initial path used for the rest of the routes, by default it is empty.</p></li></ul><!-- TODO Link to ServerSettings properties to explain set up. --><!-- TODO Document ServerSettings configuration options (options field)). --><p class="paragraph">To create a server, you need to provide a router (check the next section for more information), and after creating a server you can run it or stop it with start() and stop() methods.</p></div></div>
           </div>
           <h2 class="">Packages</h2>
           <div class="table"><a data-name="-1573257735%2FPackages%2F-2066728320" anchor-label="com.hexagonkt.http.server" id="-1573257735%2FPackages%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
@@ -46,32 +46,52 @@ if(savedDarkMode === true){
                   </span></div>
               </div>
             </div>
-<a data-name="1944343906%2FPackages%2F-2066728320" anchor-label="com.hexagonkt.http.server.examples" id="1944343906%2FPackages%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
+<a data-name="1322865049%2FPackages%2F-2066728320" anchor-label="com.hexagonkt.http.server.callbacks" id="1322865049%2FPackages%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
             <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
               <div>
                 <div class="main-subrow ">
                   <div class=""><span class="inline-flex">
-                      <div><a href="com.hexagonkt.http.server.examples/index.html">com.hexagonkt.http.server.examples</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1944343906%2FPackages%2F-2066728320"></span>
+                      <div><a href="com.hexagonkt.http.server.callbacks/index.html">com.hexagonkt.http.server.callbacks</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1322865049%2FPackages%2F-2066728320"></span>
                         <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div></div>
+                <div><span class="brief-comment"><a data-name="1322865049%2FPackages%2F-2066728320" anchor-label="com.hexagonkt.http.server.callbacks" id="1322865049%2FPackages%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">TODO</p>
+                  </span></div>
               </div>
             </div>
-<a data-name="-319383573%2FPackages%2F-2066728320" anchor-label="com.hexagonkt.http.server.test" id="-319383573%2FPackages%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
+<a data-name="568419202%2FPackages%2F-2066728320" anchor-label="com.hexagonkt.http.server.handlers" id="568419202%2FPackages%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
             <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
               <div>
                 <div class="main-subrow ">
                   <div class=""><span class="inline-flex">
-                      <div><a href="com.hexagonkt.http.server.test/index.html">com.hexagonkt.http.server.test</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-319383573%2FPackages%2F-2066728320"></span>
+                      <div><a href="com.hexagonkt.http.server.handlers/index.html">com.hexagonkt.http.server.handlers</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="568419202%2FPackages%2F-2066728320"></span>
                         <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                       </span></span></div>
                   <div class="pull-right"></div>
                 </div>
-                <div></div>
+                <div><span class="brief-comment"><a data-name="568419202%2FPackages%2F-2066728320" anchor-label="com.hexagonkt.http.server.handlers" id="568419202%2FPackages%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">TODO</p>
+                  </span></div>
+              </div>
+            </div>
+<a data-name="-1005521740%2FPackages%2F-2066728320" anchor-label="com.hexagonkt.http.server.model" id="-1005521740%2FPackages%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
+            <div class="table-row" data-filterable-current=":http_server:dokkaHtmlPartial/main" data-filterable-set=":http_server:dokkaHtmlPartial/main">
+              <div>
+                <div class="main-subrow ">
+                  <div class=""><span class="inline-flex">
+                      <div><a href="com.hexagonkt.http.server.model/index.html">com.hexagonkt.http.server.model</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1005521740%2FPackages%2F-2066728320"></span>
+                        <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                      </span></span></div>
+                  <div class="pull-right"></div>
+                </div>
+                <div><span class="brief-comment"><a data-name="-1005521740%2FPackages%2F-2066728320" anchor-label="com.hexagonkt.http.server.model" id="-1005521740%2FPackages%2F-2066728320" data-filterable-set=":http_server:dokkaHtmlPartial/main"></a>
+                    <p class="paragraph">TODO</p>
+                  </span></div>
               </div>
             </div>
           </div>

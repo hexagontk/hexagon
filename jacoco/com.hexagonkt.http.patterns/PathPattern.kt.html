@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PathPattern.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.patterns</a> &gt; <span class="el_source">PathPattern.kt</span></div><h1>PathPattern.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.patterns
+
+interface PathPattern {
+
+    val pattern: String
+    val prefix: Boolean
+
+    fun addPrefix(prefix: String?): PathPattern
+
+    fun matches(requestUrl: String): Boolean
+
+    fun extractParameters(requestUrl: String): Map&lt;String, String&gt;
+
+    fun describe(): String =
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        &quot;${type()}${if (prefix) &quot; (PREFIX)&quot; else &quot;&quot;} '$pattern'&quot;</span>
+
+    private fun type(): String =
+<span class="fc" id="L18">        javaClass.simpleName.removeSuffix(typeSuffix)</span>
+
+    private companion object {
+<span class="fc" id="L21">        val typeSuffix: String = PathPattern::class.java.simpleName</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

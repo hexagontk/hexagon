@@ -4,8 +4,8 @@
  * Prebuilt image media types. Only validated once at start time (not constructed each time).
  */
 <span class="fc" id="L6">enum class ImageMedia(</span>
-<span class="pc" id="L7">    override val group: MediaTypeGroup,</span>
-<span class="pc" id="L8">    override val type: String,</span>
+<span class="fc" id="L7">    override val group: MediaTypeGroup,</span>
+<span class="fc" id="L8">    override val type: String,</span>
 <span class="fc" id="L9">    override val fullType: String = &quot;${group.text}/$type&quot;</span>
 ) : MediaType {
 

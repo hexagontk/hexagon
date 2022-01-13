@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletRequestAdapter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletRequestAdapter.kt</span></div><h1>ServletRequestAdapter.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
+
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.http.model.*
+import com.hexagonkt.http.parseContentType
+import com.hexagonkt.http.parseQueryString
+import com.hexagonkt.http.server.model.HttpServerRequestPort
+import java.security.cert.X509Certificate
+import jakarta.servlet.http.HttpServletRequest
+
+<span class="pc" id="L11">internal class ServletRequestAdapter(req: HttpServletRequest) : HttpServerRequestPort {</span>
+
+    private companion object {
+        const val CERTIFICATE_ATTRIBUTE = &quot;jakarta.servlet.request.X509Certificate&quot;
+    }
+
+<span class="fc" id="L17">    private val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
+    }
+
+    @Suppress(&quot;UNCHECKED_CAST&quot;)
+<span class="fc" id="L22">    override val certificateChain: List&lt;X509Certificate&gt; by lazy {</span>
+<span class="fc bfc" id="L23" title="All 6 branches covered.">        (req.getAttribute(CERTIFICATE_ATTRIBUTE) as? Array&lt;X509Certificate&gt;)</span>
+<span class="fc" id="L24">            ?.toList()</span>
+<span class="fc" id="L25">            ?: emptyList()</span>
+    }
+
+<span class="fc" id="L28">    override val accept: List&lt;ContentType&gt; by lazy {</span>
+<span class="pc bpc" id="L29" title="2 of 4 branches missed.">        req.getHeaders(&quot;accept&quot;)?.toList()?.map { parseContentType(it) } ?: emptyList()</span>
+    }
+
+<span class="fc" id="L32">    override val contentLength: Long by lazy { req.contentLength.toLong() }</span>
+
+<span class="fc" id="L34">    override val queryParameters: MultiMap&lt;String, String&gt; by lazy {</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        parseQueryString(req.queryString ?: &quot;&quot;)</span>
+    }
+
+<span class="fc" id="L38">    override val method: HttpMethod by lazy {</span>
+<span class="fc" id="L39">        HttpMethod.valueOf(req.method)</span>
+    }
+
+<span class="fc" id="L42">    override val protocol: HttpProtocol by lazy { HttpProtocol.valueOf(req.scheme.uppercase()) }</span>
+<span class="fc" id="L43">    override val host: String by lazy { req.remoteHost }</span>
+<span class="fc" id="L44">    override val port: Int by lazy { req.serverPort }</span>
+<span class="pc bpc" id="L45" title="2 of 4 branches missed.">    override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }</span>
+
+<span class="fc" id="L47">    override val parts: List&lt;HttpPartPort&gt; by lazy {</span>
+<span class="fc" id="L48">        req.parts.map { ServletPartAdapter(it) }</span>
+    }
+
+<span class="fc" id="L51">    override val formParameters: MultiMap&lt;String, String&gt; by lazy {</span>
+<span class="fc bfc" id="L52" title="All 4 branches covered.">        MultiMap(parameters.filter { it.key !in queryParameters.keys })</span>
+    }
+
+<span class="fc" id="L55">    override val cookies: List&lt;HttpCookie&gt; by lazy {</span>
+<span class="fc bfc" id="L56" title="All 4 branches covered.">        req.cookies</span>
+<span class="fc" id="L57">            ?.map { HttpCookie(it.name, it.value, it.maxAge.toLong(), it.secure) }</span>
+<span class="fc" id="L58">            ?: emptyList()</span>
+    }
+
+<span class="fc" id="L61">    override val body: Any by lazy {</span>
+<span class="fc" id="L62">        req.inputStream.readAllBytes()</span>
+    }
+
+<span class="fc" id="L65">    override val headers: MultiMap&lt;String, String&gt; by lazy {</span>
+<span class="fc" id="L66">        MultiMap(</span>
+<span class="fc" id="L67">            req.headerNames</span>
+<span class="fc" id="L68">                .toList()</span>
+<span class="fc" id="L69">                .map { it.lowercase() }</span>
+<span class="fc" id="L70">                .associateWith { req.getHeaders(it).toList() }</span>
+        )
+    }
+
+<span class="fc" id="L74">    override val contentType: ContentType? by lazy {</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        req.contentType?.let { parseContentType(it) }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

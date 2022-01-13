@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientErrorStatus.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.model</a> &gt; <span class="el_source">ClientErrorStatus.kt</span></div><h1>ClientErrorStatus.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.model
+
+import com.hexagonkt.http.model.HttpStatusType.*
+
+/**
+ * Supported HTTP responses status.
+ *
+ * TODO Rename by ClientError for discovery reasons (apply to all enums)
+ */
+<span class="fc" id="L10">enum class ClientErrorStatus(</span>
+<span class="fc" id="L11">    override val code: Int,</span>
+<span class="fc" id="L12">    override val type: HttpStatusType</span>
+) : HttpStatus {
+
+    // TODO Rename with BAD_REQUEST_400 for ease of use (apply to all statuses)
+<span class="fc" id="L16">    BAD_REQUEST(400, CLIENT_ERROR),</span>
+<span class="fc" id="L17">    UNAUTHORIZED(401, CLIENT_ERROR),</span>
+<span class="fc" id="L18">    PAYMENT_REQUIRED(402, CLIENT_ERROR),</span>
+<span class="fc" id="L19">    FORBIDDEN(403, CLIENT_ERROR),</span>
+<span class="fc" id="L20">    NOT_FOUND(404, CLIENT_ERROR),</span>
+<span class="fc" id="L21">    METHOD_NOT_ALLOWED(405, CLIENT_ERROR),</span>
+<span class="fc" id="L22">    NOT_ACCEPTABLE(406, CLIENT_ERROR),</span>
+<span class="fc" id="L23">    PROXY_AUTHENTICATION_REQUIRED(407, CLIENT_ERROR),</span>
+<span class="fc" id="L24">    REQUEST_TIMEOUT(408, CLIENT_ERROR),</span>
+<span class="fc" id="L25">    CONFLICT(409, CLIENT_ERROR),</span>
+<span class="fc" id="L26">    GONE(410, CLIENT_ERROR),</span>
+<span class="fc" id="L27">    LENGTH_REQUIRED(411, CLIENT_ERROR),</span>
+<span class="fc" id="L28">    PRECONDITION_FAILED(412, CLIENT_ERROR),</span>
+<span class="fc" id="L29">    CONTENT_TOO_LARGE(413, CLIENT_ERROR),</span>
+<span class="fc" id="L30">    URI_TOO_LONG(414, CLIENT_ERROR),</span>
+<span class="fc" id="L31">    UNSUPPORTED_MEDIA_TYPE(415, CLIENT_ERROR),</span>
+<span class="fc" id="L32">    RANGE_NOT_SATISFIABLE(416, CLIENT_ERROR),</span>
+<span class="fc" id="L33">    EXPECTATION_FAILED(417, CLIENT_ERROR),</span>
+<span class="fc" id="L34">    I_AM_A_TEAPOT(418, CLIENT_ERROR),</span>
+<span class="fc" id="L35">    MISDIRECTED_REQUEST(421, CLIENT_ERROR),</span>
+<span class="fc" id="L36">    UNPROCESSABLE_CONTENT(422, CLIENT_ERROR),</span>
+<span class="fc" id="L37">    LOCKED(423, CLIENT_ERROR),</span>
+<span class="fc" id="L38">    FAILED_DEPENDENCY(424, CLIENT_ERROR),</span>
+<span class="fc" id="L39">    TOO_EARLY(425, CLIENT_ERROR),</span>
+<span class="fc" id="L40">    UPGRADE_REQUIRED(426, CLIENT_ERROR),</span>
+<span class="fc" id="L41">    PRECONDITION_REQUIRED(428, CLIENT_ERROR),</span>
+<span class="fc" id="L42">    TOO_MANY_REQUESTS(429, CLIENT_ERROR),</span>
+<span class="fc" id="L43">    REQUEST_HEADER_FIELDS_TOO_LARGE(431, CLIENT_ERROR),</span>
+<span class="fc" id="L44">    UNAVAILABLE_FOR_LEGAL_REASONS(451, CLIENT_ERROR),</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

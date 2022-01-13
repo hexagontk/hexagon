@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/core/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.6">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bb3983ee.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.cd566b2a.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
@@ -114,7 +114,7 @@
   
     
     
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -472,34 +472,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#defined-ports" class="md-nav__link">
-    Defined Ports
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#urls" class="md-nav__link">
-    URLs
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#jvm-information" class="md-nav__link">
-    JVM Information
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#logger" class="md-nav__link">
-    Logger
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -512,6 +484,13 @@
   
     <nav class="md-nav" aria-label="Package com.hexagonkt.core">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#classpath-urls-in-native-images" class="md-nav__link">
+    Classpath URLs in native images
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#flags-system-properties" class="md-nav__link">
@@ -535,13 +514,6 @@
         <li class="md-nav__item">
   <a href="#package-comhexagonktcorehandlers" class="md-nav__link">
     Package com.hexagonkt.core.handlers
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#package-comhexagonktcorehelpers" class="md-nav__link">
-    Package com.hexagonkt.core.helpers
   </a>
   
 </li>
@@ -968,34 +940,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#defined-ports" class="md-nav__link">
-    Defined Ports
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#urls" class="md-nav__link">
-    URLs
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#jvm-information" class="md-nav__link">
-    JVM Information
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#logger" class="md-nav__link">
-    Logger
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1008,6 +952,13 @@
   
     <nav class="md-nav" aria-label="Package com.hexagonkt.core">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#classpath-urls-in-native-images" class="md-nav__link">
+    Classpath URLs in native images
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#flags-system-properties" class="md-nav__link">
@@ -1031,13 +982,6 @@
         <li class="md-nav__item">
   <a href="#package-comhexagonktcorehandlers" class="md-nav__link">
     Package com.hexagonkt.core.handlers
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#package-comhexagonktcorehelpers" class="md-nav__link">
-    Package com.hexagonkt.core.helpers
   </a>
   
 </li>
@@ -1091,8 +1035,8 @@ documentation for more details. You can find a quick recap of the main features 
 below.</p>
 <h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
 <p>This module is not meant to be imported directly. It will be included by using any other part of the
-toolkit. However, if you only want to use the utilities, logging or serialization (i.e., for a
-desktop application), you can import it with the following code:</p>
+toolkit. However, if you only want to use the utilities, logging, etc. (i.e., for a desktop
+application), you can import it with the following code:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">build.gradle</label><label for="__tabbed_1_2">pom.xml</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1123,15 +1067,46 @@ desktop application), you can import it with the following code:</p>
 </div>
 </div>
 </div>
-<h4 id="defined-ports">Defined Ports<a class="headerlink" href="#defined-ports" title="Permanent link">&para;</a></h4>
-<p>TODO Document module exposed ports:
-* LoggingPort</p>
-<h4 id="urls">URLs<a class="headerlink" href="#urls" title="Permanent link">&para;</a></h4>
-<p>TODO Note that GraalVM requires to install the Classpath handler manually with
-<code>ClasspathHandlerProvider.registerHandler</code>.</p>
-<h4 id="jvm-information">JVM Information<a class="headerlink" href="#jvm-information" title="Permanent link">&para;</a></h4>
-<p>TODO Add information about the system property that disables JMX.</p>
-<h4 id="logger">Logger<a class="headerlink" href="#logger" title="Permanent link">&para;</a></h4>
+<h2 id="package-comhexagonktcore">Package com.hexagonkt.core<a class="headerlink" href="#package-comhexagonktcore" title="Permanent link">&para;</a></h2>
+<p>JVM information and other useful utilities.</p>
+<h3 id="classpath-urls-in-native-images">Classpath URLs in native images<a class="headerlink" href="#classpath-urls-in-native-images" title="Permanent link">&para;</a></h3>
+<p>To use the 'classpath' URL scheme on GraalVM native images, the <code>native-image</code> command requires to
+add the Classpath handler manually with the <code>--enable-url-protocols=classpath</code> parameter.</p>
+<h3 id="flags-system-properties">Flags (System Properties)<a class="headerlink" href="#flags-system-properties" title="Permanent link">&para;</a></h3>
+<ul>
+<li>DISABLE_CHECKS: set to true to disable some checks in order to shave a few ms. in production.
+  Do not enable it in application development and turn it on only when the application is
+  extensively tested.</li>
+</ul>
+<h2 id="package-comhexagonktcoreconverters">Package com.hexagonkt.core.converters<a class="headerlink" href="#package-comhexagonktcoreconverters" title="Permanent link">&para;</a></h2>
+<p>Registry of functions to convert from one type to another.</p>
+<p>TODO</p>
+<h2 id="package-comhexagonktcorehandlers">Package com.hexagonkt.core.handlers<a class="headerlink" href="#package-comhexagonktcorehandlers" title="Permanent link">&para;</a></h2>
+<p>TODO</p>
+<p>KEY TAKEAWAY: the order is NOT the order, it is the depth. Handlers are not linked, they are NESTED.
+The <code>next()</code> method passes control to the next level.</p>
+<p>So this:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>H1
+H2
+H3
+</code></pre></div>
+</td></tr></table>
+<p>Is really:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>H1
+  H2
+    H3
+  H2
+H1
+</code></pre></div>
+</td></tr></table>
+<h2 id="package-comhexagonktcorelogging">Package com.hexagonkt.core.logging<a class="headerlink" href="#package-comhexagonktcorelogging" title="Permanent link">&para;</a></h2>
+<p>Provides a logging management capabilities abstracting the application from logging libraries.</p>
 <p>The following code block shows the most common use cases for the <a href="/api/core/com.hexagonkt.core.logging/-logger">Logger</a> class:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -1158,7 +1133,14 @@ desktop application), you can import it with the following code:</p>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
-<span class="normal">26</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">classLogger</span><span class="p">:</span> <span class="n">Logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="n">Runtime</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="c1">// Logger for the `Runtime` class</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">classLogger</span><span class="p">:</span> <span class="n">Logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="n">Runtime</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="c1">// Logger for the `Runtime` class</span>
 <span class="kd">val</span> <span class="nv">instanceLogger</span><span class="p">:</span> <span class="n">Logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="k">this</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="c1">// Logger for this instance&#39;s class</span>
 
 <span class="n">logger</span><span class="p">.</span><span class="na">info</span> <span class="p">{</span>
@@ -1176,6 +1158,8 @@ desktop application), you can import it with the following code:</p>
 <span class="kd">val</span> <span class="nv">exception</span> <span class="o">=</span> <span class="n">IllegalStateException</span><span class="p">(</span><span class="s">&quot;Exception&quot;</span><span class="p">)</span>
 <span class="n">classLogger</span><span class="p">.</span><span class="na">warn</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span> <span class="p">{</span> <span class="s">&quot;Warning with exception&quot;</span> <span class="p">}</span>
 <span class="n">classLogger</span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span> <span class="p">{</span> <span class="s">&quot;Error message with exception&quot;</span> <span class="p">}</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">warn</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
+<span class="n">classLogger</span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 <span class="n">classLogger</span><span class="p">.</span><span class="na">error</span> <span class="p">{</span> <span class="s">&quot;Error without an exception&quot;</span> <span class="p">}</span>
 
 <span class="n">classLogger</span><span class="p">.</span><span class="na">time</span><span class="p">(</span><span class="s">&quot;Logs the time used to run the following block of code&quot;</span><span class="p">)</span> <span class="p">{</span>
@@ -1184,6 +1168,11 @@ desktop application), you can import it with the following code:</p>
 <span class="p">}</span>
 
 <span class="n">instanceLogger</span><span class="p">.</span><span class="na">flare</span> <span class="p">{</span> <span class="s">&quot;Prints a log that stands out for ease searching&quot;</span> <span class="p">}</span>
+
+<span class="c1">// Logging level can be changed programmatically</span>
+<span class="n">LoggingManager</span><span class="p">.</span><span class="na">setLoggerLevel</span><span class="p">(</span><span class="n">ERROR</span><span class="p">)</span>
+<span class="n">LoggingManager</span><span class="p">.</span><span class="na">setLoggerLevel</span><span class="p">(</span><span class="n">classLogger</span><span class="p">,</span> <span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">LoggingManager</span><span class="p">.</span><span class="na">setLoggerLevel</span><span class="p">(</span><span class="s">&quot;com.hexagonkt&quot;</span><span class="p">,</span> <span class="n">INFO</span><span class="p">)</span>
 </code></pre></div>
 </td></tr></table>
 <p>By default, Hexagon uses the <a href="https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html">Java Util Logging</a> logging library, you can use any of its
@@ -1193,44 +1182,6 @@ alternatives:</p>
 <li><a href="/logging_logback">Logback</a></li>
 <li><a href="/logging_slf4j_jul">SLF4J JUL</a></li>
 </ul>
-<p>TODO Add <code>LoggingManager</code> examples for changing logging level</p>
-<h2 id="package-comhexagonktcore">Package com.hexagonkt.core<a class="headerlink" href="#package-comhexagonktcore" title="Permanent link">&para;</a></h2>
-<p>TODO</p>
-<h3 id="flags-system-properties">Flags (System Properties)<a class="headerlink" href="#flags-system-properties" title="Permanent link">&para;</a></h3>
-<ul>
-<li>DISABLE_CHECKS: set to true to disable checks (to shave a few ms. in production when app is
-  extensively tested).</li>
-</ul>
-<h2 id="package-comhexagonktcoreconverters">Package com.hexagonkt.core.converters<a class="headerlink" href="#package-comhexagonktcoreconverters" title="Permanent link">&para;</a></h2>
-<p>TODO</p>
-<h2 id="package-comhexagonktcorehandlers">Package com.hexagonkt.core.handlers<a class="headerlink" href="#package-comhexagonktcorehandlers" title="Permanent link">&para;</a></h2>
-<p>TODO</p>
-<p>KEY TAKEAWAY: the order is NOT the order, it is the depth. Handlers are not linked, they are NESTED.
-The <code>next()</code> method passes control to the next level.</p>
-<p>So this:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>H1
-H2
-H3
-</code></pre></div>
-</td></tr></table>
-<p>Is really:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>H1
-  H2
-    H3
-  H2
-H1
-</code></pre></div>
-</td></tr></table>
-<h2 id="package-comhexagonktcorehelpers">Package com.hexagonkt.core.helpers<a class="headerlink" href="#package-comhexagonktcorehelpers" title="Permanent link">&para;</a></h2>
-<p>JVM information, a logger class and other useful utilities.</p>
-<h2 id="package-comhexagonktcorelogging">Package com.hexagonkt.core.logging<a class="headerlink" href="#package-comhexagonktcorelogging" title="Permanent link">&para;</a></h2>
-<p>Provides a logging management capabilities abstracting the application from logging libraries.</p>
 <h2 id="package-comhexagonktcoreloggingjul">Package com.hexagonkt.core.logging.jul<a class="headerlink" href="#package-comhexagonktcoreloggingjul" title="Permanent link">&para;</a></h2>
 <p>TODO</p>
 <h2 id="package-comhexagonktcoremedia">Package com.hexagonkt.core.media<a class="headerlink" href="#package-comhexagonktcoremedia" title="Permanent link">&para;</a></h2>
@@ -1395,10 +1346,10 @@ H1
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.361d90f1.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.22074ed6.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.289a2a4b.min.js"></script>
+      <script src="../assets/javascripts/bundle.1514a9a0.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

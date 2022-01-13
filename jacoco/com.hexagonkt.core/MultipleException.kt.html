@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultipleException.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core</a> &gt; <span class="el_source">MultipleException.kt</span></div><h1>MultipleException.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core
+
+/**
+ * Exception with a list of causes. Cause is `null` as it can't be tell which one of the list is the
+ * cause.
+ *
+ * A coded multiple exception should be created this way:
+ * CodedException(400, &quot;Many errors&quot;, MultipleException())
+ *
+ * To pass a list of causes
+ * CodedException (500, &quot;Error&quot;, *list)
+ *
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @property causes .
+ * @property message .
+ */
+<span class="fc" id="L18">class MultipleException (val causes: List&lt;Throwable&gt;, message: String = &quot;&quot;) :</span>
+<span class="fc" id="L19">    RuntimeException (message, null) {</span>
+
+<span class="fc" id="L21">    constructor(vararg causes: Throwable) : this(causes.toList())</span>
+<span class="fc" id="L22">    constructor(message: String, causes: List&lt;Throwable&gt;) : this(causes, message)</span>
+<span class="fc" id="L23">    constructor(message: String, vararg causes: Throwable) : this(causes.toList(), message)</span>
+<span class="fc" id="L24">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

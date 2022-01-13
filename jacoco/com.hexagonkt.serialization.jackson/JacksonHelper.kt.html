@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JacksonHelper.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.serialization.jackson</a> &gt; <span class="el_source">JacksonHelper.kt</span></div><h1>JacksonHelper.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.serialization.jackson
+
+import com.fasterxml.jackson.core.JsonFactory
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS
+import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_SINGLE_QUOTES
+import com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES
+import com.fasterxml.jackson.core.JsonToken.START_OBJECT
+import com.fasterxml.jackson.core.json.JsonReadFeature.ALLOW_TRAILING_COMMA
+import com.fasterxml.jackson.databind.*
+import com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY
+import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES
+import com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
+import com.fasterxml.jackson.databind.MapperFeature.SORT_PROPERTIES_ALPHABETICALLY
+import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
+import com.fasterxml.jackson.databind.deser.ContextualDeserializer
+import com.fasterxml.jackson.databind.json.JsonMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.databind.node.*
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import java.net.InetAddress
+import java.nio.ByteBuffer
+import java.util.Base64
+
+object JacksonHelper {
+
+    fun createObjectMapper(mapperFactory: JsonFactory): JsonMapper =
+        JsonMapper
+<span class="fc" id="L30">            .builder(mapperFactory)</span>
+<span class="fc" id="L31">            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)</span>
+<span class="fc" id="L32">            .configure(FAIL_ON_EMPTY_BEANS, false)</span>
+<span class="fc" id="L33">            .configure(ALLOW_UNQUOTED_FIELD_NAMES, true)</span>
+<span class="fc" id="L34">            .configure(ALLOW_COMMENTS, true)</span>
+<span class="fc" id="L35">            .configure(ALLOW_SINGLE_QUOTES, true)</span>
+<span class="fc" id="L36">            .configure(ALLOW_TRAILING_COMMA, true)</span>
+<span class="fc" id="L37">            .configure(FAIL_ON_MISSING_CREATOR_PROPERTIES, false)</span>
+<span class="fc" id="L38">            .configure(ACCEPT_SINGLE_VALUE_AS_ARRAY, true)</span>
+<span class="fc" id="L39">            .configure(SORT_PROPERTIES_ALPHABETICALLY, false)</span>
+<span class="fc" id="L40">            .addModule(JavaTimeModule())</span>
+<span class="fc" id="L41">            .addModule(SimpleModule()</span>
+<span class="fc" id="L42">                .addSerializer(ByteBuffer::class.java, ByteBufferSerializer)</span>
+<span class="fc" id="L43">                .addDeserializer(ByteBuffer::class.java, ByteBufferDeserializer)</span>
+<span class="fc" id="L44">                .addSerializer(ClosedRange::class.java, ClosedRangeSerializer)</span>
+<span class="fc" id="L45">                .addDeserializer(ClosedRange::class.java, ClosedRangeDeserializer())</span>
+<span class="fc" id="L46">                .addSerializer(Float::class.java, FloatSerializer)</span>
+<span class="fc" id="L47">                .addDeserializer(Float::class.java, FloatDeserializer)</span>
+<span class="fc" id="L48">                .addSerializer(InetAddress::class.java, InetAddressSerializer)</span>
+<span class="fc" id="L49">                .addDeserializer(InetAddress::class.java, InetAddressDeserializer)</span>
+            )
+<span class="fc" id="L51">            .build()</span>
+
+    fun nodeToCollection(node: JsonNode): Any? =
+<span class="fc" id="L54">        when (node) {</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            is ArrayNode -&gt; node.toList().map { nodeToCollection(it) }</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">            is ObjectNode -&gt; {</span>
+<span class="fc" id="L58">                var map = emptyMap&lt;String, Any?&gt;()</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">                for (f in node.fields())</span>
+<span class="fc" id="L61">                    map = map + (f.key to nodeToCollection(f.value))</span>
+
+<span class="fc" id="L63">                map</span>
+            }
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            is TextNode -&gt; node.textValue()</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            is BigIntegerNode -&gt; node.bigIntegerValue()</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            is BooleanNode -&gt; node.booleanValue()</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            is DoubleNode -&gt; node.doubleValue()</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            is FloatNode -&gt; node.floatValue()</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">            is IntNode -&gt; node.intValue()</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            is LongNode -&gt; node.longValue()</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">            is NullNode -&gt; null</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            is BinaryNode -&gt; node.binaryValue()</span>
+
+<span class="fc" id="L76">            else -&gt; error(&quot;Unknown node type: ${node::class.qualifiedName}&quot;)</span>
+<span class="fc" id="L77">        }</span>
+
+    fun mapNode(node: JsonNode): Any =
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        nodeToCollection(node) ?: error(&quot;Parsed content is 'null'&quot;)</span>
+
+    object InetAddressSerializer : JsonSerializer&lt;InetAddress&gt;() {
+        override fun serialize(
+            value: InetAddress, gen: JsonGenerator, serializers: SerializerProvider) {
+
+<span class="fc" id="L86">            gen.writeString(value.hostAddress)</span>
+<span class="fc" id="L87">        }</span>
+    }
+
+    object InetAddressDeserializer : JsonDeserializer&lt;InetAddress&gt;() {
+        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): InetAddress =
+<span class="fc" id="L92">            InetAddress.getByName(p.text)</span>
+    }
+
+    object FloatSerializer : JsonSerializer&lt;Float&gt;() {
+        override fun serialize(value: Float, gen: JsonGenerator, serializers: SerializerProvider) {
+<span class="fc" id="L97">            gen.writeNumber(value.toBigDecimal().toDouble()) // BigDecimal needed for good rounding</span>
+<span class="fc" id="L98">        }</span>
+    }
+
+    object FloatDeserializer : JsonDeserializer&lt;Float&gt;() {
+<span class="fc" id="L102">        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Float = p.floatValue</span>
+    }
+
+    object ByteBufferSerializer: JsonSerializer&lt;ByteBuffer&gt;() {
+        override fun serialize(
+            value: ByteBuffer, gen: JsonGenerator, serializers: SerializerProvider) {
+
+<span class="fc" id="L109">            gen.writeString(Base64.getEncoder ().encodeToString (value.array()))</span>
+<span class="fc" id="L110">        }</span>
+    }
+
+    object ByteBufferDeserializer: JsonDeserializer&lt;ByteBuffer&gt;() {
+        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ByteBuffer =
+<span class="fc" id="L115">            ByteBuffer.wrap (Base64.getDecoder ().decode (p.text))</span>
+    }
+
+    object ClosedRangeSerializer: JsonSerializer&lt;ClosedRange&lt;*&gt;&gt; () {
+        override fun serialize(
+            value: ClosedRange&lt;*&gt;, gen: JsonGenerator, serializers: SerializerProvider) {
+
+<span class="fc" id="L122">            val start = value.start</span>
+<span class="fc" id="L123">            val end = value.endInclusive</span>
+<span class="fc" id="L124">            val valueSerializer = serializers.findValueSerializer(start.javaClass)</span>
+
+<span class="fc" id="L126">            gen.writeStartObject()</span>
+
+<span class="fc" id="L128">            gen.writeFieldName(&quot;start&quot;)</span>
+<span class="fc" id="L129">            valueSerializer.serialize(start, gen, serializers)</span>
+
+<span class="fc" id="L131">            gen.writeFieldName(&quot;endInclusive&quot;)</span>
+<span class="fc" id="L132">            valueSerializer.serialize(end, gen, serializers)</span>
+
+<span class="fc" id="L134">            gen.writeEndObject()</span>
+<span class="fc" id="L135">        }</span>
+    }
+
+<span class="fc" id="L138">    class ClosedRangeDeserializer(private val type: JavaType? = null) :</span>
+<span class="fc" id="L139">        JsonDeserializer&lt;ClosedRange&lt;*&gt;&gt; (), ContextualDeserializer {</span>
+
+        override fun createContextual(
+            ctxt: DeserializationContext, property: BeanProperty): JsonDeserializer&lt;*&gt; =
+<span class="fc" id="L143">                ClosedRangeDeserializer(property.type.containedType(0))</span>
+
+        override fun deserialize(p: JsonParser, ctxt: DeserializationContext): ClosedRange&lt;*&gt; {
+<span class="fc" id="L146">            val token = p.currentToken</span>
+<span class="pc bpc" id="L147" title="2 of 4 branches missed.">            check (token == START_OBJECT) { &quot;${token.name} should be: ${START_OBJECT.name}&quot; }</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">            check(p.nextFieldName() == &quot;start&quot;) { &quot;Ranges start with 'start' field&quot; }</span>
+
+<span class="fc" id="L150">            p.nextToken() // Start object</span>
+<span class="fc" id="L151">            val start = ctxt.readValue&lt;Comparable&lt;Any&gt;&gt;(p, type)</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">            check(p.nextFieldName() == &quot;endInclusive&quot;) { &quot;Ranges end with 'endInclusive' field&quot; }</span>
+
+<span class="fc" id="L154">            p.nextToken() // End array</span>
+<span class="fc" id="L155">            val end = ctxt.readValue&lt;Comparable&lt;Any&gt;&gt;(p, type)</span>
+<span class="fc" id="L156">            p.nextToken() // End array</span>
+
+<span class="fc" id="L158">            return start .. end</span>
+        }
+<span class="fc" id="L160">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

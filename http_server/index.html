@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/http_server/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.6">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bb3983ee.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.cd566b2a.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
@@ -114,7 +114,7 @@
   
     
     
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -774,6 +774,27 @@
         <li class="md-nav__item">
   <a href="#package-comhexagonkthttpserver" class="md-nav__link">
     Package com.hexagonkt.http.server
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpservercallbacks" class="md-nav__link">
+    Package com.hexagonkt.http.server.callbacks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpserverhandlers" class="md-nav__link">
+    Package com.hexagonkt.http.server.handlers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpservermodel" class="md-nav__link">
+    Package com.hexagonkt.http.server.model
   </a>
   
 </li>
@@ -1450,6 +1471,27 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpservercallbacks" class="md-nav__link">
+    Package com.hexagonkt.http.server.callbacks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpserverhandlers" class="md-nav__link">
+    Package com.hexagonkt.http.server.handlers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#package-comhexagonkthttpservermodel" class="md-nav__link">
+    Package com.hexagonkt.http.server.model
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1470,8 +1512,6 @@
 to declare HTTP request handlers.</p>
 <p>Adapters implementing this port are in charge of transforming the DSL into a runtime. And allows you
 to switch implementations without changing the service.</p>
-<p>The <a href="/web">web</a> module provides utilities on top of this port for Web application development
-(like templates helpers).</p>
 <h4 id="install-the-dependency">Install the Dependency<a class="headerlink" href="#install-the-dependency" title="Permanent link">&para;</a></h4>
 <p>This module is not meant to be used directly. You should include and Adapter implementing this
 feature (as <a href="/http_server_jetty">http_server_jetty</a>) in order to create an HTTP server.</p>
@@ -1526,48 +1566,40 @@ and after creating a server you can run it or stop it with <a href="/api/http_se
 <span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
 <span class="cm"> * All settings are optional, you can supply any combination</span>
 <span class="cm"> * Parameters not set will fall back to the defaults</span>
 <span class="cm"> */</span>
-<span class="kd">val</span> <span class="nv">settings</span> <span class="o">=</span> <span class="n">ServerSettings</span><span class="p">(</span>
-    <span class="n">bindAddress</span> <span class="o">=</span> <span class="n">InetAddress</span><span class="p">.</span><span class="na">getByName</span><span class="p">(</span><span class="s">&quot;0.0.0&quot;</span><span class="p">),</span>
+<span class="kd">val</span> <span class="nv">settings</span> <span class="o">=</span> <span class="n">HttpServerSettings</span><span class="p">(</span>
+    <span class="n">bindAddress</span> <span class="o">=</span> <span class="n">withContext</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span> <span class="p">{</span> <span class="n">InetAddress</span><span class="p">.</span><span class="na">getByName</span><span class="p">(</span><span class="s">&quot;0.0.0&quot;</span><span class="p">)</span> <span class="p">},</span>
     <span class="n">bindPort</span> <span class="o">=</span> <span class="m">2020</span><span class="p">,</span>
     <span class="n">contextPath</span> <span class="o">=</span> <span class="s">&quot;/context&quot;</span><span class="p">,</span>
     <span class="n">banner</span> <span class="o">=</span> <span class="s">&quot;name&quot;</span>
 <span class="p">)</span>
 
-<span class="kd">val</span> <span class="nv">router</span> <span class="o">=</span> <span class="n">Router</span> <span class="p">{</span>
+<span class="kd">val</span> <span class="nv">path</span> <span class="o">=</span> <span class="n">path</span> <span class="p">{</span>
     <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span> <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kd">val</span> <span class="nv">customServer</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">router</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
-
-<span class="n">customServer</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
-
-<span class="kd">val</span> <span class="nv">customClient</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">customServer</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">customServer</span><span class="p">.</span><span class="na">started</span><span class="p">())</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">customClient</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/context/hello&quot;</span><span class="p">).</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
-
-<span class="n">customServer</span><span class="p">.</span><span class="na">stop</span><span class="p">()</span>
+<span class="n">serve</span><span class="p">(</span><span class="n">serverAdapter</span><span class="p">(),</span> <span class="n">listOf</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">settings</span><span class="p">).</span><span class="na">use</span> <span class="p">{</span> <span class="n">server</span> <span class="o">-&gt;</span>
+    <span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)).</span><span class="na">use</span> <span class="p">{</span>
+        <span class="nb">it</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
+        <span class="n">assert</span><span class="p">(</span><span class="n">server</span><span class="p">.</span><span class="na">started</span><span class="p">())</span>
+        <span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span> <span class="nb">it</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/context/hello&quot;</span><span class="p">).</span><span class="na">body</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
 <span class="cm">/*</span>
 <span class="cm"> * You can skip the adapter is you previously bound one</span>
 <span class="cm"> * You may also skip the settings and the defaults will be used</span>
 <span class="cm"> */</span>
-<span class="kd">val</span> <span class="nv">defaultServer</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">router</span> <span class="o">=</span> <span class="n">router</span><span class="p">)</span>
-
-<span class="n">defaultServer</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
-
-<span class="kd">val</span> <span class="nv">defaultClient</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">defaultServer</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">defaultServer</span><span class="p">.</span><span class="na">started</span><span class="p">())</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">defaultClient</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
-
-<span class="n">defaultServer</span><span class="p">.</span><span class="na">stop</span><span class="p">()</span>
+<span class="n">serve</span><span class="p">(</span><span class="n">serverAdapter</span><span class="p">(),</span> <span class="n">listOf</span><span class="p">(</span><span class="n">path</span><span class="p">)).</span><span class="na">use</span> <span class="p">{</span> <span class="n">server</span> <span class="o">-&gt;</span>
+    <span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)).</span><span class="na">use</span> <span class="p">{</span>
+        <span class="nb">it</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
+        <span class="n">assert</span><span class="p">(</span><span class="n">server</span><span class="p">.</span><span class="na">started</span><span class="p">())</span>
+        <span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span> <span class="nb">it</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">body</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
 <h5 id="servlet-web-server">Servlet Web server<a class="headerlink" href="#servlet-web-server" title="Permanent link">&para;</a></h5>
@@ -1595,13 +1627,13 @@ invoked, and the following ones are ignored.</p>
 <span class="normal">4</span>
 <span class="normal">5</span>
 <span class="normal">6</span>
-<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get greeting&quot;</span><span class="p">)}</span>
-<span class="n">put</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Put greeting&quot;</span><span class="p">)}</span>
-<span class="n">post</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Post greeting&quot;</span><span class="p">)}</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get greeting&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">put</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Put greeting&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">post</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Post greeting&quot;</span><span class="p">)</span> <span class="p">}</span>
 
-<span class="n">any</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Fallback if HTTP verb was not used before&quot;</span><span class="p">)}</span>
+<span class="n">on</span><span class="p">(</span><span class="n">ALL</span> <span class="o">-</span> <span class="n">GET</span> <span class="o">-</span> <span class="n">PUT</span> <span class="o">-</span> <span class="n">POST</span><span class="p">,</span> <span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Fallback if HTTP verb was not used before&quot;</span><span class="p">)</span> <span class="p">}</span>
 
-<span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/&#39; if no route matched before&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">on</span><span class="p">(</span><span class="n">status</span> <span class="o">=</span> <span class="n">NOT_FOUND</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/&#39; if no route matched before&quot;</span><span class="p">)</span> <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
 <p>HTTP clients will be able to reuse the routes to create REST services clients.</p>
@@ -1617,10 +1649,10 @@ scope to declare routes and filters (or more nested paths). Ie:</p>
 <span class="normal">7</span>
 <span class="normal">8</span>
 <span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">path</span><span class="p">(</span><span class="s">&quot;/nested&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Greeting&quot;</span><span class="p">)}</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Greeting&quot;</span><span class="p">)</span> <span class="p">}</span>
 
     <span class="n">path</span><span class="p">(</span><span class="s">&quot;/secondLevel&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Second level greeting&quot;</span><span class="p">)}</span>
+        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Second level greeting&quot;</span><span class="p">)</span> <span class="p">}</span>
     <span class="p">}</span>
 
     <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get at &#39;/nested&#39;&quot;</span><span class="p">)</span> <span class="p">}</span>
@@ -1639,13 +1671,13 @@ to mount a group of routes in different paths (allowing you to reuse them). Chec
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">fun</span> <span class="nf">personRouter</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">=</span> <span class="n">Router</span> <span class="p">{</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">fun</span> <span class="nf">personRouter</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">=</span> <span class="n">path</span> <span class="p">{</span>
     <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Get </span><span class="si">$</span><span class="n">kind</span><span class="s">&quot;</span><span class="p">)</span> <span class="p">}</span>
     <span class="n">put</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Put </span><span class="si">$</span><span class="n">kind</span><span class="s">&quot;</span><span class="p">)</span> <span class="p">}</span>
     <span class="n">post</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Post </span><span class="si">$</span><span class="n">kind</span><span class="s">&quot;</span><span class="p">)</span> <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">HttpServer</span><span class="p">(</span><span class="n">serverAdapter</span><span class="p">())</span> <span class="p">{</span>
     <span class="n">path</span><span class="p">(</span><span class="s">&quot;/clients&quot;</span><span class="p">,</span> <span class="n">personRouter</span><span class="p">(</span><span class="s">&quot;client&quot;</span><span class="p">))</span>
     <span class="n">path</span><span class="p">(</span><span class="s">&quot;/customers&quot;</span><span class="p">,</span> <span class="n">personRouter</span><span class="p">(</span><span class="s">&quot;customer&quot;</span><span class="p">))</span>
 <span class="p">}</span>
@@ -1661,20 +1693,28 @@ read parameters or pass attributes among filters/routes.</p>
 <p>The methods are available directly from the callback (<code>Call</code> is the callback receiver). You can
 check the <a href="/api/http_server/com.hexagonkt.http.server/-call/">API documentation</a> for the full list of methods.</p>
 <p>This sample code illustrates the usage:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/call&quot;</span><span class="p">)</span> <span class="p">{</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/call&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">attributes</span>                   <span class="c1">// the attributes list</span>
     <span class="n">attributes</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span>            <span class="c1">// value of foo attribute</span>
-    <span class="n">attributes</span><span class="o">[</span><span class="s">&quot;A&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s">&quot;V&quot;</span>        <span class="c1">// sets value of attribute A to V</span>
 
     <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Response body&quot;</span><span class="p">)</span>          <span class="c1">// returns a 200 status</span>
-    <span class="n">send</span><span class="p">(</span><span class="m">400</span><span class="p">,</span> <span class="s">&quot;Invalid request&quot;</span><span class="p">)</span> <span class="c1">// returns any status</span>
+    <span class="c1">// return any status</span>
+    <span class="n">send</span><span class="p">(</span>
+        <span class="n">BAD_REQUEST</span><span class="p">,</span>
+        <span class="s">&quot;Invalid request&quot;</span><span class="p">,</span>
+        <span class="n">attributes</span> <span class="o">=</span> <span class="n">attributes</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;A&quot;</span> <span class="n">to</span> <span class="s">&quot;V&quot;</span><span class="p">)</span> <span class="c1">// sets value of attribute A to V</span>
+    <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1721,47 +1761,57 @@ check the <a href="/api/http_server/com.hexagonkt.http.server/-call/">API docume
 <span class="normal">39</span>
 <span class="normal">40</span>
 <span class="normal">41</span>
-<span class="normal">42</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/request&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/request&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// URL Information</span>
     <span class="n">request</span><span class="p">.</span><span class="na">method</span>                   <span class="c1">// the HTTP method (GET, ..etc)</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">scheme</span>                   <span class="c1">// http or https</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">secure</span>                   <span class="c1">// true if scheme is https</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">protocol</span>                 <span class="c1">// http or https TODO</span>
     <span class="n">request</span><span class="p">.</span><span class="na">host</span>                     <span class="c1">// the host, e.g. &quot;example.com&quot;</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">ip</span>                       <span class="c1">// client IP address</span>
     <span class="n">request</span><span class="p">.</span><span class="na">port</span>                     <span class="c1">// the server port</span>
     <span class="n">request</span><span class="p">.</span><span class="na">path</span>                     <span class="c1">// the request path, e.g. /result.jsp</span>
     <span class="n">request</span><span class="p">.</span><span class="na">body</span>                     <span class="c1">// request body sent by the client</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">url</span>                      <span class="c1">// the url. e.g. &quot;http://example.com/foo&quot;</span>
+
+    <span class="n">method</span>                           <span class="c1">// Shortcut of `request.method`</span>
+    <span class="n">protocol</span>                         <span class="c1">// Shortcut of `request.protocol`</span>
+    <span class="n">host</span>                             <span class="c1">// Shortcut of `request.host`</span>
+    <span class="n">port</span>                             <span class="c1">// Shortcut of `request.port`</span>
+    <span class="n">path</span>                             <span class="c1">// Shortcut of `request.path`</span>
 
     <span class="c1">// Headers</span>
     <span class="n">request</span><span class="p">.</span><span class="na">headers</span>                  <span class="c1">// the HTTP header list with first values only</span>
     <span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]</span>           <span class="c1">// first value of BAR header</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">headersValues</span>            <span class="c1">// the HTTP header list with their full values list</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]</span>     <span class="c1">// list of values of BAR header</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="p">.</span><span class="na">allValues</span>        <span class="c1">// the HTTP header list with their full values list</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">headers</span><span class="p">.</span><span class="na">allValues</span><span class="o">[</span><span class="s">&quot;BAR&quot;</span><span class="o">]</span> <span class="c1">// list of values of BAR header</span>
 
     <span class="c1">// Common headers shortcuts</span>
     <span class="n">request</span><span class="p">.</span><span class="na">contentType</span>              <span class="c1">// content type of request.body</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">acceptValues</span>             <span class="c1">// Client accepted content types</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">userAgent</span>                <span class="c1">// user agent (browser requests)</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">origin</span>                   <span class="c1">// origin (browser requests)</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">accept</span>                   <span class="c1">// Client accepted content types</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">userAgent</span><span class="p">()</span>              <span class="c1">// user agent (browser requests)</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">origin</span><span class="p">()</span>                 <span class="c1">// origin (browser requests)</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">referer</span><span class="p">()</span>                <span class="c1">// TODO</span>
+
+    <span class="n">accept</span>                             <span class="c1">// Shortcut of `request.accept`</span>
 
     <span class="c1">// Parameters</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">pathParameters</span>           <span class="c1">// map with all path parameters</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span>           <span class="c1">// map with first values of all form fields</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">formParametersValues</span>     <span class="c1">// map with all form fields values</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span>          <span class="c1">// map with first values of all query parameters</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">queryParametersValues</span>    <span class="c1">// map with all query parameters values</span>
+    <span class="n">pathParameters</span>                    <span class="c1">// map with all path parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span>            <span class="c1">// map with first values of all form fields</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">allValues</span>  <span class="c1">// map with all form fields values</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span>           <span class="c1">// map with first values of all query parameters</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">allValues</span> <span class="c1">// map with all query parameters values</span>
+
+    <span class="n">queryParameters</span>                   <span class="c1">// Shortcut of `request.queryParameters`</span>
+    <span class="n">queryParameters</span><span class="p">.</span><span class="na">allValues</span>         <span class="c1">// Shortcut of `request.queryParameters.allValues`</span>
+    <span class="n">formParameters</span>                    <span class="c1">// Shortcut of `request.formParameters`</span>
+    <span class="n">formParameters</span><span class="p">.</span><span class="na">allValues</span>          <span class="c1">// Shortcut of `request.formParameters.allValues`</span>
 
     <span class="c1">// Body processing</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">contentLength</span>            <span class="c1">// length of request body</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="p">(</span><span class="n">Type</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>        <span class="c1">// Object passed in the body as a typed object</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="o">&lt;</span><span class="n">Type</span><span class="o">&gt;</span><span class="p">()</span>             <span class="c1">// Syntactic sugar for the previous statement</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">bodyObjects</span><span class="p">(</span><span class="n">Type</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="c1">// Object(s) passed in the body as a typed list</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">bodyObjects</span><span class="o">&lt;</span><span class="n">Type</span><span class="o">&gt;</span><span class="p">()</span>      <span class="c1">// Syntactic sugar for the previous statement</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="p">(</span><span class="n">Map</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>         <span class="c1">// Object passed in the body as a field map</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">body</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;*</span><span class="p">,</span> <span class="o">*&gt;&gt;</span><span class="p">()</span>        <span class="c1">// Syntactic sugar for the previous statement</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">bodyObjects</span><span class="p">(</span><span class="n">Map</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>  <span class="c1">// Object(s) passed in the body as a list of maps</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">bodyObjects</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;*</span><span class="p">,</span> <span class="o">*&gt;&gt;</span><span class="p">()</span> <span class="c1">// Syntactic sugar for the previous statement</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">contentLength</span>             <span class="c1">// length of request body</span>
+
+    <span class="n">ok</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1771,9 +1821,11 @@ object:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/pathParam/{foo}&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">pathParameters</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span> <span class="c1">// value of foo path parameter</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">pathParameters</span>        <span class="c1">// map with all parameters</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/pathParam/{foo}&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span> <span class="c1">// value of foo path parameter</span>
+    <span class="n">pathParameters</span>        <span class="c1">// map with all parameters</span>
+    <span class="n">ok</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1786,12 +1838,14 @@ object:</p>
 <span class="normal">4</span>
 <span class="normal">5</span>
 <span class="normal">6</span>
-<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/queryParam&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">queryString</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/queryParam&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span>                       <span class="c1">// the query param list</span>
     <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>                <span class="c1">// value of FOO query param</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">queryParametersValues</span>                 <span class="c1">// the query param list</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">queryParametersValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>          <span class="c1">// all values of FOO query param</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">allValues</span>             <span class="c1">// the query param list</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">queryParameters</span><span class="p">.</span><span class="na">allValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>      <span class="c1">// all values of FOO query param</span>
+
+    <span class="n">ok</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1802,11 +1856,13 @@ object:</p>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/formParam&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/formParam&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span>                       <span class="c1">// the query param list</span>
     <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>                <span class="c1">// value of FOO query param</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">formParametersValues</span>                 <span class="c1">// the query param list</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">formParametersValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>          <span class="c1">// all values of FOO query param</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">allValues</span>             <span class="c1">// the query param list</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">formParameters</span><span class="p">.</span><span class="na">allValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span>      <span class="c1">// all values of FOO query param</span>
+    <span class="n">ok</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1816,8 +1872,8 @@ object:</p>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">post</span><span class="p">(</span><span class="s">&quot;/file&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="nv">filePart</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">parts</span><span class="o">[</span><span class="s">&quot;file&quot;</span><span class="o">]</span> <span class="o">?:</span> <span class="n">error</span><span class="p">(</span><span class="s">&quot;File not available&quot;</span><span class="p">)</span>
-    <span class="n">ok</span><span class="p">(</span><span class="n">filePart</span><span class="p">.</span><span class="na">inputStream</span><span class="p">.</span><span class="na">reader</span><span class="p">().</span><span class="na">readText</span><span class="p">())</span>
+    <span class="kd">val</span> <span class="nv">filePart</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">partsMap</span><span class="p">()</span><span class="o">[</span><span class="s">&quot;file&quot;</span><span class="o">]</span> <span class="o">?:</span> <span class="n">error</span><span class="p">(</span><span class="s">&quot;File not available&quot;</span><span class="p">)</span>
+    <span class="n">ok</span><span class="p">(</span><span class="n">filePart</span><span class="p">.</span><span class="na">body</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1832,15 +1888,27 @@ object:</p>
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">body</span>                             <span class="c1">// get response content</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">body</span> <span class="o">=</span> <span class="s">&quot;Hello&quot;</span>                   <span class="c1">// sets content to Hello</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s">&quot;bar&quot;</span>           <span class="c1">// sets header FOO with single value bar</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;FOO&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">)</span> <span class="c1">// sets header FOO values with [ bar ]</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">status</span>                           <span class="c1">// get the response status</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">status</span> <span class="o">=</span> <span class="m">401</span>                     <span class="c1">// set status code to 401</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">contentType</span>                      <span class="c1">// get the content type</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">contentType</span> <span class="o">=</span> <span class="s">&quot;text/xml&quot;</span>         <span class="c1">// set content type to text/xml</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/response&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">body</span>                        <span class="c1">// get response content</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">status</span>                      <span class="c1">// get the response status</span>
+    <span class="n">response</span><span class="p">.</span><span class="na">contentType</span>                 <span class="c1">// get the content type</span>
+
+    <span class="n">status</span>                               <span class="c1">// Shortcut of `response.status`</span>
+
+    <span class="n">send</span><span class="p">(</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">UNAUTHORIZED</span><span class="p">,</span>           <span class="c1">// set status code to 401</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="s">&quot;Hello&quot;</span><span class="p">,</span>                  <span class="c1">// sets content to Hello</span>
+        <span class="n">contentType</span> <span class="o">=</span> <span class="n">ContentType</span><span class="p">(</span><span class="n">XML</span><span class="p">),</span>  <span class="c1">// set content type to application/xml</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">headers</span>
+            <span class="o">+</span> <span class="p">(</span><span class="s">&quot;foo&quot;</span> <span class="n">to</span> <span class="s">&quot;bar&quot;</span><span class="p">)</span>           <span class="c1">// sets header FOO with single value bar</span>
+            <span class="o">+</span> <span class="n">multiMapOfLists</span><span class="p">(</span><span class="s">&quot;baz&quot;</span> <span class="n">to</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;2&quot;</span><span class="p">))</span> <span class="c1">// sets header FOO values with [ bar ]</span>
+    <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1849,7 +1917,7 @@ object:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/redirect&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">redirect</span><span class="p">(</span><span class="s">&quot;/call&quot;</span><span class="p">)</span> <span class="c1">// browser redirect to /call</span>
+    <span class="n">redirect</span><span class="p">(</span><span class="n">FOUND</span><span class="p">,</span> <span class="s">&quot;/call&quot;</span><span class="p">)</span> <span class="c1">// browser redirect to /call</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1868,38 +1936,30 @@ add new ones you have to use <code>response.addCookie()</code> and <code>respons
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/cookie&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/cookie&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">request</span><span class="p">.</span><span class="na">cookies</span>                       <span class="c1">// get map of all request cookies</span>
-    <span class="n">request</span><span class="p">.</span><span class="na">cookies</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span>                <span class="c1">// access request cookie by name</span>
+    <span class="n">request</span><span class="p">.</span><span class="na">cookiesMap</span><span class="p">()</span><span class="o">[</span><span class="s">&quot;foo&quot;</span><span class="o">]</span>           <span class="c1">// access request cookie by name</span>
 
-    <span class="kd">val</span> <span class="nv">cookie</span> <span class="o">=</span> <span class="n">Cookie</span><span class="p">(</span><span class="s">&quot;new_foo&quot;</span><span class="p">,</span> <span class="s">&quot;bar&quot;</span><span class="p">)</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">addCookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">)</span>                     <span class="c1">// set cookie with a value</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">addCookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="m">3600</span><span class="p">))</span> <span class="c1">// set cookie with a max-age</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">addCookie</span><span class="p">(</span><span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">secure</span> <span class="o">=</span> <span class="kc">true</span><span class="p">))</span> <span class="c1">// secure cookie</span>
-    <span class="n">response</span><span class="p">.</span><span class="na">removeCookie</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span>                   <span class="c1">// remove cookie</span>
+    <span class="kd">val</span> <span class="nv">cookie</span> <span class="o">=</span> <span class="n">HttpCookie</span><span class="p">(</span><span class="s">&quot;new_foo&quot;</span><span class="p">,</span> <span class="s">&quot;bar&quot;</span><span class="p">)</span>
+    <span class="n">ok</span><span class="p">(</span>
+        <span class="n">cookies</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span>
+            <span class="n">cookie</span><span class="p">,</span>                     <span class="c1">// set cookie with a value</span>
+            <span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">maxAge</span> <span class="o">=</span> <span class="m">3600</span><span class="p">),</span> <span class="c1">// set cookie with a max-age</span>
+            <span class="n">cookie</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">secure</span> <span class="o">=</span> <span class="kc">true</span><span class="p">),</span> <span class="c1">// secure cookie</span>
+            <span class="n">cookie</span><span class="p">.</span><span class="na">delete</span><span class="p">(),</span>            <span class="c1">// remove cookie</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
 <h5 id="sessions">Sessions<a class="headerlink" href="#sessions" title="Permanent link">&para;</a></h5>
 <p>Every request has access to the session created on the server side, the <code>session</code> object provides
 the following methods:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/session&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">session</span>                         <span class="c1">// create and return session</span>
-    <span class="n">session</span><span class="p">.</span><span class="na">attributes</span><span class="o">[</span><span class="s">&quot;user&quot;</span><span class="o">]</span>      <span class="c1">// Get session attribute &#39;user&#39;</span>
-    <span class="n">session</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">,</span> <span class="s">&quot;foo&quot;</span><span class="p">)</span>      <span class="c1">// Set session attribute &#39;user&#39;</span>
-    <span class="n">session</span><span class="p">.</span><span class="na">removeAttribute</span><span class="p">(</span><span class="s">&quot;user&quot;</span><span class="p">)</span> <span class="c1">// Remove session attribute &#39;user&#39;</span>
-    <span class="n">session</span><span class="p">.</span><span class="na">attributes</span>              <span class="c1">// Get all session attributes</span>
-    <span class="n">session</span><span class="p">.</span><span class="na">id</span>                      <span class="c1">// Get session id</span>
-    <span class="n">session</span><span class="p">.</span><span class="na">isNew</span><span class="p">()</span>                 <span class="c1">// Check if session is new</span>
-<span class="p">}</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>
 </code></pre></div>
 </td></tr></table>
 <!-- TODO Explain how to set up using server features -->
@@ -1910,24 +1970,16 @@ the following methods:</p>
 <h5 id="halting">Halting<a class="headerlink" href="#halting" title="Permanent link">&para;</a></h5>
 <p>To immediately stop a request within a filter or route use <code>halt()</code>. <code>halt()</code> is not intended to be
 used inside exception-mappers. Check the following snippet for an example:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halt&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">halt</span><span class="p">()</span>                <span class="c1">// halt with status 500 and stop route processing</span>
-
-    <span class="cm">/*</span>
-<span class="cm">     * These are just examples the following code will never be reached</span>
-<span class="cm">     */</span>
-    <span class="n">halt</span><span class="p">(</span><span class="m">401</span><span class="p">)</span>             <span class="c1">// halt with status</span>
-    <span class="n">halt</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span>  <span class="c1">// halt with message (status 500)</span>
-    <span class="n">halt</span><span class="p">(</span><span class="m">401</span><span class="p">,</span> <span class="s">&quot;Go away!&quot;</span><span class="p">)</span> <span class="c1">// halt with status and message</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/halt&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">)</span>             <span class="c1">// halt with status</span>
+    <span class="n">clientError</span><span class="p">(</span><span class="n">UNAUTHORIZED</span><span class="p">,</span> <span class="s">&quot;Go away!&quot;</span><span class="p">)</span> <span class="c1">// halt with status and message</span>
+    <span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Body Message&quot;</span><span class="p">)</span>   <span class="c1">// halt with message (status 500)</span>
+    <span class="n">internalServerError</span><span class="p">()</span>                 <span class="c1">// halt with status 500</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1961,24 +2013,24 @@ after filters are executed anyway).</p>
 <span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">before</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;b_all&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">on</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">headers</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">headers</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;b-all&quot;</span> <span class="n">to</span> <span class="s">&quot;true&quot;</span><span class="p">))</span> <span class="p">}</span>
 
-<span class="n">before</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;b_filters&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">on</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">headers</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">headers</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;b-filters&quot;</span> <span class="n">to</span> <span class="s">&quot;true&quot;</span><span class="p">))</span> <span class="p">}</span>
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters/route&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters route&quot;</span><span class="p">)</span> <span class="p">}</span>
-<span class="n">after</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;a_filters&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">after</span><span class="p">(</span><span class="s">&quot;/filters/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">headers</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">headers</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;a-filters&quot;</span> <span class="n">to</span> <span class="s">&quot;true&quot;</span><span class="p">))</span> <span class="p">}</span>
 
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;filters&quot;</span><span class="p">)</span> <span class="p">}</span>
 
 <span class="n">path</span><span class="p">(</span><span class="s">&quot;/nested&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">before</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;b_nested&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
-    <span class="n">before</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;b_nested_2&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">on</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">headers</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">headers</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;b-nested&quot;</span> <span class="n">to</span> <span class="s">&quot;true&quot;</span><span class="p">))</span> <span class="p">}</span>
+    <span class="n">on</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">headers</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">headers</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;b-nested-2&quot;</span> <span class="n">to</span> <span class="s">&quot;true&quot;</span><span class="p">))</span> <span class="p">}</span>
     <span class="k">get</span><span class="p">(</span><span class="s">&quot;/filters&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested filters&quot;</span><span class="p">)</span> <span class="p">}</span>
-    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/halted&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">499</span><span class="p">,</span> <span class="s">&quot;halted&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">get</span><span class="p">(</span><span class="s">&quot;/halted&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">499</span><span class="p">),</span> <span class="s">&quot;halted&quot;</span><span class="p">)</span> <span class="p">}</span>
     <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;nested also&quot;</span><span class="p">)</span> <span class="p">}</span>
-    <span class="n">after</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;a_nested&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">after</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">headers</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">headers</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;a-nested&quot;</span> <span class="n">to</span> <span class="s">&quot;true&quot;</span><span class="p">))</span> <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="n">after</span> <span class="p">{</span> <span class="n">response</span><span class="p">.</span><span class="na">headersValues</span><span class="o">[</span><span class="s">&quot;a_all&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">listOf</span><span class="p">(</span><span class="s">&quot;true&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">after</span><span class="p">(</span><span class="s">&quot;/*&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">headers</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">headers</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;a-all&quot;</span> <span class="n">to</span> <span class="s">&quot;true&quot;</span><span class="p">))</span> <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
 <h4 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h4>
@@ -1993,25 +2045,41 @@ halted, if the error code is returned with <code>send</code> it won't be handled
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Register handler for routes halted with 512 code</span>
-<span class="n">error</span><span class="p">(</span><span class="m">512</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">500</span><span class="p">,</span> <span class="s">&quot;Ouch&quot;</span><span class="p">)}</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">exception</span><span class="o">&lt;</span><span class="n">Exception</span><span class="o">&gt;</span><span class="p">(</span><span class="n">NOT_FOUND</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">internalServerError</span><span class="p">(</span><span class="s">&quot;Root handler&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 
-<span class="c1">// If status code (512) is returned with `send` error won&#39;t be triggered</span>
-<span class="k">get</span><span class="p">(</span><span class="s">&quot;/errors&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">512</span><span class="p">)</span> <span class="p">}</span>
+<span class="c1">// Register handler for routes halted with 512 code</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/errors&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">512</span><span class="p">))</span> <span class="p">}</span>
+
+<span class="n">on</span><span class="p">(</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">&quot;*&quot;</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">HttpStatus</span><span class="p">(</span><span class="m">512</span><span class="p">))</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">INTERNAL_SERVER_ERROR</span><span class="p">,</span> <span class="s">&quot;Ouch&quot;</span><span class="p">)</span> <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
 <h5 id="exception-mapping">Exception Mapping<a class="headerlink" href="#exception-mapping" title="Permanent link">&para;</a></h5>
 <p>You can handle exceptions of a given type for all routes and filters. The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Register handler for routes which callbacks throw exceptions</span>
-<span class="n">error</span><span class="p">(</span><span class="n">CodedException</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">599</span><span class="p">,</span> <span class="nb">it</span><span class="p">.</span><span class="na">message</span> <span class="o">?:</span> <span class="s">&quot;empty&quot;</span><span class="p">)</span> <span class="p">}</span>
-<span class="n">error</span><span class="p">(</span><span class="n">IllegalStateException</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="m">505</span><span class="p">,</span> <span class="nb">it</span><span class="p">.</span><span class="na">message</span> <span class="o">?:</span> <span class="s">&quot;empty&quot;</span><span class="p">)</span> <span class="p">}</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Register handler for routes which callbacks throw exceptions</span>
 <span class="k">get</span><span class="p">(</span><span class="s">&quot;/exceptions&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">error</span><span class="p">(</span><span class="s">&quot;Message&quot;</span><span class="p">)</span> <span class="p">}</span>
-<span class="k">get</span><span class="p">(</span><span class="s">&quot;/codedExceptions&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">halt</span><span class="p">(</span><span class="m">509</span><span class="p">,</span> <span class="s">&quot;code&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">get</span><span class="p">(</span><span class="s">&quot;/codedExceptions&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">509</span><span class="p">),</span> <span class="s">&quot;code&quot;</span><span class="p">)</span> <span class="p">}</span>
+
+<span class="n">on</span><span class="p">(</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">&quot;*&quot;</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">HttpStatus</span><span class="p">(</span><span class="m">509</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">send</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">(</span><span class="m">599</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">on</span><span class="p">(</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">&quot;*&quot;</span><span class="p">,</span> <span class="n">exception</span> <span class="o">=</span> <span class="n">IllegalStateException</span><span class="o">::</span><span class="n">class</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">send</span><span class="p">(</span><span class="n">HTTP_VERSION_NOT_SUPPORTED</span><span class="p">,</span> <span class="n">exception</span><span class="o">?.</span><span class="na">message</span> <span class="o">?:</span> <span class="s">&quot;empty&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
 <h4 id="static-files">Static Files<a class="headerlink" href="#static-files" title="Permanent link">&para;</a></h4>
@@ -2022,21 +2090,29 @@ will be checked (assets or other routes). Also, if a previous route is matched, 
 will never be checked.</p>
 <p>Being <code>get(resource)</code> a shortcut of <code>get("/*", resource)</code> it should be placed as the last route.
 Check the next example for details:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/file.txt&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;It matches this route and won&#39;t search for the file&quot;</span><span class="p">)</span> <span class="p">}</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/file.txt&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;It matches this route and won&#39;t search for the file&quot;</span><span class="p">)</span> <span class="p">}</span>
 
 <span class="c1">// Expose resources on the &#39;/public&#39; resource folder over the &#39;/web&#39; HTTP path</span>
-<span class="k">get</span><span class="p">(</span><span class="s">&quot;/web/*&quot;</span><span class="p">,</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:public&quot;</span><span class="p">))</span>
+<span class="n">on</span><span class="p">(</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">NOT_FOUND</span><span class="p">,</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="s">&quot;/web/*&quot;</span><span class="p">,</span>
+    <span class="n">callback</span> <span class="o">=</span> <span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:public&quot;</span><span class="p">))</span>
+<span class="p">)</span>
 
 <span class="c1">// Maps resources on &#39;assets&#39; on the server root (assets/f.css -&gt; /f.css)</span>
 <span class="c1">// &#39;/public/css/style.css&#39; resource would be: &#39;http://{host}:{port}/css/style.css&#39;</span>
-<span class="k">get</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">))</span>
+<span class="n">on</span><span class="p">(</span><span class="n">status</span> <span class="o">=</span> <span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">pattern</span> <span class="o">=</span> <span class="s">&quot;/*&quot;</span><span class="p">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">UrlCallback</span><span class="p">(</span><span class="n">URL</span><span class="p">(</span><span class="s">&quot;classpath:assets&quot;</span><span class="p">)))</span>
 </code></pre></div>
 </td></tr></table>
 <h5 id="mime-types">MIME types<a class="headerlink" href="#mime-types" title="Permanent link">&para;</a></h5>
@@ -2069,29 +2145,29 @@ different routers. Check <a href="/api/http_server/com.hexagonkt.http.server/-co
 <span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
-<span class="normal">25</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">server</span><span class="p">:</span> <span class="n">Server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/default&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">())</span>
-    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/example/org&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="s">&quot;example.org&quot;</span><span class="p">))</span>
-    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/no/credentials&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">supportCredentials</span> <span class="o">=</span> <span class="kc">false</span><span class="p">))</span>
-    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/only/post&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">allowedMethods</span> <span class="o">=</span> <span class="n">setOf</span><span class="p">(</span><span class="n">POST</span><span class="p">)))</span>
-    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/cache&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">preFlightMaxAge</span> <span class="o">=</span> <span class="m">10</span><span class="p">))</span>
-    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/exposed/headers&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">exposedHeaders</span> <span class="o">=</span> <span class="n">setOf</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)))</span>
-    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/allowed/headers&quot;</span><span class="p">,</span> <span class="n">CorsSettings</span><span class="p">(</span><span class="n">allowedHeaders</span> <span class="o">=</span> <span class="n">setOf</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)))</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">path</span><span class="p">:</span> <span class="n">PathHandler</span> <span class="o">=</span> <span class="n">path</span> <span class="p">{</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/default&quot;</span><span class="p">,</span> <span class="n">CorsCallback</span><span class="p">())</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/example/org&quot;</span><span class="p">,</span> <span class="n">CorsCallback</span><span class="p">(</span><span class="s">&quot;example.org&quot;</span><span class="p">))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/no/credentials&quot;</span><span class="p">,</span> <span class="n">CorsCallback</span><span class="p">(</span><span class="n">supportCredentials</span> <span class="o">=</span> <span class="kc">false</span><span class="p">))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/only/post&quot;</span><span class="p">,</span> <span class="n">CorsCallback</span><span class="p">(</span><span class="n">allowedMethods</span> <span class="o">=</span> <span class="n">setOf</span><span class="p">(</span><span class="n">POST</span><span class="p">)))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/cache&quot;</span><span class="p">,</span> <span class="n">CorsCallback</span><span class="p">(</span><span class="n">preFlightMaxAge</span> <span class="o">=</span> <span class="m">10</span><span class="p">))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/exposed/headers&quot;</span><span class="p">,</span> <span class="n">CorsCallback</span><span class="p">(</span><span class="n">exposedHeaders</span> <span class="o">=</span> <span class="n">setOf</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)))</span>
+    <span class="n">corsPath</span><span class="p">(</span><span class="s">&quot;/allowed/headers&quot;</span><span class="p">,</span> <span class="n">CorsCallback</span><span class="p">(</span><span class="n">allowedHeaders</span> <span class="o">=</span> <span class="n">setOf</span><span class="p">(</span><span class="s">&quot;head&quot;</span><span class="p">)))</span>
 <span class="p">}</span>
 
-<span class="kd">private</span> <span class="kd">fun</span> <span class="n">Router</span><span class="p">.</span><span class="nf">corsPath</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="n">CorsSettings</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">private</span> <span class="kd">fun</span> <span class="n">PathBuilder</span><span class="p">.</span><span class="nf">corsPath</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">cors</span><span class="p">:</span> <span class="n">CorsCallback</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// CORS settings can change for different routes</span>
-        <span class="n">cors</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+        <span class="n">filter</span><span class="p">(</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">&quot;*&quot;</span><span class="p">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">cors</span><span class="p">)</span>
 
-        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
-        <span class="n">post</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
-        <span class="n">put</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
-        <span class="n">delete</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
-        <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
-        <span class="n">post</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
-        <span class="n">put</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
-        <span class="n">delete</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">method</span><span class="p">)</span> <span class="p">}</span>
+        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span> <span class="p">}</span>
+        <span class="n">post</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span> <span class="p">}</span>
+        <span class="n">put</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span> <span class="p">}</span>
+        <span class="n">delete</span><span class="p">(</span><span class="s">&quot;/path&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span> <span class="p">}</span>
+        <span class="k">get</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span> <span class="p">}</span>
+        <span class="n">post</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span> <span class="p">}</span>
+        <span class="n">put</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span> <span class="p">}</span>
+        <span class="n">delete</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="n">method</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span> <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2157,7 +2233,10 @@ client used to connect (assuming it is valid, if not the connection will end wit
 <span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
-<span class="normal">46</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Key store files</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Key store files</span>
 <span class="kd">val</span> <span class="nv">identity</span> <span class="o">=</span> <span class="s">&quot;hexagonkt.p12&quot;</span>
 <span class="kd">val</span> <span class="nv">trust</span> <span class="o">=</span> <span class="s">&quot;trust.p12&quot;</span>
 
@@ -2177,31 +2256,34 @@ client used to connect (assuming it is valid, if not the connection will end wit
     <span class="n">clientAuth</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">// Requires a valid certificate from the client (mutual TLS)</span>
 <span class="p">)</span>
 
-<span class="kd">val</span> <span class="nv">serverSettings</span> <span class="o">=</span> <span class="n">ServerSettings</span><span class="p">(</span>
+<span class="kd">val</span> <span class="nv">serverSettings</span> <span class="o">=</span> <span class="n">HttpServerSettings</span><span class="p">(</span>
     <span class="n">bindPort</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span>
     <span class="n">protocol</span> <span class="o">=</span> <span class="n">HTTPS</span><span class="p">,</span> <span class="c1">// You can also use HTTP2</span>
     <span class="n">sslSettings</span> <span class="o">=</span> <span class="n">sslSettings</span>
 <span class="p">)</span>
 
-<span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">serve</span><span class="p">(</span><span class="n">serverSettings</span><span class="p">,</span> <span class="n">serverAdapter</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">HttpServer</span><span class="p">(</span><span class="n">serverAdapter</span><span class="p">(),</span> <span class="n">serverSettings</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// We can access the certificate used by the client from the request</span>
-        <span class="kd">val</span> <span class="nv">subjectDn</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">certificate</span><span class="o">?.</span><span class="na">subjectDN</span><span class="o">?.</span><span class="na">name</span>
-        <span class="n">response</span><span class="p">.</span><span class="na">headers</span><span class="o">[</span><span class="s">&quot;cert&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="n">subjectDn</span>
-        <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+        <span class="kd">val</span> <span class="nv">subjectDn</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">certificate</span><span class="p">()</span><span class="o">?.</span><span class="na">subjectX500Principal</span><span class="o">?.</span><span class="na">name</span> <span class="o">?:</span> <span class="s">&quot;&quot;</span>
+        <span class="kd">val</span> <span class="nv">h</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">headers</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;cert&quot;</span> <span class="n">to</span> <span class="n">subjectDn</span><span class="p">)</span>
+        <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">h</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
+<span class="n">server</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 
 <span class="c1">// We&#39;ll use the same certificate for the client (in a real scenario it would be different)</span>
-<span class="kd">val</span> <span class="nv">clientSettings</span> <span class="o">=</span> <span class="n">ClientSettings</span><span class="p">(</span><span class="n">sslSettings</span> <span class="o">=</span> <span class="n">sslSettings</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">clientSettings</span> <span class="o">=</span> <span class="n">HttpClientSettings</span><span class="p">(</span><span class="n">sslSettings</span> <span class="o">=</span> <span class="n">sslSettings</span><span class="p">)</span>
 
 <span class="c1">// Create an HTTP client and make an HTTPS request</span>
-<span class="kd">val</span> <span class="nv">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;https://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">clientSettings</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">contextPath</span> <span class="o">=</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;https://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">client</span> <span class="o">=</span> <span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span> <span class="n">contextPath</span><span class="p">,</span> <span class="n">clientSettings</span><span class="p">)</span>
+<span class="n">client</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">apply</span> <span class="p">{</span>
     <span class="n">logger</span><span class="p">.</span><span class="na">debug</span> <span class="p">{</span> <span class="n">body</span> <span class="p">}</span>
     <span class="c1">// Assure the certificate received (and returned) by the server is correct</span>
-    <span class="n">assert</span><span class="p">(</span><span class="n">headers</span><span class="p">.</span><span class="na">require</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">).</span><span class="na">first</span><span class="p">().</span><span class="na">startsWith</span><span class="p">(</span><span class="s">&quot;CN=hexagonkt.com&quot;</span><span class="p">))</span>
-    <span class="n">assert</span><span class="p">(</span><span class="n">body</span> <span class="o">==</span> <span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">headers</span><span class="p">.</span><span class="na">require</span><span class="p">(</span><span class="s">&quot;cert&quot;</span><span class="p">).</span><span class="na">startsWith</span><span class="p">(</span><span class="s">&quot;CN=hexagonkt.com&quot;</span><span class="p">))</span>
+    <span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -2219,17 +2301,23 @@ This will pick a random free port which you can check later:</p>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
 <span class="normal">10</span>
-<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">router</span> <span class="o">=</span> <span class="n">Router</span> <span class="p">{</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">val</span> <span class="nv">router</span> <span class="o">=</span> <span class="n">path</span> <span class="p">{</span>
     <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hi!&quot;</span><span class="p">)</span> <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kd">val</span> <span class="nv">serverSettings</span> <span class="o">=</span> <span class="n">ServerSettings</span><span class="p">(</span><span class="n">InetAddress</span><span class="p">.</span><span class="na">getLoopbackAddress</span><span class="p">(),</span> <span class="m">0</span><span class="p">,</span> <span class="n">banner</span> <span class="o">=</span> <span class="s">&quot;name&quot;</span><span class="p">)</span>
-<span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">Server</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">router</span><span class="p">,</span> <span class="n">serverSettings</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">bindAddress</span> <span class="o">=</span> <span class="n">InetAddress</span><span class="p">.</span><span class="na">getLoopbackAddress</span><span class="p">()</span>
+<span class="kd">val</span> <span class="nv">serverSettings</span> <span class="o">=</span> <span class="n">HttpServerSettings</span><span class="p">(</span><span class="n">bindAddress</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">banner</span> <span class="o">=</span> <span class="s">&quot;name&quot;</span><span class="p">)</span>
+<span class="kd">val</span> <span class="nv">server</span> <span class="o">=</span> <span class="n">serve</span><span class="p">(</span><span class="n">serverAdapter</span><span class="p">(),</span> <span class="n">listOf</span><span class="p">(</span><span class="n">router</span><span class="p">),</span> <span class="n">serverSettings</span><span class="p">)</span>
 
-<span class="n">server</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
-<span class="kd">val</span> <span class="nv">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">AhcAdapter</span><span class="p">(),</span> <span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">server</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="n">assert</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;Hi!&quot;</span><span class="p">)</span>
-<span class="n">server</span><span class="p">.</span><span class="na">stop</span><span class="p">()</span>
+<span class="n">server</span><span class="p">.</span><span class="na">use</span> <span class="p">{</span> <span class="n">s</span> <span class="o">-&gt;</span>
+    <span class="n">HttpClient</span><span class="p">(</span><span class="n">clientAdapter</span><span class="p">(),</span> <span class="n">URL</span><span class="p">(</span><span class="s">&quot;http://localhost:</span><span class="si">${</span><span class="n">s</span><span class="p">.</span><span class="na">runtimePort</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)).</span><span class="na">use</span> <span class="p">{</span>
+        <span class="nb">it</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
+        <span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Hi!&quot;</span><span class="p">,</span> <span class="nb">it</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">).</span><span class="na">body</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
 <p>To do this kind of tests without creating a custom server (using the real production code).
@@ -2272,33 +2360,7 @@ Check the <a href="https://github.com/hexagonkt/gradle_starter/blob/master/src/t
 </div>
 <p>Check <a href="/api/http_server/com.hexagonkt.http.server.test/test-call/">testCall</a>, <a href="/api/http_server/com.hexagonkt.http.server.test/-test-request/">TestRequest</a>, <a href="/api/http_server/com.hexagonkt.http.server.test/-test-response/">TestResponse</a> and <a href="/api/http_server/com.hexagonkt.http.server.test/-test-session/">TestSession</a> for more details.</p>
 <p>For a quick sample, check the snipped below:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">private</span> <span class="kd">fun</span> <span class="n">Call</span><span class="p">.</span><span class="nf">testedCallback</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;weird&quot;</span><span class="p">)</span>
-        <span class="n">send</span><span class="p">(</span><span class="m">999</span><span class="p">,</span> <span class="s">&quot;Weird error&quot;</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="nd">@Test</span> <span class="kd">fun</span> <span class="nf">`Test call behaves as expected`</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">val</span> <span class="nv">testCall</span> <span class="o">=</span> <span class="n">testCall</span><span class="p">(</span><span class="n">TestRequest</span><span class="p">(</span><span class="n">body</span> <span class="o">=</span> <span class="s">&quot;weird&quot;</span><span class="p">))</span>
-
-    <span class="n">testCall</span><span class="p">.</span><span class="na">testedCallback</span><span class="p">()</span>
-
-    <span class="n">assert</span><span class="p">(</span><span class="n">testCall</span><span class="p">.</span><span class="na">response</span><span class="p">.</span><span class="na">status</span> <span class="o">==</span> <span class="m">999</span><span class="p">)</span>
-    <span class="n">assert</span><span class="p">(</span><span class="n">testCall</span><span class="p">.</span><span class="na">response</span><span class="p">.</span><span class="na">body</span> <span class="o">==</span> <span class="s">&quot;Weird error&quot;</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
-</td></tr></table>
+<p>TODO Add example code</p>
 <h4 id="openapi-mock-server">OpenAPI Mock Server<a class="headerlink" href="#openapi-mock-server" title="Permanent link">&para;</a></h4>
 <p>The mock server is able to create and return a <code>Server</code> from the information of an OpenAPI/Swagger spec file.
 The path to the spec file can either be a URL or a local file. It can be either in JSON or YAML format.</p>
@@ -2393,6 +2455,12 @@ particular response by using the <code>X-Mock-Response-Example</code> header wit
 </td></tr></table>
 <h2 id="package-comhexagonkthttpserver">Package com.hexagonkt.http.server<a class="headerlink" href="#package-comhexagonkthttpserver" title="Permanent link">&para;</a></h2>
 <p>This package defines the classes used in the HTTP DSL.</p>
+<h2 id="package-comhexagonkthttpservercallbacks">Package com.hexagonkt.http.server.callbacks<a class="headerlink" href="#package-comhexagonkthttpservercallbacks" title="Permanent link">&para;</a></h2>
+<p>TODO</p>
+<h2 id="package-comhexagonkthttpserverhandlers">Package com.hexagonkt.http.server.handlers<a class="headerlink" href="#package-comhexagonkthttpserverhandlers" title="Permanent link">&para;</a></h2>
+<p>TODO</p>
+<h2 id="package-comhexagonkthttpservermodel">Package com.hexagonkt.http.server.model<a class="headerlink" href="#package-comhexagonkthttpservermodel" title="Permanent link">&para;</a></h2>
+<p>TODO</p>
 
               
             </article>
@@ -2551,10 +2619,10 @@ particular response by using the <code>X-Mock-Response-Example</code> header wit
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.361d90f1.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.22074ed6.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.289a2a4b.min.js"></script>
+      <script src="../assets/javascripts/bundle.1514a9a0.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

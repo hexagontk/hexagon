@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/developer_guide/">
       
       <link rel="icon" href="../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.6">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bb3983ee.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.cd566b2a.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
@@ -114,7 +114,7 @@
   
     
     
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -492,8 +492,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#other-modules" class="md-nav__link">
-    Other Modules
+  <a href="#hexagon-extras" class="md-nav__link">
+    Hexagon Extras
   </a>
   
 </li>
@@ -947,8 +947,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#other-modules" class="md-nav__link">
-    Other Modules
+  <a href="#hexagon-extras" class="md-nav__link">
+    Hexagon Extras
   </a>
   
 </li>
@@ -993,34 +993,33 @@ single application.</p>
 kinds of modules:</p>
 <ul>
 <li>The ones that provide functionality that does not depend on different implementations, like
-  <a href="/core/">core</a>. Their name always starts with the <code>hexagon_</code> prefix. These modules can depend on several
-  Ports, but never on Adapters (see below).</li>
+  <a href="/core/">core</a>. These modules can depend on several Ports, but never on Adapters (see below).</li>
 <li>Modules that define one or more related "Ports": these are interfaces to a feature that may have
   different implementations (i.e., <a href="/http_server/">http_server</a> or <a href="/templates/">templates</a>). They cannot be used by
   themselves and in their place, an adapter implementing them should be added to the list of
-  dependencies. These modules' names start with the <code>port_</code> prefix. Ports are independent of each
-  other.</li>
-<li>Adapter modules, which are Port implementations for a given tool, <a href="/http_client_ahc/">http_client_ahc</a>, and
+  dependencies. Ports are independent of each other.</li>
+<li>Adapter modules, which are Port implementations for a given tool, <a href="/http_client_jetty/">http_client_jetty</a>, and
   <a href="/http_server_jetty/">http_server_jetty</a> are examples of this type of module. Adapter names must start with their
   port name.</li>
 </ul>
 <h2 id="hexagon-core">Hexagon Core<a class="headerlink" href="#hexagon-core" title="Permanent link">&para;</a></h2>
-<p>The <a href="/core/">Hexagon Core</a> module is used by all other libraries, so it would be added to your
-project anyway just by using any adapter.</p>
-<p>Core utilities like, logging and serialization. Toolkit's ports are designed to use core
-functionalities. You can use a third party DI library instead of using the Core one.</p>
+<p>The <a href="/core/">Hexagon Core</a> module is used by all other libraries, so it would be added to your project
+anyway just by using any adapter.</p>
+<p>Core utilities like logging and resources access. Toolkit ports make use of Core functionalities.</p>
 <p>The main features are the following:</p>
 <ul>
-<li><a href="/api/core/com.hexagonkt.helpers/">Helpers</a>: JVM information, a logger and other useful utilities.</li>
-<li><a href="/api/serialization/com.hexagonkt.serialization/">Objects Serialization</a>: parse/serialize data in different formats to class instances.</li>
+<li><a href="/api/core/com.hexagonkt.core/">Helpers</a>: JVM information, a logger and other useful utilities.</li>
+<li><a href="/api/core/com.hexagonkt.core.converters/">Converters</a>: Registry of functions to convert from one type to another.</li>
 </ul>
-<h2 id="other-modules">Other Modules<a class="headerlink" href="#other-modules" title="Permanent link">&para;</a></h2>
-<p>The following libraries provide extra features not bound to different implementations. They will not
-use dependencies outside the Hexagon toolkit.</p>
+<h2 id="hexagon-extras">Hexagon Extras<a class="headerlink" href="#hexagon-extras" title="Permanent link">&para;</a></h2>
+<p>The libraries inside the <code>hexagon_extra</code> repository provide extra features not bound to different
+implementations (rely on adapters to work). They will not use dependencies outside the Hexagon
+toolkit.</p>
 <ul>
 <li><a href="/web/">Web</a>: this module is meant to ease web application development. Provides helpers for
   generating HTML and depends on the <a href="/http_server/">HTTP Server</a> and <a href="/templates/">Templates</a> ports.</li>
 </ul>
+<p>TODO</p>
 <h2 id="toolkit-ports">Toolkit Ports<a class="headerlink" href="#toolkit-ports" title="Permanent link">&para;</a></h2>
 <p>These modules define features that need a specific implementation. You can use many implementations
 of each port at the same time. You can even provide a custom implementation if you want to optimize
@@ -1189,10 +1188,10 @@ a particular use case.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.361d90f1.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.22074ed6.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.289a2a4b.min.js"></script>
+      <script src="../assets/javascripts/bundle.1514a9a0.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

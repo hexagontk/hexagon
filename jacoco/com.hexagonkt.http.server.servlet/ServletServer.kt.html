@@ -1,31 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletServer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletServer.kt</span></div><h1>ServletServer.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
 
-import com.hexagonkt.http.server.Router
-import com.hexagonkt.http.server.ServerFeature.SESSIONS
-import com.hexagonkt.http.server.ServerSettings
-
+import com.hexagonkt.core.Ansi.BLUE
+import com.hexagonkt.core.Ansi.BOLD
+import com.hexagonkt.core.Ansi.CYAN
+import com.hexagonkt.core.Ansi.MAGENTA
+import com.hexagonkt.core.Ansi.RESET
+import com.hexagonkt.core.Jvm
+import com.hexagonkt.core.prependIndent
+import com.hexagonkt.core.require
+import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.http.server.HttpServer
+import com.hexagonkt.http.server.HttpServerFeature.ASYNC
+import com.hexagonkt.http.server.HttpServerSettings
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.path
+import jakarta.servlet.*
+import java.lang.management.ManagementFactory
 import java.util.*
-import javax.servlet.DispatcherType
-import javax.servlet.ServletContextEvent
-import javax.servlet.ServletContextListener
 
 /**
  * Adapter to run a router inside a Servlets container. It is not a standard engine as it is not
- * started/stopped.
+ * started/stopped (not passed to an [HttpServer]).
  */
-<span class="fc" id="L16">abstract class ServletServer(</span>
-<span class="pc" id="L17">    protected val router: Router = Router(),</span>
-<span class="fc" id="L18">    private val async: Boolean = false</span>
+<span class="pc" id="L26">abstract class ServletServer(</span>
+<span class="nc" id="L27">    handlers: List&lt;ServerHandler&gt; = emptyList(),</span>
+<span class="pc" id="L28">    private val settings: HttpServerSettings = HttpServerSettings(),</span>
 ) : ServletContextListener {
 
-    override fun contextInitialized(sce: ServletContextEvent) {
-<span class="fc" id="L22">        val serverSettings = ServerSettings(features = setOf(SESSIONS))</span>
-<span class="fc" id="L23">        val servletFilter = ServletFilter(router.flatRequestHandlers(), serverSettings)</span>
-<span class="fc" id="L24">        val filter = sce.servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
-<span class="fc" id="L25">        filter.setAsyncSupported(async)</span>
-<span class="fc" id="L26">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L31">    private val logger: Logger = Logger(ServletServer::class)</span>
 
-<span class="fc" id="L29">    override fun contextDestroyed(sce: ServletContextEvent?) { /* Empty */ }</span>
-<span class="fc" id="L30">}</span>
+<span class="fc" id="L33">    private val pathHandler: PathHandler = path(settings.contextPath, handlers)</span>
+
+    /**
+     * Utility constructor for the common case of having a single root handler.
+     *
+     * @param handler The only handler used for this server.
+     * @param settings Settings used by this server.
+     */
+<span class="fc" id="L41">    constructor(</span>
+        handler: ServerHandler,
+<span class="fc" id="L43">        settings: HttpServerSettings = HttpServerSettings(),</span>
+<span class="fc" id="L44">    ) : this(listOf(handler), settings)</span>
+
+    override fun contextInitialized(sce: ServletContextEvent) {
+<span class="fc" id="L47">        val startTimestamp = System.nanoTime()</span>
+
+<span class="fc" id="L49">        val servletFilter = ServletFilter(pathHandler, settings)</span>
+        // Let's be a good JEE citizen
+<span class="fc" id="L51">        servletFilter.init(object : FilterConfig {</span>
+<span class="pc" id="L52">            val params = Hashtable&lt;String, String&gt;(1).apply { put(&quot;filterName&quot;, filterName) }</span>
+<span class="fc" id="L53">            override fun getFilterName(): String = ServletFilter::class.java.name</span>
+<span class="fc" id="L54">            override fun getServletContext(): ServletContext = sce.servletContext</span>
+<span class="fc" id="L55">            override fun getInitParameter(name: String): String = params.require(name)</span>
+<span class="fc" id="L56">            override fun getInitParameterNames(): Enumeration&lt;String&gt; = params.keys()</span>
+        })
+<span class="fc" id="L58">        val filter = sce.servletContext.addFilter(&quot;filters&quot;, servletFilter)</span>
+<span class="fc" id="L59">        filter.setAsyncSupported(settings.features.contains(ASYNC))</span>
+<span class="fc" id="L60">        filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType::class.java), true, &quot;/*&quot;)</span>
+
+<span class="fc" id="L62">        logger.info { &quot;Server started\n${createBanner(System.nanoTime() - startTimestamp)}&quot; }</span>
+<span class="fc" id="L63">    }</span>
+
+    override fun contextDestroyed(sce: ServletContextEvent?) {
+<span class="fc" id="L66">        logger.info { &quot;Server context destroyed&quot; }</span>
+<span class="fc" id="L67">    }</span>
+
+    internal fun createBanner(startUpTimestamp: Long): String {
+
+<span class="fc" id="L71">        val heap = ManagementFactory.getMemoryMXBean().heapMemoryUsage</span>
+<span class="fc" id="L72">        val jvmMemory = &quot;%,d&quot;.format(heap.init / 1024)</span>
+<span class="fc" id="L73">        val usedMemory = &quot;%,d&quot;.format(heap.used / 1024)</span>
+<span class="fc" id="L74">        val bootTime = &quot;%01.3f&quot;.format(ManagementFactory.getRuntimeMXBean().uptime / 1e3)</span>
+<span class="fc" id="L75">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
+
+<span class="fc" id="L77">        val serverAdapterValue = &quot;$BOLD$CYAN${javaClass.simpleName}$RESET&quot;</span>
+
+<span class="fc" id="L79">        val features = settings.features</span>
+<span class="pc" id="L80">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) { &quot;✅$it&quot; }</span>
+
+<span class="fc" id="L82">        val options = settings.options</span>
+<span class="pc" id="L83">            .map { (k, v) -&gt; &quot;$k($v)&quot; }</span>
+<span class="fc" id="L84">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET)</span>
+
+<span class="fc" id="L86">        val hostnameValue = &quot;$BLUE${Jvm.hostname}$RESET&quot;</span>
+<span class="fc" id="L87">        val cpuCountValue = &quot;$BLUE${Jvm.cpuCount}$RESET&quot;</span>
+<span class="fc" id="L88">        val jvmMemoryValue = &quot;$BLUE$jvmMemory$RESET&quot;</span>
+
+<span class="fc" id="L90">        val javaVersionValue = &quot;$BOLD${BLUE}Java ${Jvm.version}$RESET [$BLUE${Jvm.name}$RESET]&quot;</span>
+
+<span class="fc" id="L92">        val localeValue = &quot;$BLUE${Jvm.localeCode}$RESET&quot;</span>
+<span class="fc" id="L93">        val timezoneValue = &quot;$BLUE${Jvm.timezone}$RESET&quot;</span>
+<span class="fc" id="L94">        val charsetValue = &quot;$BLUE${Jvm.charset}$RESET&quot;</span>
+
+<span class="fc" id="L96">        val bootTimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
+<span class="fc" id="L97">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
+<span class="fc" id="L98">        val usedMemoryValue = &quot;$BOLD$MAGENTA$usedMemory KB$RESET&quot;</span>
+
+<span class="fc" id="L100">        val information = &quot;&quot;&quot;</span>
+
+<span class="fc" id="L102">            Server Adapter: $serverAdapterValue</span>
+<span class="fc" id="L103">            Enabled Features: $features</span>
+<span class="fc" id="L104">            Configured Options: $options</span>
+
+<span class="fc" id="L106">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
+<span class="fc" id="L107">            🛠 Using $javaVersionValue</span>
+<span class="fc" id="L108">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
+
+<span class="fc" id="L110">            ⏱ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
+            🚀 Served at a JEE Server
+
+<span class="fc" id="L113">        &quot;&quot;&quot;.trimIndent()</span>
+
+<span class="pc bpc" id="L115" title="2 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: HttpServer.banner) + information</span>
+<span class="fc" id="L116">        return banner.prependIndent()</span>
+    }
+<span class="nc" id="L118">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/">
       
       <link rel="icon" href="favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.6">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.bb3983ee.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.cd566b2a.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
@@ -114,7 +114,7 @@
   
     
     
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)</script>
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -987,20 +987,18 @@ principles also fit into this architecture.</p>
 <span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">package</span> <span class="nn">com.hexagonkt.http.server.jetty</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nn">com.hexagonkt.http.server.jetty.serve</span>
 
-<span class="k">import</span> <span class="nn">com.hexagonkt.http.server.Server</span>
-
-<span class="kd">lateinit</span> <span class="kd">var</span> <span class="nv">server</span><span class="p">:</span> <span class="n">Server</span>
+<span class="kd">lateinit</span> <span class="kd">var</span> <span class="nv">server</span><span class="p">:</span> <span class="n">HttpServer</span>
 
 <span class="cm">/**</span>
 <span class="cm"> * Start a Hello World server, serving at path &quot;/hello&quot;.</span>
 <span class="cm"> */</span>
 <span class="kd">fun</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">server</span> <span class="o">=</span> <span class="n">serve</span> <span class="p">{</span>
-        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello World!&quot;</span><span class="p">)</span>
+        <span class="k">get</span><span class="p">(</span><span class="s">&quot;/hello/{name}&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">val</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">pathParameters</span><span class="o">[</span><span class="s">&quot;name&quot;</span><span class="o">]</span>
+            <span class="n">ok</span><span class="p">(</span><span class="s">&quot;Hello </span><span class="si">$</span><span class="n">name</span><span class="s">!&quot;</span><span class="p">,</span> <span class="n">contentType</span> <span class="o">=</span> <span class="n">ContentType</span><span class="p">(</span><span class="n">PLAIN</span><span class="p">))</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -1064,7 +1062,7 @@ nature, no tool can do that), you have to provide a layer of abstraction by your
 </tr>
 <tr>
 <td><a href="/http_client">HTTP Client</a></td>
-<td><a href="/http_client_ahc">AHC</a></td>
+<td><a href="/http_client_jetty">Jetty</a></td>
 </tr>
 <tr>
 <td><a href="/templates">Templates</a></td>
@@ -1080,11 +1078,8 @@ nature, no tool can do that), you have to provide a layer of abstraction by your
 <hr />
 <ol>
 <li id="fn:1">
-<p>Except the Core module that contains a set of utilities like serialization and logging
-utilities. However, some of these capacities can be replaced by other third party libraries.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-<li id="fn:2">
-<p>However, you can replace the core DI implementation with any other library.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<p>Except the Core module that contains a set of utilities like logging. However, some of these
+capacities can be replaced by other third party libraries.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -1232,10 +1227,10 @@ utilities. However, some of these capacities can be replaced by other third part
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.361d90f1.min.js"}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.22074ed6.min.js"}</script>
     
     
-      <script src="assets/javascripts/bundle.289a2a4b.min.js"></script>
+      <script src="assets/javascripts/bundle.1514a9a0.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

@@ -13,7 +13,7 @@ if(savedDarkMode === true){
     <div class="navigation-wrapper" id="navigation-wrapper">
       <div id="leftToggler"><span class="icon-toggler"></span></div>
       <div class="library-name"><a href="../../../index.html"><span>hexagon</span></a></div>
-      <div>1.6.0</div>
+      <div>2.0.0</div>
       <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
         <div id="searchBar"></div>
       </div>
@@ -33,9 +33,10 @@ if(savedDarkMode === true){
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Parameters">Parameters</button><button class="section-tab" data-togglable="Samples">Samples</button></div>
             <div class="tabs-section-body">
               <h2 class="">Samples</h2>
-              <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import com.hexagonkt.core.helpers.Jvm
-import com.hexagonkt.core.logging.logger
+              <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">import com.hexagonkt.core.logging.logger
 import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.logging.LoggingLevel.*
+import com.hexagonkt.core.logging.LoggingManager
 import org.junit.jupiter.api.Test
 fun main() { 
    //sampleStart 
@@ -58,6 +59,8 @@ classLogger.info { "Message only evaluated if info enabled at ${Jvm.id}" }
 val exception = IllegalStateException("Exception")
 classLogger.warn(exception) { "Warning with exception" }
 classLogger.error(exception) { "Error message with exception" }
+classLogger.warn(exception)
+classLogger.error(exception)
 classLogger.error { "Error without an exception" }
 
 classLogger.time("Logs the time used to run the following block of code") {
@@ -66,6 +69,11 @@ classLogger.time("Logs the time used to run the following block of code") {
 }
 
 instanceLogger.flare { "Prints a log that stands out for ease searching" }
+
+// Logging level can be changed programmatically
+LoggingManager.setLoggerLevel(ERROR)
+LoggingManager.setLoggerLevel(classLogger, DEBUG)
+LoggingManager.setLoggerLevel("com.hexagonkt", INFO)
 // logger 
    //sampleEnd
 }</code></pre></div></div></div>
@@ -121,17 +129,17 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
                     </div>
                   </div>
                 </div>
-<a data-name="-1200872402%2FFunctions%2F537371977" anchor-label="error" id="-1200872402%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+<a data-name="1665678036%2FFunctions%2F537371977" anchor-label="error" id="1665678036%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
                     <div class=""><span class="inline-flex">
                         <div><a href="error.html"><span><span>error</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1200872402%2FFunctions%2F537371977"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1665678036%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="error.html"><span class="token function">error</span></a><span class="token punctuation">(</span>message<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Log a message using <a href="../-logging-level/-e-r-r-o-r/index.html">ERROR</a> level.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="error.html">E</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token operator">&gt; </span><a href="error.html"><span class="token function">error</span></a><span class="token punctuation">(</span>exception<span class="token operator">: </span><a href="error.html">E</a><span class="token punctuation">, </span>message<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="error.html">E</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Log a message using <a href="../-logging-level/-e-r-r-o-r/index.html">ERROR</a> level with associated exception information.</p></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="error.html"><span class="token function">error</span></a><span class="token punctuation">(</span>message<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Log a message using <a href="../-logging-level/-e-r-r-o-r/index.html">ERROR</a> level.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="error.html">E</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token operator">&gt; </span><a href="error.html"><span class="token function">error</span></a><span class="token punctuation">(</span>exception<span class="token operator">: </span><a href="error.html">E</a><span class="token operator">?</span><span class="token punctuation">, </span>message<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="error.html">E</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator"> = </span>{ "" }<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Log a message using <a href="../-logging-level/-e-r-r-o-r/index.html">ERROR</a> level with associated exception information.</p></div></div></div>
                       </div>
                     </div>
                   </div>
@@ -301,17 +309,17 @@ instanceLogger.flare { "Prints a log that stands out for ease searching" }
                     </div>
                   </div>
                 </div>
-<a data-name="-1637593230%2FFunctions%2F537371977" anchor-label="warn" id="-1637593230%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
+<a data-name="-2054046836%2FFunctions%2F537371977" anchor-label="warn" id="-2054046836%2FFunctions%2F537371977" data-filterable-set=":core:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/main" data-filterable-set=":core:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
                     <div class=""><span class="inline-flex">
                         <div><a href="warn.html"><span><span>warn</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1637593230%2FFunctions%2F537371977"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2054046836%2FFunctions%2F537371977"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="warn.html"><span class="token function">warn</span></a><span class="token punctuation">(</span>message<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Log a message using <a href="../-logging-level/-w-a-r-n/index.html">WARN</a> level.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="warn.html">E</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token operator">&gt; </span><a href="warn.html"><span class="token function">warn</span></a><span class="token punctuation">(</span>exception<span class="token operator">: </span><a href="warn.html">E</a><span class="token punctuation">, </span>message<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="warn.html">E</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Log a message using <a href="../-logging-level/-w-a-r-n/index.html">WARN</a> level with associated exception information.</p></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="warn.html"><span class="token function">warn</span></a><span class="token punctuation">(</span>message<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Log a message using <a href="../-logging-level/-w-a-r-n/index.html">WARN</a> level.</p></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="warn.html">E</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token operator">&gt; </span><a href="warn.html"><span class="token function">warn</span></a><span class="token punctuation">(</span>exception<span class="token operator">: </span><a href="warn.html">E</a><span class="token operator">?</span><span class="token punctuation">, </span>message<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="warn.html">E</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token operator"> = </span>{ "" }<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Log a message using <a href="../-logging-level/-w-a-r-n/index.html">WARN</a> level with associated exception information.</p></div></div></div>
                       </div>
                     </div>
                   </div>

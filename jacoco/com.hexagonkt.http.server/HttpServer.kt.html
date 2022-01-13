@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HttpServer.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server</a> &gt; <span class="el_source">HttpServer.kt</span></div><h1>HttpServer.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server
+
+import com.hexagonkt.core.logging.Logger
+import com.hexagonkt.core.Jvm.charset
+import com.hexagonkt.core.Jvm.cpuCount
+import com.hexagonkt.core.Jvm.hostname
+import com.hexagonkt.core.Jvm.ip
+import com.hexagonkt.core.Jvm.name
+import com.hexagonkt.core.Jvm.version
+import com.hexagonkt.core.Jvm.localeCode
+import com.hexagonkt.core.Jvm.timezone
+import com.hexagonkt.http.model.HttpProtocol.HTTP2
+import com.hexagonkt.http.model.HttpProtocol.HTTP
+
+import java.lang.Runtime.getRuntime
+import java.lang.management.ManagementFactory.getMemoryMXBean
+import java.lang.management.ManagementFactory.getRuntimeMXBean
+import com.hexagonkt.core.Ansi.BLUE
+import com.hexagonkt.core.Ansi.BOLD
+import com.hexagonkt.core.Ansi.CYAN
+import com.hexagonkt.core.Ansi.DEFAULT
+import com.hexagonkt.core.Ansi.MAGENTA
+import com.hexagonkt.core.Ansi.RESET
+import com.hexagonkt.core.Ansi.UNDERLINE
+import com.hexagonkt.core.prependIndent
+import com.hexagonkt.http.server.handlers.PathBuilder
+import com.hexagonkt.http.server.handlers.ServerHandler
+import com.hexagonkt.http.server.handlers.path
+import java.io.Closeable
+import java.lang.System.nanoTime
+
+/**
+ * Server that listen to HTTP connections on a port and address and route requests to handlers.
+ */
+<span class="pc" id="L35">data class HttpServer(</span>
+<span class="fc" id="L36">    private val adapter: HttpServerPort,</span>
+<span class="fc" id="L37">    val handlers: List&lt;ServerHandler&gt;,</span>
+<span class="pc" id="L38">    val settings: HttpServerSettings = HttpServerSettings()</span>
+) : Closeable {
+
+    companion object {
+<span class="fc" id="L42">        val banner: String = &quot;&quot;&quot;</span>
+        $CYAN          _________
+        $CYAN         /         \
+        $CYAN        /   ____   /
+        $CYAN       /   /   /  /
+        $CYAN      /   /   /__/$BLUE   /\$BOLD    H E X A G O N$RESET
+        $CYAN     /   /$BLUE          /  \$DEFAULT        ___
+        $CYAN     \  /$BLUE   ___    /   /
+        $CYAN      \/$BLUE   /  /   /   /$CYAN    T O O L K I T$RESET
+        $BLUE          /  /___/   /
+        $BLUE         /          /
+        $BLUE         \_________/       https://hexagonkt.com/http_server
+        $RESET
+<span class="fc" id="L55">        &quot;&quot;&quot;.trimIndent()</span>
+    }
+
+<span class="fc" id="L58">    private val logger: Logger = Logger(this::class)</span>
+
+    /**
+     * Create a server with a builder ([PathBuilder]) to set up handlers.
+     *
+     * @param adapter The server engine.
+     * @param settings Server settings. Port and address will be searched in this map.
+     * @param block Handlers' setup block.
+     * @return A new server with the configured handlers.
+     */
+<span class="fc" id="L68">    constructor(</span>
+        adapter: HttpServerPort,
+<span class="fc" id="L70">        settings: HttpServerSettings = HttpServerSettings(),</span>
+        block: PathBuilder.() -&gt; Unit
+    ) :
+<span class="fc" id="L73">        this(adapter, listOf(path(block = block)), settings)</span>
+
+    /**
+     * Utility constructor for the common case of having a single root handler.
+     *
+     * @param adapter The server engine.
+     * @param handler The only handler used for this server.
+     * @param settings Server settings. Port and address will be searched in this map.
+     */
+<span class="fc" id="L82">    constructor(</span>
+        adapter: HttpServerPort,
+        handler: ServerHandler,
+<span class="fc" id="L85">        settings: HttpServerSettings = HttpServerSettings(),</span>
+<span class="fc" id="L86">    ) : this(adapter, listOf(handler), settings)</span>
+
+    override fun close() {
+<span class="fc" id="L89">        stop()</span>
+<span class="fc" id="L90">    }</span>
+
+<span class="fc" id="L92">    init {</span>
+<span class="fc" id="L93">        val supportedProtocols = adapter.supportedProtocols()</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        check(settings.protocol in supportedProtocols) {</span>
+<span class="fc" id="L95">            val supportedProtocolsText = supportedProtocols.joinToString(&quot;, &quot;)</span>
+<span class="fc" id="L96">            &quot;Requesting unsupported protocol. Adapter's protocols: $supportedProtocolsText&quot;</span>
+        }
+
+<span class="fc" id="L99">        val supportedFeatures = adapter.supportedFeatures()</span>
+<span class="fc bfc" id="L100" title="All 4 branches covered.">        check(settings.features.all { it in supportedFeatures }) {</span>
+<span class="fc" id="L101">            val supportedFeaturesText = supportedFeatures.joinToString(&quot;, &quot;)</span>
+<span class="fc" id="L102">            &quot;Requesting unsupported feature. Adapter's features: $supportedFeaturesText&quot;</span>
+        }
+
+<span class="fc" id="L105">        val supportedOptions = adapter.supportedOptions()</span>
+<span class="fc bfc" id="L106" title="All 4 branches covered.">        check(settings.options.keys.all { it in supportedOptions }) {</span>
+<span class="fc" id="L107">            val supportedOptionsText = supportedOptions.joinToString(&quot;, &quot;)</span>
+<span class="fc" id="L108">            &quot;Setting unsupported option. Adapter's options: $supportedOptionsText&quot;</span>
+        }
+<span class="fc" id="L110">    }</span>
+
+    /**
+     * Runtime port of the server.
+     *
+     * @exception IllegalStateException Throw an exception if the server hasn't been started.
+     */
+    val runtimePort
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        get() = if (started()) adapter.runtimePort() else error(&quot;Server is not running&quot;)</span>
+
+    /**
+     * The port name of the server.
+     */
+<span class="fc" id="L123">    val portName: String = adapter.javaClass.simpleName</span>
+
+    /**
+     * Check whether the server has been started.
+     *
+     * @return True if the server has started, else false.
+     */
+<span class="fc" id="L130">    fun started(): Boolean = adapter.started()</span>
+
+    /**
+     * Start the server with the adapter instance and adds a shutdown hook for stopping the server.
+     */
+    fun start() {
+<span class="fc" id="L136">        val startTimestamp = nanoTime()</span>
+
+<span class="fc" id="L138">        getRuntime().addShutdownHook(</span>
+<span class="fc" id="L139">            Thread(</span>
+                {
+<span class="fc bfc" id="L141" title="All 2 branches covered.">                    if (started())</span>
+<span class="fc" id="L142">                        adapter.shutDown()</span>
+<span class="fc" id="L143">                },</span>
+<span class="fc" id="L144">                &quot;shutdown-${settings.bindAddress.hostName}-${settings.bindPort}&quot;</span>
+            )
+        )
+
+<span class="fc" id="L148">        adapter.startUp(this)</span>
+<span class="fc" id="L149">        logger.info { &quot;Server started\n${createBanner(nanoTime() - startTimestamp)}&quot; }</span>
+<span class="fc" id="L150">    }</span>
+
+    /**
+     * Stop the server.
+     */
+    fun stop() {
+<span class="fc" id="L156">        adapter.shutDown()</span>
+<span class="fc" id="L157">        logger.info { &quot;Server stopped&quot; }</span>
+<span class="fc" id="L158">    }</span>
+
+    internal fun createBanner(startUpTimestamp: Long): String {
+
+<span class="fc" id="L162">        val heap = getMemoryMXBean().heapMemoryUsage</span>
+<span class="fc" id="L163">        val jvmMemory = &quot;%,d&quot;.format(heap.init / 1024)</span>
+<span class="fc" id="L164">        val usedMemory = &quot;%,d&quot;.format(heap.used / 1024)</span>
+<span class="fc" id="L165">        val bootTime = &quot;%01.3f&quot;.format(getRuntimeMXBean().uptime / 1e3)</span>
+<span class="fc" id="L166">        val startUpTime = &quot;%,.0f&quot;.format(startUpTimestamp / 1e6)</span>
+<span class="fc" id="L167">        val bindAddress = settings.bindAddress</span>
+<span class="fc" id="L168">        val protocol = settings.protocol</span>
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">        val hostName = if (bindAddress.isAnyLocalAddress) ip else bindAddress.canonicalHostName</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        val scheme = if (protocol == HTTP) &quot;http&quot; else &quot;https&quot;</span>
+<span class="fc" id="L171">        val binding = &quot;$scheme://$hostName:$runtimePort&quot;</span>
+
+<span class="fc" id="L173">        val serverAdapterValue = &quot;$BOLD$CYAN$portName$RESET&quot;</span>
+
+<span class="fc" id="L175">        val protocols = adapter.supportedProtocols()</span>
+<span class="fc" id="L176">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) {</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">                if (it == settings.protocol) &quot;✅$it&quot; else &quot;$it&quot;</span>
+            }
+
+<span class="fc" id="L180">        val features = adapter.supportedFeatures()</span>
+<span class="fc" id="L181">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) {</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">                if (settings.features.contains(it)) &quot;✅$it&quot; else &quot;$it&quot;</span>
+            }
+
+<span class="fc" id="L185">        val options = adapter.supportedOptions()</span>
+<span class="fc" id="L186">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) {</span>
+<span class="pc bpc" id="L187" title="1 of 4 branches missed.">                settings.options[it]?.let { option -&gt; &quot;$it($option)&quot; } ?: it</span>
+            }
+
+<span class="fc" id="L190">        val hostnameValue = &quot;$BLUE$hostname$RESET&quot;</span>
+<span class="fc" id="L191">        val cpuCountValue = &quot;$BLUE$cpuCount$RESET&quot;</span>
+<span class="fc" id="L192">        val jvmMemoryValue = &quot;$BLUE$jvmMemory$RESET&quot;</span>
+
+<span class="fc" id="L194">        val javaVersionValue = &quot;$BOLD${BLUE}Java $version$RESET [$BLUE$name$RESET]&quot;</span>
+
+<span class="fc" id="L196">        val localeValue = &quot;$BLUE$localeCode$RESET&quot;</span>
+<span class="fc" id="L197">        val timezoneValue = &quot;$BLUE$timezone$RESET&quot;</span>
+<span class="fc" id="L198">        val charsetValue = &quot;$BLUE$charset$RESET&quot;</span>
+
+<span class="fc" id="L200">        val bootTimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
+<span class="fc" id="L201">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
+<span class="fc" id="L202">        val usedMemoryValue = &quot;$BOLD$MAGENTA$usedMemory KB$RESET&quot;</span>
+<span class="fc" id="L203">        val bindingValue = &quot;$BLUE$UNDERLINE$binding$RESET&quot;</span>
+
+<span class="fc" id="L205">        val information = &quot;&quot;&quot;</span>
+
+<span class="fc" id="L207">            Server Adapter: $serverAdapterValue ($protocols)</span>
+<span class="fc" id="L208">            Supported Features: $features</span>
+<span class="fc" id="L209">            Configuration Options: $options</span>
+
+<span class="fc" id="L211">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
+<span class="fc" id="L212">            🛠 Using $javaVersionValue</span>
+<span class="fc" id="L213">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
+
+<span class="fc" id="L215">            ⏱ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">            🚀 Served at $bindingValue${if (protocol == HTTP2) &quot; (HTTP/2)&quot; else &quot;&quot; }</span>
+
+<span class="fc" id="L218">        &quot;&quot;&quot;.trimIndent()</span>
+
+<span class="fc bfc" id="L220" title="All 4 branches covered.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: banner) + information</span>
+<span class="fc" id="L221">        return banner.prependIndent()</span>
+    }
+<span class="nc" id="L223">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
