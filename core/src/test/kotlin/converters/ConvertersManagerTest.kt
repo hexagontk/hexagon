@@ -33,6 +33,12 @@ internal class ConvertersManagerTest {
         val creationDate: LocalDateTime = LocalDateTime.now(),
     )
 
+    @Test fun `Converters on null collections return emptyLists by default`() {
+        assertEquals(emptyList(), null.convertObjects<Person>())
+        @Suppress("KotlinConstantConditions") // Warning ignored for the sake of testing
+        assertEquals(listOf(1), null?.convertObjects<Person>() ?: listOf(1))
+    }
+
     @Test fun `Converters are searched by parent classes if no found in first place`() {
 
         ConvertersManager.register(Map::class to Person::class) {
