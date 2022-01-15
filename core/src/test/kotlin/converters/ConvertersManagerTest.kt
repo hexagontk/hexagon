@@ -1,7 +1,7 @@
 package com.hexagonkt.core.converters
 
 import com.hexagonkt.core.converters.ConvertersManager.convertObjects
-import com.hexagonkt.core.get
+import com.hexagonkt.core.keys
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.requireKeys
 import org.junit.jupiter.api.Test
@@ -118,7 +118,7 @@ internal class ConvertersManagerTest {
 
         Company("1", date, time, openTime, people = setOf(Person("John", "Smith"))).let {
             val m: Map<String, *> = it.convert()
-            val persons = m[Company::people.name, 0] as? Map<*, *> ?: fail
+            val persons = m.keys<Map<*, *>>(Company::people.name, 0) ?: fail
             assertEquals("John", persons[Person::givenName.name])
             assertEquals("Smith", persons[Person::familyName.name])
         }

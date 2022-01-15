@@ -5,8 +5,15 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 
 internal class HelpersTest {
+
+    data class Player(
+        val name: String,
+        val number: Int,
+        val category: ClosedRange<Int>
+    )
 
     private val m: Map<Any, Any> = mapOf(
         "alpha" to "bravo",
@@ -95,12 +102,44 @@ internal class HelpersTest {
     }
 
     @Test fun `Get nested keys inside a map returns the proper value`() {
-        assert(m["nested", "zulu"] == "charlie")
-        assert(m["nested", "zulu", "tango"] == null)
-        assert(m["nested", "empty"] == null)
+        assert(m.keys<String>("nested", "zulu") == "charlie")
+        assert(m.keys<Any>("nested", "zulu", "tango") == null)
+        assert(m.keys<Any>("nested", "empty") == null)
+        assert(m.keys<Any>("empty") == null)
+        assert(m.keys<String>("alpha") == "bravo")
+        assert(m.keys<Int>(0) == 1)
+
         assert(m["empty"] == null)
         assert(m["alpha"] == "bravo")
         assert(m[0] == 1)
+
+        assertEquals(m("nested", "zulu"), "charlie")
+        assertNull(m("nested", "zulu", "tango"))
+        assertNull(m("nested", "empty"))
+        assertNull(m("empty"))
+        assertEquals(m("alpha"), "bravo")
+        assertEquals(m(0), 1)
+
+        val a: String? = m("alpha")
+        val b: String? = m("nested", "zulu")
+        val c = m<String>("alpha")
+        val d = m<String>("nested", "zulu")
+        assertEquals("bravo", a)
+        assertEquals("charlie", b)
+        assertEquals("bravo", c)
+        assertEquals("charlie", d)
+    }
+
+    @Test fun `Utilities for mapping classes fields work as expected`() {
+        val fm = fieldsMapOf(
+            Player::category to 18..65,
+            Player::name to "Magic",
+            Player::number to 32,
+        )
+
+        assertEquals(18..65, fm(Player::category))
+        assertEquals("Magic", fm(Player::name))
+        assertEquals(32, fm(Player::number))
     }
 
     @Test fun `Require a value defined by a list of keys return the correct value`() {

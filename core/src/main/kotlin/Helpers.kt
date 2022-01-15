@@ -9,6 +9,7 @@ import java.net.Socket
 import java.util.*
 import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 
 /**
  *  Disable heavy and optional checks in runtime. This flag can be enabled to get a small
@@ -240,20 +241,36 @@ fun <Z> Collection<Z>.ensureSize(count: IntRange): Collection<Z> = this.apply {
  * @return .
  */
 @Suppress("UNCHECKED_CAST")
-operator fun Map<*, *>.get(vararg keys: Any): Any? =
-    if (keys.size > 1)
-        keys
-            .dropLast(1)
-            .fold(this) { result, element ->
-                val r = result as Map<Any, Any>
-                when (val value = r[element]) {
-                    is Map<*, *> -> value
-                    is List<*> -> value.mapIndexed { ii, item -> ii to item }.toMap()
-                    else -> emptyMap<Any, Any>()
-                }
-            }[keys.last()]
-    else
-        (this as Map<Any, Any>).getOrElse(keys.first()) { null }
+fun <T : Any> Map<*, *>.keys(vararg keys: Any): T? {
+
+    val mappedKeys = keys.map {
+        when (it) {
+            is KProperty1<*, *> -> it.name
+            else -> it
+        }
+    }
+
+    return mappedKeys
+        .dropLast(1)
+        .fold(this) { result, element ->
+            val r = result as Map<Any, Any>
+            when (val value = r[element]) {
+                is Map<*, *> -> value
+                is List<*> -> value.mapIndexed { ii, item -> ii to item }.toMap()
+                else -> emptyMap<Any, Any>()
+            }
+        }[mappedKeys.last()] as? T
+}
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @param keys .
+ * @return .
+ */
+operator fun <T : Any> Map<*, *>.invoke(vararg keys: Any): T? =
+    keys(*keys)
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -262,9 +279,17 @@ operator fun Map<*, *>.get(vararg keys: Any): Any? =
  * @param name .
  * @return .
  */
-@Suppress("UNCHECKED_CAST", "ReplaceGetOrSet")
 fun <T : Any> Map<*, *>.requireKeys(vararg name: Any): T =
-    this.get(*name) as? T ?: error("$name required key not found")
+    this.keys(*name) ?: error("$name required key not found")
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @param fields .
+ * @return .
+ */
+fun <T : Any> fieldsMapOf(vararg fields: Pair<KProperty1<T, *>, *>): Map<String, *> =
+    fields.associate { it.first.name to it.second }
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
