@@ -1,7 +1,7 @@
 package com.hexagonkt.core.converters
 
 import com.hexagonkt.core.converters.ConvertersManager.convertObjects
-import com.hexagonkt.core.get
+import com.hexagonkt.core.keys
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.requireKeys
 import org.junit.jupiter.api.Test
@@ -32,6 +32,12 @@ internal class ConvertersManagerTest {
         val people: Set<Person> = emptySet(),
         val creationDate: LocalDateTime = LocalDateTime.now(),
     )
+
+    @Test fun `Converters on null collections return emptyLists by default`() {
+        assertEquals(emptyList(), null.convertObjects<Person>())
+        @Suppress("KotlinConstantConditions") // Warning ignored for the sake of testing
+        assertEquals(listOf(1), null?.convertObjects<Person>() ?: listOf(1))
+    }
 
     @Test fun `Converters are searched by parent classes if no found in first place`() {
 
@@ -112,7 +118,7 @@ internal class ConvertersManagerTest {
 
         Company("1", date, time, openTime, people = setOf(Person("John", "Smith"))).let {
             val m: Map<String, *> = it.convert()
-            val persons = m[Company::people.name, 0] as? Map<*, *> ?: fail
+            val persons = m.keys<Map<*, *>>(Company::people.name, 0) ?: fail
             assertEquals("John", persons[Person::givenName.name])
             assertEquals("Smith", persons[Person::familyName.name])
         }
