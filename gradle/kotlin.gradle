@@ -127,19 +127,7 @@ jacoco {
 }
 
 jacocoTestReport {
-    dependsOn("check")
-    doFirst {
-        final String basePackage = findProperty("basePackage")
-        if (basePackage != null) {
-            final String basePackageDirectory = basePackage.tr(".", "/")
-            final String relativePackageDirectory = "build/jacoco/src/$basePackageDirectory"
-            file(relativePackageDirectory).mkdirs()
-            copy {
-                from(project.sourceSets.main.allSource)
-                into(relativePackageDirectory)
-            }
-        }
-    }
+    dependsOn("check", "jacocoReportSources")
 
     reports {
         xml.required.set(true)
@@ -148,6 +136,25 @@ jacocoTestReport {
 }
 
 build.dependsOn("jacocoTestReport")
+
+task("jacocoReportSources") {
+    group = "verification"
+    description = "Add base directory to Kotlin sources (fix report for Kotlin coding standard)."
+
+    doLast {
+        final String basePackage = findProperty("basePackage")
+        if (basePackage != null) {
+            final String basePackageDirectory = basePackage.tr(".", "/")
+            final String relativePackageDirectory = "build/jacoco/src/$basePackageDirectory"
+            file(relativePackageDirectory).mkdirs()
+
+            copy {
+                from(project.sourceSets.main.allSource)
+                into(relativePackageDirectory)
+            }
+        }
+    }
+}
 
 task("sourcesJar", type: Jar) {
     group = "distribution"

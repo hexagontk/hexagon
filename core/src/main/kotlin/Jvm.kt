@@ -89,7 +89,7 @@ object Jvm {
      *   found on the JVM system properties and in OS environment variables.
      */
     @Suppress("UNCHECKED_CAST") // All allowed types are checked at runtime
-    fun <T: Any> systemSetting(type: KClass<T>, name: String): T? =
+    fun <T: Any> systemSettingOrNull(type: KClass<T>, name: String): T? =
         systemSettingRaw(name)?.let {
             when (type) {
                 Boolean::class -> it.toBooleanStrictOrNull()
@@ -102,6 +102,10 @@ object Jvm {
             }
         } as? T
 
+    fun <T: Any> systemSetting(type: KClass<T>, name: String): T =
+        systemSettingOrNull(type, name)
+            ?: error("Required '${type.simpleName}' system setting '$name' not found")
+
     /**
      * Retrieve a flag (boolean parameter) by name by looking in the JVM system properties first and
      * in OS environment variables if not found.
@@ -110,10 +114,10 @@ object Jvm {
      * @return True if the parameter is found and its value is exactly 'true', false otherwise.
      */
     fun systemFlag(name: String): Boolean =
-        systemSetting(Boolean::class, name) ?: false
+        systemSettingOrNull(Boolean::class, name) ?: false
 
     /**
-     * Utility method for retrieving a system setting, check [systemSetting] for details.
+     * Utility method for retrieving a system setting, check [systemSettingOrNull] for details.
      *
      * @param T Type of the requested parameter. Supported types are: boolean, int, long, float,
      *   double and string, throw an error if other type is supplied.
@@ -121,7 +125,10 @@ object Jvm {
      * @return Value of the searched parameter in the requested type, `null` if the parameter is not
      *   found on the JVM system properties and in OS environment variables.
      */
-    inline fun <reified T: Any> systemSetting(name: String): T? =
+    inline fun <reified T: Any> systemSettingOrNull(name: String): T? =
+        systemSettingOrNull(T::class, name)
+
+    inline fun <reified T: Any> systemSetting(name: String): T =
         systemSetting(T::class, name)
 
     private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }

@@ -42,8 +42,9 @@ ij_json_spaces_within_braces = true
 ij_json_spaces_within_brackets = true
 ij_json_wrap_long_lines = true
 
+# IntelliJ HTML formatting
 [*.html]
-ij_html_do_not_indent_children_of_tags = none
+ij_html_do_not_indent_children_of_tags = html
 
 # 4 space indentation
 [*.{java,js,ts,kt,kts,gradle,groovy,py}]
@@ -58,3 +59,7 @@ indent_style = tab
 [*.{kt,kts}]
 ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
 ij_kotlin_import_nested_classes = true
+
+# Log files exception
+[*.log]
+max_line_length = 200
