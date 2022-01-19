@@ -89,7 +89,7 @@ object Jvm {
      *   found on the JVM system properties and in OS environment variables.
      */
     @Suppress(&quot;UNCHECKED_CAST&quot;) // All allowed types are checked at runtime
-    fun &lt;T: Any&gt; systemSetting(type: KClass&lt;T&gt;, name: String): T? =
+    fun &lt;T: Any&gt; systemSettingOrNull(type: KClass&lt;T&gt;, name: String): T? =
 <span class="fc bfc" id="L93" title="All 4 branches covered.">        systemSettingRaw(name)?.let {</span>
 <span class="fc" id="L94">            when (type) {</span>
 <span class="fc bfc" id="L95" title="All 2 branches covered.">                Boolean::class -&gt; it.toBooleanStrictOrNull()</span>
@@ -102,6 +102,10 @@ object Jvm {
             }
 <span class="fc" id="L103">        } as? T</span>
 
+    fun &lt;T: Any&gt; systemSetting(type: KClass&lt;T&gt;, name: String): T =
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        systemSettingOrNull(type, name)</span>
+<span class="pc" id="L107">            ?: error(&quot;Required '${type.simpleName}' system setting '$name' not found&quot;)</span>
+
     /**
      * Retrieve a flag (boolean parameter) by name by looking in the JVM system properties first and
      * in OS environment variables if not found.
@@ -110,10 +114,10 @@ object Jvm {
      * @return True if the parameter is found and its value is exactly 'true', false otherwise.
      */
     fun systemFlag(name: String): Boolean =
-<span class="fc bfc" id="L113" title="All 2 branches covered.">        systemSetting(Boolean::class, name) ?: false</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        systemSettingOrNull(Boolean::class, name) ?: false</span>
 
     /**
-     * Utility method for retrieving a system setting, check [systemSetting] for details.
+     * Utility method for retrieving a system setting, check [systemSettingOrNull] for details.
      *
      * @param T Type of the requested parameter. Supported types are: boolean, int, long, float,
      *   double and string, throw an error if other type is supplied.
@@ -121,14 +125,17 @@ object Jvm {
      * @return Value of the searched parameter in the requested type, `null` if the parameter is not
      *   found on the JVM system properties and in OS environment variables.
      */
-    inline fun &lt;reified T: Any&gt; systemSetting(name: String): T? =
+    inline fun &lt;reified T: Any&gt; systemSettingOrNull(name: String): T? =
+        systemSettingOrNull(T::class, name)
+
+    inline fun &lt;reified T: Any&gt; systemSetting(name: String): T =
         systemSetting(T::class, name)
 
-<span class="fc" id="L127">    private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }</span>
+<span class="fc" id="L134">    private val heap: MemoryUsage by lazy { ManagementFactory.getMemoryMXBean().heapMemoryUsage }</span>
 
     private fun systemSettingRaw(name: String): String? {
-<span class="fc bfc" id="L130" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Setting name can not be blank&quot; }</span>
-<span class="fc bfc" id="L131" title="All 2 branches covered.">        return System.getProperty(name) ?: System.getenv(name)</span>
+<span class="fc bfc" id="L137" title="All 4 branches covered.">        require(name.isNotBlank()) { &quot;Setting name can not be blank&quot; }</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        return System.getProperty(name) ?: System.getenv(name)</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -18,12 +18,12 @@ fun &lt;T : Any&gt; Any.convert(target: KClass&lt;T&gt;): T =
  *
  * @param target Target type for the source instances in the group.
  * @receiver Value to convert to another type.
- * @return List of converted instances.
+ * @return List of converted instances, returns empty list if target is `null`.
  *
  * @see ConvertersManager.convertObjects
  */
-fun &lt;T : Any&gt; Iterable&lt;Any&gt;.convertObjects(target: KClass&lt;T&gt;): List&lt;T&gt; =
-<span class="fc" id="L26">    ConvertersManager.convertObjects(this, target)</span>
+fun &lt;T : Any&gt; Iterable&lt;Any&gt;?.convertObjects(target: KClass&lt;T&gt;): List&lt;T&gt; =
+<span class="fc bfc" id="L26" title="All 2 branches covered.">    ConvertersManager.convertObjects(this ?: emptyList(), target)</span>
 
 /**
  * Utility method to convert one type to another.
@@ -41,10 +41,10 @@ inline fun &lt;reified T : Any&gt; Any.convert(): T =
  *
  * @param T Target type for the source instances in the group.
  * @receiver Value to convert to another type.
- * @return List of converted instances.
+ * @return List of converted instances, returns empty list if target is `null`.
  *
  * @see ConvertersManager.convertObjects
  */
-inline fun &lt;reified T : Any&gt; Iterable&lt;Any&gt;.convertObjects(): List&lt;T&gt; =
+inline fun &lt;reified T : Any&gt; Iterable&lt;Any&gt;?.convertObjects(): List&lt;T&gt; =
     convertObjects(T::class)
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
