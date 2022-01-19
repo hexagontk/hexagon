@@ -25,8 +25,8 @@ internal class JsonTest : SerializationTest() {
         assert(Json.textFormat)
         val output = ByteArrayOutputStream()
         Json.serialize(mapOf("key" to "value"), output)
-        val result = output.toString().trim()
-        assertEquals("{\n  \"key\" : \"value\"\n}", result)
+        val result = output.toString().trim().replace("\r", "").replace("\n", "")
+        assertEquals("{  \"key\" : \"value\"}", result)
     }
 
     @Test fun `Test Jackson raw format (no pretty print)`() {

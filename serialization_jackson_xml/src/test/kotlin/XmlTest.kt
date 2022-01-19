@@ -4,7 +4,8 @@ import com.hexagonkt.core.requireKeys
 import com.hexagonkt.core.converters.ConvertersManager
 import com.hexagonkt.core.converters.convert
 import com.hexagonkt.core.converters.convertObjects
-import com.hexagonkt.core.get
+import com.hexagonkt.core.keys
+import com.hexagonkt.core.invoke
 import com.hexagonkt.core.require
 import com.hexagonkt.core.toStream
 import com.hexagonkt.serialization.*
@@ -86,11 +87,11 @@ internal class XmlTest {
         val collection = parse as Map<*, *>
 
         assertEquals("Kotlin POM", collection["name"])
-        assertEquals("central", collection["repositories", "repository", "id"])
-        assertEquals("junit-jupiter", collection["dependencies", "dependency", 0, "artifactId"])
-        assertEquals("kotlin-test", collection["dependencies", "dependency", 1, "artifactId"])
-        assertEquals("val", collection["alien", "property"])
-        assertEquals("text", collection["alien", ""])
+        assertEquals("central", collection("repositories", "repository", "id"))
+        assertEquals("junit-jupiter", collection("dependencies", "dependency", 0, "artifactId"))
+        assertEquals("kotlin-test", collection("dependencies", "dependency", 1, "artifactId"))
+        assertEquals("val", collection("alien", "property"))
+        assertEquals("text", collection("alien", ""))
     }
 
     @Test
@@ -144,9 +145,9 @@ internal class XmlTest {
 
         val collection = xml.parse(Xml) as Map<*, *>
 
-        assertEquals("header", collection["bean", "id"])
-        assertEquals(2, (collection["camelContext", "rest", "post"] as? List<*>)?.size)
-        assertEquals(3, (collection["camelContext", "rest", "get"] as? List<*>)?.size)
+        assertEquals("header", collection.keys("bean", "id"))
+        assertEquals(2, (collection.keys("camelContext", "rest", "post") as? List<*>)?.size)
+        assertEquals(3, (collection.keys("camelContext", "rest", "get") as? List<*>)?.size)
     }
 
     @Suppress("UNCHECKED_CAST") // Required by test
@@ -201,7 +202,7 @@ internal class XmlTest {
                 </item>
             </ArrayList>
         """.trimIndent().toStream().parse(Xml) as Map<*, *>
-        assertEquals("b", parse["item", 0, "a"])
+        assertEquals("b", parse.keys("item", 0, "a"))
     }
 
     @Test fun `Object can be serialized to stream`() {

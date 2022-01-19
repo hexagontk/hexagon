@@ -44,9 +44,3 @@ package-lock.json
 # System Files
 .DS_Store
 Thumbs.db
-
-# Added because of custom project settings
-site/content/
-
-# Added because IntelliJ Gradle creates it from Detekt plugin
-/config/

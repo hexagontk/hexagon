@@ -46,6 +46,7 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
+            ~/.local/lib/python*/site-packages
 
       # PROCESS
       - name: Update Site
@@ -70,7 +71,7 @@ jobs:
 
       - name: Publish Site
         run: |
-          cp -rf site/build/* build/gh-pages/
+          cp -rf site/build/site/* build/gh-pages/
           cd build/gh-pages
           git add --all
           git commit -m "Publishing to gh-pages"

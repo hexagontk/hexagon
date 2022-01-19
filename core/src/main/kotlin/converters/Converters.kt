@@ -18,12 +18,12 @@ fun <T : Any> Any.convert(target: KClass<T>): T =
  *
  * @param target Target type for the source instances in the group.
  * @receiver Value to convert to another type.
- * @return List of converted instances.
+ * @return List of converted instances, returns empty list if target is `null`.
  *
  * @see ConvertersManager.convertObjects
  */
-fun <T : Any> Iterable<Any>.convertObjects(target: KClass<T>): List<T> =
-    ConvertersManager.convertObjects(this, target)
+fun <T : Any> Iterable<Any>?.convertObjects(target: KClass<T>): List<T> =
+    ConvertersManager.convertObjects(this ?: emptyList(), target)
 
 /**
  * Utility method to convert one type to another.
@@ -41,9 +41,9 @@ inline fun <reified T : Any> Any.convert(): T =
  *
  * @param T Target type for the source instances in the group.
  * @receiver Value to convert to another type.
- * @return List of converted instances.
+ * @return List of converted instances, returns empty list if target is `null`.
  *
  * @see ConvertersManager.convertObjects
  */
-inline fun <reified T : Any> Iterable<Any>.convertObjects(): List<T> =
+inline fun <reified T : Any> Iterable<Any>?.convertObjects(): List<T> =
     convertObjects(T::class)
