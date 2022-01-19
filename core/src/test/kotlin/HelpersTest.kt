@@ -82,8 +82,8 @@ internal class HelpersTest {
 
         assert(Jvm.systemSetting<String>("system_property") == "value")
 
-        assert(Jvm.systemSetting<String>("PATH")?.isNotEmpty() ?: false)
-        assert(Jvm.systemSetting<String>("_not_defined_") == null)
+        assert(Jvm.systemSetting<String>("PATH").isNotEmpty())
+        assertNull(Jvm.systemSettingOrNull<String>("_not_defined_"))
 
         System.setProperty("PATH", "path override")
         assert(Jvm.systemSetting<String>("PATH") == "path override")

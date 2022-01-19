@@ -10,8 +10,8 @@ internal class JvmTest {
     @Test fun `'systemFlag' fails with a blank setting name`() {
         assertFailsWith<IllegalArgumentException> { Jvm.systemFlag("") }
         assertFailsWith<IllegalArgumentException> { Jvm.systemFlag(" ") }
-        assertFailsWith<IllegalArgumentException> { Jvm.systemSetting<String>("") }
-        assertFailsWith<IllegalArgumentException> { Jvm.systemSetting<String>(" ") }
+        assertFailsWith<IllegalArgumentException> { Jvm.systemSettingOrNull<String>("") }
+        assertFailsWith<IllegalArgumentException> { Jvm.systemSettingOrNull<String>(" ") }
     }
 
     @Test fun `'systemFlag' returns true on defined boolean parameter`() {
@@ -71,16 +71,16 @@ internal class JvmTest {
         assertEquals(0.5F, Jvm.systemSetting("validFloat"))
         assertEquals(1.5, Jvm.systemSetting("validDouble"))
 
-        assertNull(Jvm.systemSetting<Boolean>("invalidBoolean"))
-        assertNull(Jvm.systemSetting<Boolean>("invalidInt"))
-        assertNull(Jvm.systemSetting<Boolean>("invalidLong"))
-        assertNull(Jvm.systemSetting<Boolean>("invalidFloat"))
-        assertNull(Jvm.systemSetting<Boolean>("invalidDouble"))
+        assertNull(Jvm.systemSettingOrNull<Int>("invalidInt"))
+        assertNull(Jvm.systemSettingOrNull<Long>("invalidLong"))
+        assertNull(Jvm.systemSettingOrNull<Float>("invalidFloat"))
+        assertNull(Jvm.systemSettingOrNull<Double>("invalidDouble"))
+        assertNull(Jvm.systemSettingOrNull<Boolean>("invalidBoolean"))
 
         assertEquals("text", Jvm.systemSetting("string"))
 
         val type = System::class
-        val e = assertFailsWith<IllegalStateException> { Jvm.systemSetting<System>("error") }
+        val e = assertFailsWith<IllegalStateException> { Jvm.systemSettingOrNull<System>("error") }
         assertEquals("Setting: 'error' has unsupported type: ${type.qualifiedName}", e.message)
     }
 
