@@ -10,20 +10,16 @@ repositories {
     mavenCentral()
 }
 
-tasks.named<Delete>("clean") {
-    delete("build", "content")
-}
-
 // TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
-    val jacocoTasks = rootProject.getTasksByName("jacocoTestReport", true)
+    dependsOn("build")
+
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
     val modulesSources = rootProject.modulesPaths("src/main/kotlin")
     val modulesJacocoSources = rootProject.modulesPaths("build/jacoco/src")
     val modulesClasses = rootProject.modulesPaths("build/classes/kotlin/main")
         .filterNot { it.absolutePath.contains("http_test") }
 
-    dependsOn(jacocoTasks)
     executionData.from(projectExecutionData)
     sourceDirectories.from(modulesSources + modulesJacocoSources)
     classDirectories.from(modulesClasses)
@@ -32,7 +28,7 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         html.required.set(true)
         xml.required.set(true)
 
-        val reportsOutput = file("content/jacoco").also { it.mkdirs() }
+        val reportsOutput = file("build/content/jacoco").also { it.mkdirs() }
         html.outputLocation.set(reportsOutput)
         xml.outputLocation.set(reportsOutput.resolve("jacoco.xml"))
     }
@@ -56,7 +52,7 @@ val dokkaConfiguration = mapOf(
 
 // TODO Make this task depend on 'assets' directory to update it upon changes on those CSS files
 rootProject.tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
-    outputDirectory.set(rootProject.file("site/content/api"))
+    outputDirectory.set(rootProject.file("site/build/content/api"))
     pluginsMapConfiguration.set(dokkaConfiguration)
 }
 
@@ -65,11 +61,11 @@ rootProject
     .filterIsInstance<DokkaTaskPartial>()
     .forEach { it.pluginsMapConfiguration.set(dokkaConfiguration) }
 
-task("mkdocs") {
+task("mkDocs") {
     dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
 
     doLast {
-        val contentTarget = project.file("content").absolutePath
+        val contentTarget = project.file("build/content").absolutePath
 
         rootProject.subprojects
             .filter { subproject -> subproject.file("README.md").exists() }
@@ -86,7 +82,7 @@ task("mkdocs") {
 
         overwrite("assets/img/logo.svg", "$contentTarget/api/images/logo-icon.svg")
         overwrite("assets/img/logo_white_text.svg", "$contentTarget/api/images/docs_logo.svg")
-        project.file("content/api/styles/main.css")
+        project.file("build/content/api/styles/main.css")
             .appendText(project.file("assets/css/dokka.css").readText())
 
         val markdownFiles = fileTree("dir" to contentTarget, "include" to "**/*.md")
@@ -97,7 +93,7 @@ task("mkdocs") {
             markdownFile.writeText(content)
         }
 
-        project.file("content/CNAME").writeText(findProperty("sslDomain").toString())
+        project.file("build/content/CNAME").writeText(findProperty("sslDomain").toString())
 
         generateCoverageBadge()
         generateDownloadBadge()
@@ -109,7 +105,7 @@ fun overwrite(source: String, target: String) {
 }
 
 task("checkDocs") {
-    dependsOn("mkdocs")
+    dependsOn("mkDocs")
     doLast {
         val readme = rootProject.file("README.md")
         val service = rootProject.file("http_test/src/test/kotlin/HelloWorldTest.kt")
@@ -129,7 +125,7 @@ task("checkDocs") {
             FilesRange(readme, rootProject.file("$examples/ZipTest.kt"), "zip")
         )
 
-        val contentTarget = project.file("content").absolutePath
+        val contentTarget = project.file("build/content").absolutePath
         val markdownFiles = project.fileTree("dir" to contentTarget, "include" to "**/*.md")
 
         markdownFiles.forEach { markdownFile ->
@@ -141,24 +137,26 @@ task("checkDocs") {
     }
 }
 
-val dockerCommand = "docker --log-level warning run --rm -v ${projectDir.absolutePath}:/docs"
-val mkdocsMaterialImage = "squidfunk/mkdocs-material:${properties["mkdocsMaterialVersion"]}"
+tasks.register<Exec>("installMkDocs") {
+    val mkdocsMaterialVersion = properties["mkdocsMaterialVersion"]
+    commandLine("pip install mkdocs-material==$mkdocsMaterialVersion".split(" "))
+}
 
 tasks.register<Exec>("serveSite") {
-    dependsOn("checkDocs")
-    commandLine("$dockerCommand -p 8000:8000 --name site $mkdocsMaterialImage".split(" "))
+    dependsOn("checkDocs", "installMkDocs")
+    commandLine("mkdocs serve".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {
-    dependsOn("checkDocs")
-    commandLine("$dockerCommand $mkdocsMaterialImage build -cs".split(" "))
+    dependsOn("checkDocs", "installMkDocs")
+    commandLine("mkdocs build -cs".split(" "))
 }
 
 tasks.withType<PublishToMavenLocal>().configureEach { enabled = false }
 tasks.withType<PublishToMavenRepository>().configureEach { enabled = false }
 
 fun generateCoverageBadge() {
-    val coverageReport = file("content/jacoco/jacoco.xml")
+    val coverageReport = file("build/content/jacoco/jacoco.xml")
     val coverageReportLength = coverageReport.length()
     val groups = coverageReport.reader().use {
         val buffer = CharArray(1024)
@@ -176,13 +174,13 @@ fun generateCoverageBadge() {
     val total = missed + covered
     val percentage = floor((covered * 100.0) / total).toInt()
 
-    val badge = file("content/img/coverage.svg")
+    val badge = file("build/content/img/coverage.svg")
     val svg = badge.readText().replace("\${coverage}", "$percentage%")
     badge.writeText(svg)
 }
 
 fun generateDownloadBadge() {
-    val downloadBadge = file("content/img/download.svg")
+    val downloadBadge = file("build/content/img/download.svg")
     val downloadSvg = downloadBadge.readText().replace("\${download}", "${rootProject.version}")
     downloadBadge.writeText(downloadSvg)
 }

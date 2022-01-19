@@ -63,6 +63,7 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
+            ~/.local/lib/python*/site-packages
 
       # PROCESS
       - name: Build Site

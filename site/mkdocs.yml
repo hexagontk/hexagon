@@ -4,7 +4,7 @@ dev_addr: 127.0.0.1:8000
 site_name: Hexagon
 site_url: https://hexagonkt.com
 site_author: Hexagon Toolkit
-site_dir: build
+site_dir: build/site
 site_description: The atoms of your platform
 
 copyright: >
@@ -19,7 +19,7 @@ repo_name: hexagonkt/hexagon
 repo_url: https://github.com/hexagonkt/hexagon
 edit_uri: ""
 
-docs_dir: content
+docs_dir: build/content
 
 markdown_extensions:
   - meta
