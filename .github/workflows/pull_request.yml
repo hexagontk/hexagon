@@ -50,6 +50,8 @@ jobs:
       - name: Build Site
         run: |
           ./gradlew --info build
+          ls -AlF ~/.local/bin
+          which mkdocs
           ./gradlew --info -x build buildSite
 
       # CLEAN UP

@@ -143,7 +143,7 @@ tasks.register<Exec>("installMkDocs") {
 
 tasks.register<Exec>("serveSite") {
     dependsOn("checkDocs", "installMkDocs")
-    commandLine("~/.local/bin/mkdocs serve".split(" "))
+    commandLine("mkdocs serve".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {
