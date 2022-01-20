@@ -2,6 +2,7 @@
 import kotlin.math.floor
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
+import java.lang.System.getenv
 
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
@@ -143,11 +144,13 @@ tasks.register<Exec>("installMkDocs") {
 
 tasks.register<Exec>("serveSite") {
     dependsOn("checkDocs", "installMkDocs")
-    commandLine("mkdocs serve".split(" "))
+    environment("PATH" to getenv("PATH") + ":" + getenv("HOME") + "/.local/bin")
+    commandLine("~/.local/bin/mkdocs serve".split(" "))
 }
 
 tasks.register<Exec>("buildSite") {
     dependsOn("checkDocs", "installMkDocs")
+    environment("PATH" to getenv("PATH") + ":" + getenv("HOME") + "/.local/bin")
     commandLine("mkdocs build -cs".split(" "))
 }
 
