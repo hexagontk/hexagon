@@ -49,9 +49,12 @@ jobs:
       # PROCESS
       - name: Build Site
         run: |
-          ./gradlew --info build
-          find ~ -name mkdocs
-          ./gradlew --info -x build buildSite
+          pip install mkdocs-material=="8.1.7" || true
+          which mkdocs || true
+          find ~ -name mkdocs || true
+
+#          ./gradlew --info build
+#          ./gradlew --info -x build buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache
