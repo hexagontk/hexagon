@@ -50,8 +50,8 @@ jobs:
       - name: Build Site
         run: |
           pip install mkdocs-material=="8.1.7" || true
-          which mkdocs || true
           find / -name mkdocs -type f 2>/dev/null || true
+          mkdocs -h
 
 #          ./gradlew --info build
 #          ./gradlew --info -x build buildSite
