@@ -51,7 +51,7 @@ jobs:
         run: |
           pip install mkdocs-material=="8.1.7" || true
           which mkdocs || true
-          find ~ -name mkdocs || true
+          find ~ -name mkdocs -type f || true
 
 #          ./gradlew --info build
 #          ./gradlew --info -x build buildSite
