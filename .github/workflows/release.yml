@@ -58,8 +58,8 @@ jobs:
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
           git clone "$REMOTE" --branch gh-pages build/gh-pages
-          ./gradlew --info --no-daemon build
-          ./gradlew --info --no-daemon -x build buildSite
+          ./gradlew --info build
+          ./gradlew --info -x build buildSite
 
       - name: Publish Packages
         env:

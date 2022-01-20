@@ -57,8 +57,8 @@ jobs:
           git remote set-url origin "$REMOTE"
           git config --global user.email "juanjoaguililla@gmail.com"
           git config --global user.name "jaguililla"
-          ./gradlew --info --no-daemon build
-          ./gradlew --info --no-daemon -x build buildSite
+          ./gradlew --info build
+          ./gradlew --info -x build buildSite
 
       - name: Publish Packages
         env:
