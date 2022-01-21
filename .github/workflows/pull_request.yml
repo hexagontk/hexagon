@@ -50,12 +50,8 @@ jobs:
       # PROCESS
       - name: Build Site
         run: |
-          pip uninstall mkdocs-material=="8.1.7" || true
-          pip install mkdocs-material=="8.1.7" || true
-          mkdocs -h
-
-#          ./gradlew --info build
-#          ./gradlew --info -x build buildSite
+          ./gradlew --info build
+          ./gradlew --info -x build buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache

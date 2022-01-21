@@ -46,6 +46,7 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
+            ~/.local/bin
             ~/.local/lib/python*/site-packages
 
       # PROCESS
