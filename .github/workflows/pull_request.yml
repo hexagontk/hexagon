@@ -44,13 +44,14 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
+            ~/.local/bin
             ~/.local/lib/python*/site-packages
 
       # PROCESS
       - name: Build Site
         run: |
+          pip uninstall mkdocs-material=="8.1.7" || true
           pip install mkdocs-material=="8.1.7" || true
-          find / -name mkdocs -type f 2>/dev/null || true
           mkdocs -h
 
 #          ./gradlew --info build
