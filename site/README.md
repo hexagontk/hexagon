@@ -5,8 +5,8 @@ theme used is [MkDocs Material].
 
 Site generation requires [Python pip](https://pypi.org/project/pip) installed.
 
-To generate the site you *MUST BUILD THE PROJECT* previously (`./gradlew build`), after that you can
-use: `./gradlew buildSite` which executes: `mkdocs build -csq`.
+To generate the site you *MUST BUILD THE PROJECT* previously (`./gradlew build`) in a separated
+command, after that you can use: `./gradlew buildSite` which executes: `mkdocs build -csq`.
 
 To run the site inside a server for development, execute: `./gradlew serveSite`. The site will be
 served at: [http://localhost:8000](http://localhost:8000). You can also build the site and serve the

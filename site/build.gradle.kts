@@ -12,7 +12,6 @@ repositories {
 
 // TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
-    dependsOn("build")
 
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
     val modulesSources = rootProject.modulesPaths("src/main/kotlin")
