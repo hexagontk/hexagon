@@ -69,6 +69,8 @@ jobs:
       # PROCESS
       - name: Build Site
         run: |
+          pip uninstall mkdocs-material=="8.1.8" -y
+          pip install mkdocs-material=="8.1.8"
           ./gradlew --info build
           ./gradlew --info -x build buildSite
 
