@@ -11,6 +11,7 @@ import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
 import org.junit.jupiter.api.AfterAll
@@ -25,10 +26,11 @@ abstract class BaseTest {
 
     protected abstract val clientAdapter: () -> HttpClientPort
     protected abstract val serverAdapter: () -> HttpServerPort
+    protected abstract val serverSettings: HttpServerSettings
     protected abstract val handler: ServerHandler
 
     protected val server: HttpServer by lazy {
-        HttpServer(serverAdapter(), handler)
+        HttpServer(serverAdapter(), handler, serverSettings)
     }
 
     protected val client: HttpClient by lazy {

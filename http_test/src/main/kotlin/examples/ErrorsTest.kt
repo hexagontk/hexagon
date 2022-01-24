@@ -6,6 +6,7 @@ import com.hexagonkt.http.model.ClientErrorStatus.NOT_FOUND
 import com.hexagonkt.http.model.HttpStatus
 import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
@@ -17,8 +18,9 @@ import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class ErrorsTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort,
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     // errors

@@ -20,8 +20,9 @@ import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class CorsTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     // cors

@@ -42,7 +42,8 @@ import kotlin.test.assertEquals
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class SamplesTest(
     val clientAdapter: () -> HttpClientPort,
-    val serverAdapter: () -> HttpServerPort
+    val serverAdapter: () -> HttpServerPort,
+    val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) {
 
     @BeforeAll fun startUp() {

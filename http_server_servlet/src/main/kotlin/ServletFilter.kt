@@ -4,6 +4,7 @@ import com.hexagonkt.core.toText
 import com.hexagonkt.core.logging.Logger
 import com.hexagonkt.core.media.TextMedia
 import com.hexagonkt.http.bodyToBytes
+import com.hexagonkt.http.server.HttpServerFeature.ASYNC
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerResponse
@@ -12,7 +13,7 @@ import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 class ServletFilter(
     pathHandler: PathHandler,
@@ -20,6 +21,7 @@ class ServletFilter(
 ) : HttpFilter() {
 
     private val logger: Logger = Logger(ServletFilter::class)
+    private val async: Boolean = serverSettings.features.contains(ASYNC)
 
     private val handlers: Map<String, PathHandler> =
         pathHandler.byMethod().mapKeys { it.key.toString() }
@@ -45,21 +47,31 @@ class ServletFilter(
     override fun doFilter(
         request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
 
-        val multipartConfig = MultipartConfigElement("/tmp")
-        request.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
+        if (async) doFilterAsync(request, response)
+        else doFilter(request, response)
+    }
 
-        doFilter(request, response)
+    private fun doFilterAsync(request: HttpServletRequest, response: HttpServletResponse) {
+        val asyncContext = request.startAsync()
+
+        CoroutineScope(Dispatchers.Default).launch {
+            val handlerResponse = handlers[request.method]
+                ?.process(ServletRequestAdapter(request))
+                ?: HttpServerResponse()
+
+            responseToServlet(handlerResponse, response)
+            asyncContext.complete()
+        }
     }
 
     // TODO Don't use 'runBlocking' (in servlet async mode)
-    private fun doFilter(
-        servletRequest: HttpServletRequest, servletResponse: HttpServletResponse) = runBlocking {
+    private fun doFilter(request: HttpServletRequest, response: HttpServletResponse) = runBlocking {
 
-        val response = handlers[servletRequest.method]
-            ?.process(ServletRequestAdapter(servletRequest))
+        val handlerResponse = handlers[request.method]
+            ?.process(ServletRequestAdapter(request))
             ?: HttpServerResponse()
 
-        responseToServlet(response, servletResponse)
+        responseToServlet(handlerResponse, response)
     }
 
     private fun responseToServlet(

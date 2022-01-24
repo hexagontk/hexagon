@@ -5,6 +5,7 @@ import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
 import com.hexagonkt.http.parseQueryString
 import com.hexagonkt.http.server.model.HttpServerRequestPort
+import jakarta.servlet.MultipartConfigElement
 import java.security.cert.X509Certificate
 import jakarta.servlet.http.HttpServletRequest
 
@@ -45,12 +46,16 @@ internal class ServletRequestAdapter(req: HttpServletRequest) : HttpServerReques
     override val path: String by lazy { req.servletPath.ifEmpty { req.pathInfo } }
 
     override val parts: List<HttpPartPort> by lazy {
+        req.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
         req.parts.map { ServletPartAdapter(it) }
     }
 
     override val formParameters: MultiMap<String, String> by lazy {
+        req.setAttribute("org.eclipse.jetty.multipartConfig", multipartConfig)
         MultiMap(parameters.filter { it.key !in queryParameters.keys })
     }
+
+    private val multipartConfig: MultipartConfigElement by lazy { MultipartConfigElement("/tmp") }
 
     override val cookies: List<HttpCookie> by lazy {
         req.cookies
