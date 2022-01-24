@@ -9,7 +9,7 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.callbacks.CorsCallback
-import com.hexagonkt.http.server.handlers.PathBuilder
+import com.hexagonkt.http.server.handlers.ServerBuilder
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
@@ -35,7 +35,7 @@ abstract class CorsTest(
         corsPath("/allowed/headers", CorsCallback(allowedHeaders = setOf("head")))
     }
 
-    private fun PathBuilder.corsPath(path: String, cors: CorsCallback) {
+    private fun ServerBuilder.corsPath(path: String, cors: CorsCallback) {
         path(path) {
             // CORS settings can change for different routes
             filter(pattern = "*", callback = cors)

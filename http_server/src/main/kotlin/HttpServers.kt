@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.http.server.handlers.PathBuilder
+import com.hexagonkt.http.server.handlers.ServerBuilder
 import com.hexagonkt.http.server.handlers.ServerHandler
 
 /**
@@ -31,6 +31,6 @@ fun serve(
 fun serve(
     adapter: HttpServerPort,
     settings: HttpServerSettings = HttpServerSettings(),
-    block: PathBuilder.() -> Unit
+    block: ServerBuilder.() -> Unit
 ): HttpServer =
     HttpServer(adapter, settings, block).apply { start() }

@@ -1,7 +1,7 @@
 package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.http.server.*
-import com.hexagonkt.http.server.handlers.PathBuilder
+import com.hexagonkt.http.server.handlers.ServerBuilder
 import com.hexagonkt.http.server.handlers.ServerHandler
 
 /**
@@ -26,7 +26,7 @@ fun serve(
  * @return The started [HttpServer] instance.
  */
 fun serve(
-    settings: HttpServerSettings = HttpServerSettings(), block: PathBuilder.() -> Unit
+    settings: HttpServerSettings = HttpServerSettings(), block: ServerBuilder.() -> Unit
 ): HttpServer =
-    HttpServer(JettyServletAdapter(), PathBuilder().apply {block()}.handlers, settings)
+    HttpServer(JettyServletAdapter(), ServerBuilder().apply {block()}.handlers, settings)
         .apply { start() }

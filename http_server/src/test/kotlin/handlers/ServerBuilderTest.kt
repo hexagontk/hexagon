@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
-internal class PathBuilderTest {
+internal class ServerBuilderTest {
 
     @Test fun `Adding prefix to a handler without path produces correct path pattern`() = runTest {
 

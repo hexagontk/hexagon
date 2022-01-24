@@ -23,7 +23,7 @@ import com.hexagonkt.core.Ansi.MAGENTA
 import com.hexagonkt.core.Ansi.RESET
 import com.hexagonkt.core.Ansi.UNDERLINE
 import com.hexagonkt.core.prependIndent
-import com.hexagonkt.http.server.handlers.PathBuilder
+import com.hexagonkt.http.server.handlers.ServerBuilder
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import java.io.Closeable
@@ -58,7 +58,7 @@ data class HttpServer(
     private val logger: Logger = Logger(this::class)
 
     /**
-     * Create a server with a builder ([PathBuilder]) to set up handlers.
+     * Create a server with a builder ([ServerBuilder]) to set up handlers.
      *
      * @param adapter The server engine.
      * @param settings Server settings. Port and address will be searched in this map.
@@ -68,7 +68,7 @@ data class HttpServer(
     constructor(
         adapter: HttpServerPort,
         settings: HttpServerSettings = HttpServerSettings(),
-        block: PathBuilder.() -> Unit
+        block: ServerBuilder.() -> Unit
     ) :
         this(adapter, listOf(path(block = block)), settings)
 
