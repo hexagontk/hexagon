@@ -17,6 +17,7 @@ plugins {
     id("eclipse")
     id("org.jetbrains.dokka") version("1.6.10")
     id("io.gitlab.arturbosch.detekt") version("1.19.0") apply(false)
+    id("me.champeau.jmh") version("0.6.6") apply(false)
 }
 
 apply(from = "gradle/certificates.gradle")
