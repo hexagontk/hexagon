@@ -16,8 +16,9 @@ import kotlin.test.assertNull
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class ZipTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     override val handler: ServerHandler = path {}
@@ -58,7 +59,7 @@ abstract class ZipTest(
 
     @Test fun `Use ZIP encoding without enabling the feature example`() = runBlocking {
 
-        val server = HttpServer(serverAdapter(), HttpServerSettings(bindPort = 0)) {
+        val server = HttpServer(serverAdapter(), serverSettings.copy(bindPort = 0)) {
             get("/hello") {
                 ok("Hello World!")
             }

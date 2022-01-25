@@ -5,6 +5,7 @@ import com.hexagonkt.http.client.HttpClientPort
 import com.hexagonkt.http.model.HttpCookie
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
@@ -17,8 +18,9 @@ import kotlin.test.assertEquals
 @TestMethodOrder(OrderAnnotation::class)
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class CookiesTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     // cookies

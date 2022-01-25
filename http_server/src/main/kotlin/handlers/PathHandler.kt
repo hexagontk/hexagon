@@ -4,7 +4,6 @@ import com.hexagonkt.core.handlers.ChainHandler
 import com.hexagonkt.core.handlers.Handler
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.patterns.createPathPattern
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse

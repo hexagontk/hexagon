@@ -9,7 +9,7 @@ import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.callbacks.CorsCallback
-import com.hexagonkt.http.server.handlers.PathBuilder
+import com.hexagonkt.http.server.handlers.ServerBuilder
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
@@ -20,8 +20,9 @@ import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class CorsTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     // cors
@@ -35,7 +36,7 @@ abstract class CorsTest(
         corsPath("/allowed/headers", CorsCallback(allowedHeaders = setOf("head")))
     }
 
-    private fun PathBuilder.corsPath(path: String, cors: CorsCallback) {
+    private fun ServerBuilder.corsPath(path: String, cors: CorsCallback) {
         path(path) {
             // CORS settings can change for different routes
             filter(pattern = "*", callback = cors)

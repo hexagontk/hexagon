@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server
 
-import com.hexagonkt.http.server.handlers.PathBuilder
+import com.hexagonkt.http.server.handlers.ServerBuilder
 import com.hexagonkt.http.server.handlers.ServerHandler
 
 /**
@@ -8,7 +8,7 @@ import com.hexagonkt.http.server.handlers.ServerHandler
  *
  * @param adapter Adapter instance which implements [HttpServerPort].
  * @param handlers List of handlers to be used by the server.
- * @param settings Server settings info .
+ * @param settings Server settings info.
  *
  * @return The started [HttpServer] instance.
  */
@@ -23,6 +23,22 @@ fun serve(
  * Create a server and start it.
  *
  * @param adapter Adapter instance which implements [HttpServerPort].
+ * @param handler Handler to be used by the server.
+ * @param settings Server settings info.
+ *
+ * @return The started [HttpServer] instance.
+ */
+fun serve(
+    adapter: HttpServerPort,
+    handler: ServerHandler,
+    settings: HttpServerSettings = HttpServerSettings()
+): HttpServer =
+    serve(adapter, listOf(handler), settings)
+
+/**
+ * Create a server and start it.
+ *
+ * @param adapter Adapter instance which implements [HttpServerPort].
  * @param settings Server settings info.
  * @param block Lambda to be used to create the server's handlers.
  *
@@ -31,6 +47,6 @@ fun serve(
 fun serve(
     adapter: HttpServerPort,
     settings: HttpServerSettings = HttpServerSettings(),
-    block: PathBuilder.() -> Unit
+    block: ServerBuilder.() -> Unit
 ): HttpServer =
     HttpServer(adapter, settings, block).apply { start() }

@@ -14,6 +14,7 @@ import com.hexagonkt.http.model.HttpMethod.POST
 import com.hexagonkt.http.model.HttpPart
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.callbacks.FileCallback
 import com.hexagonkt.http.server.callbacks.UrlCallback
 import com.hexagonkt.http.server.handlers.PathHandler
@@ -31,8 +32,9 @@ import kotlin.test.assertEquals
 @TestInstance(PER_CLASS)
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class FilesTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     private val directory = File("http_test/src/main/resources/assets").let {

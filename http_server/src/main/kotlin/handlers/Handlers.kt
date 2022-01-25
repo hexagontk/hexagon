@@ -12,10 +12,11 @@ val exceptionHandler = AfterHandler(pattern = "*", exception = Exception::class)
 internal fun toCallback(handler: HttpCallback): Callback<HttpServerCall> =
     { context -> HttpServerContext(context).handler().context }
 
-fun path(pattern: String = "", block: PathBuilder.() -> Unit): PathHandler {
-    val builder = PathBuilder()
+// TODO Create PathBuilder to leave outside WS. ServerBuilder would use PathBuilder and WsBuilder
+fun path(pattern: String = "", block: ServerBuilder.() -> Unit): PathHandler {
+    val builder = ServerBuilder()
     builder.block()
-    return PathHandler(pattern, builder.handlers)
+    return path(pattern, builder.handlers)
 }
 
 // TODO Add first filter with error handling and 'bodyToBytes' checks

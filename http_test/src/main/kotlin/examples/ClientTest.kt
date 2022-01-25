@@ -38,9 +38,10 @@ import kotlin.test.assertTrue
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class ClientTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort,
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
     private val serializationFormats: List<SerializationFormat>,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     private var callback: HttpCallback = { this }
@@ -345,7 +346,7 @@ abstract class ClientTest(
             clientAuth = true // Requires a valid certificate from the client (mutual TLS)
         )
 
-        val serverSettings = HttpServerSettings(
+        val serverSettings = serverSettings.copy(
             bindPort = 0,
             protocol = HTTPS, // You can also use HTTP2
             sslSettings = sslSettings
