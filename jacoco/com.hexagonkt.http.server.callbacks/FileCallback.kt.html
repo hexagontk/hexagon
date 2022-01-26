@@ -2,24 +2,23 @@
 
 import com.hexagonkt.core.media.mediaTypeOf
 import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.server.handlers.HttpCallback
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import java.io.File
 
-<span class="fc" id="L9">class FileCallback(private val file: File) : HttpCallback {</span>
+<span class="fc" id="L8">class FileCallback(private val file: File) : (HttpServerContext) -&gt; HttpServerContext {</span>
 
-    override suspend fun invoke(context: HttpServerContext): HttpServerContext {
-<span class="fc bfc" id="L12" title="All 2 branches covered.">        val requestPath = context.pathParameters[&quot;0&quot;]</span>
-<span class="fc" id="L13">            ?: error(&quot;File loading require a single path parameter&quot;)</span>
+    override fun invoke(context: HttpServerContext): HttpServerContext {
+<span class="fc bfc" id="L11" title="All 2 branches covered.">        val requestPath = context.pathParameters[&quot;0&quot;]</span>
+<span class="fc" id="L12">            ?: error(&quot;File loading require a single path parameter&quot;)</span>
 
-<span class="fc" id="L15">        val file = file.resolve(requestPath).absoluteFile</span>
-<span class="fc bfc" id="L16" title="All 2 branches covered.">        return if (file.exists()) {</span>
-<span class="fc" id="L17">            val bytes = file.readBytes()</span>
-<span class="fc" id="L18">            val mediaType = mediaTypeOf(file)</span>
-<span class="fc" id="L19">            context.ok(bytes, contentType = ContentType(mediaType))</span>
+<span class="fc" id="L14">        val file = file.resolve(requestPath).absoluteFile</span>
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        return if (file.exists()) {</span>
+<span class="fc" id="L16">            val bytes = file.readBytes()</span>
+<span class="fc" id="L17">            val mediaType = mediaTypeOf(file)</span>
+<span class="fc" id="L18">            context.ok(bytes, contentType = ContentType(mediaType))</span>
         }
         else {
-<span class="fc" id="L22">            context.notFound(&quot;File not found&quot;)</span>
+<span class="fc" id="L21">            context.notFound(&quot;File not found&quot;)</span>
         }
     }
 }

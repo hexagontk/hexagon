@@ -2,7 +2,7 @@
 
 <span class="fc" id="L3">data class ChainHandler&lt;T : Any&gt;(</span>
 <span class="fc" id="L4">    val handlers: List&lt;Handler&lt;T&gt;&gt;,</span>
-<span class="pc bnc" id="L5" title="All 2 branches missed.">    override val predicate: Predicate&lt;T&gt; = { true },</span>
+<span class="pc" id="L5">    override val predicate: Predicate&lt;T&gt; = { true },</span>
 ) : Handler&lt;T&gt; {
 
     constructor(
@@ -10,7 +10,7 @@
         vararg handlers: Handler&lt;T&gt;,
 <span class="fc" id="L11">    ) : this(handlers.toList(), filter)</span>
 
-<span class="pc bpc" id="L13" title="1 of 2 branches missed.">    constructor(vararg handlers: Handler&lt;T&gt;) : this(handlers.toList(), { true })</span>
+<span class="fc" id="L13">    constructor(vararg handlers: Handler&lt;T&gt;) : this(handlers.toList(), { true })</span>
 
 <span class="fc" id="L15">    override val callback: Callback&lt;T&gt; = {</span>
 <span class="fc" id="L16">        val nestedResult = it.copy(event = it.event, nextHandlers = handlers).next()</span>

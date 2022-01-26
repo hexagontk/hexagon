@@ -56,7 +56,7 @@ import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 <span class="fc" id="L56">            ?: error(&quot;'null' Jetty HTTP client: Client *MUST BE STARTED* before shut-down&quot;)</span>
 <span class="fc" id="L57">    }</span>
 
-    override suspend fun send(request: HttpClientRequest): HttpClientResponse {
+    override fun send(request: HttpClientRequest): HttpClientResponse {
 
 <span class="fc bfc" id="L61" title="All 2 branches covered.">        val adapterHttpClient = httpClient</span>
 <span class="fc" id="L62">            ?: error(&quot;'null' HTTP client: Client *MUST BE STARTED* before sending requests&quot;)</span>

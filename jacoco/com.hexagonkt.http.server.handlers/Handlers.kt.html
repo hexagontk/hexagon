@@ -3,29 +3,30 @@
 import com.hexagonkt.core.handlers.Callback
 import com.hexagonkt.http.server.model.HttpServerCall
 
-typealias HttpCallback = suspend HttpServerContext.() -&gt; HttpServerContext
+typealias HttpCallback = HttpServerContext.() -&gt; HttpServerContext
 
-<span class="pc bpc" id="L8" title="1 of 2 branches missed.">val exceptionHandler = AfterHandler(pattern = &quot;*&quot;, exception = Exception::class) {</span>
+<span class="fc" id="L8">val exceptionHandler = AfterHandler(pattern = &quot;*&quot;, exception = Exception::class) {</span>
 <span class="pc bpc" id="L9" title="1 of 2 branches missed.">    internalServerError(exception ?: RuntimeException(&quot;Unhandled Exception&quot;))</span>
 }
 
 internal fun toCallback(handler: HttpCallback): Callback&lt;HttpServerCall&gt; =
 <span class="fc" id="L13">    { context -&gt; HttpServerContext(context).handler().context }</span>
 
-<span class="fc" id="L15">fun path(pattern: String = &quot;&quot;, block: PathBuilder.() -&gt; Unit): PathHandler {</span>
-<span class="fc" id="L16">    val builder = PathBuilder()</span>
-<span class="fc" id="L17">    builder.block()</span>
-<span class="fc" id="L18">    return PathHandler(pattern, builder.handlers)</span>
+// TODO Create PathBuilder to leave outside WS. ServerBuilder would use PathBuilder and WsBuilder
+<span class="fc" id="L16">fun path(pattern: String = &quot;&quot;, block: ServerBuilder.() -&gt; Unit): PathHandler {</span>
+<span class="fc" id="L17">    val builder = ServerBuilder()</span>
+<span class="fc" id="L18">    builder.block()</span>
+<span class="fc" id="L19">    return path(pattern, builder.handlers)</span>
 }
 
 // TODO Add first filter with error handling and 'bodyToBytes' checks
-<span class="fc" id="L22">fun path(contextPath: String = &quot;&quot;, handlers: List&lt;ServerHandler&gt;): PathHandler =</span>
-<span class="fc" id="L23">    handlers</span>
-<span class="fc" id="L24">        .filterIsInstance&lt;HttpHandler&gt;()</span>
-<span class="fc" id="L25">        .let {</span>
-<span class="fc bfc" id="L26" title="All 4 branches covered.">            if (it.size == 1 &amp;&amp; it[0] is PathHandler)</span>
-<span class="fc" id="L27">                (it[0] as PathHandler).addPrefix(contextPath) as PathHandler</span>
+<span class="fc" id="L23">fun path(contextPath: String = &quot;&quot;, handlers: List&lt;ServerHandler&gt;): PathHandler =</span>
+<span class="fc" id="L24">    handlers</span>
+<span class="fc" id="L25">        .filterIsInstance&lt;HttpHandler&gt;()</span>
+<span class="fc" id="L26">        .let {</span>
+<span class="fc bfc" id="L27" title="All 4 branches covered.">            if (it.size == 1 &amp;&amp; it[0] is PathHandler)</span>
+<span class="fc" id="L28">                (it[0] as PathHandler).addPrefix(contextPath) as PathHandler</span>
             else
-<span class="fc" id="L29">                PathHandler(contextPath, it)</span>
-<span class="fc" id="L30">        }</span>
+<span class="fc" id="L30">                PathHandler(contextPath, it)</span>
+<span class="fc" id="L31">        }</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

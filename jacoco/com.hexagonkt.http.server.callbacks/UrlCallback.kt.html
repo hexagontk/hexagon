@@ -3,27 +3,26 @@
 import com.hexagonkt.core.ResourceNotFoundException
 import com.hexagonkt.core.media.mediaTypeOf
 import com.hexagonkt.http.model.ContentType
-import com.hexagonkt.http.server.handlers.HttpCallback
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import java.net.URL
 
-<span class="fc" id="L10">class UrlCallback(private val url: URL) : HttpCallback {</span>
+<span class="fc" id="L9">class UrlCallback(private val url: URL) : (HttpServerContext) -&gt; HttpServerContext {</span>
 
-    override suspend fun invoke(context: HttpServerContext): HttpServerContext {
-<span class="fc bfc" id="L13" title="All 2 branches covered.">        val requestPath = context.pathParameters[&quot;0&quot;]</span>
-<span class="fc" id="L14">            ?: error(&quot;URL loading require a single path parameter&quot;)</span>
+    override fun invoke(context: HttpServerContext): HttpServerContext {
+<span class="fc bfc" id="L12" title="All 2 branches covered.">        val requestPath = context.pathParameters[&quot;0&quot;]</span>
+<span class="fc" id="L13">            ?: error(&quot;URL loading require a single path parameter&quot;)</span>
 
-<span class="fc" id="L16">        return try {</span>
-<span class="fc bfc" id="L17" title="All 2 branches covered.">            if (requestPath.endsWith(&quot;/&quot;))</span>
-<span class="fc" id="L18">                throw ResourceNotFoundException(&quot;$requestPath not found (folder)&quot;)</span>
+<span class="fc" id="L15">        return try {</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">            if (requestPath.endsWith(&quot;/&quot;))</span>
+<span class="fc" id="L17">                throw ResourceNotFoundException(&quot;$requestPath not found (folder)&quot;)</span>
 
-<span class="fc" id="L20">            val resource = URL(&quot;$url/$requestPath&quot;)</span>
-<span class="fc" id="L21">            val bytes = resource.readBytes()</span>
-<span class="fc" id="L22">            val mediaType = mediaTypeOf(resource)</span>
-<span class="fc" id="L23">            context.ok(bytes, contentType = ContentType(mediaType))</span>
+<span class="fc" id="L19">            val resource = URL(&quot;$url/$requestPath&quot;)</span>
+<span class="fc" id="L20">            val bytes = resource.readBytes()</span>
+<span class="fc" id="L21">            val mediaType = mediaTypeOf(resource)</span>
+<span class="fc" id="L22">            context.ok(bytes, contentType = ContentType(mediaType))</span>
         }
-<span class="fc" id="L25">        catch (e: ResourceNotFoundException) {</span>
-<span class="pc bpc" id="L26" title="1 of 2 branches missed.">            context.notFound(e.message ?: &quot;&quot;)</span>
+<span class="fc" id="L24">        catch (e: ResourceNotFoundException) {</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">            context.notFound(e.message ?: &quot;&quot;)</span>
         }
     }
 }

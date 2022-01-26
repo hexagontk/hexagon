@@ -63,7 +63,7 @@ import java.security.cert.X509Certificate
 <span class="fc" id="L63">        request.formParameters.allValues + request.queryParameters.allValues + pathParameters</span>
     }
 
-    suspend fun next(): HttpServerContext =
+    fun next(): HttpServerContext =
 <span class="fc" id="L67">        HttpServerContext(context.next())</span>
 
 <span class="fc" id="L69">    fun success(</span>

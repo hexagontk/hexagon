@@ -16,7 +16,7 @@ interface Handler&lt;T : Any&gt; {
     val predicate: Predicate&lt;T&gt;
     val callback: Callback&lt;T&gt;
 
-    suspend fun process(context: Context&lt;T&gt;): Context&lt;T&gt; =
+    fun process(context: Context&lt;T&gt;): Context&lt;T&gt; =
 <span class="fc" id="L20">        try {</span>
 <span class="fc" id="L21">            callback(context)</span>
         }
@@ -25,7 +25,7 @@ interface Handler&lt;T : Any&gt; {
 <span class="fc" id="L25">            context.copy(exception = e)</span>
 <span class="fc" id="L26">        }</span>
 
-    suspend fun process(event: T): T =
+    fun process(event: T): T =
 <span class="fc" id="L29">        process(Context(event, predicate)).event</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

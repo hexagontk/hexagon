@@ -7,7 +7,7 @@ import com.hexagonkt.core.logging.Logger
  * filter).
  */
 <span class="pc" id="L9">data class AfterHandler&lt;T : Any&gt;(</span>
-<span class="pc bpc" id="L10" title="1 of 2 branches missed.">    val afterFilter: Predicate&lt;T&gt; = { true },</span>
+<span class="fc" id="L10">    val afterFilter: Predicate&lt;T&gt; = { true },</span>
 <span class="fc" id="L11">    val afterCallback: Callback&lt;T&gt;,</span>
 ) : Handler&lt;T&gt; {
 
@@ -15,7 +15,7 @@ import com.hexagonkt.core.logging.Logger
     // After handlers' filters are always true because they are meant to be evaluated on the return
     // If they are not called in first place, they won't be executed on the return of the next
     // handler
-<span class="pc bpc" id="L18" title="1 of 2 branches missed.">    override val predicate: Predicate&lt;T&gt; = { true }</span>
+<span class="fc" id="L18">    override val predicate: Predicate&lt;T&gt; = { true }</span>
 
     companion object {
 <span class="fc" id="L21">        private val logger: Logger = Logger(AfterHandler::class)</span>

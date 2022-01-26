@@ -13,7 +13,7 @@
 <span class="fc" id="L13">    val attributes: Map&lt;Any, Any&gt; = emptyMap(),</span>
 ) {
 
-    suspend fun next(): Context&lt;T&gt; {
+    fun next(): Context&lt;T&gt; {
 <span class="fc bfc" id="L17" title="All 4 branches covered.">        val matchingHandlers = nextHandlers.dropWhile { !it.predicate(this) }</span>
 <span class="fc" id="L18">        val nextHandler = matchingHandlers.firstOrNull()</span>
 <span class="fc bfc" id="L19" title="All 2 branches covered.">        return nextHandler</span>

@@ -47,10 +47,10 @@ import java.net.URL
     /**
      * Synchronous execution.
      */
-    suspend fun send(request: HttpClientRequest): HttpClientResponse =
+    fun send(request: HttpClientRequest): HttpClientResponse =
 <span class="fc" id="L51">        adapter.send(request)</span>
 
-<span class="fc" id="L53">    suspend fun get(</span>
+<span class="fc" id="L53">    fun get(</span>
         path: String,
 <span class="fc" id="L55">        headers: MultiMap&lt;String, String&gt; = multiMapOf(),</span>
 <span class="fc" id="L56">        body: Any? = null,</span>
@@ -64,40 +64,40 @@ import java.net.URL
 <span class="fc" id="L64">                    contentType = contentType)</span>
 <span class="fc" id="L65">            )</span>
 
-<span class="fc" id="L67">    suspend fun head(</span>
+<span class="fc" id="L67">    fun head(</span>
 <span class="fc" id="L68">        path: String, headers: MultiMap&lt;String, String&gt; = multiMapOf()</span>
     ): HttpClientResponse =
 <span class="fc" id="L70">        send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))</span>
 
-<span class="fc" id="L72">    suspend fun post(</span>
+<span class="fc" id="L72">    fun post(</span>
         path: String,
 <span class="fc" id="L74">        body: Any? = null,</span>
 <span class="fc" id="L75">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
 <span class="fc bfc" id="L77" title="All 2 branches covered.">        send(HttpClientRequest(POST, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
 
-<span class="fc" id="L79">    suspend fun put(</span>
+<span class="fc" id="L79">    fun put(</span>
         path: String,
 <span class="fc" id="L81">        body: Any? = null,</span>
 <span class="fc" id="L82">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
 <span class="fc bfc" id="L84" title="All 2 branches covered.">        send(HttpClientRequest(PUT, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
 
-<span class="fc" id="L86">    suspend fun delete(</span>
+<span class="fc" id="L86">    fun delete(</span>
         path: String,
 <span class="fc" id="L88">        body: Any? = null,</span>
 <span class="fc" id="L89">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
 <span class="fc bfc" id="L91" title="All 2 branches covered.">        send(HttpClientRequest(DELETE, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
 
-<span class="fc" id="L93">    suspend fun trace(</span>
+<span class="fc" id="L93">    fun trace(</span>
         path: String,
 <span class="fc" id="L95">        body: Any? = null,</span>
 <span class="fc" id="L96">        contentType: ContentType? = settings.contentType</span>
     ): HttpClientResponse =
 <span class="fc bfc" id="L98" title="All 2 branches covered.">        send(HttpClientRequest(TRACE, path = path, body = body ?: &quot;&quot;, contentType = contentType))</span>
 
-<span class="fc" id="L100">    suspend fun options(</span>
+<span class="fc" id="L100">    fun options(</span>
         path: String,
 <span class="fc" id="L102">        body: Any? = null,</span>
 <span class="fc" id="L103">        headers: MultiMap&lt;String, String&gt; = multiMapOf(),</span>
@@ -113,7 +113,7 @@ import java.net.URL
             )
 <span class="fc" id="L114">        )</span>
 
-<span class="fc" id="L116">    suspend fun patch(</span>
+<span class="fc" id="L116">    fun patch(</span>
         path: String,
 <span class="fc" id="L118">        body: Any? = null,</span>
 <span class="fc" id="L119">        contentType: ContentType? = settings.contentType</span>

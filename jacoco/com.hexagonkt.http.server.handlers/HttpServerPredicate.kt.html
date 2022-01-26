@@ -36,7 +36,7 @@ import kotlin.reflect.KClass
     ) :
 <span class="fc" id="L37">        this(methods, createPathPattern(pattern, prefix), exception, status)</span>
 
-    override suspend fun invoke(context: Context&lt;HttpServerCall&gt;): Boolean =
+    override fun invoke(context: Context&lt;HttpServerCall&gt;): Boolean =
 <span class="fc" id="L40">        predicate(context)</span>
 
     fun clearMethods(): HttpServerPredicate =
@@ -46,8 +46,8 @@ import kotlin.reflect.KClass
 <span class="fc bfc" id="L46" title="All 2 branches covered.">        return if (logger.isDebugEnabled()) {</span>
 <span class="fc" id="L47">            {</span>
 <span class="fc" id="L48">                val allowed = predicate(it)</span>
-<span class="pc bpc" id="L49" title="2 of 4 branches missed.">                logger.debug { &quot;${describe()} -&gt; ${if (allowed) &quot;ALLOWED&quot; else &quot;DENIED&quot;}&quot; }</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">                allowed</span>
+<span class="pc bnc" id="L49" title="All 2 branches missed.">                logger.debug { &quot;${describe()} -&gt; ${if (allowed) &quot;ALLOWED&quot; else &quot;DENIED&quot;}&quot; }</span>
+<span class="fc" id="L50">                allowed</span>
             }
         }
         else
