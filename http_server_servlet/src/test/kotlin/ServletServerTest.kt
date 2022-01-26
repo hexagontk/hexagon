@@ -16,7 +16,6 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.net.InetSocketAddress
 import jakarta.servlet.annotation.WebListener
-import kotlinx.coroutines.runBlocking
 import java.net.URL
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -56,7 +55,7 @@ internal class ServletServerTest {
         LoggingManager.setLoggerLevel("com.hexagonkt", OFF)
     }
 
-    @Test fun `Servlet server starts`() = runBlocking {
+    @Test fun `Servlet server starts`() {
         HttpClient(JettyClientAdapter(), URL("http://127.0.0.1:9897")).use {
             it.start()
             assertEquals("Hello Servlet!", it.get("/").body)

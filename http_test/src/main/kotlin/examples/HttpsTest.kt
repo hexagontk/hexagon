@@ -16,7 +16,6 @@ import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertEquals
@@ -25,8 +24,9 @@ import kotlin.test.assertNotNull
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class HttpsTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     private val identity = "hexagonkt.p12"
@@ -44,7 +44,7 @@ abstract class HttpsTest(
         clientAuth = true
     )
 
-    private val serverSettings = HttpServerSettings(
+    private val http2ServerSettings = serverSettings.copy(
         bindPort = 0,
         protocol = HTTP2,
         sslSettings = sslSettings
@@ -62,7 +62,7 @@ abstract class HttpsTest(
 
     override val handler: ServerHandler = router
 
-    @Test fun `Serve HTTPS example`() = runBlocking {
+    @Test fun `Serve HTTPS example`() {
 
         // https
         // Key store files
@@ -120,28 +120,9 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve HTTPS works properly`() = runBlocking {
+    @Test fun `Serve HTTPS works properly`() {
 
-        val server = HttpServer(serverAdapter(), handler, serverSettings.copy(protocol = HTTPS))
-        server.start()
-
-        val contextPath = URL("https://localhost:${server.runtimePort}")
-        val client = HttpClient(clientAdapter(), contextPath, clientSettings)
-        client.start()
-        client.get("/hello").apply {
-            logger.debug { body }
-            assert(headers.require("cert").startsWith("CN=hexagonkt.com"))
-            assertEquals("Hello World!", body)
-        }
-
-        client.stop()
-        server.stop()
-    }
-
-    @Test fun `Serve HTTP2 works properly`() = runBlocking {
-
-        val server = HttpServer(serverAdapter(), handler, serverSettings)
-        server.start()
+        val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
 
         val contextPath = URL("https://localhost:${server.runtimePort}")
         val client = HttpClient(clientAdapter(), contextPath, clientSettings)
@@ -156,7 +137,24 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve insecure HTTPS example`() = runBlocking {
+    @Test fun `Serve HTTP2 works properly`() {
+
+        val server = serve(serverAdapter(), handler, http2ServerSettings)
+
+        val contextPath = URL("https://localhost:${server.runtimePort}")
+        val client = HttpClient(clientAdapter(), contextPath, clientSettings)
+        client.start()
+        client.get("/hello").apply {
+            logger.debug { body }
+            assert(headers.require("cert").startsWith("CN=hexagonkt.com"))
+            assertEquals("Hello World!", body)
+        }
+
+        client.stop()
+        server.stop()
+    }
+
+    @Test fun `Serve insecure HTTPS example`() {
 
         val identity = "hexagonkt.p12"
         val trust = "trust.p12"
@@ -168,7 +166,7 @@ abstract class HttpsTest(
         )
         // keyStoreSettings
 
-        val serverSettings = HttpServerSettings(
+        val serverSettings = serverSettings.copy(
             bindPort = 0,
             protocol = HTTPS,
             sslSettings = keyStoreSettings

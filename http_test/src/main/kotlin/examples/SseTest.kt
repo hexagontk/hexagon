@@ -8,6 +8,7 @@ import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.model.HttpServerEvent
 import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.test.BaseTest
 import kotlinx.coroutines.flow.Flow
@@ -19,8 +20,9 @@ import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class SseTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort,
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     // sse

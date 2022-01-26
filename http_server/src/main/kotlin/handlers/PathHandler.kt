@@ -4,7 +4,6 @@ import com.hexagonkt.core.handlers.ChainHandler
 import com.hexagonkt.core.handlers.Handler
 import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
-import com.hexagonkt.http.patterns.createPathPattern
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
@@ -46,7 +45,7 @@ data class PathHandler(
     constructor(pattern: String, vararg handlers: HttpHandler) :
         this(pattern, handlers.toList())
 
-    suspend fun process(request: HttpServerRequestPort): HttpServerResponse =
+    fun process(request: HttpServerRequestPort): HttpServerResponse =
         process(HttpServerCall(request = request)).response
 
     override fun addPrefix(prefix: String): HttpHandler =

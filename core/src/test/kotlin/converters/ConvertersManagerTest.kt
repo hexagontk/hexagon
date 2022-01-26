@@ -91,13 +91,14 @@ internal class ConvertersManagerTest {
 
     @Test fun `Type conversion works properly`() {
         ConvertersManager.register(Date::class to String::class) { it.toString() }
-        val dateText1 = ConvertersManager.convert(Date(), String::class)
-        val dateText2 = Date().convert(String::class)
-        val dateText3 = Date().convert<String>()
+        val date = Date()
+        val dateText1 = ConvertersManager.convert(date, String::class)
+        val dateText2 = date.convert(String::class)
+        val dateText3 = date.convert<String>()
         assertEquals(dateText1, dateText2)
         assertEquals(dateText2, dateText3)
         ConvertersManager.remove(Date::class to String::class)
-        val e = assertFailsWith<IllegalStateException> { Date().convert<String>() }
+        val e = assertFailsWith<IllegalStateException> { date.convert<String>() }
         val source = Date::class.simpleName
         val target = String::class.simpleName
         assertEquals("No converter for $source -> $target", e.message)

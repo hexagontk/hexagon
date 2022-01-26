@@ -1,4 +1,4 @@
 package com.hexagonkt.core.handlers
 
-typealias Predicate<T> = suspend (Context<T>) -> Boolean
-typealias Callback<T> = suspend (Context<T>) -> Context<T>
+typealias Predicate<T> = (Context<T>) -> Boolean
+typealias Callback<T> = (Context<T>) -> Context<T>

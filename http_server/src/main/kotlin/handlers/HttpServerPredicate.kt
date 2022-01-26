@@ -36,7 +36,7 @@ data class HttpServerPredicate(
     ) :
         this(methods, createPathPattern(pattern, prefix), exception, status)
 
-    override suspend fun invoke(context: Context<HttpServerCall>): Boolean =
+    override fun invoke(context: Context<HttpServerCall>): Boolean =
         predicate(context)
 
     fun clearMethods(): HttpServerPredicate =

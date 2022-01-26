@@ -5,13 +5,13 @@ import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpStatus
 import kotlin.reflect.KClass
 
-class PathBuilder(var handlers: List<HttpHandler> = emptyList()) {
+class ServerBuilder(var handlers: List<ServerHandler> = emptyList()) {
 
     fun use(handler: HttpHandler) {
         this.handlers += handler
     }
 
-    fun path(pattern: String, block: PathBuilder.() -> Unit) {
+    fun path(pattern: String, block: ServerBuilder.() -> Unit) {
         use(com.hexagonkt.http.server.handlers.path(pattern, block))
     }
 

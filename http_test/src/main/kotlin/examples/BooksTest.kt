@@ -7,18 +7,19 @@ import com.hexagonkt.http.model.HttpMethod.*
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.SuccessStatus.CREATED
 import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class BooksTest(
-    override val clientAdapter: () -> HttpClientPort,
-    override val serverAdapter: () -> HttpServerPort
+    final override val clientAdapter: () -> HttpClientPort,
+    final override val serverAdapter: () -> HttpServerPort,
+    final override val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) : BaseTest() {
 
     // books
@@ -204,7 +205,7 @@ abstract class BooksTest(
         path("/c", pathAlternative2)
     }
 
-    @Test fun `Create book returns 201 and new book ID`() = runBlocking {
+    @Test fun `Create book returns 201 and new book ID`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.post("$it/books?author=Vladimir%20Nabokov&title=Lolita")
             assert(Integer.valueOf(result.body as String) > 0)
@@ -212,7 +213,7 @@ abstract class BooksTest(
         }
     }
 
-    @Test fun `Create book returns 400 if a parameter is missing`() = runBlocking {
+    @Test fun `Create book returns 400 if a parameter is missing`() {
         listOf("/a", "/b", "/c").forEach { p ->
             client.post("$p/books?title=Lolita").let {
                 assertEquals("Missing author", it.body)
@@ -226,21 +227,21 @@ abstract class BooksTest(
         }
     }
 
-    @Test fun `List books contains all books IDs`() = runBlocking {
+    @Test fun `List books contains all books IDs`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.get("$it/books")
             assertResponseContains(result, "100", "101")
         }
     }
 
-    @Test fun `Get book returns all book's fields`() = runBlocking {
+    @Test fun `Get book returns all book's fields`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.get("$it/books/101")
             assertResponseContains(result, "William Shakespeare", "Hamlet")
         }
     }
 
-    @Test fun `Update book overrides existing book data`() = runBlocking {
+    @Test fun `Update book overrides existing book data`() {
         listOf("/a", "/b", "/c").forEach {
             val resultPut = client.put("$it/books/100?title=Don%20Quixote")
             assertResponseContains(resultPut, "100", "updated")
@@ -250,14 +251,14 @@ abstract class BooksTest(
         }
     }
 
-    @Test fun `Update not found book returns a 404`() = runBlocking {
+    @Test fun `Update not found book returns a 404`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.put("$it/books/9999?title=Don%20Quixote")
             assertResponseContains(result, NOT_FOUND, "not found")
         }
     }
 
-    @Test fun `Delete book returns the deleted record ID`() = runBlocking {
+    @Test fun `Delete book returns the deleted record ID`() {
         listOf("/a", "/b", "/c").forEach {
             val createResult =
                 client.post("$it/books?author=Ken%20Follett&title=The%20Pillars%20of%20the%20Earth")
@@ -269,21 +270,21 @@ abstract class BooksTest(
         }
     }
 
-    @Test fun `Delete not found book returns a 404`() = runBlocking {
+    @Test fun `Delete not found book returns a 404`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.delete("$it/books/9999")
             assertResponseContains(result, NOT_FOUND, "not found")
         }
     }
 
-    @Test fun `Book not found returns a 404`() = runBlocking {
+    @Test fun `Book not found returns a 404`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.get("$it/books/9999")
             assertResponseContains(result, NOT_FOUND, "not found")
         }
     }
 
-    @Test fun `Invalid method returns 405`() = runBlocking {
+    @Test fun `Invalid method returns 405`() {
         listOf("/a", "/b", "/c").forEach {
             val result = client.options("$it/books/9999")
             assertEquals(METHOD_NOT_ALLOWED, result.status)

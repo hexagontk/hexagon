@@ -16,7 +16,7 @@ interface Handler<T : Any> {
     val predicate: Predicate<T>
     val callback: Callback<T>
 
-    suspend fun process(context: Context<T>): Context<T> =
+    fun process(context: Context<T>): Context<T> =
         try {
             callback(context)
         }
@@ -25,6 +25,6 @@ interface Handler<T : Any> {
             context.copy(exception = e)
         }
 
-    suspend fun process(event: T): T =
+    fun process(event: T): T =
         process(Context(event, predicate)).event
 }

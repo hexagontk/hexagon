@@ -47,10 +47,10 @@ class HttpClient(
     /**
      * Synchronous execution.
      */
-    suspend fun send(request: HttpClientRequest): HttpClientResponse =
+    fun send(request: HttpClientRequest): HttpClientResponse =
         adapter.send(request)
 
-    suspend fun get(
+    fun get(
         path: String,
         headers: MultiMap<String, String> = multiMapOf(),
         body: Any? = null,
@@ -64,40 +64,40 @@ class HttpClient(
                     contentType = contentType)
             )
 
-    suspend fun head(
+    fun head(
         path: String, headers: MultiMap<String, String> = multiMapOf()
     ): HttpClientResponse =
         send(HttpClientRequest(HEAD, path = path, body = ByteArray(0), headers = headers))
 
-    suspend fun post(
+    fun post(
         path: String,
         body: Any? = null,
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =
         send(HttpClientRequest(POST, path = path, body = body ?: "", contentType = contentType))
 
-    suspend fun put(
+    fun put(
         path: String,
         body: Any? = null,
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =
         send(HttpClientRequest(PUT, path = path, body = body ?: "", contentType = contentType))
 
-    suspend fun delete(
+    fun delete(
         path: String,
         body: Any? = null,
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =
         send(HttpClientRequest(DELETE, path = path, body = body ?: "", contentType = contentType))
 
-    suspend fun trace(
+    fun trace(
         path: String,
         body: Any? = null,
         contentType: ContentType? = settings.contentType
     ): HttpClientResponse =
         send(HttpClientRequest(TRACE, path = path, body = body ?: "", contentType = contentType))
 
-    suspend fun options(
+    fun options(
         path: String,
         body: Any? = null,
         headers: MultiMap<String, String> = multiMapOf(),
@@ -113,7 +113,7 @@ class HttpClient(
             )
         )
 
-    suspend fun patch(
+    fun patch(
         path: String,
         body: Any? = null,
         contentType: ContentType? = settings.contentType

@@ -6,7 +6,6 @@ import com.hexagonkt.http.model.HttpMethod
 import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.HttpMethod.OPTIONS
 import com.hexagonkt.http.model.SuccessStatus
-import com.hexagonkt.http.server.handlers.HttpCallback
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import com.hexagonkt.http.model.SuccessStatus.NO_CONTENT
 
@@ -21,7 +20,7 @@ class CorsCallback(
     private val supportCredentials: Boolean = true,
     private val preFlightStatus: SuccessStatus = NO_CONTENT,
     private val preFlightMaxAge: Long = 0
-) : HttpCallback {
+) : (HttpServerContext) -> HttpServerContext {
 
     private companion object {
         const val ALLOW_ORIGIN = "access-control-allow-origin"
@@ -51,7 +50,7 @@ class CorsCallback(
             preFlightMaxAge
         )
 
-    override suspend fun invoke(context: HttpServerContext): HttpServerContext =
+    override fun invoke(context: HttpServerContext): HttpServerContext =
         context.simpleRequest().let {
             if (context.request.method == OPTIONS) it.preFlightRequest()
             else it

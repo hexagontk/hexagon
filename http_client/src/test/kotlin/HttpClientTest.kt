@@ -6,7 +6,6 @@ import com.hexagonkt.core.media.TextMedia.CSV
 import com.hexagonkt.http.client.model.HttpClientResponse
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.HttpCookie
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertEquals
@@ -16,7 +15,7 @@ import kotlin.test.assertTrue
 
 internal class HttpClientTest {
 
-    @Test fun `Default settings are created as expected`() = runBlocking {
+    @Test fun `Default settings are created as expected`() {
         assertEquals(HttpClientSettings(), HttpClient(VoidAdapter).settings)
 
         val noCookiesSettings = HttpClientSettings(useCookies = false)
@@ -50,7 +49,7 @@ internal class HttpClientTest {
         assertFalse(VoidAdapter.started)
     }
 
-    @Test fun `Client helper methods work properly`() = runBlocking {
+    @Test fun `Client helper methods work properly`() {
         fun HttpClientResponse.checkClient(
             path: String,
             body: String = "",

@@ -8,6 +8,7 @@ import com.hexagonkt.http.model.HttpProtocol.HTTPS
 import com.hexagonkt.http.server.servlet.ServletFilter
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerFeature
+import com.hexagonkt.http.server.HttpServerFeature.ASYNC
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
 import com.hexagonkt.http.server.HttpServerSettings
@@ -52,6 +53,7 @@ class JettyServletAdapter : HttpServerPort {
         val filter = ServletFilter(pathHandler, settings)
         val filterBind = context.servletContext.addFilter("filters", filter)
         val dispatcherTypes = EnumSet.allOf(DispatcherType::class.java)
+        filterBind.setAsyncSupported(settings.features.contains(ASYNC))
         filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
 
         val acceptors = settings.options["acceptors"] as? Int ?: -1
@@ -85,7 +87,7 @@ class JettyServletAdapter : HttpServerPort {
         setOf(HTTP, HTTPS, HTTP2)
 
     override fun supportedFeatures(): Set<HttpServerFeature> =
-        setOf(ZIP)
+        setOf(ZIP, ASYNC)
 
     override fun supportedOptions(): Set<String> =
         setOf(

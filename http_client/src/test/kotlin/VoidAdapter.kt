@@ -14,7 +14,7 @@ object VoidAdapter : HttpClientPort {
         started = false
     }
 
-    override suspend fun send(request: HttpClientRequest): HttpClientResponse =
+    override fun send(request: HttpClientRequest): HttpClientResponse =
         HttpClientResponse(
             headers = request.headers + ("-path-" to request.path),
             body = request.body,

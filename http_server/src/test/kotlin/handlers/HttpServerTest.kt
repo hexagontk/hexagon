@@ -8,13 +8,12 @@ import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.SuccessStatus.*
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class HttpServerTest {
 
-    @Test fun `Handlers proof of concept`() = runBlocking {
+    @Test fun `Handlers proof of concept`() {
         val path = PathHandler(
             OnHandler { ok() },
             AfterHandler { this },
@@ -51,7 +50,7 @@ internal class HttpServerTest {
         assertEquals("value", path.process(HttpServerRequest(path = "/a/b/value")).body)
     }
 
-    @Test fun `Builder proof of concept`() = runBlocking {
+    @Test fun `Builder proof of concept`() {
 
         val path = path {
             path("/a") {

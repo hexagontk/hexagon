@@ -26,9 +26,6 @@ import com.hexagonkt.http.server.callbacks.UrlCallback
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.server.serve
 import com.hexagonkt.logging.slf4j.jul.Slf4jJulLoggingAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -42,7 +39,8 @@ import kotlin.test.assertEquals
 @Suppress("FunctionName") // This class's functions are intended to be used only in tests
 abstract class SamplesTest(
     val clientAdapter: () -> HttpClientPort,
-    val serverAdapter: () -> HttpServerPort
+    val serverAdapter: () -> HttpServerPort,
+    val serverSettings: HttpServerSettings = HttpServerSettings(),
 ) {
 
     @BeforeAll fun startUp() {
@@ -54,14 +52,14 @@ abstract class SamplesTest(
         LoggingManager.setLoggerLevel("com.hexagonkt", OFF)
     }
 
-    @Test fun serverCreation() = runBlocking {
+    @Test fun serverCreation() {
         // serverCreation
         /*
          * All settings are optional, you can supply any combination
          * Parameters not set will fall back to the defaults
          */
         val settings = HttpServerSettings(
-            bindAddress = withContext(Dispatchers.IO) { InetAddress.getByName("0.0.0") },
+            bindAddress = InetAddress.getByName("0.0.0"),
             bindPort = 2020,
             contextPath = "/context",
             banner = "name"
@@ -93,7 +91,7 @@ abstract class SamplesTest(
         // serverCreation
     }
 
-    @Test fun routesCreation() = runBlocking {
+    @Test fun routesCreation() {
         val server = serve(serverAdapter()) {
             // routesCreation
             get("/hello") { ok("Get greeting") }
@@ -118,7 +116,7 @@ abstract class SamplesTest(
         }
     }
 
-    @Test fun routeGroups() = runBlocking {
+    @Test fun routeGroups() {
         val server = serve(serverAdapter()) {
             // routeGroups
             path("/nested") {
@@ -143,7 +141,7 @@ abstract class SamplesTest(
         }
     }
 
-    @Test fun routers() = runBlocking {
+    @Test fun routers() {
         // routers
         fun personRouter(kind: String) = path {
             get { ok("Get $kind") }
@@ -174,7 +172,7 @@ abstract class SamplesTest(
     }
 
     @Suppress("UNREACHABLE_CODE")
-    @Test fun callbacks() = runBlocking {
+    @Test fun callbacks() {
         val server = HttpServer(serverAdapter()) {
             // callbackCall
             get("/call") {
@@ -361,7 +359,7 @@ abstract class SamplesTest(
         }
     }
 
-    @Test fun filters() = runBlocking {
+    @Test fun filters() {
         fun assertResponse(response: HttpClientResponse, body: String, vararg headers: String) {
             assertEquals(OK, response.status)
             assertEquals(body, response.body)
@@ -419,7 +417,7 @@ abstract class SamplesTest(
         }
     }
 
-    @Test fun errors() = runBlocking {
+    @Test fun errors() {
         val server = serve(serverAdapter()) {
             // errors
             exception<Exception>(NOT_FOUND) {
@@ -465,7 +463,7 @@ abstract class SamplesTest(
         }
     }
 
-    @Test fun files() = runBlocking {
+    @Test fun files() {
         val server = serve(serverAdapter()) {
             // files
             get("/web/file.txt") { ok("It matches this route and won't search for the file") }
@@ -502,7 +500,7 @@ abstract class SamplesTest(
         }
     }
 
-    @Test fun test() = runBlocking {
+    @Test fun test() {
         // test
         val router = path {
             get("/hello") { ok("Hi!") }

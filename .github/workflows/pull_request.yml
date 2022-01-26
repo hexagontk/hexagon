@@ -44,13 +44,14 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
+            ~/.local/bin
             ~/.local/lib/python*/site-packages
 
       # PROCESS
       - name: Build Site
         run: |
-          ./gradlew --no-daemon build
-          ./gradlew --no-daemon -x build buildSite
+          ./gradlew --info build
+          ./gradlew --info -x build buildSite
 
       # CLEAN UP
       - name: Clean Gradle Cache
