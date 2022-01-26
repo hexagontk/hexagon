@@ -63,7 +63,7 @@ data class HttpServerContext(
         request.formParameters.allValues + request.queryParameters.allValues + pathParameters
     }
 
-    suspend fun next(): HttpServerContext =
+    fun next(): HttpServerContext =
         HttpServerContext(context.next())
 
     fun success(

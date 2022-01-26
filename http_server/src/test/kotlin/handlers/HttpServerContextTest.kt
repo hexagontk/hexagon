@@ -20,7 +20,6 @@ import com.hexagonkt.http.patterns.TemplatePathPattern
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.lang.RuntimeException
 import kotlin.test.assertEquals
@@ -132,7 +131,7 @@ internal class HttpServerContextTest {
         assertEquals(serverContext, serverContext.send())
     }
 
-    @Test fun `Response helpers return correct values`() = runBlocking {
+    @Test fun `Response helpers return correct values`() {
         val path = PathHandler(
             OnHandler("/ok") { ok() },
             OnHandler("/notFound") { notFound() },
@@ -177,7 +176,7 @@ internal class HttpServerContextTest {
         }
     }
 
-    @Test fun `'next' executes the next handler in the chain`() = runBlocking {
+    @Test fun `'next' executes the next handler in the chain`() {
         val context = HttpServerContext(
             Context(
                 HttpServerCall(httpServerRequest(), HttpServerResponse()),

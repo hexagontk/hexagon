@@ -8,7 +8,6 @@ import com.hexagonkt.http.model.HttpMethod.PUT
 import com.hexagonkt.http.model.SuccessStatus.*
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -75,35 +74,35 @@ internal class FiltersTest {
     }
     // filters
 
-    @Test fun `After handlers can be chained`() = runBlocking {
+    @Test fun `After handlers can be chained`() {
         assertEquals(ACCEPTED, path.send(GET, "/after").status)
         assertEquals(CREATED, path.send(GET, "/after/second").status)
         assertEquals(NO_CONTENT, path.send(PUT, "/after/second").status)
         assertEquals(ALREADY_REPORTED, path.send(PUT, "/after").status)
     }
 
-    @Test fun `Request without authorization returns 401`() = runBlocking {
+    @Test fun `Request without authorization returns 401`() {
         val response = path.send(GET, "/protected/hi")
         val time = response.headers["time"]?.toLong() ?: 0
         assertResponseEquals(response, "Unauthorized", UNAUTHORIZED)
         assert(time > 0)
     }
 
-    @Test fun `HTTP request with valid credentials returns valid response`() = runBlocking {
+    @Test fun `HTTP request with valid credentials returns valid response`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "London")
         val time = response.headers["time"]?.toLong() ?: 0
         assertResponseEquals(response, "Hello Turing!", OK)
         assert(time > 0)
     }
 
-    @Test fun `Request with invalid password returns 403`() = runBlocking {
+    @Test fun `Request with invalid password returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Turing", password = "Millis")
         val time = response.headers["time"]?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", FORBIDDEN)
         assert(time > 0)
     }
 
-    @Test fun `Request with invalid user returns 403`() = runBlocking {
+    @Test fun `Request with invalid user returns 403`() {
         val response = path.send(GET, "/protected/hi", user = "Curry", password = "Millis")
         val time = response.headers["time"]?.toLong() ?: 0
         assertResponseEquals(response, "Forbidden", FORBIDDEN)

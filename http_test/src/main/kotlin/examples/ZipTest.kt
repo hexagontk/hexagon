@@ -8,7 +8,6 @@ import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertEquals
@@ -23,7 +22,7 @@ abstract class ZipTest(
 
     override val handler: ServerHandler = path {}
 
-    @Test fun `Use ZIP encoding example`() = runBlocking {
+    @Test fun `Use ZIP encoding example`() {
 
         // zip
         val serverSettings = HttpServerSettings(
@@ -57,7 +56,7 @@ abstract class ZipTest(
         server.stop()
     }
 
-    @Test fun `Use ZIP encoding without enabling the feature example`() = runBlocking {
+    @Test fun `Use ZIP encoding without enabling the feature example`() {
 
         val server = HttpServer(serverAdapter(), serverSettings.copy(bindPort = 0)) {
             get("/hello") {

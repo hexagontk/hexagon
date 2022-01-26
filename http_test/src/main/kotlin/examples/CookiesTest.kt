@@ -10,7 +10,6 @@ import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import kotlin.test.assertEquals
@@ -58,13 +57,13 @@ abstract class CookiesTest(
 
     @Test
     @Order(1)
-    fun `Empty cookies assures there is no cookies`() = runBlocking {
+    fun `Empty cookies assures there is no cookies`() {
         assertEquals(OK, client.post("/assertNoCookies").status)
     }
 
     @Test
     @Order(2)
-    fun `Create cookie adds a new cookie to the request`() = runBlocking {
+    fun `Create cookie adds a new cookie to the request`() {
         val cookieName = "testCookie"
         val cookieValue = "testCookieValue"
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
@@ -77,7 +76,7 @@ abstract class CookiesTest(
 
     @Test
     @Order(3)
-    fun `Remove cookie deletes the given cookie`() = runBlocking {
+    fun `Remove cookie deletes the given cookie`() {
         val cookieName = "testCookie"
         val cookieValue = "testCookieValue"
         val cookie = "cookieName=$cookieName&cookieValue=$cookieValue"
@@ -91,7 +90,7 @@ abstract class CookiesTest(
 
     @Test
     @Order(4)
-    fun `Remove not available cookie does not fail`() = runBlocking {
+    fun `Remove not available cookie does not fail`() {
         val cookieName = "unknownCookie"
         client.post("/removeCookie?$cookieName")
         assert(client.cookies.isEmpty())
@@ -101,7 +100,7 @@ abstract class CookiesTest(
 
     @Test
     @Order(5)
-    fun `Full cookie lifecycle`() = runBlocking {
+    fun `Full cookie lifecycle`() {
         client.cookies = emptyList()
         assert(client.cookies.isEmpty())
 

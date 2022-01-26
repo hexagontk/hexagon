@@ -16,7 +16,6 @@ import com.hexagonkt.http.server.*
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertEquals
@@ -63,7 +62,7 @@ abstract class HttpsTest(
 
     override val handler: ServerHandler = router
 
-    @Test fun `Serve HTTPS example`() = runBlocking {
+    @Test fun `Serve HTTPS example`() {
 
         // https
         // Key store files
@@ -121,7 +120,7 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve HTTPS works properly`() = runBlocking {
+    @Test fun `Serve HTTPS works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings.copy(protocol = HTTPS))
 
@@ -138,7 +137,7 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve HTTP2 works properly`() = runBlocking {
+    @Test fun `Serve HTTP2 works properly`() {
 
         val server = serve(serverAdapter(), handler, http2ServerSettings)
 
@@ -155,7 +154,7 @@ abstract class HttpsTest(
         server.stop()
     }
 
-    @Test fun `Serve insecure HTTPS example`() = runBlocking {
+    @Test fun `Serve insecure HTTPS example`() {
 
         val identity = "hexagonkt.p12"
         val trust = "trust.p12"

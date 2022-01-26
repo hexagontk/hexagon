@@ -13,7 +13,7 @@ data class Context<T : Any>(
     val attributes: Map<Any, Any> = emptyMap(),
 ) {
 
-    suspend fun next(): Context<T> {
+    fun next(): Context<T> {
         val matchingHandlers = nextHandlers.dropWhile { !it.predicate(this) }
         val nextHandler = matchingHandlers.firstOrNull()
         return nextHandler

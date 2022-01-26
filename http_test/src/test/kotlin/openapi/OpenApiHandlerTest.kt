@@ -9,7 +9,6 @@ import com.hexagonkt.http.model.ServerErrorStatus.INTERNAL_SERVER_ERROR
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.jetty.JettyServletAdapter
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.*
 import java.net.URL
 
@@ -34,48 +33,48 @@ internal class OpenApiHandlerTest {
         server.stop()
     }
 
-    @Test fun `Basic routes are created correctly`() = runBlocking {
+    @Test fun `Basic routes are created correctly`() {
         val response = client.get("/ping")
         assert(response.status == OK)
         assert(response.body == "pong")
     }
 
-    @Test fun `Examples are fetched from media-type schema correctly`() = runBlocking {
+    @Test fun `Examples are fetched from media-type schema correctly`() {
         val response = client.get("/get-example-from-schema")
         assert(response.status == OK)
         assert(response.body == "response")
     }
 
-    @Test fun `Examples are fetched from media type correctly`() = runBlocking {
+    @Test fun `Examples are fetched from media type correctly`() {
         val response = client.get("/get-example-from-mediatype")
         assert(response.status == OK)
         assert(response.body == "response")
     }
 
-    @Test fun `Examples are fetched from multiple examples correctly`() = runBlocking {
+    @Test fun `Examples are fetched from multiple examples correctly`() {
         val response = client.get("/get-from-multiple-examples")
         assert(response.status == OK)
         assert(response.body in listOf("foo", "bar"))
     }
 
-    @Test fun `X-Mock-Response-Example is fetched from multiple examples correctly`() = runBlocking {
+    @Test fun `X-Mock-Response-Example is fetched from multiple examples correctly`() {
         val headers = multiMapOf("X-Mock-Response-Example" to "example2")
         val response = client.get("/get-from-multiple-examples", headers = headers)
         assert(response.status == OK)
         assert(response.body == "bar")
     }
 
-    @Test fun `Empty string is returned if no examples specified`() = runBlocking {
+    @Test fun `Empty string is returned if no examples specified`() {
         val response = client.get("/get-from-no-examples")
         assert(response.status == INTERNAL_SERVER_ERROR)
     }
 
-    @Test fun `Paths not present in OpenAPI spec return 404`() = runBlocking {
+    @Test fun `Paths not present in OpenAPI spec return 404`() {
         val response = client.get("/unknown-path")
         assert(response.status == NOT_FOUND)
     }
 
-    @Test fun `Required query params are verified correctly`() = runBlocking {
+    @Test fun `Required query params are verified correctly`() {
         val response1 = client.get("/check-query-param")
         assert(response1.status == BAD_REQUEST)
         assert(response1.body == "invalid or missing query param")
@@ -89,7 +88,7 @@ internal class OpenApiHandlerTest {
         assert(response3.body == "invalid or missing query param")
     }
 
-    @Test fun `Optional query params are verified correctly`() = runBlocking {
+    @Test fun `Optional query params are verified correctly`() {
         val response1 = client.get("/check-optional-query-param")
         assert(response1.status == OK)
         assert(response1.body == "success")
@@ -103,7 +102,7 @@ internal class OpenApiHandlerTest {
         assert(response3.body == "invalid or missing query param")
     }
 
-    @Test fun `Path params are verified correctly`() = runBlocking {
+    @Test fun `Path params are verified correctly`() {
         val response1 = client.get("/check-path-param/aValidValue")
         assert(response1.status == OK)
         assert(response1.body == "success")
@@ -113,7 +112,7 @@ internal class OpenApiHandlerTest {
         assert(response2.body == "invalid or missing path param")
     }
 
-    @Test fun `Required header params are verified correctly`() = runBlocking {
+    @Test fun `Required header params are verified correctly`() {
         val response1 = client.get("/check-header-param")
         assert(response1.status == BAD_REQUEST)
         assert(response1.body == "invalid or missing header param")
@@ -129,7 +128,7 @@ internal class OpenApiHandlerTest {
         assert(response3.body == "invalid or missing header param")
     }
 
-    @Test fun `Optional header params are verified correctly`() = runBlocking {
+    @Test fun `Optional header params are verified correctly`() {
         val response1 = client.get("/check-optional-header-param")
         assert(response1.status == OK)
         assert(response1.body == "success")
@@ -145,7 +144,7 @@ internal class OpenApiHandlerTest {
         assert(response3.body == "invalid or missing header param")
     }
 
-    @Test fun `Required cookies are verified correctly`() = runBlocking {
+    @Test fun `Required cookies are verified correctly`() {
         client.cookies += HttpCookie("cookieParam", "aValidValue")
         val response1 = client.get("/check-cookie-param")
         assert(response1.status == OK)
@@ -163,7 +162,7 @@ internal class OpenApiHandlerTest {
         assert(response3.body == "invalid or missing cookie param")
     }
 
-    @Test fun `Optional cookies are verified correctly`() = runBlocking {
+    @Test fun `Optional cookies are verified correctly`() {
         client.cookies += HttpCookie("cookieParam", "aValidValue")
         val response1 = client.get("/check-optional-cookie-param")
         assert(response1.status == OK)
@@ -181,7 +180,7 @@ internal class OpenApiHandlerTest {
         assert(response3.body == "success")
     }
 
-    @Test fun `Body is verified correctly`() = runBlocking {
+    @Test fun `Body is verified correctly`() {
         val response1 = client.get("/check-body", body = "Some body content")
         assert(response1.status == OK)
         assert(response1.body == "success")
@@ -191,7 +190,7 @@ internal class OpenApiHandlerTest {
         assert(response2.body == "invalid or missing request body")
     }
 
-    @Test fun `If Authorization is optional, it is skipped`() = runBlocking {
+    @Test fun `If Authorization is optional, it is skipped`() {
         val response1 = client.get("/check-optional-auth")
         assert(response1.status == OK)
         assert(response1.body == "success")
@@ -202,7 +201,7 @@ internal class OpenApiHandlerTest {
         assert(response2.body == "success")
     }
 
-    @Test fun `Basic HTTP Authentication is verified correctly`() = runBlocking {
+    @Test fun `Basic HTTP Authentication is verified correctly`() {
         val response1 = client.get("/check-basic-auth")
         assert(response1.status == UNAUTHORIZED)
         assert(response1.body == "Invalid authorization credentials")
@@ -213,7 +212,7 @@ internal class OpenApiHandlerTest {
         assert(response2.body == "success")
     }
 
-    @Test fun `Bearer HTTP Authentication is verified correctly`() = runBlocking {
+    @Test fun `Bearer HTTP Authentication is verified correctly`() {
         val response1 = client.get("/check-bearer-auth")
         assert(response1.status == UNAUTHORIZED)
         assert(response1.body == "Invalid authorization credentials")
@@ -224,13 +223,13 @@ internal class OpenApiHandlerTest {
         assert(response2.body == "success")
     }
 
-    @Test fun `HTTP Authentication with unknown scheme throws error`() = runBlocking {
+    @Test fun `HTTP Authentication with unknown scheme throws error`() {
         val response = client.get("/check-unknown-auth")
         assert(response.status == INTERNAL_SERVER_ERROR)
         assert(response.bodyString().contains("Currently the Mock Server only supports Basic and Bearer HTTP Authentication"))
     }
 
-    @Test fun `Query param API Key Authentication is verified correctly`() = runBlocking {
+    @Test fun `Query param API Key Authentication is verified correctly`() {
         val response1 = client.get("/check-query-api-auth")
         assert(response1.status == UNAUTHORIZED)
         assert(response1.body == "Invalid authorization credentials")
@@ -240,7 +239,7 @@ internal class OpenApiHandlerTest {
         assert(response2.body == "success")
     }
 
-    @Test fun `Header API Key Authentication is verified correctly`() = runBlocking {
+    @Test fun `Header API Key Authentication is verified correctly`() {
         val response1 = client.get("/check-header-api-auth")
         assert(response1.status == UNAUTHORIZED)
         assert(response1.body == "Invalid authorization credentials")
@@ -251,7 +250,7 @@ internal class OpenApiHandlerTest {
         assert(response2.body == "success")
     }
 
-    @Test fun `Cookie API Key Authentication is verified correctly`() = runBlocking {
+    @Test fun `Cookie API Key Authentication is verified correctly`() {
         val response1 = client.get("/check-cookie-api-auth")
         assert(response1.status == UNAUTHORIZED)
         assert(response1.body == "Invalid authorization credentials")
@@ -263,13 +262,13 @@ internal class OpenApiHandlerTest {
         client.cookies = emptyList()
     }
 
-    @Test fun `Unknown location API Key Authentication throws error`() = runBlocking {
+    @Test fun `Unknown location API Key Authentication throws error`() {
         val response = client.get("/check-unknown-api-auth")
         assert(response.status == INTERNAL_SERVER_ERROR)
         assert(response.bodyString().contains("Unknown `in` value found in OpenAPI Spec for security scheme"))
     }
 
-    @Test fun `When there are multiple security mechanisms, any one needs to be satisfied`() = runBlocking {
+    @Test fun `When there are multiple security mechanisms, any one needs to be satisfied`() {
         val response1 = client.get("/check-multiple-mechanisms")
         assert(response1.status == UNAUTHORIZED)
         assert(response1.body == "Invalid authorization credentials")
@@ -286,7 +285,7 @@ internal class OpenApiHandlerTest {
         assert(response3.body == "success")
     }
 
-    @Test fun `When there are multiple security schemes, all of them need to be satisfied`() = runBlocking {
+    @Test fun `When there are multiple security schemes, all of them need to be satisfied`() {
         val response1 = client.get("/check-multiple-mechanisms")
         assert(response1.status == UNAUTHORIZED)
         assert(response1.body == "Invalid authorization credentials")

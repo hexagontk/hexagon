@@ -10,7 +10,6 @@ import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequest
 import com.hexagonkt.http.server.model.HttpServerResponse
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.io.IOException
 import java.lang.IllegalStateException
@@ -20,7 +19,7 @@ import kotlin.test.assertTrue
 
 internal class HttpServerPredicateTest {
 
-    @Test fun `Predicates with empty pattern matches exact path or root`() = runBlocking {
+    @Test fun `Predicates with empty pattern matches exact path or root`() {
         val predicate = HttpServerPredicate()
         val call = HttpServerCall(HttpServerRequest(), HttpServerResponse())
         val context = Context(call, predicate)
@@ -44,7 +43,7 @@ internal class HttpServerPredicateTest {
         assertEquals("POST, PATCH Literal ''", predicate4.describe())
     }
 
-    @Test fun `Predicate without filter works properly`() = runBlocking {
+    @Test fun `Predicate without filter works properly`() {
         setOf(HttpServerPredicate(pattern = "*"), HttpServerPredicate(ALL, "*")).forEach {
             HttpMethod.values().forEach { method ->
                 HttpStatus.codes.values.forEach { status ->
@@ -57,7 +56,7 @@ internal class HttpServerPredicateTest {
         }
     }
 
-    @Test fun `Predicate with method filter works properly`() = runBlocking {
+    @Test fun `Predicate with method filter works properly`() {
         HttpServerPredicate(setOf(PUT, OPTIONS), "*").let {
             assertTrue(it.predicate(serverContext(PUT, "/a", OK)))
             assertTrue(it.predicate(serverContext(OPTIONS, "/a", OK)))
@@ -66,7 +65,7 @@ internal class HttpServerPredicateTest {
         }
     }
 
-    @Test fun `Predicate with pattern filter works properly`() = runBlocking {
+    @Test fun `Predicate with pattern filter works properly`() {
         HttpServerPredicate(pathPattern = LiteralPathPattern("/a")).let {
             assertTrue(it.predicate(serverContext(POST, "/a", OK)))
             assertTrue(it.predicate(serverContext(GET, "/a", OK)))
@@ -75,7 +74,7 @@ internal class HttpServerPredicateTest {
         }
     }
 
-    @Test fun `Predicate with exception filter works properly`() = runBlocking {
+    @Test fun `Predicate with exception filter works properly`() {
         HttpServerPredicate(pattern = "*", exception = RuntimeException::class).let {
             HttpMethod.values().forEach { method ->
                 HttpStatus.codes.values.forEach { status ->
@@ -94,7 +93,7 @@ internal class HttpServerPredicateTest {
         }
     }
 
-    @Test fun `Predicate with status filter works properly`() = runBlocking {
+    @Test fun `Predicate with status filter works properly`() {
         HttpServerPredicate(pattern = "*", status = OK).let {
             HttpMethod.values().forEach { method ->
                 listOf("/", "/a").forEach { pattern ->
@@ -107,7 +106,7 @@ internal class HttpServerPredicateTest {
         }
     }
 
-    @Test fun `Predicate with combined filters (without method) works properly`() = runBlocking {
+    @Test fun `Predicate with combined filters (without method) works properly`() {
         HttpServerPredicate(
             pathPattern = LiteralPathPattern("/a"),
             exception = RuntimeException::class,
@@ -156,7 +155,7 @@ internal class HttpServerPredicateTest {
         }
     }
 
-    @Test fun `Predicate with combined filters works properly`() = runBlocking {
+    @Test fun `Predicate with combined filters works properly`() {
         HttpServerPredicate(
             methods = setOf(POST, PUT),
             pathPattern = LiteralPathPattern("/a"),

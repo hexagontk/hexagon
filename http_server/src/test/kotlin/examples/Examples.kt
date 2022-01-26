@@ -22,7 +22,7 @@ internal fun assertResponseContains(response: HttpServerResponse?, vararg conten
     assertResponseContains(response, OK, *content)
 }
 
-internal suspend fun PathHandler.send(
+internal fun PathHandler.send(
     method: HttpMethod,
     requestPath: String,
     query: String = "",

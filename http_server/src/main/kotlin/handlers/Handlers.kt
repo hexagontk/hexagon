@@ -3,7 +3,7 @@ package com.hexagonkt.http.server.handlers
 import com.hexagonkt.core.handlers.Callback
 import com.hexagonkt.http.server.model.HttpServerCall
 
-typealias HttpCallback = suspend HttpServerContext.() -> HttpServerContext
+typealias HttpCallback = HttpServerContext.() -> HttpServerContext
 
 val exceptionHandler = AfterHandler(pattern = "*", exception = Exception::class) {
     internalServerError(exception ?: RuntimeException("Unhandled Exception"))

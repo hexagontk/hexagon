@@ -2,7 +2,6 @@ package com.hexagonkt.http.client.jetty
 
 import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.client.model.HttpClientRequest
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.lang.IllegalStateException
 import kotlin.test.assertEquals
@@ -16,7 +15,7 @@ internal class JettyClientAdapterTest {
         assertEquals("'null' Jetty HTTP client: Client *MUST BE STARTED* before shut-down", message)
     }
 
-    @Test fun `Send request without starting client`() = runBlocking {
+    @Test fun `Send request without starting client`() {
         val client = HttpClient(JettyClientAdapter())
         val request = HttpClientRequest()
         val message = assertFailsWith<IllegalStateException> { client.send(request) }.message

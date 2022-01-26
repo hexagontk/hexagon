@@ -55,7 +55,7 @@ abstract class CorsTest(
 
     override val handler: ServerHandler = path
 
-    @Test fun `Request without origin continues as non CORS`() = runBlocking {
+    @Test fun `Request without origin continues as non CORS`() {
         listOf(
             client.get("/default"),
             client.get("/default/path")
@@ -65,7 +65,7 @@ abstract class CorsTest(
         }
     }
 
-    @Test fun `Request with not allowed origin is forbidden`() = runBlocking {
+    @Test fun `Request with not allowed origin is forbidden`() {
         listOf(
             client.get("/example/org", multiMapOf("origin" to "other.com")),
             client.get("/example/org/path", multiMapOf("origin" to "other.com"))
@@ -75,7 +75,7 @@ abstract class CorsTest(
         }
     }
 
-    @Test fun `Allowed origin is returned properly`() = runBlocking {
+    @Test fun `Allowed origin is returned properly`() {
         listOf(
             client.get("/no/credentials", multiMapOf("origin" to "other.com")),
             client.get("/no/credentials/path", multiMapOf("origin" to "other.com"))
@@ -87,7 +87,7 @@ abstract class CorsTest(
         }
     }
 
-    @Test fun `Simple CORS request`() = runBlocking {
+    @Test fun `Simple CORS request`() {
         val result = client.get("/default", multiMapOf("origin" to "example.org"))
         assertEquals(OK, result.status)
         assertEquals("example.org", result.headers["access-control-allow-origin"])
@@ -95,13 +95,13 @@ abstract class CorsTest(
         assertEquals("true", result.headers["access-control-allow-credentials"])
     }
 
-    @Test fun `Simple CORS request with not allowed method`() = runBlocking {
+    @Test fun `Simple CORS request with not allowed method`() {
         val result = client.get("/only/post", multiMapOf("origin" to "example.org"))
         assertEquals(FORBIDDEN, result.status)
         assertEquals("Not allowed method: GET", result.body)
     }
 
-    @Test fun `Simple CORS request with exposed headers`() = runBlocking {
+    @Test fun `Simple CORS request with exposed headers`() {
         val result = client.get("/exposed/headers", multiMapOf(
             "origin" to "example.org",
             "head" to "exposed header"
@@ -113,7 +113,7 @@ abstract class CorsTest(
         assertEquals("head", result.headers["access-control-expose-headers"])
     }
 
-    @Test fun `CORS pre flight with empty request method`() = runBlocking {
+    @Test fun `CORS pre flight with empty request method`() {
         val result = client.options("/default", headers = multiMapOfLists(
             "origin" to listOf("example.org"),
             "access-control-request-method" to emptyList()
@@ -122,13 +122,13 @@ abstract class CorsTest(
         assertEquals("access-control-request-method required header not found", result.body)
     }
 
-    @Test fun `CORS pre flight without request method`() = runBlocking {
+    @Test fun `CORS pre flight without request method`() {
         val result = client.options("/default", headers = multiMapOf("origin" to "example.org"))
         assertEquals(FORBIDDEN, result.status)
         assertEquals("access-control-request-method required header not found", result.body)
     }
 
-    @Test fun `CORS pre flight`() = runBlocking {
+    @Test fun `CORS pre flight`() {
         val result = client.options("/default", headers = multiMapOf(
             "origin" to "example.org",
             "access-control-request-method" to "GET"
@@ -157,7 +157,7 @@ abstract class CorsTest(
         }
     }
 
-    @Test fun `CORS pre flight with not allowed method`() = runBlocking {
+    @Test fun `CORS pre flight with not allowed method`() {
         val result = client.options("/only/post", headers = multiMapOf(
             "origin" to "example.org",
             "access-control-request-method" to "GET"
@@ -166,7 +166,7 @@ abstract class CorsTest(
         assertEquals("Not allowed method: GET", result.body)
     }
 
-    @Test fun `CORS pre flight with not allowed headers`() = runBlocking {
+    @Test fun `CORS pre flight with not allowed headers`() {
         val result = client.options("/allowed/headers", headers = multiMapOf(
             "origin" to "example.org",
             "access-control-request-method" to "GET",
@@ -176,7 +176,7 @@ abstract class CorsTest(
         assertEquals("Not allowed headers", result.body)
     }
 
-    @Test fun `CORS pre flight with allowed headers`() = runBlocking {
+    @Test fun `CORS pre flight with allowed headers`() {
         val result = client.options("/allowed/headers", headers = multiMapOf(
             "origin" to "example.org",
             "access-control-request-method" to "GET",

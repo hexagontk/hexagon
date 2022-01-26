@@ -12,7 +12,6 @@ import com.hexagonkt.http.model.HttpMethod.Companion.ALL
 import com.hexagonkt.http.model.SuccessStatus.CREATED
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -198,7 +197,7 @@ internal class BooksTest {
         }
     }
 
-    @Test fun `Create book returns 201 and new book ID`() = runBlocking {
+    @Test fun `Create book returns 201 and new book ID`() {
         LoggingManager.setLoggerLevel(logger, TRACE)
         listOf(
             path,
@@ -217,7 +216,7 @@ internal class BooksTest {
         LoggingManager.setLoggerLevel(logger, INFO)
     }
 
-    @Test fun `Create book returns 400 if a parameter is missing`() = runBlocking {
+    @Test fun `Create book returns 400 if a parameter is missing`() {
         listOf(path, pathAlternative).forEach { p ->
             p.send(POST, "/books", "title=Lolita").let {
                 assertEquals("Missing author", it.body)
@@ -231,21 +230,21 @@ internal class BooksTest {
         }
     }
 
-    @Test fun `List books contains all books IDs`() = runBlocking {
+    @Test fun `List books contains all books IDs`() {
         listOf(path, pathAlternative).forEach {
             val result = it.send(GET, "/books")
             assertResponseContains(result, "100", "101")
         }
     }
 
-    @Test fun `Get book returns all book's fields`() = runBlocking {
+    @Test fun `Get book returns all book's fields`() {
         listOf(path, pathAlternative).forEach {
             val result = it.send(GET, "/books/101")
             assertResponseContains(result, "William Shakespeare", "Hamlet")
         }
     }
 
-    @Test fun `Update book overrides existing book data`() = runBlocking {
+    @Test fun `Update book overrides existing book data`() {
         listOf(path, pathAlternative).forEach {
             val resultPut = it.send(PUT, "/books/100", "title=Don%20Quixote")
             assertResponseContains(resultPut, "100", "updated")
@@ -255,7 +254,7 @@ internal class BooksTest {
         }
     }
 
-    @Test fun `Delete book returns the deleted record ID`() = runBlocking {
+    @Test fun `Delete book returns the deleted record ID`() {
         listOf(path, pathAlternative).forEach {
             val createResult = it.send(
                 POST, "/books", "author=Ken%20Follett&title=The%20Pillars%20of%20the%20Earth"
@@ -268,14 +267,14 @@ internal class BooksTest {
         }
     }
 
-    @Test fun `Book not found returns a 404`() = runBlocking {
+    @Test fun `Book not found returns a 404`() {
         listOf(path, pathAlternative).forEach {
             val result = it.send(GET, "/books/9999")
             assertResponseContains(result, NOT_FOUND, "not found")
         }
     }
 
-    @Test fun `Invalid method returns 405`() = runBlocking {
+    @Test fun `Invalid method returns 405`() {
         listOf(path, pathAlternative).forEach {
             val result = it.send(OPTIONS, "/books/9999")
             assertEquals(METHOD_NOT_ALLOWED, result.status)

@@ -56,7 +56,7 @@ class JettyClientAdapter : HttpClientPort {
             ?: error("'null' Jetty HTTP client: Client *MUST BE STARTED* before shut-down")
     }
 
-    override suspend fun send(request: HttpClientRequest): HttpClientResponse {
+    override fun send(request: HttpClientRequest): HttpClientResponse {
 
         val adapterHttpClient = httpClient
             ?: error("'null' HTTP client: Client *MUST BE STARTED* before sending requests")
