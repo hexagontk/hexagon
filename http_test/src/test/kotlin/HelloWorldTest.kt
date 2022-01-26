@@ -6,7 +6,6 @@ import com.hexagonkt.http.client.HttpClient
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.HttpServer
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -50,7 +49,7 @@ internal class HelloWorldTest {
         server.stop()
     }
 
-    @Test fun `A request returns 200 and the greeting test`() = runBlocking {
+    @Test fun `A request returns 200 and the greeting test`() {
         val result = client.get("/hello/Ada")
         assertEquals("Hello Ada!", result.body)
         assertEquals(OK, result.status)

@@ -1,7 +1,6 @@
 package com.hexagonkt.core
 
 import com.hexagonkt.core.handlers.*
-import kotlinx.coroutines.runBlocking
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.State
@@ -43,7 +42,7 @@ open class JmhBenchmark {
         OnHandler { it.appendText("<B2>")},
     )
 
-    @Benchmark fun before_and_after_handlers_are_called_in_order(bh: Blackhole) = runBlocking {
+    @Benchmark fun before_and_after_handlers_are_called_in_order(bh: Blackhole) {
 
         // No handler called
         chains.forEach {
@@ -92,7 +91,7 @@ open class JmhBenchmark {
         }
     }
 
-    @Benchmark fun filters_allow_passing_and_halting(bh: Blackhole) = runBlocking {
+    @Benchmark fun filters_allow_passing_and_halting(bh: Blackhole) {
         // Filter passing
         bh.consume(filtersChain.process("a"))
         // Filter halting

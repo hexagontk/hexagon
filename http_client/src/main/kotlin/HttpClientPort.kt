@@ -9,5 +9,5 @@ interface HttpClientPort {
 
     fun shutDown()
 
-    suspend fun send(request: HttpClientRequest): HttpClientResponse
+    fun send(request: HttpClientRequest): HttpClientResponse
 }

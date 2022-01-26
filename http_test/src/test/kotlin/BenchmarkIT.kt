@@ -17,8 +17,8 @@ class BenchmarkSimulation: Simulation() {
     private val host = System.getProperty("host") ?: "localhost"
     private val port = System.getProperty("port") ?: 0
 
-    private val times = System.getProperty("times")?.toInt() ?: 1_024
-    private val users = System.getProperty("users")?.toInt() ?: 128
+    private val times = System.getProperty("times")?.toInt() ?: 256
+    private val users = System.getProperty("users")?.toInt() ?: 64
 
     private val http = HttpDsl.http.baseUrl("$protocol://$host:$port")
     private val population = rampUsers(users).during(5)
@@ -34,7 +34,7 @@ class BenchmarkSimulation: Simulation() {
     }
 }
 
-internal class BenchmarkIT : BooksTest(clientAdapter, serverAdapter) {//, async) {
+internal class BenchmarkIT : BooksTest(clientAdapter, serverAdapter, async) {
 
     @Test fun `Example benchmark`() {
         val runtimePort = server.runtimePort

@@ -11,7 +11,6 @@ import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
@@ -65,36 +64,36 @@ abstract class ErrorsTest(
 
     override val handler: ServerHandler = path
 
-    @Test fun `Invalid body returns 500 status code`() = runBlocking {
+    @Test fun `Invalid body returns 500 status code`() {
         val response = client.get("/invalidBody")
         val message = "Unsupported body type: LocalDateTime"
         assertResponseContains(response, INTERNAL_SERVER_ERROR, message)
     }
 
-    @Test fun `Halt stops request with 500 status code`() = runBlocking {
+    @Test fun `Halt stops request with 500 status code`() {
         val response = client.get("/halt")
         assertResponseEquals(response, INTERNAL_SERVER_ERROR, "halted")
     }
 
-    @Test fun `Handling status code allows to change the returned code`() = runBlocking {
+    @Test fun `Handling status code allows to change the returned code`() {
         val response = client.get("/588")
         assertResponseEquals(response, HttpStatus(578), "588 -> 578")
     }
 
-    @Test fun `Handle exception allows to catch unhandled callback exceptions`() = runBlocking {
+    @Test fun `Handle exception allows to catch unhandled callback exceptions`() {
         val response = client.get("/exception")
         assertEquals("error message", response.headers["error"])
         assertResponseContains(response, HttpStatus(599), "Unsupported")
     }
 
-    @Test fun `Base error handler catch all exceptions that subclass a given one`() = runBlocking {
+    @Test fun `Base error handler catch all exceptions that subclass a given one`() {
         val response = client.get("/baseException")
         val runtimeError = response.headers["runtime-error"]
         assertEquals(CustomException::class.java.name, runtimeError)
         assertResponseContains(response, HttpStatus(598), "Runtime")
     }
 
-    @Test fun `A runtime exception returns a 500 code`() = runBlocking {
+    @Test fun `A runtime exception returns a 500 code`() {
         val response = client.get("/unhandledException")
         assertResponseContains(response, INTERNAL_SERVER_ERROR, "Root handler")
     }

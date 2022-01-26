@@ -79,7 +79,7 @@ abstract class ClientTest(
         }
     }
 
-    @Test fun `Exceptions are returned as internal server errors`() = runBlocking {
+    @Test fun `Exceptions are returned as internal server errors`() {
         callback = { error("failure") }
 
         val response = client.send(HttpClientRequest())
@@ -88,7 +88,7 @@ abstract class ClientTest(
         assertTrue(response.bodyString().contains("failure"))
     }
 
-    @Test fun `Form parameters are sent correctly`() = runBlocking {
+    @Test fun `Form parameters are sent correctly`() {
         callback = { ok(headers = formParameters) }
 
         val response = client.send(
@@ -102,10 +102,10 @@ abstract class ClientTest(
         )
 
         val expectedHeaders = multiMapOfLists("p1" to listOf("v11"), "p2" to listOf("v21", "v22"))
-        assertEquals(expectedHeaders, response.headers - "transfer-encoding")
+        assertEquals(expectedHeaders, response.headers - "transfer-encoding" - "content-length")
     }
 
-    @Test fun `Cookies are sent correctly`() = runBlocking {
+    @Test fun `Cookies are sent correctly`() {
         callback = {
             val cookiesMap = request.cookiesMap()
             assertEquals(HttpCookie("c1", "v1"), cookiesMap["c1"])
@@ -155,7 +155,7 @@ abstract class ClientTest(
         // clientSettingsCreation
     }
 
-    @Test fun `JSON requests works as expected`() = runBlocking {
+    @Test fun `JSON requests works as expected`() {
         val expectedBody = "{  \"foo\" : \"fighters\",  \"es\" : \"áéíóúÁÉÍÓÚñÑ\"}"
         val requestBody = mapOf("foo" to "fighters", "es" to "áéíóúÁÉÍÓÚñÑ").serialize(JSON)
 
@@ -167,7 +167,7 @@ abstract class ClientTest(
         assertEquals(expectedBody, body2.toString().trim().replace("[\r\n]".toRegex(), ""))
     }
 
-    @Test fun `HTTP generic requests work ok`() = runBlocking {
+    @Test fun `HTTP generic requests work ok`() {
 
         // genericRequest
         val request = HttpClientRequest(
@@ -188,7 +188,7 @@ abstract class ClientTest(
         checkResponse(response, mapOf("body" to "payload"))
     }
 
-    @Test fun `HTTP methods without body work ok`() = runBlocking {
+    @Test fun `HTTP methods without body work ok`() {
 
         // withoutBodyRequests
         val responseGet = client.get("/")
@@ -211,7 +211,7 @@ abstract class ClientTest(
         checkResponse(responsePatch, null)
     }
 
-    @Test fun `HTTP methods with body work ok`() = runBlocking {
+    @Test fun `HTTP methods with body work ok`() {
 
         // bodyRequests
         val body = mapOf("key" to "value")
@@ -235,7 +235,7 @@ abstract class ClientTest(
         checkResponse(responsePatch, body)
     }
 
-    @Test fun `HTTP methods with body and content type work ok`() = runBlocking {
+    @Test fun `HTTP methods with body and content type work ok`() {
 
         // bodyAndContentTypeRequests
         val body = mapOf("key" to "value")
@@ -288,7 +288,7 @@ abstract class ClientTest(
         }
     }
 
-    @Test fun `Integers are sent properly` () = runBlocking {
+    @Test fun `Integers are sent properly` () {
         var run: Boolean
 
         callback = {
@@ -310,7 +310,7 @@ abstract class ClientTest(
         assert(run)
     }
 
-    @Test fun `Strings are sent properly` () = runBlocking {
+    @Test fun `Strings are sent properly` () {
         var run: Boolean
 
         client.post("/string", "text").apply {
@@ -322,7 +322,7 @@ abstract class ClientTest(
         assert(run)
     }
 
-    @Test fun `Request HTTPS example`() = runBlocking {
+    @Test fun `Request HTTPS example`() {
 
         val serverAdapter = serverAdapter()
 
@@ -387,8 +387,8 @@ abstract class ClientTest(
 
         assertEquals(OK, response.status)
         assertEquals(
-            response.bodyString().trim(),
-            parameter?.serialize(format.mediaType)?.trim() ?: ""
+            parameter?.serialize(format.mediaType)?.trim() ?: "",
+            response.bodyString().trim()
         )
     }
 }

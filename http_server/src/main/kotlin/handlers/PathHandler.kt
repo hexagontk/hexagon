@@ -45,7 +45,7 @@ data class PathHandler(
     constructor(pattern: String, vararg handlers: HttpHandler) :
         this(pattern, handlers.toList())
 
-    suspend fun process(request: HttpServerRequestPort): HttpServerResponse =
+    fun process(request: HttpServerRequestPort): HttpServerResponse =
         process(HttpServerCall(request = request)).response
 
     override fun addPrefix(prefix: String): HttpHandler =

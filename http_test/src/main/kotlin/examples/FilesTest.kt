@@ -103,7 +103,7 @@ abstract class FilesTest(
 
     override val handler: ServerHandler = path
 
-    @Test fun `Parameters are separated from each other`() = runBlocking {
+    @Test fun `Parameters are separated from each other`() {
         val parts = listOf(HttpPart("name", "value"))
         val response = client.send(
             HttpClientRequest(POST, path = "/form?queryName=queryValue", parts = parts)
@@ -114,12 +114,12 @@ abstract class FilesTest(
         assert(!(response.headers["form-params"]?.contains("queryName:queryValue") ?: true))
     }
 
-    @Test fun `Requesting a folder with an existing file name returns 404`() = runBlocking {
+    @Test fun `Requesting a folder with an existing file name returns 404`() {
         val response = client.get ("/file.txt/")
         assertResponseContains(response, NOT_FOUND)
     }
 
-    @Test fun `An static file from resources can be fetched`() = runBlocking {
+    @Test fun `An static file from resources can be fetched`() {
         val response = client.get("/file.txt")
         assertResponseEquals(response, content = "file content")
     }
@@ -139,29 +139,28 @@ abstract class FilesTest(
         }
     }
 
-    @Test fun `Not found resources return 404`() = runBlocking {
+    @Test fun `Not found resources return 404`() {
         assertEquals(NOT_FOUND, client.get("/not_found.css").status)
         assertEquals(NOT_FOUND, client.get("/pub/not_found.css").status)
         assertEquals(NOT_FOUND, client.get("/html/not_found.css").status)
     }
 
-    @Test fun `Sending multi part content works properly`() = runBlocking {
+    @Test fun `Sending multi part content works properly`() {
         // clientForm
         val parts = listOf(HttpPart("name", "value"))
         val response = client.send(HttpClientRequest(POST, path = "/multipart", parts = parts))
         // clientForm
         val expectedHeaders = multiMapOf(
-            "transfer-encoding" to "chunked",
             "name" to "name",
             "body" to "value",
             "size" to "5",
             "type" to "text/plain",
             "content-disposition" to "form-data; name=\"name\"",
         )
-        assertEquals(expectedHeaders, response.headers)
+        assertEquals(expectedHeaders, response.headers - "transfer-encoding" - "content-length")
     }
 
-    @Test fun `Sending files works properly`() = runBlocking {
+    @Test fun `Sending files works properly`() {
         // clientFile
         val stream = URL("classpath:assets/index.html").readBytes()
         val parts = listOf(HttpPart("file", stream, "index.html"))

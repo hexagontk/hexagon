@@ -8,15 +8,13 @@ import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.server.examples.send
 import com.hexagonkt.http.server.model.HttpServerRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
 internal class ServerBuilderTest {
 
-    @Test fun `Adding prefix to a handler without path produces correct path pattern`() = runTest {
+    @Test fun `Adding prefix to a handler without path produces correct path pattern`() {
 
         val path = path("/c") {
             path("/books") {
@@ -32,7 +30,7 @@ internal class ServerBuilderTest {
         assertEquals("Title, Author", response.bodyString())
     }
 
-    @Test fun `Builder utility methods add all HTTP method handlers`() = runBlocking {
+    @Test fun `Builder utility methods add all HTTP method handlers`() {
 
         val path = path {
             head { success(OK) }
@@ -55,7 +53,7 @@ internal class ServerBuilderTest {
         assertEquals(NO_CONTENT, path.send(PATCH, "/patch").status)
     }
 
-    @Test fun `Builder utility methods add all types of handlers`() = runBlocking {
+    @Test fun `Builder utility methods add all types of handlers`() {
 
         val path = path {
             path("/a") {
@@ -108,7 +106,7 @@ internal class ServerBuilderTest {
         assertEquals("z21", body(path, "/z/2/1"))
     }
 
-    @Test fun `Adding a path with a prefix of a previous path works as expected`() = runBlocking {
+    @Test fun `Adding a path with a prefix of a previous path works as expected`() {
         val path = path {
             path("/a/b") { on(setOf(GET)) { ok("b") } }
             path("/a") {}
@@ -123,7 +121,7 @@ internal class ServerBuilderTest {
         assertEquals("d", body(path, "/b/d"))
     }
 
-    private suspend fun body(path: PathHandler, value: String): String =
+    private fun body(path: PathHandler, value: String): String =
         path.process(HttpServerRequest(path = value)).body as String
 
     @Suppress("SameParameterValue") // Not relevant in tests

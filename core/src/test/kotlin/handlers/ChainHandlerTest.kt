@@ -4,10 +4,6 @@ import com.hexagonkt.core.fail
 import com.hexagonkt.core.logging.LoggingLevel.OFF
 import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import java.lang.IllegalStateException
@@ -19,19 +15,17 @@ import kotlin.test.assertTrue
 /*
  * IMPORTANT: Using `runBlockingTest` skip test delays (be aware if timing seems odd)
  */
-@ExperimentalCoroutinesApi
 @TestInstance(PER_CLASS)
 internal class ChainHandlerTest {
 
     private val testChain = ChainHandler(
         AfterHandler { println("last"); it },
         AfterHandler { println("last2"); it },
-        OnHandler { println("1"); delay(40); it },
+        OnHandler { println("1"); it },
         OnHandler({ false }) { println("2"); it },
         ChainHandler(
             FilterHandler {
                 println("3")
-                delay(20)
                 val n = it.next()
                 println("3")
                 n
@@ -49,7 +43,7 @@ internal class ChainHandlerTest {
         LoggingManager.setLoggerLevel(OFF)
     }
 
-    @Test fun `Build a nested chain of handlers`() = runTest {
+    @Test fun `Build a nested chain of handlers`() {
         var flags = listOf(true, true, true, true)
 
         val chain = ChainHandler(
@@ -83,12 +77,12 @@ internal class ChainHandlerTest {
         assertEquals("d", chain.process("_"))
     }
 
-    @Test fun `Chains of handlers pass the correct handler to context`() = runTest {
+    @Test fun `Chains of handlers pass the correct handler to context`() {
 
-        val filterAE: suspend (Context<String>) -> Boolean = { it.hasLetters('a', 'e') }
-        val filterBF: suspend (Context<String>) -> Boolean = { it.hasLetters('b', 'f') }
-        val filterCG: suspend (Context<String>) -> Boolean = { it.hasLetters('c', 'g') }
-        val filterDH: suspend (Context<String>) -> Boolean = { it.hasLetters('d', 'h') }
+        val filterAE: (Context<String>) -> Boolean = { it.hasLetters('a', 'e') }
+        val filterBF: (Context<String>) -> Boolean = { it.hasLetters('b', 'f') }
+        val filterCG: (Context<String>) -> Boolean = { it.hasLetters('c', 'g') }
+        val filterDH: (Context<String>) -> Boolean = { it.hasLetters('d', 'h') }
 
         val chainHandler =
             ChainHandler(
@@ -113,7 +107,7 @@ internal class ChainHandlerTest {
         assertEquals("abcdefgh<B1><B2><A2><A1>", chainHandler.process("abcdefgh"))
     }
 
-    @Test fun `Build a chain of handlers`() = runTest {
+    @Test fun `Build a chain of handlers`() {
 
         fun createChainHandler() =
             ChainHandler(
@@ -138,7 +132,7 @@ internal class ChainHandlerTest {
         assertEquals(1, listChain.handlers.size)
     }
 
-    @Test fun `Process event with chain of handlers ('delay' ignored)`() = runTest {
+    @Test fun `Process event with chain of handlers ('delay' ignored)`() {
         val t = time(5) {
             assertEquals("/abc", testChain.process("/abc"))
         }
@@ -146,15 +140,7 @@ internal class ChainHandlerTest {
         assertTrue(t < 10.0)
     }
 
-    @Test fun `Handlers run coroutines properly (verified with 'delay')`() = runBlocking {
-        val t = time(5) {
-            assertEquals("/abc", testChain.process("/abc"))
-        }
-
-        assert(t in 60.0..200.0) // Range is high because of CI execution times
-    }
-
-    @Test fun `Before and after handlers are called in order`() = runTest {
+    @Test fun `Before and after handlers are called in order`() {
 
         val chains = listOf(
             ChainHandler<String>(
@@ -224,7 +210,7 @@ internal class ChainHandlerTest {
         }
     }
 
-    @Test fun `Filters allow passing and halting`() = runTest {
+    @Test fun `Filters allow passing and halting`() {
         val chain = ChainHandler<String>(
             AfterHandler { it.appendText("<A1>") },
             OnHandler { it.appendText("<B1>")},
@@ -245,7 +231,7 @@ internal class ChainHandlerTest {
         assertEquals("c<B1><B2><A1>", chain.process("c"))
     }
 
-    @Test fun `Chained handlers are executed as blocks`() = runTest {
+    @Test fun `Chained handlers are executed as blocks`() {
         val chain = ChainHandler<String>(
             OnHandler { it.appendText("<B0>") },
             AfterHandler { it.appendText("<A0>") },
@@ -273,7 +259,7 @@ internal class ChainHandlerTest {
         assertEquals("d<B0><A0>", chain.process("d"))
     }
 
-    @Test fun `Many chained handlers are processed properly`() = runTest {
+    @Test fun `Many chained handlers are processed properly`() {
         val chain = ChainHandler<String>(
             OnHandler { it.appendText("<B0>") },
             ChainHandler({ it.hasLetters('a', 'b') },
@@ -298,7 +284,7 @@ internal class ChainHandlerTest {
         assertEquals("d<B0>", chain.process("d"))
     }
 
-    @Test fun `Chained handlers are executed as blocks bug`() = runTest {
+    @Test fun `Chained handlers are executed as blocks bug`() {
         val chain = ChainHandler<String>(
             OnHandler { it.appendText("<B0>") },
             ChainHandler({ it.hasLetters('a', 'b', 'c') },
@@ -326,7 +312,7 @@ internal class ChainHandlerTest {
         assertEquals("d<B0><A0>", chain.process("d"))
     }
 
-    @Test fun `Exceptions don't prevent handlers execution`() = runTest {
+    @Test fun `Exceptions don't prevent handlers execution`() {
         val chain = ChainHandler<String>(
             OnHandler { fail },
             AfterHandler { it.appendText("<A0>") },
@@ -358,7 +344,7 @@ internal class ChainHandlerTest {
         assertEquals("d<A0>", chain.process("d"))
     }
 
-    @Test fun `Exceptions don't prevent handlers execution in after`() = runTest {
+    @Test fun `Exceptions don't prevent handlers execution in after`() {
         val chain1 = ChainHandler<String>(
             AfterHandler { fail },
             AfterHandler { it.appendText("<A0>") },
@@ -377,7 +363,7 @@ internal class ChainHandlerTest {
         assertEquals("a<A0>", chain2.process("a"))
     }
 
-    @Test fun `Exceptions don't prevent handlers execution in filters`() = runTest {
+    @Test fun `Exceptions don't prevent handlers execution in filters`() {
         val chain = ChainHandler<String>(
             FilterHandler { fail },
             OnHandler { it.appendText("<B0>") },
@@ -388,7 +374,7 @@ internal class ChainHandlerTest {
         assertEquals("a", actual.event)
     }
 
-    @Test fun `Context attributes are passed correctly`() = runTest {
+    @Test fun `Context attributes are passed correctly`() {
         val chain = ChainHandler<String>(
             OnHandler { fail },
             AfterHandler { it.copy(attributes = it.attributes + ("A0" to "A0")) },
@@ -438,7 +424,7 @@ internal class ChainHandlerTest {
     private fun Context<String>.appendText(text: String): Context<String> =
         copy(event = event + text)
 
-    private suspend fun time(times: Int, block: suspend () -> Unit): Double =
+    private fun time(times: Int, block: () -> Unit): Double =
         (0 until times).minOf {
             (measureNanoTime { block() } / 10e5).apply { println(">>> $this") }
         }

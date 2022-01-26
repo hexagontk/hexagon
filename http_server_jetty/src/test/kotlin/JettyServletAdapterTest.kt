@@ -6,7 +6,6 @@ import com.hexagonkt.http.client.jetty.JettyClientAdapter
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.handlers.path
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import java.net.URL
 import kotlin.test.assertEquals
@@ -27,7 +26,7 @@ internal class JettyServletAdapterTest {
         }
     }
 
-    @Test fun `Serve helper works properly`() = runBlocking {
+    @Test fun `Serve helper works properly`() {
 
         val path = path {
             get("/hello/{name}") {
