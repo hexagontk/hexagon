@@ -10,7 +10,7 @@ data class Context<T : Any>(
     val currentFilter: Predicate<T>,
     val nextHandlers: List<Handler<T>> = emptyList(),
     val exception: Exception? = null,
-    val attributes: Map<Any, Any> = emptyMap(),
+    val attributes: Map<*, *> = emptyMap<Any, Any>(),
 ) {
 
     fun next(): Context<T> {

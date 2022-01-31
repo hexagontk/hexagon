@@ -85,11 +85,11 @@ internal class HttpServerContextTest {
         assertEquals(mapOf("p1" to "v1", "0" to "v1"), requestData.pathParameters)
 
         assertEquals(
-            mapOf(
+            multiMapOfLists(
                 "fp1" to listOf("fp1v1", "fp1v2"),
                 "k" to listOf("v"),
-                "p1" to "v1",
-                "0" to "v1",
+                "p1" to listOf("v1"),
+                "0" to listOf("v1"),
             ),
             requestData.allParameters
         )

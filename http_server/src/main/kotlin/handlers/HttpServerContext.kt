@@ -23,7 +23,7 @@ import java.security.cert.X509Certificate
 // TODO Add exception parameter to 'send*' methods
 data class HttpServerContext(
     val context: Context<HttpServerCall>,
-    val attributes: Map<Any, Any> = context.attributes
+    val attributes: Map<*, *> = context.attributes
 ) {
     val request: HttpServerRequestPort = context.event.request
     val response: HttpServerResponse = context.event.response
@@ -59,8 +59,12 @@ data class HttpServerContext(
         pattern.extractParameters(request.path)
     }
 
-    val allParameters: Map<String, Any> by lazy {
-        request.formParameters.allValues + request.queryParameters.allValues + pathParameters
+    val allParameters: MultiMap<String, *> by lazy {
+        MultiMap(
+            request.formParameters.allValues
+                + request.queryParameters.allValues
+                + pathParameters.mapValues { listOf(it.value) }
+        )
     }
 
     fun next(): HttpServerContext =
@@ -72,7 +76,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
 
@@ -82,7 +86,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
 
@@ -92,7 +96,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
 
@@ -102,7 +106,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(status, body, headers, contentType, cookies, attributes)
 
@@ -111,7 +115,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(INTERNAL_SERVER_ERROR, body, headers, contentType, cookies, attributes)
 
@@ -119,7 +123,7 @@ data class HttpServerContext(
         status: ServerErrorStatus,
         exception: Exception,
         headers: MultiMap<String, String> = response.headers,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         serverError(
             status = status,
@@ -132,7 +136,7 @@ data class HttpServerContext(
     fun internalServerError(
         exception: Exception,
         headers: MultiMap<String, String> = response.headers,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         serverError(INTERNAL_SERVER_ERROR, exception, headers, attributes)
 
@@ -141,7 +145,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         success(OK, body, headers, contentType, cookies, attributes)
 
@@ -157,7 +161,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         clientError(BAD_REQUEST, body, headers, contentType, cookies, attributes)
 
@@ -166,7 +170,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         clientError(NOT_FOUND, body, headers, contentType, cookies, attributes)
 
@@ -175,7 +179,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         success(CREATED, body, headers, contentType, cookies, attributes)
 
@@ -185,7 +189,7 @@ data class HttpServerContext(
         headers: MultiMap<String, String> = response.headers,
         contentType: ContentType? = response.contentType,
         cookies: List<HttpCookie> = response.cookies,
-        attributes: Map<Any, Any> = context.attributes,
+        attributes: Map<*, *> = context.attributes,
     ): HttpServerContext =
         send(
             response.copy(
@@ -199,7 +203,8 @@ data class HttpServerContext(
         )
 
     fun send(
-        response: HttpServerResponse, attributes: Map<Any, Any> = emptyMap()): HttpServerContext =
+        response: HttpServerResponse, attributes: Map<*, *> = emptyMap<Any, Any>()
+    ): HttpServerContext =
         HttpServerContext(
             context.copy(
                 event = context.event.copy(response = response),

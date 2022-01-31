@@ -1,5 +1,6 @@
 package com.hexagonkt.http.model
 
+// TODO Add 'path', 'httpOnly', 'sameSite' and 'sameParty'
 data class HttpCookie(
     val name: String,
     val value: String,

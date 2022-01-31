@@ -34,11 +34,6 @@
       </dependency>
       <dependency>
         <groupId>com.hexagonkt</groupId>
-        <artifactId>web</artifactId>
-        <version>${hexagon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hexagonkt</groupId>
         <artifactId>http_client_jetty</artifactId>
         <version>${hexagon.version}</version>
       </dependency>
