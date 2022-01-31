@@ -117,6 +117,10 @@ abstract class CookiesTest(
 
         // Verify that the client cookie is updated
         assertEquals(cookieValue + "_changed", client.cookiesMap()[cookieName]?.value)
+
+        // The cookie is persisted along calls
+        client.post("/assertHasCookie?cookieName=$cookieName")
+        assertEquals(cookieValue + "_changed", client.cookiesMap()[cookieName]?.value)
         // clientCookies
     }
 }
