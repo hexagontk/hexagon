@@ -47,15 +47,15 @@ internal class OpenApiHandler(pathToSpec: String) {
     private fun handleRequest(operation: Operation): HttpCallback =
         {
             verifyAuth(operation, this)
-            verifyParams(operation, this)
-            verifyBody(operation, this)
-            ok(
-                getResponseContentForStatus(
-                    operation,
-                    status = 200,
-                    exampleName = request.headers["x-mock-response-example"]
+                ?: verifyParams(operation, this)
+                ?: verifyBody(operation, this)
+                ?: ok(
+                    getResponseContentForStatus(
+                        operation,
+                        status = 200,
+                        exampleName = request.headers["x-mock-response-example"]
+                    )
                 )
-            )
         }
 
     private fun getResponseContentForStatus(
@@ -82,16 +82,17 @@ internal class OpenApiHandler(pathToSpec: String) {
         if (mediaType.example != null) mediaType.example
         else mediaType.examples?.toList()?.get(0)?.second?.value
 
-    private fun verifyAuth(operation: Operation, call: HttpServerContext) {
+    private fun verifyAuth(operation: Operation, call: HttpServerContext): HttpServerContext? {
         if (operation.security == null || operation.security.size == 0
-            || containsEmptySecurityRequirement(operation)) return
+            || containsEmptySecurityRequirement(operation)) return null
 
         // Any one of the security mechanisms need to be satisfied
-        if (!operation.security.any { securityRequirement ->
+        return if (!operation.security.any { securityRequirement ->
             verifySecurityRequirement(securityRequirement, call)
         }) {
             call.send(status = UNAUTHORIZED, body = getResponseContentForStatus(operation, 401))
         }
+        else null
     }
 
     private fun containsEmptySecurityRequirement(operation: Operation): Boolean =
@@ -140,7 +141,7 @@ internal class OpenApiHandler(pathToSpec: String) {
                 error("Mock Server only supports Basic and Bearer HTTP Authentication")
         }
 
-    private fun verifyParams(operation: Operation, call: HttpServerContext) {
+    private fun verifyParams(operation: Operation, call: HttpServerContext): HttpServerContext? {
         operation.parameters?.forEach { parameter ->
             when (parameter.`in`) {
                 "path" -> {
@@ -193,6 +194,8 @@ internal class OpenApiHandler(pathToSpec: String) {
                 }
             }
         }
+
+        return null
     }
 
     private fun verifyPathParam(parameter: Parameter, call: HttpServerContext): Boolean {
@@ -233,7 +236,7 @@ internal class OpenApiHandler(pathToSpec: String) {
         return true
     }
 
-    private fun verifyBody(operation: Operation, call: HttpServerContext) {
+    private fun verifyBody(operation: Operation, call: HttpServerContext): HttpServerContext? {
         operation.requestBody?.let { requestBody ->
             if (requestBody.required && call.request.bodyString().isBlank()) {
                 call.send(
@@ -242,5 +245,6 @@ internal class OpenApiHandler(pathToSpec: String) {
                 )
             }
         }
+        return null
     }
 }
