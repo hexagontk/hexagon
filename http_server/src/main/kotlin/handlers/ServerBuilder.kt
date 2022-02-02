@@ -15,8 +15,16 @@ class ServerBuilder(var handlers: List<ServerHandler> = emptyList()) {
         use(com.hexagonkt.http.server.handlers.path(pattern, block))
     }
 
+    fun path(pattern: String, pathHandler: PathHandler) {
+        use(pathHandler.addPrefix(pattern))
+    }
+
+    fun path(pattern: String, pathHandlers: List<HttpHandler>) {
+        use(PathHandler(pattern, pathHandlers))
+    }
+
     fun path(pattern: String, vararg pathHandlers: HttpHandler) {
-        use(PathHandler(pattern, pathHandlers.toList()))
+        path(pattern, pathHandlers.toList())
     }
 
     fun on(
