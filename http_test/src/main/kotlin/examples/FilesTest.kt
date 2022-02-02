@@ -83,7 +83,8 @@ abstract class FilesTest(
         post("/file") {
             val part = parts.first()
             val content = part.bodyString()
-            ok(content)
+            val submittedFile = part.submittedFileName ?: ""
+            ok(content, headers = response.headers + ("submitted-file" to submittedFile))
         }
 
         post("/form") {
@@ -166,7 +167,8 @@ abstract class FilesTest(
         val parts = listOf(HttpPart("file", stream, "index.html"))
         val response = client.send(HttpClientRequest(POST, path = "/file", parts = parts))
         // clientFile
-        assertResponseContains(response, OK, "<title>Hexagon</title>")
+        assertEquals("index.html", response.headers["submitted-file"])
+        assertResponseContains(response, OK, "<!DOCTYPE html>", "<title>Hexagon</title>", "</html>")
     }
 
     @Test fun `Files mounted on a path are returned properly`() = runBlocking<Unit> {
