@@ -38,7 +38,8 @@ class JettyServletAdapter : HttpServerPort {
     override fun runtimePort(): Int =
         ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort
 
-    override fun started() = jettyServer?.isStarted ?: false
+    override fun started() =
+        jettyServer?.isStarted ?: false
 
     override fun startUp(server: HttpServer) {
         val settings = server.settings

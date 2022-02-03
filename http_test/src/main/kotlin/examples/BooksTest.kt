@@ -290,4 +290,11 @@ abstract class BooksTest(
             assertEquals(METHOD_NOT_ALLOWED, result.status)
         }
     }
+
+    @Test fun `Not handled method returns 404`() {
+        listOf("/a", "/b", "/c").forEach {
+            val result = client.options("$it/books")
+            assertEquals(NOT_FOUND, result.status)
+        }
+    }
 }
