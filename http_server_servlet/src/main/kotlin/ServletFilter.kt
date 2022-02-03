@@ -8,16 +8,12 @@ import com.hexagonkt.http.server.HttpServerFeature.ASYNC
 import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerResponse
-import jakarta.servlet.FilterChain
-import jakarta.servlet.FilterConfig
+import jakarta.servlet.*
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import java.nio.ByteBuffer
 
 class ServletFilter(
     pathHandler: PathHandler,
@@ -57,75 +53,82 @@ class ServletFilter(
 
     private fun doFilterAsync(request: HttpServletRequest, response: HttpServletResponse) {
         val asyncContext = request.startAsync()
+        val inputStream = request.inputStream
 
-        CoroutineScope(Dispatchers.Default).launch {
-            val handlerResponse = handlers[request.method]
-                ?.process(ServletRequestAdapter(request))
-                ?: HttpServerResponse()
+        inputStream.setReadListener(object : ReadListener {
+            val buffer = ByteArray(4_096)
+            var bytes = ByteArray(0)
 
-            try {
-                responseToServlet(handlerResponse, response)
-            }
-            catch (e: Exception) {
-                response.addHeader("content-type", TextMedia.PLAIN.fullType)
-                response.status = 500
-                withContext(Dispatchers.IO) {
-                    response.outputStream.write(e.toText().toByteArray())
+            override fun onDataAvailable() {
+                do {
+                    val length = inputStream.read(buffer)
+                    if (length < 0) break
+                    val size = bytes.size
+                    bytes = bytes.copyOf(size + length)
+                    buffer.copyInto(bytes, size, 0, length)
                 }
+                while(inputStream.isReady)
             }
-            finally {
+
+            override fun onAllDataRead() {
+                val handlerResponse = handlers[request.method]
+                    ?.process(ServletRequestAdapterAsync(request, bytes))
+                    ?: HttpServerResponse()
+
+                responseToServlet(handlerResponse, response)
+
+                val outputStream: ServletOutputStream = response.outputStream
+
+                outputStream.setWriteListener(object : WriteListener {
+
+                    val outBuffer: ByteBuffer =
+                        try {
+                            // TODO Handle different types: deferred values, strings, ints... flows
+                            ByteBuffer.wrap(bodyToBytes(handlerResponse.body))
+                        }
+                        catch (e: Exception) {
+                            onError(e)
+                            throw e
+                        }
+
+                    override fun onWritePossible() {
+                        while (outputStream.isReady) {
+                            if (!outBuffer.hasRemaining()) {
+                                asyncContext.complete()
+                                return
+                            }
+                            val buffer = ByteArray(1) { outBuffer.get() }
+                            outputStream.write(buffer)
+                        }
+                    }
+
+                    override fun onError(t: Throwable) {
+                        logger.error(t)
+                        response.addHeader("content-type", TextMedia.PLAIN.fullType)
+                        response.status = 500
+                        outputStream.write(t.toText().toByteArray())
+                        asyncContext.complete()
+                    }
+                })
+            }
+
+            override fun onError(t: Throwable?) {
+                logger.error(t)
                 asyncContext.complete()
             }
-        }
+        })
     }
-
-    // TODO Only works on requests without payloads
-//    private fun doFilterAsync2(request: HttpServletRequest, response: HttpServletResponse) {
-//        val asyncContext = request.startAsync()
-//
-//        request.inputStream.setReadListener(object : ReadListener {
-//            override fun onDataAvailable() {
-//                // TODO Reads the data, but is not loaded on the request
-//                request.inputStream.readAllBytes()
-//            }
-//
-//            override fun onAllDataRead() {
-//                val handlerResponse = handlers[request.method]
-//                    ?.process(ServletRequestAdapter(request))
-//                    ?: HttpServerResponse()
-//
-//                response.outputStream.setWriteListener(object : WriteListener {
-//                    override fun onWritePossible() {
-//                        responseToServlet(handlerResponse, response)
-//                        asyncContext.complete()
-//                    }
-//
-//                    override fun onError(t: Throwable?) {
-//                        logger.error(t)
-//                        response.addHeader("content-type", TextMedia.PLAIN.fullType)
-//                        response.status = 500
-//                        if (t != null)
-//                            response.outputStream.write(t.toText().toByteArray())
-//                        asyncContext.complete()
-//                    }
-//                })
-//            }
-//
-//            override fun onError(t: Throwable?) {
-//                logger.error(t)
-//                asyncContext.complete()
-//            }
-//        })
-//    }
 
     private fun doFilter(request: HttpServletRequest, response: HttpServletResponse) {
 
         val handlerResponse = handlers[request.method]
-            ?.process(ServletRequestAdapter(request))
+            ?.process(ServletRequestAdapterSync(request))
             ?: HttpServerResponse()
 
         try {
             responseToServlet(handlerResponse, response)
+            // TODO Handle different types: deferred values, strings, ints... flows
+            response.outputStream.write(bodyToBytes(handlerResponse.body))
         }
         catch (e: Exception) {
             response.addHeader("content-type", TextMedia.PLAIN.fullType)
@@ -154,7 +157,5 @@ class ServletFilter(
 
         response.contentType?.let { servletResponse.addHeader("content-type", it.text) }
         servletResponse.status = response.status.code
-        // TODO Handle different types: deferred values, strings, ints... flows
-        servletResponse.outputStream.write(bodyToBytes(response.body))
     }
 }
