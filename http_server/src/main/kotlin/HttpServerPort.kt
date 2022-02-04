@@ -48,9 +48,9 @@ interface HttpServerPort {
     fun supportedFeatures(): Set<HttpServerFeature>
 
     /**
-     * Return the server adapter's allowed configuration options.
+     * Return the adapter's allowed configuration options with its values.
      *
-     * @return Set of supported options.
+     * @return Map of supported options with their values for this instance.
      */
-    fun supportedOptions(): Set<String>
+    fun options(): Map<String, *>
 }

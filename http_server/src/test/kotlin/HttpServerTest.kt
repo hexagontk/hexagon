@@ -68,7 +68,6 @@ internal class HttpServerTest {
             address("localhost"),
             12345,
             features = setOf(ASYNC),
-            options = mapOf("option2" to "value2")
         )
 
         val server = serve(VoidAdapter, serverSettings) {}
@@ -79,12 +78,11 @@ internal class HttpServerTest {
         assertContains(createdBanner, "HTTPS")
         assertContains(createdBanner, "ZIP")
         assertContains(createdBanner, "✅ASYNC")
-        assertContains(createdBanner, "option1")
-        assertContains(createdBanner, "option2(value2)")
+        assertContains(createdBanner, "option1(1)")
+        assertContains(createdBanner, "option2(2)")
         assertFalse(createdBanner.contains("✅HTTPS"))
         assertFalse(createdBanner.contains("✅ZIP"))
         assertFalse(createdBanner.contains("NIO"))
-        assertFalse(createdBanner.contains("option1("))
     }
 
     @Test fun `Server can not be created with features or options not supported by its adapter`() {
@@ -94,12 +92,6 @@ internal class HttpServerTest {
             HttpServer(VoidAdapter, handlers, HttpServerSettings(features = setOf(NIO)))
         }.let {
             assertContains(it.message ?: "", "Requesting unsupported feature. Adapter's features:")
-        }
-
-        assertFailsWith<IllegalStateException> {
-            HttpServer(VoidAdapter, handlers, HttpServerSettings(options = mapOf("opt1" to "v1")))
-        }.let {
-            assertContains(it.message ?: "", "Setting unsupported option. Adapter's options:")
         }
     }
 

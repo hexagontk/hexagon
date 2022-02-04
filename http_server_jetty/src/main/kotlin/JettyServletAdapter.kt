@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server.jetty
 
 import com.hexagonkt.core.fail
+import com.hexagonkt.core.fieldsMapOf
 import com.hexagonkt.http.model.HttpProtocol
 import com.hexagonkt.http.model.HttpProtocol.HTTP
 import com.hexagonkt.http.model.HttpProtocol.HTTP2
@@ -29,11 +30,32 @@ import org.eclipse.jetty.server.Server as JettyServer
 
 /**
  * Implements [HttpServerPort] using [JettyServer].
- *
- * TODO Move 'options' to adapter constructor parameters
  */
-class JettyServletAdapter : HttpServerPort {
+class JettyServletAdapter(
+    private val maxThreads: Int = 200,
+    private val minThreads: Int = 8,
+
+    private val acceptors: Int = -1,
+    private val selectors: Int = -1,
+
+    private val sendDateHeader: Boolean = false,
+    private val sendServerVersion: Boolean = false,
+    private val sendXPoweredBy: Boolean = false,
+
+) : HttpServerPort {
     private var jettyServer: JettyServer? = null
+
+    constructor() : this(
+        maxThreads = 200,
+        minThreads = 8,
+
+        acceptors = -1,
+        selectors = -1,
+
+        sendDateHeader = false,
+        sendServerVersion = false,
+        sendXPoweredBy = false,
+    )
 
     override fun runtimePort(): Int =
         ((jettyServer?.connectors?.get(0) ?: fail) as ServerConnector).localPort
@@ -43,8 +65,6 @@ class JettyServletAdapter : HttpServerPort {
 
     override fun startUp(server: HttpServer) {
         val settings = server.settings
-        val maxThreads = settings.options["maxThreads"] as? Int ?: 200
-        val minThreads = settings.options["minThreads"] as? Int ?: 8
         val serverInstance = JettyServer(QueuedThreadPool(maxThreads, minThreads))
         jettyServer = serverInstance
 
@@ -57,8 +77,6 @@ class JettyServletAdapter : HttpServerPort {
         filterBind.setAsyncSupported(settings.features.contains(ASYNC))
         filterBind.addMappingForUrlPatterns(dispatcherTypes, true, "/*")
 
-        val acceptors = settings.options["acceptors"] as? Int ?: -1
-        val selectors = settings.options["selectors"] as? Int ?: -1
         val serverConnector =
             if (settings.sslSettings != null) setupSsl(settings, serverInstance)
             else ServerConnector(serverInstance, acceptors, selectors)
@@ -69,9 +87,9 @@ class JettyServletAdapter : HttpServerPort {
             .filterIsInstance(HttpConnectionFactory::class.java)
             .map { it.httpConfiguration }
             .map {
-                it.sendDateHeader = settings.options["sendDateHeader"] as? Boolean ?: false
-                it.sendServerVersion = settings.options["sendServerVersion"] as? Boolean ?: false
-                it.sendXPoweredBy = settings.options["sendXPoweredBy"] as? Boolean ?: false
+                it.sendDateHeader = sendDateHeader
+                it.sendServerVersion = sendServerVersion
+                it.sendXPoweredBy = sendXPoweredBy
             }
 
         serverInstance.connectors = arrayOf(serverConnector)
@@ -90,15 +108,15 @@ class JettyServletAdapter : HttpServerPort {
     override fun supportedFeatures(): Set<HttpServerFeature> =
         setOf(ZIP, ASYNC)
 
-    override fun supportedOptions(): Set<String> =
-        setOf(
-            "maxThreads",
-            "minThreads",
-            "acceptors",
-            "selectors",
-            "sendDateHeader",
-            "sendServerVersion",
-            "sendXPoweredBy"
+    override fun options(): Map<String, *> =
+        fieldsMapOf(
+            JettyServletAdapter::maxThreads to maxThreads,
+            JettyServletAdapter::minThreads to minThreads,
+            JettyServletAdapter::acceptors to acceptors,
+            JettyServletAdapter::selectors to selectors,
+            JettyServletAdapter::sendDateHeader to sendDateHeader,
+            JettyServletAdapter::sendServerVersion to sendServerVersion,
+            JettyServletAdapter::sendXPoweredBy to sendXPoweredBy,
         )
 
     private fun createServerContext(settings: HttpServerSettings): ServletContextHandler {

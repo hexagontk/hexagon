@@ -17,7 +17,6 @@ internal class HttpServerSettingsTest {
             assertNull(it.sslSettings)
             assertNull(it.banner)
             assertEquals(emptySet(), it.features)
-            assertEquals(emptyMap(), it.options)
         }
     }
 
@@ -29,7 +28,6 @@ internal class HttpServerSettingsTest {
             assertNull(it.sslSettings)
             assertNull(it.banner)
             assertEquals(HttpServerFeature.values().toSet(), it.features)
-            assertEquals(emptyMap(), it.options)
         }
     }
 }

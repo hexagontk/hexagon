@@ -101,12 +101,6 @@ data class HttpServer(
             val supportedFeaturesText = supportedFeatures.joinToString(", ")
             "Requesting unsupported feature. Adapter's features: $supportedFeaturesText"
         }
-
-        val supportedOptions = adapter.supportedOptions()
-        check(settings.options.keys.all { it in supportedOptions }) {
-            val supportedOptionsText = supportedOptions.joinToString(", ")
-            "Setting unsupported option. Adapter's options: $supportedOptionsText"
-        }
     }
 
     /**
@@ -182,10 +176,9 @@ data class HttpServer(
                 if (settings.features.contains(it)) "✅$it" else "$it"
             }
 
-        val options = adapter.supportedOptions()
-            .joinToString("$RESET, $CYAN", CYAN, RESET) {
-                settings.options[it]?.let { option -> "$it($option)" } ?: it
-            }
+        val options = adapter.options()
+            .map { (k, v) -> "$k($v)" }
+            .joinToString("$RESET, $CYAN", CYAN, RESET)
 
         val hostnameValue = "$BLUE$hostname$RESET"
         val cpuCountValue = "$BLUE$cpuCount$RESET"

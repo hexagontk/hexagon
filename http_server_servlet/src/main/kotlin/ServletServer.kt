@@ -66,7 +66,7 @@ abstract class ServletServer(
         logger.info { "Server context destroyed" }
     }
 
-    internal fun createBanner(startUpTimestamp: Long): String {
+    private fun createBanner(startUpTimestamp: Long): String {
 
         val heap = ManagementFactory.getMemoryMXBean().heapMemoryUsage
         val jvmMemory = "%,d".format(heap.init / 1024)
@@ -78,10 +78,6 @@ abstract class ServletServer(
 
         val features = settings.features
             .joinToString("$RESET, $CYAN", CYAN, RESET) { "✅$it" }
-
-        val options = settings.options
-            .map { (k, v) -> "$k($v)" }
-            .joinToString("$RESET, $CYAN", CYAN, RESET)
 
         val hostnameValue = "$BLUE${Jvm.hostname}$RESET"
         val cpuCountValue = "$BLUE${Jvm.cpuCount}$RESET"
@@ -101,7 +97,6 @@ abstract class ServletServer(
 
             Server Adapter: $serverAdapterValue
             Enabled Features: $features
-            Configured Options: $options
 
             🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB
             🛠 Using $javaVersionValue

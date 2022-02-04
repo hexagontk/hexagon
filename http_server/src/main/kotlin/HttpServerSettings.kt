@@ -25,5 +25,4 @@ data class HttpServerSettings(
     val sslSettings: SslSettings? = null,
     val banner: String? = null,
     val features: Set<HttpServerFeature> = emptySet(),
-    val options: Map<String, Any> = emptyMap(),
 )
