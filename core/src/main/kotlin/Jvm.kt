@@ -42,7 +42,7 @@ object Jvm {
     /** Number of processors available to the Java virtual machine. */
     val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }
 
-    /** User Time Zone property. Can be set with -Duser.timezone JVM argument. */
+    /** User Time Zone property. Can be set with -D user.timezone=<tz> JVM argument. */
     val timezone: String by lazy { System.getProperty("user.timezone") }
 
     /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
