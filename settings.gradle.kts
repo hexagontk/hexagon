@@ -27,6 +27,7 @@ include(
     "http_client_jetty",
     "http_server_servlet",
     "http_server_jetty",
+    "http_server_netty",
     "templates_pebble",
     "templates_freemarker",
 
