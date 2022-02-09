@@ -62,7 +62,7 @@ IDEs.
 [Dokka]: https://github.com/Kotlin/dokka
 
 ## Icons
-Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (logos).
+Create web icons (favicon and thumbnails for browsers/mobile) from SVG images (logos).
 
 For image rendering you will need [rsvg] (librsvg2-bin) and [imagemagick] installed in the
 development machine.
@@ -73,8 +73,6 @@ To set up this script's parameters, check the [build variables section]. These h
 
 * logo (REQUIRED): SVG file used to render the logos. Used for the favicon.
 * logoLarge: SVG file used to render the large logo. If not supplied 'logo' will be used.
-* logoWide: SVG file used to render the wide logo. Used for MS Windows tiles. If not provided
-  'logoLarge' will be used.
 
 [rsvg]: https://github.com/GNOME/librsvg
 [imagemagick]: https://www.imagemagick.org

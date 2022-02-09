@@ -9,16 +9,12 @@ task("icons").doLast {
 
     final String logoSmall = findProperty("logo")
     final String logoLarge = findProperty("logoLarge") ?: logoSmall
-    final String logoWide = findProperty("logoWide") ?: logoLarge
 
     buildDir.mkdirs()
 
     createIco(logoSmall, "favicon.ico", 16, 32, 48, 64)
-    createPng(logoSmall, "apple-touch-icon.png", 180, 180)
-    createPng(logoSmall, "tile-small.png", 128, 128)
-    createPng(logoLarge, "tile-medium.png", 270, 270)
-    createPng(logoWide, "tile-wide.png", 558, 270)
-    createPng(logoLarge, "tile-large.png", 558, 558)
+    createPng(logoSmall, "icon-small.png", 180, 180)
+    createPng(logoLarge, "icon-large.png", 512, 512)
 }
 
 private void createPng(
