@@ -403,10 +403,11 @@ private val path: PathHandler = path {
     post("/file") {
         val part = parts.first()
         val content = part.bodyString()
-        ok(content)
+        val submittedFile = part.submittedFileName ?: ""
+        ok(content, headers = response.headers + ("submitted-file" to submittedFile))
     }
 
-    post("/form") {
+  post("/form") {
         fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
             map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
         )
