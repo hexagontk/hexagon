@@ -4,7 +4,11 @@ import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.netty.NettyAdapter
 
 fun main() {
-    val s = HttpServer(NettyAdapter(), HttpServerSettings(bindPort = 0)) {}
+
+    val s = HttpServer(NettyAdapter(), HttpServerSettings(bindPort = 0)) {
+        get("/text") { ok("Hello!") }
+    }
+
     s.start()
 //    s.stop()
 
@@ -25,10 +29,7 @@ fun main() {
         "java.specification.vendor",
         "java.specification.name",
         "java.class.version",
-//        "java.class.path",
         "java.library.path",
-        "java.io.tmpdir",
-        "java.compiler",
     )
     .forEach { println("$it: " + System.getProperty(it)) }
 }
