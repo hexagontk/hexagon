@@ -62,6 +62,7 @@ rootProject
 
 task("mkDocs") {
     dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
+    dependsOn("icons")
 
     doLast {
         val contentTarget = project.file("build/content").absolutePath

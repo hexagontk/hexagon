@@ -72,7 +72,9 @@ To use it, apply `$gradleScripts/icons.gradle` to your `build.gradle`.
 To set up this script's parameters, check the [build variables section]. These helper settings are:
 
 * logo (REQUIRED): SVG file used to render the logos. Used for the favicon.
-* logoLarge: SVG file used to render the large logo. If not supplied 'logo' will be used.
+* logoSmall: SVG file used to render the small logo. If not supplied 'logo' will be used.
+* logoLarge: SVG file used to render the large logo. If not supplied 'logoSmall' will be used.
+* iconsDirectory: directory inside `build` where icons will be generated. The default is `icons`.
 
 [rsvg]: https://github.com/GNOME/librsvg
 [imagemagick]: https://www.imagemagick.org

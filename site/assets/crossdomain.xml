@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 
 <!DOCTYPE cross-domain-policy SYSTEM "http://www.adobe.com/xml/dtds/cross-domain-policy.dtd">
+
 <cross-domain-policy>
-  <!-- Read this: www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html -->
+  <!--
+   ! Read this:
+   ! www.adobe.com/devnet-docs/acrobatetk/tools/AppSec/CrossDomain_PolicyFile_Specification.pdf
+   !-->
 
   <!-- Most restrictive policy: -->
   <site-control permitted-cross-domain-policies="none"/>
