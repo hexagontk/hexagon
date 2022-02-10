@@ -1,9 +1,8 @@
-package logging.jul
+package com.hexagonkt.core.logging.jul
 
 import com.hexagonkt.core.Ansi
 import com.hexagonkt.core.fail
 import com.hexagonkt.core.println
-import com.hexagonkt.core.logging.jul.PatternFormat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.lang.RuntimeException

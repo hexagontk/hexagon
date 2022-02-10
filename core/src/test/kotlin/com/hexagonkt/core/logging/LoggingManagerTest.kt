@@ -1,9 +1,6 @@
-package logging
+package com.hexagonkt.core.logging
 
-import com.hexagonkt.core.logging.Logger
-import com.hexagonkt.core.logging.LoggingLevel
 import com.hexagonkt.core.logging.LoggingLevel.*
-import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.logging.jul.JulLoggingAdapter
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse

@@ -6,8 +6,6 @@ apply(from = "../gradle/detekt.gradle")
 
 description = "Hexagon core utilities. Includes serialization and logging helpers."
 
-extra["basePackage"] = "com.hexagonkt.core"
-
 dependencies {
     val kotlinVersion = properties["kotlinVersion"]
 
