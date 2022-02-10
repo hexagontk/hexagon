@@ -1,7 +1,6 @@
-package model
+package com.hexagonkt.http.model
 
 import com.hexagonkt.core.disableChecks
-import com.hexagonkt.http.model.CustomStatus
 import com.hexagonkt.http.model.HttpStatusType.*
 import org.junit.jupiter.api.Test
 import java.lang.IllegalArgumentException
