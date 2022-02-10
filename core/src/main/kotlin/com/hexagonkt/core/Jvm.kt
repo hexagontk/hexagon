@@ -34,10 +34,10 @@ object Jvm {
     val id: String by lazy { ManagementFactory.getRuntimeMXBean().name }
 
     /** Name of the JVM running this program. For example: OpenJDK 64-Bit Server VM. */
-    val name: String by lazy { ManagementFactory.getRuntimeMXBean().vmName }
+    val name: String by lazy { System.getProperty("java.vm.name") }
 
     /** Java version aka language level. For example: 11 */
-    val version: String by lazy { ManagementFactory.getRuntimeMXBean().specVersion }
+    val version: String by lazy { System.getProperty("java.vm.specification.version") }
 
     /** Number of processors available to the Java virtual machine. */
     val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }
