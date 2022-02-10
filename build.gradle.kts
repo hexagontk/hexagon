@@ -1,3 +1,9 @@
+
+import com.github.jk1.license.render.CsvReportRenderer
+import com.github.jk1.license.render.InventoryHtmlReportRenderer
+import com.github.jk1.license.render.InventoryMarkdownReportRenderer
+import com.github.jk1.license.render.ReportRenderer
+
 /*
  * Main build script, responsible for:
  *
@@ -16,6 +22,7 @@ plugins {
     id("idea")
     id("eclipse")
     id("org.jetbrains.dokka") version("1.6.10")
+    id("com.github.jk1.dependency-license-report") version("2.0")
     id("io.gitlab.arturbosch.detekt") version("1.19.0") apply(false)
     id("me.champeau.jmh") version("0.6.6") apply(false)
 }
@@ -67,4 +74,13 @@ task("release") {
         project.exec { commandLine = listOf("git", "tag", "-m", "Release $release", release) }
         project.exec { commandLine = listOf("git", "push", "--tags") }
     }
+}
+
+licenseReport {
+    projects = subprojects.toTypedArray()
+    renderers = arrayOf<ReportRenderer>(
+        CsvReportRenderer(),
+        InventoryHtmlReportRenderer(),
+        InventoryMarkdownReportRenderer(),
+    )
 }
