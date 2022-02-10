@@ -12,7 +12,6 @@ import io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST
 import io.netty.handler.codec.http.HttpResponseStatus.OK
 import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
 import io.netty.util.CharsetUtil.UTF_8
-import java.util.*
 
 internal class NettyServerHandler(
     private val server: HttpServer
