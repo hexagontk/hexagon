@@ -15,7 +15,6 @@ import java.net.InetAddress
  * @property sslSettings SSL settings info for configuring the server.
  * @property banner Server banner message.
  * @property features List of features enabled for a server.
- * @property options Server options. Supported options change among adapters.
  */
 data class HttpServerSettings(
     val bindAddress: InetAddress = InetAddress.getLoopbackAddress(),

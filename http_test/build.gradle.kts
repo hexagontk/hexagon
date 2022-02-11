@@ -10,8 +10,6 @@ apply(from = "../gradle/detekt.gradle")
 
 description = "Test cases for HTTP client and server adapters."
 
-extra["basePackage"] = "com.hexagonkt.http.test"
-
 tasks.named<JavaCompile>("jmhCompileGeneratedClasses") {
     targetCompatibility = "17"
 }

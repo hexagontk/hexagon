@@ -6,8 +6,6 @@ apply(from = "../gradle/detekt.gradle")
 
 description = "Hexagon Logback logging adapter."
 
-extra["basePackage"] = "com.hexagonkt.logging.logback"
-
 dependencies {
     val slf4jVersion = properties["slf4jVersion"]
     val logbackVersion = properties["logbackVersion"]

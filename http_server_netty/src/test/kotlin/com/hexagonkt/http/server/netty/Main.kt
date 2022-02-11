@@ -1,7 +1,7 @@
+package com.hexagonkt.http.server.netty
 
 import com.hexagonkt.http.server.HttpServer
 import com.hexagonkt.http.server.HttpServerSettings
-import com.hexagonkt.http.server.netty.NettyAdapter
 
 fun main() {
 

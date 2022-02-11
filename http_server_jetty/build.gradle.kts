@@ -3,8 +3,6 @@ apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 
-extra["basePackage"] = "com.hexagonkt.http.server.jetty"
-
 dependencies {
     val jettyVersion = properties["jettyVersion"]
     val slf4jVersion = properties["slf4jVersion"]

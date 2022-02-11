@@ -1,4 +1,4 @@
-package com.hexagonkt.core
+package com.hexagonkt.http.test
 
 import com.hexagonkt.core.handlers.*
 import org.openjdk.jmh.annotations.Benchmark
