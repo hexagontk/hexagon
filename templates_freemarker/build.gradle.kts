@@ -1,6 +1,10 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+plugins {
+    id("java-library")
+}
+
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
@@ -13,9 +17,9 @@ val templatesTest: SourceSetOutput = project(":templates").sourceSet("test").out
 extra["basePackage"] = "com.hexagonkt.templates.freemarker"
 
 dependencies {
-    "api"(project(":templates"))
-    "api"("org.freemarker:freemarker:${properties["freemarkerVersion"]}")
+    api(project(":templates"))
+    api("org.freemarker:freemarker:${properties["freemarkerVersion"]}")
 
-    "testImplementation"(templatesTest)
-    "testImplementation"(project(":serialization_jackson_json"))
+    testImplementation(templatesTest)
+    testImplementation(project(":serialization_jackson_json"))
 }

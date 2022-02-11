@@ -1,4 +1,8 @@
 
+plugins {
+    id("java-library")
+}
+
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
@@ -9,6 +13,6 @@ description = "Hexagon JSON serialization format (using Jackson)."
 extra["basePackage"] = "com.hexagonkt.serialization.jackson.json"
 
 dependencies {
-    "api"(project(":serialization_jackson"))
-    "testImplementation"(project(":serialization_test"))
+    api(project(":serialization_jackson"))
+    testImplementation(project(":serialization_test"))
 }

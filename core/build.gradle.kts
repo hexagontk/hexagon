@@ -1,4 +1,8 @@
 
+plugins {
+    id("java-library")
+}
+
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
@@ -9,7 +13,7 @@ description = "Hexagon core utilities. Includes serialization and logging helper
 dependencies {
     val kotlinVersion = properties["kotlinVersion"]
 
-    "api"("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 }
 
 task("hexagonInfo") {

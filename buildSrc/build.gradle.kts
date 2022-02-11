@@ -13,10 +13,10 @@ dependencies {
     val jacksonVersion = "2.13.1"
     val junitVersion = "5.8.2"
 
-    "implementation"("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
 
-    "testImplementation"(gradleTestKit())
-    "testImplementation"("org.junit.jupiter:junit-jupiter:$junitVersion")
+    testImplementation(gradleTestKit())
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
 }
 
 tasks.withType<Test> {
