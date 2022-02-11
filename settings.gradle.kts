@@ -34,4 +34,5 @@ include(
     // Testing
     "http_test",
     "serialization_test",
+    "templates_test",
 )

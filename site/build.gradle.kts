@@ -6,10 +6,6 @@ import org.jetbrains.dokka.gradle.DokkaTaskPartial
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
 
-repositories {
-    mavenCentral()
-}
-
 // TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
 
@@ -108,14 +104,12 @@ task("checkDocs") {
     dependsOn("mkDocs")
     doLast {
         val readme = rootProject.file("README.md")
-        val service = rootProject.file("http_test/src/test/kotlin/HelloWorldTest.kt")
-        val examples = "http_test/src/main/kotlin/examples"
+        val service = rootProject.file("http_test/src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt")
+        val examples = "http_test/src/main/kotlin/com/hexagonkt/http/test/examples"
 
-        checkSamplesCode()
         checkSamplesCode(
             FilesRange(readme, rootProject.file(service), "hello_world"),
             FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
-//            FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
             FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
             FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
             FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
@@ -184,3 +178,6 @@ fun generateDownloadBadge() {
     val downloadSvg = downloadBadge.readText().replace("\${download}", "${rootProject.version}")
     downloadBadge.writeText(downloadSvg)
 }
+
+fun Project.modulesPaths(path: String): List<File> =
+    subprojects.map { rootProject.file("${it.name}/$path") }.filter { it .exists() }

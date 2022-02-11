@@ -14,7 +14,3 @@ dependencies {
 
     testImplementation(project(":serialization_jackson_yaml"))
 }
-
-extensions.configure<PublishingExtension> {
-    (publications["mavenJava"] as MavenPublication).artifact(tasks.named("testJar"))
-}
