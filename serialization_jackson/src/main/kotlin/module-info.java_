@@ -1,0 +1,11 @@
+
+module com.hexagonkt.serialization.jackson {
+
+    requires transitive com.hexagonkt.core;
+    requires transitive com.hexagonkt.serialization;
+
+    requires transitive com.fasterxml.jackson.databind;
+    requires transitive com.fasterxml.jackson.datatype.jsr310;
+
+    exports com.hexagonkt.serialization.jackson;
+}
