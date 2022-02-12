@@ -35,7 +35,7 @@ capacities can be replaced by other third party libraries.
 # Hello World
 Simple Hello World HTTP example.
 
-@code http_test/src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt:hello_world
+@code http_test/src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt?hello_world
 
 You can check the [code examples] and [demo projects] for more complex use cases.
 

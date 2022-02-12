@@ -75,7 +75,7 @@ Provides a logging management capabilities abstracting the application from logg
 
 The following code block shows the most common use cases for the [Logger] class:
 
-@code core/src/test/kotlin/com/hexagonkt/core/HexagonCoreSamplesTest.kt:logger
+@code core/src/test/kotlin/com/hexagonkt/core/HexagonCoreSamplesTest.kt?logger
 
 By default, Hexagon uses the [Java Util Logging] logging library, you can use any of its
 implementations by just adding another logging adapter as a dependency. Below you can see some

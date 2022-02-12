@@ -17,20 +17,20 @@ the same time.
 ### Register a Template Engine
 You can register multiple template engines using regular expressions:
 
-@code templates/src/test/kotlin/examples/TemplatesTest.kt:templateRegex
+@code templates/src/test/kotlin/examples/TemplatesTest.kt?templateRegex
 
 The template adapter is selected from top to bottom, picking the first matched one.
 
 You can use Glob syntax to bind patterns to template adapters if you prefer:
 
-@code templates/src/test/kotlin/examples/TemplatesTest.kt:templateGlob
+@code templates/src/test/kotlin/examples/TemplatesTest.kt?templateGlob
 
 ### Usage
 To render a template, you have to use the [TemplateManager] object. The data to be used inside the
 template must be supplied in a map (context), the template URL and current time-stamp (`_template_`
 and `_now_` variables) are added to the context automatically. Check the code below for an example:
 
-@code templates/src/test/kotlin/examples/TemplatesTest.kt:templateUsage
+@code templates/src/test/kotlin/examples/TemplatesTest.kt?templateUsage
 
 [TemplateManager]: /api/templates/com.hexagonkt.templates/-template-manager/index.html
 

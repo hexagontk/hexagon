@@ -96,10 +96,6 @@ task("mkDocs") {
     }
 }
 
-fun overwrite(source: String, target: String) {
-    project.file(source).copyTo(file(target), true)
-}
-
 task("checkDocs") {
     dependsOn("mkDocs")
     doLast {
@@ -107,17 +103,15 @@ task("checkDocs") {
         val service = rootProject.file("http_test/src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt")
         val examples = "http_test/src/main/kotlin/com/hexagonkt/http/test/examples"
 
-        checkSamplesCode(
-            FilesRange(readme, rootProject.file(service), "hello_world"),
-            FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
-            FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
-            FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
-            FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
-            FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files"),
-            FilesRange(readme, rootProject.file("$examples/CorsTest.kt"), "cors"),
-            FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https"),
-            FilesRange(readme, rootProject.file("$examples/ZipTest.kt"), "zip")
-        )
+        checkSampleCode(readme, rootProject.file(service), "hello_world")
+        checkSampleCode(readme, rootProject.file("$examples/BooksTest.kt"), "books")
+        checkSampleCode(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies")
+        checkSampleCode(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors")
+        checkSampleCode(readme, rootProject.file("$examples/FiltersTest.kt"), "filters")
+        checkSampleCode(readme, rootProject.file("$examples/FilesTest.kt"), "files")
+        checkSampleCode(readme, rootProject.file("$examples/CorsTest.kt"), "cors")
+        checkSampleCode(readme, rootProject.file("$examples/HttpsTest.kt"), "https")
+        checkSampleCode(readme, rootProject.file("$examples/ZipTest.kt"), "zip")
 
         val contentTarget = project.file("build/content").absolutePath
         val markdownFiles = project.fileTree("dir" to contentTarget, "include" to "**/*.md")
@@ -181,3 +175,7 @@ fun generateDownloadBadge() {
 
 fun Project.modulesPaths(path: String): List<File> =
     subprojects.map { rootProject.file("${it.name}/$path") }.filter { it .exists() }
+
+fun overwrite(source: String, target: String) {
+    project.file(source).copyTo(file(target), true)
+}

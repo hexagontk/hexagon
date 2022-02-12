@@ -37,24 +37,4 @@ internal class FileRangeTest {
     @Test fun `Test text with tag present in file`() {
         assert(fileRangeWithTagPresentInFile.text().contains("Service server"))
     }
-
-    @Test fun `Test 'toString' with not ended tag present in file`() {
-        assert(fileRangeWithNotEndedTagPresentInFile.toString().contains(testFile.name))
-    }
-
-    @Test fun `Test 'toString' with no tag present in file`() {
-        assert(fileRangeWithNoTagPresentInFile.toString().contains(testFile.name))
-    }
-
-    @Test fun `Test 'toString' with empty tag present in file`() {
-        assert(fileRangeWithEmptyTagPresentInFile.toString().contains(testFile.name))
-    }
-
-    @Test fun `Test 'toString' with empty tag only comment block present in file`() {
-        assert(fileRangeWithEmptyTagOnlyCommentPresentInFile.toString().contains(testFile.name))
-    }
-
-    @Test fun `Test 'toString' with tag present in file`() {
-        assert(fileRangeWithTagPresentInFile.toString().contains(testFile.name))
-    }
 }
