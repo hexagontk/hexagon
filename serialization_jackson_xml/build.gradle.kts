@@ -10,8 +10,6 @@ apply(from = "../gradle/detekt.gradle")
 
 description = "Hexagon XML serialization format (using Jackson)."
 
-extra["basePackage"] = "com.hexagonkt.serialization.jackson.xml"
-
 dependencies {
     val jacksonVersion = properties["jacksonVersion"]
 

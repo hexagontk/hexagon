@@ -10,8 +10,6 @@ apply(from = "../gradle/detekt.gradle")
 
 description = "Hexagon serialization testing helpers."
 
-extra["basePackage"] = "com.hexagonkt.serialization.test"
-
 dependencies {
     val kotlinVersion = properties["kotlinVersion"]
     val junitVersion = properties["junitVersion"]

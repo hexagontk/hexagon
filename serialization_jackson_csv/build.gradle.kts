@@ -10,8 +10,6 @@ apply(from = "../gradle/detekt.gradle")
 
 description = "Hexagon CSV serialization format (using Jackson)."
 
-extra["basePackage"] = "com.hexagonkt.serialization.jackson.csv"
-
 dependencies {
     val jacksonVersion = properties["jacksonVersion"]
 

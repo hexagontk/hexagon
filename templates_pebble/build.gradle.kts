@@ -7,8 +7,6 @@ apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 apply(from = "../gradle/dokka.gradle")
 
-extra["basePackage"] = "com.hexagonkt.templates.pebble"
-
 dependencies {
     api(project(":templates"))
     api("io.pebbletemplates:pebble:${properties["pebbleVersion"]}")

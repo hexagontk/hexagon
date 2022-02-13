@@ -62,30 +62,23 @@ fun checkSampleCode(documentationFile: File, sourceFile: File, tag: String) {
  * @param content Text with `@code` placeholders to be replaced by actual file ranges.
  * @return The content with the samples inserted in the placeholders.
  */
-fun insertSamplesCode(parent: File, content: String): String {
-    val samples = "@code (.*)".toRegex().findAll(content)
-    var result = content
-
-    samples.forEach { sample ->
+fun insertSamplesCode(parent: File, content: String): String =
+    content.replace("@code (.*)".toRegex()) {
         try {
-            val sampleLocation = sample.groups[1]?.value?.trim() ?: error("Location expected")
+            val sampleLocation = it.groups[1]?.value?.trim() ?: error("Location expected")
             val url = URL("file:${parent.absolutePath}/$sampleLocation")
             val tag = url.query
             val lines = url.readText().lines()
-            val start = lines.indexOfFirst { it.contains("// $tag") } + 1
-            val end = lines.indexOfLast { it.contains("// $tag") } - 1
+            val start = lines.indexOfFirst { ln -> ln.contains("// $tag") } + 1
+            val end = lines.indexOfLast { ln -> ln.contains("// $tag") } - 1
             val text = lines.slice(start..end).joinToString("\n").trimIndent()
-            result = result.replace("@code $sampleLocation", "```kotlin\n$text\n```")
-        }
-        catch(e: Exception) {
-            val code = sample.value
+            "```kotlin\n$text\n```"
+        } catch (e: Exception) {
+            val code = it.value
             println("ERROR: Unable to process '$code' in folder: '${parent.absolutePath}'")
-            e.printStackTrace()
+            code
         }
     }
-
-    return result
-}
 
 /**
  * Return a text with the proper syntax for the tabbed code blocks feature.
@@ -93,15 +86,7 @@ fun insertSamplesCode(parent: File, content: String): String {
  * @param content Text with incorrect format.
  * @return The content with the tabbed code blocks fixed.
  */
-fun fixCodeTabs(content: String): String {
-    val blocks = """=== "(.*)"\n\n```""".toRegex().findAll(content)
-    var result = content
-
-    blocks.forEach { block ->
-        val tabName = block.groups[1]?.value?.trim() ?: error("Tab name expected")
-        val replacement = "=== \"$tabName\"\n"
-        result = result.replace("=== \"$tabName\"\n\n```", replacement)
-    }
-
-    return result.replace("    ```\n```", "    ```")
-}
+fun fixCodeTabs(content: String): String =
+    content
+        .replace("""=== "(.*)"\n\n```""".toRegex(), "=== \"$1\"\n")
+        .replace("    ```\n```", "    ```")

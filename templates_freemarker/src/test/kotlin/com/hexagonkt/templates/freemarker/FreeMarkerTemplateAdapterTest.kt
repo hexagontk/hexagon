@@ -1,6 +1,6 @@
 package com.hexagonkt.templates.freemarker
 
-import com.hexagonkt.templates.TemplateAdapterTest
+import com.hexagonkt.templates.test.TemplateAdapterTest
 import java.net.URL
 
 internal class FreeMarkerTemplateAdapterTest :

@@ -1,5 +1,7 @@
-package com.hexagonkt.templates
+package com.hexagonkt.templates.test
 
+import com.hexagonkt.templates.TemplateManager
+import com.hexagonkt.templates.TemplatePort
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
