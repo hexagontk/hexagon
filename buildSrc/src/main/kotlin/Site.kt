@@ -3,32 +3,6 @@ import java.io.File
 import java.net.URL
 
 /**
- * Set of lines inside a text file.
- *
- * @param file Text file holding the lines.
- * @param range Range of lines inside the supplied file.
- */
-class FileRange(private val file: File, private val range: IntRange) {
-
-    constructor(file: File, tag: String) : this(
-        file,
-        file
-            .readLines()
-            .let { lines ->
-                val start = lines.indexOfFirst { it.contains("// $tag") } + 1
-                val end = lines.indexOfLast { it.contains("// $tag") } - 1
-                start .. end
-            }
-    )
-
-    fun text(): String =
-        lines().joinToString("\n").trimIndent()
-
-    fun lines(): List<String> =
-        file.readLines().slice(range)
-}
-
-/**
  * Assure that two file ranges are the same (verify that documentation contains only tested code).
  *
  * @param documentationFile File of the documentation to check.
@@ -36,14 +10,19 @@ class FileRange(private val file: File, private val range: IntRange) {
  * @param tag Tag that defines the text range within the files.
  */
 fun checkSampleCode(documentationFile: File, sourceFile: File, tag: String) {
-    val documentation = FileRange(documentationFile, tag)
-    val source = FileRange(sourceFile, tag)
+    val documentationFileLines = documentationFile.readLines()
+    val sourceFileLines = sourceFile.readLines()
+    val documentation = documentationFileLines.slice(documentationFileLines.rangeOf(tag))
+    val source = sourceFileLines.slice(sourceFileLines.rangeOf(tag))
 
     fun List<String>.strippedLines(): List<String> =
         map { it.trim() }.filter { it.isNotEmpty() }
 
-    val documentationLines = documentation.lines().strippedLines()
-    if (documentationLines.isNotEmpty() && documentationLines != source.lines().strippedLines())
+    fun List<String>.text(): String =
+        joinToString("\n").trimIndent()
+
+    val documentationLines = documentation.strippedLines()
+    if (documentationLines.isNotEmpty() && documentationLines != source.strippedLines())
         error("""
             Documentation $documentation does not match $source
 
@@ -67,11 +46,9 @@ fun insertSamplesCode(parent: File, content: String): String =
         try {
             val sampleLocation = it.groups[1]?.value?.trim() ?: error("Location expected")
             val url = URL("file:${parent.absolutePath}/$sampleLocation")
-            val tag = url.query
+            val tag = "// ${url.query}"
             val lines = url.readText().lines()
-            val start = lines.indexOfFirst { ln -> ln.contains("// $tag") } + 1
-            val end = lines.indexOfLast { ln -> ln.contains("// $tag") } - 1
-            val text = lines.slice(start..end).joinToString("\n").trimIndent()
+            val text = lines.slice(lines.rangeOf(tag)).joinToString("\n").trimIndent()
             "```kotlin\n$text\n```"
         } catch (e: Exception) {
             val code = it.value
@@ -90,3 +67,9 @@ fun fixCodeTabs(content: String): String =
     content
         .replace("""=== "(.*)"\n\n```""".toRegex(), "=== \"$1\"\n")
         .replace("    ```\n```", "    ```")
+
+fun List<String>.rangeOf(tag: String): IntRange {
+    val start = indexOfFirst { it.contains("// $tag") } + 1
+    val end = indexOfLast { it.contains("// $tag") } - 1
+    return start .. end
+}
