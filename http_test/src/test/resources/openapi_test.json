@@ -22,22 +22,22 @@
       },
       "api_key_query": {
         "type": "apiKey",
-        "name": "api_key",
+        "name": "api-key",
         "in": "query"
       },
       "api_key_header": {
         "type": "apiKey",
-        "name": "api_key",
+        "name": "api-key",
         "in": "header"
       },
       "api_key_cookie": {
         "type": "apiKey",
-        "name": "api_key",
+        "name": "api-key",
         "in": "cookie"
       },
       "api_key_unknown": {
         "type": "apiKey",
-        "name": "api_key",
+        "name": "api-key",
         "in": "unknown"
       }
     }
@@ -258,7 +258,7 @@
         "description": "An endpoint to check if the mock server correctly verifies header params, and returns the correct response if they are missing or not of the required value",
         "parameters": [
           {
-            "name": "headerParam",
+            "name": "header-param",
             "in": "header",
             "description": "A header param that is required",
             "required": true,
@@ -298,7 +298,7 @@
         "description": "An endpoint to check if the mock server correctly verifies optional header params, and returns the correct response if they are missing or not of the required value",
         "parameters": [
           {
-            "name": "headerParam",
+            "name": "header-param",
             "in": "header",
             "description": "A header param that is optional, so the mock server should check this if it is present",
             "required": false,

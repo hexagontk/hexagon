@@ -1,6 +1,5 @@
 
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import java.io.File
 
@@ -10,24 +9,13 @@ internal class SiteKtTest {
     private val testFile: File = File("src/test/resources/test.md")
     private val testFileOut: File = File("src/test/resources/test_out.md")
 
-    @Test fun `Test 'checkSamplesCode'`() {
-        checkSamplesCode(FilesRange(testFile, testFileOut, "t"))
-        checkSamplesCode(FileRange(testFile, "nothing"), FileRange(testFileOut, "hello"))
-    }
-
-    @Test fun `When file ranges don't match 'checkSamplesCode' throws exception`() {
-        assertThrows(IllegalStateException::class.java) {
-            checkSamplesCode(FileRange(testFile, "hello"), FileRange(testFileOut, "hello"))
-        }
-    }
-
     @Test fun `Test insert samples code`() {
-        val testTag = "@code test.md:TestMd"
+        val testTag = "@code test.md?TestMd"
         assert(insertSamplesCode(resourceFile, testTag).contains("kotlin"))
     }
 
     @Test fun `Insert samples code does not fail on not found files`() {
-        val testTag = "@code test_not_found.md:TestMd"
+        val testTag = "@code test_not_found.md?TestMd"
         assertEquals(testTag, insertSamplesCode(resourceFile, testTag))
     }
 

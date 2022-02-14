@@ -11,7 +11,8 @@ apply(plugin: "maven-publish")
 defaultTasks("build")
 
 java {
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = sourceCompatibility
 }
 
 idea {
@@ -50,7 +51,7 @@ dependencies {
 
 // Replace build variables in resource files
 processResources {
-    [ "properties", "ini", "cfg", "txt", "html", "xml", "json", "yaml" ].each { String ext ->
+    [ "properties", "ini", "cfg", "txt", "html", "xml", "json", "yaml", "svg" ].each { String ext ->
         final Map<String, ?> stringProperties = project.getProperties()
             .findAll { it.value instanceof String }
 
@@ -68,6 +69,12 @@ processResources {
     }
 }
 
+jar {
+    manifest {
+        attributes("Automatic-Module-Name": "${project.group}.${project.name.replace('_', '.')}")
+    }
+}
+
 tasks.compileJava.doFirst {
     options.compilerArgs = [ "--module-path", classpath.asPath ]
 }
@@ -75,6 +82,9 @@ tasks.compileJava.doFirst {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+sourceSets.main.java.srcDirs = sourceSets.main.kotlin.srcDirs
+tasks.compileJava.destinationDirectory = tasks.compileKotlin.destinationDirectory
 
 tasks.compileKotlin.kotlinOptions.jvmTarget = targetCompatibility
 tasks.compileKotlin.kotlinOptions.apiVersion = "1.6"

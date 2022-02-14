@@ -7,18 +7,15 @@ task("icons").doLast {
     description =
         "Create web icons (favicon and thumbnails for browsers/mobile) from image SVGs (logos)."
 
-    final String logoSmall = findProperty("logo")
+    final String logoSmall = findProperty("logoSmall") ?: findProperty("logo")
     final String logoLarge = findProperty("logoLarge") ?: logoSmall
-    final String logoWide = findProperty("logoWide") ?: logoLarge
+    final String iconsDirectory = findProperty("iconsDirectory") ?: "icons"
 
-    buildDir.mkdirs()
+    project.file("${buildDir.name}/icons").mkdirs()
 
-    createIco(logoSmall, "favicon.ico", 16, 32, 48, 64)
-    createPng(logoSmall, "apple-touch-icon.png", 180, 180)
-    createPng(logoSmall, "tile-small.png", 128, 128)
-    createPng(logoLarge, "tile-medium.png", 270, 270)
-    createPng(logoWide, "tile-wide.png", 558, 270)
-    createPng(logoLarge, "tile-large.png", 558, 558)
+    createIco(logoSmall, "$iconsDirectory/favicon.ico", 16, 32, 48, 64)
+    createPng(logoSmall, "$iconsDirectory/icon-small.png", 180, 180)
+    createPng(logoLarge, "$iconsDirectory/icon-large.png", 512, 512)
 }
 
 private void createPng(

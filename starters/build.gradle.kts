@@ -6,10 +6,6 @@ import javax.xml.parsers.DocumentBuilderFactory
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/publish.gradle")
 
-plugins {
-    id("maven-publish")
-}
-
 extensions.configure<PublishingExtension> {
     publications {
         createPomPublication("kotlin_pom") { pomDom ->
@@ -54,7 +50,6 @@ extensions.configure<PublishingExtension> {
     }
 }
 
-// TODO Move these methods to `buildSrc` and consider using dom4j or jdom
 fun File.parseDom(): Document =
     DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this)
 

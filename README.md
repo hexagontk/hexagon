@@ -43,7 +43,7 @@ single standalone features and are referred to as ["Ports"][Ports and Adapters A
 The main ports are:
 
 * [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
-  processing, cookies, sessions, CORS and more.
+  processing, cookies, CORS and more.
 * [The HTTP client]: which supports mutual TLS, HTTP/2, cookies, form fields and files among other
   features.
 * [Template Processing]: allows template processing from URLs (local files, resources or HTTP
@@ -224,19 +224,6 @@ private val path: PathHandler = path {
 </details>
 
 <details>
-<summary>Session Example</summary>
-
-Example showing how to use sessions. Here you can check the
-full test.
-
-```kotlin
-// session
-// TODO
-// session
-```
-</details>
-
-<details>
 <summary>Error Handling Example</summary>
 
 Code to show how to handle callback exceptions and HTTP error codes. Here you can check the
@@ -403,10 +390,11 @@ private val path: PathHandler = path {
     post("/file") {
         val part = parts.first()
         val content = part.bodyString()
-        ok(content)
+        val submittedFile = part.submittedFileName ?: ""
+        ok(content, headers = response.headers + ("submitted-file" to submittedFile))
     }
 
-    post("/form") {
+  post("/form") {
         fun serializeMap(map: Map<String, List<String>>): List<String> = listOf(
             map.map { "${it.key}:${it.value.joinToString(",")}}" }.joinToString("\n")
         )
