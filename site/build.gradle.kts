@@ -11,7 +11,6 @@ tasks.register<JacocoReport>("jacocoRootReport") {
 
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
     val modulesSources = rootProject.modulesPaths("src/main/kotlin")
-    val modulesJacocoSources = rootProject.modulesPaths("build/jacoco/src")
     val modulesClasses = rootProject.modulesPaths("build/classes/kotlin/main")
         .filterNot { it.absolutePath.contains("http_test") }
         .filterNot { it.absolutePath.contains("serialization_test") }
@@ -19,7 +18,7 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         .filterNot { it.absolutePath.contains("http_server_netty") } // TODO wip
 
     executionData.from(projectExecutionData)
-    sourceDirectories.from(modulesSources + modulesJacocoSources)
+    sourceDirectories.from(modulesSources)
     classDirectories.from(modulesClasses)
 
     reports {
@@ -32,21 +31,10 @@ tasks.register<JacocoReport>("jacocoRootReport") {
     }
 }
 
-val footer = """
-    Made with <svg class=\"fa-heart\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\">
-    <path d=\"M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9
-    49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3
-    0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z\"></path></svg> by
-    <a href=\"https://github.com/hexagonkt/hexagon/graphs/contributors\">OSS contributors</a>.
-    Licensed under <a href=\"https://github.com/hexagonkt/hexagon/blob/master/license.md\">
-    MIT License</a>
-""".lines().joinToString(" ") { it.trim() }
+val footer = file("footer.txt").readLines().joinToString(" ") { it.trim() }
 
-val dokkaConfiguration = mapOf(
-    "org.jetbrains.dokka.base.DokkaBase" to """{
-        "footerMessage": "$footer"
-    }"""
-)
+val dokkaConfiguration =
+    mapOf("org.jetbrains.dokka.base.DokkaBase" to """{ "footerMessage": "$footer" }""")
 
 // TODO Make this task depend on 'assets' directory to update it upon changes on those CSS files
 rootProject.tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
@@ -102,9 +90,10 @@ task("mkDocs") {
 task("checkDocs") {
     dependsOn("mkDocs")
     doLast {
+        val src = "http_test/src"
         val readme = rootProject.file("README.md")
-        val service = rootProject.file("http_test/src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt")
-        val examples = "http_test/src/main/kotlin/com/hexagonkt/http/test/examples"
+        val service = rootProject.file("$src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt")
+        val examples = "$src/main/kotlin/com/hexagonkt/http/test/examples"
 
         checkSampleCode(readme, rootProject.file(service), "hello_world")
         checkSampleCode(readme, rootProject.file("$examples/BooksTest.kt"), "books")
