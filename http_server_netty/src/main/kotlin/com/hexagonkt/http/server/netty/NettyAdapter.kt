@@ -10,18 +10,23 @@ import com.hexagonkt.http.server.HttpServerFeature
 import com.hexagonkt.http.server.HttpServerFeature.ASYNC
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.handlers.path
 import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelInitializer
+import io.netty.channel.ChannelOption
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.codec.http.*
 import io.netty.handler.ssl.SslContextBuilder
 import io.netty.handler.ssl.SslHandler
+import io.netty.handler.stream.ChunkedWriteHandler
 import java.net.InetSocketAddress
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.TrustManagerFactory
+import kotlin.Int.Companion.MAX_VALUE
 
 /**
  * Implements [HttpServerPort] using Netty [Channel].
@@ -48,11 +53,17 @@ class NettyAdapter(
         val workerGroup = NioEventLoopGroup()
 
         try {
-            val settings = server.settings
             val nettyServer = ServerBootstrap()
+            val settings = server.settings
+            val handlers: Map<HttpMethod, PathHandler> =
+                path(settings.contextPath, server.handlers)
+                    .byMethod()
+                    .mapKeys { HttpMethod.valueOf(it.key.toString()) }
 
             nettyServer.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel::class.java)
+                .option(ChannelOption.SO_BACKLOG, 1000)
+                .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childHandler(object : ChannelInitializer<SocketChannel>() {
                     override fun initChannel(channel: SocketChannel) {
                         val pipeline = channel.pipeline()
@@ -63,8 +74,10 @@ class NettyAdapter(
                         }
 
                         pipeline.addLast(HttpServerCodec())
-                        pipeline.addLast(HttpServerExpectContinueHandler())
-                        pipeline.addLast(NettyServerHandler(server))
+                        pipeline.addLast(HttpServerKeepAliveHandler())
+                        pipeline.addLast(HttpObjectAggregator(MAX_VALUE))
+                        pipeline.addLast(ChunkedWriteHandler())
+                        pipeline.addLast(NettyServerHandler(handlers))
                     }
                 })
 

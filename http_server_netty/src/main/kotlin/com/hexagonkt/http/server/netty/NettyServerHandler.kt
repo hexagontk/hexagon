@@ -1,6 +1,7 @@
 package com.hexagonkt.http.server.netty
 
-import com.hexagonkt.http.server.HttpServer
+import com.hexagonkt.http.server.handlers.PathHandler
+import com.hexagonkt.http.server.model.HttpServerResponse
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelFutureListener.CLOSE
 import io.netty.channel.ChannelHandlerContext
@@ -14,53 +15,52 @@ import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
 import io.netty.util.CharsetUtil.UTF_8
 
 internal class NettyServerHandler(
-    private val server: HttpServer
-) : SimpleChannelInboundHandler<HttpObject>() {
+    private val handlers: Map<HttpMethod, PathHandler>
+) : SimpleChannelInboundHandler<FullHttpRequest>() {
 
-    private val responseData = StringBuilder()
-    private var keepAlive = true
-
-    override fun channelReadComplete(context: ChannelHandlerContext) {
-        context.flush()
-    }
+    lateinit var httpRequest: FullHttpRequest
 
     @Suppress("deprecation") // Deprecated in ChannelHandler, not in SimpleChannelInboundHandler
-    override fun channelRead0(context: ChannelHandlerContext, message: HttpObject) {
-        val result = message.decoderResult()
+    override fun channelRead0(context: ChannelHandlerContext, request: FullHttpRequest) {
+        httpRequest = request
+        val result = request.decoderResult()
         if (result.isFailure)
             exceptionCaught(context, result.cause())
 
-        if (message is HttpRequest) {
-            responseData.append(RequestUtils.formatParams(message))
-            keepAlive = HttpUtil.isKeepAlive(message) // TODO Is this required every read?
-        }
+        val method = request.method
+        val response = handlers[method]
+            ?.process(NettyRequestAdapter(method, request))
+            ?: HttpServerResponse()
 
-        if (message is HttpContent) {
-            responseData.append(RequestUtils.formatBody(message))
+        val data =
+            RequestUtils.formatParams(request)
+                .append(RequestUtils.formatBody(request))
+                .append(RequestUtils.prepareLastResponse(request))
+                .toString()
 
-            if (message is LastHttpContent) {
-                responseData.append(RequestUtils.prepareLastResponse(message))
-                writeResponse(context, OK)
-            }
-        }
+        writeResponse(context, data, OK)
     }
 
     override fun exceptionCaught(context: ChannelHandlerContext, cause: Throwable) {
-        responseData.append("Failure: $cause\n")
-        writeResponse(context, BAD_REQUEST)
+        writeResponse(context, "Failure: $cause\n", BAD_REQUEST)
     }
 
-    private fun writeResponse(context: ChannelHandlerContext, status: HttpResponseStatus) {
-        val buffer = Unpooled.copiedBuffer(responseData.toString(), UTF_8)
+    private fun writeResponse(
+        context: ChannelHandlerContext,
+        data: String,
+        status: HttpResponseStatus,
+    ) {
+
+        val buffer = Unpooled.copiedBuffer(data, UTF_8)
         val response = DefaultFullHttpResponse(HTTP_1_1, status, buffer)
         val headers = response.headers()
 
         headers[CONTENT_TYPE] = "text/plain; charset=UTF-8"
 
-        if (keepAlive) {
+        if (HttpUtil.isKeepAlive(httpRequest)) {
             headers.setInt(CONTENT_LENGTH, response.content().readableBytes())
             headers[CONNECTION] = KEEP_ALIVE
-            context.write(response)
+            context.writeAndFlush(response)
         }
         else {
             context.writeAndFlush(response).addListener(CLOSE)
