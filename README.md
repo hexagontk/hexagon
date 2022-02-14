@@ -43,7 +43,7 @@ single standalone features and are referred to as ["Ports"][Ports and Adapters A
 The main ports are:
 
 * [The HTTP server]: supports HTTPS, HTTP/2, mutual TLS, static files (serve and upload), forms
-  processing, cookies, sessions, CORS and more.
+  processing, cookies, CORS and more.
 * [The HTTP client]: which supports mutual TLS, HTTP/2, cookies, form fields and files among other
   features.
 * [Template Processing]: allows template processing from URLs (local files, resources or HTTP
@@ -220,19 +220,6 @@ private val path: PathHandler = path {
     }
 }
 // books
-```
-</details>
-
-<details>
-<summary>Session Example</summary>
-
-Example showing how to use sessions. Here you can check the
-full test.
-
-```kotlin
-// session
-// TODO
-// session
 ```
 </details>
 
