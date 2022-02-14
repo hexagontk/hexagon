@@ -10,10 +10,11 @@ import java.net.URL
  * @param tag Tag that defines the text range within the files.
  */
 fun checkSampleCode(documentationFile: File, sourceFile: File, tag: String) {
+    val fileTag = "// $tag"
     val documentationFileLines = documentationFile.readLines()
     val sourceFileLines = sourceFile.readLines()
-    val documentation = documentationFileLines.slice(documentationFileLines.rangeOf(tag))
-    val source = sourceFileLines.slice(sourceFileLines.rangeOf(tag))
+    val documentation = documentationFileLines.slice(documentationFileLines.rangeOf(fileTag))
+    val source = sourceFileLines.slice(sourceFileLines.rangeOf(fileTag))
 
     fun List<String>.strippedLines(): List<String> =
         map { it.trim() }.filter { it.isNotEmpty() }
@@ -69,7 +70,7 @@ fun fixCodeTabs(content: String): String =
         .replace("    ```\n```", "    ```")
 
 fun List<String>.rangeOf(tag: String): IntRange {
-    val start = indexOfFirst { it.contains("// $tag") } + 1
-    val end = indexOfLast { it.contains("// $tag") } - 1
+    val start = indexOfFirst { it.contains(tag) } + 1
+    val end = indexOfLast { it.contains(tag) } - 1
     return start .. end
 }
