@@ -14,6 +14,9 @@ tasks.register<JacocoReport>("jacocoRootReport") {
     val modulesJacocoSources = rootProject.modulesPaths("build/jacoco/src")
     val modulesClasses = rootProject.modulesPaths("build/classes/kotlin/main")
         .filterNot { it.absolutePath.contains("http_test") }
+        .filterNot { it.absolutePath.contains("serialization_test") }
+        .filterNot { it.absolutePath.contains("templates_test") }
+        .filterNot { it.absolutePath.contains("http_server_netty") } // TODO wip
 
     executionData.from(projectExecutionData)
     sourceDirectories.from(modulesSources + modulesJacocoSources)
