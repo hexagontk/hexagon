@@ -27,6 +27,7 @@ internal class AdapterCookiesTest : CookiesTest(clientAdapter, serverAdapter)
 internal class AdapterFilesTest : FilesTest(clientAdapter, serverAdapter)
 internal class AdapterCorsTest : CorsTest(clientAdapter, serverAdapter)
 internal class AdapterSamplesTest : SamplesTest(clientAdapter, serverAdapter)
+internal class AdapterBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter)
 
 internal class AdapterAsyncBooksTest : BooksTest(clientAdapter, serverAdapter, async)
 internal class AdapterAsyncErrorsTest : ErrorsTest(clientAdapter, serverAdapter, async)
@@ -38,5 +39,6 @@ internal class AdapterAsyncCookiesTest : CookiesTest(clientAdapter, serverAdapte
 internal class AdapterAsyncFilesTest : FilesTest(clientAdapter, serverAdapter, async)
 internal class AdapterAsyncCorsTest : CorsTest(clientAdapter, serverAdapter, async)
 internal class AdapterAsyncSamplesTest : SamplesTest(clientAdapter, serverAdapter, async)
+internal class AdapterAsyncBenchmarkIT : BenchmarkIT(clientAdapter, serverAdapter, async)
 @Disabled
 internal class AdapterAsyncSseTest : SseTest(clientAdapter, serverAdapter, async)

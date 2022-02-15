@@ -1,5 +1,7 @@
 package com.hexagonkt.http.server.netty
 
+import com.hexagonkt.http.bodyToBytes
+import com.hexagonkt.http.model.*
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.model.HttpServerResponse
 import io.netty.buffer.Unpooled
@@ -9,55 +11,66 @@ import io.netty.channel.SimpleChannelInboundHandler
 import io.netty.handler.codec.http.*
 import io.netty.handler.codec.http.HttpHeaderNames.*
 import io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE
-import io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST
-import io.netty.handler.codec.http.HttpResponseStatus.OK
+import io.netty.handler.codec.http.HttpMethod
+import io.netty.handler.codec.http.HttpResponseStatus.*
 import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
-import io.netty.util.CharsetUtil.UTF_8
+import io.netty.handler.ssl.SslHandler
+import io.netty.handler.ssl.SslHandshakeCompletionEvent
+import java.security.cert.X509Certificate
 
 internal class NettyServerHandler(
-    private val handlers: Map<HttpMethod, PathHandler>
+    private val handlers: Map<HttpMethod, PathHandler>,
+    private val sslHandler: SslHandler?,
 ) : SimpleChannelInboundHandler<FullHttpRequest>() {
 
-    lateinit var httpRequest: FullHttpRequest
+    private var certificates: List<X509Certificate> = emptyList()
 
     @Suppress("deprecation") // Deprecated in ChannelHandler, not in SimpleChannelInboundHandler
-    override fun channelRead0(context: ChannelHandlerContext, request: FullHttpRequest) {
-        httpRequest = request
-        val result = request.decoderResult()
+    override fun channelRead0(context: ChannelHandlerContext, nettyRequest: FullHttpRequest) {
+        val result = nettyRequest.decoderResult()
         if (result.isFailure)
             exceptionCaught(context, result.cause())
 
-        val method = request.method
-        val response = handlers[method]
-            ?.process(NettyRequestAdapter(method, request))
-            ?: HttpServerResponse()
+        val method = nettyRequest.method
+        val request = NettyRequestAdapter(method, nettyRequest, certificates)
+        val response = handlers[method]?.process(request) ?: HttpServerResponse()
 
-        val data =
-            RequestUtils.formatParams(request)
-                .append(RequestUtils.formatBody(request))
-                .append(RequestUtils.prepareLastResponse(request))
-                .toString()
+        writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
+    }
 
-        writeResponse(context, data, OK)
+    override fun userEventTriggered(ctx: ChannelHandlerContext, evt: Any) {
+        if (evt is SslHandshakeCompletionEvent && sslHandler != null) {
+            val peerCertificates = sslHandler.engine().session.peerCertificates
+            certificates = peerCertificates.map { it as X509Certificate }
+        }
     }
 
     override fun exceptionCaught(context: ChannelHandlerContext, cause: Throwable) {
-        writeResponse(context, "Failure: $cause\n", BAD_REQUEST)
+        val body = "Failure: $cause\n"
+        val response = HttpServerResponse(body, status = ServerErrorStatus.INTERNAL_SERVER_ERROR)
+        writeResponse(context, response, false)
     }
 
     private fun writeResponse(
         context: ChannelHandlerContext,
-        data: String,
-        status: HttpResponseStatus,
+        hexagonResponse: HttpServerResponse,
+        keepAlive: Boolean,
     ) {
 
-        val buffer = Unpooled.copiedBuffer(data, UTF_8)
+        val buffer = Unpooled.copiedBuffer(bodyToBytes(hexagonResponse.body))
+        val status = nettyStatus(hexagonResponse.status)
         val response = DefaultFullHttpResponse(HTTP_1_1, status, buffer)
         val headers = response.headers()
 
-        headers[CONTENT_TYPE] = "text/plain; charset=UTF-8"
+        hexagonResponse.headers.allValues.map { (k, v) -> headers.add(k, v) }
 
-        if (HttpUtil.isKeepAlive(httpRequest)) {
+        // TODO Cookies
+
+        val contentType = hexagonResponse.contentType
+        if (contentType != null)
+            headers[CONTENT_TYPE] = contentType.text
+
+        if (keepAlive) {
             headers.setInt(CONTENT_LENGTH, response.content().readableBytes())
             headers[CONNECTION] = KEEP_ALIVE
             context.writeAndFlush(response)
@@ -66,42 +79,68 @@ internal class NettyServerHandler(
             context.writeAndFlush(response).addListener(CLOSE)
         }
     }
-}
 
-internal object RequestUtils {
+    private fun nettyStatus(status: HttpStatus): HttpResponseStatus =
+        when (status) {
+            InformationStatus.CONTINUE -> CONTINUE
+            InformationStatus.SWITCHING_PROTOCOLS -> SWITCHING_PROTOCOLS
+            InformationStatus.PROCESSING -> PROCESSING
 
-    fun formatParams(request: HttpRequest): StringBuilder {
-        val responseData = StringBuilder()
-        val queryStringDecoder = QueryStringDecoder(request.uri())
-        val params = queryStringDecoder.parameters()
+            SuccessStatus.OK -> OK
+            SuccessStatus.CREATED -> CREATED
+            SuccessStatus.ACCEPTED -> ACCEPTED
+            SuccessStatus.NON_AUTHORITATIVE_INFORMATION -> NON_AUTHORITATIVE_INFORMATION
+            SuccessStatus.NO_CONTENT -> NO_CONTENT
+            SuccessStatus.RESET_CONTENT -> RESET_CONTENT
+            SuccessStatus.PARTIAL_CONTENT -> PARTIAL_CONTENT
+            SuccessStatus.MULTI_STATUS -> MULTI_STATUS
 
-        if (params.isNotEmpty())
-            for ((k, vs) in params)
-                for (v in vs)
-                    responseData.append("Parameter: ${k.uppercase()} = ${v.uppercase()}\n")
+            RedirectionStatus.MULTIPLE_CHOICES -> MULTIPLE_CHOICES
+            RedirectionStatus.MOVED_PERMANENTLY -> MOVED_PERMANENTLY
+            RedirectionStatus.FOUND -> FOUND
+            RedirectionStatus.SEE_OTHER -> SEE_OTHER
+            RedirectionStatus.NOT_MODIFIED -> NOT_MODIFIED
+            RedirectionStatus.USE_PROXY -> USE_PROXY
+            RedirectionStatus.TEMPORARY_REDIRECT -> TEMPORARY_REDIRECT
+            RedirectionStatus.PERMANENT_REDIRECT -> PERMANENT_REDIRECT
 
-        return responseData
-    }
+            ClientErrorStatus.BAD_REQUEST -> BAD_REQUEST
+            ClientErrorStatus.NOT_FOUND -> NOT_FOUND
+            ClientErrorStatus.UNAUTHORIZED -> UNAUTHORIZED
+            ClientErrorStatus.PAYMENT_REQUIRED -> PAYMENT_REQUIRED
+            ClientErrorStatus.FORBIDDEN -> FORBIDDEN
+            ClientErrorStatus.METHOD_NOT_ALLOWED -> METHOD_NOT_ALLOWED
+            ClientErrorStatus.NOT_ACCEPTABLE -> NOT_ACCEPTABLE
+            ClientErrorStatus.PROXY_AUTHENTICATION_REQUIRED -> PROXY_AUTHENTICATION_REQUIRED
+            ClientErrorStatus.REQUEST_TIMEOUT -> REQUEST_TIMEOUT
+            ClientErrorStatus.CONFLICT -> CONFLICT
+            ClientErrorStatus.GONE -> GONE
+            ClientErrorStatus.LENGTH_REQUIRED -> LENGTH_REQUIRED
+            ClientErrorStatus.PRECONDITION_FAILED -> PRECONDITION_FAILED
+            ClientErrorStatus.URI_TOO_LONG -> REQUEST_URI_TOO_LONG
+            ClientErrorStatus.UNSUPPORTED_MEDIA_TYPE -> UNSUPPORTED_MEDIA_TYPE
+            ClientErrorStatus.RANGE_NOT_SATISFIABLE -> REQUESTED_RANGE_NOT_SATISFIABLE
+            ClientErrorStatus.EXPECTATION_FAILED -> EXPECTATION_FAILED
+            ClientErrorStatus.MISDIRECTED_REQUEST -> MISDIRECTED_REQUEST
+            ClientErrorStatus.UNPROCESSABLE_CONTENT -> UNPROCESSABLE_ENTITY
+            ClientErrorStatus.LOCKED -> LOCKED
+            ClientErrorStatus.FAILED_DEPENDENCY -> FAILED_DEPENDENCY
+            ClientErrorStatus.UPGRADE_REQUIRED -> UPGRADE_REQUIRED
+            ClientErrorStatus.PRECONDITION_REQUIRED -> PRECONDITION_REQUIRED
+            ClientErrorStatus.TOO_MANY_REQUESTS -> TOO_MANY_REQUESTS
+            ClientErrorStatus.REQUEST_HEADER_FIELDS_TOO_LARGE -> REQUEST_HEADER_FIELDS_TOO_LARGE
 
-    fun formatBody(httpContent: HttpContent): StringBuilder {
-        val responseData = StringBuilder()
-        val content = httpContent.content()
+            ServerErrorStatus.INTERNAL_SERVER_ERROR -> INTERNAL_SERVER_ERROR
+            ServerErrorStatus.NOT_IMPLEMENTED -> NOT_IMPLEMENTED
+            ServerErrorStatus.BAD_GATEWAY -> BAD_GATEWAY
+            ServerErrorStatus.SERVICE_UNAVAILABLE -> SERVICE_UNAVAILABLE
+            ServerErrorStatus.GATEWAY_TIMEOUT -> GATEWAY_TIMEOUT
+            ServerErrorStatus.HTTP_VERSION_NOT_SUPPORTED -> HTTP_VERSION_NOT_SUPPORTED
+            ServerErrorStatus.VARIANT_ALSO_NEGOTIATES -> VARIANT_ALSO_NEGOTIATES
+            ServerErrorStatus.INSUFFICIENT_STORAGE -> INSUFFICIENT_STORAGE
+            ServerErrorStatus.NOT_EXTENDED -> NOT_EXTENDED
+            ServerErrorStatus.NETWORK_AUTHENTICATION_REQUIRED -> NETWORK_AUTHENTICATION_REQUIRED
 
-        if (content.isReadable)
-            responseData.append(content.toString(UTF_8).uppercase())
-
-        return responseData
-    }
-
-    fun prepareLastResponse(trailer: LastHttpContent): StringBuilder {
-        val responseData = StringBuilder()
-        responseData.append("Good Bye!")
-
-        if (!trailer.trailingHeaders().isEmpty)
-            for (name in trailer.trailingHeaders().names())
-                for (value in trailer.trailingHeaders().getAll(name))
-                    responseData.append("P.S. Trailing Header: $name = $value\n")
-
-        return responseData
-    }
+            else -> HttpResponseStatus(status.code, status.toString())
+        }
 }

@@ -171,3 +171,56 @@ fun Project.modulesPaths(path: String): List<File> =
 fun overwrite(source: String, target: String) {
     project.file(source).copyTo(file(target), true)
 }
+
+fun checkSampleCode(documentationFile: File, sourceFile: File, tag: String) {
+    val fileTag = "// $tag"
+    val documentationFileLines = documentationFile.readLines()
+    val sourceFileLines = sourceFile.readLines()
+    val documentation = documentationFileLines.slice(documentationFileLines.rangeOf(fileTag))
+    val source = sourceFileLines.slice(sourceFileLines.rangeOf(fileTag))
+
+    fun List<String>.strippedLines(): List<String> =
+        map { it.trim() }.filter { it.isNotEmpty() }
+
+    fun List<String>.text(): String =
+        joinToString("\n").trimIndent()
+
+    val documentationLines = documentation.strippedLines()
+    if (documentationLines.isNotEmpty() && documentationLines != source.strippedLines())
+        error("""
+            Documentation $documentation does not match $source
+
+            DOC -----------------------------------------------
+            ${documentation.text()}
+
+            SRC -----------------------------------------------
+            ${source.text()}
+        """.trimIndent())
+}
+
+fun insertSamplesCode(parent: File, content: String): String =
+    content.replace("@code (.*)".toRegex()) {
+        try {
+            val sampleLocation = it.groups[1]?.value?.trim() ?: error("Location expected")
+            val url = java.net.URL("file:${parent.absolutePath}/$sampleLocation")
+            val tag = "// ${url.query}"
+            val lines = url.readText().lines()
+            val text = lines.slice(lines.rangeOf(tag)).joinToString("\n").trimIndent()
+            "```kotlin\n$text\n```"
+        } catch (e: Exception) {
+            val code = it.value
+            println("ERROR: Unable to process '$code' in folder: '${parent.absolutePath}'")
+            code
+        }
+    }
+
+fun fixCodeTabs(content: String): String =
+    content
+        .replace("""=== "(.*)"\n\n```""".toRegex(), "=== \"$1\"\n")
+        .replace("    ```\n```", "    ```")
+
+fun List<String>.rangeOf(tag: String): IntRange {
+    val start = indexOfFirst { it.contains(tag) } + 1
+    val end = indexOfLast { it.contains(tag) } - 1
+    return start .. end
+}
