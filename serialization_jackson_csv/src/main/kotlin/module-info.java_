@@ -1,0 +1,10 @@
+
+module com.hexagonkt.serialization.jackson.csv {
+
+    requires transitive com.hexagonkt.core;
+    requires transitive com.hexagonkt.serialization;
+
+    requires transitive com.fasterxml.jackson.dataformat.csv;
+
+    exports com.hexagonkt.serialization.jackson.csv;
+}

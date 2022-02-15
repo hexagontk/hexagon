@@ -6,21 +6,19 @@ import org.jetbrains.dokka.gradle.DokkaTaskPartial
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
 
-repositories {
-    mavenCentral()
-}
-
 // TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
 
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
     val modulesSources = rootProject.modulesPaths("src/main/kotlin")
-    val modulesJacocoSources = rootProject.modulesPaths("build/jacoco/src")
     val modulesClasses = rootProject.modulesPaths("build/classes/kotlin/main")
         .filterNot { it.absolutePath.contains("http_test") }
+        .filterNot { it.absolutePath.contains("serialization_test") }
+        .filterNot { it.absolutePath.contains("templates_test") }
+        .filterNot { it.absolutePath.contains("http_server_netty") } // TODO wip
 
     executionData.from(projectExecutionData)
-    sourceDirectories.from(modulesSources + modulesJacocoSources)
+    sourceDirectories.from(modulesSources)
     classDirectories.from(modulesClasses)
 
     reports {
@@ -33,21 +31,10 @@ tasks.register<JacocoReport>("jacocoRootReport") {
     }
 }
 
-val footer = """
-    Made with <svg class=\"fa-heart\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\">
-    <path d=\"M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9
-    49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3
-    0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z\"></path></svg> by
-    <a href=\"https://github.com/hexagonkt/hexagon/graphs/contributors\">OSS contributors</a>.
-    Licensed under <a href=\"https://github.com/hexagonkt/hexagon/blob/master/license.md\">
-    MIT License</a>
-""".lines().joinToString(" ") { it.trim() }
+val footer = file("footer.txt").readLines().joinToString(" ") { it.trim() }
 
-val dokkaConfiguration = mapOf(
-    "org.jetbrains.dokka.base.DokkaBase" to """{
-        "footerMessage": "$footer"
-    }"""
-)
+val dokkaConfiguration =
+    mapOf("org.jetbrains.dokka.base.DokkaBase" to """{ "footerMessage": "$footer" }""")
 
 // TODO Make this task depend on 'assets' directory to update it upon changes on those CSS files
 rootProject.tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
@@ -62,6 +49,7 @@ rootProject
 
 task("mkDocs") {
     dependsOn(rootProject.tasks["dokkaHtmlMultiModule"], tasks["jacocoRootReport"])
+    dependsOn("icons")
 
     doLast {
         val contentTarget = project.file("build/content").absolutePath
@@ -99,30 +87,23 @@ task("mkDocs") {
     }
 }
 
-fun overwrite(source: String, target: String) {
-    project.file(source).copyTo(file(target), true)
-}
-
 task("checkDocs") {
     dependsOn("mkDocs")
     doLast {
+        val src = "http_test/src"
         val readme = rootProject.file("README.md")
-        val service = rootProject.file("http_test/src/test/kotlin/HelloWorldTest.kt")
-        val examples = "http_test/src/main/kotlin/examples"
+        val service = rootProject.file("$src/test/kotlin/com/hexagonkt/http/test/HelloWorldTest.kt")
+        val examples = "$src/main/kotlin/com/hexagonkt/http/test/examples"
 
-        checkSamplesCode()
-        checkSamplesCode(
-            FilesRange(readme, rootProject.file(service), "hello_world"),
-            FilesRange(readme, rootProject.file("$examples/BooksTest.kt"), "books"),
-//            FilesRange(readme, rootProject.file("$examples/SessionTest.kt"), "session"),
-            FilesRange(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies"),
-            FilesRange(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors"),
-            FilesRange(readme, rootProject.file("$examples/FiltersTest.kt"), "filters"),
-            FilesRange(readme, rootProject.file("$examples/FilesTest.kt"), "files"),
-            FilesRange(readme, rootProject.file("$examples/CorsTest.kt"), "cors"),
-            FilesRange(readme, rootProject.file("$examples/HttpsTest.kt"), "https"),
-            FilesRange(readme, rootProject.file("$examples/ZipTest.kt"), "zip")
-        )
+        checkSampleCode(readme, rootProject.file(service), "hello_world")
+        checkSampleCode(readme, rootProject.file("$examples/BooksTest.kt"), "books")
+        checkSampleCode(readme, rootProject.file("$examples/CookiesTest.kt"), "cookies")
+        checkSampleCode(readme, rootProject.file("$examples/ErrorsTest.kt"), "errors")
+        checkSampleCode(readme, rootProject.file("$examples/FiltersTest.kt"), "filters")
+        checkSampleCode(readme, rootProject.file("$examples/FilesTest.kt"), "files")
+        checkSampleCode(readme, rootProject.file("$examples/CorsTest.kt"), "cors")
+        checkSampleCode(readme, rootProject.file("$examples/HttpsTest.kt"), "https")
+        checkSampleCode(readme, rootProject.file("$examples/ZipTest.kt"), "zip")
 
         val contentTarget = project.file("build/content").absolutePath
         val markdownFiles = project.fileTree("dir" to contentTarget, "include" to "**/*.md")
@@ -182,4 +163,64 @@ fun generateDownloadBadge() {
     val downloadBadge = file("build/content/img/download.svg")
     val downloadSvg = downloadBadge.readText().replace("\${download}", "${rootProject.version}")
     downloadBadge.writeText(downloadSvg)
+}
+
+fun Project.modulesPaths(path: String): List<File> =
+    subprojects.map { rootProject.file("${it.name}/$path") }.filter { it .exists() }
+
+fun overwrite(source: String, target: String) {
+    project.file(source).copyTo(file(target), true)
+}
+
+fun checkSampleCode(documentationFile: File, sourceFile: File, tag: String) {
+    val fileTag = "// $tag"
+    val documentationFileLines = documentationFile.readLines()
+    val sourceFileLines = sourceFile.readLines()
+    val documentation = documentationFileLines.slice(documentationFileLines.rangeOf(fileTag))
+    val source = sourceFileLines.slice(sourceFileLines.rangeOf(fileTag))
+
+    fun List<String>.strippedLines(): List<String> =
+        map { it.trim() }.filter { it.isNotEmpty() }
+
+    fun List<String>.text(): String =
+        joinToString("\n").trimIndent()
+
+    val documentationLines = documentation.strippedLines()
+    if (documentationLines.isNotEmpty() && documentationLines != source.strippedLines())
+        error("""
+            Documentation $documentation does not match $source
+
+            DOC -----------------------------------------------
+            ${documentation.text()}
+
+            SRC -----------------------------------------------
+            ${source.text()}
+        """.trimIndent())
+}
+
+fun insertSamplesCode(parent: File, content: String): String =
+    content.replace("@code (.*)".toRegex()) {
+        try {
+            val sampleLocation = it.groups[1]?.value?.trim() ?: error("Location expected")
+            val url = java.net.URL("file:${parent.absolutePath}/$sampleLocation")
+            val tag = "// ${url.query}"
+            val lines = url.readText().lines()
+            val text = lines.slice(lines.rangeOf(tag)).joinToString("\n").trimIndent()
+            "```kotlin\n$text\n```"
+        } catch (e: Exception) {
+            val code = it.value
+            println("ERROR: Unable to process '$code' in folder: '${parent.absolutePath}'")
+            code
+        }
+    }
+
+fun fixCodeTabs(content: String): String =
+    content
+        .replace("""=== "(.*)"\n\n```""".toRegex(), "=== \"$1\"\n")
+        .replace("    ```\n```", "    ```")
+
+fun List<String>.rangeOf(tag: String): IntRange {
+    val start = indexOfFirst { it.contains(tag) } + 1
+    val end = indexOfLast { it.contains(tag) } - 1
+    return start .. end
 }

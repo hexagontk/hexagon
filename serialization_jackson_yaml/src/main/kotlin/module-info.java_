@@ -1,0 +1,10 @@
+
+module com.hexagonkt.serialization.jackson.yaml {
+
+    requires transitive com.hexagonkt.core;
+    requires transitive com.hexagonkt.serialization;
+    
+    requires transitive com.fasterxml.jackson.dataformat.yaml;
+
+    exports com.hexagonkt.serialization.jackson.yaml;
+}

@@ -1,5 +1,6 @@
 
 plugins {
+    id("java-library")
     id("me.champeau.jmh")
 }
 
@@ -9,8 +10,6 @@ apply(from = "../gradle/dokka.gradle")
 apply(from = "../gradle/detekt.gradle")
 
 description = "Test cases for HTTP client and server adapters."
-
-extra["basePackage"] = "com.hexagonkt.http.test"
 
 tasks.named<JavaCompile>("jmhCompileGeneratedClasses") {
     targetCompatibility = "17"
@@ -39,17 +38,17 @@ dependencies {
     val swaggerParserVersion = properties["swaggerParserVersion"]
     val gatlingVersion = properties["gatlingVersion"]
 
-    "api"(project(":logging_slf4j_jul"))
-    "api"(project(":serialization"))
-    "api"(project(":http_client"))
-    "api"(project(":http_server"))
-    "api"("io.swagger.parser.v3:swagger-parser:$swaggerParserVersion")
-    "api"("org.junit.jupiter:junit-jupiter:$junitVersion")
-    "api"("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+    api(project(":logging_slf4j_jul"))
+    api(project(":serialization"))
+    api(project(":http_client"))
+    api(project(":http_server"))
+    api("io.swagger.parser.v3:swagger-parser:$swaggerParserVersion")
+    api("org.junit.jupiter:junit-jupiter:$junitVersion")
+    api("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+    api("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 
-    "testImplementation"(project(":http_client_jetty"))
-    "testImplementation"(project(":http_server_jetty"))
-    "testImplementation"(project(":serialization_jackson_json"))
-    "testImplementation"(project(":serialization_jackson_yaml"))
-    "testImplementation"("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
+    testImplementation(project(":http_client_jetty"))
+    testImplementation(project(":http_server_jetty"))
+    testImplementation(project(":serialization_jackson_json"))
+    testImplementation(project(":serialization_jackson_yaml"))
 }

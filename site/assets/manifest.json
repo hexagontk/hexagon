@@ -1,27 +1,25 @@
 
 {
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+
   "name": "Hexagon Toolkit",
   "short_name": "Hexagon",
   "description": "Hexagon Toolkit Documentation",
-  "start_url": "/index.html",
+
   "display": "standalone",
   "theme_color": "#135AA1",
   "background_color": "#31415C",
+
   "icons": [
     {
-      "src": "/tile-small.png",
+      "src": "/icon-small.png",
       "type": "image/png",
-      "sizes": "128x128"
+      "sizes": "180x180"
     },
     {
-      "src": "/tile-medium.png",
+      "src": "/icon-large.png",
       "type": "image/png",
-      "sizes": "270x270"
-    },
-    {
-      "src": "/tile-large.png",
-      "type": "image/png",
-      "sizes": "558x558"
+      "sizes": "512x512"
     }
   ]
 }
