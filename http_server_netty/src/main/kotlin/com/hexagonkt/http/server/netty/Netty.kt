@@ -15,7 +15,7 @@ import com.hexagonkt.http.server.handlers.ServerHandler
 fun serve(
     settings: HttpServerSettings = HttpServerSettings(), handlers: List<ServerHandler>
 ): HttpServer =
-    HttpServer(NettyAdapter(), handlers, settings).apply { start() }
+    HttpServer(NettyServerAdapter(), handlers, settings).apply { start() }
 
 /**
  * Create a Netty server and start it. It is a shortcut to avoid passing the adapter.
@@ -28,5 +28,5 @@ fun serve(
 fun serve(
     settings: HttpServerSettings = HttpServerSettings(), block: ServerBuilder.() -> Unit
 ): HttpServer =
-    HttpServer(NettyAdapter(), ServerBuilder().apply {block()}.handlers, settings)
+    HttpServer(NettyServerAdapter(), ServerBuilder().apply {block()}.handlers, settings)
         .apply { start() }

@@ -3,40 +3,42 @@ package com.hexagonkt.http.server.netty
 import com.hexagonkt.core.MultiMap
 import com.hexagonkt.http.model.*
 import com.hexagonkt.http.parseContentType
-import com.hexagonkt.http.parseQueryString
 import com.hexagonkt.http.server.model.HttpServerRequestPort
+import io.netty.buffer.ByteBufUtil
 import io.netty.handler.codec.http.FullHttpRequest
+import io.netty.handler.codec.http.HttpHeaderNames.*
+import io.netty.handler.codec.http.QueryStringDecoder
 import java.net.URI
 import java.security.cert.X509Certificate
-import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 
 class NettyRequestAdapter(
-    methodName: NettyHttpMethod,
+    methodName: io.netty.handler.codec.http.HttpMethod,
     req: FullHttpRequest,
+    override val certificateChain: List<X509Certificate>,
 ) : HttpServerRequestPort {
 
     private val uri by lazy { URI(req.uri()) }
 
-    @Suppress("UNCHECKED_CAST")
-    override val certificateChain: List<X509Certificate> by lazy {
-        TODO()
-    }
-
     override val accept: List<ContentType> by lazy {
-        req.headers().getAll("accept").map { parseContentType(it) }
+        req.headers().getAll(ACCEPT).map { parseContentType(it) }
     }
 
     override val contentLength: Long by lazy {
-        req.headers()["content-length"]?.toLong() ?: 0L
+        req.headers()[CONTENT_LENGTH]?.toLong() ?: 0L
     }
 
     override val queryParameters: MultiMap<String, String> by lazy {
-        parseQueryString(uri.query)
+        val queryStringDecoder = QueryStringDecoder(req.uri())
+        MultiMap(queryStringDecoder.parameters())
     }
-    override val parts: List<HttpPartPort>
-        get() = TODO("Not yet implemented")
-    override val formParameters: MultiMap<String, String>
-        get() = TODO("Not yet implemented")
+
+    override val parts: List<HttpPartPort> by lazy {
+        TODO("Not yet implemented")
+    }
+
+    override val formParameters: MultiMap<String, String> by lazy {
+        TODO("Not yet implemented")
+    }
 
     override val method: HttpMethod by lazy {
         HttpMethod.valueOf(methodName.name())
@@ -54,21 +56,25 @@ class NettyRequestAdapter(
         TODO()
     }
 
-    override val body: Any
-        get() = TODO("Not yet implemented")
+    override val body: Any by lazy {
+        val content = req.content()
+
+        if (content.isReadable)
+            ByteBufUtil.getBytes(content)
+        else
+            error("Body content is not readable")
+    }
 
     override val headers: MultiMap<String, String> by lazy {
-//        val headers1: HttpHeaders = req.headers()
-//        MultiMap(
-//            req.headerNames
-//                .toList()
-//                .map { it.lowercase() }
-//                .associateWith { req.getHeaders(it).toList() }
-//        )
-        TODO()
+        MultiMap(
+            req.headers().names()
+                .toList()
+                .map { it.lowercase() }
+                .associateWith { req.headers().getAll(it) }
+        )
     }
 
     override val contentType: ContentType? by lazy {
-        req.headers()["accept"]?.let { parseContentType(it) }
+        req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }
     }
 }

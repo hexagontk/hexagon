@@ -45,10 +45,10 @@ dependencies {
     api("io.swagger.parser.v3:swagger-parser:$swaggerParserVersion")
     api("org.junit.jupiter:junit-jupiter:$junitVersion")
     api("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+    api("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 
     testImplementation(project(":http_client_jetty"))
     testImplementation(project(":http_server_jetty"))
     testImplementation(project(":serialization_jackson_json"))
     testImplementation(project(":serialization_jackson_yaml"))
-    testImplementation("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 }
