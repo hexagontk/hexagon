@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ServletRequestAdapterAsync.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.http.server.servlet</a> &gt; <span class="el_source">ServletRequestAdapterAsync.kt</span></div><h1>ServletRequestAdapterAsync.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.http.server.servlet
+
+import com.hexagonkt.core.MultiMap
+import com.hexagonkt.core.multiMapOf
+import com.hexagonkt.http.model.*
+import com.hexagonkt.http.parseContentType
+import jakarta.servlet.http.HttpServletRequest
+import java.lang.StringBuilder
+
+<span class="fc" id="L10">internal class ServletRequestAdapterAsync(</span>
+    req : HttpServletRequest,
+<span class="fc" id="L12">    override val body: ByteArray,</span>
+<span class="fc" id="L13">) : ServletRequestAdapter(req) {</span>
+
+<span class="fc" id="L15">    private val partNameRe: Regex = &quot;.*name=\&quot;(.*?)\&quot;.*&quot;.toRegex()</span>
+<span class="fc" id="L16">    private val partFileNameRe: Regex = &quot;.*name=\&quot;(.*?)\&quot;.*&quot;.toRegex()</span>
+
+    // TODO Parts parsing is a hack, can be improved (a lot)
+<span class="fc" id="L19">    override val parts: List&lt;HttpPartPort&gt; by lazy {</span>
+<span class="fc" id="L20">        var partList: List&lt;HttpPart&gt; = emptyList()</span>
+<span class="fc" id="L21">        var partHeaders: MultiMap&lt;String, String&gt; = multiMapOf()</span>
+<span class="fc" id="L22">        val partBody = StringBuilder()</span>
+
+<span class="pc bpc" id="L24" title="2 of 4 branches missed.">        val boundary = contentType?.boundary</span>
+<span class="nc" id="L25">            ?: error(&quot;Part fetching requires content type boundary&quot;)</span>
+
+<span class="fc" id="L27">        var inBody = false</span>
+<span class="fc" id="L28">        val bodyString = String(body)</span>
+<span class="fc" id="L29">        val bodyLines = bodyString.lines()</span>
+
+<span class="fc" id="L31">        bodyLines.forEach { ln -&gt;</span>
+<span class="fc" id="L32">            when {</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">                ln.contains(boundary) -&gt; {</span>
+<span class="pc bpc" id="L34" title="2 of 8 branches missed.">                    if (partHeaders.isNotEmpty() || partBody.isNotBlank()) {</span>
+<span class="fc" id="L35">                        val bodyBytes = partBody.toString().removeSuffix(&quot;\n&quot;).toByteArray()</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">                        val type = partHeaders[&quot;content-type&quot;]?.let { ct -&gt; parseContentType(ct) }</span>
+<span class="fc" id="L37">                        val size = bodyBytes.size.toLong()</span>
+<span class="fc" id="L38">                        val disposition = partHeaders[&quot;content-disposition&quot;]</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">                        val name = disposition</span>
+<span class="pc bpc" id="L40" title="3 of 6 branches missed.">                            ?.let { partNameRe.matchEntire(it)?.groupValues?.get(1) ?: &quot;&quot; }</span>
+<span class="nc" id="L41">                            ?: &quot;&quot;</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">                        val fileName = disposition</span>
+<span class="pc bpc" id="L43" title="2 of 4 branches missed.">                            ?.let { partFileNameRe.matchEntire(it)?.groupValues?.get(1) }</span>
+
+<span class="fc" id="L45">                        partList = partList + HttpPart(</span>
+<span class="fc" id="L46">                            name = name,</span>
+<span class="fc" id="L47">                            body = bodyBytes,</span>
+<span class="fc" id="L48">                            headers = partHeaders,</span>
+<span class="fc" id="L49">                            contentType = type,</span>
+<span class="fc" id="L50">                            size = size,</span>
+<span class="fc" id="L51">                            submittedFileName = fileName,</span>
+                        )
+
+<span class="fc" id="L54">                        partHeaders = multiMapOf()</span>
+<span class="fc" id="L55">                        partBody.clear()</span>
+<span class="fc" id="L56">                        inBody = false</span>
+                    }
+                }
+
+<span class="fc bfc" id="L60" title="All 6 branches covered.">                !inBody &amp;&amp; ln.isNotBlank() -&gt;</span>
+<span class="fc" id="L61">                    partHeaders += ln</span>
+<span class="fc" id="L62">                        .split(&quot;:&quot;)</span>
+<span class="fc" id="L63">                        .map { it.trim() }</span>
+<span class="fc" id="L64">                        .let { it.first().lowercase() to it.last() }</span>
+
+<span class="pc bpc" id="L66" title="1 of 4 branches missed.">                !inBody &amp;&amp; ln.isBlank() -&gt;</span>
+<span class="fc" id="L67">                    inBody = true</span>
+
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">                inBody -&gt;</span>
+<span class="fc" id="L70">                    partBody.append(ln).append(&quot;\n&quot;)</span>
+            }
+<span class="fc" id="L72">        }</span>
+
+<span class="fc" id="L74">        partList</span>
+    }
+
+<span class="fc" id="L77">    override val formParameters: MultiMap&lt;String, String&gt; by lazy {</span>
+<span class="fc" id="L78">        val parameters = parts</span>
+<span class="fc" id="L79">            .map { it.name to it.bodyString() }</span>
+<span class="fc" id="L80">            .groupBy({ it.first }, { it.second })</span>
+
+<span class="fc" id="L82">        MultiMap(parameters)</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

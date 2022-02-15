@@ -23,7 +23,7 @@ import java.security.cert.X509Certificate
 // TODO Add exception parameter to 'send*' methods
 <span class="fc" id="L24">data class HttpServerContext(</span>
 <span class="fc" id="L25">    val context: Context&lt;HttpServerCall&gt;,</span>
-<span class="fc" id="L26">    val attributes: Map&lt;Any, Any&gt; = context.attributes</span>
+<span class="fc" id="L26">    val attributes: Map&lt;*, *&gt; = context.attributes</span>
 ) {
 <span class="fc" id="L28">    val request: HttpServerRequestPort = context.event.request</span>
 <span class="fc" id="L29">    val response: HttpServerResponse = context.event.response</span>
@@ -59,152 +59,157 @@ import java.security.cert.X509Certificate
 <span class="fc" id="L59">        pattern.extractParameters(request.path)</span>
     }
 
-<span class="fc" id="L62">    val allParameters: Map&lt;String, Any&gt; by lazy {</span>
-<span class="fc" id="L63">        request.formParameters.allValues + request.queryParameters.allValues + pathParameters</span>
+<span class="fc" id="L62">    val allParameters: MultiMap&lt;String, *&gt; by lazy {</span>
+<span class="fc" id="L63">        MultiMap(</span>
+<span class="fc" id="L64">            request.formParameters.allValues</span>
+<span class="fc" id="L65">                + request.queryParameters.allValues</span>
+<span class="fc" id="L66">                + pathParameters.mapValues { listOf(it.value) }</span>
+        )
     }
 
     fun next(): HttpServerContext =
-<span class="fc" id="L67">        HttpServerContext(context.next())</span>
+<span class="fc" id="L71">        HttpServerContext(context.next())</span>
 
-<span class="fc" id="L69">    fun success(</span>
+<span class="fc" id="L73">    fun success(</span>
         status: SuccessStatus,
-<span class="fc" id="L71">        body: Any = response.body,</span>
-<span class="fc" id="L72">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L73">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L74">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L75">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L75">        body: Any = response.body,</span>
+<span class="fc" id="L76">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L77">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L78">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L79">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L77">        send(status, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L81">        send(status, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L79">    fun redirect(</span>
+<span class="fc" id="L83">    fun redirect(</span>
         status: RedirectionStatus,
-<span class="fc" id="L81">        body: Any = response.body,</span>
-<span class="fc" id="L82">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L83">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L84">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L85">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L85">        body: Any = response.body,</span>
+<span class="fc" id="L86">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L87">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L88">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L89">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L87">        send(status, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L91">        send(status, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L89">    fun clientError(</span>
+<span class="fc" id="L93">    fun clientError(</span>
         status: ClientErrorStatus,
-<span class="fc" id="L91">        body: Any = response.body,</span>
-<span class="fc" id="L92">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L93">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L94">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L95">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L95">        body: Any = response.body,</span>
+<span class="fc" id="L96">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L97">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L98">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L99">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L97">        send(status, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L101">        send(status, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L99">    fun serverError(</span>
+<span class="fc" id="L103">    fun serverError(</span>
         status: ServerErrorStatus,
-<span class="fc" id="L101">        body: Any = response.body,</span>
-<span class="fc" id="L102">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L103">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L104">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L105">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L105">        body: Any = response.body,</span>
+<span class="fc" id="L106">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L107">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L108">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L109">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L107">        send(status, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L111">        send(status, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L109">    fun internalServerError(</span>
-<span class="fc" id="L110">        body: Any = response.body,</span>
-<span class="fc" id="L111">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L112">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L113">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L114">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L113">    fun internalServerError(</span>
+<span class="fc" id="L114">        body: Any = response.body,</span>
+<span class="fc" id="L115">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L116">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L117">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L118">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L116">        send(INTERNAL_SERVER_ERROR, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L120">        send(INTERNAL_SERVER_ERROR, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L118">    fun serverError(</span>
+<span class="fc" id="L122">    fun serverError(</span>
         status: ServerErrorStatus,
         exception: Exception,
-<span class="fc" id="L121">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L122">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L125">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L126">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L124">        serverError(</span>
-<span class="fc" id="L125">            status = status,</span>
-<span class="fc" id="L126">            body = exception.toText(),</span>
-<span class="fc" id="L127">            headers = headers,</span>
-<span class="fc" id="L128">            contentType = ContentType(PLAIN),</span>
-<span class="fc" id="L129">            attributes = attributes,</span>
-<span class="fc" id="L130">        )</span>
+<span class="fc" id="L128">        serverError(</span>
+<span class="fc" id="L129">            status = status,</span>
+<span class="fc" id="L130">            body = exception.toText(),</span>
+<span class="fc" id="L131">            headers = headers,</span>
+<span class="fc" id="L132">            contentType = ContentType(PLAIN),</span>
+<span class="fc" id="L133">            attributes = attributes,</span>
+<span class="fc" id="L134">        )</span>
 
-<span class="fc" id="L132">    fun internalServerError(</span>
+<span class="fc" id="L136">    fun internalServerError(</span>
         exception: Exception,
-<span class="fc" id="L134">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L135">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L138">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L139">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L137">        serverError(INTERNAL_SERVER_ERROR, exception, headers, attributes)</span>
+<span class="fc" id="L141">        serverError(INTERNAL_SERVER_ERROR, exception, headers, attributes)</span>
 
-<span class="fc" id="L139">    fun ok(</span>
-<span class="fc" id="L140">        body: Any = response.body,</span>
-<span class="fc" id="L141">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L142">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L143">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L144">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L143">    fun ok(</span>
+<span class="fc" id="L144">        body: Any = response.body,</span>
+<span class="fc" id="L145">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L146">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L147">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L148">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L146">        success(OK, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L150">        success(OK, body, headers, contentType, cookies, attributes)</span>
 
     fun sse(body: Flow&lt;HttpServerEvent&gt;): HttpServerContext =
-<span class="fc" id="L149">        ok(</span>
-<span class="fc" id="L150">            body = body,</span>
-<span class="fc" id="L151">            headers = response.headers + (&quot;cache-control&quot; to &quot;no-cache&quot;),</span>
-<span class="fc" id="L152">            contentType = ContentType(TextMedia.EVENT_STREAM)</span>
-<span class="fc" id="L153">        )</span>
+<span class="fc" id="L153">        ok(</span>
+<span class="fc" id="L154">            body = body,</span>
+<span class="fc" id="L155">            headers = response.headers + (&quot;cache-control&quot; to &quot;no-cache&quot;),</span>
+<span class="fc" id="L156">            contentType = ContentType(TextMedia.EVENT_STREAM)</span>
+<span class="fc" id="L157">        )</span>
 
-<span class="fc" id="L155">    fun badRequest(</span>
-<span class="fc" id="L156">        body: Any = response.body,</span>
-<span class="fc" id="L157">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L158">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L159">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L160">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L159">    fun badRequest(</span>
+<span class="fc" id="L160">        body: Any = response.body,</span>
+<span class="fc" id="L161">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L162">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L163">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L164">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L162">        clientError(BAD_REQUEST, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L166">        clientError(BAD_REQUEST, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L164">    fun notFound(</span>
-<span class="fc" id="L165">        body: Any = response.body,</span>
-<span class="fc" id="L166">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L167">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L168">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L169">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L168">    fun notFound(</span>
+<span class="fc" id="L169">        body: Any = response.body,</span>
+<span class="fc" id="L170">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L171">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L172">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L173">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L171">        clientError(NOT_FOUND, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L175">        clientError(NOT_FOUND, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L173">    fun created(</span>
-<span class="fc" id="L174">        body: Any = response.body,</span>
-<span class="fc" id="L175">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L176">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L177">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L178">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L177">    fun created(</span>
+<span class="fc" id="L178">        body: Any = response.body,</span>
+<span class="fc" id="L179">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L180">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L181">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L182">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L180">        success(CREATED, body, headers, contentType, cookies, attributes)</span>
+<span class="fc" id="L184">        success(CREATED, body, headers, contentType, cookies, attributes)</span>
 
-<span class="fc" id="L182">    fun send(</span>
-<span class="fc" id="L183">        status: HttpStatus = response.status,</span>
-<span class="fc" id="L184">        body: Any = response.body,</span>
-<span class="fc" id="L185">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
-<span class="fc" id="L186">        contentType: ContentType? = response.contentType,</span>
-<span class="fc" id="L187">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
-<span class="fc" id="L188">        attributes: Map&lt;Any, Any&gt; = context.attributes,</span>
+<span class="fc" id="L186">    fun send(</span>
+<span class="fc" id="L187">        status: HttpStatus = response.status,</span>
+<span class="fc" id="L188">        body: Any = response.body,</span>
+<span class="fc" id="L189">        headers: MultiMap&lt;String, String&gt; = response.headers,</span>
+<span class="fc" id="L190">        contentType: ContentType? = response.contentType,</span>
+<span class="fc" id="L191">        cookies: List&lt;HttpCookie&gt; = response.cookies,</span>
+<span class="fc" id="L192">        attributes: Map&lt;*, *&gt; = context.attributes,</span>
     ): HttpServerContext =
-<span class="fc" id="L190">        send(</span>
-<span class="fc" id="L191">            response.copy(</span>
-<span class="fc" id="L192">                body = body,</span>
-<span class="fc" id="L193">                headers = headers,</span>
-<span class="fc" id="L194">                contentType = contentType,</span>
-<span class="fc" id="L195">                cookies = cookies,</span>
-<span class="fc" id="L196">                status = status,</span>
+<span class="fc" id="L194">        send(</span>
+<span class="fc" id="L195">            response.copy(</span>
+<span class="fc" id="L196">                body = body,</span>
+<span class="fc" id="L197">                headers = headers,</span>
+<span class="fc" id="L198">                contentType = contentType,</span>
+<span class="fc" id="L199">                cookies = cookies,</span>
+<span class="fc" id="L200">                status = status,</span>
             ),
-<span class="fc" id="L198">            attributes</span>
-<span class="fc" id="L199">        )</span>
+<span class="fc" id="L202">            attributes</span>
+<span class="fc" id="L203">        )</span>
 
-<span class="fc" id="L201">    fun send(</span>
-<span class="fc" id="L202">        response: HttpServerResponse, attributes: Map&lt;Any, Any&gt; = emptyMap()): HttpServerContext =</span>
-<span class="fc" id="L203">        HttpServerContext(</span>
-<span class="fc" id="L204">            context.copy(</span>
-<span class="fc" id="L205">                event = context.event.copy(response = response),</span>
-<span class="fc" id="L206">                attributes = attributes</span>
+<span class="fc" id="L205">    fun send(</span>
+<span class="fc" id="L206">        response: HttpServerResponse, attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;()</span>
+    ): HttpServerContext =
+<span class="fc" id="L208">        HttpServerContext(</span>
+<span class="fc" id="L209">            context.copy(</span>
+<span class="fc" id="L210">                event = context.event.copy(response = response),</span>
+<span class="fc" id="L211">                attributes = attributes</span>
             )
-<span class="fc" id="L208">        )</span>
-<span class="fc" id="L209">}</span>
+<span class="fc" id="L213">        )</span>
+<span class="fc" id="L214">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -17,10 +17,14 @@
 
     This page contains components and code licensed under the following licenses:
 
-        * https://opensource.org/licenses/MIT
+    - https://opensource.org/licenses/MIT
+    - https://www.apache.org/licenses/LICENSE-2.0
+    - https://opensource.org/licenses/BSD-3-Clause
+    - https://www.eclipse.org/legal/epl-2.0
+    - https://www.gnu.org/licenses/old-licenses/lgpl-2.1
 
 # TECHNOLOGY COLOPHON
 
     HTML5, CSS3
-    jQuery, Modernizr, Bootstrap, MkDocs, MkDocs Material Theme
-    Kotlin, MongoDB, RabbitMQ
+    MkDocs, MkDocs Material Theme
+    Kotlin

@@ -25,6 +25,8 @@ com.hexagonkt.http.server.handlers
 com.hexagonkt.http.server.model
 module:http_server_jetty
 com.hexagonkt.http.server.jetty
+module:http_server_netty
+com.hexagonkt.http.server.netty
 module:http_server_servlet
 com.hexagonkt.http.server.servlet
 module:http_test
@@ -54,3 +56,5 @@ module:templates_freemarker
 com.hexagonkt.templates.freemarker
 module:templates_pebble
 com.hexagonkt.templates.pebble
+module:templates_test
+com.hexagonkt.templates.test

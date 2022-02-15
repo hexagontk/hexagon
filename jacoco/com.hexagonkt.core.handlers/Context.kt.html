@@ -10,7 +10,7 @@
 <span class="fc" id="L10">    val currentFilter: Predicate&lt;T&gt;,</span>
 <span class="fc" id="L11">    val nextHandlers: List&lt;Handler&lt;T&gt;&gt; = emptyList(),</span>
 <span class="fc" id="L12">    val exception: Exception? = null,</span>
-<span class="fc" id="L13">    val attributes: Map&lt;Any, Any&gt; = emptyMap(),</span>
+<span class="fc" id="L13">    val attributes: Map&lt;*, *&gt; = emptyMap&lt;Any, Any&gt;(),</span>
 ) {
 
     fun next(): Context&lt;T&gt; {

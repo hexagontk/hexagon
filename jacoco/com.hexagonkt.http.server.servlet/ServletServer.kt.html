@@ -66,7 +66,7 @@ import java.util.*
 <span class="fc" id="L66">        logger.info { &quot;Server context destroyed&quot; }</span>
 <span class="fc" id="L67">    }</span>
 
-    internal fun createBanner(startUpTimestamp: Long): String {
+    private fun createBanner(startUpTimestamp: Long): String {
 
 <span class="fc" id="L71">        val heap = ManagementFactory.getMemoryMXBean().heapMemoryUsage</span>
 <span class="fc" id="L72">        val jvmMemory = &quot;%,d&quot;.format(heap.init / 1024)</span>
@@ -79,41 +79,36 @@ import java.util.*
 <span class="fc" id="L79">        val features = settings.features</span>
 <span class="pc" id="L80">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET) { &quot;✅$it&quot; }</span>
 
-<span class="fc" id="L82">        val options = settings.options</span>
-<span class="pc" id="L83">            .map { (k, v) -&gt; &quot;$k($v)&quot; }</span>
-<span class="fc" id="L84">            .joinToString(&quot;$RESET, $CYAN&quot;, CYAN, RESET)</span>
+<span class="fc" id="L82">        val hostnameValue = &quot;$BLUE${Jvm.hostname}$RESET&quot;</span>
+<span class="fc" id="L83">        val cpuCountValue = &quot;$BLUE${Jvm.cpuCount}$RESET&quot;</span>
+<span class="fc" id="L84">        val jvmMemoryValue = &quot;$BLUE$jvmMemory$RESET&quot;</span>
 
-<span class="fc" id="L86">        val hostnameValue = &quot;$BLUE${Jvm.hostname}$RESET&quot;</span>
-<span class="fc" id="L87">        val cpuCountValue = &quot;$BLUE${Jvm.cpuCount}$RESET&quot;</span>
-<span class="fc" id="L88">        val jvmMemoryValue = &quot;$BLUE$jvmMemory$RESET&quot;</span>
+<span class="fc" id="L86">        val javaVersionValue = &quot;$BOLD${BLUE}Java ${Jvm.version}$RESET [$BLUE${Jvm.name}$RESET]&quot;</span>
 
-<span class="fc" id="L90">        val javaVersionValue = &quot;$BOLD${BLUE}Java ${Jvm.version}$RESET [$BLUE${Jvm.name}$RESET]&quot;</span>
+<span class="fc" id="L88">        val localeValue = &quot;$BLUE${Jvm.localeCode}$RESET&quot;</span>
+<span class="fc" id="L89">        val timezoneValue = &quot;$BLUE${Jvm.timezone}$RESET&quot;</span>
+<span class="fc" id="L90">        val charsetValue = &quot;$BLUE${Jvm.charset}$RESET&quot;</span>
 
-<span class="fc" id="L92">        val localeValue = &quot;$BLUE${Jvm.localeCode}$RESET&quot;</span>
-<span class="fc" id="L93">        val timezoneValue = &quot;$BLUE${Jvm.timezone}$RESET&quot;</span>
-<span class="fc" id="L94">        val charsetValue = &quot;$BLUE${Jvm.charset}$RESET&quot;</span>
+<span class="fc" id="L92">        val bootTimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
+<span class="fc" id="L93">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
+<span class="fc" id="L94">        val usedMemoryValue = &quot;$BOLD$MAGENTA$usedMemory KB$RESET&quot;</span>
 
-<span class="fc" id="L96">        val bootTimeValue = &quot;$BOLD$MAGENTA$bootTime s$RESET&quot;</span>
-<span class="fc" id="L97">        val startUpTimeValue = &quot;$BOLD$MAGENTA$startUpTime ms$RESET&quot;</span>
-<span class="fc" id="L98">        val usedMemoryValue = &quot;$BOLD$MAGENTA$usedMemory KB$RESET&quot;</span>
+<span class="fc" id="L96">        val information = &quot;&quot;&quot;</span>
 
-<span class="fc" id="L100">        val information = &quot;&quot;&quot;</span>
+<span class="fc" id="L98">            Server Adapter: $serverAdapterValue</span>
+<span class="fc" id="L99">            Enabled Features: $features</span>
 
-<span class="fc" id="L102">            Server Adapter: $serverAdapterValue</span>
-<span class="fc" id="L103">            Enabled Features: $features</span>
-<span class="fc" id="L104">            Configured Options: $options</span>
+<span class="fc" id="L101">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
+<span class="fc" id="L102">            🛠 Using $javaVersionValue</span>
+<span class="fc" id="L103">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
 
-<span class="fc" id="L106">            🖥️️ Running in '$hostnameValue' with $cpuCountValue CPUs $jvmMemoryValue KB</span>
-<span class="fc" id="L107">            🛠 Using $javaVersionValue</span>
-<span class="fc" id="L108">            🌍 Locale: $localeValue Timezone: $timezoneValue Charset: $charsetValue</span>
-
-<span class="fc" id="L110">            ⏱ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
+<span class="fc" id="L105">            ⏱ Started in $bootTimeValue (server: $startUpTimeValue) using $usedMemoryValue</span>
             🚀 Served at a JEE Server
 
-<span class="fc" id="L113">        &quot;&quot;&quot;.trimIndent()</span>
+<span class="fc" id="L108">        &quot;&quot;&quot;.trimIndent()</span>
 
-<span class="pc bpc" id="L115" title="2 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: HttpServer.banner) + information</span>
-<span class="fc" id="L116">        return banner.prependIndent()</span>
+<span class="pc bpc" id="L110" title="2 of 4 branches missed.">        val banner = (settings.banner?.let { &quot;$it\n&quot; } ?: HttpServer.banner) + information</span>
+<span class="fc" id="L111">        return banner.prependIndent()</span>
     }
-<span class="nc" id="L118">}</span>
+<span class="nc" id="L113">}</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

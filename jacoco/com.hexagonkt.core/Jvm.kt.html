@@ -34,15 +34,15 @@ object Jvm {
 <span class="fc" id="L34">    val id: String by lazy { ManagementFactory.getRuntimeMXBean().name }</span>
 
     /** Name of the JVM running this program. For example: OpenJDK 64-Bit Server VM. */
-<span class="fc" id="L37">    val name: String by lazy { ManagementFactory.getRuntimeMXBean().vmName }</span>
+<span class="fc" id="L37">    val name: String by lazy { System.getProperty(&quot;java.vm.name&quot;) }</span>
 
     /** Java version aka language level. For example: 11 */
-<span class="fc" id="L40">    val version: String by lazy { ManagementFactory.getRuntimeMXBean().specVersion }</span>
+<span class="fc" id="L40">    val version: String by lazy { System.getProperty(&quot;java.vm.specification.version&quot;) }</span>
 
     /** Number of processors available to the Java virtual machine. */
 <span class="fc" id="L43">    val cpuCount: Int by lazy { Runtime.getRuntime().availableProcessors() }</span>
 
-    /** User Time Zone property. Can be set with -Duser.timezone JVM argument. */
+    /** User Time Zone property. Can be set with -D user.timezone=&lt;tz&gt; JVM argument. */
 <span class="fc" id="L46">    val timezone: String by lazy { System.getProperty(&quot;user.timezone&quot;) }</span>
 
     /** User locale consist of 2-letter language code, 2-letter country code and file encoding. */
