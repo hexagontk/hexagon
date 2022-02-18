@@ -8,16 +8,20 @@ import io.netty.buffer.ByteBufUtil
 import io.netty.handler.codec.http.FullHttpRequest
 import io.netty.handler.codec.http.HttpHeaderNames.*
 import io.netty.handler.codec.http.QueryStringDecoder
+import io.netty.handler.codec.http.cookie.Cookie
+import io.netty.handler.codec.http.cookie.ServerCookieDecoder
+import io.netty.handler.codec.http.multipart.*
+import java.net.InetSocketAddress
 import java.net.URI
 import java.security.cert.X509Certificate
+import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 
 class NettyRequestAdapter(
-    methodName: io.netty.handler.codec.http.HttpMethod,
+    methodName: NettyHttpMethod,
     req: FullHttpRequest,
     override val certificateChain: List<X509Certificate>,
+    address: InetSocketAddress,
 ) : HttpServerRequestPort {
-
-    private val uri by lazy { URI(req.uri()) }
 
     override val accept: List<ContentType> by lazy {
         req.headers().getAll(ACCEPT).map { parseContentType(it) }
@@ -33,36 +37,63 @@ class NettyRequestAdapter(
     }
 
     override val parts: List<HttpPartPort> by lazy {
-        TODO("Not yet implemented")
+        HttpPostRequestDecoder(req).bodyHttpDatas.map {
+            when (it) {
+                is FileUpload -> HttpPart(
+                    name = it.name,
+                    body = ByteBufUtil.getBytes(it.content()),
+                    submittedFileName = it.filename,
+                    contentType = it.contentType?.let { ct -> parseContentType(ct) },
+                )
+                is Attribute -> HttpPart(it.name, it.value)
+                else -> error("Unknown part type: ${it.javaClass}")
+            }
+        }
     }
 
     override val formParameters: MultiMap<String, String> by lazy {
-        TODO("Not yet implemented")
+        MultiMap(parts.filter { it.submittedFileName == null }.map { it.name to it.bodyString() })
     }
 
     override val method: HttpMethod by lazy {
         HttpMethod.valueOf(methodName.name())
     }
 
-    override val protocol: HttpProtocol by lazy { HttpProtocol.valueOf(uri.scheme.uppercase()) }
-    override val host: String by lazy { uri.host }
-    override val port: Int by lazy { uri.port }
-    override val path: String by lazy { uri.path }
+    override val protocol: HttpProtocol by lazy {
+        HttpProtocol.valueOf(req.protocolVersion().protocolName())
+    }
+
+    override val host: String by lazy {
+        address.hostName
+    }
+
+    override val port: Int by lazy {
+        address.port
+    }
+
+    override val path: String by lazy { URI(req.uri()).path }
 
     override val cookies: List<HttpCookie> by lazy {
-//        req.cookies
-//            ?.map { HttpCookie(it.name, it.value, it.maxAge.toLong(), it.secure) }
-//            ?: emptyList()
-        TODO()
+        val cookieHeader: String = req.headers().get(COOKIE)
+            ?: return@lazy emptyList<HttpCookie>()
+
+        val cookies: Set<Cookie> = ServerCookieDecoder.STRICT.decode(cookieHeader)
+
+        cookies.map {
+            HttpCookie(
+                name = it.name(),
+                value = it.value(),
+                maxAge = if (it.maxAge() == Long.MIN_VALUE) -1 else it.maxAge(),
+                secure = it.isSecure,
+            )
+        }
     }
 
     override val body: Any by lazy {
         val content = req.content()
 
-        if (content.isReadable)
-            ByteBufUtil.getBytes(content)
-        else
-            error("Body content is not readable")
+        if (content.isReadable) ByteBufUtil.getBytes(content)
+        else byteArrayOf()
     }
 
     override val headers: MultiMap<String, String> by lazy {

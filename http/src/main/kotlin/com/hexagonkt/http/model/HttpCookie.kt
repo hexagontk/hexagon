@@ -1,11 +1,18 @@
 package com.hexagonkt.http.model
 
-// TODO Add 'path', 'httpOnly', 'sameSite' and 'sameParty'
+import java.time.Instant
+
+// TODO Handle 'path', 'httpOnly', 'sameSite' and 'expires'
 data class HttpCookie(
     val name: String,
     val value: String,
     val maxAge: Long = -1,
     val secure: Boolean = false,
+    val path: String = "/",
+    val httpOnly: Boolean = true,
+    val domain: String = "",
+    val sameSite: Boolean = true,
+    val expires: Instant? = null,
 ) {
     init {
         require(name.isNotBlank()) { "Cookie name can not be blank: $name" }
