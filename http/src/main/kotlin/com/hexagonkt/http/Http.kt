@@ -10,12 +10,15 @@ import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.Charset
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.*
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 
 val checkedHeaders: List<String> = listOf("content-type", "accept", "set-cookie")
+
+val gmtZone: ZoneId = ZoneId.of("GMT")
+
+val httpDateFormatter: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)
 
 fun checkHeaders(headers: MultiMap<String, String>) {
     if (disableChecks)
@@ -84,7 +87,10 @@ fun String.urlEncode(): String =
     URLEncoder.encode(this, Jvm.charset.name())
 
 fun LocalDateTime.toHttpFormat(): String =
-    DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.of(this, ZoneId.of("GMT")))
+    RFC_1123_DATE_TIME.format(ZonedDateTime.of(this, gmtZone))
+
+fun Instant.toHttpFormat(): String =
+    httpDateFormatter.format(this)
 
 fun parseContentType(contentType: String): ContentType {
     val typeParameter = contentType.split(";")
