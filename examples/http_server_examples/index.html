@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://hexagonkt.com/examples/http_server_examples/">
       
       <link rel="icon" href="../../favicon.ico">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.11">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.1">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.50e68009.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e8d9bf0c.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
@@ -943,6 +943,7 @@
               
                 
 
+
   <h1>HTTP Server</h1>
 
 <h2 id="books-example">Books Example<a class="headerlink" href="#books-example" title="Permanent link">&para;</a></h2>
@@ -1103,7 +1104,8 @@
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
-<span class="normal">24</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">private</span> <span class="kd">val</span> <span class="nv">path</span><span class="p">:</span> <span class="n">PathHandler</span> <span class="o">=</span> <span class="n">path</span> <span class="p">{</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">private</span> <span class="kd">val</span> <span class="nv">path</span><span class="p">:</span> <span class="n">PathHandler</span> <span class="o">=</span> <span class="n">path</span> <span class="p">{</span>
     <span class="n">post</span><span class="p">(</span><span class="s">&quot;/assertNoCookies&quot;</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">cookies</span><span class="p">.</span><span class="na">isNotEmpty</span><span class="p">())</span> <span class="n">internalServerError</span><span class="p">()</span>
         <span class="k">else</span> <span class="n">ok</span><span class="p">()</span>
@@ -1123,8 +1125,9 @@
     <span class="p">}</span>
 
     <span class="n">post</span><span class="p">(</span><span class="s">&quot;/removeCookie&quot;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">val</span> <span class="nv">cookie</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">cookiesMap</span><span class="p">().</span><span class="na">require</span><span class="p">(</span><span class="n">queryParameters</span><span class="p">.</span><span class="na">require</span><span class="p">(</span><span class="s">&quot;cookieName&quot;</span><span class="p">))</span>
-        <span class="n">ok</span><span class="p">(</span><span class="n">cookies</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">cookies</span> <span class="o">+</span> <span class="n">cookie</span><span class="p">.</span><span class="na">delete</span><span class="p">())</span>
+        <span class="kd">val</span> <span class="nv">cookie</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">cookiesMap</span><span class="p">()</span><span class="o">[</span><span class="n">queryParameters</span><span class="p">.</span><span class="na">require</span><span class="p">(</span><span class="s">&quot;cookieName&quot;</span><span class="p">)</span><span class="o">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">cookie</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="n">ok</span><span class="p">()</span>
+        <span class="k">else</span> <span class="n">ok</span><span class="p">(</span><span class="n">cookies</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="na">cookies</span> <span class="o">+</span> <span class="n">cookie</span><span class="p">.</span><span class="na">delete</span><span class="p">())</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1382,11 +1385,7 @@
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">private</span> <span class="kd">val</span> <span class="nv">path</span><span class="p">:</span> <span class="n">PathHandler</span> <span class="o">=</span> <span class="n">path</span> <span class="p">{</span>
+<span class="normal">53</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">private</span> <span class="kd">val</span> <span class="nv">path</span><span class="p">:</span> <span class="n">PathHandler</span> <span class="o">=</span> <span class="n">path</span> <span class="p">{</span>
 
     <span class="c1">// Serve `public` resources folder on `/*`</span>
     <span class="n">after</span><span class="p">(</span>
@@ -1409,14 +1408,10 @@
             <span class="kd">val</span> <span class="nv">name</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="na">name</span>
             <span class="kd">val</span> <span class="nv">bodyString</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="na">bodyString</span><span class="p">()</span>
             <span class="kd">val</span> <span class="nv">size</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="na">size</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span>
-            <span class="kd">val</span> <span class="nv">fullType</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="na">contentType</span><span class="o">?.</span><span class="na">mediaType</span><span class="o">?.</span><span class="na">fullType</span> <span class="o">?:</span> <span class="s">&quot;&quot;</span>
-            <span class="kd">val</span> <span class="nv">contentDisposition</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="na">headers</span><span class="p">.</span><span class="na">require</span><span class="p">(</span><span class="s">&quot;content-disposition&quot;</span><span class="p">)</span>
             <span class="n">multiMapOf</span><span class="p">(</span>
                 <span class="s">&quot;name&quot;</span> <span class="n">to</span> <span class="n">name</span><span class="p">,</span>
                 <span class="s">&quot;body&quot;</span> <span class="n">to</span> <span class="n">bodyString</span><span class="p">,</span>
                 <span class="s">&quot;size&quot;</span> <span class="n">to</span> <span class="n">size</span><span class="p">,</span>
-                <span class="s">&quot;type&quot;</span> <span class="n">to</span> <span class="n">fullType</span><span class="p">,</span>
-                <span class="s">&quot;content-disposition&quot;</span> <span class="n">to</span> <span class="n">contentDisposition</span>
             <span class="p">)</span>
         <span class="p">}</span>
 
@@ -1759,10 +1754,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.092fa1f6.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "nagivation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5a9542cf.min.js"></script>
+      <script src="../../assets/javascripts/bundle.8aa65030.min.js"></script>
       
         <script src="https://buttons.github.io/buttons.js"></script>
       

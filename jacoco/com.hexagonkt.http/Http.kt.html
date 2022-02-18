@@ -10,34 +10,37 @@ import java.math.BigInteger
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.nio.charset.Charset
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
+import java.time.*
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME
 
-<span class="fc" id="L18">val checkedHeaders: List&lt;String&gt; = listOf(&quot;content-type&quot;, &quot;accept&quot;, &quot;set-cookie&quot;)</span>
+<span class="fc" id="L17">val checkedHeaders: List&lt;String&gt; = listOf(&quot;content-type&quot;, &quot;accept&quot;, &quot;set-cookie&quot;)</span>
+
+<span class="pc" id="L19">val gmtZone: ZoneId = ZoneId.of(&quot;GMT&quot;)</span>
+
+<span class="pc" id="L21">val httpDateFormatter: DateTimeFormatter = RFC_1123_DATE_TIME.withZone(ZoneOffset.UTC)</span>
 
 fun checkHeaders(headers: MultiMap&lt;String, String&gt;) {
-<span class="fc bfc" id="L21" title="All 2 branches covered.">    if (disableChecks)</span>
-<span class="fc" id="L22">        return</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">    if (disableChecks)</span>
+<span class="fc" id="L25">        return</span>
 
-<span class="fc" id="L24">    val headersKeys = headers.keys</span>
-<span class="fc bfc" id="L25" title="All 12 branches covered.">    check(headersKeys.all { key -&gt; key.all { it.isLowerCase() || it.isDigit() || it == '-' } }) {</span>
-<span class="fc" id="L26">        val invalidHeaders = headersKeys.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
-<span class="fc" id="L27">        &quot;Header names must be lower-case and contain only letters, digits or '-': $invalidHeaders&quot;</span>
+<span class="fc" id="L27">    val headersKeys = headers.keys</span>
+<span class="fc bfc" id="L28" title="All 12 branches covered.">    check(headersKeys.all { key -&gt; key.all { it.isLowerCase() || it.isDigit() || it == '-' } }) {</span>
+<span class="fc" id="L29">        val invalidHeaders = headersKeys.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
+<span class="fc" id="L30">        &quot;Header names must be lower-case and contain only letters, digits or '-': $invalidHeaders&quot;</span>
     }
 
-<span class="fc bfc" id="L30" title="All 2 branches covered.">    val invalidHeaders = checkedHeaders.filter { headers.containsKey(it) }</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">    val invalidHeaders = checkedHeaders.filter { headers.containsKey(it) }</span>
 
-<span class="fc bfc" id="L32" title="All 2 branches covered.">    check(invalidHeaders.isEmpty()) {</span>
-<span class="fc" id="L33">        val invalidHeadersText = invalidHeaders.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    check(invalidHeaders.isEmpty()) {</span>
+<span class="fc" id="L36">        val invalidHeadersText = invalidHeaders.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
 
         &quot;&quot;&quot;
         Special headers should be handled with their respective properties (i.e.: contentType)
-<span class="fc" id="L37">        instead setting them in the headers map. Ignored headers: $invalidHeadersText</span>
-<span class="fc" id="L38">        &quot;&quot;&quot;.trimIndent()</span>
+<span class="fc" id="L40">        instead setting them in the headers map. Ignored headers: $invalidHeadersText</span>
+<span class="fc" id="L41">        &quot;&quot;&quot;.trimIndent()</span>
     }
-<span class="fc" id="L40">}</span>
+<span class="fc" id="L43">}</span>
 
 /**
  * Parse query string such as `paramA=valueA&amp;paramB=valueB` into a map of several key-value pairs
@@ -52,73 +55,76 @@ fun checkHeaders(headers: MultiMap&lt;String, String&gt;) {
  *
  */
 fun parseQueryString(query: String): MultiMap&lt;String, String&gt; =
-<span class="fc bfc" id="L55" title="All 2 branches covered.">    if (query.isBlank())</span>
-<span class="fc" id="L56">        multiMapOf()</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">    if (query.isBlank())</span>
+<span class="fc" id="L59">        multiMapOf()</span>
     else
-<span class="fc" id="L58">        MultiMap(</span>
-<span class="fc" id="L59">            query</span>
-<span class="fc" id="L60">                .split(&quot;&amp;&quot;.toRegex())</span>
-<span class="fc" id="L61">                .map {</span>
-<span class="fc" id="L62">                    val keyValue = it.split(&quot;=&quot;).map(String::trim)</span>
-<span class="fc" id="L63">                    val key = keyValue[0]</span>
-<span class="fc bfc" id="L64" title="All 2 branches covered.">                    val value = if (keyValue.size == 2) keyValue[1] else &quot;&quot;</span>
-<span class="fc" id="L65">                    key.urlDecode() to value.urlDecode()</span>
+<span class="fc" id="L61">        MultiMap(</span>
+<span class="fc" id="L62">            query</span>
+<span class="fc" id="L63">                .split(&quot;&amp;&quot;.toRegex())</span>
+<span class="fc" id="L64">                .map {</span>
+<span class="fc" id="L65">                    val keyValue = it.split(&quot;=&quot;).map(String::trim)</span>
+<span class="fc" id="L66">                    val key = keyValue[0]</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                    val value = if (keyValue.size == 2) keyValue[1] else &quot;&quot;</span>
+<span class="fc" id="L68">                    key.urlDecode() to value.urlDecode()</span>
                 }
-<span class="fc bfc" id="L67" title="All 4 branches covered.">                .filter { it.first.isNotBlank() }</span>
-<span class="fc" id="L68">                .groupBy { it.first }</span>
-<span class="fc" id="L69">                .mapValues { pair -&gt; pair.value.map { it.second } }</span>
-<span class="fc" id="L70">        )</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">                .filter { it.first.isNotBlank() }</span>
+<span class="fc" id="L71">                .groupBy { it.first }</span>
+<span class="fc" id="L72">                .mapValues { pair -&gt; pair.value.map { it.second } }</span>
+<span class="fc" id="L73">        )</span>
 
 fun formatQueryString(parameters: MultiMap&lt;String, String&gt;): String =
-<span class="fc" id="L73">    parameters.allPairs</span>
-<span class="pc bpc" id="L74" title="2 of 4 branches missed.">        .filter { it.first.isNotBlank() }</span>
-<span class="fc" id="L75">        .joinToString(&quot;&amp;&quot;) { (k, v) -&gt;</span>
-<span class="fc bfc" id="L76" title="All 2 branches covered.">            if (v.isBlank()) k.urlEncode()</span>
-<span class="fc" id="L77">            else &quot;${k.urlEncode()}=${v.urlEncode()}&quot;</span>
-<span class="fc" id="L78">        }</span>
+<span class="fc" id="L76">    parameters.allPairs</span>
+<span class="pc bpc" id="L77" title="2 of 4 branches missed.">        .filter { it.first.isNotBlank() }</span>
+<span class="fc" id="L78">        .joinToString(&quot;&amp;&quot;) { (k, v) -&gt;</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">            if (v.isBlank()) k.urlEncode()</span>
+<span class="fc" id="L80">            else &quot;${k.urlEncode()}=${v.urlEncode()}&quot;</span>
+<span class="fc" id="L81">        }</span>
 
 fun String.urlDecode(): String =
-<span class="fc" id="L81">    URLDecoder.decode(this, Jvm.charset.name())</span>
+<span class="fc" id="L84">    URLDecoder.decode(this, Jvm.charset.name())</span>
 
 fun String.urlEncode(): String =
-<span class="fc" id="L84">    URLEncoder.encode(this, Jvm.charset.name())</span>
+<span class="fc" id="L87">    URLEncoder.encode(this, Jvm.charset.name())</span>
 
 fun LocalDateTime.toHttpFormat(): String =
-<span class="fc" id="L87">    DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.of(this, ZoneId.of(&quot;GMT&quot;)))</span>
+<span class="fc" id="L90">    RFC_1123_DATE_TIME.format(ZonedDateTime.of(this, gmtZone))</span>
+
+fun Instant.toHttpFormat(): String =
+<span class="fc" id="L93">    httpDateFormatter.format(this)</span>
 
 fun parseContentType(contentType: String): ContentType {
-<span class="fc" id="L90">    val typeParameter = contentType.split(&quot;;&quot;)</span>
-<span class="fc" id="L91">    val fullType = typeParameter.first().trim()</span>
-<span class="fc" id="L92">    val mimeType = MediaType(fullType)</span>
+<span class="fc" id="L96">    val typeParameter = contentType.split(&quot;;&quot;)</span>
+<span class="fc" id="L97">    val fullType = typeParameter.first().trim()</span>
+<span class="fc" id="L98">    val mimeType = MediaType(fullType)</span>
 
-<span class="fc bfc" id="L94" title="All 3 branches covered.">    return when (typeParameter.size) {</span>
-<span class="fc" id="L95">        1 -&gt; ContentType(mimeType)</span>
+<span class="fc bfc" id="L100" title="All 3 branches covered.">    return when (typeParameter.size) {</span>
+<span class="fc" id="L101">        1 -&gt; ContentType(mimeType)</span>
         2 -&gt; {
-<span class="fc" id="L97">            val parameter = typeParameter.last()</span>
-<span class="fc" id="L98">            val nameValue = parameter.split(&quot;=&quot;)</span>
-<span class="fc bfc" id="L99" title="All 2 branches covered.">            if (nameValue.size != 2)</span>
-<span class="fc" id="L100">                error(&quot;Invalid content type format: $contentType&quot;)</span>
+<span class="fc" id="L103">            val parameter = typeParameter.last()</span>
+<span class="fc" id="L104">            val nameValue = parameter.split(&quot;=&quot;)</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">            if (nameValue.size != 2)</span>
+<span class="fc" id="L106">                error(&quot;Invalid content type format: $contentType&quot;)</span>
 
-<span class="fc" id="L102">            val name = nameValue.first().trim()</span>
-<span class="fc" id="L103">            val value = nameValue.last().trim()</span>
+<span class="fc" id="L108">            val name = nameValue.first().trim()</span>
+<span class="fc" id="L109">            val value = nameValue.last().trim()</span>
 
-<span class="fc bfc" id="L105" title="All 4 branches covered.">            when (name.trim().lowercase()) {</span>
-<span class="fc" id="L106">                &quot;boundary&quot; -&gt; ContentType(mimeType, boundary = value)</span>
-<span class="fc" id="L107">                &quot;charset&quot; -&gt; ContentType(mimeType, charset = Charset.forName(value))</span>
-<span class="fc" id="L108">                &quot;q&quot; -&gt; ContentType(mimeType, q = value.toDouble())</span>
-<span class="fc" id="L109">                else -&gt; error(&quot;Invalid content type format: $contentType&quot;)</span>
+<span class="fc bfc" id="L111" title="All 4 branches covered.">            when (name.trim().lowercase()) {</span>
+<span class="fc" id="L112">                &quot;boundary&quot; -&gt; ContentType(mimeType, boundary = value)</span>
+<span class="fc" id="L113">                &quot;charset&quot; -&gt; ContentType(mimeType, charset = Charset.forName(value))</span>
+<span class="fc" id="L114">                &quot;q&quot; -&gt; ContentType(mimeType, q = value.toDouble())</span>
+<span class="fc" id="L115">                else -&gt; error(&quot;Invalid content type format: $contentType&quot;)</span>
             }
         }
-<span class="fc" id="L112">        else -&gt; error(&quot;Invalid content type format: $contentType&quot;)</span>
+<span class="fc" id="L118">        else -&gt; error(&quot;Invalid content type format: $contentType&quot;)</span>
     }
 }
 
 fun bodyToBytes(body: Any): ByteArray =
-<span class="fc" id="L117">    when (body) {</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">        is String -&gt; body.toByteArray()</span>
-<span class="fc bfc" id="L119" title="All 2 branches covered.">        is ByteArray -&gt; body</span>
-<span class="fc bfc" id="L120" title="All 2 branches covered.">        is Int -&gt; BigInteger.valueOf(body.toLong()).toByteArray()</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        is Long -&gt; BigInteger.valueOf(body).toByteArray()</span>
-<span class="fc" id="L122">        else -&gt; error(&quot;Unsupported body type: ${body.javaClass.simpleName}&quot;)</span>
-<span class="fc" id="L123">    }</span>
+<span class="fc" id="L123">    when (body) {</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        is String -&gt; body.toByteArray()</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        is ByteArray -&gt; body</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        is Int -&gt; BigInteger.valueOf(body.toLong()).toByteArray()</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        is Long -&gt; BigInteger.valueOf(body).toByteArray()</span>
+<span class="fc" id="L128">        else -&gt; error(&quot;Unsupported body type: ${body.javaClass.simpleName}&quot;)</span>
+<span class="fc" id="L129">    }</span>
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

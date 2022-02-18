@@ -12,12 +12,12 @@ import jakarta.servlet.http.Part
 <span class="fc" id="L12">        part.inputStream.readAllBytes()</span>
     }
 
-<span class="fc" id="L15">    override val headers: MultiMap&lt;String, String&gt; by lazy {</span>
-<span class="fc" id="L16">        MultiMap(part.headerNames.filterNotNull().associateWith { part.getHeaders(it).toList() })</span>
+<span class="pc" id="L15">    override val headers: MultiMap&lt;String, String&gt; by lazy {</span>
+<span class="nc" id="L16">        MultiMap(part.headerNames.filterNotNull().associateWith { part.getHeaders(it).toList() })</span>
     }
 
-<span class="fc" id="L19">    override val contentType: ContentType? by lazy {</span>
-<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        part.contentType?.let { parseContentType(it) }</span>
+<span class="pc" id="L19">    override val contentType: ContentType? by lazy {</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        part.contentType?.let { parseContentType(it) }</span>
     }
 
 <span class="fc" id="L23">    override val name: String by lazy { part.name }</span>
