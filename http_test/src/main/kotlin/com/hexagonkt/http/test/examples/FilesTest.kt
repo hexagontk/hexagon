@@ -39,7 +39,7 @@ abstract class FilesTest(
 
     private val directory = File("http_test/src/main/resources/assets").let {
         if (it.exists()) it.path
-        else "src/main/resources/assets"
+        else "../http_test/src/main/resources/assets"
     }
 
     // files
@@ -66,14 +66,10 @@ abstract class FilesTest(
                 val name = p.name
                 val bodyString = p.bodyString()
                 val size = p.size.toString()
-                val fullType = p.contentType?.mediaType?.fullType ?: ""
-                val contentDisposition = p.headers.require("content-disposition")
                 multiMapOf(
                     "name" to name,
                     "body" to bodyString,
                     "size" to size,
-                    "type" to fullType,
-                    "content-disposition" to contentDisposition
                 )
             }
 
@@ -155,10 +151,9 @@ abstract class FilesTest(
             "name" to "name",
             "body" to "value",
             "size" to "5",
-            "type" to "text/plain",
-            "content-disposition" to "form-data; name=\"name\"",
         )
-        assertEquals(expectedHeaders, response.headers - "transfer-encoding" - "content-length")
+        val headers = response.headers - "transfer-encoding" - "content-length" - "connection"
+        assertEquals(expectedHeaders, headers)
     }
 
     @Test fun `Sending files works properly`() {

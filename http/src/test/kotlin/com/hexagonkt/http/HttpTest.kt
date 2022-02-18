@@ -155,8 +155,11 @@ internal class HttpTest {
     }
 
     @Test fun `HTTP date has the correct format`() {
-        val httpTimeStamp = LocalDateTime.of(2018, 1, 1, 0, 0).toHttpFormat()
-        assertEquals("Mon, 1 Jan 2018 00:00:00 GMT", httpTimeStamp)
+        val localDateTime = LocalDateTime.of(2018, 1, 1, 0, 0)
+        assertEquals("Mon, 1 Jan 2018 00:00:00 GMT", localDateTime.toHttpFormat())
+
+        val instant = localDateTime.toInstant(ZoneOffset.UTC)
+        assertEquals("Mon, 1 Jan 2018 00:00:00 GMT", instant.toHttpFormat())
     }
 
     @Test fun `URL encoding and decoding works properly`() {

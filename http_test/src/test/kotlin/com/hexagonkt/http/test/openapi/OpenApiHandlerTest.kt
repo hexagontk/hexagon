@@ -13,7 +13,7 @@ import org.junit.jupiter.api.*
 import java.net.URL
 import kotlin.test.assertEquals
 
-@Disabled
+@Disabled // TODO Fix this functionality
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class OpenApiHandlerTest {
 

@@ -68,10 +68,11 @@ abstract class ClientTest(
         callback = {
             val contentType = ContentType(JSON, charset = Charsets.UTF_8)
             val bodyString = request.bodyString()
+            val bodyHeader = if (bodyString.endsWith("\n") || bodyString.contains("{")) "json" else bodyString
             ok(
                 body = bodyString,
                 headers = response.headers
-                    + ("body" to bodyString)
+                    + ("body" to bodyHeader)
                     + ("ct" to (request.contentType?.text ?: ""))
                     + ("query-parameters" to formatQueryString(queryParameters)),
                 contentType = contentType,
@@ -102,7 +103,8 @@ abstract class ClientTest(
         )
 
         val expectedHeaders = multiMapOfLists("p1" to listOf("v11"), "p2" to listOf("v21", "v22"))
-        assertEquals(expectedHeaders, response.headers - "transfer-encoding" - "content-length")
+        val actualHeaders = response.headers - "transfer-encoding" - "content-length" - "connection"
+        assertEquals(expectedHeaders, actualHeaders)
     }
 
     @Test fun `Cookies are sent correctly`() {
@@ -128,9 +130,14 @@ abstract class ClientTest(
             )
         )
 
-        assertEquals(HttpCookie("c4", "v4", 59), response.cookiesMap()["c4"])
+        val responseC4 = response.cookiesMap().require("c4")
+        assertEquals("v4", responseC4.value)
+        assertTrue(responseC4.maxAge in 59..60)
         assertEquals(HttpCookie("c5", "v5", secure = true), response.cookiesMap()["c5"])
-        assertEquals(HttpCookie("c4", "v4", 59), client.cookiesMap()["c4"])
+
+        val clientC4 = client.cookiesMap().require("c4")
+        assertEquals("v4", clientC4.value)
+        assertTrue(clientC4.maxAge in 59..60)
         assertEquals(HttpCookie("c5", "v5", secure = true), client.cookiesMap()["c5"])
     }
 
