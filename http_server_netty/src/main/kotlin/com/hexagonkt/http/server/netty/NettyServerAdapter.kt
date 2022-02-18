@@ -1,5 +1,6 @@
 package com.hexagonkt.http.server.netty
 
+import com.hexagonkt.core.Jvm
 import com.hexagonkt.core.fieldsMapOf
 import com.hexagonkt.core.security.loadKeyStore
 import com.hexagonkt.http.SslSettings
@@ -10,6 +11,7 @@ import com.hexagonkt.http.server.HttpServerFeature
 import com.hexagonkt.http.server.HttpServerFeature.ASYNC
 import com.hexagonkt.http.server.HttpServerFeature.ZIP
 import com.hexagonkt.http.server.HttpServerPort
+import com.hexagonkt.http.server.HttpServerSettings
 import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.path
 import io.netty.bootstrap.ServerBootstrap
@@ -40,8 +42,9 @@ import kotlin.Int.Companion.MAX_VALUE
 class NettyServerAdapter(
     private val bossGroupThreads: Int = 1,
     private val workerGroupThreads: Int = 0,
-    private val executorThreads: Int = 16,
-    private val soBacklog: Int = 1_024,
+    private val executorThreads: Int = Jvm.cpuCount * 2,
+    private val soBacklog: Int = 4 * 1_024,
+    private val soReuseAddr: Boolean = true,
     private val soKeepAlive: Boolean = true,
 ) : HttpServerPort {
 
@@ -52,8 +55,9 @@ class NettyServerAdapter(
     constructor() : this(
         bossGroupThreads = 1,
         workerGroupThreads = 0,
-        executorThreads = 16,
-        soBacklog = 1_024,
+        executorThreads = Jvm.cpuCount * 2,
+        soBacklog = 4 * 1_024,
+        soReuseAddr = true,
         soKeepAlive = true,
     )
 
@@ -67,6 +71,9 @@ class NettyServerAdapter(
     override fun startUp(server: HttpServer) {
         val bossGroup = NioEventLoopGroup(bossGroupThreads)
         val workerGroup = NioEventLoopGroup(workerGroupThreads)
+        val executorGroup =
+            if (executorThreads > 0) DefaultEventExecutorGroup(executorThreads)
+            else null
 
         try {
             val nettyServer = ServerBootstrap()
@@ -77,34 +84,14 @@ class NettyServerAdapter(
                     .byMethod()
                     .mapKeys { HttpMethod.valueOf(it.key.toString()) }
 
-            val group =
-                if (executorThreads > 0) DefaultEventExecutorGroup(executorThreads)
-                else null
-
-            val initializer = if (sslSettings == null) {
-                HttpChannelInitializer(handlers, group)
-            }
-            else {
-                val keyManager = createKeyManagerFactory(sslSettings)
-
-                val sslContextBuilder = SslContextBuilder
-                    .forServer(keyManager)
-                    .clientAuth(if (sslSettings.clientAuth) REQUIRE else OPTIONAL)
-
-                val trustManager = createTrustManagerFactory(sslSettings)
-
-                val sslContext: SslContext =
-                    if (trustManager == null) sslContextBuilder.build()
-                    else sslContextBuilder.trustManager(trustManager).build()
-
-                HttpsChannelInitializer(handlers, sslContext, sslSettings, group)
-            }
-
             nettyServer.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel::class.java)
+//                .option(EpollChannelOption.SO_REUSEPORT, true)
                 .option(ChannelOption.SO_BACKLOG, soBacklog)
+                .option(ChannelOption.SO_REUSEADDR, soReuseAddr)
                 .childOption(ChannelOption.SO_KEEPALIVE, soKeepAlive)
-                .childHandler(initializer)
+                .childOption(ChannelOption.SO_REUSEADDR, soReuseAddr)
+                .childHandler(createInitializer(sslSettings, handlers, executorGroup, settings))
 
             val address = settings.bindAddress
             val port = settings.bindPort
@@ -117,8 +104,33 @@ class NettyServerAdapter(
         catch (e: Exception) {
             bossGroup.shutdownGracefully()
             workerGroup.shutdownGracefully()
+            executorGroup?.shutdownGracefully()
         }
     }
+
+    private fun createInitializer(
+        sslSettings: SslSettings?,
+        handlers: Map<HttpMethod, PathHandler>,
+        group: DefaultEventExecutorGroup?,
+        settings: HttpServerSettings
+    ) =
+        if (sslSettings == null) {
+            HttpChannelInitializer(handlers, group, settings)
+        } else {
+            val keyManager = createKeyManagerFactory(sslSettings)
+
+            val sslContextBuilder = SslContextBuilder
+                .forServer(keyManager)
+                .clientAuth(if (sslSettings.clientAuth) REQUIRE else OPTIONAL)
+
+            val trustManager = createTrustManagerFactory(sslSettings)
+
+            val sslContext: SslContext =
+                if (trustManager == null) sslContextBuilder.build()
+                else sslContextBuilder.trustManager(trustManager).build()
+
+            HttpsChannelInitializer(handlers, sslContext, sslSettings, group, settings)
+        }
 
     private fun createTrustManagerFactory(sslSettings: SslSettings): TrustManagerFactory? {
         val trustStoreUrl = sslSettings.trustStore ?: return null
@@ -168,6 +180,7 @@ class NettyServerAdapter(
     class HttpChannelInitializer(
         private val handlers: Map<HttpMethod, PathHandler>,
         private val executorGroup: EventExecutorGroup?,
+        private val settings: HttpServerSettings,
     ) : ChannelInitializer<SocketChannel>() {
 
         override fun initChannel(channel: SocketChannel) {
@@ -177,6 +190,9 @@ class NettyServerAdapter(
             pipeline.addLast(HttpServerKeepAliveHandler())
             pipeline.addLast(HttpObjectAggregator(MAX_VALUE))
             pipeline.addLast(ChunkedWriteHandler())
+
+            if (settings.features.contains(ZIP))
+                pipeline.addLast(HttpContentCompressor())
 
             if (executorGroup == null)
                 pipeline.addLast(NettyServerHandler(handlers, null))
@@ -190,12 +206,13 @@ class NettyServerAdapter(
         private val sslContext: SslContext,
         private val sslSettings: SslSettings,
         private val executorGroup: EventExecutorGroup?,
+        private val settings: HttpServerSettings,
     ) : ChannelInitializer<SocketChannel>() {
 
         override fun initChannel(channel: SocketChannel) {
             val pipeline = channel.pipeline()
             val sslHandler = sslContext.newHandler(channel.alloc())
-            val sslHandler1 = if (sslSettings.clientAuth) sslHandler else null
+            val handlerSsl = if (sslSettings.clientAuth) sslHandler else null
 
             pipeline.addLast(sslHandler)
             pipeline.addLast(HttpServerCodec())
@@ -203,10 +220,13 @@ class NettyServerAdapter(
             pipeline.addLast(HttpObjectAggregator(MAX_VALUE))
             pipeline.addLast(ChunkedWriteHandler())
 
+            if (settings.features.contains(ZIP))
+                pipeline.addLast(HttpContentCompressor())
+
             if (executorGroup == null)
-                pipeline.addLast(NettyServerHandler(handlers, sslHandler1))
+                pipeline.addLast(NettyServerHandler(handlers, handlerSsl))
             else
-                pipeline.addLast(executorGroup, NettyServerHandler(handlers, sslHandler1))
+                pipeline.addLast(executorGroup, NettyServerHandler(handlers, handlerSsl))
         }
     }
 }

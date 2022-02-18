@@ -14,8 +14,11 @@ import io.netty.handler.codec.http.HttpHeaderValues.KEEP_ALIVE
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.HttpResponseStatus.*
 import io.netty.handler.codec.http.HttpVersion.HTTP_1_1
+import io.netty.handler.codec.http.cookie.DefaultCookie
+import io.netty.handler.codec.http.cookie.ServerCookieEncoder.STRICT
 import io.netty.handler.ssl.SslHandler
 import io.netty.handler.ssl.SslHandshakeCompletionEvent
+import java.net.InetSocketAddress
 import java.security.cert.X509Certificate
 
 internal class NettyServerHandler(
@@ -31,8 +34,9 @@ internal class NettyServerHandler(
         if (result.isFailure)
             exceptionCaught(context, result.cause())
 
+        val address = context.channel().remoteAddress() as InetSocketAddress
         val method = nettyRequest.method
-        val request = NettyRequestAdapter(method, nettyRequest, certificates)
+        val request = NettyRequestAdapter(method, nettyRequest, certificates, address)
         val response = handlers[method]?.process(request) ?: HttpServerResponse()
 
         writeResponse(context, response, HttpUtil.isKeepAlive(nettyRequest))
@@ -62,9 +66,13 @@ internal class NettyServerHandler(
         val response = DefaultFullHttpResponse(HTTP_1_1, status, buffer)
         val headers = response.headers()
 
-        hexagonResponse.headers.allValues.map { (k, v) -> headers.add(k, v) }
+        val hexagonHeaders = hexagonResponse.headers
+        if (hexagonHeaders.isNotEmpty())
+            hexagonHeaders.allValues.map { (k, v) -> headers.add(k, v) }
 
-        // TODO Cookies
+        val hexagonCookies = hexagonResponse.cookies
+        if (hexagonCookies.isNotEmpty())
+            headers[SET_COOKIE] = STRICT.encode(nettyCookies(hexagonCookies))
 
         val contentType = hexagonResponse.contentType
         if (contentType != null)
@@ -79,6 +87,15 @@ internal class NettyServerHandler(
             context.writeAndFlush(response).addListener(CLOSE)
         }
     }
+
+    private fun nettyCookies(hexagonCookies: List<HttpCookie>) =
+        hexagonCookies.map {
+            DefaultCookie(it.name, it.value).apply {
+                if (it.maxAge != -1L)
+                    setMaxAge(it.maxAge)
+                isSecure = it.secure
+            }
+        }
 
     private fun nettyStatus(status: HttpStatus): HttpResponseStatus =
         when (status) {
