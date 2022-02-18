@@ -43,8 +43,9 @@ abstract class CookiesTest(
         }
 
         post("/removeCookie") {
-            val cookie = request.cookiesMap().require(queryParameters.require("cookieName"))
-            ok(cookies = response.cookies + cookie.delete())
+            val cookie = request.cookiesMap()[queryParameters.require("cookieName")]
+            if (cookie == null) ok()
+            else ok(cookies = response.cookies + cookie.delete())
         }
     }
     // cookies
@@ -92,7 +93,7 @@ abstract class CookiesTest(
     @Order(4)
     fun `Remove not available cookie does not fail`() {
         val cookieName = "unknownCookie"
-        client.post("/removeCookie?$cookieName")
+        client.post("/removeCookie?cookieName=$cookieName")
         assert(client.cookies.isEmpty())
         val result = client.post("/assertNoCookies")
         assertEquals(OK, result.status)

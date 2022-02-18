@@ -373,14 +373,10 @@ private val path: PathHandler = path {
             val name = p.name
             val bodyString = p.bodyString()
             val size = p.size.toString()
-            val fullType = p.contentType?.mediaType?.fullType ?: ""
-            val contentDisposition = p.headers.require("content-disposition")
             multiMapOf(
                 "name" to name,
                 "body" to bodyString,
                 "size" to size,
-                "type" to fullType,
-                "content-disposition" to contentDisposition
             )
         }
 
