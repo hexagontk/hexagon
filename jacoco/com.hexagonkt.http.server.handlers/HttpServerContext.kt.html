@@ -16,9 +16,9 @@ import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
-import kotlinx.coroutines.flow.Flow
 import java.net.URL
 import java.security.cert.X509Certificate
+import java.util.concurrent.SubmissionPublisher
 
 // TODO Add exception parameter to 'send*' methods
 <span class="fc" id="L24">data class HttpServerContext(</span>
@@ -149,7 +149,7 @@ import java.security.cert.X509Certificate
     ): HttpServerContext =
 <span class="fc" id="L150">        success(OK, body, headers, contentType, cookies, attributes)</span>
 
-    fun sse(body: Flow&lt;HttpServerEvent&gt;): HttpServerContext =
+    fun sse(body: SubmissionPublisher&lt;HttpServerEvent&gt;): HttpServerContext =
 <span class="fc" id="L153">        ok(</span>
 <span class="fc" id="L154">            body = body,</span>
 <span class="fc" id="L155">            headers = response.headers + (&quot;cache-control&quot; to &quot;no-cache&quot;),</span>
