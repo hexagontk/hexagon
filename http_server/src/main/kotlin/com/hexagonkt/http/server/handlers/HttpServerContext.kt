@@ -16,9 +16,9 @@ import com.hexagonkt.http.model.SuccessStatus.OK
 import com.hexagonkt.http.server.model.HttpServerCall
 import com.hexagonkt.http.server.model.HttpServerRequestPort
 import com.hexagonkt.http.server.model.HttpServerResponse
-import kotlinx.coroutines.flow.Flow
 import java.net.URL
 import java.security.cert.X509Certificate
+import java.util.concurrent.SubmissionPublisher
 
 // TODO Add exception parameter to 'send*' methods
 data class HttpServerContext(
@@ -149,7 +149,7 @@ data class HttpServerContext(
     ): HttpServerContext =
         success(OK, body, headers, contentType, cookies, attributes)
 
-    fun sse(body: Flow<HttpServerEvent>): HttpServerContext =
+    fun sse(body: SubmissionPublisher<HttpServerEvent>): HttpServerContext =
         ok(
             body = body,
             headers = response.headers + ("cache-control" to "no-cache"),

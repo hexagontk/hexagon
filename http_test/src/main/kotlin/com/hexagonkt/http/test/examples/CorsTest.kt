@@ -14,7 +14,6 @@ import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -137,7 +136,7 @@ abstract class CorsTest(
         assert(result.bodyString().isEmpty())
     }
 
-    @Test fun `CORS full pre flight`() = runBlocking<Unit> {
+    @Test fun `CORS full pre flight`() {
         client.options("/default", headers = multiMapOf(
             "origin" to ("example.org"),
             "access-control-request-method" to "GET",

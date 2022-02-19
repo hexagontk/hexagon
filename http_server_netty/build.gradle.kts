@@ -14,6 +14,7 @@ dependencies {
     api("io.netty:netty-codec-http:$nettyVersion")
     api("io.netty:netty-codec-http2:$nettyVersion")
     // TODO Add support to native transports (maybe in different modules each)
+    //  https://netty.io/wiki/native-transports.html
 //    api("io.netty:netty-transport-native-epoll:$nettyVersion")
 //    api("io.netty:netty-transport-native-kqueue:$nettyVersion")
 

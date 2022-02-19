@@ -7,11 +7,9 @@ import com.hexagonkt.http.model.SuccessStatus.*
 import com.hexagonkt.http.patterns.LiteralPathPattern
 import com.hexagonkt.http.server.examples.send
 import com.hexagonkt.http.server.model.HttpServerRequest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-@ExperimentalCoroutinesApi
 internal class ServerBuilderTest {
 
     @Test fun `Adding prefix to a handler without path produces correct path pattern`() {

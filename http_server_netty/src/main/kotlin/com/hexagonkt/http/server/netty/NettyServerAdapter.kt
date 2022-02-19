@@ -37,7 +37,8 @@ import kotlin.Int.Companion.MAX_VALUE
 /**
  * Implements [HttpServerPort] using Netty [Channel].
  *
- * TODO Add HTTP/2 support
+ * TODO Add HTTP/2 support: https://www.baeldung.com/netty-http2
+ * TODO Add SSE support: https://github.com/marcusyates/netty-sse-example
  */
 class NettyServerAdapter(
     private val bossGroupThreads: Int = 1,
