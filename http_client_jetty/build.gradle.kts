@@ -12,5 +12,6 @@ dependencies {
 
     api(project(":http_client"))
     api("org.eclipse.jetty:jetty-client:$jettyVersion")
-    api("org.eclipse.jetty.websocket:websocket-jetty-client:$jettyVersion")
+
+    testImplementation("org.eclipse.jetty.websocket:websocket-jetty-client:$jettyVersion")
 }
