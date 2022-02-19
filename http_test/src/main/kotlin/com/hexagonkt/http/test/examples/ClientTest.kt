@@ -27,7 +27,6 @@ import com.hexagonkt.http.test.BaseTest
 import com.hexagonkt.serialization.SerializationFormat
 import com.hexagonkt.serialization.SerializationManager
 import com.hexagonkt.serialization.serialize
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.*
 
 import java.math.BigInteger
@@ -266,7 +265,7 @@ abstract class ClientTest(
         checkResponse(responsePatch, body, ContentType(YAML))
     }
 
-    @Test fun `Parameters are set properly` () = runBlocking<Unit> {
+    @Test fun `Parameters are set properly` () {
         val endpoint = URL("http://localhost:${server.runtimePort}")
         val h = multiMapOfLists("header1" to listOf("val1", "val2"))
         val settings = HttpClientSettings(

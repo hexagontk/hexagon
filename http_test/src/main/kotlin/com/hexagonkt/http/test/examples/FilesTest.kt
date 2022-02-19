@@ -3,7 +3,6 @@ package com.hexagonkt.http.test.examples
 import com.hexagonkt.core.MultiMap
 import com.hexagonkt.core.multiMapOf
 import com.hexagonkt.core.multiMapOfLists
-import com.hexagonkt.core.require
 import com.hexagonkt.core.media.TextMedia.CSS
 import com.hexagonkt.core.media.TextMedia.HTML
 import com.hexagonkt.http.client.HttpClientPort
@@ -21,7 +20,6 @@ import com.hexagonkt.http.server.handlers.PathHandler
 import com.hexagonkt.http.server.handlers.ServerHandler
 import com.hexagonkt.http.server.handlers.path
 import com.hexagonkt.http.test.BaseTest
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
@@ -121,7 +119,7 @@ abstract class FilesTest(
         assertResponseEquals(response, content = "file content")
     }
 
-    @Test fun `Files content type is returned properly`() = runBlocking<Unit> {
+    @Test fun `Files content type is returned properly`() {
         val response = client.get("/file.css")
         assertEquals(CSS, response.contentType?.mediaType)
         assertResponseEquals(response, content = "/* css */")
@@ -166,7 +164,7 @@ abstract class FilesTest(
         assertResponseContains(response, OK, "<!DOCTYPE html>", "<title>Hexagon</title>", "</html>")
     }
 
-    @Test fun `Files mounted on a path are returned properly`() = runBlocking<Unit> {
+    @Test fun `Files mounted on a path are returned properly`() {
         val response = client.get("/html/index.html")
         assertEquals(HTML, response.contentType?.mediaType)
         assertResponseContains(response, OK, "<title>Hexagon</title>")
