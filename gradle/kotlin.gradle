@@ -11,7 +11,7 @@ apply(plugin: "maven-publish")
 defaultTasks("build")
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = sourceCompatibility
 }
 
@@ -108,7 +108,7 @@ test {
     exclude("**/*IT.*")
 }
 
-task("verify", type: Test) {
+tasks.register("verify", Test) {
     group = "verification"
     description = "Runs integration tests."
 
@@ -166,7 +166,7 @@ task("jacocoReportSources") {
     }
 }
 
-task("sourcesJar", type: Jar) {
+tasks.register("sourcesJar", Jar) {
     group = "distribution"
     description = "Create a jar file with the source code files."
 
@@ -174,9 +174,10 @@ task("sourcesJar", type: Jar) {
     from(project.sourceSets.main.allSource)
 }
 
-task("testJar", type: Jar, dependsOn: testClasses) {
+tasks.register("testJar", Jar) {
     group = "distribution"
     description = "Create a jar file with the test classes."
+    dependsOn(testClasses)
 
     archiveClassifier.set("test")
     from(project.sourceSets.test.output.classesDirs)

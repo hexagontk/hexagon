@@ -35,6 +35,12 @@ internal class CryptoTest {
         assertContentEquals(sign(algorithm, data, key), hmac(algorithm, data.toByteArray(), key))
     }
 
+    @Test fun `Hashes work properly`() {
+        val algorithm = "SHA-256"
+        val data = "the data"
+        assertContentEquals(hash(algorithm, data), hash(algorithm, data.toByteArray()))
+    }
+
     @Suppress("SameParameterValue")
     private fun signatureKey(
         key: String, date: LocalDateTime, region: String, service: String

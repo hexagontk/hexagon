@@ -74,8 +74,10 @@ These are the implemented ports:
 
 * [HTTP Server]: describes how to use HTTP routing and HTML templates for Web services.
 * [HTTP Client]: documentation to use the HTTP client module to connect to other services.
+* [Serialization]: allows encoding and parsing primitives and collections to serialization formats.
 * [Templates]: describes how to render pages using template engines.
 
 [HTTP Server]: /http_server/
 [HTTP Client]: /http_client/
+[Serialization]: /serialization/
 [Templates]: /templates/

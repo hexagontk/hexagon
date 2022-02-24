@@ -84,3 +84,12 @@ licenseReport {
         InventoryMarkdownReportRenderer(),
     )
 }
+
+gradle.taskGraph.whenReady(closureOf<TaskExecutionGraph> {
+    if (logger.isInfoEnabled()) {
+        allTasks.forEach { task ->
+            logger.info(task.toString())
+            task.dependsOn.forEach { logger.info("  - $it") }
+        }
+    }
+})

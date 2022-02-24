@@ -29,7 +29,6 @@ desktop application), you can import it with the following code:
 
 ### Defined Ports
 TODO Document module exposed ports:
-* Mapper
 * SerializationFormat
 
 ### Serialization

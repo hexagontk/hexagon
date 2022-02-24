@@ -97,7 +97,7 @@ internal class NettyServerHandler(
             }
         }
 
-    private fun nettyStatus(status: HttpStatus): HttpResponseStatus =
+    internal fun nettyStatus(status: HttpStatus): HttpResponseStatus =
         when (status) {
             InformationStatus.CONTINUE -> CONTINUE
             InformationStatus.SWITCHING_PROTOCOLS -> SWITCHING_PROTOCOLS

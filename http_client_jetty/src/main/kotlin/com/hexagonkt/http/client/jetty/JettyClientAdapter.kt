@@ -193,7 +193,7 @@ class JettyClientAdapter : HttpClientPort {
                 if (keyStore != null) {
                     val store = loadKeyStore(keyStore, sslSettings.keyStorePassword)
                     sslContextBuilder.keyStore = store
-                    sslContextBuilder.setKeyStorePassword(sslSettings.keyStorePassword)
+                    sslContextBuilder.keyStorePassword = sslSettings.keyStorePassword
                 }
 
                 if (trustStore != null) {
