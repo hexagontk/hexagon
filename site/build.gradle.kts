@@ -6,7 +6,6 @@ import org.jetbrains.dokka.gradle.DokkaTaskPartial
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
 
-// TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
 
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
