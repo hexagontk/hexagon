@@ -21,7 +21,7 @@ internal class HttpServerSettingsTest {
     }
 
     @Test fun `Custom HTTP server settings contains the proper values`() {
-        HttpServerSettings(features = setOf(ZIP, ASYNC, NIO)).let {
+        HttpServerSettings(features = setOf(ZIP, ASYNC)).let {
             assertEquals(InetAddress.getLoopbackAddress(), it.bindAddress)
             assertEquals(2010, it.bindPort)
             assertEquals(HTTP, it.protocol)

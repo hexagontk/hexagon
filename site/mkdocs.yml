@@ -31,7 +31,11 @@ markdown_extensions:
   - pymdownx.smartsymbols
   - pymdownx.inlinehilite
   - pymdownx.emoji
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.highlight:

@@ -23,10 +23,10 @@ task("buildInfo") {
     }
 }
 
-task("jarAll", type: Jar, dependsOn: "jar") {
+tasks.register("jarAll", Jar) {
     group = "distribution"
-    description =
-        "Creates a single JAR with all dependencies, and the application main class set up."
+    description = "Create a JAR with all dependencies, and the application main class set up."
+    dependsOn("jar")
 
     archiveBaseName.set("${archiveBaseName.orNull}-all")
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
@@ -45,10 +45,10 @@ task("jarAll", type: Jar, dependsOn: "jar") {
     }
 }
 
-task("watch", dependsOn: "classes") {
+tasks.register("watch") {
     group = "application"
-    description =
-        "Run the application in another thread. Allows the possibility to watch source changes."
+    description = "Run application in other thread. Allows the possibility to watch source changes."
+    dependsOn("classes")
 
     doLast {
         final JavaExec runTask = run

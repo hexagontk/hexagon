@@ -6,7 +6,6 @@ import org.jetbrains.dokka.gradle.DokkaTaskPartial
 apply(from = "../gradle/kotlin.gradle")
 apply(from = "../gradle/icons.gradle")
 
-// TODO Declare inputs. Check that no Gradle warnings are present when running 'serveSite'
 tasks.register<JacocoReport>("jacocoRootReport") {
 
     val projectExecutionData = fileTree(rootDir) { include("**/build/jacoco/*.exec") }
@@ -15,7 +14,6 @@ tasks.register<JacocoReport>("jacocoRootReport") {
         .filterNot { it.absolutePath.contains("http_test") }
         .filterNot { it.absolutePath.contains("serialization_test") }
         .filterNot { it.absolutePath.contains("templates_test") }
-        .filterNot { it.absolutePath.contains("http_server_netty") } // TODO wip
 
     executionData.from(projectExecutionData)
     sourceDirectories.from(modulesSources)

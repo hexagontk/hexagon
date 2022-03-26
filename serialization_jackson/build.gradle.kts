@@ -14,11 +14,12 @@ dependencies {
     val jacksonVersion = properties["jacksonVersion"]
 
     api(project(":serialization"))
+    api(platform("com.fasterxml.jackson:jackson-bom:$jacksonVersion"))
+    api("com.fasterxml.jackson.core:jackson-databind")
+    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
-    api("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-
-    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion") {
+    testImplementation("org.jetbrains.kotlin:kotlin-reflect")
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin") {
         exclude("org.jetbrains.kotlin")
     }
 }

@@ -1,6 +1,5 @@
 package com.hexagonkt.core.logging
 
-import com.hexagonkt.core.fail
 import com.hexagonkt.core.logging.jul.JulLoggingAdapter
 import kotlin.reflect.KClass
 
@@ -37,7 +36,7 @@ object LoggingManager {
      * @param level One of the logging levels identifiers, e.g., TRACE
      */
     fun setLoggerLevel(type: KClass<*>, level: LoggingLevel) {
-        setLoggerLevel(type.qualifiedName ?: fail, level)
+        setLoggerLevel(qualifiedName(type), level)
     }
 
     /**
@@ -77,7 +76,7 @@ object LoggingManager {
      * @return True if the supplied level is enabled for the passed logger name.
      */
     fun isLoggerLevelEnabled(type: KClass<*>, level: LoggingLevel): Boolean =
-        isLoggerLevelEnabled(type.qualifiedName ?: fail, level)
+        isLoggerLevelEnabled(qualifiedName(type), level)
 
     /**
      * Check if a logging level is enabled for the root logger.
@@ -87,4 +86,7 @@ object LoggingManager {
      */
     fun isLoggerLevelEnabled(level: LoggingLevel): Boolean =
         isLoggerLevelEnabled("", level)
+
+    private fun qualifiedName(type: KClass<*>): String =
+        type.qualifiedName ?: error("Cannot get qualified name of type")
 }

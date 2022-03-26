@@ -5,10 +5,8 @@ package com.hexagonkt.http.server
  *
  * @property ZIP Request and response compression.
  * @property ASYNC Asynchronous request processing.
- * @property NIO Support non-blocking I/O.
  */
 enum class HttpServerFeature {
     ZIP,
     ASYNC,
-    NIO,
 }
