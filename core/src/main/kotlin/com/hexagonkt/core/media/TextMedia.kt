@@ -14,6 +14,7 @@ enum class TextMedia(
     JAVASCRIPT(MediaTypeGroup.TEXT, "javascript"),
     CSS(MediaTypeGroup.TEXT, "css"),
     HTML(MediaTypeGroup.TEXT, "html"),
+    MARKDOWN(MediaTypeGroup.TEXT, "markdown"),
     PLAIN(MediaTypeGroup.TEXT, "plain"),
     RICHTEXT(MediaTypeGroup.TEXT, "richtext"),
     TAB_SEPARATED_VALUES(MediaTypeGroup.TEXT, "tab-separated-values"),

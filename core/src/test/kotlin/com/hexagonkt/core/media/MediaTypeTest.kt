@@ -113,6 +113,7 @@ internal class MediaTypeTest {
         assertEquals("text/css", MediaType["css"].fullType)
         assertEquals("text/html", MediaType["html"].fullType)
         assertEquals("text/html", MediaType["htm"].fullType)
+        assertEquals("text/markdown", MediaType["md"].fullType)
         assertEquals("text/plain", MediaType["txt"].fullType)
         assertEquals("text/plain", MediaType["log"].fullType)
         assertEquals("text/richtext", MediaType["rtx"].fullType)
