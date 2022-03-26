@@ -11,8 +11,9 @@ dependencies {
     val nettyVersion = properties["nettyVersion"]
 
     api(project(":http_server"))
-    api("io.netty:netty-codec-http:$nettyVersion")
-    api("io.netty:netty-codec-http2:$nettyVersion")
+    api(platform("io.netty:netty-bom:$nettyVersion"))
+    api("io.netty:netty-codec-http")
+    api("io.netty:netty-codec-http2")
 
     testImplementation(project(":http_test"))
     testImplementation(project(":http_client_jetty"))

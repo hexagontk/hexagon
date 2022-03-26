@@ -35,15 +35,13 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.6.10"
     final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.12.3"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.8.2"
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$scriptKotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter:$scriptJunitVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$scriptKotlinVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-reflect:$scriptKotlinVersion")
     testImplementation("io.mockk:mockk:$scriptMockkVersion") {
         exclude(group: "org.jetbrains.kotlin")
     }

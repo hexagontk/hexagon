@@ -33,7 +33,6 @@ jmh {
 }
 
 dependencies {
-    val kotlinVersion = properties["kotlinVersion"]
     val junitVersion = properties["junitVersion"]
     val swaggerParserVersion = properties["swaggerParserVersion"]
     val gatlingVersion = properties["gatlingVersion"]
@@ -42,9 +41,9 @@ dependencies {
     api(project(":serialization"))
     api(project(":http_client"))
     api(project(":http_server"))
+    api("org.jetbrains.kotlin:kotlin-test")
     api("io.swagger.parser.v3:swagger-parser:$swaggerParserVersion")
     api("org.junit.jupiter:junit-jupiter:$junitVersion")
-    api("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
     api("io.gatling.highcharts:gatling-charts-highcharts:$gatlingVersion")
 
     testImplementation(project(":http_client_jetty"))

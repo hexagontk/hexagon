@@ -11,9 +11,6 @@ apply(from = "../gradle/detekt.gradle")
 description = "Hexagon CSV serialization format (using Jackson)."
 
 dependencies {
-    val jacksonVersion = properties["jacksonVersion"]
-
     api(project(":serialization_jackson"))
-
-    api("com.fasterxml.jackson.dataformat:jackson-dataformat-csv:$jacksonVersion")
+    api("com.fasterxml.jackson.dataformat:jackson-dataformat-csv")
 }
