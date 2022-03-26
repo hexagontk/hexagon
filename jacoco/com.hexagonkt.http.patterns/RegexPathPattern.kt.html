@@ -36,8 +36,9 @@
 <span class="fc" id="L36">            .mapIndexed { ii, v -&gt; ii.toString() to v }</span>
 <span class="fc" id="L37">            .toMap()</span>
 
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        return if (parameters.isEmpty()) allValues</span>
-<span class="pc bpc" id="L40" title="2 of 4 branches missed.">        else parameters.associateWith { result.groups[it]?.value ?: &quot;&quot; } + allValues</span>
+<span class="fc" id="L39">        val resultGroups = result.groups as MatchNamedGroupCollection</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        return if (parameters.isEmpty()) allValues</span>
+<span class="pc bpc" id="L41" title="2 of 4 branches missed.">        else parameters.associateWith { resultGroups[it]?.value ?: &quot;&quot; } + allValues</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

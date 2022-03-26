@@ -27,7 +27,7 @@ import com.hexagonkt.core.logging.LoggingLevel.*
      * @param type Logger type. It is shown in the logs messages and used for log filtering.
      */
     constructor(type: KClass&lt;*&gt;):
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        this(type.qualifiedName ?: error(&quot;Cannot get qualified name of $type&quot;))</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        this(type.qualifiedName ?: error(&quot;Cannot get qualified name of type&quot;))</span>
 
     /**
      * Log a message using [TRACE] level.

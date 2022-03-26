@@ -193,7 +193,7 @@ import org.eclipse.jetty.client.HttpClient as JettyHttpClient
 <span class="fc bfc" id="L193" title="All 2 branches covered.">                if (keyStore != null) {</span>
 <span class="fc" id="L194">                    val store = loadKeyStore(keyStore, sslSettings.keyStorePassword)</span>
 <span class="fc" id="L195">                    sslContextBuilder.keyStore = store</span>
-<span class="fc" id="L196">                    sslContextBuilder.setKeyStorePassword(sslSettings.keyStorePassword)</span>
+<span class="fc" id="L196">                    sslContextBuilder.keyStorePassword = sslSettings.keyStorePassword</span>
                 }
 
 <span class="fc bfc" id="L199" title="All 2 branches covered.">                if (trustStore != null) {</span>

@@ -35,7 +35,7 @@ fun checkHeaders(headers: MultiMap&lt;String, String&gt;) {
 <span class="fc bfc" id="L35" title="All 2 branches covered.">    check(invalidHeaders.isEmpty()) {</span>
 <span class="fc" id="L36">        val invalidHeadersText = invalidHeaders.joinToString(&quot;,&quot;) { &quot;'$it'&quot; }</span>
 
-        &quot;&quot;&quot;
+<span class="fc" id="L38">        &quot;&quot;&quot;</span>
         Special headers should be handled with their respective properties (i.e.: contentType)
 <span class="fc" id="L40">        instead setting them in the headers map. Ignored headers: $invalidHeadersText</span>
 <span class="fc" id="L41">        &quot;&quot;&quot;.trimIndent()</span>
