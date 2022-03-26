@@ -5,12 +5,6 @@ A simple CRUD example showing how to manage book resources. Here you can check t
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/BooksTest.kt?books
 
-# Session Example
-Example showing how to use sessions. Here you can check the
-[full test](https://github.com/hexagonkt/hexagon/blob/master/http_server/src/test/kotlin/com/hexagonkt/http/test/examples/SessionTest.kt).
-
-TODO Add example
-
 # Cookies Example
 Demo server to show the use of cookies. Here you can check the
 [full test](https://github.com/hexagonkt/hexagon/blob/master/http_server/src/test/kotlin/com/hexagonkt/http/test/examples/CookiesTest.kt).

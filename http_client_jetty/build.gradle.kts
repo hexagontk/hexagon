@@ -11,7 +11,8 @@ dependencies {
     val jettyVersion = properties["jettyVersion"]
 
     api(project(":http_client"))
-    api("org.eclipse.jetty:jetty-client:$jettyVersion")
+    api(platform("org.eclipse.jetty:jetty-bom:$jettyVersion"))
+    api("org.eclipse.jetty:jetty-client")
 
-    testImplementation("org.eclipse.jetty.websocket:websocket-jetty-client:$jettyVersion")
+    testImplementation("org.eclipse.jetty.websocket:websocket-jetty-client")
 }

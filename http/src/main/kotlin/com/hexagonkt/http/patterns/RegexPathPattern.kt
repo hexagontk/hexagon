@@ -36,7 +36,8 @@ data class RegexPathPattern(val regex: Regex) : PathPattern {
             .mapIndexed { ii, v -> ii.toString() to v }
             .toMap()
 
+        val resultGroups = result.groups as MatchNamedGroupCollection
         return if (parameters.isEmpty()) allValues
-        else parameters.associateWith { result.groups[it]?.value ?: "" } + allValues
+        else parameters.associateWith { resultGroups[it]?.value ?: "" } + allValues
     }
 }

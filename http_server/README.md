@@ -147,14 +147,6 @@ Check the following sample code for details:
 
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackCookie
 
-#### Sessions
-Every request has access to the session created on the server side, the `session` object provides
-the following methods:
-
-@code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?callbackSession
-
-<!-- TODO Explain how to set up using server features -->
-
 #### Compression
 <!-- TODO Explain how to set up using server features -->
 
@@ -328,8 +320,7 @@ If any authentication requirements are specified, they are validated as well.
 #### How to Use
 First, add the required dependencies:
 ```kotlin
-implementation("com.hexagonkt:http_server:$hexagonVersion:test")
-implementation("io.swagger.parser.v3:swagger-parser:$swaggerParserVersion")
+implementation("com.hexagonkt:http_test:$hexagonVersion")
 ```
 
 To create the mock server object:

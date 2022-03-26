@@ -27,7 +27,7 @@ class Logger(val name: String) {
      * @param type Logger type. It is shown in the logs messages and used for log filtering.
      */
     constructor(type: KClass<*>):
-        this(type.qualifiedName ?: error("Cannot get qualified name of $type"))
+        this(type.qualifiedName ?: error("Cannot get qualified name of type"))
 
     /**
      * Log a message using [TRACE] level.

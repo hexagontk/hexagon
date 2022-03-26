@@ -69,26 +69,30 @@ abstract class SamplesTest(
             get("/hello") { ok("Hello World!") }
         }
 
-        serve(serverAdapter(), listOf(path), settings).use { server ->
-            HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}")).use {
+        val runningServer = serve(serverAdapter(), listOf(path), settings)
+
+        // Servers implement closeable, you can use them inside a block assuring they will be closed
+        runningServer.use { s ->
+            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
                 it.start()
-                assert(server.started())
+                assert(s.started())
                 assertEquals("Hello World!", it.get("/context/hello").body)
             }
         }
 
         /*
-         * You can skip the adapter is you previously bound one
-         * You may also skip the settings and the defaults will be used
+         * You may skip the settings and the defaults will be used
          */
-        serve(serverAdapter(), listOf(path)).use { server ->
-            HttpClient(clientAdapter(), URL("http://localhost:${server.runtimePort}")).use {
+        val defaultSettingsServer = serve(serverAdapter(), listOf(path))
+        // serverCreation
+
+        defaultSettingsServer.use { s ->
+            HttpClient(clientAdapter(), URL("http://localhost:${s.runtimePort}")).use {
                 it.start()
-                assert(server.started())
+                assert(s.started())
                 assertEquals("Hello World!", it.get("/hello").body)
             }
         }
-        // serverCreation
     }
 
     @Test fun routesCreation() {

@@ -69,5 +69,5 @@ private void createIco(final String svg, final String ico, final int... widths) 
     final String icoPath = "$buildDir/$ico"
     exec { commandLine([ "convert", images, icoPath ].flatten().collect { it.toString() }) }
 
-    widths.each { new File("$buildDir/_${it}.png".toString()).delete() }
+    widths.each { new File("$buildDir/_${it}.png").delete() }
 }

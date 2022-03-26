@@ -1,6 +1,6 @@
 package com.hexagonkt.http.server.callbacks
 
-import com.hexagonkt.core.media.mediaTypeOf
+import com.hexagonkt.core.media.mediaTypeOfOrNull
 import com.hexagonkt.http.model.ContentType
 import com.hexagonkt.http.server.handlers.HttpServerContext
 import java.io.File
@@ -14,8 +14,8 @@ class FileCallback(private val file: File) : (HttpServerContext) -> HttpServerCo
         val file = file.resolve(requestPath).absoluteFile
         return if (file.exists()) {
             val bytes = file.readBytes()
-            val mediaType = mediaTypeOf(file)
-            context.ok(bytes, contentType = ContentType(mediaType))
+            val mediaType = mediaTypeOfOrNull(file)
+            context.ok(bytes, contentType = mediaType?.let { ContentType(it) })
         }
         else {
             context.notFound("File not found")

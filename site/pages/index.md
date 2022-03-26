@@ -83,12 +83,13 @@ Ports with their provided implementations (Adapters).
 
 | PORT                    | ADAPTERS                     |
 |-------------------------|------------------------------|
-| [HTTP Server]           | [Jetty], [Servlet]           |
+| [HTTP Server]           | [Netty], [Jetty], [Servlet]  |
 | [HTTP Client]           | [Jetty][Jetty Client]        |
 | [Templates]             | [Pebble], [FreeMarker]       |
 | [Serialization Formats] | [JSON], [YAML], [CSV], [XML] |
 
 [HTTP Server]: /http_server
+[Netty]: /http_server_netty
 [Jetty]: /http_server_jetty
 [Servlet]: /http_server_servlet
 [HTTP Client]: /http_client

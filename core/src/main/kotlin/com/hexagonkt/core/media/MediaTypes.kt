@@ -115,6 +115,7 @@ internal val extensions: Map<String, MediaType> = mapOf(
     "css" to TextMedia.CSS,
     "html" to TextMedia.HTML,
     "htm" to TextMedia.HTML,
+    "md" to TextMedia.MARKDOWN,
     "txt" to TextMedia.PLAIN,
     "log" to TextMedia.PLAIN,
     "rtx" to TextMedia.RICHTEXT,

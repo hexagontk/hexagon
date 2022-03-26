@@ -1,6 +1,12 @@
 package com.hexagonkt.core.logging
 
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.jupiter.api.Test
+import java.lang.IllegalStateException
+import kotlin.reflect.KClass
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
 
 internal class LoggerTest {
@@ -30,5 +36,12 @@ internal class LoggerTest {
     @Test fun `A logger for a custom name has the proper name`() {
         assert(Logger("name").name == "name")
         assert(Logger("name"::class).name == "kotlin.String")
+    }
+
+    @Test fun `Invalid class name raises error`() {
+        val kc = mockk<KClass<*>>()
+        every { kc.qualifiedName } returns null
+        val e = assertFailsWith<IllegalStateException> { Logger(kc) }
+        assertEquals("Cannot get qualified name of type", e.message)
     }
 }

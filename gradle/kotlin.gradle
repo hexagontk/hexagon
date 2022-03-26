@@ -11,7 +11,7 @@ apply(plugin: "maven-publish")
 defaultTasks("build")
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = sourceCompatibility
 }
 
@@ -35,15 +35,13 @@ repositories {
 }
 
 dependencies {
-    final String scriptKotlinVersion = findProperty("kotlinVersion") ?: "1.6.10"
-    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.12.2"
+    final String scriptMockkVersion = findProperty("mockkVersion") ?: "1.12.3"
     final String scriptJunitVersion = findProperty("junitVersion") ?: "5.8.2"
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$scriptKotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter:$scriptJunitVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$scriptKotlinVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-reflect:$scriptKotlinVersion")
     testImplementation("io.mockk:mockk:$scriptMockkVersion") {
         exclude(group: "org.jetbrains.kotlin")
     }
@@ -108,7 +106,7 @@ test {
     exclude("**/*IT.*")
 }
 
-task("verify", type: Test) {
+tasks.register("verify", Test) {
     group = "verification"
     description = "Runs integration tests."
 
@@ -166,7 +164,7 @@ task("jacocoReportSources") {
     }
 }
 
-task("sourcesJar", type: Jar) {
+tasks.register("sourcesJar", Jar) {
     group = "distribution"
     description = "Create a jar file with the source code files."
 
@@ -174,9 +172,10 @@ task("sourcesJar", type: Jar) {
     from(project.sourceSets.main.allSource)
 }
 
-task("testJar", type: Jar, dependsOn: testClasses) {
+tasks.register("testJar", Jar) {
     group = "distribution"
     description = "Create a jar file with the test classes."
+    dependsOn(testClasses)
 
     archiveClassifier.set("test")
     from(project.sourceSets.test.output.classesDirs)

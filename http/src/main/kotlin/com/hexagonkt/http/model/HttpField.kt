@@ -10,4 +10,6 @@ interface HttpField {
 
     fun value(): String? =
         values.firstOrNull()
+
+    operator fun plus(value: String)
 }

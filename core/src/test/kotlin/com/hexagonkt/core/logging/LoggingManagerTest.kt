@@ -2,7 +2,13 @@ package com.hexagonkt.core.logging
 
 import com.hexagonkt.core.logging.LoggingLevel.*
 import com.hexagonkt.core.logging.jul.JulLoggingAdapter
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.jupiter.api.Test
+import java.lang.IllegalStateException
+import kotlin.reflect.KClass
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -43,5 +49,16 @@ internal class LoggingManagerTest {
         assertTrue(chc.isLoggerLevelEnabled(INFO))
         assertTrue(chc.isLoggerLevelEnabled(DEBUG))
         assertTrue(chc.isLoggerLevelEnabled(TRACE))
+    }
+
+    @Test fun `Problem reading class name raises error`() {
+        val kc = mockk<KClass<*>>()
+        every { kc.qualifiedName } returns null
+
+        assertFailsWith<IllegalStateException> { LoggingManager.isLoggerLevelEnabled(kc, INFO) }
+            .apply { assertEquals("Cannot get qualified name of type", message) }
+
+        assertFailsWith<IllegalStateException> { LoggingManager.setLoggerLevel(kc, INFO) }
+            .apply { assertEquals("Cannot get qualified name of type", message) }
     }
 }

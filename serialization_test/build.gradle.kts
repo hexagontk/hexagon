@@ -11,10 +11,9 @@ apply(from = "../gradle/detekt.gradle")
 description = "Hexagon serialization testing helpers."
 
 dependencies {
-    val kotlinVersion = properties["kotlinVersion"]
     val junitVersion = properties["junitVersion"]
 
     api(project(":serialization"))
+    api("org.jetbrains.kotlin:kotlin-test")
     api("org.junit.jupiter:junit-jupiter:$junitVersion")
-    api("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
 }

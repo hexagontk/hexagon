@@ -11,8 +11,6 @@ apply(from = "../gradle/detekt.gradle")
 description = "Hexagon XML serialization format (using Jackson)."
 
 dependencies {
-    val jacksonVersion = properties["jacksonVersion"]
-
     api(project(":serialization_jackson"))
-    api("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+    api("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
 }
