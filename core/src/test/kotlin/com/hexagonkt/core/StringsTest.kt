@@ -3,7 +3,9 @@ package com.hexagonkt.core
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.text.prependIndent
 
 internal class StringsTest {
@@ -140,5 +142,12 @@ internal class StringsTest {
         assert("line 1\nline 2".prependIndent(1, "·*") == "·*line 1\n·*line 2")
         assert("line 1\nline 2".prependIndent(2, "·*") == "·*·*line 1\n·*·*line 2")
         assert("·*line 1\n·*line 2".prependIndent(2, "·*") == "·*·*·*line 1\n·*·*·*line 2")
+    }
+
+    @Test fun `ANSI testing`() {
+        val message = "${Ansi.RED_BG}${Ansi.BRIGHT_WHITE}${Ansi.UNDERLINE}ANSI${Ansi.RESET} normal"
+        val noAnsiMessage = message.stripAnsi()
+        assertNotEquals(message, noAnsiMessage)
+        assertContentEquals(noAnsiMessage.toByteArray(), "ANSI normal".toByteArray())
     }
 }

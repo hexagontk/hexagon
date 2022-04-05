@@ -8,16 +8,19 @@ import com.hexagonkt.core.logging.LoggingLevel.INFO
 import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingLevel.WARN
 import com.hexagonkt.core.logging.LoggingLevel.OFF
+import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.logging.LoggingPort
+import com.hexagonkt.core.stripAnsi
 import java.util.logging.Level
 import java.util.logging.Logger as JulLogger
 
 /**
  * Implements [LoggingPort] using [Logger][JulLogger].
  */
-class JulLoggingAdapter(useColor: Boolean = true) : LoggingPort {
+class JulLoggingAdapter(private val useColor: Boolean = LoggingManager.useColor) : LoggingPort {
 
     init {
+        LoggingManager.useColor = useColor
         val root = JulLogger.getLogger("")
 
         for (hnd in root.handlers)
@@ -38,7 +41,7 @@ class JulLoggingAdapter(useColor: Boolean = true) : LoggingPort {
             override fun log(level: LoggingLevel, message: () -> Any?) {
                 val julLevel = mapLevel(level)
                 if (log.isLoggable(julLevel))
-                    log.log(julLevel, message().toString())
+                    log.log(julLevel, color(message().toString()))
             }
 
             override fun <E : Throwable> log(
@@ -48,8 +51,12 @@ class JulLoggingAdapter(useColor: Boolean = true) : LoggingPort {
             ) {
                 val julLevel = mapLevel(level)
                 if (log.isLoggable(julLevel))
-                    log.log(julLevel, message(exception).toString(), exception)
+                    log.log(julLevel, color(message(exception).toString()), exception)
             }
+
+            private fun color(message: String): String =
+                if (useColor) message
+                else message.stripAnsi()
         }
 
     override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =

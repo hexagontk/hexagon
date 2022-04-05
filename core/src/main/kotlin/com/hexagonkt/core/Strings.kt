@@ -138,6 +138,9 @@ fun String.banner(bannerDelimiter: String = "*"): String =
         )
         .let { "$it$eol$this$eol$it" }
 
+fun String.stripAnsi(): String =
+    replace(Ansi.regex, "")
+
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *

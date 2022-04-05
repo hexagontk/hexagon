@@ -14,9 +14,9 @@ import com.hexagonkt.core.logging.LoggingPort
 import com.hexagonkt.core.logging.jul.JulLoggingAdapter
 import org.slf4j.LoggerFactory
 
-class LogbackLoggingAdapter(useColor: Boolean = true) : LoggingPort {
+class LogbackLoggingAdapter : LoggingPort {
 
-    private val julLoggingAdapter = JulLoggingAdapter(useColor)
+    private val julLoggingAdapter = JulLoggingAdapter()
 
     override fun createLogger(name: String): LoggerPort =
         julLoggingAdapter.createLogger(name)

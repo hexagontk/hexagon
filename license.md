@@ -32,7 +32,6 @@ SOFTWARE.
 * [org.eclipse.jetty:webapp](https://www.eclipse.org/jetty): [Eclipse Public License, Version 2.0]
 * [org.freemarker](https://freemarker.apache.org): [Apache License, Version 2.0]
 * [org.jetbrains.kotlin](https://kotlinlang.org): [Apache License, Version 2.0]
-* [org.jetbrains.kotlinx:kotlinx-coroutines](https://kotlinlang.org): [Apache License, Version 2.0]
 * [org.junit.jupiter](https://junit.org/junit5): [Eclipse Public License, Version 2.0]
 * [org.slf4j](https://www.slf4j.org): [MIT License]
 * [org.yaml](https://www.snakeyaml.org): [Apache License, Version 2.0]

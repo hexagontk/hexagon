@@ -20,11 +20,6 @@
         <artifactId>kotlin-reflect</artifactId>
         <version>${kotlin.version}</version>
       </dependency>
-      <dependency>
-        <groupId>org.jetbrains.kotlinx</groupId>
-        <artifactId>kotlinx-coroutines-core</artifactId>
-        <version>${coroutines.version}</version>
-      </dependency>
 
       <!-- Hexagon -->
       <dependency>
@@ -113,11 +108,6 @@
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-test</artifactId>
         <version>${kotlin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jetbrains.kotlinx</groupId>
-        <artifactId>kotlinx-coroutines-test</artifactId>
-        <version>${coroutines.version}</version>
       </dependency>
       <dependency>
         <groupId>io.mockk</groupId>
@@ -257,7 +247,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.7</version>
+          <version>0.8.8</version>
           <executions>
             <execution>
               <goals>

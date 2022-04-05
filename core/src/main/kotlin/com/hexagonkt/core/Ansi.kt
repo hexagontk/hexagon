@@ -5,6 +5,9 @@ package com.hexagonkt.core
  * codes. They can be used in strings to enable or disable a display option.
  */
 object Ansi {
+    /** Regex that matches ANSI escape sequences. */
+    val regex: Regex = """\u001B\[\d+?m""".toRegex()
+
     /** Disable all options applied before. */
     const val RESET = "\u001B[0m"
 
