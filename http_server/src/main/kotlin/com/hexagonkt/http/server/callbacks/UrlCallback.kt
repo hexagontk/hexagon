@@ -9,6 +9,8 @@ import java.net.URL
 class UrlCallback(private val url: URL) : (HttpServerContext) -> HttpServerContext {
 
     override fun invoke(context: HttpServerContext): HttpServerContext {
+        // TODO Allow targeting a single file if no path parameter is found
+        // TODO Trim starting backslashes
         val requestPath = context.pathParameters["0"]
             ?: error("URL loading require a single path parameter")
 

@@ -8,6 +8,8 @@ import java.io.File
 class FileCallback(private val file: File) : (HttpServerContext) -> HttpServerContext {
 
     override fun invoke(context: HttpServerContext): HttpServerContext {
+        // TODO Allow targeting a single file if no path parameter is found
+        // TODO Trim starting backslashes
         val requestPath = context.pathParameters["0"]
             ?: error("File loading require a single path parameter")
 

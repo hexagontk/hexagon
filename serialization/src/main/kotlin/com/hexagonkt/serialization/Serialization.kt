@@ -38,3 +38,16 @@ fun File.parse(): Any =
 
 fun URL.parse(): Any =
     this.openStream().parse(mediaTypeOf(this))
+
+// TODO Add `parseMap` and `parseList` helpers
+fun URL.parseMap(): Map<*, *> =
+    this.parse().castToMap()
+
+fun URL.parseList(): List<*> =
+    this.parse().castToList()
+
+private fun Any?.castToMap(): Map<*, *> =
+    this as? Map<*, *> ?: error("")
+
+private fun Any?.castToList(): List<*> =
+    this as? List<*> ?: error("")

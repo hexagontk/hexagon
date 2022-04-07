@@ -78,7 +78,7 @@ tasks.compileJava.doFirst {
 }
 
 tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
 }
 
 sourceSets.main.java.srcDirs = sourceSets.main.kotlin.srcDirs
@@ -94,11 +94,11 @@ clean {
     delete("build", "log", "out", ".vertx", "file-uploads")
 
     delete(
-        fileTree(rootDir) { include "**/*.log" },
-        fileTree(rootDir) { include "**/*.hprof" },
-        fileTree(rootDir) { include "**/*.build_artifacts.txt" },
-        fileTree(rootDir) { include "**/.attach_pid*" },
-        fileTree(rootDir) { include "**/hs_err_pid*" }
+        fileTree(rootDir) { include("**/*.log") },
+        fileTree(rootDir) { include("**/*.hprof") },
+        fileTree(rootDir) { include("**/*.build_artifacts.txt") },
+        fileTree(rootDir) { include("**/.attach_pid*") },
+        fileTree(rootDir) { include("**/hs_err_pid*") }
     )
 }
 
@@ -134,7 +134,7 @@ jacoco {
     toolVersion = "0.8.8"
 }
 
-jacocoTestReport {
+tasks.jacocoTestReport {
     dependsOn("check", "jacocoReportSources")
 
     reports {
@@ -143,7 +143,7 @@ jacocoTestReport {
     }
 }
 
-build.dependsOn("jacocoTestReport")
+build.dependsOn(tasks.jacocoTestReport)
 
 task("jacocoReportSources") {
     group = "verification"
