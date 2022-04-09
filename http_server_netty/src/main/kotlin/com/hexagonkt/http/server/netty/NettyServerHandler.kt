@@ -49,6 +49,7 @@ internal class NettyServerHandler(
         }
     }
 
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun exceptionCaught(context: ChannelHandlerContext, cause: Throwable) {
         val body = "Failure: $cause\n"
         val response = HttpServerResponse(body, status = ServerErrorStatus.INTERNAL_SERVER_ERROR)

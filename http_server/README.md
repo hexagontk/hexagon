@@ -194,6 +194,8 @@ halted, if the error code is returned with `send` it won't be handled as an erro
 You can handle exceptions of a given type for all routes and filters. The handler allows you to
 refer to the thrown exception. Look at the following code for a detailed example:
 
+TODO add `exceptionHandler` usage and example
+
 @code http_test/src/main/kotlin/com/hexagonkt/http/test/examples/SamplesTest.kt?exceptions
 
 ### Static Files
