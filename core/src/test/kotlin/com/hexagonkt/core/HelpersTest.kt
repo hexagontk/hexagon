@@ -220,6 +220,44 @@ internal class HelpersTest {
         )
     }
 
+    @Test fun `Filtered collections do not contain nested empty elements`() {
+        assertEquals(
+            mapOf(
+                "a" to "b",
+                "c" to 1,
+                "d" to listOf(1, 2),
+                "f" to mapOf(0 to 1),
+                "h" to mapOf("a" to true),
+                "m" to listOf(
+                    mapOf("a" to 1, "b" to "c"),
+                ),
+            ),
+            mapOf(
+                "a" to "b",
+                "b" to null,
+                "c" to 1,
+                "d" to listOf(1, 2),
+                "e" to listOf<String>(),
+                "f" to mapOf(0 to 1),
+                "g" to mapOf<String, Int>(),
+                "h" to mapOf("a" to true, "b" to null).filterEmpty(),
+                "i" to mapOf("a" to listOf<Int>()).filterEmpty(),
+                "j" to listOf(null, null),
+                "k" to mapOf("a" to null, "b" to null),
+                "l" to listOf(
+                    null,
+                    listOf(null),
+                    mapOf("a" to null, "b" to null),
+                ),
+                "m" to listOf(
+                    null,
+                    mapOf("a" to 1, "b" to "c", "z" to null),
+                    null,
+                ),
+            ).filterEmptyRecursive()
+        )
+    }
+
     @Test fun `'fail' generates the correct exception`() {
         assertFailsWith<IllegalStateException>("Invalid state") {
             fail

@@ -322,6 +322,38 @@ fun <V> List<V?>.filterEmpty(): List<V> =
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
+ * @receiver .
+ * @return .
+ */
+fun Map<*, *>.filterEmptyRecursive(): Map<*, *> =
+    mapValues { (_, v) ->
+        when (v) {
+            is List<*> -> v.filterEmptyRecursive()
+            is Map<*, *> -> v.filterEmptyRecursive()
+            else -> v
+        }
+    }
+    .filterEmpty()
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
+fun List<*>.filterEmptyRecursive(): List<*> =
+    map {
+        when (it) {
+            is List<*> -> it.filterEmptyRecursive()
+            is Map<*, *> -> it.filterEmptyRecursive()
+            else -> it
+        }
+    }
+    .filterEmpty()
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
  * @param value .
  * @return .
  */
