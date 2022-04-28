@@ -469,7 +469,7 @@ Thanks to all project's [contributors]!
 [issues]: https://github.com/hexagonkt/hexagon/issues
 [reactions]: https://github.com/blog/2119-add-reactions-to-pull-requests-issues-and-comments
 [contributing]: https://github.com/hexagonkt/hexagon/contribute
-[Organization Board]: https://github.com/orgs/hexagonkt/projects/1
+[Organization Board]: https://github.com/orgs/hexagonkt/projects/2
 [contributors]: https://github.com/hexagonkt/hexagon/graphs/contributors
 [CodeTriage]: https://www.codetriage.com/hexagonkt/hexagon
 

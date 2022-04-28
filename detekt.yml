@@ -109,21 +109,6 @@ exceptions:
       - Throwable
       - RuntimeException
 
-formatting:
-  Indentation:
-    active: true
-    indentSize: 4
-    continuationIndentSize: 4
-  MaximumLineLength:
-    active: true
-    maxLineLength: 100
-  SpacingAroundDoubleColon:
-    active: true
-  SpacingBetweenDeclarationsWithAnnotations:
-    active: true
-  SpacingBetweenDeclarationsWithComments:
-    active: true
-
 naming:
   FunctionMaxLength:
     active: true
