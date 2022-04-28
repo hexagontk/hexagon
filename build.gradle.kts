@@ -59,7 +59,6 @@ task("setUp") {
         """.trimIndent() + "\n")
         prePush.setExecutable(true)
 
-        exec { commandLine("docker version".split(" ")) }
         exec { commandLine("git config commit.template ../.github/commit_template.txt".split(" ")) }
     }
 }
