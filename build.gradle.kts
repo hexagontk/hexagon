@@ -17,13 +17,13 @@ import com.github.jk1.license.render.ReportRenderer
  */
 
 plugins {
-    kotlin("jvm") version("1.6.20") apply(false)
+    kotlin("jvm") version("1.6.21") apply(false)
 
     id("idea")
     id("eclipse")
-    id("org.jetbrains.dokka") version("1.6.10")
-    id("com.github.jk1.dependency-license-report") version("2.0")
-    id("io.gitlab.arturbosch.detekt") version("1.19.0") apply(false)
+    id("org.jetbrains.dokka") version("1.6.21")
+    id("com.github.jk1.dependency-license-report") version("2.1")
+    id("io.gitlab.arturbosch.detekt") version("1.20.0") apply(false)
     id("me.champeau.jmh") version("0.6.6") apply(false)
 }
 
