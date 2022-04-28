@@ -241,7 +241,7 @@ fun <Z> Collection<Z>.ensureSize(count: IntRange): Collection<Z> = this.apply {
  * @return .
  */
 @Suppress("UNCHECKED_CAST")
-fun <T : Any> Map<*, *>.keys(vararg keys: Any): T? {
+inline fun <reified T : Any> Map<*, *>.keys(vararg keys: Any): T? {
 
     val mappedKeys = keys.map {
         when (it) {
@@ -269,7 +269,7 @@ fun <T : Any> Map<*, *>.keys(vararg keys: Any): T? {
  * @param keys .
  * @return .
  */
-operator fun <T : Any> Map<*, *>.invoke(vararg keys: Any): T? =
+inline operator fun <reified T : Any> Map<*, *>.invoke(vararg keys: Any): T? =
     keys(*keys)
 
 /**
@@ -279,7 +279,7 @@ operator fun <T : Any> Map<*, *>.invoke(vararg keys: Any): T? =
  * @param name .
  * @return .
  */
-fun <T : Any> Map<*, *>.requireKeys(vararg name: Any): T =
+inline fun <reified T : Any> Map<*, *>.requireKeys(vararg name: Any): T =
     this.keys(*name) ?: error("$name required key not found")
 
 /**
@@ -318,6 +318,38 @@ fun <K, V> Map<K, V?>.filterEmpty(): Map<K, V> =
  */
 fun <V> List<V?>.filterEmpty(): List<V> =
     this.filter(::notEmpty).map { it ?: fail }
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
+fun Map<*, *>.filterEmptyRecursive(): Map<*, *> =
+    mapValues { (_, v) ->
+        when (v) {
+            is List<*> -> v.filterEmptyRecursive()
+            is Map<*, *> -> v.filterEmptyRecursive()
+            else -> v
+        }
+    }
+    .filterEmpty()
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
+fun List<*>.filterEmptyRecursive(): List<*> =
+    map {
+        when (it) {
+            is List<*> -> it.filterEmptyRecursive()
+            is Map<*, *> -> it.filterEmptyRecursive()
+            else -> it
+        }
+    }
+    .filterEmpty()
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).

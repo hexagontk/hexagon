@@ -9,9 +9,9 @@ import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger as Slf4jLogger
 
-class Slf4jJulLoggingAdapter(useColor: Boolean = true) : LoggingPort {
+class Slf4jJulLoggingAdapter : LoggingPort {
 
-    private val julLoggingAdapter = JulLoggingAdapter(useColor)
+    private val julLoggingAdapter = JulLoggingAdapter()
 
     override fun createLogger(name: String): LoggerPort =
         object : LoggerPort {

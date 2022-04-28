@@ -18,6 +18,7 @@ import io.netty.bootstrap.ServerBootstrap
 import io.netty.channel.Channel
 import io.netty.channel.ChannelInitializer
 import io.netty.channel.ChannelOption
+import io.netty.channel.MultithreadEventLoopGroup
 import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
@@ -40,7 +41,7 @@ import kotlin.Int.Companion.MAX_VALUE
  * TODO Add HTTP/2 support: https://www.baeldung.com/netty-http2
  * TODO Add SSE support: https://github.com/marcusyates/netty-sse-example
  */
-class NettyServerAdapter(
+open class NettyServerAdapter(
     private val bossGroupThreads: Int = 1,
     private val workerGroupThreads: Int = 0,
     private val executorThreads: Int = Jvm.cpuCount * 2,
@@ -50,8 +51,8 @@ class NettyServerAdapter(
 ) : HttpServerPort {
 
     private var nettyChannel: Channel? = null
-    private var bossEventLoop: NioEventLoopGroup? = null
-    private var workerEventLoop: NioEventLoopGroup? = null
+    private var bossEventLoop: MultithreadEventLoopGroup? = null
+    private var workerEventLoop: MultithreadEventLoopGroup? = null
 
     constructor() : this(
         bossGroupThreads = 1,
@@ -70,14 +71,13 @@ class NettyServerAdapter(
         nettyChannel?.isOpen ?: false
 
     override fun startUp(server: HttpServer) {
-        val bossGroup = NioEventLoopGroup(bossGroupThreads)
-        val workerGroup = NioEventLoopGroup(workerGroupThreads)
+        val bossGroup = groupSupplier(bossGroupThreads)
+        val workerGroup = groupSupplier(workerGroupThreads)
         val executorGroup =
             if (executorThreads > 0) DefaultEventExecutorGroup(executorThreads)
             else null
 
         try {
-            val nettyServer = ServerBootstrap()
             val settings = server.settings
             val sslSettings = settings.sslSettings
             val handlers: Map<HttpMethod, PathHandler> =
@@ -85,13 +85,7 @@ class NettyServerAdapter(
                     .byMethod()
                     .mapKeys { HttpMethod.valueOf(it.key.toString()) }
 
-            nettyServer.group(bossGroup, workerGroup)
-                .channel(NioServerSocketChannel::class.java)
-//                .option(EpollChannelOption.SO_REUSEPORT, true)
-                .option(ChannelOption.SO_BACKLOG, soBacklog)
-                .option(ChannelOption.SO_REUSEADDR, soReuseAddr)
-                .childOption(ChannelOption.SO_KEEPALIVE, soKeepAlive)
-                .childOption(ChannelOption.SO_REUSEADDR, soReuseAddr)
+            val nettyServer = serverBootstrapSupplier(bossGroup, workerGroup)
                 .childHandler(createInitializer(sslSettings, handlers, executorGroup, settings))
 
             val address = settings.bindAddress
@@ -108,6 +102,20 @@ class NettyServerAdapter(
             executorGroup?.shutdownGracefully()
         }
     }
+
+    open fun groupSupplier(it: Int): MultithreadEventLoopGroup =
+        NioEventLoopGroup(it)
+
+    open fun serverBootstrapSupplier(
+        bossGroup: MultithreadEventLoopGroup,
+        workerGroup: MultithreadEventLoopGroup,
+    ): ServerBootstrap =
+        ServerBootstrap().group(bossGroup, workerGroup)
+            .channel(NioServerSocketChannel::class.java)
+            .option(ChannelOption.SO_BACKLOG, soBacklog)
+            .option(ChannelOption.SO_REUSEADDR, soReuseAddr)
+            .childOption(ChannelOption.SO_KEEPALIVE, soKeepAlive)
+            .childOption(ChannelOption.SO_REUSEADDR, soReuseAddr)
 
     private fun createInitializer(
         sslSettings: SslSettings?,

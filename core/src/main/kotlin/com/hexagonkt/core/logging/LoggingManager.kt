@@ -7,6 +7,7 @@ import kotlin.reflect.KClass
  * Manages Logs using [JulLoggingAdapter]
  */
 object LoggingManager {
+    var useColor: Boolean = true
     var adapter: LoggingPort = JulLoggingAdapter()
 
     /**

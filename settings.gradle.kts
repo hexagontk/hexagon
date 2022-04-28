@@ -28,6 +28,7 @@ include(
     "http_server_servlet",
     "http_server_jetty",
     "http_server_netty",
+    "http_server_netty_epoll",
     "templates_pebble",
     "templates_freemarker",
 
