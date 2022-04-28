@@ -88,11 +88,6 @@ alternatives:
 [Java Util Logging]:
 https://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html
 
-```mermaid
-graph
-A --> B
-```
-
 # Package com.hexagonkt.core.logging.jul
 TODO
 
