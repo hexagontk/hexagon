@@ -35,43 +35,80 @@ internal class StringsTest {
         assertEquals(data, String(decodedData))
     }
 
+    @Test fun `Filter variables returns the given string if no parameters are set` () {
+        val template = "User #{user}"
+
+        assert (template.filterVars(mapOf<Any, Any>()) == template)
+        assert (template.filterVars() == template)
+    }
+
+    @Test fun `Filter variables returns the same string if no variables are defined in it` () {
+        val template = "User no vars"
+
+        assert (template.filterVars() == template)
+        assert (template.filterVars("vars" to "value") == template)
+        assert (template.filterVars(mapOf<Any, Any>()) == template)
+    }
+
+    @Test fun `Filter variables returns the same string if variable values are not found` () {
+        val template = "User #{user}"
+
+        assert (template.filterVars("key" to "value") == template)
+    }
+
+    @Test fun `Filter variables ignores empty parameters` () {
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars(
+            "" to "John",
+            "email" to "john@example.co"
+        )
+
+        assert(result == "john@example.co: User {{user}} aka {{user}} <john@example.co>")
+    }
+
+    @Test fun `Filter variables replaces all occurrences of variables with their values` () {
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars(
+            "user" to "John",
+            "email" to "john@example.co"
+        )
+
+        assert(result == "john@example.co: User John aka John <john@example.co>")
+    }
+
     @Test fun `Filter returns the given string if no parameters are set` () {
         val template = "User #{user}"
 
-        assert (template.filterVars(mapOf<Any, Any> ()) == template)
-        assert (template.filterVars() == template)
+        assert(template.filter("#{", "}") == template)
     }
 
     @Test fun `Filter returns the same string if no variables are defined in it` () {
         val template = "User no vars"
 
-        assert (template.filterVars () == template)
-        assert (template.filterVars ("vars" to "value") == template)
-        assert (template.filterVars (mapOf<Any, Any> ()) == template)
+        assert(template.filter("#{", "}") == template)
+        assert(template.filter("#{", "}", "vars" to "value") == template)
     }
 
     @Test fun `Filter returns the same string if variable values are not found` () {
         val template = "User #{user}"
 
-        assert (template.filterVars ("key" to "value") == template)
+        assert(template.filter("#{", "}", "key" to "value") == template)
     }
 
     @Test fun `Filter ignores empty parameters` () {
-        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars (
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filter("{{", "}}",
             "" to "John",
             "email" to "john@example.co"
         )
 
-        assert (result == "john@example.co: User {{user}} aka {{user}} <john@example.co>")
+        assertEquals("john@example.co: User {{user}} aka {{user}} <john@example.co>", result)
     }
 
     @Test fun `Filter replaces all occurrences of variables with their values` () {
-        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filterVars (
+        val result = "{{email}}: User {{user}} aka {{user}} <{{email}}>".filter("{{", "}}",
             "user" to "John",
             "email" to "john@example.co"
         )
 
-        assert (result == "john@example.co: User John aka John <john@example.co>")
+        assertEquals("john@example.co: User John aka John <john@example.co>", result)
     }
 
     @Test fun `Converting empty text to camel case fails` () {

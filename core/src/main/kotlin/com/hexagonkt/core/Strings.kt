@@ -54,14 +54,14 @@ fun String.decodeBase64(): ByteArray =
  * @sample com.hexagonkt.core.StringsSamplesTest.filterVarsExample
  */
 fun String.filterVars(parameters: Map<*, *>): String =
-    parameters.entries
-        .asSequence()
-        .filter { it.key.toString().isNotEmpty() }
-        .fold(this) { result, pair ->
-            val key = pair.key.toString()
-            val value = pair.value.toString()
-            result.replace("$VARIABLE_PREFIX$key$VARIABLE_SUFFIX", value)
-        }
+    this.filter(
+        VARIABLE_PREFIX,
+        VARIABLE_SUFFIX,
+        *parameters
+            .filterKeys { it != null }
+            .map { (k, v) -> k.toString() to v.toString() }
+            .toTypedArray()
+    )
 
 /**
  * Filter the target string substituting each key by its value. The keys format resembles Mustache's
@@ -87,9 +87,9 @@ fun String.filterVars(vararg parameters: Pair<*, *>) =
  * @param parameters .
  * @return .
  */
-fun String.filter(prefix: String, suffix: String, vararg parameters: Pair<String, String>): String =
+fun String.filter(prefix: String, suffix: String, vararg parameters: Pair<String, *>): String =
     parameters.fold(this) { result, (first, second) ->
-        result.replace(prefix + first + suffix, second)
+        result.replace(prefix + first + suffix, second.toString())
     }
 
 /**
