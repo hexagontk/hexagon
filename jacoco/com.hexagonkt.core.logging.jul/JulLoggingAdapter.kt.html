@@ -8,60 +8,67 @@ import com.hexagonkt.core.logging.LoggingLevel.INFO
 import com.hexagonkt.core.logging.LoggingLevel.TRACE
 import com.hexagonkt.core.logging.LoggingLevel.WARN
 import com.hexagonkt.core.logging.LoggingLevel.OFF
+import com.hexagonkt.core.logging.LoggingManager
 import com.hexagonkt.core.logging.LoggingPort
+import com.hexagonkt.core.stripAnsi
 import java.util.logging.Level
 import java.util.logging.Logger as JulLogger
 
 /**
  * Implements [LoggingPort] using [Logger][JulLogger].
  */
-<span class="fc" id="L18">class JulLoggingAdapter(useColor: Boolean = true) : LoggingPort {</span>
+<span class="fc" id="L20">class JulLoggingAdapter(private val useColor: Boolean = LoggingManager.useColor) : LoggingPort {</span>
 
-<span class="fc" id="L20">    init {</span>
-<span class="fc" id="L21">        val root = JulLogger.getLogger(&quot;&quot;)</span>
+<span class="fc" id="L22">    init {</span>
+<span class="fc" id="L23">        LoggingManager.useColor = useColor</span>
+<span class="fc" id="L24">        val root = JulLogger.getLogger(&quot;&quot;)</span>
 
-<span class="fc bfc" id="L23" title="All 2 branches covered.">        for (hnd in root.handlers)</span>
-<span class="fc" id="L24">            root.removeHandler(hnd)</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (hnd in root.handlers)</span>
+<span class="fc" id="L27">            root.removeHandler(hnd)</span>
 
-<span class="fc" id="L26">        root.addHandler(SystemOutHandler(PatternFormat(useColor)))</span>
-<span class="fc" id="L27">        root.level = Level.INFO</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L29">        root.addHandler(SystemOutHandler(PatternFormat(useColor)))</span>
+<span class="fc" id="L30">        root.level = Level.INFO</span>
+<span class="fc" id="L31">    }</span>
 
     override fun setLoggerLevel(name: String, level: LoggingLevel) {
-<span class="fc" id="L31">        JulLogger.getLogger(name).level = mapLevel(level)</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L34">        JulLogger.getLogger(name).level = mapLevel(level)</span>
+<span class="fc" id="L35">    }</span>
 
     override fun createLogger(name: String): LoggerPort =
-<span class="fc" id="L35">        object : LoggerPort {</span>
-<span class="pc" id="L36">            val log: JulLogger = JulLogger.getLogger(name)</span>
+<span class="fc" id="L38">        object : LoggerPort {</span>
+<span class="pc" id="L39">            val log: JulLogger = JulLogger.getLogger(name)</span>
 
             override fun log(level: LoggingLevel, message: () -&gt; Any?) {
-<span class="fc" id="L39">                val julLevel = mapLevel(level)</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
-<span class="fc" id="L41">                    log.log(julLevel, message().toString())</span>
-<span class="fc" id="L42">            }</span>
+<span class="fc" id="L42">                val julLevel = mapLevel(level)</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
+<span class="fc" id="L44">                    log.log(julLevel, color(message().toString()))</span>
+<span class="fc" id="L45">            }</span>
 
             override fun &lt;E : Throwable&gt; log(
                 level: LoggingLevel,
                 exception: E,
                 message: (E) -&gt; Any?,
             ) {
-<span class="fc" id="L49">                val julLevel = mapLevel(level)</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
-<span class="fc" id="L51">                    log.log(julLevel, message(exception).toString(), exception)</span>
-<span class="fc" id="L52">            }</span>
-<span class="fc" id="L53">        }</span>
+<span class="fc" id="L52">                val julLevel = mapLevel(level)</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                if (log.isLoggable(julLevel))</span>
+<span class="fc" id="L54">                    log.log(julLevel, color(message(exception).toString()), exception)</span>
+<span class="fc" id="L55">            }</span>
+
+            private fun color(message: String): String =
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">                if (useColor) message</span>
+<span class="pc" id="L59">                else message.stripAnsi()</span>
+<span class="fc" id="L60">        }</span>
 
     override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
-<span class="fc" id="L56">        JulLogger.getLogger(name).isLoggable(mapLevel(level))</span>
+<span class="fc" id="L63">        JulLogger.getLogger(name).isLoggable(mapLevel(level))</span>
 
-<span class="fc bfc" id="L58" title="All 6 branches covered.">    internal fun mapLevel(level: LoggingLevel): Level = when (level) {</span>
-<span class="fc" id="L59">        TRACE -&gt; Level.FINER</span>
-<span class="fc" id="L60">        DEBUG -&gt; Level.FINE</span>
-<span class="fc" id="L61">        INFO -&gt; Level.INFO</span>
-<span class="fc" id="L62">        WARN -&gt; Level.WARNING</span>
-<span class="fc" id="L63">        ERROR -&gt; Level.SEVERE</span>
-<span class="fc" id="L64">        OFF -&gt; Level.OFF</span>
-<span class="fc" id="L65">    }</span>
-<span class="fc" id="L66">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+<span class="fc bfc" id="L65" title="All 6 branches covered.">    internal fun mapLevel(level: LoggingLevel): Level = when (level) {</span>
+<span class="fc" id="L66">        TRACE -&gt; Level.FINER</span>
+<span class="fc" id="L67">        DEBUG -&gt; Level.FINE</span>
+<span class="fc" id="L68">        INFO -&gt; Level.INFO</span>
+<span class="fc" id="L69">        WARN -&gt; Level.WARNING</span>
+<span class="fc" id="L70">        ERROR -&gt; Level.SEVERE</span>
+<span class="fc" id="L71">        OFF -&gt; Level.OFF</span>
+<span class="fc" id="L72">    }</span>
+<span class="fc" id="L73">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

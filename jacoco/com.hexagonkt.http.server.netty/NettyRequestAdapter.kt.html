@@ -16,7 +16,7 @@ import java.net.URI
 import java.security.cert.X509Certificate
 import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 
-<span class="pc" id="L19">class NettyRequestAdapter(</span>
+<span class="fc" id="L19">class NettyRequestAdapter(</span>
     methodName: NettyHttpMethod,
     req: FullHttpRequest,
 <span class="fc" id="L22">    override val certificateChain: List&lt;X509Certificate&gt;,</span>
@@ -109,4 +109,4 @@ import io.netty.handler.codec.http.HttpMethod as NettyHttpMethod
 <span class="pc bpc" id="L109" title="1 of 2 branches missed.">        req.headers()[CONTENT_TYPE]?.let { parseContentType(it) }</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

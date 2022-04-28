@@ -38,4 +38,17 @@ fun File.parse(): Any =
 
 fun URL.parse(): Any =
 <span class="fc" id="L40">    this.openStream().parse(mediaTypeOf(this))</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+
+// TODO Add `parseMap` and `parseList` helpers
+fun URL.parseMap(): Map&lt;*, *&gt; =
+<span class="nc" id="L44">    this.parse().castToMap()</span>
+
+fun URL.parseList(): List&lt;*&gt; =
+<span class="nc" id="L47">    this.parse().castToList()</span>
+
+private fun Any?.castToMap(): Map&lt;*, *&gt; =
+<span class="nc bnc" id="L50" title="All 4 branches missed.">    this as? Map&lt;*, *&gt; ?: error(&quot;&quot;)</span>
+
+private fun Any?.castToList(): List&lt;*&gt; =
+<span class="nc bnc" id="L53" title="All 4 branches missed.">    this as? List&lt;*&gt; ?: error(&quot;&quot;)</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

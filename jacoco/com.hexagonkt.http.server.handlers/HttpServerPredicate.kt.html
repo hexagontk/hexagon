@@ -62,7 +62,7 @@ import kotlin.reflect.KClass
 <span class="fc" id="L62">        else pathPattern.matches(context.event.request.path)</span>
 
     private fun filterException(context: Context&lt;HttpServerCall&gt;): Boolean {
-<span class="fc bfc" id="L65" title="All 4 branches covered.">        val exceptionClass = context.exception?.javaClass ?: return false</span>
+<span class="pc bpc" id="L65" title="1 of 4 branches missed.">        val exceptionClass = context.exception?.javaClass ?: return false</span>
 <span class="pc bpc" id="L66" title="2 of 4 branches missed.">        return exception?.java?.isAssignableFrom(exceptionClass) ?: false</span>
     }
 
@@ -90,4 +90,4 @@ import kotlin.reflect.KClass
 <span class="fc" id="L90">                transform = { it }</span>
 <span class="fc" id="L91">            )</span>
 <span class="fc" id="L92">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

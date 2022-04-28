@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest
 <span class="fc" id="L8">internal class ServletRequestAdapterSync(req: HttpServletRequest) : ServletRequestAdapter(req) {</span>
 
 <span class="fc" id="L10">    private val parameters: Map&lt;String, List&lt;String&gt;&gt; by lazy {</span>
-<span class="pc bpc" id="L11" title="1 of 2 branches missed.">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
+<span class="fc" id="L11">        req.parameterMap.map { it.key as String to it.value.toList() }.toMap()</span>
     }
 
 <span class="fc" id="L14">    override val parts: List&lt;HttpPartPort&gt; by lazy {</span>
@@ -27,4 +27,4 @@ import jakarta.servlet.http.HttpServletRequest
 <span class="fc" id="L27">        req.inputStream.readAllBytes()</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

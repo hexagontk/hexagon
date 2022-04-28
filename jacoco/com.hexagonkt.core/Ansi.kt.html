@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ansi.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">site</a> &gt; <a href="index.source.html" class="el_package">com.hexagonkt.core</a> &gt; <span class="el_source">Ansi.kt</span></div><h1>Ansi.kt</h1><pre class="source lang-java linenums">package com.hexagonkt.core
+
+/**
+ * Constants for console formatting with [ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code)
+ * codes. They can be used in strings to enable or disable a display option.
+ */
+object Ansi {
+    /** Regex that matches ANSI escape sequences. */
+<span class="fc" id="L9">    val regex: Regex = &quot;&quot;&quot;\u001B\[\d+?m&quot;&quot;&quot;.toRegex()</span>
+
+    /** Disable all options applied before. */
+    const val RESET = &quot;\u001B[0m&quot;
+
+    /** Set black as the foreground color. */
+    const val BLACK = &quot;\u001B[30m&quot;
+    /** Set red as the foreground color. */
+    const val RED = &quot;\u001B[31m&quot;
+    /** Set green as the foreground color. */
+    const val GREEN = &quot;\u001B[32m&quot;
+    /** Set yellow as the foreground color. */
+    const val YELLOW = &quot;\u001B[33m&quot;
+    /** Set blue as the foreground color. */
+    const val BLUE = &quot;\u001B[34m&quot;
+    /** Set magenta as the foreground color. */
+    const val MAGENTA = &quot;\u001B[35m&quot;
+    /** Set cyan as the foreground color. */
+    const val CYAN = &quot;\u001B[36m&quot;
+    /** Set white as the foreground color. */
+    const val WHITE = &quot;\u001B[37m&quot;
+    /** Set back the default foreground color. */
+    const val DEFAULT = &quot;\u001B[39m&quot;
+
+    /** Set black as the background color. */
+    const val BLACK_BG = &quot;\u001B[40m&quot;
+    /** Set red as the background color. */
+    const val RED_BG = &quot;\u001B[41m&quot;
+    /** Set green as the background color. */
+    const val GREEN_BG = &quot;\u001B[42m&quot;
+    /** Set yellow as the background color. */
+    const val YELLOW_BG = &quot;\u001B[43m&quot;
+    /** Set blue as the background color. */
+    const val BLUE_BG = &quot;\u001B[44m&quot;
+    /** Set magenta as the background color. */
+    const val MAGENTA_BG = &quot;\u001B[45m&quot;
+    /** Set cyan as the background color. */
+    const val CYAN_BG = &quot;\u001B[46m&quot;
+    /** Set white as the background color. */
+    const val WHITE_BG = &quot;\u001B[47m&quot;
+    /** Set back the default background color. */
+    const val DEFAULT_BG = &quot;\u001B[49m&quot;
+
+    /** Set bright black as the foreground color. */
+    const val BRIGHT_BLACK = &quot;\u001B[90m&quot;
+    /** Set bright red as the foreground color. */
+    const val BRIGHT_RED = &quot;\u001B[91m&quot;
+    /** Set bright green as the foreground color. */
+    const val BRIGHT_GREEN = &quot;\u001B[92m&quot;
+    /** Set bright yellow as the foreground color. */
+    const val BRIGHT_YELLOW = &quot;\u001B[93m&quot;
+    /** Set bright blue as the foreground color. */
+    const val BRIGHT_BLUE = &quot;\u001B[94m&quot;
+    /** Set bright magenta as the foreground color. */
+    const val BRIGHT_MAGENTA = &quot;\u001B[95m&quot;
+    /** Set bright cyan as the foreground color. */
+    const val BRIGHT_CYAN = &quot;\u001B[96m&quot;
+    /** Set bright white as the foreground color. */
+    const val BRIGHT_WHITE = &quot;\u001B[97m&quot;
+
+    /** Set bright black as the background color. */
+    const val BRIGHT_BLACK_BG = &quot;\u001B[100m&quot;
+    /** Set bright red as the background color. */
+    const val BRIGHT_RED_BG = &quot;\u001B[101m&quot;
+    /** Set bright green as the background color. */
+    const val BRIGHT_GREEN_BG = &quot;\u001B[102m&quot;
+    /** Set bright yellow as the background color. */
+    const val BRIGHT_YELLOW_BG = &quot;\u001B[103m&quot;
+    /** Set bright blue as the background color. */
+    const val BRIGHT_BLUE_BG = &quot;\u001B[104m&quot;
+    /** Set bright magenta as the background color. */
+    const val BRIGHT_MAGENTA_BG = &quot;\u001B[105m&quot;
+    /** Set bright cyan as the background color. */
+    const val BRIGHT_CYAN_BG = &quot;\u001B[106m&quot;
+    /** Set bright white as the background color. */
+    const val BRIGHT_WHITE_BG = &quot;\u001B[107m&quot;
+
+    /** Enable bold text. */
+    const val BOLD = &quot;\u001B[1m&quot;
+    /** Enable underline text. */
+    const val UNDERLINE = &quot;\u001B[4m&quot;
+    /** Enable blinking text. */
+    const val BLINK = &quot;\u001B[5m&quot;
+    /** Enable inverse color text. */
+    const val INVERSE = &quot;\u001B[7m&quot;
+
+    /** Disable bold text. */
+    const val BOLD_OFF = &quot;\u001B[21m&quot;
+    /** Disable underline text. */
+    const val UNDERLINE_OFF = &quot;\u001B[24m&quot;
+    /** Disable blinking text. */
+    const val BLINK_OFF = &quot;\u001B[25m&quot;
+    /** Disable inverse color text. */
+    const val INVERSE_OFF = &quot;\u001B[27m&quot;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

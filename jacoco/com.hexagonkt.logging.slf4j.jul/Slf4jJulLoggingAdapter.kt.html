@@ -9,9 +9,9 @@ import org.slf4j.Logger.ROOT_LOGGER_NAME
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger as Slf4jLogger
 
-<span class="fc" id="L12">class Slf4jJulLoggingAdapter(useColor: Boolean = true) : LoggingPort {</span>
+<span class="fc" id="L12">class Slf4jJulLoggingAdapter : LoggingPort {</span>
 
-<span class="fc" id="L14">    private val julLoggingAdapter = JulLoggingAdapter(useColor)</span>
+<span class="fc" id="L14">    private val julLoggingAdapter = JulLoggingAdapter()</span>
 
     override fun createLogger(name: String): LoggerPort =
 <span class="fc" id="L17">        object : LoggerPort {</span>
@@ -56,5 +56,5 @@ import org.slf4j.Logger as Slf4jLogger
 
     override fun isLoggerLevelEnabled(name: String, level: LoggingLevel): Boolean =
 <span class="pc bpc" id="L58" title="2 of 4 branches missed.">        julLoggingAdapter.isLoggerLevelEnabled(name.ifEmpty { ROOT_LOGGER_NAME }, level)</span>
-<span class="fc" id="L59">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

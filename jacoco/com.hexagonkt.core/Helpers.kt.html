@@ -219,7 +219,7 @@ fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&g
 <span class="fc bfc" id="L219" title="All 2 branches covered.">        if (this.cause == null)</span>
 <span class="fc" id="L220">            &quot;&quot;</span>
         else
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">            &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
+<span class="fc" id="L222">            &quot;${eol}Caused by: &quot; + (this.cause as Throwable).toText(prefix)</span>
 
 // COLLECTIONS /////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -241,25 +241,25 @@ fun Throwable.filterStackTrace(prefix: String): Array&lt;out StackTraceElement&g
  * @return .
  */
 @Suppress(&quot;UNCHECKED_CAST&quot;)
-fun &lt;T : Any&gt; Map&lt;*, *&gt;.keys(vararg keys: Any): T? {
+inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.keys(vararg keys: Any): T? {
 
-<span class="fc" id="L246">    val mappedKeys = keys.map {</span>
-<span class="fc" id="L247">        when (it) {</span>
-<span class="fc bfc" id="L248" title="All 2 branches covered.">            is KProperty1&lt;*, *&gt; -&gt; it.name</span>
-<span class="fc" id="L249">            else -&gt; it</span>
+    val mappedKeys = keys.map {
+        when (it) {
+            is KProperty1&lt;*, *&gt; -&gt; it.name
+            else -&gt; it
         }
     }
 
-<span class="fc bfc" id="L253" title="All 2 branches covered.">    return mappedKeys</span>
-<span class="fc" id="L254">        .dropLast(1)</span>
-<span class="fc" id="L255">        .fold(this) { result, element -&gt;</span>
-<span class="fc" id="L256">            val r = result as Map&lt;Any, Any&gt;</span>
-<span class="fc" id="L257">            when (val value = r[element]) {</span>
-<span class="fc bfc" id="L258" title="All 2 branches covered.">                is Map&lt;*, *&gt; -&gt; value</span>
-<span class="fc bfc" id="L259" title="All 2 branches covered.">                is List&lt;*&gt; -&gt; value.mapIndexed { ii, item -&gt; ii to item }.toMap()</span>
-<span class="fc" id="L260">                else -&gt; emptyMap&lt;Any, Any&gt;()</span>
+    return mappedKeys
+        .dropLast(1)
+        .fold(this) { result, element -&gt;
+            val r = result as Map&lt;Any, Any&gt;
+            when (val value = r[element]) {
+                is Map&lt;*, *&gt; -&gt; value
+                is List&lt;*&gt; -&gt; value.mapIndexed { ii, item -&gt; ii to item }.toMap()
+                else -&gt; emptyMap&lt;Any, Any&gt;()
             }
-<span class="fc" id="L262">        }[mappedKeys.last()] as? T</span>
+        }[mappedKeys.last()] as? T
 }
 
 /**
@@ -269,8 +269,8 @@ fun &lt;T : Any&gt; Map&lt;*, *&gt;.keys(vararg keys: Any): T? {
  * @param keys .
  * @return .
  */
-operator fun &lt;T : Any&gt; Map&lt;*, *&gt;.invoke(vararg keys: Any): T? =
-<span class="fc" id="L273">    keys(*keys)</span>
+inline operator fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.invoke(vararg keys: Any): T? =
+    keys(*keys)
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -279,8 +279,8 @@ operator fun &lt;T : Any&gt; Map&lt;*, *&gt;.invoke(vararg keys: Any): T? =
  * @param name .
  * @return .
  */
-fun &lt;T : Any&gt; Map&lt;*, *&gt;.requireKeys(vararg name: Any): T =
-<span class="fc bfc" id="L283" title="All 2 branches covered.">    this.keys(*name) ?: error(&quot;$name required key not found&quot;)</span>
+inline fun &lt;reified T : Any&gt; Map&lt;*, *&gt;.requireKeys(vararg name: Any): T =
+    this.keys(*name) ?: error(&quot;$name required key not found&quot;)
 
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
@@ -322,15 +322,47 @@ fun &lt;V&gt; List&lt;V?&gt;.filterEmpty(): List&lt;V&gt; =
 /**
  * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
  *
+ * @receiver .
+ * @return .
+ */
+fun Map&lt;*, *&gt;.filterEmptyRecursive(): Map&lt;*, *&gt; =
+<span class="fc" id="L329">    mapValues { (_, v) -&gt;</span>
+<span class="fc" id="L330">        when (v) {</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">            is List&lt;*&gt; -&gt; v.filterEmptyRecursive()</span>
+<span class="fc bfc" id="L332" title="All 2 branches covered.">            is Map&lt;*, *&gt; -&gt; v.filterEmptyRecursive()</span>
+<span class="fc" id="L333">            else -&gt; v</span>
+        }
+    }
+<span class="fc" id="L336">    .filterEmpty()</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
+ * @receiver .
+ * @return .
+ */
+fun List&lt;*&gt;.filterEmptyRecursive(): List&lt;*&gt; =
+<span class="fc" id="L345">    map {</span>
+<span class="fc" id="L346">        when (it) {</span>
+<span class="fc bfc" id="L347" title="All 2 branches covered.">            is List&lt;*&gt; -&gt; it.filterEmptyRecursive()</span>
+<span class="fc bfc" id="L348" title="All 2 branches covered.">            is Map&lt;*, *&gt; -&gt; it.filterEmptyRecursive()</span>
+<span class="fc" id="L349">            else -&gt; it</span>
+        }
+    }
+<span class="fc" id="L352">    .filterEmpty()</span>
+
+/**
+ * [TODO](https://github.com/hexagonkt/hexagon/issues/271).
+ *
  * @param value .
  * @return .
  */
 fun &lt;V&gt; notEmpty(value: V?): Boolean {
-<span class="fc" id="L329">    return when (value) {</span>
-<span class="fc bfc" id="L330" title="All 2 branches covered.">        null -&gt; false</span>
-<span class="fc bfc" id="L331" title="All 4 branches covered.">        is List&lt;*&gt; -&gt; value.isNotEmpty()</span>
-<span class="fc bfc" id="L332" title="All 4 branches covered.">        is Map&lt;*, *&gt; -&gt; value.isNotEmpty()</span>
-<span class="fc" id="L333">        else -&gt; true</span>
+<span class="fc" id="L361">    return when (value) {</span>
+<span class="fc bfc" id="L362" title="All 2 branches covered.">        null -&gt; false</span>
+<span class="fc bfc" id="L363" title="All 4 branches covered.">        is List&lt;*&gt; -&gt; value.isNotEmpty()</span>
+<span class="fc bfc" id="L364" title="All 4 branches covered.">        is Map&lt;*, *&gt; -&gt; value.isNotEmpty()</span>
+<span class="fc" id="L365">        else -&gt; true</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -27,6 +27,8 @@ module:http_server_jetty
 com.hexagonkt.http.server.jetty
 module:http_server_netty
 com.hexagonkt.http.server.netty
+module:http_server_netty_epoll
+com.hexagonkt.http.server.netty.epoll
 module:http_server_servlet
 com.hexagonkt.http.server.servlet
 module:http_test

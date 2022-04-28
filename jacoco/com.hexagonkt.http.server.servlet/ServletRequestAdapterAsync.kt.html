@@ -37,10 +37,10 @@ import java.lang.StringBuilder
 <span class="fc" id="L37">                        val size = bodyBytes.size.toLong()</span>
 <span class="fc" id="L38">                        val disposition = partHeaders[&quot;content-disposition&quot;]</span>
 <span class="pc bpc" id="L39" title="1 of 2 branches missed.">                        val name = disposition</span>
-<span class="pc bpc" id="L40" title="3 of 6 branches missed.">                            ?.let { partNameRe.matchEntire(it)?.groupValues?.get(1) ?: &quot;&quot; }</span>
+<span class="pc bpc" id="L40" title="4 of 8 branches missed.">                            ?.let { partNameRe.matchEntire(it)?.groupValues?.get(1) ?: &quot;&quot; }</span>
 <span class="nc" id="L41">                            ?: &quot;&quot;</span>
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">                        val fileName = disposition</span>
-<span class="pc bpc" id="L43" title="2 of 4 branches missed.">                            ?.let { partFileNameRe.matchEntire(it)?.groupValues?.get(1) }</span>
+<span class="fc" id="L42">                        val fileName = disposition</span>
+<span class="pc bpc" id="L43" title="3 of 6 branches missed.">                            ?.let { partFileNameRe.matchEntire(it)?.groupValues?.get(1) }</span>
 
 <span class="fc" id="L45">                        partList = partList + HttpPart(</span>
 <span class="fc" id="L46">                            name = name,</span>
@@ -82,4 +82,4 @@ import java.lang.StringBuilder
 <span class="fc" id="L82">        MultiMap(parameters)</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

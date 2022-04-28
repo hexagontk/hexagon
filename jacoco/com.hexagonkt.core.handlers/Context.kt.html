@@ -16,11 +16,11 @@
     fun next(): Context&lt;T&gt; {
 <span class="fc bfc" id="L17" title="All 4 branches covered.">        val matchingHandlers = nextHandlers.dropWhile { !it.predicate(this) }</span>
 <span class="fc" id="L18">        val nextHandler = matchingHandlers.firstOrNull()</span>
-<span class="fc bfc" id="L19" title="All 2 branches covered.">        return nextHandler</span>
-<span class="pc bpc" id="L20" title="1 of 2 branches missed.">            ?.process(</span>
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        return nextHandler</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">            ?.process(</span>
 <span class="fc" id="L21">                copy(currentFilter = nextHandler.predicate, nextHandlers = matchingHandlers.drop(1))</span>
             )
-<span class="pc" id="L23">            ?: this</span>
+<span class="fc" id="L23">            ?: this</span>
     }
 <span class="fc" id="L25">}</span>
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
