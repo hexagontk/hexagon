@@ -78,6 +78,7 @@ data class Http(
     ): HttpClientResponse =
         send(GET, path, headers, body, formParameters, parts, contentType)
 
+    // TODO Test these
     fun put(
         path: String = "/",
         headers: Map<String, *> = emptyMap<String, Any>(),
